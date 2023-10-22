@@ -26,6 +26,7 @@ import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -33,6 +34,7 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -142,7 +144,7 @@ public class QuickSettings extends ModPack {
             protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) {
                 if (qqsTopMarginEnabled) {
                     String[] qqsHeaderResNames = {
-                            "quick_qs_offset_height",
+                            "qs_header_system_icons_area_height",
                             "qqs_layout_margin_top",
                             "qs_header_row_min_height",
                             "large_screen_shade_header_min_height"
@@ -162,7 +164,6 @@ public class QuickSettings extends ModPack {
 
                 if (qsTopMarginEnabled) {
                     String[] qsHeaderResNames = {
-                            "quick_qs_total_height",
                             "qs_panel_padding_top",
                             "qs_panel_padding_top_combined_headers"
                     };
@@ -180,6 +181,32 @@ public class QuickSettings extends ModPack {
                 }
             }
         });
+
+        try {
+            final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
+
+            hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!qqsTopMarginEnabled) return;
+
+                    if (Build.VERSION.SDK_INT >= 33) {
+                        try {
+                            Resources res = mContext.getResources();
+
+                            ViewGroup.MarginLayoutParams qqsLP = (ViewGroup.MarginLayoutParams) callMethod(getObjectField(param.thisObject, "mHeaderQsPanel"), "getLayoutParams");
+                            qqsLP.topMargin = mContext.getResources().getDimensionPixelSize(res.getIdentifier("qqs_layout_margin_top", "dimen", mContext.getPackageName()));
+                            callMethod(getObjectField(param.thisObject, "mHeaderQsPanel"), "setLayoutParams", qqsLP);
+                        } catch (Throwable throwable) {
+                            log(TAG + throwable);
+                        }
+                    }
+                }
+            });
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
     }
 
     private void fixTileLayout(LinearLayout tile, Object param) {

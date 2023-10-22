@@ -61,7 +61,6 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_STYLE = "xposed_custombatterystyle";
     public static final String CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth";
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
-    public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
     public static final String HIDE_DATA_DISABLED_ICON = "xposed_hideDataDisabledIcon";
     public static final String DEPTH_WALLPAPER_SWITCH = "xposed_depthwallpaper";
     public static final String UNZOOM_DEPTH_WALLPAPER = "xposed_unzoomdepthwallpaper";

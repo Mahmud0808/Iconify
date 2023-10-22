@@ -82,6 +82,7 @@ public class XposedQuickSettings extends BaseFragment {
         binding.resetQqsTopMargin.setVisibility(RPrefs.getInt(QQS_TOPMARGIN, -1) != -1 ? View.VISIBLE : View.INVISIBLE);
         binding.resetQqsTopMargin.setOnLongClickListener(v -> {
             binding.qqsTopMarginSeekbar.setValue(100);
+            binding.qqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + 100 + "dp");
             binding.resetQqsTopMargin.setVisibility(View.INVISIBLE);
             RPrefs.clearPref(QQS_TOPMARGIN);
 
@@ -113,6 +114,7 @@ public class XposedQuickSettings extends BaseFragment {
         binding.resetQsTopMargin.setVisibility(RPrefs.getInt(QS_TOPMARGIN, -1) != -1 ? View.VISIBLE : View.INVISIBLE);
         binding.resetQsTopMargin.setOnLongClickListener(v -> {
             binding.qsTopMarginSeekbar.setValue(100);
+            binding.qsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + 100 + "dp");
             binding.resetQsTopMargin.setVisibility(View.INVISIBLE);
             RPrefs.clearPref(QS_TOPMARGIN);
 
