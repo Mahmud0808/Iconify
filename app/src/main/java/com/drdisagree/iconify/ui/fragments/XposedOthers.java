@@ -91,27 +91,19 @@ public class XposedOthers extends BaseFragment {
         binding.hideLockscreenStatusbarContainer.setOnClickListener(v -> binding.hideLockscreenStatusbar.toggle());
 
         // Fixed status icons
-        if (Build.VERSION.SDK_INT >= 33) {
-            ((View) binding.statusIconsSideMarginSeekbar.getParent()).setVisibility(View.GONE);
-        }
-
         binding.enableFixedStatusIcons.setChecked(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
         binding.enableFixedStatusIcons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             binding.statusIconsSideMarginSeekbar.setEnabled(isChecked);
             binding.statusIconsTopMarginSeekbar.setEnabled(isChecked);
 
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
-            if (!isChecked) FabricatedUtil.disableOverlay("quickQsOffsetHeight");
-            else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8) > 32)
+            if (!isChecked) {
+                FabricatedUtil.disableOverlay("quickQsOffsetHeight");
+            } else if (RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8) > 32) {
                 FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (48 + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)) + "dp");
+            }
 
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (Build.VERSION.SDK_INT >= 33) {
-                    SystemUtil.handleSystemUIRestart();
-                } else {
-                    SystemUtil.doubleToggleDarkMode();
-                }
-            }, SWITCH_ANIMATION_DELAY);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.enableFixedStatusIconsContainer.setOnClickListener(v -> binding.enableFixedStatusIcons.toggle());
 
@@ -135,13 +127,7 @@ public class XposedOthers extends BaseFragment {
                 topMarginStatusIcons[0] = (int) slider.getValue();
                 binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
-                if (Build.VERSION.SDK_INT >= 33 ?
-                        RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) || RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false) :
-                        RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
-                ) {
-                    if (Build.VERSION.SDK_INT < 33) {
-                        FabricatedUtil.buildAndEnableOverlay(FRAMEWORK_PACKAGE, "quickQsOffsetHeight", "dimen", "quick_qs_offset_height", (40 + topMarginStatusIcons[0]) + "dp");
-                    }
+                if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {
                         if (Build.VERSION.SDK_INT >= 33) {
                             SystemUtil.handleSystemUIRestart();
