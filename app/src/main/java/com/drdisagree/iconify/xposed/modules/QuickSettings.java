@@ -18,14 +18,14 @@ package com.drdisagree.iconify.xposed.modules;
  */
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
-import static com.drdisagree.iconify.common.Preferences.HEADER_QQS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
-import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -33,7 +33,6 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -49,10 +48,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class QuickSettings extends ModPack {
 
     private static final String TAG = "Iconify - " + QuickSettings.class.getSimpleName() + ": ";
-    private static boolean headerSizeFixActive = false;
     private static boolean isVerticalQSTileActive = false;
     private static boolean isHideLabelActive = false;
-    private static Float QsTilePrimaryTextSize = null, QsTileSecondaryTextSize = null;
+    private static Float QsTilePrimaryTextSize = null;
+    private static Float QsTileSecondaryTextSize = null;
+    private static boolean qqsTopMarginEnabled = false;
+    private static boolean qsTopMarginEnabled = false;
+    private int qqsTopMargin = 100;
+    private int qsTopMargin = 100;
     private Object mParam = null;
 
     public QuickSettings(Context context) {
@@ -63,8 +66,11 @@ public class QuickSettings extends ModPack {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
-        int qqsHeaderSize = Xprefs.getInt(HEADER_QQS_TOPMARGIN, -1);
-        headerSizeFixActive = qqsHeaderSize != -1;
+        qqsTopMarginEnabled = Xprefs.getInt(QQS_TOPMARGIN, -1) != -1;
+        qsTopMarginEnabled = Xprefs.getInt(QS_TOPMARGIN, -1) != -1;
+
+        qqsTopMargin = Xprefs.getInt(QQS_TOPMARGIN, 100);
+        qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100);
 
         isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false);
         isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false);
@@ -130,31 +136,50 @@ public class QuickSettings extends ModPack {
             }
         });
 
-        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
+        hookAllMethods(Resources.class, "getDimensionPixelSize", new XC_MethodHook() {
+            @SuppressLint("DiscouragedApi")
+            @Override
+            protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) {
+                if (qqsTopMarginEnabled) {
+                    String[] qqsHeaderResNames = {
+                            "quick_qs_offset_height",
+                            "qqs_layout_margin_top",
+                            "qs_header_row_min_height",
+                            "large_screen_shade_header_min_height"
+                    };
 
-        try {
-            hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
-                @SuppressLint("DiscouragedApi")
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) {
-                    if (!headerSizeFixActive) return;
-
-                    if (Build.VERSION.SDK_INT >= 33) {
+                    for (String resName : qqsHeaderResNames) {
                         try {
-                            Resources res = mContext.getResources();
-
-                            ViewGroup.MarginLayoutParams qqsLP = (ViewGroup.MarginLayoutParams) callMethod(getObjectField(param.thisObject, "mHeaderQsPanel"), "getLayoutParams");
-                            qqsLP.topMargin = mContext.getResources().getDimensionPixelSize(res.getIdentifier("qqs_layout_margin_top", "dimen", mContext.getPackageName()));
-                            callMethod(getObjectField(param.thisObject, "mHeaderQsPanel"), "setLayoutParams", qqsLP);
-                        } catch (Throwable throwable) {
-                            log(TAG + throwable);
+                            int resId = mContext.getResources()
+                                    .getIdentifier(resName, "dimen", mContext.getPackageName());
+                            if (param.args[0].equals(resId)) {
+                                param.setResult(qqsTopMargin);
+                            }
+                        } catch (Throwable ignored) {
                         }
                     }
                 }
-            });
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
-        }
+
+                if (qsTopMarginEnabled) {
+                    String[] qsHeaderResNames = {
+                            "quick_qs_total_height",
+                            "qs_panel_padding_top",
+                            "qs_panel_padding_top_combined_headers"
+                    };
+
+                    for (String resName : qsHeaderResNames) {
+                        try {
+                            int resId = mContext.getResources()
+                                    .getIdentifier(resName, "dimen", mContext.getPackageName());
+                            if (param.args[0].equals(resId)) {
+                                param.setResult(qsTopMargin);
+                            }
+                        } catch (Throwable ignored) {
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void fixTileLayout(LinearLayout tile, Object param) {

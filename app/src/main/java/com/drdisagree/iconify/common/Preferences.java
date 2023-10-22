@@ -90,6 +90,8 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_HIDE_PERCENTAGE = "xposed_custombatteryhidepercentage";
     public static final String CUSTOM_BATTERY_INSIDE_PERCENTAGE = "xposed_custombatteryinsidepercentage";
     public static final String BLUR_RADIUS_VALUE = "xposed_blurradiusvalue";
+    public static final String QQS_TOPMARGIN = "qqspanelTopMargin";
+    public static final String QS_TOPMARGIN = "qspanelTopMargin";
 
     // Xposed view tags
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";
