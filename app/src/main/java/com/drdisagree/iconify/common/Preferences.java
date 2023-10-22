@@ -90,6 +90,13 @@ public class Preferences {
     public static final String BLUR_RADIUS_VALUE = "xposed_blurradiusvalue";
     public static final String QQS_TOPMARGIN = "qqspanelTopMargin";
     public static final String QS_TOPMARGIN = "qspanelTopMargin";
+    public static final String NAVBAR_FULL_SCREEN = "navbarfullscreen";
+    public static final String NAVBAR_IMMERSIVE_V1 = "navbarimmersivev1";
+    public static final String NAVBAR_IMMERSIVE_V2 = "navbarimmersivev2";
+    public static final String NAVBAR_IMMERSIVE_V3 = "navbarimmersivev3";
+    public static final String NAVBAR_GCAM_LAG_FIX = "navbargcamlagfix";
+    public static final String NAVBAR_LOW_SENS = "navbarlowsens";
+    public static final String NAVBAR_HIDE_PILL = "navbarhidepill";
 
     // Xposed view tags
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";
