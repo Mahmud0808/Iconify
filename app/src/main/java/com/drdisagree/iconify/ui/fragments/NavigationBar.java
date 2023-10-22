@@ -1,7 +1,15 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.NAVBAR_FULL_SCREEN;
+import static com.drdisagree.iconify.common.Preferences.NAVBAR_GCAM_LAG_FIX;
+import static com.drdisagree.iconify.common.Preferences.NAVBAR_HIDE_PILL;
+import static com.drdisagree.iconify.common.Preferences.NAVBAR_IMMERSIVE_V1;
+import static com.drdisagree.iconify.common.Preferences.NAVBAR_IMMERSIVE_V2;
+import static com.drdisagree.iconify.common.Preferences.NAVBAR_IMMERSIVE_V3;
+import static com.drdisagree.iconify.common.Preferences.NAVBAR_LOW_SENS;
 import static com.drdisagree.iconify.common.Preferences.PILL_SHAPE_SWITCH;
 import static com.drdisagree.iconify.common.References.FABRICATED_PILL_BOTTOM_SPACE;
 import static com.drdisagree.iconify.common.References.FABRICATED_PILL_THICKNESS;
@@ -15,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
@@ -30,6 +39,7 @@ import com.google.android.material.slider.Slider;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NavigationBar extends BaseFragment {
 
@@ -45,12 +55,13 @@ public class NavigationBar extends BaseFragment {
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_navigation_bar);
 
         // Switch states
-        binding.nbFullscreen.setChecked(Prefs.getBoolean("IconifyComponentNBFullScreen.overlay"));
-        binding.nbImmersive.setChecked(Prefs.getBoolean("IconifyComponentNBImmersive.overlay"));
-        binding.nbImmersivev2.setChecked(Prefs.getBoolean("IconifyComponentNBImmersiveSmall.overlay"));
-        binding.nbImmersivev3.setChecked(Prefs.getBoolean("IconifyComponentNBImmersiveSmaller.overlay"));
-        binding.nbLowerSens.setChecked(Prefs.getBoolean("IconifyComponentNBLowSens.overlay"));
-        binding.nbHidePill.setChecked(Prefs.getBoolean("IconifyComponentNBHidePill.overlay"));
+        binding.nbFullscreen.setChecked(Prefs.getBoolean(NAVBAR_FULL_SCREEN));
+        binding.nbImmersive.setChecked(Prefs.getBoolean(NAVBAR_IMMERSIVE_V1));
+        binding.nbImmersivev2.setChecked(Prefs.getBoolean(NAVBAR_IMMERSIVE_V2));
+        binding.nbImmersivev3.setChecked(Prefs.getBoolean(NAVBAR_IMMERSIVE_V3));
+        binding.nbGcamLagFix.setChecked(Prefs.getBoolean(NAVBAR_GCAM_LAG_FIX));
+        binding.nbLowerSens.setChecked(Prefs.getBoolean(NAVBAR_LOW_SENS));
+        binding.nbHidePill.setChecked(Prefs.getBoolean(NAVBAR_HIDE_PILL));
         binding.nbMonetPill.setChecked(Prefs.getBoolean("IconifyComponentNBMonetPill.overlay"));
         binding.nbHideKbButtons.setChecked(Prefs.getBoolean("IconifyComponentNBHideKBButton.overlay"));
         binding.nbDisableLeftGesture.setChecked(initialize_left_gesture_switch());
@@ -59,83 +70,180 @@ public class NavigationBar extends BaseFragment {
         binding.nbMonetPill.setEnabled(!binding.nbHidePill.isChecked() && !binding.nbFullscreen.isChecked());
 
         // Fullscreen
+        AtomicBoolean nbFullScreenClicked = new AtomicBoolean(false);
         binding.nbFullscreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            binding.nbHidePill.setEnabled(!isChecked);
-            binding.nbMonetPill.setEnabled(!isChecked && !binding.nbHidePill.isChecked());
+            if (buttonView.isPressed() || nbFullScreenClicked.get()) {
+                nbFullScreenClicked.set(false);
 
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.nbFullscreen.setChecked(!isChecked);
+                    return;
+                }
+
+                binding.nbHidePill.setEnabled(!isChecked);
+                binding.nbMonetPill.setEnabled(!isChecked && !binding.nbHidePill.isChecked());
+                disableOthers(NAVBAR_FULL_SCREEN);
+
                 if (isChecked) {
-                    disableOthers("IconifyComponentNBFullScreen.overlay");
-                    OverlayUtil.enableOverlay("IconifyComponentNBFullScreen.overlay");
                     binding.pillShape.pillShapeContainer.setVisibility(View.GONE);
                 } else {
-                    OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
                     binding.pillShape.pillShapeContainer.setVisibility(View.VISIBLE);
                 }
-            }, SWITCH_ANIMATION_DELAY);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleFullScreen(isChecked), SWITCH_ANIMATION_DELAY);
+            }
         });
-        binding.nbFullscreenContainer.setOnClickListener(v -> binding.nbFullscreen.toggle());
+        binding.nbFullscreenContainer.setOnClickListener(v -> {
+            nbFullScreenClicked.set(true);
+            binding.nbFullscreen.toggle();
+        });
 
         // Immersive
-        binding.nbImmersive.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
-                disableOthers("IconifyComponentNBImmersive.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentNBImmersive.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
+        AtomicBoolean nbImmersiveClicked = new AtomicBoolean(false);
+        binding.nbImmersive.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed() || nbImmersiveClicked.get()) {
+                nbImmersiveClicked.set(false);
+
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.nbImmersive.setChecked(!isChecked);
+                    return;
+                }
+
+                disableOthers(NAVBAR_IMMERSIVE_V1);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleImmersive(isChecked, 1), SWITCH_ANIMATION_DELAY);
             }
-        }, SWITCH_ANIMATION_DELAY));
-        binding.nbImmersiveContainer.setOnClickListener(v -> binding.nbImmersive.toggle());
+        });
+        binding.nbImmersiveContainer.setOnClickListener(v -> {
+            nbImmersiveClicked.set(true);
+            binding.nbImmersive.toggle();
+        });
 
         // Immersive v2
-        binding.nbImmersivev2.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
-                disableOthers("IconifyComponentNBImmersiveSmall.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmall.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
+        AtomicBoolean nbImmersivev2Clicked = new AtomicBoolean(false);
+        binding.nbImmersivev2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed() || nbImmersivev2Clicked.get()) {
+                nbImmersivev2Clicked.set(false);
+
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.nbImmersivev2.setChecked(!isChecked);
+                    return;
+                }
+
+                disableOthers(NAVBAR_IMMERSIVE_V2);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleImmersive(isChecked, 2), SWITCH_ANIMATION_DELAY);
             }
-        }, SWITCH_ANIMATION_DELAY));
-        binding.nbImmersivev2Container.setOnClickListener(v -> binding.nbImmersivev2.toggle());
+        });
+        binding.nbImmersivev2Container.setOnClickListener(v -> {
+            nbImmersivev2Clicked.set(true);
+            binding.nbImmersivev2.toggle();
+        });
 
         // Immersive v3
-        binding.nbImmersivev3.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
-                disableOthers("IconifyComponentNBImmersiveSmaller.overlay");
-                OverlayUtil.enableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
+        AtomicBoolean nbImmersivev3Clicked = new AtomicBoolean(false);
+        binding.nbImmersivev3.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed() || nbImmersivev3Clicked.get()) {
+                nbImmersivev3Clicked.set(false);
+
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.nbImmersivev3.setChecked(!isChecked);
+                    return;
+                }
+
+                disableOthers(NAVBAR_IMMERSIVE_V3);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleImmersive(isChecked, 3), SWITCH_ANIMATION_DELAY);
             }
-        }, SWITCH_ANIMATION_DELAY));
-        binding.nbImmersivev3Container.setOnClickListener(v -> binding.nbImmersivev3.toggle());
+        });
+        binding.nbImmersivev3Container.setOnClickListener(v -> {
+            nbImmersivev3Clicked.set(true);
+            binding.nbImmersivev3.toggle();
+        });
+
+        // GCam Lag Fix
+        AtomicBoolean nbGcamLagFixClicked = new AtomicBoolean(false);
+        binding.nbGcamLagFix.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed() || nbGcamLagFixClicked.get()) {
+                nbGcamLagFixClicked.set(false);
+
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.nbGcamLagFix.setChecked(!isChecked);
+                    return;
+                }
+
+                Prefs.putBoolean(NAVBAR_GCAM_LAG_FIX, isChecked);
+                boolean fullscreen = Prefs.getBoolean(NAVBAR_FULL_SCREEN);
+                boolean immersive1 = Prefs.getBoolean(NAVBAR_IMMERSIVE_V1);
+                boolean immersive2 = Prefs.getBoolean(NAVBAR_IMMERSIVE_V2);
+                boolean immersive3 = Prefs.getBoolean(NAVBAR_IMMERSIVE_V3);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    if (fullscreen) {
+                        handleFullScreen(true);
+                    } else if (immersive1) {
+                        handleImmersive(true, 1);
+                    } else if (immersive2) {
+                        handleImmersive(true, 2);
+                    } else if (immersive3) {
+                        handleImmersive(true, 3);
+                    }
+                }, SWITCH_ANIMATION_DELAY);
+            }
+        });
+        binding.nbGcamLagFixContainer.setOnClickListener(v -> {
+            nbGcamLagFixClicked.set(true);
+            binding.nbGcamLagFix.toggle();
+        });
 
         // Lower Sensitivity
-        binding.nbHidePill.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
-                OverlayUtil.enableOverlay("IconifyComponentNBLowSens.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentNBLowSens.overlay");
+        AtomicBoolean nbLowerSensClicked = new AtomicBoolean(false);
+        binding.nbLowerSens.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed() || nbLowerSensClicked.get()) {
+                nbLowerSensClicked.set(false);
+
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.nbLowerSens.setChecked(!isChecked);
+                    return;
+                }
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleLowSensitivity(isChecked), SWITCH_ANIMATION_DELAY);
             }
-        }, SWITCH_ANIMATION_DELAY));
-        binding.nbLowerSensContainer.setOnClickListener(v -> binding.nbLowerSens.toggle());
+        });
+        binding.nbLowerSensContainer.setOnClickListener(v -> {
+            nbLowerSensClicked.set(true);
+            binding.nbLowerSens.toggle();
+        });
 
         // Hide Pill
+        AtomicBoolean nbHidePillClicked = new AtomicBoolean(false);
         binding.nbHidePill.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            binding.nbMonetPill.setEnabled(!isChecked && !binding.nbFullscreen.isChecked());
+            if (buttonView.isPressed() || nbHidePillClicked.get()) {
+                nbHidePillClicked.set(false);
 
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (isChecked) {
-                    OverlayUtil.enableOverlay("IconifyComponentNBHidePill.overlay");
-                    binding.pillShape.pillShapeContainer.setVisibility(View.GONE);
-                    SystemUtil.restartSystemUI();
-                } else {
-                    OverlayUtil.disableOverlay("IconifyComponentNBHidePill.overlay");
-                    binding.pillShape.pillShapeContainer.setVisibility(View.VISIBLE);
-                    SystemUtil.restartSystemUI();
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.nbHidePill.setChecked(!isChecked);
+                    return;
                 }
-            }, SWITCH_ANIMATION_DELAY);
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    handleHidePill(isChecked);
+
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, 2000);
+                }, SWITCH_ANIMATION_DELAY);
+            }
         });
-        binding.nbHidePillContainer.setOnClickListener(v -> binding.nbHidePill.toggle());
+        binding.nbHidePillContainer.setOnClickListener(v -> {
+            nbHidePillClicked.set(true);
+            binding.nbHidePill.toggle();
+        });
 
         // Monet Pill
         binding.nbMonetPill.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -300,22 +408,96 @@ public class NavigationBar extends BaseFragment {
         }
     }
 
-    private void disableOthers(String pkgName) {
-        if (!Objects.equals(pkgName, "IconifyComponentNBFullScreen.overlay")) {
+    private void disableOthers(String identifier) {
+        if (!Objects.equals(identifier, NAVBAR_FULL_SCREEN)) {
             binding.nbFullscreen.setChecked(false);
-            OverlayUtil.disableOverlay("IconifyComponentNBFullScreen.overlay");
         }
-        if (!Objects.equals(pkgName, "IconifyComponentNBImmersive.overlay")) {
+        if (!Objects.equals(identifier, NAVBAR_IMMERSIVE_V1)) {
             binding.nbImmersive.setChecked(false);
-            OverlayUtil.disableOverlay("IconifyComponentNBImmersive.overlay");
         }
-        if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmall.overlay")) {
+        if (!Objects.equals(identifier, NAVBAR_IMMERSIVE_V2)) {
             binding.nbImmersivev2.setChecked(false);
-            OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmall.overlay");
         }
-        if (!Objects.equals(pkgName, "IconifyComponentNBImmersiveSmaller.overlay")) {
+        if (!Objects.equals(identifier, NAVBAR_IMMERSIVE_V3)) {
             binding.nbImmersivev3.setChecked(false);
-            OverlayUtil.disableOverlay("IconifyComponentNBImmersiveSmaller.overlay");
+        }
+    }
+
+    private void handleFullScreen(boolean enable) {
+        Prefs.putBoolean(NAVBAR_FULL_SCREEN, enable);
+        boolean gcamLagFix = Prefs.getBoolean(NAVBAR_GCAM_LAG_FIX);
+
+        if (enable) {
+            String resource = gcamLagFix ? "1dp" : "0dp";
+            ResourceManager.buildOverlayWithResource(
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "bool", "config_imeDrawsImeNavBar", "false"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_height", resource),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_frame_height", resource)
+            );
+        } else {
+            ResourceManager.removeResourceFromOverlay(
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "bool", "config_imeDrawsImeNavBar"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_height"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_frame_height")
+            );
+        }
+    }
+
+    private void handleImmersive(boolean enable, @IntRange(from = 1, to = 3) int version) {
+        if (version == 1) {
+            Prefs.putBoolean(NAVBAR_IMMERSIVE_V1, enable);
+        } else if (version == 2) {
+            Prefs.putBoolean(NAVBAR_IMMERSIVE_V2, enable);
+        } else if (version == 3) {
+            Prefs.putBoolean(NAVBAR_IMMERSIVE_V3, enable);
+        }
+
+        boolean gcamLagFix = Prefs.getBoolean(NAVBAR_GCAM_LAG_FIX);
+
+        if (enable) {
+            String resource = gcamLagFix ? "1dp" : "0dp";
+            String frameResource = version == 1 ? "48dp" : version == 2 ? "26dp" : "16dp";
+            ResourceManager.buildOverlayWithResource(
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "bool", "config_imeDrawsImeNavBar", "false"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_height", resource),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_frame_height", frameResource)
+            );
+        } else {
+            ResourceManager.removeResourceFromOverlay(
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "bool", "config_imeDrawsImeNavBar"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_height"),
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_frame_height")
+            );
+        }
+    }
+
+    private void handleLowSensitivity(boolean enable) {
+        Prefs.putBoolean(NAVBAR_LOW_SENS, enable);
+
+        if (enable) {
+            ResourceManager.buildOverlayWithResource(
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_gesture_height", "18dp")
+            );
+        } else {
+            ResourceManager.removeResourceFromOverlay(
+                    new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "navigation_bar_gesture_height")
+            );
+        }
+    }
+
+    private void handleHidePill(boolean enable) {
+        Prefs.putBoolean(NAVBAR_HIDE_PILL, enable);
+
+        if (enable) {
+            ResourceManager.buildOverlayWithResource(
+                    new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_handle_radius", "0dp"),
+                    new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_home_handle_width", "0dp")
+            );
+        } else {
+            ResourceManager.removeResourceFromOverlay(
+                    new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_handle_radius"),
+                    new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "navigation_home_handle_width")
+            );
         }
     }
 }

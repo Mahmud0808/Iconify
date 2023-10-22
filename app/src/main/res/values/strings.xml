@@ -340,6 +340,8 @@
     <string name="navbar_immersive_v2_desc">Smaller keyboard spacing</string>
     <string name="navbar_immersive_v3_title">Immersive v3</string>
     <string name="navbar_immersive_v3_desc">Smallest keyboard spacing</string>
+    <string name="navbar_gcam_lag_fix_title">Gcam Lag Fix</string>
+    <string name="navbar_gcam_lag_fix_desc">Fix lag in gcam with gesture navigation</string>
     <string name="section_title_buttons">Buttons</string>
     <string name="navbar_hide_kb_buttons_title">Hide Keyboard Buttons</string>
     <string name="navbar_hide_kb_buttons_desc">Hide keyboard back/switcher buttons</string>

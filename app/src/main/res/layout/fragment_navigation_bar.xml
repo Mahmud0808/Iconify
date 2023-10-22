@@ -201,6 +201,49 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/nb_gcam_lag_fix_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="22dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@id/nb_gcam_lag_fix"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/navbar_gcam_lag_fix_title"
+                        android:textColor="@color/text_color_primary" />
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.BodyMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/navbar_gcam_lag_fix_desc"
+                        android:textColor="@color/text_color_secondary" />
+
+                </LinearLayout>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/nb_gcam_lag_fix"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp" />
+
+            </RelativeLayout>
+
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
