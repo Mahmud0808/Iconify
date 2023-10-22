@@ -17,22 +17,22 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
-public class GradientFadedImageView extends AppCompatImageView {
+public class AlphaGradientImageView extends AppCompatImageView {
 
     private Paint paint;
     private boolean alphaGradient = false;
 
-    public GradientFadedImageView(Context context) {
+    public AlphaGradientImageView(Context context) {
         super(context);
         init();
     }
 
-    public GradientFadedImageView(Context context, AttributeSet attrs) {
+    public AlphaGradientImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public GradientFadedImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AlphaGradientImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }

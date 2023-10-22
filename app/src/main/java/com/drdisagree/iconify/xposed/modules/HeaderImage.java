@@ -33,7 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.utils.GradientFadedImageView;
+import com.drdisagree.iconify.xposed.utils.AlphaGradientImageView;
 
 import java.io.File;
 import java.util.Objects;
@@ -48,15 +48,16 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - " + HeaderImage.class.getSimpleName() + ": ";
-    boolean showHeaderImage = false;
-    int imageHeight = 140;
-    int headerImageAlpha = 100;
-    boolean zoomToFit = false;
-    boolean alphaGradient = false;
-    boolean headerImageOverlap = false;
-    boolean hideLandscapeHeaderImage = true;
-    LinearLayout mQsHeaderLayout = null;
-    GradientFadedImageView mQsHeaderImageView = null;
+    private boolean showHeaderImage = false;
+    private int imageHeight = 140;
+    private int headerImageAlpha = 100;
+    private boolean zoomToFit = false;
+    private boolean alphaGradient = false;
+    private boolean headerImageOverlap = false;
+    private boolean hideLandscapeHeaderImage = true;
+    private LinearLayout mQsHeaderLayout = null;
+    private ImageView mQsHeaderImageView = null;
+    private AlphaGradientImageView mQsHeaderAlphaGradientImageView = null;
 
     public HeaderImage(Context context) {
         super(context);
@@ -99,10 +100,17 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                     mQsHeaderLayout.setLayoutParams(layoutParams);
                     mQsHeaderLayout.setVisibility(View.GONE);
 
-                    mQsHeaderImageView = new GradientFadedImageView(mContext);
-                    mQsHeaderImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    try {
+                        mQsHeaderAlphaGradientImageView = new AlphaGradientImageView(mContext);
+                        mQsHeaderAlphaGradientImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                        mQsHeaderLayout.addView(mQsHeaderAlphaGradientImageView);
+                    } catch (Throwable ignored) {
+                        mQsHeaderAlphaGradientImageView = null;
+                        mQsHeaderImageView = new ImageView(mContext);
+                        mQsHeaderImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                        mQsHeaderLayout.addView(mQsHeaderImageView);
+                    }
 
-                    mQsHeaderLayout.addView(mQsHeaderImageView);
                     mQuickStatusBarHeader.addView(mQsHeaderLayout, 0);
 
                     updateQSHeaderImage();
@@ -146,16 +154,23 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void updateQSHeaderImage() {
-        if (mQsHeaderLayout == null || mQsHeaderImageView == null) return;
+        if (mQsHeaderLayout == null || (mQsHeaderAlphaGradientImageView == null && mQsHeaderImageView == null)) {
+            return;
+        }
 
         if (!showHeaderImage) {
             mQsHeaderLayout.setVisibility(View.GONE);
             return;
         }
 
-        loadImageOrGif(mQsHeaderImageView);
-        mQsHeaderImageView.setImageAlpha((int) (headerImageAlpha / 100.0 * 255.0));
-        mQsHeaderImageView.setAlphaGradient(alphaGradient);
+        if (mQsHeaderAlphaGradientImageView != null) {
+            loadImageOrGif(mQsHeaderAlphaGradientImageView);
+            mQsHeaderAlphaGradientImageView.setAlphaGradient(alphaGradient);
+        } else {
+            loadImageOrGif(mQsHeaderImageView);
+            mQsHeaderImageView.setImageAlpha((int) (headerImageAlpha / 100.0 * 255.0));
+        }
+
         mQsHeaderLayout.getLayoutParams().height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics());
         mQsHeaderLayout.requestLayout();
 
