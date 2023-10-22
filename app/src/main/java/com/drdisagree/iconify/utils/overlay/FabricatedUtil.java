@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.utils.overlay;
 
+import android.os.Build;
 import android.util.TypedValue;
 
 import com.drdisagree.iconify.common.Resources;
@@ -27,6 +28,10 @@ public class FabricatedUtil {
     public static void buildAndEnableOverlay(String target, String name, String type, String resourceName, String val) {
         if (target == null || name == null || type == null || resourceName == null || val == null) {
             throw new IllegalArgumentException("One or more arguments are null" + "\n" + "target: " + target + "\n" + "name: " + name + "\n" + "type: " + type + "\n" + "resourceName: " + resourceName + "\n" + "val: " + val);
+        }
+
+        if (Build.VERSION.SDK_INT >= 34 && type.equals("dimen")) {
+            throw new IllegalArgumentException("Android 14+ does not support dimen fabricated overlays.");
         }
 
         List<String> commands = buildCommands(target, name, type, resourceName, val);
