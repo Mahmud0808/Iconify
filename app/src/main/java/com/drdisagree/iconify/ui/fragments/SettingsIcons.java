@@ -146,6 +146,9 @@ public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogLi
                             Prefs.putInt(SELECTED_SETTINGS_ICONS_COLOR, selectedIconColor);
 
                             binding.disableSettingsIcons.setVisibility(View.VISIBLE);
+                            binding.iconPacksList.getChildAt(selectedIcon - 1)
+                                    .findViewById(R.id.icon_selected)
+                                    .setVisibility(View.VISIBLE);
                             OverlayUtil.enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay");
                         }
 
@@ -164,6 +167,10 @@ public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogLi
         });
 
         binding.disableSettingsIcons.setOnClickListener(v -> {
+            binding.iconPacksList.getChildAt(Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) - 1)
+                    .findViewById(R.id.icon_selected)
+                    .setVisibility(View.INVISIBLE);
+
             Prefs.clearPrefs(SELECTED_SETTINGS_ICONS_SET, SELECTED_SETTINGS_ICONS_BG, SELECTED_SETTINGS_ICONS_COLOR);
 
             binding.disableSettingsIcons.setVisibility(View.GONE);
@@ -178,7 +185,7 @@ public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogLi
     private void refreshLayout(RelativeLayout layout) {
         for (int i = 0; i < binding.iconPacksList.getChildCount(); i++) {
             RelativeLayout child = binding.iconPacksList.getChildAt(i).findViewById(R.id.icon_pack_child);
-            itemSelected(child, child == layout);
+            itemSelected(child, child == layout, i + 1);
         }
     }
 
@@ -186,7 +193,7 @@ public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogLi
     private void refreshBackground() {
         for (int i = 0; i < binding.iconPacksList.getChildCount(); i++) {
             RelativeLayout child = binding.iconPacksList.getChildAt(i).findViewById(R.id.icon_pack_child);
-            itemSelected(child, Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == i + 1);
+            itemSelected(child, Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == i + 1, i + 1);
         }
     }
 
@@ -226,12 +233,15 @@ public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogLi
         }
     }
 
-    private void itemSelected(View parent, boolean state) {
+    private void itemSelected(View parent, boolean state, int selectedIndex) {
         if (state) {
             parent.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.container_selected));
             ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.colorAccent));
             ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.colorAccent));
-            parent.findViewById(R.id.icon_selected).setVisibility(Prefs.getBoolean("IconifyComponentSIP1.overlay") ? View.VISIBLE : View.INVISIBLE);
+            parent.findViewById(R.id.icon_selected).setVisibility(
+                    Prefs.getBoolean("IconifyComponentSIP1.overlay") &&
+                            Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == selectedIndex ?
+                            View.VISIBLE : View.INVISIBLE);
             parent.findViewById(R.id.iconpack_desc).setAlpha(0.8f);
         } else {
             parent.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.item_background_material));
