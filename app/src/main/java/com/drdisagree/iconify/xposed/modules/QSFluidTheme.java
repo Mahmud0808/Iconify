@@ -11,7 +11,6 @@ import static com.drdisagree.iconify.xposed.utils.ViewHelper.setAlphaForBackgrou
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
-import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getIntField;
@@ -53,7 +52,6 @@ import com.drdisagree.iconify.xposed.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.utils.ViewHelper;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -434,21 +432,6 @@ public class QSFluidTheme extends ModPack {
                 if (mBackgroundNormal != null) {
                     mBackgroundNormal.setAlpha(INACTIVE_ALPHA);
                 }
-            }
-        });
-
-        hookAllMethods(ActivatableNotificationViewClass, "setBackgroundTintColor", new XC_MethodReplacement() {
-            @Override
-            protected Object replaceHookedMethod(MethodHookParam param) {
-                int color = (int) param.args[0];
-                View notificationBackgroundView = (View) getObjectField(param.thisObject, "mBackgroundNormal");
-
-                setObjectField(param.thisObject, "mCurrentBackgroundTint", color);
-                callMethod(getObjectField(notificationBackgroundView, "mBackground"), "clearColorFilter");
-                setObjectField(notificationBackgroundView, "mTintColor", color);
-                notificationBackgroundView.invalidate();
-
-                return null;
             }
         });
 
