@@ -3,21 +3,21 @@ package com.drdisagree.iconify.ui.fragments;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
+import static com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR;
 import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL;
 
+import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
@@ -109,6 +109,20 @@ public class XposedThemes extends BaseFragment {
         binding.powermenuTransparencyContainer.setOnClickListener(v -> {
             if (binding.enablePowermenuTransparency.isEnabled())
                 binding.enablePowermenuTransparency.toggle();
+        });
+
+        // Fix notification color
+        binding.sectionTitleOthers.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
+        binding.fixNotificationColorContainer.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
+
+        binding.fixNotificationColor.setChecked(RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, false));
+        binding.fixNotificationColor.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(FIX_NOTIFICATION_COLOR, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+        });
+        binding.fixNotificationColorContainer.setOnClickListener(v -> {
+            if (binding.fixNotificationColor.isEnabled())
+                binding.fixNotificationColor.toggle();
         });
 
         return view;

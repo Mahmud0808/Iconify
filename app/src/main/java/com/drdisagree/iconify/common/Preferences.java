@@ -90,6 +90,7 @@ public class Preferences {
     public static final String BLUR_RADIUS_VALUE = "xposed_blurradiusvalue";
     public static final String QQS_TOPMARGIN = "xposed_qqspanelTopMargin";
     public static final String QS_TOPMARGIN = "xposed_qspanelTopMargin";
+    public static final String FIX_NOTIFICATION_COLOR = "xposed_fixnotificationcolor";
 
     // Xposed view tags
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";

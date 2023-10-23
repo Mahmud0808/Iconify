@@ -18,6 +18,7 @@ package com.drdisagree.iconify.xposed.modules;
  */
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
@@ -30,6 +31,7 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -39,6 +41,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -56,6 +59,7 @@ public class QuickSettings extends ModPack {
     private static Float QsTileSecondaryTextSize = null;
     private static boolean qqsTopMarginEnabled = false;
     private static boolean qsTopMarginEnabled = false;
+    private boolean fixNotificationColor = false;
     private int qqsTopMargin = 100;
     private int qsTopMargin = 100;
     private Object mParam = null;
@@ -70,6 +74,8 @@ public class QuickSettings extends ModPack {
 
         qqsTopMarginEnabled = Xprefs.getInt(QQS_TOPMARGIN, -1) != -1;
         qsTopMarginEnabled = Xprefs.getInt(QS_TOPMARGIN, -1) != -1;
+
+        fixNotificationColor = Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false);
 
         qqsTopMargin = Xprefs.getInt(QQS_TOPMARGIN, 100);
         qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100);
@@ -204,6 +210,47 @@ public class QuickSettings extends ModPack {
                     }
                 }
             });
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
+
+
+        try {
+            if (Build.VERSION.SDK_INT >= 34) {
+                Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", lpparam.classLoader);
+                Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", lpparam.classLoader);
+
+                hookAllMethods(ActivatableNotificationViewClass, "setBackgroundTintColor", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) {
+                        if (!fixNotificationColor) return;
+
+                        int color = (int) param.args[0];
+                        View notificationBackgroundView = (View) getObjectField(param.thisObject, "mBackgroundNormal");
+
+                        setObjectField(param.thisObject, "mCurrentBackgroundTint", color);
+                        callMethod(getObjectField(notificationBackgroundView, "mBackground"), "clearColorFilter");
+                        setObjectField(notificationBackgroundView, "mTintColor", color);
+                        notificationBackgroundView.invalidate();
+                    }
+                });
+
+                hookAllMethods(FooterViewClass, "updateColors", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) {
+                        if (!fixNotificationColor) return;
+
+                        Button mClearAllButton = (Button) getObjectField(param.thisObject, "mClearAllButton");
+                        Button mManageButton = (Button) getObjectField(param.thisObject, "mManageButton");
+
+                        mClearAllButton.getBackground().clearColorFilter();
+                        mManageButton.getBackground().clearColorFilter();
+
+                        mClearAllButton.invalidate();
+                        mManageButton.invalidate();
+                    }
+                });
+            }
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
