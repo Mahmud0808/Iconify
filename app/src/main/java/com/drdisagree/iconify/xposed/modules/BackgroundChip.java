@@ -104,14 +104,29 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         sideMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0);
 
         if (Key.length > 0) {
-            if (Objects.equals(Key[0], STATUSBAR_CLOCKBG_SWITCH) || Objects.equals(Key[0], CHIP_STATUSBAR_CLOCKBG_STYLE) || Objects.equals(Key[0], STATUSBAR_CLOCK_COLOR_OPTION) || Objects.equals(Key[0], STATUSBAR_CLOCK_COLOR_CODE))
+            if (Objects.equals(Key[0], STATUSBAR_CLOCKBG_SWITCH) ||
+                    Objects.equals(Key[0], CHIP_STATUSBAR_CLOCKBG_STYLE) ||
+                    Objects.equals(Key[0], STATUSBAR_CLOCK_COLOR_OPTION) ||
+                    Objects.equals(Key[0], STATUSBAR_CLOCK_COLOR_CODE)
+            ) {
                 updateStatusBarClock();
+            }
 
-            if (Objects.equals(Key[0], QSPANEL_STATUSICONSBG_SWITCH) || Objects.equals(Key[0], CHIP_STATUSBAR_CLOCKBG_STYLE) || Objects.equals(Key[0], HEADER_CLOCK_SWITCH) || Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH) || Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH))
+            if (Objects.equals(Key[0], QSPANEL_STATUSICONSBG_SWITCH) ||
+                    Objects.equals(Key[0], CHIP_STATUSBAR_CLOCKBG_STYLE) ||
+                    Objects.equals(Key[0], HEADER_CLOCK_SWITCH) ||
+                    Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH) ||
+                    Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH)
+            ) {
                 setQSStatusIconsBgA12();
+            }
 
-            if (Objects.equals(Key[0], CHIP_QSSTATUSICONS_STYLE) || Objects.equals(Key[0], FIXED_STATUS_ICONS_TOPMARGIN) || Objects.equals(Key[0], FIXED_STATUS_ICONS_SIDEMARGIN))
+            if (Objects.equals(Key[0], CHIP_QSSTATUSICONS_STYLE) ||
+                    Objects.equals(Key[0], FIXED_STATUS_ICONS_TOPMARGIN) ||
+                    Objects.equals(Key[0], FIXED_STATUS_ICONS_SIDEMARGIN)
+            ) {
                 updateStatusIcons();
+            }
         }
     }
 
@@ -147,6 +162,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         }
                     }
                 }
+
                 try {
                     mCenterClockView = (View) getObjectField(param.thisObject, "mCenterClockView");
                 } catch (Throwable t) {
@@ -165,6 +181,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                         }
                     }
                 }
+
                 try {
                     mRightClockView = (View) getObjectField(param.thisObject, "mRightClockView");
                 } catch (Throwable t) {
@@ -180,9 +197,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     }
                 }
 
-                ((ViewGroup) getObjectField(param.thisObject, "mStatusBar")).addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                    updateStatusBarClock();
-                });
+                ((ViewGroup) getObjectField(param.thisObject, "mStatusBar")).addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> updateStatusBarClock());
 
                 updateStatusBarClock();
 
@@ -332,13 +347,12 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     private void updateStatusBarClock() {
         if (!mShowSBClockBg) return;
 
-        int clockPaddingStartEnd = (int) (8 * mContext.getResources().getDisplayMetrics().density);
-        int clockPaddingTop = (int) (4 * mContext.getResources().getDisplayMetrics().density);
-        int clockPaddingBottom = (int) (3 * mContext.getResources().getDisplayMetrics().density);
+        int clockPaddingStartEnd = dp2px(mContext, 8);
+        int clockPaddingTopBottom = dp2px(mContext, 2);
 
-        updateClockView(mClockView, clockPaddingStartEnd, clockPaddingTop, clockPaddingStartEnd, clockPaddingBottom, Gravity.START | Gravity.CENTER);
-        updateClockView(mCenterClockView, clockPaddingStartEnd, clockPaddingTop, clockPaddingStartEnd, clockPaddingBottom, Gravity.CENTER);
-        updateClockView(mRightClockView, clockPaddingStartEnd, clockPaddingTop, clockPaddingStartEnd, clockPaddingBottom, Gravity.END | Gravity.CENTER);
+        updateClockView(mClockView, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.START | Gravity.CENTER);
+        updateClockView(mCenterClockView, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.CENTER);
+        updateClockView(mRightClockView, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.END | Gravity.CENTER);
     }
 
     private void updateStatusIcons() {
@@ -457,32 +471,33 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
-    private void updateClockView(View clockView, int start, int top, int end, int bottom, int gravity) {
-        if (clockView != null) {
-            clockView.setPadding(start, top, end, bottom);
-            setSBClockBackgroundChip(clockView);
+    private void updateClockView(View clockView, int startEnd, int topBottom, int gravity) {
+        if (clockView == null) return;
 
-            if (statusBarClockColorOption == 0) {
-                ((TextView) clockView).getPaint().setXfermode(null);
-                callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "addDarkReceiver", clockView);
-            } else if (statusBarClockColorOption == 1) {
-                ((TextView) clockView).getPaint().setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-            } else if (statusBarClockColorOption == 2) {
-                ((TextView) clockView).getPaint().setXfermode(null);
-                callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "removeDarkReceiver", clockView);
-                ((TextView) clockView).setTextColor(statusBarClockColorCode);
-            }
+        clockView.setPadding(startEnd, topBottom, startEnd, topBottom);
+        setSBClockBackgroundChip(clockView);
 
-            try {
-                ((LinearLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
-            } catch (Throwable t) {
-                ((FrameLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
-            }
-
-            ((TextView) clockView).setIncludeFontPadding(false);
-            clockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            clockView.setForegroundGravity(Gravity.CENTER);
+        if (statusBarClockColorOption == 0) {
+            ((TextView) clockView).getPaint().setXfermode(null);
+            callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "addDarkReceiver", clockView);
+        } else if (statusBarClockColorOption == 1) {
+            ((TextView) clockView).getPaint().setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+        } else if (statusBarClockColorOption == 2) {
+            ((TextView) clockView).getPaint().setXfermode(null);
+            callMethod(callStaticMethod(DependencyClass, "get", DarkIconDispatcherClass), "removeDarkReceiver", clockView);
+            ((TextView) clockView).setTextColor(statusBarClockColorCode);
         }
+
+        try {
+            ((LinearLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
+        } catch (Throwable t) {
+            ((FrameLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
+        }
+
+        ((TextView) clockView).setIncludeFontPadding(false);
+        clockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        clockView.setForegroundGravity(Gravity.CENTER);
+        clockView.requestLayout();
     }
 
     private void setQSStatusIconsBgA12() {
