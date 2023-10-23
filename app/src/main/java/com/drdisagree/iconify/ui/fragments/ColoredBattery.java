@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -42,8 +41,8 @@ import java.util.Objects;
 
 public class ColoredBattery extends BaseFragment {
 
-    private FragmentColoredBatteryBinding binding;
     private static String colorBackground, colorFilled;
+    private FragmentColoredBatteryBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

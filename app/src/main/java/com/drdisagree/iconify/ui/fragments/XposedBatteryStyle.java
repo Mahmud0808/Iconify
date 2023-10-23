@@ -70,8 +70,8 @@ import java.util.List;
 @SuppressLint("SetTextI18n")
 public class XposedBatteryStyle extends BaseFragment implements RadioDialog.RadioDialogListener {
 
-    private FragmentXposedBatteryStyleBinding binding;
     private static int selectedBatteryStyle = 0, selectedChargingIcon = 0;
+    private FragmentXposedBatteryStyleBinding binding;
     private ViewXposedBatteryMiscBinding bindingMiscSettings;
     private ViewXposedBatteryColorBinding bindingCustomColors;
     private ViewXposedBatteryDimensionBinding bindingCustomDimens;

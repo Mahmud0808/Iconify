@@ -30,9 +30,9 @@ import java.util.ArrayList;
 
 public class MediaIcons extends BaseFragment {
 
-    private FragmentMediaIconsBinding binding;
     private final ArrayList<String[]> MPIP_KEY = new ArrayList<>();
     private final ArrayList<Object[]> mpip_list = new ArrayList<>();
+    private FragmentMediaIconsBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

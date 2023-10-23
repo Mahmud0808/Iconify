@@ -278,7 +278,9 @@ public class QsPanelMargin extends BaseFragment {
 
     @Override
     public void onDestroy() {
-        loadingDialog.dismiss();
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
         super.onDestroy();
     }
 }

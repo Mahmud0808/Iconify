@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -46,10 +45,10 @@ import java.util.Arrays;
 
 public class AppUpdates extends BaseFragment implements RadioDialog.RadioDialogListener {
 
+    public static final String KEY_NEW_UPDATE = "new_update_available";
     private FragmentAppUpdatesBinding binding;
     private CheckForUpdate checkForUpdate = null;
     private RadioDialog update_schedule_dialog;
-    public static final String KEY_NEW_UPDATE = "new_update_available";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

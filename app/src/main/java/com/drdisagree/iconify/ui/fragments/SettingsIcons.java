@@ -40,8 +40,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogListener {
 
-    private FragmentSettingsIconsBinding binding;
     private static int selectedBackground = 1, selectedShape = 1, selectedSize = 1, selectedIconColor = 1, selectedIcon = 1;
+    private FragmentSettingsIconsBinding binding;
     private LoadingDialog loadingDialog;
     private RadioDialog rd_bg_style, rd_bg_shape, rd_ic_size, rd_icon_color;
 
@@ -254,7 +254,9 @@ public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogLi
 
     @Override
     public void onDestroy() {
-        loadingDialog.dismiss();
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
         rd_bg_style.dismiss();
         rd_bg_shape.dismiss();
         rd_ic_size.dismiss();

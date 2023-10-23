@@ -4,7 +4,6 @@ import static android.content.Context.RECEIVER_EXPORTED;
 import static com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_REQUEST;
 import static com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_RESULT;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
-import static com.drdisagree.iconify.common.Preferences.XPOSED_ONLY_MODE;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

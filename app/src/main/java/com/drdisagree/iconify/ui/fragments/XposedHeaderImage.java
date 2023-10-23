@@ -34,6 +34,20 @@ import com.google.android.material.slider.Slider;
 public class XposedHeaderImage extends BaseFragment {
 
     private FragmentXposedHeaderImageBinding binding;
+    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String path = getRealPath(data);
+
+                    if (path != null && copyToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
+                        binding.enableHeaderImage.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -120,19 +134,4 @@ public class XposedHeaderImage extends BaseFragment {
         chooseFile.setType("image/*");
         startActivityIntent.launch(chooseFile);
     }
-
-    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    String path = getRealPath(data);
-
-                    if (path != null && copyToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
-                        binding.enableHeaderImage.setVisibility(View.VISIBLE);
-                    } else {
-                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
 }

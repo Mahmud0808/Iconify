@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;

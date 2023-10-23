@@ -33,6 +33,38 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public class XposedDepthWallpaper extends BaseFragment {
 
     private FragmentXposedDepthWallpaperBinding binding;
+    ActivityResultLauncher<Intent> intentForegroundImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String path = getRealPath(data);
+
+                    if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_FG_DIR)) {
+                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, !binding.enableDepthWallpaper.isChecked());
+                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, binding.enableDepthWallpaper.isChecked());
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+    ActivityResultLauncher<Intent> intentBackgroundImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String path = getRealPath(data);
+
+                    if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_BG_DIR)) {
+                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, !binding.enableDepthWallpaper.isChecked());
+                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, binding.enableDepthWallpaper.isChecked());
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,37 +128,4 @@ public class XposedDepthWallpaper extends BaseFragment {
         chooseFile.setType("image/*");
         intentBackgroundImage.launch(chooseFile);
     }
-
-    ActivityResultLauncher<Intent> intentForegroundImage = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    String path = getRealPath(data);
-
-                    if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_FG_DIR)) {
-                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, !binding.enableDepthWallpaper.isChecked());
-                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, binding.enableDepthWallpaper.isChecked());
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-    ActivityResultLauncher<Intent> intentBackgroundImage = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    String path = getRealPath(data);
-
-                    if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_BG_DIR)) {
-                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, !binding.enableDepthWallpaper.isChecked());
-                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, binding.enableDepthWallpaper.isChecked());
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
 }

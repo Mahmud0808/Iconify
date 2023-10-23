@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
@@ -187,7 +186,9 @@ public class QsRowColumn extends BaseFragment {
 
     @Override
     public void onDestroy() {
-        loadingDialog.dismiss();
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
         super.onDestroy();
     }
 }

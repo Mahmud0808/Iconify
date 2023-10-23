@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.FragmentProgressBarBinding;
 import com.drdisagree.iconify.ui.adapters.ProgressBarAdapter;
@@ -63,7 +62,9 @@ public class ProgressBar extends BaseFragment {
 
     @Override
     public void onDestroy() {
-        loadingDialog.dismiss();
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
         super.onDestroy();
     }
 }

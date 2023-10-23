@@ -187,6 +187,17 @@ public class Home extends BaseFragment {
         }
     }
 
+    @Override
+    public void onStop() {
+        if (checkForUpdate != null &&
+                (checkForUpdate.getStatus() == TaskExecutor.Status.PENDING ||
+                        checkForUpdate.getStatus() == TaskExecutor.Status.RUNNING)
+        ) {
+            checkForUpdate.cancel(true);
+        }
+        super.onStop();
+    }
+
     private class CheckForUpdate extends TaskExecutor<Integer, Integer, String> {
 
         String jsonURL = LATEST_VERSION;
@@ -253,16 +264,5 @@ public class Home extends BaseFragment {
                 }
             }
         }
-    }
-
-    @Override
-    public void onStop() {
-        if (checkForUpdate != null &&
-                (checkForUpdate.getStatus() == TaskExecutor.Status.PENDING ||
-                        checkForUpdate.getStatus() == TaskExecutor.Status.RUNNING)
-        ) {
-            checkForUpdate.cancel(true);
-        }
-        super.onStop();
     }
 }

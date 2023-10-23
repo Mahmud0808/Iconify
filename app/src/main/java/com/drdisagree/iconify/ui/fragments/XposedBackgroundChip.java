@@ -44,8 +44,8 @@ import java.util.Arrays;
 
 public class XposedBackgroundChip extends BaseFragment implements RadioDialog.RadioDialogListener {
 
-    private FragmentXposedBackgroundChipBinding binding;
     private static int colorStatusbarClock, selectedClockColorOption = 0;
+    private FragmentXposedBackgroundChipBinding binding;
     private RadioDialog rd_sb_clock_color_option;
 
     @SuppressLint("SetTextI18n")

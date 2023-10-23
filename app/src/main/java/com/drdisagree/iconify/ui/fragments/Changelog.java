@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
-import androidx.fragment.app.Fragment;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
@@ -47,6 +46,22 @@ public class Changelog extends BaseFragment {
     private FragmentChangelogBinding binding;
     private GrabChangelog grabChangelog = null;
 
+    public static String usernameToLink(String str) {
+        String regexPattern = "@([A-Za-z\\d_-]+)";
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(str);
+
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            String username = matcher.group(1);
+            String link = "<a href=\"https://github.com/" + username + "\">@" + username + "</a>";
+            matcher.appendReplacement(sb, link);
+        }
+        matcher.appendTail(sb);
+
+        return sb.toString();
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentChangelogBinding.inflate(inflater, container, false);
@@ -62,6 +77,24 @@ public class Changelog extends BaseFragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        if (grabChangelog != null) grabChangelog.cancel(true);
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        if (grabChangelog != null) grabChangelog.cancel(true);
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (grabChangelog != null) grabChangelog.cancel(true);
+        super.onDestroy();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -193,39 +226,5 @@ public class Changelog extends BaseFragment {
 
             binding.changelog.setVisibility(View.VISIBLE);
         }
-    }
-
-    public static String usernameToLink(String str) {
-        String regexPattern = "@([A-Za-z\\d_-]+)";
-        Pattern pattern = Pattern.compile(regexPattern);
-        Matcher matcher = pattern.matcher(str);
-
-        StringBuffer sb = new StringBuffer();
-        while (matcher.find()) {
-            String username = matcher.group(1);
-            String link = "<a href=\"https://github.com/" + username + "\">@" + username + "</a>";
-            matcher.appendReplacement(sb, link);
-        }
-        matcher.appendTail(sb);
-
-        return sb.toString();
-    }
-
-    @Override
-    public void onPause() {
-        if (grabChangelog != null) grabChangelog.cancel(true);
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        if (grabChangelog != null) grabChangelog.cancel(true);
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        if (grabChangelog != null) grabChangelog.cancel(true);
-        super.onDestroy();
     }
 }

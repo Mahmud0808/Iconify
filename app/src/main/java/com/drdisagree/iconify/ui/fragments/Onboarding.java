@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.FragmentOnboardingBinding;
-import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helper.DisplayUtil;
 

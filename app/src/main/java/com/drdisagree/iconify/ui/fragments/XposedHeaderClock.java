@@ -56,8 +56,22 @@ import java.util.ArrayList;
 
 public class XposedHeaderClock extends BaseFragment {
 
-    private FragmentXposedHeaderClockBinding binding;
     private static int colorHeaderClock;
+    private FragmentXposedHeaderClockBinding binding;
+    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    String path = getRealPath(data);
+
+                    if (path != null && copyToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
+                        binding.enableHeaderClockFont.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -231,21 +245,6 @@ public class XposedHeaderClock extends BaseFragment {
         gd.setCornerRadius(Iconify.getAppContextLocale().getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.previewColorPickerClocktext.setBackground(gd);
     }
-
-    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    String path = getRealPath(data);
-
-                    if (path != null && copyToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
-                        binding.enableHeaderClockFont.setVisibility(View.VISIBLE);
-                    } else {
-                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
 
     @Override
     public void onStart() {
