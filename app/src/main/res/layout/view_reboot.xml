@@ -52,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/iconify_updated_desc"
+                android:textAlignment="viewStart"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>

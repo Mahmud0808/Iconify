@@ -129,6 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/header_clock_font_desc"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/text_color_secondary" />
 
                 <com.google.android.material.button.MaterialButton

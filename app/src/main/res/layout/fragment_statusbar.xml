@@ -245,19 +245,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="@string/sb_tint_system" />
+                        android:text="@string/sb_tint_system"
+                        android:textAlignment="viewStart" />
 
                     <RadioButton
                         android:id="@+id/sb_tint_monet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/sb_tint_monet" />
+                        android:text="@string/sb_tint_monet"
+                        android:textAlignment="viewStart" />
 
                     <RadioButton
                         android:id="@+id/sb_tint_custom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/sb_tint_custom" />
+                        android:text="@string/sb_tint_custom"
+                        android:textAlignment="viewStart" />
 
                 </RadioGroup>
             </LinearLayout>

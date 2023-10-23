@@ -57,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_restart_systemui_after_boot_desc"
+                android:textAlignment="viewStart"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>
@@ -112,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_show_home_page_card_desc"
+                android:textAlignment="viewStart"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>
@@ -166,6 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_clear_app_cache_desc"
+                android:textAlignment="viewStart"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>
@@ -257,6 +260,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_disable_everything_desc"
+                android:textAlignment="viewStart"
                 android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>

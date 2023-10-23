@@ -48,6 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/enable_depth_wallpaper_desc"
+                        android:textAlignment="viewStart"
                         android:textColor="@color/text_color_secondary" />
 
                 </LinearLayout>
@@ -84,6 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/foreground_image_desc"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/text_color_secondary" />
 
                 <com.google.android.material.button.MaterialButton
@@ -119,6 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/background_image_desc"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/text_color_secondary" />
 
                 <com.google.android.material.button.MaterialButton

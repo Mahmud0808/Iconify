@@ -78,21 +78,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="@string/volume_style_gradient" />
+                    android:text="@string/volume_style_gradient"
+                    android:textAlignment="viewStart" />
 
                 <RadioButton
                     android:id="@+id/doublelayer_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="@string/volume_style_doublelayer" />
+                    android:text="@string/volume_style_doublelayer"
+                    android:textAlignment="viewStart" />
 
                 <RadioButton
                     android:id="@+id/shadedlayer_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="@string/volume_style_shadedlayer" />
+                    android:text="@string/volume_style_shadedlayer"
+                    android:textAlignment="viewStart" />
 
             </RadioGroup>
 
@@ -111,21 +114,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="@string/volume_style_neumorph" />
+                    android:text="@string/volume_style_neumorph"
+                    android:textAlignment="viewStart" />
 
                 <RadioButton
                     android:id="@+id/outline_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="@string/volume_style_outline" />
+                    android:text="@string/volume_style_outline"
+                    android:textAlignment="viewStart" />
 
                 <RadioButton
                     android:id="@+id/neumorphoutline_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="@string/volume_style_neumorphoutline" />
+                    android:text="@string/volume_style_neumorphoutline"
+                    android:textAlignment="viewStart" />
 
             </RadioGroup>
         </LinearLayout>
