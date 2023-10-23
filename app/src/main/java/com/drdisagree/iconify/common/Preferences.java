@@ -88,15 +88,8 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_HIDE_PERCENTAGE = "xposed_custombatteryhidepercentage";
     public static final String CUSTOM_BATTERY_INSIDE_PERCENTAGE = "xposed_custombatteryinsidepercentage";
     public static final String BLUR_RADIUS_VALUE = "xposed_blurradiusvalue";
-    public static final String QQS_TOPMARGIN = "qqspanelTopMargin";
-    public static final String QS_TOPMARGIN = "qspanelTopMargin";
-    public static final String NAVBAR_FULL_SCREEN = "navbarfullscreen";
-    public static final String NAVBAR_IMMERSIVE_V1 = "navbarimmersivev1";
-    public static final String NAVBAR_IMMERSIVE_V2 = "navbarimmersivev2";
-    public static final String NAVBAR_IMMERSIVE_V3 = "navbarimmersivev3";
-    public static final String NAVBAR_GCAM_LAG_FIX = "navbargcamlagfix";
-    public static final String NAVBAR_LOW_SENS = "navbarlowsens";
-    public static final String NAVBAR_HIDE_PILL = "navbarhidepill";
+    public static final String QQS_TOPMARGIN = "xposed_qqspanelTopMargin";
+    public static final String QS_TOPMARGIN = "xposed_qspanelTopMargin";
 
     // Xposed view tags
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";
@@ -198,6 +191,13 @@ public class Preferences {
     public static final String QS_HIDE_LABEL_SWITCH = "qsHideLabelSwitch";
     public static final String PROGRESS_WAVE_ANIMATION_SWITCH = "progressWaveAnimationSwitch";
     public static final String PILL_SHAPE_SWITCH = "navigationPillShapeSwitch";
+    public static final String NAVBAR_FULL_SCREEN = "navbarfullscreen";
+    public static final String NAVBAR_IMMERSIVE_V1 = "navbarimmersivev1";
+    public static final String NAVBAR_IMMERSIVE_V2 = "navbarimmersivev2";
+    public static final String NAVBAR_IMMERSIVE_V3 = "navbarimmersivev3";
+    public static final String NAVBAR_GCAM_LAG_FIX = "navbargcamlagfix";
+    public static final String NAVBAR_LOW_SENS = "navbarlowsens";
+    public static final String NAVBAR_HIDE_PILL = "navbarhidepill";
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
