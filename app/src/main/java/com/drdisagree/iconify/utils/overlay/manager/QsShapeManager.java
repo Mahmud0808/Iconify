@@ -23,6 +23,7 @@ public class QsShapeManager {
     private static void disable_others(int n) {
         for (int i = 1; i <= TOTAL_QSSHAPES; i++) {
             Prefs.putBoolean("IconifyComponentQSSN" + i + ".overlay", i == n);
+            Prefs.putBoolean("IconifyComponentQSSP" + i + ".overlay", false);
         }
     }
 }

@@ -23,6 +23,7 @@ public class NotificationManager {
     private static void disable_others(int n) {
         for (int i = 1; i <= TOTAL_NOTIFICATIONS; i++) {
             Prefs.putBoolean("IconifyComponentNFN" + i + ".overlay", i == n);
+            Prefs.putBoolean("IconifyComponentNFP" + i + ".overlay", false);
         }
     }
 }
