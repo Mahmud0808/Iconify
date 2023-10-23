@@ -16,7 +16,6 @@ public class Const {
     public static final List<String> SYSTEM_PACKAGES = Arrays.asList(
             SYSTEMUI_PACKAGE,
             FRAMEWORK_PACKAGE,
-            PIXEL_LAUNCHER_PACKAGE,
             SETTINGS_PACKAGE
     );
 
