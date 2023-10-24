@@ -180,6 +180,7 @@ public class QsIconLabel extends BaseFragment {
             if (Objects.equals(checkedId, R.id.textColorNormal)) {
                 if (!Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_NORMAL)) {
                     Prefs.putString(QS_TEXT_COLOR_VARIANT, QS_TEXT_COLOR_VARIANT_NORMAL);
+                    selectedVariant = QS_TEXT_COLOR_VARIANT_NORMAL;
 
                     if (Prefs.getBoolean(QSPT1_overlay))
                         OverlayUtil.changeOverlayState(QSPT1_overlay, false, QSNT1_overlay, true);
@@ -194,6 +195,7 @@ public class QsIconLabel extends BaseFragment {
             } else if (Objects.equals(checkedId, R.id.textColorPixel)) {
                 if (!Objects.equals(selectedVariant, QS_TEXT_COLOR_VARIANT_PIXEL)) {
                     Prefs.putString(QS_TEXT_COLOR_VARIANT, QS_TEXT_COLOR_VARIANT_PIXEL);
+                    selectedVariant = QS_TEXT_COLOR_VARIANT_PIXEL;
 
                     if (Prefs.getBoolean(QSNT1_overlay))
                         OverlayUtil.changeOverlayState(QSNT1_overlay, false, QSPT1_overlay, true);
@@ -410,14 +412,37 @@ public class QsIconLabel extends BaseFragment {
     }
 
     private boolean isNormalVariantActive() {
-        return Prefs.getBoolean(QSNT1_overlay) || Prefs.getBoolean(QSNT2_overlay) || Prefs.getBoolean(QSNT3_overlay) || Prefs.getBoolean(QSNT4_overlay) || Objects.equals(Prefs.getString(QS_TEXT_COLOR_VARIANT), QS_TEXT_COLOR_VARIANT_NORMAL);
+        return Prefs.getBoolean(QSNT1_overlay) ||
+                Prefs.getBoolean(QSNT2_overlay) ||
+                Prefs.getBoolean(QSNT3_overlay) ||
+                Prefs.getBoolean(QSNT4_overlay) ||
+                Objects.equals(
+                        Prefs.getString(QS_TEXT_COLOR_VARIANT),
+                        QS_TEXT_COLOR_VARIANT_NORMAL
+                );
     }
 
     private boolean isPixelVariantActive() {
-        return Prefs.getBoolean(QSPT1_overlay) || Prefs.getBoolean(QSPT2_overlay) || Prefs.getBoolean(QSPT3_overlay) || Prefs.getBoolean(QSPT4_overlay) || Objects.equals(Prefs.getString(QS_TEXT_COLOR_VARIANT), QS_TEXT_COLOR_VARIANT_PIXEL);
+        return Prefs.getBoolean(QSPT1_overlay) ||
+                Prefs.getBoolean(QSPT2_overlay) ||
+                Prefs.getBoolean(QSPT3_overlay) ||
+                Prefs.getBoolean(QSPT4_overlay) ||
+                Objects.equals(
+                        Prefs.getString(QS_TEXT_COLOR_VARIANT),
+                        QS_TEXT_COLOR_VARIANT_PIXEL
+                );
     }
 
     private void handleCommonOverlay() {
-        OverlayUtil.changeOverlayState(QSNPT_overlay, Prefs.getBoolean(QSNT1_overlay) || Prefs.getBoolean(QSNT2_overlay) || Prefs.getBoolean(QSNT3_overlay) || Prefs.getBoolean(QSNT4_overlay) || Prefs.getBoolean(QSPT1_overlay) || Prefs.getBoolean(QSPT2_overlay) || Prefs.getBoolean(QSPT3_overlay) || Prefs.getBoolean(QSPT4_overlay));
+        OverlayUtil.changeOverlayState(
+                QSNPT_overlay,
+                Prefs.getBoolean(QSNT1_overlay) ||
+                        Prefs.getBoolean(QSNT2_overlay) ||
+                        Prefs.getBoolean(QSNT3_overlay) ||
+                        Prefs.getBoolean(QSNT4_overlay) ||
+                        Prefs.getBoolean(QSPT1_overlay) ||
+                        Prefs.getBoolean(QSPT2_overlay) ||
+                        Prefs.getBoolean(QSPT3_overlay) ||
+                        Prefs.getBoolean(QSPT4_overlay));
     }
 }
