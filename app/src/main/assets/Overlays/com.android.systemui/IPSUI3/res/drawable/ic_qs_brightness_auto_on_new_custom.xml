@@ -10,9 +10,9 @@
             android:name="auto_transform"
             android:pivotX="12"
             android:pivotY="12"
-            android:translateX="0"
             android:scaleX="1"
-            android:scaleY="1">
+            android:scaleY="1"
+            android:translateX="0">
             <path
                 android:fillColor="#00000000"
                 android:fillType="nonZero"
@@ -26,9 +26,9 @@
             android:name="manual_transform"
             android:pivotX="12"
             android:pivotY="12"
-            android:translateX="-24"
             android:scaleX="0.5"
-            android:scaleY="0.5">
+            android:scaleY="0.5"
+            android:translateX="-24">
             <path
                 android:fillColor="#ff000000"
                 android:fillType="nonZero"
