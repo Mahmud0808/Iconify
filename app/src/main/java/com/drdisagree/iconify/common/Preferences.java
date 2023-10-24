@@ -191,6 +191,8 @@ public class Preferences {
     public static final String DYNAMIC_OVERLAY_RESOURCES_LAND = "dynamicOverlayResourcesLand";
     public static final String QS_HIDE_LABEL_SWITCH = "qsHideLabelSwitch";
     public static final String PROGRESS_WAVE_ANIMATION_SWITCH = "progressWaveAnimationSwitch";
+    public static final String NOTCH_BAR_KILLER_SWITCH = "notchBarKillerSwitch";
+    public static final String TABLET_LANDSCAPE_SWITCH = "tabletLandscapeSwitch";
     public static final String PILL_SHAPE_SWITCH = "navigationPillShapeSwitch";
     public static final String NAVBAR_FULL_SCREEN = "navbarfullscreen";
     public static final String NAVBAR_IMMERSIVE_V1 = "navbarimmersivev1";

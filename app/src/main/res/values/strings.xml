@@ -403,7 +403,7 @@
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">Tablet Mode</string>
     <string name="tablet_landscape_title">Tablet Landscape</string>
-    <string name="tablet_landscape_desc">Also known as Better QS\nMust use Notch Bar Killer</string>
+    <string name="tablet_landscape_desc">Also known as Better QS</string>
     <string name="notch_bar_killer_title">Notch Bar Killer</string>
     <string name="notch_bar_killer_desc">Kill empty space of notch bar</string>
     <string name="tablet_header_title">Tablet Header</string>

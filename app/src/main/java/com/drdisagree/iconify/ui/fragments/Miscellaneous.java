@@ -1,8 +1,11 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.NOTCH_BAR_KILLER_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.PROGRESS_WAVE_ANIMATION_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.TABLET_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.References.FABRICATED_TABLET_HEADER;
 
 import android.os.Bundle;
@@ -39,26 +42,111 @@ public class Miscellaneous extends BaseFragment {
         // Header
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_miscellaneous);
 
-        binding.enableTabletLandscape.setChecked(Prefs.getBoolean("IconifyComponentBQS.overlay", false));
-        binding.enableTabletLandscape.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
-                OverlayUtil.enableOverlay("IconifyComponentBQS.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentBQS.overlay");
-            }
-        }, SWITCH_ANIMATION_DELAY));
-        binding.tabletLandscape.setOnClickListener(v -> binding.enableTabletLandscape.toggle());
+        // Tablet landscape
+        AtomicBoolean isTabletLandscapeContainerClicked = new AtomicBoolean(false);
+        binding.enableTabletLandscape.setChecked(Prefs.getBoolean(TABLET_LANDSCAPE_SWITCH, false));
+        binding.enableTabletLandscape.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed() || isTabletLandscapeContainerClicked.get()) {
+                isTabletLandscapeContainerClicked.set(false);
 
-        binding.enableNotchBarKiller.setChecked(Prefs.getBoolean("IconifyComponentNBK.overlay", false));
-        binding.enableNotchBarKiller.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
-                OverlayUtil.enableOverlay("IconifyComponentNBK.overlay");
-            } else {
-                OverlayUtil.disableOverlay("IconifyComponentNBK.overlay");
-            }
-        }, SWITCH_ANIMATION_DELAY));
-        binding.notchBarKiller.setOnClickListener(v -> binding.enableNotchBarKiller.toggle());
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.enableTabletLandscape.setChecked(!isChecked);
+                    return;
+                }
 
+                Prefs.putBoolean(TABLET_LANDSCAPE_SWITCH, isChecked);
+
+                ResourceEntry resourceEntry1 = new ResourceEntry(SYSTEMUI_PACKAGE, "bool", "config_use_split_notification_shade", "true");
+                ResourceEntry resourceEntry2 = new ResourceEntry(SYSTEMUI_PACKAGE, "bool", "config_skinnyNotifsInLandscape", "false");
+                ResourceEntry resourceEntry3 = new ResourceEntry(SYSTEMUI_PACKAGE, "bool", "can_use_one_handed_bouncer", "true");
+                ResourceEntry resourceEntry4 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "notifications_top_padding_split_shade", "40.0dip");
+                ResourceEntry resourceEntry5 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "split_shade_notifications_scrim_margin_bottom", "14.0dip");
+                ResourceEntry resourceEntry6 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_header_system_icons_area_height", "0.0dip");
+                ResourceEntry resourceEntry7 = new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_panel_padding_top", "0.0dip");
+                ResourceEntry resourceEntry8 = new ResourceEntry(SYSTEMUI_PACKAGE, "integer", "quick_settings_num_columns", "2");
+                ResourceEntry resourceEntry9 = new ResourceEntry(SYSTEMUI_PACKAGE, "integer", "quick_qs_panel_max_rows", "2");
+                ResourceEntry resourceEntry10 = new ResourceEntry(SYSTEMUI_PACKAGE, "integer", "quick_qs_panel_max_tiles", "4");
+                ResourceEntry resourceEntry11 = new ResourceEntry(FRAMEWORK_PACKAGE, "bool", "config_fillMainBuiltInDisplayCutout", "true");
+                ResourceEntry resourceEntry12 = new ResourceEntry(FRAMEWORK_PACKAGE, "string", "config_mainBuiltInDisplayCutout", "M 0,0 L 0, 0 C 0,0 0,0 0,0");
+                ResourceEntry resourceEntry13 = new ResourceEntry(FRAMEWORK_PACKAGE, "string", "config_mainBuiltInDisplayCutoutRectApproximation", "@string/config_mainBuiltInDisplayCutout");
+
+                resourceEntry1.setLandscape(true);
+                resourceEntry2.setLandscape(true);
+                resourceEntry3.setLandscape(true);
+                resourceEntry4.setLandscape(true);
+                resourceEntry5.setLandscape(true);
+                resourceEntry6.setLandscape(true);
+                resourceEntry7.setLandscape(true);
+                resourceEntry8.setLandscape(true);
+                resourceEntry9.setLandscape(true);
+                resourceEntry10.setLandscape(true);
+                resourceEntry11.setLandscape(true);
+                resourceEntry12.setLandscape(true);
+                resourceEntry13.setLandscape(true);
+
+                if (isChecked) {
+                    ResourceManager.buildOverlayWithResource(
+                            requireContext(),
+                            resourceEntry1, resourceEntry2, resourceEntry3, resourceEntry4,
+                            resourceEntry5, resourceEntry6, resourceEntry7, resourceEntry8,
+                            resourceEntry9, resourceEntry10, resourceEntry11, resourceEntry12,
+                            resourceEntry13
+                    );
+                } else {
+                    ResourceManager.removeResourceFromOverlay(
+                            requireContext(),
+                            resourceEntry1, resourceEntry2, resourceEntry3, resourceEntry4,
+                            resourceEntry5, resourceEntry6, resourceEntry7, resourceEntry8,
+                            resourceEntry9, resourceEntry10, resourceEntry11, resourceEntry12,
+                            resourceEntry13
+                    );
+                }
+            }
+        });
+        binding.tabletLandscape.setOnClickListener(v -> {
+            isTabletLandscapeContainerClicked.set(true);
+            binding.enableTabletLandscape.toggle();
+        });
+
+        // Notch bar killer
+        AtomicBoolean isNotchBarKillerContainerClicked = new AtomicBoolean(false);
+        binding.enableNotchBarKiller.setChecked(Prefs.getBoolean(NOTCH_BAR_KILLER_SWITCH, false));
+        binding.enableNotchBarKiller.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed() || isNotchBarKillerContainerClicked.get()) {
+                isNotchBarKillerContainerClicked.set(false);
+
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.enableNotchBarKiller.setChecked(!isChecked);
+                    return;
+                }
+
+                Prefs.putBoolean(NOTCH_BAR_KILLER_SWITCH, isChecked);
+
+                if (isChecked) {
+                    ResourceManager.buildOverlayWithResource(
+                            requireContext(),
+                            new ResourceEntry(FRAMEWORK_PACKAGE, "bool", "config_fillMainBuiltInDisplayCutout", "true"),
+                            new ResourceEntry(FRAMEWORK_PACKAGE, "string", "config_mainBuiltInDisplayCutout", "M 0,0 L 0, 0 C 0,0 0,0 0,0"),
+                            new ResourceEntry(FRAMEWORK_PACKAGE, "string", "config_mainBuiltInDisplayCutoutRectApproximation", "@string/config_mainBuiltInDisplayCutout")
+                    );
+                } else {
+                    ResourceManager.removeResourceFromOverlay(
+                            requireContext(),
+                            new ResourceEntry(FRAMEWORK_PACKAGE, "bool", "config_fillMainBuiltInDisplayCutout"),
+                            new ResourceEntry(FRAMEWORK_PACKAGE, "string", "config_mainBuiltInDisplayCutout"),
+                            new ResourceEntry(FRAMEWORK_PACKAGE, "string", "config_mainBuiltInDisplayCutoutRectApproximation")
+                    );
+                }
+            }
+        });
+        binding.notchBarKiller.setOnClickListener(v -> {
+            isNotchBarKillerContainerClicked.set(true);
+            binding.enableNotchBarKiller.toggle();
+        });
+
+        // Tablet header
         binding.enableTabletHeader.setChecked(Prefs.getBoolean(FABRICATED_TABLET_HEADER, false));
         binding.enableTabletHeader.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Prefs.putBoolean(FABRICATED_TABLET_HEADER, isChecked);
@@ -70,6 +158,7 @@ public class Miscellaneous extends BaseFragment {
         }, SWITCH_ANIMATION_DELAY));
         binding.tabletHeader.setOnClickListener(v -> binding.enableTabletHeader.toggle());
 
+        // Accent privacy chip
         binding.enableAccentPrivacyChip.setChecked(Prefs.getBoolean("IconifyComponentPCBG.overlay", false));
         binding.enableAccentPrivacyChip.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
@@ -81,15 +170,19 @@ public class Miscellaneous extends BaseFragment {
         }, SWITCH_ANIMATION_DELAY));
         binding.accentPrivacyChip.setOnClickListener(v -> binding.enableAccentPrivacyChip.toggle());
 
+        // Progress wave animation
         AtomicBoolean isProgressWaveContainerClicked = new AtomicBoolean(false);
         binding.disableProgressWave.setChecked(Prefs.getBoolean(PROGRESS_WAVE_ANIMATION_SWITCH, false));
         binding.disableProgressWave.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!SystemUtil.hasStoragePermission()) {
+            if (buttonView.isPressed() || isProgressWaveContainerClicked.get()) {
                 isProgressWaveContainerClicked.set(false);
-                SystemUtil.requestStoragePermission(requireContext());
-                binding.disableProgressWave.setChecked(!isChecked);
-            } else if (buttonView.isPressed() || isProgressWaveContainerClicked.get()) {
-                isProgressWaveContainerClicked.set(false);
+
+                if (!SystemUtil.hasStoragePermission()) {
+                    SystemUtil.requestStoragePermission(requireContext());
+                    binding.disableProgressWave.setChecked(!isChecked);
+                    return;
+                }
+
                 Prefs.putBoolean(PROGRESS_WAVE_ANIMATION_SWITCH, isChecked);
 
                 if (isChecked) {
