@@ -410,15 +410,19 @@ public class NavigationBar extends BaseFragment {
 
     private void disableOthers(String identifier) {
         if (!Objects.equals(identifier, NAVBAR_FULL_SCREEN)) {
+            Prefs.putBoolean(NAVBAR_FULL_SCREEN, false);
             binding.nbFullscreen.setChecked(false);
         }
         if (!Objects.equals(identifier, NAVBAR_IMMERSIVE_V1)) {
+            Prefs.putBoolean(NAVBAR_IMMERSIVE_V1, false);
             binding.nbImmersive.setChecked(false);
         }
         if (!Objects.equals(identifier, NAVBAR_IMMERSIVE_V2)) {
+            Prefs.putBoolean(NAVBAR_IMMERSIVE_V2, false);
             binding.nbImmersivev2.setChecked(false);
         }
         if (!Objects.equals(identifier, NAVBAR_IMMERSIVE_V3)) {
+            Prefs.putBoolean(NAVBAR_IMMERSIVE_V3, false);
             binding.nbImmersivev3.setChecked(false);
         }
     }
