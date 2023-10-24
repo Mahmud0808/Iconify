@@ -48,6 +48,8 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 > 
 > `OVERLAY_MODE=1`
 > `DO_UNMOUNT_KSU=true`
+>
+> Note: If one of the above variable doesn't exist, skip that particular variable.
 
 # 👨‍💻 Installation 
 
