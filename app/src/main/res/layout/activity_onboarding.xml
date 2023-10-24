@@ -68,6 +68,7 @@
             android:scaleType="fitCenter"
             android:visibility="gone"
             app:lottie_autoPlay="true"
+            app:lottie_enableMergePathsForKitKatAndAbove="true"
             app:lottie_loop="true" />
 
     </FrameLayout>
