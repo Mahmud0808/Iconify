@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class OnBoardingCompiler {
+public class OnboardingCompiler {
 
-    private static final String TAG = OnBoardingCompiler.class.getSimpleName();
+    private static final String TAG = OnboardingCompiler.class.getSimpleName();
     private static final String aapt = AAPT.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
 

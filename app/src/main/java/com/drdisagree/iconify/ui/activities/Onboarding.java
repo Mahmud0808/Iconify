@@ -48,7 +48,7 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.extension.TaskExecutor;
 import com.drdisagree.iconify.utils.helper.BackupRestore;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
-import com.drdisagree.iconify.utils.overlay.compiler.OnBoardingCompiler;
+import com.drdisagree.iconify.utils.overlay.compiler.OnboardingCompiler;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -457,14 +457,14 @@ public class Onboarding extends BaseActivity {
                                 if (overlay.isDirectory()) {
                                     String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
 
-                                    if (OnBoardingCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
+                                    if (OnboardingCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
                                         hasErroredOut = true;
                                     }
 
                                     logger = "Building Overlay for " + overlay_name;
                                     publishProgress(step);
 
-                                    if (!hasErroredOut && OnBoardingCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
+                                    if (!hasErroredOut && OnboardingCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
                                         hasErroredOut = true;
                                     }
                                 }
@@ -494,7 +494,7 @@ public class Onboarding extends BaseActivity {
                             logger = "Zip aligning Overlay " + overlay_name.replace("-unsigned.apk", "");
                             publishProgress(step);
 
-                            if (OnBoardingCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
+                            if (OnboardingCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
                                 hasErroredOut = true;
                             }
                         }
@@ -523,7 +523,7 @@ public class Onboarding extends BaseActivity {
 
                             int attempt = 3;
                             while (attempt-- != 0) {
-                                hasErroredOut = OnBoardingCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name);
+                                hasErroredOut = OnboardingCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name);
 
                                 if (!hasErroredOut) break;
                                 else try {
