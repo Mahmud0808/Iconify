@@ -4,7 +4,6 @@ import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
-import static com.drdisagree.iconify.common.Preferences.XPOSED_ONLY_MODE;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
 
@@ -118,10 +117,6 @@ public class ModuleUtil {
 
     public static boolean moduleExists() {
         return RootUtil.folderExists(Resources.MODULE_DIR);
-    }
-
-    public static boolean moduleProperlyInstalled() {
-        return moduleExists() && (OverlayUtil.overlayExists() || Prefs.getBoolean(XPOSED_ONLY_MODE, false));
     }
 
     public static String createModule(String sourceFolder, String destinationFilePath) throws Exception {
