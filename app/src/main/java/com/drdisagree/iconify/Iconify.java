@@ -24,7 +24,6 @@ public class Iconify extends Application {
         if (contextReference == null || contextReference.get() == null) {
             contextReference = new WeakReference<>(Iconify.getInstance().getApplicationContext());
         }
-
         return contextReference.get();
     }
 
@@ -33,6 +32,9 @@ public class Iconify extends Application {
     }
 
     private static Iconify getInstance() {
+        if (instance == null) {
+            instance = new Iconify();
+        }
         return instance;
     }
 }
