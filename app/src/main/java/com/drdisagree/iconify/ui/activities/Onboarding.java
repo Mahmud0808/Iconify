@@ -537,9 +537,10 @@ public class Onboarding extends BaseActivity {
                         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
                     }
 
+                    Prefs.putBoolean(XPOSED_ONLY_MODE, false);
+
                     if (OverlayUtil.overlayExists()) {
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                            Prefs.putBoolean(XPOSED_ONLY_MODE, false);
                             Intent intent = new Intent(Onboarding.this, HomePage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -547,7 +548,6 @@ public class Onboarding extends BaseActivity {
                         }, 10);
                     } else {
                         rebootRequired = true;
-                        Prefs.putBoolean(XPOSED_ONLY_MODE, false);
                         showInfo(R.string.need_reboot_title, R.string.need_reboot_desc);
                         binding.btnNextStep.setText(R.string.btn_reboot);
                         binding.btnNextStep.setTextColor(getResources().getColor(R.color.onboarding_btn_text, getTheme()));
@@ -563,11 +563,7 @@ public class Onboarding extends BaseActivity {
                     Toast.makeText(Onboarding.this, R.string.one_time_reboot_needed, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Prefs.clearPref(XPOSED_ONLY_MODE);
-                Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+                cancelledInstallation();
                 showInfo(R.string.installation_failed_title, R.string.installation_failed_desc);
                 binding.btnNextStep.setText(R.string.btn_lets_go);
             }
