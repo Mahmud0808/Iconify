@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 
 import com.drdisagree.iconify.Iconify;
 
+@SuppressWarnings("unused")
 public class Prefs {
 
     public static SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(SharedPref, Context.MODE_PRIVATE);

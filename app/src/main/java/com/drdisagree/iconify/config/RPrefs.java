@@ -4,18 +4,14 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.Resources.SharedXPref;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.drdisagree.iconify.Iconify;
 
+@SuppressWarnings("unused")
 public class RPrefs {
 
-    @SuppressLint("StaticFieldLeak")
-    private static final Context prefContext = Iconify.getAppContext().createDeviceProtectedStorageContext();
-
-    public static SharedPreferences prefs = prefContext.getSharedPreferences(SharedXPref, MODE_PRIVATE);
+    public static SharedPreferences prefs = Iconify.getAppContext().createDeviceProtectedStorageContext().getSharedPreferences(SharedXPref, MODE_PRIVATE);
     static SharedPreferences.Editor editor = prefs.edit();
 
     // Save sharedPref config
