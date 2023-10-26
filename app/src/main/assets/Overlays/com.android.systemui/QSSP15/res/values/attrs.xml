@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="darkIconTheme" format="reference" />
+    <attr name="isQsTheme" format="boolean" />
+    <attr name="lightIconTheme" format="reference" />
+    <attr name="onShadeActive" format="reference|color" />
+    <attr name="onShadeActiveVariant" format="reference|color" />
+    <attr name="onShadeInactive" format="reference|color" />
+    <attr name="onShadeInactiveVariant" format="reference|color" />
+    <attr name="onSurface" format="reference|color" />
+    <attr name="onSurfaceVariant" format="reference|color" />
+    <attr name="outline" format="reference|color" />
+    <attr name="primary" format="reference|color" />
+    <attr name="scHigh" format="reference|color" />
+    <attr name="shadeActive" format="reference|color" />
+    <attr name="shadeDisabled" format="reference|color" />
+    <attr name="shadeInactive" format="reference|color" />
+    <attr name="surfaceBright" format="reference|color" />
+    <attr name="tertiary" format="reference|color" />
+    <attr name="underSurface" format="reference|color" />
+    <attr name="backgroundColor" format="color" />
+    <attr name="fillColor" format="integer" />
+    <attr name="singleToneColor" format="integer" />
+</resources>
