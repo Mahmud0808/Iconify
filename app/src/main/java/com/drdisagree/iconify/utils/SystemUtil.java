@@ -90,10 +90,16 @@ public class SystemUtil {
 
     public static void mountRW() {
         Shell.cmd("mount -o remount,rw /").exec();
+        if (RootUtil.isKSUInstalled()) {
+            Shell.cmd("-mm -c magic_remount_rw").exec();
+        }
     }
 
     public static void mountRO() {
         Shell.cmd("mount -o remount,ro /").exec();
+        if (RootUtil.isKSUInstalled()) {
+            Shell.cmd("-mm -c magic_remount_ro").exec();
+        }
     }
 
     /*
