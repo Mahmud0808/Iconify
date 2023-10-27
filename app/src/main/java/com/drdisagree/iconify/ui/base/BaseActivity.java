@@ -32,10 +32,10 @@ public class BaseActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(ThemeHelper.getTheme());
         super.onCreate(savedInstanceState);
 
-        setupEdgetoEdge();
+        setupEdgeToEdge();
     }
 
-    private void setupEdgetoEdge() {
+    private void setupEdgeToEdge() {
         try {
             ((AppBarLayout) findViewById(R.id.appBarLayout)).setStatusBarForeground(MaterialShapeDrawable.createWithElevationOverlay(getApplicationContext()));
         } catch (Exception ignored) {
