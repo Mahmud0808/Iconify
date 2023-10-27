@@ -10,7 +10,6 @@ import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -123,9 +122,7 @@ public class Home extends BaseFragment {
         home_page.add(new Object[]{R.id.action_homePage_to_qsPanelTile, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_qs_shape), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_styles_qs_shape});
         home_page.add(new Object[]{R.id.action_homePage_to_notification, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_notification), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_notification), R.drawable.ic_styles_notification});
         home_page.add(new Object[]{R.id.action_homePage_to_progressBar, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_progress_bar), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_styles_progress});
-        if (Build.VERSION.SDK_INT < 34) {
-            home_page.add(new Object[]{R.id.action_homePage_to_switch1, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_switch), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
-        }
+        home_page.add(new Object[]{R.id.action_homePage_to_switch1, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_switch), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
         home_page.add(new Object[]{R.id.action_homePage_to_toastFrame, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_toast_frame), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_styles_toast_frame});
         home_page.add(new Object[]{R.id.action_homePage_to_iconShape, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_icon_shape), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_styles_icon_shape});
 
