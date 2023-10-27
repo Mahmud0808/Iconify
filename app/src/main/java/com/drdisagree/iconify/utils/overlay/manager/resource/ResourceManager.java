@@ -1,13 +1,10 @@
 package com.drdisagree.iconify.utils.overlay.manager.resource;
 
-import static com.drdisagree.iconify.common.Const.TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES;
 import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_LAND;
 import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_NIGHT;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
@@ -17,11 +14,13 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.extension.TaskExecutor;
 import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler;
 
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -35,10 +34,8 @@ public class ResourceManager {
 
         try {
             ResourceManager.createResource(resourceEntries);
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             hasErroredOut.set(true);
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
             Log.e(TAG, "buildOverlayWithResource:", e);
         }
 
@@ -49,15 +46,11 @@ public class ResourceManager {
         if (!SystemUtil.hasStoragePermission()) {
             SystemUtil.requestStoragePermission(context);
         } else {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                try {
-                    ResourceManager.createResource(resourceEntries);
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "buildOverlayWithResource:", e);
-                }
-            }, TRANSITION_DELAY + TRANSITION_DELAY);
+            try {
+                ResourceManager.createResource(resourceEntries);
+            } catch (Exception e) {
+                Log.e(TAG, "buildOverlayWithResource:", e);
+            }
         }
     }
 
@@ -66,10 +59,8 @@ public class ResourceManager {
 
         try {
             ResourceManager.removeResource(resourceEntries);
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             hasErroredOut.set(true);
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
             Log.e(TAG, "removeResourceFromOverlay:", e);
         }
 
@@ -80,15 +71,11 @@ public class ResourceManager {
         if (!SystemUtil.hasStoragePermission()) {
             SystemUtil.requestStoragePermission(context);
         } else {
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                try {
-                    ResourceManager.removeResource(resourceEntries);
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_reset), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "removeResourceFromOverlay:", e);
-                }
-            }, TRANSITION_DELAY + TRANSITION_DELAY);
+            try {
+                ResourceManager.removeResource(resourceEntries);
+            } catch (Exception e) {
+                Log.e(TAG, "removeResourceFromOverlay:", e);
+            }
         }
     }
 
@@ -105,7 +92,8 @@ public class ResourceManager {
 
         saveResources(mergedJson);
 
-        DynamicCompiler.buildOverlay();
+        DynamicCompilerExecutor dynamicCompilerExecutor = new DynamicCompilerExecutor();
+        dynamicCompilerExecutor.execute();
     }
 
     private static void removeResource(ResourceEntry... resourceEntries) throws Exception {
@@ -138,7 +126,37 @@ public class ResourceManager {
 
         saveResources(jsonObject);
 
-        DynamicCompiler.buildOverlay();
+        DynamicCompilerExecutor dynamicCompilerExecutor = new DynamicCompilerExecutor();
+        dynamicCompilerExecutor.execute();
+    }
+
+    private static class DynamicCompilerExecutor extends TaskExecutor<Void, Void, Void> {
+        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+
+        @Override
+        protected void onPreExecute() {
+            // do nothing
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                DynamicCompiler.buildOverlay();
+            } catch (IOException e) {
+                Log.i(TAG, "doInBackground: ", e);
+                hasErroredOut.set(true);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            if (!hasErroredOut.get()) {
+                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private static JSONObject[] generateJsonData(ResourceEntry... resourceEntries) throws Exception {
