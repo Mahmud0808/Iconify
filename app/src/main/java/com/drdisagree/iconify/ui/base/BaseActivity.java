@@ -54,9 +54,10 @@ public class BaseActivity extends AppCompatActivity {
                         params.leftMargin + insets.left,
                         0,
                         params.rightMargin + insets.right,
-                        params.bottomMargin + insets.bottom
+                        0
                 );
                 params.topMargin = 0;
+                params.bottomMargin = 0;
                 v.setLayoutParams(params);
 
                 return windowInsets;

@@ -185,8 +185,12 @@
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Material3.TitleLarge" />
 
-    <style name="Toolbar.TitleText.Collapsed" parent="TextAppearance.Material3.TitleMedium">
+    <style name="Toolbar.SubTitleText" parent="TextAppearance.Material3.TitleSmall" />
+
+    <style name="Toolbar.TitleText.Collapsed">
         <item name="android:textSize">22sp</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/text_color_primary</item>
     </style>
 
@@ -195,7 +199,10 @@
         <item name="android:textColor">@color/text_color_primary</item>
     </style>
 
-    <style name="Toolbar.SubTitleText.Collapsed" parent="TextAppearance.Material3.BodySmall">
+    <style name="Toolbar.SubTitleText.Collapsed">
+        <item name="android:textSize">13sp</item>
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/text_color_secondary</item>
     </style>
 
@@ -209,17 +216,16 @@
     </style>
 
     <style name="Widget.BottomNavigationView" parent="Base.Widget.Material3.BottomNavigationView">
-        <item name="android:theme">@style/Theme.Iconify</item>
         <item name="android:background">@drawable/bottom_navbar_bg</item>
         <item name="itemRippleColor">@color/rippleAccent</item>
         <item name="itemIconTint">@color/text_color_primary</item>
         <item name="itemTextColor">@color/text_color_primary</item>
         <item name="itemActiveIndicatorStyle">@style/BottomNavigationView.ActiveIndicator</item>
         <item name="itemTextAppearanceActive">
-            @style/BottomNavigationView.ItemTextAppearance.Active
+            @style/BottomNavigationView.ItemTextAppearance
         </item>
         <item name="itemTextAppearanceInactive">
-            @style/BottomNavigationView.ItemTextAppearance.Inactive
+            @style/BottomNavigationView.ItemTextAppearance
         </item>
     </style>
 
@@ -230,14 +236,7 @@
     <style name="BottomNavigationView.ItemTextAppearance" parent="TextAppearance.Material3.TitleSmall">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">@dimen/cont_desc_size</item>
-    </style>
-
-    <style name="BottomNavigationView.ItemTextAppearance.Active" parent="BottomNavigationView.ItemTextAppearance">
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
-    <style name="BottomNavigationView.ItemTextAppearance.Inactive" parent="BottomNavigationView.ItemTextAppearance">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="radioButtonStyle">

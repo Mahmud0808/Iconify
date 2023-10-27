@@ -42,6 +42,7 @@
             app:navigationIconTint="?attr/colorOnSurface"
             app:popupTheme="@style/Theme.Iconify"
             app:subtitle="@string/app_moto"
+            app:subtitleTextAppearance="@style/Toolbar.SubTitleText"
             app:title="@string/app_name"
             app:titleTextAppearance="@style/Toolbar.TitleText"
             app:titleTextEllipsize="end"
