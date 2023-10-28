@@ -325,7 +325,23 @@ public class QSLightTheme extends ModPack {
         hookAllMethods(QSIconViewImplClass, "getIconColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (!isDark && lightQSHeaderEnabled && ((boolean) param.args[1])) {
+                boolean isActiveState = false;
+
+                try {
+                    isActiveState = (int) getObjectField(param.args[1], "state") == STATE_ACTIVE;
+                } catch (Throwable throwable) {
+                    try {
+                        isActiveState = (int) param.args[1] == STATE_ACTIVE;
+                    } catch (Throwable throwable1) {
+                        try {
+                            isActiveState = (boolean) param.args[1];
+                        } catch (Throwable throwable2) {
+                            log(TAG + throwable2);
+                        }
+                    }
+                }
+
+                if (!isDark && lightQSHeaderEnabled && isActiveState) {
                     param.setResult(Color.WHITE);
                 }
             }
