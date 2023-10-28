@@ -143,13 +143,26 @@ public class DepthWallpaper extends ModPack {
 
                 try {
                     ImageView startButton = view.findViewById(mContext.getResources().getIdentifier("start_button", "id", mContext.getPackageName()));
-                    startButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(startButton.getVisibility() == View.VISIBLE ? offset[0] : 0));
+                    startButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(
+                            startButton.getVisibility() != View.GONE ? offset[0] : 0)
+                    );
                 } catch (Throwable ignored) {
                 }
 
                 try {
                     ImageView endButton = view.findViewById(mContext.getResources().getIdentifier("end_button", "id", mContext.getPackageName()));
-                    endButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(endButton.getVisibility() == View.VISIBLE ? offset[0] : 0));
+                    endButton.getViewTreeObserver().addOnGlobalLayoutListener(() -> ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(
+                            endButton.getVisibility() != View.GONE ? offset[0] : 0)
+                    );
+                } catch (Throwable ignored) {
+                }
+
+                try {
+                    LinearLayout keyguard_settings_button = view.findViewById(mContext.getResources().getIdentifier("keyguard_settings_button", "id", mContext.getPackageName()));
+                    keyguard_settings_button.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+                        ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(keyguard_settings_button.getVisibility() != View.GONE ? offset[0] : 0);
+                        ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(keyguard_settings_button.getVisibility() != View.GONE ? offset[0] : 0);
+                    });
                 } catch (Throwable ignored) {
                 }
 
