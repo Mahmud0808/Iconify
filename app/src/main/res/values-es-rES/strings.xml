@@ -313,6 +313,8 @@
     <string name="navbar_immersive_v2_desc">Espaciado de teclado más pequeño</string>
     <string name="navbar_immersive_v3_title">Modo inmersivo v3</string>
     <string name="navbar_immersive_v3_desc">Espaciado de teclado más pequeño</string>
+    <string name="navbar_gcam_lag_fix_title">Gcam Lag Fix</string>
+    <string name="navbar_gcam_lag_fix_desc">Fix lag in gcam with gesture navigation</string>
     <string name="section_title_buttons">Buttons</string>
     <string name="navbar_hide_kb_buttons_title">Ocultar botones del teclado</string>
     <string name="navbar_hide_kb_buttons_desc">Ocultar botones de retroceso/cambio de teclado</string>
@@ -371,7 +373,7 @@
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">Tablet Mode</string>
     <string name="tablet_landscape_title">Pantalla de Tablet en Horizontal</string>
-    <string name="tablet_landscape_desc">También conocido como Better QS\nDebes usar Notch Bar Killer</string>
+    <string name="tablet_landscape_desc">Also known as Better QS</string>
     <string name="notch_bar_killer_title">Eliminador de Barra de Notch</string>
     <string name="notch_bar_killer_desc">Eliminar el espacio vacío de la barra de notch</string>
     <string name="tablet_header_title">Encabezado de Tablet</string>
@@ -434,6 +436,9 @@
     <string name="notification_transparency_desc">Transparencia de notificaciones para Fluid QS\nNo uses un estilo de notificación personalizado</string>
     <string name="power_menu_transparency_title">Transparencia del Menú de Energía</string>
     <string name="power_menu_transparency_desc">Transparencia del menú de energía para Fluid QS\nNo uses un estilo de notificación personalizado</string>
+    <string name="section_title_others">Others</string>
+    <string name="fix_notification_color_title">Fix Notification Color (A14)</string>
+    <string name="fix_notification_color_desc">Fix color of notification for A14 devices</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Tile</string>
     <string name="vertical_qs_tile_title">Botones de Ajustes Rápidos verticales</string>

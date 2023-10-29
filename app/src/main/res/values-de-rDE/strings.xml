@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_moto">Customize Boring Android UI</string>
+    <string name="app_moto">Personalsiere deine langweilige Android UI</string>
     <!-- Onboarding -->
-    <string name="init_module_installation">Initializing setup</string>
-    <string name="step">Step</string>
-    <string name="module_installation_step1">Creating module shell</string>
-    <string name="module_installation_step2">Extracting necessary files</string>
-    <string name="module_installation_step3">Creating overlay APKs</string>
-    <string name="module_installation_step4">Aligning overlay APKs</string>
-    <string name="module_installation_step5">Signing overlay APKs</string>
-    <string name="module_installation_step6">Cleaning directories</string>
-    <string name="onboarding_title_1">Got Bored of Stock UI ?</string>
-    <string name="onboarding_desc_1">Let\'s customize everything to our likings.</string>
-    <string name="onboarding_title_2">Is My Device Supported ?</string>
-    <string name="onboarding_desc_2">Iconify supports all Pixel and AOSP based ROMs.</string>
-    <string name="onboarding_title_3">Shall We Begin Now ?</string>
-    <string name="onboarding_desc_3">It is time for iconify to do some internal work.</string>
-    <string name="need_storage_perm_title">Need Storage Permission</string>
+    <string name="init_module_installation">Starte Einrichtung</string>
+    <string name="step">Schritt</string>
+    <string name="module_installation_step1">Erstelle Modul</string>
+    <string name="module_installation_step2">Notwendige Dateien extrahieren</string>
+    <string name="module_installation_step3">Overlay-APKs erstellen</string>
+    <string name="module_installation_step4">Overlay-APKs ausrichten</string>
+    <string name="module_installation_step5">Signiere-Overlay APKs</string>
+    <string name="module_installation_step6">Bereinige Verzeichnis</string>
+    <string name="onboarding_title_1">Bist du gelangweilt von deiner Stock UI?</string>
+    <string name="onboarding_desc_1">Lasst uns alles nach unseren Wünschen anpassen.</string>
+    <string name="onboarding_title_2">Wird mein Gerät unterstützt?</string>
+    <string name="onboarding_desc_2">Iconify unterstützt alle Pixel und ASOP basierten Roms.</string>
+    <string name="onboarding_title_3">Sollen wir jetzt beginnen?</string>
+    <string name="onboarding_desc_3">Es ist an der Zeit, dass iconify einige interne Arbeiten erledigt.</string>
+    <string name="need_storage_perm_title">Speicherberechtigung benötigt</string>
     <string name="need_storage_perm_desc">Storage permission is required to build the necessary files.</string>
     <string name="magisk_not_found_title">Could Not Find Magisk</string>
     <string name="magisk_not_found_desc">Use Magisk to root your device!</string>
@@ -313,6 +313,8 @@
     <string name="navbar_immersive_v2_desc">Smaller keyboard spacing</string>
     <string name="navbar_immersive_v3_title">Immersive v3</string>
     <string name="navbar_immersive_v3_desc">Smallest keyboard spacing</string>
+    <string name="navbar_gcam_lag_fix_title">Gcam Lag Fix</string>
+    <string name="navbar_gcam_lag_fix_desc">Fix lag in gcam with gesture navigation</string>
     <string name="section_title_buttons">Buttons</string>
     <string name="navbar_hide_kb_buttons_title">Hide Keyboard Buttons</string>
     <string name="navbar_hide_kb_buttons_desc">Hide keyboard back/switcher buttons</string>
@@ -371,7 +373,7 @@
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">Tablet Mode</string>
     <string name="tablet_landscape_title">Tablet Landscape</string>
-    <string name="tablet_landscape_desc">Also known as Better QS\nMust use Notch Bar Killer</string>
+    <string name="tablet_landscape_desc">Also known as Better QS</string>
     <string name="notch_bar_killer_title">Notch Bar Killer</string>
     <string name="notch_bar_killer_desc">Kill empty space of notch bar</string>
     <string name="tablet_header_title">Tablet Header</string>
@@ -434,6 +436,9 @@
     <string name="notification_transparency_desc">Notification transparency for Fluid QS\nDo not use custom notification style</string>
     <string name="power_menu_transparency_title">Power Menu Transparency</string>
     <string name="power_menu_transparency_desc">Power menu transparency for Fluid QS\nDo not use custom notification style</string>
+    <string name="section_title_others">Others</string>
+    <string name="fix_notification_color_title">Fix Notification Color (A14)</string>
+    <string name="fix_notification_color_desc">Fix color of notification for A14 devices</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Tile</string>
     <string name="vertical_qs_tile_title">Vertical QS Tile</string>
