@@ -313,6 +313,8 @@
     <string name="navbar_immersive_v2_desc">کوچک‌تر کردن فضای زیر کیبورد</string>
     <string name="navbar_immersive_v3_title">حالت فراگیر نسخه ۳</string>
     <string name="navbar_immersive_v3_desc">کوچک ترین حالت فضای زیر کیبورد</string>
+    <string name="navbar_gcam_lag_fix_title">Gcam Lag Fix</string>
+    <string name="navbar_gcam_lag_fix_desc">Fix lag in gcam with gesture navigation</string>
     <string name="section_title_buttons">Buttons</string>
     <string name="navbar_hide_kb_buttons_title">مخفی کردن کلید‌های کیبورد</string>
     <string name="navbar_hide_kb_buttons_desc">مخفی کردن کلید بازگشت کیبورد</string>
@@ -371,7 +373,7 @@
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">Tablet Mode</string>
     <string name="tablet_landscape_title">Tablet Landscape</string>
-    <string name="tablet_landscape_desc">Also known as Better QS\nMust use Notch Bar Killer</string>
+    <string name="tablet_landscape_desc">Also known as Better QS</string>
     <string name="notch_bar_killer_title">Notch Bar Killer</string>
     <string name="notch_bar_killer_desc">Kill empty space of notch bar</string>
     <string name="tablet_header_title">Tablet Header</string>
@@ -434,6 +436,9 @@
     <string name="notification_transparency_desc">Notification transparency for Fluid QS\nDo not use custom notification style</string>
     <string name="power_menu_transparency_title">Power Menu Transparency</string>
     <string name="power_menu_transparency_desc">Power menu transparency for Fluid QS\nDo not use custom notification style</string>
+    <string name="section_title_others">Others</string>
+    <string name="fix_notification_color_title">Fix Notification Color (A14)</string>
+    <string name="fix_notification_color_desc">Fix color of notification for A14 devices</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Tile</string>
     <string name="vertical_qs_tile_title">عمودی کردن کلید‌های نوارابزار</string>

@@ -313,6 +313,8 @@
     <string name="navbar_immersive_v2_desc">Daha küçük klavye alanı</string>
     <string name="navbar_immersive_v3_title">Sürükleyici v3</string>
     <string name="navbar_immersive_v3_desc">En küçük klavye alanı</string>
+    <string name="navbar_gcam_lag_fix_title">Gcam Gecikme Düzeltme</string>
+    <string name="navbar_gcam_lag_fix_desc">Hareket navigasyonu ile gcam\'deki gecikmeyi düzeltin</string>
     <string name="section_title_buttons">Butonlar</string>
     <string name="navbar_hide_kb_buttons_title">Klavye Butonlarını Gizle</string>
     <string name="navbar_hide_kb_buttons_desc">Klavyedeki geri/değiştirme butonlarını gizle</string>
@@ -371,7 +373,7 @@
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">Tablet Modu</string>
     <string name="tablet_landscape_title">Yatay Tablet</string>
-    <string name="tablet_landscape_desc">Better QS olarak da bilinir\nÇentik Çubuğu Katili kullanmalısınız</string>
+    <string name="tablet_landscape_desc">Better QS olarak da bilinir</string>
     <string name="notch_bar_killer_title">Çentik Çubuğu Katili</string>
     <string name="notch_bar_killer_desc">Çentik çubuğunun boş alanını öldür</string>
     <string name="tablet_header_title">Tablet Başlığı</string>
@@ -434,6 +436,9 @@
     <string name="notification_transparency_desc">Akışkan QS için bildirim şeffaflığı\nÖzel bildirim stili kullanmayın</string>
     <string name="power_menu_transparency_title">Güç Menüsü Şeffaflığı</string>
     <string name="power_menu_transparency_desc">Akışkan QS için güç menüsü şeffaflığı\nÖzel bildirim stilini kullanmayın</string>
+    <string name="section_title_others">Diğerleri</string>
+    <string name="fix_notification_color_title">Bildirim Rengini Düzelt (A14)</string>
+    <string name="fix_notification_color_desc">A14 cihazları için bildirim rengini düzeltin</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Karo</string>
     <string name="vertical_qs_tile_title">Dikey Hızlı Ayar Butonları</string>

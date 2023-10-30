@@ -313,6 +313,8 @@
     <string name="navbar_immersive_v2_desc">较小的键盘间距</string>
     <string name="navbar_immersive_v3_title">沉浸 v3</string>
     <string name="navbar_immersive_v3_desc">最小的键盘间距</string>
+    <string name="navbar_gcam_lag_fix_title">Gcam Lag Fix</string>
+    <string name="navbar_gcam_lag_fix_desc">Fix lag in gcam with gesture navigation</string>
     <string name="section_title_buttons">按钮</string>
     <string name="navbar_hide_kb_buttons_title">隐藏键盘按钮</string>
     <string name="navbar_hide_kb_buttons_desc">隐藏键盘的返回/切换按钮</string>
@@ -371,7 +373,7 @@
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">平板模式</string>
     <string name="tablet_landscape_title">Tablet Landscape</string>
-    <string name="tablet_landscape_desc">又称为「更好的快速设置」\n必须使用消除刘海屏功能</string>
+    <string name="tablet_landscape_desc">Also known as Better QS</string>
     <string name="notch_bar_killer_title">消除刘海屏</string>
     <string name="notch_bar_killer_desc">消除刘海条上的空白空间</string>
     <string name="tablet_header_title">Tablet Header</string>
@@ -434,6 +436,9 @@
     <string name="notification_transparency_desc">快速设置流体的通知透明度\n不使用自定义通知样式</string>
     <string name="power_menu_transparency_title">电源菜单透明度</string>
     <string name="power_menu_transparency_desc">快速设置流体的电源菜单透明度\n不使用自定义通知样式</string>
+    <string name="section_title_others">Others</string>
+    <string name="fix_notification_color_title">Fix Notification Color (A14)</string>
+    <string name="fix_notification_color_desc">Fix color of notification for A14 devices</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">快速设置图块</string>
     <string name="vertical_qs_tile_title">纵向快速设置图块</string>
