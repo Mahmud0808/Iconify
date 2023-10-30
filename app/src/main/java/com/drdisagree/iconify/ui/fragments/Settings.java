@@ -99,7 +99,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+                    new MaterialAlertDialogBuilder(requireContext())
                             .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                             .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
                             .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
@@ -254,7 +254,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         binding.settingsMisc.experimentalFeatures.setVisibility(Prefs.getBoolean(EASTER_EGG) ? View.VISIBLE : View.GONE);
 
         // Disable Everything
-        binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialComponents_MaterialAlertDialog)
+        binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireActivity())
                 .setCancelable(true)
                 .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                 .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))

@@ -114,7 +114,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+                    new MaterialAlertDialogBuilder(requireContext())
                             .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                             .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
                             .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),

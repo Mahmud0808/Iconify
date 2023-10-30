@@ -169,7 +169,7 @@ public class QsRowColumn extends BaseFragment {
         });
 
         if (Prefs.getBoolean(ALERT_DIALOG_QSROWCOL, true)) {
-            new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+            new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getResources().getString(R.string.hey_there))
                     .setMessage(getResources().getString(R.string.qs_row_column_warn_desc))
                     .setPositiveButton(getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())

@@ -80,7 +80,7 @@ public class XposedMenu extends BaseFragment {
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+                    new MaterialAlertDialogBuilder(requireContext())
                             .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                             .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
                             .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
@@ -205,7 +205,7 @@ public class XposedMenu extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (Prefs.getBoolean(SHOW_XPOSED_WARN, true)) {
-            new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+            new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(requireContext().getResources().getString(R.string.attention))
                     .setMessage((Preferences.isXposedOnlyMode ? Iconify.getAppContextLocale().getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + Iconify.getAppContextLocale().getResources().getString(R.string.lsposed_warn))
                     .setPositiveButton(requireContext().getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())
@@ -284,7 +284,7 @@ public class XposedMenu extends BaseFragment {
     }
 
     private void resetSettings() {
-        new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+        new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                 .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
                 .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),

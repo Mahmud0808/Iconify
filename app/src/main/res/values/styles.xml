@@ -149,36 +149,6 @@
         <item name="rippleColor">@color/color_material_ripple_no_tint</item>
     </style>
 
-    <style name="MaterialComponents.MaterialAlertDialog" parent="MaterialAlertDialog.Material3">
-        <item name="android:dialogCornerRadius">@dimen/cont_corner_radius</item>
-        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.Title.Text
-        </item>
-        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.Body.Text
-        </item>
-        <item name="buttonBarPositiveButtonStyle">@style/MaterialAlertDialog.Button.Text
-        </item>
-        <item name="buttonBarNegativeButtonStyle">@style/MaterialAlertDialog.Button.Text
-        </item>
-        <item name="android:backgroundDimAmount">0.6</item>
-    </style>
-
-    <style name="MaterialAlertDialog.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
-        <item name="android:textColor">@color/text_color_primary</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
-    <style name="MaterialAlertDialog.Body.Text" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
-        <item name="android:textColor">@color/text_color_secondary</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <style name="MaterialAlertDialog.Button.Text" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
     <style name="Widget.MaterialSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
         <item name="android:layout_gravity">center_vertical</item>
     </style>

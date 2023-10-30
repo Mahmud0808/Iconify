@@ -75,7 +75,7 @@ public class XposedDepthWallpaper extends BaseFragment {
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_depth_wallpaper);
 
         // Alert dialog
-        new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+        new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.attention))
                 .setMessage(getString(R.string.depth_wallpaper_alert_msg))
                 .setPositiveButton(getString(R.string.understood), (dialog, which) -> dialog.dismiss())
