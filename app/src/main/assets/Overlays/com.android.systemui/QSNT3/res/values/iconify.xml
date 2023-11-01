@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.SystemUI.QuickSettings" parent="@*android:style/Theme.DeviceDefault.SystemUI">
+        <item name="@*android:textColorOnAccent">#FF000000</item>
+        <item name="android:textColorPrimaryInverse">#FF000000</item>
+        <item name="android:textColorSecondaryInverse">#BF000000</item>
         <item name="android:colorAccent">#FFFFFFFF</item>
         <item name="@*android:colorAccentPrimary">#FFFFFFFF</item>
         <item name="android:colorPrimary">@*android:color/holo_blue_light</item>
