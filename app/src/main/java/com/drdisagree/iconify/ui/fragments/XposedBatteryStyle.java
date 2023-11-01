@@ -406,14 +406,14 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
         int visibility_inside_percentage = showInsidePercentage ? View.VISIBLE : View.GONE;
         int visibility_reverse_layout = showReverseLayout ? View.VISIBLE : View.GONE;
         int visibility_charging_icon_switch = selectedIndex > 2 ? View.VISIBLE : View.GONE;
-        int visibility_charging_icon_cust = showChargingIconCustomization ? View.VISIBLE : View.GONE;
+        int visibility_charging_icon_customization = showChargingIconCustomization ? View.VISIBLE : View.GONE;
 
         // Misc settings
         bindingMiscSettings.batteryWidthSeekbar.setEnabled(showCommonCustomizations);
         bindingMiscSettings.batteryHeightSeekbar.setEnabled(showCommonCustomizations);
         bindingMiscSettings.hidePercentageContainer.setVisibility(visibility_percentage);
         bindingMiscSettings.insidePercentageContainer.setVisibility(visibility_inside_percentage);
-        bindingMiscSettings.hideBatteryContainer.setVisibility(visibility_advanced);
+        bindingMiscSettings.hideBatteryContainer.setVisibility(visibility_charging_icon_switch);
         bindingMiscSettings.reverseLayoutContainer.setVisibility(visibility_reverse_layout);
         bindingMiscSettings.rotateLayoutContainer.setVisibility(visibility_advanced);
 
@@ -433,7 +433,7 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
 
         // Custom charging icon
         bindingChargingIcon.enableChargingIconContainer.setVisibility(visibility_charging_icon_switch);
-        bindingChargingIcon.chargingIconCustContainer.setVisibility(visibility_charging_icon_cust);
+        bindingChargingIcon.chargingIconCustContainer.setVisibility(visibility_charging_icon_customization);
     }
 
     private void updateColorPreview(int dialogId, int color) {
