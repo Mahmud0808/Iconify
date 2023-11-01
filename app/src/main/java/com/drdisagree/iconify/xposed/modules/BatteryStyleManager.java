@@ -65,6 +65,7 @@ import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_ALPH
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_GRAD_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HIDE_BATTERY;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HIDE_PERCENTAGE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_INSIDE_PERCENTAGE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_LAYOUT_REVERSE;
@@ -173,6 +174,7 @@ public class BatteryStyleManager extends ModPack {
     private static int BatteryStyle = 0;
     private static boolean mShowPercentInside = false;
     private static boolean mHidePercentage = false;
+    private static boolean mHideBattery = false;
     private boolean DefaultLandscapeBatteryEnabled = false;
     private static int mBatteryRotation = 0;
     private static boolean CustomBatteryEnabled = false;
@@ -239,6 +241,7 @@ public class BatteryStyleManager extends ModPack {
 
         mHidePercentage = hidePercentage || insidePercentage;
         mShowPercentInside = insidePercentage && (defaultInsidePercentage || !hidePercentage);
+        mHideBattery = Xprefs.getBoolean(CUSTOM_BATTERY_HIDE_BATTERY, false);
         mBatteryLayoutReverse = Xprefs.getBoolean(CUSTOM_BATTERY_LAYOUT_REVERSE, false);
         mBatteryCustomDimension = Xprefs.getBoolean(CUSTOM_BATTERY_DIMENSION, false);
         mBatteryScaleWidth = Xprefs.getInt(CUSTOM_BATTERY_WIDTH, 20);
@@ -287,6 +290,7 @@ public class BatteryStyleManager extends ModPack {
                     if (mBatteryDrawable != null) {
                         if (mBatteryIconView != null) {
                             mBatteryIconView.setImageDrawable(mBatteryDrawable);
+                            mBatteryIconView.setVisibility(mHideBattery ? View.GONE : View.VISIBLE);
                         }
 
                         setAdditionalInstanceField(view, "mBatteryDrawable", mBatteryDrawable);
@@ -455,6 +459,7 @@ public class BatteryStyleManager extends ModPack {
                         setAdditionalInstanceField(param.thisObject, "mBatteryDrawable", mBatteryDrawable);
                         mBatteryIconView.setImageDrawable(mBatteryDrawable);
                         setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
+                        mBatteryIconView.setVisibility(mHideBattery ? View.GONE : View.VISIBLE);
                     }
 
                     boolean mCharging = isBatteryCharging(param.thisObject);
@@ -646,6 +651,7 @@ public class BatteryStyleManager extends ModPack {
 
             if (CustomBatteryEnabled) {
                 scaleBatteryMeterViews(mBatteryIconView);
+                mBatteryIconView.setVisibility(mHideBattery ? View.GONE : View.VISIBLE);
 
                 try {
                     BatteryDrawable mBatteryDrawable = (BatteryDrawable) getAdditionalInstanceField(view, "mBatteryDrawable");
@@ -709,6 +715,7 @@ public class BatteryStyleManager extends ModPack {
             }
 
             mBatteryIconView.setLayoutParams(scaledLayoutParams);
+            mBatteryIconView.setVisibility(mHideBattery ? View.GONE : View.VISIBLE);
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
@@ -740,6 +747,8 @@ public class BatteryStyleManager extends ModPack {
             mlp.setMargins(0, 0, 0, mContext.getResources().getDimensionPixelOffset(mContext.getResources().getIdentifier("battery_margin_bottom", "dimen", mContext.getPackageName())));
             setObjectField(param.thisObject, "mBatteryIconView", mBatteryIconView);
             callMethod(param.thisObject, "addView", mBatteryIconView, mlp);
+
+            mBatteryIconView.setVisibility(mHideBattery ? View.GONE : View.VISIBLE);
         }
 
         return mBatteryIconView;

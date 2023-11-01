@@ -167,6 +167,49 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/hide_battery_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_material"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginVertical="22dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/hide_battery"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hide_battery_title"
+                android:textColor="@color/text_color_primary" />
+
+            <TextView
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hide_battery_desc"
+                android:textColor="@color/text_color_secondary" />
+
+        </LinearLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/hide_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/reverse_layout_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

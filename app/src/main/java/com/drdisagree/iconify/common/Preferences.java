@@ -87,6 +87,7 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT = "xposed_custombatterychargingiconwidthheight";
     public static final String CUSTOM_BATTERY_HIDE_PERCENTAGE = "xposed_custombatteryhidepercentage";
     public static final String CUSTOM_BATTERY_INSIDE_PERCENTAGE = "xposed_custombatteryinsidepercentage";
+    public static final String CUSTOM_BATTERY_HIDE_BATTERY = "xposed_custombatteryhidebattery";
     public static final String BLUR_RADIUS_VALUE = "xposed_blurradiusvalue";
     public static final String QQS_TOPMARGIN = "xposed_qqspanelTopMargin";
     public static final String QS_TOPMARGIN = "xposed_qspanelTopMargin";

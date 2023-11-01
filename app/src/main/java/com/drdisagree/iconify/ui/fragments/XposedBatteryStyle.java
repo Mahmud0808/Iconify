@@ -19,6 +19,7 @@ import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_ALPH
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_GRAD_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HEIGHT;
+import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HIDE_BATTERY;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HIDE_PERCENTAGE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_INSIDE_PERCENTAGE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_LAYOUT_REVERSE;
@@ -176,6 +177,18 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
         bindingMiscSettings.insidePercentageContainer.setOnClickListener(v -> {
             if (bindingMiscSettings.insidePercentage.isEnabled()) {
                 bindingMiscSettings.insidePercentage.toggle();
+            }
+        });
+
+        // Hide battery
+        bindingMiscSettings.hideBattery.setChecked(RPrefs.getBoolean(CUSTOM_BATTERY_HIDE_BATTERY, false));
+        bindingMiscSettings.hideBattery.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(CUSTOM_BATTERY_HIDE_BATTERY, isChecked);
+            updateLayoutVisibility();
+        });
+        bindingMiscSettings.hideBatteryContainer.setOnClickListener(v -> {
+            if (bindingMiscSettings.hideBattery.isEnabled()) {
+                bindingMiscSettings.hideBattery.toggle();
             }
         });
 
@@ -400,6 +413,7 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
         bindingMiscSettings.batteryHeightSeekbar.setEnabled(showCommonCustomizations);
         bindingMiscSettings.hidePercentageContainer.setVisibility(visibility_percentage);
         bindingMiscSettings.insidePercentageContainer.setVisibility(visibility_inside_percentage);
+        bindingMiscSettings.hideBatteryContainer.setVisibility(visibility_advanced);
         bindingMiscSettings.reverseLayoutContainer.setVisibility(visibility_reverse_layout);
         bindingMiscSettings.rotateLayoutContainer.setVisibility(visibility_advanced);
 
