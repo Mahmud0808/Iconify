@@ -48,7 +48,7 @@ public class OnboardingCompiler {
     public static boolean runAapt(String source, String name) {
         Shell.Result result = null;
         int attempt = 3;
-        String command = aapt + " p -f -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk";
+        String command = aapt + " p -f -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk --include-meta-data --auto-add-overlay";
 
         if (isQsTileOrTextOverlay(name) && isQsTileOrTextOldResource) {
             QsResourceManager.replaceResourcesIfRequired(source, name);

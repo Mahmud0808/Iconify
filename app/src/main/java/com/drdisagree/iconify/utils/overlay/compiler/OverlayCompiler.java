@@ -48,7 +48,7 @@ public class OverlayCompiler {
 
     public static boolean runAapt(String source) {
         String name = getOverlayName(source);
-        Shell.Result result = Shell.cmd(aapt + " p -f -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk").exec();
+        Shell.Result result = Shell.cmd(aapt + " p -f -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk --include-meta-data --auto-add-overlay").exec();
 
         if (result.isSuccess()) {
             Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
@@ -64,7 +64,7 @@ public class OverlayCompiler {
         String name = getOverlayName(source);
         name += source.contains("SpecialOverlays") ? ".zip" : "-unsigned-unaligned.apk";
         String outputDir = source.contains("SpecialOverlays") ? Resources.COMPANION_COMPILED_DIR : Resources.UNSIGNED_UNALIGNED_DIR;
-        StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + outputDir + '/' + name + " --include-meta-data --auto-add-overlay -f -I /system/framework/framework-res.apk");
+        StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + outputDir + '/' + name + " -f -I /system/framework/framework-res.apk --include-meta-data --auto-add-overlay");
 
         if (splitLocations != null) {
             for (String targetApk : splitLocations) {
