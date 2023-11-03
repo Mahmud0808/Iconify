@@ -19,9 +19,9 @@ public class TilePitchBlack extends TileService {
     @Override
     public void onStartListening() {
         super.onStartListening();
-        Tile pitchBlackTile = getQsTile();
-        pitchBlackTile.setState(isPitchBlackEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        pitchBlackTile.updateTile();
+        Tile tile = getQsTile();
+        tile.setState(isPitchBlackEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        tile.updateTile();
     }
 
     @Override
@@ -44,11 +44,11 @@ public class TilePitchBlack extends TileService {
             isPitchBlackEnabled = true;
         }
 
-        Tile pitchBlackTile = getQsTile();
-        pitchBlackTile.setState(isPitchBlackEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        pitchBlackTile.setLabel(getResources().getString(R.string.tile_pitch_black));
-        pitchBlackTile.setSubtitle(Prefs.getBoolean("IconifyComponentQSPBD.overlay") ? getResources().getString(R.string.tile_pitch_black_dark) : (Prefs.getBoolean("IconifyComponentQSPBA.overlay") ? getResources().getString(R.string.tile_pitch_black_amoled) : getResources().getString(R.string.general_off)));
-        pitchBlackTile.updateTile();
+        Tile tile = getQsTile();
+        tile.setState(isPitchBlackEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        tile.setLabel(getResources().getString(R.string.tile_pitch_black));
+        tile.setSubtitle(Prefs.getBoolean("IconifyComponentQSPBD.overlay") ? getResources().getString(R.string.tile_pitch_black_dark) : (Prefs.getBoolean("IconifyComponentQSPBA.overlay") ? getResources().getString(R.string.tile_pitch_black_amoled) : getResources().getString(R.string.general_off)));
+        tile.updateTile();
     }
 
     @Override

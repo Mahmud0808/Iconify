@@ -21,9 +21,9 @@ public class TileMonetEngine extends TileService {
     @Override
     public void onStartListening() {
         super.onStartListening();
-        Tile customMonetTile = getQsTile();
-        customMonetTile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        customMonetTile.updateTile();
+        Tile tile = getQsTile();
+        tile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        tile.updateTile();
     }
 
     @Override
@@ -50,11 +50,11 @@ public class TileMonetEngine extends TileService {
         isCustomMonetEnabled = !isCustomMonetEnabled;
         Prefs.putBoolean(MONET_ENGINE_SWITCH, isCustomMonetEnabled);
 
-        Tile customMonetTile = getQsTile();
-        customMonetTile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        customMonetTile.setLabel(getResources().getString(R.string.activity_title_monet_engine));
-        customMonetTile.setSubtitle(isCustomMonetEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
-        customMonetTile.updateTile();
+        Tile tile = getQsTile();
+        tile.setState(isCustomMonetEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        tile.setLabel(getResources().getString(R.string.activity_title_monet_engine));
+        tile.setSubtitle(isCustomMonetEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
+        tile.updateTile();
     }
 
     @Override

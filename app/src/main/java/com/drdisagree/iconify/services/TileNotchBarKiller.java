@@ -19,9 +19,9 @@ public class TileNotchBarKiller extends TileService {
     @Override
     public void onStartListening() {
         super.onStartListening();
-        Tile notchBarKillerTile = getQsTile();
-        notchBarKillerTile.setState(isNotchBarKillerEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        notchBarKillerTile.updateTile();
+        Tile tile = getQsTile();
+        tile.setState(isNotchBarKillerEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        tile.updateTile();
     }
 
     @Override
@@ -41,11 +41,11 @@ public class TileNotchBarKiller extends TileService {
 
         isNotchBarKillerEnabled = !isNotchBarKillerEnabled;
 
-        Tile pitchBlackTile = getQsTile();
-        pitchBlackTile.setState(isNotchBarKillerEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        pitchBlackTile.setLabel(getResources().getString(R.string.notch_bar_killer_title));
-        pitchBlackTile.setSubtitle(isNotchBarKillerEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
-        pitchBlackTile.updateTile();
+        Tile tile = getQsTile();
+        tile.setState(isNotchBarKillerEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        tile.setLabel(getResources().getString(R.string.notch_bar_killer_title));
+        tile.setSubtitle(isNotchBarKillerEnabled ? getResources().getString(R.string.general_on) : getResources().getString(R.string.general_off));
+        tile.updateTile();
     }
 
     @Override
