@@ -44,7 +44,7 @@ public class RoundnessCompiler {
             }
 
             // Build APK using AAPT
-            if (OverlayCompiler.runAapt(Resources.DATA_DIR + "/Overlays/" + mPackages[i] + "/" + mOverlayName[i])) {
+            if (OverlayCompiler.runAapt(Resources.DATA_DIR + "/Overlays/" + mPackages[i] + "/" + mOverlayName[i], mPackages[i])) {
                 Log.e(TAG, "Failed to build " + mOverlayName[i] + "! Exiting...");
                 postExecute(true);
                 return true;

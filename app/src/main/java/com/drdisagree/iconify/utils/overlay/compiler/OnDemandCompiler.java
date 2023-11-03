@@ -20,9 +20,9 @@ public class OnDemandCompiler {
     private static int mStyle = 0;
     private static boolean mForce = false;
 
-    public static boolean buildOverlay(String overlay_name, int style, String package_name, boolean force) throws IOException {
+    public static boolean buildOverlay(String overlay_name, int style, String targetPackage, boolean force) throws IOException {
         mOverlayName = overlay_name;
-        mPackage = package_name;
+        mPackage = targetPackage;
         mStyle = style;
         mForce = force;
 
@@ -30,14 +30,14 @@ public class OnDemandCompiler {
         moveOverlaysToCache();
 
         // Create AndroidManifest.xml
-        if (OverlayCompiler.createManifest(overlay_name, package_name, Resources.TEMP_CACHE_DIR + "/" + package_name + "/" + overlay_name)) {
+        if (OverlayCompiler.createManifest(overlay_name, targetPackage, Resources.TEMP_CACHE_DIR + "/" + targetPackage + "/" + overlay_name)) {
             Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;
         }
 
         // Build APK using AAPT
-        if (OverlayCompiler.runAapt(Resources.TEMP_CACHE_DIR + "/" + package_name + "/" + overlay_name)) {
+        if (OverlayCompiler.runAapt(Resources.TEMP_CACHE_DIR + "/" + targetPackage + "/" + overlay_name, targetPackage)) {
             Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;

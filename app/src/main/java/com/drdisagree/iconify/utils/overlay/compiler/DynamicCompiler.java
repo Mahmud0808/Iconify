@@ -65,7 +65,7 @@ public class DynamicCompiler {
                 }
 
                 // Build APK using AAPT
-                if (OverlayCompiler.runAapt(Resources.TEMP_CACHE_DIR + "/" + mPackage + "/" + mOverlayName)) {
+                if (OverlayCompiler.runAapt(Resources.TEMP_CACHE_DIR + "/" + mPackage + "/" + mOverlayName, mPackage)) {
                     Log.e(TAG, "Failed to build " + mOverlayName + "! Exiting...");
                     postExecute(true);
                     return true;

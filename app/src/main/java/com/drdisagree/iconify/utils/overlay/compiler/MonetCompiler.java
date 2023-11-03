@@ -33,7 +33,7 @@ public class MonetCompiler {
         }
 
         // Build APK using AAPT
-        if (OverlayCompiler.runAapt(Resources.DATA_DIR + "/Overlays/android/ME")) {
+        if (OverlayCompiler.runAapt(Resources.DATA_DIR + "/Overlays/android/ME", Const.FRAMEWORK_PACKAGE)) {
             Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;

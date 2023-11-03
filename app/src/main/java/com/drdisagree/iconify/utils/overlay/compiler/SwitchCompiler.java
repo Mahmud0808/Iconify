@@ -18,7 +18,7 @@ import java.io.IOException;
 public class SwitchCompiler {
 
     private static final String TAG = SwitchCompiler.class.getSimpleName();
-    private static final String[] mPackage = new String[]{SETTINGS_PACKAGE, SYSTEMUI_PACKAGE};
+    private static final String[] mPackages = new String[]{SETTINGS_PACKAGE, SYSTEMUI_PACKAGE};
     private static final String[] mOverlayName = new String[]{"SWITCH1", "SWITCH2"};
     private static int mStyle = 0;
     private static boolean mForce = false;
@@ -32,14 +32,14 @@ public class SwitchCompiler {
 
         for (int i = 0; i < mOverlayName.length; i++) {
             // Create AndroidManifest.xml
-            if (OverlayCompiler.createManifest(mOverlayName[i], mPackage[i], Resources.TEMP_CACHE_DIR + "/" + mPackage[i] + "/" + mOverlayName[i])) {
+            if (OverlayCompiler.createManifest(mOverlayName[i], mPackages[i], Resources.TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + mOverlayName[i])) {
                 Log.e(TAG, "Failed to create Manifest for " + mOverlayName[i] + "! Exiting...");
                 postExecute(true);
                 return true;
             }
 
             // Build APK using AAPT
-            if (OverlayCompiler.runAapt(Resources.TEMP_CACHE_DIR + "/" + mPackage[i] + "/" + mOverlayName[i])) {
+            if (OverlayCompiler.runAapt(Resources.TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + mOverlayName[i], mPackages[i])) {
                 Log.e(TAG, "Failed to build " + mOverlayName[i] + "! Exiting...");
                 postExecute(true);
                 return true;
@@ -73,7 +73,7 @@ public class SwitchCompiler {
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec();
 
         // Extract overlay from assets
-        for (String packageName : mPackage)
+        for (String packageName : mPackages)
             FileUtil.copyAssets("CompileOnDemand/" + packageName + "/SWITCH" + mStyle);
 
         // Create temp directory
@@ -83,7 +83,7 @@ public class SwitchCompiler {
         Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec();
-        for (String packageName : mPackage)
+        for (String packageName : mPackages)
             Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + packageName + "/").exec();
         if (!mForce) {
             Shell.cmd("mkdir -p " + Resources.BACKUP_DIR).exec();
@@ -144,7 +144,7 @@ public class SwitchCompiler {
 
     private static void moveOverlaysToCache() {
         for (int i = 0; i < mOverlayName.length; i++) {
-            Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + mPackage[i] + "/" + "SWITCH" + mStyle + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + mPackage[i] + "/" + mOverlayName[i] + "\"").exec().isSuccess();
+            Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + mPackages[i] + "/" + "SWITCH" + mStyle + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + mOverlayName[i] + "\"").exec().isSuccess();
         }
     }
 }

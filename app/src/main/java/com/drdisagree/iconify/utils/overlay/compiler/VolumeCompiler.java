@@ -21,24 +21,23 @@ public class VolumeCompiler {
     private static final String TAG = VolumeCompiler.class.getSimpleName();
     private static String mOverlayName = null;
 
-    public static boolean buildModule(String overlayName, String packageName) throws Exception {
+    public static boolean buildModule(String overlayName, String targetPackage) throws Exception {
         mOverlayName = overlayName;
 
-        preExecute(overlayName, packageName);
+        preExecute(overlayName, targetPackage);
 
         // Create AndroidManifest.xml and build APK using AAPT
-        String source = Resources.DATA_DIR + "/SpecialOverlays/" + packageName + '/' + overlayName;
+        String source = Resources.DATA_DIR + "/SpecialOverlays/" + targetPackage + '/' + overlayName;
         File dir = new File(source);
 
         if (dir.isDirectory()) {
-            if (OverlayCompiler.createManifest(overlayName, packageName, source)) {
+            if (OverlayCompiler.createManifest(overlayName, targetPackage, source)) {
                 Log.e(TAG, "Failed to create Manifest for " + overlayName + "! Exiting...");
                 postExecute(true);
                 return true;
             }
 
-            String[] splitLocations = AppUtil.getSplitLocations(packageName);
-            if (OverlayCompiler.runAapt(source, splitLocations)) {
+            if (OverlayCompiler.runAapt(source, targetPackage)) {
                 Log.e(TAG, "Failed to build " + overlayName + "! Exiting...");
                 postExecute(true);
                 return true;
