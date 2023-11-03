@@ -9,59 +9,40 @@ import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 import android.os.Build;
 import android.util.Log;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.drdisagree.iconify.utils.overlay.manager.QsResourceManager;
 import com.topjohnwu.superuser.Shell;
 
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class OnboardingCompiler {
 
-    private static boolean isQsTileOrTextOldResource = Build.VERSION.SDK_INT < 34;
     private static final String TAG = OnboardingCompiler.class.getSimpleName();
     private static final String aapt = AAPT.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
+    private static boolean isQsTileOrTextOldResource = Build.VERSION.SDK_INT < 34;
 
     public static boolean createManifest(String name, String target, String source) {
-        Shell.Result result = null;
+        boolean hasErroredOut = false;
         int attempt = 3;
-        String category = OverlayUtil.getCategory(name);
 
         while (attempt-- != 0) {
-            List<String> module = new ArrayList<>();
-            module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-            module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + name + ".overlay\">");
-            module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
-            module.add("\\t<overlay android:category=\"" + category + "\" android:priority=\"1\" android:targetPackage=\"" + target + "\" />");
-            module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
-            module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
-
-            result = Shell.cmd(String.join("\\n", module)).exec();
-
-            if (result.isSuccess()) {
-                Log.i(TAG + " - Manifest", "Successfully created manifest for " + name);
-                break;
-            } else {
-                Log.e(TAG + " - Manifest", "Failed to create manifest for " + name + '\n' + String.join("\n", result.getOut()));
+            if (OverlayCompiler.createManifest(name, target, source)) {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception ignored) {
                 }
+            } else {
+                hasErroredOut = true;
+                break;
             }
         }
 
-        if (!result.isSuccess())
-            writeLog(TAG + " - Manifest", "Failed to create manifest for " + name, result.getOut());
-
-        return !result.isSuccess();
+        return !hasErroredOut;
     }
 
     public static boolean runAapt(String source, String name) {

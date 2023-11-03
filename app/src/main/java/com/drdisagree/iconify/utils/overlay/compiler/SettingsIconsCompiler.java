@@ -2,11 +2,10 @@ package com.drdisagree.iconify.utils.overlay.compiler;
 
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
-import android.os.Build;
 import android.util.Log;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.common.Resources;
+import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -15,8 +14,6 @@ import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class SettingsIconsCompiler {
@@ -38,7 +35,7 @@ public class SettingsIconsCompiler {
             String overlay_name = "SIP" + (i + 1);
 
             // Create AndroidManifest.xml
-            if (createManifest(overlay_name, packages[i], Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name)) {
+            if (OverlayCompiler.createManifest(overlay_name, packages[i], Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name)) {
                 Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
                 postExecute(true);
                 return true;
@@ -54,7 +51,8 @@ public class SettingsIconsCompiler {
             }
 
             // Build APK using AAPT
-            if (OverlayCompiler.runAapt(Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name)) {
+            String[] splitLocations = AppUtil.getSplitLocations(packages[i]);
+            if (OverlayCompiler.runAapt(Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + overlay_name, splitLocations)) {
                 Log.e(TAG, "Failed to build " + overlay_name + "! Exiting...");
                 postExecute(true);
                 return true;
@@ -168,28 +166,6 @@ public class SettingsIconsCompiler {
                 Shell.cmd("rm -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "/res/drawable-anydpi\"", "cp -rf \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "/res/drawable-night-anydpi\" \"" + Resources.TEMP_CACHE_DIR + "/" + packages[i] + "/" + "SIP" + (i + 1) + "/res/drawable-anydpi\"").exec();
             }
         }
-    }
-
-    private static boolean createManifest(String overlayName, String target, String source) {
-        String category = OverlayUtil.getCategory(overlayName);
-        List<String> module = new ArrayList<>();
-        module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-        module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">");
-        module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
-        module.add("\\t<overlay android:category=\"" + category + "\" android:priority=\"1\" android:targetPackage=\"" + target + "\" />");
-        module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
-        module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
-
-        Shell.Result result = Shell.cmd(String.join("\\n", module)).exec();
-
-        if (result.isSuccess())
-            Log.i(TAG + " - Manifest", "Successfully created manifest for " + overlayName);
-        else {
-            Log.e(TAG + " - Manifest", "Failed to create manifest for " + overlayName + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - Manifest", "Failed to create manifest for " + overlayName, result.getOut());
-        }
-
-        return !result.isSuccess();
     }
 
     private static boolean writeResources(String source, String resources) {

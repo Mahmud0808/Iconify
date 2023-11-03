@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.common;
 
+import com.drdisagree.iconify.BuildConfig;
+
 public class References {
 
     // Fabricated overlays
@@ -31,4 +33,13 @@ public class References {
 
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
+
+    // Overlay metadata
+    public static final String METADATA_OVERLAY_PARENT = "OVERLAY_PARENT";
+    public static final String METADATA_OVERLAY_TARGET = "OVERLAY_TARGET";
+    public static final String METADATA_THEME_VERSION = "THEME_VERSION";
+    public static final String METADATA_THEME_CATEGORY = "THEME_CATEGORY";
+
+    // Overlay categories
+    public static final String OVERLAY_CATEGORY_PREFIX = BuildConfig.APPLICATION_ID.replace(".debug", "") + ".category.";
 }

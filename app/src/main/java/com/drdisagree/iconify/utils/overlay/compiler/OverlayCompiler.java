@@ -16,6 +16,8 @@ import com.topjohnwu.superuser.Shell;
 import java.io.File;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class OverlayCompiler {
@@ -25,6 +27,24 @@ public class OverlayCompiler {
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
     private static PrivateKey key = null;
     private static X509Certificate cert = null;
+
+    public static boolean createManifest(String overlayName, String targetPackage, String sourceDir) {
+        List<String> module = new ArrayList<>();
+        module.add("printf '" +
+                CompilerUtil.createManifestContent(overlayName, targetPackage) +
+                "' > " + sourceDir + "/AndroidManifest.xml;");
+
+        Shell.Result result = Shell.cmd(String.join("\\n", module)).exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - Manifest", "Successfully created manifest for " + overlayName);
+        else {
+            Log.e(TAG + " - Manifest", "Failed to create manifest for " + overlayName + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - Manifest", "Failed to create manifest for " + overlayName, result.getOut());
+        }
+
+        return !result.isSuccess();
+    }
 
     public static boolean runAapt(String source) {
         String name = getOverlayName(source);
@@ -42,7 +62,9 @@ public class OverlayCompiler {
 
     public static boolean runAapt(String source, String[] splitLocations) {
         String name = getOverlayName(source);
-        StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + Resources.COMPANION_COMPILED_DIR + '/' + name + ".zip --include-meta-data --auto-add-overlay -f -I /system/framework/framework-res.apk");
+        name += source.contains("SpecialOverlays") ? ".zip" : "-unsigned-unaligned.apk";
+        String outputDir = source.contains("SpecialOverlays") ? Resources.COMPANION_COMPILED_DIR : Resources.UNSIGNED_UNALIGNED_DIR;
+        StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + outputDir + '/' + name + " --include-meta-data --auto-add-overlay -f -I /system/framework/framework-res.apk");
 
         if (splitLocations != null) {
             for (String targetApk : splitLocations) {

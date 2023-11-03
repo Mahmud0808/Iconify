@@ -1,11 +1,7 @@
 package com.drdisagree.iconify.utils.overlay.compiler;
 
-import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
-
-import android.os.Build;
 import android.util.Log;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.FileUtil;
@@ -16,8 +12,6 @@ import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MonetCompiler {
 
@@ -32,15 +26,8 @@ public class MonetCompiler {
         // Create AndroidManifest.xml
         String overlay_name = "ME";
 
-        if (createManifest(overlay_name, Resources.DATA_DIR + "/Overlays/android/ME")) {
+        if (createManifestResource(overlay_name, Const.FRAMEWORK_PACKAGE, Resources.DATA_DIR + "/Overlays/android/ME", resources)) {
             Log.e(TAG, "Failed to create Manifest for " + overlay_name + "! Exiting...");
-            postExecute(true);
-            return true;
-        }
-
-        // Write color resources
-        if (writeResources(Resources.DATA_DIR + "/Overlays/android/ME", resources)) {
-            Log.e(TAG, "Failed to write resource for " + overlay_name + "! Exiting...");
             postExecute(true);
             return true;
         }
@@ -128,38 +115,10 @@ public class MonetCompiler {
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
     }
 
-    private static boolean createManifest(String pkgName, String source) {
-        String category = OverlayUtil.getCategory(pkgName);
-        List<String> module = new ArrayList<>();
-        module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-        module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">");
-        module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
-        module.add("\\t<overlay android:category=\"" + category + "\" android:priority=\"1\" android:targetPackage=\"" + Const.FRAMEWORK_PACKAGE + "\" />");
-        module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
-        module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
+    @SuppressWarnings("SameParameterValue")
+    private static boolean createManifestResource(String overlayName, String targetPackage, String source, String[] resources) {
+        Shell.cmd("rm -rf " + source + "/res/values/colors.xml", "printf '" + resources[0] + "' > " + source + "/res/values/colors.xml;", "rm -rf " + source + "/res/values-night/colors.xml", "printf '" + resources[1] + "' > " + source + "/res/values-night/colors.xml;").exec();
 
-        Shell.Result result = Shell.cmd(String.join("\\n", module)).exec();
-
-        if (result.isSuccess())
-            Log.i(TAG + " - Manifest", "Successfully created manifest for " + pkgName);
-        else {
-            Log.e(TAG + " - Manifest", "Failed to create manifest for " + pkgName + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - Manifest", "Failed to create manifest for " + pkgName, result.getOut());
-        }
-
-        return !result.isSuccess();
-    }
-
-    private static boolean writeResources(String source, String[] resources) {
-        Shell.Result result = Shell.cmd("rm -rf " + source + "/res/values/colors.xml", "printf '" + resources[0] + "' > " + source + "/res/values/colors.xml;", "rm -rf " + source + "/res/values-night/colors.xml", "printf '" + resources[1] + "' > " + source + "/res/values-night/colors.xml;").exec();
-
-        if (result.isSuccess())
-            Log.i(TAG + " - WriteResources", "Successfully written resources for MonetEngine");
-        else {
-            Log.e(TAG + " - WriteResources", "Failed to write resources for MonetEngine" + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - WriteResources", "Failed to write resources for MonetEngine", result.getOut());
-        }
-
-        return !result.isSuccess();
+        return OverlayCompiler.createManifest(overlayName, targetPackage, source);
     }
 }

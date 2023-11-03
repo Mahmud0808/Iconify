@@ -1,11 +1,7 @@
 package com.drdisagree.iconify.utils.overlay.compiler;
 
-import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
-
-import android.os.Build;
 import android.util.Log;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.FileUtil;
@@ -19,18 +15,16 @@ import com.topjohnwu.superuser.Shell;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class DynamicCompiler {
 
     private static final String TAG = DynamicCompiler.class.getSimpleName();
+    private static final String[] mResource = new String[3];
+    private static final JSONObject[] jsonResources = new JSONObject[3];
     private static String mOverlayName = null;
     private static String mPackage = null;
     private static boolean mForce = false;
-    private static final String[] mResource = new String[3];
-    private static final JSONObject[] jsonResources = new JSONObject[3];
 
     public static boolean buildOverlay() throws IOException {
         return buildOverlay(true);
@@ -64,7 +58,7 @@ public class DynamicCompiler {
                 moveOverlaysToCache();
 
                 // Create AndroidManifest.xml
-                if (createManifestResource(mOverlayName, Resources.TEMP_CACHE_DIR + "/" + mPackage + "/" + mOverlayName)) {
+                if (createManifestResource(mOverlayName, mPackage, Resources.TEMP_CACHE_DIR + "/" + mPackage + "/" + mOverlayName)) {
                     Log.e(TAG, "Failed to create Manifest for " + mOverlayName + "! Exiting...");
                     postExecute(true);
                     return true;
@@ -172,7 +166,7 @@ public class DynamicCompiler {
         Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/Overlays/" + mPackage + "/" + mOverlayName + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + mPackage + "/" + mOverlayName + "\"").exec().isSuccess();
     }
 
-    private static boolean createManifestResource(String overlayName, String source) {
+    private static boolean createManifestResource(String overlayName, String targetPackage, String source) {
         Shell.cmd("mkdir -p " + source + "/res").exec();
         String[] values = {"values", "values-land", "values-night"};
 
@@ -181,24 +175,6 @@ public class DynamicCompiler {
             Shell.cmd("printf '" + mResource[i] + "' > " + source + "/res/" + values[i] + "/iconify.xml;").exec();
         }
 
-        String category = OverlayUtil.getCategory(overlayName);
-        List<String> module = new ArrayList<>();
-        module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-        module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">");
-        module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
-        module.add("\\t<overlay android:category=\"" + category + "\" android:priority=\"1\" android:targetPackage=\"" + mPackage + "\" />");
-        module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
-        module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
-
-        Shell.Result result = Shell.cmd(String.join("\\n", module)).exec();
-
-        if (result.isSuccess())
-            Log.i(TAG + " - Manifest", "Successfully created manifest for " + overlayName);
-        else {
-            Log.e(TAG + " - Manifest", "Failed to create manifest for " + overlayName + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - Manifest", "Failed to create manifest for " + overlayName, result.getOut());
-        }
-
-        return !result.isSuccess();
+        return OverlayCompiler.createManifest(overlayName, targetPackage, source);
     }
 }

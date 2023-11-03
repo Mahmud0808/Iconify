@@ -1,11 +1,10 @@
 package com.drdisagree.iconify.utils.overlay.compiler;
 
-import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
+import static com.drdisagree.iconify.common.Const.SETTINGS_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 
-import android.os.Build;
 import android.util.Log;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.RootUtil;
@@ -15,13 +14,11 @@ import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SwitchCompiler {
 
     private static final String TAG = SwitchCompiler.class.getSimpleName();
-    private static final String[] mPackage = new String[]{"com.android.settings", "com.android.systemui"};
+    private static final String[] mPackage = new String[]{SETTINGS_PACKAGE, SYSTEMUI_PACKAGE};
     private static final String[] mOverlayName = new String[]{"SWITCH1", "SWITCH2"};
     private static int mStyle = 0;
     private static boolean mForce = false;
@@ -35,7 +32,7 @@ public class SwitchCompiler {
 
         for (int i = 0; i < mOverlayName.length; i++) {
             // Create AndroidManifest.xml
-            if (createManifest(mOverlayName[i], mPackage[i], Resources.TEMP_CACHE_DIR + "/" + mPackage[i] + "/" + mOverlayName[i])) {
+            if (OverlayCompiler.createManifest(mOverlayName[i], mPackage[i], Resources.TEMP_CACHE_DIR + "/" + mPackage[i] + "/" + mOverlayName[i])) {
                 Log.e(TAG, "Failed to create Manifest for " + mOverlayName[i] + "! Exiting...");
                 postExecute(true);
                 return true;
@@ -149,27 +146,5 @@ public class SwitchCompiler {
         for (int i = 0; i < mOverlayName.length; i++) {
             Shell.cmd("mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + mPackage[i] + "/" + "SWITCH" + mStyle + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + mPackage[i] + "/" + mOverlayName[i] + "\"").exec().isSuccess();
         }
-    }
-
-    private static boolean createManifest(String overlayName, String mPackage, String source) {
-        String category = OverlayUtil.getCategory(overlayName);
-        List<String> module = new ArrayList<>();
-        module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-        module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + overlayName + ".overlay\">");
-        module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
-        module.add("\\t<overlay android:category=\"" + category + "\" android:priority=\"1\" android:targetPackage=\"" + mPackage + "\" />");
-        module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
-        module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
-
-        Shell.Result result = Shell.cmd(String.join("\\n", module)).exec();
-
-        if (result.isSuccess())
-            Log.i(TAG + " - Manifest", "Successfully created manifest for " + overlayName);
-        else {
-            Log.e(TAG + " - Manifest", "Failed to create manifest for " + overlayName + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - Manifest", "Failed to create manifest for " + overlayName, result.getOut());
-        }
-
-        return !result.isSuccess();
     }
 }

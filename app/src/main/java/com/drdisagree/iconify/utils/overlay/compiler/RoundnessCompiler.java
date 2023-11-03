@@ -4,10 +4,8 @@ import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
-import android.os.Build;
 import android.util.Log;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.RootUtil;
@@ -17,8 +15,6 @@ import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RoundnessCompiler {
 
@@ -34,7 +30,7 @@ public class RoundnessCompiler {
 
         for (int i = 0; i < 2; i++) {
             // Create AndroidManifest.xml
-            if (createManifest(mOverlayName[i], Resources.DATA_DIR + "/Overlays/" + mPackages[i] + "/" + mOverlayName[i], mPackages[i])) {
+            if (OverlayCompiler.createManifest(mOverlayName[i], mPackages[i], Resources.DATA_DIR + "/Overlays/" + mPackages[i] + "/" + mOverlayName[i])) {
                 Log.e(TAG, "Failed to create Manifest for " + mOverlayName[i] + "! Exiting...");
                 postExecute(true);
                 return true;
@@ -146,28 +142,6 @@ public class RoundnessCompiler {
         // Clean temp directory
         Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
         Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec();
-    }
-
-    private static boolean createManifest(String pkgName, String source, String target) {
-        String category = OverlayUtil.getCategory(pkgName);
-        List<String> module = new ArrayList<>();
-        module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-        module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">");
-        module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
-        module.add("\\t<overlay android:category=\"" + category + "\" android:priority=\"1\" android:targetPackage=\"" + target + "\" />");
-        module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
-        module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
-
-        Shell.Result result = Shell.cmd(String.join("\\n", module)).exec();
-
-        if (result.isSuccess())
-            Log.i(TAG + " - Manifest", "Successfully created manifest for " + pkgName);
-        else {
-            Log.e(TAG + " - Manifest", "Failed to create manifest for " + pkgName + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - Manifest", "Failed to create manifest for " + pkgName, result.getOut());
-        }
-
-        return !result.isSuccess();
     }
 
     private static boolean writeResources(String source, String resources) {
