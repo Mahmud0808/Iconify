@@ -13,6 +13,8 @@ public class Const {
     public static final String FRAMEWORK_PACKAGE = "android";
     public static final String PIXEL_LAUNCHER_PACKAGE = "com.google.android.apps.nexuslauncher";
     public static final String SETTINGS_PACKAGE = "com.android.settings";
+    public static final String WELLBEING_PACKAGE = "com.google.android.apps.wellbeing";
+    public static final String GMS_PACKAGE = "com.google.android.gms";
     public static final List<String> SYSTEM_PACKAGES = Arrays.asList(
             SYSTEMUI_PACKAGE,
             FRAMEWORK_PACKAGE,

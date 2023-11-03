@@ -13,7 +13,6 @@ import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.File;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class OverlayCompiler {
     }
 
     public static boolean runAapt(String source) {
-        String name = getOverlayName(source);
+        String name = CompilerUtil.getOverlayName(source);
         Shell.Result result = Shell.cmd(aapt + " p -f -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk --include-meta-data --auto-add-overlay").exec();
 
         if (result.isSuccess()) {
@@ -61,7 +60,7 @@ public class OverlayCompiler {
     }
 
     public static boolean runAapt(String source, String[] splitLocations) {
-        String name = getOverlayName(source);
+        String name = CompilerUtil.getOverlayName(source);
         name += source.contains("SpecialOverlays") ? ".zip" : "-unsigned-unaligned.apk";
         String outputDir = source.contains("SpecialOverlays") ? Resources.COMPANION_COMPILED_DIR : Resources.UNSIGNED_UNALIGNED_DIR;
         StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + outputDir + '/' + name + " -f -I /system/framework/framework-res.apk --include-meta-data --auto-add-overlay");
@@ -84,7 +83,7 @@ public class OverlayCompiler {
     }
 
     public static boolean zipAlign(String source) {
-        String fileName = getOverlayName(source);
+        String fileName = CompilerUtil.getOverlayName(source);
         Shell.Result result = Shell.cmd(zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + fileName + "-unsigned.apk").exec();
 
         if (result.isSuccess())
@@ -107,7 +106,7 @@ public class OverlayCompiler {
                 cert = readCertificate(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.x509.pem"));
             }
 
-            fileName = getOverlayName(source);
+            fileName = CompilerUtil.getOverlayName(source);
             SignAPK.sign(cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + fileName + ".apk");
 
             Log.i(TAG + " - APKSigner", "Successfully signed " + fileName);
@@ -117,12 +116,5 @@ public class OverlayCompiler {
             return true;
         }
         return false;
-    }
-
-    private static String getOverlayName(String filePath) {
-        File file = new File(filePath);
-        String fileName = file.getName();
-
-        return fileName.replaceAll("IconifyComponent|-unsigned|-unaligned|.apk", "");
     }
 }

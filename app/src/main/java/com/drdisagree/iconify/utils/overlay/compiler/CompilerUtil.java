@@ -9,6 +9,7 @@ import com.drdisagree.iconify.common.References;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.io.File;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -97,6 +98,13 @@ public class CompilerUtil {
             Log.i(TAG, "Failed to create manifest for " + overlayName, e);
         }
         return "";
+    }
+
+    public static String getOverlayName(String filePath) {
+        File file = new File(filePath);
+        String fileName = file.getName();
+
+        return fileName.replaceAll("IconifyComponent|-unsigned|-unaligned|.apk", "");
     }
 
     private static String getCategory(String pkgName) {

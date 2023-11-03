@@ -1,5 +1,8 @@
 package com.drdisagree.iconify.utils.overlay.compiler;
 
+import static com.drdisagree.iconify.common.Const.GMS_PACKAGE;
+import static com.drdisagree.iconify.common.Const.SETTINGS_PACKAGE;
+import static com.drdisagree.iconify.common.Const.WELLBEING_PACKAGE;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
 import android.util.Log;
@@ -19,7 +22,7 @@ import java.util.Objects;
 public class SettingsIconsCompiler {
 
     private static final String TAG = SettingsIconsCompiler.class.getSimpleName();
-    private static final String[] packages = new String[]{"com.android.settings", "com.google.android.apps.wellbeing", "com.google.android.gms"};
+    private static final String[] packages = new String[]{SETTINGS_PACKAGE, WELLBEING_PACKAGE, GMS_PACKAGE};
     private static int mIconSet = 1, mIconBg = 1;
     private static boolean mForce = false;
 
