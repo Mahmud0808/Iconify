@@ -18,15 +18,20 @@ public class TileRestartSystemUI extends TileService {
     @Override
     public void onStartListening() {
         super.onStartListening();
-        Tile pitchBlackTile = getQsTile();
-        pitchBlackTile.setState(Tile.STATE_INACTIVE);
-        pitchBlackTile.updateTile();
 
-        updateTileIcon(pitchBlackTile);
+        Tile tile = getQsTile();
+        tile.setState(Tile.STATE_INACTIVE);
+        updateTileIcon(tile);
+        tile.updateTile();
     }
 
     @Override
     public void onStopListening() {
+        Tile tile = getQsTile();
+        tile.setState(Tile.STATE_INACTIVE);
+        updateTileIcon(tile);
+        tile.updateTile();
+
         super.onStopListening();
     }
 
@@ -35,14 +40,12 @@ public class TileRestartSystemUI extends TileService {
         super.onClick();
 
         SystemUtil.restartSystemUI();
-
-        Tile pitchBlackTile = getQsTile();
-        pitchBlackTile.setState(Tile.STATE_INACTIVE);
-        pitchBlackTile.setLabel(getResources().getString(R.string.restart_sysui_title));
-        pitchBlackTile.setSubtitle("");
-        pitchBlackTile.updateTile();
-
-        updateTileIcon(pitchBlackTile);
+        Tile tile = getQsTile();
+        tile.setState(Tile.STATE_INACTIVE);
+        tile.setLabel(getResources().getString(R.string.restart_sysui_title));
+        tile.setSubtitle("");
+        updateTileIcon(tile);
+        tile.updateTile();
     }
 
     @Override
