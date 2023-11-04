@@ -197,7 +197,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         binding.previewColoraccentsecondary.setOnClickListener(v -> {
             binding.enableCustomMonet.hide();
             binding.disableCustomMonet.hide();
-            ((HomePage) requireActivity()).showColorPickerDialog(2, Integer.parseInt(accentPrimary), true, false, true);
+            ((HomePage) requireActivity()).showColorPickerDialog(2, Integer.parseInt(accentSecondary), true, false, true);
         });
 
         // Monet Accurate Shades
