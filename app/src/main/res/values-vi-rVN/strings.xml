@@ -451,6 +451,8 @@
     <string name="battery_width_title">Chiều rộng pin</string>
     <string name="battery_height_title">Chiều cao pin</string>
     <string name="battery_margin_title">Battery Margin</string>
+    <string name="hide_battery_title">Hide Battery</string>
+    <string name="hide_battery_desc">Keep only charging icon and percentage</string>
     <string name="custom_charging_icon_title">Custom Charging Icon</string>
     <string name="custom_charging_icon_desc">Change charging icon to custom icon</string>
     <string name="charging_icon_style_title">Charging Icon Style</string>
