@@ -31,7 +31,6 @@ public class RoundnessManager {
                 "    <dimen name=\"ongoing_appops_chip_bg_corner_radius\">" + cornerRadius + "dip</dimen>\n" +
                 "    <dimen name=\"ongoing_call_chip_corner_radius\">" + cornerRadius + "dip</dimen>\n" +
                 "    <dimen name=\"qs_corner_radius\">" + cornerRadius + "dip</dimen>\n" +
-                "    <dimen name=\"circle_qs_corner_radius\">" + cornerRadius + "dip</dimen>\n" +
                 "    <dimen name=\"qs_footer_action_corner_radius\">" + cornerRadius + "dip</dimen>\n" +
                 "    <dimen name=\"qs_security_footer_corner_radius\">" + cornerRadius + "dip</dimen>\n" +
                 "    <dimen name=\"rounded_slider_background_rounded_corner\">" + (cornerRadius + 4) + "dip</dimen>\n" +
