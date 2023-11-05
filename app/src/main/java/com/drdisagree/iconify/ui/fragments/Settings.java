@@ -24,6 +24,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.LocaleList;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,6 +61,7 @@ import com.topjohnwu.superuser.Shell;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
@@ -165,8 +167,20 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         loadingDialog = new LoadingDialog(requireActivity());
 
         // Language
-        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, Iconify.getAppContextLocale().getResources().getConfiguration().getLocales().get(0).getLanguage()));
-        rd_app_language = new RadioDialog(requireActivity(), 0, current_language == -1 ? 0 : current_language);
+        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf("en-US");
+        LocaleList locales = getResources().getConfiguration().getLocales();
+        List<String> locale_codes = Arrays.asList(getResources().getStringArray(R.array.locale_code));
+        for (int i = 0; i < locales.size(); i++) {
+            String languageCode = locales.get(i).getLanguage();
+            String countryCode = locales.get(i).getCountry();
+            String languageFormat = languageCode + "-" + countryCode;
+
+            if (locale_codes.contains(Prefs.getString(APP_LANGUAGE, languageFormat))) {
+                current_language = locale_codes.indexOf(Prefs.getString(APP_LANGUAGE, languageFormat));
+                break;
+            }
+        }
+        rd_app_language = new RadioDialog(requireActivity(), 0, current_language);
         rd_app_language.setRadioDialogListener(this);
         binding.settingsGeneral.appLanguage.setOnClickListener(v -> rd_app_language.show(R.string.settings_app_language, R.array.locale_name, binding.settingsGeneral.selectedAppLanguage));
         binding.settingsGeneral.selectedAppLanguage.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
