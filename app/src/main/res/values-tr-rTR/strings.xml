@@ -451,6 +451,8 @@
     <string name="battery_width_title">Pil Genişliği</string>
     <string name="battery_height_title">Pil Yüksekliği</string>
     <string name="battery_margin_title">Pil Marjı</string>
+    <string name="hide_battery_title">Bataryayı Gizle</string>
+    <string name="hide_battery_desc">Yalnızca şarj simgesini ve yüzdesini sakla</string>
     <string name="custom_charging_icon_title">Özel Şarj Etme Simgesi</string>
     <string name="custom_charging_icon_desc">Şarj simgesini özel simgeyle değiştirin</string>
     <string name="charging_icon_style_title">Şarj Simgesi Stili</string>
