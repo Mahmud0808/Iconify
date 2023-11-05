@@ -44,7 +44,7 @@ public class SettingsLibUtils extends ModPack {
 
         try {
             return (ColorStateList) callStaticMethod(UtilsClass, "getColorAttr", resID, context);
-        } catch (Throwable t) {
+        } catch (Throwable throwable) {
             return (ColorStateList) callStaticMethod(UtilsClass, "getColorAttr", context, resID);
         }
     }
@@ -56,13 +56,13 @@ public class SettingsLibUtils extends ModPack {
     public static int getColorAttrDefaultColor(int resID, Context context) {
         if (UtilsClass == null) return 0;
 
-        try { // A13 QPR2
-            return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID, 0);
-        } catch (Throwable t) { // A13 QPR1
+        try {
+            return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", resID, context);
+        } catch (Throwable throwable) {
             try {
-                return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", resID, context);
-            } catch (Throwable th) { // Custom roms
                 return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID);
+            } catch (Throwable throwable1) {
+                return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID, 0);
             }
         }
     }
@@ -70,10 +70,10 @@ public class SettingsLibUtils extends ModPack {
     public static int getColorStateListDefaultColor(Context context, int resID) {
         try {
             return ((ColorStateList) callStaticMethod(UtilsClass, "getColorStateListDefaultColor", context, resID)).getDefaultColor();
-        } catch (Throwable t) {
+        } catch (Throwable throwable) {
             try {
                 return ((ColorStateList) callStaticMethod(UtilsClass, "getColorStateListDefaultColor", resID, context)).getDefaultColor();
-            } catch (Throwable th) {
+            } catch (Throwable throwable1) {
                 return 0;
             }
         }
