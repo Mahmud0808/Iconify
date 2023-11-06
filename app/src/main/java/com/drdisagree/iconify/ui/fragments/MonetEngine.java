@@ -103,7 +103,6 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             });
     private FragmentMonetEngineBinding binding;
     private LinearLayout[] colorTableRows;
-    private int[][] systemColors;
     private boolean isDarkMode = SystemUtil.isDarkMode();
     private RadioDialog rd_monet_style;
     private boolean showApplyButton = false, showDisableButton = false;
@@ -156,22 +155,9 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                 binding.monetEngine.systemNeutral1,
                 binding.monetEngine.systemNeutral2
         };
-        systemColors = ColorUtil.getSystemColors(requireContext());
-
-        List<List<Object>> temp = new ArrayList<>();
-        for (int[] row : systemColors) {
-            List<Object> temp2 = new ArrayList<>();
-            for (int col : row) {
-                temp2.add(col);
-            }
-            temp.add(temp2);
-        }
-        finalPalette.clear();
-        finalPalette.add(temp);
-        finalPalette.add(temp);
 
         isDarkMode = SystemUtil.isDarkMode();
-        selectedStyle = Prefs.getString(MONET_STYLE, Iconify.getAppContextLocale().getResources().getString(R.string.monet_neutral));
+        selectedStyle = Prefs.getString(MONET_STYLE, Iconify.getAppContextLocale().getResources().getString(R.string.monet_tonalspot));
 
         // Monet Style
         int selectedIndex = Arrays.asList(getResources().getStringArray(R.array.monet_style)).indexOf(selectedStyle);
@@ -185,8 +171,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
 
         updatePrimaryColor();
         updateSecondaryColor();
-
-        assignStockColorToPalette();
+        assignStockColorsToPalette();
 
         binding.previewColoraccentprimary.setOnClickListener(v -> {
             binding.enableCustomMonet.hide();
@@ -204,7 +189,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         binding.monetAccurateShades.setChecked(Prefs.getBoolean(MONET_ACCURATE_SHADES, true));
         binding.monetAccurateShades.setOnCheckedChangeListener((buttonView, isChecked) -> {
             accurateShades = isChecked;
-            assignCustomColorToPalette();
+            assignCustomColorsToPalette();
             binding.floatingActionMenu.show();
             binding.enableCustomMonet.hide();
             binding.disableCustomMonet.hide();
@@ -223,7 +208,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             monetPrimaryAccentSaturation[0] = 0;
             binding.monetPrimaryAccentSaturationSeekbar.setValue(0);
             binding.monetPrimaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetPrimaryAccentSaturation[0] + "%");
-            assignCustomColorToPalette();
+            assignCustomColorsToPalette();
             binding.resetPrimaryAccentSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
             showApplyButton = true;
@@ -232,7 +217,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
 
         binding.monetPrimaryAccentSaturationSeekbar.addOnChangeListener((slider, value, fromUser) -> {
             monetPrimaryAccentSaturation[0] = (int) value;
-            assignCustomColorToPalette();
+            assignCustomColorsToPalette();
         });
 
         binding.monetPrimaryAccentSaturationSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
@@ -263,7 +248,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             monetSecondaryAccentSaturation[0] = 0;
             binding.monetSecondaryAccentSaturationSeekbar.setValue(0);
             binding.monetSecondaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetSecondaryAccentSaturation[0] + "%");
-            assignCustomColorToPalette();
+            assignCustomColorsToPalette();
             binding.resetSecondaryAccentSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
             showApplyButton = true;
@@ -272,7 +257,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
 
         binding.monetSecondaryAccentSaturationSeekbar.addOnChangeListener((slider, value, fromUser) -> {
             monetSecondaryAccentSaturation[0] = (int) value;
-            assignCustomColorToPalette();
+            assignCustomColorsToPalette();
         });
 
         binding.monetSecondaryAccentSaturationSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
@@ -303,7 +288,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             monetBackgroundSaturation[0] = 0;
             binding.monetBackgroundSaturationSeekbar.setValue(0);
             binding.monetBackgroundSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundSaturation[0] + "%");
-            assignCustomColorToPalette();
+            assignCustomColorsToPalette();
             binding.resetBackgroundSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
             binding.enableCustomMonet.hide();
@@ -314,7 +299,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
 
         binding.monetBackgroundSaturationSeekbar.addOnChangeListener((slider, value, fromUser) -> {
             monetBackgroundSaturation[0] = (int) value;
-            assignCustomColorToPalette();
+            assignCustomColorsToPalette();
         });
 
         binding.monetBackgroundSaturationSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
@@ -345,7 +330,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             monetBackgroundLightness[0] = 0;
             binding.monetBackgroundLightnessSeekbar.setValue(0);
             binding.monetBackgroundLightnessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundLightness[0] + "%");
-            assignCustomColorToPalette();
+            assignCustomColorsToPalette();
             binding.resetBackgroundLightness.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
             binding.enableCustomMonet.hide();
@@ -356,7 +341,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
 
         binding.monetBackgroundLightnessSeekbar.addOnChangeListener((slider, value, fromUser) -> {
             monetBackgroundLightness[0] = (int) value;
-            assignCustomColorToPalette();
+            assignCustomColorsToPalette();
         });
 
         binding.monetBackgroundLightnessSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
@@ -523,7 +508,22 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         binding.previewColorPickerSecondary.setBackground(gd);
     }
 
-    private void assignStockColorToPalette() {
+    private void assignStockColorsToPalette() {
+        int[][] systemColors = ColorUtil.getSystemColors(requireContext());
+
+        List<List<Object>> temp = new ArrayList<>();
+        for (int[] row : systemColors) {
+            List<Object> temp2 = new ArrayList<>();
+            for (int col : row) {
+                temp2.add(col);
+            }
+            temp.add(temp2);
+        }
+
+        finalPalette.clear();
+        finalPalette.add(temp);
+        finalPalette.add(temp);
+
         for (int i = 0; i < colorTableRows.length; i++) {
             for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
                 GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{systemColors[i][j], systemColors[i][j]});
@@ -533,7 +533,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         }
     }
 
-    private void assignCustomColorToPalette() {
+    private void assignCustomColorsToPalette() {
         List<List<Object>> palette = generateColorPalette(requireContext(), selectedStyle, Integer.parseInt(accentPrimary));
         List<List<Object>> palette_night = cloneList(palette);
 
@@ -691,7 +691,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                 updatePrimaryColor();
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                assignCustomColorToPalette();
+                assignCustomColorsToPalette();
             }
             case 2 -> {
                 isSelectedSecondary = true;
@@ -699,7 +699,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                 updateSecondaryColor();
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                assignCustomColorToPalette();
+                assignCustomColorsToPalette();
             }
             case 3 -> {
                 GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{event.selectedColor(), event.selectedColor()});
@@ -809,7 +809,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
     @Override
     public void onItemSelected(int dialogId, int selectedIndex) {
         selectedStyle = Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(selectedIndex);
-        assignCustomColorToPalette();
+        assignCustomColorsToPalette();
         binding.floatingActionMenu.show();
         showApplyButton = true;
         binding.selectedMonetStyle.setText(getResources().getString(R.string.opt_selected) + " " + Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(selectedIndex));
