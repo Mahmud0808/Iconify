@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.xposed.utils;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,34 +31,5 @@ public class ViewHelper {
 
     public static int dp2px(Context context, int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
-    }
-
-    public static void setAlphaForBackgroundDrawables(View view, float alpha) {
-        setAlphaForBackgroundDrawables(view, (int) (alpha * 255));
-    }
-
-    private static void setAlphaForBackgroundDrawables(View view, int alpha) {
-        if (view instanceof ViewGroup viewGroup) {
-            int childCount = viewGroup.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View child = viewGroup.getChildAt(i);
-                setAlphaForBackgroundDrawablesRecursive(child, alpha);
-            }
-        }
-    }
-
-    private static void setAlphaForBackgroundDrawablesRecursive(View view, int alpha) {
-        Drawable backgroundDrawable = view.getBackground();
-        if (backgroundDrawable != null) {
-            backgroundDrawable.setAlpha(alpha);
-        }
-
-        if (view instanceof ViewGroup viewGroup) {
-            int childCount = viewGroup.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View child = viewGroup.getChildAt(i);
-                setAlphaForBackgroundDrawablesRecursive(child, alpha);
-            }
-        }
     }
 }

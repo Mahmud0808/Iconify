@@ -6,7 +6,6 @@ import static com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPAR
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.modRes;
-import static com.drdisagree.iconify.xposed.utils.ViewHelper.setAlphaForBackgroundDrawables;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -220,15 +219,21 @@ public class QSFluidTheme extends ModPack {
                         view.getBackground().setTint(Color.TRANSPARENT);
                         view.setElevation(0);
 
-                        setAlphaForBackgroundDrawables(view, INACTIVE_ALPHA);
+                        setAlphaTintedDrawables(view, INACTIVE_ALPHA);
 
-                        View security_footer = ((ViewGroup) view.findViewById(res.getIdentifier("security_footers_container", "id", mContext.getPackageName()))).getChildAt(0);
-                        security_footer.getBackground().setTint(colorInactive[0]);
-                        security_footer.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                        try {
+                            View security_footer = ((ViewGroup) view.findViewById(res.getIdentifier("security_footers_container", "id", mContext.getPackageName()))).getChildAt(0);
+                            security_footer.getBackground().setTint(colorInactive[0]);
+                            security_footer.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                        } catch (Throwable ignored) {
+                        }
 
-                        View multi_user_switch = view.findViewById(res.getIdentifier("multi_user_switch", "id", mContext.getPackageName()));
-                        multi_user_switch.getBackground().setTint(colorInactive[0]);
-                        multi_user_switch.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                        try {
+                            View multi_user_switch = view.findViewById(res.getIdentifier("multi_user_switch", "id", mContext.getPackageName()));
+                            multi_user_switch.getBackground().setTint(colorInactive[0]);
+                            multi_user_switch.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                        } catch (Throwable ignored) {
+                        }
 
                         try {
                             ViewGroup pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
@@ -621,5 +626,35 @@ public class QSFluidTheme extends ModPack {
         layerDrawable.setLayerSize(0, layerDrawable.getLayerWidth(0), height);
 
         return layerDrawable;
+    }
+
+    public void setAlphaTintedDrawables(View view, float alpha) {
+        setAlphaTintedDrawables(view, (int) (alpha * 255));
+    }
+
+    private void setAlphaTintedDrawables(View view, int alpha) {
+        if (view instanceof ViewGroup viewGroup) {
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = viewGroup.getChildAt(i);
+                setAlphaTintedDrawablesRecursively(child, alpha);
+            }
+        }
+    }
+
+    private void setAlphaTintedDrawablesRecursively(View view, int alpha) {
+        Drawable backgroundDrawable = view.getBackground();
+        if (backgroundDrawable != null) {
+            backgroundDrawable.setTint(colorInactive[0]);
+            backgroundDrawable.setAlpha(alpha);
+        }
+
+        if (view instanceof ViewGroup viewGroup) {
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = viewGroup.getChildAt(i);
+                setAlphaTintedDrawablesRecursively(child, alpha);
+            }
+        }
     }
 }
