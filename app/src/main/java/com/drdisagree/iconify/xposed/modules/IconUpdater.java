@@ -47,10 +47,10 @@ public class IconUpdater extends ModPack implements IXposedHookLoadPackage {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         try {
-            Class<?> LauncherModelClass = findClass("com.android.launcher3.LauncherModel", lpparam.classLoader);
-            Class<?> BaseDraggingActivityClass = findClass("com.android.launcher3.BaseDraggingActivity", lpparam.classLoader);
+            Class<?> LauncherModelClass = findClass("com.android.launcher3.LauncherModel", loadPackageParam.classLoader);
+            Class<?> BaseDraggingActivityClass = findClass("com.android.launcher3.BaseDraggingActivity", loadPackageParam.classLoader);
 
             hookAllConstructors(LauncherModelClass, new XC_MethodHook() {
                 @Override

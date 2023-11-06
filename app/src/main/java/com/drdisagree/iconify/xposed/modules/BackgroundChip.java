@@ -14,7 +14,7 @@ import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_CO
 import static com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_OPTION;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
-import static com.drdisagree.iconify.xposed.utils.ViewHelper.dp2px;
+import static com.drdisagree.iconify.xposed.modules.utils.ViewHelper.dp2px;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -62,6 +62,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - " + BackgroundChip.class.getSimpleName() + ": ";
+    private final LinearLayout mQsStatusIconsContainer = new LinearLayout(mContext);
     boolean mShowSBClockBg = false;
     boolean hideStatusIcons = false;
     boolean mShowQSStatusIconsBg = false;
@@ -72,15 +73,14 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     int statusBarClockChipStyle = 0;
     int statusBarClockColorOption = 0;
     int statusBarClockColorCode = Color.WHITE;
-    private int constraintLayoutId = -1;
     boolean fixedStatusIcons = false;
+    private int constraintLayoutId = -1;
     private ViewGroup header = null;
     private View mClockView = null;
     private View mCenterClockView = null;
     private View mRightClockView = null;
     private Class<?> DependencyClass = null;
     private Class<?> DarkIconDispatcherClass = null;
-    private final LinearLayout mQsStatusIconsContainer = new LinearLayout(mContext);
     private XC_LoadPackage.LoadPackageParam mLoadPackageParam = null;
 
     public BackgroundChip(Context context) {
@@ -130,19 +130,22 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
-    @SuppressLint("DiscouragedApi")
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        mLoadPackageParam = loadPackageParam;
 
-        mLoadPackageParam = lpparam;
+        statusbarClockChip(loadPackageParam);
+        statusIconsChip(loadPackageParam);
+    }
 
-        Class<?> CollapsedStatusBarFragment = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment", lpparam.classLoader);
+    @SuppressLint("DiscouragedApi")
+    private void statusbarClockChip(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        Class<?> CollapsedStatusBarFragment = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.phone.fragment.CollapsedStatusBarFragment", loadPackageParam.classLoader);
         if (CollapsedStatusBarFragment == null)
-            CollapsedStatusBarFragment = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CollapsedStatusBarFragment", lpparam.classLoader);
+            CollapsedStatusBarFragment = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.CollapsedStatusBarFragment", loadPackageParam.classLoader);
 
-        DependencyClass = findClass(SYSTEMUI_PACKAGE + ".Dependency", lpparam.classLoader);
-        DarkIconDispatcherClass = findClass(SYSTEMUI_PACKAGE + ".plugins.DarkIconDispatcher", lpparam.classLoader);
+        DependencyClass = findClass(SYSTEMUI_PACKAGE + ".Dependency", loadPackageParam.classLoader);
+        DarkIconDispatcherClass = findClass(SYSTEMUI_PACKAGE + ".plugins.DarkIconDispatcher", loadPackageParam.classLoader);
 
         findAndHookMethod(CollapsedStatusBarFragment, "onViewCreated", View.class, Bundle.class, new XC_MethodHook() {
             @Override
@@ -219,9 +222,12 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 }
             }
         });
+    }
 
+    @SuppressLint("DiscouragedApi")
+    private void statusIconsChip(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         if (Build.VERSION.SDK_INT >= 33) {
-            Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
+            Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
 
             boolean correctClass = false;
             Field[] fs = QuickStatusBarHeader.getDeclaredFields();
@@ -282,9 +288,9 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                     }
                 });
             } else {
-                Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
+                Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", loadPackageParam.classLoader);
                 if (ShadeHeaderControllerClass == null)
-                    ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
+                    ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", loadPackageParam.classLoader);
 
                 hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                     @Override

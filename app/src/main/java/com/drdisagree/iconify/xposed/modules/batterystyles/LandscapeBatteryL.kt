@@ -35,7 +35,7 @@ import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.xposed.HookRes.modRes
-import com.drdisagree.iconify.xposed.utils.SettingsLibUtils
+import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")

@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.utils;
+package com.drdisagree.iconify.xposed.modules.utils;
 
 import android.content.Context;
 import android.util.TypedValue;

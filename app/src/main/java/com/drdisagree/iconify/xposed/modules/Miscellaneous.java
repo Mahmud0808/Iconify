@@ -89,10 +89,17 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        hideElements(loadPackageParam);
+        hideQSCarrierGroup();
+        hideStatusIcons();
+        fixedStatusIconsA12();
+        hideLockscreenCarrierOrStatusbar();
+        hideDataDisabledIcon(loadPackageParam);
+    }
 
-        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
+    private void hideElements(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
 
         try {
             hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
@@ -137,9 +144,9 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
         }
 
         try {
-            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", loadPackageParam.classLoader);
             if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
+                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", loadPackageParam.classLoader);
 
             hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override
@@ -175,14 +182,11 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
             });
         } catch (Throwable ignored) {
         }
+    }
 
-        hideQSCarrierGroup();
-        hideStatusIcons();
-        fixedStatusIconsA12();
-        hideLockscreenCarrierOrStatusbar();
-
+    private void hideDataDisabledIcon(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         try {
-            Class<?> MobileSignalController = findClass(SYSTEMUI_PACKAGE + ".statusbar.connectivity.MobileSignalController", lpparam.classLoader);
+            Class<?> MobileSignalController = findClass(SYSTEMUI_PACKAGE + ".statusbar.connectivity.MobileSignalController", loadPackageParam.classLoader);
             final boolean[] alwaysShowDataRatIcon = {false};
             final boolean[] mDataDisabledIcon = {false};
 

@@ -35,7 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.utils.LockscreenClockStyles;
+import com.drdisagree.iconify.xposed.modules.utils.LockscreenClockStyles;
 
 import java.io.File;
 import java.util.Objects;
@@ -83,10 +83,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
     @SuppressLint("DiscouragedApi")
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
-
-        Class<?> KeyguardStatusViewClass = findClass("com.android.keyguard.KeyguardStatusView", lpparam.classLoader);
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        Class<?> KeyguardStatusViewClass = findClass("com.android.keyguard.KeyguardStatusView", loadPackageParam.classLoader);
 
         hookAllMethods(KeyguardStatusViewClass, "onFinishInflate", new XC_MethodHook() {
             @Override
@@ -116,7 +114,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
             }
         });
 
-        Class<?> KeyguardBottomAreaViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.KeyguardBottomAreaView", lpparam.classLoader);
+        Class<?> KeyguardBottomAreaViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.KeyguardBottomAreaView", loadPackageParam.classLoader);
 
         hookAllMethods(KeyguardBottomAreaViewClass, "onFinishInflate", new XC_MethodHook() {
             @Override

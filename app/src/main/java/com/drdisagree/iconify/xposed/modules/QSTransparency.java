@@ -43,14 +43,18 @@ public class QSTransparency extends ModPack {
         qsTransparencyActive = Xprefs.getBoolean(QS_TRANSPARENCY_SWITCH, false);
         onlyNotifTransparencyActive = Xprefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false);
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
+
         blurEnabled = Xprefs.getBoolean(QSPANEL_BLUR_SWITCH, false);
         blurRadius = Xprefs.getInt(BLUR_RADIUS_VALUE, 23);
     }
 
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) {
-        if (!lpParam.packageName.equals(SYSTEMUI_PACKAGE)) return;
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        setQsTransparency(loadPackageParam);
+        setBlurRadius();
+    }
 
-        final Class<?> ScrimControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", lpParam.classLoader);
+    private void setQsTransparency(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        final Class<?> ScrimControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", loadPackageParam.classLoader);
 
         hookAllMethods(ScrimControllerClass, "updateScrimColor", new XC_MethodHook() {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -88,7 +92,9 @@ public class QSTransparency extends ModPack {
                 }
             }
         });
+    }
 
+    private void setBlurRadius() {
         hookAllMethods(Resources.class, "getDimensionPixelSize", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) {

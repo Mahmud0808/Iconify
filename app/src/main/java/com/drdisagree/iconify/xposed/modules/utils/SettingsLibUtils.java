@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.utils;
+package com.drdisagree.iconify.xposed.modules.utils;
 
 /* Modified from AOSPMods
  * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/utils/SettingsLibUtils.java
@@ -84,9 +84,9 @@ public class SettingsLibUtils extends ModPack {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         try {
-            UtilsClass = findClass("com.android.settingslib.Utils", lpparam.classLoader);
+            UtilsClass = findClass("com.android.settingslib.Utils", loadPackageParam.classLoader);
         } catch (Throwable ignored) {
         }
     }

@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.utils;
+package com.drdisagree.iconify.xposed.modules.utils;
 
 /* Modified from AOSPMods
  * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/utils/Helpers.java
@@ -24,10 +24,15 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import com.topjohnwu.superuser.Shell;
@@ -109,7 +114,6 @@ public class Helpers {
             }
         }
 
-
         for (Method m : ms) {
             log(m.getName() + " - " + m.getReturnType() + " - " + m.getParameterCount());
             Class<?>[] cs = m.getParameterTypes();
@@ -141,8 +145,7 @@ public class Helpers {
     }
 
     public static void dumpChildViews(Context context, View view) {
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
+        if (view instanceof ViewGroup viewGroup) {
             logViewInfo(context, viewGroup, 0);
             dumpChildViewsRecursive(context, viewGroup, 0);
         } else {
@@ -192,5 +195,15 @@ public class Helpers {
             result.append(str);
         }
         return result.toString();
+    }
+
+    public static int getColorResCompat(Context context, @AttrRes int id) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(id, typedValue, false);
+        TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
+        @ColorInt int color = arr.getColor(0, -1);
+        arr.recycle();
+        return color;
     }
 }

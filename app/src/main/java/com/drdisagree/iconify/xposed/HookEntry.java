@@ -19,17 +19,23 @@ package com.drdisagree.iconify.xposed;
 
 import static android.content.Context.CONTEXT_IGNORE_SECURITY;
 import static com.drdisagree.iconify.BuildConfig.APPLICATION_ID;
-import static com.drdisagree.iconify.xposed.utils.BootLoopProtector.isBootLooped;
+import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
+import static com.drdisagree.iconify.config.XPrefs.Xprefs;
+import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static de.robv.android.xposed.XposedHelpers.findClass;
 
 import android.app.Instrumentation;
 import android.content.Context;
 
+import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.config.XPrefs;
+import com.drdisagree.iconify.xposed.utils.BootLoopProtector;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -42,48 +48,104 @@ public class HookEntry implements IXposedHookLoadPackage {
     public Context mContext = null;
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         try {
-            isChildProcess = lpparam.processName.contains(":");
+            isChildProcess = loadPackageParam.processName.contains(":");
         } catch (Throwable ignored) {
             isChildProcess = false;
         }
 
-        findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (mContext == null) {
-                    mContext = (Context) param.args[2];
+        if (loadPackageParam.packageName.equals(FRAMEWORK_PACKAGE)) {
+            Class<?> PhoneWindowManagerClass = findClass("com.android.server.policy.PhoneWindowManager", loadPackageParam.classLoader);
 
-                    XPrefs.init(mContext);
-
-                    HookRes.modRes = mContext.createPackageContext(APPLICATION_ID, CONTEXT_IGNORE_SECURITY).getResources();
-
-                    if (isBootLooped(mContext.getPackageName())) {
-                        log(String.format("Possible bootloop in %s ; Iconify will not load for now...", mContext.getPackageName()));
-                        return;
-                    }
-
-                    new SystemUtil(mContext);
-                    XPrefs.loadEverything(mContext.getPackageName());
-                }
-
-                for (Class<? extends ModPack> mod : EntryList.getEntries(lpparam.packageName)) {
+            hookAllMethods(PhoneWindowManagerClass, "init", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
                     try {
-                        ModPack instance = mod.getConstructor(Context.class).newInstance(mContext);
-                        try {
-                            instance.updatePrefs();
-                        } catch (Throwable ignored) {
-                        }
+                        if (mContext == null) {
+                            mContext = (Context) param.args[0];
 
-                        instance.handleLoadPackage(lpparam);
-                        runningMods.add(instance);
+                            HookRes.modRes = mContext.createPackageContext(APPLICATION_ID, CONTEXT_IGNORE_SECURITY).getResources();
+
+                            XPrefs.init(mContext);
+
+                            CompletableFuture.runAsync(() -> waitForXprefsLoad(loadPackageParam));
+                        }
                     } catch (Throwable throwable) {
-                        log("Start Error Dump - Occurred in " + mod.getName());
                         log(throwable);
                     }
                 }
+            });
+        } else {
+            findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    try {
+                        if (mContext == null) {
+                            mContext = (Context) param.args[2];
+
+                            XPrefs.init(mContext);
+
+                            HookRes.modRes = mContext.createPackageContext(APPLICATION_ID, CONTEXT_IGNORE_SECURITY).getResources();
+
+                            XPrefs.init(mContext);
+
+                            waitForXprefsLoad(loadPackageParam);
+                        }
+                    } catch (Throwable throwable) {
+                        log(throwable);
+                    }
+                }
+            });
+        }
+    }
+
+    private void onXPrefsReady(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        if (BootLoopProtector.isBootLooped(loadPackageParam.packageName)) {
+            log(String.format("Possible bootloop in %s ; Iconify will not load for now...", loadPackageParam.packageName));
+            return;
+        }
+
+        new SystemUtil(mContext);
+
+        loadModpacks(loadPackageParam);
+    }
+
+    private void loadModpacks(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        for (Class<? extends ModPack> mod : EntryList.getEntries(loadPackageParam.packageName)) {
+            try {
+                ModPack instance = mod.getConstructor(Context.class).newInstance(mContext);
+
+                try {
+                    instance.updatePrefs();
+                } catch (Throwable ignored) {
+                }
+
+                instance.handleLoadPackage(loadPackageParam);
+                runningMods.add(instance);
+            } catch (Throwable throwable) {
+                log("Start Error Dump - Occurred in " + mod.getName());
+                log(throwable);
             }
-        });
+        }
+    }
+
+    @SuppressWarnings("BusyWait")
+    private void waitForXprefsLoad(XC_LoadPackage.LoadPackageParam lpparam) {
+        while (true) {
+            try {
+                Xprefs.getBoolean("LoadTestBooleanValue", false);
+                break;
+            } catch (Throwable ignored) {
+                try {
+                    Thread.sleep(1000);
+                } catch (Throwable ignored1) {
+                }
+            }
+        }
+
+        log("Iconify Version: " + BuildConfig.VERSION_NAME);
+
+        onXPrefsReady(lpparam);
     }
 }

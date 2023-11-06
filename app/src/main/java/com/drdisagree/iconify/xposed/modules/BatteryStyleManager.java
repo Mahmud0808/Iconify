@@ -154,8 +154,8 @@ import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBattery;
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryColorOS;
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyleA;
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyleB;
-import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
-import com.drdisagree.iconify.xposed.utils.ViewHelper;
+import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils;
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -175,20 +175,20 @@ public class BatteryStyleManager extends ModPack {
     private static boolean mShowPercentInside = false;
     private static boolean mHidePercentage = false;
     private static boolean mHideBattery = false;
-    private boolean DefaultLandscapeBatteryEnabled = false;
     private static int mBatteryRotation = 0;
     private static boolean CustomBatteryEnabled = false;
     private static int mBatteryScaleWidth = 20;
     private static int mBatteryScaleHeight = 20;
-    private int frameColor = Color.WHITE;
-    private Object BatteryController = null;
-    private XC_MethodHook.MethodHookParam BatteryMeterViewParam;
-    private boolean mBatteryLayoutReverse = false;
     private static boolean mBatteryCustomDimension = false;
     private static int mBatteryMarginLeft = 0;
     private static int mBatteryMarginTop = 0;
     private static int mBatteryMarginRight = 0;
     private static int mBatteryMarginBottom = 0;
+    private boolean DefaultLandscapeBatteryEnabled = false;
+    private int frameColor = Color.WHITE;
+    private Object BatteryController = null;
+    private XC_MethodHook.MethodHookParam BatteryMeterViewParam;
+    private boolean mBatteryLayoutReverse = false;
     private boolean mScaledPerimeterAlpha = false;
     private boolean mScaledFillAlpha = false;
     private boolean mRainbowFillColor = false;
@@ -210,6 +210,44 @@ public class BatteryStyleManager extends ModPack {
 
     public BatteryStyleManager(Context context) {
         super(context);
+    }
+
+    public static void scaleBatteryMeterViews(@NonNull Object thisObject) {
+        ImageView mBatteryIconView = (ImageView) getObjectField(thisObject, "mBatteryIconView");
+        scaleBatteryMeterViews(mBatteryIconView);
+    }
+
+    public static void scaleBatteryMeterViews(@Nullable ImageView mBatteryIconView) {
+        if (mBatteryIconView == null) {
+            return;
+        }
+
+        try {
+            Context context = mBatteryIconView.getContext();
+            Resources res = context.getResources();
+
+            TypedValue typedValue = new TypedValue();
+
+            res.getValue(res.getIdentifier("status_bar_icon_scale_factor", "dimen", context.getPackageName()), typedValue, true);
+            float iconScaleFactor = typedValue.getFloat();
+
+            int batteryWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleWidth, mBatteryIconView.getContext().getResources().getDisplayMetrics());
+            int batteryHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleHeight, mBatteryIconView.getContext().getResources().getDisplayMetrics());
+
+            LinearLayout.LayoutParams scaledLayoutParams = (LinearLayout.LayoutParams) mBatteryIconView.getLayoutParams();
+            scaledLayoutParams.width = (int) (batteryWidth * iconScaleFactor);
+            scaledLayoutParams.height = (int) (batteryHeight * iconScaleFactor);
+            if (mBatteryCustomDimension) {
+                scaledLayoutParams.setMargins(mBatteryMarginLeft, mBatteryMarginTop, mBatteryMarginRight, mBatteryMarginBottom);
+            } else {
+                scaledLayoutParams.setMargins(0, 0, 0, context.getResources().getDimensionPixelOffset(context.getResources().getIdentifier("battery_margin_bottom", "dimen", context.getPackageName())));
+            }
+
+            mBatteryIconView.setLayoutParams(scaledLayoutParams);
+            mBatteryIconView.setVisibility(mHideBattery ? View.GONE : View.VISIBLE);
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
     }
 
     public void updatePrefs(String... Key) {
@@ -341,11 +379,11 @@ public class BatteryStyleManager extends ModPack {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        Class<?> BatteryControllerImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BatteryControllerImpl", lpparam.classLoader);
-        Class<?> BatteryMeterViewClass = findClassIfExists(SYSTEMUI_PACKAGE + ".battery.BatteryMeterView", lpparam.classLoader);
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        Class<?> BatteryControllerImplClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BatteryControllerImpl", loadPackageParam.classLoader);
+        Class<?> BatteryMeterViewClass = findClassIfExists(SYSTEMUI_PACKAGE + ".battery.BatteryMeterView", loadPackageParam.classLoader);
         if (BatteryMeterViewClass == null) {
-            BatteryMeterViewClass = findClass(SYSTEMUI_PACKAGE + ".BatteryMeterView", lpparam.classLoader);
+            BatteryMeterViewClass = findClass(SYSTEMUI_PACKAGE + ".BatteryMeterView", loadPackageParam.classLoader);
         }
 
         try {
@@ -501,9 +539,9 @@ public class BatteryStyleManager extends ModPack {
         }
 
         try {
-            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", loadPackageParam.classLoader);
             if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
+                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", loadPackageParam.classLoader);
 
             hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override
@@ -681,44 +719,6 @@ public class BatteryStyleManager extends ModPack {
             }
         }
         return mCharging && !mIsIncompatibleCharging;
-    }
-
-    public static void scaleBatteryMeterViews(@NonNull Object thisObject) {
-        ImageView mBatteryIconView = (ImageView) getObjectField(thisObject, "mBatteryIconView");
-        scaleBatteryMeterViews(mBatteryIconView);
-    }
-
-    public static void scaleBatteryMeterViews(@Nullable ImageView mBatteryIconView) {
-        if (mBatteryIconView == null) {
-            return;
-        }
-
-        try {
-            Context context = mBatteryIconView.getContext();
-            Resources res = context.getResources();
-
-            TypedValue typedValue = new TypedValue();
-
-            res.getValue(res.getIdentifier("status_bar_icon_scale_factor", "dimen", context.getPackageName()), typedValue, true);
-            float iconScaleFactor = typedValue.getFloat();
-
-            int batteryWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleWidth, mBatteryIconView.getContext().getResources().getDisplayMetrics());
-            int batteryHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, mBatteryScaleHeight, mBatteryIconView.getContext().getResources().getDisplayMetrics());
-
-            LinearLayout.LayoutParams scaledLayoutParams = (LinearLayout.LayoutParams) mBatteryIconView.getLayoutParams();
-            scaledLayoutParams.width = (int) (batteryWidth * iconScaleFactor);
-            scaledLayoutParams.height = (int) (batteryHeight * iconScaleFactor);
-            if (mBatteryCustomDimension) {
-                scaledLayoutParams.setMargins(mBatteryMarginLeft, mBatteryMarginTop, mBatteryMarginRight, mBatteryMarginBottom);
-            } else {
-                scaledLayoutParams.setMargins(0, 0, 0, context.getResources().getDimensionPixelOffset(context.getResources().getIdentifier("battery_margin_bottom", "dimen", context.getPackageName())));
-            }
-
-            mBatteryIconView.setLayoutParams(scaledLayoutParams);
-            mBatteryIconView.setVisibility(mHideBattery ? View.GONE : View.VISIBLE);
-        } catch (Throwable throwable) {
-            log(TAG + throwable);
-        }
     }
 
     private ImageView initBatteryIfNull(XC_MethodHook.MethodHookParam param, ImageView mBatteryIconView) {

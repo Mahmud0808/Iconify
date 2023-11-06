@@ -29,6 +29,7 @@ public class HookRes implements IXposedHookInitPackageResources, IXposedHookZygo
 
     public final static HashMap<String, XC_InitPackageResources.InitPackageResourcesParam> resparams = new HashMap<>();
     public static Resources modRes;
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private String MODULE_PATH;
 
     @Override

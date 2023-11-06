@@ -76,11 +76,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
-
-        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
-        final Class<?> QSContainerImpl = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", lpparam.classLoader);
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
+        final Class<?> QSContainerImpl = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", loadPackageParam.classLoader);
 
         try {
             hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {

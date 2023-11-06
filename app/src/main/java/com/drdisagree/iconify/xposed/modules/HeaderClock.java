@@ -33,7 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.utils.HeaderClockStyles;
+import com.drdisagree.iconify.xposed.modules.utils.HeaderClockStyles;
 
 import java.io.File;
 import java.util.Objects;
@@ -73,10 +73,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
-
-        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
 
         hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
             @Override
@@ -147,9 +145,9 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         }
 
         try {
-            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", lpparam.classLoader);
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", loadPackageParam.classLoader);
             if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", lpparam.classLoader);
+                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", loadPackageParam.classLoader);
 
             hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
                 @Override

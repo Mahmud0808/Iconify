@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.modules;
+package com.drdisagree.iconify.xposed.utils;
 
 import static android.content.Context.RECEIVER_EXPORTED;
 import static com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_REQUEST;
@@ -38,15 +38,15 @@ public class HookCheck extends ModPack {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (!broadcastRegistered && lpparam.packageName.equals(SYSTEMUI_PACKAGE)) {
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
+        if (!broadcastRegistered && loadPackageParam.packageName.equals(SYSTEMUI_PACKAGE)) {
             broadcastRegistered = true;
             intentFilter.addAction(ACTION_HOOK_CHECK_REQUEST);
 
             BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    if (Objects.equals(intent.getAction(), ACTION_HOOK_CHECK_REQUEST) && lpparam.packageName.equals(SYSTEMUI_PACKAGE)) {
+                    if (Objects.equals(intent.getAction(), ACTION_HOOK_CHECK_REQUEST) && loadPackageParam.packageName.equals(SYSTEMUI_PACKAGE)) {
                         returnBroadcastResult();
                     }
                 }

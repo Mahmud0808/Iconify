@@ -40,10 +40,10 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.utils.RoundedCornerProgressDrawable;
-import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
+import com.drdisagree.iconify.xposed.modules.utils.RoundedCornerProgressDrawable;
+import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils;
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
-import com.drdisagree.iconify.xposed.utils.ViewHelper;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -89,18 +89,18 @@ public class QSFluidTheme extends ModPack {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        Class<?> QsPanelClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSPanel", lpparam.classLoader);
-        Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
-        Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", lpparam.classLoader);
-        Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", lpparam.classLoader);
-        Class<?> CentralSurfacesImplClass = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
-        Class<?> NotificationExpandButtonClass = findClass("com.android.internal.widget.NotificationExpandButton", lpparam.classLoader);
-        Class<?> BrightnessSliderViewClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderView", lpparam.classLoader);
-        Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", lpparam.classLoader);
-        Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", lpparam.classLoader);
-        Class<?> BrightnessSliderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", lpparam.classLoader);
-        Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", lpparam.classLoader);
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        Class<?> QsPanelClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSPanel", loadPackageParam.classLoader);
+        Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", loadPackageParam.classLoader);
+        Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", loadPackageParam.classLoader);
+        Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
+        Class<?> CentralSurfacesImplClass = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", loadPackageParam.classLoader);
+        Class<?> NotificationExpandButtonClass = findClass("com.android.internal.widget.NotificationExpandButton", loadPackageParam.classLoader);
+        Class<?> BrightnessSliderViewClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderView", loadPackageParam.classLoader);
+        Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", loadPackageParam.classLoader);
+        Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", loadPackageParam.classLoader);
+        Class<?> BrightnessSliderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", loadPackageParam.classLoader);
+        Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", loadPackageParam.classLoader);
 
         // Initialize resources and colors
         hookAllMethods(QSTileViewImplClass, "init", new XC_MethodHook() {
@@ -205,7 +205,7 @@ public class QSFluidTheme extends ModPack {
         });
 
         try {
-            Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", lpparam.classLoader);
+            Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", loadPackageParam.classLoader);
 
             hookAllMethods(QSContainerImplClass, "updateResources", new XC_MethodHook() {
                 @SuppressLint("DiscouragedApi")
@@ -487,8 +487,8 @@ public class QSFluidTheme extends ModPack {
 
         // Power menu
         try {
-            Class<?> GlobalActionsDialogLiteSinglePressActionClass = findClass(SYSTEMUI_PACKAGE + ".globalactions.GlobalActionsDialogLite$SinglePressAction", lpparam.classLoader);
-            Class<?> GlobalActionsLayoutLiteClass = findClass(SYSTEMUI_PACKAGE + ".globalactions.GlobalActionsLayoutLite", lpparam.classLoader);
+            Class<?> GlobalActionsDialogLiteSinglePressActionClass = findClass(SYSTEMUI_PACKAGE + ".globalactions.GlobalActionsDialogLite$SinglePressAction", loadPackageParam.classLoader);
+            Class<?> GlobalActionsLayoutLiteClass = findClass(SYSTEMUI_PACKAGE + ".globalactions.GlobalActionsLayoutLite", loadPackageParam.classLoader);
 
             // Layout background
             hookAllMethods(GlobalActionsLayoutLiteClass, "onLayout", new XC_MethodHook() {
@@ -517,7 +517,7 @@ public class QSFluidTheme extends ModPack {
 
         // Footer button A12
         try {
-            Class<?> FooterActionsViewClass = findClass(SYSTEMUI_PACKAGE + ".qs.FooterActionsView", lpparam.classLoader);
+            Class<?> FooterActionsViewClass = findClass(SYSTEMUI_PACKAGE + ".qs.FooterActionsView", loadPackageParam.classLoader);
 
             XC_MethodHook updateFooterButtons = new XC_MethodHook() {
                 @Override

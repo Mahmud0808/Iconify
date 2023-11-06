@@ -18,7 +18,6 @@ package com.drdisagree.iconify.config;
  */
 
 import static com.drdisagree.iconify.common.Resources.SharedXPref;
-import static de.robv.android.xposed.XposedBridge.log;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -38,7 +37,6 @@ public class XPrefs {
     public static void init(Context context) {
         packageName = context.getPackageName();
         Xprefs = new RemotePreferences(context, BuildConfig.APPLICATION_ID, SharedXPref, true);
-        log("Iconify Version: " + BuildConfig.VERSION_NAME);
         Xprefs.registerOnSharedPreferenceChangeListener(listener);
     }
 

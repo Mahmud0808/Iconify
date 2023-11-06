@@ -9,17 +9,12 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Process;
-import android.util.TypedValue;
-
-import androidx.annotation.AttrRes;
-import androidx.annotation.ColorInt;
 
 import com.topjohnwu.superuser.Shell;
 
+@SuppressWarnings("unused")
 public class SystemUtil {
 
     @SuppressLint("StaticFieldLeak")
@@ -55,16 +50,6 @@ public class SystemUtil {
             } catch (Exception ignored) {
             }
         }).start();
-    }
-
-    public static int getColorResCompat(Context context, @AttrRes int id) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(id, typedValue, false);
-        TypedArray arr = context.obtainStyledAttributes(typedValue.data, new int[]{id});
-        @ColorInt int color = arr.getColor(0, -1);
-        arr.recycle();
-        return color;
     }
 
     public static <Method> void killSelf() {

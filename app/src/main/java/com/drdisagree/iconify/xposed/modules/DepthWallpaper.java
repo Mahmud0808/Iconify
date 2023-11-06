@@ -63,8 +63,8 @@ public class DepthWallpaper extends ModPack {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        Class<?> KeyguardBottomAreaViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.KeyguardBottomAreaView", lpparam.classLoader);
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        Class<?> KeyguardBottomAreaViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.KeyguardBottomAreaView", loadPackageParam.classLoader);
 
         hookAllMethods(KeyguardBottomAreaViewClass, "onFinishInflate", new XC_MethodHook() {
             @Override
@@ -177,9 +177,9 @@ public class DepthWallpaper extends ModPack {
             }
         });
 
-        Class<?> NotificationPanelViewControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.NotificationPanelViewController", lpparam.classLoader);
+        Class<?> NotificationPanelViewControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.NotificationPanelViewController", loadPackageParam.classLoader);
         if (NotificationPanelViewControllerClass == null)
-            NotificationPanelViewControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.NotificationPanelViewController", lpparam.classLoader);
+            NotificationPanelViewControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.NotificationPanelViewController", loadPackageParam.classLoader);
 
         hookAllMethods(NotificationPanelViewControllerClass, "onFinishInflate", new XC_MethodHook() {
             @Override

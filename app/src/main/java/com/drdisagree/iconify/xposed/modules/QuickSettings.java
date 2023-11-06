@@ -72,33 +72,28 @@ public class QuickSettings extends ModPack {
     public void updatePrefs(String... Key) {
         if (Xprefs == null) return;
 
+        isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false);
+        isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false);
+
         qqsTopMarginEnabled = Xprefs.getInt(QQS_TOPMARGIN, -1) != -1;
         qsTopMarginEnabled = Xprefs.getInt(QS_TOPMARGIN, -1) != -1;
-
-        fixNotificationColor = Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false);
 
         qqsTopMargin = Xprefs.getInt(QQS_TOPMARGIN, 100);
         qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100);
 
-        isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false);
-        isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false);
+        fixNotificationColor = Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false);
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (!lpparam.packageName.equals(SYSTEMUI_PACKAGE)) return;
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        setVerticalTiles(loadPackageParam);
+        setQsMargin(loadPackageParam);
+        fixNotificationColorA14(loadPackageParam);
+    }
 
-        Class<?> QSTileViewImpl = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", lpparam.classLoader);
-        Class<?> FontSizeUtils = findClass(SYSTEMUI_PACKAGE + ".FontSizeUtils", lpparam.classLoader);
-
-        hookAllMethods(QSTileViewImpl, "onConfigurationChanged", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) {
-                if (!isVerticalQSTileActive) return;
-
-                fixTileLayout(((LinearLayout) param.thisObject), mParam);
-            }
-        });
+    private void setVerticalTiles(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        Class<?> QSTileViewImpl = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", loadPackageParam.classLoader);
+        Class<?> FontSizeUtils = findClass(SYSTEMUI_PACKAGE + ".FontSizeUtils", loadPackageParam.classLoader);
 
         hookAllConstructors(QSTileViewImpl, new XC_MethodHook() {
             @SuppressLint("DiscouragedApi")
@@ -144,6 +139,17 @@ public class QuickSettings extends ModPack {
             }
         });
 
+        hookAllMethods(QSTileViewImpl, "onConfigurationChanged", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) {
+                if (!isVerticalQSTileActive) return;
+
+                fixTileLayout(((LinearLayout) param.thisObject), mParam);
+            }
+        });
+    }
+
+    private void setQsMargin(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         hookAllMethods(Resources.class, "getDimensionPixelSize", new XC_MethodHook() {
             @SuppressLint("DiscouragedApi")
             @Override
@@ -189,7 +195,7 @@ public class QuickSettings extends ModPack {
         });
 
         try {
-            final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", lpparam.classLoader);
+            final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
 
             hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
                 @SuppressLint("DiscouragedApi")
@@ -213,44 +219,45 @@ public class QuickSettings extends ModPack {
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
+    }
 
+    private void fixNotificationColorA14(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        if (Build.VERSION.SDK_INT < 34) return;
 
         try {
-            if (Build.VERSION.SDK_INT >= 34) {
-                Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", lpparam.classLoader);
-                Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", lpparam.classLoader);
+            Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", loadPackageParam.classLoader);
+            Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
 
-                hookAllMethods(ActivatableNotificationViewClass, "setBackgroundTintColor", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) {
-                        if (!fixNotificationColor) return;
+            hookAllMethods(ActivatableNotificationViewClass, "setBackgroundTintColor", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!fixNotificationColor) return;
 
-                        int color = (int) param.args[0];
-                        View notificationBackgroundView = (View) getObjectField(param.thisObject, "mBackgroundNormal");
+                    int color = (int) param.args[0];
+                    View notificationBackgroundView = (View) getObjectField(param.thisObject, "mBackgroundNormal");
 
-                        setObjectField(param.thisObject, "mCurrentBackgroundTint", color);
-                        callMethod(getObjectField(notificationBackgroundView, "mBackground"), "clearColorFilter");
-                        setObjectField(notificationBackgroundView, "mTintColor", color);
-                        notificationBackgroundView.invalidate();
-                    }
-                });
+                    setObjectField(param.thisObject, "mCurrentBackgroundTint", color);
+                    callMethod(getObjectField(notificationBackgroundView, "mBackground"), "clearColorFilter");
+                    setObjectField(notificationBackgroundView, "mTintColor", color);
+                    notificationBackgroundView.invalidate();
+                }
+            });
 
-                hookAllMethods(FooterViewClass, "updateColors", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) {
-                        if (!fixNotificationColor) return;
+            hookAllMethods(FooterViewClass, "updateColors", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!fixNotificationColor) return;
 
-                        Button mClearAllButton = (Button) getObjectField(param.thisObject, "mClearAllButton");
-                        Button mManageButton = (Button) getObjectField(param.thisObject, "mManageButton");
+                    Button mClearAllButton = (Button) getObjectField(param.thisObject, "mClearAllButton");
+                    Button mManageButton = (Button) getObjectField(param.thisObject, "mManageButton");
 
-                        mClearAllButton.getBackground().clearColorFilter();
-                        mManageButton.getBackground().clearColorFilter();
+                    mClearAllButton.getBackground().clearColorFilter();
+                    mManageButton.getBackground().clearColorFilter();
 
-                        mClearAllButton.invalidate();
-                        mManageButton.invalidate();
-                    }
-                });
-            }
+                    mClearAllButton.invalidate();
+                    mManageButton.invalidate();
+                }
+            });
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }

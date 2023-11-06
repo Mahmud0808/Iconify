@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.drdisagree.iconify.xposed.utils
+package com.drdisagree.iconify.xposed.modules.utils
 
 import android.content.pm.ActivityInfo
 import android.content.res.Resources

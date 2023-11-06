@@ -20,24 +20,21 @@ package com.drdisagree.iconify.xposed;
 import static com.drdisagree.iconify.common.Const.PIXEL_LAUNCHER_PACKAGE;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 
-import android.os.Build;
-
 import com.drdisagree.iconify.xposed.modules.BackgroundChip;
 import com.drdisagree.iconify.xposed.modules.BatteryStyleManager;
 import com.drdisagree.iconify.xposed.modules.DepthWallpaper;
 import com.drdisagree.iconify.xposed.modules.HeaderClock;
 import com.drdisagree.iconify.xposed.modules.HeaderImage;
-import com.drdisagree.iconify.xposed.modules.HookCheck;
 import com.drdisagree.iconify.xposed.modules.IconUpdater;
 import com.drdisagree.iconify.xposed.modules.LockscreenClock;
 import com.drdisagree.iconify.xposed.modules.Miscellaneous;
 import com.drdisagree.iconify.xposed.modules.QSBlackTheme;
 import com.drdisagree.iconify.xposed.modules.QSFluidTheme;
 import com.drdisagree.iconify.xposed.modules.QSLightTheme;
-import com.drdisagree.iconify.xposed.modules.QSLightThemeA12;
 import com.drdisagree.iconify.xposed.modules.QSTransparency;
 import com.drdisagree.iconify.xposed.modules.QuickSettings;
-import com.drdisagree.iconify.xposed.utils.SettingsLibUtils;
+import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils;
+import com.drdisagree.iconify.xposed.utils.HookCheck;
 
 import java.util.ArrayList;
 
@@ -63,14 +60,7 @@ public class EntryList {
                     modPacks.add(QSTransparency.class);
                     modPacks.add(QuickSettings.class);
                     modPacks.add(BatteryStyleManager.class);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        modPacks.add(QSLightTheme.class);
-                    }
-
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                        modPacks.add(QSLightThemeA12.class);
-                    }
+                    modPacks.add(QSLightTheme.class);
                 }
             }
             case PIXEL_LAUNCHER_PACKAGE -> modPacks.add(IconUpdater.class);
