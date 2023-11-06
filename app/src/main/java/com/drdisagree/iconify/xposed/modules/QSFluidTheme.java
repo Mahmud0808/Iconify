@@ -6,7 +6,6 @@ import static com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPAR
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.modRes;
-import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static com.drdisagree.iconify.xposed.utils.ViewHelper.setAlphaForBackgroundDrawables;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -21,14 +20,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.XResources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableWrapper;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
@@ -51,7 +47,6 @@ import com.drdisagree.iconify.xposed.utils.SystemUtil;
 import com.drdisagree.iconify.xposed.utils.ViewHelper;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressLint("DiscouragedApi")
@@ -177,8 +172,7 @@ public class QSFluidTheme extends ModPack {
                     if ((int) getObjectField(param.args[1], "state") == STATE_ACTIVE) {
                         param.setResult(colorActive[0]);
                     }
-                } catch (Throwable throwable) {
-                    log(TAG + throwable);
+                } catch (Throwable ignored) {
                 }
             }
         });
@@ -192,8 +186,7 @@ public class QSFluidTheme extends ModPack {
                     if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
                         ((ImageView) param.args[0]).setImageTintList(ColorStateList.valueOf(colorActive[0]));
                     }
-                } catch (Throwable throwable) {
-                    log(TAG + throwable);
+                } catch (Throwable ignored) {
                 }
             }
         });
@@ -207,8 +200,7 @@ public class QSFluidTheme extends ModPack {
                     if (param.args[0] instanceof ImageView && getIntField(param.args[1], "state") == STATE_ACTIVE) {
                         setObjectField(param.thisObject, "mTint", colorActive[0]);
                     }
-                } catch (Throwable throwable) {
-                    log(TAG + throwable);
+                } catch (Throwable ignored) {
                 }
             }
         });
@@ -225,8 +217,18 @@ public class QSFluidTheme extends ModPack {
                     try {
                         Resources res = mContext.getResources();
                         ViewGroup view = ((ViewGroup) param.thisObject).findViewById(res.getIdentifier("qs_footer_actions", "id", mContext.getPackageName()));
+                        view.getBackground().setTint(Color.TRANSPARENT);
+                        view.setElevation(0);
 
                         setAlphaForBackgroundDrawables(view, INACTIVE_ALPHA);
+
+                        View security_footer = ((ViewGroup) view.findViewById(res.getIdentifier("security_footers_container", "id", mContext.getPackageName()))).getChildAt(0);
+                        security_footer.getBackground().setTint(colorInactive[0]);
+                        security_footer.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+
+                        View multi_user_switch = view.findViewById(res.getIdentifier("multi_user_switch", "id", mContext.getPackageName()));
+                        multi_user_switch.getBackground().setTint(colorInactive[0]);
+                        multi_user_switch.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
 
                         try {
                             ViewGroup pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
@@ -239,8 +241,7 @@ public class QSFluidTheme extends ModPack {
                             pm_button.getBackground().setTint(colorActive[0]);
                             pm_button.setImageTintList(ColorStateList.valueOf(colorActive[0]));
                         }
-                    } catch (Throwable throwable) {
-                        log(TAG + throwable);
+                    } catch (Throwable ignored) {
                     }
                 }
             });
@@ -452,23 +453,92 @@ public class QSFluidTheme extends ModPack {
         });
 
         // Notification footer buttons
-        hookAllMethods(FooterViewClass, "updateColors", new XC_MethodHook() {
+        XC_MethodHook updateNotificationFooterButtons = new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
                 if (!fluidQsThemeEnabled || !fluidNotifEnabled) return;
 
-                Button mManageButton = (Button) getObjectField(param.thisObject, "mManageButton");
-                Button mClearAllButton = (Button) getObjectField(param.thisObject, "mClearAllButton");
+                try {
+                    Button mManageButton = (Button) getObjectField(param.thisObject, "mManageButton");
+                    Button mClearAllButton = (Button) getObjectField(param.thisObject, "mClearAllButton");
 
-                if (mManageButton != null) {
-                    mManageButton.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
-                }
+                    if (mManageButton != null) {
+                        mManageButton.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                    }
 
-                if (mClearAllButton != null) {
-                    mClearAllButton.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                    if (mClearAllButton != null) {
+                        mClearAllButton.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                    }
+                } catch (Throwable ignored) {
+                    Button mManageButton = (Button) getObjectField(param.thisObject, "mManageButton");
+                    Button mDismissButton = (Button) getObjectField(param.thisObject, "mDismissButton");
+
+                    if (mManageButton != null) {
+                        mManageButton.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                    }
+
+                    if (mDismissButton != null) {
+                        mDismissButton.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                    }
                 }
             }
-        });
+        };
+
+        hookAllMethods(FooterViewClass, "onFinishInflate", updateNotificationFooterButtons);
+        hookAllMethods(FooterViewClass, "updateColors", updateNotificationFooterButtons);
+
+        // Power menu
+        try {
+            Class<?> GlobalActionsDialogLiteSinglePressActionClass = findClass(SYSTEMUI_PACKAGE + ".globalactions.GlobalActionsDialogLite$SinglePressAction", lpparam.classLoader);
+            Class<?> GlobalActionsLayoutLiteClass = findClass(SYSTEMUI_PACKAGE + ".globalactions.GlobalActionsLayoutLite", lpparam.classLoader);
+
+            // Layout background
+            hookAllMethods(GlobalActionsLayoutLiteClass, "onLayout", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (!fluidPowerMenuEnabled) return;
+
+                    ((View) param.thisObject).findViewById(android.R.id.list).getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                }
+            });
+
+            // Button Color
+            hookAllMethods(GlobalActionsDialogLiteSinglePressActionClass, "create", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!fluidPowerMenuEnabled) return;
+
+                    View itemView = (View) param.getResult();
+                    ImageView iconView = itemView.findViewById(android.R.id.icon);
+
+                    iconView.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        // Footer button A12
+        try {
+            Class<?> FooterActionsViewClass = findClass(SYSTEMUI_PACKAGE + ".qs.FooterActionsView", lpparam.classLoader);
+
+            XC_MethodHook updateFooterButtons = new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    ViewGroup parent = (ViewGroup) param.thisObject;
+                    int childCount = parent.getChildCount();
+
+                    for (int i = 0; i < childCount; i++) {
+                        View childView = parent.getChildAt(i);
+                        childView.getBackground().setTint(colorInactive[0]);
+                        childView.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                    }
+                }
+            };
+
+            hookAllMethods(FooterActionsViewClass, "onFinishInflate", updateFooterButtons);
+            hookAllMethods(FooterActionsViewClass, "updateResources", updateFooterButtons);
+        } catch (Throwable ignored) {
+        }
     }
 
     private void initResources() {
@@ -481,84 +551,6 @@ public class QSFluidTheme extends ModPack {
         colorActive[0] = mContext.getResources().getColor(mContext.getResources().getIdentifier("android:color/system_accent1_400", "color", mContext.getPackageName()), mContext.getTheme());
         colorActiveAlpha[0] = Color.argb((int) (ACTIVE_ALPHA * 255), Color.red(colorActive[0]), Color.green(colorActive[0]), Color.blue(colorActive[0]));
         colorInactiveAlpha[0] = changeAlpha(colorInactive[0], INACTIVE_ALPHA);
-
-        // Replace drawables to match QS style
-        XC_InitPackageResources.InitPackageResourcesParam ourResparam = resparams.get(SYSTEMUI_PACKAGE);
-
-        if (ourResparam == null || !fluidQsThemeEnabled) return;
-
-        int px2dp2 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics());
-        int px2dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
-        int notifCornerRadius = mContext.getResources().getDimensionPixelSize(mContext.getResources().getIdentifier("notification_corner_radius", "dimen", mContext.getPackageName()));
-
-        try {
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_actions_background", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    return new ColorDrawable(Color.TRANSPARENT);
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-
-        try {
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_footer_action_chip_background", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    GradientDrawable gradientDrawable = new GradientDrawable();
-                    gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                    gradientDrawable.setColor(colorInactiveAlpha[0]);
-                    gradientDrawable.setCornerRadius(notifCornerRadius);
-                    return new InsetDrawable(gradientDrawable, 0, px2dp2, 0, px2dp2);
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-
-        try {
-            ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "qs_security_footer_background", new XResources.DrawableLoader() {
-                @Override
-                public Drawable newDrawable(XResources res, int id) {
-                    GradientDrawable gradientDrawable = new GradientDrawable();
-                    gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                    gradientDrawable.setColor(changeAlpha(colorInactiveAlpha[0], 1f));
-                    gradientDrawable.setCornerRadius(notifCornerRadius);
-                    return new InsetDrawable(gradientDrawable, 0, px2dp4, 0, px2dp4);
-                }
-            });
-        } catch (Throwable ignored) {
-        }
-
-        if (fluidPowerMenuEnabled) {
-            try {
-                int color = mContext.getResources().getColor(mContext.getResources().getIdentifier("global_actions_lite_background", "color", mContext.getPackageName()), mContext.getTheme());
-                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_background", new XResources.DrawableLoader() {
-                    @Override
-                    public Drawable newDrawable(XResources res, int id) {
-                        GradientDrawable gradientDrawable = new GradientDrawable();
-                        gradientDrawable.setShape(GradientDrawable.RECTANGLE);
-                        gradientDrawable.setColor(changeAlpha(color, INACTIVE_ALPHA));
-                        gradientDrawable.setCornerRadius(notifCornerRadius);
-                        return gradientDrawable;
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
-
-            try {
-                int color = mContext.getResources().getColor(mContext.getResources().getIdentifier("global_actions_lite_button_background", "color", mContext.getPackageName()), mContext.getTheme());
-                ourResparam.res.setReplacement(mContext.getPackageName(), "drawable", "global_actions_lite_button", new XResources.DrawableLoader() {
-                    @Override
-                    public Drawable newDrawable(XResources res, int id) {
-                        GradientDrawable gradientDrawable = new GradientDrawable();
-                        gradientDrawable.setShape(GradientDrawable.OVAL);
-                        gradientDrawable.setColor(changeAlpha(color, INACTIVE_ALPHA));
-                        return gradientDrawable;
-                    }
-                });
-            } catch (Throwable ignored) {
-            }
-        }
     }
 
     private int changeAlpha(int color, float alpha) {
