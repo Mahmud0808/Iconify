@@ -470,8 +470,8 @@
     <string name="power_menu_transparency_title">Power Menu Transparency</string>
     <string name="power_menu_transparency_desc">Power menu transparency for Fluid QS\nDo not use custom notification style</string>
     <string name="section_title_others">Others</string>
-    <string name="fix_notification_color_title">Fix Notification Color (A14)</string>
-    <string name="fix_notification_color_desc">Fix color of notification for A14 devices</string>
+    <string name="fix_notification_color_title">Fix Notification Color</string>
+    <string name="fix_notification_color_desc">Fix custom notification style on android 14</string>
 
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Tile</string>
