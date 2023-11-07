@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.drdisagree.iconify.utils.color.monet.scheme;
 
 import com.drdisagree.iconify.utils.color.monet.hct.Hct;
 import com.drdisagree.iconify.utils.color.monet.palettes.TonalPalette;
-import com.google.android.material.color.utilities.MathUtils;
+import com.drdisagree.iconify.utils.color.monet.utils.MathUtils;
 
 /**
  * A playful theme - the source color's hue does not appear in the theme.

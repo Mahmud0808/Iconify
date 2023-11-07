@@ -659,14 +659,12 @@ public class Scheme {
         if (this == object) {
             return true;
         }
-        if (!(object instanceof Scheme)) {
+        if (!(object instanceof Scheme scheme)) {
             return false;
         }
         if (!super.equals(object)) {
             return false;
         }
-
-        Scheme scheme = (Scheme) object;
 
         if (primary != scheme.primary) {
             return false;

@@ -96,6 +96,7 @@ public final class ToneDeltaPair {
         return roleB;
     }
 
+    @NonNull
     public double getDelta() {
         return delta;
     }
@@ -105,6 +106,7 @@ public final class ToneDeltaPair {
         return polarity;
     }
 
+    @NonNull
     public boolean getStayTogether() {
         return stayTogether;
     }
