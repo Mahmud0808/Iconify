@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.concurrent.futures.CallbackToFutureAdapter;
@@ -38,7 +39,7 @@ import java.net.URL;
 public class UpdateWorker extends ListenableWorker {
 
     private final Context mContext;
-    private final String TAG = getClass().getSimpleName();
+    private static final String TAG = UpdateWorker.class.getSimpleName();
 
     public UpdateWorker(@NonNull Context appContext, @NonNull WorkerParameters workerParams) {
         super(appContext, workerParams);
@@ -84,12 +85,8 @@ public class UpdateWorker extends ListenableWorker {
                 mContext.getResources().getString(R.string.update_notification_channel_name)
         )
                 .setSmallIcon(R.drawable.ic_launcher_fg)
-                .setContentTitle(
-                        mContext.getResources().getString(R.string.new_update_title)
-                )
-                .setContentText(
-                        mContext.getResources().getString(R.string.new_update_desc)
-                )
+                .setContentTitle(mContext.getResources().getString(R.string.new_update_title))
+                .setContentText(mContext.getResources().getString(R.string.new_update_desc))
                 .setContentIntent(pendingIntent)
                 .setOnlyAlertOnce(true)
                 .setAutoCancel(true);
@@ -163,7 +160,8 @@ public class UpdateWorker extends ListenableWorker {
                     if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
                         showUpdateNotification();
                     }
-                } catch (Exception ignored) {
+                } catch (Exception e) {
+                    Log.e(TAG, "Error: " + e.getMessage());
                 }
             }
         }
