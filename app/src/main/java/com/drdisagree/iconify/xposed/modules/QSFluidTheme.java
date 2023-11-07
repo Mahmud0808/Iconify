@@ -27,6 +27,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -517,24 +518,26 @@ public class QSFluidTheme extends ModPack {
 
         // Footer button A12
         try {
-            Class<?> FooterActionsViewClass = findClass(SYSTEMUI_PACKAGE + ".qs.FooterActionsView", loadPackageParam.classLoader);
+            if (Build.VERSION.SDK_INT < 33) {
+                Class<?> FooterActionsViewClass = findClass(SYSTEMUI_PACKAGE + ".qs.FooterActionsView", loadPackageParam.classLoader);
 
-            XC_MethodHook updateFooterButtons = new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) {
-                    ViewGroup parent = (ViewGroup) param.thisObject;
-                    int childCount = parent.getChildCount();
+                XC_MethodHook updateFooterButtons = new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) {
+                        ViewGroup parent = (ViewGroup) param.thisObject;
+                        int childCount = parent.getChildCount();
 
-                    for (int i = 0; i < childCount; i++) {
-                        View childView = parent.getChildAt(i);
-                        childView.getBackground().setTint(colorInactive[0]);
-                        childView.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                        for (int i = 0; i < childCount; i++) {
+                            View childView = parent.getChildAt(i);
+                            childView.getBackground().setTint(colorInactive[0]);
+                            childView.getBackground().setAlpha((int) (INACTIVE_ALPHA * 255));
+                        }
                     }
-                }
-            };
+                };
 
-            hookAllMethods(FooterActionsViewClass, "onFinishInflate", updateFooterButtons);
-            hookAllMethods(FooterActionsViewClass, "updateResources", updateFooterButtons);
+                hookAllMethods(FooterActionsViewClass, "onFinishInflate", updateFooterButtons);
+                hookAllMethods(FooterActionsViewClass, "updateResources", updateFooterButtons);
+            }
         } catch (Throwable ignored) {
         }
     }
