@@ -350,15 +350,16 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
         setQSStatusIconsBgA12();
     }
 
+    @SuppressLint("RtlHardcoded")
     private void updateStatusBarClock() {
         if (!mShowSBClockBg) return;
 
         int clockPaddingStartEnd = dp2px(mContext, 8);
         int clockPaddingTopBottom = dp2px(mContext, 2);
 
-        updateClockView(mClockView, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.START | Gravity.CENTER);
+        updateClockView(mClockView, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.LEFT | Gravity.CENTER);
         updateClockView(mCenterClockView, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.CENTER);
-        updateClockView(mRightClockView, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.END | Gravity.CENTER);
+        updateClockView(mRightClockView, clockPaddingStartEnd, clockPaddingTopBottom, Gravity.RIGHT | Gravity.CENTER);
     }
 
     private void updateStatusIcons() {
@@ -496,13 +497,14 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
         try {
             ((LinearLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
             ((FrameLayout.LayoutParams) clockView.getLayoutParams()).gravity = gravity;
         }
 
         ((TextView) clockView).setIncludeFontPadding(false);
         clockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        clockView.setForegroundGravity(Gravity.CENTER);
+        ((TextView) clockView).setGravity(Gravity.CENTER);
+        clockView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         clockView.requestLayout();
     }
 
