@@ -226,6 +226,7 @@ public class QuickSettings extends ModPack {
 
         try {
             Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", loadPackageParam.classLoader);
+            Class<?> NotificationBackgroundViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.NotificationBackgroundView", loadPackageParam.classLoader);
             Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
 
             hookAllMethods(ActivatableNotificationViewClass, "setBackgroundTintColor", new XC_MethodHook() {
@@ -238,8 +239,17 @@ public class QuickSettings extends ModPack {
 
                     setObjectField(param.thisObject, "mCurrentBackgroundTint", color);
                     callMethod(getObjectField(notificationBackgroundView, "mBackground"), "clearColorFilter");
-                    setObjectField(notificationBackgroundView, "mTintColor", color);
+                    setObjectField(notificationBackgroundView, "mTintColor", 0);
                     notificationBackgroundView.invalidate();
+                }
+            });
+
+            hookAllMethods(NotificationBackgroundViewClass, "setCustomBackground$1", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (!fixNotificationColor) return;
+
+                    setObjectField(param.thisObject, "mTintColor", 0);
                 }
             });
 
