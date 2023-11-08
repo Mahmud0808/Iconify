@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.AGGRESSIVE_QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE;
 import static com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
@@ -66,17 +67,34 @@ public class XposedTransparencyBlur extends BaseFragment {
             }
         });
 
-        // Qs Panel Blur
-        RPrefs.putBoolean(QSPANEL_BLUR_SWITCH, SystemUtil.isBlurEnabled());
+        // Qs Panel Blur Enabler
+        RPrefs.putBoolean(QSPANEL_BLUR_SWITCH, SystemUtil.isBlurEnabled(false));
         binding.enableBlur.setChecked(RPrefs.getBoolean(QSPANEL_BLUR_SWITCH, false));
         binding.enableBlur.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_BLUR_SWITCH, isChecked);
-            if (isChecked) SystemUtil.enableBlur();
-            else {
-                SystemUtil.disableBlur();
+            if (isChecked) {
+                SystemUtil.enableBlur(false);
+            } else {
+                binding.enableAggressiveBlur.setChecked(false);
+                SystemUtil.disableBlur(false);
             }
+            binding.aggressiveBlurContainer.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         });
         binding.blurContainer.setOnClickListener(v -> binding.enableBlur.toggle());
+
+        // Aggressive Qs Panel Blur Enabler
+        RPrefs.putBoolean(AGGRESSIVE_QSPANEL_BLUR_SWITCH, SystemUtil.isBlurEnabled(true));
+        binding.enableAggressiveBlur.setChecked(RPrefs.getBoolean(AGGRESSIVE_QSPANEL_BLUR_SWITCH, false));
+        binding.aggressiveBlurContainer.setVisibility(binding.enableBlur.isChecked() ? View.VISIBLE : View.GONE);
+        binding.enableAggressiveBlur.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(AGGRESSIVE_QSPANEL_BLUR_SWITCH, isChecked);
+            if (isChecked) {
+                SystemUtil.enableBlur(true);
+            } else {
+                SystemUtil.disableBlur(true);
+            }
+        });
+        binding.aggressiveBlurContainer.setOnClickListener(v -> binding.enableAggressiveBlur.toggle());
 
         final int[] blur_radius = {RPrefs.getInt(BLUR_RADIUS_VALUE, 23)};
         binding.blurOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + blur_radius[0] + "px");

@@ -29,7 +29,6 @@ import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
 
-import java.util.List;
 import java.util.Objects;
 
 public class SystemUtil {
@@ -37,6 +36,7 @@ public class SystemUtil {
     private static final int CLICK_DELAY_TIME = 8000;
     static boolean darkSwitching = false;
     private static long lastClickTime = 0;
+    private static final String blur_cmd0 = "resetprop ro.surface_flinger.supports_background_blur 1 && killall surfaceflinger";
     private static final String blur_cmd1 = "ro.sf.blurs_are_expensive=1";
     private static final String blur_cmd2 = "ro.surface_flinger.supports_background_blur=1";
     private static final String blur_cmd3 = "persist.sys.sf.disable_blurs=0";
@@ -69,23 +69,68 @@ public class SystemUtil {
         Shell.cmd("am start -a android.intent.action.REBOOT").exec();
     }
 
-    public static void disableBlur() {
-        Shell.cmd("mv " + Resources.MODULE_DIR + "/common/system.prop " + Resources.MODULE_DIR + "/common/system.txt; " +
-                "grep -vE \"" + blur_cmd1 + "|" + blur_cmd2 + "|" + blur_cmd3 + "|" + blur_cmd4 + "|" + blur_cmd5 +
-                "\" " + Resources.MODULE_DIR + "/common/system.txt > " + Resources.MODULE_DIR + "/common/system.txt.tmp; " +
-                "rm -rf " + Resources.MODULE_DIR + "/common/system.prop; " +
-                "mv " + Resources.MODULE_DIR + "/common/system.txt.tmp " + Resources.MODULE_DIR + "/common/system.prop; " +
-                "rm -rf " + Resources.MODULE_DIR + "/common/system.txt; " +
-                "rm -rf " + Resources.MODULE_DIR + "/common/system.txt.tmp").submit();
+    public static void disableBlur(boolean force) {
+        Shell.cmd(
+                !force ?
+                        "mv " + Resources.MODULE_DIR +
+                                "/common/system.prop " +
+                                Resources.MODULE_DIR +
+                                "/common/system.txt; " +
+                                "grep -vE \"" +
+                                blur_cmd1 + "|" +
+                                blur_cmd2 + "|" +
+                                blur_cmd3 + "|" +
+                                blur_cmd4 + "|" +
+                                blur_cmd5 + "\" " +
+                                Resources.MODULE_DIR +
+                                "/common/system.txt > " +
+                                Resources.MODULE_DIR +
+                                "/common/system.txt.tmp; " +
+                                "rm -rf " +
+                                Resources.MODULE_DIR +
+                                "/common/system.prop; " +
+                                "mv " + Resources.MODULE_DIR +
+                                "/common/system.txt.tmp " +
+                                Resources.MODULE_DIR +
+                                "/common/system.prop; " +
+                                "rm -rf " + Resources.MODULE_DIR +
+                                "/common/system.txt; " +
+                                "rm -rf " + Resources.MODULE_DIR +
+                                "/common/system.txt.tmp" :
+                        ":", // do nothing
+                "grep -v \"ro.surface_flinger.supports_background_blur\" " +
+                        Resources.MODULE_DIR + "/service.sh > " +
+                        Resources.MODULE_DIR + "/service.sh.tmp && mv " +
+                        Resources.MODULE_DIR + "/service.sh.tmp " +
+                        Resources.MODULE_DIR + "/service.sh"
+        ).submit();
     }
 
-    public static void enableBlur() {
-        disableBlur();
+    public static void enableBlur(boolean force) {
+        disableBlur(false);
 
-        String blur_cmd = "echo \"" + blur_cmd1 + "\n" + blur_cmd2 + "\n" + blur_cmd3 + "\n"
-                + blur_cmd4 + "\n" + blur_cmd5 + "\" >> " + Resources.MODULE_DIR + "/common/system.prop; ";
-
-        Shell.cmd(blur_cmd).submit();
+        Shell.cmd(
+                "echo \"" +
+                        blur_cmd1 + "\n" +
+                        blur_cmd2 + "\n" +
+                        blur_cmd3 + "\n" +
+                        blur_cmd4 + "\n" +
+                        blur_cmd5 + "\" >> " +
+                        Resources.MODULE_DIR +
+                        "/common/system.prop",
+                force ?
+                        "sed '/*}/a " +
+                                blur_cmd0 + "' " +
+                                Resources.MODULE_DIR +
+                                "/service.sh > " +
+                                Resources.MODULE_DIR +
+                                "/service.sh.tmp && mv " +
+                                Resources.MODULE_DIR +
+                                "/service.sh.tmp " +
+                                Resources.MODULE_DIR +
+                                "/service.sh" :
+                        ":" // do nothing
+        ).submit();
     }
 
     public static void mountRW() {
@@ -126,9 +171,16 @@ public class SystemUtil {
         }).start();
     }
 
-    public static boolean isBlurEnabled() {
-        List<String> outs = Shell.cmd("if grep -q \"ro.surface_flinger.supports_background_blur=1\" " + Resources.MODULE_DIR + "/common/system.prop; then echo yes; else echo no; fi").exec().getOut();
-        return Objects.equals(outs.get(0), "yes");
+    public static boolean isBlurEnabled(boolean force) {
+        return Shell.cmd(
+                "if grep -q \"ro.surface_flinger.supports_background_blur\" " +
+                        Resources.MODULE_DIR +
+                        (force ?
+                                "/service.sh;" :
+                                "/common/system.prop;"
+                        ) +
+                        " then echo yes; else echo no; fi"
+        ).exec().getOut().get(0).equals("yes");
     }
 
     // Save unique id of each boot

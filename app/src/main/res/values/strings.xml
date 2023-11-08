@@ -451,6 +451,8 @@
     <string name="section_title_blur">Blur</string>
     <string name="window_level_blur_title">Window Level Blur</string>
     <string name="window_level_blur_desc">Requires reboot to work</string>
+    <string name="aggressive_blur_title">Aggressive Blur Enabler</string>
+    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
     <string name="blur_intensity_title">Blur Intensity</string>
 
     <!-- Themes -->

@@ -294,7 +294,7 @@ public class XposedMenu extends BaseFragment {
                             new Handler(Looper.getMainLooper()).post(() -> {
                                 try {
                                     RPrefs.clearAllPrefs();
-                                    SystemUtil.disableBlur();
+                                    SystemUtil.disableBlur(false);
                                     FabricatedUtil.disableOverlays("quick_qs_offset_height", "qqs_layout_margin_top", "qs_header_row_min_height", "quick_qs_total_height", "qs_panel_padding_top", "qs_panel_padding_top_combined_headers");
                                     OverlayUtil.disableOverlays("IconifyComponentQSLT.overlay", "IconifyComponentQSDT.overlay");
                                     SystemUtil.restartSystemUI();

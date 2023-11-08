@@ -105,7 +105,7 @@ public class ImportExport {
             commands.add("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done");
 
             SystemUtil.getBootId();
-            SystemUtil.disableBlur();
+            SystemUtil.disableBlur(false);
             SystemUtil.saveVersionCode();
             editor.putBoolean(ON_HOME_PAGE, true);
             editor.putBoolean(FIRST_INSTALL, false);
