@@ -146,7 +146,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         Prefs.putBoolean(ON_HOME_PAGE, true);
         Prefs.putBoolean(FIRST_INSTALL, false);
 
-        Shell.cmd("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui").submit();
+        Shell.cmd("> " + MODULE_DIR + "/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui").submit();
     }
 
     @Override
