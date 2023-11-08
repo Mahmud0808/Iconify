@@ -39,90 +39,56 @@ public class XposedThemes extends BaseFragment {
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_themes);
 
         // Light Theme
-        binding.enableLightTheme.setChecked(RPrefs.getBoolean(LIGHT_QSPANEL, false));
-        binding.enableLightTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.lightTheme.setSwitchChecked(RPrefs.getBoolean(LIGHT_QSPANEL, false));
+        binding.lightTheme.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(LIGHT_QSPANEL, isChecked);
-            binding.enableDualTone.setEnabled(isChecked);
+            binding.dualTone.setEnabled(isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
-        binding.lightThemeContainer.setOnClickListener(v -> {
-            if (binding.enableLightTheme.isEnabled())
-                binding.enableLightTheme.toggle();
-        });
-        binding.enableDualTone.setEnabled(binding.enableLightTheme.isChecked());
+        binding.dualTone.setEnabled(binding.lightTheme.isSwitchChecked());
 
         // Dual Tone
-        binding.enableDualTone.setChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, false));
-        binding.enableDualTone.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.dualTone.setSwitchChecked(RPrefs.getBoolean(DUALTONE_QSPANEL, false));
+        binding.dualTone.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(DUALTONE_QSPANEL, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
-        });
-
-        binding.dualToneContainer.setOnClickListener(v -> {
-            if (binding.enableDualTone.isEnabled())
-                binding.enableDualTone.toggle();
         });
 
         // Pixel Black Theme
-        binding.enableBlackTheme.setChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
-        binding.enableBlackTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.blackTheme.setSwitchChecked(RPrefs.getBoolean(BLACK_QSPANEL, false));
+        binding.blackTheme.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(BLACK_QSPANEL, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
-        binding.blackThemeContainer.setOnClickListener(v -> {
-            if (binding.enableBlackTheme.isEnabled())
-                binding.enableBlackTheme.toggle();
-        });
 
         // Fluid QS Theme
-        binding.enableFluidTheme.setChecked(RPrefs.getBoolean(FLUID_QSPANEL, false));
-        binding.enableFluidTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.fluidQsTheme.setSwitchChecked(RPrefs.getBoolean(FLUID_QSPANEL, false));
+        binding.fluidQsTheme.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_QSPANEL, isChecked);
-            binding.enableNotificationTransparency.setEnabled(isChecked);
-            binding.enablePowermenuTransparency.setEnabled(isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+            binding.fluidNotifTheme.setEnabled(isChecked);
+            binding.fluidPowermenuTheme.setEnabled(isChecked);
         });
-        binding.fluidThemeContainer.setOnClickListener(v -> {
-            if (binding.enableFluidTheme.isEnabled())
-                binding.enableFluidTheme.toggle();
-        });
-        binding.enableNotificationTransparency.setEnabled(binding.enableFluidTheme.isChecked());
-        binding.enablePowermenuTransparency.setEnabled(binding.enableFluidTheme.isChecked());
+        binding.fluidNotifTheme.setEnabled(binding.fluidQsTheme.isSwitchChecked());
+        binding.fluidPowermenuTheme.setEnabled(binding.fluidQsTheme.isSwitchChecked());
 
         // Fluid QS Notification Transparency
-        binding.enableNotificationTransparency.setChecked(RPrefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false));
-        binding.enableNotificationTransparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.fluidNotifTheme.setSwitchChecked(RPrefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false));
+        binding.fluidNotifTheme.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_NOTIF_TRANSPARENCY, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-        });
-        binding.notificationTransparencyContainer.setOnClickListener(v -> {
-            if (binding.enableNotificationTransparency.isEnabled())
-                binding.enableNotificationTransparency.toggle();
         });
 
         // Fluid QS Power Menu Transparency
-        binding.enablePowermenuTransparency.setChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
-        binding.enablePowermenuTransparency.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.fluidPowermenuTheme.setSwitchChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
+        binding.fluidPowermenuTheme.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_POWERMENU_TRANSPARENCY, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-        });
-        binding.powermenuTransparencyContainer.setOnClickListener(v -> {
-            if (binding.enablePowermenuTransparency.isEnabled())
-                binding.enablePowermenuTransparency.toggle();
         });
 
         // Fix notification color
-        binding.sectionTitleOthers.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
-        binding.fixNotificationColorContainer.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
+        binding.sectionOthers.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
+        binding.fixNotificationColor.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
 
-        binding.fixNotificationColor.setChecked(RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, false));
-        binding.fixNotificationColor.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.fixNotificationColor.setSwitchChecked(RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, false));
+        binding.fixNotificationColor.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FIX_NOTIFICATION_COLOR, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-        });
-        binding.fixNotificationColorContainer.setOnClickListener(v -> {
-            if (binding.fixNotificationColor.isEnabled())
-                binding.fixNotificationColor.toggle();
         });
 
         return view;

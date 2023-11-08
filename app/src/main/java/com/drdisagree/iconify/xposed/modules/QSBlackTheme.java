@@ -74,10 +74,7 @@ public class QSBlackTheme extends ModPack {
 
         blackQSHeaderEnabled = Xprefs.getBoolean(BLACK_QSPANEL, false);
 
-        try {
-            initColors(true);
-        } catch (Throwable ignored) {
-        }
+        initColors(true);
     }
 
     @Override
@@ -528,7 +525,7 @@ public class QSBlackTheme extends ModPack {
         });
     }
 
-    private void initColors(boolean force) throws Throwable {
+    private void initColors(boolean force) {
         boolean isDark = SystemUtil.isDarkMode();
 
         if (isDark == this.isDark && !force) return;

@@ -35,6 +35,7 @@ import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -62,8 +63,8 @@ public class XposedBackgroundChip extends BaseFragment implements RadioDialog.Ra
         binding.enableClockBgChip.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(STATUSBAR_CLOCKBG_SWITCH, isChecked);
 
-            if (!isChecked) {
-                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+            if (!isChecked && getContext() != null) {
+                Helpers.forceReloadUI(getContext());
             }
         });
         binding.clockBgChip.setOnClickListener(v -> binding.enableClockBgChip.toggle());
@@ -104,8 +105,8 @@ public class XposedBackgroundChip extends BaseFragment implements RadioDialog.Ra
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
 
-                if (Build.VERSION.SDK_INT >= 33) {
-                    SystemUtil.handleSystemUIRestart();
+                if (Build.VERSION.SDK_INT >= 33 && getContext() != null) {
+                    Helpers.forceReloadUI(getContext());
                 } else {
                     SystemUtil.doubleToggleDarkMode();
                 }

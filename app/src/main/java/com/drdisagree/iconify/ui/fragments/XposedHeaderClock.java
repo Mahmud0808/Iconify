@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_CENTERED;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_SWITCH;
@@ -22,8 +21,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +84,6 @@ public class XposedHeaderClock extends BaseFragment {
         binding.enableHeaderClock.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.enableHeaderClockContainer.setOnClickListener(v -> binding.enableHeaderClock.toggle());
 

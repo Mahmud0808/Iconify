@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
@@ -39,8 +38,6 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +56,7 @@ import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.dialogs.RadioDialog;
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
-import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 import com.google.android.material.slider.Slider;
 
 import org.greenrobot.eventbus.EventBus;
@@ -102,7 +99,6 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
         // Apply battery style
         binding.applyBatteryStyle.setOnClickListener(v -> {
             RPrefs.putInt(CUSTOM_BATTERY_STYLE, selectedBatteryStyle);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
         miscSettings();
@@ -132,7 +128,7 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 if (selectedBatteryStyle < 3) {
-                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+                    Helpers.forceReloadUI(getContext());
                 }
             }
         });
@@ -154,7 +150,7 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 if (selectedBatteryStyle < 3) {
-                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+                    Helpers.forceReloadUI(getContext());
                 }
             }
         });

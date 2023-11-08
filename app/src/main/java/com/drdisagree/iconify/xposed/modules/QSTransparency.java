@@ -18,6 +18,9 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.modules.utils.Helpers;
+
+import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -46,6 +49,12 @@ public class QSTransparency extends ModPack {
 
         blurEnabled = Xprefs.getBoolean(QSPANEL_BLUR_SWITCH, false);
         blurRadius = Xprefs.getInt(BLUR_RADIUS_VALUE, 23);
+
+        if (Key.length > 0 && Objects.equals(Key[0], QS_TRANSPARENCY_SWITCH) ||
+                Objects.equals(Key[0], NOTIF_TRANSPARENCY_SWITCH) ||
+                Objects.equals(Key[0], BLUR_RADIUS_VALUE)) {
+            Helpers.forceReloadUI(mContext);
+        }
     }
 
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {

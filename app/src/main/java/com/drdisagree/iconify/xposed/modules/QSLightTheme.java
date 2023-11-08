@@ -60,6 +60,7 @@ import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -89,12 +90,9 @@ public class QSLightTheme extends ModPack {
         if (Xprefs == null) return;
 
         lightQSHeaderEnabled = Xprefs.getBoolean(LIGHT_QSPANEL, false);
-        dualToneQSEnabled = Xprefs.getBoolean(DUALTONE_QSPANEL, false);
+        dualToneQSEnabled = lightQSHeaderEnabled && Xprefs.getBoolean(DUALTONE_QSPANEL, false);
 
-        try {
-            applyOverlays(true);
-        } catch (Throwable ignored) {
-        }
+        applyOverlays(true);
     }
 
     @Override
@@ -438,6 +436,7 @@ public class QSLightTheme extends ModPack {
                                 @Override
                                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                     if (!lightQSHeaderEnabled) return;
+
                                     boolean mClipQsScrim = (boolean) getObjectField(param.thisObject, "mClipQsScrim");
                                     if (mClipQsScrim) {
                                         Object mScrimBehind = getObjectField(param.thisObject, "mScrimBehind");
@@ -700,6 +699,8 @@ public class QSLightTheme extends ModPack {
         hookAllConstructors(FragmentHostManagerClass, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (!lightQSHeaderEnabled) return;
+
                 try {
                     setObjectField(param.thisObject, "mConfigChanges", InterestingConfigChangesClass.getDeclaredConstructor(int.class).newInstance(0x40000000 | 0x0004 | 0x0100 | 0x80000000 | 0x0200));
                 } catch (Throwable throwable) {
@@ -724,7 +725,7 @@ public class QSLightTheme extends ModPack {
         });
     }
 
-    private void applyOverlays(boolean force) throws Throwable {
+    private void applyOverlays(boolean force) {
         boolean isCurrentlyDark = SystemUtil.isDarkMode();
 
         if (isCurrentlyDark == isDark && !force) return;
@@ -737,7 +738,10 @@ public class QSLightTheme extends ModPack {
 
         Helpers.disableOverlays(QS_LIGHT_THEME_OVERLAY, QS_DUAL_TONE_OVERLAY);
 
-        Thread.sleep(50);
+        try {
+            Thread.sleep(50);
+        } catch (Throwable ignored) {
+        }
 
         if (lightQSHeaderEnabled) {
             if (!isCurrentlyDark)

@@ -35,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 import com.drdisagree.iconify.xposed.modules.utils.LockscreenClockStyles;
 
 import java.io.File;
@@ -78,6 +79,11 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 Objects.equals(Key[0], LSCLOCK_TEXT_WHITE) ||
                 Objects.equals(Key[0], LSCLOCK_FONT_TEXT_SCALING))) {
             updateClockView();
+
+            if (Objects.equals(Key[0], LSCLOCK_SWITCH) ||
+                    Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH)) {
+                Helpers.forceReloadUI(mContext);
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_FG_DIR;
@@ -10,8 +10,6 @@ import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +39,8 @@ public class XposedDepthWallpaper extends BaseFragment {
                     String path = getRealPath(data);
 
                     if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_FG_DIR)) {
-                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, !binding.enableDepthWallpaper.isChecked());
-                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, binding.enableDepthWallpaper.isChecked());
+                        RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, !binding.enableDepthWallpaper.isChecked());
+                        RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, binding.enableDepthWallpaper.isChecked());
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
@@ -57,8 +55,8 @@ public class XposedDepthWallpaper extends BaseFragment {
                     String path = getRealPath(data);
 
                     if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_BG_DIR)) {
-                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, !binding.enableDepthWallpaper.isChecked());
-                        RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, binding.enableDepthWallpaper.isChecked());
+                        RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, !binding.enableDepthWallpaper.isChecked());
+                        RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, binding.enableDepthWallpaper.isChecked());
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
@@ -88,7 +86,6 @@ public class XposedDepthWallpaper extends BaseFragment {
             RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, isChecked);
             binding.pickForegroundImg.setEnabled(isChecked);
             binding.pickBackgroundImg.setEnabled(isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.enableDepthWallpaperContainer.setOnClickListener(v -> binding.enableDepthWallpaper.toggle());
 

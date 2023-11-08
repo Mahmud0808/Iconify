@@ -154,6 +154,7 @@ import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBattery;
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryColorOS;
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyleA;
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyleB;
+import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils;
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper;
 
@@ -342,7 +343,9 @@ public class BatteryStyleManager extends ModPack {
 
         refreshBatteryIcons();
 
-        if (Key.length > 0 && (Objects.equals(Key[0], CUSTOM_BATTERY_WIDTH) || Objects.equals(Key[0], CUSTOM_BATTERY_HEIGHT))) {
+        if (Key.length > 0 && (Objects.equals(Key[0], CUSTOM_BATTERY_WIDTH) ||
+                Objects.equals(Key[0], CUSTOM_BATTERY_HEIGHT)
+        )) {
             setDefaultBatteryDimens();
         }
 
@@ -375,6 +378,10 @@ public class BatteryStyleManager extends ModPack {
             if (BatteryMeterViewParam != null) {
                 updateSettings(BatteryMeterViewParam);
             }
+        }
+
+        if (Key.length > 0 && Objects.equals(Key[0], CUSTOM_BATTERY_STYLE)) {
+            Helpers.forceReloadUI(mContext);
         }
     }
 

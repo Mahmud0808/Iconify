@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG;
 import static com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER;
@@ -28,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 
 import java.io.File;
 import java.util.Objects;
@@ -57,8 +59,14 @@ public class DepthWallpaper extends ModPack {
 
         showDepthWallpaper = Xprefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false);
 
-        if (Key.length > 0 && Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH)) {
+        if (Key.length > 0 && (Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH) ||
+                Objects.equals(Key[0], DEPTH_WALLPAPER_CHANGED))
+        ) {
             updateWallpaper();
+
+            if (Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH)) {
+                Helpers.forceReloadUI(mContext);
+            }
         }
     }
 

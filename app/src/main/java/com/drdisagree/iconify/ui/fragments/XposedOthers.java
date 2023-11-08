@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
@@ -13,8 +12,6 @@ import static com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SW
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +23,6 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedOthersBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
 
 public class XposedOthers extends BaseFragment {
@@ -46,14 +42,6 @@ public class XposedOthers extends BaseFragment {
         binding.hideQsCarrierGroup.setChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
         binding.hideQsCarrierGroup.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
-
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (Build.VERSION.SDK_INT >= 33) {
-                    SystemUtil.handleSystemUIRestart();
-                } else {
-                    SystemUtil.doubleToggleDarkMode();
-                }
-            }, SWITCH_ANIMATION_DELAY);
         });
         binding.hideQsCarrierGroupContainer.setOnClickListener(v -> binding.hideQsCarrierGroup.toggle());
 
@@ -61,14 +49,6 @@ public class XposedOthers extends BaseFragment {
         binding.hideStatusIcons.setChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
         binding.hideStatusIcons.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
-
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (Build.VERSION.SDK_INT >= 33) {
-                    SystemUtil.handleSystemUIRestart();
-                } else {
-                    SystemUtil.doubleToggleDarkMode();
-                }
-            }, SWITCH_ANIMATION_DELAY);
         });
         binding.hideStatusIconsContainer.setOnClickListener(v -> binding.hideStatusIcons.toggle());
 
@@ -76,7 +56,6 @@ public class XposedOthers extends BaseFragment {
         binding.hideLockscreenCarrier.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false));
         binding.hideLockscreenCarrier.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.hideLockscreenCarrierContainer.setOnClickListener(v -> binding.hideLockscreenCarrier.toggle());
 
@@ -84,7 +63,6 @@ public class XposedOthers extends BaseFragment {
         binding.hideLockscreenStatusbar.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false));
         binding.hideLockscreenStatusbar.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.hideLockscreenStatusbarContainer.setOnClickListener(v -> binding.hideLockscreenStatusbar.toggle());
 
@@ -94,8 +72,6 @@ public class XposedOthers extends BaseFragment {
             binding.statusIconsSideMarginSeekbar.setEnabled(isChecked);
             binding.statusIconsTopMarginSeekbar.setEnabled(isChecked);
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
-
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.enableFixedStatusIconsContainer.setOnClickListener(v -> binding.enableFixedStatusIcons.toggle());
 
@@ -119,9 +95,6 @@ public class XposedOthers extends BaseFragment {
                 topMarginStatusIcons[0] = (int) slider.getValue();
                 binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
-                if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 
@@ -140,9 +113,6 @@ public class XposedOthers extends BaseFragment {
                 sideMarginStatusIcons[0] = (int) slider.getValue();
                 binding.statusIconsSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + sideMarginStatusIcons[0] + "dp");
                 RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
-                if (RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)) {
-                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-                }
             }
         });
 

@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
@@ -8,8 +7,6 @@ import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +18,6 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedQuickSettingsBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
 
 public class XposedQuickSettings extends BaseFragment {
@@ -42,7 +38,6 @@ public class XposedQuickSettings extends BaseFragment {
         binding.enableVerticalTile.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
             binding.hideTileLabel.setEnabled(isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
         binding.verticalTileContainer.setOnClickListener(v -> binding.enableVerticalTile.toggle());
         binding.hideTileLabel.setEnabled(binding.enableVerticalTile.isChecked());
@@ -51,7 +46,6 @@ public class XposedQuickSettings extends BaseFragment {
         binding.hideTileLabel.setChecked(RPrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
         binding.hideTileLabel.setOnCheckedChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
         binding.hideTileLabelContainer.setOnClickListener(v -> {
             if (binding.hideTileLabel.isEnabled())
@@ -73,8 +67,6 @@ public class XposedQuickSettings extends BaseFragment {
                 binding.qqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + qqsTopMargin[0] + "dp");
                 binding.resetQqsTopMargin.setVisibility(View.VISIBLE);
                 RPrefs.putInt(QQS_TOPMARGIN, qqsTopMargin[0]);
-
-                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
 
@@ -85,8 +77,6 @@ public class XposedQuickSettings extends BaseFragment {
             binding.qqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + 100 + "dp");
             binding.resetQqsTopMargin.setVisibility(View.INVISIBLE);
             RPrefs.clearPref(QQS_TOPMARGIN);
-
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             return true;
         });
 
@@ -105,8 +95,6 @@ public class XposedQuickSettings extends BaseFragment {
                 binding.qsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + qsTopMargin[0] + "dp");
                 binding.resetQsTopMargin.setVisibility(View.VISIBLE);
                 RPrefs.putInt(QS_TOPMARGIN, qsTopMargin[0]);
-
-                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
 
@@ -117,8 +105,6 @@ public class XposedQuickSettings extends BaseFragment {
             binding.qsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + 100 + "dp");
             binding.resetQsTopMargin.setVisibility(View.INVISIBLE);
             RPrefs.clearPref(QS_TOPMARGIN);
-
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             return true;
         });
 

@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 
 import java.util.Objects;
 
@@ -85,6 +86,15 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
 
             if (Objects.equals(Key[0], HIDE_DATA_DISABLED_ICON) && MobileSignalControllerParam != null)
                 callMethod(MobileSignalControllerParam, "updateTelephony");
+
+            if (Objects.equals(Key[0], QSPANEL_HIDE_CARRIER) ||
+                    Objects.equals(Key[0], HIDE_STATUS_ICONS_SWITCH) ||
+                    Objects.equals(Key[0], HIDE_LOCKSCREEN_CARRIER) ||
+                    Objects.equals(Key[0], HIDE_LOCKSCREEN_STATUSBAR) ||
+                    Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH)
+            ) {
+                Helpers.forceReloadUI(mContext);
+            }
         }
     }
 
