@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_background_material"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="22dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        android:textColor="@color/text_color_primary" />
+
+    <TextView
+        android:id="@+id/summary"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="viewStart"
+        android:textColor="@color/text_color_secondary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_widget"
+        style="@style/Widget.MaterialButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:icon="@drawable/ic_open" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_enable"
+        style="@style/Widget.MaterialButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/btn_enable"
+        android:visibility="gone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_disable"
+        style="@style/Widget.MaterialButton.Red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/btn_disable"
+        android:visibility="gone" />
+
+</LinearLayout>

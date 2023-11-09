@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_background_material"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="22dp"
+    android:paddingBottom="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="start"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:textColor="@color/text_color_primary" />
+
+        <ImageView
+            android:id="@+id/reset"
+            android:layout_width="@dimen/reset_button_size"
+            android:layout_height="@dimen/reset_button_size"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:contentDescription="@string/icon"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_reset"
+            app:tint="@color/textColorSecondary" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/summary"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color_secondary" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slider_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:stepSize="1"
+        android:value="50"
+        android:valueFrom="0"
+        android:valueTo="100" />
+
+</LinearLayout>

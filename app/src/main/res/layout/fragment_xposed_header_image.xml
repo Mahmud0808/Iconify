@@ -17,222 +17,55 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.drdisagree.iconify.ui.widgets.FilePickerWidget
+                android:id="@+id/header_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="16dp">
+                app:buttonText="@string/btn_pick_image"
+                app:filePickerType="image"
+                app:summaryText="@string/header_image_desc"
+                app:titleText="@string/header_image_title" />
 
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/header_image_title"
-                    android:textColor="@color/text_color_primary" />
-
-                <TextView
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/header_image_desc"
-                    android:textColor="@color/text_color_secondary" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/pick_header_image"
-                    style="@style/Widget.MaterialButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/btn_pick_image"
-                    app:icon="@drawable/ic_open" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/enable_header_image"
-                    style="@style/Widget.MaterialButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/btn_enable"
-                    android:visibility="gone" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/disable_header_image"
-                    style="@style/Widget.MaterialButton.Red"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/btn_disable"
-                    android:visibility="gone" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/header_image_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
+                app:sliderStepSize="1"
+                app:sliderValue="140"
+                app:sliderValueFrom="40"
+                app:sliderValueTo="400"
+                app:titleText="@string/header_image_height_title"
+                app:valueFormat="dp" />
 
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/header_image_height_title"
-                    android:textColor="@color/text_color_primary" />
-
-                <TextView
-                    android:id="@+id/header_image_height_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/header_image_height_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="140"
-                    android:valueFrom="40"
-                    android:valueTo="400" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/header_image_alpha_container"
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/header_image_alpha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
+                app:sliderStepSize="1"
+                app:sliderValue="100"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="100"
+                app:titleText="@string/header_image_alpha"
+                app:valueFormat="%" />
 
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/header_image_alpha"
-                    android:textColor="@color/text_color_primary" />
-
-                <TextView
-                    android:id="@+id/image_alpha_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/image_alpha_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="100"
-                    android:valueFrom="0"
-                    android:valueTo="100" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/enable_zoom_to_fit_container"
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/zoom_to_fit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:summaryText="@string/header_image_zoom_to_fit_desc"
+                app:titleText="@string/header_image_zoom_to_fit_title" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_zoom_to_fit"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/header_image_zoom_to_fit_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/header_image_zoom_to_fit_desc"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_zoom_to_fit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/enable_hide_image_landscape_container"
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_in_landscape"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:isChecked="true"
+                app:summaryText="@string/header_image_hide_in_landscape_desc"
+                app:titleText="@string/header_image_hide_in_landscape_title" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_hide_image_landscape"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/header_image_hide_in_landscape_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/header_image_hide_in_landscape_desc"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_hide_image_landscape"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp"
-                    android:checked="true" />
-
-            </RelativeLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

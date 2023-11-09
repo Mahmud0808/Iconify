@@ -19,7 +19,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,25 +34,21 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedHeaderClockBinding;
-import com.drdisagree.iconify.ui.activities.HomePage;
 import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class XposedHeaderClock extends BaseFragment {
 
-    private static int colorHeaderClock;
     private FragmentXposedHeaderClockBinding binding;
     ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -63,7 +58,7 @@ public class XposedHeaderClock extends BaseFragment {
                     String path = getRealPath(data);
 
                     if (path != null && copyToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
-                        binding.enableHeaderClockFont.setVisibility(View.VISIBLE);
+                        binding.headerClockFont.setEnableButtonVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                     }
@@ -80,12 +75,13 @@ public class XposedHeaderClock extends BaseFragment {
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_header_clock);
 
         // Custom header clock
-        binding.enableHeaderClock.setChecked(RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false));
-        binding.enableHeaderClock.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.enableHeaderClock.setSwitchChecked(RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false));
+        binding.enableHeaderClock.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
+            updateEnabled(isChecked);
         });
-        binding.enableHeaderClockContainer.setOnClickListener(v -> binding.enableHeaderClock.toggle());
+        updateEnabled(RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false));
 
         // Header clock style
         binding.headerClockPreview.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
@@ -93,119 +89,94 @@ public class XposedHeaderClock extends BaseFragment {
         binding.headerClockPreview.setAdapter(adapter);
         ViewHelper.disableNestedScrolling(binding.headerClockPreview);
 
-        binding.headerClockPreview.setCurrentItem(RPrefs.getInt(HEADER_CLOCK_STYLE, 1) - 1);
+        binding.headerClockPreview.setCurrentItem(RPrefs.getInt(HEADER_CLOCK_STYLE, 1) - 1, false);
         binding.headerClockPreviewIndicator.setViewPager(binding.headerClockPreview);
         binding.headerClockPreviewIndicator.tintIndicator(getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
 
         // Lockscreen clock font picker
-        binding.pickHeaderClockFont.setOnClickListener(v -> {
-            if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(requireContext());
-            } else {
-                browseHeaderClockFont();
-            }
-        });
+        binding.headerClockFont.setActivityResultLauncher(startActivityIntent);
+        binding.headerClockFont.setDisableButtonVisibility(RPrefs.getBoolean(HEADER_CLOCK_FONT_SWITCH, false) ? View.VISIBLE : View.GONE);
 
-        binding.disableHeaderClockFont.setVisibility(RPrefs.getBoolean(HEADER_CLOCK_FONT_SWITCH, false) ? View.VISIBLE : View.GONE);
-
-        binding.enableHeaderClockFont.setOnClickListener(v -> {
+        binding.headerClockFont.setEnableButtonOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_CLOCK_FONT_SWITCH, false);
             RPrefs.putBoolean(HEADER_CLOCK_FONT_SWITCH, true);
-            binding.enableHeaderClockFont.setVisibility(View.GONE);
-            binding.disableHeaderClockFont.setVisibility(View.VISIBLE);
+            binding.headerClockFont.setEnableButtonVisibility(View.GONE);
+            binding.headerClockFont.setDisableButtonVisibility(View.VISIBLE);
         });
 
-        binding.disableHeaderClockFont.setOnClickListener(v -> {
+        binding.headerClockFont.setDisableButtonOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_CLOCK_FONT_SWITCH, false);
-            binding.disableHeaderClockFont.setVisibility(View.GONE);
+            binding.headerClockFont.setDisableButtonVisibility(View.GONE);
         });
 
         // Custom clock color
-        binding.enableHeaderClockCustomColor.setChecked(RPrefs.getBoolean(HEADER_CLOCK_COLOR_SWITCH, false));
-        binding.enableHeaderClockCustomColor.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.headerClockCustomColor.setSwitchChecked(RPrefs.getBoolean(HEADER_CLOCK_COLOR_SWITCH, false));
+        binding.headerClockCustomColor.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HEADER_CLOCK_COLOR_SWITCH, isChecked);
             binding.headerClockColorPicker.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         });
-        binding.headerClockCustomColorContainer.setOnClickListener(v -> binding.enableHeaderClockCustomColor.toggle());
-
-        binding.headerClockColorPicker.setVisibility(RPrefs.getBoolean(HEADER_CLOCK_COLOR_SWITCH, false) ? View.VISIBLE : View.GONE);
 
         // Clock color picker
-        colorHeaderClock = RPrefs.getInt(HEADER_CLOCK_COLOR_CODE, Color.WHITE);
-        binding.headerClockColorPicker.setOnClickListener(v -> ((HomePage) requireActivity()).showColorPickerDialog(1, colorHeaderClock, true, true, true));
-        updateColorPreview();
+        binding.headerClockColorPicker.setVisibility(RPrefs.getBoolean(HEADER_CLOCK_COLOR_SWITCH, false) ? View.VISIBLE : View.GONE);
+        binding.headerClockColorPicker.setColorPickerListener(
+                requireActivity(),
+                1,
+                RPrefs.getInt(HEADER_CLOCK_COLOR_CODE, Color.WHITE),
+                true,
+                true,
+                true
+        );
 
         // Text Scaling
-        final int[] textScaling = {RPrefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10)};
-        binding.headerClockTextscalingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(textScaling[0] / 10.0) + "x");
-        binding.headerClockTextscalingSeekbar.setValue(RPrefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10));
-        binding.headerClockTextscalingSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.headerClockTextscaling.setSliderValue(RPrefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10));
+        binding.headerClockTextscaling.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
-                textScaling[0] = (int) slider.getValue();
-                binding.headerClockTextscalingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + new DecimalFormat("#.#").format(textScaling[0] / 10.0) + "x");
-                RPrefs.putInt(HEADER_CLOCK_FONT_TEXT_SCALING, textScaling[0]);
+                RPrefs.putInt(HEADER_CLOCK_FONT_TEXT_SCALING, (int) slider.getValue());
             }
         });
 
         // Header clock side margin
-        binding.headerClockSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0) + "dp");
-        binding.headerClockSideMarginSeekbar.setValue(RPrefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0));
-        final int[] sideMargin = {RPrefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0)};
-        binding.headerClockSideMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.headerClockSideMargin.setSliderValue(RPrefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0));
+        binding.headerClockSideMargin.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
-                sideMargin[0] = (int) slider.getValue();
-                binding.headerClockSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + sideMargin[0] + "dp");
-                RPrefs.putInt(HEADER_CLOCK_SIDEMARGIN, sideMargin[0]);
+                RPrefs.putInt(HEADER_CLOCK_SIDEMARGIN, (int) slider.getValue());
             }
         });
 
         // Header clock top margin
-        binding.headerClockTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(HEADER_CLOCK_TOPMARGIN, 8) + "dp");
-        binding.headerClockTopMarginSeekbar.setValue(RPrefs.getInt(HEADER_CLOCK_TOPMARGIN, 8));
-        final int[] topMargin = {RPrefs.getInt(HEADER_CLOCK_TOPMARGIN, 8)};
-        binding.headerClockTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.headerClockTopMargin.setSliderValue(RPrefs.getInt(HEADER_CLOCK_TOPMARGIN, 8));
+        binding.headerClockTopMargin.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
-                topMargin[0] = (int) slider.getValue();
-                binding.headerClockTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMargin[0] + "dp");
-                RPrefs.putInt(HEADER_CLOCK_TOPMARGIN, topMargin[0]);
+                RPrefs.putInt(HEADER_CLOCK_TOPMARGIN, (int) slider.getValue());
             }
         });
 
         // Center clock
-        binding.enableCenterClock.setChecked(RPrefs.getBoolean(HEADER_CLOCK_CENTERED, false));
-        binding.enableCenterClock.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(HEADER_CLOCK_CENTERED, isChecked);
-        });
-        binding.centerClockContainer.setOnClickListener(v -> binding.enableCenterClock.toggle());
+        binding.centerClock.setSwitchChecked(RPrefs.getBoolean(HEADER_CLOCK_CENTERED, false));
+        binding.centerClock.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HEADER_CLOCK_CENTERED, isChecked));
 
         // Force white text
-        binding.enableForceWhiteText.setChecked(RPrefs.getBoolean(HEADER_CLOCK_TEXT_WHITE, false));
-        binding.enableForceWhiteText.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(HEADER_CLOCK_TEXT_WHITE, isChecked);
-        });
-        binding.forceWhiteTextContainer.setOnClickListener(v -> binding.enableForceWhiteText.toggle());
+        binding.forceWhiteText.setSwitchChecked(RPrefs.getBoolean(HEADER_CLOCK_TEXT_WHITE, false));
+        binding.forceWhiteText.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HEADER_CLOCK_TEXT_WHITE, isChecked));
 
         // Hide in landscape
-        binding.enableHideHeaderClockLandscape.setChecked(RPrefs.getBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, true));
-        binding.enableHideHeaderClockLandscape.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, isChecked);
-        });
-        binding.hideHeaderClockLandscapeContainer.setOnClickListener(v -> binding.enableHideHeaderClockLandscape.toggle());
+        binding.hideHeaderClockLandscape.setSwitchChecked(RPrefs.getBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, true));
+        binding.hideHeaderClockLandscape.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, isChecked));
 
         return view;
     }
@@ -219,27 +190,25 @@ public class XposedHeaderClock extends BaseFragment {
         return new ClockPreviewAdapter(requireContext(), header_clock, HEADER_CLOCK_SWITCH, HEADER_CLOCK_STYLE);
     }
 
-    public void browseHeaderClockFont() {
-        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-        chooseFile.setType("font/*");
-        startActivityIntent.launch(chooseFile);
+    private void updateEnabled(boolean enabled) {
+        binding.headerClockFont.setEnabled(enabled);
+        binding.headerClockCustomColor.setEnabled(enabled);
+        binding.headerClockColorPicker.setEnabled(enabled);
+        binding.headerClockTextscaling.setEnabled(enabled);
+        binding.headerClockSideMargin.setEnabled(enabled);
+        binding.headerClockTopMargin.setEnabled(enabled);
+        binding.centerClock.setEnabled(enabled);
+        binding.forceWhiteText.setEnabled(enabled);
+        binding.hideHeaderClockLandscape.setEnabled(enabled);
     }
 
     @SuppressWarnings("unused")
     @Subscribe
     public void onColorSelected(ColorSelectedEvent event) {
         if (event.dialogId() == 1) {
-            colorHeaderClock = event.selectedColor();
-            updateColorPreview();
-            RPrefs.putInt(HEADER_CLOCK_COLOR_CODE, colorHeaderClock);
+            binding.headerClockColorPicker.setPreviewColor(event.selectedColor());
+            RPrefs.putInt(HEADER_CLOCK_COLOR_CODE, event.selectedColor());
         }
-    }
-
-    private void updateColorPreview() {
-        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{colorHeaderClock, colorHeaderClock});
-        gd.setCornerRadius(Iconify.getAppContextLocale().getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
-        binding.previewColorPickerClocktext.setBackground(gd);
     }
 
     @Override

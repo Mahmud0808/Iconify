@@ -54,6 +54,6 @@ public class ViewHelper {
     }
 
     public static int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Objects.requireNonNull(Iconify.getAppContext()).getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Iconify.getAppContext().getResources().getDisplayMetrics());
     }
 }

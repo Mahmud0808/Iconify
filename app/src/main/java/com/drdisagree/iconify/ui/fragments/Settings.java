@@ -78,11 +78,11 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
                     Executors.newSingleThreadExecutor().execute(() -> {
                         try {
-                            ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
+                            ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(Iconify.getAppContext().getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
                             new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show());
                         } catch (Exception exception) {
                             new Handler(Looper.getMainLooper()).post(() -> {
-                                Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 Log.e("Settings", "Error exporting settings", exception);
                             });
                         }
@@ -111,20 +111,20 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
                                         Executors.newSingleThreadExecutor().execute(() -> {
                                             try {
-                                                boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
+                                                boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(Iconify.getAppContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
 
                                                 new Handler(Looper.getMainLooper()).post(() -> {
                                                     loadingDialog.hide();
 
                                                     if (success) {
-                                                        Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
                                                     } else {
-                                                        Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
                                             } catch (Exception exception) {
                                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                                    Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                     Log.e("Settings", "Error importing settings", exception);
                                                 });
                                             }
@@ -228,6 +228,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         binding.settingsXposed.restartSystemuiBehavior.setChecked(Prefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true));
         binding.settingsXposed.restartSystemuiBehavior.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(RESTART_SYSUI_BEHAVIOR, isChecked);
+            RPrefs.putBoolean(RESTART_SYSUI_BEHAVIOR, isChecked);
             if (isChecked) {
                 binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_auto_restart_systemui));
             } else {

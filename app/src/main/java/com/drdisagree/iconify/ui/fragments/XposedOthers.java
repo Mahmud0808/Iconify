@@ -39,80 +39,62 @@ public class XposedOthers extends BaseFragment {
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_xposed_others);
 
         // Hide carrier group
-        binding.hideQsCarrierGroup.setChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
-        binding.hideQsCarrierGroup.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
-        });
-        binding.hideQsCarrierGroupContainer.setOnClickListener(v -> binding.hideQsCarrierGroup.toggle());
+        binding.hideQsCarrierGroup.setSwitchChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
+        binding.hideQsCarrierGroup.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked));
 
         // Hide status icons
-        binding.hideStatusIcons.setChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
-        binding.hideStatusIcons.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
-        });
-        binding.hideStatusIconsContainer.setOnClickListener(v -> binding.hideStatusIcons.toggle());
+        binding.hideStatusIcons.setSwitchChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
+        binding.hideStatusIcons.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked));
 
         // Hide lockscreen carrier
-        binding.hideLockscreenCarrier.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false));
-        binding.hideLockscreenCarrier.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked);
-        });
-        binding.hideLockscreenCarrierContainer.setOnClickListener(v -> binding.hideLockscreenCarrier.toggle());
+        binding.hideLockscreenCarrier.setSwitchChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false));
+        binding.hideLockscreenCarrier.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked));
 
         // Hide lockscreen statusbar
-        binding.hideLockscreenStatusbar.setChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false));
-        binding.hideLockscreenStatusbar.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked);
-        });
-        binding.hideLockscreenStatusbarContainer.setOnClickListener(v -> binding.hideLockscreenStatusbar.toggle());
+        binding.hideLockscreenStatusbar.setSwitchChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false));
+        binding.hideLockscreenStatusbar.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked));
 
         // Fixed status icons
-        binding.enableFixedStatusIcons.setChecked(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
-        binding.enableFixedStatusIcons.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            binding.statusIconsSideMarginSeekbar.setEnabled(isChecked);
-            binding.statusIconsTopMarginSeekbar.setEnabled(isChecked);
+        binding.fixedStatusIcons.setSwitchChecked(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
+        binding.fixedStatusIcons.setSwitchChangeListener((buttonView, isChecked) -> {
+            binding.statusIconsTopMargin.setEnabled(isChecked);
+            binding.statusIconsSideMargin.setEnabled(isChecked);
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
         });
-        binding.enableFixedStatusIconsContainer.setOnClickListener(v -> binding.enableFixedStatusIcons.toggle());
 
         // Status icons top margin
-        binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8) + "dp");
-        binding.statusIconsTopMarginSeekbar.setValue(RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8));
-        binding.statusIconsTopMarginSeekbar.setEnabled(
+        binding.statusIconsTopMargin.setSliderValue(RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8));
+        binding.statusIconsTopMargin.setEnabled(
                 Build.VERSION.SDK_INT >= 33 ?
-                        RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) || RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false) :
+                        RPrefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false) ||
+                                RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false) :
                         RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
         );
-        if (Build.VERSION.SDK_INT >= 33) binding.statusIconsTopMarginSeekbar.setValueTo(200);
-        final int[] topMarginStatusIcons = {RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)};
-        binding.statusIconsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            binding.statusIconsTopMargin.setSliderValueTo(200);
+        }
+        binding.statusIconsTopMargin.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
-                topMarginStatusIcons[0] = (int) slider.getValue();
-                binding.statusIconsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + topMarginStatusIcons[0] + "dp");
-                RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, topMarginStatusIcons[0]);
+                RPrefs.putInt(FIXED_STATUS_ICONS_TOPMARGIN, (int) slider.getValue());
             }
         });
 
         // Status icons side margin
-        binding.statusIconsSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0) + "dp");
-        binding.statusIconsSideMarginSeekbar.setValue(RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0));
-        binding.statusIconsSideMarginSeekbar.setEnabled(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
-        final int[] sideMarginStatusIcons = {RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)};
-        binding.statusIconsSideMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.statusIconsSideMargin.setSliderValue(RPrefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0));
+        binding.statusIconsSideMargin.setEnabled(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
+        binding.statusIconsSideMargin.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
-                sideMarginStatusIcons[0] = (int) slider.getValue();
-                binding.statusIconsSideMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + sideMarginStatusIcons[0] + "dp");
-                RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, sideMarginStatusIcons[0]);
+                RPrefs.putInt(FIXED_STATUS_ICONS_SIDEMARGIN, (int) slider.getValue());
             }
         });
 

@@ -20,271 +20,68 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_transparency"
-                android:textColor="?attr/colorPrimary" />
-
-            <RelativeLayout
-                android:id="@+id/qs_transparency_container"
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:titleText="@string/section_title_transparency" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_qs_transparency"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/transparent_qs_panel_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/transparent_qs_panel_desc"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_qs_transparency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/notif_transparency_container"
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/transparent_qs_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:summaryText="@string/transparent_qs_panel_desc"
+                app:titleText="@string/transparent_qs_panel_title" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_notif_transparency"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/transparent_notif_shade_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/transparent_notif_shade_desc"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_notif_transparency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <LinearLayout
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/transparent_notif_shade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
+                app:summaryText="@string/transparent_notif_shade_desc"
+                app:titleText="@string/transparent_notif_shade_title" />
 
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/transparency_alpha_title"
-                    android:textColor="@color/text_color_primary" />
-
-                <TextView
-                    android:id="@+id/transparency_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/transparency_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="60"
-                    android:valueFrom="0"
-                    android:valueTo="100" />
-
-            </LinearLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_blur"
-                android:textColor="?attr/colorPrimary" />
-
-            <RelativeLayout
-                android:id="@+id/blur_container"
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/transparency_slider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:sliderDefaultValue="60"
+                app:sliderStepSize="1"
+                app:sliderValue="60"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="100"
+                app:titleText="@string/transparency_alpha_title"
+                app:valueFormat="%" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_blur"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/window_level_blur_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/window_level_blur_desc"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_blur"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/aggressive_blur_container"
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:titleText="@string/section_title_blur" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_aggressive_blur"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/aggressive_blur_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/aggressive_blur_desc"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_aggressive_blur"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <LinearLayout
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/blur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
+                app:summaryText="@string/window_level_blur_desc"
+                app:titleText="@string/window_level_blur_title" />
 
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/blur_intensity_title"
-                    android:textColor="@color/text_color_primary" />
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/aggressive_blur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/aggressive_blur_desc"
+                app:titleText="@string/aggressive_blur_title" />
 
-                <TextView
-                    android:id="@+id/blur_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/blur_intensity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderDefaultValue="23"
+                app:sliderStepSize="1"
+                app:sliderValue="23"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="600"
+                app:titleText="@string/blur_intensity_title"
+                app:valueFormat="px" />
 
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/blur_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="23"
-                    android:valueFrom="0"
-                    android:valueTo="600" />
-
-            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

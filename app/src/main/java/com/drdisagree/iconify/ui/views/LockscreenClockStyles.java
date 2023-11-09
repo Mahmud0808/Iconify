@@ -31,13 +31,14 @@ public class LockscreenClockStyles {
     static int customColorCode = Color.WHITE;
 
     @SuppressLint("SetTextI18n")
+    @SuppressWarnings("deprecation")
     public static LinearLayout initLockscreenClockStyle(Context mContext, int style) {
         LinearLayout container = new LinearLayout(mContext);
         container.setGravity(Gravity.START | Gravity.CENTER);
         customColorCode = ResourcesCompat.getColor(mContext.getResources(), R.color.textColorPrimary, mContext.getTheme());
 
         switch (style) {
-            case 0:
+            case 0 -> {
                 final TextView textView0 = new TextView(mContext);
                 textView0.setText("NONE");
                 textView0.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary, mContext.getTheme()));
@@ -45,7 +46,6 @@ public class LockscreenClockStyles {
                 textView0.setLetterSpacing(0.2f);
                 textView0.setTypeface(typeface != null ? typeface : textView0.getTypeface(), Typeface.BOLD);
                 textView0.setGravity(Gravity.CENTER);
-
                 final LinearLayout blank0 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams blankParams0 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
                 blankParams0.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, topMargin, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, bottomMargin, mContext.getResources().getDisplayMetrics()));
@@ -53,10 +53,9 @@ public class LockscreenClockStyles {
                 blank0.setOrientation(LinearLayout.VERTICAL);
                 blank0.setGravity(Gravity.CENTER);
                 blank0.addView(textView0);
-
                 container = blank0;
-                break;
-            case 1:
+            }
+            case 1 -> {
                 final TextClock date1 = new TextClock(mContext);
                 date1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 date1.setFormat12Hour("EEEE d MMMM");
@@ -67,7 +66,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams dateParams1 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 dateParams1.setMargins(0, 0, 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics()));
                 date1.setLayoutParams(dateParams1);
-
                 final TextClock clock1 = new TextClock(mContext);
                 clock1.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clock1.setFormat12Hour("hh:mm");
@@ -78,7 +76,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams clockParams1 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 clockParams1.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -4 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 clock1.setLayoutParams(clockParams1);
-
                 final LinearLayout clockContainer1 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutParams1.gravity = Gravity.CENTER_HORIZONTAL;
@@ -86,13 +83,11 @@ public class LockscreenClockStyles {
                 clockContainer1.setLayoutParams(layoutParams1);
                 clockContainer1.setGravity(Gravity.CENTER);
                 clockContainer1.setOrientation(LinearLayout.VERTICAL);
-
                 clockContainer1.addView(date1);
                 clockContainer1.addView(clock1);
-
                 container = clockContainer1;
-                break;
-            case 2:
+            }
+            case 2 -> {
                 final TextClock day2 = new TextClock(mContext);
                 day2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 day2.setFormat12Hour("EEEE");
@@ -100,7 +95,6 @@ public class LockscreenClockStyles {
                 day2.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary, mContext.getTheme()));
                 day2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 50 * textScaling);
                 day2.setTypeface(typeface != null ? typeface : day2.getTypeface());
-
                 final TextClock clock2 = new TextClock(mContext);
                 clock2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clock2.setFormat12Hour("hh:mm");
@@ -108,7 +102,6 @@ public class LockscreenClockStyles {
                 clock2.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.textColorPrimary, mContext.getTheme()));
                 clock2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 50 * textScaling);
                 clock2.setTypeface(typeface != null ? typeface : clock2.getTypeface());
-
                 final TextClock clockOverlay2 = new TextClock(mContext);
                 clockOverlay2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockOverlay2.setFormat12Hour("hh");
@@ -121,14 +114,11 @@ public class LockscreenClockStyles {
                 InputFilter[] fArray2 = new InputFilter[1];
                 fArray2[0] = new InputFilter.LengthFilter(maxLength2);
                 clockOverlay2.setFilters(fArray2);
-
                 final FrameLayout clockContainer2 = new FrameLayout(mContext);
                 clockContainer2.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 ((FrameLayout.LayoutParams) clockContainer2.getLayoutParams()).setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -12 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -8 + lineHeight, mContext.getResources().getDisplayMetrics()));
-
                 clockContainer2.addView(clock2);
                 clockContainer2.addView(clockOverlay2);
-
                 final TextClock month2 = new TextClock(mContext);
                 month2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 month2.setFormat12Hour("MMMM d");
@@ -139,7 +129,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams monthParams2 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 monthParams2.setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), 0, 0);
                 month2.setLayoutParams(monthParams2);
-
                 final LinearLayout wholeContainer2 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layoutparams2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutparams2.gravity = Gravity.START;
@@ -147,14 +136,12 @@ public class LockscreenClockStyles {
                 wholeContainer2.setLayoutParams(layoutparams2);
                 wholeContainer2.setGravity(Gravity.START);
                 wholeContainer2.setOrientation(LinearLayout.VERTICAL);
-
                 wholeContainer2.addView(day2);
                 wholeContainer2.addView(clockContainer2);
                 wholeContainer2.addView(month2);
-
                 container = wholeContainer2;
-                break;
-            case 3:
+            }
+            case 3 -> {
                 final TextClock date3 = new TextClock(mContext);
                 date3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 date3.setFormat12Hour("EEE, MMM dd");
@@ -162,7 +149,6 @@ public class LockscreenClockStyles {
                 date3.setTextColor(mContext.getResources().getColor(forceWhiteText ? R.color.white : R.color.holo_blue_light, mContext.getTheme()));
                 date3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling);
                 date3.setTypeface(typeface != null ? typeface : date3.getTypeface(), Typeface.BOLD);
-
                 final TextClock clockHour3 = new TextClock(mContext);
                 clockHour3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockHour3.setFormat12Hour("hh");
@@ -173,7 +159,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams clockHourParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 clockHourParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -30 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 clockHour3.setLayoutParams(clockHourParams3);
-
                 final TextClock clockMinute3 = new TextClock(mContext);
                 clockMinute3.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 clockMinute3.setFormat12Hour("mm");
@@ -184,7 +169,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams clockMinuteParams3 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 clockMinuteParams3.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -54 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 clockMinute3.setLayoutParams(clockMinuteParams3);
-
                 final LinearLayout clockContainer3 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutParams3.gravity = Gravity.CENTER_HORIZONTAL;
@@ -192,18 +176,15 @@ public class LockscreenClockStyles {
                 clockContainer3.setLayoutParams(layoutParams3);
                 clockContainer3.setGravity(Gravity.CENTER_HORIZONTAL);
                 clockContainer3.setOrientation(LinearLayout.VERTICAL);
-
                 clockContainer3.addView(date3);
                 clockContainer3.addView(clockHour3);
                 clockContainer3.addView(clockMinute3);
-
                 container = clockContainer3;
-                break;
-            case 4:
+            }
+            case 4 -> {
                 final AnalogClock analogClock4 = new AnalogClock(mContext);
                 analogClock4.setLayoutParams(new LinearLayout.LayoutParams((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180 * textScaling, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180 * textScaling, mContext.getResources().getDisplayMetrics())));
                 ((LinearLayout.LayoutParams) analogClock4.getLayoutParams()).gravity = Gravity.CENTER_HORIZONTAL;
-
                 final TextClock day4 = new TextClock(mContext);
                 day4.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 day4.setFormat12Hour("EEE dd MMM");
@@ -214,7 +195,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams dayParams4 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 dayParams4.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 day4.setLayoutParams(dayParams4);
-
                 final LinearLayout clockContainer4 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layoutParams4 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutParams4.gravity = Gravity.CENTER_HORIZONTAL;
@@ -222,13 +202,11 @@ public class LockscreenClockStyles {
                 clockContainer4.setLayoutParams(layoutParams4);
                 clockContainer4.setGravity(Gravity.CENTER_HORIZONTAL);
                 clockContainer4.setOrientation(LinearLayout.VERTICAL);
-
                 clockContainer4.addView(analogClock4);
                 clockContainer4.addView(day4);
-
                 container = clockContainer4;
-                break;
-            case 5:
+            }
+            case 5 -> {
                 final TextClock hour5 = new TextClock(mContext);
                 hour5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 hour5.setFormat12Hour("hh");
@@ -236,7 +214,6 @@ public class LockscreenClockStyles {
                 hour5.setTextColor(mContext.getResources().getColor(R.color.white, mContext.getTheme()));
                 hour5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40 * textScaling);
                 hour5.setTypeface(typeface != null ? typeface : hour5.getTypeface(), Typeface.BOLD);
-
                 final TextClock minute5 = new TextClock(mContext);
                 minute5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 minute5.setFormat12Hour("mm");
@@ -247,7 +224,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams minuteParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 minuteParams5.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 minute5.setLayoutParams(minuteParams5);
-
                 final LinearLayout time5 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams timeLayoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 timeLayoutParams5.gravity = Gravity.CENTER;
@@ -258,10 +234,8 @@ public class LockscreenClockStyles {
                 timeDrawable5.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
                 time5.setBackground(timeDrawable5);
                 time5.setGravity(Gravity.CENTER);
-
                 time5.addView(hour5);
                 time5.addView(minute5);
-
                 final TextClock day5 = new TextClock(mContext);
                 day5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 day5.setFormat12Hour("EEE");
@@ -271,7 +245,6 @@ public class LockscreenClockStyles {
                 day5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 28 * textScaling);
                 day5.setTypeface(typeface != null ? typeface : day5.getTypeface(), Typeface.BOLD);
                 day5.setLetterSpacing(0.2f);
-
                 final TextClock date5 = new TextClock(mContext);
                 date5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 date5.setFormat12Hour("dd");
@@ -283,7 +256,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams dateParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 dateParams5.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -2 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 date5.setLayoutParams(dateParams5);
-
                 final TextClock month5 = new TextClock(mContext);
                 month5.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 month5.setFormat12Hour("MMM");
@@ -296,7 +268,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams monthParams5 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 monthParams5.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -2 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
                 month5.setLayoutParams(monthParams5);
-
                 final LinearLayout right5 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams rightLayoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 rightLayoutParams5.gravity = Gravity.CENTER;
@@ -304,11 +275,9 @@ public class LockscreenClockStyles {
                 right5.setOrientation(LinearLayout.VERTICAL);
                 right5.setPadding((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics()));
                 right5.setGravity(Gravity.CENTER);
-
                 right5.addView(day5);
                 right5.addView(date5);
                 right5.addView(month5);
-
                 final LinearLayout container5 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layoutParams5 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutParams5.gravity = Gravity.CENTER_HORIZONTAL;
@@ -319,15 +288,12 @@ public class LockscreenClockStyles {
                 GradientDrawable mDrawable5 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{mContext.getResources().getColor(R.color.holo_blue_light, mContext.getTheme()), mContext.getResources().getColor(R.color.holo_blue_light, mContext.getTheme())});
                 mDrawable5.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, mContext.getResources().getDisplayMetrics()));
                 container5.setBackground(mDrawable5);
-
                 container5.addView(time5);
                 container5.addView(right5);
-
                 container = container5;
-                break;
-            case 6:
+            }
+            case 6 -> {
                 int margin6 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14 * textScaling, mContext.getResources().getDisplayMetrics());
-
                 final TextClock day6 = new TextClock(mContext);
                 day6.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 day6.setFormat12Hour("EEE");
@@ -341,7 +307,6 @@ public class LockscreenClockStyles {
                 InputFilter[] fArray6 = new InputFilter[1];
                 fArray6[0] = new InputFilter.LengthFilter(maxLength6);
                 day6.setFilters(fArray6);
-
                 final TextView dayText6 = new TextView(mContext);
                 dayText6.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 dayText6.setText("DAY");
@@ -354,7 +319,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams dayTextParams6 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 dayTextParams6.setMargins(0, 12 + topMargin, 0, 0);
                 dayText6.setLayoutParams(dayTextParams6);
-
                 final LinearLayout dayContainer6 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams dayLayoutParams6 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 dayLayoutParams6.gravity = Gravity.CENTER;
@@ -362,10 +326,8 @@ public class LockscreenClockStyles {
                 dayContainer6.setLayoutParams(dayLayoutParams6);
                 dayContainer6.setGravity(Gravity.CENTER);
                 dayContainer6.setOrientation(LinearLayout.VERTICAL);
-
                 dayContainer6.addView(day6);
                 dayContainer6.addView(dayText6);
-
                 final TextClock hour6 = new TextClock(mContext);
                 hour6.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 hour6.setFormat12Hour("hh");
@@ -375,7 +337,6 @@ public class LockscreenClockStyles {
                 hour6.setTextSize(TypedValue.COMPLEX_UNIT_SP, 42 * textScaling);
                 hour6.setTypeface(typeface != null ? typeface : hour6.getTypeface(), Typeface.NORMAL);
                 hour6.setIncludeFontPadding(false);
-
                 final TextView hourText6 = new TextView(mContext);
                 hourText6.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 hourText6.setText("HOURS");
@@ -388,7 +349,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams hourTextParams6 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 hourTextParams6.setMargins(0, 12 + topMargin, 0, 0);
                 hourText6.setLayoutParams(hourTextParams6);
-
                 final LinearLayout hourContainer6 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams hourLayoutParams6 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 hourLayoutParams6.gravity = Gravity.CENTER;
@@ -396,10 +356,8 @@ public class LockscreenClockStyles {
                 hourContainer6.setLayoutParams(hourLayoutParams6);
                 hourContainer6.setGravity(Gravity.CENTER);
                 hourContainer6.setOrientation(LinearLayout.VERTICAL);
-
                 hourContainer6.addView(hour6);
                 hourContainer6.addView(hourText6);
-
                 final TextClock minute6 = new TextClock(mContext);
                 minute6.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 minute6.setFormat12Hour("mm");
@@ -409,7 +367,6 @@ public class LockscreenClockStyles {
                 minute6.setTextSize(TypedValue.COMPLEX_UNIT_SP, 42 * textScaling);
                 minute6.setTypeface(typeface != null ? typeface : minute6.getTypeface(), Typeface.NORMAL);
                 minute6.setIncludeFontPadding(false);
-
                 final TextView minuteText6 = new TextView(mContext);
                 minuteText6.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 minuteText6.setText("MINUTES");
@@ -422,7 +379,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams minuteTextParams6 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 minuteTextParams6.setMargins(0, 12 + topMargin, 0, 0);
                 minuteText6.setLayoutParams(minuteTextParams6);
-
                 final LinearLayout minuteContainer6 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams minuteLayoutParams6 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 minuteLayoutParams6.gravity = Gravity.CENTER;
@@ -430,10 +386,8 @@ public class LockscreenClockStyles {
                 minuteContainer6.setLayoutParams(minuteLayoutParams6);
                 minuteContainer6.setGravity(Gravity.CENTER);
                 minuteContainer6.setOrientation(LinearLayout.VERTICAL);
-
                 minuteContainer6.addView(minute6);
                 minuteContainer6.addView(minuteText6);
-
                 final LinearLayout container6 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layoutParams6 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutParams6.gravity = Gravity.CENTER_HORIZONTAL;
@@ -444,14 +398,12 @@ public class LockscreenClockStyles {
                 GradientDrawable mDrawable6 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#090909"), Color.parseColor("#090909")});
                 mDrawable6.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
                 container6.setBackground(mDrawable6);
-
                 container6.addView(dayContainer6);
                 container6.addView(hourContainer6);
                 container6.addView(minuteContainer6);
-
                 container = container6;
-                break;
-            case 7:
+            }
+            case 7 -> {
                 final TextView time71 = new TextView(mContext);
                 String timeFormat71 = "It's";
                 time71.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -463,7 +415,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams timeLayoutParams71 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 timeLayoutParams71.setMargins(0, 12 + lineHeight, 0, 0);
                 time71.setLayoutParams(timeLayoutParams71);
-
                 final TextView time72 = new TextView(mContext);
                 String timeFormat72 = "One";
                 time72.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -475,7 +426,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams timeLayoutParams72 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 timeLayoutParams72.setMargins(0, 12 + lineHeight, 0, 0);
                 time72.setLayoutParams(timeLayoutParams72);
-
                 final TextView time73 = new TextView(mContext);
                 String timeFormat73 = "Sixteen";
                 time73.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -487,7 +437,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams timeLayoutParams73 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 timeLayoutParams73.setMargins(0, 12 + lineHeight, 0, 0);
                 time73.setLayoutParams(timeLayoutParams73);
-
                 final TextClock date7 = new TextClock(mContext);
                 date7.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 date7.setFormat12Hour("EEEE, MMM dd");
@@ -499,7 +448,6 @@ public class LockscreenClockStyles {
                 ViewGroup.MarginLayoutParams dateLayoutParams7 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 dateLayoutParams7.setMargins(0, 16 + lineHeight, 0, 0);
                 date7.setLayoutParams(dateLayoutParams7);
-
                 final LinearLayout container7 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layoutParams7 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutParams7.gravity = Gravity.CENTER_HORIZONTAL;
@@ -507,15 +455,13 @@ public class LockscreenClockStyles {
                 container7.setLayoutParams(layoutParams7);
                 container7.setGravity(Gravity.START | Gravity.CENTER_HORIZONTAL);
                 container7.setOrientation(LinearLayout.VERTICAL);
-
                 container7.addView(time71);
                 container7.addView(time72);
                 container7.addView(time73);
                 container7.addView(date7);
-
                 container = container7;
-                break;
-            case 8:
+            }
+            case 8 -> {
                 final TextClock day8 = new TextClock(mContext);
                 ViewGroup.MarginLayoutParams dayParams8 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 dayParams8.setMargins(0, 0, 0, 0);
@@ -526,7 +472,6 @@ public class LockscreenClockStyles {
                 day8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                 day8.setTypeface(typeface != null ? typeface : day8.getTypeface(), Typeface.BOLD);
                 day8.setIncludeFontPadding(false);
-
                 final TextClock clock8 = new TextClock(mContext);
                 ViewGroup.MarginLayoutParams clockParams8 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 clockParams8.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -4 + lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
@@ -537,7 +482,6 @@ public class LockscreenClockStyles {
                 clock8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 100 * textScaling);
                 clock8.setTypeface(typeface != null ? typeface : clock8.getTypeface(), Typeface.BOLD);
                 clock8.setIncludeFontPadding(false);
-
                 final TextClock date8 = new TextClock(mContext);
                 ViewGroup.MarginLayoutParams dateParams8 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 dateParams8.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, lineHeight, mContext.getResources().getDisplayMetrics()), 0, 0);
@@ -548,7 +492,6 @@ public class LockscreenClockStyles {
                 date8.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28 * textScaling);
                 date8.setTypeface(typeface != null ? typeface : date8.getTypeface(), Typeface.NORMAL);
                 date8.setIncludeFontPadding(false);
-
                 final LinearLayout container8 = new LinearLayout(mContext);
                 LinearLayout.LayoutParams layoutParams8 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 layoutParams8.gravity = Gravity.CENTER_HORIZONTAL;
@@ -561,13 +504,11 @@ public class LockscreenClockStyles {
                 mDrawable8.setCornerRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24 * textScaling, mContext.getResources().getDisplayMetrics()));
                 mDrawable8.setAlpha(50);
                 container8.setBackground(mDrawable8);
-
                 container8.addView(day8);
                 container8.addView(clock8);
                 container8.addView(date8);
-
                 container = container8;
-                break;
+            }
         }
 
         return container;

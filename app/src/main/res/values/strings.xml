@@ -104,9 +104,9 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Show Warning</string>
     <string name="settings_show_warning_desc">Show warning on how to re-optimize module in Xposed Menu.</string>
-    <string name="settings_restart_systemui_behavior">Restart SystemUI Behavior</string>
-    <string name="settings_auto_restart_systemui">Automatically restart SystemUI.</string>
-    <string name="settings_manual_restart_systemui">Notify for manual restart.</string>
+    <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
+    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">SystemUI restart required</string>
     <string name="settings_section_title_miscellaneous">Miscellaneous</string>
     <string name="settings_restart_systemui_after_boot_title">Restart SystemUI After Boot</string>
@@ -842,6 +842,8 @@
     <string name="icon">Icon</string>
     <string name="section_title_media_player_icons">Media Player Icons</string>
     <string name="opt_selected">Selected:</string>
+    <string name="opt_selected1">Selected: %s</string>
+    <string name="opt_selected2">Selected: %s%s</string>
     <string name="opt_default">(Default)</string>
     <string name="loading_dialog_wait">Please Wait</string>
     <string name="rebooting_desc">Rebooting in 5 seconds</string>
