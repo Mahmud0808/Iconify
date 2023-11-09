@@ -17,130 +17,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_status_bar"
-                android:textColor="?attr/colorPrimary" />
+                app:titleText="@string/section_title_status_bar" />
 
-            <RelativeLayout
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/clock_bg_chip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:summaryText="@string/sb_clock_background_chip_desc"
+                app:titleText="@string/sb_clock_background_chip_title" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_clock_bg_chip"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sb_clock_background_chip_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sb_clock_background_chip_desc"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_clock_bg_chip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/sb_clock_color"
+            <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                android:id="@+id/clock_text_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="22dp">
+                app:titleText="@string/statusbar_clock_color_title" />
 
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/statusbar_clock_color_title"
-                    android:textColor="@color/text_color_primary" />
-
-                <TextView
-                    android:id="@+id/selected_sb_clock_color_option"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/sb_clock_color_picker"
+            <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                android:id="@+id/clock_text_color_picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/preview_color_picker_clocktext"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/clock_color_picker_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/clock_color_picker_desc"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/preview_color_picker_clocktext"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp"
-                    android:contentDescription="@string/color_picker_preview" />
-
-            </RelativeLayout>
+                app:summaryText="@string/clock_color_picker_desc"
+                app:titleText="@string/clock_color_picker_title" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -185,58 +88,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
+                <com.drdisagree.iconify.ui.widgets.TitleWidget
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/section_title_status_icons"
-                    android:textColor="?attr/colorPrimary" />
+                    app:titleText="@string/section_title_status_icons" />
 
-                <RelativeLayout
+                <com.drdisagree.iconify.ui.widgets.SwitchWidget
                     android:id="@+id/status_icons_chip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/item_background_material"
-                    android:clickable="true">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginVertical="22dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toStartOf="@id/enable_status_icons_chip"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/status_icons_chip_title"
-                            android:textColor="@color/text_color_primary" />
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.BodyMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/status_icons_chip_desc"
-                            android:textColor="@color/text_color_secondary" />
-
-                    </LinearLayout>
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/enable_status_icons_chip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="24dp" />
-
-                </RelativeLayout>
+                    app:summaryText="@string/status_icons_chip_desc"
+                    app:titleText="@string/status_icons_chip_title" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

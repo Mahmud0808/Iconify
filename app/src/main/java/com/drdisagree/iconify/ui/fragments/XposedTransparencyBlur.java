@@ -45,6 +45,7 @@ public class XposedTransparencyBlur extends BaseFragment {
         binding.transparentNotifShade.setSwitchChangeListener(notifTransparencyListener);
 
         // Tansparency Alpha
+        binding.transparencySlider.setEnabled(binding.transparentQsPanel.isSwitchChecked() || binding.transparentNotifShade.isSwitchChecked());
         binding.transparencySlider.setSliderValue(RPrefs.getInt(QSALPHA_LEVEL, 60));
         binding.transparencySlider.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
@@ -119,6 +120,8 @@ public class XposedTransparencyBlur extends BaseFragment {
                 binding.transparentNotifShade.setSwitchChecked(false);
                 binding.transparentNotifShade.setSwitchChangeListener(notifTransparencyListener);
             }
+
+            binding.transparencySlider.setEnabled(binding.transparentQsPanel.isSwitchChecked() || binding.transparentNotifShade.isSwitchChecked());
         }
     };
 
@@ -131,5 +134,7 @@ public class XposedTransparencyBlur extends BaseFragment {
             binding.transparentQsPanel.setSwitchChecked(false);
             binding.transparentQsPanel.setSwitchChangeListener(qsTransparencyListener);
         }
+
+        binding.transparencySlider.setEnabled(binding.transparentQsPanel.isSwitchChecked() || binding.transparentNotifShade.isSwitchChecked());
     };
 }

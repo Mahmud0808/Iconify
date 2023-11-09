@@ -10,4 +10,21 @@
         <attr name="bounceDelay" format="integer" />
         <attr name="triggerOverScrollThreshold" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="CustomWidgetView">
+        <attr name="titleText" format="string" />
+        <attr name="summaryText" format="string" />
+        <attr name="isChecked" format="boolean" />
+        <attr name="sliderStepSize" format="integer" />
+        <attr name="sliderValue" format="integer" />
+        <attr name="sliderValueFrom" format="integer" />
+        <attr name="sliderValueTo" format="integer" />
+        <attr name="valueFormat" format="string" />
+        <attr name="sliderDefaultValue" format="integer" />
+        <attr name="buttonText" format="string" />
+        <attr name="filePickerType" format="string" />
+        <attr name="isDecimalFormat" format="boolean" />
+        <attr name="decimalFormat" format="string" />
+        <attr name="outputScale" format="float" />
+    </declare-styleable>
 </resources>

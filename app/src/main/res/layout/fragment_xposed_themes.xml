@@ -17,354 +17,79 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_for_pixel_roms"
-                android:textColor="?attr/colorPrimary" />
-
-            <RelativeLayout
-                android:id="@+id/light_theme_container"
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:titleText="@string/section_title_for_pixel_roms" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_light_theme"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/light_theme_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/light_theme_desc"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_light_theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/dual_tone_container"
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/light_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:summaryText="@string/light_theme_desc"
+                app:titleText="@string/light_theme_title" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_dual_tone"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dual_tone_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dual_tone_desc"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_dual_tone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_for_custom_roms"
-                android:textColor="?attr/colorPrimary" />
-
-            <RelativeLayout
-                android:id="@+id/black_theme_container"
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/dual_tone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:summaryText="@string/dual_tone_desc"
+                app:titleText="@string/dual_tone_title" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_black_theme"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/black_theme_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/black_theme_desc"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_black_theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_translucent_theme"
-                android:textColor="?attr/colorPrimary" />
-
-            <RelativeLayout
-                android:id="@+id/fluid_theme_container"
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:titleText="@string/section_title_for_custom_roms" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_fluid_theme"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fluid_qs_theme_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fluid_qs_theme_desc"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_fluid_theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/notification_transparency_container"
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/black_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:summaryText="@string/black_theme_desc"
+                app:titleText="@string/black_theme_title" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_notification_transparency"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/notification_transparency_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/notification_transparency_desc"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_notification_transparency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/powermenu_transparency_container"
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:titleText="@string/section_title_translucent_theme" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/enable_powermenu_transparency"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/power_menu_transparency_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/power_menu_transparency_desc"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/enable_powermenu_transparency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/section_title_others"
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_others"
-                android:textColor="?attr/colorPrimary" />
-
-            <RelativeLayout
-                android:id="@+id/fix_notification_color_container"
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/fluid_qs_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true">
+                app:summaryText="@string/fluid_qs_theme_desc"
+                app:titleText="@string/fluid_qs_theme_title" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="22dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/fix_notification_color"
-                    android:orientation="vertical">
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/fluid_notif_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/notification_transparency_desc"
+                app:titleText="@string/notification_transparency_title" />
 
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fix_notification_color_title"
-                        android:textColor="@color/text_color_primary" />
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/fluid_powermenu_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/power_menu_transparency_desc"
+                app:titleText="@string/power_menu_transparency_title" />
 
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fix_notification_color_desc"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/text_color_secondary" />
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:id="@+id/section_others"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_others" />
 
-                </LinearLayout>
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/fix_notification_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/fix_notification_color_desc"
+                app:titleText="@string/fix_notification_color_title" />
 
-                <com.google.android.material.materialswitch.MaterialSwitch
-                    android:id="@+id/fix_notification_color"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="24dp" />
-
-            </RelativeLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -29,8 +29,6 @@ import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.topjohnwu.superuser.Shell;
 
-import java.util.Objects;
-
 public class SystemUtil {
 
     private static final int CLICK_DELAY_TIME = 8000;
@@ -44,7 +42,7 @@ public class SystemUtil {
     private static final String blur_cmd5 = "ro.config.avoid_gfx_accel=false";
 
     public static boolean isDarkMode() {
-        return (Objects.requireNonNull(Iconify.getAppContext()).getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+        return (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void restartSystemUI() {
@@ -53,7 +51,7 @@ public class SystemUtil {
             lastClickTime = currentTime;
             Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
         } else {
-            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_try_again_later), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_try_again_later), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -61,7 +59,7 @@ public class SystemUtil {
         if (Prefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true)) {
             restartSystemUI();
         } else {
-            Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();
         }
     }
 

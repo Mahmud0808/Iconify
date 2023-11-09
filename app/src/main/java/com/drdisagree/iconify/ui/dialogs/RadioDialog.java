@@ -33,6 +33,10 @@ public class RadioDialog extends BaseActivity {
     }
 
     public void show(int title, int items, TextView output) {
+        show(title, items, output, false);
+    }
+
+    public void show(int title, int items, TextView output, boolean showSelectedPrefix) {
         if (dialog != null) dialog.dismiss();
 
         String[] options = context.getResources().getStringArray(items);
@@ -63,7 +67,14 @@ public class RadioDialog extends BaseActivity {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             selectedIndex = checkedId;
             dialog.hide();
-            output.setText(((RadioButton) radioGroup.getChildAt(checkedId)).getText());
+            output.setText(
+                    showSelectedPrefix ?
+                            context.getString(
+                                    R.string.opt_selected1,
+                                    ((RadioButton) radioGroup.getChildAt(checkedId)).getText()
+                            ) :
+                            ((RadioButton) radioGroup.getChildAt(checkedId)).getText()
+            );
 
             if (listener != null) {
                 listener.onItemSelected(dialogId, selectedIndex);

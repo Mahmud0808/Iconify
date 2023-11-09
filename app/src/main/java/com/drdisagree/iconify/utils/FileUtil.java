@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 
+import androidx.activity.result.ActivityResultLauncher;
+
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
 import com.topjohnwu.superuser.Shell;
@@ -40,6 +42,8 @@ public class FileUtil {
 
     private static void copyFileOrDirectory(Context context, String dirName, String outPath) throws IOException {
         String[] srcFiles = context.getAssets().list(dirName);
+        if (srcFiles == null) return;
+
         for (String srcFileName : srcFiles) {
             String outFileName = outPath + File.separator + srcFileName;
             String inFileName = dirName + File.separator + srcFileName;
@@ -93,6 +97,9 @@ public class FileUtil {
         File file;
         try {
             @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
+
+            if (returnCursor == null) return null;
+
             int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
             returnCursor.moveToFirst();
             String name = returnCursor.getString(nameIndex);
@@ -101,6 +108,9 @@ public class FileUtil {
             FileOutputStream outputStream = new FileOutputStream(file);
             int read;
             int maxBufferSize = 1024 * 1024;
+
+            if (inputStream == null) return null;
+
             int bytesAvailable = inputStream.available();
             int bufferSize = Math.min(bytesAvailable, maxBufferSize);
             final byte[] buffers = new byte[bufferSize];
@@ -118,5 +128,12 @@ public class FileUtil {
 
     public static boolean copyToIconifyHiddenDir(String source, String destination) {
         return Shell.cmd("mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR, "cp \"" + source + "\" \"" + destination + "\"").exec().isSuccess();
+    }
+
+    public static void launchFilePicker(ActivityResultLauncher<Intent> launcher, String type) {
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+        chooseFile.setType(type);
+        launcher.launch(chooseFile);
     }
 }

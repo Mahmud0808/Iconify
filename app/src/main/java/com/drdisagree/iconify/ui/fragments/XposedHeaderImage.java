@@ -28,7 +28,6 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedHeaderImageBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
-import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
 
 public class XposedHeaderImage extends BaseFragment {
@@ -42,7 +41,7 @@ public class XposedHeaderImage extends BaseFragment {
                     String path = getRealPath(data);
 
                     if (path != null && copyToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
-                        binding.enableHeaderImage.setVisibility(View.VISIBLE);
+                        binding.headerImage.setEnableButtonVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                     }
@@ -59,79 +58,68 @@ public class XposedHeaderImage extends BaseFragment {
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_header_image);
 
         // Header image picker
-        binding.pickHeaderImage.setOnClickListener(v -> {
-            if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(requireContext());
-            } else {
-                browseHeaderImage();
-            }
-        });
+        binding.headerImage.setActivityResultLauncher(startActivityIntent);
 
-        binding.disableHeaderImage.setVisibility(RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false) ? View.VISIBLE : View.GONE);
-
-        binding.enableHeaderImage.setOnClickListener(v -> {
+        binding.headerImage.setEnableButtonOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, false);
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, true);
-            binding.enableHeaderImage.setVisibility(View.GONE);
-            binding.disableHeaderImage.setVisibility(View.VISIBLE);
+            binding.headerImage.setEnableButtonVisibility(View.GONE);
+            binding.headerImage.setDisableButtonVisibility(View.VISIBLE);
+            updateEnabledState();
         });
 
-        binding.disableHeaderImage.setOnClickListener(v -> {
+        binding.headerImage.setDisableButtonVisibility(RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false) ? View.VISIBLE : View.GONE);
+        binding.headerImage.setDisableButtonOnClickListener(v -> {
             RPrefs.putBoolean(HEADER_IMAGE_SWITCH, false);
-            binding.disableHeaderImage.setVisibility(View.GONE);
+            binding.headerImage.setDisableButtonVisibility(View.GONE);
+            updateEnabledState();
         });
 
         // Image height
-        binding.headerImageHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(HEADER_IMAGE_HEIGHT, 140) + "dp");
-        binding.headerImageHeightSeekbar.setValue(RPrefs.getInt(HEADER_IMAGE_HEIGHT, 140));
-        final int[] imageHeight = {RPrefs.getInt(HEADER_IMAGE_HEIGHT, 140)};
-        binding.headerImageHeightSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.headerImageHeight.setSliderValue(RPrefs.getInt(HEADER_IMAGE_HEIGHT, 140));
+        binding.headerImageHeight.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
-                imageHeight[0] = (int) slider.getValue();
-                binding.headerImageHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + imageHeight[0] + "dp");
-                RPrefs.putInt(HEADER_IMAGE_HEIGHT, imageHeight[0]);
+                RPrefs.putInt(HEADER_IMAGE_HEIGHT, (int) slider.getValue());
             }
         });
 
         // Image alpha
-        binding.imageAlphaOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + RPrefs.getInt(HEADER_IMAGE_ALPHA, 100) + "%");
-        binding.imageAlphaSeekbar.setValue(RPrefs.getInt(HEADER_IMAGE_ALPHA, 100));
-        final int[] imageAlpha = {RPrefs.getInt(HEADER_IMAGE_ALPHA, 100)};
-        binding.imageAlphaSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.headerImageAlpha.setSliderValue(RPrefs.getInt(HEADER_IMAGE_ALPHA, 100));
+        binding.headerImageAlpha.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
 
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
-                imageAlpha[0] = (int) slider.getValue();
-                binding.imageAlphaOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + imageAlpha[0] + "%");
-                RPrefs.putInt(HEADER_IMAGE_ALPHA, imageAlpha[0]);
+                RPrefs.putInt(HEADER_IMAGE_ALPHA, (int) slider.getValue());
             }
         });
 
         // Header image zoom to fit
-        binding.enableZoomToFit.setChecked(RPrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
-        binding.enableZoomToFit.setOnCheckedChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HEADER_IMAGE_ZOOMTOFIT, isChecked));
-        binding.enableZoomToFitContainer.setOnClickListener(v -> binding.enableZoomToFit.toggle());
+        binding.zoomToFit.setSwitchChecked(RPrefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false));
+        binding.zoomToFit.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HEADER_IMAGE_ZOOMTOFIT, isChecked));
 
         // Header image hide in landscape
-        binding.enableHideImageLandscape.setChecked(RPrefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true));
-        binding.enableHideImageLandscape.setOnCheckedChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, isChecked));
-        binding.enableHideImageLandscapeContainer.setOnClickListener(v -> binding.enableHideImageLandscape.toggle());
+        binding.hideInLandscape.setSwitchChecked(RPrefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true));
+        binding.hideInLandscape.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, isChecked));
+
+        updateEnabledState();
 
         return view;
     }
 
-    public void browseHeaderImage() {
-        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-        chooseFile.setType("image/*");
-        startActivityIntent.launch(chooseFile);
+    private void updateEnabledState() {
+        boolean enabled = RPrefs.getBoolean(HEADER_IMAGE_SWITCH, false);
+
+        binding.headerImageHeight.setEnabled(enabled);
+        binding.headerImageAlpha.setEnabled(enabled);
+        binding.zoomToFit.setEnabled(enabled);
+        binding.hideInLandscape.setEnabled(enabled);
     }
 }
