@@ -32,6 +32,7 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -244,6 +245,9 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 }
             }
 
+            if (mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null) {
+                mClockViewContainer.removeView(mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG));
+            }
             if (clockView.getParent() != null) {
                 ((ViewGroup) clockView.getParent()).removeView(clockView);
             }
@@ -264,51 +268,74 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
         if (DisplayUtils.isScreenOn(mContext)) {
             if (backgroundView != null && backgroundView.getAlpha() != 1f) {
-                backgroundView.clearAnimation();
-                backgroundView.animate()
-                        .alpha(1f)
-                        .setDuration(animDuration)
-                        .start();
+                Animation animation = backgroundView.getAnimation();
+
+                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                    backgroundView.animate()
+                            .alpha(1f)
+                            .setDuration(animDuration)
+                            .start();
+                }
             }
 
             if (foregroundView != null && foregroundView.getAlpha() != 1f) {
-                foregroundView.clearAnimation();
-                foregroundView.animate()
-                        .alpha(1f)
-                        .setDuration(animDuration)
-                        .start();
+                Animation animation = foregroundView.getAnimation();
+
+                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                    foregroundView.clearAnimation();
+                    foregroundView.animate()
+                            .alpha(1f)
+                            .setDuration(animDuration)
+                            .start();
+                }
             }
 
             if (clockView != null && clockView.getAlpha() != 1f) {
-                clockView.clearAnimation();
-                clockView.animate()
-                        .alpha(1f)
-                        .setDuration(animDuration)
-                        .start();
+                Animation animation = clockView.getAnimation();
+
+                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                    clockView.clearAnimation();
+                    clockView.animate()
+                            .alpha(1f)
+                            .setDuration(animDuration)
+                            .start();
+                }
             }
         } else {
             if (backgroundView != null && backgroundView.getAlpha() != 0f) {
-                backgroundView.clearAnimation();
-                backgroundView.animate()
-                        .alpha(0f)
-                        .setDuration(animDuration)
-                        .start();
+                Animation animation = backgroundView.getAnimation();
+
+                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                    backgroundView.clearAnimation();
+                    backgroundView.animate()
+                            .alpha(0f)
+                            .setDuration(animDuration)
+                            .start();
+                }
             }
 
             if (foregroundView != null && foregroundView.getAlpha() != 0f) {
-                foregroundView.clearAnimation();
-                foregroundView.animate()
-                        .alpha(0f)
-                        .setDuration(animDuration)
-                        .start();
+                Animation animation = foregroundView.getAnimation();
+
+                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                    foregroundView.clearAnimation();
+                    foregroundView.animate()
+                            .alpha(0f)
+                            .setDuration(animDuration)
+                            .start();
+                }
             }
 
             if (clockView != null && clockView.getAlpha() != 0.7f) {
-                clockView.clearAnimation();
-                clockView.animate()
-                        .alpha(0.7f)
-                        .setDuration(animDuration)
-                        .start();
+                Animation animation = clockView.getAnimation();
+
+                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                    clockView.clearAnimation();
+                    clockView.animate()
+                            .alpha(0.7f)
+                            .setDuration(animDuration)
+                            .start();
+                }
             }
         }
     }
