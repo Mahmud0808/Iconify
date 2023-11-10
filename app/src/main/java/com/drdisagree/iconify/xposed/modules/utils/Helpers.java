@@ -18,6 +18,8 @@ package com.drdisagree.iconify.xposed.modules.utils;
  */
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
+import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.modRes;
@@ -58,6 +60,7 @@ public class Helpers {
 
     public static void forceReloadUI(Context context) {
         boolean forceReload = false;
+        boolean state = false;
 
         try {
             forceReload = Xprefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true);
@@ -65,10 +68,16 @@ public class Helpers {
             forceReload = RPrefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true);
         }
 
+        try {
+            state = Xprefs.getBoolean(FORCE_RELOAD_OVERLAY_STATE, false);
+        } catch (Throwable ignored) {
+            state = RPrefs.getBoolean(FORCE_RELOAD_OVERLAY_STATE, false);
+        }
+
         if (forceReload) {
-            String pkgName = "com.android.internal.display.cutout.emulation.corner";
-            boolean state = Shell.cmd("[[ $(cmd overlay list | grep -o '\\[x\\] " + pkgName + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
-            new Handler(Looper.getMainLooper()).postDelayed(() -> Shell.cmd("cmd overlay " + (state ? "disable" : "enable") + " --user current " + pkgName + "; cmd overlay " + (state ? "enable" : "disable") + " --user current " + pkgName).submit(), SWITCH_ANIMATION_DELAY);
+            boolean finalState = state;
+            String pkgName = FORCE_RELOAD_PACKAGE_NAME;
+            new Handler(Looper.getMainLooper()).postDelayed(() -> Shell.cmd("cmd overlay " + (finalState ? "disable" : "enable") + " --user current " + pkgName + "; cmd overlay " + (finalState ? "enable" : "disable") + " --user current " + pkgName).submit(), SWITCH_ANIMATION_DELAY);
         } else {
             try {
                 Toast.makeText(context, modRes.getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();

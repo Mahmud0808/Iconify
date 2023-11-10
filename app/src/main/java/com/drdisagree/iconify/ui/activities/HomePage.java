@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
+import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 
@@ -17,6 +19,7 @@ import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Preferences;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
 import com.drdisagree.iconify.ui.base.BaseActivity;
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent;
@@ -25,6 +28,7 @@ import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
+import com.topjohnwu.superuser.Shell;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,6 +66,9 @@ public class HomePage extends BaseActivity implements ColorPickerDialogListener 
                 Prefs.putBoolean("fabricated" + overlay, true);
 
             Prefs.putBoolean(MONET_ENGINE_SWITCH, EnabledOverlays.contains("IconifyComponentME.overlay"));
+
+            boolean state = Shell.cmd("[[ $(cmd overlay list | grep -o '\\[x\\] " + FORCE_RELOAD_PACKAGE_NAME + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
+            RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state);
         }).start();
 
         colorPickerDialog = ColorPickerDialog.newBuilder();
