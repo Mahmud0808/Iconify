@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_BG_TAG;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FG_TAG;
@@ -57,6 +58,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private static final String TAG = "Iconify - " + LockscreenClock.class.getSimpleName() + ": ";
     private boolean showLockscreenClock = false;
     private boolean showDepthWallpaper = false;
+    private boolean showFadingAnimation = false;
     private ViewGroup mClockViewContainer = null;
     private ViewGroup mStatusViewContainer = null;
 
@@ -70,6 +72,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
         showLockscreenClock = Xprefs.getBoolean(LSCLOCK_SWITCH, false);
         showDepthWallpaper = Xprefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false);
+        showFadingAnimation = Xprefs.getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false);
 
         if (Key.length > 0 && (Objects.equals(Key[0], LSCLOCK_SWITCH) ||
                 Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH) ||
@@ -82,7 +85,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 Objects.equals(Key[0], LSCLOCK_FONT_SWITCH) ||
                 Objects.equals(Key[0], LSCLOCK_TEXT_WHITE) ||
                 Objects.equals(Key[0], LSCLOCK_FONT_TEXT_SCALING) ||
-                Objects.equals(Key[0], ICONIFY_LOCKSCREEN_CLOCK_TAG))) {
+                Objects.equals(Key[0], DEPTH_WALLPAPER_FADE_ANIMATION))) {
             updateClockView();
 
             if (Objects.equals(Key[0], LSCLOCK_SWITCH) ||
@@ -245,9 +248,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 }
             }
 
-            if (mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null) {
-                mClockViewContainer.removeView(mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG));
-            }
             if (clockView.getParent() != null) {
                 ((ViewGroup) clockView.getParent()).removeView(clockView);
             }
@@ -268,73 +268,91 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
         if (DisplayUtils.isScreenOn(mContext)) {
             if (backgroundView != null && backgroundView.getAlpha() != 1f) {
-                Animation animation = backgroundView.getAnimation();
+                if (showFadingAnimation) {
+                    Animation animation = backgroundView.getAnimation();
 
-                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                    backgroundView.animate()
-                            .alpha(1f)
-                            .setDuration(animDuration)
-                            .start();
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        backgroundView.animate()
+                                .alpha(1f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
+                } else {
+                    backgroundView.setAlpha(1f);
                 }
             }
 
             if (foregroundView != null && foregroundView.getAlpha() != 1f) {
-                Animation animation = foregroundView.getAnimation();
+                if (showFadingAnimation) {
+                    Animation animation = foregroundView.getAnimation();
 
-                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                    foregroundView.clearAnimation();
-                    foregroundView.animate()
-                            .alpha(1f)
-                            .setDuration(animDuration)
-                            .start();
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        foregroundView.clearAnimation();
+                        foregroundView.animate()
+                                .alpha(1f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
+                } else {
+                    foregroundView.setAlpha(1f);
                 }
             }
 
             if (clockView != null && clockView.getAlpha() != 1f) {
-                Animation animation = clockView.getAnimation();
+                if (showFadingAnimation) {
+                    Animation animation = clockView.getAnimation();
 
-                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                    clockView.clearAnimation();
-                    clockView.animate()
-                            .alpha(1f)
-                            .setDuration(animDuration)
-                            .start();
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        clockView.clearAnimation();
+                        clockView.animate()
+                                .alpha(1f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
+                } else {
+                    clockView.setAlpha(1f);
                 }
             }
         } else {
             if (backgroundView != null && backgroundView.getAlpha() != 0f) {
-                Animation animation = backgroundView.getAnimation();
+                if (showFadingAnimation) {
+                    Animation animation = backgroundView.getAnimation();
 
-                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                    backgroundView.clearAnimation();
-                    backgroundView.animate()
-                            .alpha(0f)
-                            .setDuration(animDuration)
-                            .start();
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        backgroundView.clearAnimation();
+                        backgroundView.animate()
+                                .alpha(0f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
                 }
             }
 
             if (foregroundView != null && foregroundView.getAlpha() != 0f) {
-                Animation animation = foregroundView.getAnimation();
+                if (showFadingAnimation) {
+                    Animation animation = foregroundView.getAnimation();
 
-                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                    foregroundView.clearAnimation();
-                    foregroundView.animate()
-                            .alpha(0f)
-                            .setDuration(animDuration)
-                            .start();
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        foregroundView.clearAnimation();
+                        foregroundView.animate()
+                                .alpha(0f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
                 }
             }
 
             if (clockView != null && clockView.getAlpha() != 0.7f) {
-                Animation animation = clockView.getAnimation();
+                if (showFadingAnimation) {
+                    Animation animation = clockView.getAnimation();
 
-                if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                    clockView.clearAnimation();
-                    clockView.animate()
-                            .alpha(0.7f)
-                            .setDuration(animDuration)
-                            .start();
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        clockView.clearAnimation();
+                        clockView.animate()
+                                .alpha(0.7f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
                 }
             }
         }

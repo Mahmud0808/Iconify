@@ -27,6 +27,13 @@
                 app:summaryText="@string/enable_depth_wallpaper_desc"
                 app:titleText="@string/enable_depth_wallpaper_title" />
 
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/wallpaper_fade_animation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/wallpaper_fade_animation_desc"
+                app:titleText="@string/wallpaper_fade_animation_title" />
+
             <com.drdisagree.iconify.ui.widgets.FilePickerWidget
                 android:id="@+id/foreground_image"
                 android:layout_width="match_parent"
