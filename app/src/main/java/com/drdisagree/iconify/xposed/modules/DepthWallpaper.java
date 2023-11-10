@@ -3,6 +3,8 @@ package com.drdisagree.iconify.xposed.modules;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_BG_TAG;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FG_TAG;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG;
 import static com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
@@ -137,6 +139,9 @@ public class DepthWallpaper extends ModPack {
 
                 mDepthWallpaperBackground.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mDepthWallpaperForeground.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+                mDepthWallpaperBackground.setTag(ICONIFY_DEPTH_WALLPAPER_BG_TAG);
+                mDepthWallpaperForeground.setTag(ICONIFY_DEPTH_WALLPAPER_FG_TAG);
 
                 mDepthWallpaperLayout.addView(mDepthWallpaperBackground, 0);
                 mDepthWallpaperLayout.addView(mDepthWallpaperForeground, -1);

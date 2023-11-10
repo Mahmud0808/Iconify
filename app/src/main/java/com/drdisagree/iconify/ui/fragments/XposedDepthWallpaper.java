@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_iOS_AOD;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_FG_DIR;
 import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
@@ -83,9 +84,15 @@ public class XposedDepthWallpaper extends BaseFragment {
         binding.depthWallpaper.setSwitchChecked(RPrefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false));
         binding.depthWallpaper.setSwitchChangeListener((buttonView, isSwitchChecked) -> {
             RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, isSwitchChecked);
+            binding.iosAod.setEnabled(isSwitchChecked);
             binding.foregroundImage.setEnabled(isSwitchChecked);
             binding.backgroundImage.setEnabled(isSwitchChecked);
         });
+
+        // iOS like aod
+        binding.iosAod.setEnabled(binding.depthWallpaper.isSwitchChecked());
+        binding.iosAod.setSwitchChecked(RPrefs.getBoolean(DEPTH_WALLPAPER_iOS_AOD, false));
+        binding.iosAod.setSwitchChangeListener((buttonView, isSwitchChecked) -> RPrefs.putBoolean(DEPTH_WALLPAPER_iOS_AOD, isSwitchChecked));
 
         // Foreground image
         binding.foregroundImage.setEnabled(binding.depthWallpaper.isSwitchChecked());

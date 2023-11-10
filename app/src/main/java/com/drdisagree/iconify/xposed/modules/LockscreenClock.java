@@ -2,6 +2,8 @@ package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_BG_TAG;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FG_TAG;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
@@ -35,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.modules.utils.DisplayUtils;
 import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 import com.drdisagree.iconify.xposed.modules.utils.LockscreenClockStyles;
 
@@ -53,6 +56,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private static final String TAG = "Iconify - " + LockscreenClock.class.getSimpleName() + ": ";
     private boolean showLockscreenClock = false;
     private boolean showDepthWallpaper = false;
+    private boolean showiOSlikeAOD = false;
     private ViewGroup mClockViewContainer = null;
     private ViewGroup mStatusViewContainer = null;
 
@@ -66,6 +70,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
         showLockscreenClock = Xprefs.getBoolean(LSCLOCK_SWITCH, false);
         showDepthWallpaper = Xprefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false);
+        showiOSlikeAOD = Xprefs.getBoolean(ICONIFY_LOCKSCREEN_CLOCK_TAG, false);
 
         if (Key.length > 0 && (Objects.equals(Key[0], LSCLOCK_SWITCH) ||
                 Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH) ||
@@ -77,7 +82,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 Objects.equals(Key[0], LSCLOCK_FONT_LINEHEIGHT) ||
                 Objects.equals(Key[0], LSCLOCK_FONT_SWITCH) ||
                 Objects.equals(Key[0], LSCLOCK_TEXT_WHITE) ||
-                Objects.equals(Key[0], LSCLOCK_FONT_TEXT_SCALING))) {
+                Objects.equals(Key[0], LSCLOCK_FONT_TEXT_SCALING) ||
+                Objects.equals(Key[0], ICONIFY_LOCKSCREEN_CLOCK_TAG))) {
             updateClockView();
 
             if (Objects.equals(Key[0], LSCLOCK_SWITCH) ||
@@ -176,6 +182,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         filter.addAction(Intent.ACTION_TIME_CHANGED);
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         filter.addAction(Intent.ACTION_LOCALE_CHANGED);
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
 
         BroadcastReceiver timeChangedReceiver = new BroadcastReceiver() {
             @Override
@@ -242,6 +250,120 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 ((ViewGroup) clockView.getParent()).removeView(clockView);
             }
             mClockViewContainer.addView(clockView, idx);
+        }
+
+        updateViewsForAOD();
+    }
+
+    private void updateViewsForAOD() {
+        if (!showDepthWallpaper) return;
+
+        View backgroundView = mClockViewContainer.findViewWithTag(ICONIFY_DEPTH_WALLPAPER_BG_TAG);
+        View foregroundView = mClockViewContainer.findViewWithTag(ICONIFY_DEPTH_WALLPAPER_FG_TAG);
+        View clockView = mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG);
+
+        long animDuration = 800;
+        float ioslikeAODAlpha = 0.4f;
+
+        if (backgroundView != null) {
+            backgroundView.clearAnimation();
+        }
+
+        if (foregroundView != null) {
+            foregroundView.clearAnimation();
+        }
+
+        if (clockView != null) {
+            clockView.clearAnimation();
+        }
+
+        if (DisplayUtils.isScreenOn(mContext)) {
+            if (showiOSlikeAOD) {
+                if (backgroundView != null && backgroundView.getAlpha() != 1f) {
+                    backgroundView.animate()
+                            .alpha(1f)
+                            .setDuration(animDuration)
+                            .start();
+                }
+
+                if (foregroundView != null && foregroundView.getAlpha() != 1f) {
+                    foregroundView.animate()
+                            .alpha(1f)
+                            .setDuration(animDuration)
+                            .start();
+                }
+            } else {
+                if (backgroundView != null && backgroundView.getAlpha() != 1f) {
+                    backgroundView.setAlpha(1f);
+                }
+
+                if (foregroundView != null && foregroundView.getAlpha() != 1f) {
+                    foregroundView.setAlpha(1f);
+                }
+            }
+
+            if (clockView != null && clockView.getAlpha() != 1f) {
+                clockView.animate()
+                        .alpha(1f)
+                        .setDuration(animDuration)
+                        .start();
+            }
+        } else if (DisplayUtils.isScreenDozing(mContext)) {
+            if (showiOSlikeAOD) {
+                if (backgroundView != null && backgroundView.getAlpha() != ioslikeAODAlpha) {
+                    backgroundView.animate()
+                            .alpha(ioslikeAODAlpha)
+                            .setDuration(animDuration)
+                            .start();
+                }
+
+                if (foregroundView != null && foregroundView.getAlpha() != ioslikeAODAlpha) {
+                    foregroundView.animate()
+                            .alpha(ioslikeAODAlpha)
+                            .setDuration(animDuration)
+                            .start();
+                }
+
+                if (clockView != null && clockView.getAlpha() != ioslikeAODAlpha) {
+                    clockView.animate()
+                            .alpha(ioslikeAODAlpha)
+                            .setDuration(animDuration)
+                            .start();
+                }
+            } else {
+                if (backgroundView != null && backgroundView.getAlpha() != 0f) {
+                    backgroundView.animate()
+                            .alpha(0f)
+                            .setDuration(animDuration)
+                            .start();
+                }
+
+                if (foregroundView != null && foregroundView.getAlpha() != 0f) {
+                    foregroundView.animate()
+                            .alpha(0f)
+                            .setDuration(animDuration)
+                            .start();
+                }
+
+                if (clockView != null && clockView.getAlpha() != 0.8f) {
+                    clockView.animate()
+                            .alpha(0.8f)
+                            .setDuration(animDuration)
+                            .start();
+                }
+            }
+        } else if (DisplayUtils.isScreenOff(mContext)) {
+            if (backgroundView != null && backgroundView.getAlpha() != 0f) {
+                backgroundView.setAlpha(0f);
+            }
+
+            if (foregroundView != null && foregroundView.getAlpha() != 0f) {
+                foregroundView.setAlpha(0f);
+            }
+
+            if (clockView != null && clockView.getAlpha() != 0f) {
+                clockView.setAlpha(0f);
+            }
         }
     }
 }
