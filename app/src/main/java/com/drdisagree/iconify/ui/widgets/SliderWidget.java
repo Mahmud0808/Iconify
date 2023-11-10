@@ -116,14 +116,14 @@ public class SliderWidget extends RelativeLayout {
         materialSlider.setStepSize(value);
     }
 
+    public int getSliderValue() {
+        return (int) materialSlider.getValue();
+    }
+
     public void setSliderValue(int value) {
         materialSlider.setValue(value);
         setSelectedText();
         handleResetVisibility();
-    }
-
-    public int getSliderValue() {
-        return (int) materialSlider.getValue();
     }
 
     public void setSliderValueFrom(int value) {

@@ -149,10 +149,6 @@ public class SwitchWidget extends RelativeLayout {
         materialSwitch.setEnabled(enabled);
     }
 
-    public interface BeforeSwitchChangeListener {
-        void beforeSwitchChanged();
-    }
-
     // to avoid listener bug, we need to re-generate unique id for each view
     private void initializeId() {
         container = findViewById(R.id.container);
@@ -171,5 +167,9 @@ public class SwitchWidget extends RelativeLayout {
         layoutParams.addRule(RelativeLayout.START_OF, materialSwitch.getId());
         layoutParams.addRule(RelativeLayout.END_OF, iconImageView.getId());
         findViewById(R.id.text_container).setLayoutParams(layoutParams);
+    }
+
+    public interface BeforeSwitchChangeListener {
+        void beforeSwitchChanged();
     }
 }

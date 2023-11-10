@@ -135,13 +135,13 @@ public class RadioDialogWidget extends RelativeLayout implements RadioDialog.Rad
         iconImageView.setVisibility(visibility);
     }
 
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
         setSelectedText(Arrays.asList(getResources().getStringArray(arrayResId)).get(selectedIndex));
-    }
-
-    public int getSelectedIndex() {
-        return selectedIndex;
     }
 
     @Override
@@ -174,10 +174,6 @@ public class RadioDialogWidget extends RelativeLayout implements RadioDialog.Rad
 
     public void setOnItemSelectedListener(RadioDialogListener listener) {
         radioDialogListener = listener;
-    }
-
-    public interface RadioDialogListener {
-        void onItemSelected(int index);
     }
 
     // to avoid listener bug, we need to re-generate unique id for each view
@@ -215,5 +211,9 @@ public class RadioDialogWidget extends RelativeLayout implements RadioDialog.Rad
                 radioDialogListener.onItemSelected(selectedIndex);
             }
         }
+    }
+
+    public interface RadioDialogListener {
+        void onItemSelected(int index);
     }
 }

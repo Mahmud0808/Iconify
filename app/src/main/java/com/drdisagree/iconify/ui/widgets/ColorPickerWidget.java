@@ -109,6 +109,10 @@ public class ColorPickerWidget extends RelativeLayout {
         );
     }
 
+    public @ColorInt int getPreviewColor() {
+        return selectedColor;
+    }
+
     public void setPreviewColor(@ColorInt int color) {
         this.selectedColor = color;
 
@@ -126,10 +130,6 @@ public class ColorPickerWidget extends RelativeLayout {
         );
         drawable.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * getResources().getDisplayMetrics().density);
         colorView.setBackground(drawable);
-    }
-
-    public @ColorInt int getPreviewColor() {
-        return selectedColor;
     }
 
     public int getColorPickerDialogId() {
@@ -176,18 +176,6 @@ public class ColorPickerWidget extends RelativeLayout {
         afterColorPickerListener = listener;
     }
 
-    public interface BeforeColorPickerListener {
-        void onColorPickerShown();
-    }
-
-    public interface OnColorPickerListener {
-        void onColorSelected(int color);
-    }
-
-    public interface AfterColorPickerListener {
-        void onColorPickerDismissed();
-    }
-
     @SuppressWarnings("unused")
     @Subscribe
     public void onColorSelected(ColorSelectedEvent event) {
@@ -220,5 +208,17 @@ public class ColorPickerWidget extends RelativeLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         EventBus.getDefault().unregister(this);
+    }
+
+    public interface BeforeColorPickerListener {
+        void onColorPickerShown();
+    }
+
+    public interface OnColorPickerListener {
+        void onColorSelected(int color);
+    }
+
+    public interface AfterColorPickerListener {
+        void onColorPickerDismissed();
     }
 }

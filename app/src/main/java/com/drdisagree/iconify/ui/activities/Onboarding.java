@@ -315,6 +315,69 @@ public class Onboarding extends BaseActivity {
         return transitionDrawable;
     }
 
+    private void cancelledInstallation() {
+        Prefs.clearPref(XPOSED_ONLY_MODE);
+        Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
+        Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
+        Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
+        Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            try {
+                getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(this::onBackPressed);
+            } catch (Exception ignored) {
+            }
+        }
+
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+
+        if (installModule != null) {
+            installModule.cancel(true);
+        }
+
+        cancelledInstallation();
+
+        super.onDestroy();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onBackPressed() {
+        if (binding.viewPager.getCurrentItem() == 0) {
+            super.onBackPressed();
+        } else {
+            binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() - 1, true);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(mData, binding.viewPager.getCurrentItem());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        selectedItemPosition = savedInstanceState.getInt(mData);
+        if (selectedItemPosition == 2) {
+            binding.btnSkip.setVisibility(View.INVISIBLE);
+            binding.btnNextStep.setText(R.string.btn_lets_go);
+        } else {
+            binding.btnSkip.setVisibility(View.VISIBLE);
+            binding.btnNextStep.setText(R.string.btn_next);
+        }
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class StartInstallationProcess extends TaskExecutor<Void, Integer, Integer> {
         @SuppressLint("SetTextI18n")
@@ -583,69 +646,6 @@ public class Onboarding extends BaseActivity {
         protected void onCancelled() {
             super.onCancelled();
             cancelledInstallation();
-        }
-    }
-
-    private void cancelledInstallation() {
-        Prefs.clearPref(XPOSED_ONLY_MODE);
-        Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
-        Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-        Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
-        Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (Build.VERSION.SDK_INT >= 33) {
-            try {
-                getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(this::onBackPressed);
-            } catch (Exception ignored) {
-            }
-        }
-
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-        }
-
-        if (installModule != null) {
-            installModule.cancel(true);
-        }
-
-        cancelledInstallation();
-
-        super.onDestroy();
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onBackPressed() {
-        if (binding.viewPager.getCurrentItem() == 0) {
-            super.onBackPressed();
-        } else {
-            binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() - 1, true);
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(mData, binding.viewPager.getCurrentItem());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        selectedItemPosition = savedInstanceState.getInt(mData);
-        if (selectedItemPosition == 2) {
-            binding.btnSkip.setVisibility(View.INVISIBLE);
-            binding.btnNextStep.setText(R.string.btn_lets_go);
-        } else {
-            binding.btnSkip.setVisibility(View.VISIBLE);
-            binding.btnNextStep.setText(R.string.btn_next);
         }
     }
 }

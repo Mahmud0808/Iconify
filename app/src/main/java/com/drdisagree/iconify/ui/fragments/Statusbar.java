@@ -48,7 +48,6 @@ public class Statusbar extends BaseFragment {
     private final int[] finalSBLeftPadding = {Prefs.getInt(FABRICATED_SB_LEFT_PADDING, 8)};
     private final int[] finalSBRightPadding = {Prefs.getInt(FABRICATED_SB_RIGHT_PADDING, 8)};
     private final int[] finalSBHeight = {Prefs.getInt(FABRICATED_SB_HEIGHT, 28)};
-    private FragmentStatusbarBinding binding;
     private final Slider.OnSliderTouchListener sbLeftPaddingListener = new Slider.OnSliderTouchListener() {
         @Override
         public void onStartTrackingTouch(@NonNull Slider slider) {
@@ -97,6 +96,7 @@ public class Statusbar extends BaseFragment {
             );
         }
     };
+    private FragmentStatusbarBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -78,6 +78,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @SuppressLint("SetTextI18n")
 public class MonetEngine extends BaseFragment {
 
+    private static final int[] colorCodes = {
+            0, 10, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000
+    };
     private static String accentPrimary, accentSecondary, selectedStyle;
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false, accurateShades = Prefs.getBoolean(MONET_ACCURATE_SHADES, true);
     private final List<List<List<Object>>> finalPalette = new ArrayList<>();
@@ -527,10 +530,6 @@ public class MonetEngine extends BaseFragment {
             }
         }
     }
-
-    private static final int[] colorCodes = {
-            0, 10, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000
-    };
 
     private int calculateTextColor(@ColorInt int color) {
         double darkness = 1 - (0.299 * Color.red(color) +

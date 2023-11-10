@@ -32,8 +32,8 @@ import java.util.List;
 
 public class HomePage extends BaseActivity implements ColorPickerDialogListener {
 
-    private ActivityHomePageBinding binding;
     private static final String mData = "mDataKey";
+    private ActivityHomePageBinding binding;
     private Integer selectedFragment = null;
     private ColorPickerDialog.Builder colorPickerDialog;
 

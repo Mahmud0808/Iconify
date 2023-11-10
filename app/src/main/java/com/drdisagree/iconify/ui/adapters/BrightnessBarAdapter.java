@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.models.BrightnessBarModel;
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
+import com.drdisagree.iconify.ui.models.BrightnessBarModel;
 import com.drdisagree.iconify.utils.overlay.manager.BrightnessBarManager;
 import com.drdisagree.iconify.utils.overlay.manager.BrightnessBarPixelManager;
 
