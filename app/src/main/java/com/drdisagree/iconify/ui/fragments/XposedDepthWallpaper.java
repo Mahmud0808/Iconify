@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED;
+import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_FG_DIR;
@@ -83,9 +84,15 @@ public class XposedDepthWallpaper extends BaseFragment {
         binding.depthWallpaper.setSwitchChecked(RPrefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false));
         binding.depthWallpaper.setSwitchChangeListener((buttonView, isSwitchChecked) -> {
             RPrefs.putBoolean(DEPTH_WALLPAPER_SWITCH, isSwitchChecked);
+            binding.wallpaperFadeAnimation.setEnabled(isSwitchChecked);
             binding.foregroundImage.setEnabled(isSwitchChecked);
             binding.backgroundImage.setEnabled(isSwitchChecked);
         });
+
+        // Fade animation
+        binding.wallpaperFadeAnimation.setEnabled(binding.depthWallpaper.isSwitchChecked());
+        binding.wallpaperFadeAnimation.setSwitchChecked(RPrefs.getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false));
+        binding.wallpaperFadeAnimation.setSwitchChangeListener((buttonView, isSwitchChecked) -> RPrefs.putBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, isSwitchChecked));
 
         // Foreground image
         binding.foregroundImage.setEnabled(binding.depthWallpaper.isSwitchChecked());
