@@ -57,13 +57,11 @@ public class Statusbar extends BaseFragment {
         @Override
         public void onStopTrackingTouch(@NonNull Slider slider) {
             finalSBLeftPadding[0] = (int) slider.getValue();
-            binding.sbLeftPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBLeftPadding[0] + "dp");
             Prefs.putInt(FABRICATED_SB_LEFT_PADDING, finalSBLeftPadding[0]);
             ResourceManager.buildOverlayWithResource(
                     requireContext(),
                     new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_start", finalSBLeftPadding[0] + "dp")
             );
-            binding.resetSbLeftPadding.setVisibility(View.VISIBLE);
         }
     };
     private final Slider.OnSliderTouchListener sbRightPaddingListener = new Slider.OnSliderTouchListener() {
@@ -74,13 +72,11 @@ public class Statusbar extends BaseFragment {
         @Override
         public void onStopTrackingTouch(@NonNull Slider slider) {
             finalSBRightPadding[0] = (int) slider.getValue();
-            binding.sbRightPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBRightPadding[0] + "dp");
             Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, finalSBRightPadding[0]);
             ResourceManager.buildOverlayWithResource(
                     requireContext(),
                     new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_end", finalSBRightPadding[0] + "dp")
             );
-            binding.resetSbRightPadding.setVisibility(View.VISIBLE);
         }
     };
     private final Slider.OnSliderTouchListener sbHeightListener = new Slider.OnSliderTouchListener() {
@@ -91,7 +87,6 @@ public class Statusbar extends BaseFragment {
         @Override
         public void onStopTrackingTouch(@NonNull Slider slider) {
             finalSBHeight[0] = (int) slider.getValue();
-            binding.sbHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBHeight[0] + "dp");
             Prefs.putInt(FABRICATED_SB_HEIGHT, finalSBHeight[0]);
             ResourceManager.buildOverlayWithResource(
                     requireContext(),
@@ -100,7 +95,6 @@ public class Statusbar extends BaseFragment {
                     new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_portrait", finalSBHeight[0] + "dp"),
                     new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_landscape", finalSBHeight[0] + "dp")
             );
-            binding.resetSbHeight.setVisibility(View.VISIBLE);
         }
     };
 
@@ -113,58 +107,39 @@ public class Statusbar extends BaseFragment {
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_statusbar);
 
         // Statusbar left padding
-        binding.sbLeftPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBLeftPadding[0] + "dp");
-        binding.sbLeftPaddingSeekbar.setValue(finalSBLeftPadding[0]);
-        binding.sbLeftPaddingSeekbar.addOnSliderTouchListener(sbLeftPaddingListener);
+        binding.sbLeftPadding.setSliderValue(finalSBLeftPadding[0]);
+        binding.sbLeftPadding.setOnSliderTouchListener(sbLeftPaddingListener);
 
         // Reset left padding
-        binding.resetSbLeftPadding.setVisibility(Prefs.getInt(FABRICATED_SB_LEFT_PADDING, 8) != 8 ? View.VISIBLE : View.INVISIBLE);
-
-        binding.resetSbLeftPadding.setOnLongClickListener(v -> {
+        binding.sbLeftPadding.setResetClickListener(v -> {
             Prefs.putInt(FABRICATED_SB_LEFT_PADDING, 8);
             ResourceManager.removeResourceFromOverlay(
                     requireContext(),
                     new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_start")
             );
-            binding.resetSbLeftPadding.setVisibility(View.INVISIBLE);
-            binding.sbLeftPaddingSeekbar.removeOnSliderTouchListener(sbLeftPaddingListener);
-            binding.sbLeftPaddingSeekbar.setValue(8);
-            binding.sbLeftPaddingSeekbar.addOnSliderTouchListener(sbLeftPaddingListener);
-            binding.sbLeftPaddingOutput.setText(getResources().getString(R.string.opt_selected) + " 8dp");
             return true;
         });
 
         // Statusbar right padding
-        binding.sbRightPaddingOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBRightPadding[0] + "dp");
-        binding.sbRightPaddingSeekbar.setValue(finalSBRightPadding[0]);
-        binding.sbRightPaddingSeekbar.addOnSliderTouchListener(sbRightPaddingListener);
+        binding.sbRightPadding.setSliderValue(finalSBRightPadding[0]);
+        binding.sbRightPadding.setOnSliderTouchListener(sbRightPaddingListener);
 
         // Reset right padding
-        binding.resetSbRightPadding.setVisibility(Prefs.getInt(FABRICATED_SB_RIGHT_PADDING, 8) != 8 ? View.VISIBLE : View.INVISIBLE);
-
-        binding.resetSbRightPadding.setOnLongClickListener(v -> {
+        binding.sbRightPadding.setResetClickListener(v -> {
             Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, 8);
             ResourceManager.removeResourceFromOverlay(
                     requireContext(),
                     new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_padding_end")
             );
-            binding.resetSbRightPadding.setVisibility(View.INVISIBLE);
-            binding.sbRightPaddingSeekbar.removeOnSliderTouchListener(sbRightPaddingListener);
-            binding.sbRightPaddingSeekbar.setValue(8);
-            binding.sbRightPaddingSeekbar.addOnSliderTouchListener(sbRightPaddingListener);
-            binding.sbRightPaddingOutput.setText(getResources().getString(R.string.opt_selected) + " 8dp");
             return true;
         });
 
         // Statusbar height
-        binding.sbHeightOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalSBHeight[0] + "dp");
-        binding.sbHeightSeekbar.setValue(finalSBHeight[0]);
-        binding.sbHeightSeekbar.addOnSliderTouchListener(sbHeightListener);
+        binding.sbHeight.setSliderValue(finalSBHeight[0]);
+        binding.sbHeight.setOnSliderTouchListener(sbHeightListener);
 
         // Reset height
-        binding.resetSbHeight.setVisibility(Prefs.getInt(FABRICATED_SB_HEIGHT, 28) != 28 ? View.VISIBLE : View.INVISIBLE);
-
-        binding.resetSbHeight.setOnLongClickListener(v -> {
+        binding.sbHeight.setResetClickListener(v -> {
             Prefs.putInt(FABRICATED_SB_HEIGHT, 28);
             ResourceManager.removeResourceFromOverlay(
                     requireContext(),
@@ -173,11 +148,6 @@ public class Statusbar extends BaseFragment {
                     new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_portrait"),
                     new ResourceEntry(FRAMEWORK_PACKAGE, "dimen", "status_bar_height_landscape")
             );
-            binding.resetSbHeight.setVisibility(View.INVISIBLE);
-            binding.sbHeightSeekbar.removeOnSliderTouchListener(sbHeightListener);
-            binding.sbHeightSeekbar.setValue(28);
-            binding.sbHeightSeekbar.addOnSliderTouchListener(sbHeightListener);
-            binding.sbHeightOutput.setText(getResources().getString(R.string.opt_selected) + " 28dp");
             return true;
         });
 

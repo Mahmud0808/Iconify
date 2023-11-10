@@ -51,21 +51,15 @@ import com.drdisagree.iconify.databinding.ViewXposedBatteryColorBinding;
 import com.drdisagree.iconify.databinding.ViewXposedBatteryDimensionBinding;
 import com.drdisagree.iconify.databinding.ViewXposedBatteryMiscBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
-import com.drdisagree.iconify.ui.dialogs.RadioDialog;
-import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
-import com.drdisagree.iconify.ui.widgets.ColorPickerWidget;
 import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 import com.google.android.material.slider.Slider;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Arrays;
 import java.util.List;
 
 @SuppressLint("SetTextI18n")
-public class XposedBatteryStyle extends BaseFragment implements RadioDialog.RadioDialogListener {
+public class XposedBatteryStyle extends BaseFragment {
 
     private static int selectedBatteryStyle = 0;
     private FragmentXposedBatteryStyleBinding binding;
@@ -87,12 +81,11 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_battery_style);
 
         // Custom battery style
-        binding.customBatteryStyle.setRadioDialogListener(
-                this,
-                0,
-                RPrefs.getInt(CUSTOM_BATTERY_STYLE, 0),
-                true
-        );
+        binding.customBatteryStyle.setSelectedIndex(RPrefs.getInt(CUSTOM_BATTERY_STYLE, 0));
+        binding.customBatteryStyle.setOnItemSelectedListener(index -> {
+            selectedBatteryStyle = index;
+            updateLayoutVisibility();
+        });
         selectedBatteryStyle = binding.customBatteryStyle.getSelectedIndex();
 
         // Apply battery style
@@ -130,9 +123,7 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
 
         // Battery height
         bindingMiscSettings.batteryHeight.setSliderValue(RPrefs.getInt(CUSTOM_BATTERY_HEIGHT, 20));
-        bindingMiscSettings.batteryHeight.setOnSliderChangeListener((slider, value, fromUser) -> {
-            RPrefs.putInt(CUSTOM_BATTERY_HEIGHT, (int) slider.getValue());
-        });
+        bindingMiscSettings.batteryHeight.setOnSliderChangeListener((slider, value, fromUser) -> RPrefs.putInt(CUSTOM_BATTERY_HEIGHT, (int) slider.getValue()));
         bindingMiscSettings.batteryHeight.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
@@ -196,54 +187,62 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
         // Fill color picker
         bindingCustomColors.fillColor.setColorPickerListener(
                 requireActivity(),
-                1,
                 RPrefs.getInt(CUSTOM_BATTERY_FILL_COLOR, Color.BLACK),
                 true,
                 false,
                 true
         );
+        bindingCustomColors.fillColor.setOnColorSelectedListener(
+                color -> RPrefs.putInt(CUSTOM_BATTERY_FILL_COLOR, color)
+        );
 
         // Fill gradient color picker
         bindingCustomColors.fillGradientColor.setColorPickerListener(
                 requireActivity(),
-                2,
                 RPrefs.getInt(CUSTOM_BATTERY_FILL_GRAD_COLOR, Color.BLACK),
                 true,
                 false,
                 true
         );
+        bindingCustomColors.fillGradientColor.setOnColorSelectedListener(
+                color -> RPrefs.putInt(CUSTOM_BATTERY_FILL_GRAD_COLOR, color)
+        );
 
         // Charging fill color picker
         bindingCustomColors.chargingFillColor.setColorPickerListener(
                 requireActivity(),
-                3,
                 RPrefs.getInt(CUSTOM_BATTERY_CHARGING_COLOR, Color.BLACK),
                 true,
                 false,
                 true
         );
+        bindingCustomColors.chargingFillColor.setOnColorSelectedListener(
+                color -> RPrefs.putInt(CUSTOM_BATTERY_CHARGING_COLOR, color)
+        );
 
         // Powersave fill color picker
         bindingCustomColors.powersaveFillColor.setColorPickerListener(
                 requireActivity(),
-                4,
                 RPrefs.getInt(CUSTOM_BATTERY_POWERSAVE_FILL_COLOR, Color.BLACK),
                 true,
                 false,
                 true
         );
+        bindingCustomColors.powersaveFillColor.setOnColorSelectedListener(
+                color -> RPrefs.putInt(CUSTOM_BATTERY_POWERSAVE_FILL_COLOR, color)
+        );
 
         // Powersave icon color picker
         bindingCustomColors.powersaveIconColor.setColorPickerListener(
                 requireActivity(),
-                5,
                 RPrefs.getInt(CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR, Color.BLACK),
                 true,
                 false,
                 true
         );
-
-        updateColorPreview(0, Color.BLACK);
+        bindingCustomColors.powersaveIconColor.setOnColorSelectedListener(
+                color -> RPrefs.putInt(CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR, color)
+        );
     }
 
     private void customDimension() {
@@ -256,27 +255,19 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
 
         // Battery margin left
         bindingCustomDimens.batteryMarginLeft.setSliderValue(RPrefs.getInt(CUSTOM_BATTERY_MARGIN_LEFT, 4));
-        bindingCustomDimens.batteryMarginLeft.setOnSliderChangeListener((slider, value, fromUser) -> {
-            RPrefs.putInt(CUSTOM_BATTERY_MARGIN_LEFT, (int) slider.getValue());
-        });
+        bindingCustomDimens.batteryMarginLeft.setOnSliderChangeListener((slider, value, fromUser) -> RPrefs.putInt(CUSTOM_BATTERY_MARGIN_LEFT, (int) slider.getValue()));
 
         // Battery margin right
         bindingCustomDimens.batteryMarginRight.setSliderValue(RPrefs.getInt(CUSTOM_BATTERY_MARGIN_RIGHT, 4));
-        bindingCustomDimens.batteryMarginRight.setOnSliderChangeListener((slider, value, fromUser) -> {
-            RPrefs.putInt(CUSTOM_BATTERY_MARGIN_RIGHT, (int) slider.getValue());
-        });
+        bindingCustomDimens.batteryMarginRight.setOnSliderChangeListener((slider, value, fromUser) -> RPrefs.putInt(CUSTOM_BATTERY_MARGIN_RIGHT, (int) slider.getValue()));
 
         // Battery margin top
         bindingCustomDimens.batteryMarginTop.setSliderValue(RPrefs.getInt(CUSTOM_BATTERY_MARGIN_TOP, 0));
-        bindingCustomDimens.batteryMarginTop.setOnSliderChangeListener((slider, value, fromUser) -> {
-            RPrefs.putInt(CUSTOM_BATTERY_MARGIN_TOP, (int) slider.getValue());
-        });
+        bindingCustomDimens.batteryMarginTop.setOnSliderChangeListener((slider, value, fromUser) -> RPrefs.putInt(CUSTOM_BATTERY_MARGIN_TOP, (int) slider.getValue()));
 
         // Battery margin bottom
         bindingCustomDimens.batteryMarginBottom.setSliderValue(RPrefs.getInt(CUSTOM_BATTERY_MARGIN_BOTTOM, 0));
-        bindingCustomDimens.batteryMarginBottom.setOnSliderChangeListener((slider, value, fromUser) -> {
-            RPrefs.putInt(CUSTOM_BATTERY_MARGIN_BOTTOM, (int) slider.getValue());
-        });
+        bindingCustomDimens.batteryMarginBottom.setOnSliderChangeListener((slider, value, fromUser) -> RPrefs.putInt(CUSTOM_BATTERY_MARGIN_BOTTOM, (int) slider.getValue()));
     }
 
     private void customCharginIcon() {
@@ -288,30 +279,20 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
         });
 
         // Charging icon style
-        bindingChargingIcon.chargingIconStyle.setRadioDialogListener(
-                this,
-                1,
-                RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, 0),
-                true
-        );
+        bindingChargingIcon.chargingIconStyle.setSelectedIndex(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, 0));
+        bindingChargingIcon.chargingIconStyle.setOnItemSelectedListener(index -> RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, index));
 
         // Charging icon margin left
         bindingChargingIcon.chargingIconMarginLeft.setSliderValue(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, 1));
-        bindingChargingIcon.chargingIconMarginLeft.setOnSliderChangeListener((slider, value, fromUser) -> {
-            RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, (int) slider.getValue());
-        });
+        bindingChargingIcon.chargingIconMarginLeft.setOnSliderChangeListener((slider, value, fromUser) -> RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, (int) slider.getValue()));
 
         // Charging icon margin right
         bindingChargingIcon.chargingIconMarginRight.setSliderValue(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, 0));
-        bindingChargingIcon.chargingIconMarginRight.setOnSliderChangeListener((slider, value, fromUser) -> {
-            RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, (int) slider.getValue());
-        });
+        bindingChargingIcon.chargingIconMarginRight.setOnSliderChangeListener((slider, value, fromUser) -> RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, (int) slider.getValue()));
 
         // Charging icon size
         bindingChargingIcon.chargingIconSize.setSliderValue(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, 14));
-        bindingChargingIcon.chargingIconSize.setOnSliderChangeListener((slider, value, fromUser) -> {
-            RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, (int) slider.getValue());
-        });
+        bindingChargingIcon.chargingIconSize.setOnSliderChangeListener((slider, value, fromUser) -> RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, (int) slider.getValue()));
     }
 
     private void updateLayoutVisibility() {
@@ -373,74 +354,5 @@ public class XposedBatteryStyle extends BaseFragment implements RadioDialog.Radi
         // Custom charging icon
         bindingChargingIcon.enableChargingIcon.setVisibility(visibility_charging_icon_switch);
         bindingChargingIcon.chargingIconCustContainer.setVisibility(visibility_charging_icon_customization);
-    }
-
-    private void updateColorPreview(int dialogId, int color) {
-        View[] views = {
-                bindingCustomColors.fillColor,
-                bindingCustomColors.fillGradientColor,
-                bindingCustomColors.chargingFillColor,
-                bindingCustomColors.powersaveFillColor,
-                bindingCustomColors.powersaveIconColor};
-        int[] colors = {
-                RPrefs.getInt(CUSTOM_BATTERY_FILL_COLOR, Color.BLACK),
-                RPrefs.getInt(CUSTOM_BATTERY_FILL_GRAD_COLOR, Color.BLACK),
-                RPrefs.getInt(CUSTOM_BATTERY_CHARGING_COLOR, Color.BLACK),
-                RPrefs.getInt(CUSTOM_BATTERY_POWERSAVE_FILL_COLOR, Color.BLACK),
-                RPrefs.getInt(CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR, Color.BLACK)
-        };
-
-        if (dialogId == 0) {
-            for (int i = 0; i < views.length; i++) {
-                ((ColorPickerWidget) views[i]).setPreviewColor(colors[i]);
-            }
-        } else {
-            ((ColorPickerWidget) views[dialogId - 1]).setPreviewColor(color);
-        }
-    }
-
-    @Override
-    public void onItemSelected(int dialogId, int selectedIndex) {
-        switch (dialogId) {
-            case 0 -> {
-                selectedBatteryStyle = selectedIndex;
-            }
-            case 1 -> {
-                RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, selectedIndex);
-            }
-        }
-        updateLayoutVisibility();
-    }
-
-    @SuppressWarnings("unused")
-    @Subscribe
-    public void onColorSelected(ColorSelectedEvent event) {
-        String[] prefKeys = {
-                CUSTOM_BATTERY_FILL_COLOR,
-                CUSTOM_BATTERY_FILL_GRAD_COLOR,
-                CUSTOM_BATTERY_CHARGING_COLOR,
-                CUSTOM_BATTERY_POWERSAVE_FILL_COLOR,
-                CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR
-        };
-
-        RPrefs.putInt(prefKeys[event.dialogId() - 1], event.selectedColor());
-        updateColorPreview(event.dialogId(), event.selectedColor());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 }

@@ -187,6 +187,10 @@ public class SliderWidget extends RelativeLayout {
         });
     }
 
+    public void resetSlider() {
+        resetIcon.performLongClick();
+    }
+
     private void notifyOnSliderTouchStarted(@NonNull Slider slider) {
         if (onSliderTouchListener != null) {
             onSliderTouchListener.onStartTrackingTouch(slider);

@@ -14,11 +14,22 @@
     <declare-styleable name="TitleWidget">
         <attr name="titleText" format="string" />
         <attr name="summaryText" format="string" />
+        <attr name="iconSpaceReserved" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="MenuWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="icon" format="reference" />
+        <attr name="iconSpaceReserved" />
+        <attr name="showEndArrow" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="SwitchWidget">
         <attr name="titleText" />
         <attr name="summaryText" />
+        <attr name="icon" />
+        <attr name="iconSpaceReserved" />
         <attr name="isChecked" format="boolean" />
     </declare-styleable>
 
@@ -39,6 +50,7 @@
     <declare-styleable name="ColorPickerWidget">
         <attr name="titleText" />
         <attr name="summaryText" />
+        <attr name="previewColor" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="FilePickerWidget">
@@ -51,6 +63,9 @@
     <declare-styleable name="RadioDialogWidget">
         <attr name="titleText" />
         <attr name="summaryText" />
+        <attr name="icon" />
+        <attr name="iconSpaceReserved" />
         <attr name="entries" format="reference" />
+        <attr name="showSelectedPrefix" format="boolean" />
     </declare-styleable>
 </resources>

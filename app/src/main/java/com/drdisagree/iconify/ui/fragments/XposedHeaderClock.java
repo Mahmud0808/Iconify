@@ -36,14 +36,10 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedHeaderClockBinding;
 import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.base.BaseFragment;
-import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
 import com.google.android.material.slider.Slider;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -120,11 +116,16 @@ public class XposedHeaderClock extends BaseFragment {
         binding.headerClockColorPicker.setVisibility(RPrefs.getBoolean(HEADER_CLOCK_COLOR_SWITCH, false) ? View.VISIBLE : View.GONE);
         binding.headerClockColorPicker.setColorPickerListener(
                 requireActivity(),
-                1,
                 RPrefs.getInt(HEADER_CLOCK_COLOR_CODE, Color.WHITE),
                 true,
                 true,
                 true
+        );
+        binding.headerClockColorPicker.setOnColorSelectedListener(
+                color -> {
+                    binding.headerClockColorPicker.setPreviewColor(color);
+                    RPrefs.putInt(HEADER_CLOCK_COLOR_CODE, color);
+                }
         );
 
         // Text Scaling
@@ -200,26 +201,5 @@ public class XposedHeaderClock extends BaseFragment {
         binding.centerClock.setEnabled(enabled);
         binding.forceWhiteText.setEnabled(enabled);
         binding.hideHeaderClockLandscape.setEnabled(enabled);
-    }
-
-    @SuppressWarnings("unused")
-    @Subscribe
-    public void onColorSelected(ColorSelectedEvent event) {
-        if (event.dialogId() == 1) {
-            binding.headerClockColorPicker.setPreviewColor(event.selectedColor());
-            RPrefs.putInt(HEADER_CLOCK_COLOR_CODE, event.selectedColor());
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 }

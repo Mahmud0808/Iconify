@@ -24,8 +24,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -42,6 +40,7 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedMenuBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
+import com.drdisagree.iconify.ui.widgets.MenuWidget;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.extension.ObservableVariable;
 import com.drdisagree.iconify.utils.helper.ImportExport;
@@ -249,21 +248,17 @@ public class XposedMenu extends BaseFragment {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, binding.xposedList, false);
+            MenuWidget menu = new MenuWidget(requireActivity());
 
-            TextView title = list.findViewById(R.id.list_title);
-            title.setText((String) pack.get(i)[1]);
-
-            TextView desc = list.findViewById(R.id.list_desc);
-            desc.setText((String) pack.get(i)[2]);
-
-            ImageView preview = list.findViewById(R.id.list_icon);
-            preview.setImageResource((int) pack.get(i)[3]);
+            menu.setTitle((String) pack.get(i)[1]);
+            menu.setSummary((String) pack.get(i)[2]);
+            menu.setIcon((int) pack.get(i)[3]);
+            menu.setEndArrowVisibility(View.VISIBLE);
 
             int finalI = i;
-            list.setOnClickListener(v -> Navigation.findNavController(list).navigate((Integer) pack.get(finalI)[0]));
+            menu.setOnClickListener(v -> Navigation.findNavController(menu).navigate((Integer) pack.get(finalI)[0]));
 
-            binding.xposedList.addView(list);
+            binding.xposedList.addView(menu);
         }
     }
 

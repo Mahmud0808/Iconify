@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_background_material"
-    android:clickable="true">
+    android:clickable="true"
+    android:paddingStart="6dp"
+    android:paddingEnd="24dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="18dp"
+        android:contentDescription="@string/icon"
+        app:tint="?attr/colorPrimary" />
 
     <LinearLayout
+        android:id="@+id/text_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginVertical="22dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="18dp"
         android:layout_marginEnd="10dp"
         android:layout_toStartOf="@id/switch_widget"
+        android:layout_toEndOf="@id/icon"
         android:orientation="vertical">
 
         <TextView
@@ -39,7 +54,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="24dp" />
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

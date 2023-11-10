@@ -28,7 +28,6 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentAppUpdatesBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
-import com.drdisagree.iconify.ui.dialogs.RadioDialog;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.extension.TaskExecutor;
 
@@ -41,14 +40,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 
-public class AppUpdates extends BaseFragment implements RadioDialog.RadioDialogListener {
+public class AppUpdates extends BaseFragment {
 
     public static final String KEY_NEW_UPDATE = "new_update_available";
     private FragmentAppUpdatesBinding binding;
     private CheckForUpdate checkForUpdate = null;
-    private RadioDialog update_schedule_dialog;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,10 +55,20 @@ public class AppUpdates extends BaseFragment implements RadioDialog.RadioDialogL
         // Header
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.app_updates);
 
-        update_schedule_dialog = new RadioDialog(requireContext(), 0, Prefs.getInt(UPDATE_SCHEDULE, 1));
-        update_schedule_dialog.setRadioDialogListener(this);
-        binding.updateScheduleContainer.setOnClickListener(v -> update_schedule_dialog.show(R.string.update_schedule_title, R.array.update_schedule, binding.selectedUpdateSchedule));
-        binding.selectedUpdateSchedule.setText(Arrays.asList(getResources().getStringArray(R.array.update_schedule)).get(update_schedule_dialog.getSelectedIndex()));
+        // Update Schedule
+        binding.updateSchedule.setSelectedIndex(Prefs.getInt(UPDATE_SCHEDULE, 1));
+        binding.updateSchedule.setOnItemSelectedListener(
+                index -> {
+                    Prefs.putInt(UPDATE_SCHEDULE, index);
+
+                    switch (index) {
+                        case 0 -> Prefs.putLong(UPDATE_CHECK_TIME, 6); // Every 6 Hours
+                        case 1 -> Prefs.putLong(UPDATE_CHECK_TIME, 12); // Every 12 Hour
+                        case 2 -> Prefs.putLong(UPDATE_CHECK_TIME, 24); // Every Day
+                        case 3 -> Prefs.putLong(UPDATE_CHECK_TIME, (long) 24 * 7); // Every Week
+                    }
+                }
+        );
 
         try {
             checkForUpdate = new CheckForUpdate();
@@ -81,7 +88,6 @@ public class AppUpdates extends BaseFragment implements RadioDialog.RadioDialogL
 
     @Override
     public void onDestroy() {
-        update_schedule_dialog.dismiss();
         if (checkForUpdate != null) checkForUpdate.cancel(true);
         super.onDestroy();
     }
@@ -90,20 +96,6 @@ public class AppUpdates extends BaseFragment implements RadioDialog.RadioDialogL
     public void onStop() {
         if (checkForUpdate != null) checkForUpdate.cancel(true);
         super.onStop();
-    }
-
-    @Override
-    public void onItemSelected(int dialogId, int selectedIndex) {
-        if (dialogId == 0) {
-            Prefs.putInt(UPDATE_SCHEDULE, selectedIndex);
-
-            switch (selectedIndex) {
-                case 0 -> Prefs.putLong(UPDATE_CHECK_TIME, 6); // Every 6 Hours
-                case 1 -> Prefs.putLong(UPDATE_CHECK_TIME, 12); // Every 12 Hour
-                case 2 -> Prefs.putLong(UPDATE_CHECK_TIME, 24); // Every Day
-                case 3 -> Prefs.putLong(UPDATE_CHECK_TIME, (long) 24 * 7); // Every Week
-            }
-        }
     }
 
     @SuppressLint("StaticFieldLeak")

@@ -43,43 +43,36 @@ public class ColorEngine extends BaseFragment {
         binding.monetEngine.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_colorEngine_to_monetEngine));
 
         // Apply monet accent and gradient
-        binding.applyMonetAccent.setChecked(Prefs.getBoolean("IconifyComponentAMAC.overlay"));
-        binding.applyMonetAccent.setOnCheckedChangeListener(monetAccentListener);
+        binding.monetAccent.setSwitchChecked(Prefs.getBoolean("IconifyComponentAMAC.overlay"));
+        binding.monetAccent.setSwitchChangeListener(monetAccentListener);
 
-        binding.applyMonetGradient.setChecked(Prefs.getBoolean("IconifyComponentAMGC.overlay"));
-        binding.applyMonetGradient.setOnCheckedChangeListener(monetGradientListener);
-
-        binding.applyMonetAccentContainer.setOnClickListener(v -> binding.applyMonetAccent.toggle());
-        binding.applyMonetGradientContainer.setOnClickListener(v -> binding.applyMonetGradient.toggle());
+        binding.monetGradient.setSwitchChecked(Prefs.getBoolean("IconifyComponentAMGC.overlay"));
+        binding.monetGradient.setSwitchChangeListener(monetGradientListener);
 
         // Pitch Black Dark
-        binding.applyPitchBlackDarkTheme.setChecked(Prefs.getBoolean("IconifyComponentQSPBD.overlay"));
-        binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(pitchBlackDarkListener);
-        binding.applyPitchBlackDarkThemeContainer.setOnClickListener(v -> binding.applyPitchBlackDarkTheme.toggle());
+        binding.pitchBlackDarkTheme.setSwitchChecked(Prefs.getBoolean("IconifyComponentQSPBD.overlay"));
+        binding.pitchBlackDarkTheme.setSwitchChangeListener(pitchBlackDarkListener);
 
         // Pitch Black Amoled
-        binding.applyPitchBlackAmoledTheme.setChecked(Prefs.getBoolean("IconifyComponentQSPBA.overlay"));
-        binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(pitchBlackAmoledListener);
-        binding.applyPitchBlackAmoledThemeContainer.setOnClickListener(v -> binding.applyPitchBlackAmoledTheme.toggle());
+        binding.pitchBlackAmoledTheme.setSwitchChecked(Prefs.getBoolean("IconifyComponentQSPBA.overlay"));
+        binding.pitchBlackAmoledTheme.setSwitchChangeListener(pitchBlackAmoledListener);
 
         // Minimal QsPanel
-        binding.applyMinimalQspanel.setChecked(Prefs.getBoolean("IconifyComponentQSST.overlay"));
+        binding.minimalQspanel.setSwitchChecked(Prefs.getBoolean("IconifyComponentQSST.overlay"));
         if (minimalQsListener == null) {
             initializeMinimalQsListener();
         }
-        binding.applyMinimalQspanel.setOnCheckedChangeListener(minimalQsListener);
-        binding.applyMinimalQspanelContainer.setOnClickListener(v -> binding.applyMinimalQspanel.toggle());
+        binding.minimalQspanel.setSwitchChangeListener(minimalQsListener);
 
         // Disable Monet
-        binding.disableMonet.setChecked(Prefs.getBoolean("IconifyComponentDM.overlay"));
-        binding.disableMonet.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.disableMonet.setSwitchChecked(Prefs.getBoolean("IconifyComponentDM.overlay"));
+        binding.disableMonet.setSwitchChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentDM.overlay");
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentDM.overlay");
             }
         }, SWITCH_ANIMATION_DELAY));
-        binding.disableMonetContainer.setOnClickListener(v -> binding.disableMonet.toggle());
 
         return view;
     }
@@ -124,13 +117,13 @@ public class ColorEngine extends BaseFragment {
     private void initializeMinimalQsListener() {
         minimalQsListener = (buttonView, isChecked) -> {
             if (isChecked) {
-                binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(null);
-                binding.applyPitchBlackDarkTheme.setChecked(false);
-                binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(pitchBlackDarkListener);
+                binding.pitchBlackDarkTheme.setSwitchChangeListener(null);
+                binding.pitchBlackDarkTheme.setSwitchChecked(false);
+                binding.pitchBlackDarkTheme.setSwitchChangeListener(pitchBlackDarkListener);
 
-                binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(null);
-                binding.applyPitchBlackAmoledTheme.setChecked(false);
-                binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(pitchBlackAmoledListener);
+                binding.pitchBlackAmoledTheme.setSwitchChangeListener(null);
+                binding.pitchBlackAmoledTheme.setSwitchChecked(false);
+                binding.pitchBlackAmoledTheme.setSwitchChangeListener(pitchBlackAmoledListener);
             }
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -147,9 +140,9 @@ public class ColorEngine extends BaseFragment {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
-                binding.applyMonetGradient.setOnCheckedChangeListener(null);
-                binding.applyMonetGradient.setChecked(false);
-                binding.applyMonetGradient.setOnCheckedChangeListener(monetGradientListener);
+                binding.monetGradient.setSwitchChangeListener(null);
+                binding.monetGradient.setSwitchChecked(false);
+                binding.monetGradient.setSwitchChangeListener(monetGradientListener);
             }
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -167,9 +160,9 @@ public class ColorEngine extends BaseFragment {
 
     CompoundButton.OnCheckedChangeListener monetGradientListener = (buttonView, isChecked) -> {
         if (isChecked) {
-            binding.applyMonetAccent.setOnCheckedChangeListener(null);
-            binding.applyMonetAccent.setChecked(false);
-            binding.applyMonetAccent.setOnCheckedChangeListener(monetAccentListener);
+            binding.monetAccent.setSwitchChangeListener(null);
+            binding.monetAccent.setSwitchChecked(false);
+            binding.monetAccent.setSwitchChangeListener(monetAccentListener);
         }
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -192,13 +185,13 @@ public class ColorEngine extends BaseFragment {
                     initializeMinimalQsListener();
                 }
 
-                binding.applyMinimalQspanel.setOnCheckedChangeListener(null);
-                binding.applyMinimalQspanel.setChecked(false);
-                binding.applyMinimalQspanel.setOnCheckedChangeListener(minimalQsListener);
+                binding.minimalQspanel.setSwitchChangeListener(null);
+                binding.minimalQspanel.setSwitchChecked(false);
+                binding.minimalQspanel.setSwitchChangeListener(minimalQsListener);
 
-                binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(null);
-                binding.applyPitchBlackAmoledTheme.setChecked(false);
-                binding.applyPitchBlackAmoledTheme.setOnCheckedChangeListener(pitchBlackAmoledListener);
+                binding.pitchBlackAmoledTheme.setSwitchChangeListener(null);
+                binding.pitchBlackAmoledTheme.setSwitchChecked(false);
+                binding.pitchBlackAmoledTheme.setSwitchChangeListener(pitchBlackAmoledListener);
             }
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -217,13 +210,13 @@ public class ColorEngine extends BaseFragment {
                 initializeMinimalQsListener();
             }
 
-            binding.applyMinimalQspanel.setOnCheckedChangeListener(null);
-            binding.applyMinimalQspanel.setChecked(false);
-            binding.applyMinimalQspanel.setOnCheckedChangeListener(minimalQsListener);
+            binding.minimalQspanel.setSwitchChangeListener(null);
+            binding.minimalQspanel.setSwitchChecked(false);
+            binding.minimalQspanel.setSwitchChangeListener(minimalQsListener);
 
-            binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(null);
-            binding.applyPitchBlackDarkTheme.setChecked(false);
-            binding.applyPitchBlackDarkTheme.setOnCheckedChangeListener(pitchBlackDarkListener);
+            binding.pitchBlackDarkTheme.setSwitchChangeListener(null);
+            binding.pitchBlackDarkTheme.setSwitchChecked(false);
+            binding.pitchBlackDarkTheme.setSwitchChangeListener(pitchBlackDarkListener);
         }
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {

@@ -28,15 +28,10 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentBasicColorsBinding;
-import com.drdisagree.iconify.ui.activities.HomePage;
 import com.drdisagree.iconify.ui.base.BaseFragment;
-import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Objects;
 
@@ -111,9 +106,45 @@ public class BasicColors extends BaseFragment {
         updatePrimaryColor();
         updateSecondaryColor();
 
-        // Primary and Secondary color
-        binding.previewColoraccentprimary.setOnClickListener(v -> ((HomePage) requireActivity()).showColorPickerDialog(1, Integer.parseInt(accentPrimary), true, false, true));
-        binding.previewColoraccentsecondary.setOnClickListener(v -> ((HomePage) requireActivity()).showColorPickerDialog(2, Integer.parseInt(accentSecondary), true, false, true));
+        // Primary color picker
+        binding.primaryColor.setColorPickerListener(
+                requireActivity(),
+                Integer.parseInt(accentPrimary),
+                true,
+                false,
+                true
+        );
+        binding.primaryColor.setOnColorSelectedListener(
+                color -> {
+                    isSelectedPrimary = true;
+                    accentPrimary = String.valueOf(color);
+                    updatePrimaryColor();
+                    binding.enableCustomColor.setVisibility(View.VISIBLE);
+                    Prefs.putBoolean(CUSTOM_PRIMARY_COLOR_SWITCH, true);
+
+                    refreshVisibility();
+                }
+        );
+
+        // Secondary color picker
+        binding.secondaryColor.setColorPickerListener(
+                requireActivity(),
+                Integer.parseInt(accentSecondary),
+                true,
+                false,
+                true
+        );
+        binding.secondaryColor.setOnColorSelectedListener(
+                color -> {
+                    isSelectedSecondary = true;
+                    accentSecondary = String.valueOf(color);
+                    updateSecondaryColor();
+                    binding.enableCustomColor.setVisibility(View.VISIBLE);
+                    Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
+
+                    refreshVisibility();
+                }
+        );
 
         // Enable custom colors
         binding.enableCustomColor.setOnClickListener(v -> {
@@ -167,29 +198,6 @@ public class BasicColors extends BaseFragment {
         return view;
     }
 
-    @SuppressWarnings("unused")
-    @Subscribe
-    public void onColorSelected(ColorSelectedEvent event) {
-        switch (event.dialogId()) {
-            case 1 -> {
-                isSelectedPrimary = true;
-                accentPrimary = String.valueOf(event.selectedColor());
-                updatePrimaryColor();
-                binding.enableCustomColor.setVisibility(View.VISIBLE);
-                Prefs.putBoolean(CUSTOM_PRIMARY_COLOR_SWITCH, true);
-            }
-            case 2 -> {
-                isSelectedSecondary = true;
-                accentSecondary = String.valueOf(event.selectedColor());
-                updateSecondaryColor();
-                binding.enableCustomColor.setVisibility(View.VISIBLE);
-                Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
-            }
-        }
-
-        refreshVisibility();
-    }
-
     private void refreshVisibility() {
         if (binding.enableCustomColor.getVisibility() == View.VISIBLE || binding.disableCustomColor.getVisibility() == View.VISIBLE) {
             binding.buttonContainer.setVisibility(View.VISIBLE);
@@ -199,23 +207,13 @@ public class BasicColors extends BaseFragment {
     }
 
     private void updatePrimaryColor() {
-        GradientDrawable gd;
-        gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
-        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
-        binding.previewColorPickerPrimary.setBackground(gd);
-
-        gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
+        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(24 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
 
     private void updateSecondaryColor() {
-        GradientDrawable gd;
-        gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
-        binding.previewColorPickerSecondary.setBackground(gd);
-
-        gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
+        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
         gd.setCornerRadius(24 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
@@ -236,17 +234,5 @@ public class BasicColors extends BaseFragment {
         if (isSelectedPrimary) applyPrimaryColors();
 
         if (isSelectedSecondary) applySecondaryColors();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 }

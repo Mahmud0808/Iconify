@@ -27,7 +27,6 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentSettingsIconsBinding;
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
-import com.drdisagree.iconify.ui.dialogs.RadioDialog;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
@@ -35,15 +34,13 @@ import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogListener {
+public class SettingsIcons extends Fragment {
 
     private static int selectedBackground = 1, selectedShape = 1, selectedSize = 1, selectedIconColor = 1, selectedIcon = 1;
     private FragmentSettingsIconsBinding binding;
     private LoadingDialog loadingDialog;
-    private RadioDialog rd_bg_style, rd_bg_shape, rd_ic_size, rd_icon_color;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,32 +57,24 @@ public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogLi
         selectedIcon = Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1);
 
         // Background style
-        rd_bg_style = new RadioDialog(requireContext(), 0, Prefs.getInt(SELECTED_SETTINGS_ICONS_BG, 1) - 1);
-        rd_bg_style.setRadioDialogListener(this);
-        binding.bgStyle.setOnClickListener(v -> rd_bg_style.show(R.string.settings_icons_background, R.array.settings_icon_bg, binding.selectedBgStyle));
-        selectedBackground = rd_bg_style.getSelectedIndex() + 1;
-        binding.selectedBgStyle.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_bg)).get(selectedBackground - 1));
+        binding.bgStyle.setSelectedIndex(Prefs.getInt(SELECTED_SETTINGS_ICONS_BG, 1) - 1);
+        binding.bgStyle.setOnItemSelectedListener(index -> selectedBackground = index + 1);
+        selectedBackground = binding.bgStyle.getSelectedIndex() + 1;
 
         // Background Shape
-        rd_bg_shape = new RadioDialog(requireContext(), 1, Prefs.getInt(SELECTED_SETTINGS_ICONS_SHAPE, 1) - 1);
-        rd_bg_shape.setRadioDialogListener(this);
-        binding.bgShape.setOnClickListener(v -> rd_bg_shape.show(R.string.settings_icons_shape, R.array.settings_icon_shape, binding.selectedBgShape));
-        selectedShape = rd_bg_shape.getSelectedIndex() + 1;
-        binding.selectedBgShape.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_shape)).get(selectedShape - 1));
+        binding.bgShape.setSelectedIndex(Prefs.getInt(SELECTED_SETTINGS_ICONS_SHAPE, 1) - 1);
+        binding.bgShape.setOnItemSelectedListener(index -> selectedShape = index + 1);
+        selectedShape = binding.bgShape.getSelectedIndex() + 1;
 
         // Icon Size
-        rd_ic_size = new RadioDialog(requireContext(), 2, Prefs.getInt(SELECTED_SETTINGS_ICONS_SIZE, 1) - 1);
-        rd_ic_size.setRadioDialogListener(this);
-        binding.iconSize.setOnClickListener(v -> rd_ic_size.show(R.string.settings_icons_size, R.array.settings_icon_size, binding.selectedIconSize));
-        selectedSize = rd_ic_size.getSelectedIndex() + 1;
-        binding.selectedIconSize.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_size)).get(selectedSize - 1));
+        binding.iconSize.setSelectedIndex(Prefs.getInt(SELECTED_SETTINGS_ICONS_SIZE, 1) - 1);
+        binding.iconSize.setOnItemSelectedListener(index -> selectedSize = index + 1);
+        selectedSize = binding.iconSize.getSelectedIndex() + 1;
 
         // Icon color
-        rd_icon_color = new RadioDialog(requireContext(), 3, Prefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1) - 1);
-        rd_icon_color.setRadioDialogListener(this);
-        binding.iconColor.setOnClickListener(v -> rd_icon_color.show(R.string.settins_icons_icon_color, R.array.settings_icon_color, binding.selectedIconColor));
-        selectedIconColor = rd_icon_color.getSelectedIndex() + 1;
-        binding.selectedIconColor.setText(Arrays.asList(getResources().getStringArray(R.array.settings_icon_color)).get(selectedIconColor - 1));
+        binding.iconColor.setSelectedIndex(Prefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1) - 1);
+        binding.iconColor.setOnItemSelectedListener(index -> selectedIconColor = index + 1);
+        selectedIconColor = binding.iconColor.getSelectedIndex() + 1;
 
         // Icon Pack list items
         ArrayList<Object[]> iconpack_list = new ArrayList<>();
@@ -253,24 +242,10 @@ public class SettingsIcons extends Fragment implements RadioDialog.RadioDialogLi
     }
 
     @Override
-    public void onItemSelected(int dialogId, int selectedIndex) {
-        switch (dialogId) {
-            case 0 -> selectedBackground = selectedIndex + 1;
-            case 1 -> selectedShape = selectedIndex + 1;
-            case 2 -> selectedSize = selectedIndex + 1;
-            case 3 -> selectedIconColor = selectedIndex + 1;
-        }
-    }
-
-    @Override
     public void onDestroy() {
         if (loadingDialog != null) {
             loadingDialog.dismiss();
         }
-        rd_bg_style.dismiss();
-        rd_bg_shape.dismiss();
-        rd_ic_size.dismiss();
-        rd_icon_color.dismiss();
         super.onDestroy();
     }
 }

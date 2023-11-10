@@ -1,28 +1,36 @@
 package com.drdisagree.iconify.ui.widgets;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.dialogs.RadioDialog;
+import com.drdisagree.iconify.utils.SystemUtil;
 
 import java.util.Arrays;
 
-public class RadioDialogWidget extends RelativeLayout {
+public class RadioDialogWidget extends RelativeLayout implements RadioDialog.RadioDialogListener {
 
-    private LinearLayout container;
+    private RelativeLayout container;
     private TextView titleTextView;
     private TextView summaryTextView;
+    private ImageView iconImageView;
     private RadioDialog radioDialog;
+    private int radioDialogId;
     private int selectedIndex = 0;
     private int titleResId = 0;
     private int arrayResId = 0;
     private boolean showSelectedPrefix = true;
+    private RadioDialogListener radioDialogListener;
 
     public RadioDialogWidget(Context context) {
         super(context);
@@ -45,6 +53,7 @@ public class RadioDialogWidget extends RelativeLayout {
         initializeId();
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RadioDialogWidget);
+        showSelectedPrefix = typedArray.getBoolean(R.styleable.RadioDialogWidget_showSelectedPrefix, true);
         titleResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_titleText, 0);
         setTitle(titleResId);
         arrayResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_entries, 0);
@@ -59,7 +68,34 @@ public class RadioDialogWidget extends RelativeLayout {
                 }
             }
         }
+        int icon = typedArray.getResourceId(R.styleable.RadioDialogWidget_icon, 0);
+        boolean iconSpaceReserved = typedArray.getBoolean(R.styleable.RadioDialogWidget_iconSpaceReserved, false);
         typedArray.recycle();
+
+        if (icon != 0) {
+            iconSpaceReserved = true;
+            iconImageView.setImageResource(icon);
+        }
+
+        if (!iconSpaceReserved) {
+            iconImageView.setVisibility(GONE);
+        }
+
+        radioDialog = new RadioDialog(
+                getContext(),
+                radioDialogId,
+                selectedIndex
+        );
+        radioDialog.setRadioDialogListener(this);
+
+        container.setOnClickListener(v ->
+                radioDialog.show(
+                        titleResId,
+                        arrayResId,
+                        summaryTextView,
+                        showSelectedPrefix
+                )
+        );
     }
 
     public void setTitle(int titleResId) {
@@ -70,11 +106,11 @@ public class RadioDialogWidget extends RelativeLayout {
         titleTextView.setText(title);
     }
 
-    public void setSelectedText(int summaryResId) {
+    private void setSelectedText(int summaryResId) {
         setSelectedText(getContext().getString(summaryResId));
     }
 
-    public void setSelectedText(String summary) {
+    private void setSelectedText(String summary) {
         summaryTextView.setText(
                 showSelectedPrefix ?
                         getContext().getString(
@@ -85,50 +121,23 @@ public class RadioDialogWidget extends RelativeLayout {
         );
     }
 
-    public void setRadioDialogListener(
-            RadioDialog.RadioDialogListener listener,
-            int dialogId,
-            int selectedIndex
-    ) {
-        setRadioDialogListener(
-                listener,
-                dialogId,
-                selectedIndex,
-                false
-        );
+    public void setIcon(int icon) {
+        iconImageView.setImageResource(icon);
+        iconImageView.setVisibility(VISIBLE);
     }
 
-    public void setRadioDialogListener(
-            RadioDialog.RadioDialogListener listener,
-            int dialogId,
-            int selectedIndex,
-            boolean showSelectedPrefix
-    ) {
-        this.selectedIndex = selectedIndex;
-        this.showSelectedPrefix = showSelectedPrefix;
+    public void setIcon(Drawable drawable) {
+        iconImageView.setImageDrawable(drawable);
+        iconImageView.setVisibility(VISIBLE);
+    }
 
-        radioDialog = new RadioDialog(
-                getContext(),
-                dialogId,
-                this.selectedIndex
-        );
-
-        radioDialog.setRadioDialogListener(listener);
-
-        container.setOnClickListener(v ->
-                radioDialog.show(
-                        titleResId,
-                        arrayResId,
-                        summaryTextView,
-                        this.showSelectedPrefix
-                )
-        );
-
-        setSelectedText(Arrays.asList(getResources().getStringArray(arrayResId)).get(radioDialog.getSelectedIndex()));
+    public void setIconVisibility(int visibility) {
+        iconImageView.setVisibility(visibility);
     }
 
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
+        setSelectedText(Arrays.asList(getResources().getStringArray(arrayResId)).get(selectedIndex));
     }
 
     public int getSelectedIndex() {
@@ -139,9 +148,36 @@ public class RadioDialogWidget extends RelativeLayout {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
+        if (enabled) {
+            TypedValue typedValue = new TypedValue();
+            TypedArray a = getContext().obtainStyledAttributes(
+                    typedValue.data,
+                    new int[]{com.google.android.material.R.attr.colorPrimary}
+            );
+            int color = a.getColor(0, 0);
+            a.recycle();
+
+            iconImageView.setImageTintList(ColorStateList.valueOf(color));
+        } else {
+            if (SystemUtil.isDarkMode()) {
+                iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY));
+            } else {
+                iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY));
+            }
+        }
+
         container.setEnabled(enabled);
         titleTextView.setEnabled(enabled);
         summaryTextView.setEnabled(enabled);
+        iconImageView.setEnabled(enabled);
+    }
+
+    public void setOnItemSelectedListener(RadioDialogListener listener) {
+        radioDialogListener = listener;
+    }
+
+    public interface RadioDialogListener {
+        void onItemSelected(int index);
     }
 
     // to avoid listener bug, we need to re-generate unique id for each view
@@ -149,9 +185,35 @@ public class RadioDialogWidget extends RelativeLayout {
         container = findViewById(R.id.container);
         titleTextView = findViewById(R.id.title);
         summaryTextView = findViewById(R.id.summary);
+        iconImageView = findViewById(R.id.icon);
 
         container.setId(View.generateViewId());
         titleTextView.setId(View.generateViewId());
         summaryTextView.setId(View.generateViewId());
+        iconImageView.setId(View.generateViewId());
+
+        radioDialogId = container.getId();
+
+        RelativeLayout.LayoutParams layoutParams = (LayoutParams) findViewById(R.id.text_container).getLayoutParams();
+        layoutParams.addRule(RelativeLayout.END_OF, iconImageView.getId());
+        findViewById(R.id.text_container).setLayoutParams(layoutParams);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        radioDialog.dismiss();
+        super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void onItemSelected(int dialogId, int selectedIndex) {
+        if (dialogId == radioDialogId) {
+            this.selectedIndex = selectedIndex;
+            setSelectedText(Arrays.asList(getResources().getStringArray(arrayResId)).get(selectedIndex));
+
+            if (radioDialogListener != null) {
+                radioDialogListener.onItemSelected(selectedIndex);
+            }
+        }
     }
 }

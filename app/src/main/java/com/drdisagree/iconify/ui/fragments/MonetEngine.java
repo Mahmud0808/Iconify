@@ -24,7 +24,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -51,7 +50,6 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentMonetEngineBinding;
 import com.drdisagree.iconify.ui.activities.HomePage;
 import com.drdisagree.iconify.ui.base.BaseFragment;
-import com.drdisagree.iconify.ui.dialogs.RadioDialog;
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -78,7 +76,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("SetTextI18n")
-public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialogListener {
+public class MonetEngine extends BaseFragment {
 
     private static String accentPrimary, accentSecondary, selectedStyle;
     private static boolean isSelectedPrimary = false, isSelectedSecondary = false, accurateShades = Prefs.getBoolean(MONET_ACCURATE_SHADES, true);
@@ -107,7 +105,6 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
     private FragmentMonetEngineBinding binding;
     private LinearLayout[] colorTableRows;
     private boolean isDarkMode = SystemUtil.isDarkMode();
-    private RadioDialog rd_monet_style;
     private boolean showApplyButton = false, showDisableButton = false;
     ActivityResultLauncher<Intent> startImportActivityIntent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -164,33 +161,68 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
 
         // Monet Style
         int selectedIndex = Arrays.asList(getResources().getStringArray(R.array.monet_style)).indexOf(selectedStyle);
-        rd_monet_style = new RadioDialog(getContext(), 0, selectedIndex);
-        rd_monet_style.setRadioDialogListener(this);
-        binding.monetStyles.setOnClickListener(v -> rd_monet_style.show(R.string.monet_style_title, R.array.monet_style, binding.selectedMonetStyle));
-        binding.selectedMonetStyle.setText(getResources().getString(R.string.opt_selected) + " " + Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(rd_monet_style.getSelectedIndex()));
+        binding.monetStyles.setSelectedIndex(selectedIndex);
+        binding.monetStyles.setOnItemSelectedListener(index -> {
+            selectedStyle = Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(index);
+            assignCustomColorsToPalette();
+            binding.floatingActionMenu.show();
+            showApplyButton = true;
+        });
 
         accentPrimary = Prefs.getString(MONET_PRIMARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, Iconify.getAppContext().getTheme())));
         accentSecondary = Prefs.getString(MONET_SECONDARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, Iconify.getAppContext().getTheme())));
 
-        updatePrimaryColor();
-        updateSecondaryColor();
         assignStockColorsToPalette();
 
-        binding.previewColoraccentprimary.setOnClickListener(v -> {
-            binding.enableCustomMonet.hide();
-            binding.disableCustomMonet.hide();
-            ((HomePage) requireActivity()).showColorPickerDialog(1, Integer.parseInt(accentPrimary), true, false, true);
-        });
+        binding.colorAccentPrimary.setColorPickerListener(
+                requireActivity(),
+                Integer.parseInt(accentPrimary),
+                true,
+                false,
+                true
+        );
+        binding.colorAccentPrimary.setBeforeColorPickerListener(
+                () -> {
+                    binding.enableCustomMonet.hide();
+                    binding.disableCustomMonet.hide();
+                }
+        );
+        binding.colorAccentPrimary.setOnColorSelectedListener(
+                color -> {
+                    isSelectedPrimary = true;
+                    accentPrimary = String.valueOf(color);
+                    binding.floatingActionMenu.show();
+                    showApplyButton = true;
+                    assignCustomColorsToPalette();
+                }
+        );
 
-        binding.previewColoraccentsecondary.setOnClickListener(v -> {
-            binding.enableCustomMonet.hide();
-            binding.disableCustomMonet.hide();
-            ((HomePage) requireActivity()).showColorPickerDialog(2, Integer.parseInt(accentSecondary), true, false, true);
-        });
+        binding.colorAccentSecondary.setColorPickerListener(
+                requireActivity(),
+                Integer.parseInt(accentSecondary),
+                true,
+                false,
+                true
+        );
+        binding.colorAccentSecondary.setBeforeColorPickerListener(
+                () -> {
+                    binding.enableCustomMonet.hide();
+                    binding.disableCustomMonet.hide();
+                }
+        );
+        binding.colorAccentSecondary.setOnColorSelectedListener(
+                color -> {
+                    isSelectedSecondary = true;
+                    accentSecondary = String.valueOf(color);
+                    binding.floatingActionMenu.show();
+                    showApplyButton = true;
+                    assignCustomColorsToPalette();
+                }
+        );
 
         // Monet Accurate Shades
-        binding.monetAccurateShades.setChecked(Prefs.getBoolean(MONET_ACCURATE_SHADES, true));
-        binding.monetAccurateShades.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.accurateShades.setSwitchChecked(Prefs.getBoolean(MONET_ACCURATE_SHADES, true));
+        binding.accurateShades.setSwitchChangeListener((buttonView, isChecked) -> {
             accurateShades = isChecked;
             assignCustomColorsToPalette();
             binding.floatingActionMenu.show();
@@ -198,32 +230,16 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             binding.disableCustomMonet.hide();
             showApplyButton = true;
         });
-        binding.monetAccurateShadesContainer.setOnClickListener(v -> binding.monetAccurateShades.toggle());
 
         // Monet primary accent saturation
-        binding.monetPrimaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 0) + "%");
-        binding.monetPrimaryAccentSaturationSeekbar.setValue(Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 0));
+        binding.primaryAccentSaturation.setSliderValue(Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 0));
 
-        // Long Click Reset
-        binding.resetPrimaryAccentSaturation.setVisibility(Prefs.getInt(MONET_PRIMARY_ACCENT_SATURATION, 0) == 0 ? View.INVISIBLE : View.VISIBLE);
-
-        binding.resetPrimaryAccentSaturation.setOnLongClickListener(v -> {
-            monetPrimaryAccentSaturation[0] = 0;
-            binding.monetPrimaryAccentSaturationSeekbar.setValue(0);
-            binding.monetPrimaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetPrimaryAccentSaturation[0] + "%");
-            assignCustomColorsToPalette();
-            binding.resetPrimaryAccentSaturation.setVisibility(View.INVISIBLE);
-            binding.floatingActionMenu.show();
-            showApplyButton = true;
-            return true;
-        });
-
-        binding.monetPrimaryAccentSaturationSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+        binding.primaryAccentSaturation.setOnSliderChangeListener((slider, value, fromUser) -> {
             monetPrimaryAccentSaturation[0] = (int) value;
             assignCustomColorsToPalette();
         });
 
-        binding.monetPrimaryAccentSaturationSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.primaryAccentSaturation.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
                 binding.enableCustomMonet.hide();
@@ -233,37 +249,29 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 monetPrimaryAccentSaturation[0] = (int) slider.getValue();
-                binding.monetPrimaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetPrimaryAccentSaturation[0] + "%");
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                binding.resetPrimaryAccentSaturation.setVisibility(monetPrimaryAccentSaturation[0] == 0 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
-        // Monet secondary accent saturation
-        binding.monetSecondaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 0) + "%");
-        binding.monetSecondaryAccentSaturationSeekbar.setValue(Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 0));
-
         // Long Click Reset
-        binding.resetSecondaryAccentSaturation.setVisibility(Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 0) == 0 ? View.INVISIBLE : View.VISIBLE);
-
-        binding.resetSecondaryAccentSaturation.setOnLongClickListener(v -> {
-            monetSecondaryAccentSaturation[0] = 0;
-            binding.monetSecondaryAccentSaturationSeekbar.setValue(0);
-            binding.monetSecondaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetSecondaryAccentSaturation[0] + "%");
+        binding.primaryAccentSaturation.setResetClickListener(v -> {
+            monetPrimaryAccentSaturation[0] = 0;
             assignCustomColorsToPalette();
-            binding.resetSecondaryAccentSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
             showApplyButton = true;
             return true;
         });
 
-        binding.monetSecondaryAccentSaturationSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+        // Monet secondary accent saturation
+        binding.secondaryAccentSaturation.setSliderValue(Prefs.getInt(MONET_SECONDARY_ACCENT_SATURATION, 0));
+
+        binding.secondaryAccentSaturation.setOnSliderChangeListener((slider, value, fromUser) -> {
             monetSecondaryAccentSaturation[0] = (int) value;
             assignCustomColorsToPalette();
         });
 
-        binding.monetSecondaryAccentSaturationSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.secondaryAccentSaturation.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
                 binding.enableCustomMonet.hide();
@@ -273,39 +281,29 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 monetSecondaryAccentSaturation[0] = (int) slider.getValue();
-                binding.monetSecondaryAccentSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetSecondaryAccentSaturation[0] + "%");
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                binding.resetSecondaryAccentSaturation.setVisibility(monetSecondaryAccentSaturation[0] == 0 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
-        // Monet background saturation
-        binding.monetBackgroundSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(MONET_BACKGROUND_SATURATION, 0) + "%");
-        binding.monetBackgroundSaturationSeekbar.setValue(Prefs.getInt(MONET_BACKGROUND_SATURATION, 0));
-
-        // Reset button
-        binding.resetBackgroundSaturation.setVisibility(Prefs.getInt(MONET_BACKGROUND_SATURATION, 0) == 0 ? View.INVISIBLE : View.VISIBLE);
-
-        binding.resetBackgroundSaturation.setOnLongClickListener(v -> {
-            monetBackgroundSaturation[0] = 0;
-            binding.monetBackgroundSaturationSeekbar.setValue(0);
-            binding.monetBackgroundSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundSaturation[0] + "%");
+        // Long Click Reset
+        binding.secondaryAccentSaturation.setResetClickListener(v -> {
+            monetSecondaryAccentSaturation[0] = 0;
             assignCustomColorsToPalette();
-            binding.resetBackgroundSaturation.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
-            binding.enableCustomMonet.hide();
-            binding.disableCustomMonet.hide();
             showApplyButton = true;
             return true;
         });
 
-        binding.monetBackgroundSaturationSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+        // Monet background saturation
+        binding.backgroundSaturation.setSliderValue(Prefs.getInt(MONET_BACKGROUND_SATURATION, 0));
+
+        binding.backgroundSaturation.setOnSliderChangeListener((slider, value, fromUser) -> {
             monetBackgroundSaturation[0] = (int) value;
             assignCustomColorsToPalette();
         });
 
-        binding.monetBackgroundSaturationSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.backgroundSaturation.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
                 binding.enableCustomMonet.hide();
@@ -315,26 +313,15 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 monetBackgroundSaturation[0] = (int) slider.getValue();
-                binding.monetBackgroundSaturationOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundSaturation[0] + "%");
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                binding.resetBackgroundSaturation.setVisibility(monetBackgroundSaturation[0] == 0 ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
-        // Monet background lightness
-        binding.monetBackgroundLightnessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 0) + "%");
-        binding.monetBackgroundLightnessSeekbar.setValue(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 0));
-
-        // Long Click Reset
-        binding.resetBackgroundLightness.setVisibility(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 0) == 0 ? View.INVISIBLE : View.VISIBLE);
-
-        binding.resetBackgroundLightness.setOnLongClickListener(v -> {
-            monetBackgroundLightness[0] = 0;
-            binding.monetBackgroundLightnessSeekbar.setValue(0);
-            binding.monetBackgroundLightnessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundLightness[0] + "%");
+        // Reset button
+        binding.backgroundSaturation.setResetClickListener(v -> {
+            monetBackgroundSaturation[0] = 0;
             assignCustomColorsToPalette();
-            binding.resetBackgroundLightness.setVisibility(View.INVISIBLE);
             binding.floatingActionMenu.show();
             binding.enableCustomMonet.hide();
             binding.disableCustomMonet.hide();
@@ -342,12 +329,15 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             return true;
         });
 
-        binding.monetBackgroundLightnessSeekbar.addOnChangeListener((slider, value, fromUser) -> {
+        // Monet background lightness
+        binding.backgroundLightness.setSliderValue(Prefs.getInt(MONET_BACKGROUND_LIGHTNESS, 0));
+
+        binding.backgroundLightness.setOnSliderChangeListener((slider, value, fromUser) -> {
             monetBackgroundLightness[0] = (int) value;
             assignCustomColorsToPalette();
         });
 
-        binding.monetBackgroundLightnessSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.backgroundLightness.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
                 binding.enableCustomMonet.hide();
@@ -358,11 +348,20 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 monetBackgroundLightness[0] = (int) slider.getValue();
-                binding.monetBackgroundLightnessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + monetBackgroundLightness[0] + "%");
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
-                binding.resetBackgroundLightness.setVisibility(monetBackgroundLightness[0] == 0 ? View.INVISIBLE : View.VISIBLE);
             }
+        });
+
+        // Long Click Reset
+        binding.backgroundLightness.setResetClickListener(v -> {
+            monetBackgroundLightness[0] = 0;
+            assignCustomColorsToPalette();
+            binding.floatingActionMenu.show();
+            binding.enableCustomMonet.hide();
+            binding.disableCustomMonet.hide();
+            showApplyButton = true;
+            return true;
         });
 
         // Enable custom colors button
@@ -468,7 +467,7 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                     binding.enableCustomMonet.hide();
                     binding.disableCustomMonet.hide();
 
-                    ((HomePage) requireActivity()).showColorPickerDialog(3, child.getTag() == null ? Color.WHITE : (Integer) child.getTag(), true, false, true);
+                    ((HomePage) requireActivity()).showColorPickerDialog(-1, child.getTag() == null ? Color.WHITE : (Integer) child.getTag(), true, false, true);
                 });
             }
         }
@@ -493,18 +492,6 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         });
 
         return view;
-    }
-
-    private void updatePrimaryColor() {
-        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentPrimary)});
-        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
-        binding.previewColorPickerPrimary.setBackground(gd);
-    }
-
-    private void updateSecondaryColor() {
-        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentSecondary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(getResources().getDimension(R.dimen.preview_color_picker_radius) * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
-        binding.previewColorPickerSecondary.setBackground(gd);
     }
 
     private void assignStockColorsToPalette() {
@@ -704,34 +691,16 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
     @SuppressWarnings("unused")
     @Subscribe
     public void onColorSelected(ColorSelectedEvent event) {
-        switch (event.dialogId()) {
-            case 1 -> {
-                isSelectedPrimary = true;
-                accentPrimary = String.valueOf(event.selectedColor());
-                updatePrimaryColor();
-                binding.floatingActionMenu.show();
-                showApplyButton = true;
-                assignCustomColorsToPalette();
-            }
-            case 2 -> {
-                isSelectedSecondary = true;
-                accentSecondary = String.valueOf(event.selectedColor());
-                updateSecondaryColor();
-                binding.floatingActionMenu.show();
-                showApplyButton = true;
-                assignCustomColorsToPalette();
-            }
-            case 3 -> {
-                colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).getBackground().setTint(event.selectedColor());
-                colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).setTag(event.selectedColor());
-                ((TextView) ((ViewGroup) colorTableRows[selectedChild[0]].getChildAt(selectedChild[1])).getChildAt(0)).setTextColor(calculateTextColor(event.selectedColor()));
+        if (event.dialogId() == -1) {
+            colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).getBackground().setTint(event.selectedColor());
+            colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).setTag(event.selectedColor());
+            ((TextView) ((ViewGroup) colorTableRows[selectedChild[0]].getChildAt(selectedChild[1])).getChildAt(0)).setTextColor(calculateTextColor(event.selectedColor()));
 
-                finalPalette.get(0).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
-                finalPalette.get(1).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
+            finalPalette.get(0).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
+            finalPalette.get(1).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
 
-                binding.floatingActionMenu.show();
-                showApplyButton = true;
-            }
+            binding.floatingActionMenu.show();
+            showApplyButton = true;
         }
     }
 
@@ -827,16 +796,6 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onItemSelected(int dialogId, int selectedIndex) {
-        selectedStyle = Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(selectedIndex);
-        assignCustomColorsToPalette();
-        binding.floatingActionMenu.show();
-        showApplyButton = true;
-        binding.selectedMonetStyle.setText(getResources().getString(R.string.opt_selected) + " " + Arrays.asList(getResources().getStringArray(R.array.monet_style)).get(selectedIndex));
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemID = item.getItemId();
@@ -860,11 +819,5 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onDestroyView() {
-        rd_monet_style.dismiss();
-        super.onDestroyView();
     }
 }

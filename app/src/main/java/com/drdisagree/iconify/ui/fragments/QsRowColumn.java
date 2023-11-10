@@ -64,9 +64,8 @@ public class QsRowColumn extends BaseFragment {
 
         // Quick QsPanel Row
         final int[] finalQqsRow = {Prefs.getInt(FABRICATED_QQS_ROW, 2)};
-        binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQqsRow[0]);
-        binding.qqsRowSeekbar.setValue(finalQqsRow[0]);
-        binding.qqsRowSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.qqsRow.setSliderValue(finalQqsRow[0]);
+        binding.qqsRow.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -74,15 +73,13 @@ public class QsRowColumn extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalQqsRow[0] = (int) slider.getValue();
-                binding.qqsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQqsRow[0]);
             }
         });
 
         // QsPanel Row
         final int[] finalQsRow = {Prefs.getInt(FABRICATED_QS_ROW, 4)};
-        binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQsRow[0]);
-        binding.qsRowSeekbar.setValue(finalQsRow[0]);
-        binding.qsRowSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.qsRow.setSliderValue(finalQsRow[0]);
+        binding.qsRow.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -90,15 +87,13 @@ public class QsRowColumn extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalQsRow[0] = (int) slider.getValue();
-                binding.qsRowOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQsRow[0]);
             }
         });
 
         // QsPanel Column
         final int[] finalQsColumn = {Prefs.getInt(FABRICATED_QS_COLUMN, 2)};
-        binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQsColumn[0]);
-        binding.qsColumnSeekbar.setValue(finalQsColumn[0]);
-        binding.qsColumnSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.qsColumn.setSliderValue(finalQsColumn[0]);
+        binding.qsColumn.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -106,7 +101,6 @@ public class QsRowColumn extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalQsColumn[0] = (int) slider.getValue();
-                binding.qsColumnOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalQsColumn[0]);
             }
         });
 

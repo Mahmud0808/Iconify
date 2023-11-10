@@ -17,6 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -206,41 +207,20 @@
 
             </LinearLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_schedule"
-                android:textColor="?attr/colorPrimary" />
-
-            <LinearLayout
-                android:id="@+id/update_schedule_container"
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:id="@+id/settings_misc_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="22dp">
+                app:titleText="@string/section_title_schedule" />
 
-                <TextView
-                    style="@style/TextAppearance.Material3.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/update_schedule_title"
-                    android:textColor="@color/text_color_primary" />
+            <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                android:id="@+id/update_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:entries="@array/update_schedule"
+                app:showSelectedPrefix="false"
+                app:titleText="@string/update_schedule_title" />
 
-                <TextView
-                    android:id="@+id/selected_update_schedule"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/update_schedule2"
-                    android:textColor="@color/text_color_secondary" />
-
-            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
