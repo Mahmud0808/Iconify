@@ -187,16 +187,16 @@ public class Settings extends BaseFragment {
         // App Icon
         binding.settingsGeneral.appIcon.setSelectedIndex(Prefs.getInt(APP_ICON, 0));
         binding.settingsGeneral.appIcon.setOnItemSelectedListener(index -> {
-            Prefs.putInt(APP_THEME, index);
-            restartApplication(requireActivity());
+            Prefs.putInt(APP_ICON, index);
+            String[] splashActivities = Iconify.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
+            changeIcon(splashActivities[index]);
         });
 
         // App Theme
         binding.settingsGeneral.appTheme.setSelectedIndex(Prefs.getInt(APP_THEME, 2));
         binding.settingsGeneral.appTheme.setOnItemSelectedListener(index -> {
-            Prefs.putInt(APP_ICON, index);
-            String[] splashActivities = Iconify.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
-            changeIcon(splashActivities[index]);
+            Prefs.putInt(APP_THEME, index);
+            restartApplication(requireActivity());
         });
 
         // Check for update
