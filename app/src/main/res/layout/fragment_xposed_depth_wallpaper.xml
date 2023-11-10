@@ -27,13 +27,6 @@
                 app:summaryText="@string/enable_depth_wallpaper_desc"
                 app:titleText="@string/enable_depth_wallpaper_title" />
 
-            <com.drdisagree.iconify.ui.widgets.SwitchWidget
-                android:id="@+id/ios_aod"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:summaryText="@string/ios_like_aod_desc"
-                app:titleText="@string/ios_like_aod_title" />
-
             <com.drdisagree.iconify.ui.widgets.FilePickerWidget
                 android:id="@+id/foreground_image"
                 android:layout_width="match_parent"
