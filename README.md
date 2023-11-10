@@ -50,8 +50,10 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 > `DO_UNMOUNT_KSU=true`
 >
 > Note: If one of the above variable doesn't exist, skip that particular variable.
+> 
+> If the customizations are still not taking effect, ensure that SystemUI has been granted root permission. After granting root access, reboot your device for the changes to take effect.
 
-# 👨‍💻 Installation 
+# 👨‍💻 Installation
 
 1. Go to [Releases](https://github.com/Mahmud0808/Iconify/releases) section.
 
@@ -112,7 +114,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - Where can I make a donation?
   - The preferred and designated means for donating to the project's developer is via the "[Buy me a coffee](https://www.buymeacoffee.com/DrDisagree)" page.
 
-# ❤ Credits 
+# ❤ Credits
 
 ### Thanks to:
 
