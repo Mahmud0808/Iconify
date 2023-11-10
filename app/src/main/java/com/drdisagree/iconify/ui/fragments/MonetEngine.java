@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,10 +37,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.Iconify;
@@ -464,12 +467,8 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                     selectedChild[1] = finalJ;
                     binding.enableCustomMonet.hide();
                     binding.disableCustomMonet.hide();
-                    int[] color = ((GradientDrawable) child.getBackground()).getColors();
-                    if (color != null) {
-                        ((HomePage) requireActivity()).showColorPickerDialog(3, color[0], true, false, true);
-                    } else {
-                        ((HomePage) requireActivity()).showColorPickerDialog(3, Color.WHITE, true, false, true);
-                    }
+
+                    ((HomePage) requireActivity()).showColorPickerDialog(3, child.getTag() == null ? Color.WHITE : (Integer) child.getTag(), true, false, true);
                 });
             }
         }
@@ -526,11 +525,32 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
 
         for (int i = 0; i < colorTableRows.length; i++) {
             for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
-                GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{systemColors[i][j], systemColors[i][j]});
-                colorbg.setCornerRadius(8 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
-                colorTableRows[i].getChildAt(j).setBackground(colorbg);
+                colorTableRows[i].getChildAt(j).getBackground().setTint(systemColors[i][j]);
+                colorTableRows[i].getChildAt(j).setTag(systemColors[i][j]);
+
+                TextView textView = new TextView(requireContext());
+                textView.setText(String.valueOf(colorCodes[j]));
+                textView.setRotation(270);
+                textView.setTextColor(calculateTextColor(systemColors[i][j]));
+                textView.setTextSize(10);
+                textView.setAlpha(0.8f);
+
+                ((ViewGroup) colorTableRows[i].getChildAt(j)).addView(textView);
+                ((LinearLayout) colorTableRows[i].getChildAt(j)).setGravity(Gravity.CENTER);
             }
         }
+    }
+
+    private static final int[] colorCodes = {
+            0, 10, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000
+    };
+
+    private int calculateTextColor(@ColorInt int color) {
+        double darkness = 1 - (0.299 * Color.red(color) +
+                0.587 * Color.green(color) +
+                0.114 * Color.blue(color)) / 255;
+
+        return darkness < 0.5 ? Color.BLACK : Color.WHITE;
     }
 
     private void assignCustomColorsToPalette() {
@@ -629,16 +649,16 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                         }
                     }
 
-                    GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
-                    colorbg.setCornerRadius(8 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
-                    colorTableRows[i].getChildAt(j).setBackground(colorbg);
+                    colorTableRows[i].getChildAt(j).getBackground().setTint(!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j));
+                    colorTableRows[i].getChildAt(j).setTag(!isDarkMode ? palette.get(i).get(j) : palette_night.get(i).get(j));
+                    ((TextView) ((ViewGroup) colorTableRows[i].getChildAt(j)).getChildAt(0)).setTextColor(calculateTextColor(!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)));
                 }
             } else {
                 for (int j = 0; j < colorTableRows[i].getChildCount(); j++) {
                     try {
-                        GradientDrawable colorbg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j), !isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)});
-                        colorbg.setCornerRadius(8 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
-                        colorTableRows[i].getChildAt(j).setBackground(colorbg);
+                        colorTableRows[i].getChildAt(j).getBackground().setTint(!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j));
+                        colorTableRows[i].getChildAt(j).setTag(!isDarkMode ? palette.get(i).get(j) : palette_night.get(i).get(j));
+                        ((TextView) ((ViewGroup) colorTableRows[i].getChildAt(j)).getChildAt(0)).setTextColor(calculateTextColor(!isDarkMode ? (int) palette.get(i).get(j) : (int) palette_night.get(i).get(j)));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -702,11 +722,13 @@ public class MonetEngine extends BaseFragment implements RadioDialog.RadioDialog
                 assignCustomColorsToPalette();
             }
             case 3 -> {
-                GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{event.selectedColor(), event.selectedColor()});
-                gd.setCornerRadius(8 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
-                colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).setBackground(gd);
+                colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).getBackground().setTint(event.selectedColor());
+                colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).setTag(event.selectedColor());
+                ((TextView) ((ViewGroup) colorTableRows[selectedChild[0]].getChildAt(selectedChild[1])).getChildAt(0)).setTextColor(calculateTextColor(event.selectedColor()));
+
                 finalPalette.get(0).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
                 finalPalette.get(1).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
+
                 binding.floatingActionMenu.show();
                 showApplyButton = true;
             }
