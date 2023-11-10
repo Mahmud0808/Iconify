@@ -48,11 +48,9 @@ public class QsPanelMargin extends BaseFragment {
         loadingDialog = new LoadingDialog(requireContext());
 
         // Portrait qqs margin
-        binding.portQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QQS_TOP_MARGIN, 100) + "dp");
-        binding.portQqsTopMarginSeekbar.setValue(Prefs.getInt(PORT_QQS_TOP_MARGIN, 100));
         int[] portQqsMargin = new int[]{Prefs.getInt(PORT_QQS_TOP_MARGIN, 100)};
-
-        binding.portQqsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.portQqsTopMargin.setSliderValue(portQqsMargin[0]);
+        binding.portQqsTopMargin.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -60,16 +58,13 @@ public class QsPanelMargin extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 portQqsMargin[0] = (int) slider.getValue();
-                binding.portQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + portQqsMargin[0] + "dp");
             }
         });
 
         // Portrait qs margin
-        binding.portQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(PORT_QS_TOP_MARGIN, 100) + "dp");
-        binding.portQsTopMarginSeekbar.setValue(Prefs.getInt(PORT_QS_TOP_MARGIN, 100));
         int[] portQsMargin = new int[]{Prefs.getInt(PORT_QS_TOP_MARGIN, 100)};
-
-        binding.portQsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.portQsTopMargin.setSliderValue(portQsMargin[0]);
+        binding.portQsTopMargin.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -77,16 +72,13 @@ public class QsPanelMargin extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 portQsMargin[0] = (int) slider.getValue();
-                binding.portQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + portQsMargin[0] + "dp");
             }
         });
 
         // Landscape qqs margin
-        binding.landQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QQS_TOP_MARGIN, 100) + "dp");
-        binding.landQqsTopMarginSeekbar.setValue(Prefs.getInt(LAND_QQS_TOP_MARGIN, 100));
         int[] landQqsMargin = new int[]{Prefs.getInt(LAND_QQS_TOP_MARGIN, 100)};
-
-        binding.landQqsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.landQqsTopMargin.setSliderValue(landQqsMargin[0]);
+        binding.landQqsTopMargin.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -94,16 +86,13 @@ public class QsPanelMargin extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 landQqsMargin[0] = (int) slider.getValue();
-                binding.landQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + landQqsMargin[0] + "dp");
             }
         });
 
         // Landscape qs margin
-        binding.landQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Prefs.getInt(LAND_QS_TOP_MARGIN, 100) + "dp");
-        binding.landQsTopMarginSeekbar.setValue(Prefs.getInt(LAND_QS_TOP_MARGIN, 100));
         int[] landQsMargin = new int[]{Prefs.getInt(LAND_QS_TOP_MARGIN, 100)};
-
-        binding.landQsTopMarginSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.landQsTopMargin.setSliderValue(landQsMargin[0]);
+        binding.landQsTopMargin.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -111,7 +100,6 @@ public class QsPanelMargin extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 landQsMargin[0] = (int) slider.getValue();
-                binding.landQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + landQsMargin[0] + "dp");
             }
         });
 
@@ -244,15 +232,10 @@ public class QsPanelMargin extends BaseFragment {
                         landQqsMargin[0] = 100;
                         landQsMargin[0] = 100;
 
-                        binding.portQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
-                        binding.portQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
-                        binding.landQqsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
-                        binding.landQsTopMarginOutput.setText(getResources().getString(R.string.opt_selected) + "100dp");
-
-                        binding.portQqsTopMarginSeekbar.setValue(100);
-                        binding.portQsTopMarginSeekbar.setValue(100);
-                        binding.landQqsTopMarginSeekbar.setValue(100);
-                        binding.landQsTopMarginSeekbar.setValue(100);
+                        binding.portQqsTopMargin.resetSlider();
+                        binding.portQsTopMargin.resetSlider();
+                        binding.landQqsTopMargin.resetSlider();
+                        binding.landQsTopMargin.resetSlider();
                     }
 
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {

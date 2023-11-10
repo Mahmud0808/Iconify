@@ -17,198 +17,54 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_spacing"
-                android:textColor="?attr/colorPrimary" />
-
-            <LinearLayout
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
+                app:titleText="@string/section_title_spacing" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:text="@string/sb_left_padding"
-                        android:textColor="@color/text_color_primary" />
-
-                    <ImageView
-                        android:id="@+id/reset_sb_left_padding"
-                        android:layout_width="@dimen/reset_button_size"
-                        android:layout_height="@dimen/reset_button_size"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:clickable="true"
-                        android:contentDescription="@string/icon"
-                        app:srcCompat="@drawable/ic_reset"
-                        app:tint="@color/textColorSecondary" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/sb_left_padding_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sb_left_padding_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="8"
-                    android:valueFrom="0"
-                    android:valueTo="120" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/sb_left_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
+                app:sliderDefaultValue="8"
+                app:sliderStepSize="1"
+                app:sliderValue="8"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="120"
+                app:titleText="@string/sb_left_padding"
+                app:valueFormat="dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:text="@string/sb_right_padding"
-                        android:textColor="@color/text_color_primary" />
-
-                    <ImageView
-                        android:id="@+id/reset_sb_right_padding"
-                        android:layout_width="@dimen/reset_button_size"
-                        android:layout_height="@dimen/reset_button_size"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:clickable="true"
-                        android:contentDescription="@string/icon"
-                        app:srcCompat="@drawable/ic_reset"
-                        app:tint="@color/textColorSecondary" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/sb_right_padding_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sb_right_padding_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="8"
-                    android:valueFrom="0"
-                    android:valueTo="120" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/sb_right_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_background_material"
-                android:clickable="true"
-                android:orientation="vertical"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
-                android:paddingBottom="4dp">
+                app:sliderDefaultValue="8"
+                app:sliderStepSize="1"
+                app:sliderValue="8"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="120"
+                app:titleText="@string/sb_right_padding"
+                app:valueFormat="dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center"
-                        android:text="@string/sb_height"
-                        android:textColor="@color/text_color_primary" />
-
-                    <ImageView
-                        android:id="@+id/reset_sb_height"
-                        android:layout_width="@dimen/reset_button_size"
-                        android:layout_height="@dimen/reset_button_size"
-                        android:layout_gravity="start|center"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:clickable="true"
-                        android:contentDescription="@string/icon"
-                        app:srcCompat="@drawable/ic_reset"
-                        app:tint="@color/textColorSecondary" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/sb_height_output"
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_secondary" />
-
-                <com.google.android.material.slider.Slider
-                    android:id="@+id/sb_height_seekbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
-                    android:stepSize="1"
-                    android:value="28"
-                    android:valueFrom="0"
-                    android:valueTo="240" />
-
-            </LinearLayout>
-
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/sb_height"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/section_title_color"
-                android:textColor="?attr/colorPrimary" />
+                app:sliderDefaultValue="28"
+                app:sliderStepSize="1"
+                app:sliderValue="28"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="240"
+                app:titleText="@string/sb_height"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_color" />
 
             <LinearLayout
                 android:id="@+id/sb_color_tint"

@@ -52,7 +52,6 @@ import com.drdisagree.iconify.databinding.FragmentSettingsBinding;
 import com.drdisagree.iconify.services.UpdateScheduler;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
-import com.drdisagree.iconify.ui.dialogs.RadioDialog;
 import com.drdisagree.iconify.utils.CacheUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helper.ImportExport;
@@ -65,7 +64,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
-public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
+public class Settings extends BaseFragment {
 
     final double SECONDS_FOR_CLICKS = 3;
     final int NUM_CLICKS_REQUIRED = 7;
@@ -134,7 +133,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                             .show();
                 }
             });
-    private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
     public static void disableEverything() {
         Prefs.clearAllPrefs();
@@ -180,44 +178,43 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                 break;
             }
         }
-        rd_app_language = new RadioDialog(requireActivity(), 0, current_language);
-        rd_app_language.setRadioDialogListener(this);
-        binding.settingsGeneral.appLanguage.setOnClickListener(v -> rd_app_language.show(R.string.settings_app_language, R.array.locale_name, binding.settingsGeneral.selectedAppLanguage));
-        binding.settingsGeneral.selectedAppLanguage.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
+        binding.settingsGeneral.appLanguage.setSelectedIndex(current_language);
+        binding.settingsGeneral.appLanguage.setOnItemSelectedListener(index -> {
+            Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(index));
+            restartApplication(requireActivity());
+        });
 
         // App Icon
-        rd_app_icon = new RadioDialog(requireActivity(), 2, Prefs.getInt(APP_ICON, 0));
-        rd_app_icon.setRadioDialogListener(this);
-        binding.settingsGeneral.appIcon.setOnClickListener(v -> rd_app_icon.show(R.string.settings_app_icon, R.array.app_icon, binding.settingsGeneral.selectedAppIcon));
-        binding.settingsGeneral.selectedAppIcon.setText(Arrays.asList(getResources().getStringArray(R.array.app_icon)).get(rd_app_icon.getSelectedIndex()));
+        binding.settingsGeneral.appIcon.setSelectedIndex(Prefs.getInt(APP_ICON, 0));
+        binding.settingsGeneral.appIcon.setOnItemSelectedListener(index -> {
+            Prefs.putInt(APP_THEME, index);
+            restartApplication(requireActivity());
+        });
 
         // App Theme
-        rd_app_theme = new RadioDialog(requireActivity(), 1, Prefs.getInt(APP_THEME, 2));
-        rd_app_theme.setRadioDialogListener(this);
-        binding.settingsGeneral.appTheme.setOnClickListener(v -> rd_app_theme.show(R.string.settings_app_theme, R.array.app_theme, binding.settingsGeneral.selectedAppTheme));
-        binding.settingsGeneral.selectedAppTheme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
+        binding.settingsGeneral.appTheme.setSelectedIndex(Prefs.getInt(APP_THEME, 2));
+        binding.settingsGeneral.appTheme.setOnItemSelectedListener(index -> {
+            Prefs.putInt(APP_ICON, index);
+            String[] splashActivities = Iconify.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
+            changeIcon(splashActivities[index]);
+        });
 
         // Check for update
-        binding.settingsUpdate.currentVersion.setText(getResources().getString(R.string.settings_current_version, BuildConfig.VERSION_NAME));
+        binding.settingsUpdate.checkUpdate.setSummary(getResources().getString(R.string.settings_current_version, BuildConfig.VERSION_NAME));
         binding.settingsUpdate.checkUpdate.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_settings_to_appUpdates));
 
         // Auto update
-        binding.settingsUpdate.buttonAutoUpdate.setChecked(Prefs.getBoolean(AUTO_UPDATE, true));
-        binding.settingsUpdate.buttonAutoUpdate.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.settingsUpdate.autoUpdate.setSwitchChecked(Prefs.getBoolean(AUTO_UPDATE, true));
+        binding.settingsUpdate.autoUpdate.setSwitchChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(AUTO_UPDATE, isChecked);
             UpdateScheduler.scheduleUpdates(requireContext().getApplicationContext());
-            binding.settingsUpdate.buttonAutoUpdateWifiOnly.setEnabled(isChecked);
+            binding.settingsUpdate.autoUpdateWifiOnly.setEnabled(isChecked);
         });
-        binding.settingsUpdate.autoUpdate.setOnClickListener(v -> binding.settingsUpdate.buttonAutoUpdate.toggle());
-        binding.settingsUpdate.buttonAutoUpdateWifiOnly.setEnabled(binding.settingsUpdate.buttonAutoUpdate.isChecked());
 
         // Check over wifi only
-        binding.settingsUpdate.buttonAutoUpdateWifiOnly.setChecked(Prefs.getBoolean(UPDATE_OVER_WIFI, true));
-        binding.settingsUpdate.buttonAutoUpdateWifiOnly.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(UPDATE_OVER_WIFI, isChecked));
-        binding.settingsUpdate.autoUpdateWifiOnlyContainer.setOnClickListener(v -> {
-            if (binding.settingsUpdate.buttonAutoUpdateWifiOnly.isEnabled())
-                binding.settingsUpdate.buttonAutoUpdateWifiOnly.toggle();
-        });
+        binding.settingsUpdate.autoUpdateWifiOnly.setEnabled(binding.settingsUpdate.autoUpdate.isSwitchChecked());
+        binding.settingsUpdate.autoUpdateWifiOnly.setSwitchChecked(Prefs.getBoolean(UPDATE_OVER_WIFI, true));
+        binding.settingsUpdate.autoUpdateWifiOnly.setSwitchChangeListener((buttonView, isChecked) -> Prefs.putBoolean(UPDATE_OVER_WIFI, isChecked));
 
         // Show xposed warn
         binding.settingsXposed.hideWarnMessage.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
@@ -243,19 +240,17 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         }
 
         // Restart sysui after boot
-        binding.settingsMisc.restartSysuiAfterBoot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
-        binding.settingsMisc.restartSysuiAfterBoot.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.settingsMisc.restartSysuiAfterBoot.setSwitchChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
+        binding.settingsMisc.restartSysuiAfterBoot.setSwitchChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked);
             if (isChecked) SystemUtil.enableRestartSystemuiAfterBoot();
             else SystemUtil.disableRestartSystemuiAfterBoot();
         });
-        binding.settingsMisc.restartSysuiAfterBootContainer.setOnClickListener(v -> binding.settingsMisc.restartSysuiAfterBoot.toggle());
 
         // Home page card
-        binding.settingsMisc.homePageCard.setChecked(Prefs.getBoolean(SHOW_HOME_CARD, true));
-        binding.settingsMisc.homePageCard.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_HOME_CARD, isChecked));
-        binding.settingsMisc.homePageCardContainer.setOnClickListener(v -> binding.settingsMisc.homePageCard.toggle());
-        binding.settingsMisc.homePageCardContainer.setVisibility(Preferences.isXposedOnlyMode ? View.GONE : View.VISIBLE);
+        binding.settingsMisc.homePageCard.setSwitchChecked(Prefs.getBoolean(SHOW_HOME_CARD, true));
+        binding.settingsMisc.homePageCard.setSwitchChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_HOME_CARD, isChecked));
+        binding.settingsMisc.homePageCard.setVisibility(Preferences.isXposedOnlyMode ? View.GONE : View.VISIBLE);
 
         // Clear App Cache
         binding.settingsMisc.clearCache.setOnClickListener(v -> {
@@ -314,9 +309,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     @Override
     public void onDestroy() {
         if (loadingDialog != null) loadingDialog.hide();
-        if (rd_app_language != null) rd_app_language.dismiss();
-        if (rd_app_icon != null) rd_app_icon.dismiss();
-        if (rd_app_theme != null) rd_app_theme.dismiss();
         super.onDestroy();
     }
 
@@ -342,25 +334,6 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onItemSelected(int dialogId, int selectedIndex) {
-        switch (dialogId) {
-            case 0 -> {
-                Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex));
-                restartApplication(requireActivity());
-            }
-            case 1 -> {
-                Prefs.putInt(APP_THEME, selectedIndex);
-                restartApplication(requireActivity());
-            }
-            case 2 -> {
-                Prefs.putInt(APP_ICON, selectedIndex);
-                String[] splashActivities = Iconify.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
-                changeIcon(splashActivities[selectedIndex]);
-            }
-        }
     }
 
     private void importExportSettings(boolean export) {

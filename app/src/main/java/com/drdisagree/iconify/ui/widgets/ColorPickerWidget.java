@@ -10,10 +10,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.events.ColorDismissedEvent;
+import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
+import com.drdisagree.iconify.utils.SystemUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class ColorPickerWidget extends RelativeLayout {
 
@@ -21,7 +28,11 @@ public class ColorPickerWidget extends RelativeLayout {
     private TextView titleTextView;
     private TextView summaryTextView;
     private View colorView;
-    private @ColorInt int color = Color.WHITE;
+    private @ColorInt int selectedColor = Color.WHITE;
+    private int colorPickerDialogId;
+    private BeforeColorPickerListener beforeColorPickerListener;
+    private OnColorPickerListener colorPickerListener;
+    private AfterColorPickerListener afterColorPickerListener;
 
     public ColorPickerWidget(Context context) {
         super(context);
@@ -46,7 +57,13 @@ public class ColorPickerWidget extends RelativeLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerWidget);
         setTitle(typedArray.getString(R.styleable.ColorPickerWidget_titleText));
         setSummary(typedArray.getString(R.styleable.ColorPickerWidget_summaryText));
+        int colorResId = typedArray.getResourceId(R.styleable.ColorPickerWidget_previewColor, -1);
+        selectedColor = typedArray.getColor(R.styleable.ColorPickerWidget_previewColor, Color.WHITE);
         typedArray.recycle();
+
+        if (colorResId != -1) {
+            setPreviewColor(ContextCompat.getColor(getContext(), colorResId));
+        }
     }
 
     public void setTitle(int titleResId) {
@@ -67,7 +84,6 @@ public class ColorPickerWidget extends RelativeLayout {
 
     public void setColorPickerListener(
             FragmentActivity activity,
-            int dialogId,
             int defaultColor,
             boolean showPresets,
             boolean showAlphaSlider,
@@ -78,21 +94,30 @@ public class ColorPickerWidget extends RelativeLayout {
         }
 
         setPreviewColor(defaultColor);
-        container.setOnClickListener(v ->
-                ((HomePage) activity).showColorPickerDialog(
-                        dialogId,
-                        this.color,
-                        showPresets,
-                        showAlphaSlider,
-                        showColorShades)
+        container.setOnClickListener(v -> {
+                    if (beforeColorPickerListener != null) {
+                        beforeColorPickerListener.onColorPickerShown();
+                    }
+
+                    ((HomePage) activity).showColorPickerDialog(
+                            colorPickerDialogId,
+                            this.selectedColor,
+                            showPresets,
+                            showAlphaSlider,
+                            showColorShades);
+                }
         );
     }
 
     public void setPreviewColor(@ColorInt int color) {
-        this.color = color;
+        this.selectedColor = color;
 
         if (!isEnabled()) {
-            color = Color.LTGRAY;
+            if (SystemUtil.isDarkMode()) {
+                color = Color.DKGRAY;
+            } else {
+                color = Color.LTGRAY;
+            }
         }
 
         GradientDrawable drawable = new GradientDrawable(
@@ -104,7 +129,14 @@ public class ColorPickerWidget extends RelativeLayout {
     }
 
     public @ColorInt int getPreviewColor() {
-        return color;
+        return selectedColor;
+    }
+
+    public int getColorPickerDialogId() {
+        return colorPickerDialogId;
+    }
+
+    private void onSelectedColorChanged(@ColorInt int color) {
     }
 
     @Override
@@ -128,5 +160,65 @@ public class ColorPickerWidget extends RelativeLayout {
         titleTextView.setId(View.generateViewId());
         summaryTextView.setId(View.generateViewId());
         colorView.setId(View.generateViewId());
+
+        colorPickerDialogId = colorView.getId();
+    }
+
+    public void setBeforeColorPickerListener(BeforeColorPickerListener listener) {
+        beforeColorPickerListener = listener;
+    }
+
+    public void setOnColorSelectedListener(OnColorPickerListener listener) {
+        colorPickerListener = listener;
+    }
+
+    public void setAfterColorPickerListener(AfterColorPickerListener listener) {
+        afterColorPickerListener = listener;
+    }
+
+    public interface BeforeColorPickerListener {
+        void onColorPickerShown();
+    }
+
+    public interface OnColorPickerListener {
+        void onColorSelected(int color);
+    }
+
+    public interface AfterColorPickerListener {
+        void onColorPickerDismissed();
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe
+    public void onColorSelected(ColorSelectedEvent event) {
+        if (event.dialogId() == colorPickerDialogId) {
+            setPreviewColor(event.selectedColor());
+
+            if (colorPickerListener != null) {
+                colorPickerListener.onColorSelected(event.selectedColor());
+            }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe
+    public void onDialogDismissed(ColorDismissedEvent event) {
+        if (event.dialogId() == colorPickerDialogId) {
+            if (afterColorPickerListener != null) {
+                afterColorPickerListener.onColorPickerDismissed();
+            }
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        EventBus.getDefault().unregister(this);
     }
 }

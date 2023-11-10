@@ -3,150 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.google.android.material.textview.MaterialTextView
-        style="@style/TextAppearance.Material3.TitleMedium"
-        android:layout_width="wrap_content"
+    <com.drdisagree.iconify.ui.widgets.TitleWidget
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/settings_section_title_general"
-        android:textColor="?attr/colorPrimary" />
+        app:iconSpaceReserved="true"
+        app:titleText="@string/settings_section_title_general" />
 
-    <RelativeLayout
+    <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
         android:id="@+id/app_language"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:entries="@array/locale_name"
+        app:icon="@drawable/ic_language"
+        app:showSelectedPrefix="false"
+        app:titleText="@string/settings_app_language" />
 
-        <ImageView
-            android:id="@+id/settings_iv_language"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_language"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@id/settings_iv_language"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_app_language"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                android:id="@+id/selected_app_language"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
         android:id="@+id/app_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:entries="@array/app_icon"
+        app:icon="@drawable/ic_app_icon"
+        app:showSelectedPrefix="false"
+        app:titleText="@string/settings_app_icon" />
 
-        <ImageView
-            android:id="@+id/settings_iv_app_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_app_icon"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@id/settings_iv_app_icon"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_app_icon"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                android:id="@+id/selected_app_icon"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
         android:id="@+id/app_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:entries="@array/app_theme"
+        app:icon="@drawable/ic_app_theme"
+        app:showSelectedPrefix="false"
+        app:titleText="@string/settings_app_theme" />
 
-        <ImageView
-            android:id="@+id/settings_iv_app_theme"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_app_theme"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@id/settings_iv_app_theme"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_app_theme"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                android:id="@+id/selected_app_theme"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-    </RelativeLayout>
 </LinearLayout>

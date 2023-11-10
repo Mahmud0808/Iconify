@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:entries="@array/custom_battery_style"
+                app:showSelectedPrefix="true"
                 app:titleText="@string/battery_style_title" />
 
             <LinearLayout

@@ -55,129 +55,117 @@ public class NavigationBar extends BaseFragment {
         ViewHelper.setHeader(requireContext(), getParentFragmentManager(), binding.header.toolbar, R.string.activity_title_navigation_bar);
 
         // Switch states
-        binding.nbFullscreen.setChecked(Prefs.getBoolean(NAVBAR_FULL_SCREEN));
-        binding.nbImmersive.setChecked(Prefs.getBoolean(NAVBAR_IMMERSIVE_V1));
-        binding.nbImmersivev2.setChecked(Prefs.getBoolean(NAVBAR_IMMERSIVE_V2));
-        binding.nbImmersivev3.setChecked(Prefs.getBoolean(NAVBAR_IMMERSIVE_V3));
-        binding.nbGcamLagFix.setChecked(Prefs.getBoolean(NAVBAR_GCAM_LAG_FIX));
-        binding.nbLowerSens.setChecked(Prefs.getBoolean(NAVBAR_LOW_SENS));
-        binding.nbHidePill.setChecked(Prefs.getBoolean(NAVBAR_HIDE_PILL));
-        binding.nbMonetPill.setChecked(Prefs.getBoolean("IconifyComponentNBMonetPill.overlay"));
-        binding.nbHideKbButtons.setChecked(Prefs.getBoolean("IconifyComponentNBHideKBButton.overlay"));
-        binding.nbDisableLeftGesture.setChecked(initialize_left_gesture_switch());
-        binding.nbDisableRightGesture.setChecked(initialize_right_gesture_switch());
-        binding.nbHidePill.setEnabled(!binding.nbFullscreen.isChecked());
-        binding.nbMonetPill.setEnabled(!binding.nbHidePill.isChecked() && !binding.nbFullscreen.isChecked());
+        binding.nbFullscreen.setSwitchChecked(Prefs.getBoolean(NAVBAR_FULL_SCREEN));
+        binding.nbImmersive.setSwitchChecked(Prefs.getBoolean(NAVBAR_IMMERSIVE_V1));
+        binding.nbImmersiveV2.setSwitchChecked(Prefs.getBoolean(NAVBAR_IMMERSIVE_V2));
+        binding.nbImmersiveV3.setSwitchChecked(Prefs.getBoolean(NAVBAR_IMMERSIVE_V3));
+        binding.nbGcamLagFix.setSwitchChecked(Prefs.getBoolean(NAVBAR_GCAM_LAG_FIX));
+        binding.nbLowerSens.setSwitchChecked(Prefs.getBoolean(NAVBAR_LOW_SENS));
+        binding.nbHidePill.setSwitchChecked(Prefs.getBoolean(NAVBAR_HIDE_PILL));
+        binding.nbMonetPill.setSwitchChecked(Prefs.getBoolean("IconifyComponentNBMonetPill.overlay"));
+        binding.nbHideKbButtons.setSwitchChecked(Prefs.getBoolean("IconifyComponentNBHideKBButton.overlay"));
+        binding.nbDisableLeftGesture.setSwitchChecked(initialize_left_gesture_switch());
+        binding.nbDisableRightGesture.setSwitchChecked(initialize_right_gesture_switch());
+        binding.nbHidePill.setEnabled(!binding.nbFullscreen.isSwitchChecked());
+        binding.nbMonetPill.setEnabled(!binding.nbHidePill.isSwitchChecked() && !binding.nbFullscreen.isSwitchChecked());
 
         // Fullscreen
         AtomicBoolean nbFullScreenClicked = new AtomicBoolean(false);
-        binding.nbFullscreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.nbFullscreen.setSwitchChangeListener((buttonView, isSwitchChecked) -> {
             if (buttonView.isPressed() || nbFullScreenClicked.get()) {
                 nbFullScreenClicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.nbFullscreen.setChecked(!isChecked);
+                    binding.nbFullscreen.setSwitchChecked(!isSwitchChecked);
                     return;
                 }
 
-                binding.nbHidePill.setEnabled(!isChecked);
-                binding.nbMonetPill.setEnabled(!isChecked && !binding.nbHidePill.isChecked());
+                binding.nbHidePill.setEnabled(!isSwitchChecked);
+                binding.nbMonetPill.setEnabled(!isSwitchChecked && !binding.nbHidePill.isSwitchChecked());
                 disableOthers(NAVBAR_FULL_SCREEN);
 
-                if (isChecked) {
+                if (isSwitchChecked) {
                     binding.pillShape.pillShapeContainer.setVisibility(View.GONE);
                 } else {
                     binding.pillShape.pillShapeContainer.setVisibility(View.VISIBLE);
                 }
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> handleFullScreen(isChecked), SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleFullScreen(isSwitchChecked), SWITCH_ANIMATION_DELAY);
             }
         });
-        binding.nbFullscreenContainer.setOnClickListener(v -> {
-            nbFullScreenClicked.set(true);
-            binding.nbFullscreen.toggle();
-        });
+        binding.nbFullscreen.setBeforeSwitchChangeListener(() -> nbFullScreenClicked.set(true));
 
         // Immersive
         AtomicBoolean nbImmersiveClicked = new AtomicBoolean(false);
-        binding.nbImmersive.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.nbImmersive.setSwitchChangeListener((buttonView, isSwitchChecked) -> {
             if (buttonView.isPressed() || nbImmersiveClicked.get()) {
                 nbImmersiveClicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.nbImmersive.setChecked(!isChecked);
+                    binding.nbImmersive.setSwitchChecked(!isSwitchChecked);
                     return;
                 }
 
                 disableOthers(NAVBAR_IMMERSIVE_V1);
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> handleImmersive(isChecked, 1), SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleImmersive(isSwitchChecked, 1), SWITCH_ANIMATION_DELAY);
             }
         });
-        binding.nbImmersiveContainer.setOnClickListener(v -> {
-            nbImmersiveClicked.set(true);
-            binding.nbImmersive.toggle();
-        });
+        binding.nbImmersive.setBeforeSwitchChangeListener(() -> nbImmersiveClicked.set(true));
 
-        // Immersive v2
-        AtomicBoolean nbImmersivev2Clicked = new AtomicBoolean(false);
-        binding.nbImmersivev2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (buttonView.isPressed() || nbImmersivev2Clicked.get()) {
-                nbImmersivev2Clicked.set(false);
+        // Immersive V2
+        AtomicBoolean nbImmersiveV2Clicked = new AtomicBoolean(false);
+        binding.nbImmersiveV2.setSwitchChangeListener((buttonView, isSwitchChecked) -> {
+            if (buttonView.isPressed() || nbImmersiveV2Clicked.get()) {
+                nbImmersiveV2Clicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.nbImmersivev2.setChecked(!isChecked);
+                    binding.nbImmersiveV2.setSwitchChecked(!isSwitchChecked);
                     return;
                 }
 
                 disableOthers(NAVBAR_IMMERSIVE_V2);
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> handleImmersive(isChecked, 2), SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleImmersive(isSwitchChecked, 2), SWITCH_ANIMATION_DELAY);
             }
         });
-        binding.nbImmersivev2Container.setOnClickListener(v -> {
-            nbImmersivev2Clicked.set(true);
-            binding.nbImmersivev2.toggle();
-        });
+        binding.nbImmersiveV2.setBeforeSwitchChangeListener(() -> nbImmersiveV2Clicked.set(true));
 
-        // Immersive v3
-        AtomicBoolean nbImmersivev3Clicked = new AtomicBoolean(false);
-        binding.nbImmersivev3.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (buttonView.isPressed() || nbImmersivev3Clicked.get()) {
-                nbImmersivev3Clicked.set(false);
+        // Immersive V3
+        AtomicBoolean nbImmersiveV3Clicked = new AtomicBoolean(false);
+        binding.nbImmersiveV3.setSwitchChangeListener((buttonView, isSwitchChecked) -> {
+            if (buttonView.isPressed() || nbImmersiveV3Clicked.get()) {
+                nbImmersiveV3Clicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.nbImmersivev3.setChecked(!isChecked);
+                    binding.nbImmersiveV3.setSwitchChecked(!isSwitchChecked);
                     return;
                 }
 
                 disableOthers(NAVBAR_IMMERSIVE_V3);
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> handleImmersive(isChecked, 3), SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleImmersive(isSwitchChecked, 3), SWITCH_ANIMATION_DELAY);
             }
         });
-        binding.nbImmersivev3Container.setOnClickListener(v -> {
-            nbImmersivev3Clicked.set(true);
-            binding.nbImmersivev3.toggle();
-        });
+        binding.nbImmersiveV3.setBeforeSwitchChangeListener(() -> nbImmersiveV3Clicked.set(true));
 
         // GCam Lag Fix
         AtomicBoolean nbGcamLagFixClicked = new AtomicBoolean(false);
-        binding.nbGcamLagFix.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.nbGcamLagFix.setSwitchChangeListener((buttonView, isSwitchChecked) -> {
             if (buttonView.isPressed() || nbGcamLagFixClicked.get()) {
                 nbGcamLagFixClicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.nbGcamLagFix.setChecked(!isChecked);
+                    binding.nbGcamLagFix.setSwitchChecked(!isSwitchChecked);
                     return;
                 }
 
-                Prefs.putBoolean(NAVBAR_GCAM_LAG_FIX, isChecked);
+                Prefs.putBoolean(NAVBAR_GCAM_LAG_FIX, isSwitchChecked);
                 boolean fullscreen = Prefs.getBoolean(NAVBAR_FULL_SCREEN);
                 boolean immersive1 = Prefs.getBoolean(NAVBAR_IMMERSIVE_V1);
                 boolean immersive2 = Prefs.getBoolean(NAVBAR_IMMERSIVE_V2);
@@ -196,58 +184,49 @@ public class NavigationBar extends BaseFragment {
                 }, SWITCH_ANIMATION_DELAY);
             }
         });
-        binding.nbGcamLagFixContainer.setOnClickListener(v -> {
-            nbGcamLagFixClicked.set(true);
-            binding.nbGcamLagFix.toggle();
-        });
+        binding.nbGcamLagFix.setBeforeSwitchChangeListener(() -> nbGcamLagFixClicked.set(true));
 
         // Lower Sensitivity
         AtomicBoolean nbLowerSensClicked = new AtomicBoolean(false);
-        binding.nbLowerSens.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.nbLowerSens.setSwitchChangeListener((buttonView, isSwitchChecked) -> {
             if (buttonView.isPressed() || nbLowerSensClicked.get()) {
                 nbLowerSensClicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.nbLowerSens.setChecked(!isChecked);
+                    binding.nbLowerSens.setSwitchChecked(!isSwitchChecked);
                     return;
                 }
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> handleLowSensitivity(isChecked), SWITCH_ANIMATION_DELAY);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> handleLowSensitivity(isSwitchChecked), SWITCH_ANIMATION_DELAY);
             }
         });
-        binding.nbLowerSensContainer.setOnClickListener(v -> {
-            nbLowerSensClicked.set(true);
-            binding.nbLowerSens.toggle();
-        });
+        binding.nbLowerSens.setBeforeSwitchChangeListener(() -> nbLowerSensClicked.set(true));
 
         // Hide Pill
         AtomicBoolean nbHidePillClicked = new AtomicBoolean(false);
-        binding.nbHidePill.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.nbHidePill.setSwitchChangeListener((buttonView, isSwitchChecked) -> {
             if (buttonView.isPressed() || nbHidePillClicked.get()) {
                 nbHidePillClicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.nbHidePill.setChecked(!isChecked);
+                    binding.nbHidePill.setSwitchChecked(!isSwitchChecked);
                     return;
                 }
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    handleHidePill(isChecked);
+                    handleHidePill(isSwitchChecked);
 
                     new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, 2000);
                 }, SWITCH_ANIMATION_DELAY);
             }
         });
-        binding.nbHidePillContainer.setOnClickListener(v -> {
-            nbHidePillClicked.set(true);
-            binding.nbHidePill.toggle();
-        });
+        binding.nbHidePill.setBeforeSwitchChangeListener(() -> nbHidePillClicked.set(true));
 
         // Monet Pill
-        binding.nbMonetPill.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
+        binding.nbMonetPill.setSwitchChangeListener((buttonView, isSwitchChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (isSwitchChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentNBMonetPill.overlay");
                 SystemUtil.restartSystemUI();
             } else {
@@ -255,47 +234,41 @@ public class NavigationBar extends BaseFragment {
                 SystemUtil.restartSystemUI();
             }
         }, SWITCH_ANIMATION_DELAY));
-        binding.nbMonetPillContainer.setOnClickListener(v -> binding.nbMonetPill.toggle());
 
         // Hide Keyboard Buttons
-        binding.nbHideKbButtons.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
+        binding.nbHideKbButtons.setSwitchChangeListener((buttonView, isSwitchChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (isSwitchChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentNBHideKBButton.overlay");
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentNBHideKBButton.overlay");
             }
         }, SWITCH_ANIMATION_DELAY));
-        binding.nbHideKbButtonsContainer.setOnClickListener(v -> binding.nbHideKbButtons.toggle());
 
         // Disable left gesture
-        binding.nbDisableLeftGesture.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
+        binding.nbDisableLeftGesture.setSwitchChangeListener((buttonView, isSwitchChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (isSwitchChecked) {
                 Shell.cmd("settings put secure back_gesture_inset_scale_left -1 &>/dev/null").exec();
             } else {
                 Shell.cmd("settings delete secure back_gesture_inset_scale_left &>/dev/null").exec();
             }
         }, SWITCH_ANIMATION_DELAY));
-        binding.nbDisableLeftGestureContainer.setOnClickListener(v -> binding.nbDisableLeftGesture.toggle());
 
         // Disable right gesture
-        binding.nbDisableRightGesture.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (isChecked) {
+        binding.nbDisableRightGesture.setSwitchChangeListener((buttonView, isSwitchChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (isSwitchChecked) {
                 Shell.cmd("settings put secure back_gesture_inset_scale_right -1 &>/dev/null").exec();
             } else {
                 Shell.cmd("settings delete secure back_gesture_inset_scale_right &>/dev/null").exec();
             }
         }, SWITCH_ANIMATION_DELAY));
-        binding.nbDisableRightGestureContainer.setOnClickListener(v -> binding.nbDisableRightGesture.toggle());
 
         // Pill shape
-        binding.pillShape.pillShapeContainer.setVisibility((binding.nbFullscreen.isChecked() || binding.nbHidePill.isChecked()) ? View.GONE : View.VISIBLE);
+        binding.pillShape.pillShapeContainer.setVisibility((binding.nbFullscreen.isSwitchChecked() || binding.nbHidePill.isSwitchChecked()) ? View.GONE : View.VISIBLE);
 
         // Pill width
         final int[] finalPillWidth = {Prefs.getInt(FABRICATED_PILL_WIDTH, 108)};
-
-        binding.pillShape.pillWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillWidth[0] + "dp");
-        binding.pillShape.pillWidthSeekbar.setValue(finalPillWidth[0]);
-        binding.pillShape.pillWidthSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.pillShape.pillWidth.setSliderValue(finalPillWidth[0]);
+        binding.pillShape.pillWidth.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -303,16 +276,13 @@ public class NavigationBar extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalPillWidth[0] = (int) slider.getValue();
-                binding.pillShape.pillWidthOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillWidth[0] + "dp");
             }
         });
 
         // Pill thickness
         final int[] finalPillThickness = {Prefs.getInt(FABRICATED_PILL_THICKNESS, 2)};
-
-        binding.pillShape.pillThicknessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillThickness[0] + "dp");
-        binding.pillShape.pillThicknessSeekbar.setValue(finalPillThickness[0]);
-        binding.pillShape.pillThicknessSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.pillShape.pillThickness.setSliderValue(finalPillThickness[0]);
+        binding.pillShape.pillThickness.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -320,16 +290,13 @@ public class NavigationBar extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalPillThickness[0] = (int) slider.getValue();
-                binding.pillShape.pillThicknessOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalPillThickness[0] + "dp");
             }
         });
 
         // Bottom space
         final int[] finalBottomSpace = {Prefs.getInt(FABRICATED_PILL_BOTTOM_SPACE, 6)};
-
-        binding.pillShape.bottomSpaceOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalBottomSpace[0] + "dp");
-        binding.pillShape.bottomSpaceSeekbar.setValue(finalBottomSpace[0]);
-        binding.pillShape.bottomSpaceSeekbar.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.pillShape.pillBottomSpace.setSliderValue(finalBottomSpace[0]);
+        binding.pillShape.pillBottomSpace.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -337,7 +304,6 @@ public class NavigationBar extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalBottomSpace[0] = (int) slider.getValue();
-                binding.pillShape.bottomSpaceOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalBottomSpace[0] + "dp");
             }
         });
 
@@ -411,19 +377,19 @@ public class NavigationBar extends BaseFragment {
     private void disableOthers(String identifier) {
         if (!Objects.equals(identifier, NAVBAR_FULL_SCREEN)) {
             Prefs.putBoolean(NAVBAR_FULL_SCREEN, false);
-            binding.nbFullscreen.setChecked(false);
+            binding.nbFullscreen.setSwitchChecked(false);
         }
         if (!Objects.equals(identifier, NAVBAR_IMMERSIVE_V1)) {
             Prefs.putBoolean(NAVBAR_IMMERSIVE_V1, false);
-            binding.nbImmersive.setChecked(false);
+            binding.nbImmersive.setSwitchChecked(false);
         }
         if (!Objects.equals(identifier, NAVBAR_IMMERSIVE_V2)) {
             Prefs.putBoolean(NAVBAR_IMMERSIVE_V2, false);
-            binding.nbImmersivev2.setChecked(false);
+            binding.nbImmersiveV2.setSwitchChecked(false);
         }
         if (!Objects.equals(identifier, NAVBAR_IMMERSIVE_V3)) {
             Prefs.putBoolean(NAVBAR_IMMERSIVE_V3, false);
-            binding.nbImmersivev3.setChecked(false);
+            binding.nbImmersiveV3.setSwitchChecked(false);
         }
     }
 

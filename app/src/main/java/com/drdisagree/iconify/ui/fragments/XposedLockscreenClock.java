@@ -35,14 +35,10 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedLockscreenClockBinding;
 import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter;
 import com.drdisagree.iconify.ui.base.BaseFragment;
-import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LockscreenClockStyles;
 import com.google.android.material.slider.Slider;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -121,11 +117,16 @@ public class XposedLockscreenClock extends BaseFragment {
         // Clock color picker
         binding.lsClockColorPicker.setColorPickerListener(
                 requireActivity(),
-                1,
                 RPrefs.getInt(LSCLOCK_COLOR_CODE, Color.WHITE),
                 true,
                 true,
                 true
+        );
+        binding.lsClockColorPicker.setOnColorSelectedListener(
+                color -> {
+                    binding.lsClockColorPicker.setPreviewColor(color);
+                    RPrefs.putInt(LSCLOCK_COLOR_CODE, color);
+                }
         );
 
         // Line height
@@ -205,26 +206,5 @@ public class XposedLockscreenClock extends BaseFragment {
         binding.lsclockTopMargin.setEnabled(enabled);
         binding.lsclockBottomMargin.setEnabled(enabled);
         binding.forceWhiteText.setEnabled(enabled);
-    }
-
-    @SuppressWarnings("unused")
-    @Subscribe
-    public void onColorSelected(ColorSelectedEvent event) {
-        if (event.dialogId() == 1) {
-            binding.lsClockColorPicker.setPreviewColor(event.selectedColor());
-            RPrefs.putInt(LSCLOCK_COLOR_CODE, event.selectedColor());
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 }

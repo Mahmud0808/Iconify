@@ -28,44 +28,41 @@ public class MediaPlayer extends BaseFragment {
 
         refreshPreview();
 
-        binding.mpAccent.setChecked(Prefs.getBoolean("IconifyComponentMPA.overlay"));
-        binding.mpAccent.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.mpAccent.setSwitchChecked(Prefs.getBoolean("IconifyComponentMPA.overlay"));
+        binding.mpAccent.setSwitchChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                binding.mpSystem.setChecked(false);
-                binding.mpPitchBlack.setChecked(false);
+                binding.mpSystem.setSwitchChecked(false);
+                binding.mpPitchBlack.setSwitchChecked(false);
                 OverlayUtil.changeOverlayState("IconifyComponentMPS.overlay", false, "IconifyComponentMPB.overlay", false, "IconifyComponentMPA.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPA.overlay");
             }
             refreshPreview();
         });
-        binding.mpAccentContainer.setOnClickListener(v -> binding.mpAccent.toggle());
 
-        binding.mpSystem.setChecked(Prefs.getBoolean("IconifyComponentMPS.overlay"));
-        binding.mpSystem.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.mpSystem.setSwitchChecked(Prefs.getBoolean("IconifyComponentMPS.overlay"));
+        binding.mpSystem.setSwitchChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                binding.mpAccent.setChecked(false);
-                binding.mpPitchBlack.setChecked(false);
+                binding.mpAccent.setSwitchChecked(false);
+                binding.mpPitchBlack.setSwitchChecked(false);
                 OverlayUtil.changeOverlayState("IconifyComponentMPA.overlay", false, "IconifyComponentMPB.overlay", false, "IconifyComponentMPS.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPS.overlay");
             }
             refreshPreview();
         });
-        binding.mpSystemContainer.setOnClickListener(v -> binding.mpSystem.toggle());
 
-        binding.mpPitchBlack.setChecked(Prefs.getBoolean("IconifyComponentMPB.overlay"));
-        binding.mpPitchBlack.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.mpPitchBlack.setSwitchChecked(Prefs.getBoolean("IconifyComponentMPB.overlay"));
+        binding.mpPitchBlack.setSwitchChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                binding.mpAccent.setChecked(false);
-                binding.mpSystem.setChecked(false);
+                binding.mpAccent.setSwitchChecked(false);
+                binding.mpSystem.setSwitchChecked(false);
                 OverlayUtil.changeOverlayState("IconifyComponentMPA.overlay", false, "IconifyComponentMPS.overlay", false, "IconifyComponentMPB.overlay", true);
             } else {
                 OverlayUtil.disableOverlay("IconifyComponentMPB.overlay");
             }
             refreshPreview();
         });
-        binding.mpPitchBlackContainer.setOnClickListener(v -> binding.mpPitchBlack.toggle());
 
         return view;
     }

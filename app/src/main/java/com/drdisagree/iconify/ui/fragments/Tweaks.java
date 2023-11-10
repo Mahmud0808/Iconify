@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +15,7 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.FragmentTweaksBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
+import com.drdisagree.iconify.ui.widgets.MenuWidget;
 import com.drdisagree.iconify.utils.AppUtil;
 
 import java.util.ArrayList;
@@ -65,28 +64,25 @@ public class Tweaks extends BaseFragment {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, binding.tweaksList, false);
+            MenuWidget menu = new MenuWidget(requireActivity());
 
-            TextView title = list.findViewById(R.id.list_title);
-            title.setText((String) pack.get(i)[1]);
-
-            TextView desc = list.findViewById(R.id.list_desc);
-            desc.setText((String) pack.get(i)[2]);
-
-            ImageView preview = list.findViewById(R.id.list_icon);
-            preview.setImageResource((int) pack.get(i)[3]);
+            menu.setTitle((String) pack.get(i)[1]);
+            menu.setSummary((String) pack.get(i)[2]);
+            menu.setIcon((int) pack.get(i)[3]);
+            menu.setEndArrowVisibility(View.VISIBLE);
 
             if (pack.get(i)[0] instanceof View.OnClickListener) {
-                list.setOnClickListener((View.OnClickListener) pack.get(i)[0]);
+                menu.setOnClickListener((View.OnClickListener) pack.get(i)[0]);
             } else if (pack.get(i)[0] instanceof Integer) {
                 int finalI = i;
-                list.setOnClickListener(v -> Navigation.findNavController(binding.getRoot()).navigate((Integer) pack.get(finalI)[0]));
+                menu.setOnClickListener(v -> Navigation.findNavController(binding.getRoot()).navigate((Integer) pack.get(finalI)[0]));
             }
 
-            if (Objects.equals(pack.get(i)[1], getResources().getString(R.string.activity_title_media_player)) && Build.VERSION.SDK_INT >= 33)
-                list.setVisibility(View.GONE);
+            if (Objects.equals(pack.get(i)[1], getResources().getString(R.string.activity_title_media_player)) && Build.VERSION.SDK_INT >= 33) {
+                menu.setVisibility(View.GONE);
+            }
 
-            binding.tweaksList.addView(list);
+            binding.tweaksList.addView(menu);
         }
     }
 }

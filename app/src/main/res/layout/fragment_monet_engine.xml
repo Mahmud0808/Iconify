@@ -22,168 +22,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="120dp"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:id="@+id/monet_accurate_shades_container"
+                <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                    android:id="@+id/accurate_shades"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/item_background_material"
-                    android:clickable="true">
+                    app:summaryText="@string/accurate_shades_desc"
+                    app:titleText="@string/accurate_shades_title" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginVertical="22dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toStartOf="@id/monet_accurate_shades"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/accurate_shades_title"
-                            android:textColor="@color/text_color_primary" />
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.BodyMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/accurate_shades_desc"
-                            android:textColor="@color/text_color_secondary" />
-
-                    </LinearLayout>
-
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/monet_accurate_shades"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="24dp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/preview_coloraccentprimary"
+                <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                    android:id="@+id/color_accent_primary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/item_background_material"
-                    android:clickable="true">
+                    app:previewColor="@android:color/holo_blue_light"
+                    app:summaryText="@string/primary_color_desc"
+                    app:titleText="@string/primary_color" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginVertical="22dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toStartOf="@id/preview_color_picker_primary"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/primary_color"
-                            android:textColor="@color/text_color_primary" />
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.BodyMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/primary_color_desc"
-                            android:textColor="@color/text_color_secondary" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/preview_color_picker_primary"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="24dp"
-                        android:background="@drawable/preview_color_picker_primary"
-                        android:contentDescription="@string/color_picker_preview" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/preview_coloraccentsecondary"
+                <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                    android:id="@+id/color_accent_secondary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/item_background_material"
-                    android:clickable="true">
+                    app:previewColor="@android:color/holo_blue_dark"
+                    app:summaryText="@string/secondary_color_desc"
+                    app:titleText="@string/secondary_color" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginVertical="22dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toStartOf="@id/preview_color_picker_secondary"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/secondary_color"
-                            android:textColor="@color/text_color_primary" />
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.BodyMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/secondary_color_desc"
-                            android:textColor="@color/text_color_secondary" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/preview_color_picker_secondary"
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="24dp"
-                        android:background="@drawable/preview_color_picker_secondary"
-                        android:contentDescription="@string/color_picker_preview" />
-
-                </RelativeLayout>
-
-                <LinearLayout
+                <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
                     android:id="@+id/monet_styles"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/item_background_material"
-                    android:clickable="true"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="22dp">
-
-                    <TextView
-                        style="@style/TextAppearance.Material3.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/monet_style_title"
-                        android:textColor="@color/text_color_primary" />
-
-                    <TextView
-                        android:id="@+id/selected_monet_style"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/text_color_secondary" />
-
-                </LinearLayout>
-
-                <View style="@style/dividerTransparent" />
+                    app:entries="@array/monet_style"
+                    app:titleText="@string/monet_style_title" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -200,233 +70,54 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/primary_accent_saturation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/item_background_material"
-                    android:clickable="true"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="24dp"
-                    android:paddingTop="22dp"
-                    android:paddingBottom="4dp">
+                    app:sliderDefaultValue="0"
+                    app:sliderStepSize="1"
+                    app:sliderValue="0"
+                    app:sliderValueFrom="-100"
+                    app:sliderValueTo="100"
+                    app:titleText="@string/monet_primary_accent_saturation_title"
+                    app:valueFormat="%" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:text="@string/monet_primary_accent_saturation_title"
-                            android:textColor="@color/text_color_primary" />
-
-                        <ImageView
-                            android:id="@+id/reset_primary_accent_saturation"
-                            android:layout_width="@dimen/reset_button_size"
-                            android:layout_height="@dimen/reset_button_size"
-                            android:layout_gravity="start|center"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:clickable="true"
-                            android:contentDescription="@string/icon"
-                            app:srcCompat="@drawable/ic_reset"
-                            app:tint="@color/textColorSecondary" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/monet_primary_accent_saturation_output"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/text_color_secondary" />
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/monet_primary_accent_saturation_seekbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="4dp"
-                        android:stepSize="1"
-                        android:value="0"
-                        android:valueFrom="-100"
-                        android:valueTo="100" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/secondary_accent_saturation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/item_background_material"
-                    android:clickable="true"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="24dp"
-                    android:paddingTop="22dp"
-                    android:paddingBottom="4dp">
+                    app:sliderDefaultValue="0"
+                    app:sliderStepSize="1"
+                    app:sliderValue="0"
+                    app:sliderValueFrom="-100"
+                    app:sliderValueTo="100"
+                    app:titleText="@string/monet_secondary_accent_saturation_title"
+                    app:valueFormat="%" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:text="@string/monet_secondary_accent_saturation_title"
-                            android:textColor="@color/text_color_primary" />
-
-                        <ImageView
-                            android:id="@+id/reset_secondary_accent_saturation"
-                            android:layout_width="@dimen/reset_button_size"
-                            android:layout_height="@dimen/reset_button_size"
-                            android:layout_gravity="start|center"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:clickable="true"
-                            android:contentDescription="@string/icon"
-                            app:srcCompat="@drawable/ic_reset"
-                            app:tint="@color/textColorSecondary" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/monet_secondary_accent_saturation_output"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/text_color_secondary" />
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/monet_secondary_accent_saturation_seekbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="4dp"
-                        android:stepSize="1"
-                        android:value="0"
-                        android:valueFrom="-100"
-                        android:valueTo="100" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/background_saturation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/item_background_material"
-                    android:clickable="true"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="24dp"
-                    android:paddingTop="22dp"
-                    android:paddingBottom="4dp">
+                    app:sliderDefaultValue="0"
+                    app:sliderStepSize="1"
+                    app:sliderValue="0"
+                    app:sliderValueFrom="-100"
+                    app:sliderValueTo="100"
+                    app:titleText="@string/monet_background_saturation_title"
+                    app:valueFormat="%" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:text="@string/monet_background_saturation_title"
-                            android:textColor="@color/text_color_primary" />
-
-                        <ImageView
-                            android:id="@+id/reset_background_saturation"
-                            android:layout_width="@dimen/reset_button_size"
-                            android:layout_height="@dimen/reset_button_size"
-                            android:layout_gravity="start|center"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:clickable="true"
-                            android:contentDescription="@string/icon"
-                            app:srcCompat="@drawable/ic_reset"
-                            app:tint="@color/textColorSecondary" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/monet_background_saturation_output"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/text_color_secondary" />
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/monet_background_saturation_seekbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="4dp"
-                        android:stepSize="1"
-                        android:value="0"
-                        android:valueFrom="-100"
-                        android:valueTo="100" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/background_lightness"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/item_background_material"
-                    android:clickable="true"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="24dp"
-                    android:paddingTop="22dp"
-                    android:paddingBottom="4dp">
+                    app:sliderDefaultValue="0"
+                    app:sliderStepSize="1"
+                    app:sliderValue="0"
+                    app:sliderValueFrom="-100"
+                    app:sliderValueTo="100"
+                    app:titleText="@string/monet_background_lightness_title"
+                    app:valueFormat="%" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/TextAppearance.Material3.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center"
-                            android:text="@string/monet_background_lightness_title"
-                            android:textColor="@color/text_color_primary" />
-
-                        <ImageView
-                            android:id="@+id/reset_background_lightness"
-                            android:layout_width="@dimen/reset_button_size"
-                            android:layout_height="@dimen/reset_button_size"
-                            android:layout_gravity="start|center"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:clickable="true"
-                            android:contentDescription="@string/icon"
-                            app:srcCompat="@drawable/ic_reset"
-                            app:tint="@color/textColorSecondary" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/monet_background_lightness_output"
-                        style="@style/TextAppearance.Material3.BodyMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/text_color_secondary" />
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/monet_background_lightness_seekbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="4dp"
-                        android:stepSize="1"
-                        android:value="0"
-                        android:valueFrom="-100"
-                        android:valueTo="100" />
-
-                </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

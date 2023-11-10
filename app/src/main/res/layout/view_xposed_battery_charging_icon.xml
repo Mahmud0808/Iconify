@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:entries="@array/custom_charging_icon_style"
+            app:showSelectedPrefix="true"
             app:titleText="@string/charging_icon_style_title" />
 
         <com.drdisagree.iconify.ui.widgets.SliderWidget

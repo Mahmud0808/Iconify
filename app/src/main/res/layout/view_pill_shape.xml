@@ -1,139 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pill_shape_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.google.android.material.textview.MaterialTextView
-        style="@style/TextAppearance.Material3.TitleMedium"
-        android:layout_width="wrap_content"
+    <com.drdisagree.iconify.ui.widgets.TitleWidget
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/section_title_pill_appearance"
-        android:textColor="?attr/colorPrimary" />
+        app:titleText="@string/section_title_pill_appearance" />
+
+    <com.drdisagree.iconify.ui.widgets.SliderWidget
+        android:id="@+id/pill_width"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:sliderStepSize="1"
+        app:sliderValue="108"
+        app:sliderValueFrom="40"
+        app:sliderValueTo="300"
+        app:titleText="@string/pill_width_title"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.widgets.SliderWidget
+        android:id="@+id/pill_thickness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:sliderStepSize="1"
+        app:sliderValue="2"
+        app:sliderValueFrom="0"
+        app:sliderValueTo="12"
+        app:titleText="@string/pill_thickness_title"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.widgets.SliderWidget
+        android:id="@+id/pill_bottom_space"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:sliderStepSize="1"
+        app:sliderValue="8"
+        app:sliderValueFrom="2"
+        app:sliderValueTo="14"
+        app:titleText="@string/pill_bottom_space_title"
+        app:valueFormat="dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="22dp"
-        android:paddingBottom="4dp">
-
-        <TextView
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pill_width_title"
-            android:textColor="@color/text_color_primary" />
-
-        <TextView
-            android:id="@+id/pill_width_output"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_secondary" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/pill_width_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:stepSize="1"
-            android:value="108"
-            android:valueFrom="40"
-            android:valueTo="300" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="22dp"
-        android:paddingBottom="4dp">
-
-        <TextView
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pill_thickness_title"
-            android:textColor="@color/text_color_primary" />
-
-        <TextView
-            android:id="@+id/pill_thickness_output"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_secondary" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/pill_thickness_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:stepSize="1"
-            android:value="2"
-            android:valueFrom="0"
-            android:valueTo="12" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="22dp"
-        android:paddingBottom="4dp">
-
-        <TextView
-            style="@style/TextAppearance.Material3.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pill_bottom_space_title"
-            android:textColor="@color/text_color_primary" />
-
-        <TextView
-            android:id="@+id/bottom_space_output"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_secondary" />
-
-        <com.google.android.material.slider.Slider
-            android:id="@+id/bottom_space_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp"
-            android:stepSize="1"
-            android:value="8"
-            android:valueFrom="2"
-            android:valueTo="14" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:background="@drawable/item_background_material"
         android:clickable="true"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/container_paddingSide"
-        android:paddingVertical="16dp">
+        android:paddingVertical="8dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/pill_shape_apply"

@@ -8,50 +8,49 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.materialswitch.MaterialSwitch;
 
-public class SwitchWidget extends RelativeLayout {
+public class MenuWidget extends RelativeLayout {
 
     private RelativeLayout container;
     private TextView titleTextView;
     private TextView summaryTextView;
     private ImageView iconImageView;
-    private MaterialSwitch materialSwitch;
-    private BeforeSwitchChangeListener beforeSwitchChangeListener;
+    private ImageView endArrowImageView;
 
-    public SwitchWidget(Context context) {
+    public MenuWidget(Context context) {
         super(context);
         init(context, null);
     }
 
-    public SwitchWidget(Context context, AttributeSet attrs) {
+    public MenuWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public SwitchWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MenuWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {
-        inflate(context, R.layout.view_widget_switch, this);
+        inflate(context, R.layout.view_widget_menu, this);
 
         initializeId();
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SwitchWidget);
-        setTitle(typedArray.getString(R.styleable.SwitchWidget_titleText));
-        setSummary(typedArray.getString(R.styleable.SwitchWidget_summaryText));
-        setSwitchChecked(typedArray.getBoolean(R.styleable.SwitchWidget_isChecked, false));
-        int icon = typedArray.getResourceId(R.styleable.SwitchWidget_icon, 0);
-        boolean iconSpaceReserved = typedArray.getBoolean(R.styleable.SwitchWidget_iconSpaceReserved, false);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MenuWidget);
+        setTitle(typedArray.getString(R.styleable.MenuWidget_titleText));
+        setSummary(typedArray.getString(R.styleable.MenuWidget_summaryText));
+        int icon = typedArray.getResourceId(R.styleable.MenuWidget_icon, 0);
+        boolean iconSpaceReserved = typedArray.getBoolean(R.styleable.MenuWidget_iconSpaceReserved, false);
+        boolean showEndArrow = typedArray.getBoolean(R.styleable.MenuWidget_showEndArrow, false);
         typedArray.recycle();
 
         if (icon != 0) {
@@ -63,15 +62,9 @@ public class SwitchWidget extends RelativeLayout {
             iconImageView.setVisibility(GONE);
         }
 
-        container.setOnClickListener(v -> {
-            if (materialSwitch.isEnabled()) {
-                if (beforeSwitchChangeListener != null) {
-                    beforeSwitchChangeListener.beforeSwitchChanged();
-                }
-
-                materialSwitch.toggle();
-            }
-        });
+        if (showEndArrow) {
+            endArrowImageView.setVisibility(VISIBLE);
+        }
     }
 
     public void setTitle(int titleResId) {
@@ -104,20 +97,18 @@ public class SwitchWidget extends RelativeLayout {
         iconImageView.setVisibility(visibility);
     }
 
-    public boolean isSwitchChecked() {
-        return materialSwitch.isChecked();
+    public void setEndArrowVisibility(int visibility) {
+        endArrowImageView.setVisibility(visibility);
     }
 
-    public void setSwitchChecked(boolean isChecked) {
-        materialSwitch.setChecked(isChecked);
+    @Override
+    public void setOnClickListener(@Nullable OnClickListener l) {
+        container.setOnClickListener(l);
     }
 
-    public void setSwitchChangeListener(CompoundButton.OnCheckedChangeListener listener) {
-        materialSwitch.setOnCheckedChangeListener(listener);
-    }
-
-    public void setBeforeSwitchChangeListener(BeforeSwitchChangeListener listener) {
-        beforeSwitchChangeListener = listener;
+    @Override
+    public void setOnLongClickListener(@Nullable OnLongClickListener l) {
+        container.setOnLongClickListener(l);
     }
 
     @Override
@@ -134,11 +125,16 @@ public class SwitchWidget extends RelativeLayout {
             a.recycle();
 
             iconImageView.setImageTintList(ColorStateList.valueOf(color));
+            endArrowImageView.setImageTintList(ColorStateList.valueOf(
+                    getContext().getColor(R.color.text_color_primary)
+            ));
         } else {
             if (SystemUtil.isDarkMode()) {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY));
+                endArrowImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY));
             } else {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY));
+                endArrowImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY));
             }
         }
 
@@ -146,11 +142,6 @@ public class SwitchWidget extends RelativeLayout {
         iconImageView.setEnabled(enabled);
         titleTextView.setEnabled(enabled);
         summaryTextView.setEnabled(enabled);
-        materialSwitch.setEnabled(enabled);
-    }
-
-    public interface BeforeSwitchChangeListener {
-        void beforeSwitchChanged();
     }
 
     // to avoid listener bug, we need to re-generate unique id for each view
@@ -159,16 +150,15 @@ public class SwitchWidget extends RelativeLayout {
         iconImageView = findViewById(R.id.icon);
         titleTextView = findViewById(R.id.title);
         summaryTextView = findViewById(R.id.summary);
-        materialSwitch = findViewById(R.id.switch_widget);
+        endArrowImageView = findViewById(R.id.end_arrow);
 
         container.setId(View.generateViewId());
         iconImageView.setId(View.generateViewId());
         titleTextView.setId(View.generateViewId());
         summaryTextView.setId(View.generateViewId());
-        materialSwitch.setId(View.generateViewId());
+        endArrowImageView.setId(View.generateViewId());
 
-        RelativeLayout.LayoutParams layoutParams = (LayoutParams) findViewById(R.id.text_container).getLayoutParams();
-        layoutParams.addRule(RelativeLayout.START_OF, materialSwitch.getId());
+        LayoutParams layoutParams = (LayoutParams) findViewById(R.id.text_container).getLayoutParams();
         layoutParams.addRule(RelativeLayout.END_OF, iconImageView.getId());
         findViewById(R.id.text_container).setLayoutParams(layoutParams);
     }

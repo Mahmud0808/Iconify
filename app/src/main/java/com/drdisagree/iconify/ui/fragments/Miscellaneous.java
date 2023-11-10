@@ -8,6 +8,7 @@ import static com.drdisagree.iconify.common.Preferences.PROGRESS_WAVE_ANIMATION_
 import static com.drdisagree.iconify.common.Preferences.TABLET_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.References.FABRICATED_TABLET_HEADER;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,14 +45,14 @@ public class Miscellaneous extends BaseFragment {
 
         // Tablet landscape
         AtomicBoolean isTabletLandscapeContainerClicked = new AtomicBoolean(false);
-        binding.enableTabletLandscape.setChecked(Prefs.getBoolean(TABLET_LANDSCAPE_SWITCH, false));
-        binding.enableTabletLandscape.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.tabletLandscape.setSwitchChecked(Prefs.getBoolean(TABLET_LANDSCAPE_SWITCH, false));
+        binding.tabletLandscape.setSwitchChangeListener((buttonView, isChecked) -> {
             if (buttonView.isPressed() || isTabletLandscapeContainerClicked.get()) {
                 isTabletLandscapeContainerClicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.enableTabletLandscape.setChecked(!isChecked);
+                    binding.tabletLandscape.setSwitchChecked(!isChecked);
                     return;
                 }
 
@@ -104,21 +105,18 @@ public class Miscellaneous extends BaseFragment {
                 }
             }
         });
-        binding.tabletLandscape.setOnClickListener(v -> {
-            isTabletLandscapeContainerClicked.set(true);
-            binding.enableTabletLandscape.toggle();
-        });
+        binding.tabletLandscape.setBeforeSwitchChangeListener(() -> isTabletLandscapeContainerClicked.set(true));
 
         // Notch bar killer
         AtomicBoolean isNotchBarKillerContainerClicked = new AtomicBoolean(false);
-        binding.enableNotchBarKiller.setChecked(Prefs.getBoolean(NOTCH_BAR_KILLER_SWITCH, false));
-        binding.enableNotchBarKiller.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.notchBarKiller.setSwitchChecked(Prefs.getBoolean(NOTCH_BAR_KILLER_SWITCH, false));
+        binding.notchBarKiller.setSwitchChangeListener((buttonView, isChecked) -> {
             if (buttonView.isPressed() || isNotchBarKillerContainerClicked.get()) {
                 isNotchBarKillerContainerClicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.enableNotchBarKiller.setChecked(!isChecked);
+                    binding.notchBarKiller.setSwitchChecked(!isChecked);
                     return;
                 }
 
@@ -141,14 +139,11 @@ public class Miscellaneous extends BaseFragment {
                 }
             }
         });
-        binding.notchBarKiller.setOnClickListener(v -> {
-            isNotchBarKillerContainerClicked.set(true);
-            binding.enableNotchBarKiller.toggle();
-        });
+        binding.notchBarKiller.setBeforeSwitchChangeListener(() -> isNotchBarKillerContainerClicked.set(true));
 
         // Tablet header
-        binding.enableTabletHeader.setChecked(Prefs.getBoolean(FABRICATED_TABLET_HEADER, false));
-        binding.enableTabletHeader.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.tabletHeader.setSwitchChecked(Prefs.getBoolean(FABRICATED_TABLET_HEADER, false));
+        binding.tabletHeader.setSwitchChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Prefs.putBoolean(FABRICATED_TABLET_HEADER, isChecked);
             if (isChecked) {
                 FabricatedUtil.buildAndEnableOverlay(SYSTEMUI_PACKAGE, FABRICATED_TABLET_HEADER, "bool", "config_use_large_screen_shade_header", "1");
@@ -156,11 +151,10 @@ public class Miscellaneous extends BaseFragment {
                 FabricatedUtil.disableOverlay(FABRICATED_TABLET_HEADER);
             }
         }, SWITCH_ANIMATION_DELAY));
-        binding.tabletHeader.setOnClickListener(v -> binding.enableTabletHeader.toggle());
 
         // Accent privacy chip
-        binding.enableAccentPrivacyChip.setChecked(Prefs.getBoolean("IconifyComponentPCBG.overlay", false));
-        binding.enableAccentPrivacyChip.setOnCheckedChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        binding.accentPrivacyChip.setSwitchChecked(Prefs.getBoolean("IconifyComponentPCBG.overlay", false));
+        binding.accentPrivacyChip.setSwitchChangeListener((buttonView, isChecked) -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
             if (isChecked) {
                 OverlayUtil.enableOverlay("IconifyComponentPCBG.overlay");
             } else {
@@ -168,18 +162,22 @@ public class Miscellaneous extends BaseFragment {
             }
             SystemUtil.restartSystemUI();
         }, SWITCH_ANIMATION_DELAY));
-        binding.accentPrivacyChip.setOnClickListener(v -> binding.enableAccentPrivacyChip.toggle());
 
         // Progress wave animation
+        if (Build.VERSION.SDK_INT < 33) {
+            binding.sectionTitleMediaPlayer.setVisibility(View.GONE);
+            binding.disableProgressWave.setVisibility(View.GONE);
+        }
+
         AtomicBoolean isProgressWaveContainerClicked = new AtomicBoolean(false);
-        binding.disableProgressWave.setChecked(Prefs.getBoolean(PROGRESS_WAVE_ANIMATION_SWITCH, false));
-        binding.disableProgressWave.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.disableProgressWave.setSwitchChecked(Prefs.getBoolean(PROGRESS_WAVE_ANIMATION_SWITCH, false));
+        binding.disableProgressWave.setSwitchChangeListener((buttonView, isChecked) -> {
             if (buttonView.isPressed() || isProgressWaveContainerClicked.get()) {
                 isProgressWaveContainerClicked.set(false);
 
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(requireContext());
-                    binding.disableProgressWave.setChecked(!isChecked);
+                    binding.disableProgressWave.setSwitchChecked(!isChecked);
                     return;
                 }
 
@@ -202,10 +200,7 @@ public class Miscellaneous extends BaseFragment {
                 new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
             }
         });
-        binding.disableProgressWaveContainer.setOnClickListener(v -> {
-            isProgressWaveContainerClicked.set(true);
-            binding.disableProgressWave.toggle();
-        });
+        binding.disableProgressWave.setBeforeSwitchChangeListener(() -> isProgressWaveContainerClicked.set(true));
 
         return view;
     }
