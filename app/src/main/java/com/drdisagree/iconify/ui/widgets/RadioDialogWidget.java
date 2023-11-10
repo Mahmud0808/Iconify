@@ -81,12 +81,7 @@ public class RadioDialogWidget extends RelativeLayout implements RadioDialog.Rad
             iconImageView.setVisibility(GONE);
         }
 
-        radioDialog = new RadioDialog(
-                getContext(),
-                radioDialogId,
-                selectedIndex
-        );
-        radioDialog.setRadioDialogListener(this);
+        initRadioDialog();
 
         container.setOnClickListener(v ->
                 radioDialog.show(
@@ -142,6 +137,16 @@ public class RadioDialogWidget extends RelativeLayout implements RadioDialog.Rad
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
         setSelectedText(Arrays.asList(getResources().getStringArray(arrayResId)).get(selectedIndex));
+        initRadioDialog();
+    }
+
+    private void initRadioDialog() {
+        radioDialog = new RadioDialog(
+                getContext(),
+                radioDialogId,
+                selectedIndex
+        );
+        radioDialog.setRadioDialogListener(this);
     }
 
     @Override
@@ -204,8 +209,7 @@ public class RadioDialogWidget extends RelativeLayout implements RadioDialog.Rad
     @Override
     public void onItemSelected(int dialogId, int selectedIndex) {
         if (dialogId == radioDialogId) {
-            this.selectedIndex = selectedIndex;
-            setSelectedText(Arrays.asList(getResources().getStringArray(arrayResId)).get(selectedIndex));
+            setSelectedIndex(selectedIndex);
 
             if (radioDialogListener != null) {
                 radioDialogListener.onItemSelected(selectedIndex);
