@@ -25,6 +25,7 @@ import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.dialogs.InfoDialog;
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
+import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.overlay.compiler.VolumeCompiler;
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry;
@@ -158,6 +159,11 @@ public class VolumePanel extends BaseFragment {
         realCheckedId = checkedId1 == -1 ? checkedId2 : checkedId1;
 
         binding.volumeStyle.volumeStyleCreateModule.setOnClickListener(v -> {
+            if (RootUtil.isKSUInstalled() && !RootUtil.isMagiskInstalled()) {
+                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_ksu_not_supported), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (!SystemUtil.hasStoragePermission()) {
                 SystemUtil.requestStoragePermission(requireContext());
             } else {
@@ -222,6 +228,7 @@ public class VolumePanel extends BaseFragment {
             setVolumeDrawable(R.drawable.volume_neumorph_outline_ringer, R.drawable.volume_neumorph_outline, true, false);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void setVolumeDrawable(int ringerDrawable, int progressDrawable, boolean ringerInverse, boolean progressInverse) {
         binding.volumeThinBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
         binding.volumeThinBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
