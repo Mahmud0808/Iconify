@@ -620,8 +620,8 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\nMust use custom lockscreen clock</string>
-    <string name="wallpaper_fade_animation_title">Fading Animation</string>
-    <string name="wallpaper_fade_animation_desc">Animate wallpaper while fading away</string>
+    <string name="wallpaper_fade_animation_title">Fade in AOD</string>
+    <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Foreground Image</string>
     <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
     <string name="background_image_title">Background Image</string>
