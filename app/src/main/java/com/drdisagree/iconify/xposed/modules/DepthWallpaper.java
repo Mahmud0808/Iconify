@@ -174,13 +174,15 @@ public class DepthWallpaper extends ModPack {
                 } catch (Throwable ignored) {
                 }
 
-                try {
-                    LinearLayout keyguard_settings_button = view.findViewById(mContext.getResources().getIdentifier("keyguard_settings_button", "id", mContext.getPackageName()));
-                    keyguard_settings_button.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-                        ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(keyguard_settings_button.getVisibility() != View.GONE ? offset[0] : 0);
-                        ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(keyguard_settings_button.getVisibility() != View.GONE ? offset[0] : 0);
-                    });
-                } catch (Throwable ignored) {
+                if (Build.VERSION.SDK_INT >= 34) {
+                    try {
+                        LinearLayout keyguard_settings_button = view.findViewById(mContext.getResources().getIdentifier("keyguard_settings_button", "id", mContext.getPackageName()));
+                        keyguard_settings_button.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+                            ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginStart(keyguard_settings_button.getVisibility() != View.GONE ? offset[0] : 0);
+                            ((ViewGroup.MarginLayoutParams) mIndicationTextView.getLayoutParams()).setMarginEnd(keyguard_settings_button.getVisibility() != View.GONE ? offset[0] : 0);
+                        });
+                    } catch (Throwable ignored) {
+                    }
                 }
 
                 updateWallpaper();
@@ -200,7 +202,7 @@ public class DepthWallpaper extends ModPack {
         if (NotificationPanelViewControllerClass == null)
             NotificationPanelViewControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.NotificationPanelViewController", loadPackageParam.classLoader);
 
-        hookAllMethods(NotificationPanelViewControllerClass, "onFinishInflate", new XC_MethodHook() {
+        XC_MethodHook moveKeyguardBottomArea = new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
                 if (!showDepthWallpaper) return;
@@ -211,7 +213,10 @@ public class DepthWallpaper extends ModPack {
                 parent.removeView(keyguardBottomArea);
                 parent.addView(keyguardBottomArea, 0);
             }
-        });
+        };
+
+        hookAllMethods(NotificationPanelViewControllerClass, "onFinishInflate", moveKeyguardBottomArea);
+        hookAllMethods(NotificationPanelViewControllerClass, "reInflateViews", moveKeyguardBottomArea);
 
         XC_MethodHook noKeyguardIndicationPadding = new XC_MethodHook() {
             @Override
@@ -258,6 +263,10 @@ public class DepthWallpaper extends ModPack {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_TIME_TICK);
+        filter.addAction(Intent.ACTION_TIME_CHANGED);
+        filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
+        filter.addAction(Intent.ACTION_LOCALE_CHANGED);
 
         BroadcastReceiver screenStateReceiver = new BroadcastReceiver() {
             @Override
@@ -269,6 +278,8 @@ public class DepthWallpaper extends ModPack {
         };
 
         mContext.registerReceiver(screenStateReceiver, filter);
+
+        updateFadeAnimation();
     }
 
     private void updateWallpaper() {
