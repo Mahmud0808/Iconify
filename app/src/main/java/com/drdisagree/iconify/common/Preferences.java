@@ -100,8 +100,6 @@ public class Preferences {
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";
     public static final String ICONIFY_LOCKSCREEN_CLOCK_TAG = "iconify_lockscreen_clock";
     public static final String ICONIFY_DEPTH_WALLPAPER_TAG = "iconify_depth_wallpaper";
-    public static final String ICONIFY_DEPTH_WALLPAPER_FG_TAG = "iconify_depth_wallpaper_fg";
-    public static final String ICONIFY_DEPTH_WALLPAPER_BG_TAG = "iconify_depth_wallpaper_bg";
     public static final String ICONIFY_CHARGING_ICON_TAG = "iconify_charging_icon";
 
     // Battery styles

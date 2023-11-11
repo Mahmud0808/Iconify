@@ -2,10 +2,10 @@ package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED;
+import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_BG_TAG;
-import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FG_TAG;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG;
+import static com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG;
 import static com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
@@ -14,7 +14,10 @@ import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.ImageDecoder;
 import android.graphics.drawable.Drawable;
@@ -25,12 +28,14 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.modules.utils.DisplayUtils;
 import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 
 import java.io.File;
@@ -47,6 +52,7 @@ public class DepthWallpaper extends ModPack {
 
     private static final String TAG = "Iconify - " + DepthWallpaper.class.getSimpleName() + ": ";
     private boolean showDepthWallpaper = false;
+    private boolean showFadingAnimation = false;
     private FrameLayout mDepthWallpaperLayout = null;
     private ImageView mDepthWallpaperBackground = null;
     private ImageView mDepthWallpaperForeground = null;
@@ -60,6 +66,7 @@ public class DepthWallpaper extends ModPack {
         if (Xprefs == null) return;
 
         showDepthWallpaper = Xprefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false);
+        showFadingAnimation = Xprefs.getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false);
 
         if (Key.length > 0 && (Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH) ||
                 Objects.equals(Key[0], DEPTH_WALLPAPER_CHANGED))
@@ -140,9 +147,6 @@ public class DepthWallpaper extends ModPack {
                 mDepthWallpaperBackground.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 mDepthWallpaperForeground.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-                mDepthWallpaperBackground.setTag(ICONIFY_DEPTH_WALLPAPER_BG_TAG);
-                mDepthWallpaperForeground.setTag(ICONIFY_DEPTH_WALLPAPER_FG_TAG);
-
                 mDepthWallpaperLayout.addView(mDepthWallpaperBackground, 0);
                 mDepthWallpaperLayout.addView(mDepthWallpaperForeground, -1);
 
@@ -180,6 +184,8 @@ public class DepthWallpaper extends ModPack {
                 }
 
                 updateWallpaper();
+
+                registerScreenStateChecker();
             }
         });
 
@@ -245,6 +251,26 @@ public class DepthWallpaper extends ModPack {
         hookAllMethods(Resources.class, "getDimensionPixelSize", noKeyguardIndicationPadding);
     }
 
+    // Broadcast receiver for checking screen state
+    private void registerScreenStateChecker() {
+        if (mDepthWallpaperLayout == null) return;
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+
+        BroadcastReceiver screenStateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent != null) {
+                    new Handler(Looper.getMainLooper()).post(() -> updateFadeAnimation());
+                }
+            }
+        };
+
+        mContext.registerReceiver(screenStateReceiver, filter);
+    }
+
     private void updateWallpaper() {
         if (mDepthWallpaperLayout == null) return;
 
@@ -297,6 +323,104 @@ public class DepthWallpaper extends ModPack {
                 }
             }, 0, 5, TimeUnit.SECONDS);
         } catch (Throwable ignored) {
+        }
+    }
+
+    private void updateFadeAnimation() {
+        if (!showDepthWallpaper) return;
+
+        View clockView = mDepthWallpaperLayout.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG);
+        long animDuration = 800;
+
+        if (DisplayUtils.isScreenOn(mContext)) {
+            if (mDepthWallpaperBackground != null && mDepthWallpaperBackground.getAlpha() != 1f) {
+                if (showFadingAnimation) {
+                    Animation animation = mDepthWallpaperBackground.getAnimation();
+
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        mDepthWallpaperBackground.animate()
+                                .alpha(1f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
+                } else {
+                    mDepthWallpaperBackground.setAlpha(1f);
+                }
+            }
+
+            if (mDepthWallpaperForeground != null && mDepthWallpaperForeground.getAlpha() != 1f) {
+                if (showFadingAnimation) {
+                    Animation animation = mDepthWallpaperForeground.getAnimation();
+
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        mDepthWallpaperForeground.clearAnimation();
+                        mDepthWallpaperForeground.animate()
+                                .alpha(1f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
+                } else {
+                    mDepthWallpaperForeground.setAlpha(1f);
+                }
+            }
+
+            if (clockView != null && clockView.getAlpha() != 1f) {
+                if (showFadingAnimation) {
+                    Animation animation = clockView.getAnimation();
+
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        clockView.clearAnimation();
+                        clockView.animate()
+                                .alpha(1f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
+                } else {
+                    clockView.setAlpha(1f);
+                }
+            }
+        } else {
+            if (mDepthWallpaperBackground != null && mDepthWallpaperBackground.getAlpha() != 0f) {
+                if (showFadingAnimation) {
+                    Animation animation = mDepthWallpaperBackground.getAnimation();
+
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        mDepthWallpaperBackground.clearAnimation();
+                        mDepthWallpaperBackground.animate()
+                                .alpha(0f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
+                }
+            }
+
+            if (mDepthWallpaperForeground != null && mDepthWallpaperForeground.getAlpha() != 0f) {
+                if (showFadingAnimation) {
+                    Animation animation = mDepthWallpaperForeground.getAnimation();
+
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        mDepthWallpaperForeground.clearAnimation();
+                        mDepthWallpaperForeground.animate()
+                                .alpha(0f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
+                }
+            }
+
+            if (clockView != null && clockView.getAlpha() != 0.7f) {
+                if (showFadingAnimation) {
+                    Animation animation = clockView.getAnimation();
+
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        clockView.clearAnimation();
+                        clockView.animate()
+                                .alpha(0.7f)
+                                .setDuration(animDuration)
+                                .start();
+                    }
+                }
+            }
         }
     }
 }
