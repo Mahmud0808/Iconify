@@ -14,6 +14,7 @@ import android.util.Log;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.Onboarding;
@@ -31,7 +32,6 @@ import net.lingala.zip4j.model.enums.CompressionMethod;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ModuleUtil {
 
@@ -66,11 +66,21 @@ public class ModuleUtil {
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/system").exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/system/product").exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/system/product/overlay").exec();
+        createMETAINF();
 
         writePostExec();
         BinaryInstaller.symLinkBinaries();
 
         Log.i(TAG, "Magisk module successfully created.");
+    }
+
+    private static void createMETAINF() {
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/META-INF").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/META-INF/com").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/META-INF/com/google").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/META-INF/com/google/android").exec();
+        Shell.cmd("printf '" + Const.MAGISK_UPDATE_BINARY + "' > " + Resources.TEMP_MODULE_DIR + "/META-INF/com/google/android/update-binary").exec();
+        Shell.cmd("printf '#MAGISK' > " + Resources.TEMP_MODULE_DIR + "/META-INF/com/google/android/updater-script").exec();
     }
 
     private static void writePostExec() {
