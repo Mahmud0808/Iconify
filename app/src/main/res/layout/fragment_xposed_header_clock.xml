@@ -130,7 +130,7 @@
                 app:sliderStepSize="1"
                 app:sliderValue="8"
                 app:sliderValueFrom="0"
-                app:sliderValueTo="200"
+                app:sliderValueTo="250"
                 app:titleText="@string/fixed_status_icons_top_margin"
                 app:valueFormat="dp" />
 

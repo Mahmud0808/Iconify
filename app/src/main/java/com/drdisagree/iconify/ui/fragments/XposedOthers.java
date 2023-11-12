@@ -63,6 +63,9 @@ public class XposedOthers extends BaseFragment {
         });
 
         // Status icons top margin
+        if (Build.VERSION.SDK_INT >= 33) {
+            binding.statusIconsTopMargin.setSliderValueTo(250);
+        }
         binding.statusIconsTopMargin.setSliderValue(RPrefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8));
         binding.statusIconsTopMargin.setEnabled(
                 Build.VERSION.SDK_INT >= 33 ?
@@ -70,9 +73,6 @@ public class XposedOthers extends BaseFragment {
                                 RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false) :
                         RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
         );
-        if (Build.VERSION.SDK_INT >= 33) {
-            binding.statusIconsTopMargin.setSliderValueTo(200);
-        }
         binding.statusIconsTopMargin.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
