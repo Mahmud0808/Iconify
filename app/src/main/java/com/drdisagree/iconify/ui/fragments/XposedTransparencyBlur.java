@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.AGGRESSIVE_QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE;
 import static com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH;
@@ -9,6 +10,8 @@ import static com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,10 +102,12 @@ public class XposedTransparencyBlur extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 RPrefs.putInt(BLUR_RADIUS_VALUE, (int) slider.getValue());
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
         binding.blurIntensity.setResetClickListener(v -> {
             RPrefs.putInt(BLUR_RADIUS_VALUE, 23);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             return true;
         });
 

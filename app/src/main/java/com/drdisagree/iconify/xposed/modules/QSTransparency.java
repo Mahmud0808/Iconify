@@ -51,8 +51,7 @@ public class QSTransparency extends ModPack {
         blurRadius = Xprefs.getInt(BLUR_RADIUS_VALUE, 23);
 
         if (Key.length > 0 && Objects.equals(Key[0], QS_TRANSPARENCY_SWITCH) ||
-                Objects.equals(Key[0], NOTIF_TRANSPARENCY_SWITCH) ||
-                Objects.equals(Key[0], BLUR_RADIUS_VALUE)) {
+                Objects.equals(Key[0], NOTIF_TRANSPARENCY_SWITCH)) {
             Helpers.forceReloadUI(mContext);
         }
     }
