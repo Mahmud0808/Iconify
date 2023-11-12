@@ -99,9 +99,9 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Pokazuj ostrzeżenie</string>
     <string name="settings_show_warning_desc">Pokazuj ostrzeżenie o tym, jak zoptymalizować moduł w menu Xposed</string>
-    <string name="settings_restart_systemui_behavior">Restartuj SystemUI</string>
-    <string name="settings_auto_restart_systemui">Automatycznie restartuj SystemUI po każdej dokonanej zmianie w menu Xposed</string>
-    <string name="settings_manual_restart_systemui">Powiadom o ręcznym restarcie</string>
+    <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
+    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">Wymagany restart SystemUI</string>
     <string name="settings_section_title_miscellaneous">Pozostałe</string>
     <string name="settings_restart_systemui_after_boot_title">Restartuj SystemUI zaraz po starcie systemu</string>
@@ -313,6 +313,8 @@
     <string name="navbar_immersive_v2_desc">Mniejszy odstęp na klawiaturę</string>
     <string name="navbar_immersive_v3_title">Immersyjny 3</string>
     <string name="navbar_immersive_v3_desc">Najmniejszy odstęp na klawiaturę</string>
+    <string name="navbar_gcam_lag_fix_title">Gcam Lag Fix</string>
+    <string name="navbar_gcam_lag_fix_desc">Fix lag in gcam with gesture navigation</string>
     <string name="section_title_buttons">Przyciski</string>
     <string name="navbar_hide_kb_buttons_title">Ukryj przyciski klawiatury</string>
     <string name="navbar_hide_kb_buttons_desc">Ukryj przyciski chowania i przełączania klawiatury</string>
@@ -371,7 +373,7 @@
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">Tryb tabletu</string>
     <string name="tablet_landscape_title">Tryb tabletu w trybie poziomym</string>
-    <string name="tablet_landscape_desc">Znany również jako Better QS\nWymagane użycie Notch Bar Killer</string>
+    <string name="tablet_landscape_desc">Also known as Better QS</string>
     <string name="notch_bar_killer_title">Notch Bar Killer</string>
     <string name="notch_bar_killer_desc">Pozbądź się pustego miejsca w obrębie notcha</string>
     <string name="tablet_header_title">Tabletowy nagłówek</string>
@@ -384,7 +386,7 @@
     <string name="disable_progress_wave_desc">Wyłącz animację falującego wskaźnika postępu</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Przed włączeniem Iconify w zakładce modułów LSPosed naciśnij i przytrzymaj Iconify, a następnie kliknij Optymalizuj ponownie. Następnie włącz Iconify i zrestartuj SystemUI. Jest to konieczne, aby zapewnić płynne działanie modułu.</string>
-    <string name="xposed_only_desc">Jesteś obecnie w trybie Xposed Only. Wymaga on włączenia Iconify w aplikacji LSPosed. Upewnij się również, że moduł Iconify Companion jest wyświetlany w menedżerze Magisk. Aby uzyskać dostęp do wszystkich funkcji, po prostu otwórz ponownie Iconify i przejdź przez proces instalacji!</string>
+    <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. Also make sure that Iconify module is shown in Magisk manager. To get access to all features, clear data of iconify app and go through the installation process!</string>
     <string name="xposed_module_disabled_title">Moduł wyłączony</string>
     <string name="xposed_module_disabled_desc">Usługa systemowa nie jest uruchomiona</string>
     <string name="activity_title_transparency_blur">Przezroczystość i rozmycie</string>
@@ -417,6 +419,8 @@
     <string name="section_title_blur">Rozmycie</string>
     <string name="window_level_blur_title">Rozmycie poziomu okna</string>
     <string name="window_level_blur_desc">Po włączeniu tej opcji konieczne jest ponowne uruchomienie systemu, aby zauważyć zmiany</string>
+    <string name="aggressive_blur_title">Aggressive Blur Enabler</string>
+    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
     <string name="blur_intensity_title">Intensywność rozmycia</string>
     <!-- Themes -->
     <string name="section_title_for_pixel_roms">Dla ROM-ów Pixel</string>
@@ -434,6 +438,9 @@
     <string name="notification_transparency_desc">Włącz przezroczystość powiadomień dla motywu Fluid QS\nNie używaj niestandardowego stylu powiadomień</string>
     <string name="power_menu_transparency_title">Przezroczystość menu zasilania</string>
     <string name="power_menu_transparency_desc">Włącz przezroczystość menu zasilania dla motywu Fluid QS\nNie używaj niestandardowego stylu powiadomień</string>
+    <string name="section_title_others">Others</string>
+    <string name="fix_notification_color_title">Fix Notification Color</string>
+    <string name="fix_notification_color_desc">Fix custom notification style on android 14</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">Kafelki szybkich ustawień</string>
     <string name="vertical_qs_tile_title">Pionowe kafelki</string>
@@ -446,6 +453,8 @@
     <string name="battery_width_title">Szerokość ikony baterii</string>
     <string name="battery_height_title">Wysokość ikony baterii</string>
     <string name="battery_margin_title">Margines ikony baterii</string>
+    <string name="hide_battery_title">Hide Battery</string>
+    <string name="hide_battery_desc">Keep only charging icon and percentage</string>
     <string name="custom_charging_icon_title">Custom Charging Icon</string>
     <string name="custom_charging_icon_desc">Change charging icon to custom icon</string>
     <string name="charging_icon_style_title">Charging Icon Style</string>
@@ -471,7 +480,7 @@
     <string name="powersave_indicator_color_title">Powersave Indicator Color</string>
     <string name="powersave_indicator_color_desc">Change color of powersave indicator</string>
     <string name="custom_dimensions_title">Custom Dimensions</string>
-    <string name="custom_dimensions_desc">Set custom dimensions for the battery</string>
+    <string name="custom_dimensions_desc">Set custom dimensions for battery icon</string>
     <string name="battery_margin_left_title">Battery Margin Left</string>
     <string name="battery_margin_right_title">Battery Margin Right</string>
     <string name="battery_margin_top_title">Battery Margin Top</string>
@@ -482,6 +491,8 @@
     <string name="rotate_layout_desc">Rotate battery layout 180 degrees</string>
     <string name="hide_percentage_title">Hide Percentage</string>
     <string name="hide_percentage_desc">Hide battery percentage text</string>
+    <string name="inside_percentage_title">Inside Percentage</string>
+    <string name="inside_percentage_desc">Move percentage to inside battery icon</string>
     <string name="battery_default">Default</string>
     <string name="battery_landscape_r_default">Landscape R Default</string>
     <string name="battery_landscape_l_default">Landscape L Default</string>
@@ -527,6 +538,8 @@
     <string name="header_image_zoom_to_fit_desc">Obraz będzie domyślnie rozciągany, aby dopasować się do ustalonego rozmiaru</string>
     <string name="header_image_hide_in_landscape_title">Ukryj w trybie poziomym</string>
     <string name="header_image_hide_in_landscape_desc">Ukryj obraz w trybie poziomym</string>
+    <string name="header_image_alpha_gradient_title">Alpha Gradient</string>
+    <string name="header_image_alpha_gradient_desc">Add faded effect to the header image</string>
     <!-- Header Clock -->
     <string name="custom_header_clock_title">Niestandardowy zegar nagłówka</string>
     <string name="custom_header_clock_desc">Dodaj niestandardowy zegar w nagłówku szybkich ustawień</string>
@@ -567,6 +580,8 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Włącz głębię tapety</string>
     <string name="enable_depth_wallpaper_desc">Włącz efekt głębi tapety w stylu iOS\nWymagane używanie niestandardowego zegara na ekranie blokady</string>
+    <string name="wallpaper_fade_animation_title">Fade in AOD</string>
+    <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Obraz pierwszoplanowy</string>
     <string name="foreground_image_desc">Obraz pierwszoplanowy dla głębi tapety</string>
     <string name="background_image_title">Obraz drugoplanowy</string>
@@ -670,7 +685,7 @@
     <string name="import_settings">Importuj ustawienia</string>
     <string name="restart_sysui_title">Zrestartuj SystemUI</string>
     <string name="import_settings_confirmation_title">Czy na pewno?</string>
-    <string name="import_settings_confirmation_desc">Stracisz bieżącą konfigurację i ustawienia</string>
+    <string name="import_settings_confirmation_desc">You will lose your current setup and settings.</string>
     <!-- Xposed 3 dot menu -->
     <string name="reset_settings">Resetuj ustawienia</string>
     <string name="imported_settings">Ustawienia zaimportowane pomyślnie</string>
@@ -738,6 +753,7 @@
     <string name="toast_lorn_colored_battery">Lorn domyślnie używa kolorowej baterii</string>
     <string name="toast_plumpy_colored_battery">Plumpy domyślnie używa kolorowej baterii</string>
     <string name="toast_select_style">Najpierw wybierz styl</string>
+    <string name="toast_ksu_not_supported">KernelSU is currently not supported</string>
     <string name="toast_reboot_required">Wymagany restart</string>
     <string name="toast_lsposed_not_found">Nie znaleziono LSPosed!</string>
     <string name="toast_easter_egg">Skąd o tym wiesz?</string>
@@ -749,6 +765,7 @@
     <string name="toast_import_settings_successfull">Ustawienia zaimportowane pomyślnie</string>
     <string name="toast_export_settings_successfull">Ustawienia wyeksportowane pomyślnie</string>
     <string name="toast_selected_successfully">Wybrano pomyślnie</string>
+    <string name="toast_unavailable">Unavailable</string>
     <!-- Push Notification -->
     <string name="new_update_title">Aktualizacja Iconify</string>
     <string name="new_update_desc">Nowa wersja aplikacji jest już dostępna</string>
@@ -773,6 +790,8 @@
     <string name="icon">Ikona</string>
     <string name="section_title_media_player_icons">Ikony odtwarzacza multimedialnego</string>
     <string name="opt_selected">Wybrano:</string>
+    <string name="opt_selected1">Selected: %s</string>
+    <string name="opt_selected2">Selected: %s%s</string>
     <string name="opt_default">(Domyślnie)</string>
     <string name="loading_dialog_wait">Poczekaj</string>
     <string name="rebooting_desc">Ponowne uruchomienie za 5 sekund</string>

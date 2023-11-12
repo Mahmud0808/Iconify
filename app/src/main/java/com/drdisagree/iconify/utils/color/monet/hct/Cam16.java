@@ -21,7 +21,7 @@ import static java.lang.Math.max;
 import com.drdisagree.iconify.utils.color.monet.utils.ColorUtils;
 
 /**
- * CAM16, a color appearance model. Tweaks are not just defined by their hex code, but rather, a hex
+ * CAM16, a color appearance model. Colors are not just defined by their hex code, but rather, a hex
  * code and viewing conditions.
  *
  * <p>CAM16 instances also have coordinates in the CAM16-UCS space, called J*, a*, b*, or jstar,
@@ -294,7 +294,7 @@ public final class Cam16 {
      * astar, bstar in code. CAM16-UCS is included in the CAM16 specification, and is used to measure
      * distances between colors.
      */
-    double distance(Cam16 other) {
+    public double distance(Cam16 other) {
         double dJ = getJstar() - other.getJstar();
         double dA = getAstar() - other.getAstar();
         double dB = getBstar() - other.getBstar();

@@ -5,7 +5,7 @@
     android:id="@+id/appBarLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bottom_navbar_bg"
+    android:background="@drawable/top_appbar_bg"
     android:fitsSystemWindows="true"
     app:liftOnScroll="true">
 

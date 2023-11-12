@@ -10,12 +10,14 @@ import android.util.Log;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
+import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.File;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class OverlayCompiler {
@@ -26,28 +28,38 @@ public class OverlayCompiler {
     private static PrivateKey key = null;
     private static X509Certificate cert = null;
 
-    public static boolean runAapt(String source) {
-        String name = getOverlayName(source);
-        Shell.Result result = Shell.cmd(aapt + " p -f -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk").exec();
+    public static boolean createManifest(String overlayName, String targetPackage, String sourceDir) {
+        List<String> module = new ArrayList<>();
+        module.add("printf '" +
+                CompilerUtil.createManifestContent(overlayName, targetPackage) +
+                "' > " + sourceDir + "/AndroidManifest.xml;");
 
-        if (result.isSuccess()) {
-            Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
-        } else {
-            Log.e(TAG + " - AAPT", "Failed to build APK for " + name + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
+        Shell.Result result = Shell.cmd(String.join("\\n", module)).exec();
+
+        if (result.isSuccess())
+            Log.i(TAG + " - Manifest", "Successfully created manifest for " + overlayName);
+        else {
+            Log.e(TAG + " - Manifest", "Failed to create manifest for " + overlayName + '\n' + String.join("\n", result.getOut()));
+            writeLog(TAG + " - Manifest", "Failed to create manifest for " + overlayName, result.getOut());
         }
 
         return !result.isSuccess();
     }
 
-    public static boolean runAapt(String source, String[] splitLocations) {
-        String name = getOverlayName(source);
-        StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + Resources.COMPANION_COMPILED_DIR + '/' + name + ".zip --include-meta-data --auto-add-overlay -f -I /system/framework/framework-res.apk");
+    public static boolean runAapt(String source, String targetPackage) {
+        String name = CompilerUtil.getOverlayName(source) +
+                (source.contains("SpecialOverlays") ?
+                        ".zip" :
+                        "-unsigned-unaligned.apk");
+        String outputDir = source.contains("SpecialOverlays") ?
+                Resources.COMPANION_COMPILED_DIR :
+                Resources.UNSIGNED_UNALIGNED_DIR;
 
-        if (splitLocations != null) {
-            for (String targetApk : splitLocations) {
-                aaptCommand.append(" -I ").append(targetApk);
-            }
+        StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + outputDir + '/' + name + " -I /system/framework/framework-res.apk --include-meta-data --auto-add-overlay");
+
+        String[] splitLocations = AppUtil.getSplitLocations(targetPackage);
+        for (String targetApk : splitLocations) {
+            aaptCommand.append(" -I ").append(targetApk);
         }
 
         Shell.Result result = Shell.cmd(String.valueOf(aaptCommand)).exec();
@@ -62,7 +74,7 @@ public class OverlayCompiler {
     }
 
     public static boolean zipAlign(String source) {
-        String fileName = getOverlayName(source);
+        String fileName = CompilerUtil.getOverlayName(source);
         Shell.Result result = Shell.cmd(zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + fileName + "-unsigned.apk").exec();
 
         if (result.isSuccess())
@@ -85,7 +97,7 @@ public class OverlayCompiler {
                 cert = readCertificate(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.x509.pem"));
             }
 
-            fileName = getOverlayName(source);
+            fileName = CompilerUtil.getOverlayName(source);
             SignAPK.sign(cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + fileName + ".apk");
 
             Log.i(TAG + " - APKSigner", "Successfully signed " + fileName);
@@ -95,12 +107,5 @@ public class OverlayCompiler {
             return true;
         }
         return false;
-    }
-
-    private static String getOverlayName(String filePath) {
-        File file = new File(filePath);
-        String fileName = file.getName();
-
-        return fileName.replaceAll("IconifyComponent|-unsigned|-unaligned|.apk", "");
     }
 }

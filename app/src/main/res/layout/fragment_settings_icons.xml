@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.SettingsIcons">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                        android:id="@+id/bg_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        app:entries="@array/settings_icon_bg"
+                        app:showSelectedPrefix="false"
+                        app:titleText="@string/settings_icons_background" />
+
+                    <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                        android:id="@+id/bg_shape"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        app:entries="@array/settings_icon_shape"
+                        app:showSelectedPrefix="false"
+                        app:titleText="@string/settings_icons_shape" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                        android:id="@+id/icon_size"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        app:entries="@array/settings_icon_size"
+                        app:showSelectedPrefix="false"
+                        app:titleText="@string/settings_icons_size" />
+
+                    <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                        android:id="@+id/icon_color"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        app:entries="@array/settings_icon_color"
+                        app:showSelectedPrefix="false"
+                        app:titleText="@string/settins_icons_icon_color" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/icon_packs_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/item_background_material"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="8dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/enable_settings_icons"
+                    style="@style/Widget.MaterialButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_enable" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/disable_settings_icons"
+                    style="@style/Widget.MaterialButton.Red"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/btn_disable"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

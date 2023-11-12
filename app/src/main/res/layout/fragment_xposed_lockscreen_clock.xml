@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.XposedLockscreenClock">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/enable_lockscreen_clock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/custom_lockscreen_clock_desc"
+                app:titleText="@string/custom_lockscreen_clock_title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="22dp">
+
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/custom_lockscreen_clock_style_title"
+                    android:textColor="@color/text_color_primary" />
+
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pick_style"
+                    android:textColor="@color/text_color_secondary" />
+
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tap_to_select"
+                    android:textColor="@color/text_color_secondary" />
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/lockscreen_clock_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp" />
+
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/lockscreen_clock_preview_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/container_margin"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+
+            <com.drdisagree.iconify.ui.widgets.FilePickerWidget
+                android:id="@+id/lockscreen_clock_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:buttonText="@string/btn_pick_font"
+                app:filePickerType="font"
+                app:summaryText="@string/lockscreen_clock_font_desc"
+                app:titleText="@string/lockscreen_clock_font_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/ls_clock_custom_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/lsclock_custom_color_desc"
+                app:titleText="@string/lsclock_custom_color_title" />
+
+            <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                android:id="@+id/ls_clock_color_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/lsclock_color_picker_desc"
+                app:titleText="@string/lsclock_color_picker_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/lsclock_line_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderDefaultValue="0"
+                app:sliderStepSize="1"
+                app:sliderValue="0"
+                app:sliderValueFrom="-120"
+                app:sliderValueTo="120"
+                app:titleText="@string/lockscreen_font_line_height_title"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/ls_clock_textscaling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isDecimalFormat="true"
+                app:outputScale="10.0"
+                app:sliderDefaultValue="10"
+                app:sliderStepSize="1"
+                app:sliderValue="10"
+                app:sliderValueFrom="5"
+                app:sliderValueTo="15"
+                app:titleText="@string/lockscreen_font_text_scaling_title"
+                app:valueFormat="x" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/lsclock_top_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="100"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="600"
+                app:titleText="@string/lockscreen_clock_top_margin_title"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/lsclock_bottom_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="40"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="600"
+                app:titleText="@string/lockscreen_clock_bottom_margin_title"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/force_white_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/lockscreen_clock_white_text_desc"
+                app:titleText="@string/lockscreen_clock_white_text_title" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

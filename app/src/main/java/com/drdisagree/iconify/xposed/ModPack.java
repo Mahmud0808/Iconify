@@ -31,5 +31,5 @@ public abstract class ModPack {
 
     public abstract void updatePrefs(String... Key);
 
-    public abstract void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable;
+    public abstract void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable;
 }

@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.SystemUI.QuickSettings" parent="@*android:style/Theme.DeviceDefault.SystemUI">
-        <item name="android:colorBackground">?android:colorBackground</item>
+        <item name="@*android:textColorOnAccent">#FF000000</item>
         <item name="android:textColorPrimaryInverse">#FF000000</item>
         <item name="android:textColorSecondaryInverse">@*android:color/holo_blue_light</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:colorPrimary">@*android:color/holo_blue_light</item>
         <item name="android:colorAccent">#FFFFFFFF</item>
+        <item name="@*android:colorAccentPrimary">#FFFFFFFF</item>
+        <item name="android:colorPrimary">@*android:color/holo_blue_light</item>
         <item name="android:colorSecondary">@*android:color/holo_blue_dark</item>
-        <item name="*android:colorAccentPrimary">#FFFFFFFF</item>
+        <item name="android:colorBackground">@*android:color/system_surface_bright_light</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:itemTextAppearance">@style/Control.MenuItem</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back</item>
+        <item name="android:colorError">@*android:color/error_color_device_default_light</item>
+        <item name="darkIconTheme">@style/QSIconTheme</item>
+        <item name="isQsTheme">true</item>
+        <item name="lightIconTheme">@style/QSIconTheme</item>
+        <item name="onShadeActive">#FF000000</item>
+        <item name="onShadeActiveVariant">@*android:color/holo_blue_light</item>
+        <item name="onShadeInactive">@*android:color/system_neutral1_900</item>
+        <item name="onShadeInactiveVariant">@*android:color/system_neutral2_800</item>
+        <item name="onSurface">@*android:color/system_on_surface_light</item>
+        <item name="onSurfaceVariant">@*android:color/system_on_surface_variant_light</item>
+        <item name="outline">@*android:color/system_outline_light</item>
+        <item name="primary">@*android:color/system_primary_light</item>
+        <item name="scHigh">@*android:color/system_surface_container_high_light</item>
+        <item name="shadeActive">#FFFFFFFF</item>
+        <item name="shadeDisabled">@color/shade_disabled_light</item>
+        <item name="shadeInactive">@*android:color/system_neutral2_200</item>
+        <item name="surfaceBright">@*android:color/system_surface_bright_dark</item>
+        <item name="tertiary">@*android:color/system_tertiary_light</item>
+        <item name="underSurface">@*android:color/system_neutral1_0</item>
     </style>
+    <style name="Control" />
+    <style name="Control.MenuItem" parent="@style/Control">
+        <item name="android:textSize">@dimen/control_menu_item_text_size</item>
+        <item name="android:textColor">@color/control_primary_text</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/control_menu_item_height</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:fontFamily">@*android:string/config_headlineFontFamily</item>
+    </style>
+    <style name="QSIconTheme">
+        <item name="backgroundColor">?android:textColorHint</item>
+        <item name="fillColor">?android:textColorPrimary</item>
+        <item name="singleToneColor">?android:textColorPrimary</item>
+    </style>
+    <dimen name="control_menu_item_text_size">16.0sp</dimen>
+    <dimen name="control_menu_item_height">54.0dip</dimen>
+    <color name="control_primary_text">#e6000000</color>
 </resources>

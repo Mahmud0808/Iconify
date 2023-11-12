@@ -1,10 +1,11 @@
 package com.drdisagree.iconify.ui.activities;
 
-import static com.drdisagree.iconify.common.Const.FRAGMENT_TRANSITION_DELAY;
+import static com.drdisagree.iconify.common.Const.TRANSITION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
+import static com.drdisagree.iconify.common.Preferences.XPOSED_ONLY_MODE;
 import static com.drdisagree.iconify.utils.SystemUtil.isDarkMode;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
@@ -16,16 +17,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.window.OnBackInvokedDispatcher;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.airbnb.lottie.LottieCompositionFactory;
@@ -37,8 +38,9 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityOnboardingBinding;
 import com.drdisagree.iconify.ui.adapters.OnboardingAdapter;
+import com.drdisagree.iconify.ui.base.BaseActivity;
+import com.drdisagree.iconify.ui.dialogs.InstallationDialog;
 import com.drdisagree.iconify.ui.utils.Animatoo;
-import com.drdisagree.iconify.ui.views.InstallationDialog;
 import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.RootUtil;
@@ -46,7 +48,7 @@ import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.extension.TaskExecutor;
 import com.drdisagree.iconify.utils.helper.BackupRestore;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
-import com.drdisagree.iconify.utils.overlay.compiler.OnBoardingCompiler;
+import com.drdisagree.iconify.utils.overlay.compiler.OnboardingCompiler;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
@@ -64,9 +66,7 @@ public class Onboarding extends BaseActivity {
     private final Handler handler = new Handler(Looper.getMainLooper());
     private ActivityOnboardingBinding binding;
     private int previousPage = 0;
-    private ViewPager2 mViewPager;
     private InstallationDialog progressDialog;
-    private OnboardingAdapter mAdapter = null;
     private String logger = null, prev_log = null;
     private int selectedItemPosition = 0;
 
@@ -78,31 +78,26 @@ public class Onboarding extends BaseActivity {
 
         Prefs.putBoolean(ON_HOME_PAGE, false);
 
-        mViewPager = binding.viewPager;
-        mAdapter = new OnboardingAdapter(this, this);
-        mViewPager.setAdapter(mAdapter);
-        mViewPager.setOffscreenPageLimit(mAdapter.getItemCount());
+        OnboardingAdapter mAdapter = new OnboardingAdapter(this, this);
+        binding.viewPager.setAdapter(mAdapter);
+        binding.viewPager.setOffscreenPageLimit(mAdapter.getItemCount());
 
         // Progress dialog while installing
         progressDialog = new InstallationDialog(this);
 
-        if (savedInstanceState != null) {
-            selectedItemPosition = savedInstanceState.getInt(mData, 0);
-        }
-        mViewPager.setCurrentItem(selectedItemPosition);
+        binding.viewPager.setCurrentItem(selectedItemPosition);
 
         AtomicBoolean clickedContinue = new AtomicBoolean(false);
 
         // Skip button
-        TextView btnSkip = binding.btnSkip;
-        btnSkip.setOnClickListener(v -> {
-            int lastItemIndex = Objects.requireNonNull(mViewPager.getAdapter()).getItemCount() - 1;
-            mViewPager.setCurrentItem(lastItemIndex, true);
+        binding.btnSkip.setOnClickListener(v -> {
+            int lastItemIndex = Objects.requireNonNull(binding.viewPager.getAdapter()).getItemCount() - 1;
+            binding.viewPager.setCurrentItem(lastItemIndex, true);
             Animatoo.animateSlideLeft(this);
         });
 
         // Next button
-        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 final int duration = 200;
@@ -143,17 +138,18 @@ public class Onboarding extends BaseActivity {
                 }
 
                 if (position == 2) {
-                    btnSkip.setVisibility(View.INVISIBLE);
+                    binding.btnSkip.setVisibility(View.INVISIBLE);
                     binding.btnNextStep.setText(R.string.btn_lets_go);
                 } else {
-                    btnSkip.setVisibility(View.VISIBLE);
+                    binding.btnSkip.setVisibility(View.VISIBLE);
                     binding.btnNextStep.setText(R.string.btn_next);
                 }
 
                 if (position == 2) {
                     // Reboot button
                     if (rebootRequired) {
-                        showInfoNow(R.string.need_reboot_title, R.string.need_reboot_desc);
+                        Prefs.putBoolean(XPOSED_ONLY_MODE, false);
+                        showInfoInstant(R.string.need_reboot_title, R.string.need_reboot_desc);
                         binding.btnNextStep.setText(R.string.btn_reboot);
                         binding.btnNextStep.setTextColor(getResources().getColor(R.color.onboarding_btn_text, getTheme()));
                     }
@@ -163,36 +159,39 @@ public class Onboarding extends BaseActivity {
                         skippedInstallation = true;
                         hasErroredOut = false;
 
-                        if (RootUtil.isDeviceRooted()) {
-                            if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
-                                if (!SystemUtil.hasStoragePermission()) {
-                                    showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
-                                    Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+                        Shell.getShell(shell -> {
+                            if (RootUtil.isDeviceRooted()) {
+                                if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
+                                    if (!SystemUtil.hasStoragePermission()) {
+                                        showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
+                                        Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
-                                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                                        clickedContinue.set(true);
-                                        SystemUtil.requestStoragePermission(Onboarding.this);
-                                    }, clickedContinue.get() ? 10 : 2000);
-                                } else {
-                                    if (!ModuleUtil.moduleExists()) {
-                                        Prefs.clearAllPrefs();
-                                        RPrefs.clearAllPrefs();
-
-                                        handleInstallation();
+                                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                            clickedContinue.set(true);
+                                            SystemUtil.requestStoragePermission(Onboarding.this);
+                                        }, clickedContinue.get() ? 10 : 2000);
                                     } else {
-                                        Intent intent = new Intent(Onboarding.this, XposedMenu.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
-                                        Animatoo.animateSlideLeft(Onboarding.this);
-                                        Toast.makeText(Onboarding.this, R.string.toast_skipped_installation, Toast.LENGTH_LONG).show();
+                                        if (!ModuleUtil.moduleExists()) {
+                                            Prefs.clearAllPrefs();
+                                            RPrefs.clearAllPrefs();
+
+                                            handleInstallation();
+                                        } else {
+                                            Prefs.putBoolean(XPOSED_ONLY_MODE, true);
+                                            Intent intent = new Intent(Onboarding.this, HomePage.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            Animatoo.animateSlideLeft(Onboarding.this);
+                                            Toast.makeText(Onboarding.this, R.string.toast_skipped_installation, Toast.LENGTH_LONG).show();
+                                        }
                                     }
+                                } else {
+                                    showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
                                 }
                             } else {
-                                showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
+                                showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
                             }
-                        } else {
-                            showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
-                        }
+                        });
                         return true;
                     });
                 } else {
@@ -207,49 +206,52 @@ public class Onboarding extends BaseActivity {
             if (isClickable[0]) {
                 isClickable[0] = false;
 
-                if (getItem() > mViewPager.getChildCount()) {
+                if (binding.viewPager.getCurrentItem() > binding.viewPager.getChildCount()) {
                     skippedInstallation = false;
                     hasErroredOut = false;
 
-                    if (RootUtil.isDeviceRooted()) {
-                        if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
-                            if (!SystemUtil.hasStoragePermission()) {
-                                showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
-                                Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
+                    Shell.getShell(shell -> {
+                        if (RootUtil.isDeviceRooted()) {
+                            if (RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled()) {
+                                if (!SystemUtil.hasStoragePermission()) {
+                                    showInfo(R.string.need_storage_perm_title, R.string.need_storage_perm_desc);
+                                    Toast.makeText(Onboarding.this, R.string.toast_storage_access, Toast.LENGTH_SHORT).show();
 
-                                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                                    clickedContinue.set(true);
-                                    SystemUtil.requestStoragePermission(this);
-                                }, clickedContinue.get() ? 10 : 2000);
-                            } else {
-                                boolean moduleExists = ModuleUtil.moduleExists();
-                                boolean overlayExists = OverlayUtil.overlayExists();
-
-                                if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !moduleExists || !overlayExists) {
-                                    if (!moduleExists || !overlayExists) {
-                                        Prefs.clearAllPrefs();
-                                        RPrefs.clearAllPrefs();
-                                    }
-
-                                    handleInstallation();
+                                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                        clickedContinue.set(true);
+                                        SystemUtil.requestStoragePermission(this);
+                                    }, clickedContinue.get() ? 10 : 2000);
                                 } else {
-                                    Intent intent = new Intent(Onboarding.this, HomePage.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    Animatoo.animateSlideLeft(Onboarding.this);
+                                    boolean moduleExists = ModuleUtil.moduleExists();
+                                    boolean overlayExists = OverlayUtil.overlayExists();
+
+                                    if ((Prefs.getInt(VER_CODE) != BuildConfig.VERSION_CODE) || !moduleExists || !overlayExists) {
+                                        if (!moduleExists || !overlayExists) {
+                                            Prefs.clearAllPrefs();
+                                            RPrefs.clearAllPrefs();
+                                        }
+
+                                        handleInstallation();
+                                    } else {
+                                        Prefs.putBoolean(XPOSED_ONLY_MODE, false);
+                                        Intent intent = new Intent(Onboarding.this, HomePage.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        Animatoo.animateSlideLeft(Onboarding.this);
+                                    }
                                 }
+                            } else {
+                                showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
                             }
                         } else {
-                            showInfo(R.string.magisk_not_found_title, R.string.magisk_not_found_desc);
+                            showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
                         }
-                    } else {
-                        showInfo(R.string.root_not_found_title, R.string.root_not_found_desc);
-                    }
+                    });
                 } else {
-                    mViewPager.setCurrentItem(getItem() + 1, true);
+                    binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() + 1, true);
                 }
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> isClickable[0] = true, FRAGMENT_TRANSITION_DELAY + 50);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> isClickable[0] = true, TRANSITION_DELAY + 50);
             }
         });
 
@@ -280,20 +282,21 @@ public class Onboarding extends BaseActivity {
     }
 
     private void showInfo(int title, int desc) {
-        if (mAdapter.getCurrentFragment() instanceof com.drdisagree.iconify.ui.fragments.Onboarding) {
-            ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).animateUpdateTextView(title, desc);
+        if (getCurrentFragment() instanceof com.drdisagree.iconify.ui.fragments.Onboarding) {
+            ((com.drdisagree.iconify.ui.fragments.Onboarding) getCurrentFragment()).animateUpdateTextView(title, desc);
         }
     }
 
     @SuppressWarnings("SameParameterValue")
-    private void showInfoNow(int title, int desc) {
-        if (mAdapter.getCurrentFragment() instanceof com.drdisagree.iconify.ui.fragments.Onboarding) {
-            ((com.drdisagree.iconify.ui.fragments.Onboarding) mAdapter.getCurrentFragment()).updateTextView(title, desc);
+    private void showInfoInstant(int title, int desc) {
+        if (getCurrentFragment() instanceof com.drdisagree.iconify.ui.fragments.Onboarding) {
+            ((com.drdisagree.iconify.ui.fragments.Onboarding) getCurrentFragment()).updateTextView(title, desc);
         }
     }
 
-    private int getItem() {
-        return mViewPager.getCurrentItem();
+    private Fragment getCurrentFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        return fragmentManager.findFragmentByTag("f" + binding.viewPager.getCurrentItem());
     }
 
     private TransitionDrawable[] getWindowDrawables() {
@@ -312,15 +315,25 @@ public class Onboarding extends BaseActivity {
         return transitionDrawable;
     }
 
+    private void cancelledInstallation() {
+        Prefs.clearPref(XPOSED_ONLY_MODE);
+        Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
+        Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
+        Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
+        Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+    }
+
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-
         if (Build.VERSION.SDK_INT >= 33) {
             try {
                 getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(this::onBackPressed);
             } catch (Exception ignored) {
             }
+        }
+
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
 
         if (handler != null) {
@@ -330,34 +343,39 @@ public class Onboarding extends BaseActivity {
         if (installModule != null) {
             installModule.cancel(true);
         }
+
+        cancelledInstallation();
+
+        super.onDestroy();
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void onBackPressed() {
-        if (mViewPager.getCurrentItem() == 0) {
+        if (binding.viewPager.getCurrentItem() == 0) {
             super.onBackPressed();
         } else {
-            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
+            binding.viewPager.setCurrentItem(binding.viewPager.getCurrentItem() - 1, true);
         }
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putInt(mData, mViewPager.getCurrentItem());
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(mData, binding.viewPager.getCurrentItem());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         selectedItemPosition = savedInstanceState.getInt(mData);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        binding.btnNextStep.requestLayout();
+        if (selectedItemPosition == 2) {
+            binding.btnSkip.setVisibility(View.INVISIBLE);
+            binding.btnNextStep.setText(R.string.btn_lets_go);
+        } else {
+            binding.btnSkip.setVisibility(View.VISIBLE);
+            binding.btnNextStep.setText(R.string.btn_next);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -452,14 +470,14 @@ public class Onboarding extends BaseActivity {
                                 if (overlay.isDirectory()) {
                                     String overlay_name = overlay.toString().replace(pkg.toString() + '/', "");
 
-                                    if (OnBoardingCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
+                                    if (OnboardingCompiler.createManifest(overlay_name, pkg.toString().replace(Resources.DATA_DIR + "/Overlays/", ""), overlay.getAbsolutePath())) {
                                         hasErroredOut = true;
                                     }
 
                                     logger = "Building Overlay for " + overlay_name;
                                     publishProgress(step);
 
-                                    if (!hasErroredOut && OnBoardingCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
+                                    if (!hasErroredOut && OnboardingCompiler.runAapt(overlay.getAbsolutePath(), overlay_name)) {
                                         hasErroredOut = true;
                                     }
                                 }
@@ -489,7 +507,7 @@ public class Onboarding extends BaseActivity {
                             logger = "Zip aligning Overlay " + overlay_name.replace("-unsigned.apk", "");
                             publishProgress(step);
 
-                            if (OnBoardingCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
+                            if (OnboardingCompiler.zipAlign(overlay.getAbsolutePath(), overlay_name)) {
                                 hasErroredOut = true;
                             }
                         }
@@ -518,11 +536,11 @@ public class Onboarding extends BaseActivity {
 
                             int attempt = 3;
                             while (attempt-- != 0) {
-                                hasErroredOut = OnBoardingCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name);
+                                hasErroredOut = OnboardingCompiler.apkSigner(overlay.getAbsolutePath(), overlay_name);
 
                                 if (!hasErroredOut) break;
                                 else try {
-                                    Thread.sleep(2000);
+                                    Thread.sleep(1000);
                                 } catch (Exception ignored) {
                                 }
                             }
@@ -582,6 +600,8 @@ public class Onboarding extends BaseActivity {
                         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE);
                     }
 
+                    Prefs.putBoolean(XPOSED_ONLY_MODE, false);
+
                     if (OverlayUtil.overlayExists()) {
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             Intent intent = new Intent(Onboarding.this, HomePage.class);
@@ -598,17 +618,15 @@ public class Onboarding extends BaseActivity {
                         binding.btnNextStep.setOnLongClickListener(null);
                     }
                 } else {
-                    Intent intent = new Intent(Onboarding.this, XposedMenu.class);
+                    Prefs.putBoolean(XPOSED_ONLY_MODE, true);
+                    Intent intent = new Intent(Onboarding.this, HomePage.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     Animatoo.animateSlideLeft(Onboarding.this);
                     Toast.makeText(Onboarding.this, R.string.one_time_reboot_needed, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
-                Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+                cancelledInstallation();
                 showInfo(R.string.installation_failed_title, R.string.installation_failed_desc);
                 binding.btnNextStep.setText(R.string.btn_lets_go);
             }
@@ -626,10 +644,8 @@ public class Onboarding extends BaseActivity {
 
         @Override
         protected void onCancelled() {
-            Shell.cmd("rm -rf " + Resources.DATA_DIR).exec();
-            Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec();
-            Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec();
-            Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec();
+            super.onCancelled();
+            cancelledInstallation();
         }
     }
 }

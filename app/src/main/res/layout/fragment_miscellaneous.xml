@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.Miscellaneous">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_tablet_mode" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/tablet_landscape"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/tablet_landscape_desc"
+                app:titleText="@string/tablet_landscape_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/notch_bar_killer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/notch_bar_killer_desc"
+                app:titleText="@string/notch_bar_killer_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/tablet_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/tablet_header_desc"
+                app:titleText="@string/tablet_header_title" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_privacy_chip" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/accent_privacy_chip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/accent_privacy_chip_desc"
+                app:titleText="@string/accent_privacy_chip_title" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:id="@+id/section_title_media_player"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_media_player" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/disable_progress_wave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/disable_progress_wave_desc"
+                app:titleText="@string/disable_progress_wave_title" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

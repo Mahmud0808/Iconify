@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.NavigationBar">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_display_mode" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_fullscreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_fullscreen_desc"
+                app:titleText="@string/navbar_fullscreen_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_immersive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_immersive_desc"
+                app:titleText="@string/navbar_immersive_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_immersive_v2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_immersive_v2_desc"
+                app:titleText="@string/navbar_immersive_v2_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_immersive_v3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_immersive_v3_desc"
+                app:titleText="@string/navbar_immersive_v3_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_gcam_lag_fix"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_gcam_lag_fix_desc"
+                app:titleText="@string/navbar_gcam_lag_fix_title" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_buttons" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_hide_kb_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_hide_kb_buttons_desc"
+                app:titleText="@string/navbar_hide_kb_buttons_title" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_gesture" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_lower_sens"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_lower_sensitivity_desc"
+                app:titleText="@string/navbar_lower_sensitivity_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_disable_left_gesture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_disable_left_gesture_desc"
+                app:titleText="@string/navbar_disable_left_gesture_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_disable_right_gesture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_disable_right_gesture_desc"
+                app:titleText="@string/navbar_disable_right_gesture_title" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_pill_navigation" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_hide_pill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_hide_pill_desc"
+                app:titleText="@string/navbar_hide_pill_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/nb_monet_pill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/navbar_monet_pill_desc"
+                app:titleText="@string/navbar_monet_pill_title" />
+
+            <include
+                android:id="@+id/pill_shape"
+                layout="@layout/view_pill_shape" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

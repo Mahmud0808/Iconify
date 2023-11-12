@@ -17,6 +17,7 @@ import com.drdisagree.iconify.R;
 import com.topjohnwu.superuser.Shell;
 
 public class AppUtil {
+
     public static boolean isAppInstalled(String packageName) {
         PackageManager pm = Iconify.getAppContext().getPackageManager();
         try {
@@ -29,6 +30,16 @@ public class AppUtil {
 
     public static boolean isAppInstalledRoot(String packageName) {
         return Shell.cmd("res=$(pm path " + packageName + "); if [ ! -z \"$res\" ]; then echo \"installed\"; else echo \"not found\"; fi").exec().getOut().get(0).contains("installed");
+    }
+
+    public static int getAppUid(String packageName) {
+        PackageManager pm = Iconify.getAppContext().getPackageManager();
+        try {
+            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+            return pm.getApplicationInfo(packageName, 0).uid;
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return 0;
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -62,7 +73,11 @@ public class AppUtil {
 
     public static String[] getSplitLocations(String packageName) {
         try {
-            return new String[]{Iconify.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).sourceDir};
+            String[] splitLocations = Iconify.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).splitSourceDirs;
+            if (splitLocations == null) {
+                splitLocations = new String[]{Iconify.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).sourceDir};
+            }
+            return splitLocations;
         } catch (PackageManager.NameNotFoundException ignored) {
         }
         return new String[0];

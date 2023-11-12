@@ -1,12 +1,7 @@
 package com.drdisagree.iconify.utils.overlay.compiler;
 
-import static com.drdisagree.iconify.common.Dynamic.ZIP;
-import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
-
-import android.os.Build;
 import android.util.Log;
 
-import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.AppUtil;
 import com.drdisagree.iconify.utils.FileUtil;
@@ -19,40 +14,36 @@ import net.lingala.zip4j.ZipFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class VolumeCompiler {
 
     private static final String TAG = VolumeCompiler.class.getSimpleName();
-    private static final String zip = ZIP.getAbsolutePath();
     private static String mOverlayName = null;
 
-    public static boolean buildModule(String overlayName, String packageName) throws Exception {
+    public static boolean buildModule(String overlayName, String targetPackage) throws Exception {
         mOverlayName = overlayName;
 
-        preExecute(overlayName, packageName);
+        preExecute(overlayName, targetPackage);
 
         // Create AndroidManifest.xml and build APK using AAPT
-        String location = Resources.DATA_DIR + "/SpecialOverlays/" + packageName + '/' + overlayName;
-        File dir = new File(location);
+        String source = Resources.DATA_DIR + "/SpecialOverlays/" + targetPackage + '/' + overlayName;
+        File dir = new File(source);
 
         if (dir.isDirectory()) {
-            if (createManifest(overlayName, packageName, location)) {
+            if (OverlayCompiler.createManifest(overlayName, targetPackage, source)) {
                 Log.e(TAG, "Failed to create Manifest for " + overlayName + "! Exiting...");
                 postExecute(true);
                 return true;
             }
 
-            String[] splitLocations = AppUtil.getSplitLocations(packageName);
-            if (OverlayCompiler.runAapt(location, splitLocations)) {
+            if (OverlayCompiler.runAapt(source, targetPackage)) {
                 Log.e(TAG, "Failed to build " + overlayName + "! Exiting...");
                 postExecute(true);
                 return true;
             }
         } else {
-            Log.e(TAG, location + "is not a directory! Exiting...");
+            Log.e(TAG, source + "is not a directory! Exiting...");
             return true;
         }
 
@@ -124,27 +115,5 @@ public class VolumeCompiler {
         // Enable required overlay
         if (Objects.equals(mOverlayName, "VolumeNeumorphOutline"))
             OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-    }
-
-    private static boolean createManifest(String pkgName, String target, String source) {
-        String category = OverlayUtil.getCategory(pkgName);
-        List<String> module = new ArrayList<>();
-        module.add("printf '<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-        module.add("<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:versionName=\"v1.0\" package=\"IconifyComponent" + pkgName + ".overlay\">");
-        module.add("\\t<uses-sdk android:minSdkVersion=\"" + BuildConfig.MIN_SDK_VERSION + "\" android:targetSdkVersion=\"" + Build.VERSION.SDK_INT + "\" />");
-        module.add("\\t<overlay android:category=\"" + category + "\" android:priority=\"1\" android:targetPackage=\"" + target + "\" />");
-        module.add("\\t<application android:allowBackup=\"false\" android:hasCode=\"false\" />");
-        module.add("</manifest>' > " + source + "/AndroidManifest.xml;");
-
-        Shell.Result result = Shell.cmd(String.join("\\n", module)).exec();
-
-        if (result.isSuccess())
-            Log.i(TAG + " - Manifest", "Successfully created manifest for " + pkgName);
-        else {
-            Log.e(TAG + " - Manifest", "Failed to create manifest for " + pkgName + '\n' + String.join("\n", result.getOut()));
-            writeLog(TAG + " - Manifest", "Failed to create manifest for " + pkgName, result.getOut());
-        }
-
-        return !result.isSuccess();
     }
 }

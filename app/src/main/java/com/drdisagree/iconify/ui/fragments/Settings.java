@@ -16,6 +16,7 @@ import static com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI;
 import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
 import static com.drdisagree.iconify.utils.AppUtil.restartApplication;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.LocaleList;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,21 +39,19 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Const;
+import com.drdisagree.iconify.common.Preferences;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentSettingsBinding;
 import com.drdisagree.iconify.services.UpdateScheduler;
-import com.drdisagree.iconify.ui.activities.AppUpdates;
-import com.drdisagree.iconify.ui.activities.Changelog;
-import com.drdisagree.iconify.ui.activities.Credits;
-import com.drdisagree.iconify.ui.activities.Experimental;
-import com.drdisagree.iconify.ui.views.LoadingDialog;
-import com.drdisagree.iconify.ui.views.RadioDialog;
+import com.drdisagree.iconify.ui.base.BaseFragment;
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.utils.CacheUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.helper.ImportExport;
@@ -60,10 +60,11 @@ import com.topjohnwu.superuser.Shell;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
-public class Settings extends BaseFragment implements RadioDialog.RadioDialogListener {
+public class Settings extends BaseFragment {
 
     final double SECONDS_FOR_CLICKS = 3;
     final int NUM_CLICKS_REQUIRED = 7;
@@ -76,11 +77,11 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
                     Executors.newSingleThreadExecutor().execute(() -> {
                         try {
-                            ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
-                            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show());
+                            ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(Iconify.getAppContext().getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
+                            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show());
                         } catch (Exception exception) {
                             new Handler(Looper.getMainLooper()).post(() -> {
-                                Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 Log.e("Settings", "Error exporting settings", exception);
                             });
                         }
@@ -99,7 +100,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+                    new MaterialAlertDialogBuilder(requireContext())
                             .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                             .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
                             .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
@@ -109,20 +110,20 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
                                         Executors.newSingleThreadExecutor().execute(() -> {
                                             try {
-                                                boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
+                                                boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(Iconify.getAppContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
 
                                                 new Handler(Looper.getMainLooper()).post(() -> {
                                                     loadingDialog.hide();
 
                                                     if (success) {
-                                                        Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
                                                     } else {
-                                                        Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
                                             } catch (Exception exception) {
                                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                                    Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                     Log.e("Settings", "Error importing settings", exception);
                                                 });
                                             }
@@ -132,19 +133,18 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                             .show();
                 }
             });
-    private RadioDialog rd_app_language, rd_app_icon, rd_app_theme;
 
     public static void disableEverything() {
         Prefs.clearAllPrefs();
         RPrefs.clearAllPrefs();
 
         SystemUtil.getBootId();
-        SystemUtil.disableBlur();
+        SystemUtil.disableBlur(false);
         SystemUtil.saveVersionCode();
         Prefs.putBoolean(ON_HOME_PAGE, true);
         Prefs.putBoolean(FIRST_INSTALL, false);
 
-        Shell.cmd("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui").submit();
+        Shell.cmd("> " + MODULE_DIR + "/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done; killall com.android.systemui").submit();
     }
 
     @Override
@@ -165,45 +165,56 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         loadingDialog = new LoadingDialog(requireActivity());
 
         // Language
-        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf(Prefs.getString(APP_LANGUAGE, getResources().getConfiguration().getLocales().get(0).getLanguage()));
-        rd_app_language = new RadioDialog(requireActivity(), 0, current_language == -1 ? 0 : current_language);
-        rd_app_language.setRadioDialogListener(this);
-        binding.settingsGeneral.appLanguage.setOnClickListener(v -> rd_app_language.show(R.string.settings_app_language, R.array.locale_name, binding.settingsGeneral.selectedAppLanguage));
-        binding.settingsGeneral.selectedAppLanguage.setText(Arrays.asList(getResources().getStringArray(R.array.locale_name)).get(rd_app_language.getSelectedIndex()));
+        int current_language = Arrays.asList(getResources().getStringArray(R.array.locale_code)).indexOf("en-US");
+        LocaleList locales = getResources().getConfiguration().getLocales();
+        List<String> locale_codes = Arrays.asList(getResources().getStringArray(R.array.locale_code));
+        for (int i = 0; i < locales.size(); i++) {
+            String languageCode = locales.get(i).getLanguage();
+            String countryCode = locales.get(i).getCountry();
+            String languageFormat = languageCode + "-" + countryCode;
+
+            if (locale_codes.contains(Prefs.getString(APP_LANGUAGE, languageFormat))) {
+                current_language = locale_codes.indexOf(Prefs.getString(APP_LANGUAGE, languageFormat));
+                break;
+            }
+        }
+        binding.settingsGeneral.appLanguage.setSelectedIndex(current_language);
+        binding.settingsGeneral.appLanguage.setOnItemSelectedListener(index -> {
+            Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(index));
+            restartApplication(requireActivity());
+        });
 
         // App Icon
-        rd_app_icon = new RadioDialog(requireActivity(), 2, Prefs.getInt(APP_ICON, 0));
-        rd_app_icon.setRadioDialogListener(this);
-        binding.settingsGeneral.appIcon.setOnClickListener(v -> rd_app_icon.show(R.string.settings_app_icon, R.array.app_icon, binding.settingsGeneral.selectedAppIcon));
-        binding.settingsGeneral.selectedAppIcon.setText(Arrays.asList(getResources().getStringArray(R.array.app_icon)).get(rd_app_icon.getSelectedIndex()));
+        binding.settingsGeneral.appIcon.setSelectedIndex(Prefs.getInt(APP_ICON, 0));
+        binding.settingsGeneral.appIcon.setOnItemSelectedListener(index -> {
+            Prefs.putInt(APP_ICON, index);
+            String[] splashActivities = Iconify.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
+            changeIcon(splashActivities[index]);
+        });
 
         // App Theme
-        rd_app_theme = new RadioDialog(requireActivity(), 1, Prefs.getInt(APP_THEME, 2));
-        rd_app_theme.setRadioDialogListener(this);
-        binding.settingsGeneral.appTheme.setOnClickListener(v -> rd_app_theme.show(R.string.settings_app_theme, R.array.app_theme, binding.settingsGeneral.selectedAppTheme));
-        binding.settingsGeneral.selectedAppTheme.setText(Arrays.asList(getResources().getStringArray(R.array.app_theme)).get(rd_app_theme.getSelectedIndex()));
+        binding.settingsGeneral.appTheme.setSelectedIndex(Prefs.getInt(APP_THEME, 2));
+        binding.settingsGeneral.appTheme.setOnItemSelectedListener(index -> {
+            Prefs.putInt(APP_THEME, index);
+            restartApplication(requireActivity());
+        });
 
         // Check for update
-        binding.settingsUpdate.currentVersion.setText(getResources().getString(R.string.settings_current_version, BuildConfig.VERSION_NAME));
-        binding.settingsUpdate.checkUpdate.setOnClickListener(v -> startActivity(new Intent(requireActivity(), AppUpdates.class)));
+        binding.settingsUpdate.checkUpdate.setSummary(getResources().getString(R.string.settings_current_version, BuildConfig.VERSION_NAME));
+        binding.settingsUpdate.checkUpdate.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_settings_to_appUpdates));
 
         // Auto update
-        binding.settingsUpdate.buttonAutoUpdate.setChecked(Prefs.getBoolean(AUTO_UPDATE, true));
-        binding.settingsUpdate.buttonAutoUpdate.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.settingsUpdate.autoUpdate.setSwitchChecked(Prefs.getBoolean(AUTO_UPDATE, true));
+        binding.settingsUpdate.autoUpdate.setSwitchChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(AUTO_UPDATE, isChecked);
             UpdateScheduler.scheduleUpdates(requireContext().getApplicationContext());
-            binding.settingsUpdate.buttonAutoUpdateWifiOnly.setEnabled(isChecked);
+            binding.settingsUpdate.autoUpdateWifiOnly.setEnabled(isChecked);
         });
-        binding.settingsUpdate.autoUpdate.setOnClickListener(v -> binding.settingsUpdate.buttonAutoUpdate.toggle());
-        binding.settingsUpdate.buttonAutoUpdateWifiOnly.setEnabled(binding.settingsUpdate.buttonAutoUpdate.isChecked());
 
         // Check over wifi only
-        binding.settingsUpdate.buttonAutoUpdateWifiOnly.setChecked(Prefs.getBoolean(UPDATE_OVER_WIFI, true));
-        binding.settingsUpdate.buttonAutoUpdateWifiOnly.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(UPDATE_OVER_WIFI, isChecked));
-        binding.settingsUpdate.autoUpdateWifiOnlyContainer.setOnClickListener(v -> {
-            if (binding.settingsUpdate.buttonAutoUpdateWifiOnly.isEnabled())
-                binding.settingsUpdate.buttonAutoUpdateWifiOnly.toggle();
-        });
+        binding.settingsUpdate.autoUpdateWifiOnly.setEnabled(binding.settingsUpdate.autoUpdate.isSwitchChecked());
+        binding.settingsUpdate.autoUpdateWifiOnly.setSwitchChecked(Prefs.getBoolean(UPDATE_OVER_WIFI, true));
+        binding.settingsUpdate.autoUpdateWifiOnly.setSwitchChangeListener((buttonView, isChecked) -> Prefs.putBoolean(UPDATE_OVER_WIFI, isChecked));
 
         // Show xposed warn
         binding.settingsXposed.hideWarnMessage.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
@@ -214,6 +225,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         binding.settingsXposed.restartSystemuiBehavior.setChecked(Prefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true));
         binding.settingsXposed.restartSystemuiBehavior.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(RESTART_SYSUI_BEHAVIOR, isChecked);
+            RPrefs.putBoolean(RESTART_SYSUI_BEHAVIOR, isChecked);
             if (isChecked) {
                 binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_auto_restart_systemui));
             } else {
@@ -228,32 +240,31 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         }
 
         // Restart sysui after boot
-        binding.settingsMisc.restartSysuiAfterBoot.setChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
-        binding.settingsMisc.restartSysuiAfterBoot.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.settingsMisc.restartSysuiAfterBoot.setSwitchChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));
+        binding.settingsMisc.restartSysuiAfterBoot.setSwitchChangeListener((buttonView, isChecked) -> {
             Prefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked);
             if (isChecked) SystemUtil.enableRestartSystemuiAfterBoot();
             else SystemUtil.disableRestartSystemuiAfterBoot();
         });
-        binding.settingsMisc.restartSysuiAfterBootContainer.setOnClickListener(v -> binding.settingsMisc.restartSysuiAfterBoot.toggle());
 
         // Home page card
-        binding.settingsMisc.homePageCard.setChecked(Prefs.getBoolean(SHOW_HOME_CARD, true));
-        binding.settingsMisc.homePageCard.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_HOME_CARD, isChecked));
-        binding.settingsMisc.homePageCardContainer.setOnClickListener(v -> binding.settingsMisc.homePageCard.toggle());
+        binding.settingsMisc.homePageCard.setSwitchChecked(Prefs.getBoolean(SHOW_HOME_CARD, true));
+        binding.settingsMisc.homePageCard.setSwitchChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_HOME_CARD, isChecked));
+        binding.settingsMisc.homePageCard.setVisibility(Preferences.isXposedOnlyMode ? View.GONE : View.VISIBLE);
 
         // Clear App Cache
         binding.settingsMisc.clearCache.setOnClickListener(v -> {
             CacheUtil.clearCache(Iconify.getAppContext());
-            Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
         });
 
         // Experimental features
         binding.settingsMisc.settingsMiscTitle.setOnClickListener(v -> onEasterViewClicked());
-        binding.settingsMisc.experimentalFeatures.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Experimental.class)));
+        binding.settingsMisc.experimentalFeatures.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_settings_to_experimental));
         binding.settingsMisc.experimentalFeatures.setVisibility(Prefs.getBoolean(EASTER_EGG) ? View.VISIBLE : View.GONE);
 
         // Disable Everything
-        binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialComponents_MaterialAlertDialog)
+        binding.settingsMisc.buttonDisableEverything.setOnClickListener(v -> new MaterialAlertDialogBuilder(requireActivity())
                 .setCancelable(true)
                 .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                 .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
@@ -266,17 +277,18 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
                     Executors.newSingleThreadExecutor().execute(() -> {
                         disableEverything();
 
-                        requireActivity().runOnUiThread(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             // Hide loading dialog
                             loadingDialog.hide();
 
                             // Restart SystemUI
                             SystemUtil.restartSystemUI();
-                        }, 3000));
+                        }, 3000);
                     });
                 })
                 .setNegativeButton(getString(R.string.negative), (dialog, i) -> dialog.dismiss())
                 .show());
+        binding.settingsMisc.buttonDisableEverything.setVisibility(Preferences.isXposedOnlyMode ? View.GONE : View.VISIBLE);
 
         // Github repository
         binding.settingsAbout.githubRepository.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(Const.GITHUB_REPO))));
@@ -289,7 +301,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         });
 
         // Credits
-        binding.settingsAbout.credits.setOnClickListener(v -> startActivity(new Intent(requireActivity(), Credits.class)));
+        binding.settingsAbout.credits.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_settings_to_credits2));
 
         return view;
     }
@@ -297,12 +309,10 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
     @Override
     public void onDestroy() {
         if (loadingDialog != null) loadingDialog.hide();
-        if (rd_app_language != null) rd_app_language.dismiss();
-        if (rd_app_icon != null) rd_app_icon.dismiss();
-        if (rd_app_theme != null) rd_app_theme.dismiss();
         super.onDestroy();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
@@ -310,41 +320,20 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @SuppressWarnings("deprecation")
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemID = item.getItemId();
-
-        if (itemID == R.id.menu_changelog) {
-            Intent intent = new Intent(requireActivity(), Changelog.class);
-            startActivity(intent);
-        } else if (itemID == R.id.menu_export_settings) {
-            importExportSettings(true);
-        } else if (itemID == R.id.menu_import_settings) {
-            importExportSettings(false);
-        } else if (itemID == R.id.restart_systemui) {
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 300);
+        switch (item.getItemId()) {
+            case R.id.menu_changelog ->
+                    Navigation.findNavController(requireView()).navigate(R.id.action_settings_to_changelog2);
+            case R.id.menu_export_settings -> importExportSettings(true);
+            case R.id.menu_import_settings -> importExportSettings(false);
+            case R.id.restart_systemui ->
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 300);
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onItemSelected(int dialogId, int selectedIndex) {
-        switch (dialogId) {
-            case 0:
-                Prefs.putString(APP_LANGUAGE, Arrays.asList(getResources().getStringArray(R.array.locale_code)).get(selectedIndex));
-                restartApplication(requireActivity());
-                break;
-            case 1:
-                Prefs.putInt(APP_THEME, selectedIndex);
-                restartApplication(requireActivity());
-                break;
-            case 2:
-                Prefs.putInt(APP_ICON, selectedIndex);
-                String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
-                changeIcon(splashActivities[selectedIndex]);
-                break;
-        }
     }
 
     private void importExportSettings(boolean export) {
@@ -365,7 +354,7 @@ public class Settings extends BaseFragment implements RadioDialog.RadioDialogLis
 
     private void changeIcon(String splash) {
         PackageManager manager = requireActivity().getPackageManager();
-        String[] splashActivities = getResources().getStringArray(R.array.app_icon_identifier);
+        String[] splashActivities = Iconify.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
 
         for (String splashActivity : splashActivities) {
             manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify." + splashActivity), Objects.equals(splash, splashActivity) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);

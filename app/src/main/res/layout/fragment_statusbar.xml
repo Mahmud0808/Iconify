@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.Statusbar">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_spacing" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/sb_left_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderDefaultValue="8"
+                app:sliderStepSize="1"
+                app:sliderValue="8"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="120"
+                app:titleText="@string/sb_left_padding"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/sb_right_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderDefaultValue="8"
+                app:sliderStepSize="1"
+                app:sliderValue="8"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="120"
+                app:titleText="@string/sb_right_padding"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/sb_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderDefaultValue="28"
+                app:sliderStepSize="1"
+                app:sliderValue="28"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="240"
+                app:titleText="@string/sb_height"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_color" />
+
+            <LinearLayout
+                android:id="@+id/sb_color_tint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_background_material"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="22dp">
+
+                <TextView
+                    style="@style/TextAppearance.Material3.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sb_color_tint_title"
+                    android:textColor="@color/text_color_primary" />
+
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sb_color_tint_desc"
+                    android:textColor="@color/text_color_secondary" />
+
+                <RadioGroup
+                    android:id="@+id/sb_tint_source_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <RadioButton
+                        android:id="@+id/sb_tint_system"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/sb_tint_system"
+                        android:textAlignment="viewStart" />
+
+                    <RadioButton
+                        android:id="@+id/sb_tint_monet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sb_tint_monet"
+                        android:textAlignment="viewStart" />
+
+                    <RadioButton
+                        android:id="@+id/sb_tint_custom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sb_tint_custom"
+                        android:textAlignment="viewStart" />
+
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

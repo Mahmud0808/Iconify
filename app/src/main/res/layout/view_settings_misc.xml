@@ -3,262 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.google.android.material.textview.MaterialTextView
+    <com.drdisagree.iconify.ui.widgets.TitleWidget
         android:id="@+id/settings_misc_title"
-        style="@style/TextAppearance.Material3.TitleMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/settings_section_title_miscellaneous"
-        android:textColor="?attr/colorPrimary" />
-
-    <RelativeLayout
-        android:id="@+id/restart_sysui_after_boot_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:iconSpaceReserved="true"
+        app:titleText="@string/settings_section_title_miscellaneous" />
 
-        <ImageView
-            android:id="@+id/settings_iv_restart_sysui_after_boot"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_restart_systemui_after_boot"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/restart_sysui_after_boot"
-            android:layout_toEndOf="@id/settings_iv_restart_sysui_after_boot"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_restart_systemui_after_boot_title"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_restart_systemui_after_boot_desc"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/restart_sysui_after_boot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="24dp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/home_page_card_container"
+    <com.drdisagree.iconify.ui.widgets.SwitchWidget
+        android:id="@+id/restart_sysui_after_boot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:icon="@drawable/ic_restart_systemui_after_boot"
+        app:summaryText="@string/settings_restart_systemui_after_boot_desc"
+        app:titleText="@string/settings_restart_systemui_after_boot_title" />
 
-        <ImageView
-            android:id="@+id/settings_iv_home_page_card"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_card"
-            app:tint="?attr/colorPrimary" />
+    <com.drdisagree.iconify.ui.widgets.SwitchWidget
+        android:id="@+id/home_page_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_card"
+        app:summaryText="@string/settings_show_home_page_card_desc"
+        app:titleText="@string/settings_show_home_page_card_title" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/home_page_card"
-            android:layout_toEndOf="@id/settings_iv_home_page_card"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_show_home_page_card_title"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_show_home_page_card_desc"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/home_page_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="24dp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.drdisagree.iconify.ui.widgets.MenuWidget
         android:id="@+id/clear_cache"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:icon="@drawable/ic_clear_cache"
+        app:summaryText="@string/settings_clear_app_cache_desc"
+        app:titleText="@string/settings_clear_app_cache_title" />
 
-        <ImageView
-            android:id="@+id/settings_iv_clear_cache"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_clear_cache"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@id/settings_iv_clear_cache"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_clear_app_cache_title"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_clear_app_cache_desc"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.drdisagree.iconify.ui.widgets.MenuWidget
         android:id="@+id/experimental_features"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:icon="@drawable/ic_experimental"
+        app:summaryText="@string/activity_desc_experimental"
+        app:titleText="@string/experimental_features_title" />
 
-        <ImageView
-            android:id="@+id/settings_iv_experimental"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_experimental"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@id/settings_iv_experimental"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/experimental_features_title"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_desc_experimental"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.drdisagree.iconify.ui.widgets.MenuWidget
         android:id="@+id/button_disableEverything"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:icon="@drawable/ic_disable_everything"
+        app:summaryText="@string/settings_disable_everything_desc"
+        app:titleText="@string/settings_disable_everything_title" />
 
-        <ImageView
-            android:id="@+id/settings_iv_disable_everything"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_disable_everything"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@id/settings_iv_disable_everything"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_disable_everything_title"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_disable_everything_desc"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-    </RelativeLayout>
 </LinearLayout>

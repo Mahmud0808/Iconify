@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.common;
 
+import com.drdisagree.iconify.BuildConfig;
+
 public class References {
 
     // Fabricated overlays
@@ -21,19 +23,10 @@ public class References {
     public static final String FABRICATED_SB_HEIGHT = "sbTotalHeight";
     public static final String FABRICATED_SB_COLOR_SOURCE = "colorSBSource";
     public static final String FABRICATED_SB_COLOR_TINT = "colorSBTint";
-    public static final String FABRICATED_QSPANEL_BLUR_RADIUS = "qsBlurRadius";
-    public static final String FABRICATED_VOLUME_DIALOG_SLIDER_WIDTH = "volumeDialogSliderWidth";
-    public static final String FABRICATED_VOLUME_DIALOG_TRACK_WIDTH = "volumeDialogTrackWidth";
-    public static final String FABRICATED_ROUNDED_SLIDER_TRACK_INSET = "roundedSliderTrackInset";
-    public static final String FABRICATED_PILL_SHAPE_SWITCH = "navigationPillShapeSwitch";
     public static final String FABRICATED_PILL_WIDTH = "navigationPillWidth";
     public static final String FABRICATED_PILL_THICKNESS = "navigationPillThickness";
     public static final String FABRICATED_PILL_BOTTOM_SPACE = "navigationPillBottomSpace";
-    public static final String FABRICATED_QQS_TOPMARGIN = "qqspanelTopMargin";
-    public static final String FABRICATED_QS_TOPMARGIN = "qspanelTopMargin";
     public static final String FABRICATED_TABLET_HEADER = "qspanelTabletHeader";
-    public static final String FABRICATED_MUSIC_AMPLITUDE = "musicProgressAmplitude";
-    public static final String FABRICATED_MUSIC_PHASE = "musicProgressPhase";
 
     // Commands
     public static final String DEVICE_BOOT_ID_CMD = "cat /proc/sys/kernel/random/boot_id";
@@ -41,11 +34,12 @@ public class References {
     // Notification service checker
     public static boolean isNotificationServiceRunning = false;
 
-    // Fragment Tags
-    public static String FRAGMENT_HOME = "fragment_home";
-    public static String FRAGMENT_TWEAKS = "fragment_tweaks";
-    public static String FRAGMENT_SETTINGS = "fragment_settings";
-    public static String FRAGMENT_COLORENGINE = "fragment_colorengine";
-    public static String FRAGMENT_QSPANEL = "fragment_qspanel";
-    public static String FRAGMENT_XPOSEDMENU = "fragment_xposedmenu";
+    // Overlay metadata
+    public static final String METADATA_OVERLAY_PARENT = "OVERLAY_PARENT";
+    public static final String METADATA_OVERLAY_TARGET = "OVERLAY_TARGET";
+    public static final String METADATA_THEME_VERSION = "THEME_VERSION";
+    public static final String METADATA_THEME_CATEGORY = "THEME_CATEGORY";
+
+    // Overlay categories
+    public static final String OVERLAY_CATEGORY_PREFIX = BuildConfig.APPLICATION_ID.replace(".debug", "") + ".category.";
 }

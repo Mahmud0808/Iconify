@@ -6,15 +6,7 @@ import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIG
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
-import static com.drdisagree.iconify.common.Preferences.LAND_QQS_TOP_MARGIN;
-import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_EXPANDED_HEIGHT;
-import static com.drdisagree.iconify.common.Preferences.LAND_QSTILE_NONEXPANDED_HEIGHT;
-import static com.drdisagree.iconify.common.Preferences.LAND_QS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
-import static com.drdisagree.iconify.common.Preferences.PORT_QQS_TOP_MARGIN;
-import static com.drdisagree.iconify.common.Preferences.PORT_QSTILE_EXPANDED_HEIGHT;
-import static com.drdisagree.iconify.common.Preferences.PORT_QSTILE_NONEXPANDED_HEIGHT;
-import static com.drdisagree.iconify.common.Preferences.PORT_QS_TOP_MARGIN;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR;
@@ -36,14 +28,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.common.Resources;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.color.ColorUtil;
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
-import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler;
 import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler;
 import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler;
 import com.drdisagree.iconify.utils.overlay.manager.MonetEngineManager;
-import com.drdisagree.iconify.utils.overlay.manager.QsMarginManager;
-import com.drdisagree.iconify.utils.overlay.manager.QsTileHeightManager;
 import com.drdisagree.iconify.utils.overlay.manager.RoundnessManager;
 import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager;
 import com.topjohnwu.superuser.Shell;
@@ -61,19 +52,11 @@ import java.util.Set;
 
 public class ImportExport {
 
-    public static void exportSettings(SharedPreferences preferences, final @NonNull OutputStream outputStream) throws IOException {
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            objectOutputStream = new ObjectOutputStream(outputStream);
+    public static void exportSettings(SharedPreferences preferences, final @NonNull OutputStream outputStream) {
+        try (outputStream; ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
             objectOutputStream.writeObject(preferences.getAll());
-            objectOutputStream.close();
         } catch (IOException ioException) {
             Log.e("ExportSettings", "Error serializing preferences", ioException);
-        } finally {
-            if (objectOutputStream != null) {
-                objectOutputStream.close();
-            }
-            outputStream.close();
         }
     }
 
@@ -119,16 +102,17 @@ public class ImportExport {
 
         if (restoreOverlays) {
             List<String> commands = new ArrayList<>();
-            commands.add("> " + MODULE_DIR + "/common/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done");
+            commands.add("> " + MODULE_DIR + "/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done");
 
             SystemUtil.getBootId();
-            SystemUtil.disableBlur();
+            SystemUtil.disableBlur(false);
             SystemUtil.saveVersionCode();
             editor.putBoolean(ON_HOME_PAGE, true);
             editor.putBoolean(FIRST_INSTALL, false);
             editor.putBoolean(QSPANEL_BLUR_SWITCH, false);
 
-            boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false, me = false, qsth = false, hsize = false;
+            boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false,
+                    me = false, dynamic = false;
 
             for (Map.Entry<String, Object> item : map.entrySet()) {
                 if (item.getValue() instanceof Boolean) {
@@ -217,29 +201,12 @@ public class ImportExport {
                                 } catch (Exception exception) {
                                     Log.e("ImportSettings", "Error building Monet Engine", exception);
                                 }
-                            } else if (item.getKey().contains("IconifyComponentQSTH") && !qsth) { // QS Tile Size
-                                qsth = true;
+                            } else if (item.getKey().contains("IconifyComponentDynamic") && !dynamic) { // Dynamic overlays
+                                dynamic = true;
                                 try {
-                                    int pneh = (int) Objects.requireNonNull(map.get(PORT_QSTILE_NONEXPANDED_HEIGHT));
-                                    int peh = (int) Objects.requireNonNull(map.get(PORT_QSTILE_EXPANDED_HEIGHT));
-                                    int lneh = (int) Objects.requireNonNull(map.get(LAND_QSTILE_NONEXPANDED_HEIGHT));
-                                    int leh = (int) Objects.requireNonNull(map.get(LAND_QSTILE_EXPANDED_HEIGHT));
-
-                                    QsTileHeightManager.buildOverlay(pneh, peh, lneh, leh, false);
+                                    DynamicCompiler.buildOverlay(false);
                                 } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building QS Tile Size", exception);
-                                }
-                            } else if (item.getKey().contains("IconifyComponentHSIZE") && !hsize) { // QS Header Size
-                                hsize = true;
-                                try {
-                                    int pqqs = (int) Objects.requireNonNull(map.get(PORT_QQS_TOP_MARGIN));
-                                    int pqs = (int) Objects.requireNonNull(map.get(PORT_QS_TOP_MARGIN));
-                                    int lqqs = (int) Objects.requireNonNull(map.get(LAND_QQS_TOP_MARGIN));
-                                    int lqs = (int) Objects.requireNonNull(map.get(LAND_QS_TOP_MARGIN));
-
-                                    QsMarginManager.buildOverlay(pqqs, pqs, lqqs, lqs, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building QS Header Size", exception);
+                                    Log.e("ImportSettings", "Error building dynamic overlays", exception);
                                 }
                             }
                         } else if (item.getKey().startsWith("fabricated")) { // Handling fabricated overlays
@@ -296,10 +263,10 @@ public class ImportExport {
             }
 
             // Copy overlay APK files
-            commands.add("find " + Resources.BACKUP_DIR + " -name \"*.apk\" -exec cp {} " + Resources.DATA_DIR + " \\; ");
+            commands.add("find " + Resources.BACKUP_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.DATA_DIR + " \\; ");
 
             // Change permissions for copied overlay APKs
-            commands.add("find " + Resources.DATA_DIR + " -name \"*.apk\" -exec chmod 644 {} \\; ");
+            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ");
 
             // Install overlay APKs
             commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do pm install -r \"$file\"; done");
@@ -311,7 +278,7 @@ public class ImportExport {
             commands.add("mount -o remount,rw /");
 
             // Copy overlay APKs to system overlay
-            commands.add("find " + Resources.DATA_DIR + " -name \"*.apk\" -exec cp {} " + Resources.SYSTEM_OVERLAY_DIR + " \\; ");
+            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.SYSTEM_OVERLAY_DIR + " \\; ");
 
             // Change permissions for copied overlay APKs in system overlay
             commands.add("find " + Resources.SYSTEM_OVERLAY_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ");

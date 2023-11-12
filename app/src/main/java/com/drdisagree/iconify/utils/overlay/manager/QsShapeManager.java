@@ -14,6 +14,25 @@ public class QsShapeManager {
         if (!OverlayUtil.isOverlayEnabled("IconifyComponentCR1.overlay") || !OverlayUtil.isOverlayEnabled("IconifyComponentCR2.overlay")) {
             OverlayUtil.enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay");
         }
+
+        OverlayUtil.changeOverlayState(
+                "IconifyComponentQSNT1.overlay",
+                !OverlayUtil.isOverlayEnabled("IconifyComponentQSNT1.overlay"),
+                "IconifyComponentQSNT1.overlay",
+                OverlayUtil.isOverlayEnabled("IconifyComponentQSNT1.overlay"),
+                "IconifyComponentQSNT2.overlay",
+                !OverlayUtil.isOverlayEnabled("IconifyComponentQSNT2.overlay"),
+                "IconifyComponentQSNT2.overlay",
+                OverlayUtil.isOverlayEnabled("IconifyComponentQSNT2.overlay"),
+                "IconifyComponentQSNT3.overlay",
+                !OverlayUtil.isOverlayEnabled("IconifyComponentQSNT3.overlay"),
+                "IconifyComponentQSNT3.overlay",
+                OverlayUtil.isOverlayEnabled("IconifyComponentQSNT3.overlay"),
+                "IconifyComponentQSNT4.overlay",
+                !OverlayUtil.isOverlayEnabled("IconifyComponentQSNT4.overlay"),
+                "IconifyComponentQSNT4.overlay",
+                OverlayUtil.isOverlayEnabled("IconifyComponentQSNT4.overlay")
+        );
     }
 
     public static void disableOverlay(int n) {
@@ -23,6 +42,7 @@ public class QsShapeManager {
     private static void disable_others(int n) {
         for (int i = 1; i <= TOTAL_QSSHAPES; i++) {
             Prefs.putBoolean("IconifyComponentQSSN" + i + ".overlay", i == n);
+            Prefs.putBoolean("IconifyComponentQSSP" + i + ".overlay", false);
         }
     }
 }

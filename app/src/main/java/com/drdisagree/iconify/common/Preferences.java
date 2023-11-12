@@ -1,8 +1,13 @@
 package com.drdisagree.iconify.common;
 
+import static com.drdisagree.iconify.SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING;
+
+import com.drdisagree.iconify.config.Prefs;
+
 public class Preferences {
 
     // Xposed mods
+    public static final String FORCE_RELOAD_OVERLAY_STATE = "xposed_force_reload_overlay_state";
     public static final String QS_TRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String NOTIF_TRANSPARENCY_SWITCH = "xposed_notiftransparency";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
@@ -57,9 +62,10 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_STYLE = "xposed_custombatterystyle";
     public static final String CUSTOM_BATTERY_WIDTH = "xposed_custombatterywidth";
     public static final String CUSTOM_BATTERY_HEIGHT = "xposed_custombatteryheight";
-    public static final String HEADER_QQS_TOPMARGIN = "qqspanelTopMargin";
     public static final String HIDE_DATA_DISABLED_ICON = "xposed_hideDataDisabledIcon";
     public static final String DEPTH_WALLPAPER_SWITCH = "xposed_depthwallpaper";
+    public static final String DEPTH_WALLPAPER_FADE_ANIMATION = "xposed_depthwallpaperfadeanimation";
+    public static final String DEPTH_WALLPAPER_CHANGED = "xposed_depthwallpaperchanged";
     public static final String UNZOOM_DEPTH_WALLPAPER = "xposed_unzoomdepthwallpaper";
     public static final String CUSTOM_BATTERY_LAYOUT_REVERSE = "xposed_custombatterylayoutreverse";
     public static final String CUSTOM_BATTERY_DIMENSION = "xposed_custombatterydimension";
@@ -83,6 +89,12 @@ public class Preferences {
     public static final String CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT = "xposed_custombatterychargingiconmarginright";
     public static final String CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT = "xposed_custombatterychargingiconwidthheight";
     public static final String CUSTOM_BATTERY_HIDE_PERCENTAGE = "xposed_custombatteryhidepercentage";
+    public static final String CUSTOM_BATTERY_INSIDE_PERCENTAGE = "xposed_custombatteryinsidepercentage";
+    public static final String CUSTOM_BATTERY_HIDE_BATTERY = "xposed_custombatteryhidebattery";
+    public static final String BLUR_RADIUS_VALUE = "xposed_blurradiusvalue";
+    public static final String QQS_TOPMARGIN = "xposed_qqspanelTopMargin";
+    public static final String QS_TOPMARGIN = "xposed_qspanelTopMargin";
+    public static final String FIX_NOTIFICATION_COLOR = "xposed_fixnotificationcolor";
 
     // Xposed view tags
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";
@@ -127,6 +139,9 @@ public class Preferences {
     public static final int BATTERY_STYLE_LANDSCAPE_BATTERYN = 33;
     public static final int BATTERY_STYLE_LANDSCAPE_BATTERYO = 34;
 
+    // Xposed force reload overlay
+    public static final String FORCE_RELOAD_PACKAGE_NAME = "com.android.internal.display.cutout.emulation.corner";
+
     // Preference keys
     public static final String STR_NULL = "null";
     public static final String UPDATE_SCHEDULE = "iconify_update_schedule";
@@ -145,6 +160,7 @@ public class Preferences {
     public static final String QS_ROW_COLUMN_SWITCH = "fabricatedqsRowColumn";
     public static final String MONET_ENGINE_SWITCH = "customMonet";
     public static final String QSPANEL_BLUR_SWITCH = "qsBlurSwitch";
+    public static final String AGGRESSIVE_QSPANEL_BLUR_SWITCH = "aggressiveQsBlurSwitch";
     public static final String UI_CORNER_RADIUS = "uiCornerRadius";
     public static final String MONET_STYLE = "customMonetStyle";
     public static final String MONET_PRIMARY_COLOR = "monetPrimaryColor";
@@ -178,6 +194,21 @@ public class Preferences {
     public static final String PORT_QS_TOP_MARGIN = "portraitQsTopMargin";
     public static final String LAND_QQS_TOP_MARGIN = "landscapeQqsTopMargin";
     public static final String LAND_QS_TOP_MARGIN = "landscapeQsTopMargin";
+    public static final String DYNAMIC_OVERLAY_RESOURCES = "dynamicOverlayResources";
+    public static final String DYNAMIC_OVERLAY_RESOURCES_NIGHT = "dynamicOverlayResourcesNight";
+    public static final String DYNAMIC_OVERLAY_RESOURCES_LAND = "dynamicOverlayResourcesLand";
+    public static final String QS_HIDE_LABEL_SWITCH = "qsHideLabelSwitch";
+    public static final String PROGRESS_WAVE_ANIMATION_SWITCH = "progressWaveAnimationSwitch";
+    public static final String NOTCH_BAR_KILLER_SWITCH = "notchBarKillerSwitch";
+    public static final String TABLET_LANDSCAPE_SWITCH = "tabletLandscapeSwitch";
+    public static final String PILL_SHAPE_SWITCH = "navigationPillShapeSwitch";
+    public static final String NAVBAR_FULL_SCREEN = "navbarfullscreen";
+    public static final String NAVBAR_IMMERSIVE_V1 = "navbarimmersivev1";
+    public static final String NAVBAR_IMMERSIVE_V2 = "navbarimmersivev2";
+    public static final String NAVBAR_IMMERSIVE_V3 = "navbarimmersivev3";
+    public static final String NAVBAR_GCAM_LAG_FIX = "navbargcamlagfix";
+    public static final String NAVBAR_LOW_SENS = "navbarlowsens";
+    public static final String NAVBAR_HIDE_PILL = "navbarhidepill";
 
     // Settings
     public static final String APP_LANGUAGE = "IconifyAppLanguage";
@@ -188,6 +219,9 @@ public class Preferences {
     public static final String SHOW_XPOSED_WARN = "IconifyShowXposedWarn";
     public static final String SHOW_HOME_CARD = "IconifyShowHomeCard";
     public static final String RESTART_SYSUI_BEHAVIOR = "IconifyRestartSysuiBehavior";
+    public static final String XPOSED_ONLY_MODE = "IconifyXposedOnlyMode";
+    public static boolean isXposedOnlyMode = Prefs.getBoolean(XPOSED_ONLY_MODE, true) &&
+            !SKIP_TO_HOMEPAGE_FOR_TESTING;
 
     // Others
     public static final String BOOT_ID = "boot_id";

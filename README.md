@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png" width="100%" alt="Banner">
   
-  # v6.5.1 is out!
+  # v6.6.0 is out!
 </div>
 <p align="center">
   <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
@@ -48,8 +48,12 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 > 
 > `OVERLAY_MODE=1`
 > `DO_UNMOUNT_KSU=true`
+>
+> Note: If one of the above variable doesn't exist, skip that particular variable.
+> 
+> If the customizations are still not taking effect, ensure that SystemUI has been granted root permission. After granting root access, reboot your device for the changes to take effect.
 
-# 👨‍💻 Installation 
+# 👨‍💻 Installation
 
 1. Go to [Releases](https://github.com/Mahmud0808/Iconify/releases) section.
 
@@ -110,7 +114,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - Where can I make a donation?
   - The preferred and designated means for donating to the project's developer is via the "[Buy me a coffee](https://www.buymeacoffee.com/DrDisagree)" page.
 
-# ❤ Credits 
+# ❤ Credits
 
 ### Thanks to:
 
@@ -130,6 +134,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - Arabic [@MRX7014](https://github.com/mrx7014), [@Mohamed Bahaa](https://github.com/muhammadbahaa2001)
 - French [@MXC48](https://github.com/MXC48)
 - Indonesian [@KaeruShi](https://github.com/KaeruShi)
+- Italian [@Danilo Belmonte](https://crowdin.com/profile/steve.burnside)
 - Persian [@Faceless1999](https://github.com/Faceless1999)
 - Polish [@SK00RUPA](https://github.com/SK00RUPA)
 - Portuguese [@ElTifo](https://github.com/ElTifo)
@@ -144,4 +149,3 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - Please note that Iconify may not be fully compatible with all custom ROMs. It is discouraged to use on heavily modified ROMs.
 - I cannot be held responsible for any potential damage or issues that may occur to your device while using Iconify.
 - It is highly recommended to have a custom recovery installed on your device to revert any changes in case of unexpected problems.
-- The use of PremadeOverlays involves the inclusion of embedded APKs to expedite overlay compilation. For the source code, [click here](https://github.com/Mahmud0808/Iconify/blob/beta/app/src/main/assets/PremadeOverlays/cheatsheet).

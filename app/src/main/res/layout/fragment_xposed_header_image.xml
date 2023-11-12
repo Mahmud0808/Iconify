@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.XposedHeaderImage">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <com.drdisagree.iconify.ui.widgets.FilePickerWidget
+                android:id="@+id/header_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:buttonText="@string/btn_pick_image"
+                app:filePickerType="image"
+                app:summaryText="@string/header_image_desc"
+                app:titleText="@string/header_image_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/header_image_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="140"
+                app:sliderValueFrom="40"
+                app:sliderValueTo="400"
+                app:titleText="@string/header_image_height_title"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/header_image_alpha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="100"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="100"
+                app:titleText="@string/header_image_alpha"
+                app:valueFormat="%" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/zoom_to_fit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/header_image_zoom_to_fit_desc"
+                app:titleText="@string/header_image_zoom_to_fit_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_in_landscape"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isChecked="true"
+                app:summaryText="@string/header_image_hide_in_landscape_desc"
+                app:titleText="@string/header_image_hide_in_landscape_title" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.ColoredBattery">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/enable_colored_battery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/enable_colored_battery_desc"
+                app:titleText="@string/enable_colored_battery_title" />
+
+            <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                android:id="@+id/battery_background_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/battery_background_color_desc"
+                app:titleText="@string/battery_background_color_title" />
+
+            <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                android:id="@+id/battery_filled_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/battery_filled_color_desc"
+                app:titleText="@string/battery_filled_color_title" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.MonetEngine">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="120dp"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                    android:id="@+id/accurate_shades"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:summaryText="@string/accurate_shades_desc"
+                    app:titleText="@string/accurate_shades_title" />
+
+                <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                    android:id="@+id/color_accent_primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:previewColor="@android:color/holo_blue_light"
+                    app:summaryText="@string/primary_color_desc"
+                    app:titleText="@string/primary_color" />
+
+                <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                    android:id="@+id/color_accent_secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:previewColor="@android:color/holo_blue_dark"
+                    app:summaryText="@string/secondary_color_desc"
+                    app:titleText="@string/secondary_color" />
+
+                <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                    android:id="@+id/monet_styles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:entries="@array/monet_style"
+                    app:titleText="@string/monet_style_title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/item_background_material"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="12dp">
+
+                    <include
+                        android:id="@+id/monet_engine"
+                        layout="@layout/view_color_table" />
+
+                </LinearLayout>
+
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/primary_accent_saturation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sliderDefaultValue="0"
+                    app:sliderStepSize="1"
+                    app:sliderValue="0"
+                    app:sliderValueFrom="-100"
+                    app:sliderValueTo="100"
+                    app:titleText="@string/monet_primary_accent_saturation_title"
+                    app:valueFormat="%" />
+
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/secondary_accent_saturation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sliderDefaultValue="0"
+                    app:sliderStepSize="1"
+                    app:sliderValue="0"
+                    app:sliderValueFrom="-100"
+                    app:sliderValueTo="100"
+                    app:titleText="@string/monet_secondary_accent_saturation_title"
+                    app:valueFormat="%" />
+
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/background_saturation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sliderDefaultValue="0"
+                    app:sliderStepSize="1"
+                    app:sliderValue="0"
+                    app:sliderValueFrom="-100"
+                    app:sliderValueTo="100"
+                    app:titleText="@string/monet_background_saturation_title"
+                    app:valueFormat="%" />
+
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/background_lightness"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sliderDefaultValue="0"
+                    app:sliderStepSize="1"
+                    app:sliderValue="0"
+                    app:sliderValueFrom="-100"
+                    app:sliderValueTo="100"
+                    app:titleText="@string/monet_background_lightness_title"
+                    app:valueFormat="%" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_menu"
+            style="@style/Widget.Material3.FloatingActionButton.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="48dp"
+            android:contentDescription="@string/icon"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_actions" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/enable_custom_monet"
+            style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/btn_apply"
+            android:textColor="?attr/colorOnPrimary"
+            app:backgroundTint="?attr/colorPrimary"
+            app:icon="@drawable/ic_tick"
+            app:iconTint="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toTopOf="@id/floating_action_menu"
+            app:layout_constraintEnd_toEndOf="@id/floating_action_menu" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/disable_custom_monet"
+            style="@style/Widget.Material3.ExtendedFloatingActionButton.Icon.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/btn_disable"
+            android:textColor="?attr/colorOnError"
+            app:backgroundTint="?attr/colorError"
+            app:icon="@drawable/ic_cancel"
+            app:iconTint="?attr/colorOnError"
+            app:layout_constraintBottom_toTopOf="@+id/enable_custom_monet"
+            app:layout_constraintEnd_toEndOf="@+id/enable_custom_monet" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

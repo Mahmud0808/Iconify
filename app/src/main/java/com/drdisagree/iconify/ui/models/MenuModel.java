@@ -2,24 +2,24 @@ package com.drdisagree.iconify.ui.models;
 
 public class MenuModel {
 
-    private Class<?> aClass;
+    private int id;
     private String title;
     private String desc;
     private int icon;
 
-    public MenuModel(Class<?> aClass, String title, String desc, int icon) {
-        this.aClass = aClass;
+    public MenuModel(int id, String title, String desc, int icon) {
+        this.id = id;
         this.title = title;
         this.desc = desc;
         this.icon = icon;
     }
 
-    public Class<?> getaClass() {
-        return aClass;
+    public int getId() {
+        return id;
     }
 
-    public void setaClass(Class<?> aClass) {
-        this.aClass = aClass;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

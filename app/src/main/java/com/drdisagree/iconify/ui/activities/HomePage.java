@@ -1,39 +1,45 @@
 package com.drdisagree.iconify.ui.activities;
 
+import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
+import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
-import static com.drdisagree.iconify.common.References.FRAGMENT_HOME;
-import static com.drdisagree.iconify.common.References.FRAGMENT_SETTINGS;
-import static com.drdisagree.iconify.common.References.FRAGMENT_TWEAKS;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.Preferences;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
-import com.drdisagree.iconify.services.UpdateScheduler;
-import com.drdisagree.iconify.ui.fragments.Home;
-import com.drdisagree.iconify.ui.fragments.Settings;
-import com.drdisagree.iconify.ui.fragments.Tweaks;
-import com.drdisagree.iconify.ui.utils.FragmentHelper;
+import com.drdisagree.iconify.ui.base.BaseActivity;
+import com.drdisagree.iconify.ui.events.ColorDismissedEvent;
+import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
+import com.topjohnwu.superuser.Shell;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
-import java.util.Objects;
 
-public class HomePage extends BaseActivity {
+public class HomePage extends BaseActivity implements ColorPickerDialogListener {
 
     private static final String mData = "mDataKey";
     private ActivityHomePageBinding binding;
     private Integer selectedFragment = null;
+    private ColorPickerDialog.Builder colorPickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,28 +47,15 @@ public class HomePage extends BaseActivity {
         binding = ActivityHomePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Setup navigation
+        setupNavigation();
+
         Prefs.putBoolean(ON_HOME_PAGE, true);
 
-        if (savedInstanceState == null) {
-            replaceFragment(new Home(), FRAGMENT_HOME);
-        }
+        new Thread(() -> {
+            // Clear lottie cache
+            LottieCompositionFactory.clearCache(this);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.addOnBackStackChangedListener(() -> {
-            if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_HOME))
-                binding.bottomNavigation.getMenu().getItem(0).setChecked(true);
-            else if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_TWEAKS))
-                binding.bottomNavigation.getMenu().getItem(1).setChecked(true);
-            else if (Objects.equals(FragmentHelper.getTopFragment(fragmentManager), FRAGMENT_SETTINGS))
-                binding.bottomNavigation.getMenu().getItem(2).setChecked(true);
-        });
-
-        binding.bottomNavigation.setOnItemSelectedListener(item -> {
-            setFragment(item.getItemId());
-            return true;
-        });
-
-        Runnable runnable1 = () -> {
             // Get list of enabled overlays
             List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
             for (String overlay : EnabledOverlays)
@@ -74,64 +67,91 @@ public class HomePage extends BaseActivity {
 
             Prefs.putBoolean(MONET_ENGINE_SWITCH, EnabledOverlays.contains("IconifyComponentME.overlay"));
 
-            // Clear lottie cache
-            LottieCompositionFactory.clearCache(this);
-        };
-        Thread thread1 = new Thread(runnable1);
-        thread1.start();
+            boolean state = Shell.cmd("[[ $(cmd overlay list | grep -o '\\[x\\] " + FORCE_RELOAD_PACKAGE_NAME + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
+            RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state);
+        }).start();
 
-        UpdateScheduler.scheduleUpdates(getApplicationContext());
+        colorPickerDialog = ColorPickerDialog.newBuilder();
     }
 
-    private void replaceFragment(Fragment fragment, String tag) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in, R.anim.fragment_fade_out);
-        fragmentTransaction.replace(R.id.main_fragment, fragment, tag);
-        if (Objects.equals(tag, FRAGMENT_HOME))
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        else if (Objects.equals(tag, FRAGMENT_TWEAKS) || Objects.equals(tag, FRAGMENT_SETTINGS)) {
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            fragmentTransaction.addToBackStack(tag);
-        } else {
-            fragmentManager.popBackStack(null, 0);
-            fragmentTransaction.addToBackStack(tag);
+    private void setupNavigation() {
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        if (navHostFragment == null) return;
+
+        NavController navController = navHostFragment.getNavController();
+
+        if (Preferences.isXposedOnlyMode) {
+            navController.setGraph(R.navigation.nav_xposed_menu);
+            binding.bottomNavigationView.getMenu().clear();
+            binding.bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_xposed_only);
         }
 
-        fragmentTransaction.commit();
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            setFragment(item.getItemId(), navController, Preferences.isXposedOnlyMode);
+            return true;
+        });
     }
 
     @SuppressLint("NonConstantResourceId")
-    private void setFragment(int id) {
-        switch (id) {
-            case R.id.navbar_home:
-                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_HOME)) {
-                    replaceFragment(new Home(), FRAGMENT_HOME);
-                    selectedFragment = R.id.navbar_home;
+    private void setFragment(int itemId, NavController navController, boolean isXposedOnlyMode) {
+        NavDestination currentDestination = navController.getCurrentDestination();
+        if (currentDestination == null) return;
+
+        if (isXposedOnlyMode) {
+            switch (itemId) {
+                case R.id.xposedMenu -> {
+                    if (currentDestination.getId() != itemId) {
+                        navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
+                        selectedFragment = itemId;
+                    }
                 }
-                break;
-            case R.id.navbar_tweaks:
-                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_TWEAKS)) {
-                    replaceFragment(new Tweaks(), FRAGMENT_TWEAKS);
-                    selectedFragment = R.id.navbar_tweaks;
+                case R.id.settings -> {
+                    if (currentDestination.getId() != itemId) {
+                        navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
+                        Navigation.findNavController(this, R.id.fragmentContainerView).navigate(R.id.action_xposedMenu_to_settings2);
+                        selectedFragment = itemId;
+                    }
                 }
-                break;
-            case R.id.navbar_settings:
-                if (!Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_SETTINGS)) {
-                    replaceFragment(new Settings(), FRAGMENT_SETTINGS);
-                    selectedFragment = R.id.navbar_settings;
+            }
+            return;
+        }
+
+        switch (itemId) {
+            case R.id.homePage -> {
+                if (currentDestination.getId() != itemId) {
+                    navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
+                    selectedFragment = itemId;
                 }
-                break;
+            }
+            case R.id.tweaks -> {
+                if (currentDestination.getId() != itemId) {
+                    navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
+                    Navigation.findNavController(this, R.id.fragmentContainerView).navigate(R.id.action_home2_to_tweaks);
+                    selectedFragment = itemId;
+                }
+            }
+            case R.id.settings -> {
+                if (currentDestination.getId() != itemId) {
+                    navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
+                    Navigation.findNavController(this, R.id.fragmentContainerView).navigate(R.id.action_home2_to_settings);
+                    selectedFragment = itemId;
+                }
+            }
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (Objects.equals(FragmentHelper.getTopFragment(getSupportFragmentManager()), FRAGMENT_HOME)) {
-            HomePage.this.finish();
-            System.exit(0);
-        }
-        super.onBackPressed();
+    public void showColorPickerDialog(int dialogId, int defaultColor, boolean showPresets, boolean showAlphaSlider, boolean showColorShades) {
+        colorPickerDialog.setDialogStyle(R.style.ColorPicker)
+                .setColor(defaultColor)
+                .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                .setAllowCustom(false)
+                .setAllowPresets(showPresets)
+                .setDialogId(dialogId)
+                .setShowAlphaSlider(showAlphaSlider)
+                .setShowColorShades(showColorShades);
+        colorPickerDialog.show(this);
     }
 
     @Override
@@ -144,5 +164,21 @@ public class HomePage extends BaseActivity {
     public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         selectedFragment = savedInstanceState.getInt(mData);
+    }
+
+    @Override
+    public void onColorSelected(int dialogId, int color) {
+        EventBus.getDefault().post(new ColorSelectedEvent(dialogId, color));
+    }
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
+        EventBus.getDefault().post(new ColorDismissedEvent(dialogId));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
+        return navController.navigateUp() || super.onSupportNavigateUp();
     }
 }

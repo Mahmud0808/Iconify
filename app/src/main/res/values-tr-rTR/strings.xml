@@ -29,8 +29,8 @@
     <string name="logs">Günlükler</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
-    <string name="activity_title_icon_pack">İkon Paketi</string>
-    <string name="activity_desc_icon_pack">Sistem ikon paketini değiştir</string>
+    <string name="activity_title_icon_pack">Simge Paketi</string>
+    <string name="activity_desc_icon_pack">Sistem simge paketini değiştir</string>
     <string name="activity_title_brightness_bar">Parlaklık Barı</string>
     <string name="activity_desc_brightness_bar">Parlaklık barını özelleştir</string>
     <string name="activity_title_qs_shape">Hızlı Ayarlar Paneli</string>
@@ -43,8 +43,8 @@
     <string name="activity_desc_switch">Düğme görünümünü özelleştir</string>
     <string name="activity_title_toast_frame">Bildirim Çerçevesi</string>
     <string name="activity_desc_toast_frame">Tost bildirim stilini değiştir</string>
-    <string name="activity_title_icon_shape">İkon Görünümü</string>
-    <string name="activity_desc_icon_shape">Sistem ikon şekillerini değiştir</string>
+    <string name="activity_title_icon_shape">Simge Şekli</string>
+    <string name="activity_desc_icon_shape">Sistem simgesi şekillerini değiştir</string>
     <string name="iconify_updated_title">Iconify Güncellendi!</string>
     <string name="iconify_updated_desc">En güncel yenilikleri ve seçenekleri kullanmak için telefonunuzu yeniden başlatın.</string>
     <!-- Home Card View -->
@@ -58,7 +58,7 @@
     <string name="activity_desc_ui_roundness">Arayüzdeki nesnelerin köşelerinin yuvarlaklığını değiştir</string>
     <string name="activity_title_qs_row_column">Satır ve Sütun</string>
     <string name="activity_desc_qs_row_column">Hızlı ayarlar paneli satır ve sütunlarını değiştir</string>
-    <string name="activity_title_qs_icon_label">İkon ve Etiket</string>
+    <string name="activity_title_qs_icon_label">Simge ve Etiket</string>
     <string name="activity_desc_qs_icon_label">İkon ve etiket ayarlarını değiştir</string>
     <string name="activity_title_qs_tile_size">QS panel karo boyutu</string>
     <string name="activity_desc_qs_tile_size">QS panel karosunun yüksekliğini değiştir</string>
@@ -99,9 +99,9 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Uyarı Göster</string>
     <string name="settings_show_warning_desc">Xposed Menü\'de modülün nasıl yeniden optimize edileceğine dair uyarı gösterin.</string>
-    <string name="settings_restart_systemui_behavior">SystemUI Davranışını Yeniden Başlat</string>
-    <string name="settings_auto_restart_systemui">SystemUI\'yi otomatik olarak yeniden başlat.</string>
-    <string name="settings_manual_restart_systemui">Manuel yeniden başlatma için bilgilendir.</string>
+    <string name="settings_restart_systemui_behavior">Mod Uygulama Yöntemi</string>
+    <string name="settings_auto_restart_systemui">UI\'yi otomatik olarak yeniden yüklemeye zorla</string>
+    <string name="settings_manual_restart_systemui">Manuel yeniden başlatma için bilgilendir</string>
     <string name="settings_systemui_restart_required">SystemUI yeniden başlatma gerekli</string>
     <string name="settings_section_title_miscellaneous">Çeşitli</string>
     <string name="settings_restart_systemui_after_boot_title">Önyüklemeden Sonra SystemUI\'yi Yeniden Başlatma</string>
@@ -121,10 +121,10 @@
     <string name="settings_credits_desc">Bunu mümkün kılanlara teşekkür ederim.</string>
     <!-- Icon Pack -->
     <string name="activity_title_colored_battery">Renkli Batarya</string>
-    <string name="activity_desc_colored_battery">Batarya ikonu rengini değiştir</string>
+    <string name="activity_desc_colored_battery">Batarya simgesi rengini değiştir</string>
     <string name="activity_title_media_icons">Medya Simgeleri</string>
     <string name="activity_desc_media_icons">Medya oynatıcı simgelerini değiştirme</string>
-    <string name="activity_title_settings_icons">Ayar İkonları</string>
+    <string name="activity_title_settings_icons">Ayar Simgeleri</string>
     <string name="activity_desc_settings_icons">Ayarlar bölümünün ikon paketini değiştir</string>
     <string name="icon_pack_styles">Simge Paketi Stilleri</string>
     <string name="iconpack_aurora_desc">Çift tonlu doğrusal simge paketi</string>
@@ -143,9 +143,9 @@
     <string name="iconpack_victor_desc">Edgy simge paketi</string>
     <!-- Colored Battery -->
     <string name="enable_colored_battery_title">Renkli Bataryayı Etkinleştir</string>
-    <string name="enable_colored_battery_desc">Batarya ikonu için özel renk kullan</string>
+    <string name="enable_colored_battery_desc">Batarya simgesi için özel renk kullan</string>
     <string name="battery_background_color_title">Arka Plan Rengi</string>
-    <string name="battery_background_color_desc">Batarya ikonunu dolduracak renk</string>
+    <string name="battery_background_color_desc">Batarya simgesini dolduracak renk</string>
     <string name="battery_filled_color_title">Dolu Renk</string>
     <string name="battery_filled_color_desc">Batarya seviyesi gösterge rengi</string>
     <!-- Media Icons -->
@@ -269,8 +269,8 @@
     <string name="hide_label_title">Etiketi Gizle</string>
     <string name="hide_label_desc">Hızlı ayarlar panelindeki butonların etiketlerini gizle</string>
     <string name="text_size_title">Yazı Boyutu</string>
-    <string name="icon_size_title">İkon Boyutu</string>
-    <string name="move_icon_title">İkon Taşı</string>
+    <string name="icon_size_title">Simge Boyutu</string>
+    <string name="move_icon_title">Simgeyi Taşı</string>
     <string name="section_title_qs_text_color">Hızlı Ayarlar Paneli Yazı Rengi</string>
     <string name="qs_text_color_normal">Normal</string>
     <string name="qs_text_color_pixel">Piksel</string>
@@ -299,7 +299,7 @@
     <string name="sb_height">Yükseklik</string>
     <string name="section_title_color">Renk</string>
     <string name="sb_color_tint_title">Renk Tonu</string>
-    <string name="sb_color_tint_desc">Durum çubuğu ikon ve yazılarını renklendir</string>
+    <string name="sb_color_tint_desc">Durum çubuğu simgelerini ve metinlerini renklendir</string>
     <string name="sb_tint_system">Varsayılan Sistem Renk Tonu</string>
     <string name="sb_tint_monet">Monet/Açık Ton</string>
     <string name="sb_tint_custom">Özel Renk Tonu (Renk Seçici)</string>
@@ -313,6 +313,8 @@
     <string name="navbar_immersive_v2_desc">Daha küçük klavye alanı</string>
     <string name="navbar_immersive_v3_title">Sürükleyici v3</string>
     <string name="navbar_immersive_v3_desc">En küçük klavye alanı</string>
+    <string name="navbar_gcam_lag_fix_title">Gcam Gecikme Düzeltme</string>
+    <string name="navbar_gcam_lag_fix_desc">Hareket navigasyonu ile gcam\'deki gecikmeyi düzeltin</string>
     <string name="section_title_buttons">Butonlar</string>
     <string name="navbar_hide_kb_buttons_title">Klavye Butonlarını Gizle</string>
     <string name="navbar_hide_kb_buttons_desc">Klavyedeki geri/değiştirme butonlarını gizle</string>
@@ -371,7 +373,7 @@
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">Tablet Modu</string>
     <string name="tablet_landscape_title">Yatay Tablet</string>
-    <string name="tablet_landscape_desc">Better QS olarak da bilinir\nÇentik Çubuğu Katili kullanmalısınız</string>
+    <string name="tablet_landscape_desc">Better QS olarak da bilinir</string>
     <string name="notch_bar_killer_title">Çentik Çubuğu Katili</string>
     <string name="notch_bar_killer_desc">Çentik çubuğunun boş alanını öldür</string>
     <string name="tablet_header_title">Tablet Başlığı</string>
@@ -384,7 +386,7 @@
     <string name="disable_progress_wave_desc">İlerleme çubuğu dalga animasyonunu devre dışı bırak</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">LSPosed modüllerinden Iconify\'i etkinleştirmeden önce, Iconify üzerine uzun basın ve Yeniden optimize\'yi tıklayın. Ardından Iconify\'i etkinleştirin ve SystemUI\'nizi yeniden başlatın. Bu, daha sorunsuz bir deneyim için gereklidir.</string>
-    <string name="xposed_only_desc">Şu anda yalnızca Xposed Modu\'ndasınız. Bu, Iconify\'in LSPosed uygulamasında etkinleştirilmesini gerektirir. Ayrıca Iconify modülünün Magisk yöneticisinde göründüğünden emin olun. Tüm özelliklere erişim sağlamak için sadece uygulamayı yeniden açın ve kurulum sürecini takip edin!</string>
+    <string name="xposed_only_desc">Şu anda yalnızca Xposed modundasınız. Bu, LSPosed uygulamasında iconify\'nin etkinleştirilmesini gerektirir. Ayrıca, Iconify modülünün Magisk yöneticisinde görüntülendiğinden emin olun. Tüm özelliklere erişim elde etmek için iconify uygulamasının verilerini temizleyin ve kurulum sürecini tamamlayın!</string>
     <string name="xposed_module_disabled_title">Modül Aktif Değil</string>
     <string name="xposed_module_disabled_desc">Sistem hizmeti çalışmıyor</string>
     <string name="activity_title_transparency_blur">Şeffaflık &amp; Bulanıklık</string>
@@ -417,6 +419,8 @@
     <string name="section_title_blur">Bulanıklık</string>
     <string name="window_level_blur_title">Pencere Bulanıklıkları</string>
     <string name="window_level_blur_desc">Çalışması için yeniden başlatma gerekli</string>
+    <string name="aggressive_blur_title">Agresif Bulanıklaştırma Etkinleştirici</string>
+    <string name="aggressive_blur_desc">Bazı romlarda bootloop sorunu olabilir</string>
     <string name="blur_intensity_title">Bulanıklık Seviyesi</string>
     <!-- Themes -->
     <string name="section_title_for_pixel_roms">Pixel Romlar İçin</string>
@@ -434,6 +438,9 @@
     <string name="notification_transparency_desc">Akışkan QS için bildirim şeffaflığı\nÖzel bildirim stili kullanmayın</string>
     <string name="power_menu_transparency_title">Güç Menüsü Şeffaflığı</string>
     <string name="power_menu_transparency_desc">Akışkan QS için güç menüsü şeffaflığı\nÖzel bildirim stilini kullanmayın</string>
+    <string name="section_title_others">Diğerleri</string>
+    <string name="fix_notification_color_title">Bildirim Rengini Düzelt</string>
+    <string name="fix_notification_color_desc">Android 14\'te özel bildirim stilini düzelt</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Karo</string>
     <string name="vertical_qs_tile_title">Dikey Hızlı Ayar Butonları</string>
@@ -446,6 +453,8 @@
     <string name="battery_width_title">Pil Genişliği</string>
     <string name="battery_height_title">Pil Yüksekliği</string>
     <string name="battery_margin_title">Pil Marjı</string>
+    <string name="hide_battery_title">Bataryayı Gizle</string>
+    <string name="hide_battery_desc">Yalnızca şarj simgesini ve yüzdesini sakla</string>
     <string name="custom_charging_icon_title">Özel Şarj Etme Simgesi</string>
     <string name="custom_charging_icon_desc">Şarj simgesini özel simgeyle değiştirin</string>
     <string name="charging_icon_style_title">Şarj Simgesi Stili</string>
@@ -471,7 +480,7 @@
     <string name="powersave_indicator_color_title">Güç tasarrufu Gösterge Rengi</string>
     <string name="powersave_indicator_color_desc">Güç tasarrufu göstergesinin rengini değiştir</string>
     <string name="custom_dimensions_title">Özel Boyutlar</string>
-    <string name="custom_dimensions_desc">Pil için özel boyutlar ayarla</string>
+    <string name="custom_dimensions_desc">Pil simgesi için özel boyutlar ayarla</string>
     <string name="battery_margin_left_title">Pil Marjı Sol</string>
     <string name="battery_margin_right_title">Pil Marjı Sağ</string>
     <string name="battery_margin_top_title">Pil Marjı Üst</string>
@@ -482,6 +491,8 @@
     <string name="rotate_layout_desc">Pil düzenini 180 derece döndürün</string>
     <string name="hide_percentage_title">Yüzdeyi Gizle</string>
     <string name="hide_percentage_desc">Pil yüzdesi metnini gizle</string>
+    <string name="inside_percentage_title">İç Yüzdelik</string>
+    <string name="inside_percentage_desc">Yüzdeyi pil simgesinin içine taşı</string>
     <string name="battery_default">Varsayılan</string>
     <string name="battery_landscape_r_default">Yatay R Varsayılan</string>
     <string name="battery_landscape_l_default">Yatay L Varsayılan</string>
@@ -527,6 +538,8 @@
     <string name="header_image_zoom_to_fit_desc">Resim varsayılan olarak otomatik sığdırılır</string>
     <string name="header_image_hide_in_landscape_title">Yatay Modda Gizle</string>
     <string name="header_image_hide_in_landscape_desc">Yatay modda görüntüyü gizle</string>
+    <string name="header_image_alpha_gradient_title">Alfa Gradyan</string>
+    <string name="header_image_alpha_gradient_desc">Başlık resmine soluk efekt ekle</string>
     <!-- Header Clock -->
     <string name="custom_header_clock_title">Özel Başlık Saati</string>
     <string name="custom_header_clock_desc">Hızlı ayarlar paneline özel saat ekle</string>
@@ -567,6 +580,8 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Derinlikli Duvar Kağıdını Etkinleştir</string>
     <string name="enable_depth_wallpaper_desc">iOS benzeri derinlik etkisine sahip bir duvar kağıdı gösterin.\n Özel bir kilit ekranı saati kullanmalısınız</string>
+    <string name="wallpaper_fade_animation_title">AOD\'de solma</string>
+    <string name="wallpaper_fade_animation_desc">AOD\'da canlı duvar kağıdı kullanın ve solsun</string>
     <string name="foreground_image_title">Ön Plan Görüntüsü</string>
     <string name="foreground_image_desc">Derinlik duvar kağıdı için ön plan görüntüsü</string>
     <string name="background_image_title">Arkaplan görüntüsü</string>
@@ -584,8 +599,8 @@
     <string name="clock_color_picker_desc">Durum çubuğu saat metninin rengini ayarla</string>
     <string name="section_title_status_icons">Durum Simgeleri</string>
     <string name="chip_style_title">Arka Plan Tasarımı</string>
-    <string name="status_icons_chip_title">Durum İkonları Arka Planı</string>
-    <string name="status_icons_chip_desc">Durum ikonlarında arka planı göster</string>
+    <string name="status_icons_chip_title">Durum Simgeleri Arka Planı</string>
+    <string name="status_icons_chip_desc">Durum simgelerinde arka planı göster</string>
     <string name="status_icons_chip_style_title">Arka Plan Tasarımı</string>
     <string name="fixed_status_icons_top_margin">Üst Dış Boşluk</string>
     <string name="fixed_status_icons_side_margin">Yan Dış Boşluk</string>
@@ -593,15 +608,15 @@
     <string name="qs_header">QS Başlığı</string>
     <string name="hide_carrier_group_title">Taşıyıcı Grubunu Gizle</string>
     <string name="hide_carrier_group_desc">Hızlı ayarlar panelinden taşıyıcı grubunu gizle</string>
-    <string name="hide_status_icons_title">Durum İkonlarını Gizle</string>
-    <string name="hide_status_icons_desc">Saat, tarih ve batarya ikonlarını kaldır</string>
+    <string name="hide_status_icons_title">Durum Simgelerini Gizle</string>
+    <string name="hide_status_icons_desc">Saat, tarih ve batarya simgelerini kaldır</string>
     <string name="lock_screen">Kilit Ekranı</string>
     <string name="hide_ls_carrier_title">LS Taşıyıcısını Gizle</string>
     <string name="hide_ls_carrier_desc">Kilit ekranında operatör adını gizle</string>
     <string name="hide_ls_statusbar_title">LS Durum Çubuğunu Gizle</string>
     <string name="hide_ls_statusbar_desc">Kilit ekranında durum çubuğunu gizle</string>
-    <string name="fixed_status_icons_title">Sabit Durum İkonları</string>
-    <string name="fixed_status_icons_desc">Durum ikonlarını sabit pozisyona al\nBazı romlarda bug olabilir</string>
+    <string name="fixed_status_icons_title">Sabit Durum Simgeleri</string>
+    <string name="fixed_status_icons_desc">Durum simgelerini sabit pozisyona al\nBazı romlarda hata olabilir</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Değişim Günlüğü</string>
     <string name="no_internet_connection">Sunucuya bağlanılamadı!\nİnternet bağlantınızda bir sorun olabilir veya sunucu şu an kapalı olabilir. Lütfen daha sonra tekrar deneyin.</string>
@@ -738,6 +753,7 @@
     <string name="toast_lorn_colored_battery">Lorn standart olarak renkli batarya kullanır</string>
     <string name="toast_plumpy_colored_battery">Plumpy standart olarak renkli batarya kullanır</string>
     <string name="toast_select_style">Önce tasarım seçin</string>
+    <string name="toast_ksu_not_supported">KernelSU şu anda desteklenmiyor</string>
     <string name="toast_reboot_required">Yeniden başlatma gerekli</string>
     <string name="toast_lsposed_not_found">LSPosed bulunamadı!</string>
     <string name="toast_easter_egg">Bunu nasıl bildin?</string>
@@ -749,6 +765,7 @@
     <string name="toast_import_settings_successfull">Ayarlar başarıyla içe aktarıldı</string>
     <string name="toast_export_settings_successfull">Ayarlar başarıyla dışa aktarıldı</string>
     <string name="toast_selected_successfully">Başarıyla seçildi</string>
+    <string name="toast_unavailable">Kullanılamıyor</string>
     <!-- Push Notification -->
     <string name="new_update_title">Güncelleme Mevcut</string>
     <string name="new_update_desc">Iconify\'ın yeni bir sürümü mevcut.</string>
@@ -770,9 +787,11 @@
     <string name="warning">Uyarı</string>
     <string name="iconify_logo">Iconify Logo</string>
     <string name="hey_there">Merhaba!</string>
-    <string name="icon">İkon</string>
+    <string name="icon">Simge</string>
     <string name="section_title_media_player_icons">Medya Oynatıcı İkonları</string>
     <string name="opt_selected">Seçili:</string>
+    <string name="opt_selected1">Seçili: %s</string>
+    <string name="opt_selected2">Seçili: %s%s</string>
     <string name="opt_default">(Standart)</string>
     <string name="loading_dialog_wait">Lütfen Bekleyin</string>
     <string name="rebooting_desc">5 saniye içinde yeniden başlatılıyor</string>

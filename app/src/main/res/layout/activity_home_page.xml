@@ -9,20 +9,23 @@
     android:orientation="vertical"
     tools:context=".ui.activities.HomePage">
 
-    <FrameLayout
-        android:id="@+id/main_fragment"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation" />
+        android:layout_above="@+id/bottomNavigationView"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_home_page" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottomNavigationView"
         style="@style/Widget.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         app:itemIconTint="@color/bottom_nav_icon_color"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/bottom_nav_menu" />
 
 </RelativeLayout>

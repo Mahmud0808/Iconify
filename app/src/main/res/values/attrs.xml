@@ -10,4 +10,62 @@
         <attr name="bounceDelay" format="integer" />
         <attr name="triggerOverScrollThreshold" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="TitleWidget">
+        <attr name="titleText" format="string" />
+        <attr name="summaryText" format="string" />
+        <attr name="iconSpaceReserved" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="MenuWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="icon" format="reference" />
+        <attr name="iconSpaceReserved" />
+        <attr name="showEndArrow" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SwitchWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="icon" />
+        <attr name="iconSpaceReserved" />
+        <attr name="isChecked" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SliderWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="sliderStepSize" format="integer" />
+        <attr name="sliderValue" format="integer" />
+        <attr name="sliderValueFrom" format="integer" />
+        <attr name="sliderValueTo" format="integer" />
+        <attr name="valueFormat" format="string" />
+        <attr name="sliderDefaultValue" format="integer" />
+        <attr name="isDecimalFormat" format="boolean" />
+        <attr name="decimalFormat" format="string" />
+        <attr name="outputScale" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="ColorPickerWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="previewColor" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="FilePickerWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="buttonText" format="string" />
+        <attr name="filePickerType" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="RadioDialogWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="icon" />
+        <attr name="iconSpaceReserved" />
+        <attr name="entries" format="reference" />
+        <attr name="showSelectedPrefix" format="boolean" />
+    </declare-styleable>
 </resources>

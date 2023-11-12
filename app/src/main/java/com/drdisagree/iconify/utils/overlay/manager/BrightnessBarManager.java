@@ -23,6 +23,7 @@ public class BrightnessBarManager {
     private static void disable_others(int n) {
         for (int i = 1; i <= TOTAL_BRIGHTNESSBARS; i++) {
             Prefs.putBoolean("IconifyComponentBBN" + i + ".overlay", i == n);
+            Prefs.putBoolean("IconifyComponentBBP" + i + ".overlay", false);
         }
     }
 }

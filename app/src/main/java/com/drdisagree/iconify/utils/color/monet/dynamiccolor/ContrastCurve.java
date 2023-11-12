@@ -16,6 +16,8 @@
 
 package com.drdisagree.iconify.utils.color.monet.dynamiccolor;
 
+import androidx.annotation.NonNull;
+
 import com.drdisagree.iconify.utils.color.monet.utils.MathUtils;
 
 /**
@@ -67,6 +69,7 @@ public final class ContrastCurve {
      *                      is the highest.
      * @return The contrast ratio, a number between 1.0 and 21.0.
      */
+    @NonNull
     public double getContrast(double contrastLevel) {
         if (contrastLevel <= -1.0) {
             return this.low;

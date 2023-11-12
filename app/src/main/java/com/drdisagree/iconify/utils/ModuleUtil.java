@@ -14,6 +14,7 @@ import android.util.Log;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.ui.activities.Onboarding;
@@ -31,7 +32,6 @@ import net.lingala.zip4j.model.enums.CompressionMethod;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ModuleUtil {
 
@@ -54,19 +54,19 @@ public class ModuleUtil {
         // Clean temporary directory
         Shell.cmd("mkdir -p " + Resources.TEMP_DIR).exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR).exec();
-        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify. " + Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.app_moto) + ".\n' > " + Resources.TEMP_MODULE_DIR + "/module.prop").exec();
-        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/common").exec();
+        Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify. " + Iconify.getAppContext().getResources().getString(R.string.app_moto) + ".\n' > " + Resources.TEMP_MODULE_DIR + "/module.prop").exec();
         Shell.cmd("printf 'MODDIR=${0%%/*}\n\n' > " + Resources.TEMP_MODULE_DIR + "/post-fs-data.sh").exec();
         if (!Onboarding.skippedInstallation) {
             Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\nuntil [ -d /storage/emulated/0/Android ]; do\n  sleep 1\ndone\nsleep 3\n\n" + (Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) ? "killall " + SYSTEMUI_PACKAGE + "\n" : "") + "sleep 6\n\nqspbd=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBD.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspbd\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBD.overlay\n cmd overlay enable --user current IconifyComponentQSPBD.overlay\n cmd overlay set-priority IconifyComponentQSPBD.overlay highest\nfi\n\nqspba=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBA.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspba\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBA.overlay\n cmd overlay enable --user current IconifyComponentQSPBA.overlay\n cmd overlay set-priority IconifyComponentQSPBA.overlay highest\nfi\n\n' > " + Resources.TEMP_MODULE_DIR + "/service.sh").exec();
         } else {
             Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\n' > " + Resources.TEMP_MODULE_DIR + "/service.sh").exec();
         }
-        Shell.cmd("touch " + Resources.TEMP_MODULE_DIR + "/common/system.prop").exec();
+        Shell.cmd("touch " + Resources.TEMP_MODULE_DIR + "/system.prop").exec();
         Shell.cmd("touch " + Resources.TEMP_MODULE_DIR + "/auto_mount").exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/system").exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/system/product").exec();
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/system/product/overlay").exec();
+        createMETAINF();
 
         writePostExec();
         BinaryInstaller.symLinkBinaries();
@@ -74,12 +74,21 @@ public class ModuleUtil {
         Log.i(TAG, "Magisk module successfully created.");
     }
 
+    private static void createMETAINF() {
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/META-INF").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/META-INF/com").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/META-INF/com/google").exec();
+        Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR + "/META-INF/com/google/android").exec();
+        Shell.cmd("printf '" + Const.MAGISK_UPDATE_BINARY + "' > " + Resources.TEMP_MODULE_DIR + "/META-INF/com/google/android/update-binary").exec();
+        Shell.cmd("printf '#MAGISK' > " + Resources.TEMP_MODULE_DIR + "/META-INF/com/google/android/updater-script").exec();
+    }
+
     private static void writePostExec() {
         StringBuilder post_exec = new StringBuilder();
         boolean primaryColorEnabled = false;
         boolean secondaryColorEnabled = false;
 
-        SharedPreferences prefs = Objects.requireNonNull(Iconify.getAppContext()).getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE);
+        SharedPreferences prefs = Iconify.getAppContext().getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE);
         Map<String, ?> map = prefs.getAll();
         for (Map.Entry<String, ?> item : map.entrySet()) {
             if (item.getValue() instanceof Boolean && ((Boolean) item.getValue()) && item.getKey().startsWith("fabricated")) {
@@ -117,10 +126,6 @@ public class ModuleUtil {
 
     public static boolean moduleExists() {
         return RootUtil.folderExists(Resources.MODULE_DIR);
-    }
-
-    public static boolean moduleProperlyInstalled() {
-        return moduleExists() && OverlayUtil.overlayExists();
     }
 
     public static String createModule(String sourceFolder, String destinationFilePath) throws Exception {

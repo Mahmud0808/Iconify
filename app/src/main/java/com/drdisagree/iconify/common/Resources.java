@@ -5,8 +5,6 @@ import android.os.Environment;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.Iconify;
 
-import java.util.Objects;
-
 public class Resources {
 
     // Preference files
@@ -19,7 +17,7 @@ public class Resources {
     public static final String LOG_DIR = DOCUMENTS_DIR + "/Iconify";
     public static final String MODULE_DIR = "/data/adb/modules/Iconify";
     public static final String SYSTEM_OVERLAY_DIR = "/system/product/overlay";
-    public static final String DATA_DIR = Objects.requireNonNull(Iconify.getAppContext()).getFilesDir().toString();
+    public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
     public static final String BIN_DIR = Iconify.getAppContext().getDataDir() + "/bin";
     public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_backup";
@@ -46,8 +44,6 @@ public class Resources {
     public static final String DEPTH_WALL_FG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_fg.png";
     public static final String DEPTH_WALL_BG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_bg.png";
 
-    // Overlays
-    public static final String QSC_overlay = "IconifyComponentQSC.overlay";
     public static final String QSNPT_overlay = "IconifyComponentQSNPT.overlay";
     public static final String QSNT1_overlay = "IconifyComponentQSNT1.overlay";
     public static final String QSNT2_overlay = "IconifyComponentQSNT2.overlay";

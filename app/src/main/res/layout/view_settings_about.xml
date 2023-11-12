@@ -3,150 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.google.android.material.textview.MaterialTextView
-        style="@style/TextAppearance.Material3.TitleMedium"
-        android:layout_width="wrap_content"
+    <com.drdisagree.iconify.ui.widgets.TitleWidget
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/settings_section_title_about"
-        android:textColor="?attr/colorPrimary" />
+        app:iconSpaceReserved="true"
+        app:titleText="@string/settings_section_title_about" />
 
-    <RelativeLayout
+    <com.drdisagree.iconify.ui.widgets.MenuWidget
         android:id="@+id/github_repository"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:icon="@drawable/ic_github"
+        app:summaryText="@string/settings_github_repository_desc"
+        app:titleText="@string/settings_github_repository_title" />
 
-        <ImageView
-            android:id="@+id/settings_iv_github_repository"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_github"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@id/settings_iv_github_repository"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_github_repository_title"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_github_repository_desc"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.drdisagree.iconify.ui.widgets.MenuWidget
         android:id="@+id/telegram_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:icon="@drawable/ic_telegram"
+        app:summaryText="@string/settings_telegram_group_desc"
+        app:titleText="@string/settings_telegram_group_title" />
 
-        <ImageView
-            android:id="@+id/settings_iv_telegram_group"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_telegram"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@id/settings_iv_telegram_group"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_telegram_group_title"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_telegram_group_desc"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
+    <com.drdisagree.iconify.ui.widgets.MenuWidget
         android:id="@+id/credits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:icon="@drawable/ic_credits"
+        app:summaryText="@string/settings_credits_desc"
+        app:titleText="@string/settings_credits_title" />
 
-        <ImageView
-            android:id="@+id/settings_iv_credits"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_credits"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="24dp"
-            android:layout_toEndOf="@id/settings_iv_credits"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_credits_title"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_credits_desc"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-    </RelativeLayout>
 </LinearLayout>

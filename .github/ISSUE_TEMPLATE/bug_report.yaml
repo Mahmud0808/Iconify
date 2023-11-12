@@ -59,8 +59,9 @@ body:
       description: Provide details about your device, OS, app version, etc.
       value: |
         - Device: [e.g. Google Pixel 6]
-        - OS: [e.g. stock ROM Android version 12.0]
-        - App version: [e.g. v4.0-Beta]
+        - OS: [e.g. stock ROM Android version 13.0 QPR3]
+        - App version: [e.g. v6.5.1]
+        - Magisk/KernelSU: [e.g. Magisk Delta 25.2]
     validations:
       required: true
 

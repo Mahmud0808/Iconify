@@ -16,6 +16,9 @@
         <item name="colorSecondaryVariant">@color/colorAccent</item>
         <item name="colorOnSecondary">@color/black</item>
 
+        <!-- Window layout. -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
@@ -23,6 +26,7 @@
         <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@color/transparent</item>
         <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
 
         <!-- App theme. -->
         <item name="fontFamily">sans-serif</item>

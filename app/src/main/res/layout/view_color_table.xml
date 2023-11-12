@@ -11,83 +11,83 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_top_left" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_top_right" />
 
     </LinearLayout>
 
@@ -98,83 +98,83 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
     </LinearLayout>
 
@@ -185,83 +185,83 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
     </LinearLayout>
 
@@ -272,83 +272,83 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
     </LinearLayout>
 
@@ -359,83 +359,83 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_bottom_left" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_square" />
 
-        <View
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:background="@drawable/color_table_bottom_right" />
 
     </LinearLayout>
 </LinearLayout>

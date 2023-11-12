@@ -8,9 +8,10 @@
     <string-array name="locale_name">
         <item>Arabic</item>
         <item>English</item>
-        <item>Chinese (China)</item>
+        <item>Chinese (Simplified)</item>
         <item>French</item>
         <item>Indonesian</item>
+        <item>Italian</item>
         <item>Persian</item>
         <item>Polish</item>
         <item>Portuguese</item>
@@ -20,18 +21,19 @@
         <item>Vietnamese</item>
     </string-array>
     <string-array name="locale_code" translatable="false">
-        <item>ar</item>
-        <item>en</item>
-        <item>zh</item>
-        <item>fr</item>
-        <item>in</item>
-        <item>fa</item>
-        <item>pl</item>
-        <item>pt</item>
-        <item>ru</item>
-        <item>es</item>
-        <item>tr</item>
-        <item>vi</item>
+        <item>ar-SA</item>
+        <item>en-US</item>
+        <item>zh-CN</item>
+        <item>fr-FR</item>
+        <item>in-ID</item>
+        <item>it-IT</item>
+        <item>fa-IR</item>
+        <item>pl-PL</item>
+        <item>pt-PT</item>
+        <item>ru-RU</item>
+        <item>es-ES</item>
+        <item>tr-TR</item>
+        <item>vi-VN</item>
     </string-array>
     <string-array name="app_icon">
         <item>@string/settings_app_icon_default</item>

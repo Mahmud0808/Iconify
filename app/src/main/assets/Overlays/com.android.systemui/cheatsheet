@@ -11,10 +11,8 @@ NFN -> Notification Normal
 NFP -> Notification Pixel
 PCBG -> Privacy Chip Background
 QSC -> QS Components
-QSHL -> QS Hide Label
 QSNT -> QS Normal Text
 QSPT -> QS Pixel Text
 QSSN -> QS Shape Normal
 QSSP -> QS Shape Pixel
-QSTH -> QS Tile Height
 SBTint -> Status Bar Tint

@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.drdisagree.iconify.utils.color.monet.scheme;
 
 import com.drdisagree.iconify.utils.color.monet.hct.Hct;

@@ -11,7 +11,9 @@ import android.view.animation.Animation;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.FragmentOnboardingBinding;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -19,7 +21,7 @@ import com.drdisagree.iconify.utils.helper.DisplayUtil;
 
 import java.util.Objects;
 
-public class Onboarding extends BaseFragment {
+public class Onboarding extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -84,7 +86,7 @@ public class Onboarding extends BaseFragment {
         binding.getRoot().requestLayout();
         int screenWidth = SystemUtil.getScreenWidth(requireActivity());
         int screenHeight = SystemUtil.getScreenHeight(requireActivity());
-        Configuration configuration = getResources().getConfiguration();
+        Configuration configuration = Iconify.getAppContextLocale().getResources().getConfiguration();
 
         if (screenWidth > screenHeight || configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             ConstraintLayout.LayoutParams lottieLayoutParams = new ConstraintLayout.LayoutParams(0, ConstraintLayout.LayoutParams.WRAP_CONTENT);
@@ -136,7 +138,7 @@ public class Onboarding extends BaseFragment {
     }
 
     public void animateUpdateTextView(int title, int desc) {
-        if (binding.textOnboardingTitle.getText() == getResources().getString(title) && binding.textOnboardingDescription.getText() == getResources().getString(desc))
+        if (binding.textOnboardingTitle.getText() == Iconify.getAppContextLocale().getResources().getString(title) && binding.textOnboardingDescription.getText() == Iconify.getAppContextLocale().getResources().getString(desc))
             return;
 
         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
@@ -164,7 +166,7 @@ public class Onboarding extends BaseFragment {
     }
 
     public void updateTextView(int title, int desc) {
-        if (binding.textOnboardingTitle.getText() == getResources().getString(title) && binding.textOnboardingDescription.getText() == getResources().getString(desc))
+        if (binding.textOnboardingTitle.getText() == Iconify.getAppContextLocale().getResources().getString(title) && binding.textOnboardingDescription.getText() == Iconify.getAppContextLocale().getResources().getString(desc))
             return;
 
         binding.textOnboardingTitle.setText(getResources().getString(title));

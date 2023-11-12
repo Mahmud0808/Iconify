@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.XposedOthers">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/qs_header" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_qs_carrier_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/hide_carrier_group_desc"
+                app:titleText="@string/hide_carrier_group_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_status_icons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/hide_status_icons_desc"
+                app:titleText="@string/hide_status_icons_title" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/lock_screen" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_lockscreen_carrier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/hide_ls_carrier_desc"
+                app:titleText="@string/hide_ls_carrier_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_lockscreen_statusbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/hide_ls_statusbar_desc"
+                app:titleText="@string/hide_ls_statusbar_title" />
+
+            <LinearLayout
+                android:id="@+id/status_icons_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.drdisagree.iconify.ui.widgets.TitleWidget
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:titleText="@string/section_title_status_icons" />
+
+                <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                    android:id="@+id/fixed_status_icons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:summaryText="@string/fixed_status_icons_desc"
+                    app:titleText="@string/fixed_status_icons_title" />
+
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/status_icons_top_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sliderStepSize="1"
+                    app:sliderValue="8"
+                    app:sliderValueFrom="0"
+                    app:sliderValueTo="480"
+                    app:titleText="@string/fixed_status_icons_top_margin"
+                    app:valueFormat="dp" />
+
+                <com.drdisagree.iconify.ui.widgets.SliderWidget
+                    android:id="@+id/status_icons_side_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:sliderStepSize="1"
+                    app:sliderValue="0"
+                    app:sliderValueFrom="0"
+                    app:sliderValueTo="480"
+                    app:titleText="@string/fixed_status_icons_side_margin"
+                    app:valueFormat="dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

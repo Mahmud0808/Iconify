@@ -3,8 +3,6 @@ package com.drdisagree.iconify.ui.fragments;
 import static android.content.Context.RECEIVER_EXPORTED;
 import static com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_REQUEST;
 import static com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_RESULT;
-import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
-import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 
 import android.annotation.SuppressLint;
@@ -26,9 +24,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -36,27 +31,21 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.common.Preferences;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedMenuBinding;
-import com.drdisagree.iconify.ui.activities.XposedBackgroundChip;
-import com.drdisagree.iconify.ui.activities.XposedBatteryStyle;
-import com.drdisagree.iconify.ui.activities.XposedDepthWallpaper;
-import com.drdisagree.iconify.ui.activities.XposedHeaderClock;
-import com.drdisagree.iconify.ui.activities.XposedHeaderImage;
-import com.drdisagree.iconify.ui.activities.XposedLockscreenClock;
-import com.drdisagree.iconify.ui.activities.XposedOthers;
-import com.drdisagree.iconify.ui.activities.XposedQuickSettings;
-import com.drdisagree.iconify.ui.activities.XposedThemes;
-import com.drdisagree.iconify.ui.activities.XposedTransparencyBlur;
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
-import com.drdisagree.iconify.utils.extension.ObservableVariable;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+import com.drdisagree.iconify.ui.base.BaseFragment;
+import com.drdisagree.iconify.ui.widgets.MenuWidget;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.extension.ObservableVariable;
 import com.drdisagree.iconify.utils.helper.ImportExport;
+import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
+import com.drdisagree.iconify.utils.overlay.OverlayUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
@@ -90,7 +79,7 @@ public class XposedMenu extends BaseFragment {
                     Intent data = result2.getData();
                     if (data == null) return;
 
-                    new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+                    new MaterialAlertDialogBuilder(requireContext())
                             .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                             .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
                             .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
@@ -99,16 +88,16 @@ public class XposedMenu extends BaseFragment {
 
                                         Executors.newSingleThreadExecutor().execute(() -> {
                                             try {
-                                                boolean success = ImportExport.importSettings(RPrefs.prefs, Objects.requireNonNull(Objects.requireNonNull(Iconify.getAppContext()).getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), false);
+                                                boolean success = ImportExport.importSettings(RPrefs.prefs, Objects.requireNonNull(Iconify.getAppContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), false);
                                                 if (success) {
-                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show());
+                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show());
                                                     SystemUtil.restartSystemUI();
                                                 } else {
-                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show());
+                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show());
                                                 }
                                             } catch (Exception exception) {
                                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                                    Toast.makeText(Iconify.getAppContext(), Objects.requireNonNull(Iconify.getAppContext()).getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                     Log.e("Settings", "Error exporting settings", exception);
                                                 });
                                             }
@@ -148,10 +137,10 @@ public class XposedMenu extends BaseFragment {
         binding.header.toolbar.setTitle(getResources().getString(R.string.activity_title_xposed_menu));
         ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.header.toolbar);
         setHasOptionsMenu(true);
-        if (Prefs.getBoolean(ON_HOME_PAGE, false)) {
+        if (!Preferences.isXposedOnlyMode) {
             Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-            binding.header.toolbar.setNavigationOnClickListener(view1 -> new Handler(Looper.getMainLooper()).postDelayed(() -> getParentFragmentManager().popBackStack(), FRAGMENT_BACK_BUTTON_DELAY));
+            binding.header.toolbar.setNavigationOnClickListener(view1 -> Navigation.findNavController(view).popBackStack());
         }
 
         // Xposed hook check
@@ -194,28 +183,18 @@ public class XposedMenu extends BaseFragment {
         // Xposed menu list items
         ArrayList<Object[]> xposed_menu = new ArrayList<>();
 
-        xposed_menu.add(new Object[]{XposedTransparencyBlur.class, getResources().getString(R.string.activity_title_transparency_blur), getResources().getString(R.string.activity_desc_transparency_blur), R.drawable.ic_xposed_transparency_blur});
-        xposed_menu.add(new Object[]{XposedQuickSettings.class, getResources().getString(R.string.activity_title_quick_settings), getResources().getString(R.string.activity_desc_quick_settings), R.drawable.ic_xposed_quick_settings});
-        xposed_menu.add(new Object[]{XposedThemes.class, getResources().getString(R.string.activity_title_themes), getResources().getString(R.string.activity_desc_themes), R.drawable.ic_xposed_themes});
-        xposed_menu.add(new Object[]{XposedBatteryStyle.class, getResources().getString(R.string.activity_title_battery_style), getResources().getString(R.string.activity_desc_battery_style), R.drawable.ic_colored_battery});
-        xposed_menu.add(new Object[]{XposedHeaderImage.class, getResources().getString(R.string.activity_title_header_image), getResources().getString(R.string.activity_desc_header_image), R.drawable.ic_xposed_header_image});
-        xposed_menu.add(new Object[]{XposedHeaderClock.class, getResources().getString(R.string.activity_title_header_clock), getResources().getString(R.string.activity_desc_header_clock), R.drawable.ic_xposed_header_clock});
-        xposed_menu.add(new Object[]{XposedLockscreenClock.class, getResources().getString(R.string.activity_title_lockscreen_clock), getResources().getString(R.string.activity_desc_lockscreen_clock), R.drawable.ic_xposed_lockscreen});
-        xposed_menu.add(new Object[]{XposedDepthWallpaper.class, getResources().getString(R.string.activity_title_depth_wallpaper), getResources().getString(R.string.activity_desc_depth_wallpaper), R.drawable.ic_xposed_depth_wallpaper});
-        xposed_menu.add(new Object[]{XposedBackgroundChip.class, getResources().getString(R.string.activity_title_background_chip), getResources().getString(R.string.activity_desc_background_chip), R.drawable.ic_xposed_background_chip});
-        xposed_menu.add(new Object[]{XposedOthers.class, getResources().getString(R.string.activity_title_xposed_others), getResources().getString(R.string.activity_desc_xposed_others), R.drawable.ic_xposed_misc});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedTransparencyBlur, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_transparency_blur), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_transparency_blur), R.drawable.ic_xposed_transparency_blur});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedQuickSettings, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_quick_settings), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_quick_settings), R.drawable.ic_xposed_quick_settings});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedThemes, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_themes), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_themes), R.drawable.ic_xposed_themes});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedBatteryStyle, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_battery_style), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_battery_style), R.drawable.ic_colored_battery});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedHeaderImage, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_header_image), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_header_image), R.drawable.ic_xposed_header_image});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedHeaderClock, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_header_clock), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_header_clock), R.drawable.ic_xposed_header_clock});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedLockscreenClock, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_lockscreen_clock), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_lockscreen_clock), R.drawable.ic_xposed_lockscreen});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedDepthWallpaper, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_depth_wallpaper), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_depth_wallpaper), R.drawable.ic_xposed_depth_wallpaper});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedBackgroundChip, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_background_chip), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_background_chip), R.drawable.ic_xposed_background_chip});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedOthers, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_xposed_others), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_xposed_others), R.drawable.ic_xposed_misc});
 
         addItem(xposed_menu);
-
-        // Enable onClick event
-        for (int i = 0; i < xposed_menu.size(); i++) {
-            RelativeLayout child = binding.xposedList.getChildAt(i).findViewById(R.id.list_info_item);
-            int finalI = i;
-            child.setOnClickListener(v -> {
-                Intent intent = new Intent(requireActivity(), (Class<?>) xposed_menu.get(finalI)[0]);
-                startActivity(intent);
-            });
-        }
 
         return view;
     }
@@ -225,9 +204,9 @@ public class XposedMenu extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (Prefs.getBoolean(SHOW_XPOSED_WARN, true)) {
-            new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+            new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(requireContext().getResources().getString(R.string.attention))
-                    .setMessage((!Prefs.getBoolean(ON_HOME_PAGE, false) ? getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + getResources().getString(R.string.lsposed_warn))
+                    .setMessage((Preferences.isXposedOnlyMode ? Iconify.getAppContextLocale().getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + Iconify.getAppContextLocale().getResources().getString(R.string.lsposed_warn))
                     .setPositiveButton(requireContext().getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())
                     .setNegativeButton(requireContext().getResources().getString(R.string.dont_show_again), (dialog, which) -> {
                         dialog.dismiss();
@@ -238,6 +217,7 @@ public class XposedMenu extends BaseFragment {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
@@ -246,21 +226,20 @@ public class XposedMenu extends BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @SuppressLint("NonConstantResourceId")
+    @SuppressWarnings("deprecation")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemID = item.getItemId();
-
-        if (itemID == android.R.id.home) {
-            getParentFragmentManager().popBackStack();
-            return true;
-        } else if (itemID == R.id.menu_export_settings) {
-            importExportSettings(true);
-        } else if (itemID == R.id.menu_import_settings) {
-            importExportSettings(false);
-        } else if (itemID == R.id.menu_reset_settings) {
-            resetSettings();
-        } else if (itemID == R.id.restart_systemui) {
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 300);
+        switch (item.getItemId()) {
+            case android.R.id.home -> {
+                Navigation.findNavController(binding.getRoot()).popBackStack();
+                return true;
+            }
+            case R.id.menu_export_settings -> importExportSettings(true);
+            case R.id.menu_import_settings -> importExportSettings(false);
+            case R.id.menu_reset_settings -> resetSettings();
+            case R.id.restart_systemui ->
+                    new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, 300);
         }
 
         return super.onOptionsItemSelected(item);
@@ -269,18 +248,17 @@ public class XposedMenu extends BaseFragment {
     // Function to add new item in list
     private void addItem(ArrayList<Object[]> pack) {
         for (int i = 0; i < pack.size(); i++) {
-            View list = LayoutInflater.from(requireActivity()).inflate(R.layout.view_list_menu, binding.xposedList, false);
+            MenuWidget menu = new MenuWidget(requireActivity());
 
-            TextView title = list.findViewById(R.id.list_title);
-            title.setText((String) pack.get(i)[1]);
+            menu.setTitle((String) pack.get(i)[1]);
+            menu.setSummary((String) pack.get(i)[2]);
+            menu.setIcon((int) pack.get(i)[3]);
+            menu.setEndArrowVisibility(View.VISIBLE);
 
-            TextView desc = list.findViewById(R.id.list_desc);
-            desc.setText((String) pack.get(i)[2]);
+            int finalI = i;
+            menu.setOnClickListener(v -> Navigation.findNavController(menu).navigate((Integer) pack.get(finalI)[0]));
 
-            ImageView preview = list.findViewById(R.id.list_icon);
-            preview.setImageResource((int) pack.get(i)[3]);
-
-            binding.xposedList.addView(list);
+            binding.xposedList.addView(menu);
         }
     }
 
@@ -301,7 +279,7 @@ public class XposedMenu extends BaseFragment {
     }
 
     private void resetSettings() {
-        new MaterialAlertDialogBuilder(requireContext(), R.style.MaterialComponents_MaterialAlertDialog)
+        new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(requireContext().getResources().getString(R.string.import_settings_confirmation_title))
                 .setMessage(requireContext().getResources().getString(R.string.import_settings_confirmation_desc))
                 .setPositiveButton(requireContext().getResources().getString(R.string.btn_positive),
@@ -311,7 +289,7 @@ public class XposedMenu extends BaseFragment {
                             new Handler(Looper.getMainLooper()).post(() -> {
                                 try {
                                     RPrefs.clearAllPrefs();
-                                    SystemUtil.disableBlur();
+                                    SystemUtil.disableBlur(false);
                                     FabricatedUtil.disableOverlays("quick_qs_offset_height", "qqs_layout_margin_top", "qs_header_row_min_height", "quick_qs_total_height", "qs_panel_padding_top", "qs_panel_padding_top_combined_headers");
                                     OverlayUtil.disableOverlays("IconifyComponentQSLT.overlay", "IconifyComponentQSDT.overlay");
                                     SystemUtil.restartSystemUI();
@@ -349,20 +327,28 @@ public class XposedMenu extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(checkSystemUIHooked);
-        requireContext().unregisterReceiver(receiverHookedSystemui);
+        try {
+            handler.removeCallbacks(checkSystemUIHooked);
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        isXposedHooked.notifyChanged();
-        handler.post(checkSystemUIHooked);
+        try {
+            isXposedHooked.notifyChanged();
+            handler.post(checkSystemUIHooked);
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        handler.removeCallbacks(checkSystemUIHooked);
+        try {
+            handler.removeCallbacks(checkSystemUIHooked);
+        } catch (Exception ignored) {
+        }
     }
 }
