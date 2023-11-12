@@ -99,9 +99,9 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">إظهار التحذير</string>
     <string name="settings_show_warning_desc">إظهار تحذير حول كيفية إعادة تحسين الوحدة النمطية في قائمة XPosed</string>
-    <string name="settings_restart_systemui_behavior">Restart SystemUI Behavior</string>
-    <string name="settings_auto_restart_systemui">Automatically restart SystemUI.</string>
-    <string name="settings_manual_restart_systemui">Notify for manual restart.</string>
+    <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
+    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">SystemUI restart required</string>
     <string name="settings_section_title_miscellaneous">Miscellaneous</string>
     <string name="settings_restart_systemui_after_boot_title">أعد تشغيل SystemUI بعد الأقلاع</string>
@@ -419,6 +419,8 @@
     <string name="section_title_blur">Blur</string>
     <string name="window_level_blur_title">تعتيم مستتوى النافذة</string>
     <string name="window_level_blur_desc">يتطلب إعادة التشغيل لكي يعمل</string>
+    <string name="aggressive_blur_title">Aggressive Blur Enabler</string>
+    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
     <string name="blur_intensity_title">كثافة التعتيم</string>
     <!-- Themes -->
     <string name="section_title_for_pixel_roms">For Pixel Roms</string>
@@ -437,8 +439,8 @@
     <string name="power_menu_transparency_title">Power Menu Transparency</string>
     <string name="power_menu_transparency_desc">Power menu transparency for Fluid QS\nDo not use custom notification style</string>
     <string name="section_title_others">Others</string>
-    <string name="fix_notification_color_title">Fix Notification Color (A14)</string>
-    <string name="fix_notification_color_desc">Fix color of notification for A14 devices</string>
+    <string name="fix_notification_color_title">Fix Notification Color</string>
+    <string name="fix_notification_color_desc">Fix custom notification style on android 14</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Tile</string>
     <string name="vertical_qs_tile_title">بلاط QS عمودي</string>
@@ -578,6 +580,8 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\nMust use custom lockscreen clock</string>
+    <string name="wallpaper_fade_animation_title">Fade in AOD</string>
+    <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Foreground Image</string>
     <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
     <string name="background_image_title">Background Image</string>
@@ -749,6 +753,7 @@
     <string name="toast_lorn_colored_battery">يستخدم Lorn بطارية ملونة بشكل افتراضي</string>
     <string name="toast_plumpy_colored_battery">يستخدم Plumpy بطارية ملونة بشكل افتراضي</string>
     <string name="toast_select_style">حدد نمطًا أولاً</string>
+    <string name="toast_ksu_not_supported">KernelSU is currently not supported</string>
     <string name="toast_reboot_required">إعادة تشغيل مطلوبة</string>
     <string name="toast_lsposed_not_found">LSPosed غير موجود!</string>
     <string name="toast_easter_egg">كيف عرفت ذلك؟</string>
@@ -785,6 +790,8 @@
     <string name="icon">أيقونة</string>
     <string name="section_title_media_player_icons">أيقونات مشغل الوسائط</string>
     <string name="opt_selected">المحدد:</string>
+    <string name="opt_selected1">Selected: %s</string>
+    <string name="opt_selected2">Selected: %s%s</string>
     <string name="opt_default">(إفتراضي)</string>
     <string name="loading_dialog_wait">الرجاء الانتظار</string>
     <string name="rebooting_desc">إعادة التشغيل في 5 ثوانِِ</string>
