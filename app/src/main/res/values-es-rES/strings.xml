@@ -99,9 +99,9 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Mostrar Advertencia</string>
     <string name="settings_show_warning_desc">Mostrar advertencia sobre cómo reoptimizar el módulo en el menú de Xposed</string>
-    <string name="settings_restart_systemui_behavior">Restart SystemUI Behavior</string>
-    <string name="settings_auto_restart_systemui">Automatically restart SystemUI.</string>
-    <string name="settings_manual_restart_systemui">Notify for manual restart.</string>
+    <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
+    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">SystemUI restart required</string>
     <string name="settings_section_title_miscellaneous">Miscellaneous</string>
     <string name="settings_restart_systemui_after_boot_title">Reiniciar SystemUI después del Arranque</string>
@@ -419,6 +419,8 @@
     <string name="section_title_blur">Blur</string>
     <string name="window_level_blur_title">Desenfoque de nivel de ventana</string>
     <string name="window_level_blur_desc">Requiere reinicio para funcionar</string>
+    <string name="aggressive_blur_title">Aggressive Blur Enabler</string>
+    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
     <string name="blur_intensity_title">Intensidad del desenfoque</string>
     <!-- Themes -->
     <string name="section_title_for_pixel_roms">For Pixel Roms</string>
@@ -437,8 +439,8 @@
     <string name="power_menu_transparency_title">Transparencia del Menú de Energía</string>
     <string name="power_menu_transparency_desc">Transparencia del menú de energía para Fluid QS\nNo uses un estilo de notificación personalizado</string>
     <string name="section_title_others">Others</string>
-    <string name="fix_notification_color_title">Fix Notification Color (A14)</string>
-    <string name="fix_notification_color_desc">Fix color of notification for A14 devices</string>
+    <string name="fix_notification_color_title">Fix Notification Color</string>
+    <string name="fix_notification_color_desc">Fix custom notification style on android 14</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Tile</string>
     <string name="vertical_qs_tile_title">Botones de Ajustes Rápidos verticales</string>
@@ -578,6 +580,8 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\nMust use custom lockscreen clock</string>
+    <string name="wallpaper_fade_animation_title">Fade in AOD</string>
+    <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Foreground Image</string>
     <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
     <string name="background_image_title">Background Image</string>
@@ -749,6 +753,7 @@
     <string name="toast_lorn_colored_battery">Lorn utiliza el color de batería por defecto</string>
     <string name="toast_plumpy_colored_battery">Plumpy utiliza el color de batería por defecto</string>
     <string name="toast_select_style">Selecciona primero un estilo</string>
+    <string name="toast_ksu_not_supported">KernelSU is currently not supported</string>
     <string name="toast_reboot_required">Se requiere reinicio</string>
     <string name="toast_lsposed_not_found">¡No se encontró LSPosed!</string>
     <string name="toast_easter_egg">¿Cómo sabías eso?</string>
@@ -785,6 +790,8 @@
     <string name="icon">Iconos</string>
     <string name="section_title_media_player_icons">Iconos del Reproductor de medios</string>
     <string name="opt_selected">Seleccionado:</string>
+    <string name="opt_selected1">Selected: %s</string>
+    <string name="opt_selected2">Selected: %s%s</string>
     <string name="opt_default">(Predeterminado)</string>
     <string name="loading_dialog_wait">Por favor espera</string>
     <string name="rebooting_desc">Reiniciando en 5 segundos</string>
