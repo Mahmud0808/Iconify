@@ -162,6 +162,10 @@ public class ColorPickerWidget extends RelativeLayout {
         colorView.setId(View.generateViewId());
 
         colorPickerDialogId = colorView.getId();
+
+        RelativeLayout.LayoutParams layoutParams = (LayoutParams) findViewById(R.id.text_container).getLayoutParams();
+        layoutParams.addRule(RelativeLayout.START_OF, colorView.getId());
+        findViewById(R.id.text_container).setLayoutParams(layoutParams);
     }
 
     public void setBeforeColorPickerListener(BeforeColorPickerListener listener) {

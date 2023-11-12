@@ -159,6 +159,7 @@ public class MenuWidget extends RelativeLayout {
         endArrowImageView.setId(View.generateViewId());
 
         LayoutParams layoutParams = (LayoutParams) findViewById(R.id.text_container).getLayoutParams();
+        layoutParams.addRule(RelativeLayout.START_OF, endArrowImageView.getId());
         layoutParams.addRule(RelativeLayout.END_OF, iconImageView.getId());
         findViewById(R.id.text_container).setLayoutParams(layoutParams);
     }
