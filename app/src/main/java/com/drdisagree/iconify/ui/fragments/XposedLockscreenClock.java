@@ -11,7 +11,7 @@ import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.Resources.LSCLOCK_FONT_DIR;
-import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
+import static com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir;
 import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
 
 import android.annotation.SuppressLint;
@@ -52,7 +52,7 @@ public class XposedLockscreenClock extends BaseFragment {
                     Intent data = result.getData();
                     String path = getRealPath(data);
 
-                    if (path != null && copyToIconifyHiddenDir(path, LSCLOCK_FONT_DIR)) {
+                    if (path != null && moveToIconifyHiddenDir(path, LSCLOCK_FONT_DIR)) {
                         binding.lockscreenClockFont.setEnableButtonVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();

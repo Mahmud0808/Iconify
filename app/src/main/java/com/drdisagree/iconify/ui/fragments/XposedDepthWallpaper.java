@@ -5,7 +5,7 @@ import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANI
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_FG_DIR;
-import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
+import static com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir;
 import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
 
 import android.app.Activity;
@@ -38,7 +38,7 @@ public class XposedDepthWallpaper extends BaseFragment {
                     Intent data = result.getData();
                     String path = getRealPath(data);
 
-                    if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_FG_DIR)) {
+                    if (path != null && moveToIconifyHiddenDir(path, DEPTH_WALL_FG_DIR)) {
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, !binding.depthWallpaper.isSwitchChecked());
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, binding.depthWallpaper.isSwitchChecked());
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
@@ -54,7 +54,7 @@ public class XposedDepthWallpaper extends BaseFragment {
                     Intent data = result.getData();
                     String path = getRealPath(data);
 
-                    if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_BG_DIR)) {
+                    if (path != null && moveToIconifyHiddenDir(path, DEPTH_WALL_BG_DIR)) {
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, !binding.depthWallpaper.isSwitchChecked());
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, binding.depthWallpaper.isSwitchChecked());
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
