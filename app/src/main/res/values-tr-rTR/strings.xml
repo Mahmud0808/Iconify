@@ -99,9 +99,9 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Uyarı Göster</string>
     <string name="settings_show_warning_desc">Xposed Menü\'de modülün nasıl yeniden optimize edileceğine dair uyarı gösterin.</string>
-    <string name="settings_restart_systemui_behavior">SystemUI Davranışını Yeniden Başlat</string>
-    <string name="settings_auto_restart_systemui">SystemUI\'yi otomatik olarak yeniden başlat.</string>
-    <string name="settings_manual_restart_systemui">Manuel yeniden başlatma için bilgilendir.</string>
+    <string name="settings_restart_systemui_behavior">Mod Uygulama Yöntemi</string>
+    <string name="settings_auto_restart_systemui">UI\'yi otomatik olarak yeniden yüklemeye zorla</string>
+    <string name="settings_manual_restart_systemui">Manuel yeniden başlatma için bilgilendir</string>
     <string name="settings_systemui_restart_required">SystemUI yeniden başlatma gerekli</string>
     <string name="settings_section_title_miscellaneous">Çeşitli</string>
     <string name="settings_restart_systemui_after_boot_title">Önyüklemeden Sonra SystemUI\'yi Yeniden Başlatma</string>
@@ -419,6 +419,8 @@
     <string name="section_title_blur">Bulanıklık</string>
     <string name="window_level_blur_title">Pencere Bulanıklıkları</string>
     <string name="window_level_blur_desc">Çalışması için yeniden başlatma gerekli</string>
+    <string name="aggressive_blur_title">Agresif Bulanıklaştırma Etkinleştirici</string>
+    <string name="aggressive_blur_desc">Bazı romlarda bootloop sorunu olabilir</string>
     <string name="blur_intensity_title">Bulanıklık Seviyesi</string>
     <!-- Themes -->
     <string name="section_title_for_pixel_roms">Pixel Romlar İçin</string>
@@ -437,8 +439,8 @@
     <string name="power_menu_transparency_title">Güç Menüsü Şeffaflığı</string>
     <string name="power_menu_transparency_desc">Akışkan QS için güç menüsü şeffaflığı\nÖzel bildirim stilini kullanmayın</string>
     <string name="section_title_others">Diğerleri</string>
-    <string name="fix_notification_color_title">Bildirim Rengini Düzelt (A14)</string>
-    <string name="fix_notification_color_desc">A14 cihazları için bildirim rengini düzeltin</string>
+    <string name="fix_notification_color_title">Bildirim Rengini Düzelt</string>
+    <string name="fix_notification_color_desc">Android 14\'te özel bildirim stilini düzelt</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Karo</string>
     <string name="vertical_qs_tile_title">Dikey Hızlı Ayar Butonları</string>
@@ -578,6 +580,8 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Derinlikli Duvar Kağıdını Etkinleştir</string>
     <string name="enable_depth_wallpaper_desc">iOS benzeri derinlik etkisine sahip bir duvar kağıdı gösterin.\n Özel bir kilit ekranı saati kullanmalısınız</string>
+    <string name="wallpaper_fade_animation_title">AOD\'de solma</string>
+    <string name="wallpaper_fade_animation_desc">AOD\'da canlı duvar kağıdı kullanın ve solsun</string>
     <string name="foreground_image_title">Ön Plan Görüntüsü</string>
     <string name="foreground_image_desc">Derinlik duvar kağıdı için ön plan görüntüsü</string>
     <string name="background_image_title">Arkaplan görüntüsü</string>
@@ -749,6 +753,7 @@
     <string name="toast_lorn_colored_battery">Lorn standart olarak renkli batarya kullanır</string>
     <string name="toast_plumpy_colored_battery">Plumpy standart olarak renkli batarya kullanır</string>
     <string name="toast_select_style">Önce tasarım seçin</string>
+    <string name="toast_ksu_not_supported">KernelSU şu anda desteklenmiyor</string>
     <string name="toast_reboot_required">Yeniden başlatma gerekli</string>
     <string name="toast_lsposed_not_found">LSPosed bulunamadı!</string>
     <string name="toast_easter_egg">Bunu nasıl bildin?</string>
@@ -785,6 +790,8 @@
     <string name="icon">Simge</string>
     <string name="section_title_media_player_icons">Medya Oynatıcı İkonları</string>
     <string name="opt_selected">Seçili:</string>
+    <string name="opt_selected1">Seçili: %s</string>
+    <string name="opt_selected2">Seçili: %s%s</string>
     <string name="opt_default">(Standart)</string>
     <string name="loading_dialog_wait">Lütfen Bekleyin</string>
     <string name="rebooting_desc">5 saniye içinde yeniden başlatılıyor</string>

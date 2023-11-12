@@ -99,9 +99,9 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">显示警告</string>
     <string name="settings_show_warning_desc">在 Xposed 菜单中显示关于如何重新优化模块的警告</string>
-    <string name="settings_restart_systemui_behavior">重启 SystemUI 行为</string>
-    <string name="settings_auto_restart_systemui">自动重启 SystemUI。</string>
-    <string name="settings_manual_restart_systemui">通知手动重启。</string>
+    <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
+    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">需要重新启动 SystemUI</string>
     <string name="settings_section_title_miscellaneous">杂项</string>
     <string name="settings_restart_systemui_after_boot_title">开机后重启 SystemUI</string>
@@ -419,6 +419,8 @@
     <string name="section_title_blur">模糊</string>
     <string name="window_level_blur_title">窗口级模糊</string>
     <string name="window_level_blur_desc">需要重启才能生效</string>
+    <string name="aggressive_blur_title">Aggressive Blur Enabler</string>
+    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
     <string name="blur_intensity_title">模糊强度</string>
     <!-- Themes -->
     <string name="section_title_for_pixel_roms">适用于 Pixel 系统</string>
@@ -437,8 +439,8 @@
     <string name="power_menu_transparency_title">电源菜单透明度</string>
     <string name="power_menu_transparency_desc">快速设置流体的电源菜单透明度\n不使用自定义通知样式</string>
     <string name="section_title_others">Others</string>
-    <string name="fix_notification_color_title">Fix Notification Color (A14)</string>
-    <string name="fix_notification_color_desc">Fix color of notification for A14 devices</string>
+    <string name="fix_notification_color_title">Fix Notification Color</string>
+    <string name="fix_notification_color_desc">Fix custom notification style on android 14</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">快速设置图块</string>
     <string name="vertical_qs_tile_title">纵向快速设置图块</string>
@@ -578,6 +580,8 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">启用深度壁纸</string>
     <string name="enable_depth_wallpaper_desc">显示类 iOS 系统的深度壁纸\n必须使用自定义锁屏时钟</string>
+    <string name="wallpaper_fade_animation_title">Fade in AOD</string>
+    <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">前景图</string>
     <string name="foreground_image_desc">深度壁纸的前景图</string>
     <string name="background_image_title">背景图</string>
@@ -749,6 +753,7 @@
     <string name="toast_lorn_colored_battery">Lorn 默认使用彩色电池</string>
     <string name="toast_plumpy_colored_battery">Plumpy 默认使用彩色电池</string>
     <string name="toast_select_style">请先选择一种样式</string>
+    <string name="toast_ksu_not_supported">KernelSU is currently not supported</string>
     <string name="toast_reboot_required">需要重启</string>
     <string name="toast_lsposed_not_found">未找到 LSPosed！</string>
     <string name="toast_easter_egg">你怎么知道的？</string>
@@ -785,6 +790,8 @@
     <string name="icon">图标</string>
     <string name="section_title_media_player_icons">媒体播放器图标</string>
     <string name="opt_selected">选择：</string>
+    <string name="opt_selected1">Selected: %s</string>
+    <string name="opt_selected2">Selected: %s%s</string>
     <string name="opt_default">（默认）</string>
     <string name="loading_dialog_wait">请稍候</string>
     <string name="rebooting_desc">5 秒内重启</string>
