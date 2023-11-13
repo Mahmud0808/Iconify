@@ -235,10 +235,9 @@ public class QuickSettings extends ModPack {
                 protected void afterHookedMethod(MethodHookParam param) {
                     if (!fixNotificationColor) return;
 
-                    int color = (int) param.args[0];
                     View notificationBackgroundView = (View) getObjectField(param.thisObject, "mBackgroundNormal");
 
-                    setObjectField(param.thisObject, "mCurrentBackgroundTint", color);
+                    setObjectField(param.thisObject, "mCurrentBackgroundTint", 0);
                     callMethod(getObjectField(notificationBackgroundView, "mBackground"), "clearColorFilter");
                     setObjectField(notificationBackgroundView, "mTintColor", 0);
                     notificationBackgroundView.invalidate();
