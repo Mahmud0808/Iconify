@@ -34,7 +34,6 @@ import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.modules.utils.HeaderClockStyles;
-import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 
 import java.io.File;
 import java.util.Objects;
@@ -70,10 +69,6 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
         if (Key.length > 0 && (Objects.equals(Key[0], HEADER_CLOCK_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_COLOR_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_COLOR_CODE) || Objects.equals(Key[0], HEADER_CLOCK_FONT_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_SIDEMARGIN) || Objects.equals(Key[0], HEADER_CLOCK_TOPMARGIN) || Objects.equals(Key[0], HEADER_CLOCK_STYLE) || Objects.equals(Key[0], HEADER_CLOCK_CENTERED) || Objects.equals(Key[0], HEADER_CLOCK_TEXT_WHITE) || Objects.equals(Key[0], HEADER_CLOCK_FONT_TEXT_SCALING) || Objects.equals(Key[0], HEADER_CLOCK_LANDSCAPE_SWITCH))) {
             updateClockView();
-
-            if (Objects.equals(Key[0], HEADER_CLOCK_SWITCH)) {
-                Helpers.forceReloadSystemUI(mContext);
-            }
         }
     }
 

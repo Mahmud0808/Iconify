@@ -46,9 +46,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.modules.utils.Helpers;
-
-import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -85,15 +82,6 @@ public class QuickSettings extends ModPack {
         qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100);
 
         fixNotificationColor = Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false);
-
-        if (Key.length > 0 && (Objects.equals(Key[0], VERTICAL_QSTILE_SWITCH) ||
-                Objects.equals(Key[0], HIDE_QSLABEL_SWITCH) ||
-                Objects.equals(Key[0], QQS_TOPMARGIN) ||
-                Objects.equals(Key[0], QS_TOPMARGIN) ||
-                Objects.equals(Key[0], FIX_NOTIFICATION_COLOR))
-        ) {
-            Helpers.forceReloadSystemUI(mContext);
-        }
     }
 
     @Override

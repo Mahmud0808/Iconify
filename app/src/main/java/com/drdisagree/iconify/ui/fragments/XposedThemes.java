@@ -66,6 +66,7 @@ public class XposedThemes extends BaseFragment {
             RPrefs.putBoolean(FLUID_QSPANEL, isChecked);
             binding.fluidNotifTheme.setEnabled(isChecked);
             binding.fluidPowermenuTheme.setEnabled(isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         binding.fluidNotifTheme.setEnabled(binding.fluidQsTheme.isSwitchChecked());
         binding.fluidPowermenuTheme.setEnabled(binding.fluidQsTheme.isSwitchChecked());
@@ -74,12 +75,14 @@ public class XposedThemes extends BaseFragment {
         binding.fluidNotifTheme.setSwitchChecked(RPrefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false));
         binding.fluidNotifTheme.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_NOTIF_TRANSPARENCY, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
         // Fluid QS Power Menu Transparency
         binding.fluidPowermenuTheme.setSwitchChecked(RPrefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false));
         binding.fluidPowermenuTheme.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FLUID_POWERMENU_TRANSPARENCY, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
         // Fix notification color
@@ -89,6 +92,7 @@ public class XposedThemes extends BaseFragment {
         binding.fixNotificationColor.setSwitchChecked(RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, false));
         binding.fixNotificationColor.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FIX_NOTIFICATION_COLOR, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
         return view;

@@ -60,7 +60,6 @@ import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;

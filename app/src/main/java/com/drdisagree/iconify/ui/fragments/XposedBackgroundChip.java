@@ -31,7 +31,6 @@ import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.overlay.OverlayUtil;
-import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 
 import java.util.ArrayList;
 
@@ -54,8 +53,8 @@ public class XposedBackgroundChip extends BaseFragment {
             binding.clockTextColor.setEnabled(isChecked);
             binding.clockTextColorPicker.setEnabled(isChecked);
 
-            if (!isChecked && getContext() != null) {
-                Helpers.forceReloadSystemUI(getContext());
+            if (!isChecked) {
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
 
@@ -109,10 +108,7 @@ public class XposedBackgroundChip extends BaseFragment {
             RPrefs.putBoolean(QSPANEL_STATUSICONSBG_SWITCH, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
-
-                if (getContext() != null) {
-                    Helpers.forceReloadSystemUI(getContext());
-                }
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }, SWITCH_ANIMATION_DELAY);
         });
 
