@@ -30,7 +30,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentQsIconLabelBinding;
@@ -63,22 +62,13 @@ public class QsIconLabel extends BaseFragment {
         final int[] finalTextSize = {14};
 
         if (!Prefs.getString(FABRICATED_QS_TEXT_SIZE).equals(STR_NULL)) {
-            if (Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) == 14)
-                binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
-            else
-                binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE)) + "sp");
             finalTextSize[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_TEXT_SIZE));
-            binding.textSize.setValue(finalTextSize[0]);
-        } else
-            binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + " 14sp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
+            binding.textSize.setSliderValue(finalTextSize[0]);
+        }
 
         // Reset button
-        binding.resetTextSize.setVisibility(finalTextSize[0] == 14 ? View.INVISIBLE : View.VISIBLE);
-        binding.resetTextSize.setOnLongClickListener(v -> {
+        binding.textSize.setResetClickListener(v -> {
             finalTextSize[0] = 14;
-            binding.textSize.setValue(finalTextSize[0]);
-            binding.resetTextSize.setVisibility(View.INVISIBLE);
-            binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalTextSize[0] + "sp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
             Prefs.putString(FABRICATED_QS_TEXT_SIZE, String.valueOf(finalTextSize[0]));
             ResourceManager.removeResourceFromOverlay(
                     requireContext(),
@@ -87,7 +77,7 @@ public class QsIconLabel extends BaseFragment {
             return true;
         });
 
-        binding.textSize.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.textSize.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -95,13 +85,6 @@ public class QsIconLabel extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalTextSize[0] = (int) slider.getValue();
-                if (finalTextSize[0] == 14) {
-                    binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalTextSize[0] + "sp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
-                    binding.resetTextSize.setVisibility(View.INVISIBLE);
-                } else {
-                    binding.textSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalTextSize[0] + "sp");
-                    binding.resetTextSize.setVisibility(View.VISIBLE);
-                }
                 Prefs.putString(FABRICATED_QS_TEXT_SIZE, String.valueOf(finalTextSize[0]));
                 ResourceManager.buildOverlayWithResource(
                         requireContext(),
@@ -114,23 +97,13 @@ public class QsIconLabel extends BaseFragment {
         final int[] finalIconSize = {20};
 
         if (!Prefs.getString(FABRICATED_QS_ICON_SIZE).equals(STR_NULL)) {
-            if (Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) == 20) {
-                binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
-            } else {
-                binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE)) + "dp");
-            }
             finalIconSize[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_ICON_SIZE));
-            binding.iconSize.setValue(finalIconSize[0]);
-        } else
-            binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + " 20dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
+            binding.iconSize.setSliderValue(finalIconSize[0]);
+        }
 
         // Reset button
-        binding.resetIconSize.setVisibility(finalIconSize[0] == 20 ? View.INVISIBLE : View.VISIBLE);
-        binding.resetIconSize.setOnLongClickListener(v -> {
+        binding.iconSize.setResetClickListener(v -> {
             finalIconSize[0] = 20;
-            binding.iconSize.setValue(finalIconSize[0]);
-            binding.resetIconSize.setVisibility(View.INVISIBLE);
-            binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalIconSize[0] + "dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
             Prefs.putString(FABRICATED_QS_ICON_SIZE, String.valueOf(finalIconSize[0]));
             ResourceManager.removeResourceFromOverlay(
                     requireContext(),
@@ -139,7 +112,7 @@ public class QsIconLabel extends BaseFragment {
             return true;
         });
 
-        binding.iconSize.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.iconSize.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -147,13 +120,6 @@ public class QsIconLabel extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalIconSize[0] = (int) slider.getValue();
-                if (finalIconSize[0] == 20) {
-                    binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalIconSize[0] + "dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
-                    binding.resetIconSize.setVisibility(View.INVISIBLE);
-                } else {
-                    binding.iconSizeOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalIconSize[0] + "dp");
-                    binding.resetIconSize.setVisibility(View.VISIBLE);
-                }
                 Prefs.putString(FABRICATED_QS_ICON_SIZE, String.valueOf(finalIconSize[0]));
                 ResourceManager.buildOverlayWithResource(
                         requireContext(),
@@ -164,7 +130,7 @@ public class QsIconLabel extends BaseFragment {
 
         // Hide text size if hide label is enabled
         if (Prefs.getBoolean(QS_HIDE_LABEL_SWITCH, false)) {
-            binding.textSizeContainer.setVisibility(View.GONE);
+            binding.textSize.setVisibility(View.GONE);
         }
 
         // QS Text Color
@@ -210,14 +176,14 @@ public class QsIconLabel extends BaseFragment {
             }
         });
 
-        binding.labelWhite.setChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST1.overlay")));
-        binding.labelWhite.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelWhite.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST1.overlay")));
+        binding.labelWhite.setSwitchChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    binding.labelWhiteV2.setChecked(false);
-                    binding.labelSystemInverse.setChecked(false);
-                    binding.labelSystemInverseV2.setChecked(false);
-                    binding.labelFixtextcolor.setChecked(false);
+                    binding.labelWhiteV2.setSwitchChecked(false);
+                    binding.labelSystem.setSwitchChecked(false);
+                    binding.labelSystemV2.setSwitchChecked(false);
+                    binding.labelFixTextColor.setSwitchChecked(false);
 
                     OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay"));
                     OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST1.overlay"));
@@ -227,16 +193,15 @@ public class QsIconLabel extends BaseFragment {
                 handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
         });
-        binding.labelWhiteContainer.setOnClickListener(v -> binding.labelWhite.toggle());
 
-        binding.labelWhiteV2.setChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST2.overlay")));
-        binding.labelWhiteV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelWhiteV2.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST2.overlay")));
+        binding.labelWhiteV2.setSwitchChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    binding.labelWhite.setChecked(false);
-                    binding.labelSystemInverse.setChecked(false);
-                    binding.labelSystemInverseV2.setChecked(false);
-                    binding.labelFixtextcolor.setChecked(false);
+                    binding.labelWhite.setSwitchChecked(false);
+                    binding.labelSystem.setSwitchChecked(false);
+                    binding.labelSystemV2.setSwitchChecked(false);
+                    binding.labelFixTextColor.setSwitchChecked(false);
 
                     OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay"));
                     OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST2.overlay"));
@@ -246,16 +211,15 @@ public class QsIconLabel extends BaseFragment {
                 handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
         });
-        binding.labelWhiteV2Container.setOnClickListener(v -> binding.labelWhiteV2.toggle());
 
-        binding.labelSystemInverse.setChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST3.overlay")));
-        binding.labelSystemInverse.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelSystem.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST3.overlay")));
+        binding.labelSystem.setSwitchChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    binding.labelWhite.setChecked(false);
-                    binding.labelWhiteV2.setChecked(false);
-                    binding.labelSystemInverseV2.setChecked(false);
-                    binding.labelFixtextcolor.setChecked(false);
+                    binding.labelWhite.setSwitchChecked(false);
+                    binding.labelWhiteV2.setSwitchChecked(false);
+                    binding.labelSystemV2.setSwitchChecked(false);
+                    binding.labelFixTextColor.setSwitchChecked(false);
 
                     OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST4.overlay", "IconifyComponentQST5.overlay"));
                     OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST3.overlay"));
@@ -265,16 +229,15 @@ public class QsIconLabel extends BaseFragment {
                 handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
         });
-        binding.labelSystemInverseContainer.setOnClickListener(v -> binding.labelSystemInverse.toggle());
 
-        binding.labelSystemInverseV2.setChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST4.overlay")));
-        binding.labelSystemInverseV2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelSystemV2.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST4.overlay")));
+        binding.labelSystemV2.setSwitchChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    binding.labelWhite.setChecked(false);
-                    binding.labelWhiteV2.setChecked(false);
-                    binding.labelSystemInverse.setChecked(false);
-                    binding.labelFixtextcolor.setChecked(false);
+                    binding.labelWhite.setSwitchChecked(false);
+                    binding.labelWhiteV2.setSwitchChecked(false);
+                    binding.labelSystem.setSwitchChecked(false);
+                    binding.labelFixTextColor.setSwitchChecked(false);
 
                     OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST5.overlay"));
                     OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST4.overlay"));
@@ -284,16 +247,15 @@ public class QsIconLabel extends BaseFragment {
                 handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
         });
-        binding.labelSystemInverseV2Container.setOnClickListener(v -> binding.labelSystemInverseV2.toggle());
 
-        binding.labelFixtextcolor.setChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
-        binding.labelFixtextcolor.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.labelFixTextColor.setSwitchChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
+        binding.labelFixTextColor.setSwitchChangeListener((buttonView, isChecked) -> {
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
-                    binding.labelWhite.setChecked(false);
-                    binding.labelWhiteV2.setChecked(false);
-                    binding.labelSystemInverse.setChecked(false);
-                    binding.labelSystemInverseV2.setChecked(false);
+                    binding.labelWhite.setSwitchChecked(false);
+                    binding.labelWhiteV2.setSwitchChecked(false);
+                    binding.labelSystem.setSwitchChecked(false);
+                    binding.labelSystemV2.setSwitchChecked(false);
 
                     OverlayUtil.disableOverlays(replaceVariant("IconifyComponentQST1.overlay", "IconifyComponentQST2.overlay", "IconifyComponentQST3.overlay", "IconifyComponentQST4.overlay"));
                     OverlayUtil.enableOverlay(replaceVariant("IconifyComponentQST5.overlay"));
@@ -303,16 +265,15 @@ public class QsIconLabel extends BaseFragment {
                 handleCommonOverlay();
             }, SWITCH_ANIMATION_DELAY);
         });
-        binding.labelFixtextcolorContainer.setOnClickListener(v -> binding.labelFixtextcolor.toggle());
 
         // Hide Label
         AtomicBoolean isHideLabelContainerClicked = new AtomicBoolean(false);
-        binding.hideLabel.setChecked(Prefs.getBoolean(QS_HIDE_LABEL_SWITCH, false));
-        binding.hideLabel.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        binding.hideLabel.setSwitchChecked(Prefs.getBoolean(QS_HIDE_LABEL_SWITCH, false));
+        binding.hideLabel.setSwitchChangeListener((buttonView, isChecked) -> {
             if (!SystemUtil.hasStoragePermission()) {
                 isHideLabelContainerClicked.set(false);
                 SystemUtil.requestStoragePermission(requireContext());
-                binding.hideLabel.setChecked(!isChecked);
+                binding.hideLabel.setSwitchChecked(!isChecked);
             } else if (buttonView.isPressed() || isHideLabelContainerClicked.get()) {
                 isHideLabelContainerClicked.set(false);
                 Prefs.putBoolean(QS_HIDE_LABEL_SWITCH, isChecked);
@@ -324,7 +285,7 @@ public class QsIconLabel extends BaseFragment {
                             new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_label_container_margin", "-120dp")
                     );
 
-                    binding.textSizeContainer.setVisibility(View.GONE);
+                    binding.textSize.setVisibility(View.GONE);
                 } else {
                     ResourceManager.removeResourceFromOverlay(
                             requireContext(),
@@ -332,35 +293,23 @@ public class QsIconLabel extends BaseFragment {
                             new ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "qs_label_container_margin")
                     );
 
-                    binding.textSizeContainer.setVisibility(View.VISIBLE);
+                    binding.textSize.setVisibility(View.VISIBLE);
                 }
             }
         });
-        binding.hideLabelContainer.setOnClickListener(v -> {
-            isHideLabelContainerClicked.set(true);
-            binding.hideLabel.toggle();
-        });
+        binding.hideLabel.setBeforeSwitchChangeListener(() -> isHideLabelContainerClicked.set(true));
 
         // Move Icon
         final int[] finalMoveIcon = {16};
 
         if (!Prefs.getString(FABRICATED_QS_MOVE_ICON).equals(STR_NULL)) {
-            if (Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) == 16)
-                binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
-            else
-                binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON)) + "dp");
             finalMoveIcon[0] = Integer.parseInt(Prefs.getString(FABRICATED_QS_MOVE_ICON));
-            binding.moveIcon.setValue(finalMoveIcon[0]);
-        } else
-            binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + " 16dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
+            binding.moveIcon.setSliderValue(finalMoveIcon[0]);
+        }
 
         // Reset button
-        binding.resetMoveIcon.setVisibility(finalMoveIcon[0] == 16 ? View.INVISIBLE : View.VISIBLE);
-        binding.resetMoveIcon.setOnLongClickListener(v -> {
+        binding.moveIcon.setResetClickListener(v -> {
             finalMoveIcon[0] = 16;
-            binding.moveIcon.setValue(finalMoveIcon[0]);
-            binding.resetMoveIcon.setVisibility(View.INVISIBLE);
-            binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalMoveIcon[0] + "dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
             Prefs.putString(FABRICATED_QS_MOVE_ICON, String.valueOf(finalMoveIcon[0]));
             ResourceManager.removeResourceFromOverlay(
                     requireContext(),
@@ -369,7 +318,7 @@ public class QsIconLabel extends BaseFragment {
             return true;
         });
 
-        binding.moveIcon.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+        binding.moveIcon.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull Slider slider) {
             }
@@ -378,13 +327,6 @@ public class QsIconLabel extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 finalMoveIcon[0] = (int) slider.getValue();
-                if (finalMoveIcon[0] == 16) {
-                    binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalMoveIcon[0] + "dp " + Iconify.getAppContextLocale().getResources().getString(R.string.opt_default));
-                    binding.resetMoveIcon.setVisibility(View.INVISIBLE);
-                } else {
-                    binding.moveIconOutput.setText(getResources().getString(R.string.opt_selected) + ' ' + finalMoveIcon[0] + "dp");
-                    binding.resetMoveIcon.setVisibility(View.VISIBLE);
-                }
                 Prefs.putString(FABRICATED_QS_MOVE_ICON, String.valueOf(finalMoveIcon[0]));
                 ResourceManager.buildOverlayWithResource(
                         requireContext(),
