@@ -5,6 +5,8 @@ import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BOOT_ID;
 import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
 import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
+import static com.drdisagree.iconify.common.Preferences.LAST_RESTART_SYSTEMUI_TIME;
+import static com.drdisagree.iconify.common.Preferences.RESTART_CLICK_DELAY_TIME;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR_EXT;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
@@ -34,9 +36,7 @@ import com.topjohnwu.superuser.Shell;
 
 public class SystemUtil {
 
-    private static final int CLICK_DELAY_TIME = 5000;
     static boolean darkSwitching = false;
-    private static long lastClickTime = 0;
     private static final String blur_cmd0 = "resetprop ro.surface_flinger.supports_background_blur 1 && killall surfaceflinger";
     private static final String blur_cmd1 = "ro.sf.blurs_are_expensive=1";
     private static final String blur_cmd2 = "ro.surface_flinger.supports_background_blur=1";
@@ -49,9 +49,11 @@ public class SystemUtil {
     }
 
     public static void restartSystemUI() {
+        long lastRestartSystemUITime = RPrefs.getLong(LAST_RESTART_SYSTEMUI_TIME, 0);
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastClickTime >= CLICK_DELAY_TIME) {
-            lastClickTime = currentTime;
+
+        if (currentTime - lastRestartSystemUITime >= RESTART_CLICK_DELAY_TIME) {
+            RPrefs.putLong(LAST_RESTART_SYSTEMUI_TIME, currentTime);
             Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
         } else {
             Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_try_again_later), Toast.LENGTH_SHORT).show();

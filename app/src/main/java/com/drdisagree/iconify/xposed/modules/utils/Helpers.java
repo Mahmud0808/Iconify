@@ -21,6 +21,8 @@ import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
 import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
+import static com.drdisagree.iconify.common.Preferences.LAST_RESTART_SYSTEMUI_TIME;
+import static com.drdisagree.iconify.common.Preferences.RESTART_CLICK_DELAY_TIME;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR_EXT;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.modRes;
@@ -59,9 +61,6 @@ import de.robv.android.xposed.XC_MethodHook;
 @SuppressWarnings({"unused", "DiscouragedApi"})
 public class Helpers {
 
-    private static long lastRestartSystemUITime = 0;
-    private static final int CLICK_DELAY_TIME = 5000;
-
     public static void forceReloadSystemUI(Context context) {
         int selectedBehavior = 0;
 
@@ -72,9 +71,22 @@ public class Helpers {
         }
 
         if (selectedBehavior == 0) {
+            long lastRestartSystemUITime = 0;
             long currentTime = System.currentTimeMillis();
-            if (currentTime - lastRestartSystemUITime >= CLICK_DELAY_TIME) {
-                lastRestartSystemUITime = currentTime;
+
+            try {
+                lastRestartSystemUITime = Xprefs.getLong(LAST_RESTART_SYSTEMUI_TIME, 0);
+            } catch (Throwable ignored) {
+                lastRestartSystemUITime = RPrefs.getLong(LAST_RESTART_SYSTEMUI_TIME, 0);
+            }
+
+            if (currentTime - lastRestartSystemUITime >= RESTART_CLICK_DELAY_TIME) {
+                try {
+                    Xprefs.edit().putLong(LAST_RESTART_SYSTEMUI_TIME, currentTime).apply();
+                } catch (Throwable ignored) {
+                    RPrefs.putLong(LAST_RESTART_SYSTEMUI_TIME, currentTime);
+                }
+
                 Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
             } else {
                 try {
