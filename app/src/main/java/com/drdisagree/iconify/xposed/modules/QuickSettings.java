@@ -237,7 +237,11 @@ public class QuickSettings extends ModPack {
 
                     View notificationBackgroundView = (View) getObjectField(param.thisObject, "mBackgroundNormal");
 
-                    setObjectField(param.thisObject, "mCurrentBackgroundTint", 0);
+                    try {
+                        setObjectField(param.thisObject, "mCurrentBackgroundTint", (int) param.args[0]);
+                    } catch (Throwable ignored) {
+                    }
+
                     callMethod(getObjectField(notificationBackgroundView, "mBackground"), "clearColorFilter");
                     setObjectField(notificationBackgroundView, "mTintColor", 0);
                     notificationBackgroundView.invalidate();
@@ -246,6 +250,7 @@ public class QuickSettings extends ModPack {
 
             hookAllMethods(ActivatableNotificationViewClass, "setBackgroundTintColor", removeNotificationTint);
             hookAllMethods(ActivatableNotificationViewClass, "updateBackgroundColors", removeNotificationTint);
+            hookAllMethods(ActivatableNotificationViewClass, "updateBackgroundTint", removeNotificationTint);
 
             XC_MethodHook replaceTintColor = new XC_MethodHook() {
                 @Override
@@ -257,9 +262,13 @@ public class QuickSettings extends ModPack {
             };
 
             try {
+                hookAllMethods(NotificationBackgroundViewClass, "setCustomBackground$1", replaceTintColor);
+            } catch (Throwable ignored) {
+            }
+
+            try {
                 hookAllMethods(NotificationBackgroundViewClass, "setCustomBackground", replaceTintColor);
             } catch (Throwable ignored) {
-                hookAllMethods(NotificationBackgroundViewClass, "setCustomBackground$1", replaceTintColor);
             }
 
             hookAllMethods(FooterViewClass, "updateColors", new XC_MethodHook() {
