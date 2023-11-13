@@ -92,7 +92,7 @@ public class QuickSettings extends ModPack {
                 Objects.equals(Key[0], QS_TOPMARGIN) ||
                 Objects.equals(Key[0], FIX_NOTIFICATION_COLOR))
         ) {
-            Helpers.forceReloadUI(mContext);
+            Helpers.forceReloadSystemUI(mContext);
         }
     }
 

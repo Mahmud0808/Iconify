@@ -95,7 +95,7 @@ public class QSFluidTheme extends ModPack {
                 Objects.equals(Key[0], FLUID_NOTIF_TRANSPARENCY) ||
                 Objects.equals(Key[0], FLUID_POWERMENU_TRANSPARENCY)
         )) {
-            Helpers.forceReloadUI(mContext);
+            Helpers.forceReloadSystemUI(mContext);
         }
     }
 

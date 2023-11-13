@@ -218,7 +218,7 @@ public class Preferences {
     public static final String UPDATE_OVER_WIFI = "IconifyUpdateOverWifi";
     public static final String SHOW_XPOSED_WARN = "IconifyShowXposedWarn";
     public static final String SHOW_HOME_CARD = "IconifyShowHomeCard";
-    public static final String RESTART_SYSUI_BEHAVIOR = "IconifyRestartSysuiBehavior";
+    public static final String RESTART_SYSUI_BEHAVIOR_EXT = "IconifyRestartSysuiBehaviorExtended";
     public static final String XPOSED_ONLY_MODE = "IconifyXposedOnlyMode";
     public static boolean isXposedOnlyMode = Prefs.getBoolean(XPOSED_ONLY_MODE, true) &&
             !SKIP_TO_HOMEPAGE_FOR_TESTING;

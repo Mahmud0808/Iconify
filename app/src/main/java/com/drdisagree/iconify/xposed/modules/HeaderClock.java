@@ -72,7 +72,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
             updateClockView();
 
             if (Objects.equals(Key[0], HEADER_CLOCK_SWITCH)) {
-                Helpers.forceReloadUI(mContext);
+                Helpers.forceReloadSystemUI(mContext);
             }
         }
     }

@@ -116,7 +116,7 @@ public class XposedBatteryStyle extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 if (selectedBatteryStyle < 3) {
-                    Helpers.forceReloadUI(getContext());
+                    Helpers.forceReloadSystemUI(getContext());
                 }
             }
         });
@@ -132,7 +132,7 @@ public class XposedBatteryStyle extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 if (selectedBatteryStyle < 3) {
-                    Helpers.forceReloadUI(getContext());
+                    Helpers.forceReloadSystemUI(getContext());
                 }
             }
         });

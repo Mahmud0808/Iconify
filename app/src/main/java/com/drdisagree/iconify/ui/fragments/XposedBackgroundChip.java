@@ -55,7 +55,7 @@ public class XposedBackgroundChip extends BaseFragment {
             binding.clockTextColorPicker.setEnabled(isChecked);
 
             if (!isChecked && getContext() != null) {
-                Helpers.forceReloadUI(getContext());
+                Helpers.forceReloadSystemUI(getContext());
             }
         });
 
@@ -111,7 +111,7 @@ public class XposedBackgroundChip extends BaseFragment {
                 OverlayUtil.enableOverlay("IconifyComponentIXCC.overlay");
 
                 if (getContext() != null) {
-                    Helpers.forceReloadUI(getContext());
+                    Helpers.forceReloadSystemUI(getContext());
                 }
             }, SWITCH_ANIMATION_DELAY);
         });

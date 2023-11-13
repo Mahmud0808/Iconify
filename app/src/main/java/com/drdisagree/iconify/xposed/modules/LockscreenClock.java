@@ -84,7 +84,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
             if (Objects.equals(Key[0], LSCLOCK_SWITCH) ||
                     Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH)) {
-                Helpers.forceReloadUI(mContext);
+                Helpers.forceReloadSystemUI(mContext);
             }
         }
     }

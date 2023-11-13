@@ -3,7 +3,9 @@ package com.drdisagree.iconify.utils;
 import static android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BOOT_ID;
-import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR;
+import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
+import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
+import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR_EXT;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
 
@@ -27,11 +29,12 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
+import com.drdisagree.iconify.config.RPrefs;
 import com.topjohnwu.superuser.Shell;
 
 public class SystemUtil {
 
-    private static final int CLICK_DELAY_TIME = 8000;
+    private static final int CLICK_DELAY_TIME = 5000;
     static boolean darkSwitching = false;
     private static long lastClickTime = 0;
     private static final String blur_cmd0 = "resetprop ro.surface_flinger.supports_background_blur 1 && killall surfaceflinger";
@@ -55,9 +58,19 @@ public class SystemUtil {
         }
     }
 
+    public static void forceReloadUI() {
+        boolean state = RPrefs.getBoolean(FORCE_RELOAD_OVERLAY_STATE, false);
+        String pkgName = FORCE_RELOAD_PACKAGE_NAME;
+        Shell.cmd("cmd overlay " + (state ? "disable" : "enable") + " --user current " + pkgName + "; cmd overlay " + (state ? "enable" : "disable") + " --user current " + pkgName).submit();
+    }
+
     public static void handleSystemUIRestart() {
-        if (Prefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true)) {
+        int selectedBehavior = Prefs.getInt(RESTART_SYSUI_BEHAVIOR_EXT, 0);
+
+        if (selectedBehavior == 0) {
             restartSystemUI();
+        } else if (selectedBehavior == 1) {
+            forceReloadUI();
         } else {
             Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();
         }

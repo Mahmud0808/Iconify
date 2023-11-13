@@ -74,7 +74,7 @@ public class DepthWallpaper extends ModPack {
             updateWallpaper();
 
             if (Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH)) {
-                Helpers.forceReloadUI(mContext);
+                Helpers.forceReloadSystemUI(mContext);
             }
         }
     }

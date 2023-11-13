@@ -381,7 +381,7 @@ public class BatteryStyleManager extends ModPack {
         }
 
         if (Key.length > 0 && Objects.equals(Key[0], CUSTOM_BATTERY_STYLE)) {
-            Helpers.forceReloadUI(mContext);
+            Helpers.forceReloadSystemUI(mContext);
         }
     }
 

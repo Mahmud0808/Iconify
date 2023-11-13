@@ -5,126 +5,28 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.google.android.material.textview.MaterialTextView
-        style="@style/TextAppearance.Material3.TitleMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/settings_section_title_xposed"
-        android:textColor="?attr/colorPrimary" />
-
-    <RelativeLayout
-        android:id="@+id/hide_warn_message_container"
+    <com.drdisagree.iconify.ui.widgets.TitleWidget
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:iconSpaceReserved="true"
+        app:titleText="@string/settings_section_title_xposed" />
 
-        <ImageView
-            android:id="@+id/settings_iv_xposed_warn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_xposed_warn"
-            app:tint="?attr/colorPrimary" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/hide_warn_message"
-            android:layout_toEndOf="@id/settings_iv_xposed_warn"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_show_warning_title"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_show_warning_desc"
-                android:textAlignment="viewStart"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/hide_warn_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="24dp"
-            android:checked="true" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/restart_systemui_behavior_container"
+    <com.drdisagree.iconify.ui.widgets.SwitchWidget
+        android:id="@+id/hide_warn_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_background_material"
-        android:clickable="true">
+        app:icon="@drawable/ic_xposed_warn"
+        app:isChecked="true"
+        app:summaryText="@string/settings_show_warning_desc"
+        app:titleText="@string/settings_show_warning_title" />
 
-        <ImageView
-            android:id="@+id/settings_iv_restart_systemui_behavior"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24dp"
-            android:contentDescription="@string/icon"
-            android:src="@drawable/ic_xposed_restart_systemui"
-            app:tint="?attr/colorPrimary" />
+    <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+        android:id="@+id/mod_applying_method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:entries="@array/xposed_mod_apply_method"
+        app:icon="@drawable/ic_xposed_restart_systemui"
+        app:showSelectedPrefix="false"
+        app:titleText="@string/settings_restart_systemui_behavior" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginVertical="22dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/restart_systemui_behavior"
-            android:layout_toEndOf="@id/settings_iv_restart_systemui_behavior"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_restart_systemui_behavior"
-                android:textColor="@color/text_color_primary" />
-
-            <TextView
-                android:id="@+id/restart_systemui_behavior_desc"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_color_secondary" />
-
-        </LinearLayout>
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/restart_systemui_behavior"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="24dp"
-            android:checked="true" />
-
-    </RelativeLayout>
 </LinearLayout>

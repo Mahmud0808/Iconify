@@ -52,7 +52,7 @@ public class QSTransparency extends ModPack {
 
         if (Key.length > 0 && Objects.equals(Key[0], QS_TRANSPARENCY_SWITCH) ||
                 Objects.equals(Key[0], NOTIF_TRANSPARENCY_SWITCH)) {
-            Helpers.forceReloadUI(mContext);
+            Helpers.forceReloadSystemUI(mContext);
         }
     }
 

@@ -93,7 +93,7 @@ public class Miscellaneous extends ModPack implements IXposedHookLoadPackage {
                     Objects.equals(Key[0], HIDE_LOCKSCREEN_STATUSBAR) ||
                     Objects.equals(Key[0], FIXED_STATUS_ICONS_SWITCH)
             ) {
-                Helpers.forceReloadUI(mContext);
+                Helpers.forceReloadSystemUI(mContext);
             }
         }
     }
