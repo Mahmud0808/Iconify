@@ -59,7 +59,7 @@ public class QuickSettings extends ModPack {
     private static Float QsTileSecondaryTextSize = null;
     private static boolean qqsTopMarginEnabled = false;
     private static boolean qsTopMarginEnabled = false;
-    private boolean fixNotificationColor = false;
+    private boolean fixNotificationColor = true;
     private int qqsTopMargin = 100;
     private int qsTopMargin = 100;
     private Object mParam = null;
@@ -81,7 +81,8 @@ public class QuickSettings extends ModPack {
         qqsTopMargin = Xprefs.getInt(QQS_TOPMARGIN, 100);
         qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100);
 
-        fixNotificationColor = Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false);
+        fixNotificationColor = Build.VERSION.SDK_INT >= 34 &&
+                Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, true);
     }
 
     @Override
@@ -229,7 +230,7 @@ public class QuickSettings extends ModPack {
             Class<?> NotificationBackgroundViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.NotificationBackgroundView", loadPackageParam.classLoader);
             Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
 
-            hookAllMethods(ActivatableNotificationViewClass, "setBackgroundTintColor", new XC_MethodHook() {
+            XC_MethodHook removeNotificationTint = new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     if (!fixNotificationColor) return;
@@ -242,16 +243,25 @@ public class QuickSettings extends ModPack {
                     setObjectField(notificationBackgroundView, "mTintColor", 0);
                     notificationBackgroundView.invalidate();
                 }
-            });
+            };
 
-            hookAllMethods(NotificationBackgroundViewClass, "setCustomBackground$1", new XC_MethodHook() {
+            hookAllMethods(ActivatableNotificationViewClass, "setBackgroundTintColor", removeNotificationTint);
+            hookAllMethods(ActivatableNotificationViewClass, "updateBackgroundColors", removeNotificationTint);
+
+            XC_MethodHook replaceTintColor = new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     if (!fixNotificationColor) return;
 
                     setObjectField(param.thisObject, "mTintColor", 0);
                 }
-            });
+            };
+
+            try {
+                hookAllMethods(NotificationBackgroundViewClass, "setCustomBackground", replaceTintColor);
+            } catch (Throwable ignored) {
+                hookAllMethods(NotificationBackgroundViewClass, "setCustomBackground$1", replaceTintColor);
+            }
 
             hookAllMethods(FooterViewClass, "updateColors", new XC_MethodHook() {
                 @Override
