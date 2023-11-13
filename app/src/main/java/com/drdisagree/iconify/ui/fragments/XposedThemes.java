@@ -89,7 +89,7 @@ public class XposedThemes extends BaseFragment {
         binding.sectionOthers.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
         binding.fixNotificationColor.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
 
-        binding.fixNotificationColor.setSwitchChecked(RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, false));
+        binding.fixNotificationColor.setSwitchChecked(RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, true));
         binding.fixNotificationColor.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FIX_NOTIFICATION_COLOR, isChecked);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);

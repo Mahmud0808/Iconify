@@ -59,7 +59,7 @@ public class QuickSettings extends ModPack {
     private static Float QsTileSecondaryTextSize = null;
     private static boolean qqsTopMarginEnabled = false;
     private static boolean qsTopMarginEnabled = false;
-    private boolean fixNotificationColor = false;
+    private boolean fixNotificationColor = true;
     private int qqsTopMargin = 100;
     private int qsTopMargin = 100;
     private Object mParam = null;
@@ -81,7 +81,8 @@ public class QuickSettings extends ModPack {
         qqsTopMargin = Xprefs.getInt(QQS_TOPMARGIN, 100);
         qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100);
 
-        fixNotificationColor = Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false);
+        fixNotificationColor = Build.VERSION.SDK_INT >= 34 &&
+                Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, true);
     }
 
     @Override
