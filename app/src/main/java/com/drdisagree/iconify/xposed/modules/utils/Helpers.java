@@ -17,12 +17,6 @@ package com.drdisagree.iconify.xposed.modules.utils;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
-import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
-import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
-import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
-import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR;
-import static com.drdisagree.iconify.config.XPrefs.Xprefs;
-import static com.drdisagree.iconify.xposed.HookRes.modRes;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
@@ -33,20 +27,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.RPrefs;
 import com.topjohnwu.superuser.Shell;
 
 import java.lang.reflect.Constructor;
@@ -57,35 +45,6 @@ import de.robv.android.xposed.XC_MethodHook;
 
 @SuppressWarnings({"unused", "DiscouragedApi"})
 public class Helpers {
-
-    public static void forceReloadUI(Context context) {
-        boolean forceReload = false;
-        boolean state = false;
-
-        try {
-            forceReload = Xprefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true);
-        } catch (Throwable ignored) {
-            forceReload = RPrefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true);
-        }
-
-        try {
-            state = Xprefs.getBoolean(FORCE_RELOAD_OVERLAY_STATE, false);
-        } catch (Throwable ignored) {
-            state = RPrefs.getBoolean(FORCE_RELOAD_OVERLAY_STATE, false);
-        }
-
-        if (forceReload) {
-            boolean finalState = state;
-            String pkgName = FORCE_RELOAD_PACKAGE_NAME;
-            new Handler(Looper.getMainLooper()).postDelayed(() -> Shell.cmd("cmd overlay " + (finalState ? "disable" : "enable") + " --user current " + pkgName + "; cmd overlay " + (finalState ? "enable" : "disable") + " --user current " + pkgName).submit(), SWITCH_ANIMATION_DELAY);
-        } else {
-            try {
-                Toast.makeText(context, modRes.getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();
-            } catch (Throwable ignored) {
-                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     public static void enableOverlay(String pkgName) {
         Shell.cmd("cmd overlay enable --user current " + pkgName, "cmd overlay set-priority " + pkgName + " highest").exec();

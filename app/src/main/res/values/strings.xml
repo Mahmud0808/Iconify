@@ -105,7 +105,8 @@
     <string name="settings_show_warning_title">Show Warning</string>
     <string name="settings_show_warning_desc">Show warning on how to re-optimize module in Xposed Menu.</string>
     <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
-    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_auto_restart_systemui">Automatically restart SystemUI</string>
+    <string name="settings_auto_force_reload_ui">Automatically force reload UI</string>
     <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">SystemUI restart required</string>
     <string name="settings_section_title_miscellaneous">Miscellaneous</string>

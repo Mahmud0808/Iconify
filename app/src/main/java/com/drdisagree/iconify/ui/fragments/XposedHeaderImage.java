@@ -6,7 +6,7 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_S
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT;
 import static com.drdisagree.iconify.common.Resources.HEADER_IMAGE_DIR;
-import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
+import static com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir;
 import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
 
 import android.annotation.SuppressLint;
@@ -40,7 +40,7 @@ public class XposedHeaderImage extends BaseFragment {
                     Intent data = result.getData();
                     String path = getRealPath(data);
 
-                    if (path != null && copyToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
+                    if (path != null && moveToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
                         binding.headerImage.setEnableButtonVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();

@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
@@ -7,6 +8,8 @@ import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedQuickSettingsBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
 
 public class XposedQuickSettings extends BaseFragment {
@@ -38,6 +42,7 @@ public class XposedQuickSettings extends BaseFragment {
         binding.verticalTile.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(VERTICAL_QSTILE_SWITCH, isChecked);
             binding.hideTileLabel.setEnabled(isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide label for vertical tiles
@@ -45,6 +50,7 @@ public class XposedQuickSettings extends BaseFragment {
         binding.hideTileLabel.setSwitchChecked(RPrefs.getBoolean(HIDE_QSLABEL_SWITCH, false));
         binding.hideTileLabel.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(HIDE_QSLABEL_SWITCH, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::doubleToggleDarkMode, SWITCH_ANIMATION_DELAY);
         });
 
         // QQS panel top margin slider
@@ -57,6 +63,7 @@ public class XposedQuickSettings extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 RPrefs.putInt(QQS_TOPMARGIN, (int) slider.getValue());
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
         binding.qqsTopMargin.setResetClickListener(v -> {
@@ -74,6 +81,7 @@ public class XposedQuickSettings extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 RPrefs.putInt(QS_TOPMARGIN, (int) slider.getValue());
+                new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             }
         });
         binding.qsTopMargin.setResetClickListener(v -> {

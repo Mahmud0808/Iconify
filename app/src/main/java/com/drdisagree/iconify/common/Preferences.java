@@ -142,6 +142,11 @@ public class Preferences {
     // Xposed force reload overlay
     public static final String FORCE_RELOAD_PACKAGE_NAME = "com.android.internal.display.cutout.emulation.corner";
 
+    // Xposed settings
+    public static final String RESTART_SYSUI_BEHAVIOR_EXT = "IconifyRestartSysuiBehaviorExtended";
+    public static final String LAST_RESTART_SYSTEMUI_TIME = "IconifyLastRestartSystemuiTime";
+    public static final int RESTART_CLICK_DELAY_TIME = 6000;
+
     // Preference keys
     public static final String STR_NULL = "null";
     public static final String UPDATE_SCHEDULE = "iconify_update_schedule";
@@ -218,7 +223,6 @@ public class Preferences {
     public static final String UPDATE_OVER_WIFI = "IconifyUpdateOverWifi";
     public static final String SHOW_XPOSED_WARN = "IconifyShowXposedWarn";
     public static final String SHOW_HOME_CARD = "IconifyShowHomeCard";
-    public static final String RESTART_SYSUI_BEHAVIOR = "IconifyRestartSysuiBehavior";
     public static final String XPOSED_ONLY_MODE = "IconifyXposedOnlyMode";
     public static boolean isXposedOnlyMode = Prefs.getBoolean(XPOSED_ONLY_MODE, true) &&
             !SKIP_TO_HOMEPAGE_FOR_TESTING;

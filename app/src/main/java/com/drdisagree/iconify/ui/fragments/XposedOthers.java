@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN;
@@ -12,6 +13,8 @@ import static com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SW
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedOthersBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
 
 public class XposedOthers extends BaseFragment {
@@ -40,19 +44,31 @@ public class XposedOthers extends BaseFragment {
 
         // Hide carrier group
         binding.hideQsCarrierGroup.setSwitchChecked(RPrefs.getBoolean(QSPANEL_HIDE_CARRIER, false));
-        binding.hideQsCarrierGroup.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked));
+        binding.hideQsCarrierGroup.setSwitchChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(QSPANEL_HIDE_CARRIER, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+        });
 
         // Hide status icons
         binding.hideStatusIcons.setSwitchChecked(RPrefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false));
-        binding.hideStatusIcons.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked));
+        binding.hideStatusIcons.setSwitchChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+        });
 
         // Hide lockscreen carrier
         binding.hideLockscreenCarrier.setSwitchChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_CARRIER, false));
-        binding.hideLockscreenCarrier.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked));
+        binding.hideLockscreenCarrier.setSwitchChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+        });
 
         // Hide lockscreen statusbar
         binding.hideLockscreenStatusbar.setSwitchChecked(RPrefs.getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false));
-        binding.hideLockscreenStatusbar.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked));
+        binding.hideLockscreenStatusbar.setSwitchChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+        });
 
         // Fixed status icons
         binding.fixedStatusIcons.setSwitchChecked(RPrefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false));
@@ -60,6 +76,7 @@ public class XposedOthers extends BaseFragment {
             binding.statusIconsTopMargin.setEnabled(isChecked);
             binding.statusIconsSideMargin.setEnabled(isChecked);
             RPrefs.putBoolean(FIXED_STATUS_ICONS_SWITCH, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
         // Status icons top margin

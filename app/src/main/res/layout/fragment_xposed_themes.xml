@@ -87,6 +87,7 @@
                 android:id="@+id/fix_notification_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:isChecked="true"
                 app:summaryText="@string/fix_notification_color_desc"
                 app:titleText="@string/fix_notification_color_title" />
 

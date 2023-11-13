@@ -36,7 +36,6 @@ import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.modules.utils.DisplayUtils;
-import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 
 import java.io.File;
 import java.util.Objects;
@@ -72,10 +71,6 @@ public class DepthWallpaper extends ModPack {
                 Objects.equals(Key[0], DEPTH_WALLPAPER_CHANGED))
         ) {
             updateWallpaper();
-
-            if (Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH)) {
-                Helpers.forceReloadUI(mContext);
-            }
         }
     }
 

@@ -9,7 +9,7 @@ import static com.drdisagree.iconify.common.Preferences.EASTER_EGG;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
-import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR;
+import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR_EXT;
 import static com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD;
 import static com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI;
@@ -217,27 +217,12 @@ public class Settings extends BaseFragment {
         binding.settingsUpdate.autoUpdateWifiOnly.setSwitchChangeListener((buttonView, isChecked) -> Prefs.putBoolean(UPDATE_OVER_WIFI, isChecked));
 
         // Show xposed warn
-        binding.settingsXposed.hideWarnMessage.setChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
-        binding.settingsXposed.hideWarnMessage.setOnCheckedChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
-        binding.settingsXposed.hideWarnMessageContainer.setOnClickListener(v -> binding.settingsXposed.hideWarnMessage.toggle());
+        binding.settingsXposed.hideWarnMessage.setSwitchChecked(Prefs.getBoolean(SHOW_XPOSED_WARN, true));
+        binding.settingsXposed.hideWarnMessage.setSwitchChangeListener((buttonView, isChecked) -> Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked));
 
         // Restart systemui behavior
-        binding.settingsXposed.restartSystemuiBehavior.setChecked(Prefs.getBoolean(RESTART_SYSUI_BEHAVIOR, true));
-        binding.settingsXposed.restartSystemuiBehavior.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Prefs.putBoolean(RESTART_SYSUI_BEHAVIOR, isChecked);
-            RPrefs.putBoolean(RESTART_SYSUI_BEHAVIOR, isChecked);
-            if (isChecked) {
-                binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_auto_restart_systemui));
-            } else {
-                binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_manual_restart_systemui));
-            }
-        });
-        binding.settingsXposed.restartSystemuiBehaviorContainer.setOnClickListener(v -> binding.settingsXposed.restartSystemuiBehavior.toggle());
-        if (binding.settingsXposed.restartSystemuiBehavior.isChecked()) {
-            binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_auto_restart_systemui));
-        } else {
-            binding.settingsXposed.restartSystemuiBehaviorDesc.setText(getResources().getString(R.string.settings_manual_restart_systemui));
-        }
+        binding.settingsXposed.modApplyingMethod.setSelectedIndex(RPrefs.getInt(RESTART_SYSUI_BEHAVIOR_EXT, 0));
+        binding.settingsXposed.modApplyingMethod.setOnItemSelectedListener(index -> RPrefs.putInt(RESTART_SYSUI_BEHAVIOR_EXT, index));
 
         // Restart sysui after boot
         binding.settingsMisc.restartSysuiAfterBoot.setSwitchChecked(Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false));

@@ -23,6 +23,10 @@ public class RPrefs {
         editor.putInt(key, val).apply();
     }
 
+    public static void putLong(String key, long val) {
+        editor.putLong(key, val).apply();
+    }
+
     public static void putFloat(String key, float val) {
         editor.putFloat(key, val).apply();
     }
@@ -46,6 +50,14 @@ public class RPrefs {
 
     public static int getInt(String key, int defValue) {
         return prefs.getInt(key, defValue);
+    }
+
+    public static long getLong(String key) {
+        return prefs.getLong(key, 0);
+    }
+
+    public static long getLong(String key, long defValue) {
+        return prefs.getLong(key, defValue);
     }
 
     public static float getFloat(String key) {

@@ -46,9 +46,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.modules.utils.Helpers;
-
-import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -62,7 +59,7 @@ public class QuickSettings extends ModPack {
     private static Float QsTileSecondaryTextSize = null;
     private static boolean qqsTopMarginEnabled = false;
     private static boolean qsTopMarginEnabled = false;
-    private boolean fixNotificationColor = false;
+    private boolean fixNotificationColor = true;
     private int qqsTopMargin = 100;
     private int qsTopMargin = 100;
     private Object mParam = null;
@@ -84,16 +81,8 @@ public class QuickSettings extends ModPack {
         qqsTopMargin = Xprefs.getInt(QQS_TOPMARGIN, 100);
         qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100);
 
-        fixNotificationColor = Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false);
-
-        if (Key.length > 0 && (Objects.equals(Key[0], VERTICAL_QSTILE_SWITCH) ||
-                Objects.equals(Key[0], HIDE_QSLABEL_SWITCH) ||
-                Objects.equals(Key[0], QQS_TOPMARGIN) ||
-                Objects.equals(Key[0], QS_TOPMARGIN) ||
-                Objects.equals(Key[0], FIX_NOTIFICATION_COLOR))
-        ) {
-            Helpers.forceReloadUI(mContext);
-        }
+        fixNotificationColor = Build.VERSION.SDK_INT >= 34 &&
+                Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, true);
     }
 
     @Override

@@ -164,6 +164,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void addOrRemoveProperty(View view, int property, boolean flag) {
         try {
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();

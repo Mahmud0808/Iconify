@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_CENTERED;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_SWITCH;
@@ -12,14 +13,16 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.Resources.HEADER_CLOCK_FONT_DIR;
-import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
 import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
+import static com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +42,7 @@ import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.slider.Slider;
 
 import java.util.ArrayList;
@@ -53,7 +57,7 @@ public class XposedHeaderClock extends BaseFragment {
                     Intent data = result.getData();
                     String path = getRealPath(data);
 
-                    if (path != null && copyToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
+                    if (path != null && moveToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
                         binding.headerClockFont.setEnableButtonVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
@@ -76,6 +80,7 @@ public class XposedHeaderClock extends BaseFragment {
             RPrefs.putBoolean(HEADER_CLOCK_SWITCH, isChecked);
             if (!isChecked) RPrefs.putInt(HEADER_CLOCK_STYLE, 1);
             updateEnabled(isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
         updateEnabled(RPrefs.getBoolean(HEADER_CLOCK_SWITCH, false));
 

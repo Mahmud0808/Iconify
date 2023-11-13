@@ -41,13 +41,10 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 import com.drdisagree.iconify.xposed.modules.utils.RoundedCornerProgressDrawable;
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils;
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
-
-import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -90,13 +87,6 @@ public class QSFluidTheme extends ModPack {
         fluidPowerMenuEnabled = fluidQsThemeEnabled && Xprefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false);
 
         initResources();
-
-        if (Key.length > 0 && (Objects.equals(Key[0], FLUID_QSPANEL) ||
-                Objects.equals(Key[0], FLUID_NOTIF_TRANSPARENCY) ||
-                Objects.equals(Key[0], FLUID_POWERMENU_TRANSPARENCY)
-        )) {
-            Helpers.forceReloadUI(mContext);
-        }
     }
 
     @Override

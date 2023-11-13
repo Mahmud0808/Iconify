@@ -1,16 +1,19 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION;
 import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR;
 import static com.drdisagree.iconify.common.Resources.DEPTH_WALL_FG_DIR;
-import static com.drdisagree.iconify.utils.FileUtil.copyToIconifyHiddenDir;
 import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
+import static com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,7 @@ import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.databinding.FragmentXposedDepthWallpaperBinding;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
+import com.drdisagree.iconify.utils.SystemUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class XposedDepthWallpaper extends BaseFragment {
@@ -38,7 +42,7 @@ public class XposedDepthWallpaper extends BaseFragment {
                     Intent data = result.getData();
                     String path = getRealPath(data);
 
-                    if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_FG_DIR)) {
+                    if (path != null && moveToIconifyHiddenDir(path, DEPTH_WALL_FG_DIR)) {
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, !binding.depthWallpaper.isSwitchChecked());
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, binding.depthWallpaper.isSwitchChecked());
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
@@ -54,7 +58,7 @@ public class XposedDepthWallpaper extends BaseFragment {
                     Intent data = result.getData();
                     String path = getRealPath(data);
 
-                    if (path != null && copyToIconifyHiddenDir(path, DEPTH_WALL_BG_DIR)) {
+                    if (path != null && moveToIconifyHiddenDir(path, DEPTH_WALL_BG_DIR)) {
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, !binding.depthWallpaper.isSwitchChecked());
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, binding.depthWallpaper.isSwitchChecked());
                         Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
@@ -87,6 +91,7 @@ public class XposedDepthWallpaper extends BaseFragment {
             binding.wallpaperFadeAnimation.setEnabled(isSwitchChecked);
             binding.foregroundImage.setEnabled(isSwitchChecked);
             binding.backgroundImage.setEnabled(isSwitchChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
         // Fade animation
