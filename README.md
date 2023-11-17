@@ -65,9 +65,7 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
     4. Reboot the device when prompted, profit!
 
-> #### Note:
-> - KernelSU doesn't show root prompt. You will have to manually enable root access for Iconify from KernelSU app itself.
-> - If some or most of the customizations are still not working for Magisk users, you might need to follow step 1 of KernelSU users' installation steps.
+> If some or most of the customizations are still not working for Magisk users, you might need to follow step 1 of KernelSU users' installation steps.
 
 ### Installation for KernelSU Users:​
 
@@ -80,6 +78,8 @@ Furthermore, the open-source nature of Iconify encourages community contribution
     4. Reboot your device to get the modules installed successfully
 
     5. Now follow the installation steps of magisk users and voila!
+
+> KernelSU doesn't show root prompt. You will have to manually enable root access for Iconify from KernelSU app itself.
 
 # 🤫 Roadmap
 
