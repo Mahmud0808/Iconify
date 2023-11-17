@@ -55,15 +55,31 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 # 👨‍💻 Installation
 
-1. Go to [Releases](https://github.com/Mahmud0808/Iconify/releases) section.
+  ### Installation for Magisk Users:​
 
-2. Download the `.apk` file.
+    1. Download and install the Iconify app.
 
-3. Install and open the application.
+    2. Open the app, grant root permission and follow the instructions.
 
-4. Follow the instructions, wait for finishing overlay building process.
+    3. Wait for it to finish generating rom specific module.
 
-5. Reboot the device when prompted, profit.
+    4. Reboot the device when prompted, profit!
+
+> #### Note:
+> - KernelSU doesn't show root prompt. You will have to manually enable root access for Iconify from KernelSU app itself.
+> - If some or most of the customizations are still not working for Magisk users, you might need to follow step 1 of KernelSU users' installation steps.
+
+### Installation for KernelSU Users:​
+
+    1. Flash Magic Overlayfs module (to make read-only system read-write)
+
+    2. Flash ZygiskOnKernelSU module (only if you want to use LSPosed features)
+
+    3. Grant SuperSU/root permission for SystemUI from KernelSU app
+
+    4. Reboot your device to get the modules installed successfully
+
+    5. Now follow the installation steps of magisk users and voila!
 
 # 🤫 Roadmap
 
