@@ -20,7 +20,7 @@
     <string name="need_storage_perm_desc">Gerekli dosyaları oluşturmak için depolama izni gereklidir.</string>
     <string name="magisk_not_found_title">Magisk Bulunamadı</string>
     <string name="magisk_not_found_desc">Cihazınızı rootlamak için Magisk kullanın!</string>
-    <string name="root_not_found_title">Köke Erişilemiyor</string>
+    <string name="root_not_found_title">Kök (Root) Erişilebilir Değil</string>
     <string name="root_not_found_desc">Cihazınız rootlanmamış!</string>
     <string name="need_reboot_title">Cihazın Yeniden Başlatılması Gerekiyor</string>
     <string name="need_reboot_desc">Tüm dosyaları yerine yerleştirmek için cihazınızı yeniden başlatın.</string>
@@ -33,14 +33,14 @@
     <string name="activity_desc_icon_pack">Sistem simge paketini değiştir</string>
     <string name="activity_title_brightness_bar">Parlaklık Barı</string>
     <string name="activity_desc_brightness_bar">Parlaklık barını özelleştir</string>
-    <string name="activity_title_qs_shape">Hızlı Ayarlar Paneli</string>
-    <string name="activity_desc_qs_shape">Hızlı ayarlar paneli özelleştir</string>
+    <string name="activity_title_qs_shape">Hızlı Ayarlar Paneli Kutuları</string>
+    <string name="activity_desc_qs_shape">Hızlı ayarlar panelini özelleştir</string>
     <string name="activity_title_notification">Bildirim</string>
-    <string name="activity_desc_notification">Bildirim görünümünü değiştir</string>
-    <string name="activity_title_progress_bar">İlerleme Çubuğu</string>
-    <string name="activity_desc_progress_bar">Farklı ilerleme stili kullanın</string>
-    <string name="activity_title_switch">Düğme</string>
-    <string name="activity_desc_switch">Düğme görünümünü özelleştir</string>
+    <string name="activity_desc_notification">Bildirim stilini özelleştir</string>
+    <string name="activity_title_progress_bar">Parlaklık Çubuğu</string>
+    <string name="activity_desc_progress_bar">Farklı parlaklık stili kullanın</string>
+    <string name="activity_title_switch">Tuş</string>
+    <string name="activity_desc_switch">Tuş görünümünü özelleştir</string>
     <string name="activity_title_toast_frame">Bildirim Çerçevesi</string>
     <string name="activity_desc_toast_frame">Tost bildirim stilini değiştir</string>
     <string name="activity_title_icon_shape">Simge Şekli</string>
@@ -59,10 +59,10 @@
     <string name="activity_title_qs_row_column">Satır ve Sütun</string>
     <string name="activity_desc_qs_row_column">Hızlı ayarlar paneli satır ve sütunlarını değiştir</string>
     <string name="activity_title_qs_icon_label">Simge ve Etiket</string>
-    <string name="activity_desc_qs_icon_label">İkon ve etiket ayarlarını değiştir</string>
-    <string name="activity_title_qs_tile_size">QS panel karo boyutu</string>
-    <string name="activity_desc_qs_tile_size">QS panel karosunun yüksekliğini değiştir</string>
-    <string name="activity_title_qs_panel_margin">QS Panel Marjı</string>
+    <string name="activity_desc_qs_icon_label">Simge ve etiket ayarlarını değiştir</string>
+    <string name="activity_title_qs_tile_size">Hızlı ayarlar paneli karo boyutu</string>
+    <string name="activity_desc_qs_tile_size">Hızlı ayarlar paneli karosunun yüksekliğini değiştir</string>
+    <string name="activity_title_qs_panel_margin">Hızlı ayarlar paneli kenar boşluğu</string>
     <string name="activity_desc_qs_panel_margin">Hızlı ayar kenar boşluklarını değiştir</string>
     <string name="activity_title_statusbar">Durum Çubuğu</string>
     <string name="activity_desc_statusbar">Durum çubuğu arayüzünü düzenle</string>
@@ -100,7 +100,8 @@
     <string name="settings_show_warning_title">Uyarı Göster</string>
     <string name="settings_show_warning_desc">Xposed Menü\'de modülün nasıl yeniden optimize edileceğine dair uyarı gösterin.</string>
     <string name="settings_restart_systemui_behavior">Mod Uygulama Yöntemi</string>
-    <string name="settings_auto_restart_systemui">UI\'yi otomatik olarak yeniden yüklemeye zorla</string>
+    <string name="settings_auto_restart_systemui">SystemUI\'yi otomatik olarak yeniden başlat</string>
+    <string name="settings_auto_force_reload_ui">UI\'yi otomatik olarak yeniden yüklemeye zorla</string>
     <string name="settings_manual_restart_systemui">Manuel yeniden başlatma için bilgilendir</string>
     <string name="settings_systemui_restart_required">SystemUI yeniden başlatma gerekli</string>
     <string name="settings_section_title_miscellaneous">Çeşitli</string>
@@ -182,7 +183,7 @@
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Parlaklık Çubuğu Stilleri</string>
     <!-- QS Panel Tiles -->
-    <string name="qspanel_tile_styles">QS Paneli Karo Stilleri</string>
+    <string name="qspanel_tile_styles">Hızlı ayarlar paneli karo stilleri</string>
     <!-- Notification -->
     <string name="notification_styles">Bildirim Stilleri</string>
     <string name="notif_preview_desc">Bildirim Ön İzlemesi.\nBu tasarımı uygulamak için tıklayın.</string>
@@ -290,7 +291,7 @@
     <string name="qs_tile_non_expanded_height">Genişletilmemiş Yükseklik</string>
     <string name="qs_tile_expanded_height">Genişletilmiş Yükseklik</string>
     <!-- QS Panel Margin -->
-    <string name="qqs_panel_top_margin_title">QQS Panel Üst Kenar Boşluğu</string>
+    <string name="qqs_panel_top_margin_title">Hızlı ayarlar paneli üst kenar boşluğu</string>
     <string name="qs_panel_top_margin_title">Hızlı Ayarlar Paneli Üst Dış Boşluk</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Aralık</string>
@@ -432,8 +433,8 @@
     <string name="black_theme_title">Pixel Koyu Tema</string>
     <string name="black_theme_desc">Açık modda siyah QS teması\nPixel QS Shape kullanmalısınız\nMetin rengini düzeltmek için koyu temaya geçin</string>
     <string name="section_title_translucent_theme">Yarı Saydam Tema</string>
-    <string name="fluid_qs_theme_title">Akışkan QS Teması</string>
-    <string name="fluid_qs_theme_desc">İki tonlu yarı saydam QS teması\nRengi düzeltmek için temayı değiştirin\nÖzel şekiller kullanmayın</string>
+    <string name="fluid_qs_theme_title">Akıcı hızlı ayarlar teması</string>
+    <string name="fluid_qs_theme_desc">İki tonlu yarı saydam hızlı ayarlar teması\nRengi düzeltmek için temayı değiştirin\nÖzel şekiller kullanmayın</string>
     <string name="notification_transparency_title">Bildirim Şeffaflığı</string>
     <string name="notification_transparency_desc">Akışkan QS için bildirim şeffaflığı\nÖzel bildirim stili kullanmayın</string>
     <string name="power_menu_transparency_title">Güç Menüsü Şeffaflığı</string>
@@ -442,12 +443,12 @@
     <string name="fix_notification_color_title">Bildirim Rengini Düzelt</string>
     <string name="fix_notification_color_desc">Android 14\'te özel bildirim stilini düzelt</string>
     <!-- Quick Settings -->
-    <string name="section_title_qs_tile">QS Karo</string>
+    <string name="section_title_qs_tile">Hızlı ayarlar karosu</string>
     <string name="vertical_qs_tile_title">Dikey Hızlı Ayar Butonları</string>
     <string name="vertical_qs_tile_desc">Hızlı ayarlar ikonlarının altında etiketleri göster</string>
     <string name="hide_qs_tile_label_title">Hızlı ayarlar etiketlerini gizle</string>
     <string name="hide_qs_tile_label_desc">Sadece dikey butonlarla kullan</string>
-    <string name="section_title_qs_margin">QS Marjı</string>
+    <string name="section_title_qs_margin">Hızlı ayarlar boşluğu</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Batarya Stili</string>
     <string name="battery_width_title">Pil Genişliği</string>
@@ -644,13 +645,13 @@
     <!-- Credits -->
     <string name="section_title_credits">Katkıda Bulunanlar</string>
     <string name="section_title_thanks">Özel Teşekkürler</string>
-    <string name="info_icons8_desc">Geniş ikonlar.</string>
+    <string name="info_icons8_desc">Plumpy &amp; için Akıcılık simgeleri.</string>
     <string name="info_iconsax_desc">Uygulama içi simge seti için.</string>
     <string name="info_shell_desc">Bana Shell Scripti ile yardım etmek için.</string>
     <string name="info_rro_desc">Bana RRO ile yardım etmek için.</string>
     <string name="info_xposed_desc">Xposed konusunda bana yardım ettiği için.</string>
     <string name="info_tester_desc">Uygulamayı test etmek için.</string>
-    <string name="info_betterqs_desc">Daha iyi QS kullanım izni için.</string>
+    <string name="info_betterqs_desc">Daha iyi hızlı ayarlar kullanımı için izin.</string>
     <string name="section_title_contributors">Geliştiriciler</string>
     <string name="info_contributor_desc">GitHub\'dan destek olmak için.</string>
     <string name="info_contributor_desc_2">Telegram\'da bana yardım etmek için.</string>
@@ -659,6 +660,7 @@
     <string name="fa_translation">Farsça çeviri.</string>
     <string name="fr_translation">Fransızca çeviri.</string>
     <string name="id_translation">Endonezce çeviri.</string>
+    <string name="it_translation">İtalyanca çeviri.</string>
     <string name="pt_translation">Portekizce çeviri.</string>
     <string name="ru_translation">Rusça çeviri.</string>
     <string name="tr_translation">Türkçe çeviri.</string>
@@ -776,7 +778,7 @@
     <string name="activity_desc_info">Uygulama hakkında bilgi</string>
     <string name="activity_title_settings">Seçenekler</string>
     <string name="activity_desc_settings">Ayrıntılı seçenekler</string>
-    <string name="activity_title_qs_panel">QS Paneli</string>
+    <string name="activity_title_qs_panel">Hızlı Ayarlar Paneli</string>
     <string name="activity_desc_qs_panel">Hızlı ayarlar panelini özelleştir</string>
     <!-- Miscellaneous -->
     <string name="color_picker_preview">Renk Seçici Ön İzleme</string>

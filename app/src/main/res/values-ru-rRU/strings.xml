@@ -100,7 +100,8 @@
     <string name="settings_show_warning_title">Показывать предупреждение</string>
     <string name="settings_show_warning_desc">Показывать предупреждение о том, как оптимизировать модуль в меню XPosed</string>
     <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
-    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_auto_restart_systemui">Automatically restart SystemUI</string>
+    <string name="settings_auto_force_reload_ui">Automatically force reload UI</string>
     <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">SystemUI restart required</string>
     <string name="settings_section_title_miscellaneous">Miscellaneous</string>
@@ -659,6 +660,7 @@
     <string name="fa_translation">Перевод на персидский.</string>
     <string name="fr_translation">Перевод на французский.</string>
     <string name="id_translation">Перевод на Индонезийский</string>
+    <string name="it_translation">Italian translation.</string>
     <string name="pt_translation">Перевод на португальский.</string>
     <string name="ru_translation">Перевод на русский.</string>
     <string name="tr_translation">Перевод на турецкий.</string>
