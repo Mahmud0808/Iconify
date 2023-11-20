@@ -100,7 +100,8 @@
     <string name="settings_show_warning_title">Hiển thị cảnh báo</string>
     <string name="settings_show_warning_desc">Hiển thị cảnh báo về cách tối ưu lại mô-đun trong Menu XPosed</string>
     <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
-    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_auto_restart_systemui">Automatically restart SystemUI</string>
+    <string name="settings_auto_force_reload_ui">Automatically force reload UI</string>
     <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">SystemUI restart required</string>
     <string name="settings_section_title_miscellaneous">Miscellaneous</string>
@@ -659,6 +660,7 @@
     <string name="fa_translation">Bản dịch tiếng Ba Tư.</string>
     <string name="fr_translation">bản dịch tiếng Pháp.</string>
     <string name="id_translation">Indonesian translation.</string>
+    <string name="it_translation">Italian translation.</string>
     <string name="pt_translation">Bản dịch tiếng Bồ Đào Nha.</string>
     <string name="ru_translation">Bản dịch tiếng Nga.</string>
     <string name="tr_translation">Bản dịch tiếng Thổ Nhĩ Kỳ.</string>

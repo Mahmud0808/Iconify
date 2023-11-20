@@ -100,7 +100,8 @@
     <string name="settings_show_warning_title">Pokazuj ostrzeżenie</string>
     <string name="settings_show_warning_desc">Pokazuj ostrzeżenie o tym, jak zoptymalizować moduł w menu Xposed</string>
     <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
-    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_auto_restart_systemui">Automatically restart SystemUI</string>
+    <string name="settings_auto_force_reload_ui">Automatically force reload UI</string>
     <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">Wymagany restart SystemUI</string>
     <string name="settings_section_title_miscellaneous">Pozostałe</string>
@@ -659,6 +660,7 @@
     <string name="fa_translation">Tłumaczenie na język perski</string>
     <string name="fr_translation">Tłumaczenie na język francuski</string>
     <string name="id_translation">Tłumaczenie na język indonezyjski</string>
+    <string name="it_translation">Italian translation.</string>
     <string name="pt_translation">Tłumaczenie na język portugalski</string>
     <string name="ru_translation">Tłumaczenie na język rosyjski</string>
     <string name="tr_translation">Tłumaczenie na język turecki</string>
