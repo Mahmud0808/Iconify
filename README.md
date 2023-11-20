@@ -106,7 +106,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 # 🤓 FAQ
 
 - How does Iconify work?
-  - Iconify uses Android overlays that allows modifications to be applied to the user interface (UI) of the device without directly modifying the underlying system files.
+  - Iconify uses Android overlays and Xposed framework that allows modifications to be applied to the user interface (UI) of the device without directly modifying the underlying system files.
 - Do I need a root access for Iconify to work?
   - Yes, root access is required for Iconify to function properly. While Iconify does support KernelSU, it is highly recommended to use Magisk for the best compatibility.
 - Why is LSPosed listed as an optional requirement?
