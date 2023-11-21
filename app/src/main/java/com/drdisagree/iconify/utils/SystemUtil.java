@@ -67,7 +67,7 @@ public class SystemUtil {
     }
 
     public static void handleSystemUIRestart() {
-        int selectedBehavior = Prefs.getInt(RESTART_SYSUI_BEHAVIOR_EXT, 0);
+        int selectedBehavior = RPrefs.getInt(RESTART_SYSUI_BEHAVIOR_EXT, 0);
 
         if (selectedBehavior == 0) {
             restartSystemUI();
