@@ -42,17 +42,6 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 - Decryption Supported Custom Recovery (Just in case)
 
-> KSU users must flash OverlayFS Module from [**HERE**](https://github.com/HuskyDG/magic_overlayfs/releases) before installing iconify.
-> 
-> Remember to edit _mode.sh_ file inside the module and change these values before flashing:
-> 
-> `OVERLAY_MODE=1`
-> `DO_UNMOUNT_KSU=true`
->
-> Note: If one of the above variable doesn't exist, skip that particular variable.
-> 
-> If the customizations are still not taking effect, ensure that SystemUI has been granted root permission. After granting root access, reboot your device for the changes to take effect.
-
 # 👨‍💻 Installation
 
   ### Installation for Magisk Users:​
@@ -71,13 +60,20 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
   1. Flash [Magic Overlayfs](https://github.com/HuskyDG/magic_overlayfs/releases) module (to make read-only system read-write)
 
-  2. Flash [ZygiskOnKernelSU](https://github.com/Dr-TSNG/ZygiskOnKernelSU/releases/latest) module (only if you want to use LSPosed features)
+  > Remember to edit _mode.sh_ file inside the module and change these values before flashing:
+  > 
+  > `OVERLAY_MODE=1`
+  > `DO_UNMOUNT_KSU=true`
+  >
+  > Note: If one of the above variable doesn't exist, skip that particular variable.
 
-  3. Grant SuperSU/root permission for SystemUI from KernelSU app
+  3. Flash [ZygiskOnKernelSU](https://github.com/Dr-TSNG/ZygiskOnKernelSU/releases/latest) module (only if you want to use LSPosed features)
 
-  4. Reboot your device to get the modules installed successfully
+  4. Grant SuperSU/root permission for SystemUI from KernelSU app
 
-  5. Now follow the installation steps of magisk users and voila!
+  5. Reboot your device to get the modules installed successfully
+
+  6. Now follow the installation steps of magisk users and voila!
 
   > KernelSU doesn't show root prompt. You will have to manually enable root access for Iconify from KernelSU app itself.
 
