@@ -42,44 +42,40 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 - Decryption Supported Custom Recovery (Just in case)
 
-> KSU users must flash OverlayFS Module from [**HERE**](https://github.com/HuskyDG/magic_overlayfs/releases) before installing iconify.
-> 
-> Remember to edit _mode.sh_ file inside the module and change these values before flashing:
-> 
-> `OVERLAY_MODE=1`
-> `DO_UNMOUNT_KSU=true`
->
-> Note: If one of the above variable doesn't exist, skip that particular variable.
-> 
-> If the customizations are still not taking effect, ensure that SystemUI has been granted root permission. After granting root access, reboot your device for the changes to take effect.
-
 # 👨‍💻 Installation
 
   ### Installation for Magisk Users:​
 
-    1. Download and install the Iconify app.
+  1. Download and install the Iconify app.
 
-    2. Open the app, grant root permission and follow the instructions.
+  2. Open the app, grant root permission and follow the instructions.
 
-    3. Wait for it to finish generating rom specific module.
+  3. Wait for it to finish generating rom specific module.
 
-    4. Reboot the device when prompted, profit!
+  4. Reboot the device when prompted, profit!
 
-> If some or most of the customizations are still not working for Magisk users, you might need to follow step 1 of KernelSU users' installation steps.
+  > If some or most of the customizations are still not working for Magisk users, you might need to follow step 1 of KernelSU users' installation steps.
 
-### Installation for KernelSU Users:​
+  ### Installation for KernelSU Users:​
 
-    1. Flash Magic Overlayfs module (to make read-only system read-write)
+  1. Flash [Magic Overlayfs](https://github.com/HuskyDG/magic_overlayfs/releases) module (to make read-only system read-write)
 
-    2. Flash ZygiskOnKernelSU module (only if you want to use LSPosed features)
+  > Remember to edit _mode.sh_ file inside the module and change these values before flashing:
+  > 
+  > `OVERLAY_MODE=1`
+  > `DO_UNMOUNT_KSU=true`
+  >
+  > Note: If one of the above variable doesn't exist, skip that particular variable.
 
-    3. Grant SuperSU/root permission for SystemUI from KernelSU app
+  3. Flash [ZygiskOnKernelSU](https://github.com/Dr-TSNG/ZygiskOnKernelSU/releases/latest) module (only if you want to use LSPosed features)
 
-    4. Reboot your device to get the modules installed successfully
+  4. Grant SuperSU/root permission for SystemUI from KernelSU app
 
-    5. Now follow the installation steps of magisk users and voila!
+  5. Reboot your device to get the modules installed successfully
 
-> KernelSU doesn't show root prompt. You will have to manually enable root access for Iconify from KernelSU app itself.
+  6. Now follow the installation steps of magisk users and voila!
+
+  > KernelSU doesn't show root prompt. You will have to manually enable root access for Iconify from KernelSU app itself.
 
 # 🤫 Roadmap
 
