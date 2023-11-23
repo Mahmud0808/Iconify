@@ -67,13 +67,13 @@ Furthermore, the open-source nature of Iconify encourages community contribution
   >
   > Note: If one of the above variable doesn't exist, skip that particular variable.
 
-  3. Flash [ZygiskOnKernelSU](https://github.com/Dr-TSNG/ZygiskOnKernelSU/releases/latest) module (only if you want to use LSPosed features)
+  2. Flash [ZygiskOnKernelSU](https://github.com/Dr-TSNG/ZygiskOnKernelSU/releases/latest) module (only if you want to use LSPosed features)
 
-  4. Grant SuperSU/root permission for SystemUI from KernelSU app
+  3. Grant SuperSU/root permission for SystemUI from KernelSU app
 
-  5. Reboot your device to get the modules installed successfully
+  4. Reboot your device to get the modules installed successfully
 
-  6. Now follow the installation steps of magisk users and voila!
+  5. Now follow the installation steps of magisk users and voila!
 
   > KernelSU doesn't show root prompt. You will have to manually enable root access for Iconify from KernelSU app itself.
 
