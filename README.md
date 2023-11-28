@@ -28,9 +28,9 @@ Furthermore, the open-source nature of Iconify encourages community contribution
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/features.png" width="100%" alt="Features">
 </div>
 
-```diff
-- NOTE: This app requires Magisk or KernelSU for root access. Any alternative methods won't work.
-```
+> [!CAUTION]
+> 
+> This app requires Magisk or KernelSU for root access. Any alternative methods won't work.
 
 # 🛠 Requirements
 
@@ -54,12 +54,16 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
   4. Reboot the device when prompted, profit!
 
+  > [!NOTE]
+  > 
   > If some or most of the customizations are still not working for Magisk users, you might need to follow step 1 of KernelSU users' installation steps.
 
   ### Installation for KernelSU Users:​
 
   1. Flash [Magic Overlayfs](https://github.com/HuskyDG/magic_overlayfs/releases) module (to make read-only system read-write)
 
+  > [!IMPORTANT]
+  > 
   > Remember to edit _mode.sh_ file inside the module and change these values before flashing:
   > 
   > `OVERLAY_MODE=1`
@@ -75,6 +79,8 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
   5. Now follow the installation steps of magisk users and voila!
 
+  > [!TIP]
+  > 
   > KernelSU doesn't show root prompt. You will have to manually enable root access for Iconify from KernelSU app itself.
 
 # 🤫 Roadmap
@@ -158,6 +164,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 
 # 📝 Disclaimer
 
-- Please note that Iconify may not be fully compatible with all custom ROMs. It is discouraged to use on heavily modified ROMs.
-- I cannot be held responsible for any potential damage or issues that may occur to your device while using Iconify.
-- It is highly recommended to have a custom recovery installed on your device to revert any changes in case of unexpected problems.
+> [!WARNING]
+> - Please note that Iconify may not be fully compatible with all custom ROMs. It is discouraged to use on heavily modified ROMs.
+> - I cannot be held responsible for any potential damage or issues that may occur to your device while using Iconify.
+> - It is highly recommended to have a custom recovery installed on your device to revert any changes in case of unexpected problems.
