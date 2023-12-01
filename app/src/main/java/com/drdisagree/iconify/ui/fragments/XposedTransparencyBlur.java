@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.fragments;
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.AGGRESSIVE_QSPANEL_BLUR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE;
+import static com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
@@ -46,6 +47,9 @@ public class XposedTransparencyBlur extends BaseFragment {
 
         binding.transparentNotifShade.setSwitchChecked(RPrefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false));
         binding.transparentNotifShade.setSwitchChangeListener(notifTransparencyListener);
+
+        binding.keepLockscreenShade.setEnabled(binding.transparentQsPanel.isSwitchChecked() || binding.transparentNotifShade.isSwitchChecked());
+        binding.keepLockscreenShade.setSwitchChecked(RPrefs.getBoolean(LOCKSCREEN_SHADE_SWITCH, false));
 
         // Tansparency Alpha
         binding.transparencySlider.setEnabled(binding.transparentQsPanel.isSwitchChecked() || binding.transparentNotifShade.isSwitchChecked());
