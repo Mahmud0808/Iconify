@@ -10,6 +10,7 @@ public class Preferences {
     public static final String FORCE_RELOAD_OVERLAY_STATE = "xposed_force_reload_overlay_state";
     public static final String QS_TRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String NOTIF_TRANSPARENCY_SWITCH = "xposed_notiftransparency";
+    public static final String LOCKSCREEN_SHADE_SWITCH = "xposed_lockscreen_shade";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg";
     public static final String STATUSBAR_CLOCK_COLOR_OPTION = "xposed_sbclockcolor";

@@ -417,6 +417,8 @@
     <string name="transparency_alpha_title">透明度</string>
     <string name="transparent_notif_shade_title">透明通知栏</string>
     <string name="transparent_notif_shade_desc">仅使通知栏透明</string>
+    <string name="keep_lockscreen_shade_title">保持锁屏遮罩</string>
+    <string name="keep_lockscreen_shade_desc">保持锁屏界面的半透明遮罩，适用于浅色壁纸</string>
     <string name="section_title_blur">模糊</string>
     <string name="window_level_blur_title">窗口级模糊</string>
     <string name="window_level_blur_desc">需要重启才能生效</string>
