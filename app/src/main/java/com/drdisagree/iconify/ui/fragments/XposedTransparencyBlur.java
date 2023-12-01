@@ -130,6 +130,7 @@ public class XposedTransparencyBlur extends BaseFragment {
                 binding.transparentNotifShade.setSwitchChangeListener(notifTransparencyListener);
             }
 
+            binding.keepLockscreenShade.setEnabled(binding.transparentQsPanel.isSwitchChecked() || binding.transparentNotifShade.isSwitchChecked());
             binding.transparencySlider.setEnabled(binding.transparentQsPanel.isSwitchChecked() || binding.transparentNotifShade.isSwitchChecked());
 
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
@@ -146,6 +147,7 @@ public class XposedTransparencyBlur extends BaseFragment {
             binding.transparentQsPanel.setSwitchChangeListener(qsTransparencyListener);
         }
 
+        binding.keepLockscreenShade.setEnabled(binding.transparentQsPanel.isSwitchChecked() || binding.transparentNotifShade.isSwitchChecked());
         binding.transparencySlider.setEnabled(binding.transparentQsPanel.isSwitchChecked() || binding.transparentNotifShade.isSwitchChecked());
 
         new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
