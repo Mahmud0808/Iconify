@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_moto">Personalizar a IU Android</string>
     <!-- Onboarding -->
     <string name="init_module_installation">A inicializar</string>
@@ -417,6 +417,8 @@
     <string name="transparency_alpha_title">Nível de opacidade</string>
     <string name="transparent_notif_shade_title">Apenas na área de notificações</string>
     <string name="transparent_notif_shade_desc">Aplicar transparência apenas na ára das notificações</string>
+    <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>
+    <string name="keep_lockscreen_shade_desc">Suitable for light-colored wallpapers</string>
     <string name="section_title_blur">Blur</string>
     <string name="window_level_blur_title">Desfocar pano de fundo</string>
     <string name="window_level_blur_desc">Requer reinciar</string>
