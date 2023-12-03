@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_moto">Personalsiere deine langweilige Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Starte Einrichtung</string>
@@ -33,8 +33,8 @@
     <string name="activity_desc_icon_pack">System Icons verändern</string>
     <string name="activity_title_brightness_bar">Helligkeitsregler</string>
     <string name="activity_desc_brightness_bar">Verändere Fortschrittsbalken</string>
-    <string name="activity_title_qs_shape">QS Panel Tiles</string>
-    <string name="activity_desc_qs_shape">Customize QS panel tiles</string>
+    <string name="activity_title_qs_shape">QS Kacheln</string>
+    <string name="activity_desc_qs_shape">Passe QS Kacheln an</string>
     <string name="activity_title_notification">Benachrichtigung</string>
     <string name="activity_desc_notification">Verändere Stil von Benachrichtigungen</string>
     <string name="activity_title_progress_bar">Fortschrittsbalken</string>
@@ -57,21 +57,21 @@
     <string name="activity_title_ui_roundness">UI Rundungen</string>
     <string name="activity_desc_ui_roundness">Verändere die Rundungen der Benutzeroberfläche</string>
     <string name="activity_title_qs_row_column">Reihe und Zeile</string>
-    <string name="activity_desc_qs_row_column">Change Qs tile rows and columns</string>
+    <string name="activity_desc_qs_row_column">Passe Anzahl von QS Kacheln und Anzahl der Reihen an</string>
     <string name="activity_title_qs_icon_label">Symbol und Bezeichnung</string>
-    <string name="activity_desc_qs_icon_label">Change icon and label options</string>
+    <string name="activity_desc_qs_icon_label">Passe Symbol und Label an</string>
     <string name="activity_title_qs_tile_size">QS Tastengröße</string>
-    <string name="activity_desc_qs_tile_size">Change height of QS panel tile</string>
+    <string name="activity_desc_qs_tile_size">Passe Höhe der QS Kachel an</string>
     <string name="activity_title_qs_panel_margin">QS Panel Margin</string>
     <string name="activity_desc_qs_panel_margin">Modify quick settings margins</string>
     <string name="activity_title_statusbar">Statusbar</string>
     <string name="activity_desc_statusbar">Passe Statusbar an</string>
     <string name="activity_title_navigation_bar">Navigationsleiste</string>
-    <string name="activity_desc_navigation_bar">Tweak navigation options</string>
+    <string name="activity_desc_navigation_bar">Passe Navigationsleiste an</string>
     <string name="activity_title_volume_panel">Lautstärke Panel</string>
     <string name="activity_desc_volume_panel">Passe das Lautstärkepanel an</string>
     <string name="activity_title_media_player">Mediaplayer</string>
-    <string name="activity_desc_media_player">Change how media player looks</string>
+    <string name="activity_desc_media_player">Passe Aussehen des Mediaplayers an</string>
     <string name="activity_title_miscellaneous">Verschiedenes</string>
     <string name="activity_desc_miscellaneous">Verschiedene Anpassungen</string>
     <string name="activity_title_xposed_menu">Xposed Menü</string>
@@ -99,27 +99,27 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Zeige Warnung</string>
     <string name="settings_show_warning_desc">Show warning on how to re-optimize module in Xposed Menu.</string>
-    <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
-    <string name="settings_auto_restart_systemui">Automatically restart SystemUI</string>
-    <string name="settings_auto_force_reload_ui">Automatically force reload UI</string>
+    <string name="settings_restart_systemui_behavior">Methode, um Veränderungen anzuwenden</string>
+    <string name="settings_auto_restart_systemui">Starte SystemUI automatisch neu</string>
+    <string name="settings_auto_force_reload_ui">Erzwinge automatisches Neuladen der Oberfläche</string>
     <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">SystemUI Neustart ist erforderlich</string>
-    <string name="settings_section_title_miscellaneous">Miscellaneous</string>
-    <string name="settings_restart_systemui_after_boot_title">Restart SystemUI After Boot</string>
+    <string name="settings_section_title_miscellaneous">Verschiedenes</string>
+    <string name="settings_restart_systemui_after_boot_title">Starte SystemUI direkt nach dem Systemstart neu</string>
     <string name="settings_restart_systemui_after_boot_desc">Some options like blur intensity doesn\'t take effect until systemui is restarted</string>
     <string name="settings_show_home_page_card_title">Show Home Page Card</string>
     <string name="settings_show_home_page_card_desc">Show a beautiful card on the home page.</string>
-    <string name="settings_clear_app_cache_title">Clear App Cache</string>
+    <string name="settings_clear_app_cache_title">Lösche App Cache</string>
     <string name="settings_clear_app_cache_desc">Clear caches generated due to the usage of custom fonts, images, or gifs.</string>
-    <string name="activity_title_experimental">Experimental</string>
-    <string name="activity_desc_experimental">Try out experimental functionalities.</string>
-    <string name="settings_disable_everything_title">Disable Everything</string>
+    <string name="activity_title_experimental">Experimentell</string>
+    <string name="activity_desc_experimental">Teste experimentelle Funktionen.</string>
+    <string name="settings_disable_everything_title">Deaktiviere Alles</string>
     <string name="settings_disable_everything_desc">Disable all Iconify overlays, colors, and miscellaneous changes.</string>
-    <string name="settings_section_title_about">About</string>
+    <string name="settings_section_title_about">Über</string>
     <string name="settings_github_repository_title">Github Repository</string>
-    <string name="settings_telegram_group_title">Telegram Group</string>
+    <string name="settings_telegram_group_title">Telegram Gruppe</string>
     <string name="settings_credits_title">Credits</string>
-    <string name="settings_credits_desc">Thanking those who made this possible.</string>
+    <string name="settings_credits_desc">Danke an alle, die dieses Projekt ermöglicht haben.</string>
     <!-- Icon Pack -->
     <string name="activity_title_colored_battery">Colored Battery</string>
     <string name="activity_desc_colored_battery">Change battery icon color</string>
@@ -417,6 +417,8 @@
     <string name="transparency_alpha_title">Transparency Alpha</string>
     <string name="transparent_notif_shade_title">Transparent Notif Shade Only</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
+    <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>
+    <string name="keep_lockscreen_shade_desc">Suitable for light-colored wallpapers</string>
     <string name="section_title_blur">Blur</string>
     <string name="window_level_blur_title">Window Level Blur</string>
     <string name="window_level_blur_desc">Requires reboot to work</string>
