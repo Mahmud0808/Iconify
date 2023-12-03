@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_moto">改造無趣的 Android 使用者介面</string>
     <!-- Onboarding -->
     <string name="init_module_installation">初始化設定</string>
@@ -417,8 +417,8 @@
     <string name="transparency_alpha_title">Transparency Alpha</string>
     <string name="transparent_notif_shade_title">Transparent Notif Shade Only</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
-    <string name="keep_lockscreen_shade_title">保持鎖屏遮罩</string>
-    <string name="keep_lockscreen_shade_desc">保持鎖屏介面的半透明遮罩，適用於淺色桌布</string>
+    <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>
+    <string name="keep_lockscreen_shade_desc">Suitable for light-colored wallpapers</string>
     <string name="section_title_blur">Blur</string>
     <string name="window_level_blur_title">Window Level Blur</string>
     <string name="window_level_blur_desc">Requires reboot to work</string>
