@@ -56,9 +56,9 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
 
-        boolean isModulePropertlyInstalled = isModuleInstalled && (isOverlayInstalled || isXposedOnlyMode);
+        boolean isModuleProperlyInstalled = isModuleInstalled && (isOverlayInstalled || isXposedOnlyMode);
 
-        if (SKIP_TO_HOMEPAGE_FOR_TESTING || (isRooted && isModulePropertlyInstalled && isVersionCodeCorrect)) {
+        if (SKIP_TO_HOMEPAGE_FOR_TESTING || (isRooted && isModuleProperlyInstalled && isVersionCodeCorrect)) {
             keepShowing = false;
             intent = new Intent(SplashActivity.this, HomePage.class);
         } else {

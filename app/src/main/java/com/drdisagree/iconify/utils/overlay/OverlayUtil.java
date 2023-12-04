@@ -109,8 +109,7 @@ public class OverlayUtil {
     }
 
     public static boolean overlayExists() {
-        List<String> list = Shell.cmd("[ -f /system/product/overlay/IconifyComponentAMGC.apk ] && echo \"found\" || echo \"not found\"").exec().getOut();
-        return Objects.equals(list.get(0), "found");
+        return Shell.cmd("[ -f /system/product/overlay/IconifyComponentAMGC.apk ] && echo \"found\" || echo \"not found\"").exec().getOut().get(0).equals("found");
     }
 
     @SuppressWarnings("unused")

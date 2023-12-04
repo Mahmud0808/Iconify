@@ -125,7 +125,7 @@ public class ModuleUtil {
     }
 
     public static boolean moduleExists() {
-        return RootUtil.folderExists(Resources.MODULE_DIR);
+        return RootUtil.folderExists(Resources.OVERLAY_DIR);
     }
 
     public static String createModule(String sourceFolder, String destinationFilePath) throws Exception {
