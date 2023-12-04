@@ -70,6 +70,7 @@ public class IconShape extends BaseFragment {
         icon_shape_preview_styles.add(new Object[]{R.drawable.icon_shape_tapered_rectangle, R.string.icon_mask_style_tapered_rectangle});
         icon_shape_preview_styles.add(new Object[]{R.drawable.icon_shape_vessel, R.string.icon_mask_style_vessel});
         icon_shape_preview_styles.add(new Object[]{R.drawable.icon_shape_rohie_meow, R.string.icon_mask_style_rice_rohie_meow});
+        icon_shape_preview_styles.add(new Object[]{R.drawable.icon_shape_force_round, R.string.icon_mask_style_force_round});
 
         addItem(icon_shape_preview_styles);
 
