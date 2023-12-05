@@ -78,6 +78,8 @@ public class SliderWidget extends RelativeLayout {
 
         setSelectedText();
         handleResetVisibility();
+        setOnSliderTouchListener(null);
+        setResetClickListener(null);
     }
 
     public void setTitle(int titleResId) {
@@ -165,6 +167,17 @@ public class SliderWidget extends RelativeLayout {
                 notifyOnSliderTouchStopped(slider);
             }
         });
+
+        materialSlider.setLabelFormatter(value -> (valueFormat.isBlank() || valueFormat.isEmpty() ?
+                (!isDecimalFormat ?
+                        (int) (materialSlider.getValue() / outputScale) :
+                        new DecimalFormat(decimalFormat)
+                                .format(materialSlider.getValue() / outputScale)) + valueFormat :
+                (!isDecimalFormat ?
+                        String.valueOf((int) materialSlider.getValue()) :
+                        new DecimalFormat(decimalFormat)
+                                .format(materialSlider.getValue() / outputScale)) + valueFormat
+        ));
     }
 
     public void setOnSliderChangeListener(Slider.OnChangeListener listener) {
