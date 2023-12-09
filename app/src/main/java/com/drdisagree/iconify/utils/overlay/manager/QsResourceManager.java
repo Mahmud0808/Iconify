@@ -50,7 +50,7 @@ public class QsResourceManager {
         }
 
         String replaceStart = "<style name=\"Theme.SystemUI.QuickSettings\"";
-        String replaceEnd = "<color name=\"control_primary_text\">#E6(F{6}|000000)<\\/color>";
+        String replaceEnd = "<color name=\"control_primary_text\">#e6(f{6}|000000)<\\/color>";
 
         String command1 = "sed -i -E '/" + replaceStart + "/,/" + replaceEnd + "/ c\\" +
                 resourceLight + "' '" + source + "/res/values/iconify.xml'";
