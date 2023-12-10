@@ -208,6 +208,7 @@
     <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">Vessel</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
+    <string name="icon_mask_style_force_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">基础颜色</string>
     <string name="activity_desc_basic_colors">改变主色和副色</string>

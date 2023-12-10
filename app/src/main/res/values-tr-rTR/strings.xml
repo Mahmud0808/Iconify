@@ -88,17 +88,17 @@
     <string name="settings_app_theme">Uygulama Teması</string>
     <string name="settings_app_theme_light">Aydınlık Tema</string>
     <string name="settings_app_theme_dark">Karanlık Tema</string>
-    <string name="settings_app_theme_system">Sisteme uy</string>
+    <string name="settings_app_theme_system">Sistemle uyumlu hale getir</string>
     <string name="settings_section_title_update">Güncelleme</string>
     <string name="settings_check_for_update">Güncelleme İçin Kontrol Edin</string>
-    <string name="settings_current_version">Şu anki versiyon: %s</string>
+    <string name="settings_current_version">Mevcut sürüm: %s</string>
     <string name="settings_auto_update_title">Otomatik Güncelleme</string>
     <string name="settings_auto_update_desc">Yeni sürümleri arka planda kontrol edin.</string>
     <string name="settings_auto_update_title_wifi_only">Yalnızca WiFi Üzerinden Kontrol Edin</string>
     <string name="settings_auto_update_desc_wifi_only">Güncellemeleri yalnızca wifi üzerinden kontrol edin.</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Uyarı Göster</string>
-    <string name="settings_show_warning_desc">Xposed Menü\'de modülün nasıl yeniden optimize edileceğine dair uyarı gösterin.</string>
+    <string name="settings_show_warning_desc">Xposed Menüsünde modülün nasıl yeniden optimize edileceğine dair uyarı gösterin.</string>
     <string name="settings_restart_systemui_behavior">Mod Uygulama Yöntemi</string>
     <string name="settings_auto_restart_systemui">SystemUI\'yi otomatik olarak yeniden başlat</string>
     <string name="settings_auto_force_reload_ui">UI\'yi otomatik olarak yeniden yüklemeye zorla</string>
@@ -208,6 +208,7 @@
     <string name="icon_mask_style_tapered_rectangle">Konik\nDikdörtgen</string>
     <string name="icon_mask_style_vessel">Gemi</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
+    <string name="icon_mask_style_force_round">Yuvarlak stili zorla</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Basit Renkler</string>
     <string name="activity_desc_basic_colors">Birincil ve ikincil renkleri değiştir</string>
@@ -632,8 +633,8 @@
     <string name="view_changelog">Değişim Günlüğünü Görüntüle</string>
     <string name="hide_changelog">Değişim Günlüğünü Gizle</string>
     <string name="already_up_to_date">Zaten güncel sürümü kullanıyorsunuz.</string>
-    <string name="current_version">Şu anki Versiyon:</string>
-    <string name="latest_version">Son Versiyon:</string>
+    <string name="current_version">Mevcut Sürüm:</string>
+    <string name="latest_version">Son Sürüm:</string>
     <string name="update_checking_failed">Güncelleme kontrolü başarısız!</string>
     <string name="not_available">Mevcut değil</string>
     <string name="section_title_schedule">Zamanlama</string>
@@ -800,9 +801,9 @@
     <string name="loading_dialog_wait">Lütfen Bekleyin</string>
     <string name="rebooting_desc">5 saniye içinde yeniden başlatılıyor</string>
     <string name="iconify_clipboard_label_version">Iconify Sürümü</string>
-    <string name="iconify_clipboard_label_version_name">Versiyon Adı:</string>
-    <string name="iconify_clipboard_label_version_code">Versiyon Kodu:</string>
-    <string name="info_version_title">Versiyon</string>
+    <string name="iconify_clipboard_label_version_name">Sürüm Adı:</string>
+    <string name="iconify_clipboard_label_version_code">Sürüm Kodu:</string>
+    <string name="info_version_title">Sürüm</string>
     <string name="info_github_title">GitHub</string>
     <string name="info_github_desc">GitHub deposunu aç.</string>
     <string name="info_telegram_title">Telegram</string>
@@ -838,7 +839,7 @@
     <string name="pick_style">Bir stil seçin</string>
     <string name="attention">Dikkat!</string>
     <string name="method_toggle_dark_mode">Çift Geçişli Koyu Mod</string>
-    <string name="method_restart_systemui">SystemUI Tekrar Başlat</string>
+    <string name="method_restart_systemui">SystemUI\'yi yeniden başlat</string>
     <string name="method_do_nothing">Hiçbir Şey Yapma (Kendim yapacağım)</string>
     <string name="list_title_xposed_settings">Xposed Ayarları</string>
     <string name="list_title_force_apply_method">Güç Uygulama Yöntemi</string>
