@@ -26,4 +26,6 @@
         <attr name="singleToneColor" format="integer" />
         <attr name="homeHandleColor" format="integer" />
     </declare-styleable>
+
+    <attr name="backgroundColor" format="reference|color" />
 </resources>
