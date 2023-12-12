@@ -13,4 +13,5 @@
     <locale android:name="tr-TR" />
     <locale android:name="vi-VN" />
     <locale android:name="zh-CN" />
+    <locale android:name="zh-TW" />
 </locale-config>

@@ -9,6 +9,7 @@
         <item>Arabic</item>
         <item>English</item>
         <item>Chinese (Simplified)</item>
+        <item>Chinese (Traditional)</item>
         <item>French</item>
         <item>Indonesian</item>
         <item>Italian</item>
@@ -24,6 +25,7 @@
         <item>ar-SA</item>
         <item>en-US</item>
         <item>zh-CN</item>
+        <item>zh-TW</item>
         <item>fr-FR</item>
         <item>in-ID</item>
         <item>it-IT</item>
