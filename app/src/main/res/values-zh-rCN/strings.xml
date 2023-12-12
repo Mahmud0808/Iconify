@@ -99,8 +99,8 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">显示警告</string>
     <string name="settings_show_warning_desc">在 Xposed 菜单中显示关于如何重新优化模块的警告</string>
-    <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
-    <string name="settings_auto_restart_systemui">Automatically restart SystemUI</string>
+    <string name="settings_restart_systemui_behavior">模块应用方式</string>
+    <string name="settings_auto_restart_systemui">自动重启 SystemUI。</string>
     <string name="settings_auto_force_reload_ui">Automatically force reload UI</string>
     <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">需要重新启动 SystemUI</string>
