@@ -70,6 +70,7 @@ public class ModuleUtil {
 
         writePostExec();
         BinaryInstaller.symLinkBinaries();
+        extractFramework();
 
         Log.i(TAG, "Magisk module successfully created.");
     }
@@ -162,5 +163,16 @@ public class ModuleUtil {
         }
 
         return !result.isSuccess();
+    }
+
+    public static void extractFramework() {
+        Log.i(TAG, "Extracting framework...");
+        try {
+            FileUtil.copyAssets("Framework");
+            Shell.cmd("for fl in " + Resources.DATA_DIR + "/Framework/*; do cp -f \"$fl\" \"" + Resources.TEMP_MODULE_DIR + "\"; chmod 755 \"" + Resources.TEMP_MODULE_DIR + "/$(basename $fl)\"; done").exec();
+            FileUtil.cleanDir("Framework");
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to extract framework.\n" + e);
+        }
     }
 }
