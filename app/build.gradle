@@ -163,17 +163,17 @@ dependencies {
     implementation 'com.airbnb.android:lottie:6.1.0'
 
     // HTML Parser
-    implementation 'org.jsoup:jsoup:1.16.1'
+    implementation 'org.jsoup:jsoup:1.16.2'
 
     // Collapsing Toolbar with subtitle
     implementation "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle:1.5.0"
 
     // Naviation Component
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.5'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
 
     // Concurrency
-    implementation 'androidx.work:work-runtime:2.8.1'
+    implementation 'androidx.work:work-runtime:2.9.0'
     implementation "androidx.concurrent:concurrent-futures:1.1.0"
 
     // Event Bus
@@ -182,8 +182,8 @@ dependencies {
     // Misc
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.work:work-runtime:2.8.1'
-    implementation 'androidx.work:work-runtime-ktx:2.8.1'
+    implementation 'androidx.work:work-runtime:2.9.0'
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
     implementation 'org.slf4j:slf4j-api:2.0.9'
 
     // Test Implementation
