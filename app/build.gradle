@@ -175,6 +175,7 @@ dependencies {
     // Concurrency
     implementation 'androidx.work:work-runtime:2.9.0'
     implementation "androidx.concurrent:concurrent-futures:1.1.0"
+    implementation 'com.google.guava:guava:29.0-jre'
 
     // Event Bus
     implementation 'org.greenrobot:eventbus:3.3.1'
