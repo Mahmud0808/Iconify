@@ -14,12 +14,10 @@ public class Resources {
     // Storage location
     public static final String DOCUMENTS_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
     public static final String DOWNLOADS_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
-    public static final String FRAMEWORK_DIR = "/system/framework/framework-res.apk";
-    public static final String FRAMEWORK_DIR_ALT = "/data/adb/modules/Iconify/android.jar";
     public static final String LOG_DIR = DOCUMENTS_DIR + "/Iconify";
     public static final String MODULE_DIR = "/data/adb/modules/Iconify";
     public static final String SYSTEM_OVERLAY_DIR = "/system/product/overlay";
-    public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
+    public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().getAbsolutePath();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
     public static final String BIN_DIR = Iconify.getAppContext().getDataDir() + "/bin";
     public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_backup";
@@ -38,6 +36,10 @@ public class Resources {
     public static final String COMPANION_DRAWABLE_DIR = COMPANION_RES_DIR + "/drawable";
     public static final String COMPANION_LAYOUT_DIR = COMPANION_RES_DIR + "/layout";
 
+    // File resources
+    public static final String FRAMEWORK_DIR = "/system/framework/framework-res.apk";
+    public static final String FRAMEWORK_DIR_ALT = DATA_DIR + "/Framework/android.jar";
+
     // Xposed resource dir
     public static final String XPOSED_RESOURCE_TEMP_DIR = Environment.getExternalStorageDirectory() + "/.iconify_files";
     public static final String LSCLOCK_FONT_DIR = XPOSED_RESOURCE_TEMP_DIR + "/lsclock_font.ttf";
@@ -46,6 +48,7 @@ public class Resources {
     public static final String DEPTH_WALL_FG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_fg.png";
     public static final String DEPTH_WALL_BG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_bg.png";
 
+    // Overlays
     public static final String QSNPT_overlay = "IconifyComponentQSNPT.overlay";
     public static final String QSNT1_overlay = "IconifyComponentQSNT1.overlay";
     public static final String QSNT2_overlay = "IconifyComponentQSNT2.overlay";
