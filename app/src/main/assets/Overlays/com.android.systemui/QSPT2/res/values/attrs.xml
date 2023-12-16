@@ -27,5 +27,5 @@
         <attr name="homeHandleColor" format="integer" />
     </declare-styleable>
 
-    <attr name="backgroundColor" format="reference|color" />
+    <attr name="backgroundColor" format="integer" />
 </resources>
