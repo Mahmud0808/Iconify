@@ -20,12 +20,10 @@
     <attr name="outline" format="reference|color" />
     <attr name="primary" format="reference|color" />
 
-    <declare-styleable name="TonedIcon">
-        <attr name="iconBackgroundColor" format="integer" />
-        <attr name="fillColor" format="integer" />
-        <attr name="singleToneColor" format="integer" />
-        <attr name="homeHandleColor" format="integer" />
-    </declare-styleable>
+    <attr name="iconBackgroundColor" format="integer" />
+    <attr name="fillColor" format="integer" />
+    <attr name="singleToneColor" format="integer" />
+    <attr name="homeHandleColor" format="integer" />
 
     <attr name="backgroundColor" format="integer" />
 </resources>
