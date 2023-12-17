@@ -670,6 +670,7 @@
     <string name="vi_translation">Traducción al vietnamita.</string>
     <string name="es_translation">Spanish translation.</string>
     <string name="zh_cn_translation">Traducción al chino simplificado.</string>
+    <string name="zh_tw_translation">Traditional Chinese translation.</string>
     <string name="pl_translation">Polish translation.</string>
     <!-- Experimental -->
     <string name="experimental_features_title">Funciones experimentales</string>
