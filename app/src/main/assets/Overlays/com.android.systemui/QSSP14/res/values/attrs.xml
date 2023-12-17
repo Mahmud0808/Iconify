@@ -25,5 +25,5 @@
     <attr name="singleToneColor" format="integer" />
     <attr name="homeHandleColor" format="integer" />
 
-    <attr name="backgroundColor" format="integer" />
+    <attr name="backgroundColor" format="color" />
 </resources>

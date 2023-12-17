@@ -39,7 +39,7 @@
 
     <style name="Control" />
 
-    <style name="Control.MenuItem">
+    <style name="Control.MenuItem" parent="@style/Control">
         <item name="android:fontFamily">@*android:string/config_headlineFontFamily</item>
         <item name="android:textSize">@dimen/control_menu_item_text_size</item>
         <item name="android:textColor">@color/control_primary_text</item>
@@ -49,12 +49,37 @@
     </style>
 
     <style name="QSIconTheme">
-        <item name="backgroundColor">?android:attr/textColorHint</item>
-        <item name="fillColor">?android:attr/textColorPrimary</item>
-        <item name="singleToneColor">?android:attr/textColorPrimary</item>
+        <item name="backgroundColor">?android:textColorHint</item>
+        <item name="fillColor">?android:textColorPrimary</item>
+        <item name="singleToneColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="DualToneLightTheme">
+        <item name="iconBackgroundColor">@color/light_mode_icon_color_dual_tone_background</item>
+        <item name="fillColor">@color/light_mode_icon_color_dual_tone_fill</item>
+        <item name="singleToneColor">@color/light_mode_icon_color_single_tone</item>
+        <item name="homeHandleColor">@color/navigation_bar_home_handle_light_color</item>
+    </style>
+
+    <style name="QSHeaderDarkTheme">
+        <item name="iconBackgroundColor">@color/dark_mode_qs_icon_color_dual_tone_background</item>
+        <item name="fillColor">@color/dark_mode_qs_icon_color_dual_tone_fill</item>
+        <item name="singleToneColor">@color/dark_mode_qs_icon_color_single_tone</item>
+    </style>
+
+    <style name="Theme.SystemUI.QuickSettings.Header" parent="@style/Theme.SystemUI.QuickSettings">
+        <item name="darkIconTheme">@style/QSHeaderDarkTheme</item>
+        <item name="lightIconTheme">@style/DualToneLightTheme</item>
     </style>
 
     <dimen name="control_menu_item_text_size">16sp</dimen>
     <dimen name="control_menu_item_height">54dp</dimen>
+    <color name="light_mode_icon_color_dual_tone_background">#4DFFFFFF</color>
+    <color name="light_mode_icon_color_dual_tone_fill">#FFFFFFFF</color>
+    <color name="light_mode_icon_color_single_tone">#FFFFFFFF</color>
+    <color name="navigation_bar_home_handle_light_color">#EBFFFFFF</color>
+    <color name="dark_mode_qs_icon_color_dual_tone_background">#3D000000</color>
+    <color name="dark_mode_qs_icon_color_dual_tone_fill">#99000000</color>
+    <color name="dark_mode_qs_icon_color_single_tone">#B3000000</color>
     <color name="control_primary_text">#E6FFFFFF</color>
 </resources>
