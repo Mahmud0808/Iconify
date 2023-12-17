@@ -246,7 +246,7 @@
     <string name="monet_expressive">印象深刻</string>
     <string name="monet_fidelity">保真度</string>
     <string name="monet_fruitsalad">水果沙拉</string>
-    <string name="monet_content">内容</string>
+    <string name="monet_content">满足</string>
     <string name="monet_primary_accent_saturation_title">主强調色飽和度</string>
     <string name="monet_secondary_accent_saturation_title">副强調色飽和度</string>
     <string name="monet_background_saturation_title">背景色飽和度</string>
@@ -254,10 +254,10 @@
     <!-- UI Roundness -->
     <string name="corner_radius_title">圓角半徑</string>
     <string name="qstile_btn1_title">網際網路</string>
-    <string name="qstile_btn1_desc">安息</string>
+    <string name="qstile_btn1_desc">RIP in Peace</string>
     <string name="qstile_btn2_title">飛航模式</string>
     <string name="qstile_btn2_desc">禁用</string>
-    <string name="qstile_btn3_title">位置咨詢</string>
+    <string name="qstile_btn3_title">位置資訊</string>
     <string name="qstile_btn3_desc">禁用</string>
     <string name="qstile_btn4_title">藍牙</string>
     <string name="qstile_btn4_desc">啓用</string>
@@ -376,10 +376,10 @@
     <string name="section_title_tablet_mode">平板模式</string>
     <string name="tablet_landscape_title">平板電腦景觀</string>
     <string name="tablet_landscape_desc">也稱為 Better 快速設定面板</string>
-    <string name="notch_bar_killer_title">消除屏幕上面的缺口</string>
-    <string name="notch_bar_killer_desc">消除屏幕缺口上的空白空間</string>
+    <string name="notch_bar_killer_title">消除熒幕上面的缺口</string>
+    <string name="notch_bar_killer_desc">消除熒幕缺口上的空白空間</string>
     <string name="tablet_header_title">平板電腦接口</string>
-    <string name="tablet_header_desc">啓用大的屏幕陰影頁眉</string>
+    <string name="tablet_header_desc">啓用大的熒幕陰影頁眉</string>
     <string name="section_title_privacy_chip">Privacy Chip</string>
     <string name="accent_privacy_chip_title">Accent Privacy Chip</string>
     <string name="accent_privacy_chip_desc">讓Privacy chip强調著色</string>
@@ -614,7 +614,7 @@
     <string name="hide_carrier_group_desc">從快速設定面板上隱藏運營商組</string>
     <string name="hide_status_icons_title">隱藏狀態圖示</string>
     <string name="hide_status_icons_desc">移除時間、日期和電池圖示</string>
-    <string name="lock_screen">鎖定屏幕</string>
+    <string name="lock_screen">鎖定熒幕</string>
     <string name="hide_ls_carrier_title">隱藏鎖屏運營商</string>
     <string name="hide_ls_carrier_desc">在鎖屏上隱藏運營商名字</string>
     <string name="hide_ls_statusbar_title">隱藏鎖屏狀態列</string>
@@ -670,6 +670,7 @@
     <string name="vi_translation">越南語翻譯。</string>
     <string name="es_translation">西班牙語翻譯。</string>
     <string name="zh_cn_translation">簡體中文翻譯。</string>
+    <string name="zh_tw_translation">繁體中文翻譯。</string>
     <string name="pl_translation">波蘭語翻譯。</string>
     <!-- Experimental -->
     <string name="experimental_features_title">實驗性</string>
@@ -852,7 +853,7 @@
     <string name="disable_animation_desc">禁用 Iconify 的滾動動畫</string>
     <string name="custom_battery_title">定制電池</string>
     <string name="custom_battery_desc">啓用自訂電池樣式</string>
-    <string name="toast_message">Toast 咨詢</string>
+    <string name="toast_message">Toast 資訊</string>
     <string name="created_by_drdisagree">DrDisagree 用\u2764\uFE0E製作</string>
     <string name="hello_blank_fragment">你好，空白片段</string>
     <string name="lockscreen_customization_title">鎖屏自訂</string>
