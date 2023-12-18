@@ -74,12 +74,12 @@
 
     <dimen name="control_menu_item_text_size">16sp</dimen>
     <dimen name="control_menu_item_height">54dp</dimen>
-    <color name="light_mode_icon_color_dual_tone_background">#4D000000</color>
-    <color name="light_mode_icon_color_dual_tone_fill">#FF000000</color>
-    <color name="light_mode_icon_color_single_tone">#FF000000</color>
-    <color name="navigation_bar_home_handle_light_color">#EB000000</color>
-    <color name="dark_mode_qs_icon_color_dual_tone_background">#3DFFFFFF</color>
-    <color name="dark_mode_qs_icon_color_dual_tone_fill">#99FFFFFF</color>
-    <color name="dark_mode_qs_icon_color_single_tone">#B3FFFFFF</color>
+    <color name="light_mode_icon_color_dual_tone_background">#4DFFFFFF</color>
+    <color name="light_mode_icon_color_dual_tone_fill">#FFFFFFFF</color>
+    <color name="light_mode_icon_color_single_tone">#FFFFFFFF</color>
+    <color name="navigation_bar_home_handle_light_color">#EBFFFFFF</color>
+    <color name="dark_mode_qs_icon_color_dual_tone_background">#3D000000</color>
+    <color name="dark_mode_qs_icon_color_dual_tone_fill">#99000000</color>
+    <color name="dark_mode_qs_icon_color_single_tone">#B3000000</color>
     <color name="control_primary_text">#E6000000</color>
 </resources>
