@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="FadeTransition">
+        <attr name="startAlpha" format="float" />
+        <attr name="endAlpha" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="PopTransition">
+        <attr name="startScale" format="float" />
+        <attr name="endScale" format="float" />
+    </declare-styleable>
+
     <declare-styleable name="BounceScrollView">
         <attr name="damping" format="float" />
         <attr name="scrollOrientation" format="enum">

@@ -22,7 +22,7 @@ import androidx.work.WorkerParameters;
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.drdisagree.iconify.ui.fragments.AppUpdates;
 import com.drdisagree.iconify.utils.extension.TaskExecutor;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -74,7 +74,7 @@ public class UpdateWorker extends ListenableWorker {
     private void showUpdateNotification() {
         Shell.cmd("pm grant " + BuildConfig.APPLICATION_ID + " android.permission.POST_NOTIFICATIONS").exec();
 
-        Intent notificationIntent = new Intent(mContext, HomePage.class);
+        Intent notificationIntent = new Intent(mContext, MainActivity.class);
         notificationIntent.putExtra(AppUpdates.KEY_NEW_UPDATE, true);
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

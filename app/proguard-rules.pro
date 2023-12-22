@@ -46,3 +46,6 @@
 
 # Accessed via reflection, avoid renaming or removal
 -keep class org.greenrobot.eventbus.android.AndroidComponentsImpl
+
+# Keep the ConstraintLayout Motion class
+-keep class androidx.constraintlayout.motion.widget.** { *; }

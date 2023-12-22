@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name" translatable="false">Iconify</string>
     <string name="app_moto">Customize Boring Android UI</string>
 
@@ -12,15 +12,18 @@
     <string name="module_installation_step5">Signing overlay APKs</string>
     <string name="module_installation_step6">Cleaning directories</string>
     <string name="onboarding_title_1">Got Bored of Stock UI ?</string>
-    <string name="onboarding_desc_1">Let\'s customize everything to our likings.</string>
+    <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
+    <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
     <string name="onboarding_title_2">Is My Device Supported ?</string>
-    <string name="onboarding_desc_2">Iconify supports all Pixel and AOSP based ROMs.</string>
+    <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
+    <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
     <string name="onboarding_title_3">Shall We Begin Now ?</string>
-    <string name="onboarding_desc_3">It is time for iconify to do some internal work.</string>
+    <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
+    <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
     <string name="need_storage_perm_title">Need Storage Permission</string>
     <string name="need_storage_perm_desc">Storage permission is required to build the necessary files.</string>
-    <string name="magisk_not_found_title">Could Not Find Magisk</string>
-    <string name="magisk_not_found_desc">Use Magisk to root your device!</string>
+    <string name="compatible_root_not_found_title">Could Not Find Compatible Root Method</string>
+    <string name="compatible_root_not_found_desc">Use Magisk or KernelSU to root your device.</string>
     <string name="root_not_found_title">Root Is Not Accessible</string>
     <string name="root_not_found_desc">Looks like your device is not rooted!</string>
     <string name="need_reboot_title">Need Device Reboot</string>

@@ -49,7 +49,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentMonetEngineBinding;
-import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
@@ -471,7 +471,7 @@ public class MonetEngine extends BaseFragment {
                     binding.enableCustomMonet.hide();
                     binding.disableCustomMonet.hide();
 
-                    ((HomePage) requireActivity()).showColorPickerDialog(-1, child.getTag() == null ? Color.WHITE : (Integer) child.getTag(), true, false, true);
+                    ((MainActivity) requireActivity()).showColorPickerDialog(-1, child.getTag() == null ? Color.WHITE : (Integer) child.getTag(), true, false, true);
                 });
             }
         }

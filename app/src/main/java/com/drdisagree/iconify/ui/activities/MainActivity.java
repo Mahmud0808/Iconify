@@ -35,7 +35,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-public class HomePage extends BaseActivity implements ColorPickerDialogListener {
+public class MainActivity extends BaseActivity implements ColorPickerDialogListener {
 
     private static final String mData = "mDataKey";
     private ActivityHomePageBinding binding;

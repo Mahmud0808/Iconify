@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent;
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -91,7 +91,7 @@ public class ColorPickerWidget extends RelativeLayout {
             boolean showAlphaSlider,
             boolean showColorShades
     ) {
-        if (!(activity instanceof HomePage)) {
+        if (!(activity instanceof MainActivity)) {
             throw new IllegalArgumentException("Activity must be instance of HomePage");
         }
 
@@ -101,7 +101,7 @@ public class ColorPickerWidget extends RelativeLayout {
                         beforeColorPickerListener.onColorPickerShown();
                     }
 
-                    ((HomePage) activity).showColorPickerDialog(
+                    ((MainActivity) activity).showColorPickerDialog(
                             colorPickerDialogId,
                             this.selectedColor,
                             showPresets,

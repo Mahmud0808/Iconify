@@ -130,7 +130,7 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // Material Components
-    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'com.google.android.material:material:1.11.0'
 
     // APK Signer
     implementation 'org.bouncycastle:bcpkix-jdk18on:1.76'
@@ -154,7 +154,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
     // ViewPager2
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
     // Circle Indicator
     implementation 'me.relex:circleindicator:2.1.6'
@@ -179,6 +179,9 @@ dependencies {
 
     // Event Bus
     implementation 'org.greenrobot:eventbus:3.3.1'
+
+    // Dots Indicator
+    implementation 'com.tbuonomo:dotsindicator:4.3'
 
     // Misc
     implementation 'androidx.appcompat:appcompat:1.6.1'

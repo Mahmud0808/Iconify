@@ -38,10 +38,10 @@
         android:theme="@style/Theme.Iconify"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".ui.activities.Onboarding"
+            android:name=".ui.activities.OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.HomePage"
+            android:name=".ui.activities.MainActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

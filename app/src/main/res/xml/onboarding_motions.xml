@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        android:id="@+id/onboarding_transition"
+        app:constraintSetEnd="@id/end"
+        app:constraintSetStart="@id/start"
+        app:motionInterpolator="easeInOut">
+
+        <KeyFrameSet>
+
+            <KeyAttribute
+                android:alpha="1.0"
+                android:translationX="0dp"
+                app:framePosition="50"
+                app:motionTarget="@id/skipBtn" />
+
+            <KeyAttribute
+                android:alpha="0.0"
+                android:translationX="-500dp"
+                app:framePosition="100"
+                app:motionTarget="@id/skipBtn" />
+
+            <KeyAttribute
+                android:alpha="0.0"
+                app:framePosition="50"
+                app:motionTarget="@id/startBtn" />
+
+            <KeyAttribute
+                android:alpha="1.0"
+                app:framePosition="100"
+                app:motionTarget="@id/startBtn" />
+
+            <KeyAttribute
+                android:alpha="0.0"
+                app:framePosition="50"
+                app:motionTarget="@id/loadingAnim" />
+
+            <KeyAttribute
+                android:alpha="1.0"
+                app:framePosition="100"
+                app:motionTarget="@id/loadingAnim" />
+
+            <KeyAttribute
+                android:alpha="1.0"
+                android:translationX="0dp"
+                app:framePosition="50"
+                app:motionTarget="@id/nextBtn" />
+
+            <KeyAttribute
+                android:alpha="0.0"
+                android:translationX="500dp"
+                app:framePosition="100"
+                app:motionTarget="@id/nextBtn" />
+
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@+id/skipBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1.0"
+            android:translationX="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@+id/startBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@+id/loadingAnim"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0.0"
+            app:layout_constraintBottom_toBottomOf="@id/startBtn"
+            app:layout_constraintEnd_toEndOf="@id/startBtn"
+            app:layout_constraintStart_toStartOf="@id/startBtn"
+            app:layout_constraintTop_toTopOf="@id/startBtn">
+
+            <PropertySet app:visibilityMode="ignore" />
+
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1.0"
+            android:translationX="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+
+        <Constraint
+            android:id="@id/skipBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:translationX="-500dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@id/startBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@id/loadingAnim"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="1.0"
+            app:layout_constraintBottom_toBottomOf="@id/startBtn"
+            app:layout_constraintEnd_toEndOf="@id/startBtn"
+            app:layout_constraintStart_toStartOf="@id/startBtn"
+            app:layout_constraintTop_toTopOf="@id/startBtn">
+
+            <PropertySet app:visibilityMode="ignore" />
+
+        </Constraint>
+
+        <Constraint
+            android:id="@id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:translationX="500dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </ConstraintSet>
+</MotionScene>

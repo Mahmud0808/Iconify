@@ -25,4 +25,7 @@ public class Dynamic {
     public static final File ZIPALIGNLIB = new File(NATIVE_LIBRARY_DIR, "libzipalign.so");
     public static final File ZIPALIGN = new File(BIN_DIR, "zipalign");
     public static final File ZIP = new File(BIN_DIR, "zip");
+
+    // Onboarding overlay installation
+    public static boolean skippedInstallation = false;
 }
