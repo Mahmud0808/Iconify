@@ -8,9 +8,7 @@ on:
 jobs:
   synchronize-with-crowdin:
     name: Upload strings to Crowdin
-    if: |
-      github.repository_owner == 'Mahmud0808' &&
-      (github.event_name == 'push' && contains(github.event.head_commit.modified, 'app/src/main/res/values/strings.xml'))
+    if: github.repository_owner == 'Mahmud0808'
     runs-on: ubuntu-latest
     steps:
 
