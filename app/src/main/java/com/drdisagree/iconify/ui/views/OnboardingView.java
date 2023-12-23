@@ -105,6 +105,14 @@ public class OnboardingView extends FrameLayout {
         setLottieColorFilter(getButtonTextColor());
 
         progressDialog = new InstallationDialog(getContext());
+
+        binding.startBtn.getViewTreeObserver().addOnDrawListener(() -> {
+            if (binding.startBtn.getAlpha() <= 0.1f) {
+                binding.startBtn.setVisibility(GONE);
+            } else {
+                binding.startBtn.setVisibility(VISIBLE);
+            }
+        });
     }
 
     private void setUpSlider() {
