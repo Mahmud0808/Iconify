@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_moto">Personalizar a IU Android</string>
     <!-- Onboarding -->
     <string name="init_module_installation">A inicializar</string>
@@ -11,15 +11,18 @@
     <string name="module_installation_step5">A assinar APKs dos <i>Overlays</i></string>
     <string name="module_installation_step6">A limpar diretorias temporárias</string>
     <string name="onboarding_title_1">Fartou-se da interace chata do sistema?</string>
-    <string name="onboarding_subtitle_1">Vamos, então, personalizar tudo ao seu gosto.</string>
+    <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
+    <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
     <string name="onboarding_title_2">O meu dispositivo é compatível?</string>
-    <string name="onboarding_subtitle_2">A Iconify é compatível nos aparelhos com uma ROM Pixel ou basedada no AOSP</string>
+    <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
+    <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
     <string name="onboarding_title_3">Podemos começar?</string>
-    <string name="onboarding_subtitle_3">A Iconify vai começar a trabalhar.</string>
+    <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
+    <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
     <string name="need_storage_perm_title">Necessária permissão para aceder ao armazenamento</string>
     <string name="need_storage_perm_desc">Preciso da permissão para criar os ficheiros necessários</string>
-    <string name="compatible_root_not_found_title">Magisk não encontrado</string>
-    <string name="compatible_root_not_found_desc">Utilize o Magisk para dar <i>root</i> ao seu dispositivo!</string>
+    <string name="compatible_root_not_found_title">Could Not Find Compatible Root Method</string>
+    <string name="compatible_root_not_found_desc">Use Magisk or KernelSU to root your device.</string>
     <string name="root_not_found_title">O acesso Root não está disponível</string>
     <string name="root_not_found_desc">Parece que o seu dispositivo não tem <i>root</i>!</string>
     <string name="need_reboot_title">É necessário reiniciar</string>

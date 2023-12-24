@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_moto">改造無趣的 Android 使用者介面</string>
     <!-- Onboarding -->
     <string name="init_module_installation">初始化安裝</string>
@@ -11,15 +11,18 @@
     <string name="module_installation_step5">正在簽發用作覆蓋的 APK</string>
     <string name="module_installation_step6">正在清理資料夾</string>
     <string name="onboarding_title_1">對原生的使用者介面感到厭倦了嗎？</string>
-    <string name="onboarding_subtitle_1">讓我們按照自己的喜好來自定一切吧。</string>
+    <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
+    <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
     <string name="onboarding_title_2">我的裝置支援嗎？</string>
-    <string name="onboarding_subtitle_2">Iconify 支援所有 Pixel 和以 AOSP 為基礎的 ROM。</string>
+    <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
+    <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
     <string name="onboarding_title_3">我們可以開始了嗎？</string>
-    <string name="onboarding_subtitle_3">是時候讓 Iconify 進行一些內部工作。</string>
+    <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
+    <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
     <string name="need_storage_perm_title">需要存取儲存空間的權利</string>
     <string name="need_storage_perm_desc">需要存取儲存空間的權限以建立需要的檔案。</string>
-    <string name="compatible_root_not_found_title">找不到 Magisk</string>
-    <string name="compatible_root_not_found_desc">請使用 Magisk 來 root 您的裝置！</string>
+    <string name="compatible_root_not_found_title">Could Not Find Compatible Root Method</string>
+    <string name="compatible_root_not_found_desc">Use Magisk or KernelSU to root your device.</string>
     <string name="root_not_found_title">無法存取 root</string>
     <string name="root_not_found_desc">看起來您的裝置似乎沒有被 root 過！</string>
     <string name="need_reboot_title">需要重新啟動裝置</string>
