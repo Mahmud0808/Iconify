@@ -10,19 +10,19 @@
     <string name="module_installation_step4">محاذاة ملفات APK المتراكبة</string>
     <string name="module_installation_step5">توقيع تراكب APKs</string>
     <string name="module_installation_step6">تنظيف المسارات</string>
-    <string name="onboarding_title_1">Got Bored of Stock UI ?</string>
-    <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
-    <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
-    <string name="onboarding_title_2">Is My Device Supported ?</string>
-    <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
-    <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
-    <string name="onboarding_title_3">Shall We Begin Now ?</string>
-    <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
-    <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
+    <string name="onboarding_title_1">هل مللت من الواجهة الأصلية؟</string>
+    <string name="onboarding_subtitle_1">دعنا نخصص كل شيء حسب رغباتنا.</string>
+    <string name="onboarding_desc_1">تخلص من رتابة واجهة المستخدم - قم بتخصيص كل التفاصيل التقنية لتتناسب مع أسلوبك وتفضيلاتك.</string>
+    <string name="onboarding_title_2">هل جهازي مدعوم؟</string>
+    <string name="onboarding_subtitle_2">يدعم Iconify جميع رومات Pixel وAOSP.</string>
+    <string name="onboarding_desc_2">متوافق مع جميع الرومات المبنية على Pixel وAOSP، مما يضمن دعمًا واسع النطاق لأجهزة Android.</string>
+    <string name="onboarding_title_3">هل نبدأ الآن؟</string>
+    <string name="onboarding_subtitle_3">لقد حان الوقت لـIconify للقيام ببعض الأعمال الداخلية.</string>
+    <string name="onboarding_desc_3">بدء المهام الداخلية، إيذانا ببدء العمل الأساسي. هل أنت مستعد للبدء؟</string>
     <string name="need_storage_perm_title">يحتاج لصلاحيات التخزين</string>
     <string name="need_storage_perm_desc">صلاحيات التخزين ضروريه لبناء الملفات المهمه</string>
-    <string name="compatible_root_not_found_title">Could Not Find Compatible Root Method</string>
-    <string name="compatible_root_not_found_desc">Use Magisk or KernelSU to root your device.</string>
+    <string name="compatible_root_not_found_title">تعذر العثور على طريقة الروت المتوافقة</string>
+    <string name="compatible_root_not_found_desc">استخدم Magisk أو KernelSU لعمل روت لجهازك.</string>
     <string name="root_not_found_title">لا يمكن الوصول الي الروت</string>
     <string name="root_not_found_desc">يبدو أن جهازك ليس به روت</string>
     <string name="need_reboot_title">بحاجة إلى إعادة تشغيل الجهاز</string>
@@ -51,9 +51,9 @@
     <string name="iconify_updated_title">تم تحديث Iconify للتو!</string>
     <string name="iconify_updated_desc">أعد تشغيل هاتفك لاستخدام أحدث الميزات والخيارات المضافة.</string>
     <!-- Home Card View -->
-    <string name="home_card_title">Design It Your Way</string>
-    <string name="home_card_subtitle">Unleash Your Imagination, Make It Yours</string>
-    <string name="home_card_hide">Hide</string>
+    <string name="home_card_title">صممها على طريقتك</string>
+    <string name="home_card_subtitle">أطلق العنان لخيالك، واجعله ملكًا لك</string>
+    <string name="home_card_hide">إخفاء</string>
     <!-- Tweaks -->
     <string name="activity_title_color_engine">محرك الألوان</string>
     <string name="activity_desc_color_engine">التحكم بالألوان</string>
@@ -65,7 +65,7 @@
     <string name="activity_desc_qs_icon_label">تغيير خيارات الأيقونة والتسمية</string>
     <string name="activity_title_qs_tile_size">حجم بلاط QS</string>
     <string name="activity_desc_qs_tile_size">تغيير ارتفاع بلاط لوحة QS</string>
-    <string name="activity_title_qs_panel_margin">QS Panel Margin</string>
+    <string name="activity_title_qs_panel_margin">هامش لوحة QS</string>
     <string name="activity_desc_qs_panel_margin">Modify quick settings margins</string>
     <string name="activity_title_statusbar">شريط الحالة</string>
     <string name="activity_desc_statusbar">تعديل واجهة شريط الحالة</string>
@@ -667,6 +667,7 @@
     <string name="fr_translation">الترجمة الفرنسية</string>
     <string name="id_translation">الترجمة الاندونيسية.</string>
     <string name="it_translation">Italian translation.</string>
+    <string name="pt_br_translation">Portuguese Brazilian translation.</string>
     <string name="pt_translation">الترجمة البرتغالية.</string>
     <string name="ru_translation">الترجمة الروسية.</string>
     <string name="tr_translation">الترجمة التركية.</string>
@@ -821,7 +822,7 @@
     <string name="app_updates">تحديثات التطبيق</string>
     <string name="positive">نعم</string>
     <string name="negative">لا</string>
-    <string name="understood">Understood</string>
+    <string name="understood">مفهوم</string>
     <string name="custom_toast_title">توست مخصص</string>
     <string name="custom_toast_desc">تمكين توست ذي نمط مخصص</string>
     <string name="custom_progressbar_title">شريط التقدم مخصص</string>
