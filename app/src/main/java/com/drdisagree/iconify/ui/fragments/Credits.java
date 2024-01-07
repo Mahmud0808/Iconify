@@ -94,7 +94,7 @@ public class Credits extends BaseFragment {
         translators_list.add(new InfoModel(requireContext(), "Emre", Iconify.getAppContextLocale().getResources().getString(R.string.tr_translation), "https://crowdin.com/profile/khapnols", R.drawable.ic_user));
         translators_list.add(new InfoModel(requireContext(), "WINZORT", Iconify.getAppContextLocale().getResources().getString(R.string.tr_translation), "https://crowdin.com/profile/linuxthegoat", R.drawable.ic_user));
         translators_list.add(new InfoModel(requireContext(), "Đức Trọng", Iconify.getAppContextLocale().getResources().getString(R.string.vi_translation), "https://t.me/viettel1211", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Jakub Skorłutowski", Iconify.getAppContextLocale().getResources().getString(R.string.pl_translation), "https://github.com/SK00RUPA", R.drawable.ic_user));
+        translators_list.add(new InfoModel(requireContext(), "SK00RUPA", Iconify.getAppContextLocale().getResources().getString(R.string.pl_translation), "https://github.com/SK00RUPA", R.drawable.ic_user));
 
         return new InfoAdapter(requireContext(), translators_list);
     }
