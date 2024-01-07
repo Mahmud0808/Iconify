@@ -3,7 +3,7 @@
     <string name="app_moto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Initializing setup</string>
-    <string name="step">Step</string>
+    <string name="step">Steg</string>
     <string name="module_installation_step1">Creating module shell</string>
     <string name="module_installation_step2">Extracting necessary files</string>
     <string name="module_installation_step3">Creating overlay APKs</string>
@@ -13,32 +13,32 @@
     <string name="onboarding_title_1">Got Bored of Stock UI ?</string>
     <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
     <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
-    <string name="onboarding_title_2">Is My Device Supported ?</string>
+    <string name="onboarding_title_2">Har min enhet support?</string>
     <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
     <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
     <string name="onboarding_title_3">Shall We Begin Now ?</string>
     <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
     <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
-    <string name="need_storage_perm_title">Need Storage Permission</string>
+    <string name="need_storage_perm_title">Behöver åtkomst till lagring</string>
     <string name="need_storage_perm_desc">Storage permission is required to build the necessary files.</string>
     <string name="compatible_root_not_found_title">Could Not Find Compatible Root Method</string>
     <string name="compatible_root_not_found_desc">Use Magisk or KernelSU to root your device.</string>
-    <string name="root_not_found_title">Root Is Not Accessible</string>
+    <string name="root_not_found_title">Root är inte tillgängligt</string>
     <string name="root_not_found_desc">Looks like your device is not rooted!</string>
-    <string name="need_reboot_title">Need Device Reboot</string>
+    <string name="need_reboot_title">Behöver omstart</string>
     <string name="need_reboot_desc">Reboot your device to put all files in place.</string>
     <string name="installation_failed_title">Oops Did Not Expect That</string>
     <string name="installation_failed_desc">Logs have been saved in documents folder.</string>
-    <string name="logs">Logs</string>
+    <string name="logs">Loggar</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
-    <string name="activity_title_icon_pack">Icon Pack</string>
-    <string name="activity_desc_icon_pack">Change system icon pack</string>
+    <string name="activity_title_icon_pack">Ikon pack</string>
+    <string name="activity_desc_icon_pack">Ändra ikoner för systemet</string>
     <string name="activity_title_brightness_bar">Brightness Bar</string>
     <string name="activity_desc_brightness_bar">Customize progress slider</string>
     <string name="activity_title_qs_shape">QS Panel Tiles</string>
     <string name="activity_desc_qs_shape">Customize QS panel tiles</string>
-    <string name="activity_title_notification">Notification</string>
+    <string name="activity_title_notification">Notis</string>
     <string name="activity_desc_notification">Customize notification style</string>
     <string name="activity_title_progress_bar">Progress Bar</string>
     <string name="activity_desc_progress_bar">Use different progress style</string>
@@ -46,13 +46,13 @@
     <string name="activity_desc_switch">Customize switch appearance</string>
     <string name="activity_title_toast_frame">Toast Frame</string>
     <string name="activity_desc_toast_frame">Change toast notification style</string>
-    <string name="activity_title_icon_shape">Icon Shape</string>
+    <string name="activity_title_icon_shape">Ikonform</string>
     <string name="activity_desc_icon_shape">Change system icon shapes</string>
-    <string name="iconify_updated_title">Iconify Just Got Updated!</string>
+    <string name="iconify_updated_title">Iconify uppdaterades precis!</string>
     <string name="iconify_updated_desc">Reboot your phone to use the latest added features and options.</string>
     <!-- Home Card View -->
     <string name="home_card_title">Design It Your Way</string>
-    <string name="home_card_subtitle">Unleash Your Imagination, Make It Yours</string>
+    <string name="home_card_subtitle">Släpp Loss Din Fantasi, Gör Det Till Ditt Eget</string>
     <string name="home_card_hide">Hide</string>
     <!-- Tweaks -->
     <string name="activity_title_color_engine">Color Engine</string>
@@ -667,6 +667,7 @@
     <string name="fr_translation">French translation.</string>
     <string name="id_translation">Indonesian translation.</string>
     <string name="it_translation">Italian translation.</string>
+    <string name="pt_br_translation">Portuguese Brazilian translation.</string>
     <string name="pt_translation">Portuguese translation.</string>
     <string name="ru_translation">Russian translation.</string>
     <string name="tr_translation">Turkish translation.</string>

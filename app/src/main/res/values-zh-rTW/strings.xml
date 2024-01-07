@@ -11,13 +11,13 @@
     <string name="module_installation_step5">正在簽發用作覆蓋的 APK</string>
     <string name="module_installation_step6">正在清理資料夾</string>
     <string name="onboarding_title_1">對原生的使用者介面感到厭倦了嗎？</string>
-    <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
+    <string name="onboarding_subtitle_1">讓我們按照自己的喜好來自定一切吧。</string>
     <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
     <string name="onboarding_title_2">我的裝置支援嗎？</string>
     <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
     <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
     <string name="onboarding_title_3">我們可以開始了嗎？</string>
-    <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
+    <string name="onboarding_subtitle_3">是時候讓 Iconify 進行一些內部工作。</string>
     <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
     <string name="need_storage_perm_title">需要存取儲存空間的權利</string>
     <string name="need_storage_perm_desc">需要存取儲存空間的權限以建立需要的檔案。</string>
@@ -667,6 +667,7 @@
     <string name="fr_translation">法語翻譯。</string>
     <string name="id_translation">印度尼西亞語翻譯。</string>
     <string name="it_translation">義大利語翻譯。</string>
+    <string name="pt_br_translation">Portuguese Brazilian translation.</string>
     <string name="pt_translation">葡萄牙語翻譯。</string>
     <string name="ru_translation">俄語翻譯。</string>
     <string name="tr_translation">土耳其語翻譯。</string>
