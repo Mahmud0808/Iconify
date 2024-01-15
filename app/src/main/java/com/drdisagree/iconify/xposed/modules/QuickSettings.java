@@ -168,7 +168,7 @@ public class QuickSettings extends ModPack {
                             int resId = mContext.getResources()
                                     .getIdentifier(resName, "dimen", mContext.getPackageName());
                             if (param.args[0].equals(resId)) {
-                                param.setResult(qqsTopMargin);
+                                param.setResult(qqsTopMargin * mContext.getResources().getDisplayMetrics().density);
                             }
                         } catch (Throwable ignored) {
                         }
@@ -186,7 +186,7 @@ public class QuickSettings extends ModPack {
                             int resId = mContext.getResources()
                                     .getIdentifier(resName, "dimen", mContext.getPackageName());
                             if (param.args[0].equals(resId)) {
-                                param.setResult(qsTopMargin);
+                                param.setResult(qsTopMargin * mContext.getResources().getDisplayMetrics().density);
                             }
                         } catch (Throwable ignored) {
                         }
