@@ -68,6 +68,7 @@ public class XposedQuickSettings extends BaseFragment {
         });
         binding.qqsTopMargin.setResetClickListener(v -> {
             RPrefs.clearPref(QQS_TOPMARGIN);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             return true;
         });
 
@@ -86,6 +87,7 @@ public class XposedQuickSettings extends BaseFragment {
         });
         binding.qsTopMargin.setResetClickListener(v -> {
             RPrefs.clearPref(QS_TOPMARGIN);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             return true;
         });
 
