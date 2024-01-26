@@ -10,15 +10,6 @@ import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ICON_SIZE;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
-import static com.drdisagree.iconify.common.Resources.QSNPT_overlay;
-import static com.drdisagree.iconify.common.Resources.QSNT1_overlay;
-import static com.drdisagree.iconify.common.Resources.QSNT2_overlay;
-import static com.drdisagree.iconify.common.Resources.QSNT3_overlay;
-import static com.drdisagree.iconify.common.Resources.QSNT4_overlay;
-import static com.drdisagree.iconify.common.Resources.QSPT1_overlay;
-import static com.drdisagree.iconify.common.Resources.QSPT2_overlay;
-import static com.drdisagree.iconify.common.Resources.QSPT3_overlay;
-import static com.drdisagree.iconify.common.Resources.QSPT4_overlay;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -48,6 +39,15 @@ public class QsIconLabel extends BaseFragment {
 
     private static String selectedVariant;
     private FragmentQsIconLabelBinding binding;
+    public static final String QSNPT_overlay = "IconifyComponentQSNPT.overlay";
+    public static final String QSNT1_overlay = "IconifyComponentQSNT1.overlay";
+    public static final String QSNT2_overlay = "IconifyComponentQSNT2.overlay";
+    public static final String QSNT3_overlay = "IconifyComponentQSNT3.overlay";
+    public static final String QSNT4_overlay = "IconifyComponentQSNT4.overlay";
+    public static final String QSPT1_overlay = "IconifyComponentQSPT1.overlay";
+    public static final String QSPT2_overlay = "IconifyComponentQSPT2.overlay";
+    public static final String QSPT3_overlay = "IconifyComponentQSPT3.overlay";
+    public static final String QSPT4_overlay = "IconifyComponentQSPT4.overlay";
 
     @SuppressLint("SetTextI18n")
     @Override

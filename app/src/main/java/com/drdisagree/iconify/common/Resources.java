@@ -47,15 +47,4 @@ public class Resources {
     public static final String HEADER_IMAGE_DIR = XPOSED_RESOURCE_TEMP_DIR + "/header_image.png";
     public static final String DEPTH_WALL_FG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_fg.png";
     public static final String DEPTH_WALL_BG_DIR = XPOSED_RESOURCE_TEMP_DIR + "/depth_wallpaper_bg.png";
-
-    // Overlays
-    public static final String QSNPT_overlay = "IconifyComponentQSNPT.overlay";
-    public static final String QSNT1_overlay = "IconifyComponentQSNT1.overlay";
-    public static final String QSNT2_overlay = "IconifyComponentQSNT2.overlay";
-    public static final String QSNT3_overlay = "IconifyComponentQSNT3.overlay";
-    public static final String QSNT4_overlay = "IconifyComponentQSNT4.overlay";
-    public static final String QSPT1_overlay = "IconifyComponentQSPT1.overlay";
-    public static final String QSPT2_overlay = "IconifyComponentQSPT2.overlay";
-    public static final String QSPT3_overlay = "IconifyComponentQSPT3.overlay";
-    public static final String QSPT4_overlay = "IconifyComponentQSPT4.overlay";
 }
