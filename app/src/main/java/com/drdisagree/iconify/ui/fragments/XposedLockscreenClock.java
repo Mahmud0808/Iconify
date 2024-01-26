@@ -42,6 +42,7 @@ import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.LockscreenClockStyles;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.TextUtil;
 import com.google.android.material.slider.Slider;
 
 import java.util.ArrayList;
@@ -196,8 +197,11 @@ public class XposedLockscreenClock extends BaseFragment {
     private ClockPreviewAdapter initLockscreenClockStyles() {
         ArrayList<ClockModel> ls_clock = new ArrayList<>();
 
-        for (int i = 0; i <= 8; i++)
-            ls_clock.add(new ClockModel(LockscreenClockStyles.initLockscreenClockStyle(requireContext(), i)));
+        for (int i = 0; i <= 8; i++) {
+            ViewGroup clockView = LockscreenClockStyles.initLockscreenClockStyle(requireContext(), i);
+            TextUtil.convertTextViewsToTitleCase(clockView);
+            ls_clock.add(new ClockModel(clockView));
+        }
 
         return new ClockPreviewAdapter(requireContext(), ls_clock, LSCLOCK_SWITCH, LSCLOCK_STYLE);
     }

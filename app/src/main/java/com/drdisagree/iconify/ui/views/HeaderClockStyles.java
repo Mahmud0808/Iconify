@@ -28,7 +28,7 @@ public class HeaderClockStyles {
     static float textScaling = 1f;
 
     @SuppressWarnings("deprecation")
-    public static LinearLayout initHeaderClockStyle(Context mContext, int style) {
+    public static ViewGroup initHeaderClockStyle(Context mContext, int style) {
         LinearLayout container = new LinearLayout(mContext);
         container.setGravity(Gravity.START | Gravity.CENTER);
 

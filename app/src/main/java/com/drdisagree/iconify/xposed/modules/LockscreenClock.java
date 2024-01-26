@@ -35,6 +35,7 @@ import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.drdisagree.iconify.utils.TextUtil;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.modules.utils.LockscreenClockStyles;
 
@@ -190,7 +191,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private void updateClockView() {
         if (mClockViewContainer == null) return;
 
-        View clockView = LockscreenClockStyles.getClock(mContext);
+        ViewGroup clockView = LockscreenClockStyles.getClock(mContext);
 
         // Remove existing clock view
         if (mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null) {
@@ -237,6 +238,9 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
             if (clockView.getParent() != null) {
                 ((ViewGroup) clockView.getParent()).removeView(clockView);
             }
+
+            TextUtil.convertTextViewsToTitleCase((ViewGroup) clockView);
+
             mClockViewContainer.addView(clockView, idx);
         }
     }

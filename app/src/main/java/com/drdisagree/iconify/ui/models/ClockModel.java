@@ -1,20 +1,20 @@
 package com.drdisagree.iconify.ui.models;
 
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
 public class ClockModel {
 
-    private LinearLayout clock;
+    private ViewGroup clock;
 
-    public ClockModel(LinearLayout clock) {
+    public ClockModel(ViewGroup clock) {
         this.clock = clock;
     }
 
-    public LinearLayout getClock() {
+    public ViewGroup getClock() {
         return clock;
     }
 
-    public void setClock(LinearLayout clock) {
+    public void setClock(ViewGroup clock) {
         this.clock = clock;
     }
 }

@@ -32,7 +32,7 @@ public class LockscreenClockStyles {
 
     @SuppressLint("SetTextI18n")
     @SuppressWarnings("deprecation")
-    public static LinearLayout initLockscreenClockStyle(Context mContext, int style) {
+    public static ViewGroup initLockscreenClockStyle(Context mContext, int style) {
         LinearLayout container = new LinearLayout(mContext);
         container.setGravity(Gravity.START | Gravity.CENTER);
         customColorCode = ResourcesCompat.getColor(mContext.getResources(), R.color.textColorPrimary, mContext.getTheme());
