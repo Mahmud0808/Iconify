@@ -110,7 +110,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.12.0'
 
     // Data Binding
-    implementation 'com.android.databinding:library:8.2.0'
+    implementation 'com.android.databinding:library:8.2.2'
 
     // Xposed API
     compileOnly files('libs/api-82.jar')
@@ -163,7 +163,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:6.1.0'
 
     // HTML Parser
-    implementation 'org.jsoup:jsoup:1.16.2'
+    implementation 'org.jsoup:jsoup:1.17.2'
 
     // Collapsing Toolbar with subtitle
     implementation "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle:1.5.0"
