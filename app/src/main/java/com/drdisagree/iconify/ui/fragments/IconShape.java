@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
@@ -82,11 +84,17 @@ public class IconShape extends BaseFragment {
     // Function to add new item in list
     @SuppressLint("UseCompatLoadingForDrawables")
     private void addItem(ArrayList<Object[]> pack) {
+        @ColorInt int colorBackground = Iconify.getAppContextLocale().getResources().getColor(R.color.colorBackground, Iconify.getAppContext().getTheme());
+
         for (int i = 0; i < pack.size(); i++) {
             View list = LayoutInflater.from(requireContext()).inflate(R.layout.view_icon_shape, binding.iconShapePreviewContainer, false);
 
-            LinearLayout icon_container = list.findViewById(R.id.mask_shape);
-            icon_container.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), (int) pack.get(i)[0]));
+            LinearLayout icon_container_bg = list.findViewById(R.id.mask_shape_bg);
+            LinearLayout icon_container_fg = list.findViewById(R.id.mask_shape_fg);
+
+            icon_container_bg.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), (int) pack.get(i)[0]));
+            icon_container_fg.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), (int) pack.get(i)[0]));
+            icon_container_fg.setBackgroundTintList(ColorStateList.valueOf(colorBackground));
 
             TextView style_name = list.findViewById(R.id.shape_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));
@@ -142,13 +150,20 @@ public class IconShape extends BaseFragment {
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
+        @ColorInt int colorSuccess = Iconify.getAppContextLocale().getResources().getColor(R.color.colorSuccess, Iconify.getAppContext().getTheme());
+        @ColorInt int textColorSecondary = Iconify.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme());
+
         for (int i = 0; i < binding.iconShapePreviewContainer.getChildCount(); i++) {
             LinearLayout child = binding.iconShapePreviewContainer.getChildAt(i).findViewById(R.id.list_item_shape);
             TextView title = child.findViewById(R.id.shape_name);
+            LinearLayout icon_container_bg = child.findViewById(R.id.mask_shape_bg);
+
             if (i == Prefs.getInt(SELECTED_ICON_SHAPE, 0)) {
-                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.colorSuccess, Iconify.getAppContext().getTheme()));
+                icon_container_bg.setBackgroundTintList(ColorStateList.valueOf(colorSuccess));
+                title.setTextColor(colorSuccess);
             } else {
-                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
+                icon_container_bg.setBackgroundTintList(ColorStateList.valueOf(textColorSecondary));
+                title.setTextColor(textColorSecondary);
             }
         }
     }
