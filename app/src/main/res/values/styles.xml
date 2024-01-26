@@ -224,4 +224,9 @@
         <item name="android:textSize">15sp</item>
         <item name="android:drawableRight">@null</item>
     </style>
+
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">?attr/colorSurfaceVariant</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
 </resources>
