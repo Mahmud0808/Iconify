@@ -9,6 +9,7 @@
     tools:context=".ui.fragments.MediaIcons">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -25,9 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center"
-                android:layout_marginStart="68dp"
+                android:layout_marginHorizontal="68dp"
                 android:layout_marginTop="84dp"
-                android:layout_marginEnd="68dp"
                 android:layout_marginBottom="@dimen/container_marginSide"
                 android:text="@string/no_supported_music_player"
                 android:textAlignment="center"

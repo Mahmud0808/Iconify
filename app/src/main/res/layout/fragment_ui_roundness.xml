@@ -8,6 +8,7 @@
     tools:context=".ui.fragments.UiRoundness">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -96,9 +97,8 @@
                     android:id="@+id/qs_tile_orientation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="-4dp"
+                    android:layout_marginHorizontal="-4dp"
                     android:layout_marginTop="4dp"
-                    android:layout_marginEnd="-4dp"
                     android:clickable="true"
                     android:orientation="vertical">
 
@@ -119,10 +119,8 @@
                             android:background="@drawable/qs_shape_preview_enabled"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingStart="16dp"
-                            android:paddingTop="18dp"
-                            android:paddingEnd="16dp"
-                            android:paddingBottom="18dp"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="18dp"
                             tools:ignore="NestedWeights">
 
                             <ImageView
@@ -171,10 +169,8 @@
                             android:background="@drawable/qs_shape_preview_disabled"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingStart="16dp"
-                            android:paddingTop="18dp"
-                            android:paddingEnd="16dp"
-                            android:paddingBottom="18dp"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="18dp"
                             tools:ignore="RtlSymmetry">
 
                             <ImageView
@@ -233,10 +229,8 @@
                             android:background="@drawable/qs_shape_preview_disabled"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingStart="16dp"
-                            android:paddingTop="18dp"
-                            android:paddingEnd="16dp"
-                            android:paddingBottom="18dp"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="18dp"
                             tools:ignore="NestedWeights,RtlHardcoded,RtlSymmetry">
 
                             <ImageView
@@ -285,10 +279,8 @@
                             android:background="@drawable/qs_shape_preview_enabled"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"
-                            android:paddingStart="16dp"
-                            android:paddingTop="18dp"
-                            android:paddingEnd="16dp"
-                            android:paddingBottom="18dp">
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="18dp">
 
                             <ImageView
                                 android:id="@+id/qs_icon4"

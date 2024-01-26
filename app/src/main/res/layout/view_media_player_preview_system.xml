@@ -4,15 +4,13 @@
     android:id="@+id/preview_mp_system"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/container_marginSide"
-    android:layout_marginEnd="@dimen/container_marginSide"
+    android:layout_marginHorizontal="@dimen/container_marginSide"
     android:layout_marginBottom="@dimen/container_margin"
     android:background="@drawable/container"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:paddingStart="26dp"
+    android:paddingHorizontal="26dp"
     android:paddingTop="24dp"
-    android:paddingEnd="26dp"
     android:paddingBottom="14dp">
 
     <FrameLayout
@@ -138,8 +136,7 @@
             <ImageView
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                android:layout_marginStart="26dp"
-                android:layout_marginEnd="26dp"
+                android:layout_marginHorizontal="26dp"
                 android:background="@drawable/ic_pause"
                 android:backgroundTint="@color/textColorPrimary"
                 android:contentDescription="@string/icon" />

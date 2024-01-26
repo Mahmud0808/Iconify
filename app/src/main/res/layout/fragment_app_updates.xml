@@ -8,6 +8,7 @@
     tools:context=".ui.fragments.AppUpdates">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -146,9 +147,8 @@
                         android:layout_marginEnd="24dp"
                         android:layout_marginBottom="16dp"
                         android:letterSpacing="0"
-                        android:paddingStart="24dp"
+                        android:paddingHorizontal="24dp"
                         android:paddingTop="6dp"
-                        android:paddingEnd="24dp"
                         android:paddingBottom="8dp"
                         android:text="@string/btn_download"
                         android:visibility="gone"

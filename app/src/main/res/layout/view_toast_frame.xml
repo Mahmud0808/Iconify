@@ -12,10 +12,8 @@
         android:layout_gravity="center"
         android:background="@drawable/container"
         android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingTop="14dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="14dp">
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="14dp">
 
         <TextView
             style="@style/TextAppearance.Material3.TitleMedium"
@@ -36,8 +34,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
         android:background="@drawable/item_background_material_rounded"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingHorizontal="12dp"
         android:paddingBottom="3dp"
         android:textColor="@color/text_color_secondary" />
 
