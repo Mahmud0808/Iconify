@@ -24,7 +24,7 @@
             <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:iconSpaceReserved="true"
+                app:iconSpaceReserved="false"
                 app:titleText="@string/section_title_size_and_position" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
@@ -73,7 +73,7 @@
             <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:iconSpaceReserved="true"
+                app:iconSpaceReserved="false"
                 app:titleText="@string/section_title_qs_text_color" />
 
             <RelativeLayout
