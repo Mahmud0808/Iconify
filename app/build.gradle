@@ -16,8 +16,6 @@ android {
         versionName "6.6.0"
         setProperty("archivesBaseName", "Iconify v" + versionName)
         buildConfigField "int", "MIN_SDK_VERSION", "$minSdkVersion.apiLevel"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     final def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -189,11 +187,6 @@ dependencies {
     implementation 'androidx.work:work-runtime:2.9.0'
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
     implementation 'org.slf4j:slf4j-api:2.0.9'
-
-    // Test Implementation
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
 tasks.register('printVersionName') {
