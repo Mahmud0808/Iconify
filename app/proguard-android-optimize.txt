@@ -1,18 +1,10 @@
--allowaccessmodification
--dontoptimize
--dontpreverify
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--verbose
+-keepattributes Exceptions,LineNumberTable,Signature,SourceFile
 
--keepattributes *Annotation*
--keepattributes SourceFile,LineNumberTable
-
--keepclasseswithmembernames class * {
+-keepclasseswithmembernames,allowoptimization,allowobfuscation class * {
     native <methods>;
 }
 
--keepclassmembers enum * {
+-keepclassmembers,allowoptimization,allowobfuscation enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
