@@ -127,7 +127,7 @@ public class FileUtil {
     }
 
     public static boolean moveToIconifyHiddenDir(String source, String destination) {
-        return Shell.cmd("mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR, "mv -f \"" + source + "\" \"" + destination + "\"").exec().isSuccess();
+        return Shell.cmd("mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR, "rm -f \"" + destination + "\"", "mv -f \"" + source + "\" \"" + destination + "\"").exec().isSuccess();
     }
 
     public static void launchFilePicker(ActivityResultLauncher<Intent> launcher, String type) {
