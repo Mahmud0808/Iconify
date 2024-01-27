@@ -69,6 +69,25 @@
                 app:titleText="@string/qs_panel_top_margin_title"
                 app:valueFormat="dp" />
 
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_qs_elements" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_silent_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/hide_qs_silent_text_desc"
+                app:titleText="@string/hide_qs_silent_text_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_footer_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/hide_qs_footer_buttons_desc"
+                app:titleText="@string/hide_qs_footer_buttons_title" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -20,6 +20,8 @@ package com.drdisagree.iconify.xposed.modules;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HIDE_QS_FOOTER_BUTTONS;
+import static com.drdisagree.iconify.common.Preferences.HIDE_QS_SILENT_TEXT;
 import static com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
@@ -41,6 +43,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,9 +63,15 @@ public class QuickSettings extends ModPack {
     private static boolean qqsTopMarginEnabled = false;
     private static boolean qsTopMarginEnabled = false;
     private boolean fixNotificationColor = true;
+    private boolean hideFooterButtons = false;
+    private boolean hideSilentText = false;
     private int qqsTopMargin = 100;
     private int qsTopMargin = 100;
     private Object mParam = null;
+    private ViewGroup mFooterButtonsContainer = null;
+    private ViewTreeObserver.OnDrawListener mFooterButtonsOnDrawListener = null;
+    private ViewGroup mSilentTextContainer = null;
+    private ViewTreeObserver.OnDrawListener mSilentTextOnDrawListener = null;
 
     public QuickSettings(Context context) {
         super(context);
@@ -83,6 +92,11 @@ public class QuickSettings extends ModPack {
 
         fixNotificationColor = Build.VERSION.SDK_INT >= 34 &&
                 Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, true);
+
+        hideSilentText = Xprefs.getBoolean(HIDE_QS_SILENT_TEXT, false);
+        hideFooterButtons = Xprefs.getBoolean(HIDE_QS_FOOTER_BUTTONS, false);
+
+        triggerQsElementVisibility();
     }
 
     @Override
@@ -90,6 +104,7 @@ public class QuickSettings extends ModPack {
         setVerticalTiles(loadPackageParam);
         setQsMargin(loadPackageParam);
         fixNotificationColorA14(loadPackageParam);
+        manageQsElementVisibility(loadPackageParam);
     }
 
     private void setVerticalTiles(XC_LoadPackage.LoadPackageParam loadPackageParam) {
@@ -288,6 +303,84 @@ public class QuickSettings extends ModPack {
             });
         } catch (Throwable throwable) {
             log(TAG + throwable);
+        }
+    }
+
+    private void manageQsElementVisibility(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        try {
+            final Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
+
+            hookAllMethods(FooterViewClass, "onFinishInflate", new XC_MethodHook() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    View view = (View) param.thisObject;
+                    Integer resId1 = mContext.getResources().getIdentifier("manage_text", "id", mContext.getPackageName());
+                    Integer resId2 = mContext.getResources().getIdentifier("dismiss_text", "id", mContext.getPackageName());
+
+                    if (resId1 != null) {
+                        mFooterButtonsContainer = (ViewGroup) ((Button) view.findViewById(resId1)).getParent();
+                    } else if (resId2 != null) {
+                        mFooterButtonsContainer = (ViewGroup) ((Button) view.findViewById(resId2)).getParent();
+                    }
+
+                    triggerQsElementVisibility();
+                }
+            });
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
+
+        try {
+            final Class<?> SectionHeaderViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.stack.SectionHeaderView", loadPackageParam.classLoader);
+
+            hookAllMethods(SectionHeaderViewClass, "onFinishInflate", new XC_MethodHook() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    mSilentTextContainer = (ViewGroup) param.thisObject;
+
+                    triggerQsElementVisibility();
+                }
+            });
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+        }
+    }
+
+    private void triggerQsElementVisibility() {
+        if (mFooterButtonsContainer != null) {
+            if (mFooterButtonsOnDrawListener == null) {
+                mFooterButtonsOnDrawListener = () -> mFooterButtonsContainer.setVisibility(View.INVISIBLE);
+            }
+
+            try {
+                if (hideFooterButtons) {
+                    mFooterButtonsContainer.setVisibility(View.INVISIBLE);
+                    mFooterButtonsContainer.getViewTreeObserver().addOnDrawListener(mFooterButtonsOnDrawListener);
+                } else {
+                    mFooterButtonsContainer.getViewTreeObserver().removeOnDrawListener(mFooterButtonsOnDrawListener);
+                    mFooterButtonsContainer.setVisibility(View.VISIBLE);
+                }
+            } catch (Throwable ignored) {
+            }
+        }
+
+        if (mSilentTextContainer != null) {
+            if (mSilentTextOnDrawListener == null) {
+                mSilentTextOnDrawListener = () -> mSilentTextContainer.setVisibility(View.GONE);
+            }
+
+            try {
+                if (hideSilentText) {
+                    mSilentTextContainer.setVisibility(View.GONE);
+                    mSilentTextContainer.getViewTreeObserver().addOnDrawListener(mSilentTextOnDrawListener);
+                } else {
+                    mSilentTextContainer.getViewTreeObserver().removeOnDrawListener(mSilentTextOnDrawListener);
+                    mSilentTextContainer.setVisibility(View.VISIBLE);
+                }
+            } catch (Throwable ignored) {
+            }
         }
     }
 
