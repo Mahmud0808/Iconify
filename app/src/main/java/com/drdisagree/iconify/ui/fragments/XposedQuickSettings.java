@@ -97,7 +97,7 @@ public class XposedQuickSettings extends BaseFragment {
         binding.hideSilentText.setSwitchChecked(RPrefs.getBoolean(HIDE_QS_SILENT_TEXT, false));
         binding.hideSilentText.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_QS_SILENT_TEXT, isChecked));
 
-        // Hide manage button
+        // Hide footer buttons
         binding.hideFooterButtons.setSwitchChecked(RPrefs.getBoolean(HIDE_QS_FOOTER_BUTTONS, false));
         binding.hideFooterButtons.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_QS_FOOTER_BUTTONS, isChecked));
 
