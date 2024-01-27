@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="640dp"
+    android:height="480dp"
+    android:viewportWidth="1867"
+    android:viewportHeight="1400">
+
+    <path
+        android:fillColor="#cc0001"
+        android:pathData="M0,0 L2800,0 L2800,1400 L0,1400 L0,0 Z" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M0,1300 L2800,1300 L2800,1400 L0,1400 L0,1300 Z" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M0,1100 L2800,1100 L2800,1200 L0,1200 L0,1100 Z" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M0,900 L2800,900 L2800,1000 L0,1000 L0,900 Z" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M0,700 L2800,700 L2800,800 L0,800 L0,700 Z" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M0,500 L2800,500 L2800,600 L0,600 L0,500 Z" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M0,300 L2800,300 L2800,400 L0,400 L0,300 Z" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M0,100 L2800,100 L2800,200 L0,200 L0,100 Z" />
+    <path
+        android:fillColor="#010066"
+        android:pathData="M0,0 L933,0 L933,800 L0,800 L0,0 Z" />
+    <group
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:translateX="-60"
+        android:translateY="75">
+        <path
+            android:fillColor="#fc0"
+            android:pathData="M576,100 C409.854,100,275,234.406,275,400 C275,565.594,409.854,700,576,700
+C636.027,700,691.955,682.436,738.927,652.217
+C711.574,661.656,682.218,666.819,651.656,666.819
+C504.329,666.819,384.759,547.647,384.759,400.809
+C384.759,253.972,504.329,134.799,651.656,134.799
+C684.214,134.799,715.402,140.614,744.258,151.267
+C696.217,118.91,638.305,100,576,100 Z" />
+        <path
+            android:fillColor="#fc0"
+            android:pathData="M1075.17,556.174 L948.377,490.021 L985.865,625.41 L901.061,512.156 L874.605,650
+L848.584,512.077 L763.422,625.075 L801.339,489.8 L674.34,555.571
+L768.683,449.737 L625,455.254 L757.084,399.823 L625.176,343.994 L768.84,349.944
+L674.833,243.826 L801.623,309.979 L764.135,174.59 L848.939,287.844 L875.395,150
+L901.416,287.923 L986.578,174.925 L948.662,310.2 L1075.66,244.429
+L981.318,350.263 L1125,344.746 L992.916,400.177 L1124.82,456.006 L981.16,450.056
+Z" />
+    </group>
+</vector>

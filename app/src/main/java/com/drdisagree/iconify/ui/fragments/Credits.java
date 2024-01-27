@@ -78,23 +78,23 @@ public class Credits extends BaseFragment {
         ArrayList<InfoModel> translators_list = new ArrayList<>();
 
         translators_list.add(new InfoModel(getResources().getString(R.string.section_title_translators)));
-        translators_list.add(new InfoModel(requireContext(), "MRX7014", Iconify.getAppContextLocale().getResources().getString(R.string.ar_translation), "https://github.com/mrx7014", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Mohamed Bahaa", Iconify.getAppContextLocale().getResources().getString(R.string.ar_translation), "https://github.com/muhammadbahaa2001", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "MXC48", Iconify.getAppContextLocale().getResources().getString(R.string.fr_translation), "https://github.com/MXC48", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "KaeruShi", Iconify.getAppContextLocale().getResources().getString(R.string.id_translation), "https://github.com/KaeruShi", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Danilo Belmonte", Iconify.getAppContextLocale().getResources().getString(R.string.it_translation), "https://crowdin.com/profile/steve.burnside", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Faceless1999", Iconify.getAppContextLocale().getResources().getString(R.string.fa_translation), "https://github.com/Faceless1999", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "igor", Iconify.getAppContextLocale().getResources().getString(R.string.pt_br_translation), "https://github.com/igormiguell", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "ElTifo", Iconify.getAppContextLocale().getResources().getString(R.string.pt_translation), "https://github.com/ElTifo", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Blays", Iconify.getAppContextLocale().getResources().getString(R.string.ru_translation), "https://github.com/B1ays", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Cccc_", Iconify.getAppContextLocale().getResources().getString(R.string.zh_cn_translation), "https://github.com/Cccc-owo", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Zhang chunyu", Iconify.getAppContextLocale().getResources().getString(R.string.zh_tw_translation), "https://crowdin.com/profile/gyah4", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "luckkmaxx", Iconify.getAppContextLocale().getResources().getString(R.string.es_translation), "https://github.com/luckkmaxx", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Serhat Demir", Iconify.getAppContextLocale().getResources().getString(R.string.tr_translation), "https://github.com/serhat-demir", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Emre", Iconify.getAppContextLocale().getResources().getString(R.string.tr_translation), "https://crowdin.com/profile/khapnols", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "WINZORT", Iconify.getAppContextLocale().getResources().getString(R.string.tr_translation), "https://crowdin.com/profile/linuxthegoat", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "Đức Trọng", Iconify.getAppContextLocale().getResources().getString(R.string.vi_translation), "https://t.me/viettel1211", R.drawable.ic_user));
-        translators_list.add(new InfoModel(requireContext(), "SK00RUPA", Iconify.getAppContextLocale().getResources().getString(R.string.pl_translation), "https://github.com/SK00RUPA", R.drawable.ic_user));
+        translators_list.add(new InfoModel(requireContext(), "MRX7014", Iconify.getAppContextLocale().getResources().getString(R.string.ar_translation), "https://github.com/mrx7014", R.drawable.flag_sa));
+        translators_list.add(new InfoModel(requireContext(), "Mohamed Bahaa", Iconify.getAppContextLocale().getResources().getString(R.string.ar_translation), "https://github.com/muhammadbahaa2001", R.drawable.flag_sa));
+        translators_list.add(new InfoModel(requireContext(), "MXC48", Iconify.getAppContextLocale().getResources().getString(R.string.fr_translation), "https://github.com/MXC48", R.drawable.flag_fr));
+        translators_list.add(new InfoModel(requireContext(), "KaeruShi", Iconify.getAppContextLocale().getResources().getString(R.string.id_translation), "https://github.com/KaeruShi", R.drawable.flag_id));
+        translators_list.add(new InfoModel(requireContext(), "Danilo Belmonte", Iconify.getAppContextLocale().getResources().getString(R.string.it_translation), "https://crowdin.com/profile/steve.burnside", R.drawable.flag_it));
+        translators_list.add(new InfoModel(requireContext(), "Faceless1999", Iconify.getAppContextLocale().getResources().getString(R.string.fa_translation), "https://github.com/Faceless1999", R.drawable.flag_ir));
+        translators_list.add(new InfoModel(requireContext(), "igor", Iconify.getAppContextLocale().getResources().getString(R.string.pt_br_translation), "https://github.com/igormiguell", R.drawable.flag_br));
+        translators_list.add(new InfoModel(requireContext(), "ElTifo", Iconify.getAppContextLocale().getResources().getString(R.string.pt_translation), "https://github.com/ElTifo", R.drawable.flag_pt));
+        translators_list.add(new InfoModel(requireContext(), "Blays", Iconify.getAppContextLocale().getResources().getString(R.string.ru_translation), "https://github.com/B1ays", R.drawable.flag_ru));
+        translators_list.add(new InfoModel(requireContext(), "Cccc_", Iconify.getAppContextLocale().getResources().getString(R.string.zh_cn_translation), "https://github.com/Cccc-owo", R.drawable.flag_cn));
+        translators_list.add(new InfoModel(requireContext(), "Zhang chunyu", Iconify.getAppContextLocale().getResources().getString(R.string.zh_tw_translation), "https://crowdin.com/profile/gyah4", R.drawable.flag_cn));
+        translators_list.add(new InfoModel(requireContext(), "luckkmaxx", Iconify.getAppContextLocale().getResources().getString(R.string.es_translation), "https://github.com/luckkmaxx", R.drawable.flag_es));
+        translators_list.add(new InfoModel(requireContext(), "Serhat Demir", Iconify.getAppContextLocale().getResources().getString(R.string.tr_translation), "https://github.com/serhat-demir", R.drawable.flag_tr));
+        translators_list.add(new InfoModel(requireContext(), "Emre", Iconify.getAppContextLocale().getResources().getString(R.string.tr_translation), "https://crowdin.com/profile/khapnols", R.drawable.flag_tr));
+        translators_list.add(new InfoModel(requireContext(), "WINZORT", Iconify.getAppContextLocale().getResources().getString(R.string.tr_translation), "https://crowdin.com/profile/linuxthegoat", R.drawable.flag_tr));
+        translators_list.add(new InfoModel(requireContext(), "Đức Trọng", Iconify.getAppContextLocale().getResources().getString(R.string.vi_translation), "https://t.me/viettel1211", R.drawable.flag_vn));
+        translators_list.add(new InfoModel(requireContext(), "SK00RUPA", Iconify.getAppContextLocale().getResources().getString(R.string.pl_translation), "https://github.com/SK00RUPA", R.drawable.flag_pl));
 
         return new InfoAdapter(requireContext(), translators_list);
     }

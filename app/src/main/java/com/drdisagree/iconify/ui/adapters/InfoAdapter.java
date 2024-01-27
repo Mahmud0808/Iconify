@@ -1,6 +1,11 @@
 package com.drdisagree.iconify.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
+import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +45,7 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         throw new RuntimeException("There is no type that matches the type " + viewType + ". + make sure you are using types correctly.");
     }
 
+    @SuppressLint("DiscouragedApi")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
@@ -54,6 +60,17 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((ItemViewHolder) holder).title.setText(itemList.get(position).getTitle());
             ((ItemViewHolder) holder).desc.setText(itemList.get(position).getDesc());
             ((ItemViewHolder) holder).container.setOnClickListener(itemList.get(position).getOnClickListener());
+
+            String drawableName = context.getResources().getResourceEntryName(itemList.get(position).getIcon());
+            TypedValue typedValue = new TypedValue();
+            context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+            int colorOnSurface = typedValue.data;
+
+            if (drawableName.contains("flag_")) {
+                ((ItemViewHolder) holder).icon.clearColorFilter();
+            } else {
+                ((ItemViewHolder) holder).icon.setColorFilter(new BlendModeColorFilter(colorOnSurface, BlendMode.SRC_IN));
+            }
         }
     }
 
