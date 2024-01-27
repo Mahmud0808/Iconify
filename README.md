@@ -145,23 +145,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - [AOSPMods](https://github.com/siavash79/AOSPMods), [@siavash79](https://t.me/siavash7999) for helping me with Xposed mods.
 - [@Sanely_insane](https://t.me/sanely_insane), [@Jaguar](https://t.me/Jaguar0066) for support and motivation.
 - [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) for the navbar tweaks.
-- And everyone who contributed... :)
-
-### Translators:
-
-- Arabic [@MRX7014](https://github.com/mrx7014), [@Mohamed Bahaa](https://github.com/muhammadbahaa2001)
-- French [@MXC48](https://github.com/MXC48)
-- Indonesian [@KaeruShi](https://github.com/KaeruShi)
-- Italian [@Danilo Belmonte](https://crowdin.com/profile/steve.burnside)
-- Persian [@Faceless1999](https://github.com/Faceless1999)
-- Polish [@SK00RUPA](https://github.com/SK00RUPA)
-- Portuguese Brazilian [@igor](https://github.com/igormiguell)
-- Portuguese [@ElTifo](https://github.com/ElTifo)
-- Russian [@B1ays](https://github.com/B1ays)
-- Simplified Chinese [@Cccc-owo](https://github.com/Cccc-owo)
-- Spanish [@luckkmaxx](https://github.com/luckkmaxx)
-- Turkish [@serhat-demir](https://github.com/serhat-demir), [@Emre](https://crowdin.com/profile/khapnols), [@WINZORT](https://crowdin.com/profile/linuxthegoat)
-- Vietnamese [@viettel1211](https://t.me/viettel1211)
+- And everyone who [contributed](https://github.com/Mahmud0808/Iconify/graphs/contributors) and [translated](https://crowdin.com/project/iconify/members)... :)
 
 # 📝 Disclaimer
 
