@@ -182,7 +182,7 @@
     <string name="settings_iconpack_bubble_v2">Outline multicolored icon pack</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">نسخه پیکسل</string>
-    <string name="activity_desc_pixel_variant">برای رام‌هایی که نوارابزارشان سیاه است</string>
+    <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Brightness Bar Styles</string>
     <!-- QS Panel Tiles -->
@@ -362,7 +362,7 @@
     <string name="btn_create_module">ساختن ماژول</string>
     <string name="toast_module_created">ماژول با موفقیت ساخته شد</string>
     <string name="read_carefully">توجه!</string>
-    <string name="volume_module_installation_guide">با استفاده از این گزینه فایل ماژول در درون پوشه دانلود در حافظه داخلی ساخته می‌شود. فایل ماژول را که نام آن IconifyCompanion.zip است را باید در مجیسک فلش بزنید. همیشه قبل از نصب ماژول جدید نسخه قبلی را (در صورت وجود) از مجیسک پاک کرده و دستگاه خود را یکبار ریستارت کنید.\n\n<b>نکات:</b>\n• قبل از آپدیت کردن رام خود ماژول را حتما پاک کنید.\n• در صورت آپدیت رام و یا تغییر دادن ماژول آن را دوباره بسازید.\n• به هیچ وجه ماژولی را که مخصوص رام شما ساخته نشده فلش نرنید.</string>
+    <string name="volume_module_installation_guide">This option will create a magisk module inside Download folder in your Internal Storage. Flash the module named IconifyCompanion.zip in Magisk. Always uninstall previous Iconify Companion module (if installed) and reboot before flashing new one.\n\n<b>Note:</b>\n• Uninstall the module before updating rom.\n• Recreate the module if you change or update rom.\n• Do not flash a module which wasn\'t created based on your rom.</string>
     <!-- Media Player -->
     <string name="cont_desc_media_player">پیش‌نمایش مدیا پلیر</string>
     <string name="media_player_preview_music_title">Music Title</string>
@@ -455,6 +455,11 @@
     <string name="hide_qs_tile_label_title">مخفی کردن عنوان کلید نوارابزار</string>
     <string name="hide_qs_tile_label_desc">فقط در صورت عمودی بودن کلید‌ها از این گزینه استفاده کنید</string>
     <string name="section_title_qs_margin">QS Margin</string>
+    <string name="section_title_qs_elements">QS Elements</string>
+    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
+    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
+    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
+    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Battery Style</string>
     <string name="battery_width_title">Battery Width</string>
@@ -838,7 +843,7 @@
     <string name="custom_qs_margin_title">تنظیم حاشیه نوارابزار</string>
     <string name="custom_qs_margin_desc">فعال کردن حاشیه سفارشی برای نوارابزار</string>
     <string name="force_enable_blur_title"> افکت شفافیت به صورت اجباری فعال شود</string>
-    <string name="force_enable_blur_desc">در رام‌هایی که به صورت پیش‌فرض این ویژگی را نپارند افک شفافیت به صورت اجباری فعال می‌شود</string>
+    <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
     <string name="choose_header_image">Choose Header Image</string>
     <string name="choose_clock_font">Choose Clock Font</string>
     <string name="pick_style">Pick a style of your choice</string>

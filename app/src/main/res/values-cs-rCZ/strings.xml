@@ -455,6 +455,11 @@
     <string name="hide_qs_tile_label_title">Hide QS Tile Label</string>
     <string name="hide_qs_tile_label_desc">Use only with vertical tiles</string>
     <string name="section_title_qs_margin">QS Margin</string>
+    <string name="section_title_qs_elements">QS Elements</string>
+    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
+    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
+    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
+    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Battery Style</string>
     <string name="battery_width_title">Battery Width</string>

@@ -182,7 +182,7 @@
     <string name="settings_iconpack_bubble_v2">حزمة أيقونات متعددة الألوان مخططة</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">نوعية Pixel</string>
-    <string name="activity_desc_pixel_variant">للرومات ذات لوحة QS السوداء</string>
+    <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Brightness Bar Styles</string>
     <!-- QS Panel Tiles -->
@@ -362,7 +362,7 @@
     <string name="btn_create_module">إنشاء Module</string>
     <string name="toast_module_created">تم إنشاء Module بنجاح</string>
     <string name="read_carefully">اقرأ بعناية!</string>
-    <string name="volume_module_installation_guide">سيؤدي هذا الخيار إلى إنشاء Magisk Moduleداخل مجلد التنزيل في وحدة التخزين الداخلية. قم بتثبيت الـModule المسمى IconifyCompanion.zip في Magisk. قم دائمًا بإلغاء تثبيت الـModule السابق لـIconify Companion (إذا كان مثبت) وأعد التشغيل قبل وتثبيت Module جديد.\n\n<b> ملاحظة: </b>\n• قم بإلغاء تثبيت الـModule قبل تثبيت الروم.\n• أعد إنشاء الـModule إذا قمت بتغيير أو تحديث الروم.\n• لا تقم بتثبيت Module لم يتم إنشاؤها بناءً على الروم الخاص بك.</string>
+    <string name="volume_module_installation_guide">This option will create a magisk module inside Download folder in your Internal Storage. Flash the module named IconifyCompanion.zip in Magisk. Always uninstall previous Iconify Companion module (if installed) and reboot before flashing new one.\n\n<b>Note:</b>\n• Uninstall the module before updating rom.\n• Recreate the module if you change or update rom.\n• Do not flash a module which wasn\'t created based on your rom.</string>
     <!-- Media Player -->
     <string name="cont_desc_media_player">معاينة مشغل الوسائط</string>
     <string name="media_player_preview_music_title">عنوان الموسيقى</string>
@@ -455,6 +455,11 @@
     <string name="hide_qs_tile_label_title">إخفاء تسمية بلاط QS</string>
     <string name="hide_qs_tile_label_desc">استخدم فقط مع البلاط العمودي</string>
     <string name="section_title_qs_margin">QS Margin</string>
+    <string name="section_title_qs_elements">QS Elements</string>
+    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
+    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
+    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
+    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
     <!-- Battery Style -->
     <string name="battery_style_title">شكل البطاريه</string>
     <string name="battery_width_title">عرض البطاريه</string>
@@ -623,7 +628,7 @@
     <string name="hide_ls_statusbar_title">إخفاء LS Statusbar</string>
     <string name="hide_ls_statusbar_desc">إخفاء شريط الحالة على شاشة القفل</string>
     <string name="fixed_status_icons_title">أيقونات الحالة ثابتة</string>
-    <string name="fixed_status_icons_desc">اضبط أيقونات الحالة في وضع ثابت\nقد تكون بها مشاكل في بعض الرومات</string>
+    <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">التغيير</string>
     <string name="no_internet_connection">تعذر الاتصال بالخادم!\n قد تكون هناك مشكلة في الاتصال بالإنترنت أو ربما يكون الخادم معطلاً في الوقت الحالي. الرجاء معاودة المحاولة في وقت لاحق.</string>
@@ -838,7 +843,7 @@
     <string name="custom_qs_margin_title">هامش QS مخصص</string>
     <string name="custom_qs_margin_desc">تفعيل الهامش المخصص للوحة QS</string>
     <string name="force_enable_blur_title">فرض تمكين التعتيم</string>
-    <string name="force_enable_blur_desc">فرض تمكين التعتيم للرومات غير المدعومة</string>
+    <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
     <string name="choose_header_image">اختر صورة العنوان الرأسي</string>
     <string name="choose_clock_font">اختر خط الساعة</string>
     <string name="pick_style">اختر نمط من اختيارك</string>
