@@ -346,11 +346,12 @@ public class QSBlackTheme extends ModPack {
             @SuppressLint("DiscouragedApi")
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (!blackQSHeaderEnabled) return;
-                if (qsTextAlwaysWhite || qsTextFollowAccent) return;
 
                 try {
-                    setObjectField(param.thisObject, "colorLabelActive", colorText);
-                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorTextAlpha);
+                    if (!qsTextAlwaysWhite && !qsTextFollowAccent) {
+                        setObjectField(param.thisObject, "colorLabelActive", colorText);
+                        setObjectField(param.thisObject, "colorSecondaryLabelActive", colorTextAlpha);
+                    }
                     setObjectField(param.thisObject, "colorLabelInactive", Color.WHITE);
                     setObjectField(param.thisObject, "colorSecondaryLabelInactive", 0x80FFFFFF);
 
@@ -368,8 +369,6 @@ public class QSBlackTheme extends ModPack {
         hookAllMethods(QSIconViewImplClass, "getIconColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (qsTextAlwaysWhite || qsTextFollowAccent) return;
-
                 boolean isActiveState = false;
                 boolean isDisabledState;
 
@@ -397,9 +396,9 @@ public class QSBlackTheme extends ModPack {
                 if (blackQSHeaderEnabled) {
                     if (isDisabledState) {
                         param.setResult(0x80FFFFFF);
-                    } else if (isActiveState) {
+                    } else if (isActiveState && !qsTextAlwaysWhite && !qsTextFollowAccent) {
                         param.setResult(colorText);
-                    } else {
+                    } else if (!isActiveState) {
                         param.setResult(Color.WHITE);
                     }
                 }
@@ -440,9 +439,9 @@ public class QSBlackTheme extends ModPack {
                         ImageView mIcon = (ImageView) param.args[0];
                         if (isDisabledState) {
                             mIcon.setImageTintList(ColorStateList.valueOf(0x80FFFFFF));
-                        } else if (isActiveState) {
+                        } else if (isActiveState && !qsTextAlwaysWhite && !qsTextFollowAccent) {
                             mIcon.setImageTintList(ColorStateList.valueOf(colorText));
-                        } else {
+                        } else if (!isActiveState) {
                             mIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
                         }
                     }

@@ -17,6 +17,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 
@@ -97,17 +98,11 @@ public class XposedQuickSettings extends BaseFragment {
 
         // QS text always white
         binding.labelWhite.setSwitchChecked(RPrefs.getBoolean(QS_TEXT_ALWAYS_WHITE, false));
-        binding.labelWhite.setSwitchChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(QS_TEXT_ALWAYS_WHITE, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-        });
+        binding.labelWhite.setSwitchChangeListener(qsTextWhiteListener);
 
         // QS text follow accent
         binding.labelAccent.setSwitchChecked(RPrefs.getBoolean(QS_TEXT_FOLLOW_ACCENT, false));
-        binding.labelAccent.setSwitchChangeListener((buttonView, isChecked) -> {
-            RPrefs.putBoolean(QS_TEXT_FOLLOW_ACCENT, isChecked);
-            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
-        });
+        binding.labelAccent.setSwitchChangeListener(qsTextAccentListener);
 
         // Hide silent text
         binding.hideSilentText.setSwitchChecked(RPrefs.getBoolean(HIDE_QS_SILENT_TEXT, false));
@@ -119,4 +114,33 @@ public class XposedQuickSettings extends BaseFragment {
 
         return view;
     }
+
+    CompoundButton.OnCheckedChangeListener qsTextWhiteListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                RPrefs.putBoolean(QS_TEXT_FOLLOW_ACCENT, false);
+                binding.labelAccent.setSwitchChangeListener(null);
+                binding.labelAccent.setSwitchChecked(false);
+                binding.labelAccent.setSwitchChangeListener(qsTextAccentListener);
+            }
+
+            RPrefs.putBoolean(QS_TEXT_ALWAYS_WHITE, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+        }
+    };
+
+    CompoundButton.OnCheckedChangeListener qsTextAccentListener = (buttonView, isChecked) -> {
+        if (isChecked) {
+            RPrefs.putBoolean(QS_TEXT_ALWAYS_WHITE, false);
+            binding.labelWhite.setSwitchChangeListener(null);
+            binding.labelWhite.setSwitchChecked(false);
+            binding.labelWhite.setSwitchChangeListener(qsTextWhiteListener);
+        }
+
+        RPrefs.putBoolean(QS_TEXT_FOLLOW_ACCENT, isChecked);
+        new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+    };
+
+
 }

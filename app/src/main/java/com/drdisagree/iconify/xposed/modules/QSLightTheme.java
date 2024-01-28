@@ -340,11 +340,12 @@ public class QSLightTheme extends ModPack {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (!lightQSHeaderEnabled || isDark) return;
-                if (qsTextAlwaysWhite || qsTextFollowAccent) return;
 
                 try {
-                    setObjectField(param.thisObject, "colorLabelActive", Color.WHITE);
-                    setObjectField(param.thisObject, "colorSecondaryLabelActive", 0x80FFFFFF);
+                    if (!qsTextAlwaysWhite && !qsTextFollowAccent) {
+                        setObjectField(param.thisObject, "colorLabelActive", Color.WHITE);
+                        setObjectField(param.thisObject, "colorSecondaryLabelActive", 0x80FFFFFF);
+                    }
                     setObjectField(param.thisObject, "colorLabelInactive", Color.BLACK);
                     setObjectField(param.thisObject, "colorSecondaryLabelInactive", 0x80000000);
                 } catch (Throwable throwable) {
@@ -356,8 +357,6 @@ public class QSLightTheme extends ModPack {
         hookAllMethods(QSIconViewImplClass, "getIconColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if (qsTextAlwaysWhite || qsTextFollowAccent) return;
-
                 boolean isActiveState = false;
                 boolean isDisabledState;
 
@@ -386,7 +385,11 @@ public class QSLightTheme extends ModPack {
                     if (isDisabledState) {
                         param.setResult(0x80000000);
                     } else {
-                        param.setResult(isActiveState ? Color.WHITE : Color.BLACK);
+                        if (isActiveState && !qsTextAlwaysWhite && !qsTextFollowAccent) {
+                            param.setResult(Color.WHITE);
+                        } else if (!isActiveState) {
+                            param.setResult(Color.BLACK);
+                        }
                     }
                 }
             }
@@ -396,8 +399,6 @@ public class QSLightTheme extends ModPack {
             hookAllMethods(QSIconViewImplClass, "updateIcon", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    if (qsTextAlwaysWhite || qsTextFollowAccent) return;
-
                     boolean isActiveState = false;
                     boolean isDisabledState;
 
@@ -427,7 +428,11 @@ public class QSLightTheme extends ModPack {
                         if (isDisabledState) {
                             param.setResult(0x80000000);
                         } else {
-                            mIcon.setImageTintList(ColorStateList.valueOf(isActiveState ? Color.WHITE : Color.BLACK));
+                            if (isActiveState && !qsTextAlwaysWhite && !qsTextFollowAccent) {
+                                mIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+                            } else if (!isActiveState) {
+                                mIcon.setImageTintList(ColorStateList.valueOf(Color.BLACK));
+                            }
                         }
                     }
                 }
