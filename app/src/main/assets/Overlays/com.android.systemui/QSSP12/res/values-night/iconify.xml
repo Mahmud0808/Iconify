@@ -1,39 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.SystemUI.QuickSettings" parent="@*android:style/Theme.DeviceDefault">
+        <item name="android:colorBackground">?android:colorBackground</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:colorPrimary">@*android:color/holo_green_light</item>
+        <item name="android:colorSecondary">@*android:color/holo_green_dark</item>
         <item name="android:colorAccent">#FFFFFFFF</item>
         <item name="@*android:colorAccentPrimary">#FFFFFFFF</item>
-
-        <item name="isQsTheme">true</item>
-        <item name="lightIconTheme">@style/QSIconTheme</item>
-        <item name="darkIconTheme">@style/QSIconTheme</item>
-        <item name="android:colorError">@*android:color/error_color_device_default_dark</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back</item>
-
-        <item name="surfaceBright">@*android:color/system_surface_bright_dark</item>
-        <item name="android:colorBackground">@*android:color/system_surface_bright_dark</item>
-        <item name="scHigh">@*android:color/system_surface_container_high_dark</item>
-        <item name="primary">@*android:color/system_primary_dark</item>
-        <item name="tertiary">@*android:color/system_tertiary_dark</item>
-        <item name="onSurface">@*android:color/system_on_surface_dark</item>
-        <item name="onSurfaceVariant">@*android:color/system_on_surface_variant_dark</item>
-        <item name="outline">@*android:color/system_outline_dark</item>
-
-        <item name="shadeActive">#FFFFFFFF</item>
-        <item name="onShadeActive">@*android:color/system_accent1_900</item>
-        <item name="onShadeActiveVariant">@*android:color/system_accent1_700</item>
-        <item name="shadeInactive">@*android:color/system_neutral2_800</item>
-        <item name="onShadeInactive">@*android:color/system_neutral1_100</item>
-        <item name="onShadeInactiveVariant">@*android:color/system_neutral2_200</item>
-        <item name="shadeDisabled">@color/shade_disabled</item>
-        <item name="underSurface">@*android:color/system_neutral1_1000</item>
-        <item name="android:itemTextAppearance">@style/Control.MenuItem</item>
     </style>
-
-    <dimen name="control_menu_item_text_size">16sp</dimen>
-    <dimen name="control_menu_item_height">54dp</dimen>
-    <color name="control_primary_text">#E6FFFFFF</color>
 
     <dimen name="qs_quick_tile_size">60.0dp</dimen>
     <dimen name="qs_tile_start_padding">20.0dp</dimen>
