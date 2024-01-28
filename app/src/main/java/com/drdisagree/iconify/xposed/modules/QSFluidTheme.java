@@ -1,5 +1,8 @@
 package com.drdisagree.iconify.xposed.modules;
 
+import static android.service.quicksettings.Tile.STATE_ACTIVE;
+import static android.service.quicksettings.Tile.STATE_INACTIVE;
+import static android.service.quicksettings.Tile.STATE_UNAVAILABLE;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY;
@@ -53,9 +56,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class QSFluidTheme extends ModPack {
 
     private static final String TAG = "Iconify - " + QSFluidTheme.class.getSimpleName() + ": ";
-    private static final int STATE_UNAVAILABLE = 0;
-    private static final int STATE_INACTIVE = 1;
-    private static final int STATE_ACTIVE = 2;
     private static final float ACTIVE_ALPHA = 0.2f;
     private static final float INACTIVE_ALPHA = ACTIVE_ALPHA + 0.2f;
     private static final float UNAVAILABLE_ALPHA = INACTIVE_ALPHA - 0.1f;

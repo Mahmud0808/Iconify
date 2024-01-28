@@ -77,6 +77,7 @@
                 app:titleText="@string/section_title_qs_text_color" />
 
             <RelativeLayout
+                android:id="@+id/qs_text_color_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/item_background_material"

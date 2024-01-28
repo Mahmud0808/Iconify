@@ -38,7 +38,6 @@ public class Resources {
 
     // File resources
     public static final String FRAMEWORK_DIR = "/system/framework/framework-res.apk";
-    public static final String FRAMEWORK_DIR_ALT = DATA_DIR + "/Framework/android.jar";
 
     // Xposed resource dir
     public static final String XPOSED_RESOURCE_TEMP_DIR = Environment.getExternalStorageDirectory() + "/.iconify_files";

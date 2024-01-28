@@ -95,9 +95,12 @@ public class Preferences {
     public static final String BLUR_RADIUS_VALUE = "xposed_blurradiusvalue";
     public static final String QQS_TOPMARGIN = "xposed_qqspanelTopMargin";
     public static final String QS_TOPMARGIN = "xposed_qspanelTopMargin";
+    public static final String FIX_QS_TILE_COLOR = "xposed_fixqstilecolor";
     public static final String FIX_NOTIFICATION_COLOR = "xposed_fixnotificationcolor";
     public static final String HIDE_QS_SILENT_TEXT = "xposed_hideqssilenttext";
     public static final String HIDE_QS_FOOTER_BUTTONS = "xposed_hideqsfooterbuttons";
+    public static final String QS_TEXT_ALWAYS_WHITE = "xposed_qstextalwayswhite";
+    public static final String QS_TEXT_FOLLOW_ACCENT = "xposed_qstextfollowaccent";
 
     // Xposed view tags
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";

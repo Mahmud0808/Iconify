@@ -70,6 +70,27 @@
                 app:valueFormat="dp" />
 
             <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:id="@+id/section_title_qs_text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:iconSpaceReserved="false"
+                app:titleText="@string/section_title_qs_text_color" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/label_white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/label_always_white_desc"
+                app:titleText="@string/label_always_white_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/label_accent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/label_follow_accent_desc"
+                app:titleText="@string/label_follow_accent_title" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="@string/section_title_qs_elements" />

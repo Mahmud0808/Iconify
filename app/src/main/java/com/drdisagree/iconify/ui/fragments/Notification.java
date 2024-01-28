@@ -1,11 +1,15 @@
 package com.drdisagree.iconify.ui.fragments;
 
+import static com.drdisagree.iconify.common.Dynamic.isAtleastA14;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -19,6 +23,7 @@ import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.ui.models.MenuModel;
 import com.drdisagree.iconify.ui.models.NotificationModel;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
+import com.drdisagree.iconify.utils.AppUtil;
 
 import java.util.ArrayList;
 
@@ -45,6 +50,18 @@ public class Notification extends BaseFragment {
         binding.notificationsContainer.setHasFixedSize(true);
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (isAtleastA14 && !AppUtil.isLsposedInstalled()) {
+            try {
+                Toast.makeText(requireContext(), R.string.toast_requires_lsposed_for_a14, Toast.LENGTH_LONG).show();
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     private MenuAdapter initActivityItems() {

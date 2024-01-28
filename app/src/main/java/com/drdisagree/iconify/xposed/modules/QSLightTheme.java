@@ -17,9 +17,12 @@ package com.drdisagree.iconify.xposed.modules;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
+import static android.service.quicksettings.Tile.STATE_UNAVAILABLE;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.getColorAttr;
 import static com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.getColorAttrDefaultColor;
@@ -55,7 +58,6 @@ import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.modules.utils.Helpers;
-import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
 import java.lang.reflect.Method;
@@ -77,6 +79,8 @@ public class QSLightTheme extends ModPack {
     private Integer colorInactive = null;
     private Object mClockViewQSHeader = null;
     private Object unlockedScrimState;
+    private boolean qsTextAlwaysWhite = false;
+    private boolean qsTextFollowAccent = false;
 
     public QSLightTheme(Context context) {
         super(context);
@@ -90,6 +94,9 @@ public class QSLightTheme extends ModPack {
 
         lightQSHeaderEnabled = Xprefs.getBoolean(LIGHT_QSPANEL, false);
         dualToneQSEnabled = lightQSHeaderEnabled && Xprefs.getBoolean(DUALTONE_QSPANEL, false);
+
+        qsTextAlwaysWhite = Xprefs.getBoolean(QS_TEXT_ALWAYS_WHITE, false);
+        qsTextFollowAccent = Xprefs.getBoolean(QS_TEXT_FOLLOW_ACCENT, false);
 
         applyOverlays(true);
     }
@@ -125,8 +132,8 @@ public class QSLightTheme extends ModPack {
                     if (lightQSHeaderEnabled && !isDark) {
                         ((LinearLayout) getObjectField(param.thisObject, "roundedContainer")).getBackground().setTint(colorActive);
 
-                        int colorPrimary = SettingsLibUtils.getColorAttrDefaultColor(mContext, android.R.attr.textColorPrimaryInverse);
-                        int textColorSecondary = SettingsLibUtils.getColorAttrDefaultColor(mContext, android.R.attr.textColorSecondaryInverse);
+                        int colorPrimary = getColorAttrDefaultColor(mContext, android.R.attr.textColorPrimaryInverse);
+                        int textColorSecondary = getColorAttrDefaultColor(mContext, android.R.attr.textColorSecondaryInverse);
                         callMethod(getObjectField(param.thisObject, "batteryMeterView"), "updateColors", colorPrimary, textColorSecondary, colorPrimary);
                     }
                 }
@@ -202,6 +209,14 @@ public class QSLightTheme extends ModPack {
                     } catch (Throwable ignored) {
                         mClockViewQSHeader = thisView.findViewById(res.getIdentifier("clock", "id", mContext.getPackageName()));
                     }
+
+                    if (lightQSHeaderEnabled && !isDark && mClockViewQSHeader != null) {
+                        try {
+                            ((TextView) mClockViewQSHeader).setTextColor(Color.BLACK);
+                        } catch (Throwable throwable) {
+                            log(TAG + throwable);
+                        }
+                    }
                 }
             });
 
@@ -209,7 +224,8 @@ public class QSLightTheme extends ModPack {
             hookAllMethods(ClockClass, "onColorsChanged", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (lightQSHeaderEnabled && isDark && mClockViewQSHeader != null) {
+                    boolean isLight = isDark; // reverse logic
+                    if (lightQSHeaderEnabled && isLight && mClockViewQSHeader != null) {
                         try {
                             ((TextView) mClockViewQSHeader).setTextColor(Color.BLACK);
                         } catch (Throwable throwable) {
@@ -324,9 +340,13 @@ public class QSLightTheme extends ModPack {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (!lightQSHeaderEnabled || isDark) return;
+                if (qsTextAlwaysWhite || qsTextFollowAccent) return;
 
                 try {
                     setObjectField(param.thisObject, "colorLabelActive", Color.WHITE);
+                    setObjectField(param.thisObject, "colorSecondaryLabelActive", 0x80FFFFFF);
+                    setObjectField(param.thisObject, "colorLabelInactive", Color.BLACK);
+                    setObjectField(param.thisObject, "colorSecondaryLabelInactive", 0x80000000);
                 } catch (Throwable throwable) {
                     log(TAG + throwable);
                 }
@@ -336,7 +356,17 @@ public class QSLightTheme extends ModPack {
         hookAllMethods(QSIconViewImplClass, "getIconColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (qsTextAlwaysWhite || qsTextFollowAccent) return;
+
                 boolean isActiveState = false;
+                boolean isDisabledState;
+
+                try {
+                    isDisabledState = (boolean) getObjectField(param.args[1], "disabledByPolicy") ||
+                            (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
+                } catch (Throwable throwable) {
+                    isDisabledState = (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
+                }
 
                 try {
                     isActiveState = (int) getObjectField(param.args[1], "state") == STATE_ACTIVE;
@@ -352,11 +382,58 @@ public class QSLightTheme extends ModPack {
                     }
                 }
 
-                if (!isDark && lightQSHeaderEnabled && isActiveState) {
-                    param.setResult(Color.WHITE);
+                if (!isDark && lightQSHeaderEnabled) {
+                    if (isDisabledState) {
+                        param.setResult(0x80000000);
+                    } else {
+                        param.setResult(isActiveState ? Color.WHITE : Color.BLACK);
+                    }
                 }
             }
         });
+
+        try {
+            hookAllMethods(QSIconViewImplClass, "updateIcon", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (qsTextAlwaysWhite || qsTextFollowAccent) return;
+
+                    boolean isActiveState = false;
+                    boolean isDisabledState;
+
+                    try {
+                        isDisabledState = (boolean) getObjectField(param.args[1], "disabledByPolicy") ||
+                                (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
+                    } catch (Throwable throwable) {
+                        isDisabledState = (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
+                    }
+
+                    try {
+                        isActiveState = (int) getObjectField(param.args[1], "state") == STATE_ACTIVE;
+                    } catch (Throwable throwable) {
+                        try {
+                            isActiveState = (int) param.args[1] == STATE_ACTIVE;
+                        } catch (Throwable throwable1) {
+                            try {
+                                isActiveState = (boolean) param.args[1];
+                            } catch (Throwable throwable2) {
+                                log(TAG + throwable2);
+                            }
+                        }
+                    }
+
+                    if (!isDark && lightQSHeaderEnabled) {
+                        ImageView mIcon = (ImageView) param.args[0];
+                        if (isDisabledState) {
+                            param.setResult(0x80000000);
+                        } else {
+                            mIcon.setImageTintList(ColorStateList.valueOf(isActiveState ? Color.WHITE : Color.BLACK));
+                        }
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
 
         try {
             mBehindColors = GradientColorsClass.getDeclaredConstructor().newInstance();

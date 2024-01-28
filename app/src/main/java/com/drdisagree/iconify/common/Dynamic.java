@@ -2,6 +2,8 @@ package com.drdisagree.iconify.common;
 
 import static com.drdisagree.iconify.common.Resources.BIN_DIR;
 
+import android.os.Build;
+
 import com.drdisagree.iconify.Iconify;
 import com.topjohnwu.superuser.Shell;
 
@@ -28,4 +30,7 @@ public class Dynamic {
 
     // Onboarding overlay installation
     public static boolean skippedInstallation = false;
+
+    // Device information
+    public static final boolean isAtleastA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE;
 }

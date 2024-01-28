@@ -3,22 +3,19 @@ package com.drdisagree.iconify.utils.overlay.compiler;
 import static com.drdisagree.iconify.common.Dynamic.AAPT;
 import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
 import static com.drdisagree.iconify.common.Resources.FRAMEWORK_DIR;
-import static com.drdisagree.iconify.common.Resources.FRAMEWORK_DIR_ALT;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.utils.AppUtil;
-import com.drdisagree.iconify.utils.FileUtil;
 import com.drdisagree.iconify.utils.apksigner.SignAPK;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -71,17 +68,8 @@ public class OverlayCompiler {
         Shell.Result result = Shell.cmd(command).exec();
 
         if (listContains(result.getOut(), "No resource identifier found for attribute")) {
-            if (!new File(FRAMEWORK_DIR_ALT).exists()) {
-                try {
-                    Log.w(TAG + " - AAPT", "Framework not valid, copying framework...");
-                    FileUtil.copyAssets("Framework");
-                } catch (IOException e) {
-                    Log.e(TAG + " - AAPT", "Failed to copy framework\n" + e);
-                    writeLog(TAG + " - AAPT", "Failed to copy framework", e);
-                }
-            }
-
-            result = Shell.cmd(command.replace(FRAMEWORK_DIR, FRAMEWORK_DIR_ALT)).exec();
+            Toast.makeText(Iconify.getAppContext(), "Android 14 QPR2+ isn't supported yet", Toast.LENGTH_LONG).show();
+            return true;
         }
 
         if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);

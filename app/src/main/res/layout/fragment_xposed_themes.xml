@@ -85,6 +85,14 @@
                 app:titleText="@string/section_title_others" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/fix_qs_tile_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isChecked="true"
+                app:summaryText="Fix custom QS tile style on android 14"
+                app:titleText="Fix QS Tile Color" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/fix_notification_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

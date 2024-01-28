@@ -17,8 +17,12 @@ package com.drdisagree.iconify.xposed.modules;
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
 
+import static android.service.quicksettings.Tile.STATE_ACTIVE;
+import static android.service.quicksettings.Tile.STATE_UNAVAILABLE;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.getColorAttr;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
@@ -54,13 +58,15 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 @SuppressWarnings("RedundantThrows")
 public class QSBlackTheme extends ModPack {
 
-    public static final int STATE_ACTIVE = 2;
     private static final String TAG = "Iconify - " + QSBlackTheme.class.getSimpleName() + ": ";
     private static boolean blackQSHeaderEnabled = false;
     private Object mBehindColors;
     private boolean isDark;
     private Integer colorText = null;
+    private Integer colorTextAlpha = null;
     private Object mClockViewQSHeader = null;
+    private boolean qsTextAlwaysWhite = false;
+    private boolean qsTextFollowAccent = false;
 
     public QSBlackTheme(Context context) {
         super(context);
@@ -73,6 +79,9 @@ public class QSBlackTheme extends ModPack {
         if (Xprefs == null) return;
 
         blackQSHeaderEnabled = Xprefs.getBoolean(BLACK_QSPANEL, false);
+
+        qsTextAlwaysWhite = Xprefs.getBoolean(QS_TEXT_ALWAYS_WHITE, false);
+        qsTextFollowAccent = Xprefs.getBoolean(QS_TEXT_FOLLOW_ACCENT, false);
 
         initColors(true);
     }
@@ -291,6 +300,14 @@ public class QSBlackTheme extends ModPack {
                     mClockViewQSHeader = getObjectField(param.thisObject, "mClockView");
                 } catch (Throwable ignored) {
                 }
+
+                if (blackQSHeaderEnabled && mClockViewQSHeader != null) {
+                    try {
+                        ((TextView) mClockViewQSHeader).setTextColor(Color.WHITE);
+                    } catch (Throwable throwable) {
+                        log(TAG + throwable);
+                    }
+                }
             }
         });
 
@@ -329,10 +346,13 @@ public class QSBlackTheme extends ModPack {
             @SuppressLint("DiscouragedApi")
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 if (!blackQSHeaderEnabled) return;
+                if (qsTextAlwaysWhite || qsTextFollowAccent) return;
 
                 try {
                     setObjectField(param.thisObject, "colorLabelActive", colorText);
-                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorText);
+                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorTextAlpha);
+                    setObjectField(param.thisObject, "colorLabelInactive", Color.WHITE);
+                    setObjectField(param.thisObject, "colorSecondaryLabelInactive", 0x80FFFFFF);
 
                     ViewGroup sideView = (ViewGroup) getObjectField(param.thisObject, "sideView");
                     ImageView customDrawable = sideView.findViewById(mContext.getResources().getIdentifier("customDrawable", "id", mContext.getPackageName()));
@@ -348,15 +368,88 @@ public class QSBlackTheme extends ModPack {
         hookAllMethods(QSIconViewImplClass, "getIconColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                if (qsTextAlwaysWhite || qsTextFollowAccent) return;
+
+                boolean isActiveState = false;
+                boolean isDisabledState;
+
                 try {
-                    if (blackQSHeaderEnabled && ((boolean) param.args[1])) {
-                        param.setResult(colorText);
-                    }
+                    isDisabledState = (boolean) getObjectField(param.args[1], "disabledByPolicy") ||
+                            (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
                 } catch (Throwable throwable) {
-                    log(TAG + throwable);
+                    isDisabledState = (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
+                }
+
+                try {
+                    isActiveState = (int) getObjectField(param.args[1], "state") == STATE_ACTIVE;
+                } catch (Throwable throwable) {
+                    try {
+                        isActiveState = (int) param.args[1] == STATE_ACTIVE;
+                    } catch (Throwable throwable1) {
+                        try {
+                            isActiveState = (boolean) param.args[1];
+                        } catch (Throwable throwable2) {
+                            log(TAG + throwable2);
+                        }
+                    }
+                }
+
+                if (blackQSHeaderEnabled) {
+                    if (isDisabledState) {
+                        param.setResult(0x80FFFFFF);
+                    } else if (isActiveState) {
+                        param.setResult(colorText);
+                    } else {
+                        param.setResult(Color.WHITE);
+                    }
                 }
             }
         });
+
+        try {
+            hookAllMethods(QSIconViewImplClass, "updateIcon", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (qsTextAlwaysWhite || qsTextFollowAccent) return;
+
+                    boolean isActiveState = false;
+                    boolean isDisabledState;
+
+                    try {
+                        isDisabledState = (boolean) getObjectField(param.args[1], "disabledByPolicy") ||
+                                (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
+                    } catch (Throwable throwable) {
+                        isDisabledState = (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
+                    }
+
+                    try {
+                        isActiveState = (int) getObjectField(param.args[1], "state") == STATE_ACTIVE;
+                    } catch (Throwable throwable) {
+                        try {
+                            isActiveState = (int) param.args[1] == STATE_ACTIVE;
+                        } catch (Throwable throwable1) {
+                            try {
+                                isActiveState = (boolean) param.args[1];
+                            } catch (Throwable throwable2) {
+                                log(TAG + throwable2);
+                            }
+                        }
+                    }
+
+                    if (blackQSHeaderEnabled) {
+                        ImageView mIcon = (ImageView) param.args[0];
+                        if (isDisabledState) {
+                            mIcon.setImageTintList(ColorStateList.valueOf(0x80FFFFFF));
+                        } else if (isActiveState) {
+                            mIcon.setImageTintList(ColorStateList.valueOf(colorText));
+                        } else {
+                            mIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
+                        }
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
 
         try {
             mBehindColors = GradientColorsClass.getDeclaredConstructor().newInstance();
@@ -539,6 +632,7 @@ public class QSBlackTheme extends ModPack {
         try {
             Resources res = mContext.getResources();
             colorText = res.getColor(res.getIdentifier("android:color/system_neutral1_900", "color", mContext.getPackageName()), mContext.getTheme());
+            colorTextAlpha = (colorText & 0xFFFFFF) | (Math.round(Color.alpha(colorText) * 0.8f) << 24);
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }

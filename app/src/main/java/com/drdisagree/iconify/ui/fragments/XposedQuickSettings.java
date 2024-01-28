@@ -5,6 +5,8 @@ import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QS_FOOTER_BUTTONS;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QS_SILENT_TEXT;
 import static com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT;
 import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
 
@@ -91,6 +93,20 @@ public class XposedQuickSettings extends BaseFragment {
             RPrefs.clearPref(QS_TOPMARGIN);
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             return true;
+        });
+
+        // QS text always white
+        binding.labelWhite.setSwitchChecked(RPrefs.getBoolean(QS_TEXT_ALWAYS_WHITE, false));
+        binding.labelWhite.setSwitchChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(QS_TEXT_ALWAYS_WHITE, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+        });
+
+        // QS text follow accent
+        binding.labelAccent.setSwitchChecked(RPrefs.getBoolean(QS_TEXT_FOLLOW_ACCENT, false));
+        binding.labelAccent.setSwitchChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(QS_TEXT_FOLLOW_ACCENT, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
         // Hide silent text

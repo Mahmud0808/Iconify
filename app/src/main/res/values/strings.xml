@@ -312,6 +312,8 @@
     <string name="label_follow_system_v2_desc">Title system, subtitle accent</string>
     <string name="label_fix_text_color_title">Fix Text Color</string>
     <string name="label_fix_text_color_desc">Use if above ones did not work</string>
+    <string name="label_follow_accent_title">Follow Accent</string>
+    <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
 
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Portrait Mode</string>
@@ -833,6 +835,8 @@
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
     <string name="toast_selected_successfully">Selected successfully</string>
     <string name="toast_unavailable">Unavailable</string>
+    <string name="toast_requires_lsposed_for_a14">Requires LSPosed module for Android 14 and above</string>
+    <string name="toast_use_from_xposed_menu">Use this feature from Xposed Menu</string>
 
     <!-- Push Notification -->
     <string name="new_update_title">Update Available</string>

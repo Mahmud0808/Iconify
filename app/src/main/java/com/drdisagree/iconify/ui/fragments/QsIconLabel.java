@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Dynamic.isAtleastA14;
 import static com.drdisagree.iconify.common.Preferences.QS_HIDE_LABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT;
 import static com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT_NORMAL;
@@ -12,12 +13,14 @@ import static com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -178,6 +181,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelWhite.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST1.overlay")));
         binding.labelWhite.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhiteV2.setSwitchChecked(false);
@@ -196,6 +204,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelWhiteV2.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST2.overlay")));
         binding.labelWhiteV2.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhite.setSwitchChecked(false);
@@ -214,6 +227,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelSystem.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST3.overlay")));
         binding.labelSystem.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhite.setSwitchChecked(false);
@@ -232,6 +250,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelSystemV2.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST4.overlay")));
         binding.labelSystemV2.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhite.setSwitchChecked(false);
@@ -250,6 +273,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelFixTextColor.setSwitchChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
         binding.labelFixTextColor.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhite.setSwitchChecked(false);
