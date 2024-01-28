@@ -147,8 +147,6 @@ public class Preferences {
 
     // Xposed settings
     public static final String RESTART_SYSUI_BEHAVIOR_EXT = "IconifyRestartSysuiBehaviorExtended";
-    public static final String LAST_RESTART_SYSTEMUI_TIME = "IconifyLastRestartSystemuiTime";
-    public static final int RESTART_CLICK_DELAY_TIME = 6000;
 
     // Preference keys
     public static final String STR_NULL = "null";

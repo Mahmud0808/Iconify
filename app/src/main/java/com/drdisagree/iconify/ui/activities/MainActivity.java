@@ -2,7 +2,6 @@ package com.drdisagree.iconify.ui.activities;
 
 import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
 import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
-import static com.drdisagree.iconify.common.Preferences.LAST_RESTART_SYSTEMUI_TIME;
 import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
 
@@ -70,8 +69,6 @@ public class MainActivity extends BaseActivity implements ColorPickerDialogListe
 
             boolean state = Shell.cmd("[[ $(cmd overlay list | grep -o '\\[x\\] " + FORCE_RELOAD_PACKAGE_NAME + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
             RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state);
-
-            RPrefs.clearPref(LAST_RESTART_SYSTEMUI_TIME);
         }).start();
 
         colorPickerDialog = ColorPickerDialog.newBuilder();

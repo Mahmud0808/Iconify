@@ -5,11 +5,11 @@ import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BOOT_ID;
 import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
 import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
-import static com.drdisagree.iconify.common.Preferences.LAST_RESTART_SYSTEMUI_TIME;
-import static com.drdisagree.iconify.common.Preferences.RESTART_CLICK_DELAY_TIME;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR_EXT;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
 import static com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD;
+import static com.drdisagree.iconify.xposed.utils.BootLoopProtector.LOAD_TIME_KEY_KEY;
+import static com.drdisagree.iconify.xposed.utils.BootLoopProtector.PACKAGE_STRIKE_KEY_KEY;
 
 import android.Manifest;
 import android.app.Activity;
@@ -34,6 +34,8 @@ import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.config.RPrefs;
 import com.topjohnwu.superuser.Shell;
 
+import java.util.Calendar;
+
 public class SystemUtil {
 
     static boolean darkSwitching = false;
@@ -49,15 +51,13 @@ public class SystemUtil {
     }
 
     public static void restartSystemUI() {
-        long lastRestartSystemUITime = RPrefs.getLong(LAST_RESTART_SYSTEMUI_TIME, 0);
-        long currentTime = System.currentTimeMillis();
+        String loadTimeKey = String.format("%s%s", LOAD_TIME_KEY_KEY, SYSTEMUI_PACKAGE);
+        String strikeKey = String.format("%s%s", PACKAGE_STRIKE_KEY_KEY, SYSTEMUI_PACKAGE);
+        long currentTime = Calendar.getInstance().getTime().getTime();
+        RPrefs.putLong(loadTimeKey, currentTime);
+        RPrefs.putInt(strikeKey, 0);
 
-        if (currentTime - lastRestartSystemUITime >= RESTART_CLICK_DELAY_TIME) {
-            RPrefs.putLong(LAST_RESTART_SYSTEMUI_TIME, currentTime);
-            Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
-        } else {
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_try_again_later), Toast.LENGTH_SHORT).show();
-        }
+        Shell.cmd("killall " + SYSTEMUI_PACKAGE).submit();
     }
 
     public static void forceReloadUI() {
