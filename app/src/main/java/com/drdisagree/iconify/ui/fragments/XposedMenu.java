@@ -321,7 +321,12 @@ public class XposedMenu extends BaseFragment {
             }
         }.start();
 
-        new Thread(() -> requireContext().sendBroadcast(new Intent().setAction(ACTION_HOOK_CHECK_REQUEST))).start();
+        new Thread(() -> {
+            try {
+                requireContext().sendBroadcast(new Intent().setAction(ACTION_HOOK_CHECK_REQUEST));
+            } catch (Exception ignored) {
+            }
+        }).start();
     }
 
     @Override
