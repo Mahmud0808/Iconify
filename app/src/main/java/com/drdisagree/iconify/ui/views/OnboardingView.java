@@ -491,11 +491,11 @@ public class OnboardingView extends FrameLayout {
             publishProgress(step);
             waiter(1000);
 
-            logger = "2...";
+            logger = "2..";
             publishProgress(step);
             waiter(1000);
 
-            logger = "1...";
+            logger = "1.";
             publishProgress(step);
             waiter(1000);
 
