@@ -214,7 +214,8 @@ public class QuickSettings extends ModPack {
                 if (qsTopMarginEnabled) {
                     String[] qsHeaderResNames = {
                             "qs_panel_padding_top",
-                            "qs_panel_padding_top_combined_headers"
+                            "qs_panel_padding_top_combined_headers",
+                            "qs_header_height"
                     };
 
                     for (String resName : qsHeaderResNames) {
