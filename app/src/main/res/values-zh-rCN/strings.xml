@@ -182,7 +182,7 @@
     <string name="settings_iconpack_bubble_v2">轮廓多色图标包</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">Pixel 变体</string>
-    <string name="activity_desc_pixel_variant">适用于带有黑色快速设置面板的 ROM</string>
+    <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">亮度条样式</string>
     <!-- QS Panel Tiles -->
@@ -362,7 +362,7 @@
     <string name="btn_create_module">创建模块</string>
     <string name="toast_module_created">模块创建成功</string>
     <string name="read_carefully">仔细阅读！</string>
-    <string name="volume_module_installation_guide">此选项将在您的内部存储的 Download 文件夹中创建一个 Magisk 模块。在 Magisk 中刷入名为 IconifyCompanion.zip 的模块。始终在刷入新模块之前卸载先前安装的 Iconify Companion 模块（如果有）并重新启动。\n\n<b>注意：</b>\n• 在更新 ROM 之前要卸载模块。\n• 如果你改变或更新 ROM，请重新创建模块。\n• 不要刷入一个不是基于你的 ROM 创建的模块。</string>
+    <string name="volume_module_installation_guide">This option will create a magisk module inside Download folder in your Internal Storage. Flash the module named IconifyCompanion.zip in Magisk. Always uninstall previous Iconify Companion module (if installed) and reboot before flashing new one.\n\n<b>Note:</b>\n• Uninstall the module before updating rom.\n• Recreate the module if you change or update rom.\n• Do not flash a module which wasn\'t created based on your rom.</string>
     <!-- Media Player -->
     <string name="cont_desc_media_player">媒体播放器预览</string>
     <string name="media_player_preview_music_title">音乐标题</string>
@@ -427,15 +427,15 @@
     <string name="window_level_blur_title">窗口级模糊</string>
     <string name="window_level_blur_desc">需要重启才能生效</string>
     <string name="aggressive_blur_title">激进的模糊启用器</string>
-    <string name="aggressive_blur_desc">可能在某些 rom 中引导回转</string>
+    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
     <string name="blur_intensity_title">模糊强度</string>
     <!-- Themes -->
-    <string name="section_title_for_pixel_roms">适用于 Pixel 系统</string>
+    <string name="section_title_for_pixel_roms">For Pixel Roms</string>
     <string name="light_theme_title">浅色主题</string>
     <string name="light_theme_desc">浅色模式下的快速设置主题\n必须使用自定义的快速设置形状</string>
     <string name="dual_tone_title">双色调</string>
     <string name="dual_tone_desc">使用不同的颜色作为标头</string>
-    <string name="section_title_for_custom_roms">适用于自定义系统</string>
+    <string name="section_title_for_custom_roms">For Custom Roms</string>
     <string name="black_theme_title">Pixel 深色主题</string>
     <string name="black_theme_desc">浅色模式下的深色快速设置主题\n必须使用自定义的快速设置图形\n切换为深色主题以修复文本颜色</string>
     <string name="section_title_translucent_theme">半透明主题</string>
@@ -455,6 +455,11 @@
     <string name="hide_qs_tile_label_title">隐藏快速设置图块标签</string>
     <string name="hide_qs_tile_label_desc">只能与垂直图块一起使用</string>
     <string name="section_title_qs_margin">快速设置边距</string>
+    <string name="section_title_qs_elements">QS Elements</string>
+    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
+    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
+    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
+    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
     <!-- Battery Style -->
     <string name="battery_style_title">电池样式</string>
     <string name="battery_width_title">电池宽度</string>
@@ -623,7 +628,7 @@
     <string name="hide_ls_statusbar_title">隐藏锁屏状态栏</string>
     <string name="hide_ls_statusbar_desc">在锁屏上隐藏状态栏</string>
     <string name="fixed_status_icons_title">固定状态图标</string>
-    <string name="fixed_status_icons_desc">将状态图标设置在固定位置\n在某些ROM上可能会出现错误</string>
+    <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">更新日志</string>
     <string name="no_internet_connection">无法连接至服务器！\n这可能与您的互联网连接有关，或者此刻服务器可能已经宕机。请稍后再试。</string>
@@ -838,7 +843,7 @@
     <string name="custom_qs_margin_title">自定义快速设置边距</string>
     <string name="custom_qs_margin_desc">启用快速设置面板的自定义边距</string>
     <string name="force_enable_blur_title">强制启用模糊</string>
-    <string name="force_enable_blur_desc">为不支持的 ROM 强制启用模糊</string>
+    <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
     <string name="choose_header_image">选择标头图片</string>
     <string name="choose_clock_font">选择时钟字体</string>
     <string name="pick_style">选择一种你喜欢的样式</string>

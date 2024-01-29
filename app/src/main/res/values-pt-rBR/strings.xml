@@ -20,7 +20,7 @@
     <string name="onboarding_subtitle_3">É hora do Iconify fazer algum trabalho interno.</string>
     <string name="onboarding_desc_3">Iniciando tarefas internas, marcando o início de trabalhos essenciais. Pronto para começar?</string>
     <string name="need_storage_perm_title">Conceda permissão de armazenamento</string>
-    <string name="need_storage_perm_desc">É necessário a permissão de armazenamento para criar os arquivos necessários.</string>
+    <string name="need_storage_perm_desc">A permissão de armazenamento é necessária para criar os arquivos necessários.</string>
     <string name="compatible_root_not_found_title">Não foi possível encontrar método root compatível</string>
     <string name="compatible_root_not_found_desc">Use Magisk ou KernelSU para fazer root em seu dispositivo.</string>
     <string name="root_not_found_title">Root não está acessível</string>
@@ -57,7 +57,7 @@
     <!-- Tweaks -->
     <string name="activity_title_color_engine">Motor de cores</string>
     <string name="activity_desc_color_engine">Tenha controle sobre as cores</string>
-    <string name="activity_title_ui_roundness">Redondeza da IU</string>
+    <string name="activity_title_ui_roundness">Redondeza da interface</string>
     <string name="activity_desc_ui_roundness">Altere o raio do canto da interface</string>
     <string name="activity_title_qs_row_column">Linha e coluna</string>
     <string name="activity_desc_qs_row_column">Altere as linhas e colunas do painel QS</string>
@@ -97,19 +97,19 @@
     <string name="settings_current_version">Versão atual: %s</string>
     <string name="settings_auto_update_title">Atualização automática</string>
     <string name="settings_auto_update_desc">Verifique se há novas versões em segundo plano.</string>
-    <string name="settings_auto_update_title_wifi_only">Verifique apenas por Wi-Fi</string>
+    <string name="settings_auto_update_title_wifi_only">Verificar apenas por Wi-Fi</string>
     <string name="settings_auto_update_desc_wifi_only">Verifique se há atualizações apenas por Wi-Fi.</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Mostrar aviso</string>
     <string name="settings_show_warning_desc">Mostrar aviso sobre como re-otimizar novamente o módulo no Menu Xposed.</string>
     <string name="settings_restart_systemui_behavior">Método de aplicação do mod</string>
-    <string name="settings_auto_restart_systemui">Reiniciar automaticamente o SystemUI</string>
+    <string name="settings_auto_restart_systemui">Reiniciar automaticamente a Interface do sistema</string>
     <string name="settings_auto_force_reload_ui">Forçar automaticamente o recarregamento da interface</string>
-    <string name="settings_manual_restart_systemui">Notificar para reinicialização manual do SystemUI</string>
-    <string name="settings_systemui_restart_required">Necessário reiniciar o SystemUI</string>
+    <string name="settings_manual_restart_systemui">Notificar para reinicialização manual da Interface do sistema</string>
+    <string name="settings_systemui_restart_required">Necessário reiniciar a Interface do sistema</string>
     <string name="settings_section_title_miscellaneous">Diversos</string>
-    <string name="settings_restart_systemui_after_boot_title">Reiniciar SystemUI após a inicialização</string>
-    <string name="settings_restart_systemui_after_boot_desc">Algumas opções, como a intensidade do blur, não entram em vigor até que o SystemUI seja reiniciado.</string>
+    <string name="settings_restart_systemui_after_boot_title">Reiniciar Interface do sistema após a inicialização</string>
+    <string name="settings_restart_systemui_after_boot_desc">Algumas opções, como a Intensidade do blur, não entram em vigor até que a Interface do sistema seja reiniciada.</string>
     <string name="settings_show_home_page_card_title">Mostrar cartão da página inicial</string>
     <string name="settings_show_home_page_card_desc">Mostre um lindo cartão na página inicial.</string>
     <string name="settings_clear_app_cache_title">Limpar cache do app</string>
@@ -182,7 +182,7 @@
     <string name="settings_iconpack_bubble_v2">Pacote de ícones multicoloridos de contorno</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">Variante Pixel</string>
-    <string name="activity_desc_pixel_variant">Para ROMs com painel de controle preto</string>
+    <string name="activity_desc_pixel_variant">Para ROMs com painel QS preto</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Estilos da barra de brilho</string>
     <!-- QS Panel Tiles -->
@@ -231,7 +231,7 @@
     <string name="minimal_qspanel">Painel QS mínimo</string>
     <string name="remove_top_shade_of_qspanel">Remover sombra superior do painel QS</string>
     <string name="disable_monet_title">Desativar monet do sistema</string>
-    <string name="disable_monet_desc">Ajuda a manter as cores personalizadas.\nÉ necessário reiniciar o SystemUI.</string>
+    <string name="disable_monet_desc">Ajuda a manter as cores personalizadas.\nÉ necessário reiniciar a Interface do sistema.</string>
     <!-- Basic Colors -->
     <string name="primary_color">Cor primária</string>
     <string name="primary_color_desc">Escolha a cor de destaque primária</string>
@@ -258,7 +258,7 @@
     <string name="corner_radius_title">Raio de canto</string>
     <string name="qstile_btn1_title">Internet</string>
     <string name="qstile_btn1_desc">Descanse em paz</string>
-    <string name="qstile_btn2_title">Avião</string>
+    <string name="qstile_btn2_title">Modo avião</string>
     <string name="qstile_btn2_desc">Desligado</string>
     <string name="qstile_btn3_title">Localização</string>
     <string name="qstile_btn3_desc">Desligado</string>
@@ -322,7 +322,7 @@
     <string name="navbar_gcam_lag_fix_desc">Corrija o atraso na Gcam com a navegação por gestos</string>
     <string name="section_title_buttons">Botões</string>
     <string name="navbar_hide_kb_buttons_title">Ocultar botões do teclado</string>
-    <string name="navbar_hide_kb_buttons_desc">Ocultar botões de voltar/alternadores do teclado</string>
+    <string name="navbar_hide_kb_buttons_desc">Oculte os botões de voltar/alternadores do teclado</string>
     <string name="section_title_gesture">Gesto</string>
     <string name="navbar_lower_sensitivity_title">Sensibilidade mais baixa</string>
     <string name="navbar_lower_sensitivity_desc">Menor sensibilidade aos gestos</string>
@@ -362,7 +362,7 @@
     <string name="btn_create_module">Criar módulo</string>
     <string name="toast_module_created">Módulo criado com sucesso</string>
     <string name="read_carefully">Leia cuidadosamente!</string>
-    <string name="volume_module_installation_guide">Esta opção criará um módulo magisk dentro da pasta Download em seu armazenamento interno. Faça o flash do módulo chamado IconifyCompanion.zip no Magisk. Sempre desinstale o módulo Iconify Companion anterior (se instalado) e reinicie antes de atualizar o novo.\n\n<b>Observação:</b>\n• Desinstale o módulo antes de atualizar a ROM.\n• Recrie o módulo se você alterar ou atualizar a rom.\n• Não instale um módulo que não foi criado com base na sua ROM.</string>
+    <string name="volume_module_installation_guide">Esta opção criará um módulo magisk dentro da pasta Download em seu armazenamento interno. Flash o módulo chamado IconifyCompanion.zip no Magisk. Sempre desinstale o módulo Iconify Companion anterior (se instalado) e reinicie antes de flashar o novo.\n\n<b>Observação:</b>\n• Desinstale o módulo antes de atualizar a ROM.\n• Recrie o módulo se você alterar ou atualize a rom.\n• Não faça o flash de um módulo que não tenha sido criado com base na sua ROM.</string>
     <!-- Media Player -->
     <string name="cont_desc_media_player">Visualização do reprodutor de mídia</string>
     <string name="media_player_preview_music_title">Título da música</string>
@@ -390,7 +390,7 @@
     <string name="disable_progress_wave_title">Desativar onda de progresso</string>
     <string name="disable_progress_wave_desc">Desative a animação de onda da barra de progresso</string>
     <!-- Xposed Menu -->
-    <string name="lsposed_warn">Antes de ativar o Iconify no LSPosed, mantenha pressionado o Iconify e clique em Re-otimizar. Depois disso, ative o Iconify e reinicie seu SystemUI. Isso é necessário para uma experiência mais tranquila.</string>
+    <string name="lsposed_warn">Antes de ativar o Iconify no LSPosed, mantenha pressionado o Iconify e clique em Re-otimizar. Depois disso, ative o Iconify e reinicie sua Interface do sistema. Isso é necessário para uma experiência mais tranquila.</string>
     <string name="xposed_only_desc">Você está atualmente no modo somente Xposed. Isso requer que o Iconify esteja ativado no LSPosed. Certifique-se também de que o módulo Iconify seja mostrado no Magisk. Para ter acesso a todos os recursos, limpe os dados do app Iconify e siga o processo de instalação!</string>
     <string name="xposed_module_disabled_title">Módulo não ativado</string>
     <string name="xposed_module_disabled_desc">Serviço do sistema não está em execução</string>
@@ -437,7 +437,7 @@
     <string name="dual_tone_desc">Use cores diferentes para o cabeçalho</string>
     <string name="section_title_for_custom_roms">Para ROMs personalizadas</string>
     <string name="black_theme_title">Tema Pixel preto</string>
-    <string name="black_theme_desc">Tema QS preto no modo claro.\nÉ necessário usar o formato Pixel QS.\nAlterne o tema escuro para corrigir a cor do texto.</string>
+    <string name="black_theme_desc">Tema preto no QS em modo claro.\nÉ necessário usar o formato Pixel QS.\nAlterne o tema escuro para corrigir a cor do texto.</string>
     <string name="section_title_translucent_theme">Tema translúcido</string>
     <string name="fluid_qs_theme_title">Tema Fluid QS</string>
     <string name="fluid_qs_theme_desc">Tema QS translúcido de dois tons.\nMude de tema para corrigir a cor.\nNão use formas personalizadas.</string>
@@ -455,6 +455,11 @@
     <string name="hide_qs_tile_label_title">Ocultar rótulo do bloco QS</string>
     <string name="hide_qs_tile_label_desc">Use apenas com rótulos verticais</string>
     <string name="section_title_qs_margin">Margem QS</string>
+    <string name="section_title_qs_elements">Elementos QS</string>
+    <string name="hide_qs_silent_text_title">Ocultar texto silencioso</string>
+    <string name="hide_qs_silent_text_desc">Oculte o texto silencioso mostrado como cabeçalho de notificações silenciosas (requer reinicialização da Interface do sistema)</string>
+    <string name="hide_qs_footer_buttons_title">Ocultar botões do rodapé</string>
+    <string name="hide_qs_footer_buttons_desc">Oculte os botões do rodapé mostrados na pilha de notificações</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Estilo da bateria</string>
     <string name="battery_width_title">Largura da bateria</string>
@@ -481,9 +486,9 @@
     <string name="fill_gradient_color_title">Preencher cor do gradiente</string>
     <string name="fill_gradient_color_desc">Preencha a bateria com a cor do gradiente</string>
     <string name="charging_fill_color_title">Cor de preenchimento de carregamento</string>
-    <string name="charging_fill_color_desc">Altera a cor da bateria em carregamento</string>
+    <string name="charging_fill_color_desc">Altere a cor da bateria em carregamento</string>
     <string name="powersave_fill_color_title">Cor de preenchimento da economia de energia</string>
-    <string name="powersave_fill_color_desc">Altera a cor da bateria para a economia de energia</string>
+    <string name="powersave_fill_color_desc">Altere a cor da bateria para a economia de energia</string>
     <string name="powersave_indicator_color_title">Cor do indicador de economia de energia</string>
     <string name="powersave_indicator_color_desc">Altere a cor do indicador de economia de energia</string>
     <string name="custom_dimensions_title">Dimensões personalizadas</string>
@@ -499,7 +504,7 @@
     <string name="hide_percentage_title">Ocultar porcentagem</string>
     <string name="hide_percentage_desc">Oculte o texto de porcentagem da bateria</string>
     <string name="inside_percentage_title">Porcentagem interna</string>
-    <string name="inside_percentage_desc">Mover porcentagem para dentro do ícone da bateria</string>
+    <string name="inside_percentage_desc">Mova a porcentagem para dentro do ícone da bateria</string>
     <string name="battery_default">Padrão</string>
     <string name="battery_landscape_r_default">Paisagem R padrão</string>
     <string name="battery_landscape_l_default">Paisagem L padrão</string>
@@ -586,7 +591,7 @@
     <string name="lockscreen_clock_white_text_desc">Force todas as cores a serem brancas</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Ativar papel de parede de profundidade</string>
-    <string name="enable_depth_wallpaper_desc">Mostrar papel de parede de profundidade semelhante ao iOS.\nÉ necessário usar um relógio de tela de bloqueio personalizado.</string>
+    <string name="enable_depth_wallpaper_desc">Mostre o papel de parede de profundidade semelhante ao iOS.\nÉ necessário usar relógio da tela de bloqueio personalizado.</string>
     <string name="wallpaper_fade_animation_title">Desaparecer em AOD</string>
     <string name="wallpaper_fade_animation_desc">Anime o papel de parede e desapareça no AOD</string>
     <string name="foreground_image_title">Imagem de primeiro plano</string>
@@ -619,7 +624,7 @@
     <string name="hide_status_icons_desc">Remova ícones de hora, data e bateria</string>
     <string name="lock_screen">Tela de bloqueio</string>
     <string name="hide_ls_carrier_title">Ocultar operadora na tela de bloqueio</string>
-    <string name="hide_ls_carrier_desc">Ocultar o nome da operadora na tela de bloqueio</string>
+    <string name="hide_ls_carrier_desc">Oculte o nome da operadora na tela de bloqueio</string>
     <string name="hide_ls_statusbar_title">Ocultar barra de status na tela de bloqueio</string>
     <string name="hide_ls_statusbar_desc">Oculte a barra de status na tela de bloqueio</string>
     <string name="fixed_status_icons_title">Ícones de status fixos</string>
@@ -657,7 +662,7 @@
     <string name="info_rro_desc">Por me ajudar com RRO.</string>
     <string name="info_xposed_desc">Por me ajudar com o Xposed.</string>
     <string name="info_tester_desc">Por testar o app.</string>
-    <string name="info_betterqs_desc">Para permissão para usar um QS melhor.</string>
+    <string name="info_betterqs_desc">Para permissão para usar o melhor QS.</string>
     <string name="section_title_contributors">Contribuidores</string>
     <string name="info_contributor_desc">Por contribuir no GitHub.</string>
     <string name="info_contributor_desc_2">Por me ajudar no Telegram.</string>
@@ -693,7 +698,7 @@
     <string name="import_export">Importar/Exportar</string>
     <string name="export_settings">Exportar configurações</string>
     <string name="import_settings">Importar configurações</string>
-    <string name="restart_sysui_title">Reiniciar SystemUI</string>
+    <string name="restart_sysui_title">Reiniciar Interface do sistema</string>
     <string name="import_settings_confirmation_title">Tem certeza?</string>
     <string name="import_settings_confirmation_desc">Você perderá sua configuração e configurações atuais.</string>
     <!-- Xposed 3 dot menu -->
@@ -738,7 +743,7 @@
     <string name="btn_reset">Redefinir</string>
     <string name="btn_reboot_now">Reiniciar agora</string>
     <string name="btn_download">Download</string>
-    <string name="btn_restart_systemui">Reiniciar SystemUI</string>
+    <string name="btn_restart_systemui">Reiniciar Interface do sistema</string>
     <string name="btn_pick_font">Escolher fonte</string>
     <string name="btn_reset_tint">Redefinir tonalidade</string>
     <string name="btn_reboot">Reiniciar</string>
@@ -758,7 +763,7 @@
     <string name="toast_error">Algo deu errado</string>
     <string name="toast_disable_everything">Pressione e segure para desativar tudo</string>
     <string name="toast_disabled_everything">Tudo está desativado</string>
-    <string name="toast_restart_sysui">Pressione e segure para reiniciar o SystemUI</string>
+    <string name="toast_restart_sysui">Pressione e segure para reiniciar a Interface do sistema</string>
     <string name="toast_rename_file">Renomeie o arquivo para algo mais simples</string>
     <string name="toast_lorn_colored_battery">Lorn usa bateria colorida por padrão</string>
     <string name="toast_plumpy_colored_battery">Plumpy usa bateria colorida por padrão</string>
@@ -768,7 +773,7 @@
     <string name="toast_lsposed_not_found">LSPosed não encontrado!</string>
     <string name="toast_easter_egg">Como você sabia disso?</string>
     <string name="toast_easter_egg_activated">Por que você ainda está fazendo isso?</string>
-    <string name="toast_try_again_later">Você reiniciou o SystemUI com muita frequência. Por favor, tente novamente mais tarde.</string>
+    <string name="toast_try_again_later">Você reiniciou a Interface do sistema com muita frequência. Por favor, tente novamente mais tarde.</string>
     <string name="toast_storage_access">Iniciando a página \"Acesso a todos os arquivos\"</string>
     <string name="toast_clear_cache">Cache do Iconify limpo</string>
     <string name="toast_skipped_installation">Instalação ignorada. Alguns recursos podem não funcionar corretamente.</string>
@@ -817,7 +822,7 @@
     <string name="perm_storage_access">Conceda acesso ao armazenamento primeiro!</string>
     <string name="installing">Instalando</string>
     <string name="reboot_needed">Reinicie seu dispositivo primeiro!</string>
-    <string name="restart_sysui_desc">Reinicie o SystemUI se as opções aplicadas não estiverem imediatamente visíveis.</string>
+    <string name="restart_sysui_desc">Reinicie a Interface do sistema se as opções aplicadas não estiverem imediatamente visíveis.</string>
     <string name="checked">Verificado</string>
     <string name="app_updates">Atualizações de apps</string>
     <string name="positive">Sim</string>
@@ -829,10 +834,10 @@
     <string name="custom_progressbar_desc">Ative a barra de progresso do gradiente</string>
     <string name="custom_seekbar_title">Barra de busca personalizada</string>
     <string name="custom_seekbar_desc">Ative a barra de busca com estilo personalizado</string>
-    <string name="needs_systemui_restart">Precisa reiniciar o SystemUI</string>
+    <string name="needs_systemui_restart">Precisa reiniciar a Interface do sistema</string>
     <string name="qs_clock_chip_title">Chip de relógio QS</string>
     <string name="qs_clock_chip_desc">Chip de exibição atrás do relógio QS</string>
-    <string name="qs_clock_chip_style_desc">Necessário reiniciar o SystemUI.\nBloqueie e desbloqueie para corrigir a largura.</string>
+    <string name="qs_clock_chip_style_desc">Necessário reiniciar a Interface do sistema.\nBloqueie e desbloqueie para corrigir a largura.</string>
     <string name="qs_date_chip_title">Chip da data QS</string>
     <string name="qs_date_chip_desc">Exibir o chip atrás da data QS</string>
     <string name="custom_qs_margin_title">Margem QS personalizada</string>
@@ -844,7 +849,7 @@
     <string name="pick_style">Escolha um estilo de sua preferência</string>
     <string name="attention">Atenção!</string>
     <string name="method_toggle_dark_mode">Alternar duas vezes o modo escuro</string>
-    <string name="method_restart_systemui">Reiniciar SystemUI</string>
+    <string name="method_restart_systemui">Reiniciar Interface do sistema</string>
     <string name="method_do_nothing">Não faça nada (eu mesmo farei)</string>
     <string name="list_title_xposed_settings">Configurações do Xposed</string>
     <string name="list_title_force_apply_method">Método de aplicação forçada</string>
