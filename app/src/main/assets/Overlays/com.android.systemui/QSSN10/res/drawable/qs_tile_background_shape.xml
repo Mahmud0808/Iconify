@@ -14,7 +14,7 @@
                 android:start="4.0dp"
                 android:top="4.0dp">
                 <shape android:tintMode="src_atop">
-                    <solid android:color="?android:colorBackgroundFloating" />
+                    <solid android:color="@*android:color/system_neutral1_100" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
                 </shape>
             </item>
@@ -31,8 +31,8 @@
                 <shape android:tintMode="multiply">
                     <gradient
                         android:angle="0.0"
-                        android:endColor="?android:colorSecondary"
-                        android:startColor="?android:colorPrimary" />
+                        android:endColor="@*android:color/holo_blue_dark"
+                        android:startColor="@*android:color/holo_blue_light" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_top" />
                 </shape>
             </item>
@@ -42,7 +42,7 @@
                 android:start="4.0dp"
                 android:top="4.0dp">
                 <shape android:tintMode="multiply">
-                    <solid android:color="?android:colorBackgroundFloating" />
+                    <solid android:color="@*android:color/system_neutral1_100" />
                     <corners android:radius="@*android:dimen/harmful_app_name_padding_left" />
                 </shape>
             </item>

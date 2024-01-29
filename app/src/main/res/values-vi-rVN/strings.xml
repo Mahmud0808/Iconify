@@ -11,15 +11,18 @@
     <string name="module_installation_step5">Ký lớp phủ APKs</string>
     <string name="module_installation_step6">Làm sạch thư mục</string>
     <string name="onboarding_title_1">Chán giao diện người dùng gốc?</string>
-    <string name="onboarding_desc_1">Hãy tùy chỉnh mọi thứ theo ý thích của chúng ta.</string>
+    <string name="onboarding_subtitle_1">Cùng tùy chỉnh mọi thứ theo ý thích.</string>
+    <string name="onboarding_desc_1">Từ bỏ giao diện gốc nhàm chán – tùy chỉnh từng chi tiết phù hợp với phong cách và ý muốn của bạn.</string>
     <string name="onboarding_title_2">Thiết bị của tôi có được hỗ trợ không?</string>
-    <string name="onboarding_desc_2">Iconify hỗ trợ tất cả các ROM dựa trên Pixel và AOSP.</string>
+    <string name="onboarding_subtitle_2">Iconify hỗ trợ tất cả các ROM dựa trên Pixel và AOSP.</string>
+    <string name="onboarding_desc_2">Tương thích với tất cả ROM dựa trên Pixel và AOSP, đảm bảo khả năng hỗ trợ rộng khắp nhiều thiết bị Android.</string>
     <string name="onboarding_title_3">Chúng ta bắt đầu ngay bây giờ nhé?</string>
-    <string name="onboarding_desc_3">Đã đến lúc iconify thực hiện một số công việc nội bộ.</string>
+    <string name="onboarding_subtitle_3">Đã đến lúc Iconify thực hiện một số việc nội bộ.</string>
+    <string name="onboarding_desc_3">Bắt đầu công việc nội bộ, đánh dấu khởi đầu những tác vụ cần thiết. Sẵn sàng bắt đầu chưa?</string>
     <string name="need_storage_perm_title">Cần quyền lưu trữ</string>
     <string name="need_storage_perm_desc">Tôi cần quyền lưu trữ để tạo các tệp cần thiết.</string>
-    <string name="magisk_not_found_title">Không thể tìm thấy Magisk</string>
-    <string name="magisk_not_found_desc">Sử dụng Magisk để root thiết bị của bạn!</string>
+    <string name="compatible_root_not_found_title">Không thể tìm thấy phương thức Root tương thích</string>
+    <string name="compatible_root_not_found_desc">Root thiết bị của bạn bằng Magisk hoặc KernelSU.</string>
     <string name="root_not_found_title">Root không truy cập được</string>
     <string name="root_not_found_desc">Có vẻ như thiết bị của bạn chưa được root!</string>
     <string name="need_reboot_title">Cần khởi động lại thiết bị</string>
@@ -48,9 +51,9 @@
     <string name="iconify_updated_title">Iconify vừa được cập nhật!</string>
     <string name="iconify_updated_desc">Khởi động lại điện thoại của bạn để sử dụng các tính năng và tùy chọn được bổ sung mới nhất.</string>
     <!-- Home Card View -->
-    <string name="home_card_title">Design It Your Way</string>
-    <string name="home_card_subtitle">Unleash Your Imagination, Make It Yours</string>
-    <string name="home_card_hide">Hide</string>
+    <string name="home_card_title">Thiết Kế Theo Cách Của Bạn</string>
+    <string name="home_card_subtitle">Giải Phóng Trí Tưởng Tượng, Làm Chủ Nó</string>
+    <string name="home_card_hide">Ẩn</string>
     <!-- Tweaks -->
     <string name="activity_title_color_engine">Tùy chỉnh màu</string>
     <string name="activity_desc_color_engine">Kiểm soát màu sắc</string>
@@ -74,51 +77,52 @@
     <string name="activity_desc_media_player">Thay đổi giao diện của trình phát đa phương tiện</string>
     <string name="activity_title_miscellaneous">Điều khoản khác</string>
     <string name="activity_desc_miscellaneous">Các tinh chỉnh và tùy chỉnh khác</string>
-    <string name="activity_title_xposed_menu">Xposed Menu</string>
+    <string name="activity_title_xposed_menu">Menu Xposed</string>
     <string name="activity_desc_xposed_menu">LSPosed cần thiết cho các tùy chọn này</string>
     <string name="activity_title_extras">Tiện ích bổ sung</string>
     <string name="activity_desc_extras">Các chỉnh sửa và tùy chọn bổ sung</string>
     <!-- Settings -->
-    <string name="settings_section_title_general">General</string>
-    <string name="settings_app_language">Language</string>
-    <string name="settings_app_icon">App Icon</string>
-    <string name="settings_app_icon_default">Default Icon</string>
-    <string name="settings_app_icon_themed">Themed Icon</string>
-    <string name="settings_app_icon_retro">Retro Icon</string>
-    <string name="settings_app_theme">App Theme</string>
-    <string name="settings_app_theme_light">Light Theme</string>
-    <string name="settings_app_theme_dark">Dark Theme</string>
-    <string name="settings_app_theme_system">Follow System</string>
-    <string name="settings_section_title_update">Update</string>
-    <string name="settings_check_for_update">Check For Update</string>
-    <string name="settings_current_version">Current version: %s</string>
-    <string name="settings_auto_update_title">Auto Update</string>
-    <string name="settings_auto_update_desc">Check for new versions in background.</string>
-    <string name="settings_auto_update_title_wifi_only">Check Over WiFi Only</string>
-    <string name="settings_auto_update_desc_wifi_only">Check for updates over wifi only.</string>
+    <string name="settings_section_title_general">Chung</string>
+    <string name="settings_app_language">Ngôn ngữ</string>
+    <string name="settings_app_icon">Biểu tượng ứng dụng</string>
+    <string name="settings_app_icon_default">Biểu tượng mặc định</string>
+    <string name="settings_app_icon_themed">Biểu tượng theo chủ đề</string>
+    <string name="settings_app_icon_retro">Biểu tượng phong cách cổ điển</string>
+    <string name="settings_app_theme">Chủ đề ứng dụng</string>
+    <string name="settings_app_theme_light">Chủ đề sáng</string>
+    <string name="settings_app_theme_dark">Chủ đề tối</string>
+    <string name="settings_app_theme_system">Theo hệ thống</string>
+    <string name="settings_section_title_update">Cập nhật</string>
+    <string name="settings_check_for_update">Kiểm tra cập nhật</string>
+    <string name="settings_current_version">Phiên bản hiện tại: %s</string>
+    <string name="settings_auto_update_title">Tự động cập nhật</string>
+    <string name="settings_auto_update_desc">Kiểm tra phiên bản mới sau nền.</string>
+    <string name="settings_auto_update_title_wifi_only">Chỉ kiểm tra bằng WiFi</string>
+    <string name="settings_auto_update_desc_wifi_only">Chỉ kiểm tra bằng wifi.</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Hiển thị cảnh báo</string>
     <string name="settings_show_warning_desc">Hiển thị cảnh báo về cách tối ưu lại mô-đun trong Menu XPosed</string>
-    <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
-    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
-    <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
-    <string name="settings_systemui_restart_required">SystemUI restart required</string>
-    <string name="settings_section_title_miscellaneous">Miscellaneous</string>
+    <string name="settings_restart_systemui_behavior">Phương pháp áp dụng tùy chỉnh</string>
+    <string name="settings_auto_restart_systemui">Tự khởi động lại SystemUI</string>
+    <string name="settings_auto_force_reload_ui">Tự ép tải lại giao diện</string>
+    <string name="settings_manual_restart_systemui">Thông báo khởi động lại SystemUI thủ công</string>
+    <string name="settings_systemui_restart_required">Cần khởi động lại SystemUI</string>
+    <string name="settings_section_title_miscellaneous">Khác</string>
     <string name="settings_restart_systemui_after_boot_title">Khởi động lại SystemUI sau khi khởi động</string>
     <string name="settings_restart_systemui_after_boot_desc">Một số tùy chọn như cường độ mờ không có hiệu lực cho đến khi khởi động lại systemui</string>
     <string name="settings_show_home_page_card_title">Show Home Page Card</string>
     <string name="settings_show_home_page_card_desc">Show a beautiful card on the home page.</string>
-    <string name="settings_clear_app_cache_title">Clear App Cache</string>
-    <string name="settings_clear_app_cache_desc">Clear caches generated due to the usage of custom fonts, images, or gifs.</string>
+    <string name="settings_clear_app_cache_title">Xoá bộ nhớ đệm ứng dụng</string>
+    <string name="settings_clear_app_cache_desc">Xoá bộ nhớ đệm được tạo ra do phông chữ, hình ảnh, hoặc gif tùy chỉnh.</string>
     <string name="activity_title_experimental">Thực nghiệm</string>
-    <string name="activity_desc_experimental">Try out experimental functionalities.</string>
+    <string name="activity_desc_experimental">Thử các tính năng thử nghiệm.</string>
     <string name="settings_disable_everything_title">Vô hiệu hóa mọi thứ</string>
     <string name="settings_disable_everything_desc">Vô hiệu hóa tất cả các lớp phủ, màu sắc và các thay đổi linh tinh được áp dụng do Iconify thực hiện.</string>
-    <string name="settings_section_title_about">About</string>
+    <string name="settings_section_title_about">Giới thiệu</string>
     <string name="settings_github_repository_title">Github Repository</string>
-    <string name="settings_telegram_group_title">Telegram Group</string>
+    <string name="settings_telegram_group_title">Nhóm Telegram</string>
     <string name="settings_credits_title">Credits</string>
-    <string name="settings_credits_desc">Thanking those who made this possible.</string>
+    <string name="settings_credits_desc">Cảm ơn những người đã biến ứng dụng này thành hiện thực.</string>
     <!-- Icon Pack -->
     <string name="activity_title_colored_battery">Màu pin</string>
     <string name="activity_desc_colored_battery">Thay đổi màu biểu tượng pin</string>
@@ -126,7 +130,7 @@
     <string name="activity_desc_media_icons">Thay đổi biểu tượng trình phát đa phương tiện</string>
     <string name="activity_title_settings_icons">Biểu tượng cài đặt</string>
     <string name="activity_desc_settings_icons">Thay đổi gói biểu tượng cài đặt</string>
-    <string name="icon_pack_styles">Icon Pack Styles</string>
+    <string name="icon_pack_styles">Kiểu gói biểu tượng</string>
     <string name="iconpack_aurora_desc">Dual tone linear icon pack</string>
     <string name="iconpack_gradicon_desc">Gradient shaded filled icon pack</string>
     <string name="iconpack_lorn_desc">Thick linear icon pack</string>
@@ -178,7 +182,7 @@
     <string name="settings_iconpack_bubble_v2">Outline multicolored icon pack</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">Biến thể pixel</string>
-    <string name="activity_desc_pixel_variant">Dành cho rom có ​​bảng QS màu đen</string>
+    <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Brightness Bar Styles</string>
     <!-- QS Panel Tiles -->
@@ -207,6 +211,7 @@
     <string name="icon_mask_style_tapered_rectangle">Thuôn nhọn\nHình chữ nhật</string>
     <string name="icon_mask_style_vessel">Tàu</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
+    <string name="icon_mask_style_force_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Màu cơ bản</string>
     <string name="activity_desc_basic_colors">Thay đổi màu chính và phụ</string>
@@ -265,14 +270,14 @@
     <string name="qspanel_row_title">Hàng Bảng điều khiển QS</string>
     <string name="qspanel_column_title">Cột bảng QS</string>
     <!-- Icon and Label -->
-    <string name="section_title_size_and_position">Size and Position</string>
+    <string name="section_title_size_and_position">Kích cỡ và vị trí</string>
     <string name="hide_label_title">Ẩn nhãn</string>
     <string name="hide_label_desc">Xóa nhãn ô xếp QS</string>
     <string name="text_size_title">Cỡ chữ</string>
     <string name="icon_size_title">Kích cỡ biểu tượng</string>
     <string name="move_icon_title">Di chuyển biểu tượng</string>
     <string name="section_title_qs_text_color">Màu văn bản QS</string>
-    <string name="qs_text_color_normal">Normal</string>
+    <string name="qs_text_color_normal">Bình thường</string>
     <string name="qs_text_color_pixel">Pixel</string>
     <string name="label_always_white_title">Luôn Trắng</string>
     <string name="label_always_white_desc">Tiêu đề trắng, phụ đề trắng</string>
@@ -284,6 +289,8 @@
     <string name="label_follow_system_v2_desc">Tiêu đề hệ thống, phụ đề nhấn mạnh</string>
     <string name="label_fix_text_color_title">Sửa màu văn bản</string>
     <string name="label_fix_text_color_desc">Sử dụng nếu những cái trên không hoạt động</string>
+    <string name="label_follow_accent_title">Follow Accent</string>
+    <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Chân dung</string>
     <string name="section_title_landscape">Phong cảnh</string>
@@ -293,18 +300,18 @@
     <string name="qqs_panel_top_margin_title">QQS Panel Top Margin</string>
     <string name="qs_panel_top_margin_title">Lợi nhuận trên bảng điều khiển QS</string>
     <!-- Statusbar -->
-    <string name="section_title_spacing">Spacing</string>
+    <string name="section_title_spacing">Khoảng cách</string>
     <string name="sb_left_padding">Đệm trái</string>
     <string name="sb_right_padding">Đệm phải</string>
-    <string name="sb_height">Height</string>
-    <string name="section_title_color">Color</string>
+    <string name="sb_height">Chiều cao</string>
+    <string name="section_title_color">Màu</string>
     <string name="sb_color_tint_title">Sắc thái màu</string>
     <string name="sb_color_tint_desc">Tô màu các biểu tượng và văn bản trên thanh trạng thái</string>
     <string name="sb_tint_system">Màu hệ thống mặc định</string>
     <string name="sb_tint_monet">Màu Monet/Nhấn mạnh màu</string>
     <string name="sb_tint_custom">Màu tùy chỉnh (Bộ chọn màu)</string>
     <!-- Navigation Bar -->
-    <string name="section_title_display_mode">Display Mode</string>
+    <string name="section_title_display_mode">Chế độ hiển thị</string>
     <string name="navbar_fullscreen_title">Toàn màn hình</string>
     <string name="navbar_fullscreen_desc">Ẩn khoảng cách thanh điều hướng và bàn phím</string>
     <string name="navbar_immersive_title">Trong suốt</string>
@@ -313,12 +320,12 @@
     <string name="navbar_immersive_v2_desc">Khoảng cách bàn phím nhỏ hơn</string>
     <string name="navbar_immersive_v3_title">Trong suốt v3</string>
     <string name="navbar_immersive_v3_desc">Khoảng cách bàn phím nhỏ nhất</string>
-    <string name="navbar_gcam_lag_fix_title">Gcam Lag Fix</string>
-    <string name="navbar_gcam_lag_fix_desc">Fix lag in gcam with gesture navigation</string>
-    <string name="section_title_buttons">Buttons</string>
+    <string name="navbar_gcam_lag_fix_title">Sửa lỗi lag Gcam</string>
+    <string name="navbar_gcam_lag_fix_desc">Sửa lỗi lag gcam khi dùng điều hướng cử chỉ</string>
+    <string name="section_title_buttons">Nút</string>
     <string name="navbar_hide_kb_buttons_title">Ẩn các nút bàn phím</string>
     <string name="navbar_hide_kb_buttons_desc">Ẩn các nút quay lại/chuyển đổi bàn phím</string>
-    <string name="section_title_gesture">Gesture</string>
+    <string name="section_title_gesture">Cử chỉ</string>
     <string name="navbar_lower_sensitivity_title">Độ nhạy thấp hơn</string>
     <string name="navbar_lower_sensitivity_desc">Độ nhạy cử chỉ thấp hơn</string>
     <string name="navbar_disable_left_gesture_title">Vô hiệu hóa cử chỉ trái</string>
@@ -357,7 +364,7 @@
     <string name="btn_create_module">Tạo mô-đun</string>
     <string name="toast_module_created">Mô-đun được tạo thành công</string>
     <string name="read_carefully">Đọc cẩn thận!</string>
-    <string name="volume_module_installation_guide">Tùy chọn này sẽ tạo một mô-đun magisk bên trong thư mục Tải xuống trong Bộ nhớ trong của bạn. Flash mô-đun có tên IconifyCompanion.zip trong Magisk. Luôn gỡ cài đặt mô-đun Iconify Companion trước đó (nếu đã cài đặt) và khởi động lại trước khi cài đặt mô-đun mới.\n\n<b>Lưu ý:</b>\n• Gỡ cài đặt mô-đun trước khi cập nhật rom.\n• Tạo lại mô-đun nếu bạn thay đổi hoặc cập nhật rom.\n• Không flash mô-đun không được tạo dựa trên rom của bạn.</string>
+    <string name="volume_module_installation_guide">This option will create a magisk module inside Download folder in your Internal Storage. Flash the module named IconifyCompanion.zip in Magisk. Always uninstall previous Iconify Companion module (if installed) and reboot before flashing new one.\n\n<b>Note:</b>\n• Uninstall the module before updating rom.\n• Recreate the module if you change or update rom.\n• Do not flash a module which wasn\'t created based on your rom.</string>
     <!-- Media Player -->
     <string name="cont_desc_media_player">Xem trước trình phát đa phương tiện</string>
     <string name="media_player_preview_music_title">Tiêu đề âm nhạc</string>
@@ -416,6 +423,8 @@
     <string name="transparency_alpha_title">Trong suốt Alpha</string>
     <string name="transparent_notif_shade_title">Transparent Notif Shade Only</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
+    <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>
+    <string name="keep_lockscreen_shade_desc">Suitable for light-colored wallpapers</string>
     <string name="section_title_blur">Blur</string>
     <string name="window_level_blur_title">Làm mờ cấp độ cửa sổ</string>
     <string name="window_level_blur_desc">Yêu cầu khởi động lại để làm việc</string>
@@ -448,6 +457,11 @@
     <string name="hide_qs_tile_label_title">Ẩn nhãn ô xếp QS</string>
     <string name="hide_qs_tile_label_desc">Chỉ sử dụng với dọc</string>
     <string name="section_title_qs_margin">QS Margin</string>
+    <string name="section_title_qs_elements">QS Elements</string>
+    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
+    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
+    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
+    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Kiểu pin</string>
     <string name="battery_width_title">Chiều rộng pin</string>
@@ -528,6 +542,8 @@
     <string name="battery_landscape_battery_m">Landscape Battery M</string>
     <string name="battery_landscape_battery_n">Landscape Battery N</string>
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
+    <string name="battery_circle">Circle Battery</string>
+    <string name="battery_dotted_circle">Dotted Circle Battery</string>
     <!-- Header Image -->
     <string name="header_image_title">Chọn hình ảnh tiêu đề</string>
     <string name="header_image_desc">Thêm hình ảnh tiêu đề trên bảng QS\nKhông chọn tệp từ Gần đây</string>
@@ -616,7 +632,7 @@
     <string name="hide_ls_statusbar_title">Hide LS Statusbar</string>
     <string name="hide_ls_statusbar_desc">Hide statusbar on lockscreen</string>
     <string name="fixed_status_icons_title">Sửa biểu tượng trạng thái</string>
-    <string name="fixed_status_icons_desc">Đặt các biểu tượng trạng thái ở vị trí cố định\nCó thể có lỗi trên một số rom</string>
+    <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Nhật ký thay đổi</string>
     <string name="no_internet_connection">Không thể kết nối với máy chủ!\nCó thể có sự cố với kết nối internet của bạn hoặc máy chủ có thể ngừng hoạt động vào lúc này. Vui lòng thử lại sau.</string>
@@ -659,12 +675,15 @@
     <string name="fa_translation">Bản dịch tiếng Ba Tư.</string>
     <string name="fr_translation">bản dịch tiếng Pháp.</string>
     <string name="id_translation">Indonesian translation.</string>
+    <string name="it_translation">Italian translation.</string>
+    <string name="pt_br_translation">Portuguese Brazilian translation.</string>
     <string name="pt_translation">Bản dịch tiếng Bồ Đào Nha.</string>
     <string name="ru_translation">Bản dịch tiếng Nga.</string>
     <string name="tr_translation">Bản dịch tiếng Thổ Nhĩ Kỳ.</string>
     <string name="vi_translation">Vietnamese translation.</string>
     <string name="es_translation">Spanish translation.</string>
     <string name="zh_cn_translation">Simplified Chinese translation.</string>
+    <string name="zh_tw_translation">Traditional Chinese translation.</string>
     <string name="pl_translation">Polish translation.</string>
     <!-- Experimental -->
     <string name="experimental_features_title">Tính năng thử nghiệm</string>
@@ -766,6 +785,7 @@
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
     <string name="toast_selected_successfully">Selected successfully</string>
     <string name="toast_unavailable">Unavailable</string>
+    <string name="toast_use_from_xposed_menu">Use this feature from Xposed Menu</string>
     <!-- Push Notification -->
     <string name="new_update_title">Cập nhật có sẵn</string>
     <string name="new_update_desc">Đã có phiên bản mới của Iconify.</string>
@@ -828,7 +848,7 @@
     <string name="custom_qs_margin_title">Ký quỹ QS tùy chỉnh</string>
     <string name="custom_qs_margin_desc">Bật lề tùy chỉnh cho bảng QS</string>
     <string name="force_enable_blur_title">Buộc kích hoạt tính năng làm mờ</string>
-    <string name="force_enable_blur_desc">Buộc kích hoạt tính năng làm mờ đối với các rom không được hỗ trợ</string>
+    <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
     <string name="choose_header_image">Chọn hình ảnh tiêu đề</string>
     <string name="choose_clock_font">Chọn Phông chữ Đồng hồ</string>
     <string name="pick_style">Chọn một phong cách của sự lựa chọn của bạn</string>
@@ -857,4 +877,5 @@
     <string name="one_time_reboot_needed">Reboot your device!</string>
     <string name="tap_to_select">Tap on preview to select</string>
     <string name="dont_show_again">Don\'t show again</string>
+    <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
 </resources>

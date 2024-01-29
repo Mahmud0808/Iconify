@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png" width="100%" alt="Banner">
   
-  # v6.6.0 is out!
+  # v6.7.0 is out!
 </div>
 <p align="center">
   <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
@@ -28,9 +28,9 @@ Furthermore, the open-source nature of Iconify encourages community contribution
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/features.png" width="100%" alt="Features">
 </div>
 
-```diff
-- NOTE: This app requires Magisk or KernelSU for root access. Any alternative methods won't work.
-```
+> [!CAUTION]
+> 
+> This app requires Magisk or KernelSU for root access. Any alternative methods won't work.
 
 # 🛠 Requirements
 
@@ -42,28 +42,46 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 - Decryption Supported Custom Recovery (Just in case)
 
-> KSU users must flash OverlayFS Module from [**HERE**](https://github.com/HuskyDG/magic_overlayfs/releases) before installing iconify.
-> 
-> Remember to edit _mode.sh_ file inside the module and change these values before flashing:
-> 
-> `OVERLAY_MODE=1`
-> `DO_UNMOUNT_KSU=true`
->
-> Note: If one of the above variable doesn't exist, skip that particular variable.
-> 
-> If the customizations are still not taking effect, ensure that SystemUI has been granted root permission. After granting root access, reboot your device for the changes to take effect.
-
 # 👨‍💻 Installation
 
-1. Go to [Releases](https://github.com/Mahmud0808/Iconify/releases) section.
+  ### Installation for Magisk Users:​
 
-2. Download the `.apk` file.
+  1. Download and install the Iconify app.
 
-3. Install and open the application.
+  2. Open the app, grant root permission and follow the instructions.
 
-4. Follow the instructions, wait for finishing overlay building process.
+  3. Wait for it to finish generating rom specific module.
 
-5. Reboot the device when prompted, profit.
+  4. Reboot the device when prompted, profit!
+
+  > [!NOTE]
+  > 
+  > If some or most of the customizations are still not working for Magisk users, you might need to follow step 1 of KernelSU users' installation steps.
+
+  ### Installation for KernelSU Users:​
+
+  1. Flash [Magic Overlayfs](https://github.com/HuskyDG/magic_overlayfs/releases) module (to make read-only system read-write)
+
+  > [!IMPORTANT]
+  > 
+  > Remember to edit _mode.sh_ file inside the module and change these values before flashing:
+  > 
+  > `OVERLAY_MODE=1`
+  > `DO_UNMOUNT_KSU=true`
+  >
+  > Note: If one of the above variable doesn't exist, skip that particular variable.
+
+  2. Flash [ZygiskOnKernelSU](https://github.com/Dr-TSNG/ZygiskOnKernelSU/releases/latest) module (only if you want to use LSPosed features)
+
+  3. Grant SuperSU/root permission for SystemUI from KernelSU app
+
+  4. Reboot your device to get the modules installed successfully
+
+  5. Now follow the installation steps of magisk users and voila!
+
+  > [!TIP]
+  > 
+  > KernelSU doesn't show root prompt. You will have to manually enable root access for Iconify from KernelSU app itself.
 
 # 🤫 Roadmap
 
@@ -90,7 +108,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 # 🤓 FAQ
 
 - How does Iconify work?
-  - Iconify uses Android overlays that allows modifications to be applied to the user interface (UI) of the device without directly modifying the underlying system files.
+  - Iconify uses Android overlays and Xposed framework that allows modifications to be applied to the user interface (UI) of the device without directly modifying the underlying system files.
 - Do I need a root access for Iconify to work?
   - Yes, root access is required for Iconify to function properly. While Iconify does support KernelSU, it is highly recommended to use Magisk for the best compatibility.
 - Why is LSPosed listed as an optional requirement?
@@ -127,25 +145,11 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - [AOSPMods](https://github.com/siavash79/AOSPMods), [@siavash79](https://t.me/siavash7999) for helping me with Xposed mods.
 - [@Sanely_insane](https://t.me/sanely_insane), [@Jaguar](https://t.me/Jaguar0066) for support and motivation.
 - [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) for the navbar tweaks.
-- And everyone who contributed... :)
-
-### Translators:
-
-- Arabic [@MRX7014](https://github.com/mrx7014), [@Mohamed Bahaa](https://github.com/muhammadbahaa2001)
-- French [@MXC48](https://github.com/MXC48)
-- Indonesian [@KaeruShi](https://github.com/KaeruShi)
-- Italian [@Danilo Belmonte](https://crowdin.com/profile/steve.burnside)
-- Persian [@Faceless1999](https://github.com/Faceless1999)
-- Polish [@SK00RUPA](https://github.com/SK00RUPA)
-- Portuguese [@ElTifo](https://github.com/ElTifo)
-- Russian [@B1ays](https://github.com/B1ays)
-- Simplified Chinese [@Cccc-owo](https://github.com/Cccc-owo)
-- Spanish [@luckkmaxx](https://github.com/luckkmaxx)
-- Turkish [@serhat-demir](https://github.com/serhat-demir), [@Emre](https://crowdin.com/profile/khapnols), [@WINZORT](https://crowdin.com/profile/linuxthegoat)
-- Vietnamese [@viettel1211](https://t.me/viettel1211)
+- And everyone who [contributed](https://github.com/Mahmud0808/Iconify/graphs/contributors) and [translated](https://crowdin.com/project/iconify/members)... :)
 
 # 📝 Disclaimer
 
-- Please note that Iconify may not be fully compatible with all custom ROMs. It is discouraged to use on heavily modified ROMs.
-- I cannot be held responsible for any potential damage or issues that may occur to your device while using Iconify.
-- It is highly recommended to have a custom recovery installed on your device to revert any changes in case of unexpected problems.
+> [!WARNING]
+> - Please note that Iconify may not be fully compatible with all custom ROMs. It is discouraged to use on heavily modified ROMs.
+> - I cannot be held responsible for any potential damage or issues that may occur to your device while using Iconify.
+> - It is highly recommended to have a custom recovery installed on your device to revert any changes in case of unexpected problems.

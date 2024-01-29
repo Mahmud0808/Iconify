@@ -9,10 +9,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
 
-import com.airbnb.lottie.LottieCompositionFactory;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.activities.HomePage;
-import com.drdisagree.iconify.ui.activities.Onboarding;
+import com.drdisagree.iconify.ui.activities.MainActivity;
+import com.drdisagree.iconify.ui.activities.OnboardingActivity;
 import com.drdisagree.iconify.utils.ModuleUtil;
 import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -56,14 +55,14 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
 
-        boolean isModulePropertlyInstalled = isModuleInstalled && (isOverlayInstalled || isXposedOnlyMode);
+        boolean isModuleProperlyInstalled = isModuleInstalled && (isOverlayInstalled || isXposedOnlyMode);
 
-        if (SKIP_TO_HOMEPAGE_FOR_TESTING || (isRooted && isModulePropertlyInstalled && isVersionCodeCorrect)) {
+        if (SKIP_TO_HOMEPAGE_FOR_TESTING || (isRooted && isModuleProperlyInstalled && isVersionCodeCorrect)) {
             keepShowing = false;
-            intent = new Intent(SplashActivity.this, HomePage.class);
+            intent = new Intent(SplashActivity.this, MainActivity.class);
         } else {
             keepShowing = false;
-            intent = new Intent(SplashActivity.this, Onboarding.class);
+            intent = new Intent(SplashActivity.this, OnboardingActivity.class);
         }
 
         startActivity(intent);
@@ -79,11 +78,5 @@ public class SplashActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(getApplication());
 
         new Thread(runner).start();
-
-        new Thread(() -> {
-            LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_1);
-            LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_2);
-            LottieCompositionFactory.fromRawRes(this, R.raw.onboarding_lottie_3);
-        }).start();
     }
 }

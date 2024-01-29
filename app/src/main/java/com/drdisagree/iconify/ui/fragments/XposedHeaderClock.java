@@ -43,6 +43,7 @@ import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
 import com.drdisagree.iconify.ui.views.HeaderClockStyles;
 import com.drdisagree.iconify.utils.SystemUtil;
+import com.drdisagree.iconify.utils.TextUtil;
 import com.google.android.material.slider.Slider;
 
 import java.util.ArrayList;
@@ -190,8 +191,11 @@ public class XposedHeaderClock extends BaseFragment {
     private ClockPreviewAdapter initHeaderClockStyles() {
         ArrayList<ClockModel> header_clock = new ArrayList<>();
 
-        for (int i = 1; i <= 8; i++)
-            header_clock.add(new ClockModel(HeaderClockStyles.initHeaderClockStyle(requireContext(), i)));
+        for (int i = 1; i <= 8; i++) {
+            ViewGroup clockView = HeaderClockStyles.initHeaderClockStyle(requireContext(), i);
+            TextUtil.convertTextViewsToTitleCase(clockView);
+            header_clock.add(new ClockModel(clockView));
+        }
 
         return new ClockPreviewAdapter(requireContext(), header_clock, HEADER_CLOCK_SWITCH, HEADER_CLOCK_STYLE);
     }

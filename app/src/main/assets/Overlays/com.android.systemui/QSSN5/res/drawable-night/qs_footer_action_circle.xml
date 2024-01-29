@@ -28,7 +28,7 @@
             android:start="4.0dp"
             android:top="4.0dp">
             <shape android:shape="rectangle">
-                <solid android:color="?android:colorBackgroundFloating" />
+                <solid android:color="@color/surface_header_dark_sysui" />
                 <corners
                     android:bottomLeftRadius="10.0dp"
                     android:bottomRightRadius="@*android:dimen/harmful_app_name_padding_left"

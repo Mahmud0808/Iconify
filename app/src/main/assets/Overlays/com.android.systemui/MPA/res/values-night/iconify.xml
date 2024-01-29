@@ -16,7 +16,7 @@
     </style>
     <style name="MediaPlayer.SolidButton" parent="@*android:style/Theme.DeviceDefault.DayNight">
         <item name="android:textColor">?android:textColorPrimary</item>
-        <item name="android:tint">?android:colorPrimary</item>
+        <item name="android:tint">@*android:color/holo_blue_light</item>
         <item name="android:backgroundTint">?android:colorBackground</item>
     </style>
     <style name="MediaPlayer.AppIcon" parent="@*android:style/Theme.DeviceDefault.DayNight">

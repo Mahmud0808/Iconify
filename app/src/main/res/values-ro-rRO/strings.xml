@@ -11,15 +11,18 @@
     <string name="module_installation_step5">Signing overlay APKs</string>
     <string name="module_installation_step6">Cleaning directories</string>
     <string name="onboarding_title_1">Got Bored of Stock UI ?</string>
-    <string name="onboarding_desc_1">Let\'s customize everything to our likings.</string>
+    <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
+    <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
     <string name="onboarding_title_2">Is My Device Supported ?</string>
-    <string name="onboarding_desc_2">Iconify supports all Pixel and AOSP based ROMs.</string>
+    <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
+    <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
     <string name="onboarding_title_3">Shall We Begin Now ?</string>
-    <string name="onboarding_desc_3">It is time for iconify to do some internal work.</string>
+    <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
+    <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
     <string name="need_storage_perm_title">Need Storage Permission</string>
     <string name="need_storage_perm_desc">Storage permission is required to build the necessary files.</string>
-    <string name="magisk_not_found_title">Could Not Find Magisk</string>
-    <string name="magisk_not_found_desc">Use Magisk to root your device!</string>
+    <string name="compatible_root_not_found_title">Could Not Find Compatible Root Method</string>
+    <string name="compatible_root_not_found_desc">Use Magisk or KernelSU to root your device.</string>
     <string name="root_not_found_title">Root Is Not Accessible</string>
     <string name="root_not_found_desc">Looks like your device is not rooted!</string>
     <string name="need_reboot_title">Need Device Reboot</string>
@@ -100,7 +103,8 @@
     <string name="settings_show_warning_title">Show Warning</string>
     <string name="settings_show_warning_desc">Show warning on how to re-optimize module in Xposed Menu.</string>
     <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
-    <string name="settings_auto_restart_systemui">Automatically force reload UI</string>
+    <string name="settings_auto_restart_systemui">Automatically restart SystemUI</string>
+    <string name="settings_auto_force_reload_ui">Automatically force reload UI</string>
     <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
     <string name="settings_systemui_restart_required">SystemUI restart required</string>
     <string name="settings_section_title_miscellaneous">Miscellaneous</string>
@@ -207,6 +211,7 @@
     <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">Vessel</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
+    <string name="icon_mask_style_force_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Basic Colors</string>
     <string name="activity_desc_basic_colors">Change primary and secondary color</string>
@@ -284,6 +289,8 @@
     <string name="label_follow_system_v2_desc">Title system, subtitle accent</string>
     <string name="label_fix_text_color_title">Fix Text Color</string>
     <string name="label_fix_text_color_desc">Use if above ones did not work</string>
+    <string name="label_follow_accent_title">Follow Accent</string>
+    <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Portrait Mode</string>
     <string name="section_title_landscape">Landscape Mode</string>
@@ -416,6 +423,8 @@
     <string name="transparency_alpha_title">Transparency Alpha</string>
     <string name="transparent_notif_shade_title">Transparent Notif Shade Only</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
+    <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>
+    <string name="keep_lockscreen_shade_desc">Suitable for light-colored wallpapers</string>
     <string name="section_title_blur">Blur</string>
     <string name="window_level_blur_title">Window Level Blur</string>
     <string name="window_level_blur_desc">Requires reboot to work</string>
@@ -448,6 +457,11 @@
     <string name="hide_qs_tile_label_title">Hide QS Tile Label</string>
     <string name="hide_qs_tile_label_desc">Use only with vertical tiles</string>
     <string name="section_title_qs_margin">QS Margin</string>
+    <string name="section_title_qs_elements">QS Elements</string>
+    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
+    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
+    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
+    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Battery Style</string>
     <string name="battery_width_title">Battery Width</string>
@@ -528,6 +542,8 @@
     <string name="battery_landscape_battery_m">Landscape Battery M</string>
     <string name="battery_landscape_battery_n">Landscape Battery N</string>
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
+    <string name="battery_circle">Circle Battery</string>
+    <string name="battery_dotted_circle">Dotted Circle Battery</string>
     <!-- Header Image -->
     <string name="header_image_title">Pick Header Image</string>
     <string name="header_image_desc">Add header image on QS panel\nDo not select file from Recent</string>
@@ -659,12 +675,15 @@
     <string name="fa_translation">Persian translation.</string>
     <string name="fr_translation">French translation.</string>
     <string name="id_translation">Indonesian translation.</string>
+    <string name="it_translation">Italian translation.</string>
+    <string name="pt_br_translation">Portuguese Brazilian translation.</string>
     <string name="pt_translation">Portuguese translation.</string>
     <string name="ru_translation">Russian translation.</string>
     <string name="tr_translation">Turkish translation.</string>
     <string name="vi_translation">Vietnamese translation.</string>
     <string name="es_translation">Spanish translation.</string>
     <string name="zh_cn_translation">Simplified Chinese translation.</string>
+    <string name="zh_tw_translation">Traditional Chinese translation.</string>
     <string name="pl_translation">Polish translation.</string>
     <!-- Experimental -->
     <string name="experimental_features_title">Experimental</string>
@@ -766,6 +785,7 @@
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
     <string name="toast_selected_successfully">Selected successfully</string>
     <string name="toast_unavailable">Unavailable</string>
+    <string name="toast_use_from_xposed_menu">Use this feature from Xposed Menu</string>
     <!-- Push Notification -->
     <string name="new_update_title">Update Available</string>
     <string name="new_update_desc">A new version of Iconify is available.</string>
@@ -857,4 +877,5 @@
     <string name="one_time_reboot_needed">Reboot your device!</string>
     <string name="tap_to_select">Tap on preview to select</string>
     <string name="dont_show_again">Don\'t show again</string>
+    <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
 </resources>

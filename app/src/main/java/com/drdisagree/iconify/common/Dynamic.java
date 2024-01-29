@@ -2,6 +2,8 @@ package com.drdisagree.iconify.common;
 
 import static com.drdisagree.iconify.common.Resources.BIN_DIR;
 
+import android.os.Build;
+
 import com.drdisagree.iconify.Iconify;
 import com.topjohnwu.superuser.Shell;
 
@@ -25,4 +27,10 @@ public class Dynamic {
     public static final File ZIPALIGNLIB = new File(NATIVE_LIBRARY_DIR, "libzipalign.so");
     public static final File ZIPALIGN = new File(BIN_DIR, "zipalign");
     public static final File ZIP = new File(BIN_DIR, "zip");
+
+    // Onboarding overlay installation
+    public static boolean skippedInstallation = false;
+
+    // Device information
+    public static final boolean isAtleastA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE;
 }

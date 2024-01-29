@@ -46,8 +46,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="start|center"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginHorizontal="8dp"
                 android:contentDescription="@string/icon"
                 android:src="@drawable/ic_info"
                 app:tint="?attr/colorError" />

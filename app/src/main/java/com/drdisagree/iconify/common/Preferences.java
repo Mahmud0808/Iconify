@@ -10,6 +10,7 @@ public class Preferences {
     public static final String FORCE_RELOAD_OVERLAY_STATE = "xposed_force_reload_overlay_state";
     public static final String QS_TRANSPARENCY_SWITCH = "xposed_qstransparency";
     public static final String NOTIF_TRANSPARENCY_SWITCH = "xposed_notiftransparency";
+    public static final String LOCKSCREEN_SHADE_SWITCH = "xposed_lockscreen_shade";
     public static final String QSALPHA_LEVEL = "xposed_qsalpha";
     public static final String STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg";
     public static final String STATUSBAR_CLOCK_COLOR_OPTION = "xposed_sbclockcolor";
@@ -94,7 +95,12 @@ public class Preferences {
     public static final String BLUR_RADIUS_VALUE = "xposed_blurradiusvalue";
     public static final String QQS_TOPMARGIN = "xposed_qqspanelTopMargin";
     public static final String QS_TOPMARGIN = "xposed_qspanelTopMargin";
+    public static final String FIX_QS_TILE_COLOR = "xposed_fixqstilecolor";
     public static final String FIX_NOTIFICATION_COLOR = "xposed_fixnotificationcolor";
+    public static final String HIDE_QS_SILENT_TEXT = "xposed_hideqssilenttext";
+    public static final String HIDE_QS_FOOTER_BUTTONS = "xposed_hideqsfooterbuttons";
+    public static final String QS_TEXT_ALWAYS_WHITE = "xposed_qstextalwayswhite";
+    public static final String QS_TEXT_FOLLOW_ACCENT = "xposed_qstextfollowaccent";
 
     // Xposed view tags
     public static final String ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock";
@@ -138,14 +144,14 @@ public class Preferences {
     public static final int BATTERY_STYLE_LANDSCAPE_BATTERYM = 32;
     public static final int BATTERY_STYLE_LANDSCAPE_BATTERYN = 33;
     public static final int BATTERY_STYLE_LANDSCAPE_BATTERYO = 34;
+    public static final int BATTERY_STYLE_CIRCLE = 35;
+    public static final int BATTERY_STYLE_DOTTED_CIRCLE = 36;
 
     // Xposed force reload overlay
     public static final String FORCE_RELOAD_PACKAGE_NAME = "com.android.internal.display.cutout.emulation.corner";
 
     // Xposed settings
     public static final String RESTART_SYSUI_BEHAVIOR_EXT = "IconifyRestartSysuiBehaviorExtended";
-    public static final String LAST_RESTART_SYSTEMUI_TIME = "IconifyLastRestartSystemuiTime";
-    public static final int RESTART_CLICK_DELAY_TIME = 6000;
 
     // Preference keys
     public static final String STR_NULL = "null";
@@ -232,4 +238,8 @@ public class Preferences {
     public static final String VER_CODE = "versionCode";
     public static final String EASTER_EGG = "iconify_easter_egg";
     public static final String ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol";
+    public static final String SHOW_QS_TILE_NORMAL_WARN = "showQsTileNormalWarn";
+    public static final String SHOW_QS_TILE_PIXEL_WARN = "showQsTilePixelWarn";
+    public static final String SHOW_NOTIFICATION_NORMAL_WARN = "showNotificationNormalWarn";
+    public static final String SHOW_NOTIFICATION_PIXEL_WARN = "showNotificationPixelWarn";
 }

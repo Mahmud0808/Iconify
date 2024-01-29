@@ -27,7 +27,7 @@ public class OverlayUtil {
     }
 
     public static boolean isOverlayDisabled(String pkgName) {
-        return Shell.cmd("[[ $(cmd overlay list | grep -o '\\[ \\] " + pkgName + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
+        return !isOverlayEnabled(pkgName);
     }
 
     static boolean isOverlayInstalled(List<String> enabledOverlays, String pkgName) {
@@ -109,8 +109,7 @@ public class OverlayUtil {
     }
 
     public static boolean overlayExists() {
-        List<String> list = Shell.cmd("[ -f /system/product/overlay/IconifyComponentAMGC.apk ] && echo \"found\" || echo \"not found\"").exec().getOut();
-        return Objects.equals(list.get(0), "found");
+        return Shell.cmd("[ -f /system/product/overlay/IconifyComponentAMGC.apk ] && echo \"found\" || echo \"not found\"").exec().getOut().get(0).equals("found");
     }
 
     @SuppressWarnings("unused")

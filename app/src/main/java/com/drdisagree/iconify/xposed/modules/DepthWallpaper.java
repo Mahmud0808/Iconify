@@ -102,7 +102,7 @@ public class DepthWallpaper extends ModPack {
                 mIndicationTextView.setOrientation(LinearLayout.VERTICAL);
                 mIndicationTextView.setLayoutParams(mIndicationViewParams);
 
-                // Add the indication text views to the new layout
+                // Get the indication text views
                 TextView mTopIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text", "id", mContext.getPackageName()));
                 TextView mLockScreenIndicationView = mIndicationArea.findViewById(mContext.getResources().getIdentifier("keyguard_indication_text_bottom", "id", mContext.getPackageName()));
 

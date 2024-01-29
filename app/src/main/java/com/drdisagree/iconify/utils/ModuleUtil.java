@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.utils;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Dynamic.skippedInstallation;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
 import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
 import static com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT;
@@ -17,7 +18,6 @@ import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.common.Const;
 import com.drdisagree.iconify.common.Resources;
 import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.activities.Onboarding;
 import com.drdisagree.iconify.utils.helper.BackupRestore;
 import com.drdisagree.iconify.utils.helper.BinaryInstaller;
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
@@ -56,7 +56,7 @@ public class ModuleUtil {
         Shell.cmd("mkdir -p " + Resources.TEMP_MODULE_DIR).exec();
         Shell.cmd("printf 'id=Iconify\nname=Iconify\nversion=" + BuildConfig.VERSION_NAME + "\nversionCode=" + BuildConfig.VERSION_CODE + "\nauthor=@DrDisagree\ndescription=Systemless module for Iconify. " + Iconify.getAppContext().getResources().getString(R.string.app_moto) + ".\n' > " + Resources.TEMP_MODULE_DIR + "/module.prop").exec();
         Shell.cmd("printf 'MODDIR=${0%%/*}\n\n' > " + Resources.TEMP_MODULE_DIR + "/post-fs-data.sh").exec();
-        if (!Onboarding.skippedInstallation) {
+        if (!skippedInstallation) {
             Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\nuntil [ -d /storage/emulated/0/Android ]; do\n  sleep 1\ndone\nsleep 3\n\n" + (Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false) ? "killall " + SYSTEMUI_PACKAGE + "\n" : "") + "sleep 6\n\nqspbd=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBD.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspbd\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBD.overlay\n cmd overlay enable --user current IconifyComponentQSPBD.overlay\n cmd overlay set-priority IconifyComponentQSPBD.overlay highest\nfi\n\nqspba=$(cmd overlay list |  grep -E \"^.x..IconifyComponentQSPBA.overlay\" | sed -E \"s/^.x..//\")\ndm=$(cmd overlay list |  grep -E \"^.x..IconifyComponentDM.overlay\" | sed -E \"s/^.x..//\")\nif ([ ! -z \"$qspba\" ] && [ -z \"$dm\" ])\nthen\n cmd overlay disable --user current IconifyComponentQSPBA.overlay\n cmd overlay enable --user current IconifyComponentQSPBA.overlay\n cmd overlay set-priority IconifyComponentQSPBA.overlay highest\nfi\n\n' > " + Resources.TEMP_MODULE_DIR + "/service.sh").exec();
         } else {
             Shell.cmd("printf 'MODDIR=${0%%/*}\n\nwhile [ \"$(getprop sys.boot_completed | tr -d \"\\r\")\" != \"1\" ]\ndo\n sleep 1\ndone\nsleep 5\n\nsh $MODDIR/post-exec.sh\n\n' > " + Resources.TEMP_MODULE_DIR + "/service.sh").exec();
@@ -103,14 +103,14 @@ public class ModuleUtil {
             }
         }
 
-        if (!primaryColorEnabled && shouldUseDefaultColors() && !Onboarding.skippedInstallation) {
+        if (!primaryColorEnabled && shouldUseDefaultColors() && !skippedInstallation) {
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary\n");
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryLight\n");
         }
 
-        if (!secondaryColorEnabled && shouldUseDefaultColors() && !Onboarding.skippedInstallation) {
+        if (!secondaryColorEnabled && shouldUseDefaultColors() && !skippedInstallation) {
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
             post_exec.append("cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary\n");
             post_exec.append("cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondaryLight android:color/holo_green_dark 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY + "\n");
@@ -125,7 +125,7 @@ public class ModuleUtil {
     }
 
     public static boolean moduleExists() {
-        return RootUtil.folderExists(Resources.MODULE_DIR);
+        return RootUtil.folderExists(Resources.OVERLAY_DIR);
     }
 
     public static String createModule(String sourceFolder, String destinationFilePath) throws Exception {

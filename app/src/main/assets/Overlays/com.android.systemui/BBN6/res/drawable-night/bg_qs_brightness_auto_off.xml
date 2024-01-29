@@ -41,7 +41,7 @@
                 android:topLeftRadius="@*android:dimen/harmful_app_name_padding_left"
                 android:topRightRadius="10.0dp" />
             <size android:height="40.0dip" />
-            <solid android:color="?android:colorBackgroundFloating" />
+            <solid android:color="@color/surface_header_dark_sysui" />
         </shape>
     </item>
 </layer-list>

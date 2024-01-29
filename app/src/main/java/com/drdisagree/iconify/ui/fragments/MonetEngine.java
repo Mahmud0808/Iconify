@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,7 +49,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentMonetEngineBinding;
-import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
@@ -470,7 +471,7 @@ public class MonetEngine extends BaseFragment {
                     binding.enableCustomMonet.hide();
                     binding.disableCustomMonet.hide();
 
-                    ((HomePage) requireActivity()).showColorPickerDialog(-1, child.getTag() == null ? Color.WHITE : (Integer) child.getTag(), true, false, true);
+                    ((MainActivity) requireActivity()).showColorPickerDialog(-1, child.getTag() == null ? Color.WHITE : (Integer) child.getTag(), true, false, true);
                 });
             }
         }
@@ -522,8 +523,16 @@ public class MonetEngine extends BaseFragment {
                 textView.setText(String.valueOf(colorCodes[j]));
                 textView.setRotation(270);
                 textView.setTextColor(calculateTextColor(systemColors[i][j]));
-                textView.setTextSize(10);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
                 textView.setAlpha(0.8f);
+                textView.setMaxLines(1);
+                textView.setSingleLine(true);
+                textView.setAutoSizeTextTypeUniformWithConfiguration(
+                        1,
+                        20,
+                        1,
+                        TypedValue.COMPLEX_UNIT_SP
+                );
 
                 ((ViewGroup) colorTableRows[i].getChildAt(j)).addView(textView);
                 ((LinearLayout) colorTableRows[i].getChildAt(j)).setGravity(Gravity.CENTER);

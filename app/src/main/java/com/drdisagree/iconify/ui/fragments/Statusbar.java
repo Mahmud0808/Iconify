@@ -24,7 +24,7 @@ import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentStatusbarBinding;
-import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent;
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
@@ -178,7 +178,7 @@ public class Statusbar extends BaseFragment {
                     new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::restartSystemUI, SWITCH_ANIMATION_DELAY);
                 }
             } else if (Objects.equals(checkedId, R.id.sb_tint_custom)) {
-                ((HomePage) requireActivity()).showColorPickerDialog(1, Integer.parseInt(colorSBTint), true, false, true);
+                ((MainActivity) requireActivity()).showColorPickerDialog(1, Integer.parseInt(colorSBTint), true, false, true);
             }
         });
 

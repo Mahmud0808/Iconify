@@ -32,6 +32,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.drdisagree.iconify.utils.TextUtil;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.modules.utils.HeaderClockStyles;
 
@@ -271,9 +272,11 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         }
 
         ViewGroup clockView = HeaderClockStyles.getClock(mContext);
+
         if (mQsClockContainer.findViewWithTag(ICONIFY_HEADER_CLOCK_TAG) != null) {
             mQsClockContainer.removeView(mQsClockContainer.findViewWithTag(ICONIFY_HEADER_CLOCK_TAG));
         }
+
         if (clockView != null) {
             if (centeredClockView) {
                 mQsClockContainer.setGravity(Gravity.CENTER);
@@ -281,6 +284,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                 mQsClockContainer.setGravity(Gravity.START);
             }
             clockView.setTag(ICONIFY_HEADER_CLOCK_TAG);
+            TextUtil.convertTextViewsToTitleCase(clockView);
             mQsClockContainer.addView(clockView);
             mQsClockContainer.requestLayout();
         }

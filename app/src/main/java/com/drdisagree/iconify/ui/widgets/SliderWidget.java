@@ -2,6 +2,8 @@ package com.drdisagree.iconify.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -78,6 +80,8 @@ public class SliderWidget extends RelativeLayout {
 
         setSelectedText();
         handleResetVisibility();
+        setOnSliderTouchListener(null);
+        setResetClickListener(null);
     }
 
     public void setTitle(int titleResId) {
@@ -165,6 +169,17 @@ public class SliderWidget extends RelativeLayout {
                 notifyOnSliderTouchStopped(slider);
             }
         });
+
+        materialSlider.setLabelFormatter(value -> (valueFormat.isBlank() || valueFormat.isEmpty() ?
+                (!isDecimalFormat ?
+                        (int) (materialSlider.getValue() / outputScale) :
+                        new DecimalFormat(decimalFormat)
+                                .format(materialSlider.getValue() / outputScale)) + valueFormat :
+                (!isDecimalFormat ?
+                        String.valueOf((int) materialSlider.getValue()) :
+                        new DecimalFormat(decimalFormat)
+                                .format(materialSlider.getValue() / outputScale)) + valueFormat
+        ));
     }
 
     public void setOnSliderChangeListener(Slider.OnChangeListener listener) {
@@ -241,5 +256,58 @@ public class SliderWidget extends RelativeLayout {
         summaryTextView.setId(View.generateViewId());
         materialSlider.setId(View.generateViewId());
         resetIcon.setId(View.generateViewId());
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+
+        SavedState ss = new SavedState(superState);
+        ss.sliderValue = materialSlider.getValue();
+
+        return ss;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState ss)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        materialSlider.setValue(ss.sliderValue);
+        setSelectedText();
+        handleResetVisibility();
+    }
+
+    private static class SavedState extends BaseSavedState {
+        float sliderValue;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            sliderValue = in.readFloat();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeFloat(sliderValue);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 }

@@ -33,6 +33,7 @@ import com.drdisagree.iconify.services.UpdateScheduler;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.ui.widgets.MenuWidget;
+import com.drdisagree.iconify.utils.RootUtil;
 import com.drdisagree.iconify.utils.SystemUtil;
 import com.drdisagree.iconify.utils.extension.TaskExecutor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -95,7 +96,9 @@ public class Home extends BaseFragment {
         binding.homePageList.addView(list_view2);
         reboot_reminder.setVisibility(View.GONE);
 
-        if (!Prefs.getBoolean(FIRST_INSTALL) && Prefs.getBoolean(UPDATE_DETECTED)) {
+        if ((!Prefs.getBoolean(FIRST_INSTALL) && Prefs.getBoolean(UPDATE_DETECTED)) ||
+                RootUtil.folderExists("/data/adb/modules_update/Iconify")
+        ) {
             reboot_reminder.setVisibility(View.VISIBLE);
             binding.homePageList.findViewById(R.id.btn_reboot).setOnClickListener(v -> {
                 LoadingDialog rebootingDialog = new LoadingDialog(requireActivity());
@@ -248,9 +251,7 @@ public class Home extends BaseFragment {
                     JSONObject latestVersion = new JSONObject(jsonStr);
 
                     if (Integer.parseInt(latestVersion.getString(VER_CODE)) > BuildConfig.VERSION_CODE) {
-                        check_update.setOnClickListener(v -> {
-                            Navigation.findNavController(requireActivity(), R.id.fragmentContainerView).navigate(R.id.action_homePage_to_appUpdates);
-                        });
+                        check_update.setOnClickListener(v -> Navigation.findNavController(requireActivity(), R.id.fragmentContainerView).navigate(R.id.action_homePage_to_appUpdates));
                         update_desc.setText(getResources().getString(R.string.update_dialog_desc, latestVersion.getString("versionName")));
                         check_update.setVisibility(View.VISIBLE);
                     }

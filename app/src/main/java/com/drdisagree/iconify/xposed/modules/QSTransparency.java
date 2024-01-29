@@ -2,6 +2,7 @@ package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE;
+import static com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL;
 import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
@@ -28,6 +29,7 @@ public class QSTransparency extends ModPack {
     private final float keyguard_alpha = 0.85f;
     boolean qsTransparencyActive = false;
     boolean onlyNotifTransparencyActive = false;
+    boolean keepLockScreenShade = false;
     private float alpha = 60;
     private boolean blurEnabled = false;
     private int blurRadius = 23;
@@ -42,6 +44,7 @@ public class QSTransparency extends ModPack {
 
         qsTransparencyActive = Xprefs.getBoolean(QS_TRANSPARENCY_SWITCH, false);
         onlyNotifTransparencyActive = Xprefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false);
+        keepLockScreenShade = Xprefs.getBoolean(LOCKSCREEN_SHADE_SWITCH, false);
         alpha = (float) ((float) Xprefs.getInt(QSALPHA_LEVEL, 60) / 100.0);
 
         blurEnabled = Xprefs.getBoolean(QSPANEL_BLUR_SWITCH, false);
@@ -64,7 +67,9 @@ public class QSTransparency extends ModPack {
                 String scrimState = getObjectField(param.thisObject, "mState").toString();
 
                 if (scrimState.equals("KEYGUARD")) {
-                    param.args[alphaIndex] = 0.0f;
+                    if(!keepLockScreenShade) {
+                        param.args[alphaIndex] = 0.0f;
+                    }
                 } else if (scrimState.contains("BOUNCER")) {
                     param.args[alphaIndex] = (Float) param.args[alphaIndex] * keyguard_alpha;
                 } else {

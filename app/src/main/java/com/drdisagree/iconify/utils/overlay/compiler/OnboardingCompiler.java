@@ -2,12 +2,15 @@ package com.drdisagree.iconify.utils.overlay.compiler;
 
 import static com.drdisagree.iconify.common.Dynamic.AAPT;
 import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
+import static com.drdisagree.iconify.common.Dynamic.isAtleastA14;
+import static com.drdisagree.iconify.common.Resources.FRAMEWORK_DIR;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
@@ -24,7 +27,6 @@ public class OnboardingCompiler {
     private static final String TAG = OnboardingCompiler.class.getSimpleName();
     private static final String aapt = AAPT.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
-    private static boolean isQsTileOrTextOldResource = Build.VERSION.SDK_INT < 34;
 
     public static boolean createManifest(String name, String target, String source) {
         boolean hasErroredOut = false;
@@ -48,23 +50,18 @@ public class OnboardingCompiler {
     public static boolean runAapt(String source, String name) {
         Shell.Result result = null;
         int attempt = 3;
-        String command = aapt + " p -f -M " + source + "/AndroidManifest.xml -I /system/framework/framework-res.apk -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk --include-meta-data --auto-add-overlay";
+        String command = aapt + " p -f -M " + source + "/AndroidManifest.xml -I " + FRAMEWORK_DIR + " -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk --include-meta-data --auto-add-overlay";
 
-        if (isQsTileOrTextOverlay(name) && isQsTileOrTextOldResource) {
-            QsResourceManager.replaceResourcesIfRequired(source, name);
+        if (isQsTileOrTextOverlay(name) && isAtleastA14) {
+            QsResourceManager.removeQuickSettingsStyles(source, name);
         }
 
         while (attempt-- != 0) {
             result = Shell.cmd(command).exec();
 
-            if (!isQsTileOrTextOldResource &&
-                    isQsTileOrTextOverlay(name) &&
-                    !result.isSuccess() &&
-                    result.getOut().contains("Error: No resource found that matches the given name")) {
-                Log.w(TAG + " - AAPT", "Resources missing, trying to replace resources with old resources...");
-                isQsTileOrTextOldResource = true;
-                QsResourceManager.replaceResourcesIfRequired(source, name);
-                result = Shell.cmd(command).exec();
+            if (OverlayCompiler.listContains(result.getOut(), "No resource identifier found for attribute")) {
+                Toast.makeText(Iconify.getAppContext(), "Android 14 QPR2+ isn't supported yet", Toast.LENGTH_LONG).show();
+                return true;
             }
 
             if (result.isSuccess()) {

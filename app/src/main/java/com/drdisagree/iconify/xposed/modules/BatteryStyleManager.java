@@ -18,11 +18,13 @@ package com.drdisagree.iconify.xposed.modules;
  */
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CIRCLE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CUSTOM_LANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CUSTOM_RLANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYA;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYB;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYC;
@@ -122,6 +124,7 @@ import androidx.core.content.res.ResourcesCompat;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.modules.batterystyles.BatteryDrawable;
+import com.drdisagree.iconify.xposed.modules.batterystyles.CircleBattery;
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBattery;
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryA;
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryB;
@@ -795,6 +798,8 @@ public class BatteryStyleManager extends ModPack {
             case BATTERY_STYLE_LANDSCAPE_BATTERYM -> new LandscapeBatteryM(context, frameColor);
             case BATTERY_STYLE_LANDSCAPE_BATTERYN -> new LandscapeBatteryN(context, frameColor);
             case BATTERY_STYLE_LANDSCAPE_BATTERYO -> new LandscapeBatteryO(context, frameColor);
+            case BATTERY_STYLE_CIRCLE, BATTERY_STYLE_DOTTED_CIRCLE ->
+                    new CircleBattery(context, frameColor);
             default -> null;
         };
 

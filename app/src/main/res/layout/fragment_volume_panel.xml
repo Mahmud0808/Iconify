@@ -8,11 +8,12 @@
     tools:context=".ui.fragments.VolumePanel">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:orientation="vertical"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,9 +94,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:ellipsize="marquee"
-                        android:paddingStart="0dp"
+                        android:paddingHorizontal="0dp"
                         android:paddingTop="10dp"
-                        android:paddingEnd="0dp"
                         android:paddingBottom="11dp"
                         android:singleLine="true"
                         android:text="@string/vp_track_thin"
@@ -106,13 +106,11 @@
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginHorizontal="8dp"
                         android:layout_weight="1.0"
                         android:ellipsize="marquee"
-                        android:paddingStart="0dp"
+                        android:paddingHorizontal="0dp"
                         android:paddingTop="10dp"
-                        android:paddingEnd="0dp"
                         android:paddingBottom="11dp"
                         android:singleLine="true"
                         android:text="@string/vp_track_thick"
@@ -125,9 +123,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         android:ellipsize="marquee"
-                        android:paddingStart="0dp"
+                        android:paddingHorizontal="0dp"
                         android:paddingTop="10dp"
-                        android:paddingEnd="0dp"
                         android:paddingBottom="11dp"
                         android:singleLine="true"
                         android:text="@string/vp_track_none"

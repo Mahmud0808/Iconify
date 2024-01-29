@@ -2,11 +2,13 @@ package com.drdisagree.iconify.utils.overlay.compiler;
 
 import static com.drdisagree.iconify.common.Dynamic.AAPT;
 import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
+import static com.drdisagree.iconify.common.Resources.FRAMEWORK_DIR;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
@@ -55,14 +57,20 @@ public class OverlayCompiler {
                 Resources.COMPANION_COMPILED_DIR :
                 Resources.UNSIGNED_UNALIGNED_DIR;
 
-        StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + outputDir + '/' + name + " -I /system/framework/framework-res.apk --include-meta-data --auto-add-overlay");
+        StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + outputDir + '/' + name + " -I " + FRAMEWORK_DIR + " --include-meta-data --auto-add-overlay");
 
         String[] splitLocations = AppUtil.getSplitLocations(targetPackage);
         for (String targetApk : splitLocations) {
             aaptCommand.append(" -I ").append(targetApk);
         }
 
-        Shell.Result result = Shell.cmd(String.valueOf(aaptCommand)).exec();
+        String command = String.valueOf(aaptCommand);
+        Shell.Result result = Shell.cmd(command).exec();
+
+        if (listContains(result.getOut(), "No resource identifier found for attribute")) {
+            Toast.makeText(Iconify.getAppContext(), "Android 14 QPR2+ isn't supported yet", Toast.LENGTH_LONG).show();
+            return true;
+        }
 
         if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
         else {
@@ -106,6 +114,16 @@ public class OverlayCompiler {
             writeLog(TAG + " - APKSigner", "Failed to sign " + fileName, e);
             return true;
         }
+        return false;
+    }
+
+    public static boolean listContains(List<String> list, String target) {
+        for (String item : list) {
+            if (item.toLowerCase().contains(target.toLowerCase())) {
+                return true;
+            }
+        }
+
         return false;
     }
 }

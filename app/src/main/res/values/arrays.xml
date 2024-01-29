@@ -9,11 +9,13 @@
         <item>Arabic</item>
         <item>English</item>
         <item>Chinese (Simplified)</item>
+        <item>Chinese (Traditional)</item>
         <item>French</item>
         <item>Indonesian</item>
         <item>Italian</item>
         <item>Persian</item>
         <item>Polish</item>
+        <item>Portuguese Brazilian</item>
         <item>Portuguese</item>
         <item>Russian</item>
         <item>Spanish</item>
@@ -24,11 +26,13 @@
         <item>ar-SA</item>
         <item>en-US</item>
         <item>zh-CN</item>
+        <item>zh-TW</item>
         <item>fr-FR</item>
         <item>in-ID</item>
         <item>it-IT</item>
         <item>fa-IR</item>
         <item>pl-PL</item>
+        <item>pt-BR</item>
         <item>pt-PT</item>
         <item>ru-RU</item>
         <item>es-ES</item>

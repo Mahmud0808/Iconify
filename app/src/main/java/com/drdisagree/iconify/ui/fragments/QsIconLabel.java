@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
+import static com.drdisagree.iconify.common.Dynamic.isAtleastA14;
 import static com.drdisagree.iconify.common.Preferences.QS_HIDE_LABEL_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT;
 import static com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT_NORMAL;
@@ -10,23 +11,16 @@ import static com.drdisagree.iconify.common.Preferences.STR_NULL;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_ICON_SIZE;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON;
 import static com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE;
-import static com.drdisagree.iconify.common.Resources.QSNPT_overlay;
-import static com.drdisagree.iconify.common.Resources.QSNT1_overlay;
-import static com.drdisagree.iconify.common.Resources.QSNT2_overlay;
-import static com.drdisagree.iconify.common.Resources.QSNT3_overlay;
-import static com.drdisagree.iconify.common.Resources.QSNT4_overlay;
-import static com.drdisagree.iconify.common.Resources.QSPT1_overlay;
-import static com.drdisagree.iconify.common.Resources.QSPT2_overlay;
-import static com.drdisagree.iconify.common.Resources.QSPT3_overlay;
-import static com.drdisagree.iconify.common.Resources.QSPT4_overlay;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -48,6 +42,15 @@ public class QsIconLabel extends BaseFragment {
 
     private static String selectedVariant;
     private FragmentQsIconLabelBinding binding;
+    public static final String QSNPT_overlay = "IconifyComponentQSNPT.overlay";
+    public static final String QSNT1_overlay = "IconifyComponentQSNT1.overlay";
+    public static final String QSNT2_overlay = "IconifyComponentQSNT2.overlay";
+    public static final String QSNT3_overlay = "IconifyComponentQSNT3.overlay";
+    public static final String QSNT4_overlay = "IconifyComponentQSNT4.overlay";
+    public static final String QSPT1_overlay = "IconifyComponentQSPT1.overlay";
+    public static final String QSPT2_overlay = "IconifyComponentQSPT2.overlay";
+    public static final String QSPT3_overlay = "IconifyComponentQSPT3.overlay";
+    public static final String QSPT4_overlay = "IconifyComponentQSPT4.overlay";
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -178,6 +181,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelWhite.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST1.overlay")));
         binding.labelWhite.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhiteV2.setSwitchChecked(false);
@@ -196,6 +204,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelWhiteV2.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST2.overlay")));
         binding.labelWhiteV2.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhite.setSwitchChecked(false);
@@ -214,6 +227,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelSystem.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST3.overlay")));
         binding.labelSystem.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhite.setSwitchChecked(false);
@@ -232,6 +250,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelSystemV2.setSwitchChecked(Prefs.getBoolean(replaceVariant("IconifyComponentQST4.overlay")));
         binding.labelSystemV2.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhite.setSwitchChecked(false);
@@ -250,6 +273,11 @@ public class QsIconLabel extends BaseFragment {
 
         binding.labelFixTextColor.setSwitchChecked(Prefs.getBoolean("IconifyComponentQST5.overlay"));
         binding.labelFixTextColor.setSwitchChangeListener((buttonView, isChecked) -> {
+            if (isChecked && isAtleastA14) {
+                Toast.makeText(requireContext(), R.string.toast_use_from_xposed_menu, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (isChecked) {
                     binding.labelWhite.setSwitchChecked(false);

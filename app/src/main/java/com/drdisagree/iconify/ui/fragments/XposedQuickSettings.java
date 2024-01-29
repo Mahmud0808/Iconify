@@ -2,7 +2,11 @@ package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH;
+import static com.drdisagree.iconify.common.Preferences.HIDE_QS_FOOTER_BUTTONS;
+import static com.drdisagree.iconify.common.Preferences.HIDE_QS_SILENT_TEXT;
 import static com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE;
+import static com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT;
 import static com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH;
 
@@ -13,6 +17,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 
@@ -68,6 +73,7 @@ public class XposedQuickSettings extends BaseFragment {
         });
         binding.qqsTopMargin.setResetClickListener(v -> {
             RPrefs.clearPref(QQS_TOPMARGIN);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             return true;
         });
 
@@ -86,9 +92,55 @@ public class XposedQuickSettings extends BaseFragment {
         });
         binding.qsTopMargin.setResetClickListener(v -> {
             RPrefs.clearPref(QS_TOPMARGIN);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
             return true;
         });
 
+        // QS text always white
+        binding.labelWhite.setSwitchChecked(RPrefs.getBoolean(QS_TEXT_ALWAYS_WHITE, false));
+        binding.labelWhite.setSwitchChangeListener(qsTextWhiteListener);
+
+        // QS text follow accent
+        binding.labelAccent.setSwitchChecked(RPrefs.getBoolean(QS_TEXT_FOLLOW_ACCENT, false));
+        binding.labelAccent.setSwitchChangeListener(qsTextAccentListener);
+
+        // Hide silent text
+        binding.hideSilentText.setSwitchChecked(RPrefs.getBoolean(HIDE_QS_SILENT_TEXT, false));
+        binding.hideSilentText.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_QS_SILENT_TEXT, isChecked));
+
+        // Hide footer buttons
+        binding.hideFooterButtons.setSwitchChecked(RPrefs.getBoolean(HIDE_QS_FOOTER_BUTTONS, false));
+        binding.hideFooterButtons.setSwitchChangeListener((buttonView, isChecked) -> RPrefs.putBoolean(HIDE_QS_FOOTER_BUTTONS, isChecked));
+
         return view;
     }
+
+    CompoundButton.OnCheckedChangeListener qsTextWhiteListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                RPrefs.putBoolean(QS_TEXT_FOLLOW_ACCENT, false);
+                binding.labelAccent.setSwitchChangeListener(null);
+                binding.labelAccent.setSwitchChecked(false);
+                binding.labelAccent.setSwitchChangeListener(qsTextAccentListener);
+            }
+
+            RPrefs.putBoolean(QS_TEXT_ALWAYS_WHITE, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+        }
+    };
+
+    CompoundButton.OnCheckedChangeListener qsTextAccentListener = (buttonView, isChecked) -> {
+        if (isChecked) {
+            RPrefs.putBoolean(QS_TEXT_ALWAYS_WHITE, false);
+            binding.labelWhite.setSwitchChangeListener(null);
+            binding.labelWhite.setSwitchChecked(false);
+            binding.labelWhite.setSwitchChangeListener(qsTextWhiteListener);
+        }
+
+        RPrefs.putBoolean(QS_TEXT_FOLLOW_ACCENT, isChecked);
+        new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+    };
+
+
 }

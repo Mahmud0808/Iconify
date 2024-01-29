@@ -11,9 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
+        android:paddingHorizontal="8dp"
         android:paddingTop="1dp"
-        android:paddingEnd="8dp"
         android:paddingBottom="4dp">
 
         <TextClock
@@ -35,8 +34,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
         android:background="@drawable/item_background_material_rounded"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingHorizontal="12dp"
         android:paddingBottom="3dp"
         android:textColor="@color/text_color_secondary" />
 

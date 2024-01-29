@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -14,7 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.activities.HomePage;
+import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent;
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
 import com.drdisagree.iconify.utils.SystemUtil;
@@ -89,7 +91,7 @@ public class ColorPickerWidget extends RelativeLayout {
             boolean showAlphaSlider,
             boolean showColorShades
     ) {
-        if (!(activity instanceof HomePage)) {
+        if (!(activity instanceof MainActivity)) {
             throw new IllegalArgumentException("Activity must be instance of HomePage");
         }
 
@@ -99,7 +101,7 @@ public class ColorPickerWidget extends RelativeLayout {
                         beforeColorPickerListener.onColorPickerShown();
                     }
 
-                    ((HomePage) activity).showColorPickerDialog(
+                    ((MainActivity) activity).showColorPickerDialog(
                             colorPickerDialogId,
                             this.selectedColor,
                             showPresets,
@@ -224,5 +226,56 @@ public class ColorPickerWidget extends RelativeLayout {
 
     public interface AfterColorPickerListener {
         void onColorPickerDismissed();
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+
+        SavedState ss = new SavedState(superState);
+        ss.selectedColor = selectedColor;
+
+        return ss;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState ss)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        setPreviewColor(ss.selectedColor);
+    }
+
+    private static class SavedState extends BaseSavedState {
+        int selectedColor;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            selectedColor = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(selectedColor);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 }

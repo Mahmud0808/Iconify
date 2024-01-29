@@ -1,48 +1,46 @@
-# Copyright 2014 Google Inc. All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Kotlin
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+	public static void check*(...);
+	public static void throw*(...);
+}
+-assumenosideeffects class java.util.Objects {
+    public static ** requireNonNull(...);
+}
 
-# This is a configuration file for ProGuard.
-# http://proguard.sourceforge.net/index.html#manual/usage.html
--dontusemixedcaseclassnames
--verbose
-# Optimization is turned off by default. Dex does not like code run
-# through the ProGuard optimize and preverify steps (and performs some
-# of these optimizations on its own).
-#-dontoptimize
--dontobfuscate
-# If you want to enable optimization, you should include the
-# following:
--optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
--optimizationpasses 5
--allowaccessmodification
+# Strip debug log
+-assumenosideeffects class android.util.Log {
+    public static int v(...);
+    public static int d(...);
+}
 
--keep class de.robv.android.xposed.** { *; }
--keep class com.drdisagree.iconify.xposed.** { *; }
--keep class com.drdisagree.iconify.config.XPrefs { *; }
+# Xposed
+-keep class de.robv.android.xposed.**
+-keep class com.drdisagree.iconify.xposed.InitHook
+-keepnames class com.drdisagree.iconify.xposed.**
+-keepnames class com.drdisagree.iconify.config.XPrefs
+-keep class com.drdisagree.iconify.xposed.** {
+    <init>(android.content.Context);
+}
 
 # EventBus
 -keepattributes *Annotation*
--keepclassmembers class * {
+-keepclassmembers,allowoptimization,allowobfuscation class * {
     @org.greenrobot.eventbus.Subscribe <methods>;
 }
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
+-keep,allowoptimization,allowobfuscation enum org.greenrobot.eventbus.ThreadMode { *; }
 
 # If using AsyncExecutord, keep required constructor of default event used.
 # Adjust the class name if a custom failure event type is used.
--keepclassmembers class org.greenrobot.eventbus.util.ThrowableFailureEvent {
+-keepclassmembers,allowoptimization,allowobfuscation class org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
 
 # Accessed via reflection, avoid renaming or removal
--keep class org.greenrobot.eventbus.android.AndroidComponentsImpl
+-keep,allowoptimization,allowobfuscation class org.greenrobot.eventbus.android.AndroidComponentsImpl
+
+# Keep the ConstraintLayout Motion class
+-keep,allowoptimization,allowobfuscation class androidx.constraintlayout.motion.widget.** { *; }
+
+# Obfuscation
+-repackageclasses
+-allowaccessmodification

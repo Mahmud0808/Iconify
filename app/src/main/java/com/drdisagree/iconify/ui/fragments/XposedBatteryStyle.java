@@ -1,9 +1,11 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CIRCLE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYL;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYM;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16;
@@ -320,10 +322,13 @@ public class XposedBatteryStyle extends BaseFragment {
         boolean showInsidePercentage = showPercentage && !bindingMiscSettings.hidePercentage.isSwitchChecked();
         boolean showChargingIconCustomization = selectedIndex > 2 && bindingChargingIcon.enableChargingIcon.isSwitchChecked();
         boolean showReverseLayout = selectedIndex > 2 && showInsidePercentage;
+        boolean circleBattery = selectedIndex == BATTERY_STYLE_CIRCLE ||
+                selectedIndex == BATTERY_STYLE_DOTTED_CIRCLE;
 
         int visibility_advanced = showAdvancedCustomizations ? View.VISIBLE : View.GONE;
-        int visibility_colorpickers = showAdvancedCustomizations && showColorPickers ? View.VISIBLE : View.GONE;
-        int visibility_rainbow = showAdvancedCustomizations && showRainbowBattery ? View.VISIBLE : View.GONE;
+        int visibility_blendcolor = showAdvancedCustomizations || circleBattery ? View.VISIBLE : View.GONE;
+        int visibility_colorpickers = (showAdvancedCustomizations || circleBattery) && showColorPickers ? View.VISIBLE : View.GONE;
+        int visibility_rainbow = (showAdvancedCustomizations || circleBattery) && showRainbowBattery ? View.VISIBLE : View.GONE;
         int visibility_wh = selectedIndex > 2 ? View.VISIBLE : View.GONE;
         int visibility_dimensions = showBatteryDimensions ? View.VISIBLE : View.GONE;
         int visibility_percentage = showPercentage ? View.VISIBLE : View.GONE;
@@ -345,7 +350,7 @@ public class XposedBatteryStyle extends BaseFragment {
         bindingCustomColors.perimeterAlpha.setVisibility(visibility_advanced);
         bindingCustomColors.fillAlpha.setVisibility(visibility_advanced);
         bindingCustomColors.rainbowColor.setVisibility(visibility_rainbow);
-        bindingCustomColors.blendColor.setVisibility(visibility_advanced);
+        bindingCustomColors.blendColor.setVisibility(visibility_blendcolor);
         bindingCustomColors.colorPickers.setVisibility(visibility_colorpickers);
 
         // Custom dimensions

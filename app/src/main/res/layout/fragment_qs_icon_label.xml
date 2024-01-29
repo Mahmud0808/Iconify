@@ -8,11 +8,12 @@
     tools:context=".ui.fragments.QsIconLabel">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:orientation="vertical"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:iconSpaceReserved="true"
+                app:iconSpaceReserved="false"
                 app:titleText="@string/section_title_size_and_position" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
@@ -72,10 +73,11 @@
             <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:iconSpaceReserved="true"
+                app:iconSpaceReserved="false"
                 app:titleText="@string/section_title_qs_text_color" />
 
             <RelativeLayout
+                android:id="@+id/qs_text_color_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/item_background_material"

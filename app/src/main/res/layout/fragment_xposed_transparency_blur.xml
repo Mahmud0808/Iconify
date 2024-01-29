@@ -8,11 +8,12 @@
     tools:context=".ui.fragments.XposedTransparencyBlur">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:orientation="vertical"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,6 +39,13 @@
                 android:layout_height="wrap_content"
                 app:summaryText="@string/transparent_notif_shade_desc"
                 app:titleText="@string/transparent_notif_shade_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/keep_lockscreen_shade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/keep_lockscreen_shade_desc"
+                app:titleText="@string/keep_lockscreen_shade_title" />
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget
                 android:id="@+id/transparency_slider"

@@ -4,6 +4,7 @@ import static com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY;
 import static com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL;
 import static com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR;
+import static com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR;
 import static com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY;
 import static com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL;
@@ -85,10 +86,19 @@ public class XposedThemes extends BaseFragment {
             new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
         });
 
-        // Fix notification color
+        // Others section
         binding.sectionOthers.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
-        binding.fixNotificationColor.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
 
+        // Fix qs tile color
+        binding.fixQsTileColor.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
+        binding.fixQsTileColor.setSwitchChecked(RPrefs.getBoolean(FIX_QS_TILE_COLOR, true));
+        binding.fixQsTileColor.setSwitchChangeListener((buttonView, isChecked) -> {
+            RPrefs.putBoolean(FIX_QS_TILE_COLOR, isChecked);
+            new Handler(Looper.getMainLooper()).postDelayed(SystemUtil::handleSystemUIRestart, SWITCH_ANIMATION_DELAY);
+        });
+
+        // Fix notification color
+        binding.fixNotificationColor.setVisibility(Build.VERSION.SDK_INT >= 34 ? View.VISIBLE : View.GONE);
         binding.fixNotificationColor.setSwitchChecked(RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, true));
         binding.fixNotificationColor.setSwitchChangeListener((buttonView, isChecked) -> {
             RPrefs.putBoolean(FIX_NOTIFICATION_COLOR, isChecked);

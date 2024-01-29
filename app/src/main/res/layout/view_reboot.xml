@@ -66,9 +66,8 @@
         android:layout_gravity="end"
         android:layout_marginTop="16dp"
         android:letterSpacing="0"
-        android:paddingStart="24dp"
+        android:paddingHorizontal="24dp"
         android:paddingTop="6dp"
-        android:paddingEnd="24dp"
         android:paddingBottom="8dp"
         android:text="@string/btn_reboot_now"
         app:icon="@drawable/ic_restart_device" />
