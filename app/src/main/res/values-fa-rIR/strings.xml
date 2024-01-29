@@ -289,6 +289,8 @@
     <string name="label_follow_system_v2_desc">پیروی از سیستم در عنوان و متن رنگی</string>
     <string name="label_fix_text_color_title">رفع مشکل رنگ </string>
     <string name="label_fix_text_color_desc">حل مشکل خوانا نبودن متن</string>
+    <string name="label_follow_accent_title">Follow Accent</string>
+    <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Portrait Mode</string>
     <string name="section_title_landscape">Landscape Mode</string>
@@ -540,6 +542,8 @@
     <string name="battery_landscape_battery_m">Landscape Battery M</string>
     <string name="battery_landscape_battery_n">Landscape Battery N</string>
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
+    <string name="battery_circle">Circle Battery</string>
+    <string name="battery_dotted_circle">Dotted Circle Battery</string>
     <!-- Header Image -->
     <string name="header_image_title">انتخاب فایل تصویر هدر</string>
     <string name="header_image_desc">اصافه کردن تصویر به هدر نوارابزار\nفایل تصویر را از بخش فایل‌های اخیر انتخاب نکنید</string>
@@ -781,6 +785,7 @@
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
     <string name="toast_selected_successfully">Selected successfully</string>
     <string name="toast_unavailable">Unavailable</string>
+    <string name="toast_use_from_xposed_menu">Use this feature from Xposed Menu</string>
     <!-- Push Notification -->
     <string name="new_update_title">Update Available</string>
     <string name="new_update_desc">A new version of Iconify is available.</string>
@@ -872,4 +877,5 @@
     <string name="one_time_reboot_needed">Reboot your device!</string>
     <string name="tap_to_select">Tap on preview to select</string>
     <string name="dont_show_again">Don\'t show again</string>
+    <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
 </resources>

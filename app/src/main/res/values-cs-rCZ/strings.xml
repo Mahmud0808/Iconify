@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_moto">Customize Boring Android UI</string>
+    <string name="app_moto">Přizpůsobte si nudné Android prostředí</string>
     <!-- Onboarding -->
-    <string name="init_module_installation">Initializing setup</string>
-    <string name="step">Step</string>
-    <string name="module_installation_step1">Creating module shell</string>
-    <string name="module_installation_step2">Extracting necessary files</string>
-    <string name="module_installation_step3">Creating overlay APKs</string>
-    <string name="module_installation_step4">Aligning overlay APKs</string>
-    <string name="module_installation_step5">Signing overlay APKs</string>
-    <string name="module_installation_step6">Cleaning directories</string>
-    <string name="onboarding_title_1">Got Bored of Stock UI ?</string>
-    <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
-    <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
-    <string name="onboarding_title_2">Is My Device Supported ?</string>
+    <string name="init_module_installation">Inicializace nastavení</string>
+    <string name="step">Krok</string>
+    <string name="module_installation_step1">Vytvářím obal modulu</string>
+    <string name="module_installation_step2">Extrahovaní potřebných souborů</string>
+    <string name="module_installation_step3">Vytváření APK pro překrytí</string>
+    <string name="module_installation_step4">Zarovnávání APK pro překrytí</string>
+    <string name="module_installation_step5">Schvalování APK pro překrytí</string>
+    <string name="module_installation_step6">Čištění adresářů</string>
+    <string name="onboarding_title_1">Nebaví vás základní rozhraní?</string>
+    <string name="onboarding_subtitle_1">Pojďte si vše přizpůsobit podle vašich představ.</string>
+    <string name="onboarding_desc_1">Zapoměňte na prostoduché základní prostředí - přispůsobte si každý technický detail podle vašeho stylu a preferencí.</string>
+    <string name="onboarding_title_2">Je zařízení podporováno?</string>
     <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
     <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
     <string name="onboarding_title_3">Shall We Begin Now ?</string>
@@ -289,6 +289,8 @@
     <string name="label_follow_system_v2_desc">Title system, subtitle accent</string>
     <string name="label_fix_text_color_title">Fix Text Color</string>
     <string name="label_fix_text_color_desc">Use if above ones did not work</string>
+    <string name="label_follow_accent_title">Follow Accent</string>
+    <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Portrait Mode</string>
     <string name="section_title_landscape">Landscape Mode</string>
@@ -540,6 +542,8 @@
     <string name="battery_landscape_battery_m">Landscape Battery M</string>
     <string name="battery_landscape_battery_n">Landscape Battery N</string>
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
+    <string name="battery_circle">Circle Battery</string>
+    <string name="battery_dotted_circle">Dotted Circle Battery</string>
     <!-- Header Image -->
     <string name="header_image_title">Pick Header Image</string>
     <string name="header_image_desc">Add header image on QS panel\nDo not select file from Recent</string>
@@ -781,6 +785,7 @@
     <string name="toast_export_settings_successfull">Exported settings successfully</string>
     <string name="toast_selected_successfully">Selected successfully</string>
     <string name="toast_unavailable">Unavailable</string>
+    <string name="toast_use_from_xposed_menu">Use this feature from Xposed Menu</string>
     <!-- Push Notification -->
     <string name="new_update_title">Update Available</string>
     <string name="new_update_desc">A new version of Iconify is available.</string>
@@ -872,4 +877,5 @@
     <string name="one_time_reboot_needed">Reboot your device!</string>
     <string name="tap_to_select">Tap on preview to select</string>
     <string name="dont_show_again">Don\'t show again</string>
+    <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
 </resources>
