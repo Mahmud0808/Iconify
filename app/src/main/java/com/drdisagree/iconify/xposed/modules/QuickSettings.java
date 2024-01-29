@@ -44,6 +44,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -326,6 +327,51 @@ public class QuickSettings extends ModPack {
             }
         } catch (Throwable throwable) {
             log(TAG + throwable);
+        }
+
+
+        try {
+            Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", loadPackageParam.classLoader);
+
+            hookAllMethods(QSContainerImplClass, "updateResources", new XC_MethodHook() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                    try {
+                        Resources res = mContext.getResources();
+                        ViewGroup view = ((ViewGroup) param.thisObject).findViewById(res.getIdentifier("qs_footer_actions", "id", mContext.getPackageName()));
+                        @ColorInt int color = getQsIconLabelColor();
+
+                        try {
+                            ViewGroup pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
+                            ((ImageView) pm_button_container.getChildAt(0)).setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                        } catch (Throwable ignored) {
+                            ImageView pm_button = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
+                            pm_button.setImageTintList(ColorStateList.valueOf(color));
+                        }
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try { // Compose implementation of QS Footer actions
+            Class<?> FooterActionsButtonViewModelClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsButtonViewModel", loadPackageParam.classLoader);
+
+            hookAllConstructors(FooterActionsButtonViewModelClass, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                    if (mContext.getResources().getResourceName((Integer) param.args[0]).split("/")[1].equals("pm_lite")) {
+                        param.args[2] = getQsIconLabelColor();
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
         }
     }
 

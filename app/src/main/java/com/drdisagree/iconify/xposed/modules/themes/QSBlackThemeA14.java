@@ -41,6 +41,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -444,6 +445,49 @@ public class QSBlackThemeA14 extends ModPack {
                         } else if (!isActiveState) {
                             mIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
                         }
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try {
+            Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", loadPackageParam.classLoader);
+
+            hookAllMethods(QSContainerImplClass, "updateResources", new XC_MethodHook() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!blackQSHeaderEnabled) return;
+
+                    try {
+                        Resources res = mContext.getResources();
+                        ViewGroup view = ((ViewGroup) param.thisObject).findViewById(res.getIdentifier("qs_footer_actions", "id", mContext.getPackageName()));
+
+                        try {
+                            ViewGroup pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
+                            ((ImageView) pm_button_container.getChildAt(0)).setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+                        } catch (Throwable ignored) {
+                            ImageView pm_button = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
+                            pm_button.setImageTintList(ColorStateList.valueOf(Color.BLACK));
+                        }
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try { // Compose implementation of QS Footer actions
+            Class<?> FooterActionsButtonViewModelClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsButtonViewModel", loadPackageParam.classLoader);
+
+            hookAllConstructors(FooterActionsButtonViewModelClass, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (!blackQSHeaderEnabled) return;
+
+                    if (mContext.getResources().getResourceName((Integer) param.args[0]).split("/")[1].equals("pm_lite")) {
+                        param.args[2] = Color.BLACK;
                     }
                 }
             });

@@ -256,6 +256,22 @@ public class QSFluidThemeA14 extends ModPack {
         } catch (Throwable ignored) {
         }
 
+        try { // Compose implementation of QS Footer actions
+            Class<?> FooterActionsButtonViewModelClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsButtonViewModel", loadPackageParam.classLoader);
+
+            hookAllConstructors(FooterActionsButtonViewModelClass, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (!fluidQsThemeEnabled) return;
+
+                    if (mContext.getResources().getResourceName((Integer) param.args[0]).split("/")[1].equals("pm_lite")) {
+                        param.args[2] = colorActive[0];
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
         // Brightness slider and auto brightness color
         hookAllMethods(BrightnessSliderViewClass, "onFinishInflate", new XC_MethodHook() {
             @Override
