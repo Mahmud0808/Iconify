@@ -36,6 +36,7 @@ import com.drdisagree.iconify.xposed.modules.themes.QSBlackThemeA13;
 import com.drdisagree.iconify.xposed.modules.themes.QSBlackThemeA14;
 import com.drdisagree.iconify.xposed.modules.themes.QSFluidThemeA13;
 import com.drdisagree.iconify.xposed.modules.themes.QSFluidThemeA14;
+import com.drdisagree.iconify.xposed.modules.themes.QSLightThemeA12;
 import com.drdisagree.iconify.xposed.modules.themes.QSLightThemeA13;
 import com.drdisagree.iconify.xposed.modules.themes.QSLightThemeA14;
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils;
@@ -64,14 +65,18 @@ public class EntryList {
                     modPacks.add(QuickSettings.class);
                     modPacks.add(BatteryStyleManager.class);
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                        modPacks.add(QSBlackThemeA14.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) { // Android 14+
                         modPacks.add(QSFluidThemeA14.class);
+                        modPacks.add(QSBlackThemeA14.class);
                         modPacks.add(QSLightThemeA14.class);
-                    } else {
-                        modPacks.add(QSBlackThemeA13.class);
+                    } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) { // Android 13
                         modPacks.add(QSFluidThemeA13.class);
+                        modPacks.add(QSBlackThemeA13.class);
                         modPacks.add(QSLightThemeA13.class);
+                    } else { // Android 12 and below
+                        modPacks.add(QSFluidThemeA13.class);
+                        modPacks.add(QSBlackThemeA13.class);
+                        modPacks.add(QSLightThemeA12.class);
                     }
                 }
             }
