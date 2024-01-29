@@ -578,6 +578,8 @@
     <string name="battery_landscape_battery_m">Landscape Battery M</string>
     <string name="battery_landscape_battery_n">Landscape Battery N</string>
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
+    <string name="battery_circle">Circle Battery</string>
+    <string name="battery_dotted_circle">Dotted Circle Battery</string>
 
     <!-- Header Image -->
     <string name="header_image_title">Pick Header Image</string>

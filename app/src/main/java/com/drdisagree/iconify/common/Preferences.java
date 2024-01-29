@@ -144,6 +144,8 @@ public class Preferences {
     public static final int BATTERY_STYLE_LANDSCAPE_BATTERYM = 32;
     public static final int BATTERY_STYLE_LANDSCAPE_BATTERYN = 33;
     public static final int BATTERY_STYLE_LANDSCAPE_BATTERYO = 34;
+    public static final int BATTERY_STYLE_CIRCLE = 35;
+    public static final int BATTERY_STYLE_DOTTED_CIRCLE = 36;
 
     // Xposed force reload overlay
     public static final String FORCE_RELOAD_PACKAGE_NAME = "com.android.internal.display.cutout.emulation.corner";
