@@ -238,4 +238,8 @@ public class Preferences {
     public static final String VER_CODE = "versionCode";
     public static final String EASTER_EGG = "iconify_easter_egg";
     public static final String ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol";
+    public static final String SHOW_QS_TILE_NORMAL_WARN = "showQsTileNormalWarn";
+    public static final String SHOW_QS_TILE_PIXEL_WARN = "showQsTilePixelWarn";
+    public static final String SHOW_NOTIFICATION_NORMAL_WARN = "showNotificationNormalWarn";
+    public static final String SHOW_NOTIFICATION_PIXEL_WARN = "showNotificationPixelWarn";
 }

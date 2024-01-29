@@ -1,25 +1,26 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Dynamic.isAtleastA14;
+import static com.drdisagree.iconify.common.Preferences.SHOW_NOTIFICATION_PIXEL_WARN;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.config.Prefs;
 import com.drdisagree.iconify.databinding.FragmentNotificationPixelBinding;
 import com.drdisagree.iconify.ui.adapters.NotificationAdapter;
 import com.drdisagree.iconify.ui.base.BaseFragment;
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
 import com.drdisagree.iconify.ui.models.NotificationModel;
 import com.drdisagree.iconify.ui.utils.ViewHelper;
-import com.drdisagree.iconify.utils.AppUtil;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
@@ -51,9 +52,18 @@ public class NotificationPixel extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (isAtleastA14 && !AppUtil.isLsposedInstalled()) {
+        if (isAtleastA14 && Prefs.getBoolean(SHOW_NOTIFICATION_PIXEL_WARN, true)) {
             try {
-                Toast.makeText(requireContext(), R.string.toast_requires_lsposed_for_a14, Toast.LENGTH_LONG).show();
+                new MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(R.string.attention)
+                        .setMessage(R.string.requires_lsposed_for_a14)
+                        .setPositiveButton(requireContext().getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())
+                        .setNegativeButton(requireContext().getResources().getString(R.string.dont_show_again), (dialog, which) -> {
+                            dialog.dismiss();
+                            Prefs.putBoolean(SHOW_NOTIFICATION_PIXEL_WARN, false);
+                        })
+                        .setCancelable(true)
+                        .show();
             } catch (Exception ignored) {
             }
         }
