@@ -60,6 +60,7 @@ import androidx.annotation.ColorInt;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.drdisagree.iconify.xposed.ModPack;
+import com.drdisagree.iconify.xposed.modules.utils.Helpers;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -514,7 +515,13 @@ public class QuickSettings extends ModPack {
             if (qsTextAlwaysWhite) {
                 return Color.WHITE;
             } else if (qsTextFollowAccent) {
-                return ResourcesCompat.getColor(mContext.getResources(), android.R.color.holo_blue_light, mContext.getTheme());
+                return ResourcesCompat.getColor(
+                        mContext.getResources(),
+                        Helpers.isPixelVariant() ?
+                                android.R.color.holo_green_light :
+                                android.R.color.holo_blue_light,
+                        mContext.getTheme()
+                );
             }
         } catch (Throwable throwable) {
             log(TAG + throwable);

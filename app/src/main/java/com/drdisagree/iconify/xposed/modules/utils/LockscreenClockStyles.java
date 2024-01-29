@@ -55,8 +55,9 @@ public class LockscreenClockStyles {
             boolean forceWhiteText = Xprefs.getBoolean(LSCLOCK_TEXT_WHITE, false);
             float textScaling = (float) (Xprefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0);
 
-            int accent1 = ResourcesCompat.getColor(mContext.getResources(), android.R.color.holo_blue_light, mContext.getTheme());
-            int accent2 = ResourcesCompat.getColor(mContext.getResources(), android.R.color.holo_blue_dark, mContext.getTheme());
+            boolean isPixelVariant = Helpers.isPixelVariant();
+            int accent1 = ResourcesCompat.getColor(mContext.getResources(), isPixelVariant ? android.R.color.holo_green_light : android.R.color.holo_blue_light, mContext.getTheme());
+            int accent2 = ResourcesCompat.getColor(mContext.getResources(), isPixelVariant ? android.R.color.holo_green_dark : android.R.color.holo_blue_dark, mContext.getTheme());
             int white = ResourcesCompat.getColor(mContext.getResources(), android.R.color.white, mContext.getTheme());
             int black = ResourcesCompat.getColor(mContext.getResources(), android.R.color.black, mContext.getTheme());
             int textColorNormal = ResourcesCompat.getColor(mContext.getResources(), android.R.color.system_neutral1_10, mContext.getTheme());
@@ -423,7 +424,7 @@ public class LockscreenClockStyles {
                     tempContainer6.setGravity(Gravity.CENTER);
                     tempContainer6.setOrientation(LinearLayout.HORIZONTAL);
                     setPaddings(tempContainer6, mContext, 20, 20, 20, 24);
-                    GradientDrawable mDrawable6 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#090909"), Color.parseColor("#090909")});
+                    GradientDrawable mDrawable6 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0xFF090909, 0xFF090909});
                     mDrawable6.setCornerRadius(dp2px(mContext, 12));
                     tempContainer6.setBackground(mDrawable6);
                     tempContainer6.addView(dayContainer6);
