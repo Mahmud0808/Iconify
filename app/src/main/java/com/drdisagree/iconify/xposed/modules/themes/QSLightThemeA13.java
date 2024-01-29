@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.modules;
+package com.drdisagree.iconify.xposed.modules.themes;
 
 /* Modified from AOSPMods
  * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/systemui/QSThemeManager.java
@@ -67,10 +67,10 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressWarnings("RedundantThrows")
-public class QSLightTheme extends ModPack {
+public class QSLightThemeA13 extends ModPack {
 
     public static final int STATE_ACTIVE = 2;
-    private static final String TAG = "Iconify - " + QSLightTheme.class.getSimpleName() + ": ";
+    private static final String TAG = "Iconify - " + QSLightThemeA13.class.getSimpleName() + ": ";
     private static boolean lightQSHeaderEnabled = false;
     private static boolean dualToneQSEnabled = false;
     private Object mBehindColors;
@@ -82,7 +82,7 @@ public class QSLightTheme extends ModPack {
     private boolean qsTextAlwaysWhite = false;
     private boolean qsTextFollowAccent = false;
 
-    public QSLightTheme(Context context) {
+    public QSLightThemeA13(Context context) {
         super(context);
 
         isDark = SystemUtil.isDarkMode();

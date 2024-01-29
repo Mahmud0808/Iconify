@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.modules;
+package com.drdisagree.iconify.xposed.modules.themes;
 
 import static android.service.quicksettings.Tile.STATE_ACTIVE;
 import static android.service.quicksettings.Tile.STATE_INACTIVE;
@@ -53,9 +53,9 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressLint("DiscouragedApi")
-public class QSFluidTheme extends ModPack {
+public class QSFluidThemeA14 extends ModPack {
 
-    private static final String TAG = "Iconify - " + QSFluidTheme.class.getSimpleName() + ": ";
+    private static final String TAG = "Iconify - " + QSFluidThemeA14.class.getSimpleName() + ": ";
     private static final float ACTIVE_ALPHA = 0.2f;
     private static final float INACTIVE_ALPHA = ACTIVE_ALPHA + 0.2f;
     private static final float UNAVAILABLE_ALPHA = INACTIVE_ALPHA - 0.1f;
@@ -69,7 +69,7 @@ public class QSFluidTheme extends ModPack {
     private boolean wasDark = SystemUtil.isDarkMode();
     private SeekBar mSlider;
 
-    public QSFluidTheme(Context context) {
+    public QSFluidThemeA14(Context context) {
         super(context);
     }
 

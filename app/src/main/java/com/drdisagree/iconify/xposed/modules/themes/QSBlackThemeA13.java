@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.modules;
+package com.drdisagree.iconify.xposed.modules.themes;
 
 /* Modified from AOSPMods
  * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/systemui/QSThemeManager.java
@@ -56,9 +56,9 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 @SuppressWarnings("RedundantThrows")
-public class QSBlackTheme extends ModPack {
+public class QSBlackThemeA13 extends ModPack {
 
-    private static final String TAG = "Iconify - " + QSBlackTheme.class.getSimpleName() + ": ";
+    private static final String TAG = "Iconify - " + QSBlackThemeA13.class.getSimpleName() + ": ";
     private static boolean blackQSHeaderEnabled = false;
     private Object mBehindColors;
     private boolean isDark;
@@ -68,7 +68,7 @@ public class QSBlackTheme extends ModPack {
     private boolean qsTextAlwaysWhite = false;
     private boolean qsTextFollowAccent = false;
 
-    public QSBlackTheme(Context context) {
+    public QSBlackThemeA13(Context context) {
         super(context);
 
         isDark = SystemUtil.isDarkMode();
