@@ -208,6 +208,6 @@ public class Helpers {
     }
 
     public static boolean isPixelVariant() {
-        return Shell.cmd("[[ $(cmd overlay list | grep -oE '\\[x\\] IconifyComponentQSSN[0-9]+.overlay') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
+        return Shell.cmd("[[ $(cmd overlay list | grep -oE '\\[x\\] IconifyComponentQSSP[0-9]+.overlay') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
     }
 }
