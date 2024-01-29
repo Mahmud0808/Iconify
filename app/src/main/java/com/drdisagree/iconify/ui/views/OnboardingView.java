@@ -185,7 +185,7 @@ public class OnboardingView extends FrameLayout {
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     clickedContinue = true;
                     SystemUtil.requestStoragePermission(getContext());
-                }, clickedContinue ? 10 : 2000);
+                }, clickedContinue ? 10 : 1000);
             } else {
                 boolean moduleExists = ModuleUtil.moduleExists();
                 boolean overlayExists = OverlayUtil.overlayExists();
@@ -233,7 +233,7 @@ public class OnboardingView extends FrameLayout {
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     clickedContinue = true;
                     SystemUtil.requestStoragePermission(getContext());
-                }, clickedContinue ? 10 : 2000);
+                }, clickedContinue ? 10 : 1000);
             } else {
                 if (!ModuleUtil.moduleExists()) {
                     Prefs.clearAllPrefs();
