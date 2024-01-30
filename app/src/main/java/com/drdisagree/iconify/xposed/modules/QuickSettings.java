@@ -36,6 +36,7 @@ import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
@@ -331,7 +332,6 @@ public class QuickSettings extends ModPack {
             log(TAG + throwable);
         }
 
-
         try {
             Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", loadPackageParam.classLoader);
 
@@ -375,6 +375,63 @@ public class QuickSettings extends ModPack {
             });
         } catch (Throwable ignored) {
         }
+
+        // Auto brightness icon color
+        Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", loadPackageParam.classLoader);
+        Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", loadPackageParam.classLoader);
+        Class<?> BrightnessSliderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", loadPackageParam.classLoader);
+
+        hookAllMethods(BrightnessControllerClass, "updateIcon", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                @ColorInt int color = getQsIconLabelColor();
+
+                try {
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(color));
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
+
+        if (BrightnessSliderControllerClass != null) {
+            hookAllConstructors(BrightnessSliderControllerClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                    @ColorInt int color = getQsIconLabelColor();
+
+                    try {
+                        ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(color));
+                    } catch (Throwable throwable) {
+                        try {
+                            ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(color));
+                        } catch (Throwable ignored) {
+                        }
+                    }
+                }
+            });
+        } else {
+            log(TAG + "Not a crash... BrightnessSliderController class not found.");
+        }
+
+        hookAllMethods(BrightnessMirrorControllerClass, "updateIcon", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                @ColorInt int color = getQsIconLabelColor();
+
+                try {
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(color));
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
     }
 
     private void fixNotificationColorA14(XC_LoadPackage.LoadPackageParam loadPackageParam) {
