@@ -182,7 +182,7 @@
     <string name="settings_iconpack_bubble_v2">Körvonalas tarka ikoncsomag</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">Pixel-variáns</string>
-    <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
+    <string name="activity_desc_pixel_variant">Fekete Gyorsbeállítások-panelű ROM-okhoz</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Fényerőcsúszka stílusa</string>
     <!-- QS Panel Tiles -->
@@ -289,8 +289,8 @@
     <string name="label_follow_system_v2_desc">Rendszerkövető főcím, kiemelőszín alcím</string>
     <string name="label_fix_text_color_title">Rögzített szövegszín</string>
     <string name="label_fix_text_color_desc">Használja, ha az előbbiek nem működtek</string>
-    <string name="label_follow_accent_title">Follow Accent</string>
-    <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
+    <string name="label_follow_accent_title">Kiemelőszín-követés</string>
+    <string name="label_follow_accent_desc">A Cím és az Alcím is kiemelőszínű</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Állómód (portré)</string>
     <string name="section_title_landscape">Fekvőmód (tájkép)</string>
@@ -364,7 +364,7 @@
     <string name="btn_create_module">Modul-építés</string>
     <string name="toast_module_created">Sikeresen elkészült a modul</string>
     <string name="read_carefully">Olvassa figyelmesen!</string>
-    <string name="volume_module_installation_guide">This option will create a magisk module inside Download folder in your Internal Storage. Flash the module named IconifyCompanion.zip in Magisk. Always uninstall previous Iconify Companion module (if installed) and reboot before flashing new one.\n\n<b>Note:</b>\n• Uninstall the module before updating rom.\n• Recreate the module if you change or update rom.\n• Do not flash a module which wasn\'t created based on your rom.</string>
+    <string name="volume_module_installation_guide">Ez az opció létrehoz egy Magisk-modult a belső tárhely Letöltés mappájában. Flesselje az IconifyCompanion.zip nevű csomagot a Magisk-ban. Mindig távolítsa el a korábbi IconifyCompanion modult (ha telepítve van), és indítsa újra, mielőtt az újat flesselné.\n\n<b>Figyelem:</b>\n• ROM-frissítés előtt uninstallálja a modult.\n• ROM-frissítés után készítse el újra a modult és flesselje.\n• Ne felesseljen olyan modult, ami nem az Ön rendszeréhez készült!</string>
     <!-- Media Player -->
     <string name="cont_desc_media_player">Médialejátszó előnézet</string>
     <string name="media_player_preview_music_title">Zeneszám-cím</string>
@@ -429,15 +429,15 @@
     <string name="window_level_blur_title">Elmosási szint</string>
     <string name="window_level_blur_desc">Újraindítás szükséges, hogy működjön</string>
     <string name="aggressive_blur_title">Agresszív elmosás</string>
-    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
+    <string name="aggressive_blur_desc">Sajnos néhány ROM-on bootloopot okoz</string>
     <string name="blur_intensity_title">Az elmosás intenzitása</string>
     <!-- Themes -->
-    <string name="section_title_for_pixel_roms">For Pixel Roms</string>
+    <string name="section_title_for_pixel_roms">Pixel ROM-okhoz</string>
     <string name="light_theme_title">Világos téma</string>
     <string name="light_theme_desc">Világos Gyorsbeállítások-téma világos módban\nEgyedi Gyorsbeállítások alakzatot kell használni</string>
     <string name="dual_tone_title">Kettős tónusú</string>
     <string name="dual_tone_desc">Használjon más színt a fejléchez</string>
-    <string name="section_title_for_custom_roms">For Custom Roms</string>
+    <string name="section_title_for_custom_roms">Custom ROM-okhoz</string>
     <string name="black_theme_title">Pixel-fekete téma</string>
     <string name="black_theme_desc">Fekete Gyorsbeállítások-téma világos módban\nPixel Gyorsbeállítások alakzatot kell használni\nA szövegszín javításához váltson sötét témára</string>
     <string name="section_title_translucent_theme">Áttetsző téma</string>
@@ -457,11 +457,11 @@
     <string name="hide_qs_tile_label_title">Csempefelirat elrejtése</string>
     <string name="hide_qs_tile_label_desc">Csak függőleges csempék esetében</string>
     <string name="section_title_qs_margin">Csempemargók</string>
-    <string name="section_title_qs_elements">QS Elements</string>
-    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
-    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
-    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
-    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
+    <string name="section_title_qs_elements">Gyorsbeállítások elemei</string>
+    <string name="hide_qs_silent_text_title">Szövegelrejtés</string>
+    <string name="hide_qs_silent_text_desc">A néma értesítések fejléceként megjelenő szöveg elrejtése (A Rendszerfelület újraindítása szükséges)</string>
+    <string name="hide_qs_footer_buttons_title">Láblécgombok rejtése</string>
+    <string name="hide_qs_footer_buttons_desc">Az értesítések alatt látható láblécgombok elrejtése</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Akkustílus</string>
     <string name="battery_width_title">Akku-szélesség</string>
@@ -542,8 +542,8 @@
     <string name="battery_landscape_battery_m">Fekvő akkumulátor M</string>
     <string name="battery_landscape_battery_n">Fekvő akkumulátor N</string>
     <string name="battery_landscape_battery_o">Fekvő akkumulátor O</string>
-    <string name="battery_circle">Circle Battery</string>
-    <string name="battery_dotted_circle">Dotted Circle Battery</string>
+    <string name="battery_circle">Kör akkumulátor</string>
+    <string name="battery_dotted_circle">Pontozott kör akkumulátor</string>
     <!-- Header Image -->
     <string name="header_image_title">Fejléckép-választó</string>
     <string name="header_image_desc">Adjon hozzá fejlécképet a panelen\nNe válasszon fájlt az Előzményekből</string>
@@ -632,7 +632,7 @@
     <string name="hide_ls_statusbar_title">Nincs Állapotsor a képernyőzáron</string>
     <string name="hide_ls_statusbar_desc">A záróképernyőről eltűnik az Állapotsor</string>
     <string name="fixed_status_icons_title">Rögzített Állapotikonok</string>
-    <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
+    <string name="fixed_status_icons_desc">Az állapotikonok rögzített pozícióba kerülnek\nJónéhány ROM-on buggolást okoz</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Változáslista</string>
     <string name="no_internet_connection">Nem sikerült csatlakozni a szerverhez!\nProbléma lehet az internetkapcsolattal, vagy a szerver jelenleg nem működik. Kérjük, próbálja újra később.</string>
@@ -785,7 +785,7 @@
     <string name="toast_export_settings_successfull">A beállítások exportálása sikeres volt</string>
     <string name="toast_selected_successfully">Sikeresen kiválasztva</string>
     <string name="toast_unavailable">Nem érhető el</string>
-    <string name="toast_use_from_xposed_menu">Use this feature from Xposed Menu</string>
+    <string name="toast_use_from_xposed_menu">Ez a funkciót az Xposed-menüből használja</string>
     <!-- Push Notification -->
     <string name="new_update_title">Frissítés érhető el</string>
     <string name="new_update_desc">Az Iconify egy új verziója érhető el</string>
@@ -848,7 +848,7 @@
     <string name="custom_qs_margin_title">Egyéni Gyorsbeállítások-margó</string>
     <string name="custom_qs_margin_desc">Itt kapcsolhatja be a panel egyedi margóját</string>
     <string name="force_enable_blur_title">Kényszerítetten engedélyezett elmosás</string>
-    <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
+    <string name="force_enable_blur_desc">Nem támogatott ROM-okon kényszerített elmosás</string>
     <string name="choose_header_image">Fejléckép-választó</string>
     <string name="choose_clock_font">Óra-betűtipus választó</string>
     <string name="pick_style">Válassza ki az Ön által kívánt stílust</string>
@@ -877,5 +877,5 @@
     <string name="one_time_reboot_needed">Indítsa újra a készüléket!</string>
     <string name="tap_to_select">A kiválasztáshoz érintse meg az előképet</string>
     <string name="dont_show_again">Ez ne jelenjen meg újra</string>
-    <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
+    <string name="requires_lsposed_for_a14">A megfelelő működés érdekében az Iconify modul engedélyezése kötelező az LSPosedben Android 14 és újabb verziók esetén.\n\nEzt követően engedélyezze a javításokat innen: Trükkök &gt; Xposed-menü &gt; Témák &gt; Egyebek</string>
 </resources>
