@@ -8,7 +8,8 @@ import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
-import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -60,7 +61,7 @@ public class OnboardingCompiler {
             result = Shell.cmd(command).exec();
 
             if (OverlayCompiler.listContains(result.getOut(), "No resource identifier found for attribute")) {
-                Toast.makeText(Iconify.getAppContext(), "Android 14 QPR2+ isn't supported yet", Toast.LENGTH_LONG).show();
+                new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), "Android 14 QPR2+ isn't supported yet", Toast.LENGTH_LONG).show());
                 return true;
             }
 
