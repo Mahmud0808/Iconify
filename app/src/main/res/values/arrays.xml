@@ -6,37 +6,69 @@
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
     <string-array name="locale_name">
+        <item>Afrikaans</item>
         <item>Arabic</item>
+        <item>Catalan</item>
+        <item>Chinese Simplified</item>
+        <item>Chinese Traditional</item>
+        <item>Czech</item>
+        <item>Danish</item>
+        <item>Dutch</item>
         <item>English</item>
-        <item>Chinese (Simplified)</item>
-        <item>Chinese (Traditional)</item>
+        <item>Finnish</item>
         <item>French</item>
+        <item>German</item>
+        <item>Greek</item>
+        <item>Hungarian</item>
         <item>Indonesian</item>
         <item>Italian</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Norwegian</item>
         <item>Persian</item>
         <item>Polish</item>
-        <item>Portuguese Brazilian</item>
         <item>Portuguese</item>
+        <item>Portuguese (Brazilian)</item>
+        <item>Romanian</item>
         <item>Russian</item>
+        <item>Serbian (Cyrillic)</item>
         <item>Spanish</item>
+        <item>Swedish</item>
         <item>Turkish</item>
+        <item>Ukrainian</item>
         <item>Vietnamese</item>
     </string-array>
     <string-array name="locale_code" translatable="false">
+        <item>af-ZA</item>
         <item>ar-SA</item>
-        <item>en-US</item>
+        <item>ca-ES</item>
         <item>zh-CN</item>
         <item>zh-TW</item>
+        <item>cs-CZ</item>
+        <item>da-DK</item>
+        <item>nl-NL</item>
+        <item>en-US</item>
+        <item>fi-FI</item>
         <item>fr-FR</item>
-        <item>in-ID</item>
+        <item>de-DE</item>
+        <item>el-GR</item>
+        <item>hu-HU</item>
+        <item>id-ID</item>
         <item>it-IT</item>
+        <item>ja-JP</item>
+        <item>ko-KR</item>
+        <item>no-NO</item>
         <item>fa-IR</item>
         <item>pl-PL</item>
-        <item>pt-BR</item>
         <item>pt-PT</item>
+        <item>pt-BR</item>
+        <item>ro-RO</item>
         <item>ru-RU</item>
+        <item>sr-SP</item>
         <item>es-ES</item>
+        <item>sv-SE</item>
         <item>tr-TR</item>
+        <item>uk-UA</item>
         <item>vi-VN</item>
     </string-array>
     <string-array name="app_icon">
