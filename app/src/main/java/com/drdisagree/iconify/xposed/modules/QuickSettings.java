@@ -282,6 +282,19 @@ public class QuickSettings extends ModPack {
             hookAllConstructors(QSTileViewImplClass, removeQsTileTint);
             hookAllMethods(QSTileViewImplClass, "updateResources", removeQsTileTint);
 
+            hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                    @ColorInt int color = getQsIconLabelColor();
+                    @ColorInt int colorAlpha = (color & 0xFFFFFF) | (Math.round(Color.alpha(color) * 0.8f) << 24);
+
+                    setObjectField(param.thisObject, "colorLabelActive", color);
+                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAlpha);
+                }
+            });
+
             hookAllMethods(QSTileViewImplClass, "getLabelColorForState", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
