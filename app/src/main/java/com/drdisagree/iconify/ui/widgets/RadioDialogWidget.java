@@ -19,6 +19,7 @@ import com.drdisagree.iconify.ui.dialogs.RadioDialog;
 import com.drdisagree.iconify.utils.SystemUtil;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class RadioDialogWidget extends RelativeLayout implements RadioDialog.RadioDialogListener {
 
@@ -137,8 +138,12 @@ public class RadioDialogWidget extends RelativeLayout implements RadioDialog.Rad
     }
 
     public void setSelectedIndex(int selectedIndex) {
+        List<String> list = Arrays.asList(getResources().getStringArray(arrayResId));
+        if (selectedIndex < 0 || selectedIndex >= list.size()) {
+            selectedIndex = 0;
+        }
         this.selectedIndex = selectedIndex;
-        setSelectedText(Arrays.asList(getResources().getStringArray(arrayResId)).get(selectedIndex));
+        setSelectedText(list.get(selectedIndex));
         initRadioDialog();
     }
 
