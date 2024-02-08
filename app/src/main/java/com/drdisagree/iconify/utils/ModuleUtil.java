@@ -146,15 +146,19 @@ public class ModuleUtil {
     }
 
     public static boolean flashModule(String modulePath) throws Exception {
-        Shell.Result result;
+        Shell.Result result = null;
 
         if (RootUtil.isMagiskInstalled()) {
             result = Shell.cmd("magisk --install-module " + modulePath).exec();
-        } else {
+        } else if (RootUtil.isKSUInstalled()) {
             result = Shell.cmd("/data/adb/ksud module install " + modulePath).exec();
+        } else if (RootUtil.isApatchInstalled()) {
+            result = Shell.cmd("apd module install " + modulePath).exec();
         }
 
-        if (result.isSuccess()) {
+        if (result == null) {
+            throw new Exception("No supported root found");
+        } else if (result.isSuccess()) {
             Log.i(TAG, "Successfully flashed module");
         } else {
             Log.e(TAG, "Failed to flash module");

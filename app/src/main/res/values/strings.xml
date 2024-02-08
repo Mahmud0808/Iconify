@@ -23,7 +23,7 @@
     <string name="need_storage_perm_title">Need Storage Permission</string>
     <string name="need_storage_perm_desc">Storage permission is required to build the necessary files.</string>
     <string name="compatible_root_not_found_title">Could Not Find Compatible Root Method</string>
-    <string name="compatible_root_not_found_desc">Use Magisk or KernelSU to root your device.</string>
+    <string name="compatible_root_not_found_desc">Use any popular root solutions to proceed.</string>
     <string name="root_not_found_title">Root Is Not Accessible</string>
     <string name="root_not_found_desc">Looks like your device is not rooted!</string>
     <string name="need_reboot_title">Need Device Reboot</string>
