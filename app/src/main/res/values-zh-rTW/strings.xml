@@ -12,17 +12,17 @@
     <string name="module_installation_step6">正在清理資料夾</string>
     <string name="onboarding_title_1">對原生的使用者介面感到厭倦了嗎？</string>
     <string name="onboarding_subtitle_1">讓我們按照自己的喜好來自定一切吧。</string>
-    <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
+    <string name="onboarding_desc_1">甩開單調的原生介面吧－依照你的風格和偏好，客製化各種細節</string>
     <string name="onboarding_title_2">我的裝置支援嗎？</string>
-    <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
-    <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
+    <string name="onboarding_subtitle_2">Iconify 支援所有 Pixel 和以 AOSP 為基礎的 ROM。</string>
+    <string name="onboarding_desc_2">與所有 Pixel 和以 AOSP 為基礎的 ROM 相容，確保廣泛的 Android 裝置支援。</string>
     <string name="onboarding_title_3">我們可以開始了嗎？</string>
     <string name="onboarding_subtitle_3">是時候讓 Iconify 進行一些內部工作。</string>
-    <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
+    <string name="onboarding_desc_3">需要進行一些內部工作來初始化。要開始了嗎？</string>
     <string name="need_storage_perm_title">需要存取儲存空間的權利</string>
     <string name="need_storage_perm_desc">需要存取儲存空間的權限以建立需要的檔案。</string>
-    <string name="compatible_root_not_found_title">Could Not Find Compatible Root Method</string>
-    <string name="compatible_root_not_found_desc">Use any popular root solutions to proceed.</string>
+    <string name="compatible_root_not_found_title">找不到相容的 root 解決方案</string>
+    <string name="compatible_root_not_found_desc">使用任何熱門的 root 解決方案來執行</string>
     <string name="root_not_found_title">無法存取 root</string>
     <string name="root_not_found_desc">看起來您的裝置似乎沒有被 root 過！</string>
     <string name="need_reboot_title">需要重新啟動裝置</string>
@@ -182,7 +182,7 @@
     <string name="settings_iconpack_bubble_v2">輪廓多色图示包</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">Piexl變體</string>
-    <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
+    <string name="activity_desc_pixel_variant">針對具備黑色「快速設定」面板的 ROM</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">亮度調整桿樣式</string>
     <!-- QS Panel Tiles -->
@@ -289,8 +289,8 @@
     <string name="label_follow_system_v2_desc">標題为系统色，副標題为强調色</string>
     <string name="label_fix_text_color_title">修復文本顔色</string>
     <string name="label_fix_text_color_desc">儅上面的沒有效果時使用</string>
-    <string name="label_follow_accent_title">Follow Accent</string>
-    <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
+    <string name="label_follow_accent_title">跟隨系統配色</string>
+    <string name="label_follow_accent_desc">標題配色、子標題配色</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">人像模式</string>
     <string name="section_title_landscape">橫向模式</string>
@@ -364,7 +364,7 @@
     <string name="btn_create_module">創建模組</string>
     <string name="toast_module_created">模組創建成功</string>
     <string name="read_carefully">仔細閲讀！</string>
-    <string name="volume_module_installation_guide">This option will create a magisk module inside Download folder in your Internal Storage. Flash the module named IconifyCompanion.zip in Magisk. Always uninstall previous Iconify Companion module (if installed) and reboot before flashing new one.\n\n<b>Note:</b>\n• Uninstall the module before updating rom.\n• Recreate the module if you change or update rom.\n• Do not flash a module which wasn\'t created based on your rom.</string>
+    <string name="volume_module_installation_guide">這個選項將在你內部儲存空間中的「下載」資料夾建立一個 Magisk 模組，名為 IconifyCompanion.zip。請在 Magisk 中安裝該模組；若您是要更新該模組，務必先在 Magisk 中解除安裝就有模組並重新啟動裝置後，再安裝新模組。\n\n<b>注意：</b>\n・更新 ROM 前請先移除該模組。・如更新或更換了 ROM，請重跑一次建立模組的程序。・請不要安裝不是基於你 ROM 所建立的模組。</string>
     <!-- Media Player -->
     <string name="cont_desc_media_player">媒體播放機預覽</string>
     <string name="media_player_preview_music_title">音樂標題</string>
@@ -429,15 +429,15 @@
     <string name="window_level_blur_title">窗口級別模糊</string>
     <string name="window_level_blur_desc">需要重新啓動才能生效</string>
     <string name="aggressive_blur_title">激進的模糊啟用器</string>
-    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
+    <string name="aggressive_blur_desc">可能會讓某些系統進入開機迴圈 (bootloop)</string>
     <string name="blur_intensity_title">模糊强度</string>
     <!-- Themes -->
-    <string name="section_title_for_pixel_roms">For Pixel Roms</string>
+    <string name="section_title_for_pixel_roms">對於 Pixel ROM</string>
     <string name="light_theme_title">淺色主題</string>
     <string name="light_theme_desc">淺色模式下的快速設定主題\n必須使用自訂的快速設定形狀</string>
     <string name="dual_tone_title">雙色調</string>
     <string name="dual_tone_desc">使用不一樣的顔色作爲標頭</string>
-    <string name="section_title_for_custom_roms">For Custom Roms</string>
+    <string name="section_title_for_custom_roms">對於自訂的 ROM</string>
     <string name="black_theme_title">Pixel 深色主题</string>
     <string name="black_theme_desc">淺色模式下的深色快速設定主題\n必須使用自訂的快速設定圖形\n切換深色主題以修復文本颜色</string>
     <string name="section_title_translucent_theme">半透明主題</string>
@@ -457,10 +457,10 @@
     <string name="hide_qs_tile_label_title">隱藏快速設定圖示標簽</string>
     <string name="hide_qs_tile_label_desc">只能與垂直圖示一起使用</string>
     <string name="section_title_qs_margin">快速設定邊距</string>
-    <string name="section_title_qs_elements">QS Elements</string>
+    <string name="section_title_qs_elements">「快速設定」元素</string>
     <string name="hide_qs_silent_text_title">Hide Silent Text</string>
     <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
-    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
+    <string name="hide_qs_footer_buttons_title">隱藏尾端按鈕</string>
     <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
     <!-- Battery Style -->
     <string name="battery_style_title">電池樣式</string>
@@ -542,8 +542,8 @@
     <string name="battery_landscape_battery_m">Landscape Battery M</string>
     <string name="battery_landscape_battery_n">Landscape Battery N</string>
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
-    <string name="battery_circle">Circle Battery</string>
-    <string name="battery_dotted_circle">Dotted Circle Battery</string>
+    <string name="battery_circle">圓圈電池</string>
+    <string name="battery_dotted_circle">點狀圓圈電池</string>
     <!-- Header Image -->
     <string name="header_image_title">選取標頭圖像</string>
     <string name="header_image_desc">在快速設定面板上添加標頭圖像\n不要從“最近”資料夾中選擇檔案</string>
@@ -674,7 +674,7 @@
     <string name="af_translation">Afrikaans translation.</string>
     <string name="ar_translation">阿拉伯語翻譯。</string>
     <string name="ca_translation">Catalan translation.</string>
-    <string name="zh_cn_translation">Chinese translation.</string>
+    <string name="zh_cn_translation">中文翻譯</string>
     <string name="zh_tw_translation">Chinese translation.</string>
     <string name="cs_translation">Czech translation.</string>
     <string name="da_translation">Danish translation.</string>
@@ -864,7 +864,7 @@
     <string name="custom_qs_margin_title">自訂快速設定邊距</string>
     <string name="custom_qs_margin_desc">啓用快速設定面板的自訂邊距</string>
     <string name="force_enable_blur_title">强制啓用模糊</string>
-    <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
+    <string name="force_enable_blur_desc">強制在不支援的 ROM 上開啟模糊效果</string>
     <string name="choose_header_image">選取標題圖像</string>
     <string name="choose_clock_font">選取時鐘字形</string>
     <string name="pick_style">選取你喜歡的風格</string>
