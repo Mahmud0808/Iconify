@@ -1,4 +1,9 @@
 <div align="center">
+
+# ${\textsf{\color{orange}Repository has been archived indefinitely}}$
+
+</div>
+<div align="center">
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png" width="100%" alt="Banner">
   
   # v6.7.0 is out!
