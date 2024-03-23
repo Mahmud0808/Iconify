@@ -841,6 +841,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy uses colored battery by default</string>
     <string name="toast_select_style">Select a style first</string>
     <string name="toast_ksu_not_supported">KernelSU is currently not supported</string>
+    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
     <string name="toast_reboot_required">Reboot required</string>
     <string name="toast_lsposed_not_found">LSPosed not found!</string>
     <string name="toast_easter_egg">How did you know that?</string>
