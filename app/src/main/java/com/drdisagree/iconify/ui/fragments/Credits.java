@@ -53,7 +53,7 @@ public class Credits extends BaseFragment {
         credits_list.add(new InfoModel(requireContext(), "Sanely Insane", Iconify.getAppContextLocale().getResources().getString(R.string.info_tester_desc), "https://t.me/sanely_insane", R.drawable.ic_user));
         credits_list.add(new InfoModel(requireContext(), "Jaguar", Iconify.getAppContextLocale().getResources().getString(R.string.info_tester_desc), "https://t.me/Jaguar0066", R.drawable.ic_user));
         credits_list.add(new InfoModel(requireContext(), "hani & TeamFiles", Iconify.getAppContextLocale().getResources().getString(R.string.info_betterqs_desc), "https://github.com/itsHanibee", R.drawable.ic_user));
-        credits_list.add(new InfoModel(requireContext(), "AAGaming", Iconify.getAppContextLocale().getResources().getString(R.string.info_binaries_desc), "https://t.me/AAGaming00", R.drawable.ic_user));
+        credits_list.add(new InfoModel(requireContext(), "AAGaming", Iconify.getAppContextLocale().getResources().getString(R.string.info_binaries_desc), "https://aagaming.me", R.drawable.ic_user));
 
         return new InfoAdapter(requireContext(), credits_list);
     }
