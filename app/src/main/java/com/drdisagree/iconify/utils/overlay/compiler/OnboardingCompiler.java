@@ -1,17 +1,18 @@
 package com.drdisagree.iconify.utils.overlay.compiler;
 
 import static com.drdisagree.iconify.common.Dynamic.AAPT;
+import static com.drdisagree.iconify.common.Dynamic.AAPT2;
 import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
 import static com.drdisagree.iconify.common.Dynamic.isAtleastA14;
 import static com.drdisagree.iconify.common.Resources.FRAMEWORK_DIR;
+import static com.drdisagree.iconify.common.Resources.UNSIGNED_UNALIGNED_DIR;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
@@ -27,6 +28,7 @@ public class OnboardingCompiler {
 
     private static final String TAG = OnboardingCompiler.class.getSimpleName();
     private static final String aapt = AAPT.getAbsolutePath();
+    private static final String aapt2 = AAPT2.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
 
     public static boolean createManifest(String name, String target, String source) {
@@ -51,18 +53,24 @@ public class OnboardingCompiler {
     public static boolean runAapt(String source, String name) {
         Shell.Result result = null;
         int attempt = 3;
-        String command = aapt + " p -f -M " + source + "/AndroidManifest.xml -I " + FRAMEWORK_DIR + " -S " + source + "/res -F " + Resources.UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk --include-meta-data --auto-add-overlay";
+        String command;
 
-        if (isQsTileOrTextOverlay(name) && isAtleastA14) {
-            QsResourceManager.removeQuickSettingsStyles(source, name);
+        if (!isAtleastA14) {
+            command = aapt + " p -f -M " + source + "/AndroidManifest.xml -I " + FRAMEWORK_DIR + " -S " + source + "/res -F " + UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk --include-meta-data --auto-add-overlay";
+        } else {
+            command = getAAPT2Command(source, name);
+
+            if (isQsTileOrTextOverlay(name)) {
+                QsResourceManager.removeQuickSettingsStyles(source, name);
+            }
         }
 
         while (attempt-- != 0) {
             result = Shell.cmd(command).exec();
 
-            if (OverlayCompiler.listContains(result.getOut(), "No resource identifier found for attribute")) {
-                new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), "Android 14 QPR2+ isn't supported yet", Toast.LENGTH_LONG).show());
-                return true;
+            if (!result.isSuccess() && OverlayCompiler.listContains(result.getOut(), "colorSurfaceHeader")) {
+                Shell.cmd("find " + source + "/res -type f -name \"*.xml\" -exec sed -i '/colorSurfaceHeader/d' {} +").exec();
+                result = Shell.cmd(command).exec();
             }
 
             if (result.isSuccess()) {
@@ -81,6 +89,15 @@ public class OnboardingCompiler {
             writeLog(TAG + " - AAPT", "Failed to build APK for " + name, result.getOut());
 
         return !result.isSuccess();
+    }
+
+    @NonNull
+    private static String getAAPT2Command(String source, String name) {
+        String folderCommand = "rm -rf " + source + "/compiled; mkdir " + source + "/compiled; [ -d " + source + "/compiled ] && ";
+        String compileCommand = aapt2 + " compile --dir " + source + "/res -o " + source + "/compiled && ";
+        String linkCommand = aapt2 + " link -o " + UNSIGNED_UNALIGNED_DIR + '/' + name + "-unsigned-unaligned.apk -I " + FRAMEWORK_DIR + " --manifest " + source + "/AndroidManifest.xml " + source + "/compiled/* --auto-add-overlay";
+
+        return folderCommand + compileCommand + linkCommand;
     }
 
     public static boolean zipAlign(String source, String name) {

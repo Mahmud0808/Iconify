@@ -1,16 +1,17 @@
 package com.drdisagree.iconify.utils.overlay.compiler;
 
 import static com.drdisagree.iconify.common.Dynamic.AAPT;
+import static com.drdisagree.iconify.common.Dynamic.AAPT2;
 import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
+import static com.drdisagree.iconify.common.Dynamic.isAtleastA14;
 import static com.drdisagree.iconify.common.Resources.FRAMEWORK_DIR;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readCertificate;
 import static com.drdisagree.iconify.utils.apksigner.CryptoUtils.readPrivateKey;
 import static com.drdisagree.iconify.utils.helper.Logger.writeLog;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.common.Resources;
@@ -28,6 +29,7 @@ public class OverlayCompiler {
 
     private static final String TAG = OverlayCompiler.class.getSimpleName();
     private static final String aapt = AAPT.getAbsolutePath();
+    private static final String aapt2 = AAPT2.getAbsolutePath();
     private static final String zipalign = ZIPALIGN.getAbsolutePath();
     private static PrivateKey key = null;
     private static X509Certificate cert = null;
@@ -55,11 +57,7 @@ public class OverlayCompiler {
                 (source.contains("SpecialOverlays") ?
                         ".zip" :
                         "-unsigned-unaligned.apk");
-        String outputDir = source.contains("SpecialOverlays") ?
-                Resources.COMPANION_COMPILED_DIR :
-                Resources.UNSIGNED_UNALIGNED_DIR;
-
-        StringBuilder aaptCommand = new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + outputDir + '/' + name + " -I " + FRAMEWORK_DIR + " --include-meta-data --auto-add-overlay");
+        StringBuilder aaptCommand = buildAAPT2Command(source, name);
 
         String[] splitLocations = AppUtil.getSplitLocations(targetPackage);
         for (String targetApk : splitLocations) {
@@ -69,9 +67,9 @@ public class OverlayCompiler {
         String command = String.valueOf(aaptCommand);
         Shell.Result result = Shell.cmd(command).exec();
 
-        if (listContains(result.getOut(), "No resource identifier found for attribute")) {
-            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), "Android 14 QPR2+ isn't supported yet", Toast.LENGTH_LONG).show());
-            return true;
+        if (!result.isSuccess() && OverlayCompiler.listContains(result.getOut(), "colorSurfaceHeader")) {
+            Shell.cmd("find " + source + "/res -type f -name \"*.xml\" -exec sed -i '/colorSurfaceHeader/d' {} +").exec();
+            result = Shell.cmd(command).exec();
         }
 
         if (result.isSuccess()) Log.i(TAG + " - AAPT", "Successfully built APK for " + name);
@@ -81,6 +79,28 @@ public class OverlayCompiler {
         }
 
         return !result.isSuccess();
+    }
+
+    @NonNull
+    private static StringBuilder buildAAPT2Command(String source, String name) {
+        String outputDir = source.contains("SpecialOverlays") ?
+                Resources.COMPANION_COMPILED_DIR :
+                Resources.UNSIGNED_UNALIGNED_DIR;
+
+        if (!isAtleastA14) {
+            return new StringBuilder(aapt + " p -f -M " + source + "/AndroidManifest.xml -S " + source + "/res -F " + outputDir + '/' + name + " -I " + FRAMEWORK_DIR + " --include-meta-data --auto-add-overlay");
+        } else {
+            return new StringBuilder(getAAPT2Command(source, name, outputDir));
+        }
+    }
+
+    @NonNull
+    private static String getAAPT2Command(String source, String name, String outputDir) {
+        String folderCommand = "rm -rf " + source + "/compiled; mkdir " + source + "/compiled; [ -d " + source + "/compiled ] && ";
+        String compileCommand = aapt2 + " compile --dir " + source + "/res -o " + source + "/compiled && ";
+        String linkCommand = aapt2 + " link -o " + outputDir + '/' + name + " -I " + FRAMEWORK_DIR + " --manifest " + source + "/AndroidManifest.xml " + source + "/compiled/* --auto-add-overlay";
+
+        return folderCommand + compileCommand + linkCommand;
     }
 
     public static boolean zipAlign(String source) {
