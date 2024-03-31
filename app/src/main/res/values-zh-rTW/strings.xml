@@ -667,6 +667,7 @@
     <string name="info_xposed_desc">幫助我解決Xposed問題。</string>
     <string name="info_tester_desc">測試這個應用程式。</string>
     <string name="info_betterqs_desc">許可使用「更好的快速設定」。</string>
+    <string name="info_binaries_desc">For android executable binaries.</string>
     <string name="section_title_contributors">貢獻者</string>
     <string name="info_contributor_desc">在 Github 上的貢獻。</string>
     <string name="info_contributor_desc_2">在 Telegram 上協助我。</string>
@@ -789,6 +790,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy 預設使用彩色電池</string>
     <string name="toast_select_style">請先選取一種樣式</string>
     <string name="toast_ksu_not_supported">目前不支援 KernelSU</string>
+    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
     <string name="toast_reboot_required">需要重新啓動</string>
     <string name="toast_lsposed_not_found">找不到LSPosed！</string>
     <string name="toast_easter_egg">你怎麽知道的？</string>

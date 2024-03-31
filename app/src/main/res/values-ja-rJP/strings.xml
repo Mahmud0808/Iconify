@@ -667,6 +667,7 @@
     <string name="info_xposed_desc">Xposed 制作補助。</string>
     <string name="info_tester_desc">アプリのテスト。</string>
     <string name="info_betterqs_desc">より良いクイック設定の使用許可。</string>
+    <string name="info_binaries_desc">For android executable binaries.</string>
     <string name="section_title_contributors">貢献者</string>
     <string name="info_contributor_desc">GitHub での貢献。</string>
     <string name="info_contributor_desc_2">Telegram での補助。</string>
@@ -789,6 +790,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy uses colored battery by default</string>
     <string name="toast_select_style">はじめにスタイルを選択して下さい</string>
     <string name="toast_ksu_not_supported">KernelSU は現在サポートされていません</string>
+    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
     <string name="toast_reboot_required">再起動が必要です</string>
     <string name="toast_lsposed_not_found">LSPosed が見つかりません！</string>
     <string name="toast_easter_egg">どうやってこれ知ったの？</string>

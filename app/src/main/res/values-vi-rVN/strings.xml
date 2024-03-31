@@ -667,6 +667,7 @@
     <string name="info_xposed_desc">For helping me with Xposed.</string>
     <string name="info_tester_desc">Để thử nghiệm ứng dụng.</string>
     <string name="info_betterqs_desc">For permission to use better QS.</string>
+    <string name="info_binaries_desc">For android executable binaries.</string>
     <string name="section_title_contributors">người đóng góp</string>
     <string name="info_contributor_desc">Để đóng góp trên github.</string>
     <string name="info_contributor_desc_2">Vì đã hỗ trợ tôi trên điện tín.</string>
@@ -789,6 +790,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy sử dụng pin màu theo mặc định</string>
     <string name="toast_select_style">Chọn một phong cách đầu tiên</string>
     <string name="toast_ksu_not_supported">KernelSU is currently not supported</string>
+    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
     <string name="toast_reboot_required">Yêu cầu tái thiết lập</string>
     <string name="toast_lsposed_not_found">Không tìm thấy LSPosed!</string>
     <string name="toast_easter_egg">Làm sao mà bạn biết được điều đó?</string>

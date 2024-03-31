@@ -22,7 +22,7 @@
     <string name="need_storage_perm_title">Speicherberechtigung benötigt</string>
     <string name="need_storage_perm_desc">Speicherzugriff benötigt, um die notwendigen Dateien zu bauen.</string>
     <string name="compatible_root_not_found_title">Konnte keine kompatible Root-Methode finden</string>
-    <string name="compatible_root_not_found_desc">Use any popular root solutions to proceed.</string>
+    <string name="compatible_root_not_found_desc">Verwenden Sie eine populäre Root-Lösung, um fortzufahren.</string>
     <string name="root_not_found_title">Kein root Zugriff</string>
     <string name="root_not_found_desc">Sieht so aus, als wäre dein Gerät nicht gerootet!</string>
     <string name="need_reboot_title">Geräteneustart benötigt</string>
@@ -182,11 +182,11 @@
     <string name="settings_iconpack_bubble_v2">Outline-Multifarben-Icon-Pack</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">Pixel Varianten</string>
-    <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
+    <string name="activity_desc_pixel_variant">Für ROMs mit schwarzem QS-Panel</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Stile für den Helligkeitsregler</string>
     <!-- QS Panel Tiles -->
-    <string name="qspanel_tile_styles">QS Panel Tile Styles</string>
+    <string name="qspanel_tile_styles">QS-Panel Kacheln Stil</string>
     <!-- Notification -->
     <string name="notification_styles">Stile für die Benachrichtigungen</string>
     <string name="notif_preview_desc">Benachrichtigungsvorschau.\nKlicken, um dieses Aussehen anzuwenden.</string>
@@ -208,7 +208,7 @@
     <string name="icon_mask_style_heart">Herz</string>
     <string name="icon_mask_style_leaf">Blatt</string>
     <string name="icon_mask_style_stretched">Gestreckt</string>
-    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
+    <string name="icon_mask_style_tapered_rectangle">Zugespitzes\nRechteck</string>
     <string name="icon_mask_style_vessel">Gefäß</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
     <string name="icon_mask_style_force_round">Erzwinge Rundung</string>
@@ -228,8 +228,8 @@
     <string name="pitch_black_amoled_title">Tiefschwarz (Amoled)</string>
     <string name="pitch_black_amoled_desc">Aktiviere tiefschwarzes amoled Design</string>
     <string name="section_title_misc">Verschiedenes</string>
-    <string name="minimal_qspanel">Minimal QS Panel</string>
-    <string name="remove_top_shade_of_qspanel">Remove top shade of QS panel</string>
+    <string name="minimal_qspanel">Minimales QS-Panel</string>
+    <string name="remove_top_shade_of_qspanel">Obere Schattierung des QS-Panels entfernen</string>
     <string name="disable_monet_title">Deaktiviere System Monet</string>
     <string name="disable_monet_desc">Hilft benutzerdefinierte Farben beizubehalten\nSystemUI Neustart erforderlich</string>
     <!-- Basic Colors -->
@@ -244,7 +244,7 @@
     <string name="monet_neutral">Neutral</string>
     <string name="monet_monochrome">Monochrom</string>
     <string name="monet_tonalspot">Tonal Spot</string>
-    <string name="monet_vibrant">Vibrant</string>
+    <string name="monet_vibrant">Kräftig</string>
     <string name="monet_rainbow">Regenbogen</string>
     <string name="monet_expressive">Ausdrucksvoll</string>
     <string name="monet_fidelity">Fidelity</string>
@@ -266,7 +266,7 @@
     <string name="qstile_btn4_desc">An</string>
     <!-- Row and Column -->
     <string name="qs_row_column_warn_desc">Bestimmte Kombinationen sind nicht kompatibel mit manchen ROMs. In diesen Fällen einfach mit anderen Kombinationen experimentieren, bis eine passende Gefunden ist.</string>
-    <string name="quick_qspanel_row_title">Quick QS Panel Row</string>
+    <string name="quick_qspanel_row_title">Schnelle QS-Panel-Zeile</string>
     <string name="qspanel_row_title">SE-Panel Reihe</string>
     <string name="qspanel_column_title">SE-Panel Spalte</string>
     <!-- Icon and Label -->
@@ -289,8 +289,8 @@
     <string name="label_follow_system_v2_desc">Titel wie System, Untertitel wie Akzent</string>
     <string name="label_fix_text_color_title">Behebe Textfarben</string>
     <string name="label_fix_text_color_desc">Benutze das, wenn die oberen nicht funktioniert haben</string>
-    <string name="label_follow_accent_title">Follow Accent</string>
-    <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
+    <string name="label_follow_accent_title">Akzent folgen</string>
+    <string name="label_follow_accent_desc">Titel Akzent, Untertitel Akzent</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Portraitmodus</string>
     <string name="section_title_landscape">Landschaftsmodus</string>
@@ -346,12 +346,12 @@
     <string name="vp_track_thin">Dünn</string>
     <string name="vp_track_thick">Dick</string>
     <string name="vp_track_none">Nichts</string>
-    <string name="vp_thin_background_title">Thin Background</string>
-    <string name="vp_thin_background_desc">Make track of volume slider thin</string>
-    <string name="vp_thick_background_title">Thick Background</string>
-    <string name="vp_thick_background_desc">Make track of volume slider thick</string>
+    <string name="vp_thin_background_title">Dünner Hintergrund</string>
+    <string name="vp_thin_background_desc">Spur des Lautstärkereglers dünn machen</string>
+    <string name="vp_thick_background_title">Dicker Hintergrund</string>
+    <string name="vp_thick_background_desc">Spur des Lautstärkereglers dick machen</string>
     <string name="vp_no_background_title">Kein Hintergrund</string>
-    <string name="vp_no_background_desc">Remove track of volume slider</string>
+    <string name="vp_no_background_desc">Spur des Lautstärkereglers entfernen</string>
     <string name="section_title_custom_magisk_module">Benutzerdefiniertes Magisk Modul</string>
     <string name="volume_style">Lautstärke Stil</string>
     <string name="volume_module_desc">Erstellt ein flashbares Magisk Modul für diesem Stil</string>
@@ -380,7 +380,7 @@
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">Tablet Modus</string>
     <string name="tablet_landscape_title">Tablet Querformat</string>
-    <string name="tablet_landscape_desc">Also known as Better QS</string>
+    <string name="tablet_landscape_desc">Auch bekannt als Better QS</string>
     <string name="notch_bar_killer_title">Notch Bar Killer</string>
     <string name="notch_bar_killer_desc">Kill empty space of notch bar</string>
     <string name="tablet_header_title">Tablet Header</string>
@@ -429,15 +429,15 @@
     <string name="window_level_blur_title">Fensterlevelblur</string>
     <string name="window_level_blur_desc">Benötigt einen Neustart um zu funktionieren</string>
     <string name="aggressive_blur_title">Aggressiver Blur-Aktivierer</string>
-    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
+    <string name="aggressive_blur_desc">Kann in manchen ROMs zu Bootlooping führen</string>
     <string name="blur_intensity_title">Blurintensität</string>
     <!-- Themes -->
-    <string name="section_title_for_pixel_roms">For Pixel Roms</string>
+    <string name="section_title_for_pixel_roms">Für Pixel ROMs</string>
     <string name="light_theme_title">Helles Design</string>
     <string name="light_theme_desc">Helles SE Design im hellen Design\nEs müssen eigene SE Formen benutzt werden</string>
     <string name="dual_tone_title">Zwei-Tönig</string>
     <string name="dual_tone_desc">Benutze andere Farbe für Header</string>
-    <string name="section_title_for_custom_roms">For Custom Roms</string>
+    <string name="section_title_for_custom_roms">Für benutzerdefinierte ROMs</string>
     <string name="black_theme_title">Dunkles Pixel Design</string>
     <string name="black_theme_desc">Schwarzes SE Design im hellen Design\nEs muss die Pixel SE Form benutzt werden\nVerwende das dunkle Design um die Textfarbe zu fixieren</string>
     <string name="section_title_translucent_theme">Transluzentes Design</string>
@@ -466,14 +466,14 @@
     <string name="battery_style_title">Batterie Stil</string>
     <string name="battery_width_title">Batterie Breite</string>
     <string name="battery_height_title">Batterie Höhe</string>
-    <string name="battery_margin_title">Battery Margin</string>
+    <string name="battery_margin_title">Akku Abstand</string>
     <string name="hide_battery_title">Verstecke Batterie</string>
     <string name="hide_battery_desc">Behalte nur Ladesymbol und Prozentzahl</string>
     <string name="custom_charging_icon_title">Benutzerdefiniertes Ladesymbol</string>
     <string name="custom_charging_icon_desc">Ändere Ladesymbol zu benutzerdefiniertem Symbol</string>
     <string name="charging_icon_style_title">Ladesymbol Stil</string>
-    <string name="charging_icon_margin_left_title">Charging Icon Margin Left</string>
-    <string name="charging_icon_margin_right_title">Charging Icon Margin Right</string>
+    <string name="charging_icon_margin_left_title">Ladesymbol Abstand links</string>
+    <string name="charging_icon_margin_right_title">Ladesymbol Abstand rechts</string>
     <string name="charging_icon_size_title">Ladesymbol Größe</string>
     <string name="perimeter_alpha_title">Perimeter Alpha</string>
     <string name="perimeter_alpha_desc">Make battery perimeter semi transparent</string>
@@ -596,28 +596,28 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\nMust use custom lockscreen clock</string>
-    <string name="wallpaper_fade_animation_title">Fade in AOD</string>
-    <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
+    <string name="wallpaper_fade_animation_title">Einblenden AOD</string>
+    <string name="wallpaper_fade_animation_desc">Animiere Hintergrundbild und verblassen im AOD</string>
     <string name="foreground_image_title">Vordergrund Bild</string>
     <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
     <string name="background_image_title">Hintergrund Bild</string>
     <string name="background_image_desc">Background image for depth wallpaper</string>
     <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bugs:</b>\n• Always on Display is broken. Disable AOD to avoid display issues.\n• Tapping on lockscreen makes the wallpaper jump.</string>
     <!-- Background Chip -->
-    <string name="section_title_status_bar">Status Bar</string>
-    <string name="sb_clock_background_chip_title">Statusbar Clock Chip</string>
-    <string name="sb_clock_background_chip_desc">Display chip behind statusbar clock</string>
-    <string name="statusbar_clock_color_title">Statusbar Clock Color</string>
+    <string name="section_title_status_bar">Statusleiste</string>
+    <string name="sb_clock_background_chip_title">Statusleiste Uhr-Chip</string>
+    <string name="sb_clock_background_chip_desc">Chip hinter der Statusleisten-Uhr anzeigen</string>
+    <string name="statusbar_clock_color_title">Statusleisten Uhr Farbe</string>
     <string name="sbclock_color_follow_system">Folge System</string>
     <string name="sbclock_color_transparent_text">Transparenter Text</string>
     <string name="sbclock_color_custom_color">Benutzerdefinierte Farbe</string>
     <string name="clock_color_picker_title">Uhrfarbwähler</string>
     <string name="clock_color_picker_desc">Farbe der Statusbar Uhr setzen</string>
     <string name="section_title_status_icons">Statussymbole</string>
-    <string name="chip_style_title">Chip Style</string>
-    <string name="status_icons_chip_title">Status Icons Chip</string>
+    <string name="chip_style_title">Chip-Stil</string>
+    <string name="status_icons_chip_title">Statussymbole Chip</string>
     <string name="status_icons_chip_desc">Display chip behind status icons</string>
-    <string name="status_icons_chip_style_title">Chip Style</string>
+    <string name="status_icons_chip_style_title">Chip Stil</string>
     <string name="fixed_status_icons_top_margin">Oberer Rand</string>
     <string name="fixed_status_icons_side_margin">Seitlicher Rand</string>
     <!-- Xposed Others -->
@@ -630,7 +630,7 @@
     <string name="hide_ls_carrier_title">Hide LS Carrier</string>
     <string name="hide_ls_carrier_desc">Mobilfunkanbieter auf Sperrbildschirm verbergen</string>
     <string name="hide_ls_statusbar_title">Hide LS Statusbar</string>
-    <string name="hide_ls_statusbar_desc">Hide statusbar on lockscreen</string>
+    <string name="hide_ls_statusbar_desc">Statusleiste auf Sperrbildschirm ausblenden</string>
     <string name="fixed_status_icons_title">Fixierte Statussymbole</string>
     <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
     <!-- Changelog -->
@@ -667,6 +667,7 @@
     <string name="info_xposed_desc">Für die Hilfe mit Xposed.</string>
     <string name="info_tester_desc">Für das Testen der App.</string>
     <string name="info_betterqs_desc">For permission to use better QS.</string>
+    <string name="info_binaries_desc">For android executable binaries.</string>
     <string name="section_title_contributors">Mitwirkende</string>
     <string name="info_contributor_desc">Für das Helfen auf GitHub.</string>
     <string name="info_contributor_desc_2">Für das assistieren auf Telegram.</string>
@@ -674,39 +675,39 @@
     <string name="af_translation">Afrikaans translation.</string>
     <string name="ar_translation">Arabische Übersetzung.</string>
     <string name="ca_translation">Catalan translation.</string>
-    <string name="zh_cn_translation">Chinese translation.</string>
-    <string name="zh_tw_translation">Chinese translation.</string>
-    <string name="cs_translation">Czech translation.</string>
-    <string name="da_translation">Danish translation.</string>
-    <string name="nl_translation">Dutch translation.</string>
-    <string name="fi_translation">Finnish translation.</string>
+    <string name="zh_cn_translation">Chinesische Übersetzung.</string>
+    <string name="zh_tw_translation">Chinesische Übersetzung.</string>
+    <string name="cs_translation">Tschechische Übersetzung.</string>
+    <string name="da_translation">Dänische Übersetzung.</string>
+    <string name="nl_translation">Niederländische Übersetzung.</string>
+    <string name="fi_translation">Finnische Übersetzung.</string>
     <string name="fr_translation">Französische Übersetzung.</string>
-    <string name="de_translation">German translation.</string>
-    <string name="el_translation">Greek translation.</string>
-    <string name="hu_translation">Hungarian translation.</string>
+    <string name="de_translation">Deutsche Übersetzung.</string>
+    <string name="el_translation">Griechische Übersetzung.</string>
+    <string name="hu_translation">Ungarische Übersetzung.</string>
     <string name="id_translation">Indonesische Übersetzung.</string>
     <string name="it_translation">Italienische Übersetzung.</string>
-    <string name="ja_translation">Japanese translation.</string>
-    <string name="ko_translation">Korean translation.</string>
-    <string name="no_translation">Norwegian translation.</string>
+    <string name="ja_translation">Japanische Übersetzung.</string>
+    <string name="ko_translation">Koreanische Übersetzung.</string>
+    <string name="no_translation">Norwegische Übersetzung.</string>
     <string name="fa_translation">Persische Übersetzung.</string>
     <string name="pl_translation">Polnische Übersetzung.</string>
     <string name="pt_translation">Portugiesische Übersetzung.</string>
-    <string name="pt_br_translation">Portuguese (Brazilian) translation.</string>
-    <string name="ro_translation">Romanian translation.</string>
+    <string name="pt_br_translation">Portugiesische (brasilianische) Übersetzung.</string>
+    <string name="ro_translation">Rumänische Übersetzung.</string>
     <string name="ru_translation">Russische Übersetzung.</string>
-    <string name="sr_translation">Serbian (Cyrillic) translation.</string>
+    <string name="sr_translation">Serbisch (Kyrillisch) Übersetzung.</string>
     <string name="es_translation">Spanische Übersetzung.</string>
-    <string name="sv_translation">Swedish translation.</string>
+    <string name="sv_translation">Schwedische Übersetzung.</string>
     <string name="tr_translation">Türkische Übersetzung.</string>
-    <string name="uk_translation">Ukrainian translation.</string>
+    <string name="uk_translation">Ukrainische Übersetzung.</string>
     <string name="vi_translation">Vietnamesische Übersetzung.</string>
     <!-- Experimental -->
     <string name="experimental_features_title">Experimentell</string>
     <string name="overlap_header_image_title">Overlap Header Image</string>
     <string name="overlap_header_image_desc">Overlap header image on expanded QS</string>
     <string name="unzoom_depth_wallpaper_title">Unzoom Depth Wallpaper</string>
-    <string name="unzoom_depth_wallpaper_desc">Remove the zoom effect on depth wallpaper</string>
+    <string name="unzoom_depth_wallpaper_desc">Zoom-Effekt bei Tiefenhintergrund entfernen</string>
     <string name="hide_data_disabled_icon_title">Hide Data Disabled Icon</string>
     <string name="hide_data_disabled_icon_desc">Hide data disabled indicator</string>
     <!-- Bottom Navigation -->
@@ -789,6 +790,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy nutzt gefärbte Batterie standardmäßig</string>
     <string name="toast_select_style">Wähle zuerst einen Stil</string>
     <string name="toast_ksu_not_supported">KernelSU ist zurzeit nicht unterstützt</string>
+    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
     <string name="toast_reboot_required">Neustart benötigt</string>
     <string name="toast_lsposed_not_found">LSPosed nicht gefunden!</string>
     <string name="toast_easter_egg">Woher wustest du das?</string>
@@ -801,7 +803,7 @@
     <string name="toast_export_settings_successfull">Einstellungen Exportieren erfolgreich</string>
     <string name="toast_selected_successfully">Erfolgreich ausgewählt</string>
     <string name="toast_unavailable">Unverfügbar</string>
-    <string name="toast_use_from_xposed_menu">Use this feature from Xposed Menu</string>
+    <string name="toast_use_from_xposed_menu">Diese Funktion aus dem Xposed Menü verwenden</string>
     <!-- Push Notification -->
     <string name="new_update_title">Aktualisierung verfügbar</string>
     <string name="new_update_desc">Eine neue Version von Iconify ist verfügbar.</string>
@@ -893,5 +895,5 @@
     <string name="one_time_reboot_needed">Starte dein Gerät neu!</string>
     <string name="tap_to_select">Tippe auf Vorschau um auszuwählen</string>
     <string name="dont_show_again">Nicht erneut zeigen</string>
-    <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
+    <string name="requires_lsposed_for_a14">Um eine korrekte Funktionalität zu gewährleisten, ist die Aktivierung des Iconify Moduls in LSPosed für Android 14 und höher zwingend.\n\nDanach aktivieren Sie die Anpassungen von: Tweaks &gt; Xposed-Menü &gt; Themen &gt; Andere.</string>
 </resources>
