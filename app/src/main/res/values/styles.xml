@@ -114,7 +114,7 @@
     </style>
 
     <style name="buttonLandingPage">
-        <item name="fontFamily">@font/regular</item>
+        <item name="fontFamily">@font/montserrat</item>
         <item name="android:background">@drawable/button</item>
         <item name="android:textColor">@color/textColorPrimaryInverse</item>
         <item name="android:textAllCaps">false</item>
