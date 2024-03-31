@@ -181,6 +181,9 @@ dependencies {
     // Dots Indicator
     implementation 'com.tbuonomo:dotsindicator:4.3'
 
+    // Fading Edge Layout
+    implementation 'com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0'
+
     // Misc
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

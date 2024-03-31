@@ -1,13 +1,14 @@
 package com.drdisagree.iconify.ui.fragments;
 
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_BOTTOM_FADE_AMOUNT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT;
 import static com.drdisagree.iconify.common.Resources.HEADER_IMAGE_DIR;
-import static com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir;
 import static com.drdisagree.iconify.utils.FileUtil.getRealPath;
+import static com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -98,6 +99,19 @@ public class XposedHeaderImage extends BaseFragment {
             @Override
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 RPrefs.putInt(HEADER_IMAGE_ALPHA, (int) slider.getValue());
+            }
+        });
+
+        // Image bottom fade amount
+        binding.headerImageBottomFade.setSliderValue(RPrefs.getInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40));
+        binding.headerImageBottomFade.setOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull Slider slider) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                RPrefs.putInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, (int) slider.getValue());
             }
         });
 

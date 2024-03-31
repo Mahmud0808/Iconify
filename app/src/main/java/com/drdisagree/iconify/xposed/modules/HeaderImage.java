@@ -2,6 +2,7 @@ package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA;
+import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_BOTTOM_FADE_AMOUNT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_OVERLAP;
@@ -31,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.bosphere.fadingedgelayout.FadingEdgeLayout;
 import com.drdisagree.iconify.xposed.ModPack;
 
 import java.io.File;
@@ -52,8 +54,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
     private boolean zoomToFit = false;
     private boolean headerImageOverlap = false;
     private boolean hideLandscapeHeaderImage = true;
-    private LinearLayout mQsHeaderLayout = null;
+    private FadingEdgeLayout mQsHeaderLayout = null;
     private ImageView mQsHeaderImageView = null;
+    private int bottomFadeAmount = 0;
 
     public HeaderImage(Context context) {
         super(context);
@@ -69,8 +72,21 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         zoomToFit = Xprefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false);
         headerImageOverlap = Xprefs.getBoolean(HEADER_IMAGE_OVERLAP, false);
         hideLandscapeHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true);
+        bottomFadeAmount = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                Xprefs.getInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40),
+                mContext.getResources().getDisplayMetrics()
+        );
 
-        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_LANDSCAPE_SWITCH) || Objects.equals(Key[0], HEADER_IMAGE_ALPHA) || Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) || Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT))) {
+        if (Key.length > 0 &&
+                (Objects.equals(Key[0], HEADER_IMAGE_SWITCH) ||
+                        Objects.equals(Key[0], HEADER_IMAGE_LANDSCAPE_SWITCH) ||
+                        Objects.equals(Key[0], HEADER_IMAGE_ALPHA) ||
+                        Objects.equals(Key[0], HEADER_IMAGE_HEIGHT) ||
+                        Objects.equals(Key[0], HEADER_IMAGE_ZOOMTOFIT) ||
+                        Objects.equals(Key[0], HEADER_IMAGE_BOTTOM_FADE_AMOUNT)
+                )
+        ) {
             updateQSHeaderImage();
         }
     }
@@ -86,7 +102,7 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
                 protected void afterHookedMethod(MethodHookParam param) {
                     FrameLayout mQuickStatusBarHeader = (FrameLayout) param.thisObject;
 
-                    mQsHeaderLayout = new LinearLayout(mContext);
+                    mQsHeaderLayout = new FadingEdgeLayout(mContext);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, imageHeight, mContext.getResources().getDisplayMetrics()));
                     layoutParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics());
                     layoutParams.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -16, mContext.getResources().getDisplayMetrics());
@@ -149,7 +165,6 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
             return;
         }
 
-
         loadImageOrGif(mQsHeaderImageView);
         mQsHeaderImageView.setImageAlpha((int) (headerImageAlpha / 100.0 * 255.0));
 
@@ -162,6 +177,9 @@ public class HeaderImage extends ModPack implements IXposedHookLoadPackage {
         } else {
             mQsHeaderLayout.setVisibility(View.VISIBLE);
         }
+
+        mQsHeaderLayout.setFadeEdges(false, false, bottomFadeAmount != 0, false);
+        mQsHeaderLayout.setFadeSizes(0, 0, bottomFadeAmount, 0);
     }
 
     @SuppressWarnings("SameParameterValue")

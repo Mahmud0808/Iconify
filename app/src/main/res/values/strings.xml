@@ -587,6 +587,7 @@
     <string name="btn_pick_image">Pick Image</string>
     <string name="header_image_height_title">Image Height</string>
     <string name="header_image_alpha">Image Alpha</string>
+    <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Zoom To Fit</string>
     <string name="header_image_zoom_to_fit_desc">Image is stretched to fit by default</string>
     <string name="header_image_hide_in_landscape_title">Hide in Landscape</string>
