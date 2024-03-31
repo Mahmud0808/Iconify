@@ -667,6 +667,7 @@
     <string name="info_xposed_desc">Pour m\'avoir aidé avec Xposed.</string>
     <string name="info_tester_desc">Pour avoir testé l\'application.</string>
     <string name="info_betterqs_desc">Pour la permission d\'utiliser \"Better QS\".</string>
+    <string name="info_binaries_desc">For android executable binaries.</string>
     <string name="section_title_contributors">Contributeurs</string>
     <string name="info_contributor_desc">Pour avoir contribué sur Github.</string>
     <string name="info_contributor_desc_2">Pour m\'assister sur Telegram.</string>
@@ -789,6 +790,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy uses colored battery by default</string>
     <string name="toast_select_style">Select a style first</string>
     <string name="toast_ksu_not_supported">KernelSU is currently not supported</string>
+    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
     <string name="toast_reboot_required">Reboot required</string>
     <string name="toast_lsposed_not_found">LSPosed not found!</string>
     <string name="toast_easter_egg">How did you know that?</string>
