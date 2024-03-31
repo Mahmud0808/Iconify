@@ -667,6 +667,7 @@
     <string name="info_xposed_desc">Az Xposed-ben való segítségért.</string>
     <string name="info_tester_desc">Az alkalmazás teszteléséért.</string>
     <string name="info_betterqs_desc">A jobb Gyorsbeállítások engedélyezéséért.</string>
+    <string name="info_binaries_desc">For android executable binaries.</string>
     <string name="section_title_contributors">Közreműködők</string>
     <string name="info_contributor_desc">A githubon való közreműködésért.</string>
     <string name="info_contributor_desc_2">A Telegramban való segítségért.</string>
@@ -789,6 +790,7 @@
     <string name="toast_plumpy_colored_battery">A duci alapértelmezetten szines akkukijelzőt használ</string>
     <string name="toast_select_style">Elsőként válasszon egy stílust</string>
     <string name="toast_ksu_not_supported">A KernelSU jelenleg nem támogatott</string>
+    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
     <string name="toast_reboot_required">Újraindítás szükséges</string>
     <string name="toast_lsposed_not_found">Az LSPosed nem található</string>
     <string name="toast_easter_egg">Honnan tudta ezt?</string>

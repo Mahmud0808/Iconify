@@ -542,8 +542,8 @@
     <string name="battery_landscape_battery_m">Горизонтальная батарея M</string>
     <string name="battery_landscape_battery_n">Горизонтальная батарея N</string>
     <string name="battery_landscape_battery_o">Горизонтальная батарея O</string>
-    <string name="battery_circle">Circle Battery</string>
-    <string name="battery_dotted_circle">Dotted Circle Battery</string>
+    <string name="battery_circle">Круглая батарея</string>
+    <string name="battery_dotted_circle">Точечный круг батареи</string>
     <!-- Header Image -->
     <string name="header_image_title">Выберите изображение заголовка</string>
     <string name="header_image_desc">Добавить изображения на панель быстрых настроек\nНе выбирайте его из вкладки \"Последние\"</string>
@@ -667,14 +667,15 @@
     <string name="info_xposed_desc">За помощь с Xposed.</string>
     <string name="info_tester_desc">За тестирование приложения.</string>
     <string name="info_betterqs_desc">За разрешение на использование Better QS</string>
+    <string name="info_binaries_desc">For android executable binaries.</string>
     <string name="section_title_contributors">Участники проекта</string>
     <string name="info_contributor_desc">Вклад на github.</string>
     <string name="info_contributor_desc_2">Помощь мне в Telegram.</string>
     <string name="section_title_translators">Переводчики</string>
-    <string name="af_translation">Afrikaans translation.</string>
+    <string name="af_translation">Африканский перевод.</string>
     <string name="ar_translation">Перевод на арабский.</string>
     <string name="ca_translation">Catalan translation.</string>
-    <string name="zh_cn_translation">Chinese translation.</string>
+    <string name="zh_cn_translation">Китайский перевод.</string>
     <string name="zh_tw_translation">Chinese translation.</string>
     <string name="cs_translation">Czech translation.</string>
     <string name="da_translation">Danish translation.</string>
@@ -789,6 +790,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy по умолчанию использует цветную батарею</string>
     <string name="toast_select_style">Сначала выберите стиль</string>
     <string name="toast_ksu_not_supported">KernelSU пока что не поддерживается</string>
+    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
     <string name="toast_reboot_required">Необходима перезагрузка</string>
     <string name="toast_lsposed_not_found">LSposed не найден!</string>
     <string name="toast_easter_egg">Как ты об этом догадался?</string>

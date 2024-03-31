@@ -667,6 +667,7 @@
     <string name="info_xposed_desc">Xposed konusunda bana yardım ettiğin için.</string>
     <string name="info_tester_desc">Uygulamayı test ettiğin için.</string>
     <string name="info_betterqs_desc">Better QS kullanım izni için.</string>
+    <string name="info_binaries_desc">For android executable binaries.</string>
     <string name="section_title_contributors">Katkıda Bulunanlar</string>
     <string name="info_contributor_desc">GitHub\'dan destek olmak için.</string>
     <string name="info_contributor_desc_2">Telegram\'da bana yardım etmek için.</string>
@@ -789,6 +790,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy varsayılan olarak renkli pil kullanır</string>
     <string name="toast_select_style">Önce bir stil seçin</string>
     <string name="toast_ksu_not_supported">KernelSU şu anda desteklenmiyor</string>
+    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
     <string name="toast_reboot_required">Yeniden başlatma gerekiyor</string>
     <string name="toast_lsposed_not_found">LSPosed bulunamadı!</string>
     <string name="toast_easter_egg">Bunu nereden biliyorsun?</string>
