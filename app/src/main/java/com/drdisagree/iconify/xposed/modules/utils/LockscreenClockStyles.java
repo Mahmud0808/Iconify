@@ -11,6 +11,7 @@ import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
+import static com.drdisagree.iconify.xposed.HookRes.modRes;
 import static com.drdisagree.iconify.xposed.modules.utils.TimeUtils.formatTime;
 import static com.drdisagree.iconify.xposed.modules.utils.TimeUtils.getNumericToText;
 import static com.drdisagree.iconify.xposed.modules.utils.TimeUtils.regionFormattedDate;
@@ -31,9 +32,12 @@ import android.view.ViewGroup;
 import android.widget.AnalogClock;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
+
+import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager;
 
 import java.io.File;
 
@@ -546,6 +550,145 @@ public class LockscreenClockStyles {
                     container8.setGravity(Gravity.CENTER);
                     container8.addView(tempContainer8);
                     return container8;
+                }
+                case 9 -> {
+                    Typeface futuristicTypeface =
+                            Typeface.createFromAsset(modRes.getAssets(), "Fonts/Futurist-Fixed-Width-Bold.ttf");
+                    int titleSize = 18;
+                    int timeSize = 35;
+                    final TextView timeis101 = new TextView(mContext);
+                    timeis101.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    timeis101.setText("Time is");
+                    timeis101.setTextColor(textColor);
+                    timeis101.setTextSize(TypedValue.COMPLEX_UNIT_DIP, titleSize * textScaling);
+                    timeis101.setTypeface(futuristicTypeface);
+                    final TextClock time101 = new TextClock(mContext);
+                    ViewGroup.MarginLayoutParams timeParams101 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+
+                    timeParams101.setMargins(
+                            0,
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()),
+                            0,
+                            0);
+                    time101.setLayoutParams(timeParams101);
+                    time101.setFormat12Hour("hh a:mm");
+                    time101.setFormat24Hour("HH:mm");
+                    time101.setTextColor(textColor);
+                    time101.setTypeface(futuristicTypeface, Typeface.BOLD);
+                    time101.setTextSize(TypedValue.COMPLEX_UNIT_DIP, timeSize * textScaling);
+                    final LinearLayout divider1 = new LinearLayout(mContext);
+                    ViewGroup.MarginLayoutParams dividerParams1 = new ViewGroup.MarginLayoutParams(
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 90 * textScaling, mContext.getResources().getDisplayMetrics()));
+                    dividerParams1.setMargins(
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()),
+                            0,
+                            (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()),
+                            0);
+                    divider1.setLayoutParams(dividerParams1);
+                    GradientDrawable mDrawable1 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                            new int[]{
+                                    Color.parseColor("#FFA2ECBB"),
+                                    Color.parseColor("#FFA2ECBB")});
+                    divider1.setBackground(mDrawable1);
+                    final LinearLayout firstLineSep101 = new LinearLayout(mContext);
+                    firstLineSep101.setLayoutParams(new LinearLayout.LayoutParams(dp2px(mContext, 20), ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                    final LinearLayout firstLineVertical = new LinearLayout(mContext);
+                    firstLineVertical.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    firstLineVertical.setOrientation(LinearLayout.VERTICAL);
+                    firstLineVertical.addView(timeis101);
+                    firstLineVertical.addView(time101);
+                    final LinearLayout firstLine = new LinearLayout(mContext);
+                    firstLine.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    firstLine.setOrientation(LinearLayout.HORIZONTAL);
+                    firstLine.addView(divider1);
+                    firstLine.addView(firstLineVertical);
+
+                    final TextView date101 = new TextView(mContext);
+                    date101.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    date101.setText("Calendar");
+                    date101.setTextColor(textColor);
+                    date101.setTypeface(futuristicTypeface);
+                    date101.setTextSize(TypedValue.COMPLEX_UNIT_DIP, titleSize * textScaling);
+                    final TextClock date102 = new TextClock(mContext);
+                    ViewGroup.MarginLayoutParams dateParams102 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                    dateParams102.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6, mContext.getResources().getDisplayMetrics()), 0, 0);
+                    date102.setLayoutParams(timeParams101);
+                    date102.setFormat12Hour("MMMM dd");
+                    date102.setFormat24Hour("MMMM dd");
+                    date102.setTextColor(textColor);
+                    date102.setAllCaps(true);
+                    date102.setTextSize(TypedValue.COMPLEX_UNIT_DIP, timeSize * textScaling);
+                    date102.setTypeface(futuristicTypeface, Typeface.BOLD);
+                    final LinearLayout divider2 = new LinearLayout(mContext);
+                    ViewGroup.MarginLayoutParams dividerParams2 = new ViewGroup.MarginLayoutParams((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80 * textScaling, mContext.getResources().getDisplayMetrics()));
+                    dividerParams2.setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
+                    divider2.setLayoutParams(dividerParams1);
+                    GradientDrawable mDrawable2 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                            new int[]{
+                                    Color.parseColor("#FF89D8F6"),
+                                    Color.parseColor("#FF89D8F6")});
+                    divider2.setBackground(mDrawable2);
+
+                    final LinearLayout secondLineVertical = new LinearLayout(mContext);
+                    secondLineVertical.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    secondLineVertical.setOrientation(LinearLayout.VERTICAL);
+                    secondLineVertical.addView(date101);
+                    secondLineVertical.addView(date102);
+                    final LinearLayout secondLine = new LinearLayout(mContext);
+                    secondLine.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    secondLine.setOrientation(LinearLayout.HORIZONTAL);
+                    secondLine.addView(divider2);
+                    secondLine.addView(secondLineVertical);
+
+                    final TextView date103 = new TextView(mContext);
+                    date103.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    date103.setText("Today is");
+                    date102.setTextColor(textColor);
+                    date103.setTypeface(futuristicTypeface);
+                    date103.setTextSize(TypedValue.COMPLEX_UNIT_DIP, titleSize * textScaling);
+                    final TextClock date104 = new TextClock(mContext);
+                    ViewGroup.MarginLayoutParams dateParams104 = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                    dateParams104.setMargins(0, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, mContext.getResources().getDisplayMetrics()), 0, 0);
+                    date104.setLayoutParams(timeParams101);
+                    date104.setFormat12Hour("EEEE");
+                    date104.setFormat24Hour("EEEE");
+                    date104.setTextColor(textColor);
+                    date104.setAllCaps(true);
+                    date104.setTextSize(TypedValue.COMPLEX_UNIT_DIP, timeSize * textScaling);
+                    date104.setTypeface(futuristicTypeface, Typeface.BOLD);
+                    final LinearLayout divider3 = new LinearLayout(mContext);
+                    ViewGroup.MarginLayoutParams dividerParams3 = new ViewGroup.MarginLayoutParams((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80 * textScaling, mContext.getResources().getDisplayMetrics()));
+                    dividerParams3.setMargins((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics()), (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics()));
+                    divider3.setLayoutParams(dividerParams1);
+                    GradientDrawable mDrawable3 = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
+                            new int[]{
+                                    Color.parseColor("#FFF68989"),
+                                    Color.parseColor("#FFF68989")});
+                    divider3.setBackground(mDrawable3);
+
+                    final LinearLayout thirdLineVertical = new LinearLayout(mContext);
+                    thirdLineVertical.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    thirdLineVertical.setOrientation(LinearLayout.VERTICAL);
+                    thirdLineVertical.addView(date103);
+                    thirdLineVertical.addView(date104);
+                    final LinearLayout thirdLine = new LinearLayout(mContext);
+                    thirdLine.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                    thirdLine.setOrientation(LinearLayout.HORIZONTAL);
+                    thirdLine.addView(divider3);
+                    thirdLine.addView(thirdLineVertical);
+
+                    final LinearLayout clockContainer1 = new LinearLayout(mContext);
+                    LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    layoutParams1.gravity = Gravity.CENTER_HORIZONTAL;
+                    setMargins(layoutParams1, mContext, 0, topMargin, 0, bottomMargin);
+                    clockContainer1.setLayoutParams(layoutParams1);
+                    clockContainer1.setGravity(Gravity.START);
+                    clockContainer1.setOrientation(LinearLayout.VERTICAL);
+                    clockContainer1.addView(firstLine);
+                    clockContainer1.addView(secondLine);
+                    clockContainer1.addView(thirdLine);
+                    return clockContainer1;
                 }
             }
         }

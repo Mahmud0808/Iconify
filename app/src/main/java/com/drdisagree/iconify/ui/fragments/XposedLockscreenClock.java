@@ -197,7 +197,7 @@ public class XposedLockscreenClock extends BaseFragment {
     private ClockPreviewAdapter initLockscreenClockStyles() {
         ArrayList<ClockModel> ls_clock = new ArrayList<>();
 
-        for (int i = 0; i <= 8; i++) {
+        for (int i = 0; i <= 9; i++) {
             ViewGroup clockView = LockscreenClockStyles.initLockscreenClockStyle(requireContext(), i);
             TextUtil.convertTextViewsToTitleCase(clockView);
             ls_clock.add(new ClockModel(clockView));
