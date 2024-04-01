@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/container_marginSide"
     android:layout_marginBottom="@dimen/container_margin"
-    android:background="@drawable/container"
+    android:background="@drawable/container_main"
     android:baselineAligned="false"
     android:orientation="horizontal"
     android:paddingHorizontal="26dp"
