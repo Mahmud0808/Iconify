@@ -299,7 +299,7 @@ public class XposedLockscreenClock extends BaseFragment {
         while (requireContext()
                 .getResources()
                 .getIdentifier(
-                        "preview_lockscreen_clock_" + maxIndex,
+                        LOCKSCREEN_CLOCK_LAYOUT + maxIndex,
                         "layout",
                         BuildConfig.APPLICATION_ID
                 ) != 0) {
