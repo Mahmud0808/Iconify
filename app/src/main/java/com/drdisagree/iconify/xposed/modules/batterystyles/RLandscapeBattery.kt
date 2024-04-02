@@ -25,7 +25,7 @@ import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
-open class RLandscapeBattery(private val context: Context, frameColor: Int) :
+open class RLandscapeBattery(private val context: Context, frameColor: Int, private val xposed: Boolean) :
     BatteryDrawable() {
 
     // Need to load:
@@ -151,7 +151,9 @@ open class RLandscapeBattery(private val context: Context, frameColor: Int) :
     }
 
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
+        p.color =
+            if (xposed) SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
+            else getColorAttrDefaultColor(context, android.R.attr.colorError, Color.RED)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
@@ -194,9 +196,11 @@ open class RLandscapeBattery(private val context: Context, frameColor: Int) :
         for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
-                colorLevels[2 * i + 1] = SettingsLibUtils.getColorAttrDefaultColor(
-                    colors.getResourceId(i, 0), context
-                )
+                colorLevels[2 * i + 1] =
+                    if (xposed) SettingsLibUtils.getColorAttrDefaultColor(
+                                    colors.getResourceId(i, 0), context
+                                )
+                    else getColorAttrDefaultColor(context, colors.getResourceId(i, 0), Color.WHITE)
             } else {
                 colorLevels[2 * i + 1] = colors.getColor(i, 0)
             }
@@ -442,23 +446,33 @@ open class RLandscapeBattery(private val context: Context, frameColor: Int) :
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString = modRes.getString(R.string.config_landscapeBatteryPerimeterCustomR)
+        val pathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryPerimeterCustomR)
+            else context.getString(R.string.config_landscapeBatteryPerimeterCustomR)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString = modRes.getString(R.string.config_landscapeBatteryErrorCustomR)
+        val errorPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryErrorCustomR)
+            else context.getString(R.string.config_landscapeBatteryErrorCustomR)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString = modRes.getString(R.string.config_landscapeBatteryFillMaskCustomR)
+        val fillMaskString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskCustomR)
+            else context.getString(R.string.config_landscapeBatteryFillMaskCustomR)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = modRes.getString(R.string.config_landscapeBatteryBoltCustomR)
+        val boltPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryBoltCustomR)
+            else context.getString(R.string.config_landscapeBatteryBoltCustomR)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString = modRes.getString(R.string.config_landscapeBatteryPlusCustomR)
+        val plusPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryPlusCustomR)
+            else context.getString(R.string.config_landscapeBatteryPlusCustomR)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false

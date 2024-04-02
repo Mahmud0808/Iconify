@@ -21,11 +21,11 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Paint.Align.CENTER;
 import static android.graphics.Paint.Style.STROKE;
 import static android.graphics.Typeface.BOLD;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CUSTOM_RLANDSCAPE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_BLEND_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_STYLE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
-import static com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.getColorAttrDefaultColor;
 import static java.lang.Math.round;
 
 import android.animation.ValueAnimator;
@@ -53,6 +53,7 @@ import androidx.core.graphics.PathParser;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.drdisagree.iconify.xposed.modules.utils.AlphaRefreshedPaint;
+import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils;
 
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class CircleBattery extends BatteryDrawable {
     private static final int CIRCLE_DIAMETER = 45; //relative to dash effect size. Size doesn't matter as finally it gets scaled by parent
     private static final PathEffect DASH_PATH_EFFECT = new DashPathEffect(new float[]{3f, 2f}, 0f);
     private final Context mContext;
+    private final boolean xposed;
     private int mChargingColor = 0xFF34C759;
     private int mPowerSaveColor = 0xFFFFA500;
     private boolean mShowPercentage = false;
@@ -86,9 +88,10 @@ public class CircleBattery extends BatteryDrawable {
     private List<Integer> batteryLevels;
     private boolean customBlendColor = false;
 
-    public CircleBattery(Context context, int frameColor) {
+    public CircleBattery(Context context, int frameColor, boolean xposed) {
         super();
         mContext = context;
+        this.xposed = xposed;
 
         mFramePaint.setDither(true);
         mFramePaint.setStyle(STROKE);
@@ -104,7 +107,7 @@ public class CircleBattery extends BatteryDrawable {
 
         setColors(frameColor, frameColor, frameColor);
 
-        setMeterStyle(Xprefs.getInt(CUSTOM_BATTERY_STYLE, 0));
+        setMeterStyle(xposed ? Integer.parseInt(Xprefs.getString(CUSTOM_BATTERY_STYLE, String.valueOf(BATTERY_STYLE_CUSTOM_RLANDSCAPE))) : 0);
 
         mBoltAlphaAnimator = ValueAnimator.ofInt(255, 255, 255, 45);
 
@@ -165,7 +168,10 @@ public class CircleBattery extends BatteryDrawable {
     }
 
     private void initColors() {
-        customBlendColor = Xprefs.getBoolean(CUSTOM_BATTERY_BLEND_COLOR, false);
+        if (xposed)
+            customBlendColor = Xprefs.getBoolean(CUSTOM_BATTERY_BLEND_COLOR, false);
+        else
+            customBlendColor = false;
 
         if (customBlendColor && getChargingColor() != Color.BLACK) {
             mChargingColor = getChargingColor();
@@ -176,7 +182,10 @@ public class CircleBattery extends BatteryDrawable {
         if (customBlendColor && getPowerSaveFillColor() != Color.BLACK) {
             mPowerSaveColor = getPowerSaveFillColor();
         } else {
-            mPowerSaveColor = getColorAttrDefaultColor(android.R.attr.colorError, mContext);
+            if (xposed)
+                mPowerSaveColor = SettingsLibUtils.getColorAttrDefaultColor(android.R.attr.colorError, mContext);
+            else
+                getColorAttrDefaultColor(mContext, android.R.attr.colorError, Color.RED);
         }
 
         @ColorInt int fillColor = getCustomFillColor();

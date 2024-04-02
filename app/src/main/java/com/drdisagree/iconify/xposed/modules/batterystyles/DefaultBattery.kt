@@ -1,5 +1,18 @@
-package com.drdisagree.iconify.xposed.modules.batterystyles
+/*
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 
+package com.drdisagree.iconify.xposed.modules.batterystyles
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,11 +20,10 @@ import android.graphics.*
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
-import kotlin.math.floor
 
-open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, private val xposed: Boolean) :
+@SuppressLint("DiscouragedApi")
+open class DefaultBattery(private val context: Context, frameColor: Int, private val xposed: Boolean) :
     BatteryDrawable() {
 
     // Need to load:
@@ -60,13 +72,12 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
 
     private var fillColor: Int = Color.WHITE
     private var backgroundColor: Int = Color.WHITE
-    private var boltColor: Int = Color.WHITE
 
     // updated whenever level changes
     private var levelColor: Int = Color.WHITE
 
     // Dual tone implies that battery level is a clipped overlay over top of the whole shape
-    private var dualTone = true
+    private var dualTone = false
 
     private var batteryLevel = 0
 
@@ -98,14 +109,14 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
         postInvalidate()
     }
 
-    var showPercent = true
+    var showPercent = false
         set(value) {
             field = value
             postInvalidate()
         }
 
     override fun setShowPercentEnabled(showPercent: Boolean) {
-        this.showPercent = true
+        this.showPercent = showPercent
         postInvalidate()
     }
 
@@ -137,18 +148,10 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
         p.style = Paint.Style.FILL_AND_STROKE
     }
 
-    private val boltPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = boltColor
-        p.alpha = 255
-        p.isDither = true
-        p.strokeWidth = 0f
-        p.style = Paint.Style.FILL_AND_STROKE
-    }
-
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color =
             if (xposed) SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
-            else getColorAttrDefaultColor(context, android.R.color.holo_red_light, Color.RED)
+            else getColorAttrDefaultColor(context, android.R.attr.colorError, Color.RED)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
@@ -163,14 +166,6 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
         p.isDither = true
         p.strokeWidth = 0f
         p.style = Paint.Style.FILL_AND_STROKE
-    }
-
-    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = Typeface.createFromAsset(
-            if (xposed) modRes.assets
-            else context.assets,
-            "Fonts/SFUITextCondensed-Bold.otf")
-        p.textAlign = Paint.Align.CENTER
     }
 
     init {
@@ -196,8 +191,8 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
                 colorLevels[2 * i + 1] =
                     if (xposed) SettingsLibUtils.getColorAttrDefaultColor(
-                            colors.getResourceId(i, 0), context
-                        )
+                        colors.getResourceId(i, 0), context
+                    )
                     else getColorAttrDefaultColor(context, colors.getResourceId(i, 0), Color.WHITE)
             } else {
                 colorLevels[2 * i + 1] = colors.getColor(i, 0)
@@ -215,16 +210,14 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
         levelPath.reset()
         levelRect.set(fillRect)
         val fillFraction = batteryLevel / 100f
-        val fillTop = if (batteryLevel >= 95) fillRect.right
-        else fillRect.right - (fillRect.width() * (1 - fillFraction))
+        val fillTop =
+            if (batteryLevel >= 95)
+                fillRect.top
+            else
+                fillRect.top + (fillRect.height() * (1 - fillFraction))
 
-        levelRect.right = floor(fillTop.toDouble()).toFloat()
-        //levelPath.addRect(levelRect, Path.Direction.CCW)
-        levelPath.addRoundRect(
-            levelRect, floatArrayOf(
-                3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f
-            ), Path.Direction.CCW
-        )
+        levelRect.top = Math.floor(fillTop.toDouble()).toFloat()
+        levelPath.addRect(levelRect, Path.Direction.CCW)
 
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
@@ -235,76 +228,62 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
 
         fillPaint.color = levelColor
 
-        val mergedPath = Path()
-        mergedPath.reset()
-
-        textPaint.textSize = bounds.width() * 0.42f
-        val textHeight = +textPaint.fontMetrics.ascent
-        var pctX = (bounds.width() + textHeight) * 0.75f
-        val pctY = bounds.height() * 0.8f
-
-        if (charging && batteryLevel < 100) {
-            pctX = (bounds.width() + textHeight) * 0.7f
-            pctX -= (pctX * 0.2f)
-        }
-
-        val textPath = Path()
-        textPath.reset()
-        textPaint.getTextPath(
-            batteryLevel.toString(), 0, batteryLevel.toString().length, pctX, pctY, textPath
-        )
-
-        mergedPath.addPath(textPath)
-        mergedPath.addPath(scaledBolt)
-
-        val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-        textPaint.xfermode = xfermode
-
-        if (!shouldChangePercentageColor()) {
-            // Clip out the text path
-            unifiedPath.op(textPath, Path.Op.DIFFERENCE)
-            c.drawPath(textPath, textPaint)
-        }
-
-        c.drawPath(unifiedPath, dualToneBackgroundFill)
-        c.save()
-        c.clipRect(
-            bounds.left.toFloat(),
-            bounds.top.toFloat(),
-            bounds.left + bounds.width() * fillFraction,
-            bounds.bottom.toFloat()
-        )
-        c.drawPath(unifiedPath, fillPaint)
-        c.restore()
-
         // Deal with unifiedPath clipping before it draws
-        if (shouldChangePercentageColor()) {
+        if (charging) {
             // Clip out the bolt shape
-            if (charging && batteryLevel < 100) {
-                c.drawPath(mergedPath, boltPaint)
-            } else {
-                c.drawPath(textPath, boltPaint)
+            unifiedPath.op(scaledBolt, Path.Op.DIFFERENCE)
+            if (!invertFillIcon) {
+                c.drawPath(scaledBolt, fillPaint)
             }
         }
 
+        if (dualTone) {
+            // Dual tone means we draw the shape again, clipped to the charge level
+            c.drawPath(unifiedPath, dualToneBackgroundFill)
+            c.save()
+            c.clipRect(0f,
+                bounds.bottom - bounds.height() * fillFraction,
+                bounds.right.toFloat(),
+                bounds.bottom.toFloat())
+            c.drawPath(unifiedPath, fillPaint)
+            c.restore()
+        } else {
+            // Non dual-tone means we draw the perimeter (with the level fill), and potentially
+            // draw the fill again with a critical color
+            fillPaint.color = fillColor
+            c.drawPath(unifiedPath, fillPaint)
+            fillPaint.color = levelColor
+
+            // Show colorError below this level
+            if (batteryLevel <= Companion.CRITICAL_LEVEL && !charging) {
+                c.save()
+                c.clipPath(scaledFill)
+                c.drawPath(levelPath, fillPaint)
+                c.restore()
+            }
+        }
+
+        if (charging) {
+            c.clipOutPath(scaledBolt)
+            if (invertFillIcon) {
+                c.drawPath(scaledBolt, fillColorStrokePaint)
+            } else {
+                c.drawPath(scaledBolt, fillColorStrokeProtection)
+            }
+        } else if (powerSaveEnabled) {
+            // If power save is enabled draw the level path with colorError
+            c.drawPath(levelPath, errorPaint)
+            // And draw the plus sign on top of the fill
+            fillPaint.color = fillColor
+            c.drawPath(scaledPlus, fillPaint)
+        }
         c.restore()
     }
 
-    /**
-     * Returns true if the battery percentage text should be colored.
-     * Battery percentage color should be fillColor when in charging state or in low battery state,
-     * otherwise it should be transparent.
-     */
-    private fun shouldChangePercentageColor(): Boolean {
-        return charging || (!powerSaveEnabled && batteryLevel <= CRITICAL_LEVEL)
-    }
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging -> 0xFF34C759.toInt()
-            powerSaveEnabled -> 0xFFFFCC0A.toInt()
-            level > 20 -> fillColor
-            level >= 0 -> 0xFFFF0000.toInt()
+            charging || powerSaveEnabled -> fillColor
             else -> getColorForLevel(level)
         }
     }
@@ -394,7 +373,7 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
     }
 
     override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
-        fillColor = fgColor
+        fillColor = if (dualTone) fgColor else singleToneColor
 
         fillPaint.color = fillColor
         fillColorStrokePaint.color = fillColor
@@ -404,9 +383,6 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
 
         // Also update the level color, since fillColor may have changed
         levelColor = batteryColorForLevel(batteryLevel)
-
-        boltColor = singleToneColor
-        boltPaint.color = boltColor
 
         invalidateSelf()
     }
@@ -424,8 +400,13 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
             scaleMatrix.setScale((b.right / WIDTH), (b.bottom / HEIGHT))
         }
 
+        val translateMatrix = Matrix()
+        translateMatrix.setTranslate(6f, -6f)
+
+        perimeterPath.transform(translateMatrix)
         perimeterPath.transform(scaleMatrix, scaledPerimeter)
         errorPerimeterPath.transform(scaleMatrix, scaledErrorPerimeter)
+        fillMask.transform(translateMatrix)
         fillMask.transform(scaleMatrix, scaledFill)
         scaledFill.computeBounds(fillRect, true)
         boltPath.transform(scaleMatrix, scaledBolt)
@@ -434,49 +415,45 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int, 
         // It is expected that this view only ever scale by the same factor in each dimension, so
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
-
-            (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
+            Math.max(b.right / WIDTH * PROTECTION_STROKE_WIDTH, PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
         fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
     }
 
+
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryPerimeteriOS16)
-            else context.getString(R.string.config_landscapeBatteryPerimeteriOS16)
+        val pathString = context.resources.getString(
+            R.string.config_batterymeterPerimeterPath)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryErroriOS16)
-            else context.getString(R.string.config_landscapeBatteryErroriOS16)
+        val errorPathString = context.resources.getString(
+            R.string.config_batterymeterErrorPerimeterPath)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskiOS16)
-            else context.getString(R.string.config_landscapeBatteryFillMaskiOS16)
+        val fillMaskString = context.resources.getString(
+            R.string.config_batterymeterFillMask)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryBoltiOS16)
-            else context.getString(R.string.config_landscapeBatteryBoltiOS16)
+        val boltPathString = context.resources.getString(
+            R.string.config_batterymeterBoltPath)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryPlusiOS16)
-            else context.getString(R.string.config_landscapeBatteryPlusiOS16)
+        val plusPathString = context.resources.getString(
+            R.string.config_batterymeterPowersavePath)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        dualTone = true
+
+        dualTone = false
     }
 
     companion object {
-        private val TAG = LandscapeBatteryiOS16::class.java.simpleName
+        private val TAG = DefaultBattery::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 20

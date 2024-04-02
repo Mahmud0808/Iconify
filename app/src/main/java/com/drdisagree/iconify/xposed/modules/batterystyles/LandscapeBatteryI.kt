@@ -37,7 +37,7 @@ import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryI(private val context: Context, frameColor: Int) :
+open class LandscapeBatteryI(private val context: Context, frameColor: Int, private val xposed: Boolean) :
     BatteryDrawable() {
 
     // Need to load:
@@ -193,7 +193,9 @@ open class LandscapeBatteryI(private val context: Context, frameColor: Int) :
     }
 
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
+        p.color =
+            if (xposed) SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
+            else getColorAttrDefaultColor(context, android.R.attr.colorError, Color.RED)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
@@ -373,9 +375,11 @@ open class LandscapeBatteryI(private val context: Context, frameColor: Int) :
         for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
-                colorLevels[2 * i + 1] = SettingsLibUtils.getColorAttrDefaultColor(
-                    colors.getResourceId(i, 0), context
-                )
+                colorLevels[2 * i + 1] =
+                    if (xposed) SettingsLibUtils.getColorAttrDefaultColor(
+                                    colors.getResourceId(i, 0), context
+                                )
+                    else getColorAttrDefaultColor(context, colors.getResourceId(i, 0), Color.WHITE)
             } else {
                 colorLevels[2 * i + 1] = colors.getColor(i, 0)
             }
@@ -429,10 +433,12 @@ open class LandscapeBatteryI(private val context: Context, frameColor: Int) :
         val black = Color.BLACK
 
         powerSavePaint.color =
-            if (customBlendColor && powerSaveColor != black) powerSaveColor else SettingsLibUtils.getColorAttrDefaultColor(
-                context,
-                android.R.attr.colorError
-            )
+            if (customBlendColor && powerSaveColor != black) powerSaveColor else
+                if (xposed) SettingsLibUtils.getColorAttrDefaultColor(
+                                context,
+                                android.R.attr.colorError
+                            )
+                else getColorAttrDefaultColor(context, android.R.attr.colorError, Color.RED)
 
         // Deal with unifiedPath clipping before it draws
         if (!showPercent) {
@@ -948,80 +954,117 @@ open class LandscapeBatteryI(private val context: Context, frameColor: Int) :
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString = modRes.getString(R.string.config_landscapeBatteryPerimeterPathI)
+        val pathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryPerimeterPathI)
+            else context.getString(R.string.config_landscapeBatteryPerimeterPathI)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString = modRes.getString(R.string.config_landscapeBatteryErrorPerimeterPathI)
+        val errorPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryErrorPerimeterPathI)
+            else context.getString(R.string.config_landscapeBatteryErrorPerimeterPathI)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString = modRes.getString(R.string.config_landscapeBatteryFillMaskI)
+        val fillMaskString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
         val fillOutlinePathString =
-            modRes.getString(R.string.config_landscapeBatteryFillOutlinePathI)
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillOutlinePathI)
+            else context.getString(R.string.config_landscapeBatteryFillOutlinePathI)
         fillOutlinePath.set(PathParser.createPathFromPathData(fillOutlinePathString))
         fillOutlinePath.computeBounds(RectF(), true)
 
-        val fillMask1String = modRes.getString(R.string.config_landscapeBatteryFillMaskI1)
+        val fillMask1String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI1)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI1)
         fillMask1.set(PathParser.createPathFromPathData(fillMask1String))
         fillMask1.computeBounds(RectF(), true)
 
-        val fillMask2String = modRes.getString(R.string.config_landscapeBatteryFillMaskI2)
+        val fillMask2String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI2)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI2)
         fillMask2.set(PathParser.createPathFromPathData(fillMask2String))
         fillMask2.computeBounds(RectF(), true)
 
-        val fillMask3String = modRes.getString(R.string.config_landscapeBatteryFillMaskI3)
+        val fillMask3String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI3)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI3)
         fillMask3.set(PathParser.createPathFromPathData(fillMask3String))
         fillMask3.computeBounds(RectF(), true)
 
-        val fillMask4String = modRes.getString(R.string.config_landscapeBatteryFillMaskI4)
+        val fillMask4String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI4)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI4)
         fillMask4.set(PathParser.createPathFromPathData(fillMask4String))
         fillMask4.computeBounds(RectF(), true)
 
-        val fillMask5String = modRes.getString(R.string.config_landscapeBatteryFillMaskI5)
+        val fillMask5String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI5)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI5)
         fillMask5.set(PathParser.createPathFromPathData(fillMask5String))
         fillMask5.computeBounds(RectF(), true)
 
-        val fillMask6String = modRes.getString(R.string.config_landscapeBatteryFillMaskI6)
+        val fillMask6String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI6)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI6)
         fillMask6.set(PathParser.createPathFromPathData(fillMask6String))
         fillMask6.computeBounds(RectF(), true)
 
-        val fillMask7String = modRes.getString(R.string.config_landscapeBatteryFillMaskI7)
+        val fillMask7String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI7)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI7)
         fillMask7.set(PathParser.createPathFromPathData(fillMask7String))
         fillMask7.computeBounds(RectF(), true)
 
-        val fillMask8String = modRes.getString(R.string.config_landscapeBatteryFillMaskI8)
+        val fillMask8String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI8)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI8)
         fillMask8.set(PathParser.createPathFromPathData(fillMask8String))
         fillMask8.computeBounds(RectF(), true)
 
-        val fillMask9String = modRes.getString(R.string.config_landscapeBatteryFillMaskI9)
+        val fillMask9String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI9)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI9)
         fillMask9.set(PathParser.createPathFromPathData(fillMask9String))
         fillMask9.computeBounds(RectF(), true)
 
-        val fillMask10String = modRes.getString(R.string.config_landscapeBatteryFillMaskI10)
+        val fillMask10String =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskI10)
+            else context.getString(R.string.config_landscapeBatteryFillMaskI10)
         fillMask10.set(PathParser.createPathFromPathData(fillMask10String))
         fillMask10.computeBounds(RectF(), true)
 
-        val fillNgguyuString = modRes.getString(R.string.config_landscapeBatteryFillNgguyuI)
+        val fillNgguyuString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillNgguyuI)
+            else context.getString(R.string.config_landscapeBatteryFillNgguyuI)
         fillNgguyu.set(PathParser.createPathFromPathData(fillNgguyuString))
         fillNgguyu.computeBounds(RectF(), true)
 
-        val fillMingkemString = modRes.getString(R.string.config_landscapeBatteryFillMingkemI)
+        val fillMingkemString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMingkemI)
+            else context.getString(R.string.config_landscapeBatteryFillMingkemI)
         fillMingkem.set(PathParser.createPathFromPathData(fillMingkemString))
         fillMingkem.computeBounds(RectF(), true)
 
-        val fillMrengutString = modRes.getString(R.string.config_landscapeBatteryFillMrengutI)
+        val fillMrengutString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMrengutI)
+            else context.getString(R.string.config_landscapeBatteryFillMrengutI)
         fillMrengut.set(PathParser.createPathFromPathData(fillMrengutString))
         fillMrengut.computeBounds(RectF(), true)
 
-        val boltPathString = modRes.getString(R.string.config_landscapeBatteryBoltPathI)
+        val boltPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryBoltPathI)
+            else context.getString(R.string.config_landscapeBatteryBoltPathI)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString = modRes.getString(R.string.config_landscapeBatteryPowersavePathI)
+        val plusPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryPowersavePathI)
+            else context.getString(R.string.config_landscapeBatteryPowersavePathI)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false

@@ -64,8 +64,33 @@
         <item>Xiaomi</item>
     </string-array>
 
+    <array name="batterymeter_color_levels">
+        <item>20</item>
+        <item>100</item>
+    </array>
+    <array name="batterymeter_color_values">
+        <item>?android:attr/colorError</item>
+        <item>@android:color/white</item>
+    </array>
+
     <!-- Battery level colors -->
     <color name="cargingbolt_single_tone">#00000000</color>
+
+    <!-- Default -->
+    <string name="config_batterymeterPerimeterPath" translatable="false">
+                M3.5,2 v0 H1.33 C0.6,2 0,2.6 0,3.33 V13v5.67 C0,19.4 0.6,20 1.33,20 h9.33 C11.4,20 12,19.4 12,18.67 V13V3.33 C12,2.6 11.4,2 10.67,2 H8.5 V0 H3.5 z M2,18v-7V4h8v9v5H2L2,18z
+    </string>
+    <string name="config_batterymeterErrorPerimeterPath" translatable="false">@string/config_batterymeterPerimeterPath</string>
+    <string name="config_batterymeterFillMask" translatable="false">
+        M2,18 v-14 h8 v14 z
+    </string>
+    <string name="config_batterymeterBoltPath" translatable="false">
+        M5,17.5 V12 H3 L7,4.5 V10 h2 L5,17.5 z
+    </string>
+    <string name="config_batterymeterPowersavePath" translatable="false">
+        M9,10l-2,0l0,-2l-2,0l0,2l-2,0l0,2l2,0l0,2l2,0l0,-2l2,0z
+    </string>
+
 
     <!-- Landscape R Custom -->
     <string name="config_landscapeBatteryPerimeterCustomR" translatable="false">M2.44,0.64L19.70,0.64A2.21 2.21 0 0 1 21.91,2.85L21.91,9.21A2.21 2.21 0 0 1 19.70,11.42L2.44,11.42A2.21 2.21 0 0 1 0.23,9.21L0.23,2.85A2.21 2.21 0 0 1 2.44,0.64zM0.87,3.59L0.87,8.41A2.28 2.28 0 0 0 3.15,10.69L18.98,10.69A2.28 2.28 0 0 0 21.26,8.41L21.26,3.59A2.28 2.28 0 0 0 18.98,1.31L3.15,1.31A2.28 2.28 0 0 0 0.87,3.59zM22.45,8.32Q25.10,5.95,22.42,3.62</string>

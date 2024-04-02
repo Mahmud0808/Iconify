@@ -25,4 +25,13 @@
     <item name="switch_track_on_alpha" format="float" type="dimen">1.0</item>
     <item name="rotate_rtl_mode" format="float" type="dimen">0.0</item>
     <item name="flip_rtl_mode" format="float" type="dimen">1.0</item>
+
+    <!-- List PopUp Bottom Sheet Dialog -->
+    <dimen name="list_dialog_toolbar_height">50dp</dimen>
+    <dimen name="list_dialog_list_margin_bottom">30dp</dimen>
+    <dimen name="bottom_sheet_bg_top_corner_radius">24dp</dimen>
+    <dimen name="list_dialog_recycler_margin_top">8dp</dimen>
+    <dimen name="list_dialog_toolbar_margin_top">-20dp</dimen>
+    <dimen name="list_dialog_list_margin_side">4dp</dimen>
+
 </resources>
