@@ -15,7 +15,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="160dp"
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -28,7 +28,11 @@
         <LinearLayout
             android:id="@+id/clock_view_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/container_main_less_rounded"
+            android:backgroundTint="@color/colorAppbarOverlay"
+            android:gravity="center"
+            android:paddingHorizontal="24dp">
 
             <ViewStub
                 android:id="@+id/clock_view"

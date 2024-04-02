@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clock_preview_child"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/container_no_ripple"
+    android:clickable="false"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="false"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/container_main_less_rounded"
+        android:backgroundTint="@color/colorAppbarOverlay">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/wallpaper_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/ImageViewRounded" />
+
+        <LinearLayout
+            android:id="@+id/clock_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ViewStub
+                android:id="@+id/clock_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <TextView
+            android:id="@+id/clock_title"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:textColor="@color/text_color_primary" />
+
+        <ImageView
+            android:id="@+id/icon_selected"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="start|center"
+            android:layout_marginHorizontal="8dp"
+            android:contentDescription="@string/icon"
+            android:src="@drawable/ic_tick"
+            android:visibility="invisible"
+            app:tint="?attr/colorPrimary" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_select_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:letterSpacing="0"
+            android:paddingTop="6dp"
+            android:paddingBottom="8dp"
+            android:text="@string/btn_select" />
+
+    </LinearLayout>
+</LinearLayout>

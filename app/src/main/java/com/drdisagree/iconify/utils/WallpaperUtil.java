@@ -12,10 +12,10 @@ import java.io.ByteArrayOutputStream;
 
 public class WallpaperUtil {
 
-    public static Bitmap getCompressedWallpaper(Context context, int quality) {
+    public static Bitmap getCompressedWallpaper(Context context, int quality, int which) {
         try {
             WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-            ParcelFileDescriptor wallpaperFile = wallpaperManager.getWallpaperFile(WallpaperManager.FLAG_LOCK);
+            ParcelFileDescriptor wallpaperFile = wallpaperManager.getWallpaperFile(which);
 
             if (wallpaperFile == null) {
                 Drawable wallpaperDrawable = wallpaperManager.getDrawable();

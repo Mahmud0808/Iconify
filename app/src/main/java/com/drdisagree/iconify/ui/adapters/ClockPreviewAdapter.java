@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.adapters;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
 
 import android.annotation.SuppressLint;
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -36,7 +37,7 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
 
     private final Context context;
     private final ArrayList<ClockModel> itemList;
-    private final String prefSwitch;
+    private static String prefSwitch;
     private final String prefStyle;
     private static Bitmap wallpaperBitmap;
     private LinearLayoutManager linearLayoutManager;
@@ -44,7 +45,7 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
     public ClockPreviewAdapter(Context context, ArrayList<ClockModel> itemList, String prefSwitch, String prefStyle) {
         this.context = context;
         this.itemList = itemList;
-        this.prefSwitch = prefSwitch;
+        ClockPreviewAdapter.prefSwitch = prefSwitch;
         this.prefStyle = prefStyle;
 
         new WallpaperLoaderTask(this).execute();
@@ -53,7 +54,13 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.view_clock_preview, parent, false);
+        View view = LayoutInflater.from(context).inflate(
+                Objects.equals(prefSwitch, LSCLOCK_SWITCH) ?
+                        R.layout.view_clock_preview_lockscreen :
+                        R.layout.view_clock_preview_header,
+                parent,
+                false
+        );
         return new ViewHolder(view);
     }
 
@@ -177,13 +184,20 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
 
         WallpaperLoaderTask(ClockPreviewAdapter adapter) {
             adapterRef = new WeakReference<>(adapter);
+            wallpaperBitmap = null;
         }
 
         @Override
         protected Bitmap doInBackground(Void... voids) {
             Context context = adapterRef.get().context;
             if (context == null) return null;
-            return WallpaperUtil.getCompressedWallpaper(context, 80);
+            return WallpaperUtil.getCompressedWallpaper(
+                    context,
+                    80,
+                    Objects.equals(prefSwitch, LSCLOCK_SWITCH) ?
+                            WallpaperManager.FLAG_LOCK :
+                            WallpaperManager.FLAG_SYSTEM
+            );
         }
 
         @SuppressLint("NotifyDataSetChanged")
@@ -191,7 +205,7 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             ClockPreviewAdapter adapter = adapterRef.get();
-            if (adapter != null && bitmap != null) {
+            if (adapter != null && bitmap != null && Objects.equals(prefSwitch, LSCLOCK_SWITCH)) {
                 wallpaperBitmap = bitmap;
                 adapter.notifyDataSetChanged();
             }
