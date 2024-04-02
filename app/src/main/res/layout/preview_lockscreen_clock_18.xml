@@ -15,7 +15,7 @@
         android:layout_marginEnd="5dp"
         android:src="@drawable/circle"
         android:tag="accent1"
-        app:tint="@android:color/system_accent1_300" />
+        android:tint="@android:color/system_accent1_300" />
 
     <TextClock
         android:id="@+id/timeTextView"
@@ -38,7 +38,7 @@
         android:layout_marginEnd="5dp"
         android:src="@drawable/circle"
         android:tag="accent2"
-        app:tint="@android:color/system_accent3_300" />
+        android:tint="@android:color/system_accent3_300" />
 
     <TextClock
         android:id="@+id/dayTextView"
@@ -63,7 +63,7 @@
         android:layout_marginEnd="5dp"
         android:src="@drawable/circle"
         android:tag="accent3"
-        app:tint="@android:color/system_accent2_300" />
+        android:tint="@android:color/system_accent2_300" />
 
     <TextClock
         android:id="@+id/dateTextView"
