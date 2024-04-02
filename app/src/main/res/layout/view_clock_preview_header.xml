@@ -29,7 +29,7 @@
             android:id="@+id/clock_view_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/container_main_less_rounded"
+            android:background="@drawable/container_main_less_rounded_no_ripple"
             android:backgroundTint="@color/colorAppbarOverlay"
             android:gravity="center"
             android:paddingHorizontal="24dp">
