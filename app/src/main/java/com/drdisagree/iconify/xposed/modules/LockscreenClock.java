@@ -96,6 +96,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private int mBatteryPercentage = 1;
     private ImageView mVolumeLevelArcProgress;
     private ImageView mRamUsageArcProgress;
+    private static long lastUpdated = System.currentTimeMillis();
+    private static final long thresholdTime = 500; // milliseconds
 
     public LockscreenClock(Context context) {
         super(context);
@@ -268,10 +270,19 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private void updateClockView() {
         if (mClockViewContainer == null) return;
 
+        long currentTime = System.currentTimeMillis();
+        boolean isClockAdded = mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null;
+
+        if (isClockAdded && currentTime - lastUpdated < thresholdTime) {
+            return;
+        } else {
+            lastUpdated = currentTime;
+        }
+
         View clockView = getClockView();
 
         // Remove existing clock view
-        if (mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null) {
+        if (isClockAdded) {
             mClockViewContainer.removeView(mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG));
         }
 
