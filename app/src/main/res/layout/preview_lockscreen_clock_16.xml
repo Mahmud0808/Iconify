@@ -25,6 +25,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/bebasneue_bold"
         android:format12Hour="MMMM"
+        android:format24Hour="MMMM"
         android:tag="accent3"
         android:textColor="@android:color/system_accent3_300"
         android:textSize="35sp" />
