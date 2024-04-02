@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.ui.models.ClockModel;
+import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.WallpaperUtil;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -33,11 +34,12 @@ import java.util.Objects;
 @SuppressWarnings("deprecation")
 public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapter.ViewHolder> {
 
-    Context context;
-    ArrayList<ClockModel> itemList;
-    String prefSwitch, prefStyle;
-    static Bitmap wallpaperBitmap;
-    LinearLayoutManager linearLayoutManager;
+    private final Context context;
+    private final ArrayList<ClockModel> itemList;
+    private final String prefSwitch;
+    private final String prefStyle;
+    private static Bitmap wallpaperBitmap;
+    private LinearLayoutManager linearLayoutManager;
 
     public ClockPreviewAdapter(Context context, ArrayList<ClockModel> itemList, String prefSwitch, String prefStyle) {
         this.context = context;
@@ -59,43 +61,77 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ClockModel model = itemList.get(position);
 
-        holder.title.setText(model.getTitle());
-
-        holder.button.setOnClickListener(v -> {
-            int index = position + (Objects.equals(prefSwitch, LSCLOCK_SWITCH) ? 0 : 1);
-            RPrefs.putInt(prefStyle, index);
-            refreshLayout(holder);
-        });
-
-        if (RPrefs.getInt(prefStyle, 0) != holder.getBindingAdapterPosition()) {
-            holder.checkIcon.setVisibility(View.GONE);
-            holder.button.setEnabled(true);
-        } else {
-            holder.checkIcon.setVisibility(View.VISIBLE);
-            holder.button.setEnabled(false);
-        }
-
-        holder.clockContainer.removeAllViews();
-        ViewStub viewStub = new ViewStub(context);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.gravity = Gravity.CENTER_VERTICAL;
-        viewStub.setLayoutParams(params);
-        viewStub.setLayoutResource(model.getLayout());
-        holder.clockContainer.addView(viewStub);
-
-        if (viewStub.getParent() != null) {
-            viewStub.inflate();
-        }
+        holder.bind(model, position);
 
         if (wallpaperBitmap != null) {
-            holder.wallpaperView.setImageBitmap(wallpaperBitmap);
+            ViewBindingHelpers.setBitmap(holder.wallpaperView, wallpaperBitmap);
         }
     }
 
-    // Function to check for layout changes
+    @Override
+    public int getItemCount() {
+        return itemList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private final LinearLayout container;
+        private final TextView title;
+        private final LinearLayout clockContainer;
+        private final ImageView checkIcon;
+        private final MaterialButton button;
+        private final ShapeableImageView wallpaperView;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            container = itemView.findViewById(R.id.clock_preview_child);
+            title = itemView.findViewById(R.id.clock_title);
+            clockContainer = itemView.findViewById(R.id.clock_view_container);
+            checkIcon = itemView.findViewById(R.id.icon_selected);
+            button = itemView.findViewById(R.id.btn_select_style);
+            wallpaperView = itemView.findViewById(R.id.wallpaper_view);
+        }
+
+        public void bind(ClockModel model, int position) {
+            title.setText(model.getTitle());
+
+            button.setOnClickListener(v -> {
+                int index = position + (Objects.equals(prefSwitch, LSCLOCK_SWITCH) ? 0 : 1);
+                RPrefs.putInt(prefStyle, index);
+                refreshLayout(this);
+            });
+
+            int adapterPosition = getAdapterPosition();
+            if (RPrefs.getInt(prefStyle, 0) != adapterPosition) {
+                checkIcon.setVisibility(View.GONE);
+                button.setEnabled(true);
+            } else {
+                checkIcon.setVisibility(View.VISIBLE);
+                button.setEnabled(false);
+            }
+
+            clockContainer.removeAllViews();
+            ViewStub viewStub = new ViewStub(context);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.gravity = Gravity.CENTER_VERTICAL;
+            viewStub.setLayoutParams(params);
+            viewStub.setLayoutResource(model.getLayout());
+            clockContainer.addView(viewStub);
+
+            if (viewStub.getParent() != null) {
+                viewStub.inflate();
+            }
+
+            boolean isSelected = adapterPosition == getBindingAdapterPosition();
+            button.setEnabled(!isSelected);
+            checkIcon.setVisibility(isSelected ? View.VISIBLE : View.GONE);
+        }
+    }
+
     private void refreshLayout(ViewHolder holder) {
         int firstVisible = linearLayoutManager.findFirstVisibleItemPosition() - 1;
         int lastVisible = linearLayoutManager.findLastVisibleItemPosition() + 1;
@@ -117,12 +153,6 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
     }
 
     @Override
-    public int getItemCount() {
-        return itemList.size();
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
     public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
 
@@ -140,27 +170,6 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
         super.onAttachedToRecyclerView(recyclerView);
 
         linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        LinearLayout container;
-        TextView title;
-        LinearLayout clockContainer;
-        ImageView checkIcon;
-        MaterialButton button;
-        ShapeableImageView wallpaperView;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            container = itemView.findViewById(R.id.clock_preview_child);
-            title = itemView.findViewById(R.id.clock_title);
-            clockContainer = itemView.findViewById(R.id.clock_view_container);
-            checkIcon = itemView.findViewById(R.id.icon_selected);
-            button = itemView.findViewById(R.id.btn_select_style);
-            wallpaperView = itemView.findViewById(R.id.wallpaper_view);
-        }
     }
 
     private static class WallpaperLoaderTask extends AsyncTask<Void, Void, Bitmap> {
