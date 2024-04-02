@@ -59,7 +59,7 @@ public class ArcProgressWidget {
         if (iconDrawable != null) {
             int size = ViewHelper.dp2px(context, iconSizePx);
             int left = (bitmap.getWidth() - size) / 2;
-            int top = bitmap.getHeight() - (int) (size / 1.4) - (stroke + padding);
+            int top = bitmap.getHeight() - (int) (size / 1.3) - (stroke + padding);
             int right = left + size;
             int bottom = top + size;
 
