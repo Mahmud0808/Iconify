@@ -34,13 +34,13 @@
                 android:background="@drawable/item_background_material"
                 android:clickable="true"
                 android:orientation="vertical"
-                android:paddingHorizontal="24dp"
                 android:paddingVertical="22dp">
 
                 <TextView
                     style="@style/TextAppearance.Material3.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:text="@string/custom_lockscreen_clock_style_title"
                     android:textColor="@color/text_color_primary" />
 
@@ -48,28 +48,19 @@
                     style="@style/TextAppearance.Material3.BodyMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:text="@string/pick_style"
                     android:textColor="@color/text_color_secondary" />
 
-                <TextView
-                    style="@style/TextAppearance.Material3.BodyMedium"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_lockscreen_clock_preview"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tap_to_select"
-                    android:textColor="@color/text_color_secondary" />
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/lockscreen_clock_preview"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp" />
-
-                <me.relex.circleindicator.CircleIndicator3
-                    android:id="@+id/lockscreen_clock_preview_indicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/container_margin"
-                    android:layout_gravity="center" />
+                    android:layout_marginTop="16dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingHorizontal="24dp" />
 
             </LinearLayout>
 
@@ -89,12 +80,62 @@
                 app:summaryText="@string/lsclock_custom_color_desc"
                 app:titleText="@string/lsclock_custom_color_title" />
 
-            <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+            <HorizontalScrollView
                 android:id="@+id/ls_clock_color_picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:summaryText="@string/lsclock_color_picker_desc"
-                app:titleText="@string/lsclock_color_picker_title" />
+                android:clipToPadding="false"
+                android:paddingHorizontal="24dp"
+                android:scrollbars="none"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="16dp"
+                    android:orientation="horizontal">
+
+                    <com.drdisagree.iconify.ui.widgets.ColorPickerSmallWidget
+                        android:id="@+id/color_picker_accent_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        app:previewColor="@android:color/system_accent1_300"
+                        app:titleText="Accent 1" />
+
+                    <com.drdisagree.iconify.ui.widgets.ColorPickerSmallWidget
+                        android:id="@+id/color_picker_accent_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        app:previewColor="@android:color/system_accent2_300"
+                        app:titleText="Accent 2" />
+
+                    <com.drdisagree.iconify.ui.widgets.ColorPickerSmallWidget
+                        android:id="@+id/color_picker_accent_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        app:previewColor="@android:color/system_accent3_300"
+                        app:titleText="Accent 3" />
+
+                    <com.drdisagree.iconify.ui.widgets.ColorPickerSmallWidget
+                        android:id="@+id/color_picker_text_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        app:previewColor="@android:color/white"
+                        app:titleText="Text 1" />
+
+                    <com.drdisagree.iconify.ui.widgets.ColorPickerSmallWidget
+                        android:id="@+id/color_picker_text_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:previewColor="@android:color/black"
+                        app:titleText="Text 2" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget
                 android:id="@+id/lsclock_line_height"
@@ -143,13 +184,6 @@
                 app:sliderValueTo="600"
                 app:titleText="@string/lockscreen_clock_bottom_margin_title"
                 app:valueFormat="dp" />
-
-            <com.drdisagree.iconify.ui.widgets.SwitchWidget
-                android:id="@+id/force_white_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:summaryText="@string/lockscreen_clock_white_text_desc"
-                app:titleText="@string/lockscreen_clock_white_text_title" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

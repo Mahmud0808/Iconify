@@ -633,6 +633,14 @@
     <string name="lockscreen_clock_bottom_margin_title">Bottom Margin</string>
     <string name="lockscreen_clock_white_text_title">White Text</string>
     <string name="lockscreen_clock_white_text_desc">Force all colors to be white</string>
+    <string name="btn_select">Select</string>
+    <string name="battery_charging">Battery Charging</string>
+    <string name="battery_discharging">Battery Discharging</string>
+    <string name="battery_full">Battery Full</string>
+    <string name="battery_level_percentage">Battery Level</string>
+    <string name="percentage_text" translatable="false">%d%%</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="default_user_name">User</string>
 
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+        <TextClock
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:format12Hour="EEEE, MMMM dd"
+            android:format24Hour="EEEE, MMMM dd"
+            android:gravity="center"
+            android:singleLine="true"
+            android:tag="text1"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
+        <TextClock
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.9"
+            android:autoSizeMaxTextSize="100sp"
+            android:autoSizeMinTextSize="80sp"
+            android:autoSizeStepGranularity="4sp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/ios"
+            android:format12Hour="hh:mm"
+            android:format24Hour="HH:mm"
+            android:gravity="center"
+            android:singleLine="true"
+            android:tag="text1"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="100dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:minWidth="140dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/battery_percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:alpha="0.9"
+                    android:drawableStart="@drawable/ic_ios_device_scaled"
+                    android:drawablePadding="3dp"
+                    android:drawableTint="@android:color/white"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:singleLine="true"
+                    android:tag="text1"
+                    android:text="40%"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/device_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:alpha="0.9"
+                    android:drawablePadding="3dp"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:singleLine="true"
+                    android:tag="text1"
+                    android:text="Device Name"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ProgressBar
+                    android:id="@+id/battery_progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_marginTop="4dp"
+                    android:alpha="0.9"
+                    android:indeterminateDrawable="@drawable/ios_widget_line_progress_track"
+                    android:indeterminateOnly="false"
+                    android:progress="40"
+                    android:progressDrawable="@drawable/ios_widget_line_progress_track"
+                    android:progressTint="@android:color/white"
+                    android:tag="text1" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/volume_progress"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="24dp"
+                android:adjustViewBounds="true"
+                android:alpha="0.9"
+                android:src="@drawable/arc_progress"
+                android:tag="text1"
+                app:tint="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/ram_usage_info"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:adjustViewBounds="true"
+                android:alpha="0.9"
+                android:src="@drawable/arc_progress"
+                android:tag="text1"
+                app:tint="@android:color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

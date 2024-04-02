@@ -6,40 +6,67 @@ import static com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN;
-import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT1;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT2;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT3;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_TEXT1;
+import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_TEXT2;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_TEXT_SCALING;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_STYLE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN;
+import static com.drdisagree.iconify.common.Resources.LOCKSCREEN_CLOCK_LAYOUT;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
+import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.utils.TextUtil;
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.modules.utils.LockscreenClockStyles;
+import com.drdisagree.iconify.xposed.modules.utils.ArcProgressWidget;
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -56,9 +83,56 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private boolean showDepthWallpaper = false;
     private ViewGroup mClockViewContainer = null;
     private ViewGroup mStatusViewContainer = null;
+    private final AudioManager mAudioManager;
+    private final UserManager mUserManager;
+    private final ActivityManager mActivityManager;
+    private Context appContext;
+    private TextView mBatteryStatusView;
+    private TextView mBatteryLevelView;
+    private TextView mVolumeLevelView;
+    private ProgressBar mBatteryProgress;
+    private ProgressBar mVolumeProgress;
+    private int mBatteryStatus = 1;
+    private int mBatteryPercentage = 1;
+    private ImageView mVolumeLevelArcProgress;
+    private ImageView mRamUsageArcProgress;
 
     public LockscreenClock(Context context) {
         super(context);
+
+        try {
+            appContext = context.createPackageContext(
+                    BuildConfig.APPLICATION_ID,
+                    Context.CONTEXT_IGNORE_SECURITY
+            );
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+
+        mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        mUserManager = mContext.getSystemService(UserManager.class);
+        mActivityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+
+        BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent != null && intent.getAction() != null && intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)) {
+                    mBatteryStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, 1);
+                    int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+                    int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
+                    mBatteryPercentage = (level * 100) / scale;
+                    initBatteryStatus();
+                }
+            }
+        };
+        BroadcastReceiver mVolumeReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                initSoundManager();
+            }
+        };
+
+        context.registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        context.registerReceiver(mVolumeReceiver, new IntentFilter("android.media.VOLUME_CHANGED_ACTION"));
     }
 
     @Override
@@ -71,13 +145,16 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         if (Key.length > 0 && (Objects.equals(Key[0], LSCLOCK_SWITCH) ||
                 Objects.equals(Key[0], DEPTH_WALLPAPER_SWITCH) ||
                 Objects.equals(Key[0], LSCLOCK_COLOR_SWITCH) ||
-                Objects.equals(Key[0], LSCLOCK_COLOR_CODE) ||
+                Objects.equals(Key[0], LSCLOCK_COLOR_CODE_ACCENT1) ||
+                Objects.equals(Key[0], LSCLOCK_COLOR_CODE_ACCENT2) ||
+                Objects.equals(Key[0], LSCLOCK_COLOR_CODE_ACCENT3) ||
+                Objects.equals(Key[0], LSCLOCK_COLOR_CODE_TEXT1) ||
+                Objects.equals(Key[0], LSCLOCK_COLOR_CODE_TEXT2) ||
                 Objects.equals(Key[0], LSCLOCK_STYLE) ||
                 Objects.equals(Key[0], LSCLOCK_TOPMARGIN) ||
                 Objects.equals(Key[0], LSCLOCK_BOTTOMMARGIN) ||
                 Objects.equals(Key[0], LSCLOCK_FONT_LINEHEIGHT) ||
                 Objects.equals(Key[0], LSCLOCK_FONT_SWITCH) ||
-                Objects.equals(Key[0], LSCLOCK_TEXT_WHITE) ||
                 Objects.equals(Key[0], LSCLOCK_FONT_TEXT_SCALING) ||
                 Objects.equals(Key[0], DEPTH_WALLPAPER_FADE_ANIMATION))) {
             updateClockView();
@@ -191,7 +268,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private void updateClockView() {
         if (mClockViewContainer == null) return;
 
-        ViewGroup clockView = LockscreenClockStyles.getClock(mContext);
+        View clockView = getClockView();
 
         // Remove existing clock view
         if (mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null) {
@@ -242,6 +319,201 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
             TextUtil.convertTextViewsToTitleCase((ViewGroup) clockView);
 
             mClockViewContainer.addView(clockView, idx);
+            modifyClockView(clockView);
+            initSoundManager();
+            initBatteryStatus();
+        }
+    }
+
+    @SuppressLint("DiscouragedApi")
+    private View getClockView() {
+        LayoutInflater inflater = LayoutInflater.from(appContext);
+        int clockStyle = Xprefs.getInt(LSCLOCK_STYLE, 0);
+
+        return inflater.inflate(
+                appContext
+                        .getResources()
+                        .getIdentifier(
+                                LOCKSCREEN_CLOCK_LAYOUT + clockStyle,
+                                "layout",
+                                BuildConfig.APPLICATION_ID
+                        ),
+                null
+        );
+    }
+
+    private void modifyClockView(View clockView) {
+        int clockStyle = Xprefs.getInt(LSCLOCK_STYLE, 0);
+        int topMargin = Xprefs.getInt(LSCLOCK_TOPMARGIN, 100);
+        int bottomMargin = Xprefs.getInt(LSCLOCK_BOTTOMMARGIN, 40);
+        float clockScale = (float) (Xprefs.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0);
+        String customFont = Environment.getExternalStorageDirectory() + "/.iconify_files/lsclock_font.ttf";
+        int lineHeight = Xprefs.getInt(LSCLOCK_FONT_LINEHEIGHT, 0);
+        boolean customFontEnabled = Xprefs.getBoolean(LSCLOCK_FONT_SWITCH, false);
+        boolean customColorEnabled = Xprefs.getBoolean(LSCLOCK_COLOR_SWITCH, false);
+        int accent1 = Xprefs.getInt(
+                LSCLOCK_COLOR_CODE_ACCENT1,
+                ContextCompat.getColor(mContext, android.R.color.system_accent1_300)
+        );
+        int accent2 = Xprefs.getInt(
+                LSCLOCK_COLOR_CODE_ACCENT2,
+                ContextCompat.getColor(mContext, android.R.color.system_accent2_300)
+        );
+        int accent3 = Xprefs.getInt(
+                LSCLOCK_COLOR_CODE_ACCENT3,
+                ContextCompat.getColor(mContext, android.R.color.system_accent3_300)
+        );
+        int text1 = Xprefs.getInt(
+                LSCLOCK_COLOR_CODE_TEXT1,
+                Color.WHITE
+        );
+        int text2 = Xprefs.getInt(
+                LSCLOCK_COLOR_CODE_TEXT2,
+                Color.BLACK
+        );
+
+        Typeface typeface = null;
+        if (customFontEnabled && (new File(customFont).exists())) {
+            typeface = Typeface.createFromFile(new File(customFont));
+        }
+
+        ViewHelper.setMargins(clockView, mContext, 0, topMargin, 0, bottomMargin);
+
+        if (customColorEnabled) {
+            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent1", accent1);
+            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent2", accent2);
+            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent3", accent3);
+            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "text1", text1);
+            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "text2", text2);
+        }
+
+        if (typeface != null) {
+            ViewHelper.applyFontRecursively((ViewGroup) clockView, typeface);
+        }
+
+        ViewHelper.applyTopMarginRecursively((ViewGroup) clockView, lineHeight);
+
+        clockView.setScaleX(clockScale);
+        clockView.setScaleY(clockScale);
+
+        switch (clockStyle) {
+            case 5 -> {
+                mBatteryStatusView = clockView.findViewById(R.id.battery_status);
+                mBatteryLevelView = clockView.findViewById(R.id.battery_percentage);
+                mVolumeLevelView = clockView.findViewById(R.id.volume_level);
+                mBatteryProgress = clockView.findViewById(R.id.battery_progressbar);
+                mVolumeProgress = clockView.findViewById(R.id.volume_progressbar);
+            }
+            case 7 -> {
+                TextView usernameView = clockView.findViewById(R.id.summary);
+                usernameView.setText(getUserName());
+                ImageView imageView = clockView.findViewById(R.id.user_profile_image);
+                imageView.setImageDrawable(getUserImage());
+            }
+            case 19 -> {
+                mBatteryLevelView = clockView.findViewById(R.id.battery_percentage);
+                mBatteryProgress = clockView.findViewById(R.id.battery_progressbar);
+                mVolumeLevelArcProgress = clockView.findViewById(R.id.volume_progress);
+                mRamUsageArcProgress = clockView.findViewById(R.id.ram_usage_info);
+
+                ((TextView) clockView.findViewById(R.id.device_name)).setText(Build.MODEL);
+            }
+            default -> {
+                mBatteryStatusView = null;
+                mBatteryLevelView = null;
+                mVolumeLevelView = null;
+                mBatteryProgress = null;
+                mVolumeProgress = null;
+            }
+        }
+    }
+
+    private void initBatteryStatus() {
+        if (mBatteryStatusView != null) {
+            if (mBatteryStatus == BatteryManager.BATTERY_STATUS_CHARGING) {
+                mBatteryStatusView.setText(R.string.battery_charging);
+            } else if (mBatteryStatus == BatteryManager.BATTERY_STATUS_DISCHARGING ||
+                    mBatteryStatus == BatteryManager.BATTERY_STATUS_NOT_CHARGING) {
+                mBatteryStatusView.setText(R.string.battery_discharging);
+            } else if (mBatteryStatus == BatteryManager.BATTERY_STATUS_FULL) {
+                mBatteryStatusView.setText(R.string.battery_full);
+            } else if (mBatteryStatus == BatteryManager.BATTERY_STATUS_UNKNOWN) {
+                mBatteryStatusView.setText(R.string.battery_level_percentage);
+            }
+        }
+
+        if (mBatteryProgress != null) {
+            mBatteryProgress.setProgress(mBatteryPercentage);
+        }
+        if (mBatteryLevelView != null) {
+            mBatteryLevelView.setText(appContext.getResources().getString(R.string.percentage_text, mBatteryPercentage));
+        }
+
+        initRamUsage();
+    }
+
+    private void initSoundManager() {
+        int volLevel = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int maxVolLevel = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int volPercent = (int) (((float) volLevel / maxVolLevel) * 100);
+
+        if (mVolumeProgress != null) {
+            mVolumeProgress.setProgress(volPercent);
+        }
+        if (mVolumeLevelView != null) {
+            mVolumeLevelView.setText(appContext.getResources().getString(R.string.percentage_text, volPercent));
+        }
+
+        if (mVolumeLevelArcProgress != null) {
+            Bitmap widgetBitmap = ArcProgressWidget.generateBitmap(
+                    mContext,
+                    volPercent,
+                    appContext.getResources().getString(R.string.percentage_text, volPercent),
+                    40,
+                    ContextCompat.getDrawable(appContext, R.drawable.ic_volume_up),
+                    36
+            );
+            mVolumeLevelArcProgress.setImageBitmap(widgetBitmap);
+        }
+    }
+
+    private void initRamUsage() {
+        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+        mActivityManager.getMemoryInfo(memoryInfo);
+        long usedMemory = memoryInfo.totalMem - memoryInfo.availMem;
+        int usedMemoryPercentage = (int) ((usedMemory * 100) / memoryInfo.totalMem);
+
+        if (mRamUsageArcProgress != null) {
+            Bitmap widgetBitmap = ArcProgressWidget.generateBitmap(
+                    mContext,
+                    usedMemoryPercentage,
+                    appContext.getResources().getString(R.string.percentage_text, usedMemoryPercentage),
+                    40,
+                    "RAM",
+                    28
+            );
+            mRamUsageArcProgress.setImageBitmap(widgetBitmap);
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private String getUserName() {
+        String username = mUserManager.getUserName();
+        return !username.isEmpty() ?
+                mUserManager.getUserName() :
+                appContext.getResources().getString(R.string.default_user_name);
+    }
+
+    @SuppressWarnings("all")
+    private Drawable getUserImage() {
+        try {
+            Method getUserIconMethod = mUserManager.getClass().getMethod("getUserIcon", int.class);
+            int userId = (int) UserHandle.class.getDeclaredMethod("myUserId").invoke(null);
+            Bitmap bitmapUserIcon = (Bitmap) getUserIconMethod.invoke(mUserManager, userId);
+            return new BitmapDrawable(mContext.getResources(), bitmapUserIcon);
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+            return appContext.getResources().getDrawable(R.drawable.default_avatar);
         }
     }
 }
