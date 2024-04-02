@@ -63,6 +63,12 @@
         <attr name="previewColor" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ColorPickerSmallWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="previewColor" />
+    </declare-styleable>
+
     <declare-styleable name="FilePickerWidget">
         <attr name="titleText" />
         <attr name="summaryText" />

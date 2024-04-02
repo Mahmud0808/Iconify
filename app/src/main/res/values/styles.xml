@@ -6,7 +6,7 @@
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
         <item name="android:dialogCornerRadius">@dimen/cont_corner_radius</item>
         <item name="android:buttonCornerRadius">@dimen/cont_corner_radius</item>
-        <item name="android:background">@drawable/container</item>
+        <item name="android:background">@drawable/container_main</item>
         <item name="android:textColor">@color/text_color_primary</item>
         <item name="android:textColorSecondary">@color/text_color_secondary</item>
         <item name="android:tint">@color/colorAccent</item>
@@ -228,5 +228,10 @@
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">?attr/colorSurfaceVariant</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <style name="ImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 </resources>

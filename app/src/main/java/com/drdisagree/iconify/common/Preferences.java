@@ -45,11 +45,14 @@ public class Preferences {
     public static final String LSCLOCK_TOPMARGIN = "xposed_lockscreenclocktopmargin";
     public static final String LSCLOCK_BOTTOMMARGIN = "xposed_lockscreenclockbottommargin";
     public static final String LSCLOCK_COLOR_SWITCH = "xposed_lockscreenclockcolor";
-    public static final String LSCLOCK_COLOR_CODE = "xposed_lockscreenclockcolorcode";
+    public static final String LSCLOCK_COLOR_CODE_ACCENT1 = "xposed_lockscreenclockcolorcodeaccent1";
+    public static final String LSCLOCK_COLOR_CODE_ACCENT2 = "xposed_lockscreenclockcolorcodeaccent2";
+    public static final String LSCLOCK_COLOR_CODE_ACCENT3 = "xposed_lockscreenclockcolorcodeaccent3";
+    public static final String LSCLOCK_COLOR_CODE_TEXT1 = "xposed_lockscreenclockcolorcodetext1";
+    public static final String LSCLOCK_COLOR_CODE_TEXT2 = "xposed_lockscreenclockcolorcodetext2";
     public static final String LSCLOCK_FONT_SWITCH = "xposed_lockscreenclockfont";
     public static final String LSCLOCK_FONT_LINEHEIGHT = "xposed_lockscreenclockfontlineheight";
     public static final String LSCLOCK_FONT_TEXT_SCALING = "xposed_lockscreenclocktextscaling";
-    public static final String LSCLOCK_TEXT_WHITE = "xposed_lockscreenclocktextwhite";
     public static final String FIXED_STATUS_ICONS_SWITCH = "xposed_fixedstatusicons";
     public static final String FIXED_STATUS_ICONS_SIDEMARGIN = "xposed_fixedstatusiconssidemargin";
     public static final String FIXED_STATUS_ICONS_TOPMARGIN = "xposed_fixedstatusiconstopmargin";
