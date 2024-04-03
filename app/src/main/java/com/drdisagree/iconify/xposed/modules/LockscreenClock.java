@@ -109,8 +109,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         }
 
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        mUserManager = mContext.getSystemService(UserManager.class);
-        mActivityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        mUserManager = context.getSystemService(UserManager.class);
+        mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
         BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
             @Override

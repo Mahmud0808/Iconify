@@ -91,7 +91,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
-        mUserManager = mContext.getSystemService(UserManager.class);
+        mUserManager = context.getSystemService(UserManager.class);
     }
 
     @Override
