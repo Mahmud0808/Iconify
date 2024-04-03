@@ -49,11 +49,15 @@ public class SettingsLibUtils extends ModPack {
         }
     }
 
-    public static int getColorAttrDefaultColor(Context context, int resID) {
-        return getColorAttrDefaultColor(resID, context);
+    public static int getColorAttrDefaultColor(int resID, Context context) {
+        return getColorAttrDefaultColor(context, resID);
     }
 
-    public static int getColorAttrDefaultColor(int resID, Context context) {
+    public static int getColorAttrDefaultColor(Context context, int resID) {
+        return getColorAttrDefaultColor(resID, context, 0);
+    }
+
+    public static int getColorAttrDefaultColor(int resID, Context context, int defValue) {
         if (UtilsClass == null) return 0;
 
         try {
@@ -62,7 +66,7 @@ public class SettingsLibUtils extends ModPack {
             try {
                 return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID);
             } catch (Throwable throwable1) {
-                return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID, 0);
+                return (int) callStaticMethod(UtilsClass, "getColorAttrDefaultColor", context, resID, defValue);
             }
         }
     }

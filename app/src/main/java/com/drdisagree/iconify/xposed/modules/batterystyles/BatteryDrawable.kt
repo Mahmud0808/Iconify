@@ -1,9 +1,12 @@
 package com.drdisagree.iconify.xposed.modules.batterystyles
 
 import android.content.Context
+import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import com.drdisagree.iconify.xposed.HookRes
+import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 
 abstract class BatteryDrawable : Drawable() {
 
@@ -54,11 +57,33 @@ abstract class BatteryDrawable : Drawable() {
     abstract fun setChargingEnabled(charging: Boolean)
     abstract fun setPowerSavingEnabled(powerSaveEnabled: Boolean)
 
+    fun getColorAttrDefaultColor(attr: Int, context: Context): Int {
+        return getColorAttrDefaultColor(context, attr, 0)
+    }
+
+    fun getColorAttrDefaultColor(context: Context, attr: Int): Int {
+        return getColorAttrDefaultColor(context, attr, 0)
+    }
+
     fun getColorAttrDefaultColor(context: Context, attr: Int, defValue: Int): Int {
-        val obtainStyledAttributes: TypedArray = context.obtainStyledAttributes(intArrayOf(attr))
-        val color: Int = obtainStyledAttributes.getColor(0, defValue)
-        obtainStyledAttributes.recycle()
-        return color
+        return try {
+            SettingsLibUtils.getColorAttrDefaultColor(attr, context, defValue);
+        } catch (ignored: Throwable) {
+            val obtainStyledAttributes: TypedArray =
+                context.obtainStyledAttributes(intArrayOf(attr))
+            val color: Int = obtainStyledAttributes.getColor(0, defValue)
+            obtainStyledAttributes.recycle()
+            color
+        }
+    }
+
+    fun getResources(context: Context): Resources {
+        return try {
+            if (HookRes.modRes != null) HookRes.modRes
+            else context.resources
+        } catch (ignored: Throwable) {
+            context.resources
+        }
     }
 
     companion object {

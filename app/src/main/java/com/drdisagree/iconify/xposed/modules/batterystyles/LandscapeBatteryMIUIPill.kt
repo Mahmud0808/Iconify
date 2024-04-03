@@ -2,16 +2,26 @@ package com.drdisagree.iconify.xposed.modules.batterystyles
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.BlendMode
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PixelFormat
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
+import android.graphics.RectF
+import android.graphics.Typeface
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.modRes
-import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: Int, private val xposed: Boolean) :
+open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -138,9 +148,7 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
     }
 
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color =
-            if (xposed) SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
-            else getColorAttrDefaultColor(context, android.R.attr.colorError, Color.RED)
+        p.color = getColorAttrDefaultColor(context, android.R.attr.colorError)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
@@ -183,11 +191,9 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
-                colorLevels[2 * i + 1] =
-                    if (xposed) SettingsLibUtils.getColorAttrDefaultColor(
+                colorLevels[2 * i + 1] = getColorAttrDefaultColor(
                                     colors.getResourceId(i, 0), context
                                 )
-                    else getColorAttrDefaultColor(context, colors.getResourceId(i, 0), Color.WHITE)
             } else {
                 colorLevels[2 * i + 1] = colors.getColor(i, 0)
             }
@@ -399,32 +405,27 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryPerimeterMiuiPill)
-            else context.getString(R.string.config_landscapeBatteryPerimeterMiuiPill)
+            getResources(context).getString(R.string.config_landscapeBatteryPerimeterMiuiPill)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryErrorMiuiPill)
-            else context.getString(R.string.config_landscapeBatteryErrorMiuiPill)
+            getResources(context).getString(R.string.config_landscapeBatteryErrorMiuiPill)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskMiuiPill)
-            else context.getString(R.string.config_landscapeBatteryFillMaskMiuiPill)
+            getResources(context).getString(R.string.config_landscapeBatteryFillMaskMiuiPill)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
         val boltPathString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryBoltMiuiPill)
-            else context.getString(R.string.config_landscapeBatteryBoltMiuiPill)
+            getResources(context).getString(R.string.config_landscapeBatteryBoltMiuiPill)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            if (xposed) modRes.getString(R.string.config_landscapeBatteryPlusMiuiPill)
-            else context.getString(R.string.config_landscapeBatteryPlusMiuiPill)
+            getResources(context).getString(R.string.config_landscapeBatteryPlusMiuiPill)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = true

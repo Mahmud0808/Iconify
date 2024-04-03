@@ -16,15 +16,23 @@ package com.drdisagree.iconify.xposed.modules.batterystyles
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.BlendMode
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PixelFormat
+import android.graphics.Rect
+import android.graphics.RectF
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
+import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
-open class DefaultBattery(private val context: Context, frameColor: Int, private val xposed: Boolean) :
-    BatteryDrawable() {
+open class DefaultBattery(private val context: Context, frameColor: Int) : BatteryDrawable() {
 
     // Need to load:
     // 1. perimeter shape
@@ -149,9 +157,7 @@ open class DefaultBattery(private val context: Context, frameColor: Int, private
     }
 
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color =
-            if (xposed) SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
-            else getColorAttrDefaultColor(context, android.R.attr.colorError, Color.RED)
+        p.color = getColorAttrDefaultColor(context, android.R.attr.colorError)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
@@ -189,11 +195,9 @@ open class DefaultBattery(private val context: Context, frameColor: Int, private
         for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
-                colorLevels[2 * i + 1] =
-                    if (xposed) SettingsLibUtils.getColorAttrDefaultColor(
+                colorLevels[2 * i + 1] = getColorAttrDefaultColor(
                         colors.getResourceId(i, 0), context
                     )
-                    else getColorAttrDefaultColor(context, colors.getResourceId(i, 0), Color.WHITE)
             } else {
                 colorLevels[2 * i + 1] = colors.getColor(i, 0)
             }
@@ -216,7 +220,7 @@ open class DefaultBattery(private val context: Context, frameColor: Int, private
             else
                 fillRect.top + (fillRect.height() * (1 - fillFraction))
 
-        levelRect.top = Math.floor(fillTop.toDouble()).toFloat()
+        levelRect.top = floor(fillTop.toDouble()).toFloat()
         levelPath.addRect(levelRect, Path.Direction.CCW)
 
         // The perimeter should never change
@@ -280,7 +284,6 @@ open class DefaultBattery(private val context: Context, frameColor: Int, private
         c.restore()
     }
 
-
     private fun batteryColorForLevel(level: Int): Int {
         return when {
             charging || powerSaveEnabled -> fillColor
@@ -296,7 +299,6 @@ open class DefaultBattery(private val context: Context, frameColor: Int, private
             thresh = colorLevels[i]
             color = colorLevels[i + 1]
             if (level <= thresh) {
-
                 // Respect tinting for "normal" level
                 return if (i == colorLevels.size - 2) {
                     fillColor
@@ -415,7 +417,7 @@ open class DefaultBattery(private val context: Context, frameColor: Int, private
         // It is expected that this view only ever scale by the same factor in each dimension, so
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
-            Math.max(b.right / WIDTH * PROTECTION_STROKE_WIDTH, PROTECTION_MIN_STROKE_WIDTH)
+            (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
         fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
@@ -424,30 +426,29 @@ open class DefaultBattery(private val context: Context, frameColor: Int, private
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString = context.resources.getString(
+        val pathString = getResources(context).getString(
             R.string.config_batterymeterPerimeterPath)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString = context.resources.getString(
+        val errorPathString = getResources(context).getString(
             R.string.config_batterymeterErrorPerimeterPath)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString = context.resources.getString(
+        val fillMaskString = getResources(context).getString(
             R.string.config_batterymeterFillMask)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = context.resources.getString(
+        val boltPathString = getResources(context).getString(
             R.string.config_batterymeterBoltPath)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString = context.resources.getString(
+        val plusPathString = getResources(context).getString(
             R.string.config_batterymeterPowersavePath)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
-
 
         dualTone = false
     }

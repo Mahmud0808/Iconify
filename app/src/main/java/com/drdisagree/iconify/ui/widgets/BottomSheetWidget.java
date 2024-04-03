@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.widgets;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -11,7 +12,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,16 +36,12 @@ public class BottomSheetWidget extends RelativeLayout implements IconsAdapter.on
     private TextView summaryTextView;
     private ImageView iconImageView;
     private BottomSheetDialog mBottomSheetDialog;
-    private RecyclerView recyclerView;
-    private int radioDialogId;
     private int selectedIndex = 0;
-    private int titleResId = 0;
     private int arrayResId = 0;
     private boolean showSelectedPrefix = true;
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
     private Drawable[] mDrawables;
-    private int[] mIcons;
     private String mValue;
     private IconsAdapter mAdapter;
     private OnItemClickListener onItemClickListener;
@@ -73,8 +69,7 @@ public class BottomSheetWidget extends RelativeLayout implements IconsAdapter.on
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BottomSheetWidget);
         showSelectedPrefix = typedArray.getBoolean(R.styleable.BottomSheetWidget_showSelectedPrefix, true);
-        titleResId = typedArray.getResourceId(R.styleable.BottomSheetWidget_titleText, 0);
-        setTitle(titleResId);
+        setTitle(typedArray.getResourceId(R.styleable.BottomSheetWidget_titleText, 0));
         arrayResId = typedArray.getResourceId(R.styleable.BottomSheetWidget_entries, 0);
         if (arrayResId != 0) {
             try {
@@ -87,7 +82,7 @@ public class BottomSheetWidget extends RelativeLayout implements IconsAdapter.on
                 }
             }
         }
-        buildEntires();
+        buildEntries();
         int icon = typedArray.getResourceId(R.styleable.BottomSheetWidget_icon, 0);
         boolean iconSpaceReserved = typedArray.getBoolean(R.styleable.BottomSheetWidget_iconSpaceReserved, false);
         typedArray.recycle();
@@ -108,7 +103,7 @@ public class BottomSheetWidget extends RelativeLayout implements IconsAdapter.on
         );
     }
 
-    private void buildEntires() {
+    private void buildEntries() {
         mEntries = getResources().getTextArray(arrayResId);
         List<String> mValues = new ArrayList<>();
         for(int i = 0; i< mEntries.length; i++) {
@@ -157,10 +152,6 @@ public class BottomSheetWidget extends RelativeLayout implements IconsAdapter.on
         }
     }
 
-    public void setIcons(int[] icons) {
-        mIcons = icons;
-    }
-
     public void setCurrentValue(String currentValue) {
         mValue = currentValue;
         if (mAdapter != null) mAdapter.setCurrentValue(currentValue);
@@ -187,8 +178,8 @@ public class BottomSheetWidget extends RelativeLayout implements IconsAdapter.on
 
     private void initBottomSheetDialog() {
         mBottomSheetDialog = new BottomSheetDialog(getContext());
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.bottom_sheet_layout, (ViewGroup) null);
-        recyclerView = view.findViewById(R.id.select_dialog_listview);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.bottom_sheet_layout, null);
+        RecyclerView recyclerView = view.findViewById(R.id.select_dialog_listview);
         MaterialToolbar toolbar = view.findViewById(R.id.toolbar_widget);
         toolbar.setTitle(titleTextView.getText());
         toolbar.setTitleCentered(true);
@@ -238,8 +229,6 @@ public class BottomSheetWidget extends RelativeLayout implements IconsAdapter.on
         titleTextView.setId(View.generateViewId());
         summaryTextView.setId(View.generateViewId());
         iconImageView.setId(View.generateViewId());
-
-        radioDialogId = container.getId();
 
         RelativeLayout.LayoutParams layoutParams = (LayoutParams) findViewById(R.id.text_container).getLayoutParams();
         layoutParams.addRule(RelativeLayout.END_OF, iconImageView.getId());

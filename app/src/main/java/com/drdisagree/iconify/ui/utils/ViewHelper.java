@@ -1,14 +1,15 @@
 package com.drdisagree.iconify.ui.utils;
 
-import static android.content.Context.BATTERY_SERVICE;
+import static com.drdisagree.iconify.Iconify.getAppContext;
 import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE;
 
 import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Color;
+import android.content.res.Resources;
+import android.content.res.Resources.Theme;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RotateDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,11 +18,11 @@ import android.util.TypedValue;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.modules.batterystyles.BatteryDrawable;
 import com.drdisagree.iconify.xposed.modules.batterystyles.CircleBattery;
@@ -98,118 +99,129 @@ public class ViewHelper {
     }
 
     public static int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Iconify.getAppContext().getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getAppContext().getResources().getDisplayMetrics());
     }
 
     public static Drawable[] getBatteryDrawables(Context context) {
-        boolean nightMode = (context.getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-        int batteryColor = nightMode ? Color.WHITE : Color.BLACK;
+        int batteryColor = getAppContext().getColor(R.color.textColorPrimary);
+
         Drawable[] batteryDrawables = new Drawable[] {
-                new DefaultBattery(context, batteryColor, false),
-                new DefaultBattery(context, batteryColor, false),
-                new DefaultBattery(context, batteryColor, false),
-                new RLandscapeBattery(context, batteryColor, false),
-                new LandscapeBattery(context, batteryColor, false),
-                new PortraitBatteryCapsule(context, batteryColor, false),
-                new PortraitBatteryLorn(context, batteryColor, false),
-                new PortraitBatteryMx(context, batteryColor, false),
-                new PortraitBatteryAiroo(context, batteryColor, false),
-                new RLandscapeBatteryStyleA(context, batteryColor, false),
-                new LandscapeBatteryStyleA(context, batteryColor, false),
-                new RLandscapeBatteryStyleB(context, batteryColor, false),
-                new LandscapeBatteryStyleB(context, batteryColor, false),
-                new LandscapeBatteryiOS15(context, batteryColor, false),
-                new LandscapeBatteryiOS16(context, batteryColor, false),
-                new PortraitBatteryOrigami(context, batteryColor, false),
-                new LandscapeBatterySmiley(context, batteryColor, false),
-                new LandscapeBatteryMIUIPill(context, batteryColor, false),
-                new LandscapeBatteryColorOS(context, batteryColor, false),
-                new RLandscapeBatteryColorOS(context, batteryColor, false),
-                new LandscapeBatteryA(context, batteryColor, false),
-                new LandscapeBatteryB(context, batteryColor, false),
-                new LandscapeBatteryC(context, batteryColor, false),
-                new LandscapeBatteryD(context, batteryColor, false),
-                new LandscapeBatteryE(context, batteryColor, false),
-                new LandscapeBatteryF(context, batteryColor, false),
-                new LandscapeBatteryG(context, batteryColor, false),
-                new LandscapeBatteryH(context, batteryColor, false),
-                new LandscapeBatteryI(context, batteryColor, false),
-                new LandscapeBatteryJ(context, batteryColor, false),
-                new LandscapeBatteryK(context, batteryColor, false),
-                new LandscapeBatteryL(context, batteryColor, false),
-                new LandscapeBatteryM(context, batteryColor, false),
-                new LandscapeBatteryN(context, batteryColor, false),
-                new LandscapeBatteryO(context, batteryColor, false),
-                new CircleBattery(context, batteryColor, false),
-                new CircleBattery(context, batteryColor, false)
+                new DefaultBattery(context, batteryColor),
+                new DefaultBattery(context, batteryColor),
+                new DefaultBattery(context, batteryColor),
+                new RLandscapeBattery(context, batteryColor),
+                new LandscapeBattery(context, batteryColor),
+                new PortraitBatteryCapsule(context, batteryColor),
+                new PortraitBatteryLorn(context, batteryColor),
+                new PortraitBatteryMx(context, batteryColor),
+                new PortraitBatteryAiroo(context, batteryColor),
+                new RLandscapeBatteryStyleA(context, batteryColor),
+                new LandscapeBatteryStyleA(context, batteryColor),
+                new RLandscapeBatteryStyleB(context, batteryColor),
+                new LandscapeBatteryStyleB(context, batteryColor),
+                new LandscapeBatteryiOS15(context, batteryColor),
+                new LandscapeBatteryiOS16(context, batteryColor),
+                new PortraitBatteryOrigami(context, batteryColor),
+                new LandscapeBatterySmiley(context, batteryColor),
+                new LandscapeBatteryMIUIPill(context, batteryColor),
+                new LandscapeBatteryColorOS(context, batteryColor),
+                new RLandscapeBatteryColorOS(context, batteryColor),
+                new LandscapeBatteryA(context, batteryColor),
+                new LandscapeBatteryB(context, batteryColor),
+                new LandscapeBatteryC(context, batteryColor),
+                new LandscapeBatteryD(context, batteryColor),
+                new LandscapeBatteryE(context, batteryColor),
+                new LandscapeBatteryF(context, batteryColor),
+                new LandscapeBatteryG(context, batteryColor),
+                new LandscapeBatteryH(context, batteryColor),
+                new LandscapeBatteryI(context, batteryColor),
+                new LandscapeBatteryJ(context, batteryColor),
+                new LandscapeBatteryK(context, batteryColor),
+                new LandscapeBatteryL(context, batteryColor),
+                new LandscapeBatteryM(context, batteryColor),
+                new LandscapeBatteryN(context, batteryColor),
+                new LandscapeBatteryO(context, batteryColor),
+                new CircleBattery(context, batteryColor),
+                new CircleBattery(context, batteryColor)
         };
 
-        BatteryManager bm = (BatteryManager) context.getSystemService(BATTERY_SERVICE);
-        int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+        BatteryManager bm = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+        int batteryLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+        boolean wasFilledCircleBattery = false;
 
         for (Drawable batteryIcon : batteryDrawables) {
             if (batteryIcon == null) continue;
-            ((BatteryDrawable)batteryIcon).setBatteryLevel(batLevel);
-            ((BatteryDrawable)batteryIcon).setColors(batteryColor, batteryColor, batteryColor);
-            if (batteryIcon instanceof CircleBattery && batteryIcon == batteryDrawables[batteryDrawables.length-1]) {
-                ((CircleBattery)batteryIcon).setMeterStyle(BATTERY_STYLE_DOTTED_CIRCLE);
-            }
-            if (batteryIcon == batteryDrawables[1]) {
-                RotateDrawable r = new RotateDrawable();
-                r.setDrawable(batteryIcon);
-                r.setFromDegrees(0);
-                r.setToDegrees(90);
-                r.setPivotX(0.5f);
-                r.setPivotY(0.5f);
-                batteryDrawables[1] = r;
-            }
-            if (batteryIcon == batteryDrawables[2]) {
-                RotateDrawable r = new RotateDrawable();
-                r.setDrawable(batteryIcon);
-                r.setFromDegrees(0);
-                r.setToDegrees(-90);
-                r.setPivotX(0.5f);
-                r.setPivotY(0.5f);
-                batteryDrawables[2] = r;
-            }
 
+            int alpha = (int) (255 * 0.4);
+            int batteryColorWithOpacity = ColorUtils.setAlphaComponent(batteryColor, alpha);
+
+            ((BatteryDrawable) batteryIcon).setBatteryLevel(batteryLevel);
+            ((BatteryDrawable) batteryIcon).setColors(batteryColor, batteryColorWithOpacity, batteryColor);
+
+            if (batteryIcon instanceof CircleBattery) {
+                if (wasFilledCircleBattery) {
+                    ((CircleBattery) batteryIcon).setMeterStyle(BATTERY_STYLE_DOTTED_CIRCLE);
+                } else {
+                    wasFilledCircleBattery = true;
+                }
+            } else if (batteryIcon == batteryDrawables[1]) {
+                batteryDrawables[1] = getRotateDrawable(batteryIcon, 90);
+            } else if (batteryIcon == batteryDrawables[2]) {
+                batteryDrawables[2] = getRotateDrawable(batteryIcon, -90);
+            }
         }
+
         return batteryDrawables;
     }
 
     public static Drawable[] getChargingIcons(Context context) {
+        Resources res = context.getResources();
+        Theme theme = context.getTheme();
+        
         Drawable[] chargingIcons = new Drawable[]{
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_bold, context.getTheme()), // Bold
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_asus, context.getTheme()), // Asus
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_buddy, context.getTheme()), // Buddy
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_evplug, context.getTheme()), // EV Plug
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_idc, context.getTheme()), // IDC
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_ios, context.getTheme()), // IOS
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_koplak, context.getTheme()), // Koplak
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_miui, context.getTheme()), // MIUI
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_mmk, context.getTheme()), // MMK
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_moto, context.getTheme()), // Moto
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_nokia, context.getTheme()), // Nokia
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_plug, context.getTheme()), // Plug
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_powercable, context.getTheme()), // Power Cable
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_powercord, context.getTheme()), // Power Cord
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_powerstation, context.getTheme()), // Power Station
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_realme, context.getTheme()), // Realme
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_soak, context.getTheme()), // Soak
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_stres, context.getTheme()), // Stres
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_strip, context.getTheme()), // Strip
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_usbcable, context.getTheme()), // USB Cable
-                ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_charging_xiaomi, context.getTheme()) // Xiaomi
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_bold, theme), // Bold
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_asus, theme), // Asus
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_buddy, theme), // Buddy
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_evplug, theme), // EV Plug
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_idc, theme), // IDC
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_ios, theme), // IOS
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_koplak, theme), // Koplak
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_miui, theme), // MIUI
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_mmk, theme), // MMK
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_moto, theme), // Moto
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_nokia, theme), // Nokia
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_plug, theme), // Plug
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_powercable, theme), // Power Cable
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_powercord, theme), // Power Cord
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_powerstation, theme), // Power Station
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_realme, theme), // Realme
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_soak, theme), // Soak
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_stres, theme), // Stres
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_strip, theme), // Strip
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_usbcable, theme), // USB Cable
+                ResourcesCompat.getDrawable(res, R.drawable.ic_charging_xiaomi, theme) // Xiaomi
         };
-        boolean nightMode = (context.getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-        if (nightMode) {
-            for (Drawable chargingIcon : chargingIcons) {
-                if (chargingIcon == null) continue;
-                chargingIcon.setTint(Color.WHITE);
-            }
+
+        int iconColor = getAppContext().getColor(R.color.textColorPrimary);
+        for (Drawable chargingIcon : chargingIcons) {
+            if (chargingIcon == null) continue;
+            chargingIcon.setTint(iconColor);
         }
+
         return chargingIcons;
+    }
+
+    @SuppressWarnings("all")
+    private static Drawable getRotateDrawable(final Drawable d, final float angle) {
+        final Drawable[] arD = {d};
+        return new LayerDrawable(arD) {
+            @Override
+            public void draw(final Canvas canvas) {
+                canvas.save();
+                canvas.rotate(angle, (float) d.getBounds().width() / 2, (float) d.getBounds().height() / 2);
+                super.draw(canvas);
+                canvas.restore();
+            }
+        };
     }
 }

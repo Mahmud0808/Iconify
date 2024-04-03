@@ -12,28 +12,30 @@
         android:layout_height="100dp"
         android:layout_margin="10dp"
         android:orientation="vertical"
-        app:cardBackgroundColor="?colorSurfaceContainerHighest"
-        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/colorAppbarOverlay"
+        app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeWidth="2dp">
+        app:strokeWidth="3dp">
 
         <ImageView
             android:id="@+id/battery_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
+            android:contentDescription="@null"
             android:gravity="center" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/type_title"
+        style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAlignment="center"
-        android:textAppearance="?attr/textAppearanceTitleMedium" />
+        android:textColor="@color/text_color_secondary" />
 
 </LinearLayout>

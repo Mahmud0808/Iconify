@@ -13,7 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.drdisagree.iconify.databinding.IconItemBinding;
+import com.drdisagree.iconify.R;
+import com.drdisagree.iconify.databinding.ViewListIconItemBinding;
 
 public class IconsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -22,8 +23,7 @@ public class IconsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private Drawable[] mEntryDrawables;
     private int[] mEntryResIds;
     private String mValue;
-    private onItemClickListener onItemClickListener;
-
+    private final onItemClickListener onItemClickListener;
 
     public IconsAdapter(CharSequence[] entries,
                         CharSequence[] entryValues,
@@ -55,27 +55,28 @@ public class IconsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new IconsViewHolder(IconItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new IconsViewHolder(ViewListIconItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((IconsViewHolder)holder).binding.typeTitle.setText(mEntries[position]);
+        ((IconsViewHolder) holder).binding.typeTitle.setText(mEntries[position]);
 
-        if (mEntryDrawables != null)
+        if (mEntryDrawables != null) {
             ((IconsViewHolder) holder).binding.batteryIcon.setImageDrawable(mEntryDrawables[position]);
-        else if (mEntryResIds != null)
-            ((IconsViewHolder) holder).binding.batteryIcon.setImageDrawable(ContextCompat.getDrawable(((IconsViewHolder)holder).binding.getRoot().getContext(), mEntryResIds[position]));
-        else
-            throw new IllegalStateException("IconsAdapter - No icons provided");
-
-        if (TextUtils.equals(mEntryValues[position].toString(), mValue)) {
-            ((IconsViewHolder)holder).binding.rootLayout.setStrokeColor(getAppContext().getColor(android.R.color.system_accent1_400));
+        } else if (mEntryResIds != null) {
+            ((IconsViewHolder) holder).binding.batteryIcon.setImageDrawable(ContextCompat.getDrawable(((IconsViewHolder) holder).binding.getRoot().getContext(), mEntryResIds[position]));
         } else {
-            ((IconsViewHolder)holder).binding.rootLayout.setStrokeColor(Color.TRANSPARENT);
+            throw new IllegalStateException(getClass().getSimpleName() + " - No icons provided");
         }
 
-        ((IconsViewHolder)holder).binding.rootLayout.setOnClickListener(v -> {
+        if (TextUtils.equals(mEntryValues[position].toString(), mValue)) {
+            ((IconsViewHolder) holder).binding.rootLayout.setStrokeColor(getAppContext().getColor(R.color.colorAccent));
+        } else {
+            ((IconsViewHolder) holder).binding.rootLayout.setStrokeColor(Color.TRANSPARENT);
+        }
+
+        ((IconsViewHolder) holder).binding.rootLayout.setOnClickListener(v -> {
             int previousPosition = Integer.parseInt(mValue);
             mValue = String.valueOf(position);
             notifyItemChanged(previousPosition);
@@ -95,13 +96,12 @@ public class IconsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public static class IconsViewHolder extends RecyclerView.ViewHolder {
 
-        private final IconItemBinding binding;
+        private final ViewListIconItemBinding binding;
 
-        IconsViewHolder(@NonNull IconItemBinding binding) {
+        IconsViewHolder(@NonNull ViewListIconItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
-
     }
 
     /**
@@ -110,5 +110,4 @@ public class IconsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public interface onItemClickListener {
         void onItemClick(View view, int position);
     }
-
 }

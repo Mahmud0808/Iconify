@@ -25,11 +25,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/list_dialog_recycler_margin_top"
-        android:layout_marginBottom="@dimen/list_dialog_list_margin_bottom"
-        android:layout_marginStart="@dimen/list_dialog_list_margin_side"
-        android:background="@android:color/transparent"
+        android:clipToPadding="false"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="@dimen/list_dialog_list_margin_bottom"
+        android:background="@color/transparent"
         android:divider="@null"
         android:overScrollMode="ifContentScrolls"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical" />
+
 </LinearLayout>
