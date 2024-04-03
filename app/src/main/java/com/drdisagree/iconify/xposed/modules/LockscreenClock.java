@@ -81,8 +81,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private boolean showDepthWallpaper = false;
     private ViewGroup mClockViewContainer = null;
     private ViewGroup mStatusViewContainer = null;
+    private final UserManager mUserManager;
     private final AudioManager mAudioManager;
-    private UserManager mUserManager = null;
     private final ActivityManager mActivityManager;
     private Context appContext;
     private TextView mBatteryStatusView;
@@ -108,12 +108,9 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
+        mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        try {
-            mUserManager = context.getSystemService(UserManager.class);
-        } catch (Exception ignored) {
-        }
 
         BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
             @Override
@@ -494,6 +491,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void initRamUsage() {
+        if (mActivityManager == null) return;
+
         ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
         mActivityManager.getMemoryInfo(memoryInfo);
         long usedMemory = memoryInfo.totalMem - memoryInfo.availMem;
