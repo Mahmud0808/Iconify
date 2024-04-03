@@ -21,7 +21,7 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Paint.Align.CENTER;
 import static android.graphics.Paint.Style.STROKE;
 import static android.graphics.Typeface.BOLD;
-import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CUSTOM_RLANDSCAPE;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CIRCLE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_BLEND_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_STYLE;
@@ -107,7 +107,7 @@ public class CircleBattery extends BatteryDrawable {
 
         setColors(frameColor, frameColor, frameColor);
 
-        setMeterStyle(xposed ? Integer.parseInt(Xprefs.getString(CUSTOM_BATTERY_STYLE, String.valueOf(BATTERY_STYLE_CUSTOM_RLANDSCAPE))) : 0);
+        setMeterStyle(xposed ? Xprefs.getInt(CUSTOM_BATTERY_STYLE, 0) : BATTERY_STYLE_CIRCLE);
 
         mBoltAlphaAnimator = ValueAnimator.ofInt(255, 255, 255, 45);
 
