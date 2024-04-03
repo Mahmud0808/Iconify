@@ -10,7 +10,6 @@
         android:id="@+id/curvedText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:fontFamily="@font/bebasneue_bold"
         android:format12Hour="EEEE"
         android:format24Hour="EEEE"
