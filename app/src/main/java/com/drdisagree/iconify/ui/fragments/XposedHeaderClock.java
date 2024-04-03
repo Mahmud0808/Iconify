@@ -240,6 +240,10 @@ public class XposedHeaderClock extends BaseFragment {
                 RPrefs.putInt(HEADER_CLOCK_FONT_TEXT_SCALING, (int) slider.getValue());
             }
         });
+        binding.headerClockTextscaling.setResetClickListener(v -> {
+            RPrefs.clearPref(HEADER_CLOCK_FONT_TEXT_SCALING);
+            return true;
+        });
 
         // Header clock side margin
         binding.headerClockSideMargin.setSliderValue(RPrefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0));
