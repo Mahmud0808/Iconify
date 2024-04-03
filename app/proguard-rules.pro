@@ -41,6 +41,9 @@
 # Keep the ConstraintLayout Motion class
 -keep,allowoptimization,allowobfuscation class androidx.constraintlayout.motion.widget.** { *; }
 
+# Keep Recycler View Stuff
+-keep,allowoptimization,allowobfuscation class androidx.recyclerview.widget.** { *; }
+
 # Obfuscation
 -repackageclasses
 -allowaccessmodification

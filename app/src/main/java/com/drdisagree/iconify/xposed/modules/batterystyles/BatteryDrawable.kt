@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.xposed.modules.batterystyles
 
+import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 
@@ -51,6 +53,13 @@ abstract class BatteryDrawable : Drawable() {
     abstract fun setShowPercentEnabled(showPercent: Boolean)
     abstract fun setChargingEnabled(charging: Boolean)
     abstract fun setPowerSavingEnabled(powerSaveEnabled: Boolean)
+
+    fun getColorAttrDefaultColor(context: Context, attr: Int, defValue: Int): Int {
+        val obtainStyledAttributes: TypedArray = context.obtainStyledAttributes(intArrayOf(attr))
+        val color: Int = obtainStyledAttributes.getColor(0, defValue)
+        obtainStyledAttributes.recycle()
+        return color
+    }
 
     companion object {
         var showPercent = false

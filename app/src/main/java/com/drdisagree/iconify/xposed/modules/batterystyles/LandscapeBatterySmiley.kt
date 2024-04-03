@@ -11,7 +11,7 @@ import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatterySmiley(private val context: Context, frameColor: Int) :
+open class LandscapeBatterySmiley(private val context: Context, frameColor: Int, private val xposed: Boolean) :
     BatteryDrawable() {
 
     // Need to load:
@@ -145,7 +145,9 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
     }
 
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
+        p.color =
+            if (xposed) SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
+            else getColorAttrDefaultColor(context, android.R.attr.colorError, Color.RED)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
@@ -197,9 +199,11 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
         for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
-                colorLevels[2 * i + 1] = SettingsLibUtils.getColorAttrDefaultColor(
-                    colors.getResourceId(i, 0), context
-                )
+                colorLevels[2 * i + 1] =
+                    if (xposed) SettingsLibUtils.getColorAttrDefaultColor(
+                                    colors.getResourceId(i, 0), context
+                                )
+                    else getColorAttrDefaultColor(context, colors.getResourceId(i, 0), Color.WHITE)
             } else {
                 colorLevels[2 * i + 1] = colors.getColor(i, 0)
             }
@@ -434,32 +438,48 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString = modRes.getString(R.string.config_landscapeBatteryPerimeterSmiley)
+        val pathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryPerimeterSmiley)
+            else context.getString(R.string.config_landscapeBatteryPerimeterSmiley)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString = modRes.getString(R.string.config_landscapeBatteryErrorSmiley)
+        val errorPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryErrorSmiley)
+            else context.getString(R.string.config_landscapeBatteryErrorSmiley)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString = modRes.getString(R.string.config_landscapeBatteryFillMaskSmiley)
+        val fillMaskString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryFillMaskSmiley)
+            else context.getString(R.string.config_landscapeBatteryFillMaskSmiley)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = modRes.getString(R.string.config_landscapeBatteryBoltSmiley)
+        val boltPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryBoltSmiley)
+            else context.getString(R.string.config_landscapeBatteryBoltSmiley)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString = modRes.getString(R.string.config_landscapeBatteryPlusSmiley)
+        val plusPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryPlusSmiley)
+            else context.getString(R.string.config_landscapeBatteryPlusSmiley)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        val smileyHighPathString = modRes.getString(R.string.config_landscapeBatteryBoltSmileyHigh)
+        val smileyHighPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryBoltSmileyHigh)
+            else context.getString(R.string.config_landscapeBatteryBoltSmileyHigh)
         smileyHighPath.set(PathParser.createPathFromPathData(smileyHighPathString))
 
-        val smileyMidPathString = modRes.getString(R.string.config_landscapeBatteryBoltSmileyMid)
+        val smileyMidPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryBoltSmileyMid)
+            else context.getString(R.string.config_landscapeBatteryBoltSmileyMid)
         smileyMidPath.set(PathParser.createPathFromPathData(smileyMidPathString))
 
-        val smileyLowPathString = modRes.getString(R.string.config_landscapeBatteryBoltSmileyLow)
+        val smileyLowPathString =
+            if (xposed) modRes.getString(R.string.config_landscapeBatteryBoltSmileyLow)
+            else context.getString(R.string.config_landscapeBatteryBoltSmileyLow)
         smileyLowPath.set(PathParser.createPathFromPathData(smileyLowPathString))
 
         dualTone = false
