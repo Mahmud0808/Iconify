@@ -40,7 +40,7 @@
         android:layout_width="18dp"
         android:layout_height="6dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="-2dp"
+        android:layout_marginEnd="-1dp"
         android:background="#FFFFFF"
         android:rotation="180"
         android:tag="text1" />
@@ -68,8 +68,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/futurist_fixed_width_bold"
-            android:format12Hour="h:mm"
-            android:format24Hour="H:mm"
+            android:format12Hour="hh:mm"
+            android:format24Hour="HH:mm"
             android:tag="text1"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
@@ -80,7 +80,7 @@
     <View
         android:layout_width="18dp"
         android:layout_height="6dp"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="17dp"
         android:layout_marginTop="2dp"
         android:background="#FFFFFF"
         android:rotation="180.0"
