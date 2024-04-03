@@ -82,7 +82,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private ViewGroup mClockViewContainer = null;
     private ViewGroup mStatusViewContainer = null;
     private final AudioManager mAudioManager;
-    private final UserManager mUserManager;
+    private UserManager mUserManager = null;
     private final ActivityManager mActivityManager;
     private Context appContext;
     private TextView mBatteryStatusView;
@@ -109,8 +109,11 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         }
 
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        mUserManager = context.getSystemService(UserManager.class);
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        try {
+            mUserManager = context.getSystemService(UserManager.class);
+        } catch (Exception ignored) {
+        }
 
         BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
             @Override
@@ -511,6 +514,10 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
     @SuppressLint("MissingPermission")
     private String getUserName() {
+        if (mUserManager == null) {
+            return "User";
+        }
+
         String username = mUserManager.getUserName();
         return !username.isEmpty() ?
                 mUserManager.getUserName() :
@@ -519,6 +526,10 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
     @SuppressWarnings("all")
     private Drawable getUserImage() {
+        if (mUserManager == null) {
+            return appContext.getResources().getDrawable(R.drawable.default_avatar);
+        }
+
         try {
             Method getUserIconMethod = mUserManager.getClass().getMethod("getUserIcon", int.class);
             int userId = (int) UserHandle.class.getDeclaredMethod("myUserId").invoke(null);

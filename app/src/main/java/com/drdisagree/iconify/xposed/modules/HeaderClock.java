@@ -78,7 +78,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     boolean centeredClockView = false;
     boolean hideLandscapeHeaderClock = true;
     LinearLayout mQsClockContainer = new LinearLayout(mContext);
-    private final UserManager mUserManager;
+    private UserManager mUserManager = null;
 
     public HeaderClock(Context context) {
         super(context);
@@ -91,7 +91,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
-        mUserManager = context.getSystemService(UserManager.class);
+        try {
+            mUserManager = context.getSystemService(UserManager.class);
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
@@ -430,6 +433,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     @SuppressWarnings("all")
     private Drawable getUserImage() {
+        if (mUserManager == null) {
+            return appContext.getResources().getDrawable(R.drawable.default_avatar);
+        }
+
         try {
             Method getUserIconMethod = mUserManager.getClass().getMethod("getUserIcon", int.class);
             int userId = (int) UserHandle.class.getDeclaredMethod("myUserId").invoke(null);
