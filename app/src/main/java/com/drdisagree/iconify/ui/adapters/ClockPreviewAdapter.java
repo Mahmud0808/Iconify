@@ -104,8 +104,7 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
             title.setText(model.getTitle());
 
             button.setOnClickListener(v -> {
-                int index = position + (Objects.equals(prefSwitch, LSCLOCK_SWITCH) ? 0 : 1);
-                RPrefs.putInt(prefStyle, index);
+                RPrefs.putInt(prefStyle, position);
                 refreshLayout(this);
             });
 

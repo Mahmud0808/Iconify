@@ -33,11 +33,14 @@ public class Preferences {
     public static final String HEADER_CLOCK_TOPMARGIN = "xposed_headerclocktopmargin";
     public static final String HEADER_CLOCK_CENTERED = "xposed_headerclockcentered";
     public static final String HEADER_CLOCK_LANDSCAPE_SWITCH = "xposed_headerclocklandscape";
-    public static final String HEADER_CLOCK_TEXT_WHITE = "xposed_headerclocktextwhite";
     public static final String HEADER_CLOCK_STYLE = "xposed_headerclockstyle";
     public static final String HEADER_CLOCK_FONT_SWITCH = "xposed_headerclockfont";
     public static final String HEADER_CLOCK_COLOR_SWITCH = "xposed_headerclockcolor";
-    public static final String HEADER_CLOCK_COLOR_CODE = "xposed_headerclockcolorcode";
+    public static final String HEADER_CLOCK_COLOR_CODE_ACCENT1 = "xposed_headerclockcolorcodeaccent1";
+    public static final String HEADER_CLOCK_COLOR_CODE_ACCENT2 = "xposed_headerclockcolorcodeaccent2";
+    public static final String HEADER_CLOCK_COLOR_CODE_ACCENT3 = "xposed_headerclockcolorcodeaccent3";
+    public static final String HEADER_CLOCK_COLOR_CODE_TEXT1 = "xposed_headerclockcolorcodetext1";
+    public static final String HEADER_CLOCK_COLOR_CODE_TEXT2 = "xposed_headerclockcolorcodetext2";
     public static final String HEADER_CLOCK_FONT_TEXT_SCALING = "xposed_headerclocktextscaling";
     public static final String QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier";
     public static final String LSCLOCK_SWITCH = "xposed_lockscreenclock";

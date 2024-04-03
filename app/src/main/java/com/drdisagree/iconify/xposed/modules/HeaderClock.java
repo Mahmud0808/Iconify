@@ -2,7 +2,11 @@ package com.drdisagree.iconify.xposed.modules;
 
 import static com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_CENTERED;
-import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT1;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT2;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT3;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_TEXT1;
+import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_TEXT2;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_SWITCH;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING;
@@ -10,33 +14,51 @@ import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_LANDSCAPE_S
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TEXT_WHITE;
 import static com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN;
 import static com.drdisagree.iconify.common.Preferences.ICONIFY_HEADER_CLOCK_TAG;
+import static com.drdisagree.iconify.common.Resources.HEADER_CLOCK_LAYOUT;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.text.TextUtilsCompat;
+
+import com.drdisagree.iconify.BuildConfig;
+import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.utils.TextUtil;
 import com.drdisagree.iconify.xposed.ModPack;
-import com.drdisagree.iconify.xposed.modules.utils.HeaderClockStyles;
+import com.drdisagree.iconify.xposed.modules.utils.Helpers;
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -51,13 +73,25 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     private static final String TAG = "Iconify - " + HeaderClock.class.getSimpleName() + ": ";
+    private Context appContext;
     boolean showHeaderClock = false;
     boolean centeredClockView = false;
     boolean hideLandscapeHeaderClock = true;
     LinearLayout mQsClockContainer = new LinearLayout(mContext);
+    private final UserManager mUserManager;
 
     public HeaderClock(Context context) {
         super(context);
+
+        try {
+            appContext = context.createPackageContext(
+                    BuildConfig.APPLICATION_ID,
+                    Context.CONTEXT_IGNORE_SECURITY
+            );
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+
+        mUserManager = mContext.getSystemService(UserManager.class);
     }
 
     @Override
@@ -68,7 +102,20 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         centeredClockView = Xprefs.getBoolean(HEADER_CLOCK_CENTERED, false);
         hideLandscapeHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, true);
 
-        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_CLOCK_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_COLOR_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_COLOR_CODE) || Objects.equals(Key[0], HEADER_CLOCK_FONT_SWITCH) || Objects.equals(Key[0], HEADER_CLOCK_SIDEMARGIN) || Objects.equals(Key[0], HEADER_CLOCK_TOPMARGIN) || Objects.equals(Key[0], HEADER_CLOCK_STYLE) || Objects.equals(Key[0], HEADER_CLOCK_CENTERED) || Objects.equals(Key[0], HEADER_CLOCK_TEXT_WHITE) || Objects.equals(Key[0], HEADER_CLOCK_FONT_TEXT_SCALING) || Objects.equals(Key[0], HEADER_CLOCK_LANDSCAPE_SWITCH))) {
+        if (Key.length > 0 && (Objects.equals(Key[0], HEADER_CLOCK_SWITCH) ||
+                Objects.equals(Key[0], HEADER_CLOCK_COLOR_SWITCH) ||
+                Objects.equals(Key[0], HEADER_CLOCK_COLOR_CODE_ACCENT1) ||
+                Objects.equals(Key[0], HEADER_CLOCK_COLOR_CODE_ACCENT2) ||
+                Objects.equals(Key[0], HEADER_CLOCK_COLOR_CODE_ACCENT3) ||
+                Objects.equals(Key[0], HEADER_CLOCK_COLOR_CODE_TEXT1) ||
+                Objects.equals(Key[0], HEADER_CLOCK_COLOR_CODE_TEXT2) ||
+                Objects.equals(Key[0], HEADER_CLOCK_FONT_SWITCH) ||
+                Objects.equals(Key[0], HEADER_CLOCK_SIDEMARGIN) ||
+                Objects.equals(Key[0], HEADER_CLOCK_TOPMARGIN) ||
+                Objects.equals(Key[0], HEADER_CLOCK_STYLE) ||
+                Objects.equals(Key[0], HEADER_CLOCK_CENTERED) ||
+                Objects.equals(Key[0], HEADER_CLOCK_FONT_TEXT_SCALING) ||
+                Objects.equals(Key[0], HEADER_CLOCK_LANDSCAPE_SWITCH))) {
             updateClockView();
         }
     }
@@ -266,14 +313,18 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void updateClockView() {
+        if (mQsClockContainer == null) return;
+
         if (!showHeaderClock) {
             mQsClockContainer.setVisibility(View.GONE);
             return;
         }
 
-        ViewGroup clockView = HeaderClockStyles.getClock(mContext);
+        boolean isClockAdded = mQsClockContainer.findViewWithTag(ICONIFY_HEADER_CLOCK_TAG) != null;
 
-        if (mQsClockContainer.findViewWithTag(ICONIFY_HEADER_CLOCK_TAG) != null) {
+        View clockView = getClockView();
+
+        if (isClockAdded) {
             mQsClockContainer.removeView(mQsClockContainer.findViewWithTag(ICONIFY_HEADER_CLOCK_TAG));
         }
 
@@ -284,9 +335,11 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
                 mQsClockContainer.setGravity(Gravity.START);
             }
             clockView.setTag(ICONIFY_HEADER_CLOCK_TAG);
-            TextUtil.convertTextViewsToTitleCase(clockView);
+
+            TextUtil.convertTextViewsToTitleCase((ViewGroup) clockView);
+
             mQsClockContainer.addView(clockView);
-            mQsClockContainer.requestLayout();
+            modifyClockView(clockView);
         }
 
         Configuration config = mContext.getResources().getConfiguration();
@@ -294,6 +347,97 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
             mQsClockContainer.setVisibility(View.GONE);
         } else {
             mQsClockContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @SuppressLint("DiscouragedApi")
+    private View getClockView() {
+        LayoutInflater inflater = LayoutInflater.from(appContext);
+        int clockStyle = Xprefs.getInt(HEADER_CLOCK_STYLE, 0);
+
+        return inflater.inflate(
+                appContext
+                        .getResources()
+                        .getIdentifier(
+                                HEADER_CLOCK_LAYOUT + clockStyle,
+                                "layout",
+                                BuildConfig.APPLICATION_ID
+                        ),
+                null
+        );
+    }
+
+    private void modifyClockView(View clockView) {
+        int clockStyle = Xprefs.getInt(HEADER_CLOCK_STYLE, 0);
+        boolean customFontEnabled = Xprefs.getBoolean(HEADER_CLOCK_FONT_SWITCH, false);
+        float clockScale = (float) (Xprefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10) / 10.0);
+        int sideMargin = Xprefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0);
+        int topMargin = Xprefs.getInt(HEADER_CLOCK_TOPMARGIN, 8);
+        String customFont = Environment.getExternalStorageDirectory() + "/.iconify_files/headerclock_font.ttf";
+
+        int accent1 = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_ACCENT1,
+                ContextCompat.getColor(mContext, android.R.color.system_accent1_300)
+        );
+        int accent2 = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_ACCENT2,
+                ContextCompat.getColor(mContext, android.R.color.system_accent2_300)
+        );
+        int accent3 = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_ACCENT3,
+                ContextCompat.getColor(mContext, android.R.color.system_accent3_300)
+        );
+        int textPrimary = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_TEXT1,
+                Helpers.getColorResCompat(mContext, android.R.attr.textColorPrimary)
+        );
+        int textInverse = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_TEXT2,
+                Helpers.getColorResCompat(mContext, android.R.attr.textColorPrimaryInverse)
+        );
+
+        Typeface typeface = null;
+        if (customFontEnabled && (new File(customFont).exists()))
+            typeface = Typeface.createFromFile(new File(customFont));
+
+        if (TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
+            ViewHelper.setMargins(clockView, mContext, 0, topMargin, sideMargin, 0);
+        } else {
+            ViewHelper.setMargins(clockView, mContext, sideMargin, topMargin, 0, 0);
+        }
+
+        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent1", accent1);
+        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent2", accent2);
+        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent3", accent3);
+        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "text1", textPrimary);
+        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "text2", textInverse);
+
+        if (typeface != null) {
+            ViewHelper.applyFontRecursively((ViewGroup) clockView, typeface);
+        }
+
+        if (clockScale != 1) {
+            ViewHelper.applyTextScalingRecursively((ViewGroup) clockView, clockScale);
+        }
+
+        switch (clockStyle) {
+            case 6 -> {
+                ImageView imageView = clockView.findViewById(R.id.user_profile_image);
+                imageView.setImageDrawable(getUserImage());
+            }
+        }
+    }
+
+    @SuppressWarnings("all")
+    private Drawable getUserImage() {
+        try {
+            Method getUserIconMethod = mUserManager.getClass().getMethod("getUserIcon", int.class);
+            int userId = (int) UserHandle.class.getDeclaredMethod("myUserId").invoke(null);
+            Bitmap bitmapUserIcon = (Bitmap) getUserIconMethod.invoke(mUserManager, userId);
+            return new BitmapDrawable(mContext.getResources(), bitmapUserIcon);
+        } catch (Throwable throwable) {
+            log(TAG + throwable);
+            return appContext.getResources().getDrawable(R.drawable.default_avatar);
         }
     }
 }
