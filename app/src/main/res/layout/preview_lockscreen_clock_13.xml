@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="start|center"
-    android:gravity="start|center"
+    android:layout_gravity="start|top"
+    android:gravity="start|top"
     android:orientation="vertical">
 
     <LinearLayout

@@ -45,7 +45,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.UserHandle;
 import android.os.UserManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -244,8 +243,6 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
     // Broadcast receiver for updating clock
     private void registerClockUpdater() {
-        if (mClockViewContainer == null) return;
-
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_TIME_TICK);
         filter.addAction(Intent.ACTION_TIME_CHANGED);
@@ -271,6 +268,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
 
         long currentTime = System.currentTimeMillis();
         boolean isClockAdded = mClockViewContainer.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null;
+        boolean isDepthClock = mClockViewContainer.getTag() == ICONIFY_DEPTH_WALLPAPER_TAG;
 
         if (isClockAdded && currentTime - lastUpdated < thresholdTime) {
             return;
@@ -289,8 +287,9 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
             clockView.setTag(ICONIFY_LOCKSCREEN_CLOCK_TAG);
 
             int idx = 0;
+            LinearLayout dummyLayout = null;
 
-            if (mClockViewContainer.getTag() == ICONIFY_DEPTH_WALLPAPER_TAG) {
+            if (isDepthClock) {
                 /*
                  If the clock view container is the depth wallpaper container, we need to
                  add the clock view to the middle of foreground and background images
@@ -302,23 +301,18 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 // Add a dummy layout to the status view container so that we can still move notifications
                 if (mStatusViewContainer != null) {
                     String dummy_tag = "dummy_layout";
-                    LinearLayout dummyLayout = mStatusViewContainer.findViewWithTag(dummy_tag);
+                    dummyLayout = mStatusViewContainer.findViewWithTag(dummy_tag);
 
                     if (dummyLayout == null) {
                         dummyLayout = new LinearLayout(mContext);
+                        dummyLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                350
+                        ));
                         dummyLayout.setTag(dummy_tag);
 
                         mStatusViewContainer.addView(dummyLayout, 0);
                     }
-
-                    dummyLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
-                    ((LinearLayout.LayoutParams) clockView.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL;
-
-                    ViewGroup.MarginLayoutParams dummyParams = (ViewGroup.MarginLayoutParams) dummyLayout.getLayoutParams();
-                    ViewGroup.MarginLayoutParams clockParams = (ViewGroup.MarginLayoutParams) clockView.getLayoutParams();
-                    dummyParams.topMargin = clockParams.topMargin;
-                    dummyParams.bottomMargin = clockParams.bottomMargin;
-                    dummyLayout.setLayoutParams(dummyParams);
                 }
             }
 
@@ -332,6 +326,14 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
             modifyClockView(clockView);
             initSoundManager();
             initBatteryStatus();
+
+            if (isDepthClock && dummyLayout != null) {
+                ViewGroup.MarginLayoutParams dummyParams = (ViewGroup.MarginLayoutParams) dummyLayout.getLayoutParams();
+                ViewGroup.MarginLayoutParams clockParams = (ViewGroup.MarginLayoutParams) clockView.getLayoutParams();
+                dummyParams.topMargin = clockParams.topMargin;
+                dummyParams.bottomMargin = clockParams.bottomMargin;
+                dummyLayout.setLayoutParams(dummyParams);
+            }
         }
     }
 

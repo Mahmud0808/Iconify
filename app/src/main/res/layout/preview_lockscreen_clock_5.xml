@@ -3,18 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_gravity="center_horizontal|top"
+    android:gravity="center_horizontal|top"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal|top"
+        android:gravity="center_horizontal|top"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/widget_bg"
         android:backgroundTint="#FF1B1D1F"
-        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="16dp">
 

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="220dp"
-    android:layout_gravity="center"
+    android:layout_gravity="center_horizontal|top"
+    android:gravity="center_horizontal|top"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,7 +12,8 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="10dp"
-        android:gravity="center_vertical"
+        android:layout_gravity="center_horizontal|top"
+        android:gravity="center_horizontal|top"
         android:orientation="vertical">
 
         <LinearLayout
@@ -106,7 +108,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/custom_background"
             android:backgroundTint="@android:color/system_neutral1_900"
@@ -117,21 +119,15 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
+                android:layout_weight="1"
                 android:gravity="start"
                 android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="18dp"
                         android:layout_height="18dp"
-                        android:layout_alignParentTop="true"
                         android:clickable="false"
+                        android:layout_marginBottom="6dp"
                         android:src="@drawable/ic_lock"
                         android:tag="text1"
                         app:tint="@android:color/white" />
@@ -139,7 +135,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_above="@+id/summary"
                         android:tag="text1"
                         android:text="@string/welcome_back"
                         android:textColor="@android:color/system_accent1_0"
@@ -149,19 +144,17 @@
                         android:id="@+id/summary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
                         android:fontFamily="@font/dot57"
                         android:tag="accent1"
                         android:text="@string/default_user_name"
                         android:textColor="@android:color/system_accent1_100"
                         android:textSize="16sp" />
-                </RelativeLayout>
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/user_profile_image"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:adjustViewBounds="true"
                 android:clickable="false"
                 android:clipToOutline="true"

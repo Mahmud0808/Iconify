@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center_vertical"
-    android:gravity="center_vertical">
+    android:layout_height="wrap_content"
+    android:layout_gravity="start|top"
+    android:gravity="start|top">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center|start"
         android:layout_marginStart="25dp"
-        android:gravity="center|start"
+        android:layout_gravity="start|top"
+        android:gravity="start|top"
         android:orientation="vertical">
 
         <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_gravity="center|start"
             android:layout_marginBottom="-10dp"
             android:alpha="0.5"
@@ -32,7 +31,6 @@
         <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_gravity="center|start"
             android:layout_marginTop="-20dp"
             android:format12Hour="mm"
@@ -71,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|start"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="60dp"
+                android:layout_marginEnd="0dp"
                 android:background="@drawable/custom_background_2"
                 android:backgroundTint="@android:color/system_accent1_100"
                 android:paddingHorizontal="8dp"
