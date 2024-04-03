@@ -100,7 +100,7 @@ public class ViewHelper {
             progressBar.setProgressTintList(ColorStateList.valueOf(color));
             progressBar.setProgressBackgroundTintList(ColorStateList.valueOf(color));
         } else {
-            view.getBackground().setTint(color);
+            view.getBackground().mutate().setTint(color);
         }
     }
 
@@ -116,12 +116,12 @@ public class ViewHelper {
         }
     }
 
-    public static void applyTopMarginRecursively(ViewGroup viewGroup, int topMargin) {
+    public static void applyTextMarginRecursively(ViewGroup viewGroup, int topMargin) {
         int childCount = viewGroup.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View child = viewGroup.getChildAt(i);
             if (child instanceof ViewGroup) {
-                applyTopMarginRecursively((ViewGroup) child, topMargin);
+                applyTextMarginRecursively((ViewGroup) child, topMargin);
             } else if (child instanceof TextView) {
                 ViewGroup.LayoutParams params = child.getLayoutParams();
                 if (params instanceof LinearLayout.LayoutParams linearParams) {
@@ -136,6 +136,19 @@ public class ViewHelper {
                 } else {
                     log("Invalid params: " + params);
                 }
+            }
+        }
+    }
+
+    public static void applyTextScalingRecursively(ViewGroup viewGroup, float scaleFactor) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View child = viewGroup.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                applyTextScalingRecursively((ViewGroup) child, scaleFactor);
+            } else if (child instanceof TextView textView) {
+                float originalSize = textView.getTextSize();
+                float newSize = originalSize * scaleFactor;
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize);
             }
         }
     }

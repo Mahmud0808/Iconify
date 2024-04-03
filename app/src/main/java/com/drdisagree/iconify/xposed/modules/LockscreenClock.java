@@ -60,7 +60,6 @@ import androidx.core.content.ContextCompat;
 
 import com.drdisagree.iconify.BuildConfig;
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.utils.TextUtil;
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.modules.utils.ArcProgressWidget;
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper;
@@ -327,7 +326,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 ((ViewGroup) clockView.getParent()).removeView(clockView);
             }
 
-            TextUtil.convertTextViewsToTitleCase((ViewGroup) clockView);
+//            TextUtil.convertTextViewsToTitleCase((ViewGroup) clockView);
 
             mClockViewContainer.addView(clockView, idx);
             modifyClockView(clockView);
@@ -402,10 +401,11 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
             ViewHelper.applyFontRecursively((ViewGroup) clockView, typeface);
         }
 
-        ViewHelper.applyTopMarginRecursively((ViewGroup) clockView, lineHeight);
+        ViewHelper.applyTextMarginRecursively((ViewGroup) clockView, lineHeight);
 
-        clockView.setScaleX(clockScale);
-        clockView.setScaleY(clockScale);
+        if (clockScale != 1) {
+            ViewHelper.applyTextScalingRecursively((ViewGroup) clockView, clockScale);
+        }
 
         switch (clockStyle) {
             case 5 -> {
