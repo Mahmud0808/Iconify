@@ -81,9 +81,9 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private boolean showDepthWallpaper = false;
     private ViewGroup mClockViewContainer = null;
     private ViewGroup mStatusViewContainer = null;
-    private final UserManager mUserManager;
-    private final AudioManager mAudioManager;
-    private final ActivityManager mActivityManager;
+    private UserManager mUserManager;
+    private AudioManager mAudioManager;
+    private ActivityManager mActivityManager;
     private Context appContext;
     private TextView mBatteryStatusView;
     private TextView mBatteryLevelView;
@@ -96,43 +96,27 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     private ImageView mRamUsageArcProgress;
     private static long lastUpdated = System.currentTimeMillis();
     private static final long thresholdTime = 500; // milliseconds
+    private final BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.getAction() != null && intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)) {
+                mBatteryStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, 1);
+                int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+                int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
+                mBatteryPercentage = (level * 100) / scale;
+                initBatteryStatus();
+            }
+        }
+    };
+    private final BroadcastReceiver mVolumeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initSoundManager();
+        }
+    };
 
     public LockscreenClock(Context context) {
         super(context);
-
-        try {
-            appContext = context.createPackageContext(
-                    BuildConfig.APPLICATION_ID,
-                    Context.CONTEXT_IGNORE_SECURITY
-            );
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
-
-        mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
-        mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-
-        BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent != null && intent.getAction() != null && intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)) {
-                    mBatteryStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS, 1);
-                    int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-                    int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 100);
-                    mBatteryPercentage = (level * 100) / scale;
-                    initBatteryStatus();
-                }
-            }
-        };
-        BroadcastReceiver mVolumeReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                initSoundManager();
-            }
-        };
-
-        context.registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        context.registerReceiver(mVolumeReceiver, new IntentFilter("android.media.VOLUME_CHANGED_ACTION"));
     }
 
     @Override
@@ -164,6 +148,8 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
     @SuppressLint("DiscouragedApi")
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        initResources(mContext);
+
         Class<?> KeyguardStatusViewClass = findClass("com.android.keyguard.KeyguardStatusView", loadPackageParam.classLoader);
 
         hookAllMethods(KeyguardStatusViewClass, "onFinishInflate", new XC_MethodHook() {
@@ -238,6 +224,29 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
                 }
             }, 0, 5, TimeUnit.SECONDS);
         } catch (Throwable ignored) {
+        }
+    }
+
+    private void initResources(Context context) {
+        try {
+            appContext = context.createPackageContext(
+                    BuildConfig.APPLICATION_ID,
+                    Context.CONTEXT_IGNORE_SECURITY
+            );
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+
+        mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+        mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        try {
+            context.registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        } catch (Exception ignored) {
+        }
+        try {
+            context.registerReceiver(mVolumeReceiver, new IntentFilter("android.media.VOLUME_CHANGED_ACTION"));
+        } catch (Exception ignored) {
         }
     }
 

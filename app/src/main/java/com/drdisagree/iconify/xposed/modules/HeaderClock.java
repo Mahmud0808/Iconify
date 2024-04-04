@@ -78,20 +78,10 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     boolean centeredClockView = false;
     boolean hideLandscapeHeaderClock = true;
     LinearLayout mQsClockContainer = new LinearLayout(mContext);
-    private final UserManager mUserManager;
+    private UserManager mUserManager;
 
     public HeaderClock(Context context) {
         super(context);
-
-        try {
-            appContext = context.createPackageContext(
-                    BuildConfig.APPLICATION_ID,
-                    Context.CONTEXT_IGNORE_SECURITY
-            );
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
-
-        mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
     }
 
     @Override
@@ -122,6 +112,8 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        initResources(mContext);
+
         final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
 
         hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
@@ -239,6 +231,18 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
             }, 0, 5, TimeUnit.SECONDS);
         } catch (Throwable ignored) {
         }
+    }
+
+    private void initResources(Context context) {
+        try {
+            appContext = context.createPackageContext(
+                    BuildConfig.APPLICATION_ID,
+                    Context.CONTEXT_IGNORE_SECURITY
+            );
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+
+        mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
     }
 
     private void hideStockClockDate() {
