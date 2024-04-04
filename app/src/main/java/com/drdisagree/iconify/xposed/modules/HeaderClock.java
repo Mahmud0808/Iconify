@@ -478,7 +478,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         for (int i = 0; i < clockView.getChildCount(); i++) {
             View child = clockView.getChildAt(i);
 
-            String tag = child.getTag().toString();
+            String tag = child.getTag() == null ? "" : child.getTag().toString();
             if (tag.equals("clock") || tag.equals("date")) {
                 child.setOnClickListener(mOnClickListener);
             }
