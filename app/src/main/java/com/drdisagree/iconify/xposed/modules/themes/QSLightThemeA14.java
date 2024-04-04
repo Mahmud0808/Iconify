@@ -30,6 +30,7 @@ import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getFloatField;
@@ -54,8 +55,10 @@ import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.xposed.ModPack;
 import com.drdisagree.iconify.xposed.modules.utils.Helpers;
+import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils;
 import com.drdisagree.iconify.xposed.utils.SystemUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -70,12 +73,15 @@ public class QSLightThemeA14 extends ModPack {
     private static boolean dualToneQSEnabled = false;
     private Object mBehindColors;
     private boolean isDark;
-    private Integer colorActive = null;
     private Integer colorInactive = null;
-    private Object mClockViewQSHeader = null;
     private Object unlockedScrimState;
     private boolean qsTextAlwaysWhite = false;
     private boolean qsTextFollowAccent = false;
+    private int mScrimBehindTint = Color.BLACK;
+    private Object ShadeCarrierGroupController;
+    private Object mClockViewQSHeader = null;
+    private static final int PM_LITE_BACKGROUND_CODE = 1;
+    private final ArrayList<Object> ModernShadeCarrierGroupMobileViews = new ArrayList<>();
 
     public QSLightThemeA14(Context context) {
         super(context);
@@ -99,35 +105,49 @@ public class QSLightThemeA14 extends ModPack {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", loadPackageParam.classLoader);
-        Class<?> FragmentHostManagerClass = findClass(SYSTEMUI_PACKAGE + ".fragments.FragmentHostManager", loadPackageParam.classLoader);
         Class<?> ScrimControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimController", loadPackageParam.classLoader);
         Class<?> GradientColorsClass = findClass("com.android.internal.colorextraction.ColorExtractor$GradientColors", loadPackageParam.classLoader);
         Class<?> QSPanelControllerClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSPanelController", loadPackageParam.classLoader);
-        Class<?> InterestingConfigChangesClass = findClass("com.android.settingslib.applications.InterestingConfigChanges", loadPackageParam.classLoader);
         Class<?> ScrimStateEnum = findClass(SYSTEMUI_PACKAGE + ".statusbar.phone.ScrimState", loadPackageParam.classLoader);
         Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", loadPackageParam.classLoader);
         Class<?> CentralSurfacesImplClass = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", loadPackageParam.classLoader);
-        Class<?> ClockClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.Clock", loadPackageParam.classLoader);
+        Class<?> QSCustomizerClass = findClass(SYSTEMUI_PACKAGE + ".qs.customize.QSCustomizer", loadPackageParam.classLoader);
+        Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", loadPackageParam.classLoader);
+        Class<?> ShadeCarrierClass = findClass(SYSTEMUI_PACKAGE + ".shade.carrier.ShadeCarrier", loadPackageParam.classLoader);
+        Class<?> BatteryStatusChipClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.BatteryStatusChip", loadPackageParam.classLoader);
+        Class<?> TextButtonViewHolderClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.binder.TextButtonViewHolder", loadPackageParam.classLoader);
+        Class<?> NumberButtonViewHolderClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.binder.NumberButtonViewHolder", loadPackageParam.classLoader);
+        Class<?> QSFooterViewClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSFooterView", loadPackageParam.classLoader);
+        Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", loadPackageParam.classLoader);
+        Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", loadPackageParam.classLoader);
+        Class<?> BrightnessSliderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", loadPackageParam.classLoader);
         Class<?> QuickStatusBarHeaderClass = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
-
-        try {
-            Class<?> BatteryStatusChipClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.BatteryStatusChip", loadPackageParam.classLoader);
-
-            //background color of android 14's charging chip. Fix for light QS theme situation
-            hookAllMethods(BatteryStatusChipClass, "updateResources", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (lightQSHeaderEnabled && !isDark) {
-                        ((LinearLayout) getObjectField(param.thisObject, "roundedContainer")).getBackground().setTint(colorActive);
-
-                        int colorPrimary = getColorAttrDefaultColor(mContext, android.R.attr.textColorPrimaryInverse);
-                        int textColorSecondary = getColorAttrDefaultColor(mContext, android.R.attr.textColorSecondaryInverse);
-                        callMethod(getObjectField(param.thisObject, "batteryMeterView"), "updateColors", colorPrimary, textColorSecondary, colorPrimary);
-                    }
-                }
-            });
-        } catch (Throwable ignored) {
+        Class<?> ClockClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.Clock", loadPackageParam.classLoader);
+        Class<?> ThemeColorKtClass = findClassIfExists("com.android.compose.theme.ColorKt", loadPackageParam.classLoader);
+        Class<?> ExpandableControllerImplClass = findClassIfExists("com.android.compose.animation.ExpandableControllerImpl", loadPackageParam.classLoader);
+        Class<?> FooterActionsViewModelClass = findClassIfExists(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsViewModel", loadPackageParam.classLoader);
+        Class<?> FooterActionsViewBinderClass = findClassIfExists(SYSTEMUI_PACKAGE + ".qs.footer.ui.binder.FooterActionsViewBinder", loadPackageParam.classLoader);
+        Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", loadPackageParam.classLoader);
+        if (ShadeHeaderControllerClass == null) {
+            ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", loadPackageParam.classLoader);
         }
+
+        //background color of android 14's charging chip. Fix for light QS theme situation
+        XC_MethodHook batteryStatusChipColorHook = new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (lightQSHeaderEnabled && !isDark) {
+                    ((LinearLayout) getObjectField(param.thisObject, "roundedContainer")).getBackground().setTint(colorInactive);
+
+                    int colorPrimary = getColorAttrDefaultColor(mContext, android.R.attr.textColorPrimaryInverse);
+                    int textColorSecondary = getColorAttrDefaultColor(mContext, android.R.attr.textColorSecondaryInverse);
+                    callMethod(getObjectField(param.thisObject, "batteryMeterView"), "updateColors", colorPrimary, textColorSecondary, colorPrimary);
+                }
+            }
+        };
+
+        hookAllConstructors(BatteryStatusChipClass, batteryStatusChipColorHook);
+        hookAllMethods(BatteryStatusChipClass, "onConfigurationChanged", batteryStatusChipColorHook);
 
         unlockedScrimState = Arrays.stream(ScrimStateEnum.getEnumConstants()).filter(c -> c.toString().equals("UNLOCKED")).findFirst().get();
 
@@ -147,138 +167,188 @@ public class QSLightThemeA14 extends ModPack {
             }
         });
 
-        try { //13QPR1
-            Class<?> QSFgsManagerFooterClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSFgsManagerFooter", loadPackageParam.classLoader);
-            Class<?> FooterActionsControllerClass = findClass(SYSTEMUI_PACKAGE + ".qs.FooterActionsController", loadPackageParam.classLoader);
+        hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                try {
+                    View mView = (View) getObjectField(param.thisObject, "mView");
+                    Object iconManager = getObjectField(param.thisObject, "iconManager");
+                    Object batteryIcon = getObjectField(param.thisObject, "batteryIcon");
+                    Object configurationControllerListener = getObjectField(param.thisObject, "configurationControllerListener");
 
-            hookAllConstructors(QSFgsManagerFooterClass, new XC_MethodHook() {
+                    hookAllMethods(configurationControllerListener.getClass(), "onConfigChanged", new XC_MethodHook() {
+                        @SuppressLint("DiscouragedApi")
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            setHeaderComponentsColor(mView, iconManager, batteryIcon);
+                        }
+                    });
+
+                    setHeaderComponentsColor(mView, iconManager, batteryIcon);
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
+
+        try { //A14 ap11 onwards - modern implementation of mobile icons
+            Class<?> ShadeCarrierGroupControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.carrier.ShadeCarrierGroupController", loadPackageParam.classLoader);
+            Class<?> MobileIconBinderClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.pipeline.mobile.ui.binder.MobileIconBinder", loadPackageParam.classLoader);
+
+            hookAllConstructors(ShadeCarrierGroupControllerClass, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (!isDark && lightQSHeaderEnabled) {
-                        try {
-                            ((View) getObjectField(param.thisObject, "mNumberContainer")).getBackground().setTint(colorInactive);
-                        } catch (Throwable throwable) {
-                            log(TAG + throwable);
+                    ShadeCarrierGroupController = param.thisObject;
+                }
+            });
+
+            hookAllMethods(MobileIconBinderClass, "bind", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (param.args[1].getClass().getName().contains("ShadeCarrierGroupMobileIconViewModel")) {
+                        ModernShadeCarrierGroupMobileViews.add(param.getResult());
+
+                        if (!isDark && lightQSHeaderEnabled) {
+                            int textColor = SettingsLibUtils.getColorAttrDefaultColor(android.R.attr.textColorPrimary, mContext);
+                            setMobileIconTint(param.getResult(), textColor);
                         }
                     }
                 }
             });
+        } catch (Throwable ignored) {
+        }
 
-            hookAllConstructors(FooterActionsControllerClass, new XC_MethodHook() {
-                @SuppressLint("DiscouragedApi")
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (!isDark && lightQSHeaderEnabled) {
-                        try {
-                            Resources res = mContext.getResources();
-                            ViewGroup view = (ViewGroup) param.args[0];
-
-                            view.findViewById(res.getIdentifier("multi_user_switch", "id", mContext.getPackageName())).getBackground().setTint(colorInactive);
-
-                            View settings_button_container = view.findViewById(res.getIdentifier("settings_button_container", "id", mContext.getPackageName()));
-                            settings_button_container.getBackground().setTint(colorInactive);
-                        } catch (Throwable throwable) {
-                            log(TAG + throwable);
-                        }
-                    }
-                }
-            });
-
-            //White QS Clock bug - doesn't seem applicable on 13QPR3 and 14
-            hookAllMethods(QuickStatusBarHeaderClass, "onFinishInflate", new XC_MethodHook() {
-                @SuppressLint("DiscouragedApi")
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    View thisView = (View) param.thisObject;
-                    Resources res = mContext.getResources();
-
+        hookAllMethods(QSContainerImplClass, "updateResources", new XC_MethodHook() {
+            @SuppressLint("DiscouragedApi")
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (!isDark && lightQSHeaderEnabled) {
                     try {
-                        mClockViewQSHeader = getObjectField(param.thisObject, "mClockView");
-                    } catch (Throwable ignored) {
-                        mClockViewQSHeader = thisView.findViewById(res.getIdentifier("clock", "id", mContext.getPackageName()));
-                    }
+                        Resources res = mContext.getResources();
+                        ViewGroup view = (ViewGroup) param.thisObject;
 
-                    if (lightQSHeaderEnabled && !isDark && mClockViewQSHeader != null) {
-                        try {
-                            ((TextView) mClockViewQSHeader).setTextColor(Color.BLACK);
-                        } catch (Throwable throwable) {
-                            log(TAG + throwable);
-                        }
-                    }
-                }
-            });
-
-            //White QS Clock bug - doesn't seem applicable on 13QPR3 and 14
-            hookAllMethods(ClockClass, "onColorsChanged", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    boolean isLight = isDark; // reverse logic
-                    if (lightQSHeaderEnabled && isLight && mClockViewQSHeader != null) {
-                        try {
-                            ((TextView) mClockViewQSHeader).setTextColor(Color.BLACK);
-                        } catch (Throwable throwable) {
-                            log(TAG + throwable);
-                        }
-                    }
-                }
-            });
-        } catch (Throwable throwable) { //13QPR2&3
-            //13QPR3
-            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", loadPackageParam.classLoader);
-            //13QPR2
-            if (ShadeHeaderControllerClass == null)
-                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", loadPackageParam.classLoader);
-            Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", loadPackageParam.classLoader);
-
-            hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    try {
-                        View mView = (View) getObjectField(param.thisObject, "mView");
-                        Object iconManager = getObjectField(param.thisObject, "iconManager");
-                        Object batteryIcon = getObjectField(param.thisObject, "batteryIcon");
-                        Object configurationControllerListener = getObjectField(param.thisObject, "configurationControllerListener");
-
-                        hookAllMethods(configurationControllerListener.getClass(), "onConfigChanged", new XC_MethodHook() {
-                            @SuppressLint("DiscouragedApi")
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                setHeaderComponentsColor(mView, iconManager, batteryIcon);
-                            }
-                        });
-
-                        setHeaderComponentsColor(mView, iconManager, batteryIcon);
+                        View settings_button_container = view.findViewById(res.getIdentifier("settings_button_container", "id", mContext.getPackageName()));
+                        ImageView settings_icon = settings_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
+                        settings_icon.setImageTintList(ColorStateList.valueOf(Color.BLACK));
                     } catch (Throwable throwable) {
                         log(TAG + throwable);
                     }
                 }
-            });
+            }
+        });
 
-            hookAllMethods(QSContainerImplClass, "updateResources", new XC_MethodHook() {
-                @SuppressLint("DiscouragedApi")
+        hookAllConstructors(QSCustomizerClass, new XC_MethodHook() { //QS Customize panel
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (!isDark && lightQSHeaderEnabled) {
+                    ViewGroup mainView = (ViewGroup) param.thisObject;
+                    for (int i = 0; i < mainView.getChildCount(); i++) {
+                        mainView.getChildAt(i).setBackgroundColor(mScrimBehindTint);
+                    }
+                }
+            }
+        });
+
+        hookAllMethods(ShadeCarrierClass, "updateState", new XC_MethodHook() { //mobile signal icons - this is the legacy model. new model uses viewmodels
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (isDark || !lightQSHeaderEnabled) return;
+
+                ((ImageView) getObjectField(param.thisObject, "mMobileSignal")).setImageTintList(ColorStateList.valueOf(Color.BLACK));
+            }
+        });
+
+        hookAllConstructors(NumberButtonViewHolderClass, new XC_MethodHook() { //QS security footer count circle
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (!isDark && lightQSHeaderEnabled) {
+                    ((ImageView) getObjectField(param.thisObject, "newDot")).setColorFilter(Color.BLACK);
+
+                    ((TextView) getObjectField(param.thisObject, "number")).setTextColor(Color.BLACK);
+                }
+            }
+        });
+
+        hookAllConstructors(TextButtonViewHolderClass, new XC_MethodHook() { //QS security footer
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (!isDark && lightQSHeaderEnabled) {
+                    ((ImageView) getObjectField(param.thisObject, "chevron")).setColorFilter(Color.BLACK);
+
+                    ((ImageView) getObjectField(param.thisObject, "icon")).setColorFilter(Color.BLACK);
+
+                    ((ImageView) getObjectField(param.thisObject, "newDot")).setColorFilter(Color.BLACK);
+
+                    ((TextView) getObjectField(param.thisObject, "text")).setTextColor(Color.BLACK);
+                }
+            }
+        });
+
+        try {
+            hookAllMethods(QSFooterViewClass, "onFinishInflate", new XC_MethodHook() { //QS Footer built text row
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (!isDark && lightQSHeaderEnabled) {
+                        ((TextView) getObjectField(param.thisObject, "mBuildText")).setTextColor(Color.BLACK);
+
+                        ((ImageView) getObjectField(param.thisObject, "mEditButton")).setColorFilter(Color.BLACK);
+
+                        setObjectField(getObjectField(param.thisObject, "mPageIndicator"), "mTint", ColorStateList.valueOf(Color.BLACK));
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        // Auto Brightness Icon Color
+        hookAllMethods(BrightnessControllerClass, "updateIcon", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (isDark || !lightQSHeaderEnabled) return;
+
+                try {
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(Color.BLACK));
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
+
+        if (BrightnessSliderControllerClass != null) {
+            hookAllConstructors(BrightnessSliderControllerClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (isDark || !lightQSHeaderEnabled) return;
+
+                    try {
+                        ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(Color.BLACK));
+                    } catch (Throwable throwable) {
                         try {
-                            Resources res = mContext.getResources();
-                            ViewGroup view = (ViewGroup) param.thisObject;
-
-                            View settings_button_container = view.findViewById(res.getIdentifier("settings_button_container", "id", mContext.getPackageName()));
-                            settings_button_container.getBackground().setTint(colorInactive);
-
-                            ImageView settings_icon = settings_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
-                            settings_icon.setImageTintList(ColorStateList.valueOf(Color.BLACK));
-
-                            View pm_button_container = view.findViewById(res.getIdentifier("pm_lite", "id", mContext.getPackageName()));
-                            ImageView pm_icon = pm_button_container.findViewById(res.getIdentifier("icon", "id", mContext.getPackageName()));
-                            pm_icon.setImageTintList(ColorStateList.valueOf(Color.WHITE));
-                        } catch (Throwable throwable) {
-                            log(TAG + throwable);
+                            ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(Color.BLACK));
+                        } catch (Throwable throwable1) {
+                            if (Build.VERSION.SDK_INT < 34) {
+                                log(TAG + throwable1);
+                            }
                         }
                     }
                 }
             });
+        } else {
+            log(TAG + "Not a crash... BrightnessSliderController class not found.");
         }
+
+        hookAllMethods(BrightnessMirrorControllerClass, "updateIcon", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (isDark || !lightQSHeaderEnabled) return;
+
+                try {
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(Color.BLACK));
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
 
         hookAllMethods(QSIconViewImplClass, "updateIcon", new XC_MethodHook() {
             @Override
@@ -307,6 +377,42 @@ public class QSLightThemeA14 extends ModPack {
                 }
             }
         });
+
+        try {
+            // White QS Clock bug
+            hookAllMethods(QuickStatusBarHeaderClass, "onFinishInflate", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    try {
+                        mClockViewQSHeader = getObjectField(param.thisObject, "mClockView");
+                    } catch (Throwable ignored) {
+                    }
+
+                    if (!isDark && lightQSHeaderEnabled && mClockViewQSHeader != null) {
+                        try {
+                            ((TextView) mClockViewQSHeader).setTextColor(Color.WHITE);
+                        } catch (Throwable throwable) {
+                            log(TAG + throwable);
+                        }
+                    }
+                }
+            });
+
+            // White QS Clock bug
+            hookAllMethods(ClockClass, "onColorsChanged", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (!isDark && lightQSHeaderEnabled && mClockViewQSHeader != null) {
+                        try {
+                            ((TextView) mClockViewQSHeader).setTextColor(Color.WHITE);
+                        } catch (Throwable throwable) {
+                            log(TAG + throwable);
+                        }
+                    }
+                }
+            });
+        } catch (Throwable ignored) {
+        }
 
         if (CentralSurfacesImplClass != null) {
             hookAllConstructors(CentralSurfacesImplClass, new XC_MethodHook() {
@@ -429,8 +535,6 @@ public class QSLightThemeA14 extends ModPack {
         }
 
         try {
-            Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", loadPackageParam.classLoader);
-
             hookAllMethods(QSContainerImplClass, "updateResources", new XC_MethodHook() {
                 @SuppressLint("DiscouragedApi")
                 @Override
@@ -456,16 +560,72 @@ public class QSLightThemeA14 extends ModPack {
         }
 
         try { // Compose implementation of QS Footer actions
-            Class<?> FooterActionsButtonViewModelClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsButtonViewModel", loadPackageParam.classLoader);
-
-            hookAllConstructors(FooterActionsButtonViewModelClass, new XC_MethodHook() {
+            hookAllConstructors(ExpandableControllerImplClass, new XC_MethodHook() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (isDark || lightQSHeaderEnabled) return;
+
+                    Class<?> GraphicsColorKtClass = findClass("androidx.compose.ui.graphics.ColorKt", loadPackageParam.classLoader);
+                    param.args[1] = callStaticMethod(GraphicsColorKtClass, "Color", Color.BLACK);
+                }
+            });
+
+            hookAllMethods(ThemeColorKtClass, "colorAttr", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    if (isDark || lightQSHeaderEnabled) return;
+
+                    int code = (int) param.args[0];
+
+                    int result = 0;
+
+                    if (code != PM_LITE_BACKGROUND_CODE) {
+                        try {
+                            if (mContext.getResources().getResourceName(code).split("/")[1].equals("onShadeInactiveVariant")) {
+                                result = Color.BLACK; //number button text
+                            }
+                        } catch (Throwable ignored) {
+                        }
+                    }
+
+                    if (result != 0) {
+                        Class<?> GraphicsColorKtClass = findClass("androidx.compose.ui.graphics.ColorKt", loadPackageParam.classLoader);
+                        param.setResult(callStaticMethod(GraphicsColorKtClass, "Color", result));
+                    }
+                }
+            });
+
+            hookAllConstructors(FooterActionsViewModelClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (!lightQSHeaderEnabled || isDark) return;
 
-                    if (mContext.getResources().getResourceName((Integer) param.args[0]).split("/")[1].equals("pm_lite")) {
-                        param.args[2] = Color.WHITE;
-                    }
+                    // Power button
+                    Object power = getObjectField(param.thisObject, "power");
+                    setObjectField(power, "iconTint", Color.WHITE);
+
+                    // Settings button
+                    Object settings = getObjectField(param.thisObject, "settings");
+                    setObjectField(settings, "iconTint", Color.BLACK);
+                    setObjectField(settings, "backgroundColor", colorInactive);
+
+                    // We must use the classes defined in the apk. Using our own will fail.
+                    Class<?> StateFlowImplClass = findClass("kotlinx.coroutines.flow.StateFlowImpl", loadPackageParam.classLoader);
+                    Class<?> ReadonlyStateFlowClass = findClass("kotlinx.coroutines.flow.ReadonlyStateFlow", loadPackageParam.classLoader);
+
+                    Object zeroAlphaFlow = StateFlowImplClass.getConstructor(Object.class).newInstance(0f);
+                    setObjectField(param.thisObject, "backgroundAlpha", ReadonlyStateFlowClass.getConstructors()[0].newInstance(zeroAlphaFlow));
+                }
+            });
+
+            hookAllMethods(FooterActionsViewBinderClass, "bind", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!lightQSHeaderEnabled || isDark) return;
+
+                    LinearLayout view = (LinearLayout) param.args[0];
+                    view.setBackgroundColor(mScrimBehindTint);
+                    view.setElevation(0);
                 }
             });
         } catch (Throwable ignored) {
@@ -622,17 +782,6 @@ public class QSLightThemeA14 extends ModPack {
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
-
-        hookAllConstructors(FragmentHostManagerClass, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                try {
-                    setObjectField(param.thisObject, "mConfigChanges", InterestingConfigChangesClass.getDeclaredConstructor(int.class).newInstance(0x40000000 | 0x0004 | 0x0100 | 0x80000000 | 0x0200));
-                } catch (Throwable throwable) {
-                    log(TAG + throwable);
-                }
-            }
-        });
     }
 
     private void applyOverlays(boolean force) {
@@ -664,18 +813,20 @@ public class QSLightThemeA14 extends ModPack {
 
     @SuppressLint("DiscouragedApi")
     private void calculateColors() {
-        if (!lightQSHeaderEnabled || Build.VERSION.SDK_INT < 33) return;
+        if (!lightQSHeaderEnabled) return;
 
         try {
             if (unlockedScrimState != null) {
                 setObjectField(unlockedScrimState, "mBehindTint", Color.TRANSPARENT);
             }
 
+            Resources res = mContext.getResources();
             if (!isDark) {
-                Resources res = mContext.getResources();
-                colorActive = mContext.getColor(android.R.color.system_accent1_600);
                 colorInactive = res.getColor(res.getIdentifier("android:color/system_neutral1_10", "color", mContext.getPackageName()), mContext.getTheme());
             }
+            mScrimBehindTint = isDark ?
+                    res.getColor(res.getIdentifier("android:color/system_neutral1_1000", "color", mContext.getPackageName()), mContext.getTheme()) :
+                    res.getColor(res.getIdentifier("android:color/system_neutral1_100", "color", mContext.getPackageName()), mContext.getTheme());
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
@@ -695,7 +846,14 @@ public class QSLightThemeA14 extends ModPack {
         }
 
         try {
-            callMethod(iconManager, "setTint", textColorPrimary);
+            try { //A14 ap11
+                callMethod(iconManager, "setTint", textColorPrimary, textColorPrimary);
+
+                ModernShadeCarrierGroupMobileViews.forEach(view -> setMobileIconTint(view, textColorPrimary));
+                setModernSignalTextColor(textColorPrimary);
+            } catch (Throwable ignored) { //A14 older
+                callMethod(iconManager, "setTint", textColorPrimary);
+            }
 
             for (int i = 1; i <= 3; i++) {
                 String id = String.format("carrier%s", i);
@@ -711,6 +869,24 @@ public class QSLightThemeA14 extends ModPack {
             callMethod(batteryIcon, "updateColors", textColorPrimary, textColorSecondary, textColorPrimary);
         } catch (Throwable throwable) {
             log(TAG + throwable);
+        }
+    }
+
+    private void setMobileIconTint(Object ModernStatusBarViewBinding, int textColor) {
+        callMethod(ModernStatusBarViewBinding, "onIconTintChanged", textColor, textColor);
+    }
+
+    @SuppressLint("DiscouragedApi")
+    private void setModernSignalTextColor(int textColor) {
+        Resources res = mContext.getResources();
+        if (ShadeCarrierGroupController == null) return;
+
+        for (View shadeCarrier : (View[]) getObjectField(ShadeCarrierGroupController, "mCarrierGroups")) {
+            try {
+                shadeCarrier = shadeCarrier.findViewById(res.getIdentifier("carrier_combo", "id", mContext.getPackageName()));
+                ((TextView) shadeCarrier.findViewById(res.getIdentifier("mobile_carrier_text", "id", mContext.getPackageName()))).setTextColor(textColor);
+            } catch (Throwable ignored) {
+            }
         }
     }
 }

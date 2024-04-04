@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:tag="date">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.6"
+                android:fontFamily="@font/bebasneue_bold"
+                android:format12Hour="MMMM"
+                android:format24Hour="MMMM"
+                android:singleLine="true"
+                android:tag="text1"
+                android:textAllCaps="true"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:tag="date">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futurist_fixed_width_bold"
+                android:format12Hour="EEEE"
+                android:format24Hour="EEEE"
+                android:singleLine="true"
+                android:tag="text1"
+                android:textAlignment="viewStart"
+                android:textAllCaps="true"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:tag="clock">
+
+            <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:alpha="0.6"
+            android:fontFamily="@font/bebasneue_bold"
+            android:format12Hour="• hh:mm •"
+            android:format24Hour="• HH:mm •"
+            android:singleLine="true"
+            android:tag="text1"
+            android:textAllCaps="true"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

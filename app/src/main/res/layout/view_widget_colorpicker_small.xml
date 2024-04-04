@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/container_main"
+    android:clickable="true"
+    android:minWidth="100dp"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <View
+        android:id="@+id/color_widget"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="top|center"
+        android:background="@drawable/preview_color_picker"
+        android:contentDescription="@string/color_picker_preview" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginTop="12dp"
+        android:textAlignment="center"
+        android:textColor="@color/text_color_primary" />
+
+</LinearLayout>

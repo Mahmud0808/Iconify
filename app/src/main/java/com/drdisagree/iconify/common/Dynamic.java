@@ -23,10 +23,11 @@ public class Dynamic {
     // Overlay compiler tools
     public static final String NATIVE_LIBRARY_DIR = Iconify.getAppContext().getApplicationInfo().nativeLibraryDir;
     public static final File AAPTLIB = new File(NATIVE_LIBRARY_DIR, "libaapt.so");
+    public static final File AAPT2LIB = new File(NATIVE_LIBRARY_DIR, "libaapt2.so");
     public static final File AAPT = new File(BIN_DIR, "aapt");
+    public static final File AAPT2 = new File(BIN_DIR, "aapt2");
     public static final File ZIPALIGNLIB = new File(NATIVE_LIBRARY_DIR, "libzipalign.so");
     public static final File ZIPALIGN = new File(BIN_DIR, "zipalign");
-    public static final File ZIP = new File(BIN_DIR, "zip");
 
     // Onboarding overlay installation
     public static boolean skippedInstallation = false;

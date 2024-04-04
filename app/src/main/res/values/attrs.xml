@@ -63,6 +63,12 @@
         <attr name="previewColor" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="ColorPickerSmallWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="previewColor" />
+    </declare-styleable>
+
     <declare-styleable name="FilePickerWidget">
         <attr name="titleText" />
         <attr name="summaryText" />
@@ -77,5 +83,14 @@
         <attr name="iconSpaceReserved" />
         <attr name="entries" format="reference" />
         <attr name="showSelectedPrefix" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="BottomSheetWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="icon" />
+        <attr name="iconSpaceReserved" />
+        <attr name="showSelectedPrefix" />
+        <attr name="entries"/>
     </declare-styleable>
 </resources>

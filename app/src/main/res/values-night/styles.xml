@@ -6,7 +6,7 @@
         <item name="android:windowTitleStyle">@style/DarkPickerDialogTitleStyle</item>
         <item name="android:dialogCornerRadius">@dimen/cont_corner_radius</item>
         <item name="android:buttonCornerRadius">@dimen/cont_corner_radius</item>
-        <item name="android:background">@drawable/container</item>
+        <item name="android:background">@drawable/container_main</item>
         <item name="android:textColor">@color/text_color_primary</item>
         <item name="android:textColorSecondary">@color/text_color_secondary</item>
         <item name="android:tint">@color/colorAccent</item>

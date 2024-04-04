@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="28dp"
-        android:background="@drawable/container"
+        android:background="@drawable/container_main"
         android:elevation="8dp"
         android:gravity="center"
         android:layoutDirection="locale"
@@ -107,14 +107,14 @@
                 android:id="@+id/logs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-2dp"
                 android:layout_marginTop="-3dp"
-                android:fontFamily="serif-monospace"
+                android:fontFamily="@font/jet_brains_mono"
                 android:gravity="start|bottom"
                 android:maxLines="12"
                 android:textAlignment="viewStart"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="12dp"
-                tools:ignore="SpUsage" />
+                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>

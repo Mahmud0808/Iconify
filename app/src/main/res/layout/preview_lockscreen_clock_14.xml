@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal|top"
+    android:gravity="center_horizontal|top"
+    android:orientation="vertical">
+
+    <!-- Overlapping Text Modules -->
+    <LinearLayout
+        android:id="@+id/overlap_layer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:foregroundGravity="center"
+        android:orientation="vertical">
+
+        <!-- Text for Date -->
+        <TextClock
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/br_sc"
+            android:format12Hour="dd"
+            android:format24Hour="dd"
+            android:tag="text1"
+            android:textColor="@android:color/white"
+            android:textSize="200sp" />
+
+        <!-- Text for Day -->
+        <TextClock
+            android:id="@+id/text_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-120dp"
+            android:layout_marginRight="30dp"
+            android:fontFamily="@font/fontsfree_net_carthart"
+            android:format12Hour="EEE"
+            android:format24Hour="EEE"
+            android:gravity="center"
+            android:tag="accent1"
+            android:textColor="@android:color/system_accent1_400"
+            android:textSize="140sp" />
+
+        <!-- Stack Layer for Time and Separator -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="-10dp"
+            android:orientation="vertical">
+
+            <!-- Text for Time -->
+            <TextClock
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/sans_bold"
+                android:format12Hour="hh:mm a"
+                android:format24Hour="HH:mm a"
+                android:tag="text1"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+            <!-- Shape for Separator -->
+            <View
+                android:layout_width="140dp"
+                android:layout_height="6dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/system_accent1_400"
+                android:tag="accent1" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

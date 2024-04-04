@@ -53,6 +53,7 @@ public class Credits extends BaseFragment {
         credits_list.add(new InfoModel(requireContext(), "Sanely Insane", Iconify.getAppContextLocale().getResources().getString(R.string.info_tester_desc), "https://t.me/sanely_insane", R.drawable.ic_user));
         credits_list.add(new InfoModel(requireContext(), "Jaguar", Iconify.getAppContextLocale().getResources().getString(R.string.info_tester_desc), "https://t.me/Jaguar0066", R.drawable.ic_user));
         credits_list.add(new InfoModel(requireContext(), "hani & TeamFiles", Iconify.getAppContextLocale().getResources().getString(R.string.info_betterqs_desc), "https://github.com/itsHanibee", R.drawable.ic_user));
+        credits_list.add(new InfoModel(requireContext(), "AAGaming", Iconify.getAppContextLocale().getResources().getString(R.string.info_binaries_desc), "https://aagaming.me", R.drawable.ic_user));
 
         return new InfoAdapter(requireContext(), credits_list);
     }
@@ -70,6 +71,7 @@ public class Credits extends BaseFragment {
         contributors_list.add(new InfoModel(requireContext(), "H1mJT", Iconify.getAppContextLocale().getResources().getString(R.string.info_contributor_desc), "https://github.com/H1mJT", R.drawable.ic_user));
         contributors_list.add(new InfoModel(requireContext(), "KaeruShi", Iconify.getAppContextLocale().getResources().getString(R.string.info_contributor_desc), "https://github.com/KaeruShi", R.drawable.ic_user));
         contributors_list.add(new InfoModel(requireContext(), "Displax", Iconify.getAppContextLocale().getResources().getString(R.string.info_contributor_desc), "https://github.com/Displax", R.drawable.ic_user));
+        contributors_list.add(new InfoModel(requireContext(), "DHD2280", Iconify.getAppContextLocale().getResources().getString(R.string.info_contributor_desc), "https://github.com/DHD2280", R.drawable.ic_user));
 
         return new InfoAdapter(requireContext(), contributors_list);
     }

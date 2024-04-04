@@ -52,6 +52,17 @@
                 app:titleText="@string/header_image_alpha"
                 app:valueFormat="%" />
 
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/header_image_bottom_fade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="40"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="120"
+                app:titleText="@string/header_image_bottom_fade"
+                app:valueFormat="dp" />
+
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/zoom_to_fit"
                 android:layout_width="match_parent"

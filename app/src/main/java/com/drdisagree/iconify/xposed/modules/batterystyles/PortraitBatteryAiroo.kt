@@ -16,12 +16,20 @@ package com.drdisagree.iconify.xposed.modules.batterystyles
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.BlendMode
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PixelFormat
+import android.graphics.Rect
+import android.graphics.RectF
+import android.graphics.Typeface
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.modRes
-import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
@@ -151,7 +159,7 @@ open class PortraitBatteryAiroo(private val context: Context, frameColor: Int) :
     }
 
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = SettingsLibUtils.getColorAttrDefaultColor(context, android.R.attr.colorError)
+        p.color = getColorAttrDefaultColor(context, android.R.attr.colorError)
         p.alpha = 255
         p.isDither = true
         p.strokeWidth = 0f
@@ -194,9 +202,9 @@ open class PortraitBatteryAiroo(private val context: Context, frameColor: Int) :
         for (i in 0 until n) {
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
-                colorLevels[2 * i + 1] = SettingsLibUtils.getColorAttrDefaultColor(
-                    colors.getResourceId(i, 0), context
-                )
+                colorLevels[2 * i + 1] = getColorAttrDefaultColor(
+                        colors.getResourceId(i, 0), context
+                    )
             } else {
                 colorLevels[2 * i + 1] = colors.getColor(i, 0)
             }
@@ -446,23 +454,28 @@ open class PortraitBatteryAiroo(private val context: Context, frameColor: Int) :
 
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString = modRes.getString(R.string.config_portraitBatteryPerimeterAiroo)
+        val pathString =
+            getResources(context).getString(R.string.config_portraitBatteryPerimeterAiroo)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-        val errorPathString = modRes.getString(R.string.config_portraitBatteryErrorAiroo)
+        val errorPathString =
+            getResources(context).getString(R.string.config_portraitBatteryErrorAiroo)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString = modRes.getString(R.string.config_portraitBatteryFillMaskAiroo)
+        val fillMaskString =
+            getResources(context).getString(R.string.config_portraitBatteryFillMaskAiroo)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString = modRes.getString(R.string.config_portraitBatteryBoltAiroo)
+        val boltPathString =
+            getResources(context).getString(R.string.config_portraitBatteryBoltAiroo)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-        val plusPathString = modRes.getString(R.string.config_portraitBatteryPlusAiroo)
+        val plusPathString =
+            getResources(context).getString(R.string.config_portraitBatteryPlusAiroo)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false

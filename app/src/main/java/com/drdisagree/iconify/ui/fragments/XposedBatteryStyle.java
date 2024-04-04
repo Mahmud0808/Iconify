@@ -36,6 +36,8 @@ import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_RAINBOW_F
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_STYLE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_SWAP_PERCENTAGE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_WIDTH;
+import static com.drdisagree.iconify.ui.utils.ViewHelper.getBatteryDrawables;
+import static com.drdisagree.iconify.ui.utils.ViewHelper.getChargingIcons;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -87,11 +89,13 @@ public class XposedBatteryStyle extends BaseFragment {
 
         // Custom battery style
         binding.customBatteryStyle.setSelectedIndex(RPrefs.getInt(CUSTOM_BATTERY_STYLE, 0));
-        binding.customBatteryStyle.setOnItemSelectedListener(index -> {
+        binding.customBatteryStyle.setDrawable(getBatteryDrawables(requireContext()));
+        binding.customBatteryStyle.setOnItemClickListener(index -> {
             selectedBatteryStyle = index;
+            binding.customBatteryStyle.setCurrentValue(String.valueOf(index));
             updateLayoutVisibility();
         });
-        selectedBatteryStyle = binding.customBatteryStyle.getSelectedIndex();
+        selectedBatteryStyle = RPrefs.getInt(CUSTOM_BATTERY_STYLE, 0);
 
         // Apply battery style
         binding.applyBatteryStyle.setOnClickListener(v -> {
@@ -286,7 +290,12 @@ public class XposedBatteryStyle extends BaseFragment {
 
         // Charging icon style
         bindingChargingIcon.chargingIconStyle.setSelectedIndex(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, 0));
-        bindingChargingIcon.chargingIconStyle.setOnItemSelectedListener(index -> RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, index));
+        bindingChargingIcon.chargingIconStyle.setDrawable(getChargingIcons(requireContext()));
+        bindingChargingIcon.chargingIconStyle.setCurrentValue(String.valueOf(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, 0)));
+        bindingChargingIcon.chargingIconStyle.setOnItemClickListener(index -> {
+            bindingChargingIcon.chargingIconStyle.setCurrentValue(String.valueOf(index));
+            RPrefs.putInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, index);
+        });
 
         // Charging icon margin left
         bindingChargingIcon.chargingIconMarginLeft.setSliderValue(RPrefs.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, 1));

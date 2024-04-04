@@ -18,6 +18,14 @@ public class RootUtil {
         return Shell.cmd("/data/adb/ksud -h").exec().isSuccess();
     }
 
+    public static boolean isApatchInstalled() {
+        return Shell.cmd("apd --help").exec().isSuccess();
+    }
+
+    public static boolean moduleExists(String moduleId) {
+        return folderExists("/data/adb/modules/" + moduleId);
+    }
+
     public static void setPermissions(final int permission, final String filename) {
         Shell.cmd("chmod " + permission + ' ' + filename).exec();
     }
@@ -48,6 +56,6 @@ public class RootUtil {
     }
 
     public static boolean deviceProperlyRooted() {
-        return isDeviceRooted() && (isMagiskInstalled() || isKSUInstalled());
+        return isDeviceRooted() && (isMagiskInstalled() || isKSUInstalled() || isApatchInstalled());
     }
 }

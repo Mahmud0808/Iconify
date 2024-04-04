@@ -159,8 +159,8 @@ public class VolumePanel extends BaseFragment {
         realCheckedId = checkedId1 == -1 ? checkedId2 : checkedId1;
 
         binding.volumeStyle.volumeStyleCreateModule.setOnClickListener(v -> {
-            if (RootUtil.isKSUInstalled() && !RootUtil.isMagiskInstalled()) {
-                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_ksu_not_supported), Toast.LENGTH_SHORT).show();
+            if ((RootUtil.isKSUInstalled() || RootUtil.isApatchInstalled()) && !RootUtil.isMagiskInstalled()) {
+                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_only_magisk_supported), Toast.LENGTH_SHORT).show();
                 return;
             }
 

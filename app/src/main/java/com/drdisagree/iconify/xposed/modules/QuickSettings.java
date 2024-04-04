@@ -36,6 +36,7 @@ import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.setObjectField;
 
@@ -281,6 +282,19 @@ public class QuickSettings extends ModPack {
             hookAllConstructors(QSTileViewImplClass, removeQsTileTint);
             hookAllMethods(QSTileViewImplClass, "updateResources", removeQsTileTint);
 
+            hookAllConstructors(QSTileViewImplClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                    @ColorInt int color = getQsIconLabelColor();
+                    @ColorInt int colorAlpha = (color & 0xFFFFFF) | (Math.round(Color.alpha(color) * 0.8f) << 24);
+
+                    setObjectField(param.thisObject, "colorLabelActive", color);
+                    setObjectField(param.thisObject, "colorSecondaryLabelActive", colorAlpha);
+                }
+            });
+
             hookAllMethods(QSTileViewImplClass, "getLabelColorForState", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
@@ -331,7 +345,6 @@ public class QuickSettings extends ModPack {
             log(TAG + throwable);
         }
 
-
         try {
             Class<?> QSContainerImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSContainerImpl", loadPackageParam.classLoader);
 
@@ -375,6 +388,63 @@ public class QuickSettings extends ModPack {
             });
         } catch (Throwable ignored) {
         }
+
+        // Auto brightness icon color
+        Class<?> BrightnessControllerClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessController", loadPackageParam.classLoader);
+        Class<?> BrightnessMirrorControllerClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.BrightnessMirrorController", loadPackageParam.classLoader);
+        Class<?> BrightnessSliderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", loadPackageParam.classLoader);
+
+        hookAllMethods(BrightnessControllerClass, "updateIcon", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                @ColorInt int color = getQsIconLabelColor();
+
+                try {
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(color));
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
+
+        if (BrightnessSliderControllerClass != null) {
+            hookAllConstructors(BrightnessSliderControllerClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                    @ColorInt int color = getQsIconLabelColor();
+
+                    try {
+                        ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(color));
+                    } catch (Throwable throwable) {
+                        try {
+                            ((ImageView) getObjectField(param.thisObject, "mIconView")).setImageTintList(ColorStateList.valueOf(color));
+                        } catch (Throwable ignored) {
+                        }
+                    }
+                }
+            });
+        } else {
+            log(TAG + "Not a crash... BrightnessSliderController class not found.");
+        }
+
+        hookAllMethods(BrightnessMirrorControllerClass, "updateIcon", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                if (!qsTextAlwaysWhite && !qsTextFollowAccent) return;
+
+                @ColorInt int color = getQsIconLabelColor();
+
+                try {
+                    ((ImageView) getObjectField(param.thisObject, "mIcon")).setImageTintList(ColorStateList.valueOf(color));
+                } catch (Throwable throwable) {
+                    log(TAG + throwable);
+                }
+            }
+        });
     }
 
     private void fixNotificationColorA14(XC_LoadPackage.LoadPackageParam loadPackageParam) {
@@ -383,7 +453,10 @@ public class QuickSettings extends ModPack {
         try {
             Class<?> ActivatableNotificationViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.ActivatableNotificationView", loadPackageParam.classLoader);
             Class<?> NotificationBackgroundViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.NotificationBackgroundView", loadPackageParam.classLoader);
-            Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
+            Class<?> FooterViewClass = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.notification.footer.ui.view.FooterView", loadPackageParam.classLoader);
+            if (FooterViewClass == null) {
+                FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
+            }
 
             XC_MethodHook removeNotificationTint = new XC_MethodHook() {
                 @Override
@@ -397,14 +470,21 @@ public class QuickSettings extends ModPack {
                     } catch (Throwable ignored) {
                     }
 
-                    callMethod(getObjectField(notificationBackgroundView, "mBackground"), "clearColorFilter");
+                    try {
+                        callMethod(getObjectField(notificationBackgroundView, "mBackground"), "clearColorFilter");
+                    } catch (Throwable ignored) {
+                    }
+                    try {
+                        callMethod(notificationBackgroundView, "setColorFilter", 0);
+                    } catch (Throwable ignored) {
+                    }
+
                     setObjectField(notificationBackgroundView, "mTintColor", 0);
                     notificationBackgroundView.invalidate();
                 }
             };
 
             hookAllMethods(ActivatableNotificationViewClass, "setBackgroundTintColor", removeNotificationTint);
-            hookAllMethods(ActivatableNotificationViewClass, "updateBackgroundColors", removeNotificationTint);
             hookAllMethods(ActivatableNotificationViewClass, "updateBackgroundTint", removeNotificationTint);
 
             XC_MethodHook replaceTintColor = new XC_MethodHook() {
@@ -426,7 +506,7 @@ public class QuickSettings extends ModPack {
             } catch (Throwable ignored) {
             }
 
-            hookAllMethods(FooterViewClass, "updateColors", new XC_MethodHook() {
+            XC_MethodHook removeButtonTint = new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     if (!fixNotificationColor) return;
@@ -440,7 +520,16 @@ public class QuickSettings extends ModPack {
                     mClearAllButton.invalidate();
                     mManageButton.invalidate();
                 }
-            });
+            };
+
+            try {
+                hookAllMethods(FooterViewClass, "updateColors", removeButtonTint);
+            } catch (Throwable ignored) {
+            }
+            try {
+                hookAllMethods(FooterViewClass, "updateColors$3", removeButtonTint);
+            } catch (Throwable ignored) {
+            }
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }
@@ -448,19 +537,22 @@ public class QuickSettings extends ModPack {
 
     private void manageQsElementVisibility(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         try {
-            final Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
+            Class<?> FooterViewClass = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.notification.footer.ui.view.FooterView", loadPackageParam.classLoader);
+            if (FooterViewClass == null) {
+                FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
+            }
 
             hookAllMethods(FooterViewClass, "onFinishInflate", new XC_MethodHook() {
                 @SuppressLint("DiscouragedApi")
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     View view = (View) param.thisObject;
-                    Integer resId1 = mContext.getResources().getIdentifier("manage_text", "id", mContext.getPackageName());
-                    Integer resId2 = mContext.getResources().getIdentifier("dismiss_text", "id", mContext.getPackageName());
+                    int resId1 = mContext.getResources().getIdentifier("manage_text", "id", mContext.getPackageName());
+                    int resId2 = mContext.getResources().getIdentifier("dismiss_text", "id", mContext.getPackageName());
 
-                    if (resId1 != null) {
+                    if (resId1 != 0) {
                         mFooterButtonsContainer = (ViewGroup) view.findViewById(resId1).getParent();
-                    } else if (resId2 != null) {
+                    } else if (resId2 != 0) {
                         mFooterButtonsContainer = (ViewGroup) view.findViewById(resId2).getParent();
                     }
 

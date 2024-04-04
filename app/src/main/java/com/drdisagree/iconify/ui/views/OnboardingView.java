@@ -173,7 +173,7 @@ public class OnboardingView extends FrameLayout {
                 return;
             }
 
-            if (!(RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled())) {
+            if (!RootUtil.deviceProperlyRooted()) {
                 ErrorDialog errorDialog = new ErrorDialog(getContext());
                 errorDialog.show(R.string.compatible_root_not_found_title, R.string.compatible_root_not_found_desc);
                 return;
@@ -221,7 +221,7 @@ public class OnboardingView extends FrameLayout {
                 return;
             }
 
-            if (!(RootUtil.isMagiskInstalled() || RootUtil.isKSUInstalled())) {
+            if (!RootUtil.deviceProperlyRooted()) {
                 ErrorDialog errorDialog = new ErrorDialog(getContext());
                 errorDialog.show(R.string.compatible_root_not_found_title, R.string.compatible_root_not_found_desc);
                 return;

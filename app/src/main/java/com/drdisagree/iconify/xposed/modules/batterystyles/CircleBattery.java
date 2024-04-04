@@ -21,11 +21,11 @@ import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Paint.Align.CENTER;
 import static android.graphics.Paint.Style.STROKE;
 import static android.graphics.Typeface.BOLD;
+import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CIRCLE;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_BLEND_COLOR;
 import static com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_STYLE;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
-import static com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.getColorAttrDefaultColor;
 import static java.lang.Math.round;
 
 import android.animation.ValueAnimator;
@@ -52,6 +52,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.PathParser;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
+import com.drdisagree.iconify.config.RPrefs;
 import com.drdisagree.iconify.xposed.modules.utils.AlphaRefreshedPaint;
 
 import java.util.List;
@@ -104,7 +105,11 @@ public class CircleBattery extends BatteryDrawable {
 
         setColors(frameColor, frameColor, frameColor);
 
-        setMeterStyle(Xprefs.getInt(CUSTOM_BATTERY_STYLE, 0));
+        try {
+            setMeterStyle(Xprefs.getInt(CUSTOM_BATTERY_STYLE, 0));
+        } catch (Throwable ignored) {
+            setMeterStyle(BATTERY_STYLE_CIRCLE);
+        }
 
         mBoltAlphaAnimator = ValueAnimator.ofInt(255, 255, 255, 45);
 
@@ -165,7 +170,11 @@ public class CircleBattery extends BatteryDrawable {
     }
 
     private void initColors() {
-        customBlendColor = Xprefs.getBoolean(CUSTOM_BATTERY_BLEND_COLOR, false);
+        try {
+            customBlendColor = Xprefs.getBoolean(CUSTOM_BATTERY_BLEND_COLOR, false);
+        } catch (Throwable ignored) {
+            customBlendColor = RPrefs.getBoolean(CUSTOM_BATTERY_BLEND_COLOR, false);
+        }
 
         if (customBlendColor && getChargingColor() != Color.BLACK) {
             mChargingColor = getChargingColor();

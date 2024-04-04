@@ -226,128 +226,8 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
 
     @SuppressLint("DiscouragedApi")
     private void statusIconsChip(XC_LoadPackage.LoadPackageParam loadPackageParam) {
-        if (Build.VERSION.SDK_INT >= 33) {
-            Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
-
-            boolean correctClass = false;
-            Field[] fs = QuickStatusBarHeader.getDeclaredFields();
-            for (Field f : fs) {
-                if (f.getName().equals("mIconContainer")) {
-                    correctClass = true;
-                }
-            }
-
-            if (correctClass) {
-                hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) {
-                        if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
-
-                        FrameLayout mQuickStatusBarHeader = (FrameLayout) param.thisObject;
-                        LinearLayout mIconContainer = (LinearLayout) getObjectField(param.thisObject, "mIconContainer");
-                        LinearLayout mBatteryRemainingIcon = (LinearLayout) getObjectField(param.thisObject, "mBatteryRemainingIcon");
-
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        layoutParams.height = dp2px(mContext, 32);
-
-                        mQsStatusIconsContainer.setLayoutParams(layoutParams);
-                        mQsStatusIconsContainer.setGravity(Gravity.CENTER);
-                        mQsStatusIconsContainer.setOrientation(LinearLayout.HORIZONTAL);
-
-                        if (mQsStatusIconsContainer.getParent() != null) {
-                            ((ViewGroup) mQsStatusIconsContainer.getParent()).removeView(mQsStatusIconsContainer);
-                        }
-
-                        if (mQsStatusIconsContainer.getChildCount() > 0) {
-                            mQsStatusIconsContainer.removeAllViews();
-                        }
-
-                        layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        ((ViewGroup) mIconContainer.getParent()).removeView(mIconContainer);
-                        mIconContainer.setLayoutParams(layoutParams);
-                        mIconContainer.getLayoutParams().height = dp2px(mContext, 32);
-
-                        ((ViewGroup) mBatteryRemainingIcon.getParent()).removeView(mBatteryRemainingIcon);
-
-                        mQsStatusIconsContainer.addView(mIconContainer);
-                        mQsStatusIconsContainer.addView(mBatteryRemainingIcon);
-
-                        mQuickStatusBarHeader.addView(mQsStatusIconsContainer, mQuickStatusBarHeader.getChildCount() - 1);
-                        ((FrameLayout.LayoutParams) mQsStatusIconsContainer.getLayoutParams()).gravity = Gravity.TOP | Gravity.END;
-
-                        updateStatusIcons();
-                    }
-                });
-
-                hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) {
-                        if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
-
-                        updateStatusIcons();
-                    }
-                });
-            } else {
-                Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", loadPackageParam.classLoader);
-                if (ShadeHeaderControllerClass == null)
-                    ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", loadPackageParam.classLoader);
-
-                hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) {
-                        if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
-
-                        LinearLayout iconContainer = (LinearLayout) getObjectField(param.thisObject, "iconContainer");
-                        LinearLayout batteryIcon = (LinearLayout) getObjectField(param.thisObject, "batteryIcon");
-                        header = (ViewGroup) iconContainer.getParent();
-
-                        ConstraintLayout.LayoutParams constraintLayoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
-                        constraintLayoutId = View.generateViewId();
-                        constraintLayoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-                        constraintLayoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
-                        constraintLayoutParams.height = dp2px(mContext, 32);
-
-                        mQsStatusIconsContainer.setLayoutParams(constraintLayoutParams);
-                        mQsStatusIconsContainer.setGravity(Gravity.CENTER);
-                        mQsStatusIconsContainer.setOrientation(LinearLayout.HORIZONTAL);
-                        mQsStatusIconsContainer.setId(constraintLayoutId);
-
-                        if (mQsStatusIconsContainer.getParent() != null) {
-                            ((ViewGroup) mQsStatusIconsContainer.getParent()).removeView(mQsStatusIconsContainer);
-                        }
-
-                        if (mQsStatusIconsContainer.getChildCount() > 0) {
-                            mQsStatusIconsContainer.removeAllViews();
-                        }
-
-                        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        ((ViewGroup) iconContainer.getParent()).removeView(iconContainer);
-                        iconContainer.setLayoutParams(linearLayoutParams);
-                        iconContainer.getLayoutParams().height = dp2px(mContext, 32);
-
-                        ((ViewGroup) batteryIcon.getParent()).removeView(batteryIcon);
-
-                        mQsStatusIconsContainer.addView(iconContainer);
-                        mQsStatusIconsContainer.addView(batteryIcon);
-
-                        header.addView(mQsStatusIconsContainer, header.getChildCount() - 1);
-
-                        updateStatusIcons();
-                    }
-                });
-
-                hookAllMethods(ShadeHeaderControllerClass, "updateResources", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) {
-                        if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
-
-                        updateStatusIcons();
-                    }
-                });
-            }
-        }
-
         setQSStatusIconsBgA12();
+        setQSStatusIconsBgA13Plus(loadPackageParam);
     }
 
     @SuppressLint("RtlHardcoded")
@@ -363,8 +243,7 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
     }
 
     private void updateStatusIcons() {
-        if (mQsStatusIconsContainer.getChildCount() == 0)
-            return;
+        if (mQsStatusIconsContainer.getChildCount() == 0) return;
 
         int paddingTopBottom = dp2px(mContext, 4);
         int paddingStartEnd = dp2px(mContext, 12);
@@ -559,5 +438,129 @@ public class BackgroundChip extends ModPack implements IXposedHookLoadPackage {
                 }
             }
         });
+    }
+
+    private void setQSStatusIconsBgA13Plus(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        if (Build.VERSION.SDK_INT < 33) return;
+
+        Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
+
+        boolean correctClass = false;
+        Field[] fs = QuickStatusBarHeader.getDeclaredFields();
+        for (Field f : fs) {
+            if (f.getName().equals("mIconContainer")) {
+                correctClass = true;
+            }
+        }
+
+        if (correctClass) {
+            hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
+
+                    FrameLayout mQuickStatusBarHeader = (FrameLayout) param.thisObject;
+                    LinearLayout mIconContainer = (LinearLayout) getObjectField(param.thisObject, "mIconContainer");
+                    LinearLayout mBatteryRemainingIcon = (LinearLayout) getObjectField(param.thisObject, "mBatteryRemainingIcon");
+
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    mQsStatusIconsContainer.setLayoutParams(layoutParams);
+                    mQsStatusIconsContainer.setGravity(Gravity.CENTER);
+                    mQsStatusIconsContainer.setOrientation(LinearLayout.HORIZONTAL);
+
+                    if (mQsStatusIconsContainer.getParent() != null) {
+                        ((ViewGroup) mQsStatusIconsContainer.getParent()).removeView(mQsStatusIconsContainer);
+                    }
+
+                    if (mQsStatusIconsContainer.getChildCount() > 0) {
+                        mQsStatusIconsContainer.removeAllViews();
+                    }
+
+                    layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    ((ViewGroup) mIconContainer.getParent()).removeView(mIconContainer);
+                    mIconContainer.setLayoutParams(layoutParams);
+                    mIconContainer.getLayoutParams().height = dp2px(mContext, 32);
+
+                    ((ViewGroup) mBatteryRemainingIcon.getParent()).removeView(mBatteryRemainingIcon);
+                    mBatteryRemainingIcon.getLayoutParams().height = dp2px(mContext, 32);
+
+                    mQsStatusIconsContainer.addView(mIconContainer);
+                    mQsStatusIconsContainer.addView(mBatteryRemainingIcon);
+
+                    mQuickStatusBarHeader.addView(mQsStatusIconsContainer, mQuickStatusBarHeader.getChildCount() - 1);
+                    ((FrameLayout.LayoutParams) mQsStatusIconsContainer.getLayoutParams()).gravity = Gravity.TOP | Gravity.END;
+
+                    updateStatusIcons();
+                }
+            });
+
+            hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
+
+                    updateStatusIcons();
+                }
+            });
+        } else {
+            Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", loadPackageParam.classLoader);
+            if (ShadeHeaderControllerClass == null) {
+                ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", loadPackageParam.classLoader);
+            }
+
+            hookAllMethods(ShadeHeaderControllerClass, "onInit", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
+
+                    LinearLayout iconContainer = (LinearLayout) getObjectField(param.thisObject, "iconContainer");
+                    LinearLayout batteryIcon = (LinearLayout) getObjectField(param.thisObject, "batteryIcon");
+                    header = (ViewGroup) iconContainer.getParent();
+
+                    ConstraintLayout.LayoutParams constraintLayoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+                    constraintLayoutId = View.generateViewId();
+                    constraintLayoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+                    constraintLayoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
+
+                    mQsStatusIconsContainer.setLayoutParams(constraintLayoutParams);
+                    mQsStatusIconsContainer.setGravity(Gravity.CENTER);
+                    mQsStatusIconsContainer.setOrientation(LinearLayout.HORIZONTAL);
+                    mQsStatusIconsContainer.setId(constraintLayoutId);
+
+                    if (mQsStatusIconsContainer.getParent() != null) {
+                        ((ViewGroup) mQsStatusIconsContainer.getParent()).removeView(mQsStatusIconsContainer);
+                    }
+
+                    if (mQsStatusIconsContainer.getChildCount() > 0) {
+                        mQsStatusIconsContainer.removeAllViews();
+                    }
+
+                    LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    ((ViewGroup) iconContainer.getParent()).removeView(iconContainer);
+                    iconContainer.setLayoutParams(linearLayoutParams);
+                    iconContainer.getLayoutParams().height = dp2px(mContext, 32);
+
+                    ((ViewGroup) batteryIcon.getParent()).removeView(batteryIcon);
+                    batteryIcon.getLayoutParams().height = dp2px(mContext, 32);
+
+                    mQsStatusIconsContainer.addView(iconContainer);
+                    mQsStatusIconsContainer.addView(batteryIcon);
+
+                    header.addView(mQsStatusIconsContainer, header.getChildCount() - 1);
+
+                    updateStatusIcons();
+                }
+            });
+
+            hookAllMethods(ShadeHeaderControllerClass, "updateResources", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if ((!mShowQSStatusIconsBg && !fixedStatusIcons) || hideStatusIcons) return;
+
+                    updateStatusIcons();
+                }
+            });
+        }
     }
 }

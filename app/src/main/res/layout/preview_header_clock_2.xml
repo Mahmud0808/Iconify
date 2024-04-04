@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center"
+        android:tag="clock"
+        android:gravity="center_vertical">
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:format12Hour="hh:mm"
+            android:format24Hour="HH:mm"
+            android:singleLine="true"
+            android:tag="text1"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:format12Hour="hh:mm"
+            android:format24Hour="HH:mm"
+            android:maxLength="1"
+            android:singleLine="true"
+            android:tag="accent1"
+            android:textColor="@android:color/system_accent1_300"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-6dp"
+        android:tag="date">
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="EEEE, MMM dd"
+            android:format24Hour="EEEE, MMM dd"
+            android:singleLine="true"
+            android:tag="text1"
+            android:textAlignment="viewStart"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

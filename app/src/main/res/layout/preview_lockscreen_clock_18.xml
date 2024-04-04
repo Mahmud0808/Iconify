@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|top"
+    android:gravity="center_horizontal|top">
+
+    <!-- Time and Day Circles and Texts -->
+    <ImageView
+        android:id="@+id/timeCircle1"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/circle"
+        android:tag="accent1"
+        android:tint="@android:color/system_accent1_300" />
+
+    <TextClock
+        android:id="@+id/timeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/timeCircle1"
+        android:fontFamily="@font/steelfish_rounded_bd"
+        android:format12Hour="h:mm a"
+        android:format24Hour="HH:mm a"
+        android:tag="text1"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/timeCircle2"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_below="@id/timeTextView"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/circle"
+        android:tag="accent2"
+        android:tint="@android:color/system_accent3_300" />
+
+    <TextClock
+        android:id="@+id/dayTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeTextView"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/timeCircle2"
+        android:fontFamily="@font/steelfish_rounded_bd"
+        android:format12Hour="EEEE"
+        android:format24Hour="EEEE"
+        android:tag="text1"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/timeCircle3"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_below="@id/dayTextView"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/circle"
+        android:tag="accent3"
+        android:tint="@android:color/system_accent2_300" />
+
+    <TextClock
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dayTextView"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@id/timeCircle3"
+        android:fontFamily="@font/steelfish_rounded_bd"
+        android:format12Hour="MMM.dd"
+        android:format24Hour="MMM.dd"
+        android:tag="text1"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+</RelativeLayout>

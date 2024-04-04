@@ -1,0 +1,9 @@
+Iconify v6.7.5 (Hotfix) has arrived! It has the following new changes:
+
+Feature Changes:
+• Hotfix for compatibility with android 14 QPR2
+• New header clocks, lockscreen clocks and optimizations
+• Updated translations
+• and many more!
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.7.5

@@ -3,6 +3,8 @@ package com.drdisagree.iconify.ui.utils;
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,5 +38,10 @@ public class ViewBindingHelpers {
 
             }
         });
+    }
+
+    public static void setBitmap(ImageView imageView, Bitmap bitmap) {
+        Drawable drawable = new BitmapDrawable(imageView.getContext().getResources(), bitmap);
+        setDrawable(imageView, drawable);
     }
 }

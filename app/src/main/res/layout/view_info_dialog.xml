@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="28dp"
-    android:background="@drawable/container"
+    android:background="@drawable/container_main"
     android:elevation="8dp"
     android:orientation="vertical"
     android:padding="@dimen/container_paddingSide">
