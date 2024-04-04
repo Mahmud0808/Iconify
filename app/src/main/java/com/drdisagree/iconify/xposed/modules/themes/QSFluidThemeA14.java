@@ -94,7 +94,10 @@ public class QSFluidThemeA14 extends ModPack {
         Class<?> QsPanelClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSPanel", loadPackageParam.classLoader);
         Class<?> QSTileViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSTileViewImpl", loadPackageParam.classLoader);
         Class<?> QSIconViewImplClass = findClass(SYSTEMUI_PACKAGE + ".qs.tileimpl.QSIconViewImpl", loadPackageParam.classLoader);
-        Class<?> FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
+        Class<?> FooterViewClass = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.notification.footer.ui.view.FooterView", loadPackageParam.classLoader);
+        if (FooterViewClass == null) {
+            FooterViewClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.notification.row.FooterView", loadPackageParam.classLoader);
+        }
         Class<?> CentralSurfacesImplClass = findClassIfExists(SYSTEMUI_PACKAGE + ".statusbar.phone.CentralSurfacesImpl", loadPackageParam.classLoader);
         Class<?> NotificationExpandButtonClass = findClass("com.android.internal.widget.NotificationExpandButton", loadPackageParam.classLoader);
         Class<?> BrightnessSliderViewClass = findClass(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderView", loadPackageParam.classLoader);
@@ -521,7 +524,14 @@ public class QSFluidThemeA14 extends ModPack {
         };
 
         hookAllMethods(FooterViewClass, "onFinishInflate", updateNotificationFooterButtons);
-        hookAllMethods(FooterViewClass, "updateColors", updateNotificationFooterButtons);
+        try {
+            hookAllMethods(FooterViewClass, "updateColors", updateNotificationFooterButtons);
+        } catch (Throwable ignored) {
+        }
+        try {
+            hookAllMethods(FooterViewClass, "updateColors$3", updateNotificationFooterButtons);
+        } catch (Throwable ignored) {
+        }
 
         // Power menu
         try {
