@@ -43,7 +43,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -76,6 +75,7 @@ public class QSLightThemeA14 extends ModPack {
     private Object unlockedScrimState;
     private boolean qsTextAlwaysWhite = false;
     private boolean qsTextFollowAccent = false;
+    private int mScrimBehindTint = Color.BLACK;
 
     public QSLightThemeA14(Context context) {
         super(context);
@@ -456,16 +456,44 @@ public class QSLightThemeA14 extends ModPack {
         }
 
         try { // Compose implementation of QS Footer actions
-            Class<?> FooterActionsButtonViewModelClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsButtonViewModel", loadPackageParam.classLoader);
+            Class<?> FooterActionsViewModelClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsViewModel", loadPackageParam.classLoader);
 
-            hookAllConstructors(FooterActionsButtonViewModelClass, new XC_MethodHook() {
+            hookAllConstructors(FooterActionsViewModelClass, new XC_MethodHook() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (!lightQSHeaderEnabled || isDark) return;
 
-                    if (mContext.getResources().getResourceName((Integer) param.args[0]).split("/")[1].equals("pm_lite")) {
-                        param.args[2] = Color.WHITE;
-                    }
+                    // Power button
+                    Object power = getObjectField(param.thisObject, "power");
+                    setObjectField(power, "iconTint", Color.WHITE);
+
+                    // Settings button
+                    Object settings = getObjectField(param.thisObject, "settings");
+                    setObjectField(settings, "iconTint", Color.BLACK);
+                    setObjectField(settings, "backgroundColor", colorInactive);
+
+                    // We must use the classes defined in the apk. Using our own will fail.
+                    Class<?> StateFlowImplClass = findClass("kotlinx.coroutines.flow.StateFlowImpl", loadPackageParam.classLoader);
+                    Class<?> ReadonlyStateFlowClass = findClass("kotlinx.coroutines.flow.ReadonlyStateFlow", loadPackageParam.classLoader);
+
+                    Object zeroAlphaFlow = StateFlowImplClass.getConstructor(Object.class).newInstance(0f);
+                    setObjectField(param.thisObject, "backgroundAlpha", ReadonlyStateFlowClass.getConstructors()[0].newInstance(zeroAlphaFlow));
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try { // Compose implementation of QS Footer actions
+            Class<?> FooterActionsViewBinderClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.binder.FooterActionsViewBinder", loadPackageParam.classLoader);
+
+            hookAllMethods(FooterActionsViewBinderClass, "bind", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!lightQSHeaderEnabled || isDark) return;
+
+                    LinearLayout view = (LinearLayout) param.args[0];
+                    view.setBackgroundColor(mScrimBehindTint);
+                    view.setElevation(0);
                 }
             });
         } catch (Throwable ignored) {
@@ -664,18 +692,21 @@ public class QSLightThemeA14 extends ModPack {
 
     @SuppressLint("DiscouragedApi")
     private void calculateColors() {
-        if (!lightQSHeaderEnabled || Build.VERSION.SDK_INT < 33) return;
+        if (!lightQSHeaderEnabled) return;
 
         try {
             if (unlockedScrimState != null) {
                 setObjectField(unlockedScrimState, "mBehindTint", Color.TRANSPARENT);
             }
 
+            Resources res = mContext.getResources();
             if (!isDark) {
-                Resources res = mContext.getResources();
                 colorActive = mContext.getColor(android.R.color.system_accent1_600);
                 colorInactive = res.getColor(res.getIdentifier("android:color/system_neutral1_10", "color", mContext.getPackageName()), mContext.getTheme());
             }
+            mScrimBehindTint = isDark ?
+                    res.getColor(res.getIdentifier("android:color/system_neutral1_1000", "color", mContext.getPackageName()), mContext.getTheme()) :
+                    res.getColor(res.getIdentifier("android:color/system_neutral1_100", "color", mContext.getPackageName()), mContext.getTheme());
         } catch (Throwable throwable) {
             log(TAG + throwable);
         }

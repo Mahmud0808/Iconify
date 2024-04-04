@@ -46,6 +46,7 @@ import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.graphics.ColorUtils;
@@ -479,16 +480,43 @@ public class QSBlackThemeA14 extends ModPack {
         }
 
         try { // Compose implementation of QS Footer actions
-            Class<?> FooterActionsButtonViewModelClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsButtonViewModel", loadPackageParam.classLoader);
+            Class<?> FooterActionsViewModelClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsViewModel", loadPackageParam.classLoader);
 
-            hookAllConstructors(FooterActionsButtonViewModelClass, new XC_MethodHook() {
+            hookAllConstructors(FooterActionsViewModelClass, new XC_MethodHook() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (!blackQSHeaderEnabled) return;
 
-                    if (mContext.getResources().getResourceName((Integer) param.args[0]).split("/")[1].equals("pm_lite")) {
-                        param.args[2] = Color.BLACK;
-                    }
+                    // Power button
+                    Object power = getObjectField(param.thisObject, "power");
+                    setObjectField(power, "iconTint", Color.BLACK);
+
+                    // Settings button
+                    Object settings = getObjectField(param.thisObject, "settings");
+                    setObjectField(settings, "iconTint", Color.WHITE);
+
+                    // We must use the classes defined in the apk. Using our own will fail.
+                    Class<?> StateFlowImplClass = findClass("kotlinx.coroutines.flow.StateFlowImpl", loadPackageParam.classLoader);
+                    Class<?> ReadonlyStateFlowClass = findClass("kotlinx.coroutines.flow.ReadonlyStateFlow", loadPackageParam.classLoader);
+
+                    Object zeroAlphaFlow = StateFlowImplClass.getConstructor(Object.class).newInstance(0f);
+                    setObjectField(param.thisObject, "backgroundAlpha", ReadonlyStateFlowClass.getConstructors()[0].newInstance(zeroAlphaFlow));
+                }
+            });
+        } catch (Throwable ignored) {
+        }
+
+        try { // Compose implementation of QS Footer actions
+            Class<?> FooterActionsViewBinderClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.binder.FooterActionsViewBinder", loadPackageParam.classLoader);
+
+            hookAllMethods(FooterActionsViewBinderClass, "bind", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    if (!blackQSHeaderEnabled) return;
+
+                    LinearLayout view = (LinearLayout) param.args[0];
+                    view.setBackgroundColor(Color.BLACK);
+                    view.setElevation(0);
                 }
             });
         } catch (Throwable ignored) {
