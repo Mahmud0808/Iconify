@@ -117,10 +117,10 @@ public class QSBlackThemeA14 extends ModPack {
         Class<?> BrightnessSliderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".settings.brightness.BrightnessSliderController", loadPackageParam.classLoader);
         Class<?> QuickStatusBarHeaderClass = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
         Class<?> ClockClass = findClass(SYSTEMUI_PACKAGE + ".statusbar.policy.Clock", loadPackageParam.classLoader);
-        Class<?> ThemeColorKtClass = findClass("com.android.compose.theme.ColorKt", loadPackageParam.classLoader);
-        Class<?> ExpandableControllerImplClass = findClass("com.android.compose.animation.ExpandableControllerImpl", loadPackageParam.classLoader);
-        Class<?> FooterActionsViewModelClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsViewModel", loadPackageParam.classLoader);
-        Class<?> FooterActionsViewBinderClass = findClass(SYSTEMUI_PACKAGE + ".qs.footer.ui.binder.FooterActionsViewBinder", loadPackageParam.classLoader);
+        Class<?> ThemeColorKtClass = findClassIfExists("com.android.compose.theme.ColorKt", loadPackageParam.classLoader);
+        Class<?> ExpandableControllerImplClass = findClassIfExists("com.android.compose.animation.ExpandableControllerImpl", loadPackageParam.classLoader);
+        Class<?> FooterActionsViewModelClass = findClassIfExists(SYSTEMUI_PACKAGE + ".qs.footer.ui.viewmodel.FooterActionsViewModel", loadPackageParam.classLoader);
+        Class<?> FooterActionsViewBinderClass = findClassIfExists(SYSTEMUI_PACKAGE + ".qs.footer.ui.binder.FooterActionsViewBinder", loadPackageParam.classLoader);
         Class<?> ShadeHeaderControllerClass = findClassIfExists(SYSTEMUI_PACKAGE + ".shade.ShadeHeaderController", loadPackageParam.classLoader);
         if (ShadeHeaderControllerClass == null) {
             ShadeHeaderControllerClass = findClass(SYSTEMUI_PACKAGE + ".shade.LargeScreenShadeHeaderController", loadPackageParam.classLoader);
