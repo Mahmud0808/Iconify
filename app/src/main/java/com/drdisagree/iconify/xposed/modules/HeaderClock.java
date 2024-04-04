@@ -19,24 +19,30 @@ import static com.drdisagree.iconify.common.Preferences.ICONIFY_HEADER_CLOCK_TAG
 import static com.drdisagree.iconify.common.Resources.HEADER_CLOCK_LAYOUT;
 import static com.drdisagree.iconify.config.XPrefs.Xprefs;
 import static com.drdisagree.iconify.xposed.HookRes.resparams;
+import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
+import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.provider.AlarmClock;
+import android.provider.CalendarContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +85,15 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     boolean hideLandscapeHeaderClock = true;
     LinearLayout mQsClockContainer = new LinearLayout(mContext);
     private UserManager mUserManager;
+    private Object mActivityStarter;
+    private final View.OnClickListener mOnClickListener = v -> {
+        String tag = v.getTag().toString();
+        if (tag.equals("clock")) {
+            onClockClick();
+        } else if (tag.equals("date")) {
+            onDateClick();
+        }
+    };
 
     public HeaderClock(Context context) {
         super(context);
@@ -113,6 +128,15 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         initResources(mContext);
+
+        final Class<?> QSSecurityFooterUtilsClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSSecurityFooterUtils", loadPackageParam.classLoader);
+
+        hookAllConstructors(QSSecurityFooterUtilsClass, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) {
+                mActivityStarter = getObjectField(param.thisObject, "mActivityStarter");
+            }
+        });
 
         final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
 
@@ -344,6 +368,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
 
             mQsClockContainer.addView(clockView);
             modifyClockView(clockView);
+            setOnClickListener((ViewGroup) clockView);
         }
 
         Configuration config = mContext.getResources().getConfiguration();
@@ -447,5 +472,38 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
             log(TAG + throwable);
             return appContext.getResources().getDrawable(R.drawable.default_avatar);
         }
+    }
+
+    private void setOnClickListener(ViewGroup clockView) {
+        for (int i = 0; i < clockView.getChildCount(); i++) {
+            View child = clockView.getChildAt(i);
+
+            String tag = child.getTag().toString();
+            if (tag.equals("clock") || tag.equals("date")) {
+                child.setOnClickListener(mOnClickListener);
+            }
+
+            if (child instanceof ViewGroup) {
+                setOnClickListener((ViewGroup) child);
+            }
+        }
+    }
+
+    private void onClockClick() {
+        if (mActivityStarter == null) return;
+
+        Intent intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        callMethod(mActivityStarter, "postStartActivityDismissingKeyguard", intent, 0);
+    }
+
+    private void onDateClick() {
+        if (mActivityStarter == null) return;
+
+        Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+        builder.appendPath("time");
+        builder.appendPath(Long.toString(System.currentTimeMillis()));
+        Intent intent = new Intent(Intent.ACTION_VIEW, builder.build());
+        callMethod(mActivityStarter, "postStartActivityDismissingKeyguard", intent, 0);
     }
 }

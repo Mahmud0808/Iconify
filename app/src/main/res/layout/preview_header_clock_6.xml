@@ -52,6 +52,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="clock"
                 android:orientation="vertical">
 
                 <TextClock

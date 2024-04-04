@@ -7,12 +7,14 @@
     <AnalogClock
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:tag="clock"
         android:layout_marginEnd="8dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:tag="date"
         android:orientation="vertical">
 
         <TextClock

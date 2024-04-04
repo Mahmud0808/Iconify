@@ -8,6 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center"
+        android:tag="clock"
         android:gravity="center_vertical">
 
         <TextClock
@@ -36,20 +37,26 @@
             android:textStyle="bold" />
     </FrameLayout>
 
-    <TextClock
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|bottom"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="3dp"
-        android:format12Hour="EEE d MMM"
-        android:format24Hour="EEE d MMM"
-        android:letterSpacing="0.1"
-        android:singleLine="true"
-        android:tag="text1"
-        android:textAlignment="viewStart"
-        android:textAllCaps="true"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="15dp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="6dp"
+        android:tag="date">
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="EEE d MMM"
+            android:format24Hour="EEE d MMM"
+            android:letterSpacing="0.1"
+            android:singleLine="true"
+            android:tag="text1"
+            android:textAlignment="viewStart"
+            android:textAllCaps="true"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>

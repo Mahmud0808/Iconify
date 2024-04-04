@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0.6"
+        android:tag="clock"
         android:orientation="horizontal">
 
         <TextClock
@@ -43,18 +44,24 @@
 
     </LinearLayout>
 
-    <TextClock
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:layout_marginTop="18dp"
-        android:fontFamily="@font/montserrat"
-        android:format12Hour="MMMM dd"
-        android:format24Hour="MMMM dd"
-        android:gravity="center|start"
-        android:singleLine="true"
-        android:tag="text1"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="14dp"
-        android:textStyle="bold" />
+        android:tag="date">
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:format12Hour="MMMM dd"
+            android:format24Hour="MMMM dd"
+            android:gravity="center|start"
+            android:singleLine="true"
+            android:tag="text1"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </FrameLayout>
