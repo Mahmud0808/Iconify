@@ -24,6 +24,7 @@
         android:layout_toEndOf="@id/timeCircle1"
         android:fontFamily="@font/steelfish_rounded_bd"
         android:format12Hour="h:mm a"
+        android:format24Hour="HH:mm a"
         android:tag="text1"
         android:textColor="@android:color/white"
         android:textSize="30sp" />
@@ -49,6 +50,7 @@
         android:layout_toEndOf="@id/timeCircle2"
         android:fontFamily="@font/steelfish_rounded_bd"
         android:format12Hour="EEEE"
+        android:format24Hour="EEEE"
         android:tag="text1"
         android:textColor="@android:color/white"
         android:textSize="30sp" />
@@ -74,6 +76,7 @@
         android:layout_toEndOf="@id/timeCircle3"
         android:fontFamily="@font/steelfish_rounded_bd"
         android:format12Hour="MMM.dd"
+        android:format24Hour="MMM.dd"
         android:tag="text1"
         android:textColor="@android:color/white"
         android:textSize="30sp" />

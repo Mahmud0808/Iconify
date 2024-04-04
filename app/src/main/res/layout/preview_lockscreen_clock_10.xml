@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:format12Hour="hh:mm"
-                    android:format24Hour="kk:mm"
+                    android:format24Hour="HH:mm"
                     android:letterSpacing="0.03"
                     android:tag="accent1"
                     android:textColor="@android:color/system_accent1_400"

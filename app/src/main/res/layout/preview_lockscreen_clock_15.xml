@@ -59,7 +59,8 @@
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/futurist_fixed_width_bold"
             android:tag="text1"
-            android:text="$df(h:mm a)$"
+            android:format12Hour="h:mm a"
+            android:format24Hour="HH:mm a"
             android:textColor="#FFFFFF"
             android:textSize="25sp" />
     </LinearLayout>
