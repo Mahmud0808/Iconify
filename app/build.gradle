@@ -131,7 +131,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.12.0-beta01'
 
     // APK Signer
-    implementation 'org.bouncycastle:bcpkix-jdk18on:1.76'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.77'
 
     // Zip Util
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
@@ -158,7 +158,7 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
 
     // Lottie Animation
-    implementation 'com.airbnb.android:lottie:6.1.0'
+    implementation 'com.airbnb.android:lottie:6.4.0'
 
     // HTML Parser
     implementation 'org.jsoup:jsoup:1.17.2'
@@ -173,13 +173,13 @@ dependencies {
     // Concurrency
     implementation 'androidx.work:work-runtime:2.9.0'
     implementation "androidx.concurrent:concurrent-futures:1.1.0"
-    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'com.google.guava:guava:33.1.0-jre'
 
     // Event Bus
     implementation 'org.greenrobot:eventbus:3.3.1'
 
     // Dots Indicator
-    implementation 'com.tbuonomo:dotsindicator:4.3'
+    implementation 'com.tbuonomo:dotsindicator:5.0'
 
     // Fading Edge Layout
     implementation 'com.github.bosphere.android-fadingedgelayout:fadingedgelayout:1.0.0'
@@ -189,7 +189,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.work:work-runtime:2.9.0'
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
-    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'org.slf4j:slf4j-api:2.0.12'
 }
 
 tasks.register('printVersionName') {
