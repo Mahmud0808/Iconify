@@ -40,6 +40,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.provider.AlarmClock;
@@ -277,7 +279,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
-        mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+        new Handler(Looper.getMainLooper()).post(() -> mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE));
     }
 
     private void hideStockClockDate() {

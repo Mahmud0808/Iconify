@@ -236,7 +236,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
-        mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+        new Handler(Looper.getMainLooper()).post(() -> mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE));
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
