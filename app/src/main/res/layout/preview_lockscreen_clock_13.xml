@@ -44,7 +44,7 @@
         android:layout_marginTop="-15dp"
         android:fontFamily="@font/hollow1"
         android:format12Hour="EEEE, MMMM, dd"
-        android:format24Hour="EEEE, MMMM, dd"
+        android:format24Hour="EEEE, dd, MMMM"
         android:singleLine="true"
         android:tag="text1"
         android:textAlignment="viewStart"

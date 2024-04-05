@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
             android:format12Hour="MMMM dd, yyy"
-            android:format24Hour="MMMM dd, yyy"
+            android:format24Hour="dd MMMM, yyy"
             android:gravity="center|start"
             android:singleLine="true"
             android:tag="text1"

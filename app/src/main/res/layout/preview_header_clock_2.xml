@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="-6dp"
         android:format12Hour="EEEE, MMM dd"
-        android:format24Hour="EEEE, MMM dd"
+        android:format24Hour="EEEE, dd MMM"
         android:singleLine="true"
         android:tag="text1|date"
         android:textAlignment="viewStart"
