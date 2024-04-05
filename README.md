@@ -36,9 +36,9 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 - Android 12+ Pixel / AOSP based custom ROM
 
-- [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) or [KernelSU](https://github.com/tiann/KernelSU)
+- [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) or [KernelSU](https://github.com/tiann/KernelSU) or [APatch](https://github.com/bmax121/APatch)
 
-- [LSPosed](https://github.com/LSPosed/LSPosed) (Optional)
+- [LSPosed](https://github.com/LSPosed/LSPosed) or [LSPosed_mod](https://github.com/mywalkb/LSPosed_mod) (Optional)
 
 - Decryption Supported Custom Recovery (Just in case)
 
