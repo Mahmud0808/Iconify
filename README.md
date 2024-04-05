@@ -71,7 +71,7 @@ Furthermore, the open-source nature of Iconify encourages community contribution
   >
   > Note: If one of the above variable doesn't exist, skip that particular variable.
 
-  2. Flash [ZygiskOnKernelSU](https://github.com/Dr-TSNG/ZygiskOnKernelSU/releases/latest) module (only if you want to use LSPosed features)
+  2. Flash [ZygiskNext](https://github.com/Dr-TSNG/ZygiskNext/releases/latest) module (only if you want to use LSPosed features)
 
   3. Grant SuperSU/root permission for SystemUI from KernelSU app
 
