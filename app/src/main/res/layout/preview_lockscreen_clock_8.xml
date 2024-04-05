@@ -46,19 +46,20 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_gravity="bottom"
             android:orientation="vertical"
-            android:rotation="90.0">
+            android:layout_marginTop="6dp"
+            android:gravity="bottom"
+            android:rotation="90">
 
             <TextClock
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|start"
-                android:layout_marginTop="24dp"
+                android:layout_gravity="start"
+                android:layout_marginTop="36dp"
                 android:format12Hour="EEEE"
                 android:format24Hour="EEEE"
-                android:gravity="center|start"
+                android:gravity="start"
                 android:singleLine="true"
                 android:tag="text1"
                 android:textColor="@android:color/white"
@@ -67,9 +68,9 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|start"
+                android:layout_gravity="start"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginEnd="80dp"
                 android:background="@drawable/custom_background_2"
                 android:backgroundTint="@android:color/system_accent1_100"
                 android:paddingHorizontal="8dp"
