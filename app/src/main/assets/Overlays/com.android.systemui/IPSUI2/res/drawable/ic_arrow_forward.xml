@@ -7,20 +7,20 @@
     android:viewportHeight="24.0">
     <group
         android:pivotX="12.000"
-        android:pivotY="12.001"
-        android:rotation="-0.000"
+        android:pivotY="12.000"
+        android:rotation="180.000"
         android:scaleY="1.000">
 
         <path
             android:fillType="nonZero"
-            android:pathData="M20.50,12.00A8.50 8.50 -0.00 1 0 3.50,12.00L3.50,13.25A3.88 3.88 -0.00 0 1 9.75,16.00L9.75,18.25A3.88 3.88 -0.00 1 1 2.00,18.00L2.00,12.00A10.00 10.00 -0.00 1 1 22.00,12.00L22.00,18.00A3.88 3.88 -0.00 1 1 14.25,18.25L14.25,16.00A3.88 3.88 -0.00 0 1 20.50,13.25L20.50,12.00z"
+            android:pathData="M12.00,2.00C17.52,2.00,22.00,6.48,22.00,12.00C22.00,17.52,17.52,22.00,12.00,22.00C6.48,22.00,2.00,17.52,2.00,12.00C2.00,6.48,6.48,2.00,12.00,2.00zM9.33,12.67L12.75,16.13C13.37,16.75,14.50,15.78,13.80,15.00L10.83,12.00L13.80,9.00C14.50,8.22,13.37,7.25,12.75,7.88L9.33,11.33C8.84,11.83,8.84,12.21,9.33,12.67z"
             android:strokeLineCap="square"
             android:strokeLineJoin="miter">
             <aapt:attr name="android:strokeColor">
                 <gradient
-                    android:endX="22.002"
-                    android:endY="22.002"
-                    android:startX="1.998"
+                    android:endX="22.000"
+                    android:endY="22.000"
+                    android:startX="2.000"
                     android:startY="2.000"
                     android:type="linear">
                     <item
@@ -33,10 +33,10 @@
             </aapt:attr>
             <aapt:attr name="android:fillColor">
                 <gradient
-                    android:endX="11.998"
-                    android:endY="23.864"
-                    android:startX="11.998"
-                    android:startY="0.012"
+                    android:endX="12.000"
+                    android:endY="24.000"
+                    android:startX="12.000"
+                    android:startY="0.000"
                     android:type="linear">
                     <item
                         android:color="#FF000000"
