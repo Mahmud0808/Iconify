@@ -607,7 +607,7 @@ public class QSLightThemeA14 extends ModPack {
                     // Settings button
                     Object settings = getObjectField(param.thisObject, "settings");
                     setObjectField(settings, "iconTint", Color.BLACK);
-                    setObjectField(settings, "backgroundColor", colorInactive);
+//                    setObjectField(settings, "backgroundColor", colorInactive);
 
                     // We must use the classes defined in the apk. Using our own will fail.
                     Class<?> StateFlowImplClass = findClass("kotlinx.coroutines.flow.StateFlowImpl", loadPackageParam.classLoader);

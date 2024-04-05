@@ -271,11 +271,11 @@ public class QSFluidThemeA14 extends ModPack {
                     // Power button
                     Object power = getObjectField(param.thisObject, "power");
                     setObjectField(power, "iconTint", colorActive[0]);
-                    setObjectField(power, "backgroundColor", colorActiveAlpha[0]);
+//                    setObjectField(power, "backgroundColor", colorActiveAlpha[0]);
 
                     // Settings button
                     Object settings = getObjectField(param.thisObject, "settings");
-                    setObjectField(settings, "backgroundColor", colorInactiveAlpha[0]);
+//                    setObjectField(settings, "backgroundColor", colorInactiveAlpha[0]);
 
                     // We must use the classes defined in the apk. Using our own will fail.
                     Class<?> StateFlowImplClass = findClass("kotlinx.coroutines.flow.StateFlowImpl", loadPackageParam.classLoader);
