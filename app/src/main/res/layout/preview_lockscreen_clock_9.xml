@@ -19,7 +19,7 @@
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
             android:singleLine="true"
-            android:tag="text1"
+            android:tag="text1|nolineheight"
             android:textColor="@android:color/white"
             android:textSize="70.0dip"
             android:textStyle="bold" />

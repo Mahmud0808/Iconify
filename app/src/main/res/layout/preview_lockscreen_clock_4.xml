@@ -22,7 +22,7 @@
             android:format24Hour="HH"
             android:gravity="center|start"
             android:singleLine="true"
-            android:tag="text1"
+            android:tag="text1|nolineheight"
             android:textColor="@android:color/white"
             android:textSize="70dp" />
 

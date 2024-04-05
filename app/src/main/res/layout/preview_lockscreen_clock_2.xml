@@ -19,7 +19,7 @@
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
             android:singleLine="true"
-            android:tag="text1"
+            android:tag="text1|nolineheight"
             android:textAlignment="viewStart"
             android:textColor="@android:color/white"
             android:textSize="36dp" />

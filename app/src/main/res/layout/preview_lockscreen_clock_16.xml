@@ -14,7 +14,7 @@
         android:fontFamily="@font/bebasneue_bold"
         android:format12Hour="EEEE"
         android:format24Hour="EEEE"
-        android:tag="accent1"
+        android:tag="accent1|nolineheight"
         android:textColor="@android:color/system_accent1_300"
         android:textSize="35sp" />
 

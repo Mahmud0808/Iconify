@@ -25,7 +25,7 @@
         android:fontFamily="@font/steelfish_rounded_bd"
         android:format12Hour="h:mm a"
         android:format24Hour="HH:mm a"
-        android:tag="text1"
+        android:tag="text1|nolineheight"
         android:textColor="@android:color/white"
         android:textSize="30sp" />
 

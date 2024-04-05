@@ -20,7 +20,7 @@
             android:fontFamily="@font/futurist_fixed_width_bold"
             android:format12Hour="MMMM"
             android:format24Hour="MMMM"
-            android:tag="text1"
+            android:tag="text1|nolineheight"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
 

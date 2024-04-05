@@ -61,7 +61,7 @@ public class ViewHelper {
             View child = parent.getChildAt(i);
 
             Object tagObject = child.getTag();
-            if (tagObject != null && tagObject.toString().contains(tagContains)) {
+            if (tagObject != null && tagObject.toString().toLowerCase().contains(tagContains)) {
                 changeViewColor(child, color);
             }
 
@@ -116,22 +116,30 @@ public class ViewHelper {
         }
     }
 
-    public static void applyTextMarginRecursively(ViewGroup viewGroup, int topMargin) {
+    public static void applyTextMarginRecursively(Context context, ViewGroup viewGroup, int topMargin) {
         int childCount = viewGroup.getChildCount();
+        int topMarginInDp = dp2px(context, topMargin);
+
         for (int i = 0; i < childCount; i++) {
             View child = viewGroup.getChildAt(i);
+
             if (child instanceof ViewGroup) {
-                applyTextMarginRecursively((ViewGroup) child, topMargin);
+                applyTextMarginRecursively(context, (ViewGroup) child, topMargin);
             } else if (child instanceof TextView) {
+                Object tagObject = child.getTag();
+                if (tagObject != null && tagObject.toString().toLowerCase().contains("nolineheight")) {
+                    continue;
+                }
+
                 ViewGroup.LayoutParams params = child.getLayoutParams();
                 if (params instanceof LinearLayout.LayoutParams linearParams) {
-                    linearParams.topMargin += topMargin;
+                    linearParams.topMargin += topMarginInDp;
                     child.setLayoutParams(linearParams);
                 } else if (params instanceof FrameLayout.LayoutParams frameParams) {
-                    frameParams.topMargin += topMargin;
+                    frameParams.topMargin += topMarginInDp;
                     child.setLayoutParams(frameParams);
                 } else if (params instanceof RelativeLayout.LayoutParams relativeParams) {
-                    relativeParams.topMargin += topMargin;
+                    relativeParams.topMargin += topMarginInDp;
                     child.setLayoutParams(relativeParams);
                 } else {
                     log("Invalid params: " + params);

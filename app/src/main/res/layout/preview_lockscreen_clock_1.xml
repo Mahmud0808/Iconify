@@ -21,7 +21,7 @@
             android:format24Hour="hh\nmm"
             android:gravity="center"
             android:lineHeight="82sp"
-            android:tag="accent1"
+            android:tag="accent1|nolineheight"
             android:textAlignment="center"
             android:textColor="@android:color/system_accent1_100"
             android:textSize="75sp" />

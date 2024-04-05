@@ -412,7 +412,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
             ViewHelper.applyFontRecursively((ViewGroup) clockView, typeface);
         }
 
-        ViewHelper.applyTextMarginRecursively((ViewGroup) clockView, lineHeight);
+        ViewHelper.applyTextMarginRecursively(mContext, (ViewGroup) clockView, lineHeight);
 
         if (clockScale != 1) {
             ViewHelper.applyTextScalingRecursively((ViewGroup) clockView, clockScale);
