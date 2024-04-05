@@ -26,7 +26,6 @@ import com.drdisagree.iconify.ui.models.ClockModel;
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
 import com.drdisagree.iconify.utils.WallpaperUtil;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.imageview.ShapeableImageView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -69,10 +68,6 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
         ClockModel model = itemList.get(position);
 
         holder.bind(model, position);
-
-        if (wallpaperBitmap != null) {
-            ViewBindingHelpers.setBitmap(holder.wallpaperView, wallpaperBitmap);
-        }
     }
 
     @Override
@@ -87,7 +82,7 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
         private final LinearLayout clockContainer;
         private final ImageView checkIcon;
         private final MaterialButton button;
-        private final ShapeableImageView wallpaperView;
+        private final ImageView wallpaperView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -135,6 +130,10 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
             boolean isSelected = adapterPosition == getBindingAdapterPosition();
             button.setEnabled(!isSelected);
             checkIcon.setVisibility(isSelected ? View.VISIBLE : View.GONE);
+
+            if (wallpaperBitmap != null) {
+                ViewBindingHelpers.setBitmap(wallpaperView, wallpaperBitmap);
+            }
         }
     }
 
@@ -190,6 +189,7 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
         protected Bitmap doInBackground(Void... voids) {
             Context context = adapterRef.get().context;
             if (context == null) return null;
+
             return WallpaperUtil.getCompressedWallpaper(
                     context,
                     80,
@@ -203,6 +203,7 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
+
             ClockPreviewAdapter adapter = adapterRef.get();
             if (adapter != null && bitmap != null && Objects.equals(prefSwitch, LSCLOCK_SWITCH)) {
                 wallpaperBitmap = bitmap;
