@@ -1,8 +1,8 @@
 {
-  "versionName": "6.7.5",
-  "versionCode": 18,
-  "apkUrl": "https://github.com/Mahmud0808/Iconify/releases/download/v6.7.5/Iconify.v6.7.5.apk",
+  "versionName": "6.7.6",
+  "versionCode": 19,
+  "apkUrl": "https://github.com/Mahmud0808/Iconify/releases/download/v6.7.6/Iconify.v6.7.6.apk",
   "changelog": [
-    "### Iconify v6.7.5 (Hotfix) has arrived! It has the following new changes:\n\n## Feature Changes:\n- __Core:__\n    - Migrated from AAPT to AAPT2\n    - Fixed incompatibility with android 14 QPR2\n    - Added APatch support\n- __Xposed Menu:__\n    - Added new header clocks\n    - Added new lockscreen clocks. Thanks to @Corex1402 and @seklek\n    - Optimized lockscreen clocks to reduce stutter\n    - Fixed notification style not working on android 14 QPR2\n    - Fixed QS tile text color not showing correctly on some android 14 roms\n    - Added preview of battery styles in app. Thanks to @DHD2280\n    - Allow clicking on header clock to open clock/calender app. Thanks to @siavash79 and @DHD2280\n- __Misc:__\n    - Updated some overlays for compatibility with AAPT2\n    - Do not expect everything to work. This is just a hotfix for android 14 QPR2.\n\n## App Changes:\n- Improved previews\n- Updated translations\n- And many more improvements...\n\nAlso included in this version are bug fixes and other improvements."
+    "### Iconify v6.7.6 (Hotfix) has arrived! It has the following new changes:\n\n## Feature Changes:\n- __Xposed Menu:__\n    - Hotfix for LSPosed mod not enabling for android 12.0 and 12.1\n\n## App Changes:\n- Bump AGP\n- And many more improvements...\n\nAlso included in this version are bug fixes and other improvements."
   ]
 }

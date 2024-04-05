@@ -23,6 +23,7 @@ import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
+import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
@@ -39,6 +40,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.provider.AlarmClock;
@@ -129,18 +132,28 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         initResources(mContext);
 
-        final Class<?> QSSecurityFooterUtilsClass = findClass(SYSTEMUI_PACKAGE + ".qs.QSSecurityFooterUtils", loadPackageParam.classLoader);
+        Class<?> QSSecurityFooterUtilsClass = findClassIfExists(SYSTEMUI_PACKAGE + ".qs.QSSecurityFooterUtils", loadPackageParam.classLoader);
+        Class<?> QuickStatusBarHeaderClass = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
+        Class<?> DependencyClass = findClass(SYSTEMUI_PACKAGE + ".Dependency", loadPackageParam.classLoader);
+        Class<?> ActivityStarterClass = findClass(SYSTEMUI_PACKAGE + ".plugins.ActivityStarter", loadPackageParam.classLoader);
 
-        hookAllConstructors(QSSecurityFooterUtilsClass, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) {
-                mActivityStarter = getObjectField(param.thisObject, "mActivityStarter");
-            }
-        });
+        if (QSSecurityFooterUtilsClass == null) {
+            hookAllConstructors(QuickStatusBarHeaderClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    mActivityStarter = callStaticMethod(DependencyClass, "get", ActivityStarterClass);
+                }
+            });
+        } else {
+            hookAllConstructors(QSSecurityFooterUtilsClass, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    mActivityStarter = getObjectField(param.thisObject, "mActivityStarter");
+                }
+            });
+        }
 
-        final Class<?> QuickStatusBarHeader = findClass(SYSTEMUI_PACKAGE + ".qs.QuickStatusBarHeader", loadPackageParam.classLoader);
-
-        hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
+        hookAllMethods(QuickStatusBarHeaderClass, "onFinishInflate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
                 if (!showHeaderClock) return;
@@ -191,7 +204,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
             }
         });
 
-        hookAllMethods(QuickStatusBarHeader, "updateResources", new XC_MethodHook() {
+        hookAllMethods(QuickStatusBarHeaderClass, "updateResources", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
                 updateClockView();
@@ -266,7 +279,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
-        mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+        new Handler(Looper.getMainLooper()).post(() -> mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE));
     }
 
     private void hideStockClockDate() {
@@ -479,7 +492,7 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
             View child = clockView.getChildAt(i);
 
             String tag = child.getTag() == null ? "" : child.getTag().toString();
-            if (tag.equals("clock") || tag.equals("date")) {
+            if (tag.toLowerCase().contains("clock") || tag.toLowerCase().contains("date")) {
                 child.setOnClickListener(mOnClickListener);
             }
 

@@ -2,6 +2,7 @@
     xmlns:aapt="http://schemas.android.com/aapt"
     android:width="24.0dp"
     android:height="24.0dp"
+    android:tint="?android:colorControlNormal"
     android:viewportWidth="24.0"
     android:viewportHeight="24.0">
     <group

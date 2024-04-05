@@ -24,17 +24,6 @@
             android:textColor="@android:color/white"
             android:textSize="36dp" />
 
-        <TextView
-            android:id="@+id/summary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:tag="text1"
-            android:text="𝗡𝗘𝗩𝗘𝗥 𝘚𝘌𝘛𝘛𝘓𝘌"
-            android:textAlignment="viewStart"
-            android:textColor="@android:color/white"
-            android:textSize="30sp" />
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

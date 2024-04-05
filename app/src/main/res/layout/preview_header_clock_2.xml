@@ -29,7 +29,7 @@
             android:layout_gravity="start|center"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
-            android:maxLength="1"
+            android:maxLength="2"
             android:singleLine="true"
             android:tag="accent1"
             android:textColor="@android:color/system_accent1_300"
@@ -37,22 +37,16 @@
             android:textStyle="bold" />
     </FrameLayout>
 
-    <LinearLayout
+    <TextClock
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="-6dp"
-        android:tag="date">
-
-        <TextClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:format12Hour="EEEE, MMM dd"
-            android:format24Hour="EEEE, MMM dd"
-            android:singleLine="true"
-            android:tag="text1"
-            android:textAlignment="viewStart"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="16dp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        android:format12Hour="EEEE, MMM dd"
+        android:format24Hour="EEEE, MMM dd"
+        android:singleLine="true"
+        android:tag="text1|date"
+        android:textAlignment="viewStart"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="16dp"
+        android:textStyle="bold" />
 </LinearLayout>

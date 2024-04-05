@@ -9,54 +9,36 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:tag="date">
+            android:alpha="0.6"
+            android:fontFamily="@font/bebasneue_bold"
+            android:format12Hour="MMMM"
+            android:format24Hour="MMMM"
+            android:singleLine="true"
+            android:tag="text1|date"
+            android:textAllCaps="true"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="14dp" />
 
-            <TextClock
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.6"
-                android:fontFamily="@font/bebasneue_bold"
-                android:format12Hour="MMMM"
-                android:format24Hour="MMMM"
-                android:singleLine="true"
-                android:tag="text1"
-                android:textAllCaps="true"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:tag="date">
+            android:fontFamily="@font/futurist_fixed_width_bold"
+            android:format12Hour="EEEE"
+            android:format24Hour="EEEE"
+            android:singleLine="true"
+            android:tag="text1|date"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-            <TextClock
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/futurist_fixed_width_bold"
-                android:format12Hour="EEEE"
-                android:format24Hour="EEEE"
-                android:singleLine="true"
-                android:tag="text1"
-                android:textAlignment="viewStart"
-                android:textAllCaps="true"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:tag="clock">
-
-            <TextClock
+        <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -65,10 +47,9 @@
             android:format12Hour="• hh:mm •"
             android:format24Hour="• HH:mm •"
             android:singleLine="true"
-            android:tag="text1"
+            android:tag="text1|clock"
             android:textAllCaps="true"
             android:textColor="?android:textColorPrimary"
             android:textSize="14dp" />
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -13,19 +13,24 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <FrameLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:layout_marginBottom="16dp"
+        app:cardCornerRadius="16dp"
+        app:strokeWidth="0dp"
         android:background="@drawable/container_main_less_rounded_no_ripple"
         android:backgroundTint="@color/colorAppbarOverlay">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <ImageView
             android:id="@+id/wallpaper_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/container_main_less_rounded_no_ripple"
+            android:backgroundTint="@color/colorAppbarOverlay"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/ImageViewRounded" />
+            android:contentDescription="@null"
+            android:src="@drawable/google_pixel_wallpaper" />
 
         <LinearLayout
             android:id="@+id/clock_view_container"
@@ -40,7 +45,7 @@
                 android:layout_gravity="center" />
 
         </LinearLayout>
-    </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
         android:layout_width="wrap_content"

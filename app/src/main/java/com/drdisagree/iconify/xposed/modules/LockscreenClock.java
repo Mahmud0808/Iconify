@@ -236,7 +236,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
-        mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
+        new Handler(Looper.getMainLooper()).post(() -> mUserManager = (UserManager) context.getSystemService(Context.USER_SERVICE));
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -412,7 +412,7 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
             ViewHelper.applyFontRecursively((ViewGroup) clockView, typeface);
         }
 
-        ViewHelper.applyTextMarginRecursively((ViewGroup) clockView, lineHeight);
+        ViewHelper.applyTextMarginRecursively(mContext, (ViewGroup) clockView, lineHeight);
 
         if (clockScale != 1) {
             ViewHelper.applyTextScalingRecursively((ViewGroup) clockView, clockScale);

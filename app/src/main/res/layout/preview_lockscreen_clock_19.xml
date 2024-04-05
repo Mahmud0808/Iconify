@@ -20,7 +20,7 @@
             android:format24Hour="EEEE, MMMM dd"
             android:gravity="center"
             android:singleLine="true"
-            android:tag="text1"
+            android:tag="text1|nolineheight"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="22dp"

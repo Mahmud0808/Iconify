@@ -24,7 +24,7 @@
             android:fontFamily="@font/br_sc"
             android:format12Hour="dd"
             android:format24Hour="dd"
-            android:tag="text1"
+            android:tag="text1|nolineheight"
             android:textColor="@android:color/white"
             android:textSize="200sp" />
 
@@ -40,7 +40,7 @@
             android:format12Hour="EEE"
             android:format24Hour="EEE"
             android:gravity="center"
-            android:tag="accent1"
+            android:tag="accent1|nolineheight"
             android:textColor="@android:color/system_accent1_400"
             android:textSize="140sp" />
 
@@ -58,9 +58,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="8dp"
                 android:fontFamily="@font/sans_bold"
                 android:format12Hour="hh:mm a"
-                android:format24Hour="HH:mm a"
+                android:format24Hour="HH:mm"
                 android:tag="text1"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
@@ -69,7 +70,7 @@
 
             <!-- Shape for Separator -->
             <View
-                android:layout_width="140dp"
+                android:layout_width="match_parent"
                 android:layout_height="6dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"

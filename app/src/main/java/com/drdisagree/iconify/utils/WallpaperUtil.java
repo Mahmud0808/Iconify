@@ -32,7 +32,8 @@ public class WallpaperUtil {
                 return compressBitmap(bitmap, quality);
             }
         } catch (Exception e) {
-            return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+//            return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+            return null;
         }
     }
 

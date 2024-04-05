@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png" width="100%" alt="Banner">
   
-  # v6.7.5 is out!
+  # v6.7.6 is out!
 </div>
 <p align="center">
   <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
@@ -36,9 +36,9 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 - Android 12+ Pixel / AOSP based custom ROM
 
-- [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) or [KernelSU](https://github.com/tiann/KernelSU)
+- [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) or [KernelSU](https://github.com/tiann/KernelSU) or [APatch](https://github.com/bmax121/APatch)
 
-- [LSPosed](https://github.com/LSPosed/LSPosed) (Optional)
+- [LSPosed](https://github.com/LSPosed/LSPosed) or [LSPosed_mod](https://github.com/mywalkb/LSPosed_mod) (Optional)
 
 - Decryption Supported Custom Recovery (Just in case)
 
@@ -71,7 +71,7 @@ Furthermore, the open-source nature of Iconify encourages community contribution
   >
   > Note: If one of the above variable doesn't exist, skip that particular variable.
 
-  2. Flash [ZygiskOnKernelSU](https://github.com/Dr-TSNG/ZygiskOnKernelSU/releases/latest) module (only if you want to use LSPosed features)
+  2. Flash [ZygiskNext](https://github.com/Dr-TSNG/ZygiskNext/releases/latest) module (only if you want to use LSPosed features)
 
   3. Grant SuperSU/root permission for SystemUI from KernelSU app
 

@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:tag="clock"
     android:orientation="horizontal">
 
     <TextClock
@@ -12,7 +11,7 @@
         android:format12Hour="hh.mm."
         android:format24Hour="HH.mm."
         android:singleLine="true"
-        android:tag="text1"
+        android:tag="text1|clock"
         android:textColor="?android:textColorPrimary"
         android:textSize="32dp" />
 
@@ -26,7 +25,7 @@
         android:format24Hour="ss"
         android:letterSpacing="0.1"
         android:singleLine="true"
-        android:tag="text1"
+        android:tag="text1|clock"
         android:textAlignment="viewStart"
         android:textAllCaps="true"
         android:textColor="?android:textColorPrimary"

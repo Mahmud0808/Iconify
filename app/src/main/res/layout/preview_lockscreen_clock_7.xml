@@ -42,7 +42,7 @@
                     android:format12Hour="dd"
                     android:format24Hour="dd"
                     android:singleLine="true"
-                    android:tag="text1"
+                    android:tag="text1|nolineheight"
                     android:textColor="@android:color/white"
                     android:textSize="40sp" />
 
@@ -86,7 +86,7 @@
                         android:format12Hour="hh.mm"
                         android:format24Hour="HH.mm"
                         android:singleLine="true"
-                        android:tag="text2"
+                        android:tag="text2|nolineheight"
                         android:textColor="@android:color/system_neutral1_1000"
                         android:textSize="35sp" />
 
@@ -135,7 +135,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:tag="text1"
+                        android:tag="text1|nolineheight"
                         android:text="@string/welcome_back"
                         android:textColor="@android:color/system_accent1_0"
                         android:textSize="10sp" />
