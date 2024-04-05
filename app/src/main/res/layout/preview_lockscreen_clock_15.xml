@@ -60,7 +60,7 @@
             android:fontFamily="@font/futurist_fixed_width_bold"
             android:tag="text1"
             android:format12Hour="h:mm a"
-            android:format24Hour="HH:mm a"
+            android:format24Hour="HH:mm"
             android:textColor="#FFFFFF"
             android:textSize="25sp" />
     </LinearLayout>

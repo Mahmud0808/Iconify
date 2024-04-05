@@ -49,7 +49,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/bebasneue_bold"
         android:format12Hour="h:mm a"
-        android:format24Hour="HH:mm a"
+        android:format24Hour="HH:mm"
         android:tag="text1"
         android:textColor="#FFFFFF"
         android:textSize="40sp" />

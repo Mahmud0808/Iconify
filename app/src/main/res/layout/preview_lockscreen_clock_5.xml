@@ -47,7 +47,7 @@
                     android:layout_gravity="end"
                     android:alpha="0.7"
                     android:format12Hour="a"
-                    android:format24Hour="a"
+                    android:format24Hour="ss"
                     android:singleLine="true"
                     android:tag="text1|nolineheight"
                     android:textAlignment="viewEnd"

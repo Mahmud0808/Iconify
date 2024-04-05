@@ -58,9 +58,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="8dp"
                 android:fontFamily="@font/sans_bold"
                 android:format12Hour="hh:mm a"
-                android:format24Hour="HH:mm a"
+                android:format24Hour="HH:mm"
                 android:tag="text1"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
@@ -69,7 +70,7 @@
 
             <!-- Shape for Separator -->
             <View
-                android:layout_width="140dp"
+                android:layout_width="match_parent"
                 android:layout_height="6dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
