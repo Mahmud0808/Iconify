@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="20dp"
         android:orientation="vertical">
 
         <TextClock
@@ -30,10 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alpha="0.9"
-            android:autoSizeMaxTextSize="100sp"
-            android:autoSizeMinTextSize="80sp"
-            android:autoSizeStepGranularity="4sp"
-            android:autoSizeTextType="uniform"
             android:fontFamily="@font/ios"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
