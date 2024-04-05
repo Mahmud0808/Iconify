@@ -52,22 +52,30 @@ public class ViewHelper {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
-    public static void findViewWithTagAndChangeColor(ViewGroup parent, String tagContains, int color) {
-        if (parent == null || parent.getChildCount() == 0) {
+    public static void findViewWithTagAndChangeColor(View view, String tagContains, int color) {
+        if (view == null) {
             return;
         }
 
-        for (int i = 0; i < parent.getChildCount(); i++) {
-            View child = parent.getChildAt(i);
+        if (view instanceof ViewGroup viewGroup) {
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
 
-            Object tagObject = child.getTag();
-            if (tagObject != null && tagObject.toString().toLowerCase().contains(tagContains)) {
-                changeViewColor(child, color);
-            }
+                checkTagAndChangeColor(child, tagContains, color);
 
-            if (child instanceof ViewGroup) {
-                findViewWithTagAndChangeColor((ViewGroup) child, tagContains, color);
+                if (child instanceof ViewGroup) {
+                    findViewWithTagAndChangeColor((ViewGroup) child, tagContains, color);
+                }
             }
+        } else {
+            checkTagAndChangeColor(view, tagContains, color);
+        }
+    }
+
+    private static void checkTagAndChangeColor(View view, String tagContains, int color) {
+        Object tagObject = view.getTag();
+        if (tagObject != null && tagObject.toString().toLowerCase().contains(tagContains)) {
+            changeViewColor(view, color);
         }
     }
 
@@ -104,60 +112,95 @@ public class ViewHelper {
         }
     }
 
-    public static void applyFontRecursively(ViewGroup viewGroup, Typeface typeface) {
-        int childCount = viewGroup.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View child = viewGroup.getChildAt(i);
-            if (child instanceof ViewGroup) {
-                applyFontRecursively((ViewGroup) child, typeface);
-            } else if (child instanceof TextView textView) {
-                textView.setTypeface(typeface);
+    public static void applyFontRecursively(View view, Typeface typeface) {
+        if (view == null) {
+            return;
+        }
+
+        if (view instanceof ViewGroup viewGroup) {
+            int childCount = viewGroup.getChildCount();
+
+            for (int i = 0; i < childCount; i++) {
+                View child = viewGroup.getChildAt(i);
+
+                if (child instanceof ViewGroup) {
+                    applyFontRecursively((ViewGroup) child, typeface);
+                } else if (child instanceof TextView textView) {
+                    textView.setTypeface(typeface);
+                }
             }
+        } else if (view instanceof TextView textView) {
+            textView.setTypeface(typeface);
         }
     }
 
-    public static void applyTextMarginRecursively(Context context, ViewGroup viewGroup, int topMargin) {
-        int childCount = viewGroup.getChildCount();
+    public static void applyTextMarginRecursively(Context context, View view, int topMargin) {
+        if (view == null) {
+            return;
+        }
+
         int topMarginInDp = dp2px(context, topMargin);
 
-        for (int i = 0; i < childCount; i++) {
-            View child = viewGroup.getChildAt(i);
+        if (view instanceof ViewGroup viewGroup) {
+            int childCount = viewGroup.getChildCount();
 
-            if (child instanceof ViewGroup) {
-                applyTextMarginRecursively(context, (ViewGroup) child, topMargin);
-            } else if (child instanceof TextView) {
-                Object tagObject = child.getTag();
-                if (tagObject != null && tagObject.toString().toLowerCase().contains("nolineheight")) {
-                    continue;
-                }
+            for (int i = 0; i < childCount; i++) {
+                View child = viewGroup.getChildAt(i);
 
-                ViewGroup.LayoutParams params = child.getLayoutParams();
-                if (params instanceof LinearLayout.LayoutParams linearParams) {
-                    linearParams.topMargin += topMarginInDp;
-                    child.setLayoutParams(linearParams);
-                } else if (params instanceof FrameLayout.LayoutParams frameParams) {
-                    frameParams.topMargin += topMarginInDp;
-                    child.setLayoutParams(frameParams);
-                } else if (params instanceof RelativeLayout.LayoutParams relativeParams) {
-                    relativeParams.topMargin += topMarginInDp;
-                    child.setLayoutParams(relativeParams);
-                } else {
-                    log("Invalid params: " + params);
+                if (child instanceof ViewGroup) {
+                    applyTextMarginRecursively(context, (ViewGroup) child, topMargin);
+                } else if (child instanceof TextView) {
+                    setTextMargins(child, topMarginInDp);
                 }
             }
+        } else if (view instanceof TextView) {
+            setTextMargins(view, topMarginInDp);
         }
     }
 
-    public static void applyTextScalingRecursively(ViewGroup viewGroup, float scaleFactor) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            View child = viewGroup.getChildAt(i);
-            if (child instanceof ViewGroup) {
-                applyTextScalingRecursively((ViewGroup) child, scaleFactor);
-            } else if (child instanceof TextView textView) {
-                float originalSize = textView.getTextSize();
-                float newSize = originalSize * scaleFactor;
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize);
-            }
+    private static void setTextMargins(View child, int topMarginInDp) {
+        Object tagObject = child.getTag();
+        if (tagObject != null && tagObject.toString().toLowerCase().contains("nolineheight")) {
+            return;
         }
+
+        ViewGroup.LayoutParams params = child.getLayoutParams();
+        if (params instanceof LinearLayout.LayoutParams linearParams) {
+            linearParams.topMargin += topMarginInDp;
+            child.setLayoutParams(linearParams);
+        } else if (params instanceof FrameLayout.LayoutParams frameParams) {
+            frameParams.topMargin += topMarginInDp;
+            child.setLayoutParams(frameParams);
+        } else if (params instanceof RelativeLayout.LayoutParams relativeParams) {
+            relativeParams.topMargin += topMarginInDp;
+            child.setLayoutParams(relativeParams);
+        } else {
+            log("Invalid params: " + params);
+        }
+    }
+
+    public static void applyTextScalingRecursively(View view, float scaleFactor) {
+        if (view == null) {
+            return;
+        }
+
+        if (view instanceof ViewGroup viewGroup) {
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                if (child instanceof ViewGroup) {
+                    applyTextScalingRecursively((ViewGroup) child, scaleFactor);
+                } else if (child instanceof TextView textView) {
+                    setTestScaling(textView, scaleFactor);
+                }
+            }
+        } else if (view instanceof TextView textView) {
+            setTestScaling(textView, scaleFactor);
+        }
+    }
+
+    private static void setTestScaling(View view, float scaleFactor) {
+        float originalSize = ((TextView) view).getTextSize();
+        float newSize = originalSize * scaleFactor;
+        ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize);
     }
 }

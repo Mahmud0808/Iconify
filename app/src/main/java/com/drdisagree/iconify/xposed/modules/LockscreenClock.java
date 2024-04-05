@@ -401,21 +401,21 @@ public class LockscreenClock extends ModPack implements IXposedHookLoadPackage {
         ViewHelper.setMargins(clockView, mContext, 0, topMargin, 0, bottomMargin);
 
         if (customColorEnabled) {
-            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent1", accent1);
-            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent2", accent2);
-            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent3", accent3);
-            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "text1", text1);
-            ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "text2", text2);
+            ViewHelper.findViewWithTagAndChangeColor(clockView, "accent1", accent1);
+            ViewHelper.findViewWithTagAndChangeColor(clockView, "accent2", accent2);
+            ViewHelper.findViewWithTagAndChangeColor(clockView, "accent3", accent3);
+            ViewHelper.findViewWithTagAndChangeColor(clockView, "text1", text1);
+            ViewHelper.findViewWithTagAndChangeColor(clockView, "text2", text2);
         }
 
         if (typeface != null) {
-            ViewHelper.applyFontRecursively((ViewGroup) clockView, typeface);
+            ViewHelper.applyFontRecursively(clockView, typeface);
         }
 
-        ViewHelper.applyTextMarginRecursively(mContext, (ViewGroup) clockView, lineHeight);
+        ViewHelper.applyTextMarginRecursively(mContext, clockView, lineHeight);
 
         if (clockScale != 1) {
-            ViewHelper.applyTextScalingRecursively((ViewGroup) clockView, clockScale);
+            ViewHelper.applyTextScalingRecursively(clockView, clockScale);
         }
 
         switch (clockStyle) {

@@ -6,22 +6,28 @@ import android.widget.TextView;
 
 public class TextUtil {
 
-    public static void convertTextViewsToTitleCase(ViewGroup viewGroup) {
-        if (viewGroup == null) {
+    public static void convertTextViewsToTitleCase(View view) {
+        if (view == null) {
             return;
         }
 
-        int childCount = viewGroup.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View child = viewGroup.getChildAt(i);
+        if (view instanceof ViewGroup viewGroup) {
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = viewGroup.getChildAt(i);
 
-            if (child instanceof ViewGroup) {
-                convertTextViewsToTitleCase((ViewGroup) child);
-            } else if (child instanceof TextView textView) {
-                String originalText = textView.getText().toString();
-                String convertedText = convertToTitleCase(originalText);
-                textView.setText(convertedText);
+                if (child instanceof ViewGroup) {
+                    convertTextViewsToTitleCase((ViewGroup) child);
+                } else if (child instanceof TextView textView) {
+                    String originalText = textView.getText().toString();
+                    String convertedText = convertToTitleCase(originalText);
+                    textView.setText(convertedText);
+                }
             }
+        } else if (view instanceof TextView textView) {
+            String originalText = textView.getText().toString();
+            String convertedText = convertToTitleCase(originalText);
+            textView.setText(convertedText);
         }
     }
 

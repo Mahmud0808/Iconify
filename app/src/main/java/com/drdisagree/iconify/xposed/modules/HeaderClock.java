@@ -377,11 +377,11 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
             }
             clockView.setTag(ICONIFY_HEADER_CLOCK_TAG);
 
-            TextUtil.convertTextViewsToTitleCase((ViewGroup) clockView);
+            TextUtil.convertTextViewsToTitleCase(clockView);
 
             mQsClockContainer.addView(clockView);
             modifyClockView(clockView);
-            setOnClickListener((ViewGroup) clockView);
+            setOnClickListener(clockView);
         }
 
         Configuration config = mContext.getResources().getConfiguration();
@@ -448,18 +448,18 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
             ViewHelper.setMargins(clockView, mContext, sideMargin, topMargin, 0, 0);
         }
 
-        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent1", accent1);
-        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent2", accent2);
-        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "accent3", accent3);
-        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "text1", textPrimary);
-        ViewHelper.findViewWithTagAndChangeColor((ViewGroup) clockView, "text2", textInverse);
+        ViewHelper.findViewWithTagAndChangeColor(clockView, "accent1", accent1);
+        ViewHelper.findViewWithTagAndChangeColor(clockView, "accent2", accent2);
+        ViewHelper.findViewWithTagAndChangeColor(clockView, "accent3", accent3);
+        ViewHelper.findViewWithTagAndChangeColor(clockView, "text1", textPrimary);
+        ViewHelper.findViewWithTagAndChangeColor(clockView, "text2", textInverse);
 
         if (typeface != null) {
-            ViewHelper.applyFontRecursively((ViewGroup) clockView, typeface);
+            ViewHelper.applyFontRecursively(clockView, typeface);
         }
 
         if (clockScale != 1) {
-            ViewHelper.applyTextScalingRecursively((ViewGroup) clockView, clockScale);
+            ViewHelper.applyTextScalingRecursively(clockView, clockScale);
         }
 
         switch (clockStyle) {
@@ -487,17 +487,28 @@ public class HeaderClock extends ModPack implements IXposedHookLoadPackage {
         }
     }
 
-    private void setOnClickListener(ViewGroup clockView) {
-        for (int i = 0; i < clockView.getChildCount(); i++) {
-            View child = clockView.getChildAt(i);
+    private void setOnClickListener(View view) {
+        if (view == null) {
+            return;
+        }
 
-            String tag = child.getTag() == null ? "" : child.getTag().toString();
-            if (tag.toLowerCase().contains("clock") || tag.toLowerCase().contains("date")) {
-                child.setOnClickListener(mOnClickListener);
+        if (view instanceof ViewGroup viewGroup) {
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+
+                String tag = child.getTag() == null ? "" : child.getTag().toString();
+                if (tag.toLowerCase().contains("clock") || tag.toLowerCase().contains("date")) {
+                    child.setOnClickListener(mOnClickListener);
+                }
+
+                if (child instanceof ViewGroup) {
+                    setOnClickListener(child);
+                }
             }
-
-            if (child instanceof ViewGroup) {
-                setOnClickListener((ViewGroup) child);
+        } else {
+            String tag = view.getTag() == null ? "" : view.getTag().toString();
+            if (tag.toLowerCase().contains("clock") || tag.toLowerCase().contains("date")) {
+                view.setOnClickListener(mOnClickListener);
             }
         }
     }
