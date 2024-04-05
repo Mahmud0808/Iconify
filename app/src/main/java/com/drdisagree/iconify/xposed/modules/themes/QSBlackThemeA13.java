@@ -47,6 +47,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 
 import com.drdisagree.iconify.xposed.ModPack;
@@ -369,29 +370,8 @@ public class QSBlackThemeA13 extends ModPack {
         hookAllMethods(QSIconViewImplClass, "getIconColorForState", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                boolean isActiveState = false;
-                boolean isDisabledState;
-
-                try {
-                    isDisabledState = (boolean) getObjectField(param.args[1], "disabledByPolicy") ||
-                            (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
-                } catch (Throwable throwable) {
-                    isDisabledState = (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
-                }
-
-                try {
-                    isActiveState = (int) getObjectField(param.args[1], "state") == STATE_ACTIVE;
-                } catch (Throwable throwable) {
-                    try {
-                        isActiveState = (int) param.args[1] == STATE_ACTIVE;
-                    } catch (Throwable throwable1) {
-                        try {
-                            isActiveState = (boolean) param.args[1];
-                        } catch (Throwable throwable2) {
-                            log(TAG + throwable2);
-                        }
-                    }
-                }
+                boolean isActiveState = isActiveState(param);
+                boolean isDisabledState = isDisabledState(param);
 
                 if (blackQSHeaderEnabled) {
                     if (isDisabledState) {
@@ -411,29 +391,8 @@ public class QSBlackThemeA13 extends ModPack {
                 protected void afterHookedMethod(MethodHookParam param) {
                     if (qsTextAlwaysWhite || qsTextFollowAccent) return;
 
-                    boolean isActiveState = false;
-                    boolean isDisabledState;
-
-                    try {
-                        isDisabledState = (boolean) getObjectField(param.args[1], "disabledByPolicy") ||
-                                (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
-                    } catch (Throwable throwable) {
-                        isDisabledState = (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
-                    }
-
-                    try {
-                        isActiveState = (int) getObjectField(param.args[1], "state") == STATE_ACTIVE;
-                    } catch (Throwable throwable) {
-                        try {
-                            isActiveState = (int) param.args[1] == STATE_ACTIVE;
-                        } catch (Throwable throwable1) {
-                            try {
-                                isActiveState = (boolean) param.args[1];
-                            } catch (Throwable throwable2) {
-                                log(TAG + throwable2);
-                            }
-                        }
-                    }
+                    boolean isActiveState = isActiveState(param);
+                    boolean isDisabledState = isDisabledState(param);
 
                     if (blackQSHeaderEnabled) {
                         ImageView mIcon = (ImageView) param.args[0];
@@ -615,6 +574,44 @@ public class QSBlackThemeA13 extends ModPack {
                 }
             }
         });
+    }
+
+    private static boolean isActiveState(@NonNull XC_MethodHook.MethodHookParam param) {
+        boolean isActiveState;
+
+        try {
+            isActiveState = (int) getObjectField(param.args[1], "state") == STATE_ACTIVE;
+        } catch (Throwable throwable) {
+            try {
+                isActiveState = (int) param.args[1] == STATE_ACTIVE;
+            } catch (Throwable throwable1) {
+                try {
+                    isActiveState = (boolean) param.args[1];
+                } catch (Throwable throwable2) {
+                    isActiveState = false;
+                    log(TAG + throwable2);
+                }
+            }
+        }
+
+        return isActiveState;
+    }
+
+    private static boolean isDisabledState(@NonNull XC_MethodHook.MethodHookParam param) {
+        boolean isDisabledState;
+
+        try {
+            isDisabledState = (boolean) getObjectField(param.args[1], "disabledByPolicy") ||
+                    (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
+        } catch (Throwable throwable) {
+            try {
+                isDisabledState = (int) getObjectField(param.args[1], "state") == STATE_UNAVAILABLE;
+            } catch (Throwable throwable1) {
+                isDisabledState = (int) param.args[1] == STATE_UNAVAILABLE;
+            }
+        }
+
+        return isDisabledState;
     }
 
     private void initColors(boolean force) {
