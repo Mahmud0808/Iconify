@@ -29,7 +29,7 @@
             android:layout_gravity="start|center"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
-            android:maxLength="1"
+            android:maxLength="2"
             android:singleLine="true"
             android:tag="accent1"
             android:textColor="@android:color/system_accent1_300"
