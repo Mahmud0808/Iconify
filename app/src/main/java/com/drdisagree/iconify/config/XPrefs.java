@@ -1,5 +1,4 @@
-package com.drdisagree.iconify.config;
-
+package com.drdisagree.iconify.config
 /* Modified from AOSPMods
  * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/XPrefs.java
  *
@@ -16,36 +15,40 @@ package com.drdisagree.iconify.config;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see [http://www.gnu.org/licenses/].
  */
+import android.content.Context
+import android.content.SharedPreferences
+import com.crossbowffs.remotepreferences.RemotePreferences
+import com.drdisagree.iconify.BuildConfig
+import com.drdisagree.iconify.common.Const
+import com.drdisagree.iconify.common.Resources
+import com.drdisagree.iconify.xposed.HookEntry
+import com.drdisagree.iconify.xposed.ModPack
 
-import static com.drdisagree.iconify.common.Resources.SharedXPref;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.crossbowffs.remotepreferences.RemotePreferences;
-import com.drdisagree.iconify.BuildConfig;
-import com.drdisagree.iconify.common.Const;
-import com.drdisagree.iconify.xposed.HookEntry;
-import com.drdisagree.iconify.xposed.ModPack;
-
-public class XPrefs {
-
-    private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences, key) -> loadEverything(key);
-    public static SharedPreferences Xprefs;
-    private static String packageName;
-
-    public static void init(Context context) {
-        packageName = context.getPackageName();
-        Xprefs = new RemotePreferences(context, BuildConfig.APPLICATION_ID, SharedXPref, true);
-        Xprefs.registerOnSharedPreferenceChangeListener(listener);
+object XPrefs {
+    private val listener: SharedPreferences.OnSharedPreferenceChangeListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences: SharedPreferences?, key: String? ->
+            loadEverything(key)
+        }
+    @JvmField
+    var Xprefs: SharedPreferences? = null
+    private var packageName: String? = null
+    fun init(context: Context) {
+        packageName = context.packageName
+        Xprefs = RemotePreferences(context, BuildConfig.APPLICATION_ID, Resources.SharedXPref, true)
+        Xprefs.registerOnSharedPreferenceChangeListener(listener)
     }
 
-    public static void loadEverything(String... key) {
-        if (key.length > 0 && (key[0] == null || Const.PREF_UPDATE_EXCLUSIONS.stream().anyMatch(exclusion -> key[0].startsWith(exclusion))))
-            return;
-
-        for (ModPack thisMod : HookEntry.runningMods) {
-            thisMod.updatePrefs(key);
+    fun loadEverything(vararg key: String?) {
+        if (key.size > 0 && (key[0] == null || Const.PREF_UPDATE_EXCLUSIONS.stream()
+                .anyMatch { exclusion: String? ->
+                    key[0]!!
+                        .startsWith(exclusion!!)
+                })
+        ) return
+        for (thisMod in HookEntry.runningMods) {
+            if (thisMod != null) {
+                thisMod.updatePrefs(*key)
+            }
         }
     }
 }
