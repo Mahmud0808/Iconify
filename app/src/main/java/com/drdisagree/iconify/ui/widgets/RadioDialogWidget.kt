@@ -1,281 +1,266 @@
-package com.drdisagree.iconify.ui.widgets;
+package com.drdisagree.iconify.ui.widgets
 
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.os.Parcel
+import android.os.Parcelable
+import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.View
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.ui.dialogs.RadioDialog
+import com.drdisagree.iconify.utils.SystemUtil
+import java.util.Arrays
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.dialogs.RadioDialog;
-import com.drdisagree.iconify.utils.SystemUtil;
+class RadioDialogWidget : RelativeLayout, RadioDialog.RadioDialogListener {
 
-import java.util.Arrays;
-import java.util.List;
+    private lateinit var container: RelativeLayout
+    private lateinit var titleTextView: TextView
+    private lateinit var summaryTextView: TextView
+    private lateinit var iconImageView: ImageView
+    private lateinit var radioDialog: RadioDialog
+    private var radioDialogId = 0
+    private var selectedIndex = 0
+    private var titleResId = 0
+    private var arrayResId = 0
+    private var showSelectedPrefix = true
+    private var radioDialogListener: RadioDialogListener? = null
 
-public class RadioDialogWidget extends RelativeLayout implements RadioDialog.RadioDialogListener {
-
-    private RelativeLayout container;
-    private TextView titleTextView;
-    private TextView summaryTextView;
-    private ImageView iconImageView;
-    private RadioDialog radioDialog;
-    private int radioDialogId;
-    private int selectedIndex = 0;
-    private int titleResId = 0;
-    private int arrayResId = 0;
-    private boolean showSelectedPrefix = true;
-    private RadioDialogListener radioDialogListener;
-
-    public RadioDialogWidget(Context context) {
-        super(context);
-        init(context, null);
+    constructor(context: Context) : super(context) {
+        init(context, null)
     }
 
-    public RadioDialogWidget(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context, attrs)
     }
 
-    public RadioDialogWidget(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs);
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init(context, attrs)
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        inflate(context, R.layout.view_widget_radiodialog, this);
+    private fun init(context: Context, attrs: AttributeSet?) {
+        inflate(context, R.layout.view_widget_radiodialog, this)
 
-        initializeId();
+        initializeId()
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RadioDialogWidget);
-        showSelectedPrefix = typedArray.getBoolean(R.styleable.RadioDialogWidget_showSelectedPrefix, true);
-        titleResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_titleText, 0);
-        setTitle(titleResId);
-        arrayResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_entries, 0);
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RadioDialogWidget)
+        showSelectedPrefix =
+            typedArray.getBoolean(R.styleable.RadioDialogWidget_showSelectedPrefix, true)
+        titleResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_titleText, 0)
+        setTitle(titleResId)
+        arrayResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_entries, 0)
         if (arrayResId != 0) {
             try {
-                setSelectedText(typedArray.getResources().getStringArray(arrayResId)[0]);
-            } catch (Exception e) {
+                setSelectedText(typedArray.getResources().getStringArray(arrayResId)[0])
+            } catch (e: Exception) {
                 try {
-                    setSelectedText(typedArray.getResources().getIntArray(arrayResId)[0]);
-                } catch (Exception e1) {
-                    setSelectedText((String) typedArray.getResources().getTextArray(arrayResId)[0]);
+                    setSelectedText(typedArray.getResources().getIntArray(arrayResId)[0])
+                } catch (e1: Exception) {
+                    setSelectedText(typedArray.getResources().getTextArray(arrayResId)[0] as String)
                 }
             }
         }
-        int icon = typedArray.getResourceId(R.styleable.RadioDialogWidget_icon, 0);
-        boolean iconSpaceReserved = typedArray.getBoolean(R.styleable.RadioDialogWidget_iconSpaceReserved, false);
-        typedArray.recycle();
+        val icon = typedArray.getResourceId(R.styleable.RadioDialogWidget_icon, 0)
+        var iconSpaceReserved =
+            typedArray.getBoolean(R.styleable.RadioDialogWidget_iconSpaceReserved, false)
+
+        typedArray.recycle()
 
         if (icon != 0) {
-            iconSpaceReserved = true;
-            iconImageView.setImageResource(icon);
+            iconSpaceReserved = true
+            iconImageView.setImageResource(icon)
         }
 
         if (!iconSpaceReserved) {
-            iconImageView.setVisibility(GONE);
+            iconImageView.setVisibility(GONE)
         }
 
-        initRadioDialog();
+        initRadioDialog()
 
-        container.setOnClickListener(v ->
-                radioDialog.show(
-                        titleResId,
-                        arrayResId,
-                        summaryTextView,
-                        showSelectedPrefix
-                )
-        );
-    }
-
-    public void setTitle(int titleResId) {
-        titleTextView.setText(titleResId);
-    }
-
-    public void setTitle(String title) {
-        titleTextView.setText(title);
-    }
-
-    private void setSelectedText(int summaryResId) {
-        setSelectedText(getContext().getString(summaryResId));
-    }
-
-    private void setSelectedText(String summary) {
-        summaryTextView.setText(
-                showSelectedPrefix ?
-                        getContext().getString(
-                                R.string.opt_selected1,
-                                summary
-                        ) :
-                        summary
-        );
-    }
-
-    public void setIcon(int icon) {
-        iconImageView.setImageResource(icon);
-        iconImageView.setVisibility(VISIBLE);
-    }
-
-    public void setIcon(Drawable drawable) {
-        iconImageView.setImageDrawable(drawable);
-        iconImageView.setVisibility(VISIBLE);
-    }
-
-    public void setIconVisibility(int visibility) {
-        iconImageView.setVisibility(visibility);
-    }
-
-    public int getSelectedIndex() {
-        return selectedIndex;
-    }
-
-    public void setSelectedIndex(int selectedIndex) {
-        List<String> list = Arrays.asList(getResources().getStringArray(arrayResId));
-        if (selectedIndex < 0 || selectedIndex >= list.size()) {
-            selectedIndex = 0;
+        container.setOnClickListener {
+            radioDialog.show(
+                titleResId,
+                arrayResId,
+                summaryTextView,
+                showSelectedPrefix
+            )
         }
-        this.selectedIndex = selectedIndex;
-        setSelectedText(list.get(selectedIndex));
-        initRadioDialog();
     }
 
-    private void initRadioDialog() {
-        radioDialog = new RadioDialog(
-                getContext(),
-                radioDialogId,
-                selectedIndex
-        );
-        radioDialog.setRadioDialogListener(this);
+    fun setTitle(titleResId: Int) {
+        titleTextView.setText(titleResId)
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
+    fun setTitle(title: String?) {
+        titleTextView.text = title
+    }
 
+    private fun setSelectedText(summaryResId: Int) {
+        setSelectedText(context.getString(summaryResId))
+    }
+
+    private fun setSelectedText(summary: String) {
+        summaryTextView.text = if (showSelectedPrefix) context.getString(
+            R.string.opt_selected1,
+            summary
+        ) else summary
+    }
+
+    fun setIcon(icon: Int) {
+        iconImageView.setImageResource(icon)
+        iconImageView.setVisibility(VISIBLE)
+    }
+
+    fun setIcon(drawable: Drawable?) {
+        iconImageView.setImageDrawable(drawable)
+        iconImageView.setVisibility(VISIBLE)
+    }
+
+    fun setIconVisibility(visibility: Int) {
+        iconImageView.setVisibility(visibility)
+    }
+
+    fun getSelectedIndex(): Int {
+        return selectedIndex
+    }
+
+    fun setSelectedIndex(selectedIndex: Int) {
+        var idx = selectedIndex
+        val list = listOf(*resources.getStringArray(arrayResId))
+
+        if (idx < 0 || idx >= list.size) {
+            idx = 0
+        }
+
+        this.selectedIndex = idx
+
+        setSelectedText(list[idx])
+        initRadioDialog()
+    }
+
+    private fun initRadioDialog() {
+        radioDialog = RadioDialog(
+            context,
+            radioDialogId,
+            selectedIndex
+        )
+        radioDialog.setRadioDialogListener(this)
+    }
+
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
         if (enabled) {
-            TypedValue typedValue = new TypedValue();
-            TypedArray a = getContext().obtainStyledAttributes(
-                    typedValue.data,
-                    new int[]{com.google.android.material.R.attr.colorPrimary}
-            );
-            int color = a.getColor(0, 0);
-            a.recycle();
+            val typedValue = TypedValue()
+            val a = context.obtainStyledAttributes(
+                typedValue.data, intArrayOf(com.google.android.material.R.attr.colorPrimary)
+            )
+            val color = a.getColor(0, 0)
+            a.recycle()
 
-            iconImageView.setImageTintList(ColorStateList.valueOf(color));
+            iconImageView.setImageTintList(ColorStateList.valueOf(color))
         } else {
             if (SystemUtil.isDarkMode()) {
-                iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY));
+                iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
             } else {
-                iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY));
+                iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY))
             }
         }
 
-        container.setEnabled(enabled);
-        titleTextView.setEnabled(enabled);
-        summaryTextView.setEnabled(enabled);
-        iconImageView.setEnabled(enabled);
+        container.setEnabled(enabled)
+        titleTextView.setEnabled(enabled)
+        summaryTextView.setEnabled(enabled)
+        iconImageView.setEnabled(enabled)
     }
 
-    public void setOnItemSelectedListener(RadioDialogListener listener) {
-        radioDialogListener = listener;
+    fun setOnItemSelectedListener(listener: RadioDialogListener?) {
+        radioDialogListener = listener
     }
 
     // to avoid listener bug, we need to re-generate unique id for each view
-    private void initializeId() {
-        container = findViewById(R.id.container);
-        titleTextView = findViewById(R.id.title);
-        summaryTextView = findViewById(R.id.summary);
-        iconImageView = findViewById(R.id.icon);
+    private fun initializeId() {
+        container = findViewById(R.id.container)
+        titleTextView = findViewById(R.id.title)
+        summaryTextView = findViewById(R.id.summary)
+        iconImageView = findViewById(R.id.icon)
+        container.setId(generateViewId())
+        titleTextView.setId(generateViewId())
+        summaryTextView.setId(generateViewId())
+        iconImageView.setId(generateViewId())
+        radioDialogId = container.id
 
-        container.setId(View.generateViewId());
-        titleTextView.setId(View.generateViewId());
-        summaryTextView.setId(View.generateViewId());
-        iconImageView.setId(View.generateViewId());
-
-        radioDialogId = container.getId();
-
-        RelativeLayout.LayoutParams layoutParams = (LayoutParams) findViewById(R.id.text_container).getLayoutParams();
-        layoutParams.addRule(RelativeLayout.END_OF, iconImageView.getId());
-        findViewById(R.id.text_container).setLayoutParams(layoutParams);
+        val layoutParams = findViewById<View>(R.id.text_container).layoutParams as LayoutParams
+        layoutParams.addRule(END_OF, iconImageView.id)
+        findViewById<View>(R.id.text_container).setLayoutParams(layoutParams)
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        radioDialog.dismiss();
-        super.onDetachedFromWindow();
+    override fun onDetachedFromWindow() {
+        radioDialog.dismiss()
+        super.onDetachedFromWindow()
     }
 
-    @Override
-    public void onItemSelected(int dialogId, int selectedIndex) {
+    override fun onItemSelected(dialogId: Int, selectedIndex: Int) {
         if (dialogId == radioDialogId) {
-            setSelectedIndex(selectedIndex);
-
-            if (radioDialogListener != null) {
-                radioDialogListener.onItemSelected(selectedIndex);
-            }
+            setSelectedIndex(selectedIndex)
+            radioDialogListener?.onItemSelected(selectedIndex)
         }
     }
 
-    public interface RadioDialogListener {
-        void onItemSelected(int index);
+    interface RadioDialogListener {
+        fun onItemSelected(index: Int)
     }
 
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-
-        SavedState ss = new SavedState(superState);
-        ss.selectedIndex = selectedIndex;
-
-        return ss;
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        val ss = SavedState(superState)
+        ss.selectedIndex = selectedIndex
+        return ss
     }
 
-    @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof SavedState ss)) {
-            super.onRestoreInstanceState(state);
-            return;
+    override fun onRestoreInstanceState(state: Parcelable) {
+        if (state !is SavedState) {
+            super.onRestoreInstanceState(state)
+            return
         }
-
-        super.onRestoreInstanceState(ss.getSuperState());
-
-        setSelectedIndex(ss.selectedIndex);
+        super.onRestoreInstanceState(state.superState)
+        setSelectedIndex(state.selectedIndex)
     }
 
-    private static class SavedState extends BaseSavedState {
-        int selectedIndex;
+    private class SavedState : BaseSavedState {
 
-        SavedState(Parcelable superState) {
-            super(superState);
+        var selectedIndex = 0
+
+        constructor(superState: Parcelable?) : super(superState)
+
+        private constructor(`in`: Parcel) : super(`in`) {
+            selectedIndex = `in`.readInt()
         }
 
-        private SavedState(Parcel in) {
-            super(in);
-            selectedIndex = in.readInt();
+        override fun writeToParcel(dest: Parcel, flags: Int) {
+            super.writeToParcel(dest, flags)
+            dest.writeInt(selectedIndex)
         }
 
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            super.writeToParcel(dest, flags);
-            dest.writeInt(selectedIndex);
+        override fun describeContents(): Int {
+            return 0
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<>() {
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
+        companion object CREATOR : Parcelable.Creator<SavedState> {
+            override fun createFromParcel(parcel: Parcel): SavedState {
+                return SavedState(parcel)
             }
 
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
+            override fun newArray(size: Int): Array<SavedState?> {
+                return arrayOfNulls(size)
             }
-        };
+        }
     }
 }

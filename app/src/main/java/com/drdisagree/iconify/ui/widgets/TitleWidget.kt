@@ -1,96 +1,100 @@
-package com.drdisagree.iconify.ui.widgets;
+package com.drdisagree.iconify.ui.widgets
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
+import com.drdisagree.iconify.R
 
-import com.drdisagree.iconify.R;
+class TitleWidget : RelativeLayout {
 
-public class TitleWidget extends RelativeLayout {
+    private lateinit var container: LinearLayout
+    private lateinit var titleTextView: TextView
+    private lateinit var summaryTextView: TextView
 
-    private LinearLayout container;
-    private TextView titleTextView;
-    private TextView summaryTextView;
-
-    public TitleWidget(Context context) {
-        super(context);
-        init(context, null);
+    constructor(context: Context) : super(context) {
+        init(context, null)
     }
 
-    public TitleWidget(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context, attrs)
     }
 
-    public TitleWidget(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs);
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init(context, attrs)
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        inflate(context, R.layout.view_widget_title, this);
+    private fun init(context: Context, attrs: AttributeSet?) {
+        inflate(context, R.layout.view_widget_title, this)
 
-        initializeId();
+        initializeId()
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleWidget);
-        setTitle(typedArray.getString(R.styleable.TitleWidget_titleText));
-        setSummary(typedArray.getString(R.styleable.TitleWidget_summaryText));
-        boolean iconSpaceReserved = typedArray.getBoolean(R.styleable.TitleWidget_iconSpaceReserved, false);
-        typedArray.recycle();
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.TitleWidget)
 
-        float density = context.getResources().getDisplayMetrics().density;
+        setTitle(typedArray.getString(R.styleable.TitleWidget_titleText))
+        setSummary(typedArray.getString(R.styleable.TitleWidget_summaryText))
+        val iconSpaceReserved =
+            typedArray.getBoolean(R.styleable.TitleWidget_iconSpaceReserved, false)
+
+        typedArray.recycle()
+
+        val density = context.resources.displayMetrics.density
 
         if (iconSpaceReserved) {
-            container.setPaddingRelative(
-                    (int) (60 * density),
-                    container.getPaddingTop(),
-                    container.getPaddingEnd(),
-                    container.getPaddingBottom()
-            );
+            container.apply {
+                setPaddingRelative(
+                    (60 * density).toInt(),
+                    paddingTop,
+                    getPaddingEnd(),
+                    paddingBottom
+                )
+            }
         } else {
-            container.setPaddingRelative(
-                    (int) (24 * density),
-                    container.getPaddingTop(),
-                    container.getPaddingEnd(),
-                    container.getPaddingBottom()
-            );
+            container.apply {
+                setPaddingRelative(
+                    (24 * density).toInt(),
+                    paddingTop,
+                    getPaddingEnd(),
+                    paddingBottom
+                )
+            }
         }
     }
 
-    public void setTitle(int titleResId) {
-        titleTextView.setText(titleResId);
+    fun setTitle(titleResId: Int) {
+        titleTextView.setText(titleResId)
     }
 
-    public void setTitle(String title) {
-        titleTextView.setText(title);
+    fun setTitle(title: String?) {
+        titleTextView.text = title
     }
 
-    public void setSummary(int summaryResId) {
-        summaryTextView.setText(summaryResId);
+    fun setSummary(summaryResId: Int) {
+        summaryTextView.setText(summaryResId)
     }
 
-    public void setSummary(String summary) {
-        summaryTextView.setText(summary);
+    fun setSummary(summary: String?) {
+        summaryTextView.text = summary
 
-        if (summary == null || summary.isEmpty()) {
-            summaryTextView.setVisibility(View.GONE);
+        if (summary.isNullOrEmpty()) {
+            summaryTextView.visibility = GONE
         } else {
-            summaryTextView.setVisibility(View.VISIBLE);
+            summaryTextView.visibility = VISIBLE
         }
     }
 
     // to avoid listener bug, we need to re-generate unique id for each view
-    private void initializeId() {
-        container = findViewById(R.id.container);
-        titleTextView = findViewById(R.id.title);
-        summaryTextView = findViewById(R.id.summary);
-
-        container.setId(View.generateViewId());
-        titleTextView.setId(View.generateViewId());
-        summaryTextView.setId(View.generateViewId());
+    private fun initializeId() {
+        container = findViewById(R.id.container)
+        titleTextView = findViewById(R.id.title)
+        summaryTextView = findViewById(R.id.summary)
+        container.setId(generateViewId())
+        titleTextView.setId(generateViewId())
+        summaryTextView.setId(generateViewId())
     }
 }

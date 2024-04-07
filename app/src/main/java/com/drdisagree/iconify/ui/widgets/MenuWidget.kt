@@ -1,166 +1,163 @@
-package com.drdisagree.iconify.ui.widgets;
+package com.drdisagree.iconify.ui.widgets
 
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.util.AttributeSet
+import android.util.TypedValue
+import android.view.View
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.utils.SystemUtil
 
-import androidx.annotation.Nullable;
+class MenuWidget : RelativeLayout {
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.utils.SystemUtil;
+    private lateinit var container: RelativeLayout
+    private lateinit var titleTextView: TextView
+    private lateinit var summaryTextView: TextView
+    private lateinit var iconImageView: ImageView
+    private lateinit var endArrowImageView: ImageView
 
-public class MenuWidget extends RelativeLayout {
-
-    private RelativeLayout container;
-    private TextView titleTextView;
-    private TextView summaryTextView;
-    private ImageView iconImageView;
-    private ImageView endArrowImageView;
-
-    public MenuWidget(Context context) {
-        super(context);
-        init(context, null);
+    constructor(context: Context) : super(context) {
+        init(context, null)
     }
 
-    public MenuWidget(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context, attrs)
     }
 
-    public MenuWidget(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs);
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init(context, attrs)
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        inflate(context, R.layout.view_widget_menu, this);
+    private fun init(context: Context, attrs: AttributeSet?) {
+        inflate(context, R.layout.view_widget_menu, this)
 
-        initializeId();
+        initializeId()
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MenuWidget);
-        setTitle(typedArray.getString(R.styleable.MenuWidget_titleText));
-        setSummary(typedArray.getString(R.styleable.MenuWidget_summaryText));
-        int icon = typedArray.getResourceId(R.styleable.MenuWidget_icon, 0);
-        boolean iconSpaceReserved = typedArray.getBoolean(R.styleable.MenuWidget_iconSpaceReserved, false);
-        boolean showEndArrow = typedArray.getBoolean(R.styleable.MenuWidget_showEndArrow, false);
-        typedArray.recycle();
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.MenuWidget)
+
+        setTitle(typedArray.getString(R.styleable.MenuWidget_titleText))
+        setSummary(typedArray.getString(R.styleable.MenuWidget_summaryText))
+        val icon = typedArray.getResourceId(R.styleable.MenuWidget_icon, 0)
+        var iconSpaceReserved =
+            typedArray.getBoolean(R.styleable.MenuWidget_iconSpaceReserved, false)
+        val showEndArrow = typedArray.getBoolean(R.styleable.MenuWidget_showEndArrow, false)
+
+        typedArray.recycle()
 
         if (icon != 0) {
-            iconSpaceReserved = true;
-            iconImageView.setImageResource(icon);
+            iconSpaceReserved = true
+            iconImageView.setImageResource(icon)
         }
 
         if (!iconSpaceReserved) {
-            iconImageView.setVisibility(GONE);
+            iconImageView.setVisibility(GONE)
         }
 
         if (showEndArrow) {
-            endArrowImageView.setVisibility(VISIBLE);
+            endArrowImageView.setVisibility(VISIBLE)
         }
     }
 
-    public void setTitle(int titleResId) {
-        titleTextView.setText(titleResId);
+    fun setTitle(titleResId: Int) {
+        titleTextView.setText(titleResId)
     }
 
-    public void setTitle(String title) {
-        titleTextView.setText(title);
+    fun setTitle(title: String?) {
+        titleTextView.text = title
     }
 
-    public void setSummary(int summaryResId) {
-        summaryTextView.setText(summaryResId);
+    fun setSummary(summaryResId: Int) {
+        summaryTextView.setText(summaryResId)
     }
 
-    public void setSummary(String summary) {
-        summaryTextView.setText(summary);
+    fun setSummary(summary: String?) {
+        summaryTextView.text = summary
     }
 
-    public void setIcon(int icon) {
-        iconImageView.setImageResource(icon);
-        iconImageView.setVisibility(VISIBLE);
+    fun setIcon(icon: Int) {
+        iconImageView.setImageResource(icon)
+        iconImageView.setVisibility(VISIBLE)
     }
 
-    public void setIcon(Drawable drawable) {
-        iconImageView.setImageDrawable(drawable);
-        iconImageView.setVisibility(VISIBLE);
+    fun setIcon(drawable: Drawable?) {
+        iconImageView.setImageDrawable(drawable)
+        iconImageView.setVisibility(VISIBLE)
     }
 
-    public void setIconVisibility(int visibility) {
-        iconImageView.setVisibility(visibility);
+    fun setIconVisibility(visibility: Int) {
+        iconImageView.setVisibility(visibility)
     }
 
-    public void setEndArrowVisibility(int visibility) {
-        endArrowImageView.setVisibility(visibility);
+    fun setEndArrowVisibility(visibility: Int) {
+        endArrowImageView.setVisibility(visibility)
     }
 
-    @Override
-    public void setOnClickListener(@Nullable OnClickListener l) {
-        container.setOnClickListener(l);
+    override fun setOnClickListener(l: OnClickListener?) {
+        container.setOnClickListener(l)
     }
 
-    @Override
-    public void setOnLongClickListener(@Nullable OnLongClickListener l) {
-        container.setOnLongClickListener(l);
+    override fun setOnLongClickListener(l: OnLongClickListener?) {
+        container.setOnLongClickListener(l)
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
 
         if (enabled) {
-            TypedValue typedValue = new TypedValue();
-            TypedArray a = getContext().obtainStyledAttributes(
-                    typedValue.data,
-                    new int[]{com.google.android.material.R.attr.colorPrimary}
-            );
-            int color = a.getColor(0, 0);
-            a.recycle();
+            val typedValue = TypedValue()
+            val a = context.obtainStyledAttributes(
+                typedValue.data, intArrayOf(com.google.android.material.R.attr.colorPrimary)
+            )
+            val color = a.getColor(0, 0)
+            a.recycle()
 
-            iconImageView.setImageTintList(ColorStateList.valueOf(color));
-            endArrowImageView.setImageTintList(ColorStateList.valueOf(
-                    getContext().getColor(R.color.text_color_primary)
-            ));
+            iconImageView.setImageTintList(ColorStateList.valueOf(color))
+            endArrowImageView.setImageTintList(
+                ColorStateList.valueOf(
+                    context.getColor(R.color.text_color_primary)
+                )
+            )
         } else {
             if (SystemUtil.isDarkMode()) {
-                iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY));
-                endArrowImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY));
+                iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
+                endArrowImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
             } else {
-                iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY));
-                endArrowImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY));
+                iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY))
+                endArrowImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY))
             }
         }
 
-        container.setEnabled(enabled);
-        iconImageView.setEnabled(enabled);
-        titleTextView.setEnabled(enabled);
-        summaryTextView.setEnabled(enabled);
+        container.setEnabled(enabled)
+        iconImageView.setEnabled(enabled)
+        titleTextView.setEnabled(enabled)
+        summaryTextView.setEnabled(enabled)
     }
 
     // to avoid listener bug, we need to re-generate unique id for each view
-    private void initializeId() {
-        container = findViewById(R.id.container);
-        iconImageView = findViewById(R.id.icon);
-        titleTextView = findViewById(R.id.title);
-        summaryTextView = findViewById(R.id.summary);
-        endArrowImageView = findViewById(R.id.end_arrow);
+    private fun initializeId() {
+        container = findViewById(R.id.container)
+        iconImageView = findViewById(R.id.icon)
+        titleTextView = findViewById(R.id.title)
+        summaryTextView = findViewById(R.id.summary)
+        endArrowImageView = findViewById(R.id.end_arrow)
+        container.setId(generateViewId())
+        iconImageView.setId(generateViewId())
+        titleTextView.setId(generateViewId())
+        summaryTextView.setId(generateViewId())
+        endArrowImageView.setId(generateViewId())
 
-        container.setId(View.generateViewId());
-        iconImageView.setId(View.generateViewId());
-        titleTextView.setId(View.generateViewId());
-        summaryTextView.setId(View.generateViewId());
-        endArrowImageView.setId(View.generateViewId());
-
-        LayoutParams layoutParams = (LayoutParams) findViewById(R.id.text_container).getLayoutParams();
-        layoutParams.addRule(RelativeLayout.START_OF, endArrowImageView.getId());
-        layoutParams.addRule(RelativeLayout.END_OF, iconImageView.getId());
-        findViewById(R.id.text_container).setLayoutParams(layoutParams);
+        val layoutParams = findViewById<View>(R.id.text_container).layoutParams as LayoutParams
+        layoutParams.addRule(START_OF, endArrowImageView.id)
+        layoutParams.addRule(END_OF, iconImageView.id)
+        findViewById<View>(R.id.text_container).setLayoutParams(layoutParams)
     }
 }

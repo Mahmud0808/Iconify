@@ -1,190 +1,188 @@
-package com.drdisagree.iconify.ui.widgets;
+package com.drdisagree.iconify.ui.widgets
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.TypedArray;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.content.Context
+import android.content.Intent
+import android.util.AttributeSet
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.utils.FileUtil
+import com.drdisagree.iconify.utils.SystemUtil
+import com.google.android.material.button.MaterialButton
 
-import androidx.activity.result.ActivityResultLauncher;
+class FilePickerWidget : RelativeLayout {
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.utils.FileUtil;
-import com.drdisagree.iconify.utils.SystemUtil;
-import com.google.android.material.button.MaterialButton;
+    private lateinit var container: LinearLayout
+    private lateinit var titleTextView: TextView
+    private lateinit var summaryTextView: TextView
+    private lateinit var buttonPicker: MaterialButton
+    private lateinit var buttonEnable: MaterialButton
+    private lateinit var buttonDisable: MaterialButton
+    private var fileType = "*/*"
+    private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
 
-public class FilePickerWidget extends RelativeLayout {
-
-    private LinearLayout container;
-    private TextView titleTextView;
-    private TextView summaryTextView;
-    private MaterialButton buttonPicker;
-    private MaterialButton buttonEnable;
-    private MaterialButton buttonDisable;
-    private String fileType = "*/*";
-    private ActivityResultLauncher<Intent> activityResultLauncher;
-
-    public FilePickerWidget(Context context) {
-        super(context);
-        init(context, null);
+    constructor(context: Context) : super(context) {
+        init(context, null)
     }
 
-    public FilePickerWidget(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(context, attrs)
     }
 
-    public FilePickerWidget(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs);
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        init(context, attrs)
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        inflate(context, R.layout.view_widget_filepicker, this);
+    private fun init(context: Context, attrs: AttributeSet?) {
+        inflate(context, R.layout.view_widget_filepicker, this)
 
-        initializeId();
+        initializeId()
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FilePickerWidget);
-        setTitle(typedArray.getString(R.styleable.FilePickerWidget_titleText));
-        setSummary(typedArray.getString(R.styleable.FilePickerWidget_summaryText));
-        setButtonText(typedArray.getString(R.styleable.FilePickerWidget_buttonText));
-        String filePickerType = typedArray.getString(R.styleable.FilePickerWidget_filePickerType);
-        typedArray.recycle();
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.FilePickerWidget)
 
-        if (filePickerType == null || filePickerType.isEmpty() || filePickerType.equals("all")) {
-            fileType = "*/*";
-        } else if (filePickerType.equals("image")) {
-            fileType = "image/*";
-        } else if (filePickerType.equals("font")) {
-            fileType = "font/*";
-        } else if (filePickerType.equals("video")) {
-            fileType = "video/*";
-        } else if (filePickerType.equals("audio")) {
-            fileType = "audio/*";
-        } else if (filePickerType.equals("pdf")) {
-            fileType = "application/pdf";
-        } else if (filePickerType.equals("text")) {
-            fileType = "text/*";
-        } else if (filePickerType.equals("zip")) {
-            fileType = "application/zip";
-        } else if (filePickerType.equals("apk")) {
-            fileType = "application/vnd.android.package-archive";
+        setTitle(typedArray.getString(R.styleable.FilePickerWidget_titleText))
+        setSummary(typedArray.getString(R.styleable.FilePickerWidget_summaryText))
+        setButtonText(typedArray.getString(R.styleable.FilePickerWidget_buttonText))
+        val filePickerType = typedArray.getString(R.styleable.FilePickerWidget_filePickerType)
+
+        typedArray.recycle()
+
+        if (filePickerType.isNullOrEmpty() || filePickerType == "all") {
+            fileType = "*/*"
+        } else if (filePickerType == "image") {
+            fileType = "image/*"
+        } else if (filePickerType == "font") {
+            fileType = "font/*"
+        } else if (filePickerType == "video") {
+            fileType = "video/*"
+        } else if (filePickerType == "audio") {
+            fileType = "audio/*"
+        } else if (filePickerType == "pdf") {
+            fileType = "application/pdf"
+        } else if (filePickerType == "text") {
+            fileType = "text/*"
+        } else if (filePickerType == "zip") {
+            fileType = "application/zip"
+        } else if (filePickerType == "apk") {
+            fileType = "application/vnd.android.package-archive"
         }
     }
 
-    public void setTitle(int titleResId) {
-        titleTextView.setText(titleResId);
+    fun setTitle(titleResId: Int) {
+        titleTextView.setText(titleResId)
     }
 
-    public void setTitle(String title) {
-        titleTextView.setText(title);
+    fun setTitle(title: String?) {
+        titleTextView.text = title
     }
 
-    public void setSummary(int summaryResId) {
-        summaryTextView.setText(summaryResId);
+    fun setSummary(summaryResId: Int) {
+        summaryTextView.setText(summaryResId)
     }
 
-    public void setSummary(String summary) {
-        summaryTextView.setText(summary);
+    fun setSummary(summary: String?) {
+        summaryTextView.text = summary
     }
 
-    public void setButtonText(int buttonTextResId) {
-        buttonPicker.setText(buttonTextResId);
+    fun setButtonText(buttonTextResId: Int) {
+        buttonPicker.setText(buttonTextResId)
     }
 
-    public void setButtonText(String buttonText) {
-        buttonPicker.setText(buttonText);
+    fun setButtonText(buttonText: String?) {
+        buttonPicker.text = buttonText
     }
 
-    public void setActivityResultLauncher(ActivityResultLauncher<Intent> launcher) {
-        activityResultLauncher = launcher;
+    fun setActivityResultLauncher(launcher: ActivityResultLauncher<Intent>?) {
+        activityResultLauncher = launcher
 
-        buttonPicker.setOnClickListener(v -> {
+        buttonPicker.setOnClickListener { v: View? ->
             if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(getContext());
+                SystemUtil.requestStoragePermission(context)
             } else {
-                FileUtil.launchFilePicker(activityResultLauncher, fileType);
+                FileUtil.launchFilePicker(activityResultLauncher, fileType)
             }
-        });
+        }
     }
 
-    public void setEnableButtonVisibility(int visibility) {
-        buttonEnable.setVisibility(visibility);
+    fun setEnableButtonVisibility(visibility: Int) {
+        buttonEnable.visibility = visibility
     }
 
-    public void setDisableButtonVisibility(int visibility) {
-        buttonDisable.setVisibility(visibility);
+    fun setDisableButtonVisibility(visibility: Int) {
+        buttonDisable.visibility = visibility
     }
 
-    public void setEnableButtonOnClickListener(OnClickListener listener) {
-        buttonEnable.setOnClickListener(listener);
+    fun setEnableButtonOnClickListener(listener: OnClickListener?) {
+        buttonEnable.setOnClickListener(listener)
     }
 
-    public void setDisableButtonOnClickListener(OnClickListener listener) {
-        buttonDisable.setOnClickListener(listener);
+    fun setDisableButtonOnClickListener(listener: OnClickListener?) {
+        buttonDisable.setOnClickListener(listener)
     }
 
-    public void setFilePickerType(String type) {
-        if (type == null || type.isEmpty() || type.equals("all")) {
-            fileType = "*/*";
-        } else if (type.equals("image")) {
-            fileType = "image/*";
-        } else if (type.equals("font")) {
-            fileType = "font/*";
-        } else if (type.equals("video")) {
-            fileType = "video/*";
-        } else if (type.equals("audio")) {
-            fileType = "audio/*";
-        } else if (type.equals("pdf")) {
-            fileType = "application/pdf";
-        } else if (type.equals("text")) {
-            fileType = "text/*";
-        } else if (type.equals("zip")) {
-            fileType = "application/zip";
-        } else if (type.equals("apk")) {
-            fileType = "application/vnd.android.package-archive";
+    fun setFilePickerType(type: String?) {
+        if (type.isNullOrEmpty() || type == "all") {
+            fileType = "*/*"
+        } else if (type == "image") {
+            fileType = "image/*"
+        } else if (type == "font") {
+            fileType = "font/*"
+        } else if (type == "video") {
+            fileType = "video/*"
+        } else if (type == "audio") {
+            fileType = "audio/*"
+        } else if (type == "pdf") {
+            fileType = "application/pdf"
+        } else if (type == "text") {
+            fileType = "text/*"
+        } else if (type == "zip") {
+            fileType = "application/zip"
+        } else if (type == "apk") {
+            fileType = "application/vnd.android.package-archive"
         }
 
         if (activityResultLauncher != null) {
-            buttonPicker.setOnClickListener(v -> {
+            buttonPicker.setOnClickListener {
                 if (!SystemUtil.hasStoragePermission()) {
-                    SystemUtil.requestStoragePermission(getContext());
+                    SystemUtil.requestStoragePermission(context)
                 } else {
-                    FileUtil.launchFilePicker(activityResultLauncher, fileType);
+                    FileUtil.launchFilePicker(activityResultLauncher, fileType)
                 }
-            });
+            }
         }
     }
 
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
 
-        container.setEnabled(enabled);
-        titleTextView.setEnabled(enabled);
-        summaryTextView.setEnabled(enabled);
-        buttonPicker.setEnabled(enabled);
-        buttonEnable.setEnabled(enabled);
-        buttonDisable.setEnabled(enabled);
+        container.setEnabled(enabled)
+        titleTextView.setEnabled(enabled)
+        summaryTextView.setEnabled(enabled)
+        buttonPicker.setEnabled(enabled)
+        buttonEnable.setEnabled(enabled)
+        buttonDisable.setEnabled(enabled)
     }
 
     // to avoid listener bug, we need to re-generate unique id for each view
-    private void initializeId() {
-        container = findViewById(R.id.container);
-        titleTextView = findViewById(R.id.title);
-        summaryTextView = findViewById(R.id.summary);
-        buttonPicker = findViewById(R.id.btn_widget);
-        buttonEnable = findViewById(R.id.btn_enable);
-        buttonDisable = findViewById(R.id.btn_disable);
-
-        container.setId(View.generateViewId());
-        titleTextView.setId(View.generateViewId());
-        summaryTextView.setId(View.generateViewId());
-        buttonPicker.setId(View.generateViewId());
-        buttonEnable.setId(View.generateViewId());
-        buttonDisable.setId(View.generateViewId());
+    private fun initializeId() {
+        container = findViewById(R.id.container)
+        titleTextView = findViewById(R.id.title)
+        summaryTextView = findViewById(R.id.summary)
+        buttonPicker = findViewById(R.id.btn_widget)
+        buttonEnable = findViewById(R.id.btn_enable)
+        buttonDisable = findViewById(R.id.btn_disable)
+        container.setId(generateViewId())
+        titleTextView.setId(generateViewId())
+        summaryTextView.setId(generateViewId())
+        buttonPicker.setId(generateViewId())
+        buttonEnable.setId(generateViewId())
+        buttonDisable.setId(generateViewId())
     }
 }
