@@ -23,12 +23,12 @@ import java.nio.file.Paths;
 
 public class FileUtil {
 
-    public static final String DATA_DIR = Iconify.Companion.getAppContext().getFilesDir().toString();
+    public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().toString();
 
     public static void copyAssets(String assetFolder) throws IOException {
         cleanDir(assetFolder);
         createDir(assetFolder);
-        copyFileOrDirectory(Iconify.Companion.getAppContext(), assetFolder, DATA_DIR + "/" + assetFolder);
+        copyFileOrDirectory(Iconify.getAppContext(), assetFolder, DATA_DIR + "/" + assetFolder);
     }
 
     public static void cleanDir(String dirName) {
@@ -96,15 +96,15 @@ public class FileUtil {
     private static String getRealPathFromURI(Uri uri) {
         File file;
         try {
-            @SuppressLint("Recycle") Cursor returnCursor = Iconify.Companion.getAppContext().getContentResolver().query(uri, null, null, null, null);
+            @SuppressLint("Recycle") Cursor returnCursor = Iconify.getAppContext().getContentResolver().query(uri, null, null, null, null);
 
             if (returnCursor == null) return null;
 
             int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
             returnCursor.moveToFirst();
             String name = returnCursor.getString(nameIndex);
-            file = new File(Iconify.Companion.getAppContext().getFilesDir(), name);
-            @SuppressLint("Recycle") InputStream inputStream = Iconify.Companion.getAppContext().getContentResolver().openInputStream(uri);
+            file = new File(Iconify.getAppContext().getFilesDir(), name);
+            @SuppressLint("Recycle") InputStream inputStream = Iconify.getAppContext().getContentResolver().openInputStream(uri);
             FileOutputStream outputStream = new FileOutputStream(file);
             int read;
             int maxBufferSize = 1024 * 1024;

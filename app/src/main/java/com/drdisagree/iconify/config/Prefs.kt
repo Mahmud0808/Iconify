@@ -2,19 +2,17 @@ package com.drdisagree.iconify.config
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.drdisagree.iconify.Iconify.Companion.appContext
-import com.drdisagree.iconify.common.Preferences
-import com.drdisagree.iconify.common.Resources
+import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.common.Preferences.STR_NULL
+import com.drdisagree.iconify.common.Resources.SharedPref
 
 @Suppress("unused")
 object Prefs {
 
     @JvmField
-    var prefs: SharedPreferences =
-        appContext.getSharedPreferences(Resources.SharedPref, Context.MODE_PRIVATE)
+    var prefs: SharedPreferences = Iconify.getAppContext().getSharedPreferences(SharedPref, Context.MODE_PRIVATE)
     private var editor: SharedPreferences.Editor = prefs.edit()
 
-    // Save sharedPref config
     @JvmStatic
     fun putBoolean(key: String?, `val`: Boolean) {
         editor.putBoolean(key, `val`).apply()
@@ -35,7 +33,6 @@ object Prefs {
         editor.putString(key, `val`).apply()
     }
 
-    // Load sharedPref config
     @JvmStatic
     fun getBoolean(key: String?): Boolean {
         return prefs.getBoolean(key, false)
@@ -56,6 +53,7 @@ object Prefs {
         return prefs.getInt(key, defValue)
     }
 
+    @JvmStatic
     fun getLong(key: String?): Long {
         return prefs.getLong(key, 0)
     }
@@ -67,7 +65,7 @@ object Prefs {
 
     @JvmStatic
     fun getString(key: String?): String? {
-        return prefs.getString(key, Preferences.STR_NULL)
+        return prefs.getString(key, STR_NULL)
     }
 
     @JvmStatic
@@ -75,7 +73,6 @@ object Prefs {
         return prefs.getString(key, defValue)
     }
 
-    // Clear specific sharedPref config
     @JvmStatic
     fun clearPref(key: String?) {
         editor.remove(key).apply()
@@ -88,10 +85,8 @@ object Prefs {
         }
     }
 
-    // Clear all sharedPref config
     @JvmStatic
     fun clearAllPrefs() {
         editor.clear().apply()
     }
 }
-

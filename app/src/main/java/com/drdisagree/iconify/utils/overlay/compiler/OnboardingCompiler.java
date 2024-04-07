@@ -127,8 +127,8 @@ public class OnboardingCompiler {
 
     public static boolean apkSigner(String source, String name) {
         try {
-            PrivateKey key = readPrivateKey(Objects.requireNonNull(Iconify.Companion.getAppContext()).getAssets().open("Keystore/testkey.pk8"));
-            X509Certificate cert = readCertificate(Iconify.Companion.getAppContext().getAssets().open("Keystore/testkey.x509.pem"));
+            PrivateKey key = readPrivateKey(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.pk8"));
+            X509Certificate cert = readCertificate(Iconify.getAppContext().getAssets().open("Keystore/testkey.x509.pem"));
 
             SignAPK.sign(cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + name);
 

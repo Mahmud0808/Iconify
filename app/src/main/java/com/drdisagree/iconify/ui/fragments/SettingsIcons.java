@@ -146,9 +146,9 @@ public class SettingsIcons extends Fragment {
                             loadingDialog.hide();
 
                             if (hasErroredOut.get())
-                                Toast.makeText(Iconify.Companion.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                             else
-                                Toast.makeText(Iconify.Companion.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                         }, 10);
                     });
                 }).start();
@@ -224,18 +224,18 @@ public class SettingsIcons extends Fragment {
 
     private void itemSelected(View parent, boolean state, int selectedIndex) {
         if (state) {
-            parent.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), R.drawable.container_selected));
-            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(Iconify.Companion.getAppContext(), R.color.colorAccent));
-            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(Iconify.Companion.getAppContext(), R.color.colorAccent));
+            parent.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.container_selected));
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.colorAccent));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.colorAccent));
             parent.findViewById(R.id.icon_selected).setVisibility(
                     Prefs.getBoolean("IconifyComponentSIP1.overlay") &&
                             Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == selectedIndex ?
                             View.VISIBLE : View.INVISIBLE);
             parent.findViewById(R.id.iconpack_desc).setAlpha(0.8f);
         } else {
-            parent.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), R.drawable.item_background_material));
-            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(Iconify.Companion.getAppContext(), R.color.text_color_primary));
-            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(Iconify.Companion.getAppContext(), R.color.text_color_secondary));
+            parent.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.item_background_material));
+            ((TextView) parent.findViewById(R.id.iconpack_title)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.text_color_primary));
+            ((TextView) parent.findViewById(R.id.iconpack_desc)).setTextColor(ContextCompat.getColor(Iconify.getAppContext(), R.color.text_color_secondary));
             parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
             parent.findViewById(R.id.iconpack_desc).setAlpha(1f);
         }

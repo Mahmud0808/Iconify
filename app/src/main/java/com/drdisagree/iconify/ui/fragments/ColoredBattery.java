@@ -66,9 +66,9 @@ public class ColoredBattery extends BaseFragment {
                 }
 
                 if (OverlayUtil.isOverlayEnabled("IconifyComponentIPSUI2.overlay"))
-                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_lorn_colored_battery), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_lorn_colored_battery), Toast.LENGTH_SHORT).show();
                 else if (OverlayUtil.isOverlayEnabled("IconifyComponentIPSUI4.overlay"))
-                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_plumpy_colored_battery), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_plumpy_colored_battery), Toast.LENGTH_SHORT).show();
 
                 Prefs.putBoolean(COLORED_BATTERY_SWITCH, isChecked);
             }, SWITCH_ANIMATION_DELAY);

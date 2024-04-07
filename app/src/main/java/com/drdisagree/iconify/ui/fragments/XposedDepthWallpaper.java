@@ -45,9 +45,9 @@ public class XposedDepthWallpaper extends BaseFragment {
                     if (path != null && moveToIconifyHiddenDir(path, DEPTH_WALL_FG_DIR)) {
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, !binding.depthWallpaper.isSwitchChecked());
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, binding.depthWallpaper.isSwitchChecked());
-                        Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -61,9 +61,9 @@ public class XposedDepthWallpaper extends BaseFragment {
                     if (path != null && moveToIconifyHiddenDir(path, DEPTH_WALL_BG_DIR)) {
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, !binding.depthWallpaper.isSwitchChecked());
                         RPrefs.putBoolean(DEPTH_WALLPAPER_CHANGED, binding.depthWallpaper.isSwitchChecked());
-                        Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_selected_successfully), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

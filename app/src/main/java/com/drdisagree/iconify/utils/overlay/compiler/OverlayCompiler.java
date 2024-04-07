@@ -121,10 +121,10 @@ public class OverlayCompiler {
         String fileName = "null";
         try {
             if (key == null) {
-                key = readPrivateKey(Objects.requireNonNull(Iconify.Companion.getAppContext()).getAssets().open("Keystore/testkey.pk8"));
+                key = readPrivateKey(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.pk8"));
             }
             if (cert == null) {
-                cert = readCertificate(Objects.requireNonNull(Iconify.Companion.getAppContext()).getAssets().open("Keystore/testkey.x509.pem"));
+                cert = readCertificate(Objects.requireNonNull(Iconify.getAppContext()).getAssets().open("Keystore/testkey.x509.pem"));
             }
 
             fileName = CompilerUtil.getOverlayName(source);

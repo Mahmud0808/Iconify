@@ -160,7 +160,7 @@ public class VolumePanel extends BaseFragment {
 
         binding.volumeStyle.volumeStyleCreateModule.setOnClickListener(v -> {
             if ((RootUtil.isKSUInstalled() || RootUtil.isApatchInstalled()) && !RootUtil.isMagiskInstalled()) {
-                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_only_magisk_supported), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_only_magisk_supported), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -168,7 +168,7 @@ public class VolumePanel extends BaseFragment {
                 SystemUtil.requestStoragePermission(requireContext());
             } else {
                 if (realCheckedId == -1) {
-                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
                 } else {
                     installVolumeModule(realCheckedId);
                 }
@@ -205,9 +205,9 @@ public class VolumePanel extends BaseFragment {
                 loadingDialog.hide();
 
                 if (hasErroredOut.get()) {
-                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_module_created), Toast.LENGTH_SHORT).show();
                 }
             }, 2000);
         }).start();
@@ -230,31 +230,31 @@ public class VolumePanel extends BaseFragment {
 
     @SuppressWarnings("SameParameterValue")
     private void setVolumeDrawable(int ringerDrawable, int progressDrawable, boolean ringerInverse, boolean progressInverse) {
-        binding.volumeThinBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), ringerDrawable));
-        binding.volumeThinBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), progressDrawable));
-        binding.volumeThickBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), ringerDrawable));
-        binding.volumeThickBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), progressDrawable));
-        binding.volumeNoBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), ringerDrawable));
-        binding.volumeNoBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), progressDrawable));
+        binding.volumeThinBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
+        binding.volumeThinBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
+        binding.volumeThickBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
+        binding.volumeThickBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
+        binding.volumeNoBg.volumeRingerBg.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), ringerDrawable));
+        binding.volumeNoBg.volumeProgressDrawable.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), progressDrawable));
 
         if (ringerInverse) {
-            binding.volumeThinBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimary));
-            binding.volumeThickBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimary));
-            binding.volumeNoBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimary));
+            binding.volumeThinBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            binding.volumeThickBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            binding.volumeNoBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
         } else {
-            binding.volumeThinBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimaryInverse));
-            binding.volumeThickBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimaryInverse));
-            binding.volumeNoBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimaryInverse));
+            binding.volumeThinBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            binding.volumeThickBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            binding.volumeNoBg.volumeRingerIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
         }
 
         if (progressInverse) {
-            binding.volumeThinBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimary));
-            binding.volumeThickBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimary));
-            binding.volumeNoBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimary));
+            binding.volumeThinBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            binding.volumeThickBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
+            binding.volumeNoBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimary));
         } else {
-            binding.volumeThinBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimaryInverse));
-            binding.volumeThickBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimaryInverse));
-            binding.volumeNoBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.Companion.getAppContext(), R.color.textColorPrimaryInverse));
+            binding.volumeThinBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            binding.volumeThickBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
+            binding.volumeNoBg.volumeProgressIcon.setBackgroundTintList(ContextCompat.getColorStateList(Iconify.getAppContext(), R.color.textColorPrimaryInverse));
         }
     }
 

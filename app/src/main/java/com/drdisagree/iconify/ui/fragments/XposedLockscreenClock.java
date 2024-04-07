@@ -67,7 +67,7 @@ public class XposedLockscreenClock extends BaseFragment {
                     if (path != null && moveToIconifyHiddenDir(path, LSCLOCK_FONT_DIR)) {
                         binding.lockscreenClockFont.setEnableButtonVisibility(View.VISIBLE);
                     } else {
-                        Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

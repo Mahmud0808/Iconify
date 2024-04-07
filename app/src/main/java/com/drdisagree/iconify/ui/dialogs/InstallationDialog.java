@@ -52,10 +52,10 @@ public class InstallationDialog extends BaseActivity {
         arrow.setOnClickListener(v -> {
             if (dialog.findViewById(R.id.logs_layout).getVisibility() == View.GONE) {
                 dialog.findViewById(R.id.logs_layout).setVisibility(View.VISIBLE);
-                arrow.setIcon(ResourcesCompat.getDrawable(Iconify.Companion.getAppContext().getResources(), R.drawable.ic_collapse_arrow, null));
+                arrow.setIcon(ResourcesCompat.getDrawable(Iconify.getAppContext().getResources(), R.drawable.ic_collapse_arrow, null));
             } else {
                 dialog.findViewById(R.id.logs_layout).setVisibility(View.GONE);
-                arrow.setIcon(ResourcesCompat.getDrawable(Iconify.Companion.getAppContext().getResources(), R.drawable.ic_expand_arrow, null));
+                arrow.setIcon(ResourcesCompat.getDrawable(Iconify.getAppContext().getResources(), R.drawable.ic_expand_arrow, null));
             }
         });
 

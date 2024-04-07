@@ -68,7 +68,7 @@ public class XposedHeaderClock extends BaseFragment {
                     if (path != null && moveToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
                         binding.headerClockFont.setEnableButtonVisibility(View.VISIBLE);
                     } else {
-                        Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

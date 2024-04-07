@@ -8,7 +8,7 @@ import com.drdisagree.iconify.services.UpdateScheduler
 
 class BootReceiver : BroadcastReceiver() {
 
-    private val tag = javaClass.simpleName
+    private val tag =this::class.java.simpleName
 
     override fun onReceive(context: Context, intent: Intent) {
         if (Intent.ACTION_BOOT_COMPLETED == intent.action) {

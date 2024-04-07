@@ -44,7 +44,7 @@ public class XposedHeaderImage extends BaseFragment {
                     if (path != null && moveToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
                         binding.headerImage.setEnableButtonVisibility(View.VISIBLE);
                     } else {
-                        Toast.makeText(Iconify.Companion.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_rename_file), Toast.LENGTH_SHORT).show();
                     }
                 }
             });

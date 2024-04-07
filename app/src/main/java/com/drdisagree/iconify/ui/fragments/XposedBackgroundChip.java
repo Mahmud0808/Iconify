@@ -136,7 +136,7 @@ public class XposedBackgroundChip extends BaseFragment {
             View list = LayoutInflater.from(requireContext()).inflate(R.layout.view_status_bar_chip, binding.statusBarChipContainer, false);
 
             LinearLayout clock_container = list.findViewById(R.id.clock_container);
-            clock_container.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), (int) pack.get(i)[0]));
+            clock_container.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));
@@ -157,9 +157,9 @@ public class XposedBackgroundChip extends BaseFragment {
             LinearLayout child = binding.statusBarChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorAccent, Iconify.Companion.getAppContext().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.colorAccent, Iconify.getAppContext().getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary, Iconify.Companion.getAppContext().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
             }
         }
     }
@@ -170,7 +170,7 @@ public class XposedBackgroundChip extends BaseFragment {
             View list = LayoutInflater.from(requireContext()).inflate(R.layout.view_status_icons_chip, binding.statusIconsChipContainer, false);
 
             LinearLayout icon_container = list.findViewById(R.id.clock_container);
-            icon_container.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), (int) pack.get(i)[0]));
+            icon_container.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
             style_name.setText(getResources().getString((int) pack.get(i)[1]));
@@ -194,9 +194,9 @@ public class XposedBackgroundChip extends BaseFragment {
             LinearLayout child = binding.statusIconsChipContainer.getChildAt(i).findViewById(R.id.list_item_chip);
             TextView title = child.findViewById(R.id.style_name);
             if (i == RPrefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)) {
-                title.setTextColor(getResources().getColor(R.color.colorAccent, Iconify.Companion.getAppContext().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.colorAccent, Iconify.getAppContext().getTheme()));
             } else {
-                title.setTextColor(getResources().getColor(R.color.textColorSecondary, Iconify.Companion.getAppContext().getTheme()));
+                title.setTextColor(getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
             }
         }
     }

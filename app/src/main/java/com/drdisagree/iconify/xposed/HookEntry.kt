@@ -21,6 +21,8 @@ class HookEntry : IXposedHookLoadPackage {
 
     companion object {
         var isChildProcess = false
+
+        @JvmField
         val runningMods = ArrayList<ModPack>()
     }
 

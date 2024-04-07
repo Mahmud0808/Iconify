@@ -30,7 +30,7 @@ import java.net.URL
 
 class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
-    private val tag = javaClass.simpleName
+    private val tag =this::class.java.simpleName
 
     override suspend fun doWork(): Result {
         val isGoodNetwork = isGoodNetworkAvailable()

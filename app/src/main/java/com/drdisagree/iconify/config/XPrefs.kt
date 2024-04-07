@@ -2,39 +2,41 @@ package com.drdisagree.iconify.config
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import com.crossbowffs.remotepreferences.RemotePreferences
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Const.PREF_UPDATE_EXCLUSIONS
-import com.drdisagree.iconify.common.Resources
+import com.drdisagree.iconify.common.Resources.SharedXPref
 import com.drdisagree.iconify.xposed.HookEntry
 
 object XPrefs {
 
+    @JvmField
     var Xprefs: SharedPreferences? = null
-    private lateinit var packageName: String
-    private val listener: SharedPreferences.OnSharedPreferenceChangeListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
-            loadEverything(key)
+    private var packageName: String? = null
+    private val listener =
+        OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
+            loadEverything(
+                key
+            )
         }
 
+    @JvmStatic
     fun init(context: Context) {
         packageName = context.packageName
-        Xprefs = RemotePreferences(context, BuildConfig.APPLICATION_ID, Resources.SharedXPref, true)
+        Xprefs = RemotePreferences(context, BuildConfig.APPLICATION_ID, SharedXPref, true)
         (Xprefs as RemotePreferences).registerOnSharedPreferenceChangeListener(listener)
     }
 
     private fun loadEverything(vararg key: String?) {
-        val filteredKeys = key.filterNotNull()
+        if (key.isEmpty() || key[0].isNullOrEmpty() || PREF_UPDATE_EXCLUSIONS.any { exclusion ->
+                key[0]?.equals(exclusion) == true
+            }) {
+            return
+        }
 
-        if (filteredKeys.isEmpty() || PREF_UPDATE_EXCLUSIONS.any { exclusion ->
-                filteredKeys.any { key ->
-                    key == exclusion
-                }
-            }
-        ) return
-
-        for (thisMod in HookEntry.runningMods) {
-            thisMod.updatePrefs(*filteredKeys.toTypedArray())
+        HookEntry.runningMods.forEach { thisMod ->
+            thisMod.updatePrefs(*key.filterNotNull().toTypedArray())
         }
     }
 }

@@ -88,16 +88,16 @@ public class XposedMenu extends BaseFragment {
 
                                         Executors.newSingleThreadExecutor().execute(() -> {
                                             try {
-                                                boolean success = ImportExport.importSettings(RPrefs.prefs, Objects.requireNonNull(Iconify.Companion.getAppContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), false);
+                                                boolean success = ImportExport.importSettings(RPrefs.prefs, Objects.requireNonNull(Iconify.getAppContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), false);
                                                 if (success) {
-                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show());
+                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show());
                                                     SystemUtil.restartSystemUI();
                                                 } else {
-                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show());
+                                                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show());
                                                 }
                                             } catch (Exception exception) {
                                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                     Log.e("Settings", "Error exporting settings", exception);
                                                 });
                                             }
@@ -183,16 +183,16 @@ public class XposedMenu extends BaseFragment {
         // Xposed menu list items
         ArrayList<Object[]> xposed_menu = new ArrayList<>();
 
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedTransparencyBlur, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_transparency_blur), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_transparency_blur), R.drawable.ic_xposed_transparency_blur});
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedQuickSettings, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_quick_settings), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_quick_settings), R.drawable.ic_xposed_quick_settings});
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedThemes, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_themes), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_themes), R.drawable.ic_xposed_themes});
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedBatteryStyle, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_battery_style), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_battery_style), R.drawable.ic_colored_battery});
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedHeaderImage, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_header_image), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_header_image), R.drawable.ic_xposed_header_image});
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedHeaderClock, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_header_clock), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_header_clock), R.drawable.ic_xposed_header_clock});
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedLockscreenClock, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_lockscreen_clock), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_lockscreen_clock), R.drawable.ic_xposed_lockscreen});
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedDepthWallpaper, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_depth_wallpaper), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_depth_wallpaper), R.drawable.ic_xposed_depth_wallpaper});
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedBackgroundChip, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_background_chip), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_background_chip), R.drawable.ic_xposed_background_chip});
-        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedOthers, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_xposed_others), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_xposed_others), R.drawable.ic_xposed_misc});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedTransparencyBlur, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_transparency_blur), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_transparency_blur), R.drawable.ic_xposed_transparency_blur});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedQuickSettings, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_quick_settings), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_quick_settings), R.drawable.ic_xposed_quick_settings});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedThemes, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_themes), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_themes), R.drawable.ic_xposed_themes});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedBatteryStyle, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_battery_style), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_battery_style), R.drawable.ic_colored_battery});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedHeaderImage, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_header_image), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_header_image), R.drawable.ic_xposed_header_image});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedHeaderClock, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_header_clock), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_header_clock), R.drawable.ic_xposed_header_clock});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedLockscreenClock, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_lockscreen_clock), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_lockscreen_clock), R.drawable.ic_xposed_lockscreen});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedDepthWallpaper, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_depth_wallpaper), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_depth_wallpaper), R.drawable.ic_xposed_depth_wallpaper});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedBackgroundChip, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_background_chip), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_background_chip), R.drawable.ic_xposed_background_chip});
+        xposed_menu.add(new Object[]{R.id.action_xposedMenu2_to_xposedOthers, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_xposed_others), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_xposed_others), R.drawable.ic_xposed_misc});
 
         addItem(xposed_menu);
 
@@ -206,7 +206,7 @@ public class XposedMenu extends BaseFragment {
         if (Prefs.getBoolean(SHOW_XPOSED_WARN, true)) {
             new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(requireContext().getResources().getString(R.string.attention))
-                    .setMessage((Preferences.isXposedOnlyMode ? Iconify.Companion.getAppContextLocale().getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + Iconify.Companion.getAppContextLocale().getResources().getString(R.string.lsposed_warn))
+                    .setMessage((Preferences.isXposedOnlyMode ? Iconify.getAppContextLocale().getResources().getString(R.string.xposed_only_desc) + "\n\n" : "") + Iconify.getAppContextLocale().getResources().getString(R.string.lsposed_warn))
                     .setPositiveButton(requireContext().getResources().getString(R.string.understood), (dialog, which) -> dialog.dismiss())
                     .setNegativeButton(requireContext().getResources().getString(R.string.dont_show_again), (dialog, which) -> {
                         dialog.dismiss();

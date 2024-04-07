@@ -115,12 +115,12 @@ public class OverlayUtil {
     @SuppressWarnings("unused")
     public static boolean matchOverlayAgainstAssets() {
         try {
-            String[] packages = Iconify.Companion.getAppContext().getAssets().list("Overlays");
+            String[] packages = Iconify.getAppContext().getAssets().list("Overlays");
             int numberOfOverlaysInAssets = 0;
 
             assert packages != null;
             for (String overlay : packages) {
-                numberOfOverlaysInAssets += Objects.requireNonNull(Iconify.Companion.getAppContext().getAssets().list("Overlays/" + overlay)).length;
+                numberOfOverlaysInAssets += Objects.requireNonNull(Iconify.getAppContext().getAssets().list("Overlays/" + overlay)).length;
             }
 
             int numberOfOverlaysInstalled = Integer.parseInt(Shell.cmd("find /" + Resources.OVERLAY_DIR + "/ -maxdepth 1 -type f -print| wc -l").exec().getOut().get(0));

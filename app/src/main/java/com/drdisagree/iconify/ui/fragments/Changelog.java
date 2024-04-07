@@ -105,7 +105,7 @@ public class Changelog extends BaseFragment {
 
         @Override
         protected void onPreExecute() {
-            loadingDialog.show(Iconify.Companion.getAppContextLocale().getResources().getString(R.string.loading_dialog_wait), true);
+            loadingDialog.show(Iconify.getAppContextLocale().getResources().getString(R.string.loading_dialog_wait), true);
         }
 
         @Override

@@ -160,7 +160,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         holder.btn_disable.setVisibility(View.VISIBLE);
                         refreshName(holder);
 
-                        Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 1000);
                 });
             };
@@ -192,7 +192,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                         holder.btn_enable.setVisibility(View.VISIBLE);
                         refreshName(holder);
 
-                        Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 1000);
                 });
             };

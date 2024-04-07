@@ -79,17 +79,17 @@ public class ToastFrame extends BaseFragment {
             View list = LayoutInflater.from(requireContext()).inflate(R.layout.view_toast_frame, binding.toastFrameContainer, false);
 
             LinearLayout toast_container = list.findViewById(R.id.toast_container);
-            toast_container.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), (int) pack.get(i)[0]));
+            toast_container.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), (int) pack.get(i)[0]));
 
             TextView style_name = list.findViewById(R.id.style_name);
-            style_name.setText(Iconify.Companion.getAppContextLocale().getResources().getString((int) pack.get(i)[1]));
+            style_name.setText(Iconify.getAppContextLocale().getResources().getString((int) pack.get(i)[1]));
 
             int finalI = i;
             list.setOnClickListener(v -> {
                 if (finalI == 0) {
                     Prefs.putInt(SELECTED_TOAST_FRAME, -1);
                     OverlayUtil.disableOverlay("IconifyComponentTSTFRM.overlay");
-                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -97,7 +97,7 @@ public class ToastFrame extends BaseFragment {
                     SystemUtil.requestStoragePermission(requireContext());
                 } else {
                     // Show loading dialog
-                    loadingDialog.show(Iconify.Companion.getAppContextLocale().getResources().getString(R.string.loading_dialog_wait));
+                    loadingDialog.show(Iconify.getAppContextLocale().getResources().getString(R.string.loading_dialog_wait));
 
                     new Thread(() -> {
                         AtomicBoolean hasErroredOut = new AtomicBoolean(false);
@@ -119,9 +119,9 @@ public class ToastFrame extends BaseFragment {
                             loadingDialog.hide();
 
                             if (!hasErroredOut.get()) {
-                                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                             }
                         }, 3000);
                     }).start();
@@ -141,16 +141,16 @@ public class ToastFrame extends BaseFragment {
             TextView title = child.findViewById(R.id.style_name);
             if (i == Prefs.getInt(SELECTED_TOAST_FRAME, -1)) {
                 selected = true;
-                title.setTextColor(Iconify.Companion.getAppContextLocale().getResources().getColor(R.color.colorAccent, Iconify.Companion.getAppContext().getTheme()));
+                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.colorAccent, Iconify.getAppContext().getTheme()));
             } else {
-                title.setTextColor(Iconify.Companion.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, Iconify.Companion.getAppContext().getTheme()));
+                title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme()));
             }
         }
 
         if (!selected) {
             LinearLayout child = binding.toastFrameContainer.getChildAt(0).findViewById(R.id.list_item_toast);
             TextView title = child.findViewById(R.id.style_name);
-            title.setTextColor(Iconify.Companion.getAppContextLocale().getResources().getColor(R.color.colorAccent, Iconify.Companion.getAppContext().getTheme()));
+            title.setTextColor(Iconify.getAppContextLocale().getResources().getColor(R.color.colorAccent, Iconify.getAppContext().getTheme()));
         }
     }
 
