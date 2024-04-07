@@ -17,9 +17,9 @@ public class Resources {
     public static final String LOG_DIR = DOCUMENTS_DIR + "/Iconify";
     public static final String MODULE_DIR = "/data/adb/modules/Iconify";
     public static final String SYSTEM_OVERLAY_DIR = "/system/product/overlay";
-    public static final String DATA_DIR = Iconify.getAppContext().getFilesDir().getAbsolutePath();
+    public static final String DATA_DIR = Iconify.Companion.getAppContext().getFilesDir().getAbsolutePath();
     public static final String OVERLAY_DIR = MODULE_DIR + "/system/product/overlay";
-    public static final String BIN_DIR = Iconify.getAppContext().getDataDir() + "/bin";
+    public static final String BIN_DIR = Iconify.Companion.getAppContext().getDataDir() + "/bin";
     public static final String BACKUP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify_backup";
     public static final String TEMP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/.iconify";
     public static final String TEMP_MODULE_DIR = TEMP_DIR + "/Iconify";

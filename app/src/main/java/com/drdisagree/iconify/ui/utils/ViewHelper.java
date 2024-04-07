@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.utils;
 
-import static com.drdisagree.iconify.Iconify.getAppContext;
 import static com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY;
 import static com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE;
 
@@ -23,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.xposed.modules.batterystyles.BatteryDrawable;
 import com.drdisagree.iconify.xposed.modules.batterystyles.CircleBattery;
@@ -99,11 +99,11 @@ public class ViewHelper {
     }
 
     public static int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getAppContext().getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Iconify.Companion.getAppContext().getResources().getDisplayMetrics());
     }
 
     public static Drawable[] getBatteryDrawables(Context context) {
-        int batteryColor = getAppContext().getColor(R.color.textColorPrimary);
+        int batteryColor = Iconify.Companion.getAppContext().getColor(R.color.textColorPrimary);
 
         Drawable[] batteryDrawables = new Drawable[] {
                 new DefaultBattery(context, batteryColor),
@@ -202,7 +202,7 @@ public class ViewHelper {
                 ResourcesCompat.getDrawable(res, R.drawable.ic_charging_xiaomi, theme) // Xiaomi
         };
 
-        int iconColor = getAppContext().getColor(R.color.textColorPrimary);
+        int iconColor = Iconify.Companion.getAppContext().getColor(R.color.textColorPrimary);
         for (Drawable chargingIcon : chargingIcons) {
             if (chargingIcon == null) continue;
             chargingIcon.setTint(iconColor);

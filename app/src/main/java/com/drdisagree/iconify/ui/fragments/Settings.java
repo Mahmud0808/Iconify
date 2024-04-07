@@ -77,11 +77,11 @@ public class Settings extends BaseFragment {
 
                     Executors.newSingleThreadExecutor().execute(() -> {
                         try {
-                            ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(Iconify.getAppContext().getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
-                            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show());
+                            ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(Iconify.Companion.getAppContext().getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
+                            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show());
                         } catch (Exception exception) {
                             new Handler(Looper.getMainLooper()).post(() -> {
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 Log.e("Settings", "Error exporting settings", exception);
                             });
                         }
@@ -110,20 +110,20 @@ public class Settings extends BaseFragment {
 
                                         Executors.newSingleThreadExecutor().execute(() -> {
                                             try {
-                                                boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(Iconify.getAppContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
+                                                boolean success = ImportExport.importSettings(Prefs.prefs, Objects.requireNonNull(Iconify.Companion.getAppContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))), true);
 
                                                 new Handler(Looper.getMainLooper()).post(() -> {
                                                     loadingDialog.hide();
 
                                                     if (success) {
-                                                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
                                                     } else {
-                                                        Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
                                             } catch (Exception exception) {
                                                 new Handler(Looper.getMainLooper()).post(() -> {
-                                                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                     Log.e("Settings", "Error importing settings", exception);
                                                 });
                                             }
@@ -188,7 +188,7 @@ public class Settings extends BaseFragment {
         binding.settingsGeneral.appIcon.setSelectedIndex(Prefs.getInt(APP_ICON, 0));
         binding.settingsGeneral.appIcon.setOnItemSelectedListener(index -> {
             Prefs.putInt(APP_ICON, index);
-            String[] splashActivities = Iconify.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
+            String[] splashActivities = Iconify.Companion.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
             changeIcon(splashActivities[index]);
         });
 
@@ -239,8 +239,8 @@ public class Settings extends BaseFragment {
 
         // Clear App Cache
         binding.settingsMisc.clearCache.setOnClickListener(v -> {
-            CacheUtil.clearCache(Iconify.getAppContext());
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
+            CacheUtil.clearCache(Iconify.Companion.getAppContext());
+            Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_clear_cache), Toast.LENGTH_SHORT).show();
         });
 
         // Experimental features
@@ -339,7 +339,7 @@ public class Settings extends BaseFragment {
 
     private void changeIcon(String splash) {
         PackageManager manager = requireActivity().getPackageManager();
-        String[] splashActivities = Iconify.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
+        String[] splashActivities = Iconify.Companion.getAppContextLocale().getResources().getStringArray(R.array.app_icon_identifier);
 
         for (String splashActivity : splashActivities) {
             manager.setComponentEnabledSetting(new ComponentName(requireActivity(), "com.drdisagree.iconify." + splashActivity), Objects.equals(splash, splashActivity) ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);

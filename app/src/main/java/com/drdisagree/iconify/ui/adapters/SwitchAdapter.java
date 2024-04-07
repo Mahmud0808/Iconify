@@ -147,11 +147,11 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
                                     // Change button visibility
                                     refreshSwitches(holder);
 
-                                    Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                                 } else {
                                     Prefs.putInt(SELECTED_SWITCH, -1);
                                     holder.aSwitch.setChecked(false);
-                                    Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 }
                             }, 1000);
                         });
@@ -175,7 +175,7 @@ public class SwitchAdapter extends RecyclerView.Adapter<SwitchAdapter.ViewHolder
                             // Change button visibility
                             refreshSwitches(holder);
 
-                            Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                         }, 1000);
                     });
                 };

@@ -81,9 +81,9 @@ public class AppUpdates extends BaseFragment {
 
     @SuppressLint("SetTextI18n")
     private void failedToCheck() {
-        binding.updateTitle.setText(Iconify.getAppContextLocale().getResources().getString(R.string.update_checking_failed));
-        binding.currentVersion.setText(Iconify.getAppContextLocale().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
-        binding.latestVersion.setText(Iconify.getAppContextLocale().getResources().getString(R.string.latest_version) + " " + Iconify.getAppContextLocale().getResources().getString(R.string.not_available));
+        binding.updateTitle.setText(Iconify.Companion.getAppContextLocale().getResources().getString(R.string.update_checking_failed));
+        binding.currentVersion.setText(Iconify.Companion.getAppContextLocale().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
+        binding.latestVersion.setText(Iconify.Companion.getAppContextLocale().getResources().getString(R.string.latest_version) + " " + Iconify.Companion.getAppContextLocale().getResources().getString(R.string.not_available));
     }
 
     @Override
@@ -172,7 +172,7 @@ public class AppUpdates extends BaseFragment {
                                 i.setData(Uri.parse(apkUrl));
                                 startActivity(i);
                             } catch (JSONException e) {
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.Companion.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
                         });

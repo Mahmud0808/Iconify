@@ -77,7 +77,7 @@ public class MediaIcons extends BaseFragment {
                     for (int i = 0; i < mpip_list.size(); i++) {
                         if ((Boolean) mpip_list.get(i)[1]) {
                             if (i == 0) {
-                                addItem(getResources().getString(R.string.a13_default_media_player), (String) mpip_list.get(i)[0], ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.ic_android), (int) mpip_list.get(i)[2]);
+                                addItem(getResources().getString(R.string.a13_default_media_player), (String) mpip_list.get(i)[0], ContextCompat.getDrawable(Iconify.Companion.getAppContext(), R.drawable.ic_android), (int) mpip_list.get(i)[2]);
                             } else {
                                 addItem(AppUtil.getAppName((String) mpip_list.get(i)[0]), (String) mpip_list.get(i)[0], AppUtil.getAppIcon((String) mpip_list.get(i)[0]), (int) mpip_list.get(i)[2]);
                             }

@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.ui.adapters;
 
-import static com.drdisagree.iconify.Iconify.getAppContext;
-
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -13,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.drdisagree.iconify.Iconify;
 import com.drdisagree.iconify.R;
 import com.drdisagree.iconify.databinding.ViewListIconItemBinding;
 
@@ -71,7 +70,7 @@ public class IconsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         if (TextUtils.equals(mEntryValues[position].toString(), mValue)) {
-            ((IconsViewHolder) holder).binding.rootLayout.setStrokeColor(getAppContext().getColor(R.color.colorAccent));
+            ((IconsViewHolder) holder).binding.rootLayout.setStrokeColor(Iconify.Companion.getAppContext().getColor(R.color.colorAccent));
         } else {
             ((IconsViewHolder) holder).binding.rootLayout.setStrokeColor(Color.TRANSPARENT);
         }

@@ -19,7 +19,7 @@ import com.topjohnwu.superuser.Shell;
 public class AppUtil {
 
     public static boolean isAppInstalled(String packageName) {
-        PackageManager pm = Iconify.getAppContext().getPackageManager();
+        PackageManager pm = Iconify.Companion.getAppContext().getPackageManager();
         try {
             pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
             return pm.getApplicationInfo(packageName, 0).enabled;
@@ -33,7 +33,7 @@ public class AppUtil {
     }
 
     public static int getAppUid(String packageName) {
-        PackageManager pm = Iconify.getAppContext().getPackageManager();
+        PackageManager pm = Iconify.Companion.getAppContext().getPackageManager();
         try {
             pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
             return pm.getApplicationInfo(packageName, 0).uid;
@@ -44,16 +44,16 @@ public class AppUtil {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public static Drawable getAppIcon(String packageName) {
-        Drawable appIcon = ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.ic_android);
+        Drawable appIcon = ContextCompat.getDrawable(Iconify.Companion.getAppContext(), R.drawable.ic_android);
         try {
-            appIcon = Iconify.getAppContext().getPackageManager().getApplicationIcon(packageName);
+            appIcon = Iconify.Companion.getAppContext().getPackageManager().getApplicationIcon(packageName);
         } catch (PackageManager.NameNotFoundException ignored) {
         }
         return appIcon;
     }
 
     public static String getAppName(String packageName) {
-        final PackageManager pm = Iconify.getAppContext().getApplicationContext().getPackageManager();
+        final PackageManager pm = Iconify.Companion.getAppContext().getApplicationContext().getPackageManager();
         ApplicationInfo ai = null;
         try {
             ai = pm.getApplicationInfo(packageName, 0);
@@ -63,19 +63,19 @@ public class AppUtil {
     }
 
     public static void launchApp(Activity activity, String packageName) {
-        Intent launchIntent = Iconify.getAppContext().getPackageManager().getLaunchIntentForPackage(packageName);
+        Intent launchIntent = Iconify.Companion.getAppContext().getPackageManager().getLaunchIntentForPackage(packageName);
         if (launchIntent != null) {
             activity.startActivity(launchIntent);
         } else {
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.app_not_found), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContext().getResources().getString(R.string.app_not_found), Toast.LENGTH_SHORT).show();
         }
     }
 
     public static String[] getSplitLocations(String packageName) {
         try {
-            String[] splitLocations = Iconify.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).splitSourceDirs;
+            String[] splitLocations = Iconify.Companion.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).splitSourceDirs;
             if (splitLocations == null) {
-                splitLocations = new String[]{Iconify.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).sourceDir};
+                splitLocations = new String[]{Iconify.Companion.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).sourceDir};
             }
             return splitLocations;
         } catch (PackageManager.NameNotFoundException ignored) {

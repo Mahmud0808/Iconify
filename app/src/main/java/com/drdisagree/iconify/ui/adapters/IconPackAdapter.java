@@ -128,7 +128,7 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
                         holder.btn_disable.setVisibility(View.VISIBLE);
                         refreshBackground(holder);
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 3000);
                 });
             };
@@ -154,7 +154,7 @@ public class IconPackAdapter extends RecyclerView.Adapter<IconPackAdapter.ViewHo
                         holder.btn_enable.setVisibility(View.VISIBLE);
                         refreshBackground(holder);
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 3000);
                 });
             };

@@ -21,7 +21,7 @@ public class Dynamic {
     public static final int TOTAL_QSSHAPESPIXEL = Shell.cmd("cmd overlay list | grep '....IconifyComponentQSSP'").exec().getOut().size();
 
     // Overlay compiler tools
-    public static final String NATIVE_LIBRARY_DIR = Iconify.getAppContext().getApplicationInfo().nativeLibraryDir;
+    public static final String NATIVE_LIBRARY_DIR = Iconify.Companion.getAppContext().getApplicationInfo().nativeLibraryDir;
     public static final File AAPTLIB = new File(NATIVE_LIBRARY_DIR, "libaapt.so");
     public static final File AAPT2LIB = new File(NATIVE_LIBRARY_DIR, "libaapt2.so");
     public static final File AAPT = new File(BIN_DIR, "aapt");

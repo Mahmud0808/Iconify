@@ -47,7 +47,7 @@ public class SystemUtil {
     private static final String blur_cmd5 = "ro.config.avoid_gfx_accel=false";
 
     public static boolean isDarkMode() {
-        return (Iconify.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
+        return (Iconify.Companion.getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void restartSystemUI() {
@@ -74,7 +74,7 @@ public class SystemUtil {
         } else if (selectedBehavior == 1) {
             forceReloadUI();
         } else {
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContext().getResources().getString(R.string.settings_systemui_restart_required), Toast.LENGTH_SHORT).show();
         }
     }
 

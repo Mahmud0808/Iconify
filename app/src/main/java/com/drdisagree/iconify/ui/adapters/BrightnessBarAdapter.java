@@ -138,7 +138,7 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
                         holder.btn_disable.setVisibility(View.VISIBLE);
                         refreshBackground(holder);
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                     }, 1000);
                 });
             };
@@ -167,7 +167,7 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
                         holder.btn_enable.setVisibility(View.VISIBLE);
                         refreshBackground(holder);
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 1000);
                 });
             };

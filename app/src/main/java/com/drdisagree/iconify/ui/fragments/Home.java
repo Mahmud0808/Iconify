@@ -69,7 +69,7 @@ public class Home extends BaseFragment {
             NavHostFragment.findNavController(this).navigate(R.id.action_settings_to_appUpdates);
             intent.removeExtra(AppUpdates.KEY_NEW_UPDATE);
         } else {
-            UpdateScheduler.scheduleUpdates(Iconify.getAppContext());
+            UpdateScheduler.scheduleUpdates(Iconify.Companion.getAppContext());
         }
 
         // New update available dialog
@@ -120,14 +120,14 @@ public class Home extends BaseFragment {
         // Home page list items
         ArrayList<Object[]> home_page = new ArrayList<>();
 
-        home_page.add(new Object[]{R.id.action_homePage_to_iconPack, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_icon_pack), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_styles_iconpack});
-        home_page.add(new Object[]{R.id.action_homePage_to_brightnessBar, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_brightness_bar), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_styles_brightness});
-        home_page.add(new Object[]{R.id.action_homePage_to_qsPanelTile, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_qs_shape), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_styles_qs_shape});
-        home_page.add(new Object[]{R.id.action_homePage_to_notification, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_notification), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_notification), R.drawable.ic_styles_notification});
-        home_page.add(new Object[]{R.id.action_homePage_to_progressBar, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_progress_bar), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_styles_progress});
-        home_page.add(new Object[]{R.id.action_homePage_to_switch1, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_switch), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
-        home_page.add(new Object[]{R.id.action_homePage_to_toastFrame, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_toast_frame), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_styles_toast_frame});
-        home_page.add(new Object[]{R.id.action_homePage_to_iconShape, Iconify.getAppContextLocale().getResources().getString(R.string.activity_title_icon_shape), Iconify.getAppContextLocale().getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_styles_icon_shape});
+        home_page.add(new Object[]{R.id.action_homePage_to_iconPack, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_icon_pack), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_icon_pack), R.drawable.ic_styles_iconpack});
+        home_page.add(new Object[]{R.id.action_homePage_to_brightnessBar, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_brightness_bar), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_brightness_bar), R.drawable.ic_styles_brightness});
+        home_page.add(new Object[]{R.id.action_homePage_to_qsPanelTile, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_qs_shape), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_qs_shape), R.drawable.ic_styles_qs_shape});
+        home_page.add(new Object[]{R.id.action_homePage_to_notification, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_notification), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_notification), R.drawable.ic_styles_notification});
+        home_page.add(new Object[]{R.id.action_homePage_to_progressBar, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_progress_bar), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_progress_bar), R.drawable.ic_styles_progress});
+        home_page.add(new Object[]{R.id.action_homePage_to_switch1, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_switch), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_switch), R.drawable.ic_styles_switch});
+        home_page.add(new Object[]{R.id.action_homePage_to_toastFrame, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_toast_frame), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_toast_frame), R.drawable.ic_styles_toast_frame});
+        home_page.add(new Object[]{R.id.action_homePage_to_iconShape, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_title_icon_shape), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.activity_desc_icon_shape), R.drawable.ic_styles_icon_shape});
 
         addItem(home_page);
 
@@ -140,7 +140,7 @@ public class Home extends BaseFragment {
                 ActivityResultLauncher<String> launcher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     Runnable runnable2 = () -> {
                         if (!isServiceRunning)
-                            startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
+                            startService(new Intent(Iconify.Companion.getAppContext(), BackgroundService.class));
                     };
                     Thread thread2 = new Thread(runnable2);
                     thread2.start();
@@ -150,7 +150,7 @@ public class Home extends BaseFragment {
         } else {
             Runnable runnable2 = () -> {
                 if (!isServiceRunning)
-                    startService(new Intent(Iconify.getAppContext(), BackgroundService.class));
+                    startService(new Intent(Iconify.Companion.getAppContext(), BackgroundService.class));
             };
             Thread thread2 = new Thread(runnable2);
             thread2.start();

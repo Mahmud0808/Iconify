@@ -84,7 +84,7 @@ public class IconShape extends BaseFragment {
     // Function to add new item in list
     @SuppressLint("UseCompatLoadingForDrawables")
     private void addItem(ArrayList<Object[]> pack) {
-        @ColorInt int colorBackground = Iconify.getAppContextLocale().getResources().getColor(R.color.colorBackground, Iconify.getAppContext().getTheme());
+        @ColorInt int colorBackground = Iconify.Companion.getAppContextLocale().getResources().getColor(R.color.colorBackground, Iconify.Companion.getAppContext().getTheme());
 
         for (int i = 0; i < pack.size(); i++) {
             View list = LayoutInflater.from(requireContext()).inflate(R.layout.view_icon_shape, binding.iconShapePreviewContainer, false);
@@ -92,8 +92,8 @@ public class IconShape extends BaseFragment {
             LinearLayout icon_container_bg = list.findViewById(R.id.mask_shape_bg);
             LinearLayout icon_container_fg = list.findViewById(R.id.mask_shape_fg);
 
-            icon_container_bg.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), (int) pack.get(i)[0]));
-            icon_container_fg.setBackground(ContextCompat.getDrawable(Iconify.getAppContext(), (int) pack.get(i)[0]));
+            icon_container_bg.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), (int) pack.get(i)[0]));
+            icon_container_fg.setBackground(ContextCompat.getDrawable(Iconify.Companion.getAppContext(), (int) pack.get(i)[0]));
             icon_container_fg.setBackgroundTintList(ColorStateList.valueOf(colorBackground));
 
             TextView style_name = list.findViewById(R.id.shape_name);
@@ -104,7 +104,7 @@ public class IconShape extends BaseFragment {
                 if (finalI == 0) {
                     Prefs.putInt(SELECTED_ICON_SHAPE, finalI);
                     OverlayUtil.disableOverlay("IconifyComponentSIS.overlay");
-                    Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.Companion.getAppContext(), getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
 
                     refreshBackground();
                 } else {
@@ -134,9 +134,9 @@ public class IconShape extends BaseFragment {
                                 loadingDialog.hide();
 
                                 if (!hasErroredOut.get()) {
-                                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                 }
                             }, 3000);
                         }).start();
@@ -150,8 +150,8 @@ public class IconShape extends BaseFragment {
 
     // Function to check for bg drawable changes
     private void refreshBackground() {
-        @ColorInt int colorSuccess = Iconify.getAppContextLocale().getResources().getColor(R.color.colorSuccess, Iconify.getAppContext().getTheme());
-        @ColorInt int textColorSecondary = Iconify.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, Iconify.getAppContext().getTheme());
+        @ColorInt int colorSuccess = Iconify.Companion.getAppContextLocale().getResources().getColor(R.color.colorSuccess, Iconify.Companion.getAppContext().getTheme());
+        @ColorInt int textColorSecondary = Iconify.Companion.getAppContextLocale().getResources().getColor(R.color.textColorSecondary, Iconify.Companion.getAppContext().getTheme());
 
         for (int i = 0; i < binding.iconShapePreviewContainer.getChildCount(); i++) {
             LinearLayout child = binding.iconShapePreviewContainer.getChildAt(i).findViewById(R.id.list_item_shape);

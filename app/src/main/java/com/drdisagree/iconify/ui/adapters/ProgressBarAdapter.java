@@ -142,10 +142,10 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
                                 holder.btn_disable.setVisibility(View.VISIBLE);
                                 refreshBackground(holder);
 
-                                Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                             } else {
                                 Prefs.putInt(SELECTED_PROGRESSBAR, -1);
-                                Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                             }
                         }, 1000);
                     });
@@ -174,7 +174,7 @@ public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.
                         holder.btn_enable.setVisibility(View.VISIBLE);
                         refreshBackground(holder);
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.Companion.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }, 1000);
                 });
             };
