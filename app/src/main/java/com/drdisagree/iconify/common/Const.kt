@@ -27,7 +27,7 @@ object Const {
     const val TELEGRAM_GROUP = "https://t.me/IconifyDiscussion"
 
     // Parse new update
-    const val LATEST_VERSION =
+    const val LATEST_VERSION_URL =
         "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json"
 
     // Parse changelogs

@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.LATEST_VERSION;
+import static com.drdisagree.iconify.common.Const.LATEST_VERSION_URL;
 import static com.drdisagree.iconify.common.Preferences.AUTO_UPDATE;
 import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
 import static com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME;
@@ -197,7 +197,7 @@ public class Home extends BaseFragment {
 
     private class CheckForUpdate extends TaskExecutor<Integer, Integer, String> {
 
-        String jsonURL = LATEST_VERSION;
+        String jsonURL = LATEST_VERSION_URL;
 
         @Override
         protected void onPreExecute() {

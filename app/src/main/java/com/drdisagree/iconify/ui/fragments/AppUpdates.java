@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.ui.fragments;
 
-import static com.drdisagree.iconify.common.Const.LATEST_VERSION;
+import static com.drdisagree.iconify.common.Const.LATEST_VERSION_URL;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME;
 import static com.drdisagree.iconify.common.Preferences.UPDATE_SCHEDULE;
 import static com.drdisagree.iconify.common.Preferences.VER_CODE;
@@ -101,7 +101,7 @@ public class AppUpdates extends BaseFragment {
     @SuppressLint("StaticFieldLeak")
     private class CheckForUpdate extends TaskExecutor<Integer, Integer, String> {
 
-        String jsonURL = LATEST_VERSION;
+        String jsonURL = LATEST_VERSION_URL;
 
         @Override
         protected void onPreExecute() {

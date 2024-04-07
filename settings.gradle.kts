@@ -5,13 +5,22 @@ pluginManagement {
         mavenCentral()
     }
 }
+
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven {
+            setUrl("https://jitpack.io")
+        }
+    }
+    versionCatalogs {
+        create("libs")
     }
 }
+
 rootProject.name = "Iconify"
-include ':app'
+
+include(":app")

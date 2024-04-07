@@ -1,58 +1,52 @@
-package com.drdisagree.iconify.services;
+package com.drdisagree.iconify.services
 
-import android.service.quicksettings.Tile;
-import android.service.quicksettings.TileService;
+import android.service.quicksettings.Tile
+import android.service.quicksettings.TileService
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.utils.overlay.OverlayUtil
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+class TilePitchBlack : TileService() {
 
-public class TilePitchBlack extends TileService {
+    private var isPitchBlackEnabled = getBoolean("IconifyComponentQSPBD.overlay") ||
+            getBoolean("IconifyComponentQSPBA.overlay")
 
-    private boolean isPitchBlackEnabled = Prefs.getBoolean("IconifyComponentQSPBD.overlay") || Prefs.getBoolean("IconifyComponentQSPBA.overlay");
-
-    @Override
-    public void onTileAdded() {
-        super.onTileAdded();
+    override fun onStartListening() {
+        super.onStartListening()
+        val tile = qsTile
+        tile.state =
+            if (isPitchBlackEnabled) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+        tile.updateTile()
     }
 
-    @Override
-    public void onStartListening() {
-        super.onStartListening();
-        Tile tile = getQsTile();
-        tile.setState(isPitchBlackEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        tile.updateTile();
-    }
+    override fun onClick() {
+        super.onClick()
 
-    @Override
-    public void onStopListening() {
-        super.onStopListening();
-    }
-
-    @Override
-    public void onClick() {
-        super.onClick();
-
-        if (Prefs.getBoolean("IconifyComponentQSPBD.overlay")) {
-            OverlayUtil.changeOverlayState("IconifyComponentQSPBD.overlay", false, "IconifyComponentQSPBA.overlay", true);
-            isPitchBlackEnabled = true;
-        } else if (Prefs.getBoolean("IconifyComponentQSPBA.overlay")) {
-            OverlayUtil.disableOverlay("IconifyComponentQSPBA.overlay");
-            isPitchBlackEnabled = false;
+        isPitchBlackEnabled = if (getBoolean("IconifyComponentQSPBD.overlay")) {
+            OverlayUtil.changeOverlayState(
+                "IconifyComponentQSPBD.overlay",
+                false,
+                "IconifyComponentQSPBA.overlay",
+                true
+            )
+            true
+        } else if (getBoolean("IconifyComponentQSPBA.overlay")) {
+            OverlayUtil.disableOverlay("IconifyComponentQSPBA.overlay")
+            false
         } else {
-            OverlayUtil.enableOverlay("IconifyComponentQSPBD.overlay");
-            isPitchBlackEnabled = true;
+            OverlayUtil.enableOverlay("IconifyComponentQSPBD.overlay")
+            true
         }
 
-        Tile tile = getQsTile();
-        tile.setState(isPitchBlackEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
-        tile.setLabel(getResources().getString(R.string.tile_pitch_black));
-        tile.setSubtitle(Prefs.getBoolean("IconifyComponentQSPBD.overlay") ? getResources().getString(R.string.tile_pitch_black_dark) : (Prefs.getBoolean("IconifyComponentQSPBA.overlay") ? getResources().getString(R.string.tile_pitch_black_amoled) : getResources().getString(R.string.general_off)));
-        tile.updateTile();
-    }
+        val tile = qsTile
+        tile.state = if (isPitchBlackEnabled) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
+        tile.label = resources.getString(R.string.tile_pitch_black)
+        tile.subtitle =
+            if (getBoolean("IconifyComponentQSPBD.overlay")) resources.getString(R.string.tile_pitch_black_dark) else if (getBoolean(
+                    "IconifyComponentQSPBA.overlay"
+                )
+            ) resources.getString(R.string.tile_pitch_black_amoled) else resources.getString(R.string.general_off)
 
-    @Override
-    public void onTileRemoved() {
-        super.onTileRemoved();
+        tile.updateTile()
     }
 }
