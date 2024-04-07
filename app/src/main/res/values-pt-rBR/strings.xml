@@ -550,6 +550,7 @@
     <string name="btn_pick_image">Escolher imagem</string>
     <string name="header_image_height_title">Altura da imagem</string>
     <string name="header_image_alpha">Imagem alfa</string>
+    <string name="header_image_bottom_fade">Quantidade de esmaecimento inferior</string>
     <string name="header_image_zoom_to_fit_title">Zoom para ajustar</string>
     <string name="header_image_zoom_to_fit_desc">A imagem é esticada para caber por padrão</string>
     <string name="header_image_hide_in_landscape_title">Ocultar na paisagem</string>
@@ -593,6 +594,13 @@
     <string name="lockscreen_clock_bottom_margin_title">Margem inferior</string>
     <string name="lockscreen_clock_white_text_title">Texto branco</string>
     <string name="lockscreen_clock_white_text_desc">Force todas as cores a serem brancas</string>
+    <string name="btn_select">Selecionar</string>
+    <string name="battery_charging">Bateria carregando</string>
+    <string name="battery_discharging">Bateria descarregando</string>
+    <string name="battery_full">Bateria cheia</string>
+    <string name="battery_level_percentage">Nível da bateria</string>
+    <string name="welcome_back">Bem-vindo de volta!</string>
+    <string name="default_user_name">Usuário</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Ativar papel de parede de profundidade</string>
     <string name="enable_depth_wallpaper_desc">Mostre o papel de parede de profundidade semelhante ao iOS.\nÉ necessário usar relógio da tela de bloqueio personalizado.</string>

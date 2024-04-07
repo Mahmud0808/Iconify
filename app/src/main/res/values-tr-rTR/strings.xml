@@ -550,6 +550,7 @@
     <string name="btn_pick_image">Resim Seç</string>
     <string name="header_image_height_title">Resim Yüksekliği</string>
     <string name="header_image_alpha">Resim Değeri</string>
+    <string name="header_image_bottom_fade">Alt Solma Miktarı</string>
     <string name="header_image_zoom_to_fit_title">Sığdırmak İçin Yakınlaştır</string>
     <string name="header_image_zoom_to_fit_desc">Görüntü varsayılan olarak sığacak şekilde uzatılır</string>
     <string name="header_image_hide_in_landscape_title">Yatayda gizle</string>
@@ -593,6 +594,13 @@
     <string name="lockscreen_clock_bottom_margin_title">Alt Kenar Boşluğu</string>
     <string name="lockscreen_clock_white_text_title">Beyaz Metin</string>
     <string name="lockscreen_clock_white_text_desc">Metin renklerini beyaz olmaya zorla</string>
+    <string name="btn_select">Seç</string>
+    <string name="battery_charging">Pil şarj ediliyor</string>
+    <string name="battery_discharging">Pil şarj edilmiyor</string>
+    <string name="battery_full">Pil dolu</string>
+    <string name="battery_level_percentage">Pil seviyesi</string>
+    <string name="welcome_back">Tekrar Hoş Geldiniz!</string>
+    <string name="default_user_name">Kullanıcı</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Derinlikli Duvar Kağıdını Etkinleştir</string>
     <string name="enable_depth_wallpaper_desc">iOS\'a benzer derinlik duvar kağıdını göster\nÖzel kilit ekranı saati kullanılmalıdır</string>
@@ -667,7 +675,7 @@
     <string name="info_xposed_desc">Xposed konusunda bana yardım ettiğin için.</string>
     <string name="info_tester_desc">Uygulamayı test ettiğin için.</string>
     <string name="info_betterqs_desc">Better QS kullanım izni için.</string>
-    <string name="info_binaries_desc">For android executable binaries.</string>
+    <string name="info_binaries_desc">Android çalıştırılabilir ikili dosyaları için.</string>
     <string name="section_title_contributors">Katkıda Bulunanlar</string>
     <string name="info_contributor_desc">GitHub\'dan destek olmak için.</string>
     <string name="info_contributor_desc_2">Telegram\'da bana yardım etmek için.</string>
@@ -790,7 +798,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy varsayılan olarak renkli pil kullanır</string>
     <string name="toast_select_style">Önce bir stil seçin</string>
     <string name="toast_ksu_not_supported">KernelSU şu anda desteklenmiyor</string>
-    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
+    <string name="toast_only_magisk_supported">Şu anda yalnızca magisk desteklenmektedir</string>
     <string name="toast_reboot_required">Yeniden başlatma gerekiyor</string>
     <string name="toast_lsposed_not_found">LSPosed bulunamadı!</string>
     <string name="toast_easter_egg">Bunu nereden biliyorsun?</string>
