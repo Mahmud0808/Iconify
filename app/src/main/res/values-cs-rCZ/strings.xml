@@ -550,6 +550,7 @@
     <string name="btn_pick_image">Pick Image</string>
     <string name="header_image_height_title">Image Height</string>
     <string name="header_image_alpha">Image Alpha</string>
+    <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Zoom To Fit</string>
     <string name="header_image_zoom_to_fit_desc">Image is stretched to fit by default</string>
     <string name="header_image_hide_in_landscape_title">Hide in Landscape</string>
@@ -593,6 +594,13 @@
     <string name="lockscreen_clock_bottom_margin_title">Bottom Margin</string>
     <string name="lockscreen_clock_white_text_title">White Text</string>
     <string name="lockscreen_clock_white_text_desc">Force all colors to be white</string>
+    <string name="btn_select">Select</string>
+    <string name="battery_charging">Battery Charging</string>
+    <string name="battery_discharging">Battery Discharging</string>
+    <string name="battery_full">Battery Full</string>
+    <string name="battery_level_percentage">Battery Level</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="default_user_name">User</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\nMust use custom lockscreen clock</string>
