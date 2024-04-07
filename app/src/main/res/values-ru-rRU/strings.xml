@@ -550,6 +550,7 @@
     <string name="btn_pick_image">Выбрать изображение</string>
     <string name="header_image_height_title">Высота изображения</string>
     <string name="header_image_alpha">Прозрачность изображения</string>
+    <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Увеличить размер</string>
     <string name="header_image_zoom_to_fit_desc">Размер изображение растянут по умолчанию</string>
     <string name="header_image_hide_in_landscape_title">Скрыть в ландшафтном режиме</string>
@@ -593,6 +594,13 @@
     <string name="lockscreen_clock_bottom_margin_title">Нижнее поле</string>
     <string name="lockscreen_clock_white_text_title">Белый текст</string>
     <string name="lockscreen_clock_white_text_desc">Сделать цвет белым</string>
+    <string name="btn_select">Select</string>
+    <string name="battery_charging">Battery Charging</string>
+    <string name="battery_discharging">Battery Discharging</string>
+    <string name="battery_full">Battery Full</string>
+    <string name="battery_level_percentage">Battery Level</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="default_user_name">User</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Включить глубинные обои</string>
     <string name="enable_depth_wallpaper_desc">Показывать iOS-подобные глубинные обои\nНеобходимо использовать пользовательские часы блокировки экрана</string>
