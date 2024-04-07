@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -24,6 +25,10 @@ public class ViewBindingHelpers {
 
     public static void setDrawable(ImageView imageView, Drawable drawable) {
         Glide.with(imageView.getContext()).load(drawable).into(imageView);
+    }
+
+    public static void setDrawableWithAnimation(ImageView imageView, Drawable drawable) {
+        Glide.with(imageView.getContext()).load(drawable).transition(DrawableTransitionOptions.withCrossFade()).into(imageView);
     }
 
     public static void setDrawable(ViewGroup viewGroup, Drawable drawable) {
@@ -40,8 +45,27 @@ public class ViewBindingHelpers {
         });
     }
 
+    public static void setDrawableWithAnimation(ViewGroup viewGroup, Drawable drawable) {
+        Glide.with(viewGroup.getContext()).load(drawable).transition(DrawableTransitionOptions.withCrossFade()).into(new CustomTarget<Drawable>() {
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
+                viewGroup.setBackground(resource);
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+            }
+        });
+    }
+
     public static void setBitmap(ImageView imageView, Bitmap bitmap) {
         Drawable drawable = new BitmapDrawable(imageView.getContext().getResources(), bitmap);
         setDrawable(imageView, drawable);
+    }
+
+    public static void setBitmapWithAnimation(ImageView imageView, Bitmap bitmap) {
+        Drawable drawable = new BitmapDrawable(imageView.getContext().getResources(), bitmap);
+        setDrawableWithAnimation(imageView, drawable);
     }
 }

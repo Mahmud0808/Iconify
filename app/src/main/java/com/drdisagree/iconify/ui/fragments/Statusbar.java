@@ -188,8 +188,8 @@ public class Statusbar extends BaseFragment {
     @SuppressWarnings("unused")
     @Subscribe
     public void onColorSelected(ColorSelectedEvent event) {
-        if (event.dialogId() == 1) {
-            colorSBTint = String.valueOf(event.selectedColor());
+        if (event.dialogId == 1) {
+            colorSBTint = String.valueOf(event.selectedColor);
             Prefs.putString(FABRICATED_SB_COLOR_TINT, colorSBTint);
             applySBColor();
             Prefs.putString(FABRICATED_SB_COLOR_SOURCE, "Custom");
@@ -200,7 +200,7 @@ public class Statusbar extends BaseFragment {
     @SuppressWarnings("unused")
     @Subscribe
     public void onDialogDismissed(ColorDismissedEvent event) {
-        if (event.dialogId() == 1) {
+        if (event.dialogId == 1) {
             selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);
             if (Objects.equals(selectedStyle, "System"))
                 binding.sbTintSystem.setChecked(true);

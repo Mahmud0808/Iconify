@@ -132,7 +132,7 @@ public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapte
             checkIcon.setVisibility(isSelected ? View.VISIBLE : View.GONE);
 
             if (wallpaperBitmap != null) {
-                ViewBindingHelpers.setBitmap(wallpaperView, wallpaperBitmap);
+                ViewBindingHelpers.setBitmapWithAnimation(wallpaperView, wallpaperBitmap);
             }
         }
     }

@@ -1,5 +1,6 @@
-package com.drdisagree.iconify.ui.events;
+package com.drdisagree.iconify.ui.events
 
-public record ColorSelectedEvent(int dialogId, int selectedColor) {
-
-}
+data class ColorSelectedEvent(
+    @JvmField val dialogId: Int,
+    @JvmField val selectedColor: Int
+)

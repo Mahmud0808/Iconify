@@ -1,81 +1,91 @@
-package com.drdisagree.iconify.ui.models;
+package com.drdisagree.iconify.ui.models
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.view.View;
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.view.View
 
-public class InfoModel {
+class InfoModel {
 
-    View.OnClickListener onClickListener;
-    Context context;
-    private int icon, layout;
-    private String title, desc;
+    var context: Context? = null
 
-    public InfoModel(String title) {
-        this.title = title;
+    @JvmField
+    var icon = 0
+
+    @JvmField
+    var layout = 0
+
+    @JvmField
+    var title: String? = null
+
+    @JvmField
+    var desc: String? = null
+    private var onClickListener: View.OnClickListener? = null
+
+    constructor(title: String?) {
+        this.title = title
     }
 
-    public InfoModel(int layout) {
-        this.layout = layout;
+    constructor(layout: Int) {
+        this.layout = layout
     }
 
-    public InfoModel(Context context, String title, String desc, String url, int icon) {
-        this.title = title;
-        this.desc = desc;
-        this.icon = icon;
-        this.context = context;
-        this.onClickListener = v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
-            context.startActivity(intent);
-        };
+    constructor(context: Context?, title: String?, desc: String?, url: String?, icon: Int) {
+        this.title = title
+        this.desc = desc
+        this.icon = icon
+        this.context = context
+        onClickListener = View.OnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            context?.startActivity(intent)
+        }
     }
 
-    public InfoModel(String title, String desc, View.OnClickListener onClickListener, int icon) {
-        this.title = title;
-        this.desc = desc;
-        this.icon = icon;
-        this.onClickListener = onClickListener;
+    constructor(title: String?, desc: String?, onClickListener: View.OnClickListener?, icon: Int) {
+        this.title = title
+        this.desc = desc
+        this.icon = icon
+        this.onClickListener = onClickListener
     }
 
-    public int getIcon() {
-        return icon;
+    fun getIcon(): Int {
+        return icon
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
+    fun setIcon(icon: Int) {
+        this.icon = icon
     }
 
-    public String getTitle() {
-        return title;
+    fun getTitle(): String? {
+        return title
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    fun setTitle(title: String?) {
+        this.title = title
     }
 
-    public String getDesc() {
-        return desc;
+    fun getDesc(): String? {
+        return desc
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    fun setDesc(desc: String?) {
+        this.desc = desc
     }
 
-    public View.OnClickListener getOnClickListener() {
-        return onClickListener;
+    fun getOnClickListener(): View.OnClickListener? {
+        return onClickListener
     }
 
-    public void setOnClickListener(View.OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
+    fun setOnClickListener(onClickListener: View.OnClickListener?) {
+        this.onClickListener = onClickListener
     }
 
-    public int getLayout() {
-        return layout;
+    fun getLayout(): Int {
+        return layout
     }
 
-    public void setLayout(int layout) {
-        this.layout = layout;
+    fun setLayout(layout: Int) {
+        this.layout = layout
     }
 }

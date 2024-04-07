@@ -69,17 +69,17 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.style_name.setText(itemList.get(position).getName());
 
-        setDrawable(holder.qs_tile1, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getEnabled_drawable(), null));
-        setDrawable(holder.qs_tile2, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getDisabled_drawable(), null));
-        setDrawable(holder.qs_tile3, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getDisabled_drawable(), null));
-        setDrawable(holder.qs_tile4, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getEnabled_drawable(), null));
+        setDrawable(holder.qs_tile1, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getEnabledDrawable(), null));
+        setDrawable(holder.qs_tile2, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getDisabledDrawable(), null));
+        setDrawable(holder.qs_tile3, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getDisabledDrawable(), null));
+        setDrawable(holder.qs_tile4, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getEnabledDrawable(), null));
 
         int textColor;
 
         if (Objects.equals(variant, "QSSN")) {
-            textColor = itemList.get(position).isInverse_color() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
+            textColor = itemList.get(position).getInverseColor() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
         } else {
-            textColor = itemList.get(position).isInverse_color() && SystemUtil.isDarkMode() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
+            textColor = itemList.get(position).getInverseColor() && SystemUtil.isDarkMode() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
         }
 
         holder.qs_text1.setTextColor(ContextCompat.getColor(context, textColor));
@@ -87,8 +87,8 @@ public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHold
         holder.qs_text4.setTextColor(ContextCompat.getColor(context, textColor));
         holder.qs_icon4.setColorFilter(ContextCompat.getColor(context, textColor), android.graphics.PorterDuff.Mode.SRC_IN);
 
-        if (itemList.get(position).getIcon_margin_start() != null && itemList.get(position).getIcon_margin_end() != null)
-            setMargin(holder, itemList.get(position).getIcon_margin_start(), itemList.get(position).getIcon_margin_end());
+        if (itemList.get(position).getIconMarginStart() != null && itemList.get(position).getIconMarginEnd() != null)
+            setMargin(holder, itemList.get(position).getIconMarginStart(), itemList.get(position).getIconMarginEnd());
         else
             setMargin(holder, 0, 10);
 

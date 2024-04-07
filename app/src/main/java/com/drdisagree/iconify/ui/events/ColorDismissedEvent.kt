@@ -1,5 +1,3 @@
-package com.drdisagree.iconify.ui.events;
+package com.drdisagree.iconify.ui.events
 
-public record ColorDismissedEvent(int dialogId) {
-
-}
+data class ColorDismissedEvent(@JvmField val dialogId: Int)

@@ -699,13 +699,13 @@ public class MonetEngine extends BaseFragment {
     @SuppressWarnings("unused")
     @Subscribe
     public void onColorSelected(ColorSelectedEvent event) {
-        if (event.dialogId() == -1) {
-            colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).getBackground().setTint(event.selectedColor());
-            colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).setTag(event.selectedColor());
-            ((TextView) ((ViewGroup) colorTableRows[selectedChild[0]].getChildAt(selectedChild[1])).getChildAt(0)).setTextColor(calculateTextColor(event.selectedColor()));
+        if (event.dialogId == -1) {
+            colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).getBackground().setTint(event.selectedColor);
+            colorTableRows[selectedChild[0]].getChildAt(selectedChild[1]).setTag(event.selectedColor);
+            ((TextView) ((ViewGroup) colorTableRows[selectedChild[0]].getChildAt(selectedChild[1])).getChildAt(0)).setTextColor(calculateTextColor(event.selectedColor));
 
-            finalPalette.get(0).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
-            finalPalette.get(1).get(selectedChild[0]).set(selectedChild[1], event.selectedColor());
+            finalPalette.get(0).get(selectedChild[0]).set(selectedChild[1], event.selectedColor);
+            finalPalette.get(1).get(selectedChild[0]).set(selectedChild[1], event.selectedColor);
 
             binding.floatingActionMenu.show();
             showApplyButton = true;

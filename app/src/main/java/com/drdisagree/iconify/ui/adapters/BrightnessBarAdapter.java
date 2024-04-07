@@ -63,9 +63,9 @@ public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.style_name.setText(itemList.get(position).getName());
         holder.brightness.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getBrightness()));
-        holder.auto_brightness.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getAuto_brightness()));
+        holder.auto_brightness.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getAutoBrightness()));
 
-        if (itemList.get(position).isInverse_color())
+        if (itemList.get(position).getInverseColor())
             holder.auto_brightness.setColorFilter(ContextCompat.getColor(context, R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
 
         refreshButton(holder);
