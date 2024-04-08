@@ -26,9 +26,9 @@ import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.QsShapeModel
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable
 import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.helper.DisplayUtil
 import com.drdisagree.iconify.utils.overlay.manager.QsShapeManager
 import com.drdisagree.iconify.utils.overlay.manager.QsShapePixelManager
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 
 class QsShapeAdapter(
     var context: Context,
@@ -310,26 +310,26 @@ class QsShapeAdapter(
 
     private fun setMargin(holder: ViewHolder, iconMarginLeft: Int, iconMarginRight: Int) {
         var marginParams = MarginLayoutParams(holder.qsIcon1.layoutParams)
-        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft))
-        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight))
+        marginParams.setMarginStart(context.toPx(iconMarginLeft))
+        marginParams.setMarginEnd(context.toPx(iconMarginRight))
         var layoutParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(marginParams)
         holder.qsIcon1.setLayoutParams(layoutParams)
 
         marginParams = MarginLayoutParams(holder.qsIcon2.layoutParams)
-        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft))
-        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight))
+        marginParams.setMarginStart(context.toPx(iconMarginLeft))
+        marginParams.setMarginEnd(context.toPx(iconMarginRight))
         layoutParams = LinearLayout.LayoutParams(marginParams)
         holder.qsIcon2.setLayoutParams(layoutParams)
 
         marginParams = MarginLayoutParams(holder.qsIcon3.layoutParams)
-        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft))
-        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight))
+        marginParams.setMarginStart(context.toPx(iconMarginLeft))
+        marginParams.setMarginEnd(context.toPx(iconMarginRight))
         layoutParams = LinearLayout.LayoutParams(marginParams)
         holder.qsIcon3.setLayoutParams(layoutParams)
 
         marginParams = MarginLayoutParams(holder.qsIcon4.layoutParams)
-        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft))
-        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight))
+        marginParams.setMarginStart(context.toPx(iconMarginLeft))
+        marginParams.setMarginEnd(context.toPx(iconMarginRight))
         layoutParams = LinearLayout.LayoutParams(marginParams)
         holder.qsIcon4.setLayoutParams(layoutParams)
     }

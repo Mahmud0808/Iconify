@@ -1,52 +1,48 @@
-package com.drdisagree.iconify.utils.helper;
+package com.drdisagree.iconify.utils.helper
 
-import static com.drdisagree.iconify.common.Preferences.APP_LANGUAGE;
+import android.content.Context
+import android.os.LocaleList
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
+import com.drdisagree.iconify.config.Prefs.getString
+import java.util.Arrays
+import java.util.Locale
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.os.LocaleList;
+object LocaleHelper {
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
+    @JvmStatic
+    fun setLocale(context: Context): Context {
+        var localeCode = getString(APP_LANGUAGE, "")
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+        if (localeCode!!.isEmpty()) {
+            val locales = context.resources.configuration.getLocales()
+            val localeCodes = listOf(*context.resources.getStringArray(R.array.locale_code))
 
-public class LocaleHelper {
+            for (i in 0 until locales.size()) {
+                val languageCode = locales[i].language
+                val countryCode = locales[i].country
+                val languageFormat = "$languageCode-$countryCode"
 
-    public static Context setLocale(Context context) {
-        String localeCode = Prefs.getString(APP_LANGUAGE, "");
-
-        if (localeCode.isEmpty()) {
-            LocaleList locales = context.getResources().getConfiguration().getLocales();
-            List<String> locale_codes = Arrays.asList(context.getResources().getStringArray(R.array.locale_code));
-            for (int i = 0; i < locales.size(); i++) {
-                String languageCode = locales.get(i).getLanguage();
-                String countryCode = locales.get(i).getCountry();
-                String languageFormat = languageCode + "-" + countryCode;
-
-                if (locale_codes.contains(languageFormat)) {
-                    localeCode = languageFormat;
-                    break;
+                if (localeCodes.contains(languageFormat)) {
+                    localeCode = languageFormat
+                    break
                 }
             }
 
-            if (localeCode.isEmpty()) {
-                localeCode = "en-US";
+            if (localeCode!!.isEmpty()) {
+                localeCode = "en-US"
             }
         }
 
-        Locale locale = Locale.forLanguageTag(localeCode);
+        val locale = Locale.forLanguageTag(localeCode)
+        val configuration = context.resources.configuration
+        configuration.setLocale(locale)
+        configuration.setLayoutDirection(locale)
 
-        Configuration configuration = context.getResources().getConfiguration();
-        configuration.setLocale(locale);
-        configuration.setLayoutDirection(locale);
+        val localeList = LocaleList(locale)
+        LocaleList.setDefault(localeList)
+        configuration.setLocales(localeList)
 
-        LocaleList localeList = new LocaleList(locale);
-        LocaleList.setDefault(localeList);
-        configuration.setLocales(localeList);
-
-        return context.createConfigurationContext(configuration);
+        return context.createConfigurationContext(configuration)
     }
 }

@@ -1,46 +1,50 @@
-package com.drdisagree.iconify.utils.helper;
+package com.drdisagree.iconify.utils.helper
 
-import static com.drdisagree.iconify.common.Dynamic.AAPT;
-import static com.drdisagree.iconify.common.Dynamic.AAPT2;
-import static com.drdisagree.iconify.common.Dynamic.AAPT2LIB;
-import static com.drdisagree.iconify.common.Dynamic.AAPTLIB;
-import static com.drdisagree.iconify.common.Dynamic.NATIVE_LIBRARY_DIR;
-import static com.drdisagree.iconify.common.Dynamic.ZIPALIGN;
-import static com.drdisagree.iconify.common.Dynamic.ZIPALIGNLIB;
-import static com.drdisagree.iconify.common.Resources.BIN_DIR;
+import android.util.Log
+import com.drdisagree.iconify.common.Dynamic.AAPT
+import com.drdisagree.iconify.common.Dynamic.AAPT2
+import com.drdisagree.iconify.common.Dynamic.AAPT2LIB
+import com.drdisagree.iconify.common.Dynamic.AAPTLIB
+import com.drdisagree.iconify.common.Dynamic.NATIVE_LIBRARY_DIR
+import com.drdisagree.iconify.common.Dynamic.ZIPALIGN
+import com.drdisagree.iconify.common.Dynamic.ZIPALIGNLIB
+import com.drdisagree.iconify.common.Resources
+import com.drdisagree.iconify.common.Resources.BIN_DIR
+import com.drdisagree.iconify.utils.FileUtil
+import com.topjohnwu.superuser.Shell
 
-import android.util.Log;
+object BinaryInstaller {
 
-import com.drdisagree.iconify.common.Resources;
-import com.drdisagree.iconify.utils.FileUtil;
-import com.topjohnwu.superuser.Shell;
+    private val TAG = BinaryInstaller::class.java.getSimpleName()
 
-public class BinaryInstaller {
+    @JvmStatic
+    fun symLinkBinaries() {
+        Shell.cmd("mkdir -p $BIN_DIR").exec()
 
-    private static final String TAG = BinaryInstaller.class.getSimpleName();
+        extractTools()
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void symLinkBinaries() {
-        Shell.cmd("mkdir -p " + BIN_DIR).exec();
-        extractTools();
+        if (AAPT.exists()) AAPT.delete()
+        if (AAPT2.exists()) AAPT2.delete()
+        if (ZIPALIGN.exists()) ZIPALIGN.delete()
 
-        if (AAPT.exists()) AAPT.delete();
-        if (AAPT2.exists()) AAPT2.delete();
-        if (ZIPALIGN.exists()) ZIPALIGN.delete();
-
-        Shell.cmd("ln -sf " + AAPTLIB.getAbsolutePath() + ' ' + AAPT.getAbsolutePath()).exec();
-        Shell.cmd("ln -sf " + AAPT2LIB.getAbsolutePath() + ' ' + AAPT2.getAbsolutePath()).exec();
-        Shell.cmd("ln -sf " + ZIPALIGNLIB.getAbsolutePath() + ' ' + ZIPALIGN.getAbsolutePath()).exec();
+        Shell.cmd("ln -sf " + AAPTLIB.absolutePath + ' ' + AAPT.absolutePath).exec()
+        Shell.cmd("ln -sf " + AAPT2LIB.absolutePath + ' ' + AAPT2.absolutePath).exec()
+        Shell.cmd("ln -sf " + ZIPALIGNLIB.absolutePath + ' ' + ZIPALIGN.absolutePath)
+            .exec()
     }
 
-    public static void extractTools() {
-        Log.d(TAG, "Extracting tools...");
+    private fun extractTools() {
+        Log.d(TAG, "Extracting tools...")
+
         try {
-            FileUtil.copyAssets("Tools");
-            Shell.cmd("for fl in " + Resources.DATA_DIR + "/Tools/*; do cp -f \"$fl\" \"" + NATIVE_LIBRARY_DIR + "\"; chmod 755 \"" + NATIVE_LIBRARY_DIR + "/$(basename $fl)\"; ln -sf \"" + NATIVE_LIBRARY_DIR + "/$(basename $fl)\" \"" + BIN_DIR + "/$(basename $fl)\"; done").exec();
-            FileUtil.cleanDir("Tools");
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to extract tools.\n" + e);
+            FileUtil.copyAssets("Tools")
+
+            Shell.cmd("for fl in " + Resources.DATA_DIR + "/Tools/*; do cp -f \"\$fl\" \"" + NATIVE_LIBRARY_DIR + "\"; chmod 755 \"" + NATIVE_LIBRARY_DIR + "/$(basename \$fl)\"; ln -sf \"" + NATIVE_LIBRARY_DIR + "/$(basename \$fl)\" \"" + BIN_DIR + "/$(basename \$fl)\"; done")
+                .exec()
+
+            FileUtil.cleanDir("Tools")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to extract tools.\n$e")
         }
     }
 }

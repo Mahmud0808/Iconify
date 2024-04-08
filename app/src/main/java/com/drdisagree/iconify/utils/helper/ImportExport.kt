@@ -1,261 +1,393 @@
-package com.drdisagree.iconify.utils.helper;
+package com.drdisagree.iconify.utils.helper
 
-import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT;
-import static com.drdisagree.iconify.common.Preferences.FIRST_INSTALL;
-import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
-import static com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_BG;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_COLOR;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SET;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SHAPE;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SIZE;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_TOAST_FRAME;
-import static com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY;
-import static com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY;
-import static com.drdisagree.iconify.common.Resources.MODULE_DIR;
+import android.content.SharedPreferences
+import android.util.Log
+import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
+import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY
+import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT
+import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY
+import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY_LIGHT
+import com.drdisagree.iconify.common.Preferences.FIRST_INSTALL
+import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
+import com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH
+import com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE
+import com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR
+import com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_BG
+import com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_COLOR
+import com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SET
+import com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SHAPE
+import com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SIZE
+import com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH
+import com.drdisagree.iconify.common.Preferences.SELECTED_TOAST_FRAME
+import com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS
+import com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY
+import com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY
+import com.drdisagree.iconify.common.Resources
+import com.drdisagree.iconify.common.Resources.MODULE_DIR
+import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.color.ColorUtil.colorNames
+import com.drdisagree.iconify.utils.overlay.FabricatedUtil
+import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler
+import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler
+import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler
+import com.drdisagree.iconify.utils.overlay.manager.MonetEngineManager
+import com.drdisagree.iconify.utils.overlay.manager.RoundnessManager
+import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager
+import com.topjohnwu.superuser.Shell
+import java.io.IOException
+import java.io.InputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.io.OutputStream
+import java.util.Objects
 
-import android.content.SharedPreferences;
-import android.util.Log;
+object ImportExport {
 
-import androidx.annotation.NonNull;
-
-import com.drdisagree.iconify.common.Resources;
-import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.color.ColorUtil;
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
-import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler;
-import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler;
-import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler;
-import com.drdisagree.iconify.utils.overlay.manager.MonetEngineManager;
-import com.drdisagree.iconify.utils.overlay.manager.RoundnessManager;
-import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager;
-import com.topjohnwu.superuser.Shell;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-
-public class ImportExport {
-
-    public static void exportSettings(SharedPreferences preferences, final @NonNull OutputStream outputStream) {
-        try (outputStream; ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
-            objectOutputStream.writeObject(preferences.getAll());
-        } catch (IOException ioException) {
-            Log.e("ExportSettings", "Error serializing preferences", ioException);
+    @JvmStatic
+    fun exportSettings(preferences: SharedPreferences, outputStream: OutputStream) {
+        try {
+            outputStream.use {
+                ObjectOutputStream(outputStream).use { objectOutputStream ->
+                    objectOutputStream.writeObject(
+                        preferences.all
+                    )
+                }
+            }
+        } catch (ioException: IOException) {
+            Log.e("ExportSettings", "Error serializing preferences", ioException)
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static boolean importSettings(SharedPreferences sharedPreferences, final @NonNull InputStream inputStream, boolean restoreOverlays) throws IOException {
-        ObjectInputStream objectInputStream = null;
-        Map<String, Object> map;
+    @JvmStatic
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IOException::class)
+    fun importSettings(
+        sharedPreferences: SharedPreferences,
+        inputStream: InputStream,
+        restoreOverlays: Boolean
+    ): Boolean {
+        var objectInputStream: ObjectInputStream? = null
+        val map: Map<String, Any>
+
         try {
-            objectInputStream = new ObjectInputStream(inputStream);
-            map = (Map<String, Object>) objectInputStream.readObject();
-        } catch (Exception exception) {
-            Log.e("ImportSettings", "Error deserializing preferences", exception);
-            return false;
+            objectInputStream = ObjectInputStream(inputStream)
+            map = objectInputStream.readObject() as Map<String, Any>
+        } catch (exception: Exception) {
+            Log.e("ImportSettings", "Error deserializing preferences", exception)
+            return false
         } finally {
-            if (objectInputStream != null) {
-                objectInputStream.close();
-            }
-            inputStream.close();
+            objectInputStream?.close()
+            inputStream.close()
         }
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        val editor = sharedPreferences.edit()
+        editor.clear()
 
-        for (Map.Entry<String, Object> e : map.entrySet()) {
-            if (e.getValue() instanceof Boolean) {
-                editor.putBoolean(e.getKey(), (Boolean) e.getValue());
-            } else if (e.getValue() instanceof String) {
-                editor.putString(e.getKey(), (String) e.getValue());
-            } else if (e.getValue() instanceof Integer) {
-                editor.putInt(e.getKey(), (int) e.getValue());
-            } else if (e.getValue() instanceof Float) {
-                editor.putFloat(e.getKey(), (float) e.getValue());
-            } else if (e.getValue() instanceof Long) {
-                editor.putLong(e.getKey(), (Long) e.getValue());
-            } else if (e.getValue() instanceof Set) {
-                editor.putStringSet(e.getKey(), (Set<String>) e.getValue());
-            } else {
-                throw new IllegalArgumentException("Type " + e.getValue().getClass().getName() + " is unknown.");
+        for ((key, value) in map) {
+            when (value) {
+                is Boolean -> {
+                    editor.putBoolean(key, value)
+                }
+
+                is String -> {
+                    editor.putString(key, value)
+                }
+
+                is Int -> {
+                    editor.putInt(key, value)
+                }
+
+                is Float -> {
+                    editor.putFloat(key, value)
+                }
+
+                is Long -> {
+                    editor.putLong(key, value)
+                }
+
+                is Set<*> -> {
+                    editor.putStringSet(key, value as Set<String?>)
+                }
+
+                else -> {
+                    throw IllegalArgumentException("Type " + value.javaClass.getName() + " is unknown.")
+                }
             }
         }
 
-        boolean status = editor.commit();
+        val status = editor.commit()
 
         if (restoreOverlays) {
-            List<String> commands = new ArrayList<>();
-            commands.add("> " + MODULE_DIR + "/system.prop; > " + MODULE_DIR + "/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done");
+            val commands: MutableList<String> = ArrayList()
+            commands.add("> $MODULE_DIR/system.prop; > $MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable \$ol; done")
 
-            SystemUtil.getBootId();
-            SystemUtil.disableBlur(false);
-            SystemUtil.saveVersionCode();
-            editor.putBoolean(ON_HOME_PAGE, true);
-            editor.putBoolean(FIRST_INSTALL, false);
-            editor.putBoolean(QSPANEL_BLUR_SWITCH, false);
+            SystemUtil.getBootId()
+            SystemUtil.disableBlur(false)
+            SystemUtil.saveVersionCode()
 
-            boolean sip = false, pgb = false, sw = false, tstfrm = false, sis = false, cr = false,
-                    me = false, dynamic = false;
+            editor.putBoolean(ON_HOME_PAGE, true)
+            editor.putBoolean(FIRST_INSTALL, false)
+            editor.putBoolean(QSPANEL_BLUR_SWITCH, false)
 
-            for (Map.Entry<String, Object> item : map.entrySet()) {
-                if (item.getValue() instanceof Boolean) {
-                    if ((Boolean) item.getValue()) {
-                        if (item.getKey().startsWith("IconifyComponent") && item.getKey().endsWith(".overlay")) { // Handling overlays
-                            commands.add(addOverlay(item.getKey()));
+            var sip = false
+            var pgb = false
+            var sw = false
+            var tstfrm = false
+            var sis = false
+            var cr = false
+            var me = false
+            var dynamic = false
 
-                            if (item.getKey().contains("IconifyComponentSIP") && !sip) { // Settings Icon Pack
-                                sip = true;
-                                try {
-                                    int selectedIcon = (int) Objects.requireNonNull(map.get(SELECTED_SETTINGS_ICONS_SET));
-                                    int selectedBackground = (int) Objects.requireNonNull(map.get(SELECTED_SETTINGS_ICONS_BG));
-                                    int selectedShape = (int) Objects.requireNonNull(map.get(SELECTED_SETTINGS_ICONS_SHAPE));
-                                    int selectedSize = (int) Objects.requireNonNull(map.get(SELECTED_SETTINGS_ICONS_SIZE));
-                                    int selectedIconColor = (int) Objects.requireNonNull(map.get(SELECTED_SETTINGS_ICONS_COLOR));
+            for ((key, value) in map) {
+                if (value is Boolean) {
+                    if (value) {
+                        if (key.startsWith("IconifyComponent") && key.endsWith(".overlay")) { // Handling overlays
+                            commands.add(addOverlay(key))
+                            when {
+                                key.contains("IconifyComponentSIP") && !sip -> { // Settings Icon Pack
+                                    sip = true
+                                    try {
+                                        val selectedIcon = Objects.requireNonNull<Any?>(
+                                            map[SELECTED_SETTINGS_ICONS_SET]
+                                        ) as Int
+                                        val selectedBackground = Objects.requireNonNull<Any?>(
+                                            map[SELECTED_SETTINGS_ICONS_BG]
+                                        ) as Int
+                                        val selectedShape = Objects.requireNonNull<Any?>(
+                                            map[SELECTED_SETTINGS_ICONS_SHAPE]
+                                        ) as Int
+                                        val selectedSize = Objects.requireNonNull<Any?>(
+                                            map[SELECTED_SETTINGS_ICONS_SIZE]
+                                        ) as Int
+                                        val selectedIconColor = Objects.requireNonNull<Any?>(
+                                            map[SELECTED_SETTINGS_ICONS_COLOR]
+                                        ) as Int
 
-                                    SettingsIconResourceManager.buildOverlay(selectedIcon, selectedBackground, selectedShape, selectedSize, selectedIconColor, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building settings icon pack", exception);
-                                }
-                            } else if (item.getKey().contains("IconifyComponentPGB") && !pgb) { // Progressbar Style
-                                pgb = true;
-                                try {
-                                    int selectedStyle = (int) Objects.requireNonNull(map.get(SELECTED_PROGRESSBAR));
-
-                                    OnDemandCompiler.buildOverlay("PGB", selectedStyle + 1, FRAMEWORK_PACKAGE, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building progressbar style", exception);
-                                }
-                            } else if (item.getKey().contains("IconifyComponentSWITCH") && !sw) { // Switch Style
-                                sw = true;
-                                try {
-                                    int selectedStyle = (int) Objects.requireNonNull(map.get(SELECTED_SWITCH));
-
-                                    SwitchCompiler.buildOverlay(selectedStyle + 1, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building switch style", exception);
-                                }
-                            } else if (item.getKey().contains("IconifyComponentTSTFRM") && !tstfrm) { // Toast Frame Style
-                                tstfrm = true;
-                                try {
-                                    int selectedStyle = (int) Objects.requireNonNull(map.get(SELECTED_TOAST_FRAME));
-
-                                    OnDemandCompiler.buildOverlay("TSTFRM", selectedStyle + 1, FRAMEWORK_PACKAGE, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building toast frame style", exception);
-                                }
-                            } else if (item.getKey().contains("IconifyComponentSIS") && !sis) { // Icon Shape Style
-                                sis = true;
-                                try {
-                                    int selectedStyle = (int) Objects.requireNonNull(map.get(SELECTED_ICON_SHAPE));
-
-                                    OnDemandCompiler.buildOverlay("SIS", selectedStyle, FRAMEWORK_PACKAGE, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building icon shape style", exception);
-                                }
-                            } else if (item.getKey().contains("IconifyComponentCR") && !cr) { // UI Roundness
-                                cr = true;
-                                try {
-                                    int radius = (int) Objects.requireNonNull(map.get(UI_CORNER_RADIUS));
-
-                                    RoundnessManager.buildOverlay(radius, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building UI roundness", exception);
-                                }
-                            } else if (item.getKey().contains("IconifyComponentME") && !me) { // Monet Engine
-                                me = true;
-                                try {
-                                    String[][] colors = ColorUtil.getColorNames();
-                                    List<List<List<Object>>> palette = new ArrayList<>();
-                                    String[] statNames = new String[]{"_day", "_night"};
-
-                                    for (String stat : statNames) {
-                                        List<List<Object>> temp = new ArrayList<>();
-                                        for (String[] types : colors) {
-                                            List<Object> tmp = new ArrayList<>();
-                                            for (String color : types) {
-                                                tmp.add(Integer.parseInt(Objects.requireNonNull(map.get(color + stat)).toString()));
-                                            }
-                                            temp.add(tmp);
-                                        }
-                                        palette.add(temp);
+                                        SettingsIconResourceManager.buildOverlay(
+                                            selectedIcon,
+                                            selectedBackground,
+                                            selectedShape,
+                                            selectedSize,
+                                            selectedIconColor,
+                                            false
+                                        )
+                                    } catch (exception: Exception) {
+                                        Log.e(
+                                            "ImportSettings",
+                                            "Error building settings icon pack",
+                                            exception
+                                        )
                                     }
-
-                                    MonetEngineManager.buildOverlay(palette, false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building Monet Engine", exception);
                                 }
-                            } else if (item.getKey().contains("IconifyComponentDynamic") && !dynamic) { // Dynamic overlays
-                                dynamic = true;
-                                try {
-                                    DynamicCompiler.buildOverlay(false);
-                                } catch (Exception exception) {
-                                    Log.e("ImportSettings", "Error building dynamic overlays", exception);
+
+                                key.contains("IconifyComponentPGB") && !pgb -> { // Progressbar Style
+                                    pgb = true
+                                    try {
+                                        val selectedStyle = Objects.requireNonNull<Any?>(
+                                            map[SELECTED_PROGRESSBAR]
+                                        ) as Int
+
+                                        OnDemandCompiler.buildOverlay(
+                                            "PGB",
+                                            selectedStyle + 1,
+                                            FRAMEWORK_PACKAGE,
+                                            false
+                                        )
+                                    } catch (exception: Exception) {
+                                        Log.e(
+                                            "ImportSettings",
+                                            "Error building progressbar style",
+                                            exception
+                                        )
+                                    }
+                                }
+
+                                key.contains("IconifyComponentSWITCH") && !sw -> { // Switch Style
+                                    sw = true
+                                    try {
+                                        val selectedStyle = Objects.requireNonNull<Any?>(
+                                            map[SELECTED_SWITCH]
+                                        ) as Int
+
+                                        SwitchCompiler.buildOverlay(selectedStyle + 1, false)
+                                    } catch (exception: Exception) {
+                                        Log.e(
+                                            "ImportSettings",
+                                            "Error building switch style",
+                                            exception
+                                        )
+                                    }
+                                }
+
+                                key.contains("IconifyComponentTSTFRM") && !tstfrm -> { // Toast Frame Style
+                                    tstfrm = true
+                                    try {
+                                        val selectedStyle = Objects.requireNonNull<Any?>(
+                                            map[SELECTED_TOAST_FRAME]
+                                        ) as Int
+
+                                        OnDemandCompiler.buildOverlay(
+                                            "TSTFRM",
+                                            selectedStyle + 1,
+                                            FRAMEWORK_PACKAGE,
+                                            false
+                                        )
+                                    } catch (exception: Exception) {
+                                        Log.e(
+                                            "ImportSettings",
+                                            "Error building toast frame style",
+                                            exception
+                                        )
+                                    }
+                                }
+
+                                key.contains("IconifyComponentSIS") && !sis -> { // Icon Shape Style
+                                    sis = true
+                                    try {
+                                        val selectedStyle = Objects.requireNonNull<Any?>(
+                                            map[SELECTED_ICON_SHAPE]
+                                        ) as Int
+
+                                        OnDemandCompiler.buildOverlay(
+                                            "SIS",
+                                            selectedStyle,
+                                            FRAMEWORK_PACKAGE,
+                                            false
+                                        )
+                                    } catch (exception: Exception) {
+                                        Log.e(
+                                            "ImportSettings",
+                                            "Error building icon shape style",
+                                            exception
+                                        )
+                                    }
+                                }
+
+                                key.contains("IconifyComponentCR") && !cr -> { // UI Roundness
+                                    cr = true
+                                    try {
+                                        val radius =
+                                            Objects.requireNonNull<Any?>(map[UI_CORNER_RADIUS]) as Int
+
+                                        RoundnessManager.buildOverlay(radius, false)
+                                    } catch (exception: Exception) {
+                                        Log.e(
+                                            "ImportSettings",
+                                            "Error building UI roundness",
+                                            exception
+                                        )
+                                    }
+                                }
+
+                                key.contains("IconifyComponentME") && !me -> { // Monet Engine
+                                    me = true
+                                    try {
+                                        val colors = colorNames
+                                        val palette: MutableList<List<List<Any>>> = ArrayList()
+                                        val statNames = arrayOf("_day", "_night")
+
+                                        for (stat in statNames) {
+                                            val temp: MutableList<List<Any>> = ArrayList()
+                                            for (types in colors) {
+                                                val tmp: MutableList<Any> = ArrayList()
+                                                for (color in types) {
+                                                    tmp.add(
+                                                        Objects.requireNonNull(
+                                                            map[color + stat]
+                                                        ).toString().toInt()
+                                                    )
+                                                }
+                                                temp.add(tmp)
+                                            }
+                                            palette.add(temp)
+                                        }
+
+                                        MonetEngineManager.buildOverlay(palette, false)
+                                    } catch (exception: Exception) {
+                                        Log.e(
+                                            "ImportSettings",
+                                            "Error building Monet Engine",
+                                            exception
+                                        )
+                                    }
+                                }
+
+                                key.contains("IconifyComponentDynamic") && !dynamic -> { // Dynamic overlays
+                                    dynamic = true
+                                    try {
+                                        DynamicCompiler.buildOverlay(false)
+                                    } catch (exception: Exception) {
+                                        Log.e(
+                                            "ImportSettings",
+                                            "Error building dynamic overlays",
+                                            exception
+                                        )
+                                    }
                                 }
                             }
-                        } else if (item.getKey().startsWith("fabricated")) { // Handling fabricated overlays
-                            String overlayName = item.getKey().replace("fabricated", "");
-
+                        } else if (key.startsWith("fabricated")) { // Handling fabricated overlays
+                            val overlayName = key.replace("fabricated", "")
                             try {
-                                if (map.get("FOCMDtarget" + overlayName) == null) {
+                                if (map["FOCMDtarget$overlayName"] == null) {
                                     if (overlayName.contains(COLOR_ACCENT_PRIMARY)) {
-                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY;
-                                        String enable = "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary";
-                                        commands.add("echo -e \"" + build + "\n" + enable + "\" >> " + MODULE_DIR + "/post-exec.sh");
-                                        commands.add(build);
-                                        commands.add(enable);
+                                        val build =
+                                            "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimary android:color/holo_blue_light 0x1c $ICONIFY_COLOR_ACCENT_PRIMARY"
+                                        val enable =
+                                            "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimary"
+
+                                        commands.add("echo -e \"$build\n$enable\" >> $MODULE_DIR/post-exec.sh")
+                                        commands.add(build)
+                                        commands.add(enable)
                                     }
                                     if (overlayName.contains(COLOR_ACCENT_PRIMARY_LIGHT)) {
-                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_green_light 0x1c " + ICONIFY_COLOR_ACCENT_PRIMARY;
-                                        String enable = "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryLight";
-                                        commands.add("echo -e \"" + build + "\n" + enable + "\" >> " + MODULE_DIR + "/post-exec.sh");
-                                        commands.add(build);
-                                        commands.add(enable);
+                                        val build =
+                                            "cmd overlay fabricate --target android --name IconifyComponentcolorAccentPrimaryLight android:color/holo_green_light 0x1c $ICONIFY_COLOR_ACCENT_PRIMARY"
+                                        val enable =
+                                            "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentPrimaryLight"
+
+                                        commands.add("echo -e \"$build\n$enable\" >> $MODULE_DIR/post-exec.sh")
+                                        commands.add(build)
+                                        commands.add(enable)
                                     }
                                     if (overlayName.contains(COLOR_ACCENT_SECONDARY)) {
-                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_blue_dark 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY;
-                                        String enable = "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary";
-                                        commands.add("echo -e \"" + build + "\n" + enable + "\" >> " + MODULE_DIR + "/post-exec.sh");
-                                        commands.add(build);
-                                        commands.add(enable);
+                                        val build =
+                                            "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondary android:color/holo_blue_dark 0x1c $ICONIFY_COLOR_ACCENT_SECONDARY"
+                                        val enable =
+                                            "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondary"
+
+                                        commands.add("echo -e \"$build\n$enable\" >> $MODULE_DIR/post-exec.sh")
+                                        commands.add(build)
+                                        commands.add(enable)
                                     }
                                     if (overlayName.contains(COLOR_ACCENT_SECONDARY_LIGHT)) {
-                                        String build = "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondaryLight android:color/holo_green_dark 0x1c " + ICONIFY_COLOR_ACCENT_SECONDARY;
-                                        String enable = "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondaryLight";
-                                        commands.add("echo -e \"" + build + "\n" + enable + "\" >> " + MODULE_DIR + "/post-exec.sh");
-                                        commands.add(build);
-                                        commands.add(enable);
+                                        val build =
+                                            "cmd overlay fabricate --target android --name IconifyComponentcolorAccentSecondaryLight android:color/holo_green_dark 0x1c $ICONIFY_COLOR_ACCENT_SECONDARY"
+                                        val enable =
+                                            "cmd overlay enable --user current com.android.shell:IconifyComponentcolorAccentSecondaryLight"
+
+                                        commands.add("echo -e \"$build\n$enable\" >> $MODULE_DIR/post-exec.sh")
+                                        commands.add(build)
+                                        commands.add(enable)
                                     }
                                 } else {
-                                    List<String> tempCommands = FabricatedUtil.buildCommands(
-                                            (String) Objects.requireNonNull(map.get("FOCMDtarget" + overlayName)),
-                                            (String) Objects.requireNonNull(map.get("FOCMDname" + overlayName)),
-                                            (String) Objects.requireNonNull(map.get("FOCMDtype" + overlayName)),
-                                            (String) Objects.requireNonNull(map.get("FOCMDresourceName" + overlayName)),
-                                            (String) Objects.requireNonNull(map.get("FOCMDval" + overlayName)));
+                                    val tempCommands = FabricatedUtil.buildCommands(
+                                        Objects.requireNonNull(map["FOCMDtarget$overlayName"]) as String,
+                                        Objects.requireNonNull(map["FOCMDname$overlayName"]) as String,
+                                        Objects.requireNonNull(map["FOCMDtype$overlayName"]) as String,
+                                        Objects.requireNonNull(map["FOCMDresourceName$overlayName"]) as String,
+                                        Objects.requireNonNull(map["FOCMDval$overlayName"]) as String
+                                    )
 
-                                    commands.add("echo -e \"" + tempCommands.get(0) + "\n" + tempCommands.get(1) + "\" >> " + MODULE_DIR + "/post-exec.sh");
-                                    commands.add(tempCommands.get(0));
-                                    commands.add(tempCommands.get(1));
+                                    commands.add("echo -e \"${tempCommands[0]}\n${tempCommands[1]}\" >> $MODULE_DIR/post-exec.sh")
+                                    commands.add(tempCommands[0])
+                                    commands.add(tempCommands[1])
                                 }
-                            } catch (Exception exception) {
-                                Log.e("ImportSettings", "Error building fabricated commands", exception);
+                            } catch (exception: Exception) {
+                                Log.e(
+                                    "ImportSettings",
+                                    "Error building fabricated commands",
+                                    exception
+                                )
                             }
                         }
                     }
@@ -263,43 +395,42 @@ public class ImportExport {
             }
 
             // Copy overlay APK files
-            commands.add("find " + Resources.BACKUP_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.DATA_DIR + " \\; ");
+            commands.add("find " + Resources.BACKUP_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.DATA_DIR + " \\; ")
 
             // Change permissions for copied overlay APKs
-            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ");
+            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ")
 
             // Install overlay APKs
-            commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do pm install -r \"$file\"; done");
+            commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do pm install -r \"\$file\"; done")
 
             // Remove copied overlay APKs
-            commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do rm -f \"$file\"; done");
+            commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do rm -f \"\$file\"; done")
 
             // Remount the filesystem as read-write
-            commands.add("mount -o remount,rw /");
+            commands.add("mount -o remount,rw /")
 
             // Copy overlay APKs to system overlay
-            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.SYSTEM_OVERLAY_DIR + " \\; ");
+            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.SYSTEM_OVERLAY_DIR + " \\; ")
 
             // Change permissions for copied overlay APKs in system overlay
-            commands.add("find " + Resources.SYSTEM_OVERLAY_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ");
+            commands.add("find " + Resources.SYSTEM_OVERLAY_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ")
 
             // Remount the filesystem as read-only
-            commands.add("mount -o remount,ro /");
+            commands.add("mount -o remount,ro /")
 
             // Clear temp backup directory
-            commands.add("rm -rf " + Resources.BACKUP_DIR);
+            commands.add("rm -rf " + Resources.BACKUP_DIR)
 
             // Wait and restart SystemUI
-            commands.add("sleep 3");
-            commands.add("killall com.android.systemui");
+            commands.add("sleep 3")
+            commands.add("killall com.android.systemui")
 
-            Shell.cmd(String.join("; ", commands)).submit();
+            Shell.cmd(java.lang.String.join("; ", commands)).submit()
         }
-
-        return status;
+        return status
     }
 
-    private static String addOverlay(String pkgName) {
-        return "cmd overlay enable --user current " + pkgName + "; cmd overlay set-priority " + pkgName + " highest";
+    private fun addOverlay(pkgName: String): String {
+        return "cmd overlay enable --user current $pkgName; cmd overlay set-priority $pkgName highest"
     }
 }

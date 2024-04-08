@@ -1,70 +1,81 @@
-package com.drdisagree.iconify.utils.color;
+package com.drdisagree.iconify.utils.color
 
-import android.graphics.ColorSpace;
+import android.graphics.ColorSpace
+import androidx.annotation.ColorInt
+import kotlin.math.max
+import kotlin.math.min
 
-import androidx.annotation.ColorInt;
-
-public class HSLColor {
+object HSLColor {
 
     @ColorInt
-    public static int hslToColor(float hue, float saturation, float lightness) {
-        return hslToColor(hue, saturation, lightness, 1f, ColorSpace.get(ColorSpace.Named.SRGB));
+    fun hslToColor(hue: Float, saturation: Float, lightness: Float): Int {
+        return hslToColor(hue, saturation, lightness, 1f, ColorSpace.get(ColorSpace.Named.SRGB))
     }
 
     @ColorInt
-    public static int hslToColor(float hue, float saturation, float lightness, float alpha, ColorSpace colorSpace) {
-        if (!(hue >= 0f && hue <= 360f && saturation >= 0f && saturation <= 1f && lightness >= 0f && lightness <= 1f)) {
-            throw new IllegalArgumentException("HSL (" + hue + ", " + saturation + ", " + lightness + ") must be in range (0..360, 0..1, 0..1)");
-        }
+    fun hslToColor(
+        hue: Float,
+        saturation: Float,
+        lightness: Float,
+        alpha: Float,
+        colorSpace: ColorSpace
+    ): Int {
+        require(hue in 0f..360f && saturation >= 0f && saturation <= 1f && lightness >= 0f && lightness <= 1f) { "HSL ($hue, $saturation, $lightness) must be in range (0..360, 0..1, 0..1)" }
 
-        float red = hslToRgbComponent(0, hue, saturation, lightness);
-        float green = hslToRgbComponent(8, hue, saturation, lightness);
-        float blue = hslToRgbComponent(4, hue, saturation, lightness);
+        val red = hslToRgbComponent(0, hue, saturation, lightness)
+        val green = hslToRgbComponent(8, hue, saturation, lightness)
+        val blue = hslToRgbComponent(4, hue, saturation, lightness)
 
-        return colorToArgb(red, green, blue, alpha, colorSpace);
+        return colorToArgb(red, green, blue, alpha, colorSpace)
     }
 
-    private static float hslToRgbComponent(int n, float h, float s, float l) {
-        float k = (n + h / 30f) % 12f;
-        float a = s * Math.min(l, 1f - l);
-        return l - a * Math.max(-1f, Math.min(Math.min(k - 3, 9 - k), 1f));
+    private fun hslToRgbComponent(n: Int, h: Float, s: Float, l: Float): Float {
+        val k = (n + h / 30f) % 12f
+        val a = (s * min(l.toDouble(), (1f - l).toDouble())).toFloat()
+
+        return (l - a * max(
+            -1.0,
+            min(min((k - 3).toDouble(), (9 - k).toDouble()), 1.0)
+        )).toFloat()
     }
 
     @ColorInt
-    public static int colorToArgb(float red, float green, float blue, float alpha, ColorSpace colorSpace) {
-        if (!(red >= colorSpace.getMinValue(0) && red <= colorSpace.getMaxValue(0) &&
-                green >= colorSpace.getMinValue(1) && green <= colorSpace.getMaxValue(1) &&
-                blue >= colorSpace.getMinValue(2) && blue <= colorSpace.getMaxValue(2) &&
-                alpha >= 0f && alpha <= 1f)) {
-            throw new IllegalArgumentException("Color values outside the range for " + colorSpace);
+    fun colorToArgb(
+        red: Float,
+        green: Float,
+        blue: Float,
+        alpha: Float,
+        colorSpace: ColorSpace
+    ): Int {
+        require(
+            red >= colorSpace.getMinValue(0) && red <= colorSpace.getMaxValue(0) && green >= colorSpace.getMinValue(
+                1
+            ) && green <= colorSpace.getMaxValue(1) && blue >= colorSpace.getMinValue(2) && blue <= colorSpace.getMaxValue(
+                2
+            ) && alpha >= 0f && alpha <= 1f
+        ) { "Color values outside the range for $colorSpace" }
+
+        if (colorSpace.isSrgb) {
+            return (alpha * 255.0f + 0.5f).toInt() shl 24 or
+                    ((red * 255.0f + 0.5f).toInt() shl 16) or
+                    ((green * 255.0f + 0.5f).toInt() shl 8) or (blue * 255.0f + 0.5f).toInt()
         }
 
-        if (colorSpace.isSrgb()) {
+        require(colorSpace.componentCount == 3) { "Color only works with ColorSpaces with 3 components" }
 
-            return (((int) (alpha * 255.0f + 0.5f) << 24) |
-                    ((int) (red * 255.0f + 0.5f) << 16) |
-                    ((int) (green * 255.0f + 0.5f) << 8) |
-                    (int) (blue * 255.0f + 0.5f));
-        }
+        val id = colorSpace.id
 
-        if (colorSpace.getComponentCount() != 3) {
-            throw new IllegalArgumentException("Color only works with ColorSpaces with 3 components");
-        }
+        require(id != ColorSpace.MIN_ID) { "Unknown color space, please use a color space in ColorSpaces" }
 
-        int id = colorSpace.getId();
-        if (id == ColorSpace.MIN_ID) {
-            throw new IllegalArgumentException("Unknown color space, please use a color space in ColorSpaces");
-        }
+        val r = (max(0.0, min(red.toDouble(), 1.0)) * 1023.0f + 0.5f).toFloat()
+        val g = (max(0.0, min(green.toDouble(), 1.0)) * 1023.0f + 0.5f).toFloat()
+        val b = (max(0.0, min(blue.toDouble(), 1.0)) * 1023.0f + 0.5f).toFloat()
+        val a = (max(0.0, min(alpha.toDouble(), 1.0)) * 1023.0f + 0.5f).toInt()
 
-        float r = Math.max(0.0f, Math.min(red, 1.0f)) * 1023.0f + 0.5f;
-        float g = Math.max(0.0f, Math.min(green, 1.0f)) * 1023.0f + 0.5f;
-        float b = Math.max(0.0f, Math.min(blue, 1.0f)) * 1023.0f + 0.5f;
-        int a = (int) (Math.max(0.0f, Math.min(alpha, 1.0f)) * 1023.0f + 0.5f);
-
-        return (int) ((((long) Float.floatToRawIntBits(r) & 0xffffL) << 48) |
-                (((long) Float.floatToRawIntBits(g) & 0xffffL) << 32) |
-                (((long) Float.floatToRawIntBits(b) & 0xffffL) << 16) |
-                (((long) a & 0x3ffL) << 6) |
-                (long) id & 0x3fL);
+        return (java.lang.Float.floatToRawIntBits(r).toLong() and 0xffffL shl 48 or
+                (java.lang.Float.floatToRawIntBits(g).toLong() and 0xffffL shl 32) or
+                (java.lang.Float.floatToRawIntBits(b).toLong() and 0xffffL shl 16) or
+                (a.toLong() and 0x3ffL shl 6) or (
+                id.toLong() and 0x3fL)).toInt()
     }
 }
