@@ -1,46 +1,32 @@
-package com.drdisagree.iconify.ui.adapters;
+package com.drdisagree.iconify.ui.adapters
 
-import static com.drdisagree.iconify.Iconify.getAppContext;
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.databinding.ViewListIconItemBinding
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+class IconsAdapter(
+    private val mEntries: Array<CharSequence>,
+    private val mEntryValues: Array<CharSequence>,
+    private var mValue: String,
+    private val onItemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.databinding.ViewListIconItemBinding;
-
-public class IconsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private final CharSequence[] mEntries;
-    private final CharSequence[] mEntryValues;
-    private Drawable[] mEntryDrawables;
-    private int[] mEntryResIds;
-    private String mValue;
-    private final onItemClickListener onItemClickListener;
-
-    public IconsAdapter(CharSequence[] entries,
-                        CharSequence[] entryValues,
-                        String currentValue,
-                        onItemClickListener onItemClickListener) {
-        mEntries = entries;
-        mEntryValues = entryValues;
-        mValue = currentValue;
-        this.onItemClickListener = onItemClickListener;
-    }
+    private var mEntryDrawables: Array<Drawable>? = null
+    private var mEntryResIds: IntArray? = null
 
     /**
      * Sets drawables for the icons
      * @param drawables The drawables of the icons
      */
-    public void setDrawables(Drawable[] drawables) {
-        mEntryDrawables = drawables;
+    fun setDrawables(drawables: Array<Drawable>?) {
+        mEntryDrawables = drawables
     }
 
     /**
@@ -48,66 +34,71 @@ public class IconsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
      * This should be used when the icons are from resources
      * @param resIds The resource ids of the icons
      */
-    public void setResIds(int[] resIds) {
-        mEntryResIds = resIds;
+    fun setResIds(resIds: IntArray?) {
+        mEntryResIds = resIds
     }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new IconsViewHolder(ViewListIconItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return IconsViewHolder(
+            ViewListIconItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((IconsViewHolder) holder).binding.typeTitle.setText(mEntries[position]);
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as IconsViewHolder).binding.typeTitle.text = mEntries[position]
 
         if (mEntryDrawables != null) {
-            ((IconsViewHolder) holder).binding.batteryIcon.setImageDrawable(mEntryDrawables[position]);
+            holder.binding.batteryIcon.setImageDrawable(mEntryDrawables!![position])
         } else if (mEntryResIds != null) {
-            ((IconsViewHolder) holder).binding.batteryIcon.setImageDrawable(ContextCompat.getDrawable(((IconsViewHolder) holder).binding.getRoot().getContext(), mEntryResIds[position]));
+            holder.binding.batteryIcon.setImageDrawable(
+                ContextCompat.getDrawable(
+                    holder.binding.getRoot().context,
+                    mEntryResIds!![position]
+                )
+            )
         } else {
-            throw new IllegalStateException(getClass().getSimpleName() + " - No icons provided");
+            throw IllegalStateException(javaClass.getSimpleName() + " - No icons provided")
         }
 
-        if (TextUtils.equals(mEntryValues[position].toString(), mValue)) {
-            ((IconsViewHolder) holder).binding.rootLayout.setStrokeColor(getAppContext().getColor(R.color.colorAccent));
+        if (mEntryValues[position].toString().contentEquals(mValue)) {
+            holder.binding.rootLayout.strokeColor =
+                Iconify.getAppContext().getColor(R.color.colorAccent)
         } else {
-            ((IconsViewHolder) holder).binding.rootLayout.setStrokeColor(Color.TRANSPARENT);
+            holder.binding.rootLayout.strokeColor = Color.TRANSPARENT
         }
 
-        ((IconsViewHolder) holder).binding.rootLayout.setOnClickListener(v -> {
-            int previousPosition = Integer.parseInt(mValue);
-            mValue = String.valueOf(position);
-            notifyItemChanged(previousPosition);
-            notifyItemChanged(position);
-            onItemClickListener.onItemClick(v, position);
-        });
-    }
+        holder.binding.rootLayout.setOnClickListener { v: View ->
+            val previousPosition = mValue.toInt()
+            mValue = position.toString()
 
-    @Override
-    public int getItemCount() {
-        return mEntries.length;
-    }
+            notifyItemChanged(previousPosition)
+            notifyItemChanged(position)
 
-    public void setCurrentValue(String currentValue) {
-        mValue = currentValue;
-    }
-
-    public static class IconsViewHolder extends RecyclerView.ViewHolder {
-
-        private final ViewListIconItemBinding binding;
-
-        IconsViewHolder(@NonNull ViewListIconItemBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+            onItemClickListener.onItemClick(v, position)
         }
     }
+
+    override fun getItemCount(): Int {
+        return mEntries.size
+    }
+
+    fun setCurrentValue(currentValue: String) {
+        mValue = currentValue
+    }
+
+    class IconsViewHolder internal constructor(val binding: ViewListIconItemBinding) :
+        RecyclerView.ViewHolder(
+            binding.getRoot()
+        )
 
     /**
      * Interface for the click on the item
      */
-    public interface onItemClickListener {
-        void onItemClick(View view, int position);
+    interface OnItemClickListener {
+        fun onItemClick(view: View, position: Int)
     }
 }

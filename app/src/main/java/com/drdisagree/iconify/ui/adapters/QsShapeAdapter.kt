@@ -1,331 +1,401 @@
-package com.drdisagree.iconify.ui.adapters;
+package com.drdisagree.iconify.ui.adapters
 
-import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable;
+import android.app.Activity
+import android.content.Context
+import android.content.res.Configuration
+import android.graphics.PorterDuff
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog
+import com.drdisagree.iconify.ui.models.QsShapeModel
+import com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable
+import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.helper.DisplayUtil
+import com.drdisagree.iconify.utils.overlay.manager.QsShapeManager
+import com.drdisagree.iconify.utils.overlay.manager.QsShapePixelManager
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+class QsShapeAdapter(
+    var context: Context,
+    private var itemList: ArrayList<QsShapeModel>,
+    var loadingDialog: LoadingDialog,
+    var variant: String
+) : RecyclerView.Adapter<QsShapeAdapter.ViewHolder>() {
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+    private var qsShapeKeys = ArrayList<String>()
+    private var linearLayoutManager: LinearLayoutManager? = null
+    private var selectedItem = -1
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
-import com.drdisagree.iconify.ui.models.QsShapeModel;
-import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.helper.DisplayUtil;
-import com.drdisagree.iconify.utils.overlay.manager.QsShapeManager;
-import com.drdisagree.iconify.utils.overlay.manager.QsShapePixelManager;
-
-import java.util.ArrayList;
-import java.util.Objects;
-
-public class QsShapeAdapter extends RecyclerView.Adapter<QsShapeAdapter.ViewHolder> {
-
-    Context context;
-    ArrayList<QsShapeModel> itemList;
-    ArrayList<String> QSSHAPE_KEY = new ArrayList<>();
-    LinearLayoutManager linearLayoutManager;
-    LoadingDialog loadingDialog;
-    int selectedItem = -1;
-    String variant;
-
-    public QsShapeAdapter(Context context, ArrayList<QsShapeModel> itemList, LoadingDialog loadingDialog, String variant) {
-        this.context = context;
-        this.variant = variant;
-        this.itemList = itemList;
-        this.loadingDialog = loadingDialog;
-
+    init {
         // Preference key
-        for (int i = 1; i <= itemList.size(); i++)
-            QSSHAPE_KEY.add("IconifyComponent" + variant + i + ".overlay");
+        for (i in 1..itemList.size) qsShapeKeys.add("IconifyComponent$variant$i.overlay")
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(Objects.equals(variant, "QSSN") ? R.layout.view_list_option_qsshape : R.layout.view_list_option_qsshape_pixel, parent, false);
-        return new ViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(
+            if (variant == "QSSN") R.layout.view_list_option_qsshape else R.layout.view_list_option_qsshape_pixel,
+            parent,
+            false
+        )
+        return ViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.style_name.setText(itemList.get(position).getName());
 
-        setDrawable(holder.qs_tile1, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getEnabledDrawable(), null));
-        setDrawable(holder.qs_tile2, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getDisabledDrawable(), null));
-        setDrawable(holder.qs_tile3, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getDisabledDrawable(), null));
-        setDrawable(holder.qs_tile4, ResourcesCompat.getDrawable(context.getResources(), itemList.get(position).getEnabledDrawable(), null));
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.styleName.text = itemList[position].name
 
-        int textColor;
+        setDrawable(
+            holder.qsTile1,
+            ResourcesCompat.getDrawable(context.resources, itemList[position].enabledDrawable, null)
+        )
 
-        if (Objects.equals(variant, "QSSN")) {
-            textColor = itemList.get(position).getInverseColor() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
+        setDrawable(
+            holder.qsTile2,
+            ResourcesCompat.getDrawable(
+                context.resources,
+                itemList[position].disabledDrawable,
+                null
+            )
+        )
+
+        setDrawable(
+            holder.qsTile3,
+            ResourcesCompat.getDrawable(
+                context.resources,
+                itemList[position].disabledDrawable,
+                null
+            )
+        )
+
+        setDrawable(
+            holder.qsTile4,
+            ResourcesCompat.getDrawable(context.resources, itemList[position].enabledDrawable, null)
+        )
+
+        val textColor: Int = if (variant == "QSSN") {
+            if (itemList[position].inverseColor) {
+                R.color.textColorPrimary
+            } else {
+                R.color.textColorPrimaryInverse
+            }
         } else {
-            textColor = itemList.get(position).getInverseColor() && SystemUtil.isDarkMode() ? R.color.textColorPrimary : R.color.textColorPrimaryInverse;
+            if (itemList[position].inverseColor && SystemUtil.isDarkMode()) {
+                R.color.textColorPrimary
+            } else {
+                R.color.textColorPrimaryInverse
+            }
         }
 
-        holder.qs_text1.setTextColor(ContextCompat.getColor(context, textColor));
-        holder.qs_icon1.setColorFilter(ContextCompat.getColor(context, textColor), android.graphics.PorterDuff.Mode.SRC_IN);
-        holder.qs_text4.setTextColor(ContextCompat.getColor(context, textColor));
-        holder.qs_icon4.setColorFilter(ContextCompat.getColor(context, textColor), android.graphics.PorterDuff.Mode.SRC_IN);
+        holder.qsText1.setTextColor(ContextCompat.getColor(context, textColor))
+        holder.qsIcon1.setColorFilter(
+            ContextCompat.getColor(context, textColor),
+            PorterDuff.Mode.SRC_IN
+        )
 
-        if (itemList.get(position).getIconMarginStart() != null && itemList.get(position).getIconMarginEnd() != null)
-            setMargin(holder, itemList.get(position).getIconMarginStart(), itemList.get(position).getIconMarginEnd());
-        else
-            setMargin(holder, 0, 10);
+        holder.qsText4.setTextColor(ContextCompat.getColor(context, textColor))
+        holder.qsIcon4.setColorFilter(
+            ContextCompat.getColor(context, textColor),
+            PorterDuff.Mode.SRC_IN
+        )
 
-        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            holder.orientation.setOrientation(LinearLayout.VERTICAL);
+        if (itemList[position].iconMarginStart != null && itemList[position].iconMarginEnd != null) {
+            setMargin(
+                holder,
+                itemList[position].iconMarginStart!!,
+                itemList[position].iconMarginEnd!!
+            )
         } else {
-            holder.orientation.setOrientation(LinearLayout.HORIZONTAL);
+            setMargin(holder, 0, 10)
         }
 
-        refreshButton(holder);
+        if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            holder.orientation.orientation = LinearLayout.VERTICAL
+        } else {
+            holder.orientation.orientation = LinearLayout.HORIZONTAL
+        }
 
-        enableOnClickListener(holder);
+        refreshButton(holder)
+        enableOnClickListener(holder)
     }
 
-    @Override
-    public int getItemCount() {
-        return itemList.size();
+    override fun getItemCount(): Int {
+        return itemList.size
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        super.onViewAttachedToWindow(holder)
 
-        itemSelected(holder.container, Prefs.getBoolean(QSSHAPE_KEY.get(holder.getBindingAdapterPosition())));
-
-        refreshButton(holder);
+        itemSelected(holder.container, getBoolean(qsShapeKeys[holder.getBindingAdapterPosition()]))
+        refreshButton(holder)
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
 
-        linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
     }
 
     // Function for onClick events
-    private void enableOnClickListener(ViewHolder holder) {
+    private fun enableOnClickListener(holder: ViewHolder) {
         // Set onClick operation for each item
-        holder.container.setOnClickListener(v -> {
-            selectedItem = selectedItem == holder.getBindingAdapterPosition() ? -1 : holder.getBindingAdapterPosition();
-            refreshLayout(holder);
+        holder.container.setOnClickListener {
+            selectedItem =
+                if (selectedItem == holder.getBindingAdapterPosition()) {
+                    -1
+                } else {
+                    holder.getBindingAdapterPosition()
+                }
 
-            if (!Prefs.getBoolean(QSSHAPE_KEY.get(holder.getBindingAdapterPosition()))) {
-                holder.btn_disable.setVisibility(View.GONE);
-                if (holder.btn_enable.getVisibility() == View.VISIBLE)
-                    holder.btn_enable.setVisibility(View.GONE);
-                else holder.btn_enable.setVisibility(View.VISIBLE);
+            refreshLayout(holder)
+
+            if (!getBoolean(qsShapeKeys[holder.getBindingAdapterPosition()])) {
+                holder.btnDisable.visibility = View.GONE
+
+                if (holder.btnEnable.visibility == View.VISIBLE) {
+                    holder.btnEnable.visibility =
+                        View.GONE
+                } else {
+                    holder.btnEnable.visibility = View.VISIBLE
+                }
             } else {
-                holder.btn_enable.setVisibility(View.GONE);
-                if (holder.btn_disable.getVisibility() == View.VISIBLE)
-                    holder.btn_disable.setVisibility(View.GONE);
-                else holder.btn_disable.setVisibility(View.VISIBLE);
+                holder.btnEnable.visibility = View.GONE
+
+                if (holder.btnDisable.visibility == View.VISIBLE) {
+                    holder.btnDisable.visibility =
+                        View.GONE
+                } else {
+                    holder.btnDisable.visibility = View.VISIBLE
+                }
             }
-        });
+        }
 
         // Set onClick operation for Enable button
-        holder.btn_enable.setOnClickListener(v -> {
+        holder.btnEnable.setOnClickListener {
             // Show loading dialog
-            loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+            loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
-            @SuppressLint("SetTextI18n") Runnable runnable = () -> {
-                if (Objects.equals(variant, "QSSN"))
-                    QsShapeManager.enableOverlay(holder.getBindingAdapterPosition() + 1);
-                else if (Objects.equals(variant, "QSSP"))
-                    QsShapePixelManager.enableOverlay(holder.getBindingAdapterPosition() + 1);
+            Thread {
+                if (variant == "QSSN") {
+                    QsShapeManager.enableOverlay(holder.getBindingAdapterPosition() + 1)
+                } else if (variant == "QSSP") {
+                    QsShapePixelManager.enableOverlay(
+                        holder.getBindingAdapterPosition() + 1
+                    )
+                }
 
-                ((Activity) context).runOnUiThread(() -> {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                (context as Activity).runOnUiThread {
+                    Handler(Looper.getMainLooper()).postDelayed({
                         // Hide loading dialog
-                        loadingDialog.hide();
+                        loadingDialog.hide()
 
                         // Change button visibility
-                        holder.btn_enable.setVisibility(View.GONE);
-                        holder.btn_disable.setVisibility(View.VISIBLE);
-                        refreshBackground(holder);
+                        holder.btnEnable.visibility = View.GONE
+                        holder.btnDisable.visibility = View.VISIBLE
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    }, 1000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-        });
+                        refreshBackground(holder)
+
+                        Toast.makeText(
+                            Iconify.getAppContext(),
+                            context.resources.getString(R.string.toast_applied),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }, 1000)
+                }
+            }.start()
+        }
 
         // Set onClick operation for Disable button
-        holder.btn_disable.setOnClickListener(v -> {
+        holder.btnDisable.setOnClickListener {
             // Show loading dialog
-            loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+            loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
-            Runnable runnable = () -> {
-                if (Objects.equals(variant, "QSSN"))
-                    QsShapeManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
-                else if (Objects.equals(variant, "QSSP"))
-                    QsShapePixelManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
+            Thread {
+                if (variant == "QSSN") {
+                    QsShapeManager.disableOverlay(holder.getBindingAdapterPosition() + 1)
+                } else if (variant == "QSSP") {
+                    QsShapePixelManager.disableOverlay(
+                        holder.getBindingAdapterPosition() + 1
+                    )
+                }
 
-                ((Activity) context).runOnUiThread(() -> {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                (context as Activity).runOnUiThread {
+                    Handler(Looper.getMainLooper()).postDelayed({
                         // Hide loading dialog
-                        loadingDialog.hide();
+                        loadingDialog.hide()
 
                         // Change button visibility
-                        holder.btn_disable.setVisibility(View.GONE);
-                        holder.btn_enable.setVisibility(View.VISIBLE);
-                        refreshBackground(holder);
+                        holder.btnDisable.visibility = View.GONE
+                        holder.btnEnable.visibility = View.VISIBLE
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
-                    }, 1000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-        });
+                        refreshBackground(holder)
+
+                        Toast.makeText(
+                            Iconify.getAppContext(),
+                            context.resources.getString(R.string.toast_disabled),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }, 1000)
+                }
+            }.start()
+        }
     }
 
     // Function to check for layout changes
-    private void refreshLayout(ViewHolder holder) {
-        int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-        int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+    private fun refreshLayout(holder: ViewHolder) {
+        val firstVisible = linearLayoutManager!!.findFirstVisibleItemPosition()
+        val lastVisible = linearLayoutManager!!.findLastVisibleItemPosition()
 
-        for (int i = firstVisible; i <= lastVisible; i++) {
-            View view = linearLayoutManager.findViewByPosition(i);
+        for (i in firstVisible..lastVisible) {
+            val view = linearLayoutManager!!.findViewByPosition(i)
 
             if (view != null) {
-                LinearLayout child = view.findViewById(R.id.qsshape_child);
+                val child = view.findViewById<LinearLayout>(R.id.qsshape_child)
 
-                if (!(view == holder.container) && child != null) {
-                    child.findViewById(R.id.enable_qsshape).setVisibility(View.GONE);
-                    child.findViewById(R.id.disable_qsshape).setVisibility(View.GONE);
+                if (view !== holder.container && child != null) {
+                    child.findViewById<View>(R.id.enable_qsshape).visibility = View.GONE
+                    child.findViewById<View>(R.id.disable_qsshape).visibility = View.GONE
                 }
             }
         }
     }
 
     // Function to check for applied options
-    private void refreshBackground(ViewHolder holder) {
-        int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-        int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+    private fun refreshBackground(holder: ViewHolder) {
+        val firstVisible = linearLayoutManager!!.findFirstVisibleItemPosition()
+        val lastVisible = linearLayoutManager!!.findLastVisibleItemPosition()
 
-        for (int i = firstVisible; i <= lastVisible; i++) {
-            View view = linearLayoutManager.findViewByPosition(i);
+        for (i in firstVisible..lastVisible) {
+            val view = linearLayoutManager!!.findViewByPosition(i)
 
             if (view != null) {
-                LinearLayout child = view.findViewById(R.id.qsshape_child);
+                val child = view.findViewById<LinearLayout>(R.id.qsshape_child)
 
                 if (child != null) {
-                    itemSelected(child, i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(QSSHAPE_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))));
+                    itemSelected(
+                        child, i == holder.getAbsoluteAdapterPosition() && getBoolean(
+                            qsShapeKeys[i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())]
+                        )
+                    )
                 }
             }
         }
     }
 
-    private void refreshButton(ViewHolder holder) {
+    private fun refreshButton(holder: ViewHolder) {
         if (holder.getBindingAdapterPosition() != selectedItem) {
-            holder.btn_enable.setVisibility(View.GONE);
-            holder.btn_disable.setVisibility(View.GONE);
+            holder.btnEnable.visibility = View.GONE
+            holder.btnDisable.visibility = View.GONE
         } else {
-            if (Prefs.getBoolean(QSSHAPE_KEY.get(selectedItem))) {
-                holder.btn_enable.setVisibility(View.GONE);
-                holder.btn_disable.setVisibility(View.VISIBLE);
+            if (getBoolean(qsShapeKeys[selectedItem])) {
+                holder.btnEnable.visibility = View.GONE
+                holder.btnDisable.visibility = View.VISIBLE
             } else {
-                holder.btn_enable.setVisibility(View.VISIBLE);
-                holder.btn_disable.setVisibility(View.GONE);
+                holder.btnEnable.visibility = View.VISIBLE
+                holder.btnDisable.visibility = View.GONE
             }
         }
     }
 
-    private void setMargin(ViewHolder holder, int iconMarginLeft, int iconMarginRight) {
-        ViewGroup.MarginLayoutParams marginParams;
-        LinearLayout.LayoutParams layoutParams;
+    private fun setMargin(holder: ViewHolder, iconMarginLeft: Int, iconMarginRight: Int) {
+        var marginParams = MarginLayoutParams(holder.qsIcon1.layoutParams)
+        var layoutParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(marginParams)
+        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft))
+        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight))
+        holder.qsIcon1.setLayoutParams(layoutParams)
 
-        marginParams = new ViewGroup.MarginLayoutParams(holder.qs_icon1.getLayoutParams());
-        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft));
-        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight));
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        holder.qs_icon1.setLayoutParams(layoutParams);
+        marginParams = MarginLayoutParams(holder.qsIcon2.layoutParams)
+        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft))
+        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight))
+        layoutParams = LinearLayout.LayoutParams(marginParams)
+        holder.qsIcon2.setLayoutParams(layoutParams)
 
-        marginParams = new ViewGroup.MarginLayoutParams(holder.qs_icon2.getLayoutParams());
-        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft));
-        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight));
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        holder.qs_icon2.setLayoutParams(layoutParams);
+        marginParams = MarginLayoutParams(holder.qsIcon3.layoutParams)
+        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft))
+        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight))
+        layoutParams = LinearLayout.LayoutParams(marginParams)
+        holder.qsIcon3.setLayoutParams(layoutParams)
 
-        marginParams = new ViewGroup.MarginLayoutParams(holder.qs_icon3.getLayoutParams());
-        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft));
-        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight));
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        holder.qs_icon3.setLayoutParams(layoutParams);
-
-        marginParams = new ViewGroup.MarginLayoutParams(holder.qs_icon4.getLayoutParams());
-        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft));
-        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight));
-        layoutParams = new LinearLayout.LayoutParams(marginParams);
-        holder.qs_icon4.setLayoutParams(layoutParams);
+        marginParams = MarginLayoutParams(holder.qsIcon4.layoutParams)
+        marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft))
+        marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight))
+        layoutParams = LinearLayout.LayoutParams(marginParams)
+        holder.qsIcon4.setLayoutParams(layoutParams)
     }
 
-    private void itemSelected(View parent, boolean state) {
+    private fun itemSelected(parent: View, state: Boolean) {
         if (state) {
-            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-            ((TextView) parent.findViewById(R.id.list_title_qsshape)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-            parent.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+            parent.background = ContextCompat.getDrawable(context, R.drawable.container_selected)
+            (parent.findViewById<View>(R.id.list_title_qsshape) as TextView).setTextColor(
+                ContextCompat.getColor(
+                    context, R.color.colorAccent
+                )
+            )
+            parent.findViewById<View>(R.id.icon_selected).visibility = View.VISIBLE
         } else {
-            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.item_background_material));
-            ((TextView) parent.findViewById(R.id.list_title_qsshape)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
-            parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+            parent.background =
+                ContextCompat.getDrawable(context, R.drawable.item_background_material)
+            (parent.findViewById<View>(R.id.list_title_qsshape) as TextView).setTextColor(
+                ContextCompat.getColor(
+                    context, R.color.text_color_primary
+                )
+            )
+            parent.findViewById<View>(R.id.icon_selected).visibility = View.INVISIBLE
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        LinearLayout container, orientation;
-        TextView style_name;
-        Button btn_enable, btn_disable;
-        LinearLayout qs_tile1, qs_tile2, qs_tile3, qs_tile4;
-        ImageView qs_icon1, qs_icon2, qs_icon3, qs_icon4;
-        TextView qs_text1, qs_text2, qs_text3, qs_text4;
+        var container: LinearLayout
+        var orientation: LinearLayout
+        var styleName: TextView
+        var btnEnable: Button
+        var btnDisable: Button
+        var qsTile1: LinearLayout
+        var qsTile2: LinearLayout
+        var qsTile3: LinearLayout
+        var qsTile4: LinearLayout
+        var qsIcon1: ImageView
+        var qsIcon2: ImageView
+        var qsIcon3: ImageView
+        var qsIcon4: ImageView
+        var qsText1: TextView
+        var qsText2: TextView
+        var qsText3: TextView
+        var qsText4: TextView
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            container = itemView.findViewById(R.id.qsshape_child);
-            style_name = itemView.findViewById(R.id.list_title_qsshape);
-            btn_enable = itemView.findViewById(R.id.enable_qsshape);
-            btn_disable = itemView.findViewById(R.id.disable_qsshape);
-            qs_tile1 = itemView.findViewById(R.id.qs_tile1);
-            qs_tile2 = itemView.findViewById(R.id.qs_tile2);
-            qs_tile3 = itemView.findViewById(R.id.qs_tile3);
-            qs_tile4 = itemView.findViewById(R.id.qs_tile4);
-            qs_icon1 = itemView.findViewById(R.id.qs_icon1);
-            qs_icon2 = itemView.findViewById(R.id.qs_icon2);
-            qs_icon3 = itemView.findViewById(R.id.qs_icon3);
-            qs_icon4 = itemView.findViewById(R.id.qs_icon4);
-            qs_text1 = itemView.findViewById(R.id.qs_text1);
-            qs_text2 = itemView.findViewById(R.id.qs_text2);
-            qs_text3 = itemView.findViewById(R.id.qs_text3);
-            qs_text4 = itemView.findViewById(R.id.qs_text4);
-            orientation = itemView.findViewById(R.id.qs_tile_orientation);
+        init {
+            container = itemView.findViewById(R.id.qsshape_child)
+            styleName = itemView.findViewById(R.id.list_title_qsshape)
+            btnEnable = itemView.findViewById(R.id.enable_qsshape)
+            btnDisable = itemView.findViewById(R.id.disable_qsshape)
+            qsTile1 = itemView.findViewById(R.id.qs_tile1)
+            qsTile2 = itemView.findViewById(R.id.qs_tile2)
+            qsTile3 = itemView.findViewById(R.id.qs_tile3)
+            qsTile4 = itemView.findViewById(R.id.qs_tile4)
+            qsIcon1 = itemView.findViewById(R.id.qs_icon1)
+            qsIcon2 = itemView.findViewById(R.id.qs_icon2)
+            qsIcon3 = itemView.findViewById(R.id.qs_icon3)
+            qsIcon4 = itemView.findViewById(R.id.qs_icon4)
+            qsText1 = itemView.findViewById(R.id.qs_text1)
+            qsText2 = itemView.findViewById(R.id.qs_text2)
+            qsText3 = itemView.findViewById(R.id.qs_text3)
+            qsText4 = itemView.findViewById(R.id.qs_text4)
+            orientation = itemView.findViewById(R.id.qs_tile_orientation)
         }
     }
 }

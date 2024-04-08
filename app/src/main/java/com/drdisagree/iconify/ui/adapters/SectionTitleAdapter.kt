@@ -1,61 +1,37 @@
-package com.drdisagree.iconify.ui.adapters;
+package com.drdisagree.iconify.ui.adapters
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.R
+import com.google.android.material.textview.MaterialTextView
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+class SectionTitleAdapter(
+    var context: Context,
+    var layout: Int,
+    text: Int
+) : RecyclerView.Adapter<SectionTitleAdapter.ViewHolder>() {
 
-import com.drdisagree.iconify.R;
-import com.google.android.material.textview.MaterialTextView;
+    var text: String
 
-public class SectionTitleAdapter extends RecyclerView.Adapter<SectionTitleAdapter.ViewHolder> {
-
-    Context context;
-    int layout;
-    String text;
-
-    public SectionTitleAdapter(Context context, int layout, int text) {
-        this.context = context;
-        this.layout = layout;
-        this.text = context.getString(text);
+    init {
+        this.text = context.getString(text)
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(layout, parent, false);
-        ((MaterialTextView) view.findViewById(R.id.section_title)).setText(text);
-        return new ViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(layout, parent, false)
+        (view.findViewById<View>(R.id.section_title) as MaterialTextView).text = text
+        return ViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     }
 
-    @Override
-    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
+    override fun getItemCount(): Int {
+        return 1
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    @Override
-    public int getItemCount() {
-        return 1;
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-    }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

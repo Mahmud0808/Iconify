@@ -1,268 +1,291 @@
-package com.drdisagree.iconify.ui.adapters;
+package com.drdisagree.iconify.ui.adapters
 
-import static com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE;
-import static com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR;
+import android.app.Activity
+import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
+import com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR
+import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog
+import com.drdisagree.iconify.ui.models.ProgressBarModel
+import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler
+import java.io.IOException
+import java.util.concurrent.atomic.AtomicBoolean
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+class ProgressBarAdapter(
+    var context: Context,
+    private var itemList: ArrayList<ProgressBarModel>,
+    var loadingDialog: LoadingDialog
+) : RecyclerView.Adapter<ProgressBarAdapter.ViewHolder>() {
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+    private var linearLayoutManager: LinearLayoutManager? = null
+    private var selectedItem = -1
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
-import com.drdisagree.iconify.ui.models.ProgressBarModel;
-import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
-import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-public class ProgressBarAdapter extends RecyclerView.Adapter<ProgressBarAdapter.ViewHolder> {
-
-    Context context;
-    ArrayList<ProgressBarModel> itemList;
-    LinearLayoutManager linearLayoutManager;
-    LoadingDialog loadingDialog;
-    int selectedItem = -1;
-
-    public ProgressBarAdapter(Context context, ArrayList<ProgressBarModel> itemList, LoadingDialog loadingDialog) {
-        this.context = context;
-        this.itemList = itemList;
-        this.loadingDialog = loadingDialog;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context)
+            .inflate(R.layout.view_list_option_progressbar, parent, false)
+        return ViewHolder(view)
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.view_list_option_progressbar, parent, false);
-        return new ViewHolder(view);
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.styleName.text = itemList[position].name
+        holder.progressbar.background =
+            ContextCompat.getDrawable(context, itemList[position].progress)
+
+        itemSelected(holder.container, Prefs.getInt(SELECTED_PROGRESSBAR, -1) == position)
+        refreshButton(holder)
+        enableOnClickListener(holder)
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.style_name.setText(itemList.get(position).getName());
-        holder.progressbar.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getProgress()));
-
-        itemSelected(holder.container, Prefs.getInt(SELECTED_PROGRESSBAR, -1) == position);
-
-        refreshButton(holder);
-
-        enableOnClickListener(holder);
+    override fun getItemCount(): Int {
+        return itemList.size
     }
 
-    @Override
-    public int getItemCount() {
-        return itemList.size();
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+
+        itemSelected(
+            holder.container,
+            Prefs.getInt(SELECTED_PROGRESSBAR, -1) == holder.getBindingAdapterPosition()
+        )
+
+        refreshButton(holder)
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
 
-        itemSelected(holder.container, Prefs.getInt(SELECTED_PROGRESSBAR, -1) == holder.getBindingAdapterPosition());
-
-        refreshButton(holder);
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-
-        linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
     }
 
     // Function for onClick events
-    private void enableOnClickListener(ViewHolder holder) {
+    private fun enableOnClickListener(holder: ViewHolder) {
         // Set onClick operation for each item
-        holder.container.setOnClickListener(v -> {
-            selectedItem = selectedItem == holder.getBindingAdapterPosition() ? -1 : holder.getBindingAdapterPosition();
-            refreshLayout(holder);
+        holder.container.setOnClickListener {
+            selectedItem =
+                if (selectedItem == holder.getBindingAdapterPosition()) -1 else holder.getBindingAdapterPosition()
 
-            if (!(Prefs.getInt(SELECTED_PROGRESSBAR, -1) == holder.getBindingAdapterPosition())) {
-                holder.btn_disable.setVisibility(View.GONE);
-                if (holder.btn_enable.getVisibility() == View.VISIBLE)
-                    holder.btn_enable.setVisibility(View.GONE);
-                else holder.btn_enable.setVisibility(View.VISIBLE);
+            refreshLayout(holder)
+
+            if (Prefs.getInt(SELECTED_PROGRESSBAR, -1) != holder.getBindingAdapterPosition()) {
+                holder.btnDisable.visibility = View.GONE
+
+                if (holder.btnEnable.visibility == View.VISIBLE) {
+                    holder.btnEnable.visibility = View.GONE
+                } else {
+                    holder.btnEnable.visibility = View.VISIBLE
+                }
             } else {
-                holder.btn_enable.setVisibility(View.GONE);
-                if (holder.btn_disable.getVisibility() == View.VISIBLE)
-                    holder.btn_disable.setVisibility(View.GONE);
-                else holder.btn_disable.setVisibility(View.VISIBLE);
+                holder.btnEnable.visibility = View.GONE
+
+                if (holder.btnDisable.visibility == View.VISIBLE) {
+                    holder.btnDisable.visibility = View.GONE
+                } else {
+                    holder.btnDisable.visibility = View.VISIBLE
+                }
             }
-        });
+        }
 
         // Set onClick operation for Enable button
-        holder.btn_enable.setOnClickListener(v -> {
+        holder.btnEnable.setOnClickListener {
             if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(context);
+                SystemUtil.requestStoragePermission(context)
             } else {
                 // Show loading dialog
-                loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+                loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
-                Runnable runnable = () -> {
-                    AtomicBoolean hasErroredOut = new AtomicBoolean(false);
-                    Prefs.putInt(SELECTED_PROGRESSBAR, holder.getBindingAdapterPosition());
+                Thread {
+                    val hasErroredOut = AtomicBoolean(false)
+
+                    Prefs.putInt(SELECTED_PROGRESSBAR, holder.getBindingAdapterPosition())
 
                     try {
-                        hasErroredOut.set(OnDemandCompiler.buildOverlay("PGB", holder.getBindingAdapterPosition() + 1, FRAMEWORK_PACKAGE, true));
-                    } catch (IOException e) {
-                        hasErroredOut.set(true);
-                        Log.e("ProgressBar", e.toString());
+                        hasErroredOut.set(
+                            OnDemandCompiler.buildOverlay(
+                                "PGB",
+                                holder.getBindingAdapterPosition() + 1,
+                                FRAMEWORK_PACKAGE,
+                                true
+                            )
+                        )
+                    } catch (e: IOException) {
+                        hasErroredOut.set(true)
+                        Log.e("ProgressBar", e.toString())
                     }
 
-                    ((Activity) context).runOnUiThread(() -> {
-                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    (context as Activity).runOnUiThread {
+                        Handler(Looper.getMainLooper()).postDelayed({
                             // Hide loading dialog
-                            loadingDialog.hide();
+                            loadingDialog.hide()
 
                             if (!hasErroredOut.get()) {
                                 // Change button visibility
-                                holder.btn_enable.setVisibility(View.GONE);
-                                holder.btn_disable.setVisibility(View.VISIBLE);
-                                refreshBackground(holder);
+                                holder.btnEnable.visibility = View.GONE
+                                holder.btnDisable.visibility = View.VISIBLE
 
-                                Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                refreshBackground(holder)
+
+                                Toast.makeText(
+                                    Iconify.getAppContext(),
+                                    context.resources.getString(R.string.toast_applied),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
-                                Prefs.putInt(SELECTED_PROGRESSBAR, -1);
-                                Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Prefs.putInt(SELECTED_PROGRESSBAR, -1)
+
+                                Toast.makeText(
+                                    Iconify.getAppContext(),
+                                    context.resources.getString(R.string.toast_error),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        }, 1000);
-                    });
-                };
-                Thread thread = new Thread(runnable);
-                thread.start();
+                        }, 1000)
+                    }
+                }.start()
             }
-        });
+        }
 
         // Set onClick operation for Disable button
-        holder.btn_disable.setOnClickListener(v -> {
+        holder.btnDisable.setOnClickListener {
             // Show loading dialog
-            loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+            loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
-            Runnable runnable = () -> {
-                Prefs.putInt(SELECTED_PROGRESSBAR, -1);
-                OverlayUtil.disableOverlay("IconifyComponentPGB.overlay");
-
-                ((Activity) context).runOnUiThread(() -> {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            Thread {
+                Prefs.putInt(SELECTED_PROGRESSBAR, -1)
+                OverlayUtil.disableOverlay("IconifyComponentPGB.overlay")
+                (context as Activity).runOnUiThread {
+                    Handler(Looper.getMainLooper()).postDelayed({
                         // Hide loading dialog
-                        loadingDialog.hide();
+                        loadingDialog.hide()
 
                         // Change button visibility
-                        holder.btn_disable.setVisibility(View.GONE);
-                        holder.btn_enable.setVisibility(View.VISIBLE);
-                        refreshBackground(holder);
+                        holder.btnDisable.visibility = View.GONE
+                        holder.btnEnable.visibility = View.VISIBLE
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
-                    }, 1000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-        });
+                        refreshBackground(holder)
+
+                        Toast.makeText(
+                            Iconify.getAppContext(),
+                            context.resources.getString(R.string.toast_disabled),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }, 1000)
+                }
+            }.start()
+        }
     }
 
     // Function to check for layout changes
-    private void refreshLayout(ViewHolder holder) {
-        int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-        int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+    private fun refreshLayout(holder: ViewHolder) {
+        val firstVisible = linearLayoutManager!!.findFirstVisibleItemPosition()
+        val lastVisible = linearLayoutManager!!.findLastVisibleItemPosition()
 
-        for (int i = firstVisible; i <= lastVisible; i++) {
-            View view = linearLayoutManager.findViewByPosition(i);
+        for (i in firstVisible..lastVisible) {
+            val view = linearLayoutManager!!.findViewByPosition(i)
 
             if (view != null) {
-                LinearLayout child = view.findViewById(R.id.progressbar_child);
+                val child = view.findViewById<LinearLayout>(R.id.progressbar_child)
 
-                if (!(view == holder.container) && child != null) {
-                    child.findViewById(R.id.enable_progressbar).setVisibility(View.GONE);
-                    child.findViewById(R.id.disable_progressbar).setVisibility(View.GONE);
+                if (view !== holder.container && child != null) {
+                    child.findViewById<View>(R.id.enable_progressbar).visibility = View.GONE
+                    child.findViewById<View>(R.id.disable_progressbar).visibility = View.GONE
                 }
             }
         }
     }
 
     // Function to check for applied options
-    @SuppressLint("SetTextI18n")
-    private void refreshBackground(ViewHolder holder) {
-        int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-        int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
 
-        for (int i = firstVisible; i <= lastVisible; i++) {
-            View view = linearLayoutManager.findViewByPosition(i);
+    private fun refreshBackground(holder: ViewHolder) {
+        val firstVisible = linearLayoutManager!!.findFirstVisibleItemPosition()
+        val lastVisible = linearLayoutManager!!.findLastVisibleItemPosition()
+
+        for (i in firstVisible..lastVisible) {
+            val view = linearLayoutManager!!.findViewByPosition(i)
 
             if (view != null) {
-                LinearLayout child = view.findViewById(R.id.progressbar_child);
+                val child = view.findViewById<LinearLayout>(R.id.progressbar_child)
 
                 if (child != null) {
-                    itemSelected(child, i == holder.getAbsoluteAdapterPosition() && Prefs.getInt(SELECTED_PROGRESSBAR, -1) == (i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())));
+                    itemSelected(
+                        child,
+                        i == holder.getAbsoluteAdapterPosition() &&
+                                Prefs.getInt(SELECTED_PROGRESSBAR, -1) ==
+                                i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())
+                    )
                 }
             }
         }
     }
 
-    private void refreshButton(ViewHolder holder) {
+    private fun refreshButton(holder: ViewHolder) {
         if (holder.getBindingAdapterPosition() != selectedItem) {
-            holder.btn_enable.setVisibility(View.GONE);
-            holder.btn_disable.setVisibility(View.GONE);
+            holder.btnEnable.visibility = View.GONE
+            holder.btnDisable.visibility = View.GONE
         } else {
             if (Prefs.getInt(SELECTED_PROGRESSBAR, -1) == selectedItem) {
-                holder.btn_enable.setVisibility(View.GONE);
-                holder.btn_disable.setVisibility(View.VISIBLE);
+                holder.btnEnable.visibility = View.GONE
+                holder.btnDisable.visibility = View.VISIBLE
             } else {
-                holder.btn_enable.setVisibility(View.VISIBLE);
-                holder.btn_disable.setVisibility(View.GONE);
+                holder.btnEnable.visibility = View.VISIBLE
+                holder.btnDisable.visibility = View.GONE
             }
         }
     }
 
-    private void itemSelected(View parent, boolean state) {
+    private fun itemSelected(parent: View, state: Boolean) {
         if (state) {
-            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-            ((TextView) parent.findViewById(R.id.progressbar_title)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-            parent.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+            parent.background = ContextCompat.getDrawable(context, R.drawable.container_selected)
+            (parent.findViewById<View>(R.id.progressbar_title) as TextView).setTextColor(
+                ContextCompat.getColor(
+                    context, R.color.colorAccent
+                )
+            )
+            parent.findViewById<View>(R.id.icon_selected).visibility = View.VISIBLE
         } else {
-            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.item_background_material));
-            ((TextView) parent.findViewById(R.id.progressbar_title)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
-            parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+            parent.background =
+                ContextCompat.getDrawable(context, R.drawable.item_background_material)
+            (parent.findViewById<View>(R.id.progressbar_title) as TextView).setTextColor(
+                ContextCompat.getColor(
+                    context, R.color.text_color_primary
+                )
+            )
+            parent.findViewById<View>(R.id.icon_selected).visibility = View.INVISIBLE
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        LinearLayout container;
-        TextView style_name;
-        ImageView progressbar;
-        Button btn_enable, btn_disable;
+        var container: LinearLayout
+        var styleName: TextView
+        var progressbar: ImageView
+        var btnEnable: Button
+        var btnDisable: Button
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            container = itemView.findViewById(R.id.progressbar_child);
-            style_name = itemView.findViewById(R.id.progressbar_title);
-            progressbar = itemView.findViewById(R.id.progress_bar);
-            btn_enable = itemView.findViewById(R.id.enable_progressbar);
-            btn_disable = itemView.findViewById(R.id.disable_progressbar);
+        init {
+            container = itemView.findViewById(R.id.progressbar_child)
+            styleName = itemView.findViewById(R.id.progressbar_title)
+            progressbar = itemView.findViewById(R.id.progress_bar)
+            btnEnable = itemView.findViewById(R.id.enable_progressbar)
+            btnDisable = itemView.findViewById(R.id.disable_progressbar)
         }
     }
 }

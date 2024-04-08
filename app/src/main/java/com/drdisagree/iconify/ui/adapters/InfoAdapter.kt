@@ -1,113 +1,114 @@
-package com.drdisagree.iconify.ui.adapters;
+package com.drdisagree.iconify.ui.adapters
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.BlendMode;
-import android.graphics.BlendModeColorFilter;
-import android.graphics.drawable.Drawable;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.ui.models.InfoModel
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+class InfoAdapter(
+    var context: Context,
+    private var itemList: ArrayList<InfoModel>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.models.InfoModel;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_HEADER -> {
+                HeaderViewHolder(
+                    LayoutInflater.from(
+                        context
+                    ).inflate(R.layout.view_list_info_header, parent, false)
+                )
+            }
 
-import java.util.ArrayList;
-import java.util.Objects;
+            TYPE_ITEM -> {
+                ItemViewHolder(
+                    LayoutInflater.from(
+                        context
+                    ).inflate(R.layout.view_list_info_item, parent, false)
+                )
+            }
 
-public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_ITEM = 1;
-    Context context;
-    ArrayList<InfoModel> itemList;
-
-    public InfoAdapter(Context context, ArrayList<InfoModel> itemList) {
-        this.context = context;
-        this.itemList = itemList;
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER)
-            return new HeaderViewHolder(LayoutInflater.from(context).inflate(R.layout.view_list_info_header, parent, false));
-        else if (viewType == TYPE_ITEM)
-            return new ItemViewHolder(LayoutInflater.from(context).inflate(R.layout.view_list_info_item, parent, false));
-
-        throw new RuntimeException("There is no type that matches the type " + viewType + ". + make sure you are using types correctly.");
+            else -> throw RuntimeException("There is no type that matches the type $viewType. + make sure you are using types correctly.")
+        }
     }
 
     @SuppressLint("DiscouragedApi")
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof HeaderViewHolder) {
-            ((HeaderViewHolder) holder).header.setText(itemList.get(position).getTitle());
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is HeaderViewHolder) {
+            holder.header.text = itemList[position].getTitle()
 
-            if (Objects.equals(itemList.get(position).getTitle(), "")) {
-                holder.itemView.setVisibility(View.GONE);
-                holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+            if (itemList[position].getTitle() == "") {
+                holder.itemView.visibility = View.GONE
+                holder.itemView.setLayoutParams(RecyclerView.LayoutParams(0, 0))
             }
-        } else if (holder instanceof ItemViewHolder) {
-            ((ItemViewHolder) holder).icon.setImageResource(itemList.get(position).getIcon());
-            ((ItemViewHolder) holder).title.setText(itemList.get(position).getTitle());
-            ((ItemViewHolder) holder).desc.setText(itemList.get(position).getDesc());
-            ((ItemViewHolder) holder).container.setOnClickListener(itemList.get(position).getOnClickListener());
+        } else if (holder is ItemViewHolder) {
+            holder.icon.setImageResource(itemList[position].getIcon())
+            holder.title.text = itemList[position].getTitle()
+            holder.desc.text = itemList[position].getDesc()
+            holder.container.setOnClickListener(itemList[position].getOnClickListener())
 
-            String drawableName = context.getResources().getResourceEntryName(itemList.get(position).getIcon());
-            TypedValue typedValue = new TypedValue();
-            context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
-            int colorOnSurface = typedValue.data;
+            val drawableName = context.resources.getResourceEntryName(itemList[position].getIcon())
+            val typedValue = TypedValue()
 
+            context.theme.resolveAttribute(
+                com.google.android.material.R.attr.colorOnSurface,
+                typedValue,
+                true
+            )
+
+            val colorOnSurface = typedValue.data
             if (drawableName.contains("flag_")) {
-                ((ItemViewHolder) holder).icon.clearColorFilter();
+                holder.icon.clearColorFilter()
             } else {
-                ((ItemViewHolder) holder).icon.setColorFilter(new BlendModeColorFilter(colorOnSurface, BlendMode.SRC_IN));
+                holder.icon.colorFilter = BlendModeColorFilter(colorOnSurface, BlendMode.SRC_IN)
             }
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return itemList.size();
+    override fun getItemCount(): Int {
+        return itemList.size
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) return TYPE_HEADER;
-
-        return TYPE_ITEM;
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 0) TYPE_HEADER else TYPE_ITEM
     }
 
-    static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView header;
+    internal class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        public HeaderViewHolder(View itemView) {
-            super(itemView);
+        var header: TextView
 
-            header = itemView.findViewById(R.id.list_info_header);
+        init {
+            header = itemView.findViewById(R.id.list_info_header)
         }
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
-        ImageView icon;
-        TextView title, desc;
-        RelativeLayout container;
+    internal class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        public ItemViewHolder(View itemView) {
-            super(itemView);
+        var icon: ImageView
+        var title: TextView
+        var desc: TextView
+        var container: RelativeLayout
 
-            icon = itemView.findViewById(R.id.icon);
-            title = itemView.findViewById(R.id.title);
-            desc = itemView.findViewById(R.id.desc);
-            container = itemView.findViewById(R.id.list_info_item);
+        init {
+            icon = itemView.findViewById(R.id.icon)
+            title = itemView.findViewById(R.id.title)
+            desc = itemView.findViewById(R.id.desc)
+            container = itemView.findViewById(R.id.list_info_item)
         }
+    }
+
+    companion object {
+        private const val TYPE_HEADER = 0
+        private const val TYPE_ITEM = 1
     }
 }

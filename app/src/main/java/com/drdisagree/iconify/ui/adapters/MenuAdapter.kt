@@ -1,63 +1,38 @@
-package com.drdisagree.iconify.ui.adapters;
+package com.drdisagree.iconify.ui.adapters
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.Navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.ui.models.MenuModel
+import com.drdisagree.iconify.ui.widgets.MenuWidget
 
-import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
+class MenuAdapter(
+    var context: Context,
+    private var itemList: ArrayList<MenuModel>
+) : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
-import com.drdisagree.iconify.ui.models.MenuModel;
-import com.drdisagree.iconify.ui.widgets.MenuWidget;
-
-import java.util.ArrayList;
-
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
-
-    Context context;
-    ArrayList<MenuModel> itemList;
-
-    public MenuAdapter(Context context, ArrayList<MenuModel> itemList) {
-        this.context = context;
-        this.itemList = itemList;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(MenuWidget(context))
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(new MenuWidget(context));
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val menu = holder.itemView as MenuWidget
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MenuWidget menu = (MenuWidget) holder.itemView;
-        menu.setTitle(itemList.get(position).getTitle());
-        menu.setSummary(itemList.get(position).getDesc());
-        menu.setIcon(itemList.get(position).getIcon());
-        menu.setEndArrowVisibility(View.VISIBLE);
-        menu.setOnClickListener(v -> Navigation.findNavController(v).navigate(itemList.get(position).getId()));
-    }
+        menu.setTitle(itemList[position].title)
+        menu.setSummary(itemList[position].desc)
+        menu.setIcon(itemList[position].icon)
+        menu.setEndArrowVisibility(View.VISIBLE)
 
-    @Override
-    public int getItemCount() {
-        return itemList.size();
-    }
-
-    @Override
-    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
+        menu.setOnClickListener { v: View? ->
+            findNavController(v!!).navigate(itemList[position].id)
         }
     }
+
+    override fun getItemCount(): Int {
+        return itemList.size
+    }
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

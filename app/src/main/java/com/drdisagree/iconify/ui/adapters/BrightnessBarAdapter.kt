@@ -1,262 +1,293 @@
-package com.drdisagree.iconify.ui.adapters;
+package com.drdisagree.iconify.ui.adapters
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.app.Activity
+import android.content.Context
+import android.graphics.PorterDuff
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog
+import com.drdisagree.iconify.ui.models.BrightnessBarModel
+import com.drdisagree.iconify.utils.overlay.manager.BrightnessBarManager
+import com.drdisagree.iconify.utils.overlay.manager.BrightnessBarPixelManager
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+class BrightnessBarAdapter(
+    var context: Context,
+    private var itemList: ArrayList<BrightnessBarModel>,
+    var loadingDialog: LoadingDialog,
+    var variant: String
+) : RecyclerView.Adapter<BrightnessBarAdapter.ViewHolder>() {
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
-import com.drdisagree.iconify.ui.models.BrightnessBarModel;
-import com.drdisagree.iconify.utils.overlay.manager.BrightnessBarManager;
-import com.drdisagree.iconify.utils.overlay.manager.BrightnessBarPixelManager;
+    private var brightnessBarKeys = ArrayList<String>()
+    private var linearLayoutManager: LinearLayoutManager? = null
+    private var selectedItem = -1
 
-import java.util.ArrayList;
-import java.util.Objects;
-
-public class BrightnessBarAdapter extends RecyclerView.Adapter<BrightnessBarAdapter.ViewHolder> {
-
-    Context context;
-    ArrayList<BrightnessBarModel> itemList;
-    ArrayList<String> BRIGHTNESSBAR_KEY = new ArrayList<>();
-    LinearLayoutManager linearLayoutManager;
-    LoadingDialog loadingDialog;
-    int selectedItem = -1;
-    String variant;
-
-    public BrightnessBarAdapter(Context context, ArrayList<BrightnessBarModel> itemList, LoadingDialog loadingDialog, String variant) {
-        this.context = context;
-        this.variant = variant;
-        this.itemList = itemList;
-        this.loadingDialog = loadingDialog;
-
-        // Preference key
-        for (int i = 1; i <= itemList.size(); i++)
-            BRIGHTNESSBAR_KEY.add("IconifyComponent" + variant + i + ".overlay");
+    init {
+        for (i in 1..itemList.size) brightnessBarKeys.add("IconifyComponent$variant$i.overlay")
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(Objects.equals(variant, "BBN") ? R.layout.view_list_option_brightnessbar : R.layout.view_list_option_brightnessbar_pixel, parent, false);
-        return new ViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(
+            if (variant == "BBN") {
+                R.layout.view_list_option_brightnessbar
+            } else {
+                R.layout.view_list_option_brightnessbar_pixel
+            },
+            parent,
+            false
+        )
+        return ViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.style_name.setText(itemList.get(position).getName());
-        holder.brightness.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getBrightness()));
-        holder.auto_brightness.setBackground(ContextCompat.getDrawable(context, itemList.get(position).getAutoBrightness()));
 
-        if (itemList.get(position).getInverseColor())
-            holder.auto_brightness.setColorFilter(ContextCompat.getColor(context, R.color.textColorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.styleName.text = itemList[position].name
+        holder.brightness.background =
+            ContextCompat.getDrawable(context, itemList[position].brightness)
+        holder.autoBrightness.background =
+            ContextCompat.getDrawable(context, itemList[position].autoBrightness)
 
-        refreshButton(holder);
+        if (itemList[position].inverseColor) holder.autoBrightness.setColorFilter(
+            ContextCompat.getColor(
+                context, R.color.textColorPrimary
+            ), PorterDuff.Mode.SRC_IN
+        )
 
-        enableOnClickListener(holder);
+        refreshButton(holder)
+        enableOnClickListener(holder)
     }
 
-    @Override
-    public int getItemCount() {
-        return itemList.size();
+    override fun getItemCount(): Int {
+        return itemList.size
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
 
-        itemSelected(holder.container, Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(holder.getBindingAdapterPosition())));
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        super.onViewAttachedToWindow(holder)
 
-        refreshButton(holder);
+        itemSelected(
+            holder.container,
+            getBoolean(brightnessBarKeys[holder.getBindingAdapterPosition()])
+        )
+
+        refreshButton(holder)
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
 
-        linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
     }
 
     // Function for onClick events
-    private void enableOnClickListener(ViewHolder holder) {
+    private fun enableOnClickListener(holder: ViewHolder) {
         // Set onClick operation for each item
-        holder.container.setOnClickListener(v -> {
-            selectedItem = selectedItem == holder.getBindingAdapterPosition() ? -1 : holder.getBindingAdapterPosition();
-            refreshLayout(holder);
+        holder.container.setOnClickListener {
+            selectedItem =
+                if (selectedItem == holder.getBindingAdapterPosition()) -1 else holder.getBindingAdapterPosition()
 
-            if (!Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(holder.getBindingAdapterPosition()))) {
-                holder.btn_disable.setVisibility(View.GONE);
-                if (holder.btn_enable.getVisibility() == View.VISIBLE)
-                    holder.btn_enable.setVisibility(View.GONE);
-                else
-                    holder.btn_enable.setVisibility(View.VISIBLE);
+            refreshLayout(holder)
+
+            if (!getBoolean(brightnessBarKeys[holder.getBindingAdapterPosition()])) {
+                holder.btnDisable.visibility = View.GONE
+
+                if (holder.btnEnable.visibility == View.VISIBLE) {
+                    holder.btnEnable.visibility = View.GONE
+                } else {
+                    holder.btnEnable.visibility = View.VISIBLE
+                }
             } else {
-                holder.btn_enable.setVisibility(View.GONE);
-                if (holder.btn_disable.getVisibility() == View.VISIBLE)
-                    holder.btn_disable.setVisibility(View.GONE);
-                else
-                    holder.btn_disable.setVisibility(View.VISIBLE);
+                holder.btnEnable.visibility = View.GONE
+
+                if (holder.btnDisable.visibility == View.VISIBLE) {
+                    holder.btnDisable.visibility = View.GONE
+                } else {
+                    holder.btnDisable.visibility = View.VISIBLE
+                }
             }
-        });
+        }
 
         // Set onClick operation for Enable button
-        holder.btn_enable.setOnClickListener(v -> {
+        holder.btnEnable.setOnClickListener {
             // Show loading dialog
-            loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+            loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
-            @SuppressLint("SetTextI18n") Runnable runnable = () -> {
-                if (Objects.equals(variant, "BBN"))
-                    BrightnessBarManager.enableOverlay(holder.getBindingAdapterPosition() + 1);
-                else if (Objects.equals(variant, "BBP"))
-                    BrightnessBarPixelManager.enableOverlay(holder.getBindingAdapterPosition() + 1);
+            Thread {
+                if (variant == "BBN") {
+                    BrightnessBarManager.enableOverlay(holder.getBindingAdapterPosition() + 1)
+                } else if (variant == "BBP") {
+                    BrightnessBarPixelManager.enableOverlay(
+                        holder.getBindingAdapterPosition() + 1
+                    )
+                }
 
-                ((Activity) context).runOnUiThread(() -> {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        // Hide loading dialog
-                        loadingDialog.hide();
+                (context as Activity).runOnUiThread {
+                    Handler(Looper.getMainLooper()).postDelayed(
+                        {
+                            // Hide loading dialog
+                            loadingDialog.hide()
 
-                        // Change button visibility
-                        holder.btn_enable.setVisibility(View.GONE);
-                        holder.btn_disable.setVisibility(View.VISIBLE);
-                        refreshBackground(holder);
+                            // Change button visibility
+                            holder.btnEnable.visibility = View.GONE
+                            holder.btnDisable.visibility = View.VISIBLE
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    }, 1000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-        });
+                            refreshBackground(holder)
+
+                            Toast.makeText(
+                                Iconify.getAppContext(),
+                                context.resources.getString(R.string.toast_applied),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }, 1000
+                    )
+                }
+            }.start()
+        }
 
         // Set onClick operation for Disable button
-        holder.btn_disable.setOnClickListener(v -> {
+        holder.btnDisable.setOnClickListener {
             // Show loading dialog
-            loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+            loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
-            Runnable runnable = () -> {
-                if (Objects.equals(variant, "BBN"))
-                    BrightnessBarManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
-                else if (Objects.equals(variant, "BBP"))
-                    BrightnessBarPixelManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
+            Thread {
+                if (variant == "BBN") {
+                    BrightnessBarManager.disableOverlay(holder.getBindingAdapterPosition() + 1)
+                } else if (variant == "BBP") {
+                    BrightnessBarPixelManager.disableOverlay(
+                        holder.getBindingAdapterPosition() + 1
+                    )
+                }
 
-                ((Activity) context).runOnUiThread(() -> {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        // Hide loading dialog
-                        loadingDialog.hide();
+                (context as Activity).runOnUiThread {
+                    Handler(Looper.getMainLooper()).postDelayed(
+                        {
+                            // Hide loading dialog
+                            loadingDialog.hide()
 
-                        // Change button visibility
-                        holder.btn_disable.setVisibility(View.GONE);
-                        holder.btn_enable.setVisibility(View.VISIBLE);
-                        refreshBackground(holder);
+                            // Change button visibility
+                            holder.btnDisable.visibility = View.GONE
+                            holder.btnEnable.visibility = View.VISIBLE
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
-                    }, 1000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-        });
+                            refreshBackground(holder)
+
+                            Toast.makeText(
+                                Iconify.getAppContext(),
+                                context.resources.getString(R.string.toast_disabled),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }, 1000
+                    )
+                }
+            }.start()
+        }
     }
 
     // Function to check for layout changes
-    private void refreshLayout(ViewHolder holder) {
-        int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-        int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+    private fun refreshLayout(holder: ViewHolder) {
+        val firstVisible = linearLayoutManager!!.findFirstVisibleItemPosition()
+        val lastVisible = linearLayoutManager!!.findLastVisibleItemPosition()
 
-        for (int i = firstVisible; i <= lastVisible; i++) {
-            View view = linearLayoutManager.findViewByPosition(i);
+        for (i in firstVisible..lastVisible) {
+            val view = linearLayoutManager!!.findViewByPosition(i)
 
             if (view != null) {
-                LinearLayout child = view.findViewById(R.id.brightness_bar_child);
+                val child = view.findViewById<LinearLayout>(R.id.brightness_bar_child)
 
-                if (!(view == holder.container) && child != null) {
-                    child.findViewById(R.id.enable_brightnessbar).setVisibility(View.GONE);
-                    child.findViewById(R.id.disable_brightnessbar).setVisibility(View.GONE);
+                if (view !== holder.container && child != null) {
+                    child.findViewById<View>(R.id.enable_brightnessbar).visibility = View.GONE
+                    child.findViewById<View>(R.id.disable_brightnessbar).visibility = View.GONE
                 }
             }
         }
     }
 
     // Function to check for applied options
-    @SuppressLint("SetTextI18n")
-    private void refreshBackground(ViewHolder holder) {
-        int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-        int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+    private fun refreshBackground(holder: ViewHolder) {
+        val firstVisible = linearLayoutManager!!.findFirstVisibleItemPosition()
+        val lastVisible = linearLayoutManager!!.findLastVisibleItemPosition()
 
-        for (int i = firstVisible; i <= lastVisible; i++) {
-            View view = linearLayoutManager.findViewByPosition(i);
+        for (i in firstVisible..lastVisible) {
+            val view = linearLayoutManager!!.findViewByPosition(i)
 
             if (view != null) {
-                LinearLayout child = view.findViewById(R.id.brightness_bar_child);
+                val child = view.findViewById<LinearLayout>(R.id.brightness_bar_child)
 
                 if (child != null) {
-                    itemSelected(child, i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition()))));
+                    itemSelected(
+                        child,
+                        i == holder.getAbsoluteAdapterPosition() &&
+                                getBoolean(brightnessBarKeys[i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())])
+                    )
                 }
             }
         }
     }
 
-    private void refreshButton(ViewHolder holder) {
+    private fun refreshButton(holder: ViewHolder) {
         if (holder.getBindingAdapterPosition() != selectedItem) {
-            holder.btn_enable.setVisibility(View.GONE);
-            holder.btn_disable.setVisibility(View.GONE);
+            holder.btnEnable.visibility = View.GONE
+            holder.btnDisable.visibility = View.GONE
         } else {
-            if (Prefs.getBoolean(BRIGHTNESSBAR_KEY.get(selectedItem))) {
-                holder.btn_enable.setVisibility(View.GONE);
-                holder.btn_disable.setVisibility(View.VISIBLE);
+            if (getBoolean(brightnessBarKeys[selectedItem])) {
+                holder.btnEnable.visibility = View.GONE
+                holder.btnDisable.visibility = View.VISIBLE
             } else {
-                holder.btn_enable.setVisibility(View.VISIBLE);
-                holder.btn_disable.setVisibility(View.GONE);
+                holder.btnEnable.visibility = View.VISIBLE
+                holder.btnDisable.visibility = View.GONE
             }
         }
     }
 
-    private void itemSelected(View parent, boolean state) {
+    private fun itemSelected(parent: View, state: Boolean) {
         if (state) {
-            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.container_selected));
-            ((TextView) parent.findViewById(R.id.brightnessbar_title)).setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-            parent.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+            parent.background = ContextCompat.getDrawable(context, R.drawable.container_selected)
+            (parent.findViewById<View>(R.id.brightnessbar_title) as TextView).setTextColor(
+                ContextCompat.getColor(
+                    context, R.color.colorAccent
+                )
+            )
+            parent.findViewById<View>(R.id.icon_selected).visibility = View.VISIBLE
         } else {
-            parent.setBackground(ContextCompat.getDrawable(context, R.drawable.item_background_material));
-            ((TextView) parent.findViewById(R.id.brightnessbar_title)).setTextColor(ContextCompat.getColor(context, R.color.text_color_primary));
-            parent.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+            parent.background =
+                ContextCompat.getDrawable(context, R.drawable.item_background_material)
+            (parent.findViewById<View>(R.id.brightnessbar_title) as TextView).setTextColor(
+                ContextCompat.getColor(
+                    context, R.color.text_color_primary
+                )
+            )
+            parent.findViewById<View>(R.id.icon_selected).visibility = View.INVISIBLE
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        LinearLayout container;
-        TextView style_name;
-        ImageView brightness, auto_brightness;
-        Button btn_enable, btn_disable;
+        var container: LinearLayout
+        var styleName: TextView
+        var brightness: ImageView
+        var autoBrightness: ImageView
+        var btnEnable: Button
+        var btnDisable: Button
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            container = itemView.findViewById(R.id.brightness_bar_child);
-            style_name = itemView.findViewById(R.id.brightnessbar_title);
-            brightness = itemView.findViewById(R.id.brightness_bar);
-            auto_brightness = itemView.findViewById(R.id.auto_brightness_icon);
-            btn_enable = itemView.findViewById(R.id.enable_brightnessbar);
-            btn_disable = itemView.findViewById(R.id.disable_brightnessbar);
+        init {
+            container = itemView.findViewById(R.id.brightness_bar_child)
+            styleName = itemView.findViewById(R.id.brightnessbar_title)
+            brightness = itemView.findViewById(R.id.brightness_bar)
+            autoBrightness = itemView.findViewById(R.id.auto_brightness_icon)
+            btnEnable = itemView.findViewById(R.id.enable_brightnessbar)
+            btnDisable = itemView.findViewById(R.id.disable_brightnessbar)
         }
     }
 }

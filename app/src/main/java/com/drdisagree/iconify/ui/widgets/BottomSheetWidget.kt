@@ -18,12 +18,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.adapters.IconsAdapter
-import com.drdisagree.iconify.ui.adapters.IconsAdapter.onItemClickListener
 import com.drdisagree.iconify.utils.SystemUtil
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
-class BottomSheetWidget : RelativeLayout, onItemClickListener {
+class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
 
     private lateinit var container: RelativeLayout
     private lateinit var titleTextView: TextView
@@ -36,7 +35,7 @@ class BottomSheetWidget : RelativeLayout, onItemClickListener {
     private lateinit var mEntries: Array<CharSequence>
     private lateinit var mEntryValues: Array<CharSequence>
     private var mDrawables: Array<Drawable>? = null
-    private var mValue: String? = null
+    private var mValue: String = selectedIndex.toString()
     private var mAdapter: IconsAdapter? = null
     private var onItemClickListener: OnItemClickListener? = null
 
@@ -147,7 +146,7 @@ class BottomSheetWidget : RelativeLayout, onItemClickListener {
         mAdapter?.setDrawables(drawable)
     }
 
-    fun setCurrentValue(currentValue: String?) {
+    fun setCurrentValue(currentValue: String) {
         mValue = currentValue
         mAdapter?.setCurrentValue(currentValue)
     }

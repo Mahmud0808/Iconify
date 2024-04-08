@@ -1,214 +1,191 @@
-package com.drdisagree.iconify.ui.adapters;
+package com.drdisagree.iconify.ui.adapters
 
-import static com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH;
+import android.annotation.SuppressLint
+import android.app.WallpaperManager
+import android.content.Context
+import android.graphics.Bitmap
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewStub
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.ui.models.ClockModel
+import com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setBitmapWithAnimation
+import com.drdisagree.iconify.utils.WallpaperUtil
+import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-import android.annotation.SuppressLint;
-import android.app.WallpaperManager;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+@Suppress("deprecation")
+class ClockPreviewAdapter(
+    private val context: Context,
+    private val itemList: ArrayList<ClockModel>,
+    prefSwitch: String?,
+    prefStyle: String
+) : RecyclerView.Adapter<ClockPreviewAdapter.ViewHolder>() {
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+    private val prefStyle: String
+    private var linearLayoutManager: LinearLayoutManager? = null
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.RPrefs;
-import com.drdisagree.iconify.ui.models.ClockModel;
-import com.drdisagree.iconify.ui.utils.ViewBindingHelpers;
-import com.drdisagree.iconify.utils.WallpaperUtil;
-import com.google.android.material.button.MaterialButton;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Objects;
-
-@SuppressWarnings("deprecation")
-public class ClockPreviewAdapter extends RecyclerView.Adapter<ClockPreviewAdapter.ViewHolder> {
-
-    private final Context context;
-    private final ArrayList<ClockModel> itemList;
-    private static String prefSwitch;
-    private final String prefStyle;
-    private static Bitmap wallpaperBitmap;
-    private LinearLayoutManager linearLayoutManager;
-
-    public ClockPreviewAdapter(Context context, ArrayList<ClockModel> itemList, String prefSwitch, String prefStyle) {
-        this.context = context;
-        this.itemList = itemList;
-        ClockPreviewAdapter.prefSwitch = prefSwitch;
-        this.prefStyle = prefStyle;
-
-        new WallpaperLoaderTask(this).execute();
+    init {
+        Companion.prefSwitch = prefSwitch
+        this.prefStyle = prefStyle
+        loadWallpaper(this)
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(
-                Objects.equals(prefSwitch, LSCLOCK_SWITCH) ?
-                        R.layout.view_clock_preview_lockscreen :
-                        R.layout.view_clock_preview_header,
-                parent,
-                false
-        );
-        return new ViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(
+            if (prefSwitch == LSCLOCK_SWITCH) {
+                R.layout.view_clock_preview_lockscreen
+            } else {
+                R.layout.view_clock_preview_header
+            },
+            parent,
+            false
+        )
+        return ViewHolder(view)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ClockModel model = itemList.get(position);
-
-        holder.bind(model, position);
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val model = itemList[position]
+        holder.bind(model, position)
     }
 
-    @Override
-    public int getItemCount() {
-        return itemList.size();
+    override fun getItemCount(): Int {
+        return itemList.size
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private final LinearLayout container;
-        private final TextView title;
-        private final LinearLayout clockContainer;
-        private final ImageView checkIcon;
-        private final MaterialButton button;
-        private final ImageView wallpaperView;
+        val container: LinearLayout
+        private val title: TextView
+        private val clockContainer: LinearLayout
+        val checkIcon: ImageView
+        val button: MaterialButton
+        private val wallpaperView: ImageView
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            container = itemView.findViewById(R.id.clock_preview_child);
-            title = itemView.findViewById(R.id.clock_title);
-            clockContainer = itemView.findViewById(R.id.clock_view_container);
-            checkIcon = itemView.findViewById(R.id.icon_selected);
-            button = itemView.findViewById(R.id.btn_select_style);
-            wallpaperView = itemView.findViewById(R.id.wallpaper_view);
+        init {
+            container = itemView.findViewById(R.id.clock_preview_child)
+            title = itemView.findViewById(R.id.clock_title)
+            clockContainer = itemView.findViewById(R.id.clock_view_container)
+            checkIcon = itemView.findViewById(R.id.icon_selected)
+            button = itemView.findViewById(R.id.btn_select_style)
+            wallpaperView = itemView.findViewById(R.id.wallpaper_view)
         }
 
-        public void bind(ClockModel model, int position) {
-            title.setText(model.getTitle());
+        fun bind(model: ClockModel, position: Int) {
+            title.text = model.title
+            button.setOnClickListener {
+                RPrefs.putInt(prefStyle, position)
+                refreshLayout(this)
+            }
 
-            button.setOnClickListener(v -> {
-                RPrefs.putInt(prefStyle, position);
-                refreshLayout(this);
-            });
-
-            int adapterPosition = getAdapterPosition();
+            val adapterPosition = adapterPosition
             if (RPrefs.getInt(prefStyle, 0) != adapterPosition) {
-                checkIcon.setVisibility(View.GONE);
-                button.setEnabled(true);
+                checkIcon.setVisibility(View.GONE)
+                button.setEnabled(true)
             } else {
-                checkIcon.setVisibility(View.VISIBLE);
-                button.setEnabled(false);
+                checkIcon.setVisibility(View.VISIBLE)
+                button.setEnabled(false)
             }
 
-            clockContainer.removeAllViews();
-            ViewStub viewStub = new ViewStub(context);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.gravity = Gravity.CENTER_VERTICAL;
-            viewStub.setLayoutParams(params);
-            viewStub.setLayoutResource(model.getLayout());
-            clockContainer.addView(viewStub);
+            clockContainer.removeAllViews()
 
-            if (viewStub.getParent() != null) {
-                viewStub.inflate();
+            val viewStub = ViewStub(context)
+            val params = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+
+            params.gravity = Gravity.CENTER_VERTICAL
+            viewStub.setLayoutParams(params)
+            viewStub.layoutResource = model.layout
+
+            clockContainer.addView(viewStub)
+
+            if (viewStub.parent != null) {
+                viewStub.inflate()
             }
 
-            boolean isSelected = adapterPosition == getBindingAdapterPosition();
-            button.setEnabled(!isSelected);
-            checkIcon.setVisibility(isSelected ? View.VISIBLE : View.GONE);
+            val isSelected = adapterPosition == getBindingAdapterPosition()
+            button.setEnabled(!isSelected)
+            checkIcon.setVisibility(if (isSelected) View.VISIBLE else View.GONE)
 
             if (wallpaperBitmap != null) {
-                ViewBindingHelpers.setBitmapWithAnimation(wallpaperView, wallpaperBitmap);
+                setBitmapWithAnimation(wallpaperView, wallpaperBitmap)
             }
         }
     }
 
-    private void refreshLayout(ViewHolder holder) {
-        int firstVisible = linearLayoutManager.findFirstVisibleItemPosition() - 1;
-        int lastVisible = linearLayoutManager.findLastVisibleItemPosition() + 1;
+    private fun refreshLayout(holder: ViewHolder) {
+        val firstVisible = linearLayoutManager!!.findFirstVisibleItemPosition() - 1
+        val lastVisible = linearLayoutManager!!.findLastVisibleItemPosition() + 1
 
-        for (int i = firstVisible; i <= lastVisible; i++) {
-            View view = linearLayoutManager.findViewByPosition(i);
-            if (view == null) continue;
+        for (i in firstVisible..lastVisible) {
+            val view = linearLayoutManager!!.findViewByPosition(i) ?: continue
+            val child = view.findViewById<LinearLayout>(R.id.clock_preview_child) ?: continue
+            val isSelected = view === holder.container
 
-            LinearLayout child = view.findViewById(R.id.clock_preview_child);
-            if (child == null) continue;
-
-            boolean isSelected = view == holder.container;
-            child.findViewById(R.id.btn_select_style).setEnabled(!isSelected);
-            child.findViewById(R.id.icon_selected).setVisibility(!isSelected ?
-                    View.GONE :
-                    View.VISIBLE
-            );
+            child.findViewById<View>(R.id.btn_select_style).setEnabled(!isSelected)
+            child.findViewById<View>(R.id.icon_selected).visibility =
+                if (!isSelected) View.GONE else View.VISIBLE
         }
     }
 
-    @Override
-    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        super.onViewAttachedToWindow(holder)
 
         if (RPrefs.getInt(prefStyle, 0) != holder.getBindingAdapterPosition()) {
-            holder.checkIcon.setVisibility(View.GONE);
-            holder.button.setEnabled(true);
+            holder.checkIcon.setVisibility(View.GONE)
+            holder.button.setEnabled(true)
         } else {
-            holder.checkIcon.setVisibility(View.VISIBLE);
-            holder.button.setEnabled(false);
+            holder.checkIcon.setVisibility(View.VISIBLE)
+            holder.button.setEnabled(false)
         }
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
 
-        linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
     }
 
-    private static class WallpaperLoaderTask extends AsyncTask<Void, Void, Bitmap> {
-        private final WeakReference<ClockPreviewAdapter> adapterRef;
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadWallpaper(adapter: ClockPreviewAdapter) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val bitmap = withContext(Dispatchers.IO) {
+                val context = adapter.context
 
-        WallpaperLoaderTask(ClockPreviewAdapter adapter) {
-            adapterRef = new WeakReference<>(adapter);
-            wallpaperBitmap = null;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            Context context = adapterRef.get().context;
-            if (context == null) return null;
-
-            return WallpaperUtil.getCompressedWallpaper(
+                WallpaperUtil.getCompressedWallpaper(
                     context,
                     80,
-                    Objects.equals(prefSwitch, LSCLOCK_SWITCH) ?
-                            WallpaperManager.FLAG_LOCK :
-                            WallpaperManager.FLAG_SYSTEM
-            );
-        }
+                    if (prefSwitch == LSCLOCK_SWITCH) {
+                        WallpaperManager.FLAG_LOCK
+                    } else {
+                        WallpaperManager.FLAG_SYSTEM
+                    }
+                )
+            }
 
-        @SuppressLint("NotifyDataSetChanged")
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-
-            ClockPreviewAdapter adapter = adapterRef.get();
-            if (adapter != null && bitmap != null && Objects.equals(prefSwitch, LSCLOCK_SWITCH)) {
-                wallpaperBitmap = bitmap;
-                adapter.notifyDataSetChanged();
+            if (bitmap != null && prefSwitch == LSCLOCK_SWITCH) {
+                wallpaperBitmap = bitmap
+                adapter.notifyDataSetChanged()
             }
         }
+    }
+
+    companion object {
+        private var prefSwitch: String? = null
+        private var wallpaperBitmap: Bitmap? = null
     }
 }

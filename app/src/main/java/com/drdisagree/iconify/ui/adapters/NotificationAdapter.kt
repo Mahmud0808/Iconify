@@ -1,287 +1,376 @@
-package com.drdisagree.iconify.ui.adapters;
+package com.drdisagree.iconify.ui.adapters
 
-import static com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable;
+import android.app.Activity
+import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog
+import com.drdisagree.iconify.ui.models.NotificationModel
+import com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable
+import com.drdisagree.iconify.utils.overlay.manager.NotificationManager
+import com.drdisagree.iconify.utils.overlay.manager.NotificationPixelManager
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+class NotificationAdapter(
+    var context: Context,
+    private var itemList: ArrayList<NotificationModel>,
+    var loadingDialog: LoadingDialog,
+    var variant: String
+) : RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+    private var notificationKeys = ArrayList<String>()
+    private var linearLayoutManager: LinearLayoutManager? = null
+    private var selectedItem = -1
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog;
-import com.drdisagree.iconify.ui.models.NotificationModel;
-import com.drdisagree.iconify.utils.overlay.manager.NotificationManager;
-import com.drdisagree.iconify.utils.overlay.manager.NotificationPixelManager;
-
-import java.util.ArrayList;
-import java.util.Objects;
-
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
-
-    Context context;
-    ArrayList<NotificationModel> itemList;
-    ArrayList<String> NOTIFICATION_KEY = new ArrayList<>();
-    LinearLayoutManager linearLayoutManager;
-    LoadingDialog loadingDialog;
-    int selectedItem = -1;
-    String variant;
-
-    public NotificationAdapter(Context context, ArrayList<NotificationModel> itemList, LoadingDialog loadingDialog, String variant) {
-        this.context = context;
-        this.variant = variant;
-        this.itemList = itemList;
-        this.loadingDialog = loadingDialog;
-
+    init {
         // Preference key
-        for (int i = 1; i <= itemList.size(); i++)
-            NOTIFICATION_KEY.add("IconifyComponent" + variant + i + ".overlay");
+        for (i in 1..itemList.size) notificationKeys.add("IconifyComponent$variant$i.overlay")
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.view_list_option_notification, parent, false);
-        return new ViewHolder(view);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context)
+            .inflate(R.layout.view_list_option_notification, parent, false)
+        return ViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        setDrawable(holder.container, ContextCompat.getDrawable(context, itemList.get(position).getBackground()));
-        holder.style_name.setText(itemList.get(position).getName());
-        holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        setDrawable(
+            holder.container,
+            ContextCompat.getDrawable(context, itemList[position].background)
+        )
 
-        if (Prefs.getBoolean(NOTIFICATION_KEY.get(position))) {
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
-            holder.container.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+        holder.styleName.text = itemList[position].name
+        holder.icCollapseExpand.setForeground(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.ic_expand_arrow
+            )
+        )
+
+        if (getBoolean(notificationKeys[position])) {
+            holder.styleName.setTextColor(
+                context.resources.getColor(
+                    R.color.colorAccent,
+                    context.theme
+                )
+            )
+            holder.container.findViewById<View>(R.id.icon_selected).visibility = View.VISIBLE
         } else {
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
-            holder.container.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+            holder.styleName.setTextColor(
+                context.resources.getColor(
+                    R.color.textColorPrimary,
+                    context.theme
+                )
+            )
+            holder.container.findViewById<View>(R.id.icon_selected).visibility = View.INVISIBLE
         }
 
-        refreshButton(holder);
-
-        enableOnClickListener(holder);
+        refreshButton(holder)
+        enableOnClickListener(holder)
     }
 
-    @Override
-    public int getItemCount() {
-        return itemList.size();
+    override fun getItemCount(): Int {
+        return itemList.size
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        super.onViewAttachedToWindow(holder)
 
-        if (Prefs.getBoolean(NOTIFICATION_KEY.get(holder.getBindingAdapterPosition()))) {
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
-            holder.container.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+        if (getBoolean(notificationKeys[holder.getBindingAdapterPosition()])) {
+            holder.styleName.setTextColor(
+                context.resources.getColor(
+                    R.color.colorAccent,
+                    context.theme
+                )
+            )
+            holder.container.findViewById<View>(R.id.icon_selected).visibility =
+                View.VISIBLE
         } else {
-            holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
-            holder.container.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+            holder.styleName.setTextColor(
+                context.resources.getColor(
+                    R.color.textColorPrimary,
+                    context.theme
+                )
+            )
+            holder.container.findViewById<View>(R.id.icon_selected).visibility = View.INVISIBLE
         }
 
-        refreshButton(holder);
+        refreshButton(holder)
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-
-        linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
     }
 
     // Function for onClick events
-    private void enableOnClickListener(ViewHolder holder) {
+    private fun enableOnClickListener(holder: ViewHolder) {
         // Set onClick operation for each item
-        holder.container.setOnClickListener(v -> {
-            selectedItem = selectedItem == holder.getBindingAdapterPosition() ? -1 : holder.getBindingAdapterPosition();
-            refreshLayout(holder);
-
-            if (!Prefs.getBoolean(NOTIFICATION_KEY.get(holder.getBindingAdapterPosition()))) {
-                holder.btn_disable.setVisibility(View.GONE);
-                if (holder.btn_enable.getVisibility() == View.VISIBLE) {
-                    holder.btn_enable.setVisibility(View.GONE);
-                    holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
+        holder.container.setOnClickListener {
+            selectedItem =
+                if (selectedItem == holder.getBindingAdapterPosition()) {
+                    -1
                 } else {
-                    holder.btn_enable.setVisibility(View.VISIBLE);
-                    holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_collapse_arrow));
+                    holder.getBindingAdapterPosition()
+                }
+
+            refreshLayout(holder)
+
+            if (!getBoolean(notificationKeys[holder.getBindingAdapterPosition()])) {
+                holder.btnDisable.visibility = View.GONE
+
+                if (holder.btnEnable.visibility == View.VISIBLE) {
+                    holder.btnEnable.visibility = View.GONE
+                    holder.icCollapseExpand.setForeground(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_expand_arrow
+                        )
+                    )
+                } else {
+                    holder.btnEnable.visibility = View.VISIBLE
+                    holder.icCollapseExpand.setForeground(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_collapse_arrow
+                        )
+                    )
                 }
             } else {
-                holder.btn_enable.setVisibility(View.GONE);
-                if (holder.btn_disable.getVisibility() == View.VISIBLE) {
-                    holder.btn_disable.setVisibility(View.GONE);
-                    holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
+                holder.btnEnable.visibility = View.GONE
+
+                if (holder.btnDisable.visibility == View.VISIBLE) {
+                    holder.btnDisable.visibility = View.GONE
+                    holder.icCollapseExpand.setForeground(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_expand_arrow
+                        )
+                    )
                 } else {
-                    holder.btn_disable.setVisibility(View.VISIBLE);
-                    holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_collapse_arrow));
+                    holder.btnDisable.visibility = View.VISIBLE
+                    holder.icCollapseExpand.setForeground(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_collapse_arrow
+                        )
+                    )
                 }
             }
-        });
+        }
 
         // Set onClick operation for Enable button
-        holder.btn_enable.setOnClickListener(v -> {
+        holder.btnEnable.setOnClickListener {
             // Show loading dialog
-            loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+            loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
-            @SuppressLint("SetTextI18n") Runnable runnable = () -> {
-                if (Objects.equals(variant, "NFN"))
-                    NotificationManager.enableOverlay(holder.getBindingAdapterPosition() + 1);
-                else if (Objects.equals(variant, "NFP"))
-                    NotificationPixelManager.enableOverlay(holder.getBindingAdapterPosition() + 1);
+            Thread {
+                if (variant == "NFN") {
+                    NotificationManager.enableOverlay(holder.getBindingAdapterPosition() + 1)
+                } else if (variant == "NFP") {
+                    NotificationPixelManager.enableOverlay(
+                        holder.getBindingAdapterPosition() + 1
+                    )
+                }
 
-                ((Activity) context).runOnUiThread(() -> {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                (context as Activity).runOnUiThread {
+                    Handler(Looper.getMainLooper()).postDelayed({
                         // Hide loading dialog
-                        loadingDialog.hide();
+                        loadingDialog.hide()
 
-                        holder.style_name.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
-                        holder.container.findViewById(R.id.icon_selected).setVisibility(View.VISIBLE);
+                        holder.styleName.setTextColor(
+                            context.resources.getColor(
+                                R.color.colorAccent,
+                                context.theme
+                            )
+                        )
+                        holder.container.findViewById<View>(R.id.icon_selected).visibility =
+                            View.VISIBLE
 
                         // Change button visibility
-                        holder.btn_enable.setVisibility(View.GONE);
-                        holder.btn_disable.setVisibility(View.VISIBLE);
-                        refreshName(holder);
+                        holder.btnEnable.visibility = View.GONE
+                        holder.btnDisable.visibility = View.VISIBLE
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-                    }, 1000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-        });
+                        refreshName(holder)
+
+                        Toast.makeText(
+                            Iconify.getAppContext(),
+                            context.resources.getString(R.string.toast_applied),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }, 1000)
+                }
+            }.start()
+        }
 
         // Set onClick operation for Disable button
-        holder.btn_disable.setOnClickListener(v -> {
+        holder.btnDisable.setOnClickListener {
             // Show loading dialog
-            loadingDialog.show(context.getResources().getString(R.string.loading_dialog_wait));
+            loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
-            Runnable runnable = () -> {
-                if (Objects.equals(variant, "NFN"))
-                    NotificationManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
-                else if (Objects.equals(variant, "NFP"))
-                    NotificationPixelManager.disableOverlay(holder.getBindingAdapterPosition() + 1);
+            Thread {
+                if (variant == "NFN") {
+                    NotificationManager.disableOverlay(holder.getBindingAdapterPosition() + 1)
+                } else if (variant == "NFP") {
+                    NotificationPixelManager.disableOverlay(
+                        holder.getBindingAdapterPosition() + 1
+                    )
+                }
 
-                ((Activity) context).runOnUiThread(() -> {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                (context as Activity).runOnUiThread {
+                    Handler(Looper.getMainLooper()).postDelayed({
                         // Hide loading dialog
-                        loadingDialog.hide();
+                        loadingDialog.hide()
 
-                        holder.style_name.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
-                        holder.container.findViewById(R.id.icon_selected).setVisibility(View.INVISIBLE);
+                        holder.styleName.setTextColor(
+                            context.resources.getColor(
+                                R.color.textColorPrimary,
+                                context.theme
+                            )
+                        )
+                        holder.container.findViewById<View>(R.id.icon_selected).visibility =
+                            View.INVISIBLE
 
                         // Change button visibility
-                        holder.btn_disable.setVisibility(View.GONE);
-                        holder.btn_enable.setVisibility(View.VISIBLE);
-                        refreshName(holder);
+                        holder.btnDisable.visibility = View.GONE
+                        holder.btnEnable.visibility = View.VISIBLE
 
-                        Toast.makeText(Iconify.getAppContext(), context.getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
-                    }, 1000);
-                });
-            };
-            Thread thread = new Thread(runnable);
-            thread.start();
-        });
+                        refreshName(holder)
+
+                        Toast.makeText(
+                            Iconify.getAppContext(),
+                            context.resources.getString(R.string.toast_disabled),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }, 1000)
+                }
+            }.start()
+        }
     }
 
     // Function to check for layout changes
-    private void refreshLayout(ViewHolder holder) {
-        int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-        int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+    private fun refreshLayout(holder: ViewHolder) {
+        val firstVisible = linearLayoutManager!!.findFirstVisibleItemPosition()
+        val lastVisible = linearLayoutManager!!.findLastVisibleItemPosition()
 
-        for (int i = firstVisible; i <= lastVisible; i++) {
-            View view = linearLayoutManager.findViewByPosition(i);
+        for (i in firstVisible..lastVisible) {
+            val view = linearLayoutManager!!.findViewByPosition(i)
 
             if (view != null) {
-                LinearLayout child = view.findViewById(R.id.notification_child);
+                val child = view.findViewById<LinearLayout>(R.id.notification_child)
 
-                if (!(view == holder.container) && child != null) {
-                    child.findViewById(R.id.enable_notif).setVisibility(View.GONE);
-                    child.findViewById(R.id.disable_notif).setVisibility(View.GONE);
-                    child.findViewById(R.id.notif_arrow).setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
+                if (view !== holder.container && child != null) {
+                    child.findViewById<View>(R.id.enable_notif).visibility = View.GONE
+                    child.findViewById<View>(R.id.disable_notif).visibility = View.GONE
+                    child.findViewById<View>(R.id.notif_arrow).setForeground(
+                        ContextCompat.getDrawable(
+                            context, R.drawable.ic_expand_arrow
+                        )
+                    )
                 }
             }
         }
     }
 
     // Function to check for applied options
-    @SuppressLint("SetTextI18n")
-    private void refreshName(ViewHolder holder) {
-        int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-        int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+    private fun refreshName(holder: ViewHolder) {
+        val firstVisible = linearLayoutManager!!.findFirstVisibleItemPosition()
+        val lastVisible = linearLayoutManager!!.findLastVisibleItemPosition()
 
-        for (int i = firstVisible; i <= lastVisible; i++) {
-            View view = linearLayoutManager.findViewByPosition(i);
+        for (i in firstVisible..lastVisible) {
+            val view = linearLayoutManager!!.findViewByPosition(i)
 
             if (view != null) {
-                LinearLayout child = view.findViewById(R.id.notification_child);
+                val child = view.findViewById<LinearLayout>(R.id.notification_child)
 
                 if (child != null) {
-                    TextView title = child.findViewById(R.id.notif_title);
-                    ImageView selected = child.findViewById(R.id.icon_selected);
+                    val title = child.findViewById<TextView>(R.id.notif_title)
+                    val selected = child.findViewById<ImageView>(R.id.icon_selected)
 
-                    if (i == holder.getAbsoluteAdapterPosition() && Prefs.getBoolean(NOTIFICATION_KEY.get(i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())))) {
-                        title.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
-                        selected.setVisibility(View.VISIBLE);
+                    if (i == holder.getAbsoluteAdapterPosition() &&
+                        getBoolean(notificationKeys[i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())])
+                    ) {
+                        title.setTextColor(
+                            context.resources.getColor(
+                                R.color.colorAccent,
+                                context.theme
+                            )
+                        )
+                        selected.setVisibility(View.VISIBLE)
                     } else {
-                        title.setTextColor(context.getResources().getColor(R.color.textColorPrimary, context.getTheme()));
-                        selected.setVisibility(View.INVISIBLE);
+                        title.setTextColor(
+                            context.resources.getColor(
+                                R.color.textColorPrimary,
+                                context.theme
+                            )
+                        )
+                        selected.setVisibility(View.INVISIBLE)
                     }
                 }
             }
         }
     }
 
-    private void refreshButton(ViewHolder holder) {
+    private fun refreshButton(holder: ViewHolder) {
         if (holder.getBindingAdapterPosition() != selectedItem) {
-            holder.btn_enable.setVisibility(View.GONE);
-            holder.btn_disable.setVisibility(View.GONE);
-            holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
+            holder.btnEnable.visibility = View.GONE
+            holder.btnDisable.visibility = View.GONE
+            holder.icCollapseExpand.setForeground(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.ic_expand_arrow
+                )
+            )
         } else {
-            if (Prefs.getBoolean(NOTIFICATION_KEY.get(selectedItem))) {
-                holder.btn_enable.setVisibility(View.GONE);
-                holder.btn_disable.setVisibility(View.VISIBLE);
-                holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_expand_arrow));
+            if (getBoolean(notificationKeys[selectedItem])) {
+                holder.btnEnable.visibility = View.GONE
+                holder.btnDisable.visibility = View.VISIBLE
+                holder.icCollapseExpand.setForeground(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ic_expand_arrow
+                    )
+                )
             } else {
-                holder.btn_enable.setVisibility(View.VISIBLE);
-                holder.btn_disable.setVisibility(View.GONE);
-                holder.ic_collapse_expand.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_collapse_arrow));
+                holder.btnEnable.visibility = View.VISIBLE
+                holder.btnDisable.visibility = View.GONE
+                holder.icCollapseExpand.setForeground(
+                    ContextCompat.getDrawable(
+                        context,
+                        R.drawable.ic_collapse_arrow
+                    )
+                )
             }
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        LinearLayout container;
-        TextView style_name;
-        ImageView ic_collapse_expand;
-        Button btn_enable, btn_disable;
+        var container: LinearLayout
+        var styleName: TextView
+        var icCollapseExpand: ImageView
+        var btnEnable: Button
+        var btnDisable: Button
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            container = itemView.findViewById(R.id.notification_child);
-            style_name = itemView.findViewById(R.id.notif_title);
-            ic_collapse_expand = itemView.findViewById(R.id.notif_arrow);
-            btn_enable = itemView.findViewById(R.id.enable_notif);
-            btn_disable = itemView.findViewById(R.id.disable_notif);
+        init {
+            container = itemView.findViewById(R.id.notification_child)
+            styleName = itemView.findViewById(R.id.notif_title)
+            icCollapseExpand = itemView.findViewById(R.id.notif_arrow)
+            btnEnable = itemView.findViewById(R.id.enable_notif)
+            btnDisable = itemView.findViewById(R.id.disable_notif)
         }
     }
 }
