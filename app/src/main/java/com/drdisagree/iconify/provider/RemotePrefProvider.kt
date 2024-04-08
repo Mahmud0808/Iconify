@@ -7,5 +7,5 @@ import com.drdisagree.iconify.common.Resources
 
 class RemotePrefProvider : RemotePreferenceProvider(
     BuildConfig.APPLICATION_ID,
-    arrayOf(RemotePreferenceFile(Resources.SharedXPref, true))
+    arrayOf(RemotePreferenceFile(Resources.SHARED_XPREFERENCES, true))
 )

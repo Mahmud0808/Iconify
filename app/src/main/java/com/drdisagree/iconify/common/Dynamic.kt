@@ -1,37 +1,68 @@
-package com.drdisagree.iconify.common;
+package com.drdisagree.iconify.common
 
-import static com.drdisagree.iconify.common.Resources.BIN_DIR;
+import android.os.Build
+import com.drdisagree.iconify.Iconify
+import com.topjohnwu.superuser.Shell
+import java.io.File
 
-import android.os.Build;
-
-import com.drdisagree.iconify.Iconify;
-import com.topjohnwu.superuser.Shell;
-
-import java.io.File;
-
-public class Dynamic {
+object Dynamic {
 
     // Grab number of overlays dynamically for each variant
-    public static final int TOTAL_BRIGHTNESSBARS = (Shell.cmd("cmd overlay list | grep '....IconifyComponentBBN'").exec().getOut()).size();
-    public static final int TOTAL_BRIGHTNESSBARSPIXEL = (Shell.cmd("cmd overlay list | grep '....IconifyComponentBBP'").exec().getOut()).size();
-    public static final int TOTAL_ICONPACKS = Shell.cmd("cmd overlay list | grep '....IconifyComponentIPAS'").exec().getOut().size();
-    public static final int TOTAL_NOTIFICATIONS = Shell.cmd("cmd overlay list | grep '....IconifyComponentNFN'").exec().getOut().size();
-    public static final int TOTAL_NOTIFICATIONSPIXEL = Shell.cmd("cmd overlay list | grep '....IconifyComponentNFP'").exec().getOut().size();
-    public static final int TOTAL_QSSHAPES = Shell.cmd("cmd overlay list | grep '....IconifyComponentQSSN'").exec().getOut().size();
-    public static final int TOTAL_QSSHAPESPIXEL = Shell.cmd("cmd overlay list | grep '....IconifyComponentQSSP'").exec().getOut().size();
+    @JvmField
+    val TOTAL_BRIGHTNESSBARS =
+        Shell.cmd("cmd overlay list | grep '....IconifyComponentBBN'").exec().out.size
+
+    @JvmField
+    val TOTAL_BRIGHTNESSBARSPIXEL =
+        Shell.cmd("cmd overlay list | grep '....IconifyComponentBBP'").exec().out.size
+
+    @JvmField
+    val TOTAL_ICONPACKS =
+        Shell.cmd("cmd overlay list | grep '....IconifyComponentIPAS'").exec().out.size
+
+    @JvmField
+    val TOTAL_NOTIFICATIONS =
+        Shell.cmd("cmd overlay list | grep '....IconifyComponentNFN'").exec().out.size
+
+    @JvmField
+    val TOTAL_NOTIFICATIONSPIXEL =
+        Shell.cmd("cmd overlay list | grep '....IconifyComponentNFP'").exec().out.size
+
+    @JvmField
+    val TOTAL_QSSHAPES =
+        Shell.cmd("cmd overlay list | grep '....IconifyComponentQSSN'").exec().out.size
+
+    @JvmField
+    val TOTAL_QSSHAPESPIXEL =
+        Shell.cmd("cmd overlay list | grep '....IconifyComponentQSSP'").exec().out.size
 
     // Overlay compiler tools
-    public static final String NATIVE_LIBRARY_DIR = Iconify.getAppContext().getApplicationInfo().nativeLibraryDir;
-    public static final File AAPTLIB = new File(NATIVE_LIBRARY_DIR, "libaapt.so");
-    public static final File AAPT2LIB = new File(NATIVE_LIBRARY_DIR, "libaapt2.so");
-    public static final File AAPT = new File(BIN_DIR, "aapt");
-    public static final File AAPT2 = new File(BIN_DIR, "aapt2");
-    public static final File ZIPALIGNLIB = new File(NATIVE_LIBRARY_DIR, "libzipalign.so");
-    public static final File ZIPALIGN = new File(BIN_DIR, "zipalign");
+    @JvmField
+    val NATIVE_LIBRARY_DIR: String = Iconify.getAppContext().applicationInfo.nativeLibraryDir
+
+    @JvmField
+    val AAPTLIB = File(NATIVE_LIBRARY_DIR, "libaapt.so")
+
+    @JvmField
+    val AAPT2LIB = File(NATIVE_LIBRARY_DIR, "libaapt2.so")
+
+    @JvmField
+    val AAPT = File(Resources.BIN_DIR, "aapt")
+
+    @JvmField
+    val AAPT2 = File(Resources.BIN_DIR, "aapt2")
+
+    @JvmField
+    val ZIPALIGNLIB = File(NATIVE_LIBRARY_DIR, "libzipalign.so")
+
+    @JvmField
+    val ZIPALIGN = File(Resources.BIN_DIR, "zipalign")
 
     // Onboarding overlay installation
-    public static boolean skippedInstallation = false;
+    @JvmField
+    var skippedInstallation = false
 
     // Device information
-    public static final boolean isAtleastA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE;
+    @JvmField
+    val isAtleastA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 }

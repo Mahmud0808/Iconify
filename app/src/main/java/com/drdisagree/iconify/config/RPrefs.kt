@@ -4,7 +4,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.common.Preferences.STR_NULL
-import com.drdisagree.iconify.common.Resources.SharedXPref
+import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 
 @Suppress("unused")
 object RPrefs {
@@ -12,7 +12,7 @@ object RPrefs {
     @JvmField
     var prefs: SharedPreferences =
         Iconify.getAppContext().createDeviceProtectedStorageContext().getSharedPreferences(
-            SharedXPref, MODE_PRIVATE
+            SHARED_XPREFERENCES, MODE_PRIVATE
         )
     private var editor: SharedPreferences.Editor = prefs.edit()
 

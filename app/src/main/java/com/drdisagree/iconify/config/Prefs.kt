@@ -4,13 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.common.Preferences.STR_NULL
-import com.drdisagree.iconify.common.Resources.SharedPref
+import com.drdisagree.iconify.common.Resources.SHARED_PREFERENCES
 
 @Suppress("unused")
 object Prefs {
 
     @JvmField
-    var prefs: SharedPreferences = Iconify.getAppContext().getSharedPreferences(SharedPref, Context.MODE_PRIVATE)
+    var prefs: SharedPreferences = Iconify.getAppContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
     private var editor: SharedPreferences.Editor = prefs.edit()
 
     @JvmStatic

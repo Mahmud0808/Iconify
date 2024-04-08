@@ -6,7 +6,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import com.crossbowffs.remotepreferences.RemotePreferences
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Const.PREF_UPDATE_EXCLUSIONS
-import com.drdisagree.iconify.common.Resources.SharedXPref
+import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 import com.drdisagree.iconify.xposed.HookEntry
 
 object XPrefs {
@@ -24,7 +24,7 @@ object XPrefs {
     @JvmStatic
     fun init(context: Context) {
         packageName = context.packageName
-        Xprefs = RemotePreferences(context, BuildConfig.APPLICATION_ID, SharedXPref, true)
+        Xprefs = RemotePreferences(context, BuildConfig.APPLICATION_ID, SHARED_XPREFERENCES, true)
         (Xprefs as RemotePreferences).registerOnSharedPreferenceChangeListener(listener)
     }
 

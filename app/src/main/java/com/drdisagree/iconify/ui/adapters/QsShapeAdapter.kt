@@ -63,7 +63,6 @@ class QsShapeAdapter(
             holder.qsTile1,
             ResourcesCompat.getDrawable(context.resources, itemList[position].enabledDrawable, null)
         )
-
         setDrawable(
             holder.qsTile2,
             ResourcesCompat.getDrawable(
@@ -72,7 +71,6 @@ class QsShapeAdapter(
                 null
             )
         )
-
         setDrawable(
             holder.qsTile3,
             ResourcesCompat.getDrawable(
@@ -81,7 +79,6 @@ class QsShapeAdapter(
                 null
             )
         )
-
         setDrawable(
             holder.qsTile4,
             ResourcesCompat.getDrawable(context.resources, itemList[position].enabledDrawable, null)
@@ -313,9 +310,9 @@ class QsShapeAdapter(
 
     private fun setMargin(holder: ViewHolder, iconMarginLeft: Int, iconMarginRight: Int) {
         var marginParams = MarginLayoutParams(holder.qsIcon1.layoutParams)
-        var layoutParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(marginParams)
         marginParams.setMarginStart(DisplayUtil.IntToDp(iconMarginLeft))
         marginParams.setMarginEnd(DisplayUtil.IntToDp(iconMarginRight))
+        var layoutParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(marginParams)
         holder.qsIcon1.setLayoutParams(layoutParams)
 
         marginParams = MarginLayoutParams(holder.qsIcon2.layoutParams)
