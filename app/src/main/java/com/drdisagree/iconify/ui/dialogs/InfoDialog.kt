@@ -1,71 +1,56 @@
-package com.drdisagree.iconify.ui.dialogs;
+package com.drdisagree.iconify.ui.dialogs
 
-import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
+import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.ui.base.BaseActivity
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.base.BaseActivity;
+class InfoDialog(var context: Context) : BaseActivity() {
 
-import java.util.Objects;
+    var dialog: Dialog? = null
 
-public class InfoDialog extends BaseActivity {
+    fun show(title: Int, description: Int) {
+        if (dialog != null) dialog!!.dismiss()
 
-    Context context;
-    Dialog dialog;
+        dialog = Dialog(context)
+        dialog!!.setContentView(R.layout.view_info_dialog)
+        dialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.setCancelable(true)
+        dialog!!.setOnCancelListener(null)
+        dialog!!.setCanceledOnTouchOutside(true)
 
-    public InfoDialog(Context context) {
-        this.context = context;
+        val text = dialog!!.findViewById<TextView>(R.id.title)
+        text.text = context.resources.getText(title)
+        val desc = dialog!!.findViewById<TextView>(R.id.description)
+        desc.text = context.resources.getText(description)
+        val close = dialog!!.findViewById<Button>(R.id.close)
+        close.setOnClickListener { dialog!!.hide() }
+
+        dialog!!.create()
+        dialog!!.show()
+
+        val layoutParams = WindowManager.LayoutParams()
+        layoutParams.copyFrom(dialog!!.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialog!!.window!!.setAttributes(layoutParams)
     }
 
-    public void show(int title, int description) {
-        if (dialog != null) dialog.dismiss();
-
-        dialog = new Dialog(context);
-        dialog.setContentView(R.layout.view_info_dialog);
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setOnCancelListener(null);
-        dialog.setCanceledOnTouchOutside(true);
-
-        TextView text = dialog.findViewById(R.id.title);
-        text.setText(context.getResources().getText(title));
-
-        TextView desc = dialog.findViewById(R.id.description);
-        desc.setText(context.getResources().getText(description));
-
-        Button close = dialog.findViewById(R.id.close);
-        close.setOnClickListener(view -> dialog.hide());
-
-        dialog.create();
-        dialog.show();
-
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(dialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setAttributes(layoutParams);
+    fun hide() {
+        dialog?.dismiss()
     }
 
-    public void hide() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
+    fun dismiss() {
+        dialog?.dismiss()
     }
 
-    public void dismiss() {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        dismiss();
-        super.onDestroy();
+    public override fun onDestroy() {
+        dismiss()
+        super.onDestroy()
     }
 }

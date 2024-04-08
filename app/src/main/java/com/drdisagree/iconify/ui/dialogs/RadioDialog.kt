@@ -1,119 +1,97 @@
-package com.drdisagree.iconify.ui.dialogs;
+package com.drdisagree.iconify.ui.dialogs
 
-import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.view.LayoutInflater;
-import android.view.WindowManager;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
+import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.LayoutInflater
+import android.view.WindowManager
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.TextView
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.ui.base.BaseActivity
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.base.BaseActivity;
+class RadioDialog(
+    var context: Context,
+    private var dialogId: Int,
+    private var selectedIndex: Int
+) : BaseActivity() {
 
-import java.util.Objects;
+    var dialog: Dialog? = null
+    private var listener: RadioDialogListener? = null
 
-public class RadioDialog extends BaseActivity {
-
-    Context context;
-    Dialog dialog;
-    int selectedIndex, dialogId;
-    private RadioDialogListener listener;
-
-    public RadioDialog(Context context, int dialogId, int selectedIndex) {
-        this.context = context;
-        this.dialogId = dialogId;
-        this.selectedIndex = selectedIndex;
+    fun setRadioDialogListener(listener: RadioDialogListener?) {
+        this.listener = listener
     }
 
-    public void setRadioDialogListener(RadioDialogListener listener) {
-        this.listener = listener;
-    }
+    @JvmOverloads
+    fun show(title: Int, items: Int, output: TextView, showSelectedPrefix: Boolean = false) {
+        if (dialog != null) dialog!!.dismiss()
 
-    public void show(int title, int items, TextView output) {
-        show(title, items, output, false);
-    }
+        val options = context.resources.getStringArray(items)
 
-    public void show(int title, int items, TextView output, boolean showSelectedPrefix) {
-        if (dialog != null) dialog.dismiss();
+        dialog = Dialog(context)
+        dialog!!.setContentView(R.layout.view_radio_dialog)
+        dialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.setCancelable(true)
+        dialog!!.setOnCancelListener(null)
+        dialog!!.setCanceledOnTouchOutside(true)
 
-        String[] options = context.getResources().getStringArray(items);
+        val text = dialog!!.findViewById<TextView>(R.id.title)
+        text.text = context.resources.getText(title)
 
-        dialog = new Dialog(context);
-        dialog.setContentView(R.layout.view_radio_dialog);
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(true);
-        dialog.setOnCancelListener(null);
-        dialog.setCanceledOnTouchOutside(true);
-
-        TextView text = dialog.findViewById(R.id.title);
-        text.setText(context.getResources().getText(title));
-
-        RadioGroup radioGroup = dialog.findViewById(R.id.radio_group);
-
-        for (int i = 0; i < options.length; i++) {
-            LayoutInflater inflater = LayoutInflater.from(context);
-            RadioButton radioButton = (RadioButton) inflater.inflate(R.layout.view_radio_button, radioGroup, false);
-
-            radioButton.setText(options[i]);
-            radioButton.setId(i);
-            radioGroup.addView(radioButton);
+        val radioGroup = dialog!!.findViewById<RadioGroup>(R.id.radio_group)
+        for (i in options.indices) {
+            val inflater = LayoutInflater.from(context)
+            val radioButton =
+                inflater.inflate(R.layout.view_radio_button, radioGroup, false) as RadioButton
+            radioButton.text = options[i]
+            radioButton.setId(i)
+            radioGroup.addView(radioButton)
         }
 
-        ((RadioButton) radioGroup.getChildAt(selectedIndex)).setChecked(true);
+        (radioGroup.getChildAt(selectedIndex) as RadioButton).setChecked(true)
+        radioGroup.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
+            selectedIndex = checkedId
+            dialog!!.hide()
 
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            selectedIndex = checkedId;
-            dialog.hide();
-            output.setText(
-                    showSelectedPrefix ?
-                            context.getString(
-                                    R.string.opt_selected1,
-                                    ((RadioButton) radioGroup.getChildAt(checkedId)).getText()
-                            ) :
-                            ((RadioButton) radioGroup.getChildAt(checkedId)).getText()
-            );
+            output.text = if (showSelectedPrefix) context.getString(
+                R.string.opt_selected1,
+                (radioGroup.getChildAt(checkedId) as RadioButton).getText()
+            ) else (radioGroup.getChildAt(checkedId) as RadioButton).getText()
 
             if (listener != null) {
-                listener.onItemSelected(dialogId, selectedIndex);
+                listener!!.onItemSelected(dialogId, selectedIndex)
             }
-        });
+        }
 
-        dialog.create();
-        dialog.show();
+        dialog!!.create()
+        dialog!!.show()
 
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(dialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.getWindow().setAttributes(layoutParams);
+        val layoutParams = WindowManager.LayoutParams()
+        layoutParams.copyFrom(dialog!!.window!!.attributes)
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialog!!.window!!.setAttributes(layoutParams)
     }
 
-    public void hide() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+    fun hide() {
+        if (dialog?.isShowing == true) {
+            dialog?.dismiss()
         }
     }
 
-    public void dismiss() {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
+    fun dismiss() {
+        dialog?.dismiss()
     }
 
-    public int getSelectedIndex() {
-        return selectedIndex;
+    public override fun onDestroy() {
+        dismiss()
+        super.onDestroy()
     }
 
-    @Override
-    public void onDestroy() {
-        dismiss();
-        super.onDestroy();
-    }
-
-    public interface RadioDialogListener {
-        void onItemSelected(int dialogId, int selectedIndex);
+    interface RadioDialogListener {
+        fun onItemSelected(dialogId: Int, selectedIndex: Int)
     }
 }

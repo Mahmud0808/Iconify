@@ -1,76 +1,62 @@
-package com.drdisagree.iconify.ui.dialogs;
+package com.drdisagree.iconify.ui.dialogs
 
-import android.app.Dialog;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.widget.TextView;
+import android.app.Dialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.widget.TextView
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.ui.base.BaseActivity
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.base.BaseActivity;
+class LoadingDialog(var context: Context) : BaseActivity() {
+    var dialog: Dialog? = null
 
-import java.util.Objects;
+    fun show(title: String?) {
+        if (dialog != null) dialog!!.dismiss()
 
-public class LoadingDialog extends BaseActivity {
+        dialog = Dialog(context)
+        dialog!!.setContentView(R.layout.view_loading_dialog)
+        dialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.setCancelable(false)
+        dialog!!.setOnCancelListener(null)
+        dialog!!.setCanceledOnTouchOutside(false)
 
-    Context context;
-    Dialog dialog;
+        val text = dialog!!.findViewById<TextView>(R.id.title)
+        text.text = title
 
-    public LoadingDialog(Context context) {
-        this.context = context;
+        dialog!!.create()
+        dialog!!.show()
     }
 
-    public void show(String title) {
-        if (dialog != null)
-            dialog.dismiss();
+    fun show(title: String?, cancellable: Boolean) {
+        if (dialog != null) dialog!!.dismiss()
 
-        dialog = new Dialog(context);
-        dialog.setContentView(R.layout.view_loading_dialog);
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(false);
-        dialog.setOnCancelListener(null);
-        dialog.setCanceledOnTouchOutside(false);
+        dialog = Dialog(context)
+        dialog!!.setContentView(R.layout.view_loading_dialog)
+        dialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.setCancelable(cancellable)
+        dialog!!.setOnCancelListener(null)
+        dialog!!.setCanceledOnTouchOutside(cancellable)
 
-        TextView text = dialog.findViewById(R.id.title);
-        text.setText(title);
+        val text = dialog!!.findViewById<TextView>(R.id.title)
+        text.text = title
 
-        dialog.create();
-        dialog.show();
+        dialog!!.create()
+        dialog!!.show()
     }
 
-    public void show(String title, boolean cancellable) {
-        if (dialog != null)
-            dialog.dismiss();
-
-        dialog = new Dialog(context);
-        dialog.setContentView(R.layout.view_loading_dialog);
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setCancelable(cancellable);
-        dialog.setOnCancelListener(null);
-        dialog.setCanceledOnTouchOutside(cancellable);
-
-        TextView text = dialog.findViewById(R.id.title);
-        text.setText(title);
-
-        dialog.create();
-        dialog.show();
+    fun dismiss() {
+        dialog?.dismiss()
     }
 
-    public void dismiss() {
-        if (dialog != null) {
-            dialog.dismiss();
+    fun hide() {
+        if (dialog?.isShowing == true) {
+            dialog?.dismiss()
         }
     }
 
-    public void hide() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        dismiss();
-        super.onDestroy();
+    public override fun onDestroy() {
+        dismiss()
+        super.onDestroy()
     }
 }
