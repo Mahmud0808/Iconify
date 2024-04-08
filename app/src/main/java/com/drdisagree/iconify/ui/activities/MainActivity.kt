@@ -1,184 +1,201 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.activities
 
-import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE;
-import static com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME;
-import static com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH;
-import static com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE;
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.MenuItem
+import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.airbnb.lottie.LottieCompositionFactory
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Preferences
+import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE
+import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME
+import com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH
+import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
+import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.databinding.ActivityHomePageBinding
+import com.drdisagree.iconify.ui.base.BaseActivity
+import com.drdisagree.iconify.ui.events.ColorDismissedEvent
+import com.drdisagree.iconify.ui.events.ColorSelectedEvent
+import com.drdisagree.iconify.utils.overlay.FabricatedUtil
+import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
+import com.topjohnwu.superuser.Shell
+import org.greenrobot.eventbus.EventBus
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
+class MainActivity : BaseActivity(), ColorPickerDialogListener {
 
-import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
+    private lateinit var binding: ActivityHomePageBinding
+    private var selectedFragment: Int? = null
+    private var colorPickerDialog: ColorPickerDialog.Builder? = null
 
-import com.airbnb.lottie.LottieCompositionFactory;
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.Preferences;
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.config.RPrefs;
-import com.drdisagree.iconify.databinding.ActivityHomePageBinding;
-import com.drdisagree.iconify.ui.base.BaseActivity;
-import com.drdisagree.iconify.ui.events.ColorDismissedEvent;
-import com.drdisagree.iconify.ui.events.ColorSelectedEvent;
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
-import com.jaredrummler.android.colorpicker.ColorPickerDialog;
-import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
-import com.topjohnwu.superuser.Shell;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-
-public class MainActivity extends BaseActivity implements ColorPickerDialogListener {
-
-    private static final String mData = "mDataKey";
-    private ActivityHomePageBinding binding;
-    private Integer selectedFragment = null;
-    private ColorPickerDialog.Builder colorPickerDialog;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityHomePageBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHomePageBinding.inflate(layoutInflater)
+        setContentView(binding.getRoot())
 
         // Setup navigation
-        setupNavigation();
+        setupNavigation()
+        Prefs.putBoolean(ON_HOME_PAGE, true)
 
-        Prefs.putBoolean(ON_HOME_PAGE, true);
-
-        new Thread(() -> {
+        Thread {
             // Clear lottie cache
-            LottieCompositionFactory.clearCache(this);
+            LottieCompositionFactory.clearCache(this)
 
             // Get list of enabled overlays
-            List<String> EnabledOverlays = OverlayUtil.getEnabledOverlayList();
-            for (String overlay : EnabledOverlays)
-                Prefs.putBoolean(overlay, true);
+            val enabledOverlays = OverlayUtil.getEnabledOverlayList()
+            for (overlay in enabledOverlays) {
+                Prefs.putBoolean(overlay, true)
+            }
 
-            List<String> FabricatedEnabledOverlays = FabricatedUtil.getEnabledOverlayList();
-            for (String overlay : FabricatedEnabledOverlays)
-                Prefs.putBoolean("fabricated" + overlay, true);
+            val fabricatedEnabledOverlays = FabricatedUtil.getEnabledOverlayList()
+            for (overlay in fabricatedEnabledOverlays) {
+                Prefs.putBoolean("fabricated$overlay", true)
+            }
 
-            Prefs.putBoolean(MONET_ENGINE_SWITCH, EnabledOverlays.contains("IconifyComponentME.overlay"));
+            Prefs.putBoolean(
+                MONET_ENGINE_SWITCH,
+                enabledOverlays.contains("IconifyComponentME.overlay")
+            )
 
-            boolean state = Shell.cmd("[[ $(cmd overlay list | grep -o '\\[x\\] " + FORCE_RELOAD_PACKAGE_NAME + "') ]] && echo 1 || echo 0").exec().getOut().get(0).equals("1");
-            RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state);
-        }).start();
+            val state =
+                Shell.cmd(
+                    "[[ $(cmd overlay list | grep -o '\\[x\\] $FORCE_RELOAD_PACKAGE_NAME') ]] && echo 1 || echo 0"
+                ).exec().out[0] == "1"
+            RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state)
+        }.start()
 
-        colorPickerDialog = ColorPickerDialog.newBuilder();
+        colorPickerDialog = ColorPickerDialog.newBuilder()
     }
 
-    private void setupNavigation() {
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-        if (navHostFragment == null) return;
-
-        NavController navController = navHostFragment.getNavController();
+    private fun setupNavigation() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
+                ?: return
+        val navController = navHostFragment.navController
 
         if (Preferences.isXposedOnlyMode) {
-            navController.setGraph(R.navigation.nav_xposed_menu);
-            binding.bottomNavigationView.getMenu().clear();
-            binding.bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_xposed_only);
+            navController.setGraph(R.navigation.nav_xposed_menu)
+            binding.bottomNavigationView.menu.clear()
+            binding.bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_xposed_only)
         }
 
-        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
+        setupWithNavController(binding.bottomNavigationView, navController)
 
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            setFragment(item.getItemId(), navController, Preferences.isXposedOnlyMode);
-            return true;
-        });
+        binding.bottomNavigationView.setOnItemSelectedListener { item: MenuItem ->
+            setFragment(item.itemId, navController, Preferences.isXposedOnlyMode)
+            true
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
-    private void setFragment(int itemId, NavController navController, boolean isXposedOnlyMode) {
-        NavDestination currentDestination = navController.getCurrentDestination();
-        if (currentDestination == null) return;
+    private fun setFragment(itemId: Int, navController: NavController, isXposedOnlyMode: Boolean) {
+        val currentDestination = navController.currentDestination ?: return
 
         if (isXposedOnlyMode) {
-            switch (itemId) {
-                case R.id.xposedMenu -> {
-                    if (currentDestination.getId() != itemId) {
-                        navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
-                        selectedFragment = itemId;
+            when (itemId) {
+                R.id.xposedMenu -> {
+                    if (currentDestination.id != itemId) {
+                        navController.popBackStack(navController.graph.startDestinationId, false)
+                        selectedFragment = itemId
                     }
                 }
-                case R.id.settings -> {
-                    if (currentDestination.getId() != itemId) {
-                        navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
-                        Navigation.findNavController(this, R.id.fragmentContainerView).navigate(R.id.action_xposedMenu_to_settings2);
-                        selectedFragment = itemId;
+
+                R.id.settings -> {
+                    if (currentDestination.id != itemId) {
+                        navController.popBackStack(navController.graph.startDestinationId, false)
+                        findNavController(
+                            this,
+                            R.id.fragmentContainerView
+                        ).navigate(R.id.action_xposedMenu_to_settings2)
+                        selectedFragment = itemId
                     }
                 }
             }
-            return;
+            return
         }
 
-        switch (itemId) {
-            case R.id.homePage -> {
-                if (currentDestination.getId() != itemId) {
-                    navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
-                    selectedFragment = itemId;
+        when (itemId) {
+            R.id.homePage -> {
+                if (currentDestination.id != itemId) {
+                    navController.popBackStack(navController.graph.startDestinationId, false)
+                    selectedFragment = itemId
                 }
             }
-            case R.id.tweaks -> {
-                if (currentDestination.getId() != itemId) {
-                    navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
-                    Navigation.findNavController(this, R.id.fragmentContainerView).navigate(R.id.action_home2_to_tweaks);
-                    selectedFragment = itemId;
+
+            R.id.tweaks -> {
+                if (currentDestination.id != itemId) {
+                    navController.popBackStack(navController.graph.startDestinationId, false)
+                    findNavController(
+                        this,
+                        R.id.fragmentContainerView
+                    ).navigate(R.id.action_home2_to_tweaks)
+                    selectedFragment = itemId
                 }
             }
-            case R.id.settings -> {
-                if (currentDestination.getId() != itemId) {
-                    navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
-                    Navigation.findNavController(this, R.id.fragmentContainerView).navigate(R.id.action_home2_to_settings);
-                    selectedFragment = itemId;
+
+            R.id.settings -> {
+                if (currentDestination.id != itemId) {
+                    navController.popBackStack(navController.graph.startDestinationId, false)
+                    findNavController(
+                        this,
+                        R.id.fragmentContainerView
+                    ).navigate(R.id.action_home2_to_settings)
+                    selectedFragment = itemId
                 }
             }
         }
     }
 
-    public void showColorPickerDialog(int dialogId, int defaultColor, boolean showPresets, boolean showAlphaSlider, boolean showColorShades) {
-        colorPickerDialog.setDialogStyle(R.style.ColorPicker)
-                .setColor(defaultColor)
-                .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
-                .setAllowCustom(false)
-                .setAllowPresets(showPresets)
-                .setDialogId(dialogId)
-                .setShowAlphaSlider(showAlphaSlider)
-                .setShowColorShades(showColorShades);
-        colorPickerDialog.show(this);
+    fun showColorPickerDialog(
+        dialogId: Int,
+        defaultColor: Int,
+        showPresets: Boolean,
+        showAlphaSlider: Boolean,
+        showColorShades: Boolean
+    ) {
+        colorPickerDialog!!.setDialogStyle(R.style.ColorPicker)
+            .setColor(defaultColor)
+            .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+            .setAllowCustom(false)
+            .setAllowPresets(showPresets)
+            .setDialogId(dialogId)
+            .setShowAlphaSlider(showAlphaSlider)
+            .setShowColorShades(showColorShades)
+
+        colorPickerDialog!!.show(this)
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        if (selectedFragment != null) savedInstanceState.putInt(mData, selectedFragment);
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        if (selectedFragment != null) outState.putInt(DATA_KEY, selectedFragment!!)
     }
 
-    @Override
-    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        selectedFragment = savedInstanceState.getInt(mData);
+    public override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        selectedFragment = savedInstanceState.getInt(DATA_KEY)
     }
 
-    @Override
-    public void onColorSelected(int dialogId, int color) {
-        EventBus.getDefault().post(new ColorSelectedEvent(dialogId, color));
+    override fun onColorSelected(dialogId: Int, color: Int) {
+        EventBus.getDefault().post(ColorSelectedEvent(dialogId, color))
     }
 
-    @Override
-    public void onDialogDismissed(int dialogId) {
-        EventBus.getDefault().post(new ColorDismissedEvent(dialogId));
+    override fun onDialogDismissed(dialogId: Int) {
+        EventBus.getDefault().post(ColorDismissedEvent(dialogId))
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
-        return navController.navigateUp() || super.onSupportNavigateUp();
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(this, R.id.fragmentContainerView)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    companion object {
+        private const val DATA_KEY = "mDataKey"
     }
 }

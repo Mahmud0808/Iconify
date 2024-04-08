@@ -1,46 +1,43 @@
-package com.drdisagree.iconify.ui.activities;
+package com.drdisagree.iconify.ui.activities
 
-import android.os.Bundle;
-import android.view.WindowManager;
+import android.os.Bundle
+import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
+import com.drdisagree.iconify.databinding.ActivityOnboardingBinding
+import com.drdisagree.iconify.ui.views.OnboardingView
+import kotlin.system.exitProcess
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
+class OnboardingActivity : AppCompatActivity() {
 
-import com.drdisagree.iconify.databinding.ActivityOnboardingBinding;
-import com.drdisagree.iconify.ui.views.OnboardingView;
+    private lateinit var binding: ActivityOnboardingBinding
 
-public class OnboardingActivity extends AppCompatActivity {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityOnboardingBinding.inflate(layoutInflater)
+        setContentView(binding.getRoot())
 
-    ActivityOnboardingBinding binding;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityOnboardingBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
                 try {
-                    OnboardingView.navigateToPrevSlide();
-                } catch (Exception ignored) {
-                    OnboardingActivity.this.finish();
-                    System.exit(0);
+                    OnboardingView.navigateToPrevSlide()
+                } catch (ignored: Exception) {
+                    finish()
+                    exitProcess(0)
                 }
             }
-        });
+        })
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    public override fun onResume() {
+        super.onResume()
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    public override fun onPause() {
+        super.onPause()
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 }

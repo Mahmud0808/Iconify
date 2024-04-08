@@ -1,74 +1,73 @@
-package com.drdisagree.iconify.ui.base;
+package com.drdisagree.iconify.ui.base
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.content.Context
+import android.content.res.Configuration
+import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.ui.utils.ThemeHelper
+import com.drdisagree.iconify.utils.helper.LocaleHelper
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.shape.MaterialShapeDrawable
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
+open class BaseActivity : AppCompatActivity() {
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.ui.utils.ThemeHelper;
-import com.drdisagree.iconify.utils.helper.LocaleHelper;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.shape.MaterialShapeDrawable;
-
-public class BaseActivity extends AppCompatActivity {
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(LocaleHelper.setLocale(newBase));
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.setLocale(newBase))
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AppCompatDelegate.setDefaultNightMode(ThemeHelper.getTheme());
-        super.onCreate(savedInstanceState);
-
-        setupEdgeToEdge();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(ThemeHelper.theme)
+        super.onCreate(savedInstanceState)
+        setupEdgeToEdge()
     }
 
-    private void setupEdgeToEdge() {
+    private fun setupEdgeToEdge() {
         try {
-            ((AppBarLayout) findViewById(R.id.appBarLayout)).setStatusBarForeground(MaterialShapeDrawable.createWithElevationOverlay(getApplicationContext()));
-        } catch (Exception ignored) {
+            (findViewById<View>(R.id.appBarLayout) as AppBarLayout).statusBarForeground =
+                MaterialShapeDrawable.createWithElevationOverlay(
+                    applicationContext
+                )
+        } catch (ignored: Exception) {
         }
 
-        Window window = getWindow();
-        WindowCompat.setDecorFitsSystemWindows(window, false);
+        val window = window
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ViewGroup viewGroup = getWindow().getDecorView().findViewById(android.R.id.content);
-            ViewCompat.setOnApplyWindowInsetsListener(viewGroup, (v, windowInsets) -> {
-                Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+        if (getResources().configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            val viewGroup = getWindow().decorView.findViewById<ViewGroup>(android.R.id.content)
 
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            ViewCompat.setOnApplyWindowInsetsListener(viewGroup) { v: View, windowInsets: WindowInsetsCompat ->
+                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+                val params = v.layoutParams as MarginLayoutParams
+
                 v.setPadding(
-                        params.leftMargin + insets.left,
-                        0,
-                        params.rightMargin + insets.right,
-                        0
-                );
-                params.topMargin = 0;
-                params.bottomMargin = 0;
-                v.setLayoutParams(params);
+                    params.leftMargin + insets.left,
+                    0,
+                    params.rightMargin + insets.right,
+                    0
+                )
 
-                return windowInsets;
-            });
+                params.topMargin = 0
+                params.bottomMargin = 0
+
+                v.setLayoutParams(params)
+
+                windowInsets
+            }
         }
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    @Suppress("deprecation")
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
