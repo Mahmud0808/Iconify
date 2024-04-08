@@ -1,22 +1,24 @@
-package com.drdisagree.iconify.utils.overlay.manager;
+package com.drdisagree.iconify.utils.overlay.manager
 
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+import com.drdisagree.iconify.config.Prefs.putBoolean
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlayExclusiveInCategory
 
-public class MediaPlayerIconManager {
+object MediaPlayerIconManager {
 
-    public static void enableOverlay(int m, int n) {
-        disable_others(m, n);
-        OverlayUtil.enableOverlayExclusiveInCategory("IconifyComponentMPIP" + m + n + ".overlay");
+    @JvmStatic
+    fun enableOverlay(m: Int, n: Int) {
+        disableOthers(m, n)
+        enableOverlayExclusiveInCategory("IconifyComponentMPIP$m$n.overlay")
     }
 
-    public static void disableOverlay(int m, int n) {
-        OverlayUtil.disableOverlay("IconifyComponentMPIP" + m + n + ".overlay");
+    fun disableOverlay(m: Int, n: Int) {
+        disableOverlay("IconifyComponentMPIP$m$n.overlay")
     }
 
-    private static void disable_others(int m, int n) {
-        for (int i = 1; i <= 3; i++) {
-            Prefs.putBoolean("IconifyComponentMPIP" + m + i + ".overlay", i == n);
+    private fun disableOthers(m: Int, n: Int) {
+        for (i in 1..3) {
+            putBoolean("IconifyComponentMPIP$m$i.overlay", i == n)
         }
     }
 }

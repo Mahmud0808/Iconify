@@ -1,48 +1,51 @@
-package com.drdisagree.iconify.utils.overlay.manager;
+package com.drdisagree.iconify.utils.overlay.manager
 
-import static com.drdisagree.iconify.common.Dynamic.TOTAL_QSSHAPES;
+import com.drdisagree.iconify.common.Dynamic.TOTAL_QSSHAPES
+import com.drdisagree.iconify.config.Prefs.putBoolean
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.changeOverlayState
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlayExclusiveInCategory
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.isOverlayEnabled
 
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+object QsShapeManager {
 
-public class QsShapeManager {
+    fun enableOverlay(n: Int) {
+        disableOthers(n)
+        enableOverlayExclusiveInCategory("IconifyComponentQSSN$n.overlay")
 
-    public static void enableOverlay(int n) {
-        disable_others(n);
-        OverlayUtil.enableOverlayExclusiveInCategory("IconifyComponentQSSN" + n + ".overlay");
-
-        if (!OverlayUtil.isOverlayEnabled("IconifyComponentCR1.overlay") || !OverlayUtil.isOverlayEnabled("IconifyComponentCR2.overlay")) {
-            OverlayUtil.enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay");
+        if (!isOverlayEnabled("IconifyComponentCR1.overlay") || !isOverlayEnabled("IconifyComponentCR2.overlay")) {
+            enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay")
         }
 
-        OverlayUtil.changeOverlayState(
-                "IconifyComponentQSNT1.overlay",
-                !OverlayUtil.isOverlayEnabled("IconifyComponentQSNT1.overlay"),
-                "IconifyComponentQSNT1.overlay",
-                OverlayUtil.isOverlayEnabled("IconifyComponentQSNT1.overlay"),
-                "IconifyComponentQSNT2.overlay",
-                !OverlayUtil.isOverlayEnabled("IconifyComponentQSNT2.overlay"),
-                "IconifyComponentQSNT2.overlay",
-                OverlayUtil.isOverlayEnabled("IconifyComponentQSNT2.overlay"),
-                "IconifyComponentQSNT3.overlay",
-                !OverlayUtil.isOverlayEnabled("IconifyComponentQSNT3.overlay"),
-                "IconifyComponentQSNT3.overlay",
-                OverlayUtil.isOverlayEnabled("IconifyComponentQSNT3.overlay"),
-                "IconifyComponentQSNT4.overlay",
-                !OverlayUtil.isOverlayEnabled("IconifyComponentQSNT4.overlay"),
-                "IconifyComponentQSNT4.overlay",
-                OverlayUtil.isOverlayEnabled("IconifyComponentQSNT4.overlay")
-        );
+        changeOverlayState(
+            "IconifyComponentQSNT1.overlay",
+            !isOverlayEnabled("IconifyComponentQSNT1.overlay"),
+            "IconifyComponentQSNT1.overlay",
+            isOverlayEnabled("IconifyComponentQSNT1.overlay"),
+            "IconifyComponentQSNT2.overlay",
+            !isOverlayEnabled("IconifyComponentQSNT2.overlay"),
+            "IconifyComponentQSNT2.overlay",
+            isOverlayEnabled("IconifyComponentQSNT2.overlay"),
+            "IconifyComponentQSNT3.overlay",
+            !isOverlayEnabled("IconifyComponentQSNT3.overlay"),
+            "IconifyComponentQSNT3.overlay",
+            isOverlayEnabled("IconifyComponentQSNT3.overlay"),
+            "IconifyComponentQSNT4.overlay",
+            !isOverlayEnabled("IconifyComponentQSNT4.overlay"),
+            "IconifyComponentQSNT4.overlay",
+            isOverlayEnabled("IconifyComponentQSNT4.overlay")
+        )
     }
 
-    public static void disableOverlay(int n) {
-        OverlayUtil.disableOverlay("IconifyComponentQSSN" + n + ".overlay");
+    fun disableOverlay(n: Int) {
+        disableOverlay("IconifyComponentQSSN$n.overlay")
     }
 
-    private static void disable_others(int n) {
-        for (int i = 1; i <= TOTAL_QSSHAPES; i++) {
-            Prefs.putBoolean("IconifyComponentQSSN" + i + ".overlay", i == n);
-            Prefs.putBoolean("IconifyComponentQSSP" + i + ".overlay", false);
+    private fun disableOthers(n: Int) {
+        for (i in 1..TOTAL_QSSHAPES) {
+            putBoolean("IconifyComponentQSSN$i.overlay", i == n)
+            putBoolean("IconifyComponentQSSP$i.overlay", false)
         }
     }
 }

@@ -59,7 +59,7 @@ object OnboardingCompiler {
             command = getAAPT2Command(source, name)
 
             if (isQsTileOrTextOverlay(name)) {
-                QsResourceManager.removeQuickSettingsStyles(source, name)
+                QsResourceManager.removeQuickSettingsStyles(source)
             }
         }
 

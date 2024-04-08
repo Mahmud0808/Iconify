@@ -1,29 +1,30 @@
-package com.drdisagree.iconify.utils.overlay.manager;
+package com.drdisagree.iconify.utils.overlay.manager
 
-import static com.drdisagree.iconify.common.Dynamic.TOTAL_BRIGHTNESSBARSPIXEL;
+import com.drdisagree.iconify.common.Dynamic.TOTAL_BRIGHTNESSBARSPIXEL
+import com.drdisagree.iconify.config.Prefs.putBoolean
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlayExclusiveInCategory
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.isOverlayEnabled
 
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.overlay.OverlayUtil;
+object BrightnessBarPixelManager {
+    fun enableOverlay(n: Int) {
+        disableOthers(n)
+        enableOverlayExclusiveInCategory("IconifyComponentBBP$n.overlay")
 
-public class BrightnessBarPixelManager {
-
-    public static void enableOverlay(int n) {
-        disable_others(n);
-        OverlayUtil.enableOverlayExclusiveInCategory("IconifyComponentBBP" + n + ".overlay");
-
-        if (!OverlayUtil.isOverlayEnabled("IconifyComponentCR1.overlay") || !OverlayUtil.isOverlayEnabled("IconifyComponentCR2.overlay")) {
-            OverlayUtil.enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay");
+        if (!isOverlayEnabled("IconifyComponentCR1.overlay") || !isOverlayEnabled("IconifyComponentCR2.overlay")) {
+            enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay")
         }
     }
 
-    public static void disableOverlay(int n) {
-        OverlayUtil.disableOverlay("IconifyComponentBBP" + n + ".overlay");
+    fun disableOverlay(n: Int) {
+        disableOverlay("IconifyComponentBBP$n.overlay")
     }
 
-    private static void disable_others(int n) {
-        for (int i = 1; i <= TOTAL_BRIGHTNESSBARSPIXEL; i++) {
-            Prefs.putBoolean("IconifyComponentBBP" + i + ".overlay", i == n);
-            Prefs.putBoolean("IconifyComponentBBN" + i + ".overlay", false);
+    private fun disableOthers(n: Int) {
+        for (i in 1..TOTAL_BRIGHTNESSBARSPIXEL) {
+            putBoolean("IconifyComponentBBP$i.overlay", i == n)
+            putBoolean("IconifyComponentBBN$i.overlay", false)
         }
     }
 }
