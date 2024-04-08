@@ -3,6 +3,7 @@ package com.drdisagree.iconify.config
 import android.content.Context
 import android.content.SharedPreferences
 import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.common.Preferences.STR_NULL
 import com.drdisagree.iconify.common.Resources.SHARED_PREFERENCES
 
@@ -10,7 +11,7 @@ import com.drdisagree.iconify.common.Resources.SHARED_PREFERENCES
 object Prefs {
 
     @JvmField
-    var prefs: SharedPreferences = Iconify.getAppContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
+    var prefs: SharedPreferences = appContext.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
     private var editor: SharedPreferences.Editor = prefs.edit()
 
     @JvmStatic

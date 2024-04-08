@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR
@@ -144,7 +145,7 @@ class ProgressBarAdapter(
                                 refreshBackground(holder)
 
                                 Toast.makeText(
-                                    Iconify.getAppContext(),
+                                    appContext,
                                     context.resources.getString(R.string.toast_applied),
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -152,7 +153,7 @@ class ProgressBarAdapter(
                                 Prefs.putInt(SELECTED_PROGRESSBAR, -1)
 
                                 Toast.makeText(
-                                    Iconify.getAppContext(),
+                                    appContext,
                                     context.resources.getString(R.string.toast_error),
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -183,7 +184,7 @@ class ProgressBarAdapter(
                         refreshBackground(holder)
 
                         Toast.makeText(
-                            Iconify.getAppContext(),
+                            appContext,
                             context.resources.getString(R.string.toast_disabled),
                             Toast.LENGTH_SHORT
                         ).show()

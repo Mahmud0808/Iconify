@@ -7,6 +7,7 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.activity.result.ActivityResultLauncher
 import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.common.Resources
 import com.topjohnwu.superuser.Shell
 import java.io.File
@@ -20,14 +21,14 @@ import kotlin.math.min
 
 object FileUtil {
 
-    val DATA_DIR = Iconify.getAppContext().filesDir.toString()
+    val DATA_DIR = appContext.filesDir.toString()
 
     @JvmStatic
     @Throws(IOException::class)
     fun copyAssets(assetFolder: String) {
         cleanDir(assetFolder)
         createDir(assetFolder)
-        copyFileOrDirectory(Iconify.getAppContext(), assetFolder, "$DATA_DIR/$assetFolder")
+        copyFileOrDirectory(appContext, assetFolder, "$DATA_DIR/$assetFolder")
     }
 
     fun cleanDir(dirName: String) {
@@ -107,17 +108,17 @@ object FileUtil {
         val file: File
         try {
             val returnCursor =
-                Iconify.getAppContext().contentResolver.query(
+                appContext.contentResolver.query(
                     uri!!, null, null, null, null
                 ) ?: return null
             val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             returnCursor.moveToFirst()
 
             val name = returnCursor.getString(nameIndex)
-            file = File(Iconify.getAppContext().filesDir, name)
+            file = File(appContext.filesDir, name)
 
             val inputStream =
-                Iconify.getAppContext().contentResolver.openInputStream(
+                appContext.contentResolver.openInputStream(
                     uri
                 )
             val outputStream = FileOutputStream(file)

@@ -16,6 +16,7 @@ glide = "4.16.0"
 flexbox = "3.0.0"
 guava = "33.1.0-jre"
 jsoup = "1.17.2"
+kotlinxCoroutinesAndroid = "1.7.3"
 library = "8.3.1"
 libsuVersion = "5.2.2"
 lottie = "6.4.0"
@@ -56,6 +57,7 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 library = { module = "com.android.databinding:library", version.ref = "library" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { module = "com.google.android.material:material", version.ref = "material" }

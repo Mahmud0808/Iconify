@@ -49,7 +49,7 @@ public class Tweaks extends BaseFragment {
         tweaks_list.add(new Object[]{(View.OnClickListener) v -> {
             // Check if LSPosed is installed or not
             if (!AppUtil.isLsposedInstalled()) {
-                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_lsposed_not_found), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.Companion.getAppContext(), getResources().getString(R.string.toast_lsposed_not_found), Toast.LENGTH_SHORT).show();
                 return;
             }
 

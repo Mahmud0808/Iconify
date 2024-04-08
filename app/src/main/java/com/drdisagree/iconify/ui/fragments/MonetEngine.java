@@ -99,9 +99,9 @@ public class MonetEngine extends BaseFragment {
 
                     try {
                         ImportExport.exportSettings(Prefs.prefs, Objects.requireNonNull(requireContext().getContentResolver().openOutputStream(Objects.requireNonNull(data.getData()))));
-                        Toast.makeText(Iconify.getAppContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.Companion.getAppContext(), requireContext().getResources().getString(R.string.toast_export_settings_successfull), Toast.LENGTH_SHORT).show();
                     } catch (Exception exception) {
-                        Toast.makeText(Iconify.getAppContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Iconify.Companion.getAppContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                         Log.e("MonetEngine", "Error exporting settings", exception);
                     }
                 }
@@ -128,12 +128,12 @@ public class MonetEngine extends BaseFragment {
                                             try {
                                                 boolean success = importMonetSettings(Prefs.prefs, Objects.requireNonNull(requireContext().getContentResolver().openInputStream(Objects.requireNonNull(data.getData()))));
                                                 if (success) {
-                                                    Toast.makeText(Iconify.getAppContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Iconify.Companion.getAppContext(), requireContext().getResources().getString(R.string.toast_import_settings_successfull), Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Toast.makeText(Iconify.getAppContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Iconify.Companion.getAppContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                 }
                                             } catch (Exception exception) {
-                                                Toast.makeText(Iconify.getAppContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(Iconify.Companion.getAppContext(), requireContext().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                                                 Log.e("MonetEngine", "Error importing settings", exception);
                                             }
                                         });
@@ -161,7 +161,7 @@ public class MonetEngine extends BaseFragment {
         };
 
         isDarkMode = SystemUtil.isDarkMode();
-        selectedStyle = Prefs.getString(MONET_STYLE, Iconify.getAppContextLocale().getResources().getString(R.string.monet_tonalspot));
+        selectedStyle = Prefs.getString(MONET_STYLE, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.monet_tonalspot));
 
         // Monet Style
         int selectedIndex = Arrays.asList(getResources().getStringArray(R.array.monet_style)).indexOf(selectedStyle);
@@ -173,8 +173,8 @@ public class MonetEngine extends BaseFragment {
             showApplyButton = true;
         });
 
-        accentPrimary = Prefs.getString(MONET_PRIMARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, Iconify.getAppContext().getTheme())));
-        accentSecondary = Prefs.getString(MONET_SECONDARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, Iconify.getAppContext().getTheme())));
+        accentPrimary = Prefs.getString(MONET_PRIMARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent1_300 : android.R.color.system_accent1_600, Iconify.Companion.getAppContext().getTheme())));
+        accentSecondary = Prefs.getString(MONET_SECONDARY_COLOR, String.valueOf(getResources().getColor(isDarkMode ? android.R.color.system_accent3_300 : android.R.color.system_accent3_600, Iconify.Companion.getAppContext().getTheme())));
 
         assignStockColorsToPalette();
 
@@ -375,7 +375,7 @@ public class MonetEngine extends BaseFragment {
             if (!SystemUtil.hasStoragePermission()) {
                 SystemUtil.requestStoragePermission(requireContext());
             } else if (Objects.equals(selectedStyle, STR_NULL)) {
-                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_select_style), Toast.LENGTH_SHORT).show();
             } else {
                 Prefs.putBoolean(MONET_ACCURATE_SHADES, accurateShades);
                 if (isSelectedPrimary) Prefs.putString(MONET_PRIMARY_COLOR, accentPrimary);
@@ -412,7 +412,7 @@ public class MonetEngine extends BaseFragment {
 
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             if (!hasErroredOut.get()) {
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
 
                                 try {
                                     binding.floatingActionMenu.show();
@@ -422,7 +422,7 @@ public class MonetEngine extends BaseFragment {
                                 } catch (Exception ignored) {
                                 }
                             } else
-                                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
                         }, 20);
                     });
                 }).start();
@@ -444,7 +444,7 @@ public class MonetEngine extends BaseFragment {
                 OverlayUtil.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay");
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
 
                     try {
                         if (!showApplyButton) {
@@ -552,7 +552,7 @@ public class MonetEngine extends BaseFragment {
         List<List<Object>> palette = generateColorPalette(requireContext(), selectedStyle, Integer.parseInt(accentPrimary));
         List<List<Object>> palette_night = cloneList(palette);
 
-        if (!Objects.equals(selectedStyle, Iconify.getAppContextLocale().getResources().getString(R.string.monet_monochrome))) {
+        if (!Objects.equals(selectedStyle, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.monet_monochrome))) {
             // Set primary accent saturation
             for (int i = 0; i <= 1; i++) {
                 for (int j = palette.get(i).size() - 2; j >= 1; j--) {
@@ -592,7 +592,7 @@ public class MonetEngine extends BaseFragment {
         }
 
         // Set background saturation
-        if (!Objects.equals(selectedStyle, Iconify.getAppContextLocale().getResources().getString(R.string.monet_monochrome))) {
+        if (!Objects.equals(selectedStyle, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.monet_monochrome))) {
             for (int i = 3; i < palette.size(); i++) {
                 for (int j = palette.get(i).size() - 2; j >= 1; j--) {
                     int color;
@@ -608,7 +608,7 @@ public class MonetEngine extends BaseFragment {
         }
 
         // Set background lightness
-        for (int i = Objects.equals(selectedStyle, Iconify.getAppContextLocale().getResources().getString(R.string.monet_monochrome)) ? 0 : 3; i < palette.size(); i++) {
+        for (int i = Objects.equals(selectedStyle, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.monet_monochrome)) ? 0 : 3; i < palette.size(); i++) {
             for (int j = 1; j < palette.get(i).size() - 1; j++) {
                 int color = ColorUtil.setLightness(Integer.parseInt(String.valueOf((int) palette.get(i).get(j))), (float) monetBackgroundLightness[0] / 1000.0F);
 
@@ -618,7 +618,7 @@ public class MonetEngine extends BaseFragment {
         }
 
         for (int i = 0; i < colorTableRows.length; i++) {
-            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary) && !Objects.equals(selectedStyle, Iconify.getAppContextLocale().getResources().getString(R.string.monet_monochrome))) {
+            if (i == 2 && (Prefs.getBoolean(CUSTOM_SECONDARY_COLOR_SWITCH) || isSelectedSecondary) && !Objects.equals(selectedStyle, Iconify.Companion.getAppContextLocale().getResources().getString(R.string.monet_monochrome))) {
                 Prefs.putBoolean(CUSTOM_SECONDARY_COLOR_SWITCH, true);
                 List<List<Object>> secondaryPalette = generateColorPalette(requireContext(), selectedStyle, Integer.parseInt(accentSecondary));
 
@@ -783,12 +783,12 @@ public class MonetEngine extends BaseFragment {
                     OverlayUtil.changeOverlayState("IconifyComponentQSPBA.overlay", false, "IconifyComponentQSPBA.overlay", true);
                 }
 
-                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                 binding.floatingActionMenu.show();
                 showApplyButton = false;
                 showDisableButton = true;
             } else
-                Toast.makeText(Iconify.getAppContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
         } catch (Exception exception) {
             Log.e("ImportSettings", "Error building Monet Engine", exception);
         }

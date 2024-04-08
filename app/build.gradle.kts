@@ -124,6 +124,9 @@ dependencies {
     // Optional: Provides remote file system support
     implementation(libs.nio)
 
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+
     // Color Picker
     implementation(libs.colorpicker)
 

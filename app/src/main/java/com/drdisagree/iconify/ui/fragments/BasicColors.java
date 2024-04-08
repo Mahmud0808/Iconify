@@ -96,12 +96,12 @@ public class BasicColors extends BaseFragment {
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_PRIMARY), STR_NULL))
             accentPrimary = Prefs.getString(COLOR_ACCENT_PRIMARY);
         else
-            accentPrimary = String.valueOf(getResources().getColor(android.R.color.holo_blue_light, Iconify.getAppContext().getTheme()));
+            accentPrimary = String.valueOf(getResources().getColor(android.R.color.holo_blue_light, Iconify.Companion.getAppContext().getTheme()));
 
         if (!Objects.equals(Prefs.getString(COLOR_ACCENT_SECONDARY), STR_NULL))
             accentSecondary = Prefs.getString(COLOR_ACCENT_SECONDARY);
         else
-            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_blue_dark, Iconify.getAppContext().getTheme()));
+            accentSecondary = String.valueOf(getResources().getColor(android.R.color.holo_blue_dark, Iconify.Companion.getAppContext().getTheme()));
 
         updatePrimaryColor();
         updateSecondaryColor();
@@ -160,7 +160,7 @@ public class BasicColors extends BaseFragment {
 
                         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                             if (getContext() != null) {
-                                Toast.makeText(requireContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
                             }
                         }, 2000);
                     });
@@ -185,7 +185,7 @@ public class BasicColors extends BaseFragment {
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     if (getContext() != null) {
-                        Toast.makeText(requireContext(), Iconify.getAppContextLocale().getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_disabled), Toast.LENGTH_SHORT).show();
                     }
                 }, 2000);
             };
@@ -208,13 +208,13 @@ public class BasicColors extends BaseFragment {
 
     private void updatePrimaryColor() {
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(24 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(24 * Iconify.Companion.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
 
     private void updateSecondaryColor() {
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{Integer.parseInt(accentPrimary), Integer.parseInt(accentSecondary)});
-        gd.setCornerRadius(24 * Iconify.getAppContextLocale().getResources().getDisplayMetrics().density);
+        gd.setCornerRadius(24 * Iconify.Companion.getAppContextLocale().getResources().getDisplayMetrics().density);
         binding.colorPreviewLarge.setBackground(gd);
     }
 

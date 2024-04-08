@@ -151,7 +151,7 @@ public class Statusbar extends BaseFragment {
             return true;
         });
 
-        colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent, Iconify.getAppContext().getTheme()));
+        colorSBTint = String.valueOf(getResources().getColor(R.color.colorAccent, Iconify.Companion.getAppContext().getTheme()));
 
         //set current choosen style
         selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE);

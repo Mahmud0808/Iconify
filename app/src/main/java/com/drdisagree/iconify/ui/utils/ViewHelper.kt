@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE
@@ -110,13 +111,13 @@ object ViewHelper {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             dp.toFloat(),
-            Iconify.getAppContext().resources.displayMetrics
+            appContext.resources.displayMetrics
         ).toInt()
     }
 
     @JvmStatic
     fun getBatteryDrawables(context: Context): Array<Drawable> {
-        val batteryColor = Iconify.getAppContext().getColor(R.color.textColorPrimary)
+        val batteryColor = appContext.getColor(R.color.textColorPrimary)
 
         val batteryDrawables = arrayOf<Drawable>(
             DefaultBattery(context, batteryColor),
@@ -210,7 +211,7 @@ object ViewHelper {
             getDrawable(context, R.drawable.ic_charging_xiaomi) // Xiaomi
         )
 
-        val iconColor = Iconify.getAppContext().getColor(R.color.textColorPrimary)
+        val iconColor = appContext.getColor(R.color.textColorPrimary)
 
         for (chargingIcon in chargingIcons) {
             if (chargingIcon == null) continue
