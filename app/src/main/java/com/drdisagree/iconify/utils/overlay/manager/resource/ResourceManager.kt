@@ -1,330 +1,345 @@
-package com.drdisagree.iconify.utils.overlay.manager.resource;
+package com.drdisagree.iconify.utils.overlay.manager.resource
 
-import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES;
-import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_LAND;
-import static com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_NIGHT;
+import android.content.Context
+import android.util.Log
+import android.util.Xml
+import android.widget.Toast
+import com.drdisagree.iconify.Iconify.Companion.appContext
+import com.drdisagree.iconify.Iconify.Companion.appContextLocale
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Const
+import com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES
+import com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_LAND
+import com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_NIGHT
+import com.drdisagree.iconify.config.Prefs.getString
+import com.drdisagree.iconify.config.Prefs.putString
+import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
+import com.drdisagree.iconify.utils.extension.TaskExecutor
+import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler.buildOverlay
+import org.json.JSONObject
+import org.xmlpull.v1.XmlSerializer
+import java.io.IOException
+import java.io.StringWriter
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.concurrent.Volatile
 
-import android.content.Context;
-import android.util.Log;
-import android.util.Xml;
-import android.widget.Toast;
+object ResourceManager {
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.common.Const;
-import com.drdisagree.iconify.config.Prefs;
-import com.drdisagree.iconify.utils.SystemUtil;
-import com.drdisagree.iconify.utils.extension.TaskExecutor;
-import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler;
+    private val TAG = ResourceManager::class.java.getSimpleName()
 
-import org.json.JSONObject;
-import org.xmlpull.v1.XmlSerializer;
-
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-public class ResourceManager {
-
-    private static final String TAG = ResourceManager.class.getSimpleName();
-
-    public static boolean buildOverlayWithResource(ResourceEntry... resourceEntries) {
-        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+    @JvmStatic
+    fun buildOverlayWithResource(vararg resourceEntries: ResourceEntry?): Boolean {
+        val hasErroredOut = AtomicBoolean(false)
 
         try {
-            ResourceManager.createResource(resourceEntries);
-        } catch (Exception e) {
-            hasErroredOut.set(true);
-            Log.e(TAG, "buildOverlayWithResource:", e);
+            createResource(*resourceEntries.filterNotNull().toTypedArray())
+        } catch (e: Exception) {
+            hasErroredOut.set(true)
+            Log.e(TAG, "buildOverlayWithResource:", e)
         }
 
-        return hasErroredOut.get();
+        return hasErroredOut.get()
     }
 
-    public static void buildOverlayWithResource(Context context, ResourceEntry... resourceEntries) {
-        if (!SystemUtil.hasStoragePermission()) {
-            SystemUtil.requestStoragePermission(context);
+    @JvmStatic
+    fun buildOverlayWithResource(context: Context?, vararg resourceEntries: ResourceEntry?) {
+        if (!hasStoragePermission()) {
+            requestStoragePermission(context!!)
         } else {
             try {
-                ResourceManager.createResource(resourceEntries);
-            } catch (Exception e) {
-                Log.e(TAG, "buildOverlayWithResource:", e);
+                createResource(*resourceEntries.filterNotNull().toTypedArray())
+            } catch (e: Exception) {
+                Log.e(TAG, "buildOverlayWithResource:", e)
             }
         }
     }
 
-    public static boolean removeResourceFromOverlay(ResourceEntry... resourceEntries) {
-        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+    @JvmStatic
+    fun removeResourceFromOverlay(vararg resourceEntries: ResourceEntry?): Boolean {
+        val hasErroredOut = AtomicBoolean(false)
 
         try {
-            ResourceManager.removeResource(resourceEntries);
-        } catch (Exception e) {
-            hasErroredOut.set(true);
-            Log.e(TAG, "removeResourceFromOverlay:", e);
+            removeResource(*resourceEntries.filterNotNull().toTypedArray())
+        } catch (e: Exception) {
+            hasErroredOut.set(true)
+            Log.e(TAG, "removeResourceFromOverlay:", e)
         }
 
-        return hasErroredOut.get();
+        return hasErroredOut.get()
     }
 
-    public static void removeResourceFromOverlay(Context context, ResourceEntry... resourceEntries) {
-        if (!SystemUtil.hasStoragePermission()) {
-            SystemUtil.requestStoragePermission(context);
+    @JvmStatic
+    fun removeResourceFromOverlay(context: Context?, vararg resourceEntries: ResourceEntry?) {
+        if (!hasStoragePermission()) {
+            requestStoragePermission(context!!)
         } else {
             try {
-                ResourceManager.removeResource(resourceEntries);
-            } catch (Exception e) {
-                Log.e(TAG, "removeResourceFromOverlay:", e);
+                removeResource(*resourceEntries.filterNotNull().toTypedArray())
+            } catch (e: Exception) {
+                Log.e(TAG, "removeResourceFromOverlay:", e)
             }
         }
     }
 
-    private static void createResource(ResourceEntry... resourceEntries) throws Exception {
-        JSONObject[] jsonObject = getResources();
-        JSONObject[] newJsonObject = generateJsonData(resourceEntries);
-        JSONObject[] mergedJson = new JSONObject[3];
+    @Throws(Exception::class)
+    private fun createResource(vararg resourceEntries: ResourceEntry) {
+        val jsonObject = resources
+        val newJsonObject = generateJsonData(*resourceEntries)
+        val mergedJson = Array(3) { JSONObject() }
 
-        for (int i = 0; i < 3; i++) {
-            mergedJson[i] = initResourceIfNull(new JSONObject());
-            mergeJsonObjects(mergedJson[i], jsonObject[i]);
-            mergeJsonObjects(mergedJson[i], newJsonObject[i]);
+        for (i in 0..2) {
+            mergedJson[i] = initResourceIfNull(JSONObject())
+
+            mergeJsonObjects(mergedJson[i], jsonObject[i])
+            mergeJsonObjects(mergedJson[i], newJsonObject[i])
         }
 
-        saveResources(mergedJson);
+        saveResources(mergedJson)
 
-        DynamicCompilerExecutor dynamicCompilerExecutor = new DynamicCompilerExecutor();
-        dynamicCompilerExecutor.execute();
+        DynamicCompilerExecutor().execute()
     }
 
-    private static void removeResource(ResourceEntry... resourceEntries) throws Exception {
-        JSONObject[] jsonObject = getResources();
+    @Throws(Exception::class)
+    private fun removeResource(vararg resourceEntries: ResourceEntry) {
+        val jsonObject = resources
 
-        for (ResourceEntry resourceEntry : resourceEntries) {
-            int index = -1;
+        for (resourceEntry in resourceEntries) {
+            var index = -1
+
             if (resourceEntry.isPortrait()) {
-                index = 0;
+                index = 0
             } else if (resourceEntry.isLandscape()) {
-                index = 1;
-            } else if (resourceEntry.isNightMode()) {
-                index = 2;
+                index = 1
+            } else if (resourceEntry.isNightMode) {
+                index = 2
             }
 
-            JSONObject resourceTypes = jsonObject[index].optJSONObject(resourceEntry.getPackageName());
+            val resourceTypes =
+                jsonObject[index].optJSONObject(resourceEntry.packageName) ?: continue
+            val resources = resourceTypes.optJSONObject(resourceEntry.startEndTag) ?: continue
 
-            if (resourceTypes == null) {
-                continue;
-            }
-
-            JSONObject resources = resourceTypes.optJSONObject(resourceEntry.getStartEndTag());
-
-            if (resources == null) {
-                continue;
-            }
-
-            resources.remove(resourceEntry.getResourceName());
+            resources.remove(resourceEntry.resourceName)
         }
 
-        saveResources(jsonObject);
+        saveResources(jsonObject)
 
-        DynamicCompilerExecutor dynamicCompilerExecutor = new DynamicCompilerExecutor();
-        dynamicCompilerExecutor.execute();
+        DynamicCompilerExecutor().execute()
     }
 
-    private static class DynamicCompilerExecutor extends TaskExecutor<Void, Void, Void> {
-        AtomicBoolean hasErroredOut = new AtomicBoolean(false);
+    @Throws(Exception::class)
+    private fun generateJsonData(vararg resourceEntries: ResourceEntry): Array<JSONObject?> {
+        val packages = arrayOfNulls<JSONObject>(3)
 
-        @Override
-        protected void onPreExecute() {
-            // do nothing
-        }
+        packages[0] = initResourceIfNull(packages[0])
+        packages[1] = initResourceIfNull(packages[1])
+        packages[2] = initResourceIfNull(packages[2])
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                DynamicCompiler.buildOverlay();
-            } catch (IOException e) {
-                Log.i(TAG, "doInBackground: ", e);
-                hasErroredOut.set(true);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void unused) {
-            if (!hasErroredOut.get()) {
-                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_applied), Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(Iconify.Companion.getAppContext(), Iconify.Companion.getAppContextLocale().getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private static JSONObject[] generateJsonData(ResourceEntry... resourceEntries) throws Exception {
-        JSONObject[] packages = new JSONObject[3];
-        packages[0] = initResourceIfNull(packages[0]);
-        packages[1] = initResourceIfNull(packages[1]);
-        packages[2] = initResourceIfNull(packages[2]);
-
-        for (ResourceEntry entry : resourceEntries) {
-            if (entry.getResourceValue().isEmpty()) {
-                throw new Exception("Resource value is empty.");
+        for (entry in resourceEntries) {
+            if (entry.resourceValue.isEmpty()) {
+                throw Exception("Resource value is empty.")
             }
 
-            int index = -1;
+            var index = -1
+
             if (entry.isPortrait()) {
-                index = 0;
+                index = 0
             } else if (entry.isLandscape()) {
-                index = 1;
-            } else if (entry.isNightMode()) {
-                index = 2;
+                index = 1
+            } else if (entry.isNightMode) {
+                index = 2
             }
 
-            JSONObject resourceTypes = packages[index].optJSONObject(entry.getPackageName());
+            var resourceTypes = packages[index]!!.optJSONObject(entry.packageName)
 
             if (resourceTypes == null) {
-                resourceTypes = new JSONObject();
-                packages[index].put(entry.getPackageName(), resourceTypes);
+                resourceTypes = JSONObject()
+                packages[index]!!.put(entry.packageName, resourceTypes)
             }
 
-            JSONObject resources = resourceTypes.optJSONObject(entry.getStartEndTag());
+            var resources = resourceTypes.optJSONObject(entry.startEndTag)
 
             if (resources == null) {
-                resources = new JSONObject();
-                resourceTypes.put(entry.getStartEndTag(), resources);
+                resources = JSONObject()
+                resourceTypes.put(entry.startEndTag, resources)
             }
 
-            resources.put(entry.getResourceName(), entry.getResourceValue());
+            resources.put(entry.resourceName, entry.resourceValue)
         }
 
-        return packages;
+        return packages
     }
 
-    public static JSONObject generateJsonResource(JSONObject jsonObject) throws Exception {
-        JSONObject newJsonObject = initResourceIfNull(new JSONObject());
-        Iterator<String> keys = jsonObject.keys();
+    @Throws(Exception::class)
+    fun generateJsonResource(jsonObject: JSONObject): JSONObject {
+        val newJsonObject = initResourceIfNull(JSONObject())
+        val keys = jsonObject.keys()
 
         while (keys.hasNext()) {
-            String key = keys.next();
-            Object value = jsonObject.get(key);
+            val key = keys.next()
+            val value = jsonObject[key]
 
-            if (Const.SYSTEM_PACKAGES.contains(key) && value instanceof JSONObject) {
-                XmlSerializer xmlSerializer = Xml.newSerializer();
-                StringWriter writer = new StringWriter();
-                String startEndTag = "resources";
+            if (Const.SYSTEM_PACKAGES.contains(key) && value is JSONObject) {
+                val xmlSerializer = Xml.newSerializer()
+                val writer = StringWriter()
+                val startEndTag = "resources"
 
-                xmlSerializer.setOutput(writer);
-                xmlSerializer.startDocument("UTF-8", null);
-                xmlSerializer.startTag(null, startEndTag);
+                xmlSerializer.setOutput(writer)
+                xmlSerializer.startDocument("UTF-8", null)
+                xmlSerializer.startTag(null, startEndTag)
 
-                addJsonToXml("", (JSONObject) value, xmlSerializer);
+                addJsonToXml("", value, xmlSerializer)
 
-                xmlSerializer.endTag(null, startEndTag);
-                xmlSerializer.endDocument();
+                xmlSerializer.endTag(null, startEndTag)
+                xmlSerializer.endDocument()
 
-                newJsonObject.put(key, writer.toString());
+                newJsonObject.put(key, writer.toString())
             } else {
-                throw new Exception("Invalid JSON format.\n" + jsonObject);
+                throw Exception("Invalid JSON format.\n$jsonObject")
             }
         }
 
-        return newJsonObject;
+        return newJsonObject
     }
 
-    private static void addJsonToXml(String parent, JSONObject json, XmlSerializer xmlSerializer) throws Exception {
-        Iterator<String> keys = json.keys();
+    @Throws(Exception::class)
+    private fun addJsonToXml(parent: String, json: JSONObject, xmlSerializer: XmlSerializer) {
+        val keys = json.keys()
 
         while (keys.hasNext()) {
-            String key = keys.next();
-            Object value = json.get(key);
+            val key = keys.next()
+            val value = json[key]
 
-            if (value instanceof JSONObject) {
-                addJsonToXml(key, (JSONObject) value, xmlSerializer);
+            if (value is JSONObject) {
+                addJsonToXml(key, value, xmlSerializer)
             } else {
-                xmlSerializer.startTag(null, parent);
-                xmlSerializer.attribute(null, "name", key);
-                xmlSerializer.text(value.toString());
-                xmlSerializer.endTag(null, parent);
+                xmlSerializer.startTag(null, parent)
+                xmlSerializer.attribute(null, "name", key)
+                xmlSerializer.text(value.toString())
+                xmlSerializer.endTag(null, parent)
             }
         }
     }
 
-    private static void mergeJsonObjects(JSONObject mergedJson, JSONObject jsonObject) throws Exception {
-        Iterator<String> keys = jsonObject.keys();
+    @Throws(Exception::class)
+    private fun mergeJsonObjects(mergedJson: JSONObject?, jsonObject: JSONObject?) {
+        val keys = jsonObject!!.keys()
 
         while (keys.hasNext()) {
-            String key = keys.next();
-            Object value = jsonObject.get(key);
+            val key = keys.next()
+            val value = jsonObject[key]
 
-            if (value instanceof JSONObject) {
-                JSONObject existingValue = mergedJson.optJSONObject(key);
+            if (value is JSONObject) {
+                val existingValue = mergedJson!!.optJSONObject(key)
 
                 if (existingValue != null) {
-                    mergeJsonObjects(existingValue, (JSONObject) value);
+                    mergeJsonObjects(existingValue, value)
                 } else {
-                    mergedJson.put(key, value);
+                    mergedJson.put(key, value)
                 }
             } else {
-                mergedJson.put(key, value);
+                mergedJson!!.put(key, value)
             }
         }
     }
 
-    public static JSONObject[] getResources() throws Exception {
-        String resources = Prefs.getString(DYNAMIC_OVERLAY_RESOURCES, "{}");
-        String resourcesLand = Prefs.getString(DYNAMIC_OVERLAY_RESOURCES_LAND, "{}");
-        String resourcesNight = Prefs.getString(DYNAMIC_OVERLAY_RESOURCES_NIGHT, "{}");
+    @get:Throws(Exception::class)
+    val resources: Array<JSONObject>
+        get() {
+            val resources = getString(DYNAMIC_OVERLAY_RESOURCES, "{}") ?: "{}"
+            val resourcesLand = getString(DYNAMIC_OVERLAY_RESOURCES_LAND, "{}") ?: "{}"
+            val resourcesNight = getString(DYNAMIC_OVERLAY_RESOURCES_NIGHT, "{}") ?: "{}"
 
-        JSONObject values = initResourceIfNull(resources);
-        JSONObject valuesLand = initResourceIfNull(resourcesLand);
-        JSONObject valuesNight = initResourceIfNull(resourcesNight);
+            val values = initResourceIfNull(resources)
+            val valuesLand = initResourceIfNull(resourcesLand)
+            val valuesNight = initResourceIfNull(resourcesNight)
 
-        return new JSONObject[]{values, valuesLand, valuesNight};
-    }
-
-    private static void saveResources(JSONObject[] resources) {
-        Prefs.putString(DYNAMIC_OVERLAY_RESOURCES, resources[0].toString());
-        Prefs.putString(DYNAMIC_OVERLAY_RESOURCES_LAND, resources[1].toString());
-        Prefs.putString(DYNAMIC_OVERLAY_RESOURCES_NIGHT, resources[2].toString());
-    }
-
-    private static JSONObject initResourceIfNull(String json) throws Exception {
-        return initResourceIfNull(new JSONObject(json));
-    }
-
-    private static JSONObject initResourceIfNull(JSONObject jsonObject) throws Exception {
-        if (jsonObject == null) {
-            jsonObject = new JSONObject();
+            return arrayOf(values, valuesLand, valuesNight)
         }
 
-        JSONObject resourceTypes1 = jsonObject.optJSONObject(Const.FRAMEWORK_PACKAGE);
-        JSONObject resourceTypes2 = jsonObject.optJSONObject(Const.SYSTEMUI_PACKAGE);
+    private fun saveResources(resources: Array<JSONObject>) {
+        putString(DYNAMIC_OVERLAY_RESOURCES, resources[0].toString())
+        putString(DYNAMIC_OVERLAY_RESOURCES_LAND, resources[1].toString())
+        putString(DYNAMIC_OVERLAY_RESOURCES_NIGHT, resources[2].toString())
+    }
+
+    @Throws(Exception::class)
+    private fun initResourceIfNull(json: String): JSONObject {
+        return initResourceIfNull(JSONObject(json))
+    }
+
+    @Throws(Exception::class)
+    private fun initResourceIfNull(jsonObject: JSONObject?): JSONObject {
+        var jsonObj = jsonObject
+
+        if (jsonObj == null) {
+            jsonObj = JSONObject()
+        }
+
+        var resourceTypes1 = jsonObj.optJSONObject(Const.FRAMEWORK_PACKAGE)
+        var resourceTypes2 = jsonObj.optJSONObject(Const.SYSTEMUI_PACKAGE)
 
         if (resourceTypes1 == null) {
-            resourceTypes1 = new JSONObject();
-            jsonObject.put(Const.FRAMEWORK_PACKAGE, resourceTypes1);
+            resourceTypes1 = JSONObject()
+            jsonObj.put(Const.FRAMEWORK_PACKAGE, resourceTypes1)
         }
 
         if (resourceTypes2 == null) {
-            resourceTypes2 = new JSONObject();
-            jsonObject.put(Const.SYSTEMUI_PACKAGE, resourceTypes2);
+            resourceTypes2 = JSONObject()
+            jsonObj.put(Const.SYSTEMUI_PACKAGE, resourceTypes2)
         }
 
-        JSONObject resources1 = resourceTypes1.optJSONObject("color");
-        JSONObject resources2 = resourceTypes2.optJSONObject("color");
+        var resources1 = resourceTypes1.optJSONObject("color")
+        var resources2 = resourceTypes2.optJSONObject("color")
 
         if (resources1 == null) {
-            resources1 = new JSONObject();
-            resourceTypes1.put("color", resources1);
+            resources1 = JSONObject()
+            resourceTypes1.put("color", resources1)
         }
 
         if (resources2 == null) {
-            resources2 = new JSONObject();
-            resourceTypes2.put("color", resources2);
+            resources2 = JSONObject()
+            resourceTypes2.put("color", resources2)
         }
 
-        resources1.put("dummy1", "#00000000");
-        resources2.put("dummy2", "#00000000");
+        resources1.put("dummy1", "#00000000")
+        resources2.put("dummy2", "#00000000")
 
-        return jsonObject;
+        return jsonObj
+    }
+
+    private class DynamicCompilerExecutor : TaskExecutor<Void?, Void?, Void?>() {
+
+        @Volatile
+        var hasErroredOut = false
+
+        override fun onPreExecute() {}
+
+        override fun doInBackground(vararg params: Void?): Void? {
+            try {
+                buildOverlay()
+            } catch (e: IOException) {
+                Log.i(TAG, "doInBackground: ", e)
+                hasErroredOut = true
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            if (!hasErroredOut) {
+                Toast.makeText(
+                    appContext,
+                    appContextLocale.resources.getString(R.string.toast_applied),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    appContext,
+                    appContextLocale.resources.getString(R.string.toast_error),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }

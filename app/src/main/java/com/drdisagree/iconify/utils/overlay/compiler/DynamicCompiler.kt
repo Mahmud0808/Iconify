@@ -31,7 +31,7 @@ object DynamicCompiler {
         mForce = force
 
         try {
-            val jsonObject = ResourceManager.getResources()
+            val jsonObject = ResourceManager.resources
 
             Shell.cmd("mkdir -p " + Resources.BACKUP_DIR).exec()
 
