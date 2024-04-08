@@ -1,79 +1,67 @@
-package com.drdisagree.iconify.ui.views;
+package com.drdisagree.iconify.ui.views
 
-import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableWrapper;
-import android.graphics.drawable.InsetDrawable;
+import android.content.pm.ActivityInfo
+import android.content.res.Resources
+import android.content.res.Resources.Theme
+import android.graphics.Rect
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.DrawableWrapper
+import android.graphics.drawable.InsetDrawable
 
-import androidx.annotation.NonNull;
+class RoundedCornerProgressDrawable @JvmOverloads constructor(drawable: Drawable? = null) :
+    InsetDrawable(drawable, 0) {
 
-public final class RoundedCornerProgressDrawable extends InsetDrawable {
-
-    public RoundedCornerProgressDrawable() {
-        this(null);
+    override fun getChangingConfigurations(): Int {
+        return super.getChangingConfigurations() or ActivityInfo.CONFIG_DENSITY
     }
 
-    public RoundedCornerProgressDrawable(Drawable drawable) {
-        super(drawable, 0);
+    override fun getConstantState(): ConstantState {
+        return RoundedCornerState(super.getConstantState())
     }
 
-    public int getChangingConfigurations() {
-        return super.getChangingConfigurations() | ActivityInfo.CONFIG_DENSITY;
+    override fun onBoundsChange(rect: Rect) {
+        super.onBoundsChange(rect)
+        onLevelChange(level)
     }
 
-    public Drawable.ConstantState getConstantState() {
-        return new RoundedCornerState(super.getConstantState());
+    override fun onLayoutDirectionChanged(level: Int): Boolean {
+        onLevelChange(getLevel())
+        return super.onLayoutDirectionChanged(level)
     }
 
-    protected void onBoundsChange(Rect rect) {
-        super.onBoundsChange(rect);
-        onLevelChange(getLevel());
-    }
+    override fun onLevelChange(n: Int): Boolean {
+        var drawable = drawable
+        val bounds: Rect? = drawable?.getBounds()
+        val height = getBounds().height()
+        val level = (getBounds().width() - getBounds().height()) * n / 10000
 
-    public boolean onLayoutDirectionChanged(int level) {
-        onLevelChange(getLevel());
-        return super.onLayoutDirectionChanged(level);
-    }
+        drawable = getDrawable()
 
-    protected boolean onLevelChange(int n) {
-        Drawable drawable = getDrawable();
-        Rect bounds;
-        if (drawable == null) {
-            bounds = null;
-        } else {
-            bounds = drawable.getBounds();
-        }
-        int height = getBounds().height();
-        int level = (getBounds().width() - getBounds().height()) * n / 10000;
-        drawable = getDrawable();
         if (drawable != null && bounds != null) {
-            drawable.setBounds(getBounds().left, bounds.top, getBounds().left + (height + level), bounds.bottom);
+            drawable.setBounds(
+                getBounds().left,
+                bounds.top,
+                getBounds().left + (height + level),
+                bounds.bottom
+            )
         }
-        return super.onLevelChange(level);
+
+        return super.onLevelChange(level)
     }
 
-    private static final class RoundedCornerState extends Drawable.ConstantState {
-        private final Drawable.ConstantState mWrappedState;
+    private class RoundedCornerState(private val mWrappedState: ConstantState?) : ConstantState() {
 
-        public RoundedCornerState(Drawable.ConstantState wrappedState) {
-            mWrappedState = wrappedState;
+        override fun getChangingConfigurations(): Int {
+            return mWrappedState!!.changingConfigurations
         }
 
-        public int getChangingConfigurations() {
-            return mWrappedState.getChangingConfigurations();
+        override fun newDrawable(): Drawable {
+            return newDrawable(null, null)
         }
 
-        @NonNull
-        public Drawable newDrawable() {
-            return newDrawable(null, null);
-        }
-
-        @NonNull
-        public Drawable newDrawable(Resources resources, Resources.Theme theme) {
-            Drawable drawable = mWrappedState.newDrawable(resources, theme);
-            return new RoundedCornerProgressDrawable(((DrawableWrapper) drawable).getDrawable());
+        override fun newDrawable(resources: Resources?, theme: Theme?): Drawable {
+            val drawable = mWrappedState!!.newDrawable(resources, theme)
+            return RoundedCornerProgressDrawable((drawable as DrawableWrapper).drawable)
         }
     }
 }

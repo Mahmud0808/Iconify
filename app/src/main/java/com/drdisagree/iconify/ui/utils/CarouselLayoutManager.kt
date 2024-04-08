@@ -1,60 +1,58 @@
-package com.drdisagree.iconify.ui.utils;
+package com.drdisagree.iconify.ui.utils
 
-import android.content.Context;
-import android.view.View;
+import android.content.Context
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.abs
+import kotlin.math.min
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+class CarouselLayoutManager(context: Context?, orientation: Int, reverseLayout: Boolean) :
+    LinearLayoutManager(context, orientation, reverseLayout) {
 
-public class CarouselLayoutManager extends LinearLayoutManager {
+    private var minifyAmount = 0.05f
+    private var minifyDistance = 0.9f
 
-    private float minifyAmount = 0.05f;
-    private float minifyDistance = 0.9f;
+    override fun scrollHorizontallyBy(
+        dx: Int,
+        recycler: RecyclerView.Recycler,
+        state: RecyclerView.State
+    ): Int {
+        val scrolled = super.scrollHorizontallyBy(dx, recycler, state)
 
-    public CarouselLayoutManager(Context context, int orientation, boolean reverseLayout) {
-        super(context, orientation, reverseLayout);
+        updateScaleFactors()
+
+        return scrolled
     }
 
-    @Override
-    public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        int scrolled = super.scrollHorizontallyBy(dx, recycler, state);
-        updateScaleFactors();
-        return scrolled;
+    override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
+        super.onLayoutChildren(recycler, state)
+
+        updateScaleFactors()
     }
 
-    @Override
-    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        super.onLayoutChildren(recycler, state);
-        updateScaleFactors();
-    }
+    private fun updateScaleFactors() {
+        val parentMidpoint = width / 2.0f
+        val d0 = 0.00f
+        val d1 = parentMidpoint * minifyDistance
+        val s0 = 1.0f
+        val s1 = 1.0f - minifyAmount
 
-    private void updateScaleFactors() {
-        float parentMidpoint = getWidth() / 2.0f;
-        float d0 = 0.00f;
-        float d1 = parentMidpoint * minifyDistance;
-        float s0 = 1.0f;
-        float s1 = 1.0f - minifyAmount;
+        for (i in 0 until childCount) {
+            val child = getChildAt(i) ?: continue
+            val childMidpoint = (getDecoratedLeft(child) + getDecoratedRight(child)) / 2f
+            val d = min(d1.toDouble(), abs((parentMidpoint - childMidpoint).toDouble())).toFloat()
+            val scaleFactor = s0 + (s1 - s0) * (d - d0) / (d1 - d0)
 
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            if (child == null) continue;
-
-            float childMidpoint = (getDecoratedLeft(child) + getDecoratedRight(child)) / 2.f;
-            float d = Math.min(d1, Math.abs(parentMidpoint - childMidpoint));
-            float scaleFactor = s0 + (s1 - s0) * (d - d0) / (d1 - d0);
-
-            child.setScaleX(scaleFactor);
-            child.setScaleY(scaleFactor);
+            child.scaleX = scaleFactor
+            child.scaleY = scaleFactor
         }
     }
 
-    // Getters and setters for customization options
-    public void setMinifyAmount(float minifyAmount) {
-        this.minifyAmount = minifyAmount;
+    fun setMinifyAmount(minifyAmount: Float) {
+        this.minifyAmount = minifyAmount
     }
 
-    public void setMinifyDistance(float minifyDistance) {
-        this.minifyDistance = minifyDistance;
+    fun setMinifyDistance(minifyDistance: Float) {
+        this.minifyDistance = minifyDistance
     }
 }
-

@@ -1,71 +1,75 @@
-package com.drdisagree.iconify.ui.utils;
+package com.drdisagree.iconify.ui.utils
 
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
-import static com.bumptech.glide.request.RequestOptions.centerCropTransform;
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.view.ViewGroup
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+object ViewBindingHelpers {
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
-
-public class ViewBindingHelpers {
-
-    public static void setImageUrl(ImageView imageView, String url) {
-        Glide.with(imageView.getContext()).load(url.replace("http://", "https://")).apply(centerCropTransform()).transition(withCrossFade()).into(imageView);
+    @JvmStatic
+    fun setImageUrl(imageView: ImageView, url: String) {
+        Glide.with(imageView.context).load(url.replace("http://", "https://"))
+            .apply(RequestOptions.centerCropTransform())
+            .transition(DrawableTransitionOptions.withCrossFade()).into(imageView)
     }
 
-    public static void setDrawable(ImageView imageView, Drawable drawable) {
-        Glide.with(imageView.getContext()).load(drawable).into(imageView);
+    @JvmStatic
+    fun setDrawable(imageView: ImageView, drawable: Drawable?) {
+        Glide.with(imageView.context).load(drawable).into(imageView)
     }
 
-    public static void setDrawableWithAnimation(ImageView imageView, Drawable drawable) {
-        Glide.with(imageView.getContext()).load(drawable).transition(DrawableTransitionOptions.withCrossFade()).into(imageView);
+    @JvmStatic
+    fun setDrawableWithAnimation(imageView: ImageView, drawable: Drawable?) {
+        Glide.with(imageView.context).load(drawable)
+            .transition(DrawableTransitionOptions.withCrossFade()).into(imageView)
     }
 
-    public static void setDrawable(ViewGroup viewGroup, Drawable drawable) {
-        Glide.with(viewGroup.getContext()).load(drawable).into(new CustomTarget<Drawable>() {
-            @Override
-            public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
-                viewGroup.setBackground(resource);
+    @JvmStatic
+    fun setDrawable(viewGroup: ViewGroup, drawable: Drawable?) {
+        Glide.with(viewGroup.context).load(drawable).into(object : CustomTarget<Drawable?>() {
+            override fun onResourceReady(
+                resource: Drawable,
+                transition: Transition<in Drawable?>?
+            ) {
+                viewGroup.background = resource
             }
 
-            @Override
-            public void onLoadCleared(@Nullable Drawable placeholder) {
-
-            }
-        });
+            override fun onLoadCleared(placeholder: Drawable?) {}
+        })
     }
 
-    public static void setDrawableWithAnimation(ViewGroup viewGroup, Drawable drawable) {
-        Glide.with(viewGroup.getContext()).load(drawable).transition(DrawableTransitionOptions.withCrossFade()).into(new CustomTarget<Drawable>() {
-            @Override
-            public void onResourceReady(@NonNull Drawable resource, Transition<? super Drawable> transition) {
-                viewGroup.setBackground(resource);
-            }
+    @JvmStatic
+    fun setDrawableWithAnimation(viewGroup: ViewGroup, drawable: Drawable?) {
+        Glide.with(viewGroup.context).load(drawable)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(object : CustomTarget<Drawable?>() {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable?>?
+                ) {
+                    viewGroup.background = resource
+                }
 
-            @Override
-            public void onLoadCleared(@Nullable Drawable placeholder) {
-
-            }
-        });
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
     }
 
-    public static void setBitmap(ImageView imageView, Bitmap bitmap) {
-        Drawable drawable = new BitmapDrawable(imageView.getContext().getResources(), bitmap);
-        setDrawable(imageView, drawable);
+    @JvmStatic
+    fun setBitmap(imageView: ImageView, bitmap: Bitmap?) {
+        val drawable: Drawable = BitmapDrawable(imageView.context.resources, bitmap)
+        setDrawable(imageView, drawable)
     }
 
-    public static void setBitmapWithAnimation(ImageView imageView, Bitmap bitmap) {
-        Drawable drawable = new BitmapDrawable(imageView.getContext().getResources(), bitmap);
-        setDrawableWithAnimation(imageView, drawable);
+    @JvmStatic
+    fun setBitmapWithAnimation(imageView: ImageView, bitmap: Bitmap?) {
+        val drawable: Drawable = BitmapDrawable(imageView.context.resources, bitmap)
+        setDrawableWithAnimation(imageView, drawable)
     }
 }
