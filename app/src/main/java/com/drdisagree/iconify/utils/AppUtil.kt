@@ -11,13 +11,14 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.topjohnwu.superuser.Shell
 
 object AppUtil {
 
     fun isAppInstalled(packageName: String?): Boolean {
-        val pm = Iconify.getAppContext().packageManager
+        val pm = appContext.packageManager
 
         try {
             pm.getPackageInfo(packageName!!, PackageManager.GET_ACTIVITIES)
@@ -35,7 +36,7 @@ object AppUtil {
     }
 
     fun getAppUid(packageName: String?): Int {
-        val pm = Iconify.getAppContext().packageManager
+        val pm = appContext.packageManager
 
         try {
             pm.getPackageInfo(packageName!!, PackageManager.GET_ACTIVITIES)
@@ -49,10 +50,10 @@ object AppUtil {
     @JvmStatic
     @SuppressLint("UseCompatLoadingForDrawables")
     fun getAppIcon(packageName: String?): Drawable? {
-        var appIcon = ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.ic_android)
+        var appIcon = ContextCompat.getDrawable(appContext, R.drawable.ic_android)
 
         try {
-            appIcon = Iconify.getAppContext().packageManager.getApplicationIcon(packageName!!)
+            appIcon = appContext.packageManager.getApplicationIcon(packageName!!)
         } catch (ignored: PackageManager.NameNotFoundException) {
         }
 
@@ -61,7 +62,7 @@ object AppUtil {
 
     @JvmStatic
     fun getAppName(packageName: String?): String {
-        val pm = Iconify.getAppContext().applicationContext.packageManager
+        val pm = appContext.applicationContext.packageManager
         var ai: ApplicationInfo? = null
 
         try {
@@ -74,7 +75,7 @@ object AppUtil {
 
     @JvmStatic
     fun launchApp(activity: Activity, packageName: String?) {
-        val launchIntent = Iconify.getAppContext().packageManager.getLaunchIntentForPackage(
+        val launchIntent = appContext.packageManager.getLaunchIntentForPackage(
             packageName!!
         )
 
@@ -82,8 +83,8 @@ object AppUtil {
             activity.startActivity(launchIntent)
         } else {
             Toast.makeText(
-                Iconify.getAppContext(),
-                Iconify.getAppContext().resources.getString(R.string.app_not_found),
+                appContext,
+                appContext.resources.getString(R.string.app_not_found),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -92,13 +93,13 @@ object AppUtil {
     @JvmStatic
     fun getSplitLocations(packageName: String?): Array<String?> {
         try {
-            var splitLocations = Iconify.getAppContext().packageManager.getApplicationInfo(
+            var splitLocations = appContext.packageManager.getApplicationInfo(
                 packageName!!, 0
             ).splitSourceDirs
 
             if (splitLocations == null) {
                 splitLocations = arrayOf(
-                    Iconify.getAppContext().packageManager.getApplicationInfo(
+                    appContext.packageManager.getApplicationInfo(
                         packageName, 0
                     ).sourceDir
                 )

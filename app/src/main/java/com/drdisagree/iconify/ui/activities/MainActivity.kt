@@ -47,12 +47,12 @@ class MainActivity : BaseActivity(), ColorPickerDialogListener {
             LottieCompositionFactory.clearCache(this)
 
             // Get list of enabled overlays
-            val enabledOverlays = OverlayUtil.getEnabledOverlayList()
+            val enabledOverlays = OverlayUtil.enabledOverlayList
             for (overlay in enabledOverlays) {
                 Prefs.putBoolean(overlay, true)
             }
 
-            val fabricatedEnabledOverlays = FabricatedUtil.getEnabledOverlayList()
+            val fabricatedEnabledOverlays = FabricatedUtil.enabledOverlayList
             for (overlay in fabricatedEnabledOverlays) {
                 Prefs.putBoolean("fabricated$overlay", true)
             }

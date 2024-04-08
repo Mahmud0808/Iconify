@@ -18,6 +18,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH
@@ -158,7 +159,7 @@ class SwitchAdapter(
                                     refreshSwitches(holder)
 
                                     Toast.makeText(
-                                        Iconify.getAppContext(),
+                                        appContext,
                                         context.resources.getString(R.string.toast_applied),
                                         Toast.LENGTH_SHORT
                                     ).show()
@@ -168,7 +169,7 @@ class SwitchAdapter(
                                     holder.aSwitch.setChecked(false)
 
                                     Toast.makeText(
-                                        Iconify.getAppContext(),
+                                        appContext,
                                         context.resources.getString(R.string.toast_error),
                                         Toast.LENGTH_SHORT
                                     ).show()
@@ -198,7 +199,7 @@ class SwitchAdapter(
                             refreshSwitches(holder)
 
                             Toast.makeText(
-                                Iconify.getAppContext(),
+                                appContext,
                                 context.resources.getString(R.string.toast_disabled),
                                 Toast.LENGTH_SHORT
                             ).show()

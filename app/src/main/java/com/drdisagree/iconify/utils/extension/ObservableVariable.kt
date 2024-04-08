@@ -1,34 +1,28 @@
-package com.drdisagree.iconify.utils.extension;
+package com.drdisagree.iconify.utils.extension
 
-public class ObservableVariable<T> {
+class ObservableVariable<T> {
 
-    private T value;
-    private OnChangeListener<T> listener;
+    var value: T? = null
+        private set
+    private var listener: OnChangeListener<T?>? = null
 
-    public void setOnChangeListener(OnChangeListener<T> listener) {
-        this.listener = listener;
+    fun setOnChangeListener(listener: OnChangeListener<T?>?) {
+        this.listener = listener
     }
 
-    public void notifyChanged() {
-        if (listener != null) {
-            listener.onChange(value);
+    fun notifyChanged() {
+        listener?.onChange(value)
+    }
+
+    fun setValue(newValue: T) {
+        if (value !== newValue) {
+            value = newValue
+
+            listener?.onChange(value)
         }
     }
 
-    public T getValue() {
-        return value;
-    }
-
-    public void setValue(T newValue) {
-        if (value != newValue) {
-            value = newValue;
-            if (listener != null) {
-                listener.onChange(value);
-            }
-        }
-    }
-
-    public interface OnChangeListener<T> {
-        void onChange(T newValue);
+    interface OnChangeListener<T> {
+        fun onChange(newValue: T)
     }
 }

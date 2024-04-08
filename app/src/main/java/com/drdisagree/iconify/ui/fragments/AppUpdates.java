@@ -14,6 +14,7 @@ import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,9 +82,9 @@ public class AppUpdates extends BaseFragment {
 
     @SuppressLint("SetTextI18n")
     private void failedToCheck() {
-        binding.updateTitle.setText(Iconify.getAppContextLocale().getResources().getString(R.string.update_checking_failed));
-        binding.currentVersion.setText(Iconify.getAppContextLocale().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
-        binding.latestVersion.setText(Iconify.getAppContextLocale().getResources().getString(R.string.latest_version) + " " + Iconify.getAppContextLocale().getResources().getString(R.string.not_available));
+        binding.updateTitle.setText(Iconify.Companion.getAppContextLocale().getResources().getString(R.string.update_checking_failed));
+        binding.currentVersion.setText(Iconify.Companion.getAppContextLocale().getResources().getString(R.string.current_version) + " " + BuildConfig.VERSION_NAME);
+        binding.latestVersion.setText(Iconify.Companion.getAppContextLocale().getResources().getString(R.string.latest_version) + " " + Iconify.Companion.getAppContextLocale().getResources().getString(R.string.not_available));
     }
 
     @Override
@@ -172,8 +173,8 @@ public class AppUpdates extends BaseFragment {
                                 i.setData(Uri.parse(apkUrl));
                                 startActivity(i);
                             } catch (JSONException e) {
-                                Toast.makeText(Iconify.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
-                                e.printStackTrace();
+                                Toast.makeText(Iconify.Companion.getAppContext(), getResources().getString(R.string.toast_error), Toast.LENGTH_SHORT).show();
+                                Log.e(AppUpdates.class.getSimpleName(), e.toString());
                             }
                         });
                         binding.downloadUpdate.setVisibility(View.VISIBLE);

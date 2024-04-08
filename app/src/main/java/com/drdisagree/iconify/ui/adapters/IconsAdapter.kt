@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.databinding.ViewListIconItemBinding
 
@@ -65,8 +65,7 @@ class IconsAdapter(
         }
 
         if (mEntryValues[position].toString().contentEquals(mValue)) {
-            holder.binding.rootLayout.strokeColor =
-                Iconify.getAppContext().getColor(R.color.colorAccent)
+            holder.binding.rootLayout.strokeColor = appContext.getColor(R.color.colorAccent)
         } else {
             holder.binding.rootLayout.strokeColor = Color.TRANSPARENT
         }

@@ -3,6 +3,7 @@ package com.drdisagree.iconify.common
 import android.os.Environment
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 
 object Resources {
 
@@ -25,11 +26,11 @@ object Resources {
     const val SYSTEM_OVERLAY_DIR = "/system/product/overlay"
 
     @JvmField
-    val DATA_DIR: String = Iconify.getAppContext().filesDir.absolutePath
+    val DATA_DIR: String = appContext.filesDir.absolutePath
     const val OVERLAY_DIR = "$MODULE_DIR/system/product/overlay"
 
     @JvmField
-    val BIN_DIR = Iconify.getAppContext().dataDir.toString() + "/bin"
+    val BIN_DIR = appContext.dataDir.toString() + "/bin"
 
     @JvmField
     val BACKUP_DIR = Environment.getExternalStorageDirectory().absolutePath + "/.iconify_backup"

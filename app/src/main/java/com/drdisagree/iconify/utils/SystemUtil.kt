@@ -12,7 +12,7 @@ import android.view.WindowInsets
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.BOOT_ID
@@ -28,6 +28,10 @@ import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector.LOAD_TIME_KEY_KEY
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector.PACKAGE_STRIKE_KEY_KEY
 import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 object SystemUtil {
@@ -43,7 +47,7 @@ object SystemUtil {
 
     @JvmStatic
     val isDarkMode: Boolean
-        get() = Iconify.getAppContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES == Configuration.UI_MODE_NIGHT_YES
+        get() = appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES == Configuration.UI_MODE_NIGHT_YES
 
     @JvmStatic
     fun restartSystemUI() {
@@ -80,8 +84,8 @@ object SystemUtil {
 
             else -> {
                 Toast.makeText(
-                    Iconify.getAppContext(),
-                    Iconify.getAppContext().resources.getString(R.string.settings_systemui_restart_required),
+                    appContext,
+                    appContext.resources.getString(R.string.settings_systemui_restart_required),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -133,11 +137,8 @@ object SystemUtil {
     fun enableBlur(force: Boolean) {
         disableBlur(false)
         Shell.cmd(
-            """echo "$BLUR_CMD_1
-$BLUR_CMD_2
-$BLUR_CMD_3
-$BLUR_CMD_4
-$BLUR_CMD_5" >> ${Resources.MODULE_DIR}/system.prop""",
+            "echo \"$BLUR_CMD_1\n$BLUR_CMD_2\n$BLUR_CMD_3\n$BLUR_CMD_4\n$BLUR_CMD_5\"" +
+                    " >> ${Resources.MODULE_DIR}/system.prop",
             if (force) "sed '/*}/a " +
                     BLUR_CMD_0 + "' " +
                     Resources.MODULE_DIR +
@@ -180,23 +181,24 @@ $BLUR_CMD_5" >> ${Resources.MODULE_DIR}/system.prop""",
     @JvmStatic
     fun doubleToggleDarkMode() {
         val isDark = isDarkMode
-        Thread {
+
+        CoroutineScope(Dispatchers.Default).launch {
             try {
                 while (darkSwitching) {
-                    (Thread.currentThread() as Object).wait(100)
+                    delay(100)
                 }
 
                 darkSwitching = true
 
-                Shell.cmd("cmd uimode night " + if (isDark) "no" else "yes").exec()
-                Thread.sleep(1000)
-                Shell.cmd("cmd uimode night " + if (isDark) "yes" else "no").exec()
-                Thread.sleep(500)
+                Shell.cmd("cmd uimode night ${if (isDark) "no" else "yes"}").exec()
+                delay(1000)
+                Shell.cmd("cmd uimode night ${if (isDark) "yes" else "no"}").exec()
+                delay(500)
 
                 darkSwitching = false
             } catch (ignored: Exception) {
             }
-        }.start()
+        }
     }
 
     @JvmStatic
@@ -210,10 +212,9 @@ $BLUR_CMD_5" >> ${Resources.MODULE_DIR}/system.prop""",
     }
 
     @JvmStatic
-    val bootId: Unit
-        // Save unique id of each boot
+    val bootId: Unit // Save unique id of each boot
         get() {
-            putString(BOOT_ID, Shell.cmd(DEVICE_BOOT_ID_CMD).exec().getOut().toString())
+            putString(BOOT_ID, Shell.cmd(DEVICE_BOOT_ID_CMD).exec().out.toString())
         }
 
     @JvmStatic

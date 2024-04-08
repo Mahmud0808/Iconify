@@ -20,6 +20,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.config.Prefs.getBoolean
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
@@ -207,7 +208,7 @@ class QsShapeAdapter(
                         refreshBackground(holder)
 
                         Toast.makeText(
-                            Iconify.getAppContext(),
+                            appContext,
                             context.resources.getString(R.string.toast_applied),
                             Toast.LENGTH_SHORT
                         ).show()
@@ -242,7 +243,7 @@ class QsShapeAdapter(
                         refreshBackground(holder)
 
                         Toast.makeText(
-                            Iconify.getAppContext(),
+                            appContext,
                             context.resources.getString(R.string.toast_disabled),
                             Toast.LENGTH_SHORT
                         ).show()

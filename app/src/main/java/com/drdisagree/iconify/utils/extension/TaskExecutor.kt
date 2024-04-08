@@ -1,127 +1,117 @@
-package com.drdisagree.iconify.utils.extension;
+package com.drdisagree.iconify.utils.extension
 
-import android.os.Handler;
-import android.os.Looper;
+import android.os.Handler
+import android.os.Looper
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.concurrent.Volatile
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
+abstract class TaskExecutor<Params, Progress, Result> {
 
-public abstract class TaskExecutor<Params, Progress, Result> {
+    private val mHandler: Handler
+    private val mExecutor: Executor
+    private val mCancelled: AtomicBoolean
+    private val preExecuteLatch: CountDownLatch
+    private val isCancelled: Boolean
+        get() = mCancelled.get()
 
-    private final Handler mHandler;
-    private final Executor mExecutor;
-    private final AtomicBoolean mCancelled;
-    private final CountDownLatch preExecuteLatch;
-    private volatile Status mStatus;
+    @Volatile
+    var status: Status
+        private set
 
-    public TaskExecutor() {
-        mExecutor = Executors.newSingleThreadExecutor();
-        mHandler = new Handler(Looper.getMainLooper());
-        mStatus = Status.PENDING;
-        mCancelled = new AtomicBoolean(false);
-        preExecuteLatch = new CountDownLatch(1);
-    }
-
-    public final Status getStatus() {
-        return mStatus;
+    init {
+        mExecutor = Executors.newSingleThreadExecutor()
+        mHandler = Handler(Looper.getMainLooper())
+        status = Status.PENDING
+        mCancelled = AtomicBoolean(false)
+        preExecuteLatch = CountDownLatch(1)
     }
 
     @SafeVarargs
-    public final void execute(final Params... params) {
-        if (mStatus != Status.PENDING) {
-            switch (mStatus) {
-                case RUNNING:
-                    throw new IllegalStateException("Cannot execute task: the task is already running.");
-                case FINISHED:
-                    throw new IllegalStateException("Cannot execute task: the task has already been executed (a task can be executed only once)");
+    fun execute(vararg params: Params) {
+        if (status != Status.PENDING) {
+            when (status) {
+                Status.RUNNING -> throw IllegalStateException("Cannot execute task: the task is already running.")
+                Status.FINISHED -> throw IllegalStateException("Cannot execute task: the task has already been executed (a task can be executed only once)")
+                Status.PENDING -> {}
             }
         }
 
-        mExecutor.execute(() -> {
-            mStatus = Status.RUNNING;
+        mExecutor.execute {
+            status = Status.RUNNING
 
             try {
-                mHandler.post(() -> {
-                    if (!isCancelled()) {
-                        onPreExecute();
+                mHandler.post {
+                    if (!isCancelled) {
+                        onPreExecute()
                     }
-                    preExecuteLatch.countDown();
-                });
 
-                preExecuteLatch.await();
-
-                if (!isCancelled()) {
-                    final Result result = runInBackground(params);
-
-                    mHandler.post(() -> {
-                        if (!isCancelled()) {
-                            onPostExecute(result);
-                        }
-                    });
+                    preExecuteLatch.countDown()
                 }
-            } catch (Throwable throwable) {
-                mCancelled.set(true);
+
+                preExecuteLatch.await()
+
+                if (!isCancelled) {
+                    val result = runInBackground(*params)
+
+                    mHandler.post {
+                        if (!isCancelled) {
+                            onPostExecute(result)
+                        }
+                    }
+                }
+            } catch (throwable: Throwable) {
+                mCancelled.set(true)
 
                 try {
-                    throw throwable;
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    throw throwable
+                } catch (e: InterruptedException) {
+                    throw RuntimeException(e)
                 }
             } finally {
-                if (isCancelled()) {
-                    onCancelled();
+                if (isCancelled) {
+                    onCancelled()
                 }
 
-                mStatus = Status.FINISHED;
+                status = Status.FINISHED
             }
-        });
-    }
-
-    protected abstract void onPreExecute();
-
-    @SafeVarargs
-    private final Result runInBackground(Params... params) {
-        if (!isCancelled()) {
-            return doInBackground(params);
-        }
-        return null;
-    }
-
-    @SuppressWarnings({"unchecked", "unsafe"})
-    protected abstract Result doInBackground(Params... params);
-
-    @SafeVarargs
-    protected final void publishProgress(Progress... values) {
-        if (!isCancelled()) {
-            mHandler.post(() -> onProgressUpdate(values));
         }
     }
 
-    @SuppressWarnings({"unchecked", "unsafe"})
-    protected void onProgressUpdate(Progress... values) {
+    protected abstract fun onPreExecute()
+
+    @SafeVarargs
+    private fun runInBackground(vararg params: Params): Result? {
+        return if (!isCancelled) {
+            doInBackground(*params)
+        } else null
     }
 
-    protected abstract void onPostExecute(Result result);
+    protected abstract fun doInBackground(vararg params: Params): Result
 
-    protected void onCancelled() {
+    @SafeVarargs
+    protected fun publishProgress(vararg values: Progress) {
+        if (!isCancelled) {
+            mHandler.post { onProgressUpdate(*values) }
+        }
     }
 
-    public final boolean isCancelled() {
-        return mCancelled.get();
-    }
+    protected open fun onProgressUpdate(vararg values: Progress) {}
+    protected abstract fun onPostExecute(result: Result?)
+    protected open fun onCancelled() {}
 
-    public final void cancel(boolean mayInterruptIfRunning) {
-        mCancelled.set(true);
+    fun cancel(mayInterruptIfRunning: Boolean) {
+        mCancelled.set(true)
         if (mayInterruptIfRunning) {
-            mHandler.removeCallbacksAndMessages(null);
+            mHandler.removeCallbacksAndMessages(null)
         }
     }
 
-    public enum Status {
+    enum class Status {
         PENDING,
         RUNNING,
-        FINISHED,
+        FINISHED
     }
 }

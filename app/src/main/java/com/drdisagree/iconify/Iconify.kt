@@ -1,40 +1,44 @@
-package com.drdisagree.iconify;
+package com.drdisagree.iconify
 
-import android.app.Application;
-import android.content.Context;
+import android.app.Application
+import android.content.Context
+import com.drdisagree.iconify.utils.helper.LocaleHelper
+import com.google.android.material.color.DynamicColors
+import java.lang.ref.WeakReference
 
-import com.drdisagree.iconify.utils.helper.LocaleHelper;
-import com.google.android.material.color.DynamicColors;
+class Iconify : Application() {
 
-import java.lang.ref.WeakReference;
+    companion object {
+        private var instance: Iconify? = null
+        private var contextReference: WeakReference<Context>? = null
 
-public class Iconify extends Application {
+        val appContext: Context
+            get() {
+                if (contextReference == null || contextReference?.get() == null) {
+                    contextReference = WeakReference(
+                        instance?.applicationContext ?: getInstance().applicationContext
+                    )
+                }
+                return contextReference!!.get()!!
+            }
 
-    private static Iconify instance;
-    private static WeakReference<Context> contextReference;
+        val appContextLocale: Context
+            get() {
+                return LocaleHelper.setLocale(appContext)
+            }
 
-    public void onCreate() {
-        super.onCreate();
-        instance = this;
-        contextReference = new WeakReference<>(getApplicationContext());
-        DynamicColors.applyToActivitiesIfAvailable(this);
-    }
-
-    public static Context getAppContext() {
-        if (contextReference == null || contextReference.get() == null) {
-            contextReference = new WeakReference<>(Iconify.getInstance().getApplicationContext());
+        private fun getInstance(): Iconify {
+            if (instance == null) {
+                instance = Iconify()
+            }
+            return instance!!
         }
-        return contextReference.get();
     }
 
-    public static Context getAppContextLocale() {
-        return LocaleHelper.setLocale(getAppContext());
-    }
-
-    private static Iconify getInstance() {
-        if (instance == null) {
-            instance = new Iconify();
-        }
-        return instance;
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+        contextReference = WeakReference(applicationContext)
+        DynamicColors.applyToActivitiesIfAvailable(this)
     }
 }

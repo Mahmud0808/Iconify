@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.common
 
 import android.os.Build
-import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.topjohnwu.superuser.Shell
 import java.io.File
 
@@ -38,7 +38,7 @@ object Dynamic {
 
     // Overlay compiler tools
     @JvmField
-    val NATIVE_LIBRARY_DIR: String = Iconify.getAppContext().applicationInfo.nativeLibraryDir
+    val NATIVE_LIBRARY_DIR: String = appContext.applicationInfo.nativeLibraryDir
 
     @JvmField
     val AAPTLIB = File(NATIVE_LIBRARY_DIR, "libaapt.so")

@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.base.BaseActivity
 import com.google.android.material.button.MaterialButton
@@ -41,14 +42,14 @@ class InstallationDialog(var context: Context) : BaseActivity() {
             if (dialog!!.findViewById<View>(R.id.logs_layout).visibility == View.GONE) {
                 dialog!!.findViewById<View>(R.id.logs_layout).visibility = View.VISIBLE
                 arrow.icon = ResourcesCompat.getDrawable(
-                    Iconify.getAppContext().resources,
+                    appContext.resources,
                     R.drawable.ic_collapse_arrow,
                     null
                 )
             } else {
                 dialog!!.findViewById<View>(R.id.logs_layout).visibility = View.GONE
                 arrow.icon = ResourcesCompat.getDrawable(
-                    Iconify.getAppContext().resources,
+                    appContext.resources,
                     R.drawable.ic_expand_arrow,
                     null
                 )
