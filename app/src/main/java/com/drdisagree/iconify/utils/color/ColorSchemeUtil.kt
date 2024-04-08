@@ -29,7 +29,7 @@ object ColorSchemeUtil {
 
         when (style) {
             context.resources.getString(R.string.monet_neutral) -> {
-                val schemeNeutral = SchemeNeutral(Hct.fromInt(color), SystemUtil.isDarkMode(), 5.0)
+                val schemeNeutral = SchemeNeutral(Hct.fromInt(color), SystemUtil.isDarkMode, 5.0)
 
                 for (tone in tones) {
                     systemAccent1.add(schemeNeutral.primaryPalette.tone(tone))
@@ -48,7 +48,7 @@ object ColorSchemeUtil {
 
             context.resources.getString(R.string.monet_monochrome) -> {
                 val schemeMonochrome =
-                    SchemeMonochrome(Hct.fromInt(color), SystemUtil.isDarkMode(), 5.0)
+                    SchemeMonochrome(Hct.fromInt(color), SystemUtil.isDarkMode, 5.0)
 
                 for (tone in tones) {
                     systemAccent1.add(schemeMonochrome.primaryPalette.tone(tone))
@@ -67,7 +67,7 @@ object ColorSchemeUtil {
 
             context.resources.getString(R.string.monet_tonalspot) -> {
                 val schemeTonalSpot =
-                    SchemeTonalSpot(Hct.fromInt(color), SystemUtil.isDarkMode(), 5.0)
+                    SchemeTonalSpot(Hct.fromInt(color), SystemUtil.isDarkMode, 5.0)
 
                 for (tone in tones) {
                     systemAccent1.add(schemeTonalSpot.primaryPalette.tone(tone))
@@ -85,7 +85,7 @@ object ColorSchemeUtil {
             }
 
             context.resources.getString(R.string.monet_vibrant) -> {
-                val schemeVibrant = SchemeVibrant(Hct.fromInt(color), SystemUtil.isDarkMode(), 5.0)
+                val schemeVibrant = SchemeVibrant(Hct.fromInt(color), SystemUtil.isDarkMode, 5.0)
 
                 for (tone in tones) {
                     systemAccent1.add(schemeVibrant.primaryPalette.tone(tone))
@@ -103,7 +103,7 @@ object ColorSchemeUtil {
             }
 
             context.resources.getString(R.string.monet_rainbow) -> {
-                val schemeRainbow = SchemeRainbow(Hct.fromInt(color), SystemUtil.isDarkMode(), 5.0)
+                val schemeRainbow = SchemeRainbow(Hct.fromInt(color), SystemUtil.isDarkMode, 5.0)
 
                 for (tone in tones) {
                     systemAccent1.add(schemeRainbow.primaryPalette.tone(tone))
@@ -122,7 +122,7 @@ object ColorSchemeUtil {
 
             context.resources.getString(R.string.monet_expressive) -> {
                 val schemeExpressive =
-                    SchemeExpressive(Hct.fromInt(color), SystemUtil.isDarkMode(), 5.0)
+                    SchemeExpressive(Hct.fromInt(color), SystemUtil.isDarkMode, 5.0)
 
                 for (tone in tones) {
                     systemAccent1.add(schemeExpressive.primaryPalette.tone(tone))
@@ -141,7 +141,7 @@ object ColorSchemeUtil {
 
             context.resources.getString(R.string.monet_fidelity) -> {
                 val schemeFidelity =
-                    SchemeFidelity(Hct.fromInt(color), SystemUtil.isDarkMode(), 5.0)
+                    SchemeFidelity(Hct.fromInt(color), SystemUtil.isDarkMode, 5.0)
 
                 for (tone in tones) {
                     systemAccent1.add(schemeFidelity.primaryPalette.tone(tone))
@@ -159,7 +159,7 @@ object ColorSchemeUtil {
             }
 
             context.resources.getString(R.string.monet_content) -> {
-                val schemeContent = SchemeContent(Hct.fromInt(color), SystemUtil.isDarkMode(), 5.0)
+                val schemeContent = SchemeContent(Hct.fromInt(color), SystemUtil.isDarkMode, 5.0)
 
                 for (tone in tones) {
                     systemAccent1.add(schemeContent.primaryPalette.tone(tone))
@@ -178,7 +178,7 @@ object ColorSchemeUtil {
 
             context.resources.getString(R.string.monet_fruitsalad) -> {
                 val schemeFruitSalad =
-                    SchemeFruitSalad(Hct.fromInt(color), SystemUtil.isDarkMode(), 5.0)
+                    SchemeFruitSalad(Hct.fromInt(color), SystemUtil.isDarkMode, 5.0)
 
                 for (tone in tones) {
                     systemAccent1.add(schemeFruitSalad.primaryPalette.tone(tone))

@@ -91,7 +91,7 @@ class QsShapeAdapter(
                 R.color.textColorPrimaryInverse
             }
         } else {
-            if (itemList[position].inverseColor && SystemUtil.isDarkMode()) {
+            if (itemList[position].inverseColor && SystemUtil.isDarkMode) {
                 R.color.textColorPrimary
             } else {
                 R.color.textColorPrimaryInverse

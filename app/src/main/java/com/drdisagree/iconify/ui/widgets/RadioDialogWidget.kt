@@ -168,7 +168,7 @@ class RadioDialogWidget : RelativeLayout, RadioDialog.RadioDialogListener {
 
             iconImageView.setImageTintList(ColorStateList.valueOf(color))
         } else {
-            if (SystemUtil.isDarkMode()) {
+            if (SystemUtil.isDarkMode) {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
             } else {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY))

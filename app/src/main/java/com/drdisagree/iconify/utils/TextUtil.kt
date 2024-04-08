@@ -1,56 +1,54 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.utils
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 
-public class TextUtil {
+object TextUtil {
+    fun convertTextViewsToTitleCase(view: View?) {
+        if (view == null) return
 
-    public static void convertTextViewsToTitleCase(View view) {
-        if (view == null) {
-            return;
-        }
+        if (view is ViewGroup) {
+            val childCount: Int = view.childCount
 
-        if (view instanceof ViewGroup viewGroup) {
-            int childCount = viewGroup.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View child = viewGroup.getChildAt(i);
+            for (i in 0 until childCount) {
+                val child: View = view.getChildAt(i)
 
-                if (child instanceof ViewGroup) {
-                    convertTextViewsToTitleCase((ViewGroup) child);
-                } else if (child instanceof TextView textView) {
-                    String originalText = textView.getText().toString();
-                    String convertedText = convertToTitleCase(originalText);
-                    textView.setText(convertedText);
+                if (child is ViewGroup) {
+                    convertTextViewsToTitleCase(child)
+                } else if (child is TextView) {
+                    val originalText: String = child.getText().toString()
+                    val convertedText = convertToTitleCase(originalText)
+                    child.text = convertedText
                 }
             }
-        } else if (view instanceof TextView textView) {
-            String originalText = textView.getText().toString();
-            String convertedText = convertToTitleCase(originalText);
-            textView.setText(convertedText);
+        } else if (view is TextView) {
+            val originalText: String = view.getText().toString()
+            val convertedText = convertToTitleCase(originalText)
+            view.text = convertedText
         }
     }
 
-    public static String convertToTitleCase(String input) {
-        if (input == null || input.isEmpty()) {
-            return input;
-        }
+    private fun convertToTitleCase(input: String?): String? {
+        if (input.isNullOrEmpty()) return input
 
-        StringBuilder result = new StringBuilder();
-        boolean capitalizeNext = true;
+        val result = StringBuilder()
+        var capitalizeNext = true
 
-        for (char c : input.toCharArray()) {
-            if (Character.isWhitespace(c)) {
-                capitalizeNext = true;
-            } else if (Character.isLetter(c)) {
+        for (c in input.toCharArray()) {
+            var char = c
+
+            if (Character.isWhitespace(char)) {
+                capitalizeNext = true
+            } else if (Character.isLetter(char)) {
                 if (capitalizeNext) {
-                    c = Character.toUpperCase(c);
-                    capitalizeNext = false;
+                    char = char.uppercaseChar()
+                    capitalizeNext = false
                 }
             }
-            result.append(c);
-        }
 
-        return result.toString();
+            result.append(char)
+        }
+        return result.toString()
     }
 }

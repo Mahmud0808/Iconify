@@ -1,98 +1,126 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.utils
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.drdisagree.iconify.Iconify
+import com.drdisagree.iconify.R
+import com.topjohnwu.superuser.Shell
 
-import androidx.core.content.ContextCompat;
+object AppUtil {
 
-import com.drdisagree.iconify.Iconify;
-import com.drdisagree.iconify.R;
-import com.topjohnwu.superuser.Shell;
+    fun isAppInstalled(packageName: String?): Boolean {
+        val pm = Iconify.getAppContext().packageManager
 
-public class AppUtil {
-
-    public static boolean isAppInstalled(String packageName) {
-        PackageManager pm = Iconify.getAppContext().getPackageManager();
         try {
-            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
-            return pm.getApplicationInfo(packageName, 0).enabled;
-        } catch (PackageManager.NameNotFoundException ignored) {
+            pm.getPackageInfo(packageName!!, PackageManager.GET_ACTIVITIES)
+            return pm.getApplicationInfo(packageName, 0).enabled
+        } catch (ignored: PackageManager.NameNotFoundException) {
         }
-        return false;
+
+        return false
     }
 
-    public static boolean isAppInstalledRoot(String packageName) {
-        return Shell.cmd("res=$(pm path " + packageName + "); if [ ! -z \"$res\" ]; then echo \"installed\"; else echo \"not found\"; fi").exec().getOut().get(0).contains("installed");
+    @JvmStatic
+    fun isAppInstalledRoot(packageName: String): Boolean {
+        return Shell.cmd("res=$(pm path $packageName); if [ ! -z \"\$res\" ]; then echo \"installed\"; else echo \"not found\"; fi")
+            .exec().out[0].contains("installed")
     }
 
-    public static int getAppUid(String packageName) {
-        PackageManager pm = Iconify.getAppContext().getPackageManager();
+    fun getAppUid(packageName: String?): Int {
+        val pm = Iconify.getAppContext().packageManager
+
         try {
-            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
-            return pm.getApplicationInfo(packageName, 0).uid;
-        } catch (PackageManager.NameNotFoundException ignored) {
+            pm.getPackageInfo(packageName!!, PackageManager.GET_ACTIVITIES)
+            return pm.getApplicationInfo(packageName, 0).uid
+        } catch (ignored: PackageManager.NameNotFoundException) {
         }
-        return 0;
+
+        return 0
     }
 
+    @JvmStatic
     @SuppressLint("UseCompatLoadingForDrawables")
-    public static Drawable getAppIcon(String packageName) {
-        Drawable appIcon = ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.ic_android);
+    fun getAppIcon(packageName: String?): Drawable? {
+        var appIcon = ContextCompat.getDrawable(Iconify.getAppContext(), R.drawable.ic_android)
+
         try {
-            appIcon = Iconify.getAppContext().getPackageManager().getApplicationIcon(packageName);
-        } catch (PackageManager.NameNotFoundException ignored) {
+            appIcon = Iconify.getAppContext().packageManager.getApplicationIcon(packageName!!)
+        } catch (ignored: PackageManager.NameNotFoundException) {
         }
-        return appIcon;
+
+        return appIcon
     }
 
-    public static String getAppName(String packageName) {
-        final PackageManager pm = Iconify.getAppContext().getApplicationContext().getPackageManager();
-        ApplicationInfo ai = null;
+    @JvmStatic
+    fun getAppName(packageName: String?): String {
+        val pm = Iconify.getAppContext().applicationContext.packageManager
+        var ai: ApplicationInfo? = null
+
         try {
-            ai = pm.getApplicationInfo(packageName, 0);
-        } catch (PackageManager.NameNotFoundException ignored) {
+            ai = pm.getApplicationInfo(packageName!!, 0)
+        } catch (ignored: PackageManager.NameNotFoundException) {
         }
-        return (String) (ai == null ? "Unavailable" : pm.getApplicationLabel(ai));
+
+        return (if (ai == null) "Unavailable" else pm.getApplicationLabel(ai)) as String
     }
 
-    public static void launchApp(Activity activity, String packageName) {
-        Intent launchIntent = Iconify.getAppContext().getPackageManager().getLaunchIntentForPackage(packageName);
+    @JvmStatic
+    fun launchApp(activity: Activity, packageName: String?) {
+        val launchIntent = Iconify.getAppContext().packageManager.getLaunchIntentForPackage(
+            packageName!!
+        )
+
         if (launchIntent != null) {
-            activity.startActivity(launchIntent);
+            activity.startActivity(launchIntent)
         } else {
-            Toast.makeText(Iconify.getAppContext(), Iconify.getAppContext().getResources().getString(R.string.app_not_found), Toast.LENGTH_SHORT).show();
+            Toast.makeText(
+                Iconify.getAppContext(),
+                Iconify.getAppContext().resources.getString(R.string.app_not_found),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
-    public static String[] getSplitLocations(String packageName) {
+    @JvmStatic
+    fun getSplitLocations(packageName: String?): Array<String?> {
         try {
-            String[] splitLocations = Iconify.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).splitSourceDirs;
+            var splitLocations = Iconify.getAppContext().packageManager.getApplicationInfo(
+                packageName!!, 0
+            ).splitSourceDirs
+
             if (splitLocations == null) {
-                splitLocations = new String[]{Iconify.getAppContext().getPackageManager().getApplicationInfo(packageName, 0).sourceDir};
+                splitLocations = arrayOf(
+                    Iconify.getAppContext().packageManager.getApplicationInfo(
+                        packageName, 0
+                    ).sourceDir
+                )
             }
-            return splitLocations;
-        } catch (PackageManager.NameNotFoundException ignored) {
+            return splitLocations
+        } catch (ignored: PackageManager.NameNotFoundException) {
         }
-        return new String[0];
+
+        return arrayOfNulls(0)
     }
 
-    public static boolean isLsposedInstalled() {
-        return RootUtil.fileExists("/data/adb/lspd/manager.apk") || RootUtil.fileExists("/data/adb/modules/*lsposed*/manager.apk");
-    }
+    @JvmStatic
+    val isLsposedInstalled: Boolean
+        get() = RootUtil.fileExists("/data/adb/lspd/manager.apk") || RootUtil.fileExists("/data/adb/modules/*lsposed*/manager.apk")
 
-    public static void restartApplication(Activity activity) {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = activity.getIntent();
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            activity.finish();
-            activity.startActivity(intent);
-        }, 600);
+    @JvmStatic
+    fun restartApplication(activity: Activity) {
+        Handler(Looper.getMainLooper()).postDelayed({
+            val intent = activity.intent
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            activity.finish()
+            activity.startActivity(intent)
+        }, 600)
     }
 }

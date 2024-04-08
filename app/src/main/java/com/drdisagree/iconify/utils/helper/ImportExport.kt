@@ -121,7 +121,7 @@ object ImportExport {
             val commands: MutableList<String> = ArrayList()
             commands.add("> $MODULE_DIR/system.prop; > $MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable \$ol; done")
 
-            SystemUtil.getBootId()
+            SystemUtil.bootId
             SystemUtil.disableBlur(false)
             SystemUtil.saveVersionCode()
 
@@ -129,14 +129,14 @@ object ImportExport {
             editor.putBoolean(FIRST_INSTALL, false)
             editor.putBoolean(QSPANEL_BLUR_SWITCH, false)
 
-            var sip = false
-            var pgb = false
-            var sw = false
-            var tstfrm = false
-            var sis = false
-            var cr = false
-            var me = false
-            var dynamic = false
+            var systemIconPack = false
+            var progressBar = false
+            var switch = false
+            var toastFrame = false
+            var systemIconShape = false
+            var cornerRadius = false
+            var monetEngine = false
+            var dynamicOverlay = false
 
             for ((key, value) in map) {
                 if (value is Boolean) {
@@ -144,8 +144,8 @@ object ImportExport {
                         if (key.startsWith("IconifyComponent") && key.endsWith(".overlay")) { // Handling overlays
                             commands.add(addOverlay(key))
                             when {
-                                key.contains("IconifyComponentSIP") && !sip -> { // Settings Icon Pack
-                                    sip = true
+                                key.contains("IconifyComponentSIP") && !systemIconPack -> { // Settings Icon Pack
+                                    systemIconPack = true
                                     try {
                                         val selectedIcon = Objects.requireNonNull<Any?>(
                                             map[SELECTED_SETTINGS_ICONS_SET]
@@ -180,8 +180,8 @@ object ImportExport {
                                     }
                                 }
 
-                                key.contains("IconifyComponentPGB") && !pgb -> { // Progressbar Style
-                                    pgb = true
+                                key.contains("IconifyComponentPGB") && !progressBar -> { // Progressbar Style
+                                    progressBar = true
                                     try {
                                         val selectedStyle = Objects.requireNonNull<Any?>(
                                             map[SELECTED_PROGRESSBAR]
@@ -202,8 +202,8 @@ object ImportExport {
                                     }
                                 }
 
-                                key.contains("IconifyComponentSWITCH") && !sw -> { // Switch Style
-                                    sw = true
+                                key.contains("IconifyComponentSWITCH") && !switch -> { // Switch Style
+                                    switch = true
                                     try {
                                         val selectedStyle = Objects.requireNonNull<Any?>(
                                             map[SELECTED_SWITCH]
@@ -219,8 +219,8 @@ object ImportExport {
                                     }
                                 }
 
-                                key.contains("IconifyComponentTSTFRM") && !tstfrm -> { // Toast Frame Style
-                                    tstfrm = true
+                                key.contains("IconifyComponentTSTFRM") && !toastFrame -> { // Toast Frame Style
+                                    toastFrame = true
                                     try {
                                         val selectedStyle = Objects.requireNonNull<Any?>(
                                             map[SELECTED_TOAST_FRAME]
@@ -241,8 +241,8 @@ object ImportExport {
                                     }
                                 }
 
-                                key.contains("IconifyComponentSIS") && !sis -> { // Icon Shape Style
-                                    sis = true
+                                key.contains("IconifyComponentSIS") && !systemIconShape -> { // Icon Shape Style
+                                    systemIconShape = true
                                     try {
                                         val selectedStyle = Objects.requireNonNull<Any?>(
                                             map[SELECTED_ICON_SHAPE]
@@ -263,8 +263,8 @@ object ImportExport {
                                     }
                                 }
 
-                                key.contains("IconifyComponentCR") && !cr -> { // UI Roundness
-                                    cr = true
+                                key.contains("IconifyComponentCR") && !cornerRadius -> { // UI Roundness
+                                    cornerRadius = true
                                     try {
                                         val radius =
                                             Objects.requireNonNull<Any?>(map[UI_CORNER_RADIUS]) as Int
@@ -279,8 +279,8 @@ object ImportExport {
                                     }
                                 }
 
-                                key.contains("IconifyComponentME") && !me -> { // Monet Engine
-                                    me = true
+                                key.contains("IconifyComponentME") && !monetEngine -> { // Monet Engine
+                                    monetEngine = true
                                     try {
                                         val colors = colorNames
                                         val palette: MutableList<List<List<Any>>> = ArrayList()
@@ -312,8 +312,8 @@ object ImportExport {
                                     }
                                 }
 
-                                key.contains("IconifyComponentDynamic") && !dynamic -> { // Dynamic overlays
-                                    dynamic = true
+                                key.contains("IconifyComponentDynamic") && !dynamicOverlay -> { // Dynamic overlays
+                                    dynamicOverlay = true
                                     try {
                                         DynamicCompiler.buildOverlay(false)
                                     } catch (exception: Exception) {

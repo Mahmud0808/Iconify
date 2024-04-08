@@ -116,7 +116,7 @@ class ColorPickerWidget : RelativeLayout {
             selectedColor = colorCode
 
             if (!isEnabled) {
-                colorCode = if (SystemUtil.isDarkMode()) {
+                colorCode = if (SystemUtil.isDarkMode) {
                     Color.DKGRAY
                 } else {
                     Color.LTGRAY

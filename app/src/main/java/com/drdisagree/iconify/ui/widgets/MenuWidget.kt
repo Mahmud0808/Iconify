@@ -127,7 +127,7 @@ class MenuWidget : RelativeLayout {
                 )
             )
         } else {
-            if (SystemUtil.isDarkMode()) {
+            if (SystemUtil.isDarkMode) {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
                 endArrowImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
             } else {

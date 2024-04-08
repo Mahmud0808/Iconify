@@ -1,46 +1,44 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.utils
 
-import android.app.WallpaperManager;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.ParcelFileDescriptor;
+import android.app.WallpaperManager
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import java.io.ByteArrayOutputStream
 
-import java.io.ByteArrayOutputStream;
+object WallpaperUtil {
 
-public class WallpaperUtil {
-
-    public static Bitmap getCompressedWallpaper(Context context, int quality, int which) {
-        try {
-            WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-            ParcelFileDescriptor wallpaperFile = wallpaperManager.getWallpaperFile(which);
+    fun getCompressedWallpaper(context: Context?, quality: Int, which: Int): Bitmap? {
+        return try {
+            val wallpaperManager = WallpaperManager.getInstance(context)
+            val wallpaperFile = wallpaperManager.getWallpaperFile(which)
 
             if (wallpaperFile == null) {
-                Drawable wallpaperDrawable = wallpaperManager.getDrawable();
+                val wallpaperDrawable = wallpaperManager.drawable
 
-                if (wallpaperDrawable instanceof BitmapDrawable) {
-                    Bitmap bitmap = ((BitmapDrawable) wallpaperDrawable).getBitmap();
-                    return compressBitmap(bitmap, quality);
+                if (wallpaperDrawable is BitmapDrawable) {
+                    val bitmap = wallpaperDrawable.bitmap
+                    compressBitmap(bitmap, quality)
                 } else {
-                    return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+                    Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
                 }
             } else {
-                Bitmap bitmap = BitmapFactory.decodeFileDescriptor(wallpaperFile.getFileDescriptor());
-                wallpaperFile.close();
-                return compressBitmap(bitmap, quality);
+                val bitmap = BitmapFactory.decodeFileDescriptor(wallpaperFile.fileDescriptor)
+                wallpaperFile.close()
+                compressBitmap(bitmap, quality)
             }
-        } catch (Exception e) {
+        } catch (e: Exception) {
 //            return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-            return null;
+            null
         }
     }
 
-    private static Bitmap compressBitmap(Bitmap bitmap, int quality) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream);
-        byte[] byteArray = stream.toByteArray();
-        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+    private fun compressBitmap(bitmap: Bitmap, quality: Int): Bitmap {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
+        val byteArray = stream.toByteArray()
+
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 }

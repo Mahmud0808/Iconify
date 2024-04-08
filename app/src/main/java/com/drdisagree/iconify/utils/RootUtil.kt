@@ -1,61 +1,67 @@
-package com.drdisagree.iconify.utils;
+package com.drdisagree.iconify.utils
 
-import com.topjohnwu.superuser.Shell;
+import com.topjohnwu.superuser.Shell
 
-import java.util.List;
+object RootUtil {
 
-public class RootUtil {
+    @JvmStatic
+    val isDeviceRooted: Boolean
+        get() = java.lang.Boolean.TRUE == Shell.isAppGrantedRoot()
 
-    public static boolean isDeviceRooted() {
-        return Boolean.TRUE.equals(Shell.isAppGrantedRoot());
+    @JvmStatic
+    val isMagiskInstalled: Boolean
+        get() = Shell.cmd("magisk -v").exec().isSuccess
+
+    @JvmStatic
+    val isKSUInstalled: Boolean
+        get() = Shell.cmd("/data/adb/ksud -h").exec().isSuccess
+
+    @JvmStatic
+    val isApatchInstalled: Boolean
+        get() = Shell.cmd("apd --help").exec().isSuccess
+
+    fun moduleExists(moduleId: String): Boolean {
+        return folderExists("/data/adb/modules/$moduleId")
     }
 
-    public static boolean isMagiskInstalled() {
-        return Shell.cmd("magisk -v").exec().isSuccess();
+    @JvmStatic
+    fun setPermissions(permission: Int, filename: String) {
+        Shell.cmd("chmod $permission $filename").exec()
     }
 
-    public static boolean isKSUInstalled() {
-        return Shell.cmd("/data/adb/ksud -h").exec().isSuccess();
+    fun setPermissionsRecursively(permission: Int, folderName: String) {
+        Shell.cmd("chmod -R $permission $folderName").exec()
+        val perm = permission.toString()
+
+        if (!Shell.cmd("stat -c '%a' $folderName").exec().out.contains(perm) || !Shell.cmd(
+                "fl=$(find '$folderName' -type f -mindepth 1 -print -quit); stat -c '%a' \$fl"
+            ).exec().out.contains(perm)
+        ) Shell.cmd("for file in $folderName*; do chmod $permission \"\$file\"; done").exec()
     }
 
-    public static boolean isApatchInstalled() {
-        return Shell.cmd("apd --help").exec().isSuccess();
-    }
+    fun fileExists(dir: String): Boolean {
+        val lines = Shell.cmd("test -f $dir && echo '1'").exec().out
 
-    public static boolean moduleExists(String moduleId) {
-        return folderExists("/data/adb/modules/" + moduleId);
-    }
-
-    public static void setPermissions(final int permission, final String filename) {
-        Shell.cmd("chmod " + permission + ' ' + filename).exec();
-    }
-
-    public static void setPermissionsRecursively(final int permission, final String foldername) {
-        Shell.cmd("chmod -R " + permission + ' ' + foldername).exec();
-
-        String perm = String.valueOf(permission);
-
-        if (!Shell.cmd("stat -c '%a' " + foldername).exec().getOut().contains(perm) || !Shell.cmd("fl=$(find '" + foldername + "' -type f -mindepth 1 -print -quit); stat -c '%a' $fl").exec().getOut().contains(perm))
-            Shell.cmd("for file in " + foldername + "*; do chmod " + permission + " \"$file\"; done").exec();
-    }
-
-    public static boolean fileExists(String dir) {
-        List<String> lines = Shell.cmd("test -f " + dir + " && echo '1'").exec().getOut();
-        for (String line : lines) {
-            if (line.contains("1")) return true;
+        for (line in lines) {
+            if (line.contains("1")) return true
         }
-        return false;
+
+        return false
     }
 
-    public static boolean folderExists(String dir) {
-        List<String> lines = Shell.cmd("test -d " + dir + " && echo '1'").exec().getOut();
-        for (String line : lines) {
-            if (line.contains("1")) return true;
+    @JvmStatic
+    fun folderExists(dir: String): Boolean {
+        val lines = Shell.cmd("test -d $dir && echo '1'").exec().out
+
+        for (line in lines) {
+            if (line.contains("1")) return true
         }
-        return false;
+
+        return false
     }
 
-    public static boolean deviceProperlyRooted() {
-        return isDeviceRooted() && (isMagiskInstalled() || isKSUInstalled() || isApatchInstalled());
+    @JvmStatic
+    fun deviceProperlyRooted(): Boolean {
+        return isDeviceRooted && (isMagiskInstalled || isKSUInstalled || isApatchInstalled)
     }
 }

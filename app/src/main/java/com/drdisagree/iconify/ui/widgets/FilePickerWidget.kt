@@ -3,7 +3,6 @@ package com.drdisagree.iconify.ui.widgets
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
-import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -22,7 +21,7 @@ class FilePickerWidget : RelativeLayout {
     private lateinit var buttonEnable: MaterialButton
     private lateinit var buttonDisable: MaterialButton
     private var fileType = "*/*"
-    private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent?>
 
     constructor(context: Context) : super(context) {
         init(context, null)
@@ -99,14 +98,16 @@ class FilePickerWidget : RelativeLayout {
         buttonPicker.text = buttonText
     }
 
-    fun setActivityResultLauncher(launcher: ActivityResultLauncher<Intent>?) {
+    fun setActivityResultLauncher(launcher: ActivityResultLauncher<Intent?>) {
         activityResultLauncher = launcher
 
-        buttonPicker.setOnClickListener { v: View? ->
+        buttonPicker.setOnClickListener {
             if (!SystemUtil.hasStoragePermission()) {
                 SystemUtil.requestStoragePermission(context)
             } else {
-                FileUtil.launchFilePicker(activityResultLauncher, fileType)
+                if (::activityResultLauncher.isInitialized) {
+                    FileUtil.launchFilePicker(activityResultLauncher, fileType)
+                }
             }
         }
     }
@@ -148,7 +149,7 @@ class FilePickerWidget : RelativeLayout {
             fileType = "application/vnd.android.package-archive"
         }
 
-        if (activityResultLauncher != null) {
+        if (::activityResultLauncher.isInitialized) {
             buttonPicker.setOnClickListener {
                 if (!SystemUtil.hasStoragePermission()) {
                     SystemUtil.requestStoragePermission(context)
