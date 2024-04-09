@@ -79,8 +79,7 @@ abstract class BatteryDrawable : Drawable() {
 
     fun getResources(context: Context): Resources {
         return try {
-            if (HookRes.modRes != null) HookRes.modRes
-            else context.resources
+            HookRes.modRes ?: context.resources
         } catch (ignored: Throwable) {
             context.resources
         }

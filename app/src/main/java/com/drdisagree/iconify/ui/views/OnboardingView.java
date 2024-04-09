@@ -269,7 +269,7 @@ public class OnboardingView extends FrameLayout {
 
     @SuppressLint("StaticFieldLeak")
     private class StartInstallationProcess extends TaskExecutor<Void, Integer, Integer> {
-        @SuppressLint("SetTextI18n")
+        
         @Override
         protected void onPreExecute() {
             binding.startBtn.setText(R.string.btn_lets_go);
@@ -277,7 +277,7 @@ public class OnboardingView extends FrameLayout {
             progressDialog.show(getResources().getString(R.string.installing), getResources().getString(R.string.init_module_installation));
         }
 
-        @SuppressLint("SetTextI18n")
+        
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
