@@ -75,9 +75,11 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
   3. Grant SuperSU/root permission for SystemUI from KernelSU app
 
-  4. Reboot your device to get the modules installed successfully
+  4. Disable `Unmount modules` option if it's available in the app
 
-  5. Now follow the installation steps of magisk users and voila!
+  5. Reboot your device to get the modules installed successfully
+
+  6. Now follow the installation steps of magisk users and voila!
 
   > [!TIP]
   > 
