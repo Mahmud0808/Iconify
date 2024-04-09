@@ -1,0 +1,708 @@
+package com.drdisagree.iconify.ui.views
+
+import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.ColorFilter
+import android.os.Handler
+import android.os.Looper
+import android.util.AttributeSet
+import android.util.Log
+import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.viewpager2.widget.ViewPager2
+import com.airbnb.lottie.LottieCompositionFactory
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.RenderMode
+import com.airbnb.lottie.SimpleColorFilter
+import com.airbnb.lottie.model.KeyPath
+import com.airbnb.lottie.value.LottieValueCallback
+import com.drdisagree.iconify.BuildConfig
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Const.TRANSITION_DELAY
+import com.drdisagree.iconify.common.Dynamic.skippedInstallation
+import com.drdisagree.iconify.common.Preferences.FIRST_INSTALL
+import com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED
+import com.drdisagree.iconify.common.Preferences.VER_CODE
+import com.drdisagree.iconify.common.Preferences.XPOSED_ONLY_MODE
+import com.drdisagree.iconify.common.Resources
+import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.Prefs.clearPref
+import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.config.Prefs.getInt
+import com.drdisagree.iconify.config.Prefs.putBoolean
+import com.drdisagree.iconify.config.Prefs.putInt
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.databinding.ViewOnboardingPageBinding
+import com.drdisagree.iconify.ui.activities.MainActivity
+import com.drdisagree.iconify.ui.adapters.OnboardingAdapter
+import com.drdisagree.iconify.ui.core.Transform
+import com.drdisagree.iconify.ui.dialogs.ErrorDialog
+import com.drdisagree.iconify.ui.dialogs.InstallationDialog
+import com.drdisagree.iconify.ui.entity.OnboardingPage
+import com.drdisagree.iconify.ui.utils.Animatoo.animateSlideLeft
+import com.drdisagree.iconify.utils.FileUtil.copyAssets
+import com.drdisagree.iconify.utils.ModuleUtil.createModule
+import com.drdisagree.iconify.utils.ModuleUtil.flashModule
+import com.drdisagree.iconify.utils.ModuleUtil.handleModule
+import com.drdisagree.iconify.utils.ModuleUtil.moduleExists
+import com.drdisagree.iconify.utils.RootUtil.deviceProperlyRooted
+import com.drdisagree.iconify.utils.RootUtil.isDeviceRooted
+import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
+import com.drdisagree.iconify.utils.SystemUtil.restartDevice
+import com.drdisagree.iconify.utils.SystemUtil.savedVersionCode
+import com.drdisagree.iconify.utils.helper.BackupRestore.restoreFiles
+import com.drdisagree.iconify.utils.helper.Logger.writeLog
+import com.drdisagree.iconify.utils.overlay.OverlayUtil.overlayExists
+import com.drdisagree.iconify.utils.overlay.compiler.OnboardingCompiler.apkSigner
+import com.drdisagree.iconify.utils.overlay.compiler.OnboardingCompiler.createManifest
+import com.drdisagree.iconify.utils.overlay.compiler.OnboardingCompiler.runAapt
+import com.drdisagree.iconify.utils.overlay.compiler.OnboardingCompiler.zipAlign
+import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.IOException
+
+@Suppress("unused")
+class OnboardingView : FrameLayout {
+
+    private var installationTask: Job? = null
+    private lateinit var progressDialog: InstallationDialog
+
+    constructor(context: Context) : super(context) {
+        initialize(context)
+    }
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?
+    ) : super(context, attrs) {
+        initialize(context)
+    }
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int
+    ) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        initialize(context)
+    }
+
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(
+        context,
+        attrs,
+        defStyleAttr,
+        defStyleRes
+    ) {
+        initialize(context)
+    }
+
+    private fun initialize(
+        context: Context
+    ) {
+        val inflater = LayoutInflater.from(context)
+
+        binding = ViewOnboardingPageBinding.inflate(inflater, this, true)
+
+        setupSlidingView()
+        initButtonClickListeners()
+        setLottieColorFilter()
+
+        progressDialog = InstallationDialog(getContext())
+
+        binding.startBtn.getViewTreeObserver().addOnDrawListener {
+            if (binding.startBtn.alpha <= 0.1f) {
+                binding.startBtn.visibility = GONE
+            } else {
+                binding.startBtn.visibility = VISIBLE
+            }
+        }
+    }
+
+    private fun setupSlidingView() {
+        binding.slider.apply {
+            setAdapter(OnboardingAdapter())
+            setPageTransformer { v: View, page: Float ->
+                Transform.setParallaxTransformation(v, page)
+            }
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+
+                    if (numberOfPages > 1) {
+                        val newProgress = (position + positionOffset) / (numberOfPages - 1)
+                        binding.onboardingRoot.progress = newProgress
+                    }
+                }
+            })
+        }
+
+        binding.pageIndicator.attachTo(binding.slider)
+    }
+
+    private fun initButtonClickListeners() {
+        binding.nextBtn.setOnClickListener { navigateToNextSlide() }
+        binding.skipBtn.setOnClickListener { navigateToLastSlide() }
+        binding.startBtn.setOnClickListener { startOnClickAction() }
+        binding.startBtn.setOnLongClickListener { startOnLongClickAction() }
+    }
+
+    private fun startOnClickAction() {
+        if (!isButtonClickable) return
+
+        isButtonClickable = false
+        skippedInstallation = false
+        hasErroredOut = false
+
+        Shell.getShell {
+            if (!isDeviceRooted) {
+                ErrorDialog(context).show(
+                    R.string.root_not_found_title,
+                    R.string.root_not_found_desc
+                )
+
+                return@getShell
+            }
+
+            if (!deviceProperlyRooted()) {
+                ErrorDialog(context).show(
+                    R.string.compatible_root_not_found_title,
+                    R.string.compatible_root_not_found_desc
+                )
+
+                return@getShell
+            }
+
+            if (!hasStoragePermission()) {
+                Toast.makeText(
+                    context,
+                    R.string.need_storage_perm_title,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    clickedButton = true
+                    requestStoragePermission(context)
+                }, (if (clickedButton) 10 else 1000).toLong())
+            } else {
+                val moduleExists = moduleExists()
+                val overlayExists = overlayExists()
+
+                if (getInt(VER_CODE) != BuildConfig.VERSION_CODE || !moduleExists || !overlayExists) {
+                    if (!moduleExists || !overlayExists) {
+                        Prefs.clearAllPrefs()
+                        RPrefs.clearAllPrefs()
+                    }
+
+                    handleInstallation()
+                } else {
+                    putBoolean(XPOSED_ONLY_MODE, false)
+
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                    animateSlideLeft(context)
+                }
+            }
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed(
+            { isButtonClickable = true },
+            TRANSITION_DELAY + 50L
+        )
+    }
+
+    private fun startOnLongClickAction(): Boolean {
+        skippedInstallation = true
+        hasErroredOut = false
+
+        Shell.getShell {
+            if (!isDeviceRooted) {
+                ErrorDialog(context).show(
+                    R.string.root_not_found_title,
+                    R.string.root_not_found_desc
+                )
+
+                return@getShell
+            }
+
+            if (!deviceProperlyRooted()) {
+                ErrorDialog(context).show(
+                    R.string.compatible_root_not_found_title,
+                    R.string.compatible_root_not_found_desc
+                )
+
+                return@getShell
+            }
+
+            if (!hasStoragePermission()) {
+                Toast.makeText(
+                    context,
+                    R.string.need_storage_perm_title,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    clickedButton = true
+                    requestStoragePermission(context)
+                }, (if (clickedButton) 10 else 1000).toLong())
+            } else {
+                if (!moduleExists()) {
+                    Prefs.clearAllPrefs()
+                    RPrefs.clearAllPrefs()
+
+                    handleInstallation()
+                } else {
+                    putBoolean(XPOSED_ONLY_MODE, true)
+
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                    animateSlideLeft(context)
+
+                    Toast.makeText(
+                        context,
+                        R.string.toast_skipped_installation,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+
+        return true
+    }
+
+    private fun handleInstallation() {
+        LottieCompositionFactory.fromRawRes(context, R.raw.loading_anim)
+            .addListener {
+                binding.loadingAnim.apply {
+                    maxWidth = binding.startBtn.height
+                    maxHeight = binding.startBtn.height
+                    setAnimation(R.raw.loading_anim)
+                    renderMode = RenderMode.HARDWARE
+                    setVisibility(VISIBLE)
+                }
+
+                binding.startBtn.setTextColor(Color.TRANSPARENT)
+
+                startInstallationTask()
+            }
+    }
+
+    private fun startInstallationTask() {
+        if (installationTask?.isActive != true) {
+            installationTask = CoroutineScope(Dispatchers.IO).launch {
+                onPreExecute()
+                doInBackground()
+                onPostExecute()
+            }
+        }
+    }
+
+    private suspend fun updateProgressBar(step: Int? = null, message: String? = null) {
+        withContext(Dispatchers.Main) {
+            if (step != null) {
+                val title = resources.getString(R.string.step_number, step, 6)
+                val desc = when (step) {
+                    1 -> resources.getString(R.string.module_installation_step1)
+                    2 -> resources.getString(R.string.module_installation_step2)
+                    3 -> resources.getString(R.string.module_installation_step3)
+                    4 -> resources.getString(R.string.module_installation_step4)
+                    5 -> resources.getString(R.string.module_installation_step5)
+                    6 -> resources.getString(R.string.module_installation_step6)
+                    else -> resources.getString(R.string.loading_dialog_wait)
+                }
+
+                progressDialog.setMessage(title, desc)
+            }
+
+            message?.let { progressDialog.setLogs(it) }
+        }
+    }
+
+    private suspend fun onPreExecute() {
+        withContext(Dispatchers.Main) {
+            binding.startBtn.setText(R.string.btn_lets_go)
+
+            progressDialog.show(
+                resources.getString(R.string.installing),
+                resources.getString(R.string.init_module_installation)
+            )
+        }
+    }
+
+    private suspend fun doInBackground() {
+        var step = 0
+        var dir: File
+
+        updateProgressBar(step = ++step, message = "I: Creating blank module template")
+        handleModule()
+
+        updateProgressBar(step = ++step)
+        try {
+            // Clean data directory
+            updateProgressBar(message = "I: Cleaning iconify data directory")
+            Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec()
+
+            updateProgressBar(message = "I: Extracting overlays from assets")
+            if (skippedInstallation) {
+                delay(100)
+                updateProgressBar(message = "W: Skipped...")
+                delay(100)
+            } else {
+                // Extract overlays from assets
+                copyAssets("Overlays")
+            }
+
+            // Create temp directory
+            updateProgressBar(message = "I: Creating temporary directories")
+            Shell.cmd("mkdir -p " + Resources.TEMP_OVERLAY_DIR).exec()
+            Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec()
+            Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec()
+            Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec()
+        } catch (e: IOException) {
+            hasErroredOut = true
+            Log.e(TAG, e.toString())
+        }
+
+        updateProgressBar(step = ++step)
+
+        if (skippedInstallation) {
+            updateProgressBar(message = "W: Skipping overlay builder...")
+            delay(100)
+        } else {
+            // Create AndroidManifest.xml and build Overlay using AAPT
+            dir = File(Resources.DATA_DIR + "/Overlays")
+
+            if (dir.listFiles() == null) hasErroredOut = true
+
+            if (!hasErroredOut) {
+                for (pkg in dir.listFiles()!!) {
+                    if (pkg.isDirectory()) {
+                        for (overlay in pkg.listFiles()!!) {
+                            if (overlay.isDirectory()) {
+                                val overlayName = overlay.toString().replace("$pkg/", "")
+
+                                updateProgressBar(message = "I: Building Overlay for $overlayName")
+
+                                if (createManifest(
+                                        overlayName,
+                                        pkg.toString()
+                                            .replace(Resources.DATA_DIR + "/Overlays/", ""),
+                                        overlay.absolutePath
+                                    )
+                                ) {
+                                    hasErroredOut = true
+                                }
+
+                                if (!hasErroredOut && runAapt(overlay.absolutePath, overlayName)) {
+                                    hasErroredOut = true
+                                }
+                            }
+
+                            if (hasErroredOut) break
+                        }
+                    }
+
+                    if (hasErroredOut) break
+                }
+            }
+        }
+
+        updateProgressBar(step = ++step)
+
+        if (skippedInstallation) {
+            updateProgressBar(message = "W: Skipping zipalign process...")
+            delay(100)
+        } else {
+            // ZipAlign the Overlay
+            dir = File(Resources.UNSIGNED_UNALIGNED_DIR)
+
+            if (dir.listFiles() == null) hasErroredOut = true
+
+            if (!hasErroredOut) {
+                for (overlay in dir.listFiles()!!) {
+                    if (!overlay.isDirectory()) {
+                        val overlayName = overlay.toString()
+                            .replace(Resources.UNSIGNED_UNALIGNED_DIR + '/', "")
+                            .replace("-unaligned", "")
+
+                        updateProgressBar(
+                            message = "I: Zip aligning Overlay " + overlayName.replace(
+                                "-unsigned.apk",
+                                ""
+                            )
+                        )
+
+                        if (zipAlign(overlay.absolutePath, overlayName)) {
+                            hasErroredOut = true
+                        }
+                    }
+
+                    if (hasErroredOut) break
+                }
+            }
+        }
+
+        updateProgressBar(step = ++step)
+
+        if (skippedInstallation) {
+            updateProgressBar(message = "W: Skipping signing process...")
+            delay(100)
+        } else {
+            // Sign the Overlay
+            dir = File(Resources.UNSIGNED_DIR)
+
+            if (dir.listFiles() == null) hasErroredOut = true
+
+            if (!hasErroredOut) {
+                for (overlay in dir.listFiles()!!) {
+                    if (!overlay.isDirectory()) {
+                        val overlayName =
+                            overlay.toString()
+                                .replace(Resources.UNSIGNED_DIR + '/', "")
+                                .replace("-unsigned", "")
+
+                        updateProgressBar(
+                            message = "I: Signing Overlay " + overlayName.replace(
+                                ".apk",
+                                ""
+                            )
+                        )
+
+                        var attempt = 3
+                        while (attempt-- != 0) {
+                            hasErroredOut = apkSigner(overlay.absolutePath, overlayName)
+
+                            if (!hasErroredOut) {
+                                break
+                            } else {
+                                delay(1000)
+                            }
+                        }
+                    }
+
+                    if (hasErroredOut) break
+                }
+            }
+        }
+
+        updateProgressBar(step = ++step, message = "I: Moving overlays to system directory")
+
+        if (skippedInstallation) {
+            delay(100)
+            updateProgressBar(message = "W: Skipping...")
+        }
+
+        // Move all generated overlays to system dir and flash as module
+        if (!hasErroredOut) {
+            Shell.cmd(
+                "cp -a " + Resources.SIGNED_DIR + "/. " + Resources.TEMP_MODULE_OVERLAY_DIR
+            ).exec()
+
+            restoreFiles()
+
+            try {
+                hasErroredOut = flashModule(
+                    createModule(
+                        Resources.TEMP_MODULE_DIR,
+                        Resources.TEMP_DIR + "/Iconify.zip"
+                    )
+                )
+            } catch (e: Exception) {
+                hasErroredOut = true
+                writeLog(TAG, "Failed to create/flash module zip", e)
+                Log.e(TAG, "Failed to create/flash module zip\n$e")
+            }
+        }
+
+        updateProgressBar(message = "I: Cleaning temporary directories")
+
+        // Clean temp directory
+        Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec()
+        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/Overlays").exec()
+        if (!hasErroredOut) {
+            updateProgressBar(message = "I: Installation process finished")
+            delay(100)
+            updateProgressBar(message = "I: You should reboot your device")
+        } else {
+            updateProgressBar(message = "E: Installation process failed")
+        }
+
+        delay(500)
+
+        updateProgressBar(message = "Closing in...")
+        delay(1000)
+
+        updateProgressBar(message = "3....")
+        delay(1000)
+
+        updateProgressBar(message = "2...")
+        delay(1000)
+
+        updateProgressBar(message = "1..")
+        delay(1000)
+    }
+
+    private suspend fun onPostExecute() {
+        withContext(Dispatchers.Main) {
+            progressDialog.hide()
+
+            if (!hasErroredOut) {
+                if (!skippedInstallation) {
+                    if (BuildConfig.VERSION_CODE != savedVersionCode) {
+                        if (getBoolean(FIRST_INSTALL, true)) {
+                            putBoolean(FIRST_INSTALL, true)
+                            putBoolean(UPDATE_DETECTED, false)
+                        } else {
+                            putBoolean(FIRST_INSTALL, false)
+                            putBoolean(UPDATE_DETECTED, true)
+                        }
+
+                        putInt(VER_CODE, BuildConfig.VERSION_CODE)
+                    }
+
+                    putBoolean(XPOSED_ONLY_MODE, false)
+
+                    if (overlayExists()) {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(context, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            context.startActivity(intent)
+                            animateSlideLeft(context)
+                        }, 10)
+                    } else {
+                        Toast.makeText(
+                            context,
+                            R.string.need_reboot_title,
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        binding.startBtn.apply {
+                            setText(R.string.btn_reboot)
+                            setTextColor(buttonTextColor)
+                            setOnClickListener { restartDevice() }
+                            setOnLongClickListener(null)
+                        }
+                    }
+                } else {
+                    putBoolean(XPOSED_ONLY_MODE, true)
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                    animateSlideLeft(context)
+
+                    Toast.makeText(
+                        context,
+                        R.string.one_time_reboot_needed,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            } else {
+                onCancelled()
+
+                ErrorDialog(context).show(
+                    R.string.installation_failed_title,
+                    R.string.installation_failed_desc
+                )
+
+                binding.startBtn.setText(R.string.btn_lets_go)
+            }
+
+            binding.loadingAnim.setVisibility(GONE)
+            binding.startBtn.setTextColor(buttonTextColor)
+        }
+    }
+
+    private fun onCancelled() {
+        clearPref(XPOSED_ONLY_MODE)
+
+        Shell.cmd("rm -rf " + Resources.DATA_DIR).exec()
+        Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec()
+        Shell.cmd("rm -rf " + Resources.BACKUP_DIR).exec()
+        Shell.cmd("rm -rf " + Resources.MODULE_DIR).exec()
+    }
+
+    @get:ColorInt
+    private val buttonTextColor: Int
+        get() {
+            val typedValue = TypedValue()
+            context.theme.resolveAttribute(
+                com.google.android.material.R.attr.colorOnPrimary,
+                typedValue,
+                true
+            )
+            return typedValue.data
+        }
+
+    private fun setLottieColorFilter() {
+        val callback = LottieValueCallback<ColorFilter>(SimpleColorFilter(buttonTextColor))
+        binding.loadingAnim.addValueCallback(
+            KeyPath("**"),
+            LottieProperty.COLOR_FILTER,
+            callback
+        )
+    }
+
+    override fun onDetachedFromWindow() {
+        installationTask?.cancel()
+
+        super.onDetachedFromWindow()
+    }
+
+    companion object {
+        private val TAG = OnboardingView::class.java.getSimpleName()
+        private lateinit var binding: ViewOnboardingPageBinding
+        private var isButtonClickable = true
+        private var clickedButton = false
+        private var hasErroredOut = false
+        private var numberOfPages = OnboardingPage.entries.size
+
+        fun navigateToPrevSlide() {
+            val prevSlidePos = binding.slider.currentItem - 1
+
+            if (prevSlidePos < 0) {
+                throw IndexOutOfBoundsException("Can't navigate to previous slide")
+            }
+
+            binding.slider.setCurrentItem(prevSlidePos, true)
+        }
+
+        fun navigateToNextSlide() {
+            val nextSlidePos = binding.slider.currentItem + 1
+
+            if (nextSlidePos >= numberOfPages) {
+                throw IndexOutOfBoundsException("Can't navigate to next slide")
+            }
+
+            binding.slider.setCurrentItem(nextSlidePos, true)
+        }
+
+        fun navigateToLastSlide() {
+            binding.slider.setCurrentItem(numberOfPages - 1, true)
+        }
+    }
+}

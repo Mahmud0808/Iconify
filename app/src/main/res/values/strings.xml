@@ -5,6 +5,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Initializing setup</string>
     <string name="step">Step</string>
+    <string name="step_number">Step %d/%d</string>
     <string name="module_installation_step1">Creating module shell</string>
     <string name="module_installation_step2">Extracting necessary files</string>
     <string name="module_installation_step3">Creating overlay APKs</string>
