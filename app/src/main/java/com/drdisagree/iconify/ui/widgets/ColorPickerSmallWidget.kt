@@ -122,8 +122,6 @@ class ColorPickerSmallWidget : RelativeLayout {
             colorView.background = drawable
         }
 
-    private fun onSelectedColorChanged(@ColorInt color: Int) {}
-
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
 

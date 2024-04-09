@@ -25,6 +25,7 @@ import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.modules.utils.AlphaRefreshedPaint
 
+@Suppress("UNUSED_PARAMETER")
 open class CircleBattery(private val mContext: Context, frameColor: Int) : BatteryDrawable() {
 
     private var mChargingColor = -0xcb38a7

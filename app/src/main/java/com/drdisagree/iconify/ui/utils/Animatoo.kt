@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.drdisagree.iconify.R
 
+@Suppress("deprecation")
 object Animatoo {
 
     @JvmStatic
