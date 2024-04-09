@@ -202,7 +202,7 @@ class ColorPickerSmallWidget : RelativeLayout {
         fun onColorPickerShown()
     }
 
-    interface OnColorPickerListener {
+    fun interface OnColorPickerListener {
         fun onColorSelected(color: Int)
     }
 

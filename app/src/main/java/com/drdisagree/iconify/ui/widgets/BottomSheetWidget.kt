@@ -250,7 +250,7 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
         onItemClickListener = listener
     }
 
-    interface OnItemClickListener {
+    fun interface OnItemClickListener {
         fun onItemClick(position: Int)
     }
 

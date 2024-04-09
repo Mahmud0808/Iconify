@@ -36,7 +36,7 @@ object Const {
     // Fragment variables
     const val TRANSITION_DELAY = 120
     const val FRAGMENT_BACK_BUTTON_DELAY = 50
-    const val SWITCH_ANIMATION_DELAY = 300
+    const val SWITCH_ANIMATION_DELAY: Long = 300
 
     // Xposed variables
     val PREF_UPDATE_EXCLUSIONS = listOf(

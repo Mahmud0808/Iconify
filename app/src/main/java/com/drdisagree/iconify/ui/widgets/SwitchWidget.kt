@@ -163,7 +163,7 @@ class SwitchWidget : RelativeLayout {
         findViewById<View>(R.id.text_container).setLayoutParams(layoutParams)
     }
 
-    interface BeforeSwitchChangeListener {
+    fun interface BeforeSwitchChangeListener {
         fun beforeSwitchChanged()
     }
 }

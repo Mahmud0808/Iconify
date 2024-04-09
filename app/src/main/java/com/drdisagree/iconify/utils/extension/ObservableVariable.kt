@@ -22,7 +22,7 @@ class ObservableVariable<T> {
         }
     }
 
-    interface OnChangeListener<T> {
+    fun interface OnChangeListener<T> {
         fun onChange(newValue: T)
     }
 }

@@ -207,7 +207,7 @@ class SwitchAdapter(
                     }
                 }.start()
             }
-        }, SWITCH_ANIMATION_DELAY.toLong())
+        }, SWITCH_ANIMATION_DELAY)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

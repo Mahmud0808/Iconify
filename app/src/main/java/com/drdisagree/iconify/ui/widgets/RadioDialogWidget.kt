@@ -214,7 +214,7 @@ class RadioDialogWidget : RelativeLayout, RadioDialog.RadioDialogListener {
         }
     }
 
-    interface RadioDialogListener {
+    fun interface RadioDialogListener {
         fun onItemSelected(index: Int)
     }
 

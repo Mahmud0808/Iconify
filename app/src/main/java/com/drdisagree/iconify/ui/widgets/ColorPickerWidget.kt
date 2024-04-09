@@ -198,11 +198,11 @@ class ColorPickerWidget : RelativeLayout {
         EventBus.getDefault().unregister(this)
     }
 
-    interface BeforeColorPickerListener {
+    fun interface BeforeColorPickerListener {
         fun onColorPickerShown()
     }
 
-    interface OnColorPickerListener {
+    fun interface OnColorPickerListener {
         fun onColorSelected(color: Int)
     }
 

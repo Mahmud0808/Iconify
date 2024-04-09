@@ -121,7 +121,7 @@ object ImportExport {
             val commands: MutableList<String> = ArrayList()
             commands.add("> $MODULE_DIR/system.prop; > $MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable \$ol; done")
 
-            SystemUtil.bootId
+            SystemUtil.saveBootId
             SystemUtil.disableBlur(false)
             SystemUtil.saveVersionCode()
 

@@ -186,35 +186,34 @@ object ViewHelper {
     }
 
     @JvmStatic
-    fun getChargingIcons(context: Context): Array<Drawable?> {
+    fun getChargingIcons(context: Context): Array<Drawable> {
         val chargingIcons = arrayOf(
-            getDrawable(context, R.drawable.ic_charging_bold),  // Bold
-            getDrawable(context, R.drawable.ic_charging_asus),  // Asus
-            getDrawable(context, R.drawable.ic_charging_buddy),  // Buddy
-            getDrawable(context, R.drawable.ic_charging_evplug),  // EV Plug
-            getDrawable(context, R.drawable.ic_charging_idc),  // IDC
-            getDrawable(context, R.drawable.ic_charging_ios),  // IOS
-            getDrawable(context, R.drawable.ic_charging_koplak),  // Koplak
-            getDrawable(context, R.drawable.ic_charging_miui),  // MIUI
-            getDrawable(context, R.drawable.ic_charging_mmk),  // MMK
-            getDrawable(context, R.drawable.ic_charging_moto),  // Moto
-            getDrawable(context, R.drawable.ic_charging_nokia),  // Nokia
-            getDrawable(context, R.drawable.ic_charging_plug),  // Plug
-            getDrawable(context, R.drawable.ic_charging_powercable),  // Power Cable
-            getDrawable(context, R.drawable.ic_charging_powercord),  // Power Cord
-            getDrawable(context, R.drawable.ic_charging_powerstation),  // Power Station
-            getDrawable(context, R.drawable.ic_charging_realme),  // Realme
-            getDrawable(context, R.drawable.ic_charging_soak),  // Soak
-            getDrawable(context, R.drawable.ic_charging_stres),  // Stres
-            getDrawable(context, R.drawable.ic_charging_strip),  // Strip
-            getDrawable(context, R.drawable.ic_charging_usbcable),  // USB Cable
-            getDrawable(context, R.drawable.ic_charging_xiaomi) // Xiaomi
+            getDrawable(context, R.drawable.ic_charging_bold)!!,  // Bold
+            getDrawable(context, R.drawable.ic_charging_asus)!!,  // Asus
+            getDrawable(context, R.drawable.ic_charging_buddy)!!,  // Buddy
+            getDrawable(context, R.drawable.ic_charging_evplug)!!,  // EV Plug
+            getDrawable(context, R.drawable.ic_charging_idc)!!,  // IDC
+            getDrawable(context, R.drawable.ic_charging_ios)!!,  // IOS
+            getDrawable(context, R.drawable.ic_charging_koplak)!!,  // Koplak
+            getDrawable(context, R.drawable.ic_charging_miui)!!,  // MIUI
+            getDrawable(context, R.drawable.ic_charging_mmk)!!,  // MMK
+            getDrawable(context, R.drawable.ic_charging_moto)!!,  // Moto
+            getDrawable(context, R.drawable.ic_charging_nokia)!!,  // Nokia
+            getDrawable(context, R.drawable.ic_charging_plug)!!,  // Plug
+            getDrawable(context, R.drawable.ic_charging_powercable)!!,  // Power Cable
+            getDrawable(context, R.drawable.ic_charging_powercord)!!,  // Power Cord
+            getDrawable(context, R.drawable.ic_charging_powerstation)!!,  // Power Station
+            getDrawable(context, R.drawable.ic_charging_realme)!!,  // Realme
+            getDrawable(context, R.drawable.ic_charging_soak)!!,  // Soak
+            getDrawable(context, R.drawable.ic_charging_stres)!!,  // Stres
+            getDrawable(context, R.drawable.ic_charging_strip)!!,  // Strip
+            getDrawable(context, R.drawable.ic_charging_usbcable)!!,  // USB Cable
+            getDrawable(context, R.drawable.ic_charging_xiaomi)!! // Xiaomi
         )
 
         val iconColor = appContext.getColor(R.color.textColorPrimary)
 
         for (chargingIcon in chargingIcons) {
-            if (chargingIcon == null) continue
             chargingIcon.setTint(iconColor)
         }
 

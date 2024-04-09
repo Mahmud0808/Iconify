@@ -212,7 +212,7 @@ object SystemUtil {
     }
 
     @JvmStatic
-    val bootId: Unit // Save unique id of each boot
+    val saveBootId: Unit // Save unique id of each boot
         get() {
             putString(BOOT_ID, Shell.cmd(DEVICE_BOOT_ID_CMD).exec().out.toString())
         }
