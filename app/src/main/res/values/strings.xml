@@ -5,7 +5,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Initializing setup</string>
     <string name="step">Step</string>
-    <string name="step_number">Step %d/%d</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">Creating module shell</string>
     <string name="module_installation_step2">Extracting necessary files</string>
     <string name="module_installation_step3">Creating overlay APKs</string>
@@ -896,8 +896,8 @@
     <string name="section_title_media_player_icons">Media Player Icons</string>
     <string name="opt_selected">Selected:</string>
     <string name="opt_selected1">Selected: %s</string>
-    <string name="opt_selected2">Selected: %s%s</string>
-    <string name="opt_selected3">Selected: %s%s %s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(Default)</string>
     <string name="clock_none">No Clock</string>
     <string name="clock_style_name">Clock Style %d</string>
