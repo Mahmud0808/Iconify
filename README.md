@@ -56,7 +56,7 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
   > [!NOTE]
   > 
-  > If some or most of the customizations are still not working for Magisk users, you might need to follow step 1 of KernelSU users' installation steps.
+  > If some or most of the customizations are still not working for Magisk users, you might need to disable `Unmount modules` option from magisk manager (if available) and/or follow step 1 of KernelSU users' installation steps.
 
   ### Installation for KernelSU Users:​
 
