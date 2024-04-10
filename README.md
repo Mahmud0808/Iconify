@@ -109,30 +109,77 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 
 # 🤓 FAQ
 
-- How does Iconify work?
-  - Iconify uses Android overlays and Xposed framework that allows modifications to be applied to the user interface (UI) of the device without directly modifying the underlying system files.
-- Do I need a root access for Iconify to work?
-  - Yes, root access is required for Iconify to function properly. While Iconify does support KernelSU, it is highly recommended to use Magisk for the best compatibility.
-- Why is LSPosed listed as an optional requirement?
-  - LSPosed is categorized as optional due to the fact that even without its installation, you can access the majority of the features offered by iconify. However, should you choose to install LSPosed, you will gain access to certain additional features such as header clocks, lockscreen clocks, header image, battery styles, among others.
-- Which devices does Iconify support?
-  - Iconify exclusively supports stock Pixel or custom AOSP ROMs. It does not support other OEMs such as MIUI, OneUI, ColorOS, NothingOS, MotoUI, etc.
-- Is Android "X" supported?
-  - Iconify officially supports Android 12 and later versions. Compatibility with earlier Android versions is not provided, and there are no plans to introduce support for those versions.
-- I got bootloop. How do I fix it?
-  - Boot into [Safe Mode](https://www.androidauthority.com/how-to-enter-safe-mode-android-801476/). Or, you can remove the Iconify folder from /data/adb/modules/ using custom recovery.
-- What is the difference between Release build and Debug build?
-  - [Release build](https://github.com/Mahmud0808/Iconify/releases/latest) is an optimized version intended for distribution to end-users, while [Debug build](https://github.com/Mahmud0808/Iconify/actions) includes additional features and information for debugging and development purposes.
-- Can I use Iconify in conjunction with other customization apps?
-  - Yes, Iconify can be used alongside other customization apps. However, it's important to note that conflicts or overlapping modifications may occur, which could affect the overall user experience.
-- Is there any official support available for Iconify?
-  - Yes, you can visit the official [Iconify telegram group](https://t.me/IconifyDiscussion) to access resources, seek assistance, and engage with other Iconify users.
-- I found a bug. How do I report it?
-  - To report a bug, please navigate to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and ensure you select the `Bug Report` template. Provide as much detailed information as possible, including steps to reproduce the bug and any relevant error messages or screenshots.
-- How do I request a new feature?
-  - If you have a feature request, please go to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and choose the `Feature Request` template. Be sure to include comprehensive details about the desired feature, its potential benefits, and any other relevant information that can assist in understanding and evaluating the request.
-- Where can I make a donation?
-  - The preferred and designated means for donating to the project's developer is via the "[Buy me a coffee](https://www.buymeacoffee.com/DrDisagree)" page.
+<details>
+  <summary>How does Iconify work?</summary>
+
+- Iconify uses Android overlays and Xposed framework that allows modifications to be applied to the user interface (UI) of the device without directly modifying the underlying system files.
+</details>
+
+<details>
+  <summary>Do I need a root access for Iconify to work?</summary>
+
+- Yes, root access is required for Iconify to function properly. While Iconify does support KernelSU, it is highly recommended to use Magisk for the best compatibility.
+</details>
+
+<details>
+  <summary>Why is LSPosed listed as an optional requirement?</summary>
+
+- LSPosed is categorized as optional due to the fact that even without its installation, you can access the majority of the features offered by iconify. However, should you choose to install LSPosed, you will gain access to certain additional features such as header clocks, lockscreen clocks, header image, battery styles, among others.
+</details>
+
+<details>
+  <summary>Which devices does Iconify support?</summary>
+
+- Iconify exclusively supports stock Pixel or custom AOSP ROMs. It does not support other OEMs such as MIUI, OneUI, ColorOS, NothingOS, MotoUI, etc.
+</details>
+
+<details>
+  <summary>Is Android version "xx" supported?</summary>
+
+- Iconify officially supports Android 12 and later versions. Compatibility with earlier Android versions is not provided, and there are no plans to introduce support for those versions.
+</details>
+
+<details>
+  <summary>I got bootloop. How do I fix it?</summary>
+
+- Boot into [Safe Mode](https://www.androidauthority.com/how-to-enter-safe-mode-android-801476/). Or, you can remove the Iconify folder from /data/adb/modules/ using custom recovery.
+</details>
+
+<details>
+  <summary>What is the difference between Release build and Debug build?</summary>
+
+- [Release build](https://github.com/Mahmud0808/Iconify/releases/latest) is an optimized version intended for distribution to end-users, while [Debug build](https://github.com/Mahmud0808/Iconify/actions) includes additional features and information for debugging and development purposes.
+</details>
+
+<details>
+  <summary>Can I use Iconify in conjunction with other customization apps?</summary>
+
+- Yes, Iconify can be used alongside other customization apps. However, it's important to note that conflicts or overlapping modifications may occur, which could affect the overall user experience.
+</details>
+
+<details>
+  <summary>Is there any official support available for Iconify?</summary>
+
+- Yes, you can visit the official [Iconify telegram group](https://t.me/IconifyDiscussion) to access resources, seek assistance, and engage with other Iconify users.
+</details>
+
+<details>
+  <summary>I found a bug. How do I report it?</summary>
+
+- To report a bug, please navigate to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and ensure you select the `Bug Report` template. Provide as much detailed information as possible, including steps to reproduce the bug and any relevant error messages or screenshots.
+</details>
+
+<details>
+  <summary>How do I request a new feature?</summary>
+
+- If you have a feature request, please go to the [Issues](https://github.com/Mahmud0808/Iconify/issues/new/choose) section. Create a new issue and choose the `Feature Request` template. Be sure to include comprehensive details about the desired feature, its potential benefits, and any other relevant information that can assist in understanding and evaluating the request.
+</details>
+
+<details>
+  <summary>Where can I make a donation?</summary>
+
+- The preferred and designated means for donating to the project's developer is via the "[Buy me a coffee](https://www.buymeacoffee.com/DrDisagree)" page.
+</details>
 
 # ❤ Credits
 
