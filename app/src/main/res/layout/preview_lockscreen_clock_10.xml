@@ -286,7 +286,7 @@
                     android:tag="text1"
                     android:text="\u0022;"
                     android:textColor="@android:color/white"
-                    android:textSize="10sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
