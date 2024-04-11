@@ -151,6 +151,7 @@ class XposedHeaderImage : BaseFragment() {
 
         binding.headerImageHeight.setEnabled(enabled)
         binding.headerImageAlpha.setEnabled(enabled)
+        binding.headerImageBottomFade.setEnabled(enabled)
         binding.zoomToFit.setEnabled(enabled)
         binding.hideInLandscape.setEnabled(enabled)
     }
