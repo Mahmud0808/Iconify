@@ -205,28 +205,24 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
         mQsHeaderLayout!!.setFadeSizes(0, 0, bottomFadeAmount, 0)
     }
 
-    private fun addOrRemoveProperty(view: View, property: Int, flag: Boolean) {
-        try {
-            val layoutParams = view.layoutParams as RelativeLayout.LayoutParams
+    private fun ImageView.addCenterProperty() {
+        val layoutParams = layoutParams
 
-            if (flag) {
-                layoutParams.addRule(property)
-            } else {
-                layoutParams.removeRule(property)
+        when (layoutParams) {
+            is RelativeLayout.LayoutParams -> {
+                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT)
             }
 
-            view.setLayoutParams(layoutParams)
-        } catch (throwable: Throwable) {
-            val layoutParams = view.layoutParams as LinearLayout.LayoutParams
-
-            if (flag) {
-                layoutParams.gravity = property
-            } else {
-                layoutParams.gravity = Gravity.NO_GRAVITY
+            is LinearLayout.LayoutParams -> {
+                layoutParams.gravity = Gravity.CENTER
             }
 
-            view.setLayoutParams(layoutParams)
+            else -> {
+                log(TAG + "Invalid layoutParams: $layoutParams")
+            }
         }
+
+        setLayoutParams(layoutParams)
     }
 
     private fun loadImageOrGif(iv: ImageView) {
@@ -255,8 +251,7 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
                             iv.setAdjustViewBounds(false)
                             iv.cropToPadding = false
                             iv.setMinimumWidth(ViewGroup.LayoutParams.MATCH_PARENT)
-
-                            addOrRemoveProperty(iv, RelativeLayout.CENTER_IN_PARENT, true)
+                            iv.addCenterProperty()
                         }
 
                         if (drawable is AnimatedImageDrawable) {
