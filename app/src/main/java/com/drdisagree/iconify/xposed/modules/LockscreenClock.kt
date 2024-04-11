@@ -61,11 +61,13 @@ import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyFontRecursive
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextMarginRecursively
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextScalingRecursively
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.loadLottieAnimationView
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.findClass
+import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.io.File
@@ -92,6 +94,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
     private var mBatteryPercentage = 1
     private var mVolumeLevelArcProgress: ImageView? = null
     private var mRamUsageArcProgress: ImageView? = null
+    private lateinit var lottieAnimationViewClass: Class<*>
     private val mBatteryReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action != null && intent.action == Intent.ACTION_BATTERY_CHANGED) {
@@ -140,6 +143,11 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         initResources(mContext)
+
+        lottieAnimationViewClass = findClassIfExists(
+            "com.airbnb.lottie.LottieAnimationView",
+            loadPackageParam.classLoader
+        )
 
         val keyguardStatusViewClass = findClass(
             "com.android.keyguard.KeyguardStatusView",
@@ -378,7 +386,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
             val inflater = LayoutInflater.from(appContext)
             val clockStyle: Int = Xprefs!!.getInt(LSCLOCK_STYLE, 0)
 
-            return inflater.inflate(
+            val view: View = inflater.inflate(
                 appContext!!.resources.getIdentifier(
                     LOCKSCREEN_CLOCK_LAYOUT + clockStyle,
                     "layout",
@@ -386,6 +394,16 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 ),
                 null
             )
+
+            if (::lottieAnimationViewClass.isInitialized) {
+                loadLottieAnimationView(
+                    appContext = appContext!!,
+                    lottieAnimationViewClass = lottieAnimationViewClass,
+                    parent = view
+                )
+            }
+
+            return view
         }
 
     private fun modifyClockView(clockView: View) {

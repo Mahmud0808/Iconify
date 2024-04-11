@@ -1,12 +1,15 @@
 package com.drdisagree.iconify.xposed.modules.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
@@ -16,8 +19,18 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
+import com.airbnb.lottie.RenderMode
+import com.drdisagree.iconify.BuildConfig
+import com.drdisagree.iconify.common.Preferences
+import com.drdisagree.iconify.common.Resources.LOCKSCREEN_CLOCK_LOTTIE
+import com.drdisagree.iconify.config.XPrefs.Xprefs
 import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedHelpers.callMethod
+import java.io.InputStream
 import java.util.Locale
+
 
 object ViewHelper {
 
@@ -251,5 +264,100 @@ object ViewHelper {
         val originalSize = (view as TextView).textSize
         val newSize = originalSize * scaleFactor
         view.setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize)
+    }
+
+    fun loadLottieAnimationView(
+        appContext: Context,
+        lottieAnimationViewClass: Class<*>? = null,
+        parent: View,
+        styleIndex: Int? = null
+    ) {
+        if (parent !is ViewGroup ||
+            parent.findViewWithTag<LinearLayout>("lottie") == null ||
+            (lottieAnimationViewClass == null && styleIndex == null)
+        ) return
+
+        var isXposedMode = true
+        val currentStyleIndex: Int? = try {
+            Xprefs!!.getInt(Preferences.LSCLOCK_STYLE, 0)
+        } catch (ignored: Throwable) {
+            if (styleIndex == null) {
+                throw IllegalStateException("Parameter \"styleIndex\" cannot be null")
+            }
+
+            isXposedMode = false
+            styleIndex
+        }
+        val rawResName = LOCKSCREEN_CLOCK_LOTTIE + currentStyleIndex
+
+        val lottieAnimView: Any = if (isXposedMode) {
+            if (lottieAnimationViewClass == null) {
+                throw IllegalStateException("Parameter \"lottieAnimationViewClass\" cannot be null")
+            }
+
+            lottieAnimationViewClass
+                .getConstructor(Context::class.java)
+                .newInstance(appContext)
+        } else {
+            LottieAnimationView(appContext)
+        }
+
+        val animationParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        ).apply {
+            gravity = Gravity.CENTER
+        }
+
+        @SuppressLint("DiscouragedApi")
+        val anim: Int = appContext.resources.getIdentifier(
+            rawResName,
+            "raw",
+            BuildConfig.APPLICATION_ID
+        )
+
+        if (anim == 0x0) {
+            if (isXposedMode) {
+                XposedBridge.log("Iconify - ${ViewHelper::class.simpleName}: $rawResName not found")
+            } else {
+                Log.w(ViewHelper::class.simpleName, "$rawResName not found")
+            }
+            return
+        }
+
+        val rawRes: InputStream = appContext.resources.openRawResource(anim)
+
+        if (isXposedMode) {
+            lottieAnimView.let {
+                callMethod(it, "setLayoutParams", animationParams)
+                callMethod(it, "setAnimation", rawRes, "cacheKey")
+                callMethod(it, "setRepeatCount", LottieDrawable.INFINITE)
+                callMethod(it, "setScaleType", ImageView.ScaleType.FIT_CENTER)
+                callMethod(it, "setAdjustViewBounds", true)
+                callMethod(it, "enableMergePathsForKitKatAndAbove", true)
+                callMethod(it, "playAnimation")
+            }
+        } else {
+            (lottieAnimView as LottieAnimationView).apply {
+                layoutParams = animationParams
+                setAnimation(rawRes, "cacheKey")
+                repeatCount = LottieDrawable.INFINITE
+                renderMode = RenderMode.HARDWARE
+                scaleType = ImageView.ScaleType.FIT_CENTER
+                adjustViewBounds = true
+                enableMergePathsForKitKatAndAbove(true)
+                playAnimation()
+            }
+        }
+
+        parent.findViewWithTag<LinearLayout>("lottie").let {
+            it.gravity = Gravity.CENTER
+
+            if (isXposedMode) {
+                callMethod(it, "addView", lottieAnimView);
+            } else {
+                it.addView(lottieAnimView as LottieAnimationView)
+            }
+        }
     }
 }

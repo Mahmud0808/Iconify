@@ -101,4 +101,5 @@ object Resources {
     // Resource names
     const val HEADER_CLOCK_LAYOUT = "preview_header_clock_"
     const val LOCKSCREEN_CLOCK_LAYOUT = "preview_lockscreen_clock_"
+    const val LOCKSCREEN_CLOCK_LOTTIE = "lottie_lockscreen_clock_"
 }

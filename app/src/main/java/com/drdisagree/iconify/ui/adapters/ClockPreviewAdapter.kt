@@ -20,6 +20,7 @@ import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.models.ClockModel
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setBitmapWithAnimation
 import com.drdisagree.iconify.utils.WallpaperUtil
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -90,15 +91,6 @@ class ClockPreviewAdapter(
                 refreshLayout(this)
             }
 
-            val adapterPosition = adapterPosition
-            if (RPrefs.getInt(prefStyle, 0) != adapterPosition) {
-                checkIcon.setVisibility(View.GONE)
-                button.setEnabled(true)
-            } else {
-                checkIcon.setVisibility(View.VISIBLE)
-                button.setEnabled(false)
-            }
-
             clockContainer.removeAllViews()
 
             val viewStub = ViewStub(context)
@@ -124,6 +116,12 @@ class ClockPreviewAdapter(
             if (wallpaperBitmap != null) {
                 setBitmapWithAnimation(wallpaperView, wallpaperBitmap)
             }
+
+            ViewHelper.loadLottieAnimationView(
+                appContext = context,
+                parent = container,
+                styleIndex = adapterPosition
+            )
         }
     }
 
