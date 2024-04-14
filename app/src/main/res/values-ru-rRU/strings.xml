@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Начало установки</string>
     <string name="step">Шаг</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">Создание скриптов модуля</string>
     <string name="module_installation_step2">Извлечение необходимых файлов</string>
     <string name="module_installation_step3">Создание оверлеев</string>
@@ -458,7 +459,7 @@
     <string name="hide_qs_tile_label_desc">Используйте только с вертикальными плитками</string>
     <string name="section_title_qs_margin">Отступ быстрых настроек</string>
     <string name="section_title_qs_elements">Элементы быстрых настроек</string>
-    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
+    <string name="hide_qs_silent_text_title">Скрыть надпись Без звука у уведомлений</string>
     <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
     <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
     <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">Каждый день</string>
     <string name="update_schedule4">Каждую неделю</string>
     <string name="update_schedule5">Никогда</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Благодарности</string>
     <string name="section_title_thanks">Особые благодарности</string>
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">Иконки медиаплееров</string>
     <string name="opt_selected">Выбрано:</string>
     <string name="opt_selected1">Выбрано: %s</string>
-    <string name="opt_selected2">Выбрано: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(Стандартное)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">Пожалуйста, подождите</string>
     <string name="rebooting_desc">Перезагрузка через 5 секунд</string>
     <string name="iconify_clipboard_label_version">Версия Iconify</string>

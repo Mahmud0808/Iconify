@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Starte Einrichtung</string>
     <string name="step">Schritt</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">Erstelle Modul</string>
     <string name="module_installation_step2">Notwendige Dateien extrahieren</string>
     <string name="module_installation_step3">Overlay-APKs erstellen</string>
@@ -666,6 +667,8 @@ transparent machen</string>
     <string name="update_schedule3">Jeden Tag</string>
     <string name="update_schedule4">Jede Woche</string>
     <string name="update_schedule5">Nie</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Mitwirkende</string>
     <string name="section_title_thanks">Besonderer Dank</string>
@@ -838,8 +841,11 @@ transparent machen</string>
     <string name="section_title_media_player_icons">Medienspieler Symbol</string>
     <string name="opt_selected">Ausgewählt:</string>
     <string name="opt_selected1">Ausgewählt: %s</string>
-    <string name="opt_selected2">Ausgewählt: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(Standard)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">Bitte warten</string>
     <string name="rebooting_desc">Neustart in 5 Sekunden</string>
     <string name="iconify_clipboard_label_version">Iconify Version</string>

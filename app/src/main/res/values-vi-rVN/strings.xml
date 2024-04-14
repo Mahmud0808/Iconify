@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Đang khởi tạo thiết lập</string>
     <string name="step">Bước</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">Tạo vỏ mô-đun</string>
     <string name="module_installation_step2">Giải nén các tập tin cần thiết</string>
     <string name="module_installation_step3">Tạo lớp phủ APKs</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">Hằng ngày</string>
     <string name="update_schedule4">Mỗi tuần</string>
     <string name="update_schedule5">Không bao giờ</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Tín dụng</string>
     <string name="section_title_thanks">Special Thanks</string>
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">Biểu tượng trình phát đa phương tiện</string>
     <string name="opt_selected">Đã chọn:</string>
     <string name="opt_selected1">Selected: %s</string>
-    <string name="opt_selected2">Selected: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(Mặc định)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">Vui lòng chờ</string>
     <string name="rebooting_desc">Khởi động lại sau 5 giây</string>
     <string name="iconify_clipboard_label_version">Biểu tượng hóa phiên bản</string>

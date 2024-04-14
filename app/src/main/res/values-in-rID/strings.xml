@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Initializing setup</string>
     <string name="step">Step</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">Membuat modul shell</string>
     <string name="module_installation_step2">Mengekstrak file yang diperlukan</string>
     <string name="module_installation_step3">Membuat APK overlay</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">Setiap Hari</string>
     <string name="update_schedule4">Setiap Minggu</string>
     <string name="update_schedule5">Tidak Pernah</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Kredit</string>
     <string name="section_title_thanks">Special Thanks</string>
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">Media Player Icons</string>
     <string name="opt_selected">Terpilih:</string>
     <string name="opt_selected1">Selected: %s</string>
-    <string name="opt_selected2">Selected: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(Default)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">Silahkan tunggu</string>
     <string name="rebooting_desc">Reboot dalam 5 detik</string>
     <string name="iconify_clipboard_label_version">Versi Iconify</string>
