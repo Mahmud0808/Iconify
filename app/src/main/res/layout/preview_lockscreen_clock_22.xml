@@ -1,55 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center|top"
-    android:layout_gravity="center|top"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
     <LinearLayout
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextClock
-            android:textSize="75sp"
-            android:textColor="#FFFFFFFF"
-            android:tag="accent1|nolineheight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:fontFamily="@android:string/config_clockFontFamily"
-            android:textAlignment="viewEnd"
-            android:format12Hour="hh"
-            android:format24Hour="HH" />
-        <TextClock
-            android:textSize="75sp"
-            android:textColor="#9AFFFFFF"
-            android:tag="accent2|nolineheight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:fontFamily="@android:string/config_clockFontFamily"
-            android:textAlignment="viewStart"
-            android:format12Hour="mm"
-            android:format24Hour="mm" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="0dp">
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <TextClock
-            android:textSize="16dp"
-            android:textColor="#65FFFFFF"
-            android:gravity="center"
-            android:layout_gravity="center|start"
-            android:tag="text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:fontFamily="@android:string/config_clockFontFamily"
+            android:format12Hour="hh"
+            android:format24Hour="HH"
+            android:tag="text1|nolineheight"
+            android:textAlignment="viewEnd"
+            android:textColor="#FFFFFFFF"
+            android:textSize="75dp" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:fontFamily="@android:string/config_clockFontFamily"
+            android:format12Hour="mm"
+            android:format24Hour="mm"
+            android:tag="text1|nolineheight"
+            android:textAlignment="viewStart"
+            android:textColor="#9AFFFFFF"
+            android:textSize="75dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="0dp"
+        android:orientation="vertical">
+
+        <TextClock
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:layout_gravity="center|start"
             android:format12Hour="MMMM • dd • yyy"
-            android:format24Hour="dd • MMMM • yyy" />
+            android:format24Hour="dd • MMMM • yyy"
+            android:gravity="center"
+            android:singleLine="true"
+            android:tag="text1"
+            android:textColor="#65FFFFFF"
+            android:textSize="16dp" />
     </LinearLayout>
 </LinearLayout>
