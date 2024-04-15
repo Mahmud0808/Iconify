@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">설치 초기화 중</string>
     <string name="step">과정</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">모듈 셸 생성 중</string>
     <string name="module_installation_step2">필수 파일의 압축 해제 중</string>
     <string name="module_installation_step3">오버레이 APK 생성 중</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">Every Day</string>
     <string name="update_schedule4">Every Week</string>
     <string name="update_schedule5">Never</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Credits</string>
     <string name="section_title_thanks">Special Thanks</string>
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">Media Player Icons</string>
     <string name="opt_selected">Selected:</string>
     <string name="opt_selected1">Selected: %s</string>
-    <string name="opt_selected2">Selected: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(Default)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">Please Wait</string>
     <string name="rebooting_desc">Rebooting in 5 seconds</string>
     <string name="iconify_clipboard_label_version">Iconify Version</string>

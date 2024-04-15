@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">セットアップの初期化中</string>
     <string name="step">ステップ</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">モジュール シェルを作成しています</string>
     <string name="module_installation_step2">必要なファイルを抽出中</string>
     <string name="module_installation_step3">オーバーレイ APK を作成中</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">毎日</string>
     <string name="update_schedule4">毎週</string>
     <string name="update_schedule5">しない</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">クレジット</string>
     <string name="section_title_thanks">スペシャル サンクス</string>
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">Media Player Icons</string>
     <string name="opt_selected">選択:</string>
     <string name="opt_selected1">選択: %s</string>
-    <string name="opt_selected2">選択: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(デフォルト)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">お待ちください</string>
     <string name="rebooting_desc">5 秒以内に再起動します</string>
     <string name="iconify_clipboard_label_version">Iconify バージョン</string>

@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Kurulum başlatılıyor</string>
     <string name="step">Adım</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">Modül kabuğu oluşturuluyor</string>
     <string name="module_installation_step2">Gerekli dosyalar ayıklanıyor</string>
     <string name="module_installation_step3">Kaplama APK\'ları oluşturuluyor</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">Her Gün</string>
     <string name="update_schedule4">Her Hafta</string>
     <string name="update_schedule5">Hiçbir Zaman</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Krediler</string>
     <string name="section_title_thanks">Özel Teşekkürler</string>
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">Medya Oynatıcı Simgeleri</string>
     <string name="opt_selected">Seçildi:</string>
     <string name="opt_selected1">Seçildi: %s</string>
-    <string name="opt_selected2">Seçildi: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(Varsayılan)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">Lütfen Bekleyin</string>
     <string name="rebooting_desc">5 saniye içinde yeniden başlatılıyor</string>
     <string name="iconify_clipboard_label_version">Iconify Sürümü</string>

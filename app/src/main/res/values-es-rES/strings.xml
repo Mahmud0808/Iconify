@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Iniciando la configuración</string>
     <string name="step">Paso</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">Creando estructura del módulo</string>
     <string name="module_installation_step2">Extrayendo archivos necesarios</string>
     <string name="module_installation_step3">Creando APKs de superposición</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">Cada día</string>
     <string name="update_schedule4">Cada semana</string>
     <string name="update_schedule5">Nunca</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Creditos</string>
     <string name="section_title_thanks">Special Thanks</string>
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">Iconos del Reproductor de medios</string>
     <string name="opt_selected">Seleccionado:</string>
     <string name="opt_selected1">Selected: %s</string>
-    <string name="opt_selected2">Selected: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(Predeterminado)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">Por favor espera</string>
     <string name="rebooting_desc">Reiniciando en 5 segundos</string>
     <string name="iconify_clipboard_label_version">Versión de Iconify</string>

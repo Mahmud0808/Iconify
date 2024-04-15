@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Inicializando a configuração</string>
     <string name="step">Etapa</string>
+    <string name="step_number">Passo %1$d/%2$d</string>
     <string name="module_installation_step1">Criando módulo shell</string>
     <string name="module_installation_step2">Extraindo arquivos necessários</string>
     <string name="module_installation_step3">Criando APKs de sobreposição</string>
@@ -410,8 +411,8 @@
     <string name="activity_desc_header_clock">Adicione algum relógio personalizado no painel QS</string>
     <string name="activity_title_lockscreen_clock">Relógio da tela de bloqueio</string>
     <string name="activity_desc_lockscreen_clock">Adicione um relógio personalizado na tela de bloqueio</string>
-    <string name="activity_title_depth_wallpaper">Papel de parede de profundidade</string>
-    <string name="activity_desc_depth_wallpaper">Mostrar iOS como papel de parede de profundidade</string>
+    <string name="activity_title_depth_wallpaper">Plano de fundo com profundidade</string>
+    <string name="activity_desc_depth_wallpaper">Mostrar plano de fundo com profundidade semelhante ao iOS</string>
     <string name="activity_title_background_chip">Chip de fundo</string>
     <string name="activity_desc_background_chip">Adicione um chip colorido atrás do relógio</string>
     <string name="activity_title_xposed_others">Outros</string>
@@ -423,7 +424,7 @@
     <string name="transparency_alpha_title">Transparência alfa</string>
     <string name="transparent_notif_shade_title">Somente sombra de notificação transparente</string>
     <string name="transparent_notif_shade_desc">Torne apenas a aba de notificação transparente</string>
-    <string name="keep_lockscreen_shade_title">Papel de parede escuro na tela de bloqueio</string>
+    <string name="keep_lockscreen_shade_title">Plano de fundo escuro na tela de bloqueio</string>
     <string name="keep_lockscreen_shade_desc">Adequado para papéis de parede de cores claras</string>
     <string name="section_title_blur">Blur</string>
     <string name="window_level_blur_title">Blur no nível da janela</string>
@@ -602,15 +603,15 @@
     <string name="welcome_back">Bem-vindo de volta!</string>
     <string name="default_user_name">Usuário</string>
     <!-- Depth Wallpaper -->
-    <string name="enable_depth_wallpaper_title">Ativar papel de parede de profundidade</string>
-    <string name="enable_depth_wallpaper_desc">Mostre o papel de parede de profundidade semelhante ao iOS.\nÉ necessário usar relógio da tela de bloqueio personalizado.</string>
-    <string name="wallpaper_fade_animation_title">Desaparecer em AOD</string>
-    <string name="wallpaper_fade_animation_desc">Anime o papel de parede e desapareça no AOD</string>
+    <string name="enable_depth_wallpaper_title">Ativar plano de fundo com profundidade</string>
+    <string name="enable_depth_wallpaper_desc">Mostre o plano de fundo com profundidade semelhante ao iOS.\nÉ necessário usar relógio da tela de bloqueio personalizado.</string>
+    <string name="wallpaper_fade_animation_title">Desaparecer na Tela ambiente</string>
+    <string name="wallpaper_fade_animation_desc">Anime o plano de fundo e desapareça na Tela ambiente</string>
     <string name="foreground_image_title">Imagem de primeiro plano</string>
-    <string name="foreground_image_desc">Imagem de primeiro plano para o papel de parede de profundidade</string>
+    <string name="foreground_image_desc">Imagem de primeiro plano para o plano de fundo com profundidade</string>
     <string name="background_image_title">Imagem de fundo</string>
-    <string name="background_image_desc">Imagem de fundo para o papel de parede de profundidade</string>
-    <string name="depth_wallpaper_alert_msg">Este recurso está atualmente em fase beta. Portanto, bugs são esperados.\n\n<b>Bugs conhecidos:</b>\n• O Always on Display está quebrado. Desative o AOD para evitar problemas de exibição.\n• Tocar na tela de bloqueio faz o papel de parede saltar.</string>
+    <string name="background_image_desc">Imagem de fundo para o plano de fundo com profundidade</string>
+    <string name="depth_wallpaper_alert_msg">Este recurso está atualmente em fase beta. Portanto, bugs são esperados.\n\n<b>Bugs conhecidos:</b>\n• A Tela ambiente está quebrada. Desative a Tela ambiente para evitar problemas de exibição.\n• Tocar na tela de bloqueio faz o plano de fundo saltar.</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Barra de status</string>
     <string name="sb_clock_background_chip_title">Chip de relógio da barra de status</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">Diariamente</string>
     <string name="update_schedule4">Semanalmente</string>
     <string name="update_schedule5">Nunca</string>
+    <string name="current_version_number">Versão atual: %s</string>
+    <string name="latest_version_number">Última versão: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Créditos</string>
     <string name="section_title_thanks">Agradecimentos especiais</string>
@@ -714,8 +717,8 @@
     <string name="experimental_features_title">Experimental</string>
     <string name="overlap_header_image_title">Sobreposição de imagem de cabeçalho</string>
     <string name="overlap_header_image_desc">Sobreposição de imagem de cabeçalho no QS expandido</string>
-    <string name="unzoom_depth_wallpaper_title">Diminuir zoom do papel de parede de profundidade</string>
-    <string name="unzoom_depth_wallpaper_desc">Remova o efeito de zoom no papel de parede de profundidade</string>
+    <string name="unzoom_depth_wallpaper_title">Diminuir zoom do plano de fundo com profundidade</string>
+    <string name="unzoom_depth_wallpaper_desc">Remova o efeito de zoom no plano de fundo com profundidade</string>
     <string name="hide_data_disabled_icon_title">Ocultar ícone de dados desativado</string>
     <string name="hide_data_disabled_icon_desc">Oculte o indicador de dados desativados</string>
     <!-- Bottom Navigation -->
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">Ícones do reprodutor de mídia</string>
     <string name="opt_selected">Selecionado:</string>
     <string name="opt_selected1">Selecionado: %s</string>
-    <string name="opt_selected2">Selecionado: %s%s</string>
+    <string name="opt_selected2">Selecionado: %1$s%2$s</string>
+    <string name="opt_selected3">Selecionado: %1$s%2$s %3$s</string>
     <string name="opt_default">(Padrão)</string>
+    <string name="clock_none">Sem relógio</string>
+    <string name="clock_style_name">Estilo do relógio %d</string>
     <string name="loading_dialog_wait">Por favor, aguarde</string>
     <string name="rebooting_desc">Reiniciando em 5 segundos</string>
     <string name="iconify_clipboard_label_version">Versão do Iconify</string>

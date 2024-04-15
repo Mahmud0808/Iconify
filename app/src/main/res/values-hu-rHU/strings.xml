@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">A beállítások előkészítése</string>
     <string name="step">Lépés</string>
+    <string name="step_number">%1$d/%2$d lépés</string>
     <string name="module_installation_step1">Modulhéj-létrehozás</string>
     <string name="module_installation_step2">A szükséges fájlok kibontása</string>
     <string name="module_installation_step3">Alkalmazás-fedőrétegek létrehozása</string>
@@ -550,7 +551,7 @@
     <string name="btn_pick_image">Képválasztó</string>
     <string name="header_image_height_title">Képmagasság</string>
     <string name="header_image_alpha">A kép alfája</string>
-    <string name="header_image_bottom_fade">Bottom Fade Amount</string>
+    <string name="header_image_bottom_fade">Az alsó halványítás erőssége</string>
     <string name="header_image_zoom_to_fit_title">Nagyítás kitöltéssel</string>
     <string name="header_image_zoom_to_fit_desc">A kép alapértelmezés szerinti illesztése</string>
     <string name="header_image_hide_in_landscape_title">Fekvőmódban ne látszódjon</string>
@@ -594,13 +595,13 @@
     <string name="lockscreen_clock_bottom_margin_title">Alsó margó</string>
     <string name="lockscreen_clock_white_text_title">Fehér szöveg</string>
     <string name="lockscreen_clock_white_text_desc">Az összes színt a fehér felé kényszeríti</string>
-    <string name="btn_select">Select</string>
-    <string name="battery_charging">Battery Charging</string>
-    <string name="battery_discharging">Battery Discharging</string>
-    <string name="battery_full">Battery Full</string>
-    <string name="battery_level_percentage">Battery Level</string>
-    <string name="welcome_back">Welcome back!</string>
-    <string name="default_user_name">User</string>
+    <string name="btn_select">Választás</string>
+    <string name="battery_charging">Az akku töltödik</string>
+    <string name="battery_discharging">Az akku nem töltödik</string>
+    <string name="battery_full">Az akku feltöltve</string>
+    <string name="battery_level_percentage">Akkumulátorszint</string>
+    <string name="welcome_back">Üdv újra itt!</string>
+    <string name="default_user_name">Felhasználó</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">A mélységi háttérkép engedélyezése</string>
     <string name="enable_depth_wallpaper_desc">Az iOS-hez hasonló mélységi háttérképet jelenít meg\nEgyéni zárképernyő-órát kell használni</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">Naponta</string>
     <string name="update_schedule4">Minden héten</string>
     <string name="update_schedule5">Soha</string>
+    <string name="current_version_number">Jelenlegi verzió: %s</string>
+    <string name="latest_version_number">Legutóbbi verzió: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Stáblista</string>
     <string name="section_title_thanks">Speciális köszönet</string>
@@ -675,7 +678,7 @@
     <string name="info_xposed_desc">Az Xposed-ben való segítségért.</string>
     <string name="info_tester_desc">Az alkalmazás teszteléséért.</string>
     <string name="info_betterqs_desc">A jobb Gyorsbeállítások engedélyezéséért.</string>
-    <string name="info_binaries_desc">For android executable binaries.</string>
+    <string name="info_binaries_desc">Androidon futtatható binárisokhoz.</string>
     <string name="section_title_contributors">Közreműködők</string>
     <string name="info_contributor_desc">A githubon való közreműködésért.</string>
     <string name="info_contributor_desc_2">A Telegramban való segítségért.</string>
@@ -798,7 +801,7 @@
     <string name="toast_plumpy_colored_battery">A duci alapértelmezetten szines akkukijelzőt használ</string>
     <string name="toast_select_style">Elsőként válasszon egy stílust</string>
     <string name="toast_ksu_not_supported">A KernelSU jelenleg nem támogatott</string>
-    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
+    <string name="toast_only_magisk_supported">Jelenleg még csak a Magisk támogatott</string>
     <string name="toast_reboot_required">Újraindítás szükséges</string>
     <string name="toast_lsposed_not_found">Az LSPosed nem található</string>
     <string name="toast_easter_egg">Honnan tudta ezt?</string>
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">Médialejátszó-ikonok</string>
     <string name="opt_selected">Kiválasztva:</string>
     <string name="opt_selected1">Kiválasztva: %s</string>
-    <string name="opt_selected2">Kiválasztva: %s%s</string>
+    <string name="opt_selected2">Kiválasztva: %1$s%2$s</string>
+    <string name="opt_selected3">Kiválasztva: %1$s%2$s %3$s</string>
     <string name="opt_default">(Alapértelmezett)</string>
+    <string name="clock_none">Nincs óra</string>
+    <string name="clock_style_name">Órastílus %d</string>
     <string name="loading_dialog_wait">Kérjük várjon</string>
     <string name="rebooting_desc">5 másodpercen belül újraindul</string>
     <string name="iconify_clipboard_label_version">Iconify-verzió</string>

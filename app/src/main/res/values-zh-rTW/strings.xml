@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">初始化安裝</string>
     <string name="step">步驟</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">建立模組殼層</string>
     <string name="module_installation_step2">正在解壓縮需要的檔案</string>
     <string name="module_installation_step3">正在建立用作覆蓋的 APK</string>
@@ -665,6 +666,8 @@
     <string name="update_schedule3">每天</string>
     <string name="update_schedule4">每周</string>
     <string name="update_schedule5">從不</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">鳴謝</string>
     <string name="section_title_thanks">特別感謝</string>
@@ -837,8 +840,11 @@
     <string name="section_title_media_player_icons">媒體播放機圖示</string>
     <string name="opt_selected">選取:</string>
     <string name="opt_selected1">選取: %s</string>
-    <string name="opt_selected2">選取: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(預設)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">請稍後</string>
     <string name="rebooting_desc">5秒内重新啓動</string>
     <string name="iconify_clipboard_label_version">Iconify 版本</string>
