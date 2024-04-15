@@ -24,6 +24,7 @@
             android:fontFamily="@font/br_sc"
             android:format12Hour="dd"
             android:format24Hour="dd"
+            android:includeFontPadding="false"
             android:tag="text1|nolineheight"
             android:textColor="@android:color/white"
             android:textSize="200sp" />
@@ -35,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="-120dp"
+            android:includeFontPadding="false"
             android:layout_marginRight="30dp"
             android:fontFamily="@font/fontsfree_net_carthart"
             android:format12Hour="EEE"
@@ -59,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="8dp"
+                android:includeFontPadding="false"
                 android:fontFamily="@font/sans_bold"
                 android:format12Hour="hh:mm a"
                 android:format24Hour="HH:mm"

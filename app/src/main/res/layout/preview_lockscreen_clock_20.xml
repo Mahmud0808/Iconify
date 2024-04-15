@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
+            android:includeFontPadding="false"
             android:singleLine="true"
             android:tag="text1|nolineheight"
             android:textAlignment="viewStart"
@@ -30,6 +31,7 @@
             android:layout_gravity="start">
 
             <TextClock
+                android:includeFontPadding="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:format12Hour="hh:mm"
@@ -46,6 +48,7 @@
                 android:format24Hour="HH:mm"
                 android:maxLength="1"
                 android:singleLine="true"
+                android:includeFontPadding="false"
                 android:tag="accent1"
                 android:textColor="@android:color/system_accent1_300"
                 android:textSize="40dp" />
@@ -55,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:format12Hour="MMMM dd "
+            android:includeFontPadding="false"
             android:format24Hour="dd MMMM "
             android:singleLine="true"
             android:tag="text1"

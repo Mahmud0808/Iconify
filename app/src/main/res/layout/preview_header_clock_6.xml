@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:tag="accent1"
+            android:includeFontPadding="false"
             android:text="Hello there! "
             android:textColor="@android:color/system_accent1_300"
             android:textSize="14dp"
@@ -45,6 +46,7 @@
                 android:singleLine="true"
                 android:tag="text1"
                 android:text="It's"
+                android:includeFontPadding="false"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="14dp"
                 android:textStyle="bold" />
@@ -59,6 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:format12Hour="hh:mm"
+                    android:includeFontPadding="false"
                     android:format24Hour="hh:mm"
                     android:singleLine="true"
                     android:tag="text1"

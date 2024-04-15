@@ -15,6 +15,7 @@
         <TextClock
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:includeFontPadding="false"
             android:format12Hour="EEEE, MMMM dd"
             android:format24Hour="EEEE, dd MMMM"
             android:gravity="center"
@@ -28,6 +29,8 @@
         <TextClock
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:includeFontPadding="false"
             android:alpha="0.9"
             android:fontFamily="@font/ios"
             android:format12Hour="hh:mm"

@@ -22,12 +22,14 @@
             android:format24Hour="MMMM"
             android:tag="text1|nolineheight"
             android:textColor="#FFFFFF"
+            android:includeFontPadding="false"
             android:textSize="30sp" />
 
         <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/futurist_fixed_width_bold"
+            android:includeFontPadding="false"
             android:format12Hour="dd, yyyy"
             android:format24Hour="dd, yyyy"
             android:tag="text1"
@@ -62,12 +64,14 @@
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
             android:tag="text1"
+            android:includeFontPadding="false"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
 
         <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:includeFontPadding="false"
             android:fontFamily="@font/futurist_fixed_width_bold"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"

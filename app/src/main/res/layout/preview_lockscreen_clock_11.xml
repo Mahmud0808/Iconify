@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:id="@+id/clock_view"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:foregroundGravity="center"
@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@*android:string/config_clockFontFamily"
+                android:includeFontPadding="false"
                 android:format12Hour="hh:mm"
                 android:format24Hour="HH:mm"
                 android:letterSpacing="0.02"
@@ -44,6 +45,7 @@
                 android:format12Hour="ss"
                 android:format24Hour="ss"
                 android:letterSpacing="0.02"
+                android:includeFontPadding="false"
                 android:paddingLeft="2dp"
                 android:paddingBottom="10dp"
                 android:tag="accent1|nolineheight"
@@ -64,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@*android:string/config_clockFontFamily"
+                android:includeFontPadding="false"
                 android:format12Hour="EEEE, "
                 android:format24Hour="EEEE, "
                 android:tag="text1"
@@ -78,6 +81,7 @@
                 android:fontFamily="@*android:string/config_clockFontFamily"
                 android:format12Hour="dd MMMM "
                 android:format24Hour="dd MMMM "
+                android:includeFontPadding="false"
                 android:tag="accent1"
                 android:textColor="@android:color/system_accent1_400"
                 android:textSize="16dp"
@@ -86,6 +90,7 @@
             <TextClock
                 android:id="@+id/clock_year"
                 android:layout_width="match_parent"
+                android:includeFontPadding="false"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@*android:string/config_clockFontFamily"

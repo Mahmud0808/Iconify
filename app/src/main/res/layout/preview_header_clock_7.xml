@@ -2,8 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    android:gravity="center|start"
+    android:gravity="start|center"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -18,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_gravity="center|start"
+            android:includeFontPadding="false"
             android:format12Hour="hh "
             android:format24Hour="HH "
             android:gravity="center|start"
@@ -29,6 +29,7 @@
 
         <TextClock
             android:layout_width="wrap_content"
+            android:includeFontPadding="false"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_gravity="center|start"
@@ -48,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
+        android:includeFontPadding="false"
         android:layout_marginTop="18dp"
         android:fontFamily="@font/montserrat"
         android:format12Hour="MMMM dd"

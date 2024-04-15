@@ -11,6 +11,7 @@
         android:format12Hour="hh.mm."
         android:format24Hour="HH.mm."
         android:singleLine="true"
+        android:includeFontPadding="false"
         android:tag="text1|clock"
         android:textColor="?android:textColorPrimary"
         android:textSize="32dp" />
@@ -23,6 +24,7 @@
         android:alpha="0.4"
         android:format12Hour="ss"
         android:format24Hour="ss"
+        android:includeFontPadding="false"
         android:letterSpacing="0.1"
         android:singleLine="true"
         android:tag="text1|clock"

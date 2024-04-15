@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="start|top"
     android:gravity="start|top"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="13dp"
-        android:layout_marginTop="-10.0dip"
+        android:layout_marginTop="-20.0dip"
         android:orientation="horizontal">
 
         <TextClock
@@ -22,6 +22,7 @@
             android:format24Hour="HH"
             android:singleLine="true"
             android:tag="accent1|nolineheight"
+            android:includeFontPadding="false"
             android:textColor="@android:color/system_accent1_400"
             android:textSize="160.0dp" />
 
@@ -33,15 +34,17 @@
             android:format24Hour="mm"
             android:singleLine="true"
             android:tag="text1|nolineheight"
+            android:includeFontPadding="false"
             android:textColor="@android:color/white"
             android:textSize="160.0dp" />
     </LinearLayout>
 
     <TextClock
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="21dp"
-        android:layout_marginTop="-15dp"
+        android:layout_marginTop="-10dp"
+        android:includeFontPadding="false"
         android:format12Hour="EEEE, MMMM, dd"
         android:format24Hour="EEEE, dd, MMMM"
         android:singleLine="true"

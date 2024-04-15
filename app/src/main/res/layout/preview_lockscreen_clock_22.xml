@@ -21,6 +21,7 @@
             android:format12Hour="hh"
             android:format24Hour="HH"
             android:tag="text1|nolineheight"
+            android:includeFontPadding="false"
             android:textAlignment="viewEnd"
             android:textColor="#FFFFFFFF"
             android:textSize="75dp" />
@@ -32,6 +33,7 @@
             android:fontFamily="@*android:string/config_clockFontFamily"
             android:format12Hour="mm"
             android:format24Hour="mm"
+            android:includeFontPadding="false"
             android:tag="text1|nolineheight"
             android:textAlignment="viewStart"
             android:textColor="#9AFFFFFF"
@@ -42,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:includeFontPadding="false"
         android:format12Hour="MMMM • dd • yyy"
         android:format24Hour="dd • MMMM • yyy"
         android:gravity="center"

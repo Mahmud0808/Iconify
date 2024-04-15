@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="start|top"
     android:gravity="start|top"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:orientation="vertical">
 
         <TextClock
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/slim"
             android:format12Hour="hh:mm"
@@ -21,17 +21,19 @@
             android:singleLine="true"
             android:tag="text1|nolineheight"
             android:textColor="@android:color/white"
+            android:includeFontPadding="false"
             android:textSize="70.0dip"
             android:textStyle="bold" />
 
         <TextClock
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/slim"
             android:format12Hour="EEE"
             android:format24Hour="EEE"
             android:singleLine="true"
             android:tag="text1"
+            android:includeFontPadding="false"
             android:textAlignment="viewStart"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
@@ -39,9 +41,10 @@
             android:textStyle="bold" />
 
         <TextClock
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/slim"
+            android:includeFontPadding="false"
             android:format12Hour="dd/MM"
             android:format24Hour="dd/MM"
             android:singleLine="true"
