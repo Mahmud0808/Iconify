@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center|top"
-    android:gravity="center|top"
+    android:layout_gravity="center_horizontal|top"
+    android:gravity="center_horizontal|top"
     android:orientation="vertical">
 
     <LinearLayout
@@ -38,23 +38,15 @@
             android:textSize="75dp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextClock
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginHorizontal="0dp"
-        android:orientation="vertical">
-
-        <TextClock
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|start"
-            android:format12Hour="MMMM • dd • yyy"
-            android:format24Hour="dd • MMMM • yyy"
-            android:gravity="center"
-            android:singleLine="true"
-            android:tag="text1"
-            android:textColor="#65FFFFFF"
-            android:textSize="16dp" />
-    </LinearLayout>
+        android:format12Hour="MMMM • dd • yyy"
+        android:format24Hour="dd • MMMM • yyy"
+        android:gravity="center"
+        android:singleLine="true"
+        android:tag="text1"
+        android:textColor="#65FFFFFF"
+        android:textSize="16dp" />
 </LinearLayout>
