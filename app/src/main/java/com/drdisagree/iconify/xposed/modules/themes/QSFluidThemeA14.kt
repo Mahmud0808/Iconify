@@ -116,7 +116,7 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.statusbar.phone.CentralSurfacesImpl",
             loadPackageParam.classLoader
         )
-        val notificationExpandButtonClass = findClass(
+        val notificationExpandButtonClass = findClassIfExists(
             "com.android.internal.widget.NotificationExpandButton",
             loadPackageParam.classLoader
         )
@@ -767,15 +767,19 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
             })
 
         // Notification expand/collapse pill
-        hookAllMethods(notificationExpandButtonClass, "onFinishInflate", object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                if (!fluidQsThemeEnabled || !fluidNotifEnabled) return
+        if (notificationExpandButtonClass != null) {
+            hookAllMethods(
+                notificationExpandButtonClass,
+                "onFinishInflate",
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        if (!fluidQsThemeEnabled || !fluidNotifEnabled) return
 
-                val mPillView =
-                    getObjectField(param.thisObject, "mPillView") as View?
-                mPillView?.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
-            }
-        })
+                        val mPillView = getObjectField(param.thisObject, "mPillView") as View?
+                        mPillView?.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
+                    }
+                })
+        }
 
         // Notification footer buttons
         val updateNotificationFooterButtons: XC_MethodHook = object : XC_MethodHook() {
