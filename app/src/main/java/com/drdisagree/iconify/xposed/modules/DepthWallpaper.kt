@@ -1,10 +1,7 @@
 package com.drdisagree.iconify.xposed.modules
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.content.res.Resources
 import android.graphics.ImageDecoder
 import android.os.Build
@@ -19,6 +16,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
@@ -31,8 +30,8 @@ import com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.utils.DisplayUtils.isScreenOn
 import com.drdisagree.iconify.xposed.modules.utils.ParallaxImageView
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedHelpers.findClass
@@ -46,6 +45,7 @@ import java.util.concurrent.TimeUnit
 @SuppressLint("DiscouragedApi")
 class DepthWallpaper(context: Context?) : ModPack(context!!) {
 
+    private val tag = "Iconify - ${DepthWallpaper::class.java.simpleName}: "
     private var showDepthWallpaper = false
     private var showFadingAnimation = false
     private var enableParallaxEffect = false
@@ -54,6 +54,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
     private var mDepthWallpaperLayout: FrameLayout? = null
     private var mDepthWallpaperBackground: ParallaxImageView? = null
     private var mDepthWallpaperForeground: ParallaxImageView? = null
+    private var mDozing = false
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -176,8 +177,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                 mIndicationArea.addView(mIndicationAreaDupe)
 
                 // Get the depth wallpaper layout
-                mDepthWallpaperLayout =
-                    mIndicationArea.findViewWithTag<FrameLayout>(ICONIFY_DEPTH_WALLPAPER_TAG)
+                mDepthWallpaperLayout = mIndicationArea.findViewWithTag(ICONIFY_DEPTH_WALLPAPER_TAG)
 
                 // Create the depth wallpaper layout if it doesn't exist
                 if (mDepthWallpaperLayout == null) {
@@ -230,8 +230,11 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                 } catch (ignored: Throwable) {
                 }
 
+                var startButton: ImageView? = null
+                var endButton: ImageView? = null
+
                 try {
-                    val startButton = view.findViewById<ImageView>(
+                    startButton = view.findViewById(
                         mContext.resources.getIdentifier(
                             "start_button",
                             "id",
@@ -247,7 +250,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                 }
 
                 try {
-                    val endButton = view.findViewById<ImageView>(
+                    endButton = view.findViewById(
                         mContext.resources.getIdentifier(
                             "end_button",
                             "id",
@@ -271,21 +274,37 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                                 mContext.packageName
                             )
                         )
-                        keyguardSettingsButton.getViewTreeObserver()
-                            .addOnGlobalLayoutListener {
-                                (mIndicationTextView.layoutParams as MarginLayoutParams).setMarginStart(
-                                    if (keyguardSettingsButton.visibility != View.GONE) offset[0] else 0
-                                )
-                                (mIndicationTextView.layoutParams as MarginLayoutParams).setMarginEnd(
-                                    if (keyguardSettingsButton.visibility != View.GONE) offset[0] else 0
-                                )
+                        keyguardSettingsButton.getViewTreeObserver().addOnGlobalLayoutListener {
+                            var marginStart = offset[0]
+                            var marginEnd = offset[0]
+
+                            startButton?.let {
+                                marginStart = if (it.visibility != View.GONE) {
+                                    it.width + it.marginStart + mContext.toPx(16)
+                                } else {
+                                    offset[0]
+                                }
                             }
+                            endButton?.let {
+                                marginEnd = if (it.visibility != View.GONE) {
+                                    it.width + it.marginEnd + mContext.toPx(16)
+                                } else {
+                                    offset[0]
+                                }
+                            }
+
+                            (mIndicationTextView.layoutParams as MarginLayoutParams).setMarginStart(
+                                if (keyguardSettingsButton.visibility != View.GONE) marginStart else 0
+                            )
+                            (mIndicationTextView.layoutParams as MarginLayoutParams).setMarginEnd(
+                                if (keyguardSettingsButton.visibility != View.GONE) marginEnd else 0
+                            )
+                        }
                     } catch (ignored: Throwable) {
                     }
                 }
 
                 updateWallpaper()
-                registerScreenStateChecker()
             }
         })
 
@@ -395,30 +414,21 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
             "getDimensionPixelSize",
             noKeyguardIndicationPadding
         )
-    }
 
-    // Broadcast receiver for checking screen state
-    private fun registerScreenStateChecker() {
-        if (mDepthWallpaperLayout == null) return
+        val dozeScrimControllerClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController",
+            loadPackageParam.classLoader
+        )
 
-        val filter = IntentFilter()
-
-        filter.addAction(Intent.ACTION_SCREEN_ON)
-        filter.addAction(Intent.ACTION_SCREEN_OFF)
-        filter.addAction(Intent.ACTION_TIME_TICK)
-        filter.addAction(Intent.ACTION_TIME_CHANGED)
-        filter.addAction(Intent.ACTION_TIMEZONE_CHANGED)
-        filter.addAction(Intent.ACTION_LOCALE_CHANGED)
-
-        val screenStateReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                Handler(Looper.getMainLooper()).post { updateFadeAnimation() }
+        hookAllMethods(dozeScrimControllerClass, "onDozingChanged", object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                Handler(Looper.getMainLooper()).post {
+                    updateFadeAnimation(
+                        isDozing = param.args[0] as Boolean
+                    )
+                }
             }
-        }
-
-        mContext.registerReceiver(screenStateReceiver, filter)
-
-        updateFadeAnimation()
+        })
     }
 
     private fun updateWallpaper() {
@@ -489,111 +499,123 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun updateFadeAnimation() {
-        if (!showDepthWallpaper) return
+    private fun updateFadeAnimation(isDozing: Boolean) {
+        if (!showDepthWallpaper || mDozing == isDozing) return
 
         val clockView = mDepthWallpaperLayout!!.findViewWithTag<View>(ICONIFY_LOCKSCREEN_CLOCK_TAG)
         val animDuration: Long = 800
+        val startDelay: Long = 3000
 
-        if (isScreenOn(mContext)) {
-            if (mDepthWallpaperBackground != null && mDepthWallpaperBackground!!.alpha != 1f) {
-                if (showFadingAnimation) {
-                    val animation = mDepthWallpaperBackground!!.animation
+        mDozing = isDozing
 
-                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                        mDepthWallpaperBackground!!
-                            .animate()
-                            .alpha(1f)
-                            .setDuration(animDuration)
-                            .start()
+        if (!isDozing) {
+            mDepthWallpaperBackground?.let {
+                if (it.alpha != 1f) {
+                    if (showFadingAnimation) {
+                        it.animation?.apply {
+                            if (!(hasStarted() && !hasEnded())) {
+                                it.clearAnimation()
+
+                                it.animate()
+                                    .alpha(1f)
+                                    .setDuration(animDuration)
+                                    .start()
+                            }
+                        }
+                    } else {
+                        it.setAlpha(1f)
                     }
-                } else {
-                    mDepthWallpaperBackground!!.setAlpha(1f)
                 }
             }
 
-            if (mDepthWallpaperForeground != null && mDepthWallpaperForeground!!.alpha != 1f) {
-                if (showFadingAnimation) {
-                    val animation = mDepthWallpaperForeground!!.animation
+            mDepthWallpaperForeground?.let {
+                if (it.alpha != 1f) {
+                    if (showFadingAnimation) {
+                        it.animation?.apply {
+                            if (!(hasStarted() && !hasEnded())) {
+                                it.clearAnimation()
 
-                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                        mDepthWallpaperForeground!!.clearAnimation()
-                        mDepthWallpaperForeground!!
-                            .animate()
-                            .alpha(1f)
-                            .setDuration(animDuration)
-                            .start()
+                                it.animate()
+                                    .alpha(1f)
+                                    .setDuration(animDuration)
+                                    .start()
+                            }
+                        }
+                    } else {
+                        it.setAlpha(1f)
                     }
-                } else {
-                    mDepthWallpaperForeground!!.setAlpha(1f)
                 }
             }
 
-            if (clockView != null && clockView.alpha != 1f) {
-                if (showFadingAnimation) {
-                    val animation = clockView.animation
+            clockView?.let {
+                if (it.alpha != 1f) {
+                    if (showFadingAnimation) {
+                        it.animation?.apply {
+                            if (!(hasStarted() && !hasEnded())) {
+                                it.clearAnimation()
 
-                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                        clockView.clearAnimation()
-                        clockView
-                            .animate()
-                            .alpha(1f)
-                            .setDuration(animDuration)
-                            .start()
+                                it.animate()
+                                    .alpha(1f)
+                                    .setDuration(animDuration)
+                                    .start()
+                            }
+                        }
+                    } else {
+                        it.setAlpha(1f)
                     }
-                } else {
-                    clockView.setAlpha(1f)
                 }
             }
         } else {
-            if (mDepthWallpaperBackground != null && mDepthWallpaperBackground!!.alpha != 0f) {
-                if (showFadingAnimation) {
-                    val animation = mDepthWallpaperBackground!!.animation
+            mDepthWallpaperBackground?.let {
+                if (it.alpha != 0f && showFadingAnimation) {
+                    it.animation?.apply {
+                        if (!(hasStarted() && !hasEnded())) {
+                            it.clearAnimation()
 
-                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                        mDepthWallpaperBackground!!.clearAnimation()
-                        mDepthWallpaperBackground!!
-                            .animate()
-                            .alpha(0f)
-                            .setDuration(animDuration)
-                            .start()
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                it.animate()
+                                    .alpha(0f)
+                                    .setDuration(animDuration)
+                                    .start()
+                            }, startDelay)
+                        }
                     }
                 }
             }
 
-            if (mDepthWallpaperForeground != null && mDepthWallpaperForeground!!.alpha != 0f) {
-                if (showFadingAnimation) {
-                    val animation = mDepthWallpaperForeground!!.animation
+            mDepthWallpaperForeground?.let {
+                if (it.alpha != 0f && showFadingAnimation) {
+                    it.animation?.apply {
+                        if (!(hasStarted() && !hasEnded())) {
+                            it.clearAnimation()
 
-                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                        mDepthWallpaperForeground!!.clearAnimation()
-                        mDepthWallpaperForeground!!
-                            .animate()
-                            .alpha(0f)
-                            .setDuration(animDuration)
-                            .start()
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                it.animate()
+                                    .alpha(0f)
+                                    .setDuration(animDuration)
+                                    .start()
+                            }, startDelay)
+                        }
                     }
                 }
             }
 
-            if (clockView != null && clockView.alpha != 0.7f) {
-                if (showFadingAnimation) {
-                    val animation = clockView.animation
+            clockView?.let {
+                if (it.alpha != 0.7f && showFadingAnimation) {
+                    it.animation?.apply {
+                        if (!(hasStarted() && !hasEnded())) {
+                            it.clearAnimation()
 
-                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
-                        clockView.clearAnimation()
-                        clockView
-                            .animate()
-                            .alpha(0.7f)
-                            .setDuration(animDuration)
-                            .start()
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                it.animate()
+                                    .alpha(0.7f)
+                                    .setDuration(animDuration)
+                                    .start()
+                            }, startDelay)
+                        }
                     }
                 }
             }
         }
-    }
-
-    companion object {
-        private val TAG = "Iconify - ${DepthWallpaper::class.java.simpleName}: "
     }
 }
