@@ -499,15 +499,15 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
             mDepthWallpaperBackground?.let {
                 if (it.alpha != 1f) {
                     if (showFadingAnimation) {
-                        it.animation?.apply {
-                            if (!(hasStarted() && !hasEnded())) {
-                                it.clearAnimation()
+                        val animation = it.animation
 
-                                it.animate()
-                                    .alpha(1f)
-                                    .setDuration(animDuration)
-                                    .start()
-                            }
+                        if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                            it.clearAnimation()
+
+                            it.animate()
+                                .alpha(1f)
+                                .setDuration(animDuration)
+                                .start()
                         }
                     } else {
                         it.setAlpha(1f)
@@ -518,15 +518,15 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
             mDepthWallpaperForeground?.let {
                 if (it.alpha != 1f) {
                     if (showFadingAnimation) {
-                        it.animation?.apply {
-                            if (!(hasStarted() && !hasEnded())) {
-                                it.clearAnimation()
+                        val animation = it.animation
 
-                                it.animate()
-                                    .alpha(1f)
-                                    .setDuration(animDuration)
-                                    .start()
-                            }
+                        if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                            it.clearAnimation()
+
+                            it.animate()
+                                .alpha(1f)
+                                .setDuration(animDuration)
+                                .start()
                         }
                     } else {
                         it.setAlpha(1f)
@@ -537,15 +537,15 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
             clockView?.let {
                 if (it.alpha != 1f) {
                     if (showFadingAnimation) {
-                        it.animation?.apply {
-                            if (!(hasStarted() && !hasEnded())) {
-                                it.clearAnimation()
+                        val animation = it.animation
 
-                                it.animate()
-                                    .alpha(1f)
-                                    .setDuration(animDuration)
-                                    .start()
-                            }
+                        if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                            it.clearAnimation()
+
+                            it.animate()
+                                .alpha(1f)
+                                .setDuration(animDuration)
+                                .start()
                         }
                     } else {
                         it.setAlpha(1f)
@@ -555,51 +555,51 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
         } else {
             mDepthWallpaperBackground?.let {
                 if (it.alpha != 0f && showFadingAnimation) {
-                    it.animation?.apply {
-                        if (!(hasStarted() && !hasEnded())) {
-                            it.clearAnimation()
+                    val animation = it.animation
 
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                it.animate()
-                                    .alpha(0f)
-                                    .setDuration(animDuration)
-                                    .start()
-                            }, startDelay)
-                        }
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        it.clearAnimation()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            it.animate()
+                                .alpha(0f)
+                                .setDuration(animDuration)
+                                .start()
+                        }, startDelay)
                     }
                 }
             }
 
             mDepthWallpaperForeground?.let {
                 if (it.alpha != 0f && showFadingAnimation) {
-                    it.animation?.apply {
-                        if (!(hasStarted() && !hasEnded())) {
-                            it.clearAnimation()
+                    val animation = it.animation
 
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                it.animate()
-                                    .alpha(0f)
-                                    .setDuration(animDuration)
-                                    .start()
-                            }, startDelay)
-                        }
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        it.clearAnimation()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            it.animate()
+                                .alpha(0f)
+                                .setDuration(animDuration)
+                                .start()
+                        }, startDelay)
                     }
                 }
             }
 
             clockView?.let {
                 if (it.alpha != 0.7f && showFadingAnimation) {
-                    it.animation?.apply {
-                        if (!(hasStarted() && !hasEnded())) {
-                            it.clearAnimation()
+                    val animation = it.animation
 
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                it.animate()
-                                    .alpha(0.7f)
-                                    .setDuration(animDuration)
-                                    .start()
-                            }, startDelay)
-                        }
+                    if (!(animation != null && animation.hasStarted() && !animation.hasEnded())) {
+                        it.clearAnimation()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            it.animate()
+                                .alpha(0.7f)
+                                .setDuration(animDuration)
+                                .start()
+                        }, startDelay)
                     }
                 }
             }
