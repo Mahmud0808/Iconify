@@ -28,13 +28,6 @@
                 app:summaryText="@string/enable_depth_wallpaper_desc"
                 app:titleText="@string/enable_depth_wallpaper_title" />
 
-            <com.drdisagree.iconify.ui.widgets.SwitchWidget
-                android:id="@+id/wallpaper_fade_animation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:summaryText="@string/wallpaper_fade_animation_desc"
-                app:titleText="@string/wallpaper_fade_animation_title" />
-
             <com.drdisagree.iconify.ui.widgets.FilePickerWidget
                 android:id="@+id/foreground_image"
                 android:layout_width="match_parent"
@@ -52,6 +45,44 @@
                 app:filePickerType="image"
                 app:summaryText="@string/background_image_desc"
                 app:titleText="@string/background_image_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/wallpaper_fade_animation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/wallpaper_fade_animation_desc"
+                app:titleText="@string/wallpaper_fade_animation_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/parallax_effect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="Move background and foreground layers at different speeds"
+                app:titleText="Parallax Effect" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/foreground_sensitivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderDefaultValue="3"
+                app:sliderStepSize="1"
+                app:sliderValue="3"
+                app:sliderValueFrom="1"
+                app:sliderValueTo="5"
+                app:titleText="Foreground Sensitivity"
+                app:valueFormat="x" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/background_sensitivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderDefaultValue="1"
+                app:sliderStepSize="1"
+                app:sliderValue="1"
+                app:sliderValueFrom="1"
+                app:sliderValueTo="5"
+                app:titleText="Background Sensitivity"
+                app:valueFormat="x" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -20,8 +20,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG
 import com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
@@ -29,6 +32,7 @@ import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.DisplayUtils.isScreenOn
+import com.drdisagree.iconify.xposed.modules.utils.ParallaxImageView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedHelpers.findClass
@@ -44,21 +48,39 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
 
     private var showDepthWallpaper = false
     private var showFadingAnimation = false
+    private var enableParallaxEffect = false
+    private var backgroundMovement = 1.0f
+    private var foregroundMovement = 3.0f
     private var mDepthWallpaperLayout: FrameLayout? = null
-    private var mDepthWallpaperBackground: ImageView? = null
-    private var mDepthWallpaperForeground: ImageView? = null
+    private var mDepthWallpaperBackground: ParallaxImageView? = null
+    private var mDepthWallpaperForeground: ParallaxImageView? = null
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
 
         showDepthWallpaper = Xprefs!!.getBoolean(DEPTH_WALLPAPER_SWITCH, false)
         showFadingAnimation = Xprefs!!.getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false)
+        enableParallaxEffect = Xprefs!!.getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
+        backgroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
+        foregroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
 
         if (key.isNotEmpty() &&
             (key[0] == DEPTH_WALLPAPER_SWITCH ||
-                    key[0] == DEPTH_WALLPAPER_CHANGED)
+                    key[0] == DEPTH_WALLPAPER_CHANGED ||
+                    key[0] == DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER ||
+                    key[0] == DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER)
         ) {
             updateWallpaper()
+        }
+
+        if (key.isNotEmpty() && key[0] == DEPTH_WALLPAPER_PARALLAX_EFFECT) {
+            if (enableParallaxEffect) {
+                mDepthWallpaperBackground?.registerSensorListener()
+                mDepthWallpaperForeground?.registerSensorListener()
+            } else {
+                mDepthWallpaperBackground?.unregisterSensorListener()
+                mDepthWallpaperForeground?.unregisterSensorListener()
+            }
         }
     }
 
@@ -170,8 +192,8 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                     mIndicationAreaDupe.addView(mDepthWallpaperLayout, 0)
                 }
 
-                mDepthWallpaperBackground = ImageView(mContext)
-                mDepthWallpaperForeground = ImageView(mContext)
+                mDepthWallpaperBackground = ParallaxImageView(mContext)
+                mDepthWallpaperForeground = ParallaxImageView(mContext)
 
                 mDepthWallpaperBackground!!.setLayoutParams(
                     FrameLayout.LayoutParams(
@@ -434,6 +456,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                             mDepthWallpaperBackground!!.setImageDrawable(backgroundDrawable)
                             mDepthWallpaperBackground!!.setClipToOutline(true)
                             mDepthWallpaperBackground!!.setScaleType(ImageView.ScaleType.CENTER_CROP)
+                            mDepthWallpaperBackground!!.setMovementMultiplier(backgroundMovement)
 
                             val zoomWallpaper: Boolean =
                                 !Xprefs?.getBoolean(UNZOOM_DEPTH_WALLPAPER, false)!!
@@ -446,6 +469,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                             mDepthWallpaperForeground!!.setImageDrawable(foregroundDrawable)
                             mDepthWallpaperForeground!!.setClipToOutline(true)
                             mDepthWallpaperForeground!!.setScaleType(ImageView.ScaleType.CENTER_CROP)
+                            mDepthWallpaperForeground!!.setMovementMultiplier(foregroundMovement)
 
                             if (zoomWallpaper) {
                                 mDepthWallpaperForeground!!.scaleX = 1.1f
