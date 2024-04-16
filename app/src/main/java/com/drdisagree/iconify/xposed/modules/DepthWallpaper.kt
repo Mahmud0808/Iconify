@@ -18,8 +18,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.marginEnd
-import androidx.core.view.marginStart
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
@@ -114,7 +112,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                 (mIndicationArea.layoutParams as MarginLayoutParams).bottomMargin = 0
 
                 // Create a new layout for the indication text views
-                val mIndicationTextView = LinearLayout(mContext)
+                val mIndicationView = LinearLayout(mContext)
                 val mIndicationViewParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
@@ -130,9 +128,9 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
 
                 mIndicationViewParams.setMargins(0, 0, 0, bottomMargin)
                 mIndicationViewParams.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
-                mIndicationTextView.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
-                mIndicationTextView.orientation = LinearLayout.VERTICAL
-                mIndicationTextView.setLayoutParams(mIndicationViewParams)
+                mIndicationView.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+                mIndicationView.orientation = LinearLayout.VERTICAL
+                mIndicationView.setLayoutParams(mIndicationViewParams)
 
                 // Get the indication text views
                 val mTopIndicationView = mIndicationArea.findViewById<TextView>(
@@ -145,6 +143,15 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                 val mLockScreenIndicationView = mIndicationArea.findViewById<TextView>(
                     mContext.resources.getIdentifier(
                         "keyguard_indication_text_bottom",
+                        "id",
+                        mContext.packageName
+                    )
+                )
+
+                // Some roms also have FaceUnlockImageView
+                val mFaceIconView: ImageView? = mIndicationArea.findViewById(
+                    mContext.resources.getIdentifier(
+                        "face_unlock_icon",
                         "id",
                         mContext.packageName
                     )
@@ -165,10 +172,27 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                 (mTopIndicationView.parent as ViewGroup).removeView(mTopIndicationView)
                 (mLockScreenIndicationView.parent as ViewGroup).removeView(mLockScreenIndicationView)
 
+                // Take care of the FaceUnlockImageView
+                mFaceIconView?.let {
+                    val layoutParams = it.layoutParams as MarginLayoutParams
+                    layoutParams.topMargin =
+                        mContext.resources.getDimensionPixelSize(
+                            mContext.resources.getIdentifier(
+                                "status_bar_height",
+                                "dimen",
+                                mContext.packageName
+                            )
+                        ) + mContext.toPx(30)
+
+                    it.layoutParams = layoutParams
+                    (it.parent as ViewGroup).removeView(it)
+                    mIndicationView.addView(it)
+                }
+
                 // Add the indication text views to the new layout
-                mIndicationTextView.addView(blankView)
-                mIndicationTextView.addView(mTopIndicationView)
-                mIndicationTextView.addView(mLockScreenIndicationView)
+                mIndicationView.addView(blankView)
+                mIndicationView.addView(mTopIndicationView)
+                mIndicationView.addView(mLockScreenIndicationView)
 
                 val mIndicationAreaDupe = FrameLayout(mContext)
                 mIndicationAreaDupe.setLayoutParams(
@@ -177,7 +201,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                         ViewGroup.LayoutParams.MATCH_PARENT
                     )
                 )
-                mIndicationAreaDupe.addView(mIndicationTextView, -1)
+                mIndicationAreaDupe.addView(mIndicationView, -1)
                 mIndicationArea.addView(mIndicationAreaDupe)
 
                 // Get the depth wallpaper layout
@@ -216,23 +240,22 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                 mDepthWallpaperLayout!!.addView(mDepthWallpaperForeground, -1)
 
                 // Fix the bottom shortcuts pushing the wallpaper
-                val offset = intArrayOf(0)
-                try {
-                    offset[0] = (mContext.resources.getDimensionPixelSize(
-                        mContext.resources.getIdentifier(
-                            "keyguard_affordance_fixed_height",
-                            "dimen",
-                            mContext.packageName
-                        )
-                    ) + mContext.resources.getDimensionPixelSize(
-                        mContext.resources.getIdentifier(
-                            "keyguard_affordance_horizontal_offset",
-                            "dimen",
-                            mContext.packageName
-                        )
-                    ))
-                } catch (ignored: Throwable) {
-                }
+                val affordanceFixedWidth = mContext.resources.getDimensionPixelSize(
+                    mContext.resources.getIdentifier(
+                        "keyguard_affordance_fixed_width",
+                        "dimen",
+                        mContext.packageName
+                    )
+                )
+                val affordanceHorizontalOffset = mContext.resources.getDimensionPixelSize(
+                    mContext.resources.getIdentifier(
+                        "keyguard_affordance_horizontal_offset",
+                        "dimen",
+                        mContext.packageName
+                    )
+                )
+
+                val offset = affordanceFixedWidth + affordanceHorizontalOffset + mContext.toPx(16)
 
                 var startButton: ImageView? = null
                 var endButton: ImageView? = null
@@ -246,8 +269,8 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                         )
                     )
                     startButton.getViewTreeObserver().addOnGlobalLayoutListener {
-                        (mIndicationTextView.layoutParams as MarginLayoutParams).setMarginStart(
-                            if (startButton.visibility != View.GONE) offset[0] else 0
+                        (mIndicationView.layoutParams as MarginLayoutParams).setMarginStart(
+                            if (startButton.visibility != View.GONE) offset else 0
                         )
                     }
                 } catch (ignored: Throwable) {
@@ -262,8 +285,8 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                         )
                     )
                     endButton.getViewTreeObserver().addOnGlobalLayoutListener {
-                        (mIndicationTextView.layoutParams as MarginLayoutParams).setMarginEnd(
-                            if (endButton.visibility != View.GONE) offset[0] else 0
+                        (mIndicationView.layoutParams as MarginLayoutParams).setMarginEnd(
+                            if (endButton.visibility != View.GONE) offset else 0
                         )
                     }
                 } catch (ignored: Throwable) {
@@ -279,28 +302,28 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                             )
                         )
                         keyguardSettingsButton.getViewTreeObserver().addOnGlobalLayoutListener {
-                            var marginStart = offset[0]
-                            var marginEnd = offset[0]
+                            var marginStart = affordanceHorizontalOffset
+                            var marginEnd = affordanceHorizontalOffset
 
                             startButton?.let {
                                 marginStart = if (it.visibility != View.GONE) {
-                                    it.width + it.marginStart + mContext.toPx(16)
+                                    offset
                                 } else {
-                                    offset[0]
+                                    affordanceHorizontalOffset
                                 }
                             }
                             endButton?.let {
                                 marginEnd = if (it.visibility != View.GONE) {
-                                    it.width + it.marginEnd + mContext.toPx(16)
+                                    offset
                                 } else {
-                                    offset[0]
+                                    affordanceHorizontalOffset
                                 }
                             }
 
-                            (mIndicationTextView.layoutParams as MarginLayoutParams).setMarginStart(
+                            (mIndicationView.layoutParams as MarginLayoutParams).setMarginStart(
                                 if (keyguardSettingsButton.visibility != View.GONE) marginStart else 0
                             )
-                            (mIndicationTextView.layoutParams as MarginLayoutParams).setMarginEnd(
+                            (mIndicationView.layoutParams as MarginLayoutParams).setMarginEnd(
                                 if (keyguardSettingsButton.visibility != View.GONE) marginEnd else 0
                             )
                         }
