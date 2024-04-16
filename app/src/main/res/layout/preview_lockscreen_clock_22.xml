@@ -23,7 +23,7 @@
             android:tag="text1|nolineheight"
             android:includeFontPadding="false"
             android:textAlignment="viewEnd"
-            android:textColor="#FFFFFFFF"
+            android:textColor="@android:color/white"
             android:textSize="75dp" />
 
         <TextClock
@@ -33,10 +33,11 @@
             android:fontFamily="@*android:string/config_clockFontFamily"
             android:format12Hour="mm"
             android:format24Hour="mm"
+            android:alpha="0.65"
             android:includeFontPadding="false"
             android:tag="text1|nolineheight"
             android:textAlignment="viewStart"
-            android:textColor="#9AFFFFFF"
+            android:textColor="@android:color/white"
             android:textSize="75dp" />
     </LinearLayout>
 
@@ -47,9 +48,10 @@
         android:includeFontPadding="false"
         android:format12Hour="MMMM • dd • yyy"
         android:format24Hour="dd • MMMM • yyy"
+        android:alpha="0.4"
         android:gravity="center"
         android:singleLine="true"
         android:tag="text1"
-        android:textColor="#65FFFFFF"
+        android:textColor="@android:color/white"
         android:textSize="16dp" />
 </LinearLayout>
