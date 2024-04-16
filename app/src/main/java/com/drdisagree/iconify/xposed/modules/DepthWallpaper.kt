@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.ImageDecoder
+import android.graphics.drawable.AnimatedImageDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
@@ -45,7 +47,6 @@ import java.util.concurrent.TimeUnit
 @SuppressLint("DiscouragedApi")
 class DepthWallpaper(context: Context?) : ModPack(context!!) {
 
-    private val tag = "Iconify - ${DepthWallpaper::class.java.simpleName}: "
     private var showDepthWallpaper = false
     private var showFadingAnimation = false
     private var enableParallaxEffect = false
@@ -55,6 +56,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
     private var mDepthWallpaperBackground: ParallaxImageView? = null
     private var mDepthWallpaperForeground: ParallaxImageView? = null
     private var mDozing = false
+    private var unzoomWallpaper = false
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -64,12 +66,14 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
         enableParallaxEffect = Xprefs!!.getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
         backgroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
         foregroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
+        unzoomWallpaper = Xprefs!!.getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
 
         if (key.isNotEmpty() &&
             (key[0] == DEPTH_WALLPAPER_SWITCH ||
                     key[0] == DEPTH_WALLPAPER_CHANGED ||
                     key[0] == DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER ||
-                    key[0] == DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER)
+                    key[0] == DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER ||
+                    key[0] == UNZOOM_DEPTH_WALLPAPER)
         ) {
             updateWallpaper()
         }
@@ -463,28 +467,11 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                             val backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg)
                             val foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg)
 
-                            mDepthWallpaperBackground!!.setImageDrawable(backgroundDrawable)
-                            mDepthWallpaperBackground!!.setClipToOutline(true)
-                            mDepthWallpaperBackground!!.setScaleType(ImageView.ScaleType.CENTER_CROP)
+                            mDepthWallpaperBackground!!.loadImageOrGif(backgroundDrawable)
                             mDepthWallpaperBackground!!.setMovementMultiplier(backgroundMovement)
 
-                            val zoomWallpaper: Boolean =
-                                !Xprefs?.getBoolean(UNZOOM_DEPTH_WALLPAPER, false)!!
-
-                            if (zoomWallpaper) {
-                                mDepthWallpaperBackground!!.scaleX = 1.1f
-                                mDepthWallpaperBackground!!.scaleY = 1.1f
-                            }
-
-                            mDepthWallpaperForeground!!.setImageDrawable(foregroundDrawable)
-                            mDepthWallpaperForeground!!.setClipToOutline(true)
-                            mDepthWallpaperForeground!!.setScaleType(ImageView.ScaleType.CENTER_CROP)
+                            mDepthWallpaperForeground!!.loadImageOrGif(foregroundDrawable)
                             mDepthWallpaperForeground!!.setMovementMultiplier(foregroundMovement)
-
-                            if (zoomWallpaper) {
-                                mDepthWallpaperForeground!!.scaleX = 1.1f
-                                mDepthWallpaperForeground!!.scaleY = 1.1f
-                            }
 
                             mDepthWallpaperLayout!!.visibility = View.VISIBLE
                         } catch (ignored: Throwable) {
@@ -617,5 +604,27 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                 }
             }
         }
+    }
+
+    private fun ImageView.loadImageOrGif(drawable: Drawable) {
+        setImageDrawable(drawable)
+        setClipToOutline(true)
+        setScaleType(ImageView.ScaleType.CENTER_CROP)
+
+        if (!unzoomWallpaper) {
+            scaleX = 1.1f
+            scaleY = 1.1f
+        } else {
+            scaleX = 1.0f
+            scaleY = 1.0f
+        }
+
+        if (drawable is AnimatedImageDrawable) {
+            drawable.start()
+        }
+    }
+
+    companion object {
+        private val TAG = "Iconify - ${DepthWallpaper::class.java.simpleName}: "
     }
 }
