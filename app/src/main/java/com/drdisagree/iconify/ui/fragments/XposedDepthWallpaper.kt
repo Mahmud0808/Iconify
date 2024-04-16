@@ -16,11 +16,15 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR
 import com.drdisagree.iconify.common.Resources.DEPTH_WALL_FG_DIR
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.databinding.FragmentXposedDepthWallpaperBinding
@@ -30,6 +34,7 @@ import com.drdisagree.iconify.utils.FileUtil.getRealPath
 import com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir
 import com.drdisagree.iconify.utils.SystemUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.slider.Slider
 
 class XposedDepthWallpaper : BaseFragment() {
 
@@ -127,15 +132,21 @@ class XposedDepthWallpaper : BaseFragment() {
         binding.depthWallpaper.isSwitchChecked = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
         binding.depthWallpaper.setSwitchChangeListener { _: CompoundButton?, isSwitchChecked: Boolean ->
             putBoolean(DEPTH_WALLPAPER_SWITCH, isSwitchChecked)
-            binding.wallpaperFadeAnimation.setEnabled(isSwitchChecked)
-            binding.foregroundImage.setEnabled(isSwitchChecked)
-            binding.backgroundImage.setEnabled(isSwitchChecked)
+            updateEnabledState()
 
             Handler(Looper.getMainLooper()).postDelayed(
                 { SystemUtil.handleSystemUIRestart() },
                 SWITCH_ANIMATION_DELAY
             )
         }
+
+        // Foreground image
+        binding.foregroundImage.setEnabled(binding.depthWallpaper.isSwitchChecked)
+        binding.foregroundImage.setActivityResultLauncher(intentForegroundImage)
+
+        // Background image
+        binding.backgroundImage.setEnabled(binding.depthWallpaper.isSwitchChecked)
+        binding.backgroundImage.setActivityResultLauncher(intentBackgroundImage)
 
         // Fade animation
         binding.wallpaperFadeAnimation.setEnabled(binding.depthWallpaper.isSwitchChecked)
@@ -148,14 +159,74 @@ class XposedDepthWallpaper : BaseFragment() {
             )
         }
 
-        // Foreground image
-        binding.foregroundImage.setEnabled(binding.depthWallpaper.isSwitchChecked)
-        binding.foregroundImage.setActivityResultLauncher(intentForegroundImage)
+        // Parallax effect
+        binding.parallaxEffect.setEnabled(binding.depthWallpaper.isSwitchChecked)
+        binding.parallaxEffect.isSwitchChecked = getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
+        binding.parallaxEffect.setSwitchChangeListener { _: CompoundButton?, isSwitchChecked: Boolean ->
+            putBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, isSwitchChecked)
+            updateEnabledState()
+        }
 
-        // Background image
-        binding.backgroundImage.setEnabled(binding.depthWallpaper.isSwitchChecked)
-        binding.backgroundImage.setActivityResultLauncher(intentBackgroundImage)
+        // Foreground sensitivity
+        binding.foregroundSensitivity.sliderValue = RPrefs.getFloat(
+            DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER,
+            3.0f
+        ).toInt()
+        binding.foregroundSensitivity.setOnSliderTouchListener(object :
+            Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {}
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                RPrefs.putFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, slider.value)
+            }
+        })
+        binding.foregroundSensitivity.setResetClickListener {
+            RPrefs.clearPref(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER)
+            true
+        }
+
+        // Background sensitivity
+        binding.backgroundSensitivity.sliderValue = RPrefs.getFloat(
+            DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER,
+            1.0f
+        ).toInt()
+        binding.backgroundSensitivity.setOnSliderTouchListener(object :
+            Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {}
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                RPrefs.putFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, slider.value)
+            }
+        })
+        binding.backgroundSensitivity.setResetClickListener {
+            RPrefs.clearPref(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER)
+            true
+        }
+
+        updateEnabledState()
 
         return view
+    }
+
+    private fun updateEnabledState() {
+        val isDepthWallpaperEnabled = binding.depthWallpaper.isSwitchChecked
+
+        binding.wallpaperFadeAnimation.setEnabled(isDepthWallpaperEnabled)
+        binding.foregroundImage.setEnabled(isDepthWallpaperEnabled)
+        binding.backgroundImage.setEnabled(isDepthWallpaperEnabled)
+        binding.parallaxEffect.setEnabled(isDepthWallpaperEnabled)
+
+        val isParallaxEffectEnabled = binding.parallaxEffect.isSwitchChecked
+
+        binding.backgroundSensitivity.visibility = if (isParallaxEffectEnabled) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.foregroundSensitivity.visibility = if (isParallaxEffectEnabled) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 }
