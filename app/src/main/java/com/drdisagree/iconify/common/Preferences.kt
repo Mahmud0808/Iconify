@@ -19,6 +19,7 @@ object Preferences {
     const val CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusiconsstyle"
     const val VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile"
     const val HIDE_QSLABEL_SWITCH = "xposed_hideqslabel"
+    const val VOLUME_PANEL_PERCENTAGE = "xposed_volumepanelpercentage"
     const val HEADER_IMAGE_SWITCH = "xposed_headerimage"
     const val HEADER_IMAGE_LANDSCAPE_SWITCH = "xposed_headerimagelandscape"
     const val HEADER_IMAGE_BOTTOM_FADE_AMOUNT = "xposed_headerimagebottomfadeamount"
