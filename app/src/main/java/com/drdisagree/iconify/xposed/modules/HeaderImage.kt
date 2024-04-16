@@ -217,6 +217,10 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
                 layoutParams.gravity = Gravity.CENTER
             }
 
+            is FrameLayout.LayoutParams -> {
+                layoutParams.gravity = Gravity.CENTER
+            }
+
             else -> {
                 log(TAG + "Invalid layoutParams: $layoutParams")
             }
