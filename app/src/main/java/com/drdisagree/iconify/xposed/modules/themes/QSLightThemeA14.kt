@@ -289,30 +289,50 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
 
         hookAllMethods(qsContainerImplClass, "updateResources", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (!isDark && lightQSHeaderEnabled) {
-                    try {
-                        val res = mContext.resources
-                        val view = param.thisObject as ViewGroup
+                if (isDark || !lightQSHeaderEnabled) return
 
-                        val settingsButtonContainer = view.findViewById<View>(
-                            res.getIdentifier(
+                val view = param.thisObject as ViewGroup
+
+                // Settings button
+                view.findViewById<View>(
+                    mContext.resources.getIdentifier(
                                 "settings_button_container",
                                 "id",
                                 mContext.packageName
                             )
-                        )
-
-                        val settingsIcon = settingsButtonContainer.findViewById<ImageView>(
-                            res.getIdentifier(
+                ).findViewById<ImageView>(
+                    mContext.resources.getIdentifier(
                                 "icon",
                                 "id",
                                 mContext.packageName
                             )
-                        )
+                ).setImageTintList(ColorStateList.valueOf(Color.BLACK))
 
-                        settingsIcon.setImageTintList(ColorStateList.valueOf(Color.BLACK))
-                    } catch (throwable: Throwable) {
-                        log(TAG + throwable)
+                // Power menu button
+                try {
+                    view.findViewById<ImageView?>(
+                        mContext.resources.getIdentifier(
+                            "pm_lite",
+                            "id",
+                            mContext.packageName
+                        )
+                    )
+                } catch (ignored: ClassCastException) {
+                    view.findViewById<ViewGroup?>(
+                        mContext.resources.getIdentifier(
+                            "pm_lite",
+                            "id",
+                            mContext.packageName
+                        )
+                    )
+                }?.apply {
+                    if (this is ImageView) {
+                        setImageTintList(ColorStateList.valueOf(Color.WHITE))
+                    } else if (this is ViewGroup) {
+                        (getChildAt(0) as ImageView).setColorFilter(
+                            Color.WHITE,
+                            PorterDuff.Mode.SRC_IN
+                        )
                     }
                 }
             }
