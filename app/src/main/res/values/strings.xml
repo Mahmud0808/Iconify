@@ -585,6 +585,8 @@
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Volume Percentage</string>
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
+    <string name="safety_warning_title">Safety Warning</string>
+    <string name="safety_warning_desc">Show warning on high volume</string>
 
     <!-- Header Image -->
     <string name="header_image_title">Pick Header Image</string>

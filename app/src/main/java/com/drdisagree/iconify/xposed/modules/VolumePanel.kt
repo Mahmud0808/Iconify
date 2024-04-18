@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.xposed.modules
 
-import android.R
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
@@ -11,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_PERCENTAGE
+import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_SAFETY_WARNING
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
@@ -27,11 +27,13 @@ import kotlin.math.ceil
 class VolumePanel(context: Context?) : ModPack(context!!) {
 
     private var showPercentage = false
+    private var showWarning = true
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
 
         showPercentage = Xprefs!!.getBoolean(VOLUME_PANEL_PERCENTAGE, false)
+        showWarning = Xprefs!!.getBoolean(VOLUME_PANEL_SAFETY_WARNING, true)
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -123,6 +125,14 @@ class VolumePanel(context: Context?) : ModPack(context!!) {
                 }
             }
         })
+
+        hookAllMethods(volumeDialogImplClass, "onShowSafetyWarning", object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                if (!showWarning) {
+                    param.result = null;
+                }
+            }
+        })
     }
 
     private fun createVolumeTextView(): TextView {
@@ -145,11 +155,11 @@ class VolumePanel(context: Context?) : ModPack(context!!) {
             setTextColor(
                 ResourcesCompat.getColor(
                     mContext.resources,
-                    R.color.system_accent1_300,
+                    android.R.color.system_accent1_300,
                     mContext.theme
                 )
             )
-            text = "0%"
+            text = String.format("%d%%", 0)
         }
 
         return volumeNumber

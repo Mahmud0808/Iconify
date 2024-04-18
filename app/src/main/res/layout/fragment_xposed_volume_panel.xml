@@ -22,11 +22,19 @@
             android:orientation="vertical">
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
-                android:id="@+id/show_percentage"
+                android:id="@+id/volume_percentage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:summaryText="@string/volume_percentage_desc"
                 app:titleText="@string/volume_percentage_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/safety_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isChecked="true"
+                app:summaryText="@string/safety_warning_desc"
+                app:titleText="@string/safety_warning_title" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
