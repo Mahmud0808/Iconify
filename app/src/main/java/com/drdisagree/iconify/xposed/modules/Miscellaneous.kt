@@ -24,7 +24,6 @@ import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
-import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
@@ -226,14 +225,14 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     }
 
     private fun hideDataDisabledIcon(loadPackageParam: LoadPackageParam) {
-        try {
-            val mobileSignalController = findClass(
-                "$SYSTEMUI_PACKAGE.statusbar.connectivity.MobileSignalController",
-                loadPackageParam.classLoader
-            )
-            val alwaysShowDataRatIcon = booleanArrayOf(false)
-            val mDataDisabledIcon = booleanArrayOf(false)
+        val mobileSignalController = findClassIfExists(
+            "$SYSTEMUI_PACKAGE.statusbar.connectivity.MobileSignalController",
+            loadPackageParam.classLoader
+        )
+        val alwaysShowDataRatIcon = booleanArrayOf(false)
+        val mDataDisabledIcon = booleanArrayOf(false)
 
+        if (mobileSignalController != null) {
             hookAllMethods(mobileSignalController, "updateTelephony", object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     if (mobileSignalControllerParam == null) {
@@ -293,8 +292,6 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                     }
                 }
             })
-        } catch (ignored: Throwable) {
-            log(TAG + "Not a crash... MobileSignalController class not found.")
         }
     }
 

@@ -515,8 +515,6 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
                     }
                 }
             })
-        } else {
-            log(TAG + "Not a crash... BrightnessSliderController class not found.")
         }
 
         hookAllMethods(
