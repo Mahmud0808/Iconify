@@ -265,75 +265,80 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     if (!fluidQsThemeEnabled) return
 
-                    try {
-                        val res = mContext.resources
+                    val view = (param.thisObject as ViewGroup).findViewById<ViewGroup>(
+                        mContext.resources.getIdentifier(
+                            "qs_footer_actions",
+                            "id",
+                            mContext.packageName
+                        )
+                    ).also {
+                        it.background.setTint(Color.TRANSPARENT)
+                        it.elevation = 0f
+                    }
 
-                        val view = (param.thisObject as ViewGroup).findViewById<ViewGroup>(
-                            res.getIdentifier(
-                                "qs_footer_actions",
+                    // Security footer
+                    view.let {
+                        it.getChildAt(0)?.apply {
+                            background.setTint(colorInactiveAlpha[0])
+                            background.alpha = (INACTIVE_ALPHA * 255).toInt()
+                        }
+                        it.getChildAt(1)?.apply {
+                            background.setTint(colorInactiveAlpha[0])
+                            background.alpha = (INACTIVE_ALPHA * 255).toInt()
+                        }
+                    }
+
+                    // Settings button
+                    view.findViewById<View?>(
+                        mContext.resources.getIdentifier(
+                            "settings_button_container",
+                            "id",
+                            mContext.packageName
+                        )
+                    )?.apply {
+                        background.setTint(colorInactiveAlpha[0])
+                    }
+
+                    // Multi user switch
+                    view.findViewById<View?>(
+                        mContext.resources.getIdentifier(
+                            "multi_user_switch",
+                            "id",
+                            mContext.packageName
+                        )
+                    )?.apply {
+                        background.setTint(colorInactiveAlpha[0])
+                    }
+
+                    // Power menu button
+                    try {
+                        view.findViewById<ImageView?>(
+                            mContext.resources.getIdentifier(
+                                "pm_lite",
                                 "id",
                                 mContext.packageName
                             )
                         )
-                        view.background.setTint(Color.TRANSPARENT)
-                        view.elevation = 0f
-                        setAlphaTintedDrawables(view, INACTIVE_ALPHA)
-
-                        try {
-                            val securityFooter = (view.findViewById<View>(
-                                res.getIdentifier(
-                                    "security_footers_container",
-                                    "id",
-                                    mContext.packageName
-                                )
-                            ) as ViewGroup).getChildAt(0)
-
-                            securityFooter.background.setTint(colorInactive[0])
-                            securityFooter.background.alpha = (INACTIVE_ALPHA * 255).toInt()
-                        } catch (ignored: Throwable) {
-                        }
-
-                        try {
-                            val multiUserSwitch = view.findViewById<View>(
-                                res.getIdentifier(
-                                    "multi_user_switch",
-                                    "id",
-                                    mContext.packageName
-                                )
+                    } catch (ignored: ClassCastException) {
+                        view.findViewById<ViewGroup?>(
+                            mContext.resources.getIdentifier(
+                                "pm_lite",
+                                "id",
+                                mContext.packageName
                             )
+                        )
+                    }?.apply {
+                        background.setTint(colorActive[0])
+                        background.alpha = (ACTIVE_ALPHA * 255).toInt()
 
-                            multiUserSwitch.background.setTint(colorInactive[0])
-                            multiUserSwitch.background.alpha = (INACTIVE_ALPHA * 255).toInt()
-                        } catch (ignored: Throwable) {
-                        }
-
-                        try {
-                            val pmButtonContainer = view.findViewById<ViewGroup>(
-                                res.getIdentifier(
-                                    "pm_lite",
-                                    "id",
-                                    mContext.packageName
-                                )
+                        if (this is ImageView) {
+                            setImageTintList(ColorStateList.valueOf(colorActive[0]))
+                        } else if (this is ViewGroup) {
+                            (getChildAt(0) as ImageView).setColorFilter(
+                                colorActive[0],
+                                PorterDuff.Mode.SRC_IN
                             )
-
-                            pmButtonContainer.background.alpha = (ACTIVE_ALPHA * 255).toInt()
-                            pmButtonContainer.background.setTint(colorActive[0])
-                            (pmButtonContainer.getChildAt(0) as ImageView)
-                                .setColorFilter(colorActive[0], PorterDuff.Mode.SRC_IN)
-                        } catch (ignored: Throwable) {
-                            val pmButton = view.findViewById<ImageView>(
-                                res.getIdentifier(
-                                    "pm_lite",
-                                    "id",
-                                    mContext.packageName
-                                )
-                            )
-
-                            pmButton.background.alpha = (ACTIVE_ALPHA * 255).toInt()
-                            pmButton.background.setTint(colorActive[0])
-                            pmButton.setImageTintList(ColorStateList.valueOf(colorActive[0]))
                         }
-                    } catch (ignored: Throwable) {
                     }
                 }
             })
@@ -345,6 +350,10 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
                 "$SYSTEMUI_PACKAGE.qs.footer.ui.viewmodel.FooterActionsViewModel",
                 loadPackageParam.classLoader
             )
+            val footerActionsViewBinderClass = findClass(
+                "$SYSTEMUI_PACKAGE.qs.footer.ui.binder.FooterActionsViewBinder",
+                loadPackageParam.classLoader
+            )
 
             hookAllConstructors(footerActionsViewModelClass, object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -353,11 +362,6 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
                     // Power button
                     val power = getObjectField(param.thisObject, "power")
                     setObjectField(power, "iconTint", colorActive[0])
-                    //                    setObjectField(power, "backgroundColor", colorActiveAlpha[0]);
-
-                    // Settings button
-                    //                    val settings = getObjectField(param.thisObject, "settings")
-                    //                    setObjectField(settings, "backgroundColor", colorInactiveAlpha[0]);
 
                     // We must use the classes defined in the apk. Using our own will fail.
                     val stateFlowImplClass = findClass(
@@ -380,6 +384,15 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
                     } catch (throwable: Throwable) {
                         log(TAG + throwable)
                     }
+                }
+            })
+
+            hookAllMethods(footerActionsViewBinderClass, "bindButton", object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (!fluidQsThemeEnabled) return
+
+                    val view = getObjectField(param.args[0], "view") as View
+                    view.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
                 }
             })
         } catch (ignored: Throwable) {
@@ -979,36 +992,6 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
         layerDrawable.setLayerSize(0, layerDrawable.getLayerWidth(0), height)
 
         return layerDrawable
-    }
-
-    fun setAlphaTintedDrawables(view: View, alpha: Float) {
-        setAlphaTintedDrawables(view, (alpha * 255).toInt())
-    }
-
-    private fun setAlphaTintedDrawables(view: View, alpha: Int) {
-        if (view is ViewGroup) {
-            val childCount: Int = view.childCount
-            for (i in 0 until childCount) {
-                val child: View = view.getChildAt(i)
-                setAlphaTintedDrawablesRecursively(child, alpha)
-            }
-        }
-    }
-
-    private fun setAlphaTintedDrawablesRecursively(view: View, alpha: Int) {
-        val backgroundDrawable = view.background
-        if (backgroundDrawable != null) {
-            backgroundDrawable.setTint(colorInactive[0])
-            backgroundDrawable.alpha = alpha
-        }
-
-        if (view is ViewGroup) {
-            val childCount: Int = view.childCount
-            for (i in 0 until childCount) {
-                val child: View = view.getChildAt(i)
-                setAlphaTintedDrawablesRecursively(child, alpha)
-            }
-        }
     }
 
     companion object {
