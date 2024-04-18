@@ -265,29 +265,49 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!blackQSHeaderEnabled) return
 
+                val view = param.thisObject as ViewGroup
+
+                // Settings button
+                view.findViewById<View>(
+                    mContext.resources.getIdentifier(
+                        "settings_button_container",
+                        "id",
+                        mContext.packageName
+                    )
+                ).findViewById<ImageView>(
+                    mContext.resources.getIdentifier(
+                        "icon",
+                        "id",
+                        mContext.packageName
+                    )
+                ).setImageTintList(ColorStateList.valueOf(Color.WHITE))
+
+                // Power menu button
                 try {
-                    val res = mContext.resources
-                    val view = param.thisObject as ViewGroup
-
-                    val settingsButtonContainer = view.findViewById<View>(
-                        res.getIdentifier(
-                            "settings_button_container",
+                    view.findViewById<ImageView?>(
+                        mContext.resources.getIdentifier(
+                            "pm_lite",
                             "id",
                             mContext.packageName
                         )
                     )
-
-                    val settingsIcon = settingsButtonContainer.findViewById<ImageView>(
-                        res.getIdentifier(
-                            "icon",
+                } catch (ignored: ClassCastException) {
+                    view.findViewById<ViewGroup?>(
+                        mContext.resources.getIdentifier(
+                            "pm_lite",
                             "id",
                             mContext.packageName
                         )
                     )
-
-                    settingsIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE))
-                } catch (throwable: Throwable) {
-                    log(TAG + throwable)
+                }?.apply {
+                    if (this is ImageView) {
+                        setImageTintList(ColorStateList.valueOf(Color.BLACK))
+                    } else if (this is ViewGroup) {
+                        (getChildAt(0) as ImageView).setColorFilter(
+                            Color.WHITE,
+                            PorterDuff.Mode.SRC_IN
+                        )
+                    }
                 }
             }
         })
