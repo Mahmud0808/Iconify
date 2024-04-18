@@ -3,6 +3,8 @@ package com.drdisagree.iconify.xposed.modules
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
+import android.widget.LinearLayout
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH
@@ -16,6 +18,7 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.findClass
+import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.findField
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -109,6 +112,24 @@ class QSTransparency(context: Context?) : ModPack(context!!) {
                 }
             }
         })
+
+        // Compose implementation of QS Footer actions
+        val footerActionsViewBinderClass = findClassIfExists(
+            "$SYSTEMUI_PACKAGE.qs.footer.ui.binder.FooterActionsViewBinder",
+            loadPackageParam.classLoader
+        )
+
+        if (footerActionsViewBinderClass != null) {
+            hookAllMethods(footerActionsViewBinderClass, "bind", object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (!qsTransparencyActive && !onlyNotifTransparencyActive) return
+
+                    val view = param.args[0] as LinearLayout
+                    view.setBackgroundColor(Color.TRANSPARENT)
+                    view.elevation = 0f
+                }
+            })
+        }
     }
 
     @SuppressLint("DiscouragedApi")
