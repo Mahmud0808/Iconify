@@ -25,8 +25,8 @@
                 android:id="@+id/show_percentage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:summaryText="@string/show_percentage_desc"
-                app:titleText="@string/show_percentage_title" />
+                app:summaryText="@string/volume_percentage_desc"
+                app:titleText="@string/volume_percentage_title" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

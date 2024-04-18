@@ -583,8 +583,8 @@
     <string name="battery_dotted_circle">Dotted Circle Battery</string>
 
     <!-- Volume Panel -->
-    <string name="show_percentage_title">Show Percentage</string>
-    <string name="show_percentage_desc">Show percentage above volume slider</string>
+    <string name="volume_percentage_title">Volume Percentage</string>
+    <string name="volume_percentage_desc">Show percentage above volume slider</string>
 
     <!-- Header Image -->
     <string name="header_image_title">Pick Header Image</string>
