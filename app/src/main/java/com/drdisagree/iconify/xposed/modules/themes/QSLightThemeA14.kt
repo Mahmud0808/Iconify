@@ -291,7 +291,16 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (isDark || !lightQSHeaderEnabled) return
 
-                val view = param.thisObject as ViewGroup
+                val view = (param.thisObject as ViewGroup).findViewById<ViewGroup>(
+                    mContext.resources.getIdentifier(
+                        "qs_footer_actions",
+                        "id",
+                        mContext.packageName
+                    )
+                ).also {
+                    it.background.setTint(Color.TRANSPARENT)
+                    it.elevation = 0f
+                }
 
                 // Settings button
                 view.findViewById<View>(
@@ -727,7 +736,7 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                     if (!lightQSHeaderEnabled || isDark) return
 
                     val view = param.args[0] as LinearLayout
-                    view.setBackgroundColor(mScrimBehindTint)
+                    view.setBackgroundColor(Color.TRANSPARENT)
                     view.elevation = 0f
                 }
             })
