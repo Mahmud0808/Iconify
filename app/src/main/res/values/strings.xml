@@ -658,7 +658,7 @@
     <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
     <string name="background_image_title">Background Image</string>
     <string name="background_image_desc">Background image for depth wallpaper</string>
-    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bugs:</b>\n• Always on Display is broken. Disable AOD to avoid display issues.\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
     <string name="wallpaper_parallax_effect_title">Parallax Effect</string>
     <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
     <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
