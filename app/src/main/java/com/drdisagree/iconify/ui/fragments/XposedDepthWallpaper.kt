@@ -215,6 +215,8 @@ class XposedDepthWallpaper : BaseFragment() {
         binding.foregroundImage.setEnabled(isDepthWallpaperEnabled)
         binding.backgroundImage.setEnabled(isDepthWallpaperEnabled)
         binding.parallaxEffect.setEnabled(isDepthWallpaperEnabled)
+        binding.foregroundSensitivity.setEnabled(isDepthWallpaperEnabled)
+        binding.backgroundSensitivity.setEnabled(isDepthWallpaperEnabled)
 
         val isParallaxEffectEnabled = binding.parallaxEffect.isSwitchChecked
 
