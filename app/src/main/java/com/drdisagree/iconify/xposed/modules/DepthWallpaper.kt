@@ -71,19 +71,10 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                     key[0] == DEPTH_WALLPAPER_CHANGED ||
                     key[0] == DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER ||
                     key[0] == DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER ||
-                    key[0] == UNZOOM_DEPTH_WALLPAPER)
+                    key[0] == UNZOOM_DEPTH_WALLPAPER ||
+                    key[0] == DEPTH_WALLPAPER_PARALLAX_EFFECT)
         ) {
             updateWallpaper()
-        }
-
-        if (key.isNotEmpty() && key[0] == DEPTH_WALLPAPER_PARALLAX_EFFECT) {
-            if (enableParallaxEffect) {
-                mDepthWallpaperBackground?.registerSensorListener()
-                mDepthWallpaperForeground?.registerSensorListener()
-            } else {
-                mDepthWallpaperBackground?.unregisterSensorListener()
-                mDepthWallpaperForeground?.unregisterSensorListener()
-            }
         }
     }
 
@@ -497,6 +488,14 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                             mDepthWallpaperForeground!!.setMovementMultiplier(foregroundMovement)
 
                             mDepthWallpaperLayout!!.visibility = View.VISIBLE
+
+                            if (enableParallaxEffect) {
+                                mDepthWallpaperBackground!!.registerSensorListener()
+                                mDepthWallpaperForeground!!.registerSensorListener()
+                            } else {
+                                mDepthWallpaperBackground!!.unregisterSensorListener()
+                                mDepthWallpaperForeground!!.unregisterSensorListener()
+                            }
                         } catch (ignored: Throwable) {
                         }
                     }
