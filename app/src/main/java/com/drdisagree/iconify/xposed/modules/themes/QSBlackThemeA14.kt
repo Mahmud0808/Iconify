@@ -265,7 +265,16 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!blackQSHeaderEnabled) return
 
-                val view = param.thisObject as ViewGroup
+                val view = (param.thisObject as ViewGroup).findViewById<ViewGroup>(
+                    mContext.resources.getIdentifier(
+                        "qs_footer_actions",
+                        "id",
+                        mContext.packageName
+                    )
+                ).also {
+                    it.background.setTint(Color.BLACK)
+                    it.elevation = 0f
+                }
 
                 // Settings button
                 view.findViewById<View>(
