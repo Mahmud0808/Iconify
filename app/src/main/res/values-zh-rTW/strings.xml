@@ -545,6 +545,11 @@
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
     <string name="battery_circle">圓圈電池</string>
     <string name="battery_dotted_circle">點狀圓圈電池</string>
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">Volume Percentage</string>
+    <string name="volume_percentage_desc">Show percentage above volume slider</string>
+    <string name="safety_warning_title">Safety Warning</string>
+    <string name="safety_warning_desc">Show warning on high volume</string>
     <!-- Header Image -->
     <string name="header_image_title">選取標頭圖像</string>
     <string name="header_image_desc">在快速設定面板上添加標頭圖像\n不要從“最近”資料夾中選擇檔案</string>
@@ -611,7 +616,11 @@
     <string name="foreground_image_desc">深度桌布的前景圖</string>
     <string name="background_image_title">背景圖</string>
     <string name="background_image_desc">深度桌布的背景圖</string>
-    <string name="depth_wallpaper_alert_msg">此功能目前處於測試階段。因此，錯誤是意料之中的。\n\n<b>已知錯誤：</b>\n• Always on Display 已損壞。禁用 AOD 以避免顯示問題。\n• 點擊鎖屏會使牆紙跳動。</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="wallpaper_parallax_effect_title">Parallax Effect</string>
+    <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
+    <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
+    <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">狀態列</string>
     <string name="sb_clock_background_chip_title">狀態列時鐘 Chip</string>
