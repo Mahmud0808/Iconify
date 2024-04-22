@@ -54,6 +54,7 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.getColorResCompat
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextScalingRecursively
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
 import de.robv.android.xposed.XC_MethodHook
@@ -535,8 +536,8 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
 
         when (clockStyle) {
             6 -> {
-                val imageView = clockView.findViewById<ImageView>(R.id.user_profile_image)
-                userImage?.let { imageView.setImageDrawable(it) }
+                val imageView = clockView.findViewContainsTag("user_profile_image") as ImageView?
+                userImage?.let { imageView?.setImageDrawable(it) }
             }
         }
     }

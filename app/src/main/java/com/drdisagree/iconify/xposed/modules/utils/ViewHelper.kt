@@ -29,7 +29,6 @@ import com.drdisagree.iconify.config.XPrefs.Xprefs
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers.callMethod
 import java.io.InputStream
-import java.util.Locale
 
 
 object ViewHelper {
@@ -125,11 +124,8 @@ object ViewHelper {
         }
     }
 
-    private fun checkTagAndChangeColor(view: View, tagContains: String, color: Int) {
-        val tagObject = view.tag
-        if (tagObject != null && tagObject.toString().lowercase(Locale.getDefault())
-                .contains(tagContains)
-        ) {
+    private fun checkTagAndChangeColor(view: View, tag: String, color: Int) {
+        if (view.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
             changeViewColor(view, color)
         }
     }
@@ -216,9 +212,9 @@ object ViewHelper {
     }
 
     private fun setTextMargins(child: View, topMarginInDp: Int) {
-        if (child.tag != null && child.tag.toString().lowercase(Locale.getDefault())
-                .contains("nolineheight")
-        ) return
+        if (child.tag?.toString()?.let { isTagMatch("nolineheight", it) } == true) {
+            return
+        }
 
         when (val params = child.layoutParams) {
             is LinearLayout.LayoutParams -> {
@@ -252,15 +248,15 @@ object ViewHelper {
                 if (child is ViewGroup) {
                     applyTextScalingRecursively(child, scaleFactor)
                 } else if (child is TextView) {
-                    setTestScaling(child, scaleFactor)
+                    setTextScaling(child, scaleFactor)
                 }
             }
         } else if (view is TextView) {
-            setTestScaling(view, scaleFactor)
+            setTextScaling(view, scaleFactor)
         }
     }
 
-    private fun setTestScaling(view: View, scaleFactor: Float) {
+    private fun setTextScaling(view: View, scaleFactor: Float) {
         val originalSize = (view as TextView).textSize
         val newSize = originalSize * scaleFactor
         view.setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize)
@@ -273,7 +269,7 @@ object ViewHelper {
         styleIndex: Int? = null
     ) {
         if (parent !is ViewGroup ||
-            parent.findViewWithTag<LinearLayout>("lottie") == null ||
+            parent.findViewContainsTag("lottie") == null ||
             (lottieAnimationViewClass == null && styleIndex == null)
         ) return
 
@@ -350,7 +346,7 @@ object ViewHelper {
             }
         }
 
-        parent.findViewWithTag<LinearLayout>("lottie").let {
+        (parent.findViewContainsTag("lottie") as LinearLayout).let {
             it.gravity = Gravity.CENTER
 
             if (isXposedMode) {
@@ -359,5 +355,35 @@ object ViewHelper {
                 it.addView(lottieAnimView as LottieAnimationView)
             }
         }
+    }
+
+    fun View.findViewContainsTag(tag: String): View? {
+        if (this is ViewGroup) {
+            for (i in 0 until childCount) {
+                val child = getChildAt(i)
+
+                if (child.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
+                    return child
+                }
+
+                if (child is ViewGroup) {
+                    val result = child.findViewContainsTag(tag)
+                    if (result != null) {
+                        return result
+                    }
+                }
+            }
+        } else {
+            if (getTag()?.toString()?.let { isTagMatch(tag, it) } == true) {
+                return this
+            }
+        }
+
+        return null
+    }
+
+    private fun isTagMatch(tagToCheck: String, targetTag: String): Boolean {
+        val parts = targetTag.split("|")
+        return parts.any { it.trim() == tagToCheck }
     }
 }

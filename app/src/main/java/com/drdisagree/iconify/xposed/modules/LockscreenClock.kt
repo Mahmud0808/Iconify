@@ -60,6 +60,7 @@ import com.drdisagree.iconify.xposed.modules.utils.ArcProgressWidget.generateBit
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextMarginRecursively
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextScalingRecursively
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.loadLottieAnimationView
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
@@ -469,26 +470,30 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
 
         when (clockStyle) {
             5 -> {
-                mBatteryStatusView = clockView.findViewById(R.id.battery_status)
-                mBatteryLevelView = clockView.findViewById(R.id.battery_percentage)
-                mVolumeLevelView = clockView.findViewById(R.id.volume_level)
-                mBatteryProgress = clockView.findViewById(R.id.battery_progressbar)
-                mVolumeProgress = clockView.findViewById(R.id.volume_progressbar)
+                mBatteryStatusView = clockView.findViewContainsTag("battery_status") as TextView?
+                mBatteryLevelView = clockView.findViewContainsTag("battery_percentage") as TextView?
+                mVolumeLevelView = clockView.findViewContainsTag("volume_level") as TextView?
+                mBatteryProgress =
+                    clockView.findViewContainsTag("battery_progressbar") as ProgressBar?
+                mVolumeProgress =
+                    clockView.findViewContainsTag("volume_progressbar") as ProgressBar?
             }
 
             7 -> {
-                val usernameView = clockView.findViewById<TextView>(R.id.summary)
-                usernameView.text = userName
-                val imageView = clockView.findViewById<ImageView>(R.id.user_profile_image)
-                userImage?.let { imageView.setImageDrawable(it) }
+                val usernameView = clockView.findViewContainsTag("summary") as TextView?
+                usernameView?.text = userName
+                val imageView = clockView.findViewContainsTag("user_profile_image") as ImageView?
+                userImage?.let { imageView?.setImageDrawable(it) }
             }
 
             19 -> {
-                mBatteryLevelView = clockView.findViewById(R.id.battery_percentage)
-                mBatteryProgress = clockView.findViewById(R.id.battery_progressbar)
-                mVolumeLevelArcProgress = clockView.findViewById(R.id.volume_progress)
-                mRamUsageArcProgress = clockView.findViewById(R.id.ram_usage_info)
-                (clockView.findViewById<View>(R.id.device_name) as TextView).text = Build.MODEL
+                mBatteryLevelView = clockView.findViewContainsTag("battery_percentage") as TextView?
+                mBatteryProgress =
+                    clockView.findViewContainsTag("battery_progressbar") as ProgressBar?
+                mVolumeLevelArcProgress =
+                    clockView.findViewContainsTag("volume_progress") as ImageView?
+                mRamUsageArcProgress = clockView.findViewContainsTag("ram_usage_info") as ImageView?
+                (clockView.findViewContainsTag("device_name") as TextView).text = Build.MODEL
             }
 
             else -> {

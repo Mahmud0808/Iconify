@@ -26,7 +26,6 @@
             android:textSize="36dp" />
 
         <TextView
-            android:id="@+id/summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"

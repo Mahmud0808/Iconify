@@ -58,7 +58,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/battery_percentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
@@ -70,14 +69,13 @@
                     android:ellipsize="end"
                     android:gravity="start"
                     android:singleLine="true"
-                    android:tag="text1"
+                    android:tag="text1|battery_percentage"
                     android:text="40%"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/device_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
@@ -87,14 +85,13 @@
                     android:ellipsize="end"
                     android:gravity="start"
                     android:singleLine="true"
-                    android:tag="text1"
+                    android:tag="text1|device_name"
                     android:text="Device Name"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <ProgressBar
-                    android:id="@+id/battery_progressbar"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:layout_marginTop="4dp"
@@ -104,29 +101,27 @@
                     android:progress="40"
                     android:progressDrawable="@drawable/ios_widget_line_progress_track"
                     android:progressTint="@android:color/white"
-                    android:tag="text1" />
+                    android:tag="text1|battery_progressbar" />
 
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/volume_progress"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginHorizontal="24dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.9"
                 android:src="@drawable/arc_progress"
-                android:tag="text1"
+                android:tag="text1|volume_progress"
                 app:tint="@android:color/white" />
 
             <ImageView
-                android:id="@+id/ram_usage_info"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:adjustViewBounds="true"
                 android:alpha="0.9"
                 android:src="@drawable/arc_progress"
-                android:tag="text1"
+                android:tag="text1|ram_usage_info"
                 app:tint="@android:color/white" />
 
         </LinearLayout>
