@@ -545,6 +545,11 @@
     <string name="battery_landscape_battery_o">Bateria de paisagem O</string>
     <string name="battery_circle">Bateria circular</string>
     <string name="battery_dotted_circle">Bateria circular pontilhada</string>
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">Porcentagem do volume</string>
+    <string name="volume_percentage_desc">Mostrar porcentagem acima do controle deslizante de volume</string>
+    <string name="safety_warning_title">Aviso de segurança</string>
+    <string name="safety_warning_desc">Mostrar aviso de volume alto</string>
     <!-- Header Image -->
     <string name="header_image_title">Escolha a imagem do cabeçalho</string>
     <string name="header_image_desc">Adicione uma imagem de cabeçalho no painel QS.\nNão selecione o arquivo de Recente.</string>
@@ -611,7 +616,11 @@
     <string name="foreground_image_desc">Imagem de primeiro plano para o plano de fundo com profundidade</string>
     <string name="background_image_title">Imagem de fundo</string>
     <string name="background_image_desc">Imagem de fundo para o plano de fundo com profundidade</string>
-    <string name="depth_wallpaper_alert_msg">Este recurso está atualmente em fase beta. Portanto, bugs são esperados.\n\n<b>Bugs conhecidos:</b>\n• A Tela ambiente está quebrada. Desative a Tela ambiente para evitar problemas de exibição.\n• Tocar na tela de bloqueio faz o plano de fundo saltar.</string>
+    <string name="depth_wallpaper_alert_msg">Este recurso está atualmente em fase beta. Portanto, bugs são esperados.\n\n<b>Bug(s) conhecido(s):</b>\n• Tocar na tela de bloqueio faz o plano de fundo saltar.</string>
+    <string name="wallpaper_parallax_effect_title">Efeito parallax</string>
+    <string name="wallpaper_parallax_effect_summary">Mova as camadas de fundo e primeiro plano em velocidades diferentes</string>
+    <string name="wallpaper_foreground_sensitivity_title">Sensibilidade do primeiro plano</string>
+    <string name="wallpaper_background_sensitivity_title">Sensibilidade do segundo plano</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Barra de status</string>
     <string name="sb_clock_background_chip_title">Chip de relógio da barra de status</string>

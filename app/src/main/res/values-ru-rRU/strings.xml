@@ -545,6 +545,11 @@
     <string name="battery_landscape_battery_o">Горизонтальная батарея O</string>
     <string name="battery_circle">Круглая батарея</string>
     <string name="battery_dotted_circle">Точечный круг батареи</string>
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">Volume Percentage</string>
+    <string name="volume_percentage_desc">Show percentage above volume slider</string>
+    <string name="safety_warning_title">Safety Warning</string>
+    <string name="safety_warning_desc">Show warning on high volume</string>
     <!-- Header Image -->
     <string name="header_image_title">Выберите изображение заголовка</string>
     <string name="header_image_desc">Добавить изображения на панель быстрых настроек\nНе выбирайте его из вкладки \"Последние\"</string>
@@ -611,7 +616,11 @@
     <string name="foreground_image_desc">Изображение на переднем плане для глубинных обоев</string>
     <string name="background_image_title">Изображение на заднем плане</string>
     <string name="background_image_desc">Изображение на заднем плане для глубинных обоев</string>
-    <string name="depth_wallpaper_alert_msg">Эта функция ещё находится в бета-тестировании. Поэтому ожидайте появление ошибок.\n\n<b>Известные проблемы:</b>\n• Always on Display не работает. Отключите AOD, чтобы избежать проблемы.\n• От любого нажатия на экране блокировки обои начнут прыгать.</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="wallpaper_parallax_effect_title">Parallax Effect</string>
+    <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
+    <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
+    <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Строка состояния</string>
     <string name="sb_clock_background_chip_title">Фишка часов статусбара</string>

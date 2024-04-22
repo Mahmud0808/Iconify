@@ -545,6 +545,11 @@
     <string name="battery_landscape_battery_o">横向电池 O</string>
     <string name="battery_circle">环形电池</string>
     <string name="battery_dotted_circle">虚线环形电池</string>
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">音量百分比</string>
+    <string name="volume_percentage_desc">在音量滑块之上显示百分比</string>
+    <string name="safety_warning_title">安全警告</string>
+    <string name="safety_warning_desc">在高音量时显示警告</string>
     <!-- Header Image -->
     <string name="header_image_title">选择标头图片</string>
     <string name="header_image_desc">在快速设置面板上添加标头图片\n不要从最近文件中选择文件</string>
@@ -611,7 +616,11 @@
     <string name="foreground_image_desc">深度壁纸的前景图</string>
     <string name="background_image_title">背景图</string>
     <string name="background_image_desc">深度壁纸的背景图</string>
-    <string name="depth_wallpaper_alert_msg">该功能目前处于测试阶段。因此预计会出现错误。\n\n<b>已知错误：</b>\n• 息屏显示已损坏。禁用息屏显示可避免显示问题。\n• 点击锁屏会使壁纸跳动。</string>
+    <string name="depth_wallpaper_alert_msg">这个功能尚且处于 Beta 阶段。所以预计还是会存在 Bug。\n\n<b>已知 Bug：</b>\n• 点击锁屏界面会让壁纸跳动。</string>
+    <string name="wallpaper_parallax_effect_title">视差效果</string>
+    <string name="wallpaper_parallax_effect_summary">以不同的速度移动背景层和前景层</string>
+    <string name="wallpaper_foreground_sensitivity_title">前景灵敏度</string>
+    <string name="wallpaper_background_sensitivity_title">前景灵敏度</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">状态栏</string>
     <string name="sb_clock_background_chip_title">状态条时钟 Chip</string>

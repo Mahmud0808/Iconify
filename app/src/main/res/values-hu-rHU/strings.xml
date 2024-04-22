@@ -545,6 +545,11 @@
     <string name="battery_landscape_battery_o">Fekvő akkumulátor O</string>
     <string name="battery_circle">Kör akkumulátor</string>
     <string name="battery_dotted_circle">Pontozott kör akkumulátor</string>
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">Volume Percentage</string>
+    <string name="volume_percentage_desc">Show percentage above volume slider</string>
+    <string name="safety_warning_title">Safety Warning</string>
+    <string name="safety_warning_desc">Show warning on high volume</string>
     <!-- Header Image -->
     <string name="header_image_title">Fejléckép-választó</string>
     <string name="header_image_desc">Adjon hozzá fejlécképet a panelen\nNe válasszon fájlt az Előzményekből</string>
@@ -611,7 +616,11 @@
     <string name="foreground_image_desc">Elsődleges kép a mélységi háttérhez</string>
     <string name="background_image_title">Háttérkép</string>
     <string name="background_image_desc">Másodlagos kép a mélységi háttérhez</string>
-    <string name="depth_wallpaper_alert_msg">Ez a funkció jelenleg béta fázisban van. Röviden: számítson bugokra.\n\n<b>Ismert bugok:</b>\n• Mindig bekapcsolva (AOD) összeomlik. Kapcsolja ki, hogy ezt elkerülje.\n• A lezárási képernyő megérintésével a háttérkép ugrál.</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="wallpaper_parallax_effect_title">Parallax-effekt</string>
+    <string name="wallpaper_parallax_effect_summary">A háttér és az előtér rétegeit különböző sebességgel mozgatja</string>
+    <string name="wallpaper_foreground_sensitivity_title">Az előtér érzékenysége</string>
+    <string name="wallpaper_background_sensitivity_title">A háttér érzékenysége</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Állapotsor</string>
     <string name="sb_clock_background_chip_title">Állapotsori óralap</string>

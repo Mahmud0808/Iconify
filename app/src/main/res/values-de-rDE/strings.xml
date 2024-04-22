@@ -66,7 +66,7 @@
     <string name="activity_desc_qs_icon_label">Passe Symbol und Label an</string>
     <string name="activity_title_qs_tile_size">QS Tastengröße</string>
     <string name="activity_desc_qs_tile_size">Passe Höhe der QS Kachel an</string>
-    <string name="activity_title_qs_panel_margin">SE-Panel-Rand</string>
+    <string name="activity_title_qs_panel_margin">QS-Panel-Abstände</string>
     <string name="activity_desc_qs_panel_margin">Rand der Schnelleinstellungen anpassen</string>
     <string name="activity_title_statusbar">Statusbar</string>
     <string name="activity_desc_statusbar">Passe Statusbar an</string>
@@ -268,8 +268,8 @@
     <!-- Row and Column -->
     <string name="qs_row_column_warn_desc">Bestimmte Kombinationen sind nicht kompatibel mit manchen ROMs. In diesen Fällen einfach mit anderen Kombinationen experimentieren, bis eine passende Gefunden ist.</string>
     <string name="quick_qspanel_row_title">Schnelle QS-Panel-Zeile</string>
-    <string name="qspanel_row_title">SE-Panel Reihe</string>
-    <string name="qspanel_column_title">SE-Panel Spalte</string>
+    <string name="qspanel_row_title">QS-Panel Zeilen</string>
+    <string name="qspanel_column_title">QS-Panel Spalten</string>
     <!-- Icon and Label -->
     <string name="section_title_size_and_position">Größe und Position</string>
     <string name="hide_label_title">Verstecke Bezeichnung</string>
@@ -298,8 +298,8 @@
     <string name="qs_tile_non_expanded_height">Nicht ausgeklappte Höhe</string>
     <string name="qs_tile_expanded_height">Ausgeklappte Höhe</string>
     <!-- QS Panel Margin -->
-    <string name="qqs_panel_top_margin_title">Oberer Rand des SSE-Panels</string>
-    <string name="qs_panel_top_margin_title">Oberer SE-Panel Rand</string>
+    <string name="qqs_panel_top_margin_title">Oberer Rand des QQS-Panels</string>
+    <string name="qs_panel_top_margin_title">Oberer QS-Panel Abstand</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Abstand</string>
     <string name="sb_left_padding">Linke Einrückung</string>
@@ -402,13 +402,13 @@
     <string name="activity_title_themes">Designs</string>
     <string name="activity_desc_themes">Personaliesiere mit Designs</string>
     <string name="activity_title_quick_settings">Schnelleinstellungen</string>
-    <string name="activity_desc_quick_settings">Kniffe für das SE-Panel</string>
+    <string name="activity_desc_quick_settings">Optimierungen für das QS-Panel</string>
     <string name="activity_title_battery_style">Batteriestil</string>
     <string name="activity_desc_battery_style">Passe das Batteriesymbol an</string>
     <string name="activity_title_header_image">Headerbild</string>
-    <string name="activity_desc_header_image">Füge eigenes Bild aufs SE-Panel hinzu</string>
+    <string name="activity_desc_header_image">Füge eigenes Bild zum QS-Panel hinzu</string>
     <string name="activity_title_header_clock">Headeruhr</string>
-    <string name="activity_desc_header_clock">Füge eigene Headeruhr aufs SE-Panel hinzu</string>
+    <string name="activity_desc_header_clock">Füge eigene Headeruhr zum QS-Panel hinzu</string>
     <string name="activity_title_lockscreen_clock">Sperrbildschirmuhr</string>
     <string name="activity_desc_lockscreen_clock">Füge eigne Uhr auf den Sperrbildschirm hinzu</string>
     <string name="activity_title_depth_wallpaper">Tiefes Hintergrundbild</string>
@@ -546,9 +546,14 @@ transparent machen</string>
     <string name="battery_landscape_battery_o">Horizontal Batterie O</string>
     <string name="battery_circle">Kreissymbol</string>
     <string name="battery_dotted_circle">Gepunktetes Kreissymbol</string>
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">Volume Percentage</string>
+    <string name="volume_percentage_desc">Show percentage above volume slider</string>
+    <string name="safety_warning_title">Safety Warning</string>
+    <string name="safety_warning_desc">Show warning on high volume</string>
     <!-- Header Image -->
     <string name="header_image_title">Header-Bild auswählen</string>
-    <string name="header_image_desc">Header-Bild aufs SE-Panel hinzufügen\nNicht \"Zuletzt benutzt\" verwenden</string>
+    <string name="header_image_desc">Headerbild aufs QS-Panel hinzufügen\nNicht \"Zuletzt benutzt\" verwenden</string>
     <string name="btn_pick_image">Bild auswählen</string>
     <string name="header_image_height_title">Bildhöhe</string>
     <string name="header_image_alpha">Bildtransparenz</string>
@@ -612,7 +617,11 @@ transparent machen</string>
     <string name="foreground_image_desc">Vordergrundbild für Tiefeneffekt</string>
     <string name="background_image_title">Hintergrund Bild</string>
     <string name="background_image_desc">Hintergrundbild für Tiefeneffekt</string>
-    <string name="depth_wallpaper_alert_msg">Dieses Feature befindet sich derzeit in der Beta-Phase. Deshalb sind Fehler zu erwarten.\n\n<b>Bekannte Fehler:</b>\n - Always on Display funktioniert nicht richtig. Deaktivieren Sie AOD, um Anzeigeprobleme zu vermeiden.\n- Tippen auf den Sperrbildschirm lässt den Hintergrund springen.</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="wallpaper_parallax_effect_title">Parallax Effect</string>
+    <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
+    <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
+    <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Statusleiste</string>
     <string name="sb_clock_background_chip_title">Statusleiste Uhr-Chip</string>
@@ -633,7 +642,7 @@ transparent machen</string>
     <!-- Xposed Others -->
     <string name="qs_header">SE-Header</string>
     <string name="hide_carrier_group_title">Mobilfunkanbieter verbergen</string>
-    <string name="hide_carrier_group_desc">Mobilfunkanbieter vom SE-Panel verbergen</string>
+    <string name="hide_carrier_group_desc">Mobilfunkanbieter vom QS-Panel verbergen</string>
     <string name="hide_status_icons_title">Statussymbole verbergen</string>
     <string name="hide_status_icons_desc">Zeit, Datum und Batteriesymbole verbergen</string>
     <string name="lock_screen">Sperrbildschirm</string>
@@ -879,7 +888,7 @@ transparent machen</string>
     <string name="qs_date_chip_title">QS Date Chip</string>
     <string name="qs_date_chip_desc">Display chip behind QS date</string>
     <string name="custom_qs_margin_title">Benutzerdefinierter SE Rand</string>
-    <string name="custom_qs_margin_desc">Aktiviere benutzerdefinierte Ränder für das SE-Panel</string>
+    <string name="custom_qs_margin_desc">Aktiviere benutzerdefinierte Abstände für das QS-Panel</string>
     <string name="force_enable_blur_title">Blur aktivieren erzwingen</string>
     <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
     <string name="choose_header_image">Header-Bild auswählen</string>
