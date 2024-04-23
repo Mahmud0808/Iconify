@@ -656,16 +656,22 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     if (!fixNotificationColor) return
 
-                    val mClearAllButton =
-                        getObjectField(param.thisObject, "mClearAllButton") as Button
-                    val mManageButton =
-                        getObjectField(param.thisObject, "mManageButton") as Button
+                    try {
+                        val mManageButton =
+                            getObjectField(param.thisObject, "mManageButton") as Button
+                        val mClearAllButton = try {
+                            getObjectField(param.thisObject, "mClearAllButton")
+                        } catch (ignored: Throwable) {
+                            getObjectField(param.thisObject, "mDismissButton")
+                        } as Button
 
-                    mClearAllButton.background.clearColorFilter()
-                    mManageButton.background.clearColorFilter()
+                        mManageButton.background?.clearColorFilter()
+                        mClearAllButton.background?.clearColorFilter()
 
-                    mClearAllButton.invalidate()
-                    mManageButton.invalidate()
+                        mManageButton.invalidate()
+                        mClearAllButton.invalidate()
+                    } catch (ignored: Throwable) {
+                    }
                 }
             }
 

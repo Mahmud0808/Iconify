@@ -797,16 +797,19 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!fluidQsThemeEnabled || !fluidNotifEnabled) return
 
-                val mManageButton =
-                    getObjectField(param.thisObject, "mManageButton") as Button?
-                val mClearAllButton: Button? = try {
-                    getObjectField(param.thisObject, "mClearAllButton") as Button?
-                } catch (ignored: Throwable) {
-                    getObjectField(param.thisObject, "mDismissButton") as Button?
-                }
+                try {
+                    val mManageButton =
+                        getObjectField(param.thisObject, "mManageButton") as Button
+                    val mClearAllButton: Button = try {
+                        getObjectField(param.thisObject, "mClearAllButton")
+                    } catch (ignored: Throwable) {
+                        getObjectField(param.thisObject, "mDismissButton")
+                    } as Button
 
-                mManageButton?.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
-                mClearAllButton?.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
+                    mManageButton.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
+                    mClearAllButton.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
+                } catch (ignored: Throwable) {
+                }
             }
         }
 
