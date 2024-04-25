@@ -1069,31 +1069,15 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                 setObjectField(unlockedScrimState, "mBehindTint", Color.TRANSPARENT)
             }
 
-            val res = mContext.resources
-
             if (!isDark) {
-                colorInactive = res.getColor(
-                    res.getIdentifier(
-                        "android:color/system_neutral1_10",
-                        "color",
-                        mContext.packageName
-                    ), mContext.theme
-                )
+                colorInactive = mContext.getColor(android.R.color.system_neutral1_10)
             }
 
-            mScrimBehindTint = if (isDark) res.getColor(
-                res.getIdentifier(
-                    "android:color/system_neutral1_1000",
-                    "color",
-                    mContext.packageName
-                ), mContext.theme
-            ) else res.getColor(
-                res.getIdentifier(
-                    "android:color/system_neutral1_100",
-                    "color",
-                    mContext.packageName
-                ), mContext.theme
-            )
+            mScrimBehindTint = if (isDark) {
+                mContext.getColor(android.R.color.system_neutral1_1000)
+            } else {
+                mContext.getColor(android.R.color.system_neutral1_100)
+            }
         } catch (throwable: Throwable) {
             log(TAG + throwable)
         }

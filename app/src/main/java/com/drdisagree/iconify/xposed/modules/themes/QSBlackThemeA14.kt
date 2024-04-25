@@ -1082,15 +1082,7 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
 
     private fun calculateColors() {
         try {
-            val res = mContext.resources
-
-            colorText = res.getColor(
-                res.getIdentifier(
-                    "android:color/system_neutral1_900",
-                    "color",
-                    mContext.packageName
-                ), mContext.theme
-            )
+            colorText = mContext.getColor(android.R.color.system_neutral1_900)
 
             colorTextAlpha = colorText!! and 0xFFFFFF or (Math.round(
                 Color.alpha(

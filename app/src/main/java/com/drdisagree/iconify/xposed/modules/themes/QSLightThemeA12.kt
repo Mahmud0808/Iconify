@@ -168,14 +168,7 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
                 if (!lightQSHeaderEnabled) return
 
                 try {
-                    val res = mContext.resources
-                    val iconColor = mContext.getColor(
-                        res.getIdentifier(
-                            "android:color/system_neutral1_900",
-                            "color",
-                            mContext.packageName
-                        )
-                    )
+                    val iconColor = mContext.getColor(android.R.color.system_neutral1_900)
 
                     setObjectField(param.thisObject, "iconColor", iconColor)
                 } catch (throwable: Throwable) {
