@@ -470,7 +470,7 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
                             getObjectField(
                                 param.thisObject,
                                 "mBatteryIconView"
-                            ) as ImageView
+                            ) as ImageView?
                         )
 
                         if (customBatteryEnabled || mBatteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE || mBatteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
