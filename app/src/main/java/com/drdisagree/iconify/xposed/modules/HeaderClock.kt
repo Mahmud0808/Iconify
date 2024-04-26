@@ -557,7 +557,9 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
 
             BitmapDrawable(mContext.resources, bitmapUserIcon)
         } catch (throwable: Throwable) {
-            log(TAG + throwable)
+            if (throwable !is NullPointerException) {
+                log(TAG + throwable)
+            }
 
             ResourcesCompat.getDrawable(
                 appContext!!.resources,
