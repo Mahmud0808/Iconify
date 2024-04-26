@@ -95,7 +95,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
     private var mBatteryPercentage = 1
     private var mVolumeLevelArcProgress: ImageView? = null
     private var mRamUsageArcProgress: ImageView? = null
-    private lateinit var lottieAnimationViewClass: Class<*>
+    private var lottieAnimationViewClass: Class<*>? = null
     private val mBatteryReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action != null && intent.action == Intent.ACTION_BATTERY_CHANGED) {
@@ -396,10 +396,10 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 null
             )
 
-            if (::lottieAnimationViewClass.isInitialized) {
+            lottieAnimationViewClass?.let {
                 loadLottieAnimationView(
                     appContext = appContext!!,
-                    lottieAnimationViewClass = lottieAnimationViewClass,
+                    lottieAnimationViewClass = it,
                     parent = view
                 )
             }
