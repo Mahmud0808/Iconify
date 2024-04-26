@@ -298,7 +298,7 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                         mContext.packageName
                     )
                 ).also {
-                    it.background.setTint(Color.TRANSPARENT)
+                    it.background?.setTint(Color.TRANSPARENT)
                     it.elevation = 0f
                 }
 
@@ -407,17 +407,26 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                 // QS Footer built text row
                 override fun afterHookedMethod(param: MethodHookParam) {
                     if (!isDark && lightQSHeaderEnabled) {
-                        (getObjectField(param.thisObject, "mBuildText") as TextView)
-                            .setTextColor(Color.BLACK)
+                        try {
+                            (getObjectField(param.thisObject, "mBuildText") as TextView)
+                                .setTextColor(Color.BLACK)
+                        } catch (ignored: Throwable) {
+                        }
 
-                        (getObjectField(param.thisObject, "mEditButton") as ImageView)
-                            .setColorFilter(Color.BLACK)
+                        try {
+                            (getObjectField(param.thisObject, "mEditButton") as ImageView)
+                                .setColorFilter(Color.BLACK)
+                        } catch (ignored: Throwable) {
+                        }
 
-                        setObjectField(
-                            getObjectField(param.thisObject, "mPageIndicator"),
-                            "mTint",
-                            ColorStateList.valueOf(Color.BLACK)
-                        )
+                        try {
+                            setObjectField(
+                                getObjectField(param.thisObject, "mPageIndicator"),
+                                "mTint",
+                                ColorStateList.valueOf(Color.BLACK)
+                            )
+                        } catch (ignored: Throwable) {
+                        }
                     }
                 }
             })

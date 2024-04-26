@@ -266,7 +266,7 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
                             mContext.packageName
                         )
                     ).also {
-                        it.background.setTint(Color.TRANSPARENT)
+                        it.background?.setTint(Color.TRANSPARENT)
                         it.elevation = 0f
                     }
 
