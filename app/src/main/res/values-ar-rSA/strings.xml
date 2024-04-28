@@ -4,7 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">جارٍ بدء الإعداد</string>
     <string name="step">خطوه</string>
-    <string name="step_number">Step %1$d/%2$d</string>
+    <string name="step_number">الخطوة %1$d/%2$d</string>
     <string name="module_installation_step1">إنشاء قذيفة الوحدة</string>
     <string name="module_installation_step2">استخراج الملفات الضرورية</string>
     <string name="module_installation_step3">إنشاء ملفات APK متراكبة</string>
@@ -546,10 +546,10 @@
     <string name="battery_circle">بطارية دائرة</string>
     <string name="battery_dotted_circle">بطارية دائرة منقطة</string>
     <!-- Volume Panel -->
-    <string name="volume_percentage_title">Volume Percentage</string>
-    <string name="volume_percentage_desc">Show percentage above volume slider</string>
-    <string name="safety_warning_title">Safety Warning</string>
-    <string name="safety_warning_desc">Show warning on high volume</string>
+    <string name="volume_percentage_title">حجم الصوت</string>
+    <string name="volume_percentage_desc">إظهار النسبة المئوية فوق شريط تمرير الصوت</string>
+    <string name="safety_warning_title">تحذير الأمان</string>
+    <string name="safety_warning_desc">إظهار التحذير على مستوى الصوت العالي</string>
     <!-- Header Image -->
     <string name="header_image_title">اختر صورة الرأس</string>
     <string name="header_image_desc">أضف صورة العنوان على لوحة QS\nلا تحدد ملفًا من الحالي</string>
@@ -616,11 +616,11 @@
     <string name="foreground_image_desc">الصورة الأمامية لخلفية العمق</string>
     <string name="background_image_title">صورة خلفية</string>
     <string name="background_image_desc">صورة خلفية لخلفية العمق</string>
-    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
-    <string name="wallpaper_parallax_effect_title">Parallax Effect</string>
-    <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
-    <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
-    <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
+    <string name="depth_wallpaper_alert_msg">هذه الميزة حالياً في المرحلة التجريبية. لذا من المتوقع حدوث أخطاء.\n\n<b>أخطاء المعروفة:</b>\n• النقر على شاشة القفل يجعل الخلفية تقفز.</string>
+    <string name="wallpaper_parallax_effect_title">تأثير التناظر</string>
+    <string name="wallpaper_parallax_effect_summary">حرك الخلفية والطبقات الأمامية بسرعات مختلفة</string>
+    <string name="wallpaper_foreground_sensitivity_title">حساسية الطبقة</string>
+    <string name="wallpaper_background_sensitivity_title">حساسية الخلفية</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">شريط الحالة</string>
     <string name="sb_clock_background_chip_title">رقاقة ساعة شريط الحالة</string>
@@ -675,8 +675,8 @@
     <string name="update_schedule3">كل يوم</string>
     <string name="update_schedule4">كل أسبوع</string>
     <string name="update_schedule5">مطلقاً</string>
-    <string name="current_version_number">Current Version: %s</string>
-    <string name="latest_version_number">Latest Version: %s</string>
+    <string name="current_version_number">الإصدار الحالي: %s</string>
+    <string name="latest_version_number">أحدث إصدار: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">شكرا ل</string>
     <string name="section_title_thanks">شكر خاص</string>
@@ -849,11 +849,11 @@
     <string name="section_title_media_player_icons">أيقونات مشغل الوسائط</string>
     <string name="opt_selected">المحدد:</string>
     <string name="opt_selected1">المحدد: %s</string>
-    <string name="opt_selected2">Selected: %1$s%2$s</string>
-    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
+    <string name="opt_selected2">المحدد: %1$s%2$s</string>
+    <string name="opt_selected3">محدد: %%1$s%2$s %3$s</string>
     <string name="opt_default">(إفتراضي)</string>
-    <string name="clock_none">No Clock</string>
-    <string name="clock_style_name">Clock Style %d</string>
+    <string name="clock_none">لا توجد ساعة</string>
+    <string name="clock_style_name">نمط ساعة %d</string>
     <string name="loading_dialog_wait">الرجاء الانتظار</string>
     <string name="rebooting_desc">إعادة التشغيل في 5 ثوانِِ</string>
     <string name="iconify_clipboard_label_version">Iconify إصدار</string>

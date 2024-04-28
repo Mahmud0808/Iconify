@@ -4,7 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Starte Einrichtung</string>
     <string name="step">Schritt</string>
-    <string name="step_number">Step %1$d/%2$d</string>
+    <string name="step_number">Schritt %1$d/%2$d</string>
     <string name="module_installation_step1">Erstelle Modul</string>
     <string name="module_installation_step2">Notwendige Dateien extrahieren</string>
     <string name="module_installation_step3">Overlay-APKs erstellen</string>
@@ -357,8 +357,8 @@
     <string name="volume_style">Lautstärke Stil</string>
     <string name="volume_module_desc">Erstellt ein flashbares Magisk Modul für diesem Stil</string>
     <string name="volume_style_gradient">Verlauf</string>
-    <string name="volume_style_doublelayer">Double Layer</string>
-    <string name="volume_style_shadedlayer">Shaded Layer</string>
+    <string name="volume_style_doublelayer">Doppel Ebene</string>
+    <string name="volume_style_shadedlayer">Schattierte Ebene</string>
     <string name="volume_style_neumorph">Neumorph</string>
     <string name="volume_style_outline">Umrandung</string>
     <string name="volume_style_neumorphoutline">Neumorph Umrandung</string>
@@ -460,9 +460,9 @@ transparent machen</string>
     <string name="hide_qs_tile_label_desc">Nur mit vertikalen Kachen benutzen</string>
     <string name="section_title_qs_margin">QS Abstand</string>
     <string name="section_title_qs_elements">QS Elemente</string>
-    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
+    <string name="hide_qs_silent_text_title">Lautloser Text ausblenden</string>
     <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
-    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
+    <string name="hide_qs_footer_buttons_title">Fußzeilentasten verbergen</string>
     <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Akku Stil</string>
@@ -549,8 +549,8 @@ transparent machen</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Volume Percentage</string>
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
-    <string name="safety_warning_title">Safety Warning</string>
-    <string name="safety_warning_desc">Show warning on high volume</string>
+    <string name="safety_warning_title">Sicherheitswarnung</string>
+    <string name="safety_warning_desc">Warnung bei hoher Lautstärke anzeigen</string>
     <!-- Header Image -->
     <string name="header_image_title">Header-Bild auswählen</string>
     <string name="header_image_desc">Headerbild aufs QS-Panel hinzufügen\nNicht \"Zuletzt benutzt\" verwenden</string>
@@ -617,7 +617,7 @@ transparent machen</string>
     <string name="foreground_image_desc">Vordergrundbild für Tiefeneffekt</string>
     <string name="background_image_title">Hintergrund Bild</string>
     <string name="background_image_desc">Hintergrundbild für Tiefeneffekt</string>
-    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="depth_wallpaper_alert_msg">Diese Funktion befindet sich derzeit in der Beta-Phase. Daher werden Fehler erwartet.\n\n<b>Bekannte Bug(s):</b>\n• Tippen auf den Sperrbildschirm lässt das Hintergrundbild springen.</string>
     <string name="wallpaper_parallax_effect_title">Parallax Effect</string>
     <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
     <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
@@ -676,8 +676,8 @@ transparent machen</string>
     <string name="update_schedule3">Jeden Tag</string>
     <string name="update_schedule4">Jede Woche</string>
     <string name="update_schedule5">Nie</string>
-    <string name="current_version_number">Current Version: %s</string>
-    <string name="latest_version_number">Latest Version: %s</string>
+    <string name="current_version_number">Aktuelle Version: %s</string>
+    <string name="latest_version_number">Letzte Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">Mitwirkende</string>
     <string name="section_title_thanks">Besonderer Dank</string>
@@ -850,8 +850,8 @@ transparent machen</string>
     <string name="section_title_media_player_icons">Medienspieler Symbol</string>
     <string name="opt_selected">Ausgewählt:</string>
     <string name="opt_selected1">Ausgewählt: %s</string>
-    <string name="opt_selected2">Selected: %1$s%2$s</string>
-    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
+    <string name="opt_selected2">Ausgewählt: %1$s%2$s</string>
+    <string name="opt_selected3">Ausgewählt: %1$s%2$s %3$s</string>
     <string name="opt_default">(Standard)</string>
     <string name="clock_none">No Clock</string>
     <string name="clock_style_name">Clock Style %d</string>
