@@ -4,7 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Начало установки</string>
     <string name="step">Шаг</string>
-    <string name="step_number">Step %1$d/%2$d</string>
+    <string name="step_number">Шаг %1$d/%2$d</string>
     <string name="module_installation_step1">Создание скриптов модуля</string>
     <string name="module_installation_step2">Извлечение необходимых файлов</string>
     <string name="module_installation_step3">Создание оверлеев</string>
@@ -546,10 +546,10 @@
     <string name="battery_circle">Круглая батарея</string>
     <string name="battery_dotted_circle">Точечный круг батареи</string>
     <!-- Volume Panel -->
-    <string name="volume_percentage_title">Volume Percentage</string>
-    <string name="volume_percentage_desc">Show percentage above volume slider</string>
-    <string name="safety_warning_title">Safety Warning</string>
-    <string name="safety_warning_desc">Show warning on high volume</string>
+    <string name="volume_percentage_title">Проценты громкости</string>
+    <string name="volume_percentage_desc">Показывать проценты выше слайдера громкости</string>
+    <string name="safety_warning_title">Предупреждение о безопасности</string>
+    <string name="safety_warning_desc">Показывать предупреждение на большой громкости</string>
     <!-- Header Image -->
     <string name="header_image_title">Выберите изображение заголовка</string>
     <string name="header_image_desc">Добавить изображения на панель быстрых настроек\nНе выбирайте его из вкладки \"Последние\"</string>
