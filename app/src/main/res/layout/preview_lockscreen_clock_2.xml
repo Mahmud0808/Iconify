@@ -27,7 +27,7 @@
         android:format12Hour="h" 
         android:format24Hour="H" 
         android:letterSpacing="0.01" />
-        <TextClock android:textSize="56.0sp"
+        <TextClock android:textSize="50.0sp"
          android:textColor="#b3ffffff"
          android:gravity="center"
          android:layout_gravity="center"
