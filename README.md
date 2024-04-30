@@ -30,15 +30,15 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 > [!CAUTION]
 > 
-> This app requires Magisk or KernelSU for root access. Any alternative methods won't work.
+> This app requires Magisk/KernelSU/APatch for root access. Any alternative methods won't work.
 
 # 🛠 Requirements
 
 - Android 12+ Pixel / AOSP based custom ROM
 
-- [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) or [KernelSU](https://github.com/tiann/KernelSU) or [APatch](https://github.com/bmax121/APatch)
+- [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) / [KernelSU](https://github.com/tiann/KernelSU) / [APatch](https://github.com/bmax121/APatch)
 
-- [LSPosed](https://github.com/LSPosed/LSPosed) or [LSPosed_mod](https://github.com/mywalkb/LSPosed_mod) (Optional)
+- [LSPosed](https://github.com/LSPosed/LSPosed) / [LSPosed_mod](https://github.com/mywalkb/LSPosed_mod) (Optional)
 
 - Decryption Supported Custom Recovery (Just in case)
 
@@ -56,9 +56,9 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
   > [!NOTE]
   > 
-  > If some or most of the customizations are still not working for Magisk users, you might need to disable `Unmount modules` option from magisk manager (if available) and/or follow step 1 of KernelSU users' installation steps.
+  > If some or most of the customizations are still not working for Magisk users, you might need to disable `Unmount modules` option from magisk manager (if available) and/or enable root permission for SystemUI.
 
-  ### Installation for KernelSU Users:​
+  ### Installation for KernelSU/APatch Users:​
 
   1. Flash [Magic Overlayfs](https://github.com/HuskyDG/magic_overlayfs/releases) module (to make read-only system read-write)
 
@@ -118,7 +118,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 <details>
   <summary>Do I need a root access for Iconify to work?</summary>
 
-- Yes, root access is required for Iconify to function properly. While Iconify does support KernelSU, it is highly recommended to use Magisk for the best compatibility.
+- Yes, root access is required for Iconify to function properly. While Iconify does support KernelSU and APatch, it is highly recommended to use Magisk for the best compatibility.
 </details>
 
 <details>
