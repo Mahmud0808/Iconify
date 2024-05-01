@@ -326,7 +326,7 @@ object ViewHelper {
         if (isXposedMode) {
             lottieAnimView.let {
                 callMethod(it, "setLayoutParams", animationParams)
-                callMethod(it, "setAnimation", rawRes, "cacheKey")
+                callMethod(it, "setAnimation", rawRes, "cacheKey_$styleIndex");
                 callMethod(it, "setRepeatCount", LottieDrawable.INFINITE)
                 callMethod(it, "setScaleType", ImageView.ScaleType.FIT_CENTER)
                 callMethod(it, "setAdjustViewBounds", true)
@@ -336,7 +336,7 @@ object ViewHelper {
         } else {
             (lottieAnimView as LottieAnimationView).apply {
                 layoutParams = animationParams
-                setAnimation(rawRes, "cacheKey")
+                setAnimation(rawRes, "cacheKey_$styleIndex")
                 repeatCount = LottieDrawable.INFINITE
                 renderMode = RenderMode.HARDWARE
                 scaleType = ImageView.ScaleType.FIT_CENTER
