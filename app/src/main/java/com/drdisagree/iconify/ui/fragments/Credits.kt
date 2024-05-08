@@ -413,9 +413,9 @@ class Credits : BaseFragment() {
             add(
                 InfoModel(
                     requireContext(),
-                    "WINZORT",
+                    "W͏ I͏ N͏ Z͏ O͏ R͏ T͏",
                     appContextLocale.resources.getString(R.string.tr_translation),
-                    "https://crowdin.com/profile/linuxthegoat",
+                    "https://github.com/mikropsoft",
                     R.drawable.flag_tr
                 )
             )
