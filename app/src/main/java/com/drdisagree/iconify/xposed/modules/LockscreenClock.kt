@@ -62,13 +62,11 @@ import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextMarginRec
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextScalingRecursively
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
-import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.loadLottieAnimationView
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.findClass
-import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.io.File
@@ -95,7 +93,6 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
     private var mBatteryPercentage = 1
     private var mVolumeLevelArcProgress: ImageView? = null
     private var mRamUsageArcProgress: ImageView? = null
-    private var lottieAnimationViewClass: Class<*>? = null
     private val mBatteryReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action != null && intent.action == Intent.ACTION_BATTERY_CHANGED) {
@@ -144,11 +141,6 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         initResources(mContext)
-
-        lottieAnimationViewClass = findClassIfExists(
-            "com.airbnb.lottie.LottieAnimationView",
-            loadPackageParam.classLoader
-        )
 
         val keyguardStatusViewClass = findClass(
             "com.android.keyguard.KeyguardStatusView",
@@ -395,14 +387,6 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 ),
                 null
             )
-
-            lottieAnimationViewClass?.let {
-                loadLottieAnimationView(
-                    appContext = appContext!!,
-                    lottieAnimationViewClass = it,
-                    parent = view
-                )
-            }
 
             return view
         }

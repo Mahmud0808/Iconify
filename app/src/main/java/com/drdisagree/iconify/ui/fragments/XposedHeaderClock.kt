@@ -58,6 +58,7 @@ import com.google.android.material.slider.Slider
 class XposedHeaderClock : BaseFragment() {
 
     private lateinit var binding: FragmentXposedHeaderClockBinding
+    private var totalClocks: Int = 1
 
     private var startActivityIntent = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -109,17 +110,25 @@ class XposedHeaderClock : BaseFragment() {
 
         // Header clock style
         val snapHelper: SnapHelper = LinearSnapHelper()
-        binding.rvHeaderClockPreview.setLayoutManager(
-            CarouselLayoutManager(
-                requireContext(),
-                RecyclerView.HORIZONTAL,
-                false
-            )
+        val carouselLayoutManager = CarouselLayoutManager(
+            requireContext(),
+            RecyclerView.HORIZONTAL,
+            false
         )
+        carouselLayoutManager.setMinifyDistance(0.8f)
+
+        binding.rvHeaderClockPreview.setLayoutManager(carouselLayoutManager)
         binding.rvHeaderClockPreview.setAdapter(initHeaderClockStyles())
         binding.rvHeaderClockPreview.setHasFixedSize(true)
         snapHelper.attachToRecyclerView(binding.rvHeaderClockPreview)
-        binding.rvHeaderClockPreview.scrollToPosition(getInt(HEADER_CLOCK_STYLE, 0))
+
+        // if index exceeds limit, set to highest available
+        var headerClockStyle = getInt(HEADER_CLOCK_STYLE, 0)
+        if (headerClockStyle >= totalClocks) {
+            headerClockStyle = totalClocks - 1
+            putInt(HEADER_CLOCK_STYLE, headerClockStyle)
+        }
+        binding.rvHeaderClockPreview.scrollToPosition(headerClockStyle)
 
         // Lockscreen clock font picker
         binding.headerClockFont.setActivityResultLauncher(startActivityIntent)
@@ -354,6 +363,8 @@ class XposedHeaderClock : BaseFragment() {
         ) {
             maxIndex++
         }
+
+        totalClocks = maxIndex
 
         for (i in 0 until maxIndex) {
             headerClock.add(

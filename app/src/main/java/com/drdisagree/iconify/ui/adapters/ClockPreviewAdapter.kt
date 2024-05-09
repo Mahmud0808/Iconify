@@ -20,7 +20,6 @@ import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.models.ClockModel
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setBitmapWithAnimation
 import com.drdisagree.iconify.utils.WallpaperUtil
-import com.drdisagree.iconify.xposed.modules.utils.ViewHelper
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -116,12 +115,6 @@ class ClockPreviewAdapter(
             if (wallpaperBitmap != null) {
                 setBitmapWithAnimation(wallpaperView, wallpaperBitmap)
             }
-
-            ViewHelper.loadLottieAnimationView(
-                appContext = context,
-                parent = container,
-                styleIndex = adapterPosition
-            )
         }
     }
 
