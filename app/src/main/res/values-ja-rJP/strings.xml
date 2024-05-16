@@ -458,11 +458,11 @@
     <string name="hide_qs_tile_label_title">クイック設定タイルのラベルを非表示</string>
     <string name="hide_qs_tile_label_desc">垂直タイルの時のみ使用してください</string>
     <string name="section_title_qs_margin">クイック設定マージン</string>
-    <string name="section_title_qs_elements">QS Elements</string>
-    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
-    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
-    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
-    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
+    <string name="section_title_qs_elements">クイック設定の要素</string>
+    <string name="hide_qs_silent_text_title">サイレント テキストを非表示</string>
+    <string name="hide_qs_silent_text_desc">サイレント通知のヘッダーとして表示される サイレント を非表示にします (システム UI の再起動が必要)</string>
+    <string name="hide_qs_footer_buttons_title">フッターのボタンを非表示</string>
+    <string name="hide_qs_footer_buttons_desc">通知一覧の下に表示されるボタンを非表示にします</string>
     <!-- Battery Style -->
     <string name="battery_style_title">バッテリースタイル</string>
     <string name="battery_width_title">バッテリー横幅</string>
