@@ -7,9 +7,9 @@
     <string name="step_number">Adım %1$d/%2$d</string>
     <string name="module_installation_step1">Modül kabuğu oluşturuluyor</string>
     <string name="module_installation_step2">Gerekli dosyalar ayıklanıyor</string>
-    <string name="module_installation_step3">Kaplama APK\'ları oluşturuluyor</string>
-    <string name="module_installation_step4">Kaplama APK\'ları hizalanıyor</string>
-    <string name="module_installation_step5">Kaplama APK\'ları imzalanıyor</string>
+    <string name="module_installation_step3">APK\'lar oluşturuluyor</string>
+    <string name="module_installation_step4">APK\'lar hizalanıyor</string>
+    <string name="module_installation_step5">APK\'lar imzalanıyor</string>
     <string name="module_installation_step6">Dizinler temizleniyor</string>
     <string name="onboarding_title_1">Stok Kullanıcı Arayüzünden Sıkıldınız mı?</string>
     <string name="onboarding_subtitle_1">Her şeyi kendi zevkimize göre özelleştirelim.</string>
@@ -92,8 +92,8 @@
     <string name="settings_app_theme">Uygulama Teması</string>
     <string name="settings_app_theme_light">Aydınlık Tema</string>
     <string name="settings_app_theme_dark">Koyu Tema</string>
-    <string name="settings_app_theme_system">Sisteme uy</string>
-    <string name="settings_section_title_update">Güncelleme</string>
+    <string name="settings_app_theme_system">Sisteme Göre</string>
+    <string name="settings_section_title_update">Güncellemeler</string>
     <string name="settings_check_for_update">Güncelleme İçin Kontrol Et</string>
     <string name="settings_current_version">Mevcut sürüm: %s</string>
     <string name="settings_auto_update_title">Otomatik Güncelleştirme</string>
@@ -150,8 +150,8 @@
     <string name="enable_colored_battery_title">Renkli Pili Etkinleştir</string>
     <string name="enable_colored_battery_desc">Pil simgesi için özel renk kullan</string>
     <string name="battery_background_color_title">Arka Plan Rengi</string>
-    <string name="battery_background_color_desc">Pil dolgulu kap rengi</string>
-    <string name="battery_filled_color_title">Dolgulu Renk</string>
+    <string name="battery_background_color_desc">Pil simgesini dolduracak renk</string>
+    <string name="battery_filled_color_title">Dolgu Rengi</string>
     <string name="battery_filled_color_desc">Pil seviyesi gösterge rengi</string>
     <!-- Media Icons -->
     <string name="no_supported_music_player">Desteklenen Müzik Oynatıcısı Bulunamadı</string>
@@ -176,14 +176,14 @@
     <string name="settings_icons_size3">0.8x</string>
     <string name="settings_icons_size4">1.0x</string>
     <string name="settins_icons_icon_color">Simge Rengi</string>
-    <string name="settings_icons_follow_system">Sisteme uy</string>
+    <string name="settings_icons_follow_system">Sisteme göre</string>
     <string name="settings_icons_system_inverse">Sistemin Tersi</string>
     <string name="settings_icons_monet_accent">Monet / Vurgu</string>
     <string name="settings_iconpack_bubble_v1">Inline çok renkli simge paketi</string>
     <string name="settings_iconpack_bubble_v2">Outline çok renkli simge paketi</string>
     <!-- Pixel Variant -->
-    <string name="activity_title_pixel_variant">Piksel Varyantı</string>
-    <string name="activity_desc_pixel_variant">Siyah QS panele sahip romlar için</string>
+    <string name="activity_title_pixel_variant">Pixel Değişkeni</string>
+    <string name="activity_desc_pixel_variant">Siyah QS paneli olan romlar için</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Parlaklık Çubuğu Stilleri</string>
     <!-- QS Panel Tiles -->
@@ -221,9 +221,9 @@
     <string name="section_title_stock_colors">Stok Renkler</string>
     <string name="apply_monet_accent_title">Monet Vurgusu</string>
     <string name="apply_monet_accent_desc">Sistem monetini vurgu olarak kullan</string>
-    <string name="apply_monet_gradient_title">Monet Gradient</string>
+    <string name="apply_monet_gradient_title">Monet Gradyanı</string>
     <string name="apply_monet_gradient_desc">Sistem monetini gradyan olarak kullan</string>
-    <string name="section_title_dark_theme">Koyu tema</string>
+    <string name="section_title_dark_theme">Koyu Tema</string>
     <string name="pitch_black_dark_title">Zifiri siyah (koyu)</string>
     <string name="pitch_black_dark_desc">Zifiri siyah koyu temasını etkinleştir</string>
     <string name="pitch_black_amoled_title">Zifiri siyah (amoled)</string>
@@ -284,9 +284,9 @@
     <string name="label_always_white_desc">Beyaz başlık, beyaz alt başlık</string>
     <string name="label_always_white_v2_title">Her Zaman Beyaz v2</string>
     <string name="label_always_white_v2_desc">Beyaz başlık, vurgulu alt başlık</string>
-    <string name="label_follow_system_title">Sisteme uy</string>
+    <string name="label_follow_system_title">Sisteme Göre</string>
     <string name="label_follow_system_desc">Sistem renginde başlık, sistem renginde alt başlık</string>
-    <string name="label_follow_system_v2_title">Sisteme uy v2</string>
+    <string name="label_follow_system_v2_title">Sisteme Göre v2</string>
     <string name="label_follow_system_v2_desc">Sistem renginde başlık, vurgulu alt başlık</string>
     <string name="label_fix_text_color_title">Metin Rengini Düzelt</string>
     <string name="label_fix_text_color_desc">Yukarıdakiler işe yaramadıysa kullanın</string>
@@ -324,8 +324,8 @@
     <string name="navbar_gcam_lag_fix_title">Gcam Gecikmesini Düzelt</string>
     <string name="navbar_gcam_lag_fix_desc">Hareket çubuğu ile gcam\'daki gecikmeyi düzelt</string>
     <string name="section_title_buttons">Butonlar</string>
-    <string name="navbar_hide_kb_buttons_title">Klavye Düğmelerini Gizle</string>
-    <string name="navbar_hide_kb_buttons_desc">Klavye geri/çevirme düğmelerini gizle</string>
+    <string name="navbar_hide_kb_buttons_title">Klavye Butonlarını Gizle</string>
+    <string name="navbar_hide_kb_buttons_desc">Klavye geri/değiştirici butonlarını gizle</string>
     <string name="section_title_gesture">Hareket</string>
     <string name="navbar_lower_sensitivity_title">Düşük Hassasiyet</string>
     <string name="navbar_lower_sensitivity_desc">Düşük hareket hassasiyeti</string>
@@ -461,8 +461,8 @@
     <string name="section_title_qs_elements">QS Unsurları</string>
     <string name="hide_qs_silent_text_title">Sessiz Metni Gizle</string>
     <string name="hide_qs_silent_text_desc">Sessiz bildirimlerin başlığı olarak gösterilen sessiz metni gizle (SystemUI\'nin yeniden başlatılmasını gerektirir)</string>
-    <string name="hide_qs_footer_buttons_title">Altbilgi Düğmelerini Gizle</string>
-    <string name="hide_qs_footer_buttons_desc">Bildirim yığınının altında gösterilen altbilgi düğmelerini gizle</string>
+    <string name="hide_qs_footer_buttons_title">Altbilgi Butonlarını Gizle</string>
+    <string name="hide_qs_footer_buttons_desc">Bildirim yığınının altında gösterilen altbilgi butonlarını gizle</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Pil Stili</string>
     <string name="battery_width_title">Pil Genişliği</string>
@@ -626,7 +626,7 @@
     <string name="sb_clock_background_chip_title">Durum Çubuğu Saat Çipi</string>
     <string name="sb_clock_background_chip_desc">Durum çubuğu saatinin arkasındaki ekran çipi</string>
     <string name="statusbar_clock_color_title">Durum Çubuğu Saat Rengi</string>
-    <string name="sbclock_color_follow_system">Sisteme uy</string>
+    <string name="sbclock_color_follow_system">Sisteme Göre</string>
     <string name="sbclock_color_transparent_text">Şeffaf Metin</string>
     <string name="sbclock_color_custom_color">Özel Renk</string>
     <string name="clock_color_picker_title">Saat Rengi Seçici</string>
@@ -680,7 +680,7 @@
     <!-- Credits -->
     <string name="section_title_credits">Krediler</string>
     <string name="section_title_thanks">Özel Teşekkürler</string>
-    <string name="info_icons8_desc">Plumpy &amp; Akıcılık simgeleri için.</string>
+    <string name="info_icons8_desc">Plumpy &amp; Fluency simgeleri için.</string>
     <string name="info_iconsax_desc">Uygulama içi simge seti için.</string>
     <string name="info_shell_desc">Shell Script\'te bana yardımcı olduğun için.</string>
     <string name="info_rro_desc">RRO konusunda bana yardım ettiğin için.</string>
@@ -732,7 +732,7 @@
     <string name="hide_data_disabled_icon_desc">Veri devre dışı bırakıldı göstergesini gizle</string>
     <!-- Bottom Navigation -->
     <string name="navbar_home">Anasayfa</string>
-    <string name="navbar_tweaks">İnce ayarlar</string>
+    <string name="navbar_tweaks">İnce Ayarlar</string>
     <string name="navbar_settings">Ayarlar</string>
     <!-- Settings 3 dot menu -->
     <string name="changelog">Değişiklikler</string>
