@@ -14,29 +14,36 @@
         android:layout_marginTop="-20.0dip"
         android:orientation="horizontal">
 
-        <TextClock
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/filled"
-            android:format12Hour="hh"
-            android:format24Hour="HH"
-            android:singleLine="true"
-            android:tag="accent1|nolineheight"
-            android:includeFontPadding="false"
-            android:textColor="@android:color/system_accent1_400"
-            android:textSize="160.0dp" />
+            android:layoutDirection="ltr"
+            android:orientation="horizontal">
 
-        <TextClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/hollow"
-            android:format12Hour="mm"
-            android:format24Hour="mm"
-            android:singleLine="true"
-            android:tag="text1|nolineheight"
-            android:includeFontPadding="false"
-            android:textColor="@android:color/white"
-            android:textSize="160.0dp" />
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/filled"
+                android:format12Hour="hh"
+                android:format24Hour="HH"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:tag="accent1|nolineheight"
+                android:textColor="@android:color/system_accent1_400"
+                android:textSize="160.0dp" />
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/hollow"
+                android:format12Hour="mm"
+                android:format24Hour="mm"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:tag="text1|nolineheight"
+                android:textColor="@android:color/white"
+                android:textSize="160.0dp" />
+        </LinearLayout>
     </LinearLayout>
 
     <TextClock
