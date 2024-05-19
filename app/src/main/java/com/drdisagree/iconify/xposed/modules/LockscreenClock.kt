@@ -405,15 +405,33 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         val customColorEnabled: Boolean = Xprefs!!.getBoolean(LSCLOCK_COLOR_SWITCH, false)
         val accent1: Int = Xprefs!!.getInt(
             LSCLOCK_COLOR_CODE_ACCENT1,
-            ContextCompat.getColor(mContext, android.R.color.system_accent1_300)
+            mContext.resources.getColor(
+                mContext.resources.getIdentifier(
+                    "android:color/system_accent1_300",
+                    "color",
+                    mContext.packageName
+                ), mContext.theme
+            )
         )
         val accent2: Int = Xprefs!!.getInt(
             LSCLOCK_COLOR_CODE_ACCENT2,
-            ContextCompat.getColor(mContext, android.R.color.system_accent2_300)
+            mContext.resources.getColor(
+                mContext.resources.getIdentifier(
+                    "android:color/system_accent2_300",
+                    "color",
+                    mContext.packageName
+                ), mContext.theme
+            )
         )
         val accent3: Int = Xprefs!!.getInt(
             LSCLOCK_COLOR_CODE_ACCENT3,
-            ContextCompat.getColor(mContext, android.R.color.system_accent3_300)
+            mContext.resources.getColor(
+                mContext.resources.getIdentifier(
+                    "android:color/system_accent3_300",
+                    "color",
+                    mContext.packageName
+                ), mContext.theme
+            )
         )
         val text1: Int = Xprefs!!.getInt(
             LSCLOCK_COLOR_CODE_TEXT1,

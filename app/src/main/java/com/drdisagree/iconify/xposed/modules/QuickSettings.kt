@@ -18,7 +18,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR
@@ -784,10 +783,16 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 if (qsTextAlwaysWhite) {
                     return Color.WHITE
                 } else if (qsTextFollowAccent) {
-                    return ResourcesCompat.getColor(
-                        mContext.resources,
-                        if (isPixelVariant) android.R.color.holo_green_light else android.R.color.holo_blue_light,
-                        mContext.theme
+                    return mContext.resources.getColor(
+                        mContext.resources.getIdentifier(
+                            if (isPixelVariant) {
+                                "android:color/holo_green_light"
+                            } else {
+                                "android:color/holo_blue_light"
+                            },
+                            "color",
+                            mContext.packageName
+                        ), mContext.theme
                     )
                 }
             } catch (throwable: Throwable) {

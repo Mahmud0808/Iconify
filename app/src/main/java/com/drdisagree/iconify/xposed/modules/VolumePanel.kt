@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_PERCENTAGE
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_SAFETY_WARNING
@@ -23,7 +22,7 @@ import de.robv.android.xposed.XposedHelpers.setObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlin.math.ceil
 
-@SuppressLint("DiscouragedApi")
+@SuppressLint("DiscouragedApi", "DefaultLocale")
 class VolumePanel(context: Context?) : ModPack(context!!) {
 
     private var showPercentage = false
@@ -153,10 +152,12 @@ class VolumePanel(context: Context?) : ModPack(context!!) {
             gravity = Gravity.CENTER
             textSize = 12f
             setTextColor(
-                ResourcesCompat.getColor(
-                    mContext.resources,
-                    android.R.color.system_accent1_300,
-                    mContext.theme
+                mContext.resources.getColor(
+                    mContext.resources.getIdentifier(
+                        "android:color/system_accent1_300",
+                        "color",
+                        mContext.packageName
+                    ), mContext.theme
                 )
             )
             text = String.format("%d%%", 0)

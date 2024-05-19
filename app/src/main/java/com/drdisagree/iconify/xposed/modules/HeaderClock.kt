@@ -25,7 +25,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.TextUtilsCompat
 import com.drdisagree.iconify.BuildConfig
@@ -491,15 +490,33 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
                 "/.iconify_files/headerclock_font.ttf"
         val accent1: Int = Xprefs!!.getInt(
             HEADER_CLOCK_COLOR_CODE_ACCENT1,
-            ContextCompat.getColor(mContext, android.R.color.system_accent1_300)
+            mContext.resources.getColor(
+                mContext.resources.getIdentifier(
+                    "android:color/system_accent1_300",
+                    "color",
+                    mContext.packageName
+                ), mContext.theme
+            )
         )
         val accent2: Int = Xprefs!!.getInt(
             HEADER_CLOCK_COLOR_CODE_ACCENT2,
-            ContextCompat.getColor(mContext, android.R.color.system_accent2_300)
+            mContext.resources.getColor(
+                mContext.resources.getIdentifier(
+                    "android:color/system_accent2_300",
+                    "color",
+                    mContext.packageName
+                ), mContext.theme
+            )
         )
         val accent3: Int = Xprefs!!.getInt(
             HEADER_CLOCK_COLOR_CODE_ACCENT3,
-            ContextCompat.getColor(mContext, android.R.color.system_accent3_300)
+            mContext.resources.getColor(
+                mContext.resources.getIdentifier(
+                    "android:color/system_accent3_300",
+                    "color",
+                    mContext.packageName
+                ), mContext.theme
+            )
         )
         val textPrimary: Int = Xprefs!!.getInt(
             HEADER_CLOCK_COLOR_CODE_TEXT1,
