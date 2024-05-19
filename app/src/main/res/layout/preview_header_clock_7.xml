@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:alpha="0.6"
         android:tag="clock"
+        android:layoutDirection="ltr"
         android:orientation="horizontal">
 
         <TextClock
