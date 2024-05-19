@@ -1079,13 +1079,31 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
             }
 
             if (!isDark) {
-                colorInactive = mContext.getColor(android.R.color.system_neutral1_10)
+                colorInactive = mContext.resources.getColor(
+                    mContext.resources.getIdentifier(
+                        "android:color/system_neutral1_10",
+                        "color",
+                        mContext.packageName
+                    ), mContext.theme
+                )
             }
 
             mScrimBehindTint = if (isDark) {
-                mContext.getColor(android.R.color.system_neutral1_1000)
+                mContext.resources.getColor(
+                    mContext.resources.getIdentifier(
+                        "android:color/system_neutral1_1000",
+                        "color",
+                        mContext.packageName
+                    ), mContext.theme
+                )
             } else {
-                mContext.getColor(android.R.color.system_neutral1_100)
+                mContext.resources.getColor(
+                    mContext.resources.getIdentifier(
+                        "android:color/system_neutral1_100",
+                        "color",
+                        mContext.packageName
+                    ), mContext.theme
+                )
             }
         } catch (throwable: Throwable) {
             log(TAG + throwable)

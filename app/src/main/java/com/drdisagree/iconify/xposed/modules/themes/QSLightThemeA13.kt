@@ -796,8 +796,20 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
             }
 
             if (!isDark) {
-                colorActive = mContext.getColor(android.R.color.system_accent1_600)
-                colorInactive = mContext.getColor(android.R.color.system_neutral1_10)
+                colorActive = mContext.resources.getColor(
+                    mContext.resources.getIdentifier(
+                        "android:color/system_accent1_600",
+                        "color",
+                        mContext.packageName
+                    ), mContext.theme
+                )
+                colorInactive = mContext.resources.getColor(
+                    mContext.resources.getIdentifier(
+                        "android:color/system_neutral1_10",
+                        "color",
+                        mContext.packageName
+                    ), mContext.theme
+                )
             }
         } catch (throwable: Throwable) {
             log(TAG + throwable)

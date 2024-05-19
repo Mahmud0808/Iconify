@@ -50,7 +50,13 @@ import kotlin.math.min
 class QSFluidThemeA13(context: Context?) : ModPack(context!!) {
 
     val colorActive = intArrayOf(
-        mContext.getColor(android.R.color.system_accent1_400)
+        mContext.resources.getColor(
+            mContext.resources.getIdentifier(
+                "android:color/system_accent1_400",
+                "color",
+                mContext.packageName
+            ), mContext.theme
+        )
     )
     val colorActiveAlpha = intArrayOf(
         Color.argb(
@@ -729,7 +735,13 @@ class QSFluidThemeA13(context: Context?) : ModPack(context!!) {
             wasDark = isDark
         }
 
-        colorActive[0] = mContext.getColor(android.R.color.system_accent1_400)
+        colorActive[0] = mContext.resources.getColor(
+            mContext.resources.getIdentifier(
+                "android:color/system_accent1_400",
+                "color",
+                mContext.packageName
+            ), mContext.theme
+        )
 
         colorActiveAlpha[0] = Color.argb(
             (ACTIVE_ALPHA * 255).toInt(), Color.red(
