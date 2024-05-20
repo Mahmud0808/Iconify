@@ -634,8 +634,13 @@ class QSFluidThemeA13(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!fluidQsThemeEnabled || !fluidNotifEnabled) return
 
-                val mPillView =
-                    getObjectField(param.thisObject, "mPillView") as View?
+                val mPillView = (param.thisObject as ViewGroup).findViewById<View?>(
+                    mContext.resources.getIdentifier(
+                        "expand_button_pill",
+                        "id",
+                        mContext.packageName
+                    )
+                )
                 mPillView?.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
             }
         })
