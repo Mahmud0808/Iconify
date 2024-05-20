@@ -45,6 +45,7 @@ import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.getObjectField
+import de.robv.android.xposed.XposedHelpers.getStaticObjectField
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LayoutInflated
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -131,8 +132,10 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                 "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
                 loadPackageParam.classLoader
             )
-        dependencyClass =
-            findClass("$SYSTEMUI_PACKAGE.Dependency", loadPackageParam.classLoader)
+        dependencyClass = findClass(
+            "$SYSTEMUI_PACKAGE.Dependency",
+            loadPackageParam.classLoader
+        )
         darkIconDispatcherClass = findClass(
             "$SYSTEMUI_PACKAGE.plugins.DarkIconDispatcher",
             loadPackageParam.classLoader
@@ -149,9 +152,13 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                         getObjectField(param.thisObject, "mClockView") as View
                     } catch (t: Throwable) {
                         try {
-                            val mClockController =
-                                getObjectField(param.thisObject, "mClockController")
-                            callMethod(mClockController, "getClock") as View
+                            callMethod(
+                                getObjectField(
+                                    param.thisObject,
+                                    "mClockController"
+                                ),
+                                "getClock"
+                            ) as View
                         } catch (th: Throwable) {
                             try {
                                 getObjectField(param.thisObject, "mLeftClock") as View
@@ -450,11 +457,26 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
         when (statusBarClockColorOption) {
             0 -> {
                 (clockView as TextView).paint.setXfermode(null)
-                callMethod(
-                    callStaticMethod(dependencyClass, "get", darkIconDispatcherClass),
-                    "addDarkReceiver",
-                    clockView
-                )
+                try {
+                    callMethod(
+                        callStaticMethod(dependencyClass, "get", darkIconDispatcherClass),
+                        "addDarkReceiver",
+                        clockView
+                    )
+                } catch (ignored: Throwable) {
+                    callMethod(
+                        callMethod(
+                            getStaticObjectField(
+                                dependencyClass,
+                                "sDependency"
+                            ),
+                            "getDependencyInner",
+                            darkIconDispatcherClass
+                        ),
+                        "addDarkReceiver",
+                        clockView
+                    )
+                }
             }
 
             1 -> {
@@ -463,11 +485,26 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
 
             2 -> {
                 (clockView as TextView).paint.setXfermode(null)
-                callMethod(
+                try {
+                    callMethod(
                     callStaticMethod(dependencyClass, "get", darkIconDispatcherClass),
                     "removeDarkReceiver",
                     clockView
                 )
+                } catch (ignored: Throwable) {
+                    callMethod(
+                        callMethod(
+                            getStaticObjectField(
+                                dependencyClass,
+                                "sDependency"
+                            ),
+                            "getDependencyInner",
+                            darkIconDispatcherClass
+                        ),
+                        "removeDarkReceiver",
+                        clockView
+                    )
+                }
                 clockView.setTextColor(statusBarClockColorCode)
             }
         }
