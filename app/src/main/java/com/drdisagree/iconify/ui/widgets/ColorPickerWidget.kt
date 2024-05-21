@@ -3,7 +3,6 @@ package com.drdisagree.iconify.ui.widgets
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
@@ -17,6 +16,8 @@ import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.utils.SystemUtil
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -210,9 +211,7 @@ class ColorPickerWidget : RelativeLayout {
 
     override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
-        val ss = SavedState(superState)
-        ss.selectedColor = selectedColor
-        return ss
+        return SavedState(superState, selectedColor)
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
@@ -224,33 +223,9 @@ class ColorPickerWidget : RelativeLayout {
         previewColor = state.selectedColor
     }
 
-    private class SavedState : BaseSavedState {
-
-        var selectedColor = 0
-
-        constructor(superState: Parcelable?) : super(superState)
-
-        private constructor(`in`: Parcel) : super(`in`) {
-            selectedColor = `in`.readInt()
-        }
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            super.writeToParcel(dest, flags)
-            dest.writeInt(selectedColor)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object CREATOR : Parcelable.Creator<SavedState> {
-            override fun createFromParcel(parcel: Parcel): SavedState {
-                return SavedState(parcel)
-            }
-
-            override fun newArray(size: Int): Array<SavedState?> {
-                return arrayOfNulls(size)
-            }
-        }
-    }
+    @Parcelize
+    class SavedState(
+        private val parentState: @RawValue Parcelable?,
+        val selectedColor: Int
+    ) : BaseSavedState(parentState)
 }

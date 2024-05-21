@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.ui.widgets
 
 import android.content.Context
-import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
@@ -11,6 +10,8 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.drdisagree.iconify.R
 import com.google.android.material.slider.Slider
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import java.text.DecimalFormat
 import java.util.Objects
 
@@ -237,9 +238,7 @@ class SliderWidget : RelativeLayout {
 
     override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
-        val ss = SavedState(superState)
-        ss.sliderValue = materialSlider.value
-        return ss
+        return SavedState(superState, materialSlider.value)
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
@@ -253,33 +252,9 @@ class SliderWidget : RelativeLayout {
         handleResetVisibility()
     }
 
-    private class SavedState : BaseSavedState {
-
-        var sliderValue = 0f
-
-        constructor(superState: Parcelable?) : super(superState)
-
-        private constructor(`in`: Parcel) : super(`in`) {
-            sliderValue = `in`.readFloat()
-        }
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            super.writeToParcel(dest, flags)
-            dest.writeFloat(sliderValue)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object CREATOR : Parcelable.Creator<SavedState> {
-            override fun createFromParcel(parcel: Parcel): SavedState {
-                return SavedState(parcel)
-            }
-
-            override fun newArray(size: Int): Array<SavedState?> {
-                return arrayOfNulls(size)
-            }
-        }
-    }
+    @Parcelize
+    class SavedState(
+        private val parentState: @RawValue Parcelable?,
+        val sliderValue: Float
+    ) : BaseSavedState(parentState)
 }

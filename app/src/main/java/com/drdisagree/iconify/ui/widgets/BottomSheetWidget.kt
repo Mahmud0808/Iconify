@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -21,6 +20,8 @@ import com.drdisagree.iconify.ui.adapters.IconsAdapter
 import com.drdisagree.iconify.utils.SystemUtil
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
 
@@ -93,7 +94,7 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
         }
 
         if (!iconSpaceReserved) {
-            iconImageView.setVisibility(GONE)
+            iconImageView.visibility = View.GONE
         }
 
         initBottomSheetDialog()
@@ -133,12 +134,12 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
 
     fun setIcon(icon: Int) {
         iconImageView.setImageResource(icon)
-        iconImageView.setVisibility(VISIBLE)
+        iconImageView.visibility = View.VISIBLE
     }
 
     fun setIcon(drawable: Drawable?) {
         iconImageView.setImageDrawable(drawable)
-        iconImageView.setVisibility(VISIBLE)
+        iconImageView.visibility = View.VISIBLE
     }
 
     fun setDrawable(drawable: Array<Drawable>) {
@@ -152,7 +153,7 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
     }
 
     fun setIconVisibility(visibility: Int) {
-        iconImageView.setVisibility(visibility)
+        iconImageView.visibility = visibility
     }
 
     fun getSelectedIndex(): Int {
@@ -182,13 +183,13 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
         val recyclerView = view.findViewById<RecyclerView>(R.id.select_dialog_listview)
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar_widget)
 
-        toolbar.setTitle(titleTextView.getText())
+        toolbar.title = titleTextView.text
         toolbar.isTitleCentered = true
-        recyclerView.setLayoutManager(GridLayoutManager(context, 3))
+        recyclerView.layoutManager = GridLayoutManager(context, 3)
 
         mAdapter = IconsAdapter(mEntries, mEntryValues, mValue, this)
         mAdapter!!.setDrawables(mDrawables)
-        recyclerView.setAdapter(mAdapter)
+        recyclerView.adapter = mAdapter
 
         mBottomSheetDialog.setContentView(view)
     }
@@ -204,19 +205,19 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
             val color = a.getColor(0, 0)
             a.recycle()
 
-            iconImageView.setImageTintList(ColorStateList.valueOf(color))
+            iconImageView.imageTintList = ColorStateList.valueOf(color)
         } else {
             if (SystemUtil.isDarkMode) {
-                iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
+                iconImageView.imageTintList = ColorStateList.valueOf(Color.DKGRAY)
             } else {
-                iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY))
+                iconImageView.imageTintList = ColorStateList.valueOf(Color.LTGRAY)
             }
         }
 
-        container.setEnabled(enabled)
-        titleTextView.setEnabled(enabled)
-        summaryTextView.setEnabled(enabled)
-        iconImageView.setEnabled(enabled)
+        container.isEnabled = enabled
+        titleTextView.isEnabled = enabled
+        summaryTextView.isEnabled = enabled
+        iconImageView.isEnabled = enabled
     }
 
     // to avoid listener bug, we need to re-generate unique id for each view
@@ -256,9 +257,7 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
 
     override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
-        val ss = SavedState(superState)
-        ss.selectedIndex = selectedIndex
-        return ss
+        return SavedState(superState, selectedIndex)
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
@@ -270,33 +269,9 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
         setSelectedIndex(state.selectedIndex)
     }
 
-    private class SavedState : BaseSavedState {
-
-        var selectedIndex = 0
-
-        constructor(superState: Parcelable?) : super(superState)
-
-        private constructor(`in`: Parcel) : super(`in`) {
-            selectedIndex = `in`.readInt()
-        }
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            super.writeToParcel(dest, flags)
-            dest.writeInt(selectedIndex)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object CREATOR : Parcelable.Creator<SavedState> {
-            override fun createFromParcel(parcel: Parcel): SavedState {
-                return SavedState(parcel)
-            }
-
-            override fun newArray(size: Int): Array<SavedState?> {
-                return arrayOfNulls(size)
-            }
-        }
-    }
+    @Parcelize
+    class SavedState(
+        private val parentState: @RawValue Parcelable?,
+        val selectedIndex: Int
+    ) : BaseSavedState(parentState)
 }

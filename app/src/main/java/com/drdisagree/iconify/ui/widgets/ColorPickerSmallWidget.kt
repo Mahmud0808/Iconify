@@ -3,7 +3,6 @@ package com.drdisagree.iconify.ui.widgets
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
@@ -18,6 +17,8 @@ import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.utils.SystemUtil
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -180,22 +181,6 @@ class ColorPickerSmallWidget : RelativeLayout {
         EventBus.getDefault().unregister(this)
     }
 
-    override fun onSaveInstanceState(): Parcelable {
-        val superState = super.onSaveInstanceState()
-        val ss = SavedState(superState)
-        ss.selectedColor = selectedColor
-        return ss
-    }
-
-    override fun onRestoreInstanceState(state: Parcelable) {
-        if (state !is SavedState) {
-            super.onRestoreInstanceState(state)
-            return
-        }
-        super.onRestoreInstanceState(state.superState)
-        previewColor = state.selectedColor
-    }
-
     interface BeforeColorPickerListener {
         fun onColorPickerShown()
     }
@@ -208,33 +193,23 @@ class ColorPickerSmallWidget : RelativeLayout {
         fun onColorPickerDismissed()
     }
 
-    private class SavedState : BaseSavedState {
-
-        var selectedColor = 0
-
-        constructor(superState: Parcelable?) : super(superState)
-
-        private constructor(`in`: Parcel) : super(`in`) {
-            selectedColor = `in`.readInt()
-        }
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            super.writeToParcel(dest, flags)
-            dest.writeInt(selectedColor)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object CREATOR : Parcelable.Creator<SavedState> {
-            override fun createFromParcel(parcel: Parcel): SavedState {
-                return SavedState(parcel)
-            }
-
-            override fun newArray(size: Int): Array<SavedState?> {
-                return arrayOfNulls(size)
-            }
-        }
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        return SavedState(superState, selectedColor)
     }
+
+    override fun onRestoreInstanceState(state: Parcelable) {
+        if (state !is SavedState) {
+            super.onRestoreInstanceState(state)
+            return
+        }
+        super.onRestoreInstanceState(state.superState)
+        previewColor = state.selectedColor
+    }
+
+    @Parcelize
+    class SavedState(
+        private val parentState: @RawValue Parcelable?,
+        val selectedColor: Int
+    ) : BaseSavedState(parentState)
 }

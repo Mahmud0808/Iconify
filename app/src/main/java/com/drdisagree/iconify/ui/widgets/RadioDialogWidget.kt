@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -15,7 +14,8 @@ import android.widget.TextView
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.dialogs.RadioDialog
 import com.drdisagree.iconify.utils.SystemUtil
-import java.util.Arrays
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 class RadioDialogWidget : RelativeLayout, RadioDialog.RadioDialogListener {
 
@@ -220,9 +220,7 @@ class RadioDialogWidget : RelativeLayout, RadioDialog.RadioDialogListener {
 
     override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
-        val ss = SavedState(superState)
-        ss.selectedIndex = selectedIndex
-        return ss
+        return SavedState(superState, selectedIndex)
     }
 
     override fun onRestoreInstanceState(state: Parcelable) {
@@ -234,33 +232,9 @@ class RadioDialogWidget : RelativeLayout, RadioDialog.RadioDialogListener {
         setSelectedIndex(state.selectedIndex)
     }
 
-    private class SavedState : BaseSavedState {
-
-        var selectedIndex = 0
-
-        constructor(superState: Parcelable?) : super(superState)
-
-        private constructor(`in`: Parcel) : super(`in`) {
-            selectedIndex = `in`.readInt()
-        }
-
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            super.writeToParcel(dest, flags)
-            dest.writeInt(selectedIndex)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object CREATOR : Parcelable.Creator<SavedState> {
-            override fun createFromParcel(parcel: Parcel): SavedState {
-                return SavedState(parcel)
-            }
-
-            override fun newArray(size: Int): Array<SavedState?> {
-                return arrayOfNulls(size)
-            }
-        }
-    }
+    @Parcelize
+    class SavedState(
+        private val parentState: @RawValue Parcelable?,
+        val selectedIndex: Int
+    ) : BaseSavedState(parentState)
 }
