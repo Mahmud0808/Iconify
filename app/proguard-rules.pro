@@ -52,6 +52,11 @@
 # Keep Recycler View Stuff
 -keep,allowoptimization,allowobfuscation class androidx.recyclerview.widget.** { *; }
 
+# Keep Parcelable Creators
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
 # Obfuscation
 -repackageclasses
 -allowaccessmodification
