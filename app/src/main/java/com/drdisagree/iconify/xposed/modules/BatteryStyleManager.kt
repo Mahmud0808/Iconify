@@ -699,19 +699,34 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
                 header.context,
                 android.R.attr.textColorPrimary
             )
+            val textColorPrimaryInverse = SettingsLibUtils.getColorAttrDefaultColor(
+                header.context,
+                android.R.attr.textColorPrimaryInverse
+            )
             val textColorSecondary = SettingsLibUtils.getColorAttrDefaultColor(
                 header.context,
                 android.R.attr.textColorSecondary
             )
-            val batteryIcon =
-                getObjectField(param.thisObject, "batteryIcon") as LinearLayout
+            val batteryIcon = getObjectField(
+                param.thisObject,
+                "batteryIcon"
+            ) as LinearLayout
 
             if (getObjectField(param.thisObject, "iconManager") != null) {
-                callMethod(
-                    getObjectField(param.thisObject, "iconManager"),
-                    "setTint",
-                    textColorPrimary
-                )
+                try {
+                    callMethod(
+                        getObjectField(param.thisObject, "iconManager"),
+                        "setTint",
+                        textColorPrimary
+                    )
+                } catch (ignored: Throwable) {
+                    callMethod(
+                        getObjectField(param.thisObject, "iconManager"),
+                        "setTint",
+                        textColorPrimary,
+                        textColorPrimaryInverse
+                    )
+                }
             }
 
             callMethod(
