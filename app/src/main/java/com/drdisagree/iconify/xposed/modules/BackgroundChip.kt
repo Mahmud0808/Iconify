@@ -8,12 +8,14 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -524,6 +526,7 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
         }
     }
 
+    @SuppressLint("RtlHardcoded")
     private fun updateClockView(clockView: View?, startEnd: Int, topBottom: Int, gravity: Int) {
         if (clockView == null) return
 
@@ -586,11 +589,49 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
             }
         }
 
-        try {
-            (clockView.layoutParams as LinearLayout.LayoutParams).gravity = gravity
-        } catch (ignored: Throwable) {
-            (clockView.layoutParams as FrameLayout.LayoutParams).gravity = gravity
+        val layoutParams = clockView.layoutParams
+        when (layoutParams) {
+            is LinearLayout.LayoutParams,  -> {
+                layoutParams.gravity = gravity
+            }
+
+            is FrameLayout.LayoutParams -> {
+                layoutParams.gravity = gravity
+            }
+
+            is RelativeLayout.LayoutParams -> {
+                when (gravity) {
+                    Gravity.LEFT or Gravity.CENTER -> {
+                        layoutParams.addRule(RelativeLayout.CENTER_VERTICAL)
+                        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT)
+                    }
+
+                    Gravity.CENTER -> {
+                        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT)
+                    }
+
+                    Gravity.RIGHT or Gravity.CENTER -> {
+                        layoutParams.addRule(RelativeLayout.CENTER_VERTICAL)
+                        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+                    }
+
+                    else -> {
+                        Log.w(
+                            "$TAG LayoutParamsCheck",
+                            "Unsupported gravity type for RelativeLayout: $gravity"
+                        )
+                    }
+                }
+            }
+
+            else -> {
+                Log.w(
+                    "$TAG LayoutParamsCheck",
+                    "Unknown LayoutParams type: ${layoutParams.javaClass.name}"
+                )
+            }
         }
+        clockView.layoutParams = layoutParams
 
         (clockView as TextView).includeFontPadding = false
         clockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT
