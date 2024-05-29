@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="start|top"
@@ -58,7 +59,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="76dp"
+                android:layout_marginRight="40dp"
                 android:includeFontPadding="false"
                 android:format12Hour="EEEE"
                 android:format24Hour="EEEE"
@@ -66,7 +68,8 @@
                 android:singleLine="true"
                 android:tag="text1"
                 android:textColor="@android:color/white"
-                android:textSize="25dp" />
+                android:textSize="25dp"
+                tools:ignore="RtlHardcoded" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
