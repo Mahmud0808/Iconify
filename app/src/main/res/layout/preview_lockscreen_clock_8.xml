@@ -49,18 +49,19 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_marginTop="8dp"
             android:orientation="vertical"
-            android:layout_marginTop="6dp"
-            android:gravity="bottom"
-            android:rotation="90">
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:minWidth="185dp"
+            android:paddingTop="80dp"
+            android:rotation="90"
+            tools:ignore="RtlHardcoded">
 
             <TextClock
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginTop="76dp"
-                android:layout_marginRight="40dp"
                 android:includeFontPadding="false"
                 android:format12Hour="EEEE"
                 android:format24Hour="EEEE"
@@ -68,8 +69,7 @@
                 android:singleLine="true"
                 android:tag="text1"
                 android:textColor="@android:color/white"
-                android:textSize="25dp"
-                tools:ignore="RtlHardcoded" />
+                android:textSize="22dp" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
