@@ -3,7 +3,6 @@ package com.drdisagree.iconify.ui.fragments
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -23,6 +22,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
+import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT1
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT2
@@ -99,7 +99,7 @@ class XposedLockscreenClock : BaseFragment() {
         // Enable lockscreen clock
         binding.enableLockscreenClock.isSwitchChecked = getBoolean(LSCLOCK_SWITCH, false)
         binding.enableLockscreenClock.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            if (isChecked && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            if (isChecked && isAtleastA14) {
                 Shell.cmd(
                     "settings put secure lock_screen_custom_clock_face {\"clockId\":\"DEFAULT\",\"metadata\":{\"appliedTimestamp\":${System.currentTimeMillis()},\"metadataColorToneProgress\":75}}"
                 ).exec()
