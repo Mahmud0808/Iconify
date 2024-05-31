@@ -59,6 +59,13 @@
                 app:summaryText="@string/hide_ls_statusbar_desc"
                 app:titleText="@string/hide_ls_statusbar_title" />
 
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_lockscreen_lock_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/hide_ls_lock_icon_desc"
+                app:titleText="@string/hide_ls_lock_icon_title" />
+
             <LinearLayout
                 android:id="@+id/status_icons_container"
                 android:layout_width="match_parent"

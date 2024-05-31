@@ -14,6 +14,7 @@ import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_CARRIER
+import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_LOCK_ICON
 import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
@@ -86,6 +87,18 @@ class XposedOthers : BaseFragment() {
             getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false)
         binding.hideLockscreenStatusbar.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked)
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                { SystemUtil.handleSystemUIRestart() },
+                SWITCH_ANIMATION_DELAY
+            )
+        }
+
+        // Hide lockscreen lock icon
+        binding.hideLockscreenLockIcon.isSwitchChecked =
+            getBoolean(HIDE_LOCKSCREEN_LOCK_ICON, false)
+        binding.hideLockscreenLockIcon.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            putBoolean(HIDE_LOCKSCREEN_LOCK_ICON, isChecked)
 
             Handler(Looper.getMainLooper()).postDelayed(
                 { SystemUtil.handleSystemUIRestart() },

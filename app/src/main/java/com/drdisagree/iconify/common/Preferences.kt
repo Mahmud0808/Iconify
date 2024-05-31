@@ -62,6 +62,7 @@ object Preferences {
     const val FIXED_STATUS_ICONS_TOPMARGIN = "xposed_fixedstatusiconstopmargin"
     const val HIDE_LOCKSCREEN_STATUSBAR = "xposed_hidelockscreenstatusbar"
     const val HIDE_LOCKSCREEN_CARRIER = "xposed_hidelockscreencarrier"
+    const val HIDE_LOCKSCREEN_LOCK_ICON = "xposed_hidelockscreenlockicon"
     const val LIGHT_QSPANEL = "xposed_lightqspanel"
     const val DUALTONE_QSPANEL = "xposed_dualtoneqspanel"
     const val BLACK_QSPANEL = "xposed_blackqspanel"
