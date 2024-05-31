@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
+import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL
 import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
@@ -116,21 +116,19 @@ class XposedThemes : BaseFragment() {
         }
 
         // Others section
-        binding.sectionOthers.visibility =
-            if (Build.VERSION.SDK_INT >= 34) {
+        binding.sectionOthers.visibility = if (isAtleastA14) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
 
         // Fix qs tile color
-        binding.fixQsTileColor.visibility =
-            if (Build.VERSION.SDK_INT >= 34) {
+        binding.fixQsTileColor.visibility = if (isAtleastA14) {
                 View.VISIBLE
             } else {
                 View.GONE
             }
-        binding.fixQsTileColor.isSwitchChecked = getBoolean(FIX_QS_TILE_COLOR, true)
+        binding.fixQsTileColor.isSwitchChecked = getBoolean(FIX_QS_TILE_COLOR, false)
         binding.fixQsTileColor.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(FIX_QS_TILE_COLOR, isChecked)
 
@@ -141,13 +139,12 @@ class XposedThemes : BaseFragment() {
         }
 
         // Fix notification color
-        binding.fixNotificationColor.visibility =
-            if (Build.VERSION.SDK_INT >= 34) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-        binding.fixNotificationColor.isSwitchChecked = getBoolean(FIX_NOTIFICATION_COLOR, true)
+        binding.fixNotificationColor.visibility = if (isAtleastA14) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.fixNotificationColor.isSwitchChecked = getBoolean(FIX_NOTIFICATION_COLOR, false)
         binding.fixNotificationColor.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(FIX_NOTIFICATION_COLOR, isChecked)
 

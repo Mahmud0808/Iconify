@@ -73,9 +73,9 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         qqsTopMargin = Xprefs!!.getInt(QQS_TOPMARGIN, 100)
         qsTopMargin = Xprefs!!.getInt(QS_TOPMARGIN, 100)
         fixQsTileColor = Build.VERSION.SDK_INT >= 34 &&
-                Xprefs!!.getBoolean(FIX_QS_TILE_COLOR, true)
+                Xprefs!!.getBoolean(FIX_QS_TILE_COLOR, false)
         fixNotificationColor = Build.VERSION.SDK_INT >= 34 &&
-                Xprefs!!.getBoolean(FIX_NOTIFICATION_COLOR, true)
+                Xprefs!!.getBoolean(FIX_NOTIFICATION_COLOR, false)
         qsTextAlwaysWhite = Xprefs!!.getBoolean(QS_TEXT_ALWAYS_WHITE, false)
         qsTextFollowAccent = Xprefs!!.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
         hideSilentText = Xprefs!!.getBoolean(HIDE_QS_SILENT_TEXT, false)

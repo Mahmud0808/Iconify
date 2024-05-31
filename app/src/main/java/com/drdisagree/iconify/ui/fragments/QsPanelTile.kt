@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.ui.fragments
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +9,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.common.Dynamic.isAtleastA14
-import com.drdisagree.iconify.common.Preferences.SHOW_QS_TILE_NORMAL_WARN
-import com.drdisagree.iconify.config.Prefs
 import com.drdisagree.iconify.databinding.FragmentQsPanelTileBinding
 import com.drdisagree.iconify.ui.adapters.MenuAdapter
 import com.drdisagree.iconify.ui.adapters.QsShapeAdapter
@@ -22,7 +18,6 @@ import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.MenuModel
 import com.drdisagree.iconify.ui.models.QsShapeModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class QsPanelTile : BaseFragment() {
 
@@ -66,28 +61,6 @@ class QsPanelTile : BaseFragment() {
         binding.qsShapesContainer.setHasFixedSize(true)
 
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        if (isAtleastA14 && Prefs.getBoolean(SHOW_QS_TILE_NORMAL_WARN, true)) {
-            try {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(R.string.attention)
-                    .setMessage(R.string.requires_lsposed_for_a14)
-                    .setPositiveButton(requireContext().resources.getString(R.string.understood)) { dialog: DialogInterface, _: Int ->
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton(requireContext().resources.getString(R.string.dont_show_again)) { dialog: DialogInterface, _: Int ->
-                        dialog.dismiss()
-                        Prefs.putBoolean(SHOW_QS_TILE_NORMAL_WARN, false)
-                    }
-                    .setCancelable(true)
-                    .show()
-            } catch (ignored: Exception) {
-            }
-        }
     }
 
     private fun initActivityItems(): MenuAdapter {
