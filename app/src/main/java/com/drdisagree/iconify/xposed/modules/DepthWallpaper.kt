@@ -22,6 +22,7 @@ import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_ALPHA
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
@@ -55,6 +56,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
     private var mDepthWallpaperForeground: ParallaxImageView? = null
     private var mDozing = false
     private var unzoomWallpaper = false
+    private var foregroundAlpha = 1.0f
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -65,6 +67,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
         backgroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
         foregroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
         unzoomWallpaper = Xprefs!!.getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
+        foregroundAlpha = Xprefs!!.getInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
 
         if (key.isNotEmpty() &&
             (key[0] == DEPTH_WALLPAPER_SWITCH ||
@@ -72,7 +75,8 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                     key[0] == DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER ||
                     key[0] == DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER ||
                     key[0] == UNZOOM_DEPTH_WALLPAPER ||
-                    key[0] == DEPTH_WALLPAPER_PARALLAX_EFFECT)
+                    key[0] == DEPTH_WALLPAPER_PARALLAX_EFFECT ||
+                    key[0] == DEPTH_WALLPAPER_FOREGROUND_ALPHA)
         ) {
             updateWallpaper()
         }
@@ -486,6 +490,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
 
                             mDepthWallpaperForeground!!.loadImageOrGif(foregroundDrawable)
                             mDepthWallpaperForeground!!.setMovementMultiplier(foregroundMovement)
+                            mDepthWallpaperForeground!!.setAlpha(foregroundAlpha)
 
                             mDepthWallpaperLayout!!.visibility = View.VISIBLE
 
@@ -538,7 +543,7 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
             }
 
             mDepthWallpaperForeground?.let {
-                if (it.alpha != 1f) {
+                if (it.alpha != foregroundAlpha) {
                     if (showFadingAnimation) {
                         val animation = it.animation
 
@@ -546,12 +551,12 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
                             it.clearAnimation()
 
                             it.animate()
-                                .alpha(1f)
+                                .alpha(foregroundAlpha)
                                 .setDuration(animDuration)
                                 .start()
                         }
                     } else {
-                        it.setAlpha(1f)
+                        it.setAlpha(foregroundAlpha)
                     }
                 }
             }

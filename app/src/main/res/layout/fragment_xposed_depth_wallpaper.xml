@@ -46,6 +46,17 @@
                 app:summaryText="@string/background_image_desc"
                 app:titleText="@string/background_image_title" />
 
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/foreground_alpha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="80"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="100"
+                app:titleText="@string/foreground_image_alpha_title"
+                app:valueFormat="%" />
+
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/wallpaper_fade_animation"
                 android:layout_width="match_parent"

@@ -656,6 +656,7 @@
     <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Foreground Image</string>
     <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">Background Image</string>
     <string name="background_image_desc">Background image for depth wallpaper</string>
     <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>

@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.ui.fragments
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,6 +18,7 @@ import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_ALPHA
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
@@ -26,14 +26,15 @@ import com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR
 import com.drdisagree.iconify.common.Resources.DEPTH_WALL_FG_DIR
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.databinding.FragmentXposedDepthWallpaperBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.FileUtil.getRealPath
 import com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir
 import com.drdisagree.iconify.utils.SystemUtil
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 
 class XposedDepthWallpaper : BaseFragment() {
@@ -120,14 +121,6 @@ class XposedDepthWallpaper : BaseFragment() {
             R.string.activity_title_depth_wallpaper
         )
 
-        // Alert dialog
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.attention))
-            .setMessage(getString(R.string.depth_wallpaper_alert_msg))
-            .setPositiveButton(getString(R.string.understood)) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
-            .setCancelable(true)
-            .show()
-
         // Enable depth wallpaper
         binding.depthWallpaper.isSwitchChecked = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
         binding.depthWallpaper.setSwitchChangeListener { _: CompoundButton?, isSwitchChecked: Boolean ->
@@ -147,6 +140,17 @@ class XposedDepthWallpaper : BaseFragment() {
         // Background image
         binding.backgroundImage.setEnabled(binding.depthWallpaper.isSwitchChecked)
         binding.backgroundImage.setActivityResultLauncher(intentBackgroundImage)
+
+        // Foreground alpha
+        binding.foregroundAlpha.setEnabled(binding.depthWallpaper.isSwitchChecked)
+        binding.foregroundAlpha.sliderValue = getInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80)
+        binding.foregroundAlpha.setOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {}
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                putInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, slider.value.toInt())
+            }
+        })
 
         // Fade animation
         binding.wallpaperFadeAnimation.setEnabled(binding.depthWallpaper.isSwitchChecked)
@@ -214,6 +218,7 @@ class XposedDepthWallpaper : BaseFragment() {
         binding.wallpaperFadeAnimation.setEnabled(isDepthWallpaperEnabled)
         binding.foregroundImage.setEnabled(isDepthWallpaperEnabled)
         binding.backgroundImage.setEnabled(isDepthWallpaperEnabled)
+        binding.foregroundAlpha.setEnabled(isDepthWallpaperEnabled)
         binding.parallaxEffect.setEnabled(isDepthWallpaperEnabled)
         binding.foregroundSensitivity.setEnabled(isDepthWallpaperEnabled)
         binding.backgroundSensitivity.setEnabled(isDepthWallpaperEnabled)
