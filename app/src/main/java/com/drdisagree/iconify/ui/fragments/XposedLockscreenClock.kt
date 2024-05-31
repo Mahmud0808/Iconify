@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.fragments
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -53,6 +54,7 @@ import com.drdisagree.iconify.utils.FileUtil.getRealPath
 import com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir
 import com.drdisagree.iconify.utils.SystemUtil
 import com.google.android.material.slider.Slider
+import com.topjohnwu.superuser.Shell
 
 class XposedLockscreenClock : BaseFragment() {
 
@@ -97,6 +99,12 @@ class XposedLockscreenClock : BaseFragment() {
         // Enable lockscreen clock
         binding.enableLockscreenClock.isSwitchChecked = getBoolean(LSCLOCK_SWITCH, false)
         binding.enableLockscreenClock.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            if (isChecked && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                Shell.cmd(
+                    "settings put secure lock_screen_custom_clock_face {\"clockId\":\"DEFAULT\",\"metadata\":{\"appliedTimestamp\":${System.currentTimeMillis()},\"metadataColorToneProgress\":75}}"
+                ).exec()
+            }
+
             putBoolean(LSCLOCK_SWITCH, isChecked)
 
             updateEnabled(isChecked)
