@@ -35,12 +35,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="-120dp"
+            android:layout_marginTop="-140dp"
+            android:format12Hour=" EEE "
             android:includeFontPadding="false"
             android:layout_marginRight="30dp"
             android:fontFamily="@font/fontsfree_net_carthart"
-            android:format12Hour="EEE"
-            android:format24Hour="EEE"
+            android:format24Hour=" EEE "
+            android:paddingVertical="20dp"
             android:gravity="center"
             android:tag="accent1|nolineheight"
             android:textColor="@android:color/system_accent1_400"
@@ -51,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="-10dp"
+            android:layout_marginTop="-30dp"
             android:orientation="vertical">
 
             <!-- Text for Time -->
