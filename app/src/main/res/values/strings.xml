@@ -581,6 +581,7 @@
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
     <string name="battery_circle">Circle Battery</string>
     <string name="battery_dotted_circle">Dotted Circle Battery</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
 
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Volume Percentage</string>

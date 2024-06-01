@@ -26,6 +26,7 @@ import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_FILLED_CIRCLE
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYA
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYB
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYC
@@ -90,6 +91,7 @@ import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.batterystyles.BatteryDrawable
 import com.drdisagree.iconify.xposed.modules.batterystyles.CircleBattery
+import com.drdisagree.iconify.xposed.modules.batterystyles.CircleFilledBattery
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBattery
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryA
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryB
@@ -909,6 +911,7 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
             BATTERY_STYLE_LANDSCAPE_BATTERYN -> LandscapeBatteryN(context, frameColor)
             BATTERY_STYLE_LANDSCAPE_BATTERYO -> LandscapeBatteryO(context, frameColor)
             BATTERY_STYLE_CIRCLE, BATTERY_STYLE_DOTTED_CIRCLE -> CircleBattery(context, frameColor)
+            BATTERY_STYLE_FILLED_CIRCLE -> CircleFilledBattery(context, frameColor)
             else -> null
         }
 

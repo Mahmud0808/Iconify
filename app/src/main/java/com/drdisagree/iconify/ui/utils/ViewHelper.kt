@@ -16,13 +16,13 @@ import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAGMENT_BACK_BUTTON_DELAY
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE
 import com.drdisagree.iconify.xposed.modules.batterystyles.BatteryDrawable
 import com.drdisagree.iconify.xposed.modules.batterystyles.CircleBattery
+import com.drdisagree.iconify.xposed.modules.batterystyles.CircleFilledBattery
 import com.drdisagree.iconify.xposed.modules.batterystyles.DefaultBattery
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBattery
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryA
@@ -156,7 +156,8 @@ object ViewHelper {
             LandscapeBatteryN(context, batteryColor),
             LandscapeBatteryO(context, batteryColor),
             CircleBattery(context, batteryColor),
-            CircleBattery(context, batteryColor)
+            CircleBattery(context, batteryColor),
+            CircleFilledBattery(context, batteryColor)
         )
 
         val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager

@@ -38,6 +38,7 @@
         <item>@string/battery_landscape_battery_o</item>
         <item>@string/battery_circle</item>
         <item>@string/battery_dotted_circle</item>
+        <item>@string/battery_filled_circle</item>
     </string-array>
 
     <string-array name="custom_charging_icon_style">

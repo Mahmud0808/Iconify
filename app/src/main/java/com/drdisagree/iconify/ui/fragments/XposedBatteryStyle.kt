@@ -15,6 +15,7 @@ import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_FILLED_CIRCLE
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYL
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYM
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16
@@ -460,7 +461,8 @@ class XposedBatteryStyle : BaseFragment() {
             selectedIndex > 2 && bindingChargingIcon.enableChargingIcon.isSwitchChecked
         val showReverseLayout = selectedIndex > 2 && showInsidePercentage
         val circleBattery = selectedIndex == BATTERY_STYLE_CIRCLE ||
-                selectedIndex == BATTERY_STYLE_DOTTED_CIRCLE
+                selectedIndex == BATTERY_STYLE_DOTTED_CIRCLE ||
+                selectedIndex == BATTERY_STYLE_FILLED_CIRCLE
         val visibilityAdvanced = if (showAdvancedCustomizations) View.VISIBLE else View.GONE
         val visibilityBlendColor =
             if (showAdvancedCustomizations || circleBattery) View.VISIBLE else View.GONE
