@@ -161,26 +161,26 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 }
 
                 // Hide stock clock
-                val keyguardStatusView = param.thisObject as GridLayout
-
-                val mClockView = keyguardStatusView.findViewById<RelativeLayout>(
+                (param.thisObject as GridLayout).findViewById<RelativeLayout>(
                     mContext.resources.getIdentifier(
                         "keyguard_clock_container",
                         "id",
                         mContext.packageName
                     )
-                )
-                mClockView.layoutParams.height = 0
-                mClockView.layoutParams.width = 0
-                mClockView.visibility = View.INVISIBLE
+                ).apply {
+                    layoutParams.height = 0
+                    layoutParams.width = 0
+                    visibility = View.INVISIBLE
+                }
 
-                val mMediaHostContainer = getObjectField(
+                (getObjectField(
                     param.thisObject,
                     "mMediaHostContainer"
-                ) as View
-                mMediaHostContainer.layoutParams.height = 0
-                mMediaHostContainer.layoutParams.width = 0
-                mMediaHostContainer.visibility = View.INVISIBLE
+                ) as View).apply {
+                    layoutParams.height = 0
+                    layoutParams.width = 0
+                    visibility = View.INVISIBLE
+                }
 
                 registerClockUpdater()
             }
@@ -275,12 +275,12 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
 
     // Broadcast receiver for updating clock
     private fun registerClockUpdater() {
-        val filter = IntentFilter()
-
-        filter.addAction(Intent.ACTION_TIME_TICK)
-        filter.addAction(Intent.ACTION_TIME_CHANGED)
-        filter.addAction(Intent.ACTION_TIMEZONE_CHANGED)
-        filter.addAction(Intent.ACTION_LOCALE_CHANGED)
+        val filter = IntentFilter().also {
+            it.addAction(Intent.ACTION_TIME_TICK)
+            it.addAction(Intent.ACTION_TIME_CHANGED)
+            it.addAction(Intent.ACTION_TIMEZONE_CHANGED)
+            it.addAction(Intent.ACTION_LOCALE_CHANGED)
+        }
 
         val timeChangedReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -312,7 +312,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         // Remove existing clock view
         if (isClockAdded) {
             mClockViewContainer!!.removeView(
-                mClockViewContainer!!.findViewWithTag<View>(
+                mClockViewContainer!!.findViewWithTag(
                     ICONIFY_LOCKSCREEN_CLOCK_TAG
                 )
             )
