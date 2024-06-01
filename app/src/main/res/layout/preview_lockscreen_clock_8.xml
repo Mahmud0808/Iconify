@@ -49,11 +49,11 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="18dp"
             android:orientation="vertical"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:minWidth="185dp"
+            android:minWidth="170dp"
             android:paddingTop="80dp"
             android:rotation="90"
             tools:ignore="RtlHardcoded">
@@ -67,7 +67,7 @@
                 android:format24Hour="EEEE"
                 android:gravity="start"
                 android:singleLine="true"
-                android:tag="text1"
+                android:tag="text1|nolineheight"
                 android:textColor="@android:color/white"
                 android:textSize="22dp" />
 
@@ -91,7 +91,7 @@
                     android:format24Hour="dd MMMM"
                     android:gravity="center|start"
                     android:singleLine="true"
-                    android:tag="text2"
+                    android:tag="text2|nolineheight"
                     android:textColor="@android:color/system_accent1_900"
                     android:textSize="10dp" />
             </FrameLayout>
