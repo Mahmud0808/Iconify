@@ -46,7 +46,6 @@ import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.XposedHelpers.setObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-
 @SuppressLint("DiscouragedApi")
 class QuickSettings(context: Context?) : ModPack(context!!) {
 
@@ -58,19 +57,11 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private var hideSilentText = false
     private var qqsTopMargin = 100
     private var qsTopMargin = 100
-    private var mQsTileView: LinearLayout? = null
+    private var mParam: Any? = null
     private var mFooterButtonsContainer: ViewGroup? = null
     private var mFooterButtonsOnDrawListener: OnDrawListener? = null
     private var mSilentTextContainer: ViewGroup? = null
     private var mSilentTextOnDrawListener: OnDrawListener? = null
-    private var isVerticalQSTileActive = false
-    private var isHideLabelActive = false
-    private var qsTilePrimaryTextSize: Float? = null
-    private var qsTilePrimaryTextSizeUnit: Int = -1
-    private var qsTileSecondaryTextSize: Float? = null
-    private var qsTileSecondaryTextSizeUnit: Int = -1
-    private var qqsTopMarginEnabled = false
-    private var qsTopMarginEnabled = false
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -106,7 +97,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.qs.tileimpl.QSTileViewImpl",
             loadPackageParam.classLoader
         )
-        val fontSizeUtilsClass = findClass(
+        val fontSizeUtils = findClass(
             "$SYSTEMUI_PACKAGE.FontSizeUtils",
             loadPackageParam.classLoader
         )
@@ -115,84 +106,93 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!isVerticalQSTileActive) return
 
-                mQsTileView = param.thisObject as LinearLayout
+                mParam = param.thisObject
 
                 try {
-                    mQsTileView!!.apply {
-                        gravity = Gravity.CENTER
-                        orientation = LinearLayout.VERTICAL
-                        clipChildren = false
-                        clipToPadding = false
-                    }
+                    (param.thisObject as LinearLayout).gravity = Gravity.CENTER
+                    (param.thisObject as LinearLayout).orientation = LinearLayout.VERTICAL
 
                     (getObjectField(
-                        mQsTileView,
+                        param.thisObject,
                         "label"
-                    ) as TextView).gravity = Gravity.CENTER_HORIZONTAL
+                    ) as TextView).setGravity(Gravity.CENTER_HORIZONTAL)
 
                     (getObjectField(
-                        mQsTileView,
+                        param.thisObject,
                         "secondaryLabel"
-                    ) as TextView).gravity = Gravity.CENTER_HORIZONTAL
+                    ) as TextView).setGravity(Gravity.CENTER_HORIZONTAL)
 
                     (getObjectField(
-                        mQsTileView,
+                        param.thisObject,
+                        "labelContainer"
+                    ) as LinearLayout).setLayoutParams(
+                        MarginLayoutParams(
+                            MarginLayoutParams.MATCH_PARENT, MarginLayoutParams.WRAP_CONTENT
+                        )
+                    )
+
+                    (getObjectField(
+                        param.thisObject,
                         "sideView"
                     ) as View).visibility = View.GONE
 
-                    val labelContainer = getObjectField(
-                        mQsTileView,
-                        "labelContainer"
-                    ) as LinearLayout
-
-                    mQsTileView!!.removeView(labelContainer)
+                    (param.thisObject as LinearLayout).removeView(
+                        getObjectField(
+                            param.thisObject,
+                            "labelContainer"
+                        ) as LinearLayout
+                    )
 
                     if (!isHideLabelActive) {
-                        labelContainer.apply {
-                            setLayoutParams(
-                                MarginLayoutParams(
-                                    MarginLayoutParams.MATCH_PARENT,
-                                    MarginLayoutParams.WRAP_CONTENT
-                                )
-                            )
-                            gravity = Gravity.CENTER_HORIZONTAL
-                            clipChildren = false
-                            clipToPadding = false
-                        }
+                        (getObjectField(
+                            param.thisObject,
+                            "labelContainer"
+                        ) as LinearLayout).gravity = Gravity.CENTER_HORIZONTAL
 
-                        mQsTileView!!.addView(labelContainer)
+                        (param.thisObject as LinearLayout).addView(
+                            getObjectField(
+                                param.thisObject,
+                                "labelContainer"
+                            ) as LinearLayout
+                        )
                     }
 
-                    fixTileLayout(mQsTileView!!)
+                    fixTileLayout(param.thisObject as LinearLayout, mParam)
 
                     if (qsTilePrimaryTextSize == null || qsTileSecondaryTextSize == null) {
-                        val primaryText =
-                            getObjectField(mQsTileView, "label") as TextView
-                        val secondaryText =
-                            getObjectField(mQsTileView, "secondaryLabel") as TextView
-
                         try {
-                            val textSizeResId = mContext.resources.getIdentifier(
-                                "qs_tile_text_size",
-                                "dimen",
-                                mContext.packageName
+                            callStaticMethod(
+                                fontSizeUtils,
+                                "updateFontSize",
+                                mContext.resources.getIdentifier(
+                                    "qs_tile_text_size",
+                                    "dimen",
+                                    mContext.packageName
+                                ),
+                                getObjectField(param.thisObject, "label")
                             )
 
                             callStaticMethod(
-                                fontSizeUtilsClass,
+                                fontSizeUtils,
                                 "updateFontSize",
-                                textSizeResId,
-                                primaryText
-                            )
-
-                            callStaticMethod(
-                                fontSizeUtilsClass,
-                                "updateFontSize",
-                                textSizeResId,
-                                secondaryText
+                                mContext.resources.getIdentifier(
+                                    "qs_tile_text_size",
+                                    "dimen",
+                                    mContext.packageName
+                                ),
+                                getObjectField(param.thisObject, "secondaryLabel")
                             )
                         } catch (ignored: Throwable) {
                         }
+
+                        val primaryText = getObjectField(
+                            param.thisObject,
+                            "label"
+                        ) as TextView
+                        val secondaryText = getObjectField(
+                            param.thisObject,
+                            "secondaryLabel"
+                        ) as TextView
 
                         qsTilePrimaryTextSize = primaryText.textSize
                         qsTilePrimaryTextSizeUnit = primaryText.textSizeUnit
@@ -208,15 +208,15 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
         hookAllMethods(qsTileViewImplClass, "onConfigurationChanged", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (!isVerticalQSTileActive || mQsTileView == null) return
+                if (!isVerticalQSTileActive) return
 
-                fixTileLayout(mQsTileView!!)
+                fixTileLayout(param.thisObject as LinearLayout, mParam)
             }
         })
 
         hookAllMethods(qsTileViewImplClass, "onLayout", object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
-                if (!isVerticalQSTileActive || mQsTileView == null) return
+                if (!isVerticalQSTileActive) return
 
                 setLabelSizes(param.thisObject)
             }
@@ -857,9 +857,10 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun fixTileLayout(tile: LinearLayout) {
-        val padding = mContext.resources.getDimensionPixelSize(
-            mContext.resources.getIdentifier(
+    private fun fixTileLayout(tile: LinearLayout, param: Any?) {
+        val mRes = mContext.resources
+        val padding = mRes.getDimensionPixelSize(
+            mRes.getIdentifier(
                 "qs_tile_padding",
                 "dimen",
                 mContext.packageName
@@ -872,20 +873,27 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
         if (!isHideLabelActive) {
             try {
-                val labelContainer = getObjectField(
+                ((getObjectField(
                     tile,
                     "labelContainer"
-                ) as LinearLayout
+                ) as LinearLayout).layoutParams as MarginLayoutParams).setMarginStart(0)
 
-                (labelContainer.layoutParams as MarginLayoutParams).marginStart = 0
-                (labelContainer.layoutParams as MarginLayoutParams).topMargin = mContext.toPx(2)
+                ((getObjectField(
+                    tile,
+                    "labelContainer"
+                ) as LinearLayout).layoutParams as MarginLayoutParams).topMargin = mContext.toPx(2)
             } catch (throwable: Throwable) {
                 log(TAG + throwable)
             }
         }
 
-        (getObjectField(tile, "label") as TextView).gravity = Gravity.CENTER_HORIZONTAL
-        (getObjectField(tile, "secondaryLabel") as TextView).gravity = Gravity.CENTER_HORIZONTAL
+        if (param != null) {
+            (getObjectField(param, "label") as TextView)
+                .setGravity(Gravity.CENTER_HORIZONTAL)
+
+            (getObjectField(param, "secondaryLabel") as TextView)
+                .setGravity(Gravity.CENTER_HORIZONTAL)
+        }
     }
 
     private fun setLabelSizes(paramThisObject: Any) {
@@ -909,5 +917,13 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
     companion object {
         private val TAG = "Iconify - ${QuickSettings::class.java.simpleName}: "
+        private var isVerticalQSTileActive = false
+        private var isHideLabelActive = false
+        private var qsTilePrimaryTextSize: Float? = null
+        private var qsTilePrimaryTextSizeUnit: Int = -1
+        private var qsTileSecondaryTextSize: Float? = null
+        private var qsTileSecondaryTextSizeUnit: Int = -1
+        private var qqsTopMarginEnabled = false
+        private var qsTopMarginEnabled = false
     }
 }
