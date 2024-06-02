@@ -2,14 +2,14 @@
 <resources>
     <string name="app_moto">Personalizza la noiosa interfaccia di Android</string>
     <!-- Onboarding -->
-    <string name="init_module_installation">Inizializzazione setup</string>
+    <string name="init_module_installation">Inizializzazione della configurazione</string>
     <string name="step">Passaggio</string>
     <string name="step_number">Passaggio %1$d/%2$d</string>
     <string name="module_installation_step1">Creazione della struttura del modulo</string>
     <string name="module_installation_step2">Estrazione file necessari</string>
-    <string name="module_installation_step3">Creazione APK overlay</string>
-    <string name="module_installation_step4">Allineamento APK overlay</string>
-    <string name="module_installation_step5">Firma APK overlay</string>
+    <string name="module_installation_step3">Creazione di APK sovrapposti</string>
+    <string name="module_installation_step4">Allineamento APK sovrapposti</string>
+    <string name="module_installation_step5">Firma APK sovrapposti</string>
     <string name="module_installation_step6">Pulizia cartelle</string>
     <string name="onboarding_title_1">Stanco della UI Stock?</string>
     <string name="onboarding_subtitle_1">Personalizziamo tutto a nostro piacimento.</string>
@@ -20,43 +20,43 @@
     <string name="onboarding_title_3">Iniziamo?</string>
     <string name="onboarding_subtitle_3">È tempo che Iconify faccia un po’ di lavoro interno.</string>
     <string name="onboarding_desc_3">Avvio di compiti interni, che segna l\'inizio del lavoro essenziale. Pronti per iniziare?</string>
-    <string name="need_storage_perm_title">Permesso di archiviazione necessario</string>
+    <string name="need_storage_perm_title">Permesso Archiviazione Necessario</string>
     <string name="need_storage_perm_desc">Il permesso di archiviazione è richiesto per compilare i file necessari.</string>
     <string name="compatible_root_not_found_title">Impossibile Trovare il Metodo Root Compatibile</string>
     <string name="compatible_root_not_found_desc">Utilizza qualsiasi soluzione root popolare per procedere.</string>
-    <string name="root_not_found_title">Root non accessibile</string>
+    <string name="root_not_found_title">Root Non Accessibile</string>
     <string name="root_not_found_desc">Sembra che il tuo dispositivo non abbia il root!</string>
-    <string name="need_reboot_title">Riavviare il dispositivo</string>
+    <string name="need_reboot_title">Riavvio Dispositivo Necessario</string>
     <string name="need_reboot_desc">Riavvia il dispositivo per mettere tutti i file al loro posto.</string>
     <string name="installation_failed_title">Ops, non era previsto</string>
     <string name="installation_failed_desc">Log salvati nella cartella documenti.</string>
     <string name="logs">Logs</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
-    <string name="activity_title_icon_pack">Pacchetti Icone</string>
+    <string name="activity_title_icon_pack">Pacchetto Icone</string>
     <string name="activity_desc_icon_pack">Cambia le icone di sistema</string>
     <string name="activity_title_brightness_bar">Barra Luminosità</string>
-    <string name="activity_desc_brightness_bar">Personalizza la barra di avanzamento</string>
-    <string name="activity_title_qs_shape">Pannello riquadri QS</string>
-    <string name="activity_desc_qs_shape">Personalizza il pannello dei riquadri QS</string>
+    <string name="activity_desc_brightness_bar">Personalizza il cursore di avanzamento</string>
+    <string name="activity_title_qs_shape">Pannello Riquadri QS</string>
+    <string name="activity_desc_qs_shape">Personalizza i riquadri del pannello QS</string>
     <string name="activity_title_notification">Notifiche</string>
     <string name="activity_desc_notification">Personalizza lo stile delle notifiche</string>
     <string name="activity_title_progress_bar">Barra di Avanzamento</string>
     <string name="activity_desc_progress_bar">Utilizza un differente stile di avanzamento</string>
-    <string name="activity_title_switch">Switch</string>
+    <string name="activity_title_switch">Interruttori</string>
     <string name="activity_desc_switch">Personalizza l\'aspetto degli interruttori</string>
-    <string name="activity_title_toast_frame">Notifiche Toast</string>
+    <string name="activity_title_toast_frame">Cornici Notifiche Toast</string>
     <string name="activity_desc_toast_frame">Cambia lo stile delle notifiche Toast</string>
     <string name="activity_title_icon_shape">Forma Icone</string>
     <string name="activity_desc_icon_shape">Cambia la forma delle icone di sistema</string>
     <string name="iconify_updated_title">Iconify è appena stato aggiornato!</string>
-    <string name="iconify_updated_desc">Riavvia il dispositivo per utilizzare le ultime feature e opzioni aggiunte.</string>
+    <string name="iconify_updated_desc">Riavvia il telefono per utilizzare le ultime funzionalità e opzioni aggiunte.</string>
     <!-- Home Card View -->
     <string name="home_card_title">Progettalo a modo tuo</string>
     <string name="home_card_subtitle">Scatena la tua immaginazione, rendilo tuo</string>
     <string name="home_card_hide">Nascondi</string>
     <!-- Tweaks -->
-    <string name="activity_title_color_engine">Color Engine</string>
+    <string name="activity_title_color_engine">Motore dei Colori</string>
     <string name="activity_desc_color_engine">Assumi il controllo sui colori</string>
     <string name="activity_title_ui_roundness">Smussatura UI</string>
     <string name="activity_desc_ui_roundness">Cambia il raggio degli angoli dell\'interfaccia</string>
@@ -65,8 +65,8 @@
     <string name="activity_title_qs_icon_label">Icone ed Etichette</string>
     <string name="activity_desc_qs_icon_label">Cambia le opzioni di Icone ed Etichette</string>
     <string name="activity_title_qs_tile_size">Dimensione Riquadri QS</string>
-    <string name="activity_desc_qs_tile_size">Cambia l\'altezza del pannello dei riquadri Qs</string>
-    <string name="activity_title_qs_panel_margin">Margini del pannello QS</string>
+    <string name="activity_desc_qs_tile_size">Cambia l\'altezza dei riquadri nel pannello QS</string>
+    <string name="activity_title_qs_panel_margin">Margini Pannello QS</string>
     <string name="activity_desc_qs_panel_margin">Modifica i margini del pannello delle impostazioni rapide</string>
     <string name="activity_title_statusbar">Barra di stato</string>
     <string name="activity_desc_statusbar">Modifica l\'interfaccia della barra di stato</string>
@@ -81,12 +81,12 @@
     <string name="activity_title_xposed_menu">Menù Xposed</string>
     <string name="activity_desc_xposed_menu">LSPosed richiesto per queste opzioni</string>
     <string name="activity_title_extras">Extra</string>
-    <string name="activity_desc_extras">Opzioni e modifiche aggiuntive</string>
+    <string name="activity_desc_extras">Opzioni e ritocchi aggiuntivi</string>
     <!-- Settings -->
     <string name="settings_section_title_general">Generale</string>
     <string name="settings_app_language">Lingua</string>
     <string name="settings_app_icon">Icona App</string>
-    <string name="settings_app_icon_default">Icona di Default</string>
+    <string name="settings_app_icon_default">Icona Predefinita</string>
     <string name="settings_app_icon_themed">Icona a Tema</string>
     <string name="settings_app_icon_retro">Icona Retrò</string>
     <string name="settings_app_theme">Tema App</string>
@@ -107,7 +107,7 @@
     <string name="settings_auto_restart_systemui">Riavvia SystemUI automaticamente</string>
     <string name="settings_auto_force_reload_ui">Forza automaticamente il ricaricamento dell\'interfaccia utente</string>
     <string name="settings_manual_restart_systemui">Notifica per il riavvio manuale del SystemUI</string>
-    <string name="settings_systemui_restart_required">Riavvio di SystemUI necessario</string>
+    <string name="settings_systemui_restart_required">Riavvio SystemUI necessario</string>
     <string name="settings_section_title_miscellaneous">Varie</string>
     <string name="settings_restart_systemui_after_boot_title">Riavvia SystemUI dopo l\'avvio</string>
     <string name="settings_restart_systemui_after_boot_desc">Alcune opzioni come l\'intensità di sfocatura non hanno effetto finchè SystemUI non verrà riavviato</string>
@@ -119,7 +119,7 @@
     <string name="activity_desc_experimental">Prova le nostre funzionalità sperimentali.</string>
     <string name="settings_disable_everything_title">Disabilita Tutto</string>
     <string name="settings_disable_everything_desc">Disabilita tutte le sovrapposizioni, i colori e le modifiche varie di Iconify.</string>
-    <string name="settings_section_title_about">A Proposito</string>
+    <string name="settings_section_title_about">Info</string>
     <string name="settings_github_repository_title">Repository GitHub</string>
     <string name="settings_telegram_group_title">Gruppo Telegram</string>
     <string name="settings_credits_title">Crediti</string>
@@ -131,7 +131,7 @@
     <string name="activity_desc_media_icons">Cambia il colore delle icone del lettore multimediale</string>
     <string name="activity_title_settings_icons">Icone Impostazioni</string>
     <string name="activity_desc_settings_icons">Cambia il pacchetto d\'icone delle impostazioni</string>
-    <string name="icon_pack_styles">Stili dei Pacchetti di Icone</string>
+    <string name="icon_pack_styles">Stili Pacchetti Icone</string>
     <string name="iconpack_aurora_desc">Pacchetto d\'icone bicolore lineare</string>
     <string name="iconpack_gradicon_desc">Pacchetto d\'icone piene a gradiente sfumato</string>
     <string name="iconpack_lorn_desc">Pacchetto d\'icone lineari spesse</string>
@@ -147,15 +147,15 @@
     <string name="iconpack_sam_desc">Pacchetto d\'icone piene</string>
     <string name="iconpack_victor_desc">Pacchetto d\'icone alternativo</string>
     <!-- Colored Battery -->
-    <string name="enable_colored_battery_title">Abilita la batteria colorata</string>
+    <string name="enable_colored_battery_title">Abilita Batteria Colorata</string>
     <string name="enable_colored_battery_desc">Usa colori personalizzati per l\'icona della batteria</string>
-    <string name="battery_background_color_title">Colore di sfondo</string>
+    <string name="battery_background_color_title">Colore Sfondo</string>
     <string name="battery_background_color_desc">Colore dello sfondo di riempimento della batteria</string>
-    <string name="battery_filled_color_title">Colore di riempimento</string>
+    <string name="battery_filled_color_title">Colore Riempimento</string>
     <string name="battery_filled_color_desc">Colore del livello di carica della batteria</string>
     <!-- Media Icons -->
     <string name="no_supported_music_player">Lettore Multimediale Supportato Non Trovato</string>
-    <string name="a13_default_media_player">Lettore di Default di Android 13</string>
+    <string name="a13_default_media_player">Lettore Predefinito Android 13</string>
     <string name="app_not_found">Applicazione non trovata!</string>
     <string name="iconpack_aurora">Aurora</string>
     <string name="iconpack_gradicon">Gradicon</string>
@@ -187,7 +187,7 @@
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Stile Barra Luminosità</string>
     <!-- QS Panel Tiles -->
-    <string name="qspanel_tile_styles">Stili Pannello Riquadri QS</string>
+    <string name="qspanel_tile_styles">Stili Riquadri Pannello QS</string>
     <!-- Notification -->
     <string name="notification_styles">Stili Notifiche</string>
     <string name="notif_preview_desc">Anteprima Notifiche.\nClicca per applicare questo stile.</string>
@@ -195,13 +195,13 @@
     <string name="click_to_enable_or_disable">Clicca per abilitare o disabilitare</string>
     <!-- Icon Shape -->
     <string name="icon_mask_style_none">Nessuno</string>
-    <string name="icon_mask_style_pebble">Pebble</string>
+    <string name="icon_mask_style_pebble">Ciottolo</string>
     <string name="icon_mask_style_hexagon">Esagono</string>
     <string name="icon_mask_style_samsung">Samsung</string>
     <string name="icon_mask_style_scroll">Pergamena</string>
     <string name="icon_mask_style_square">Quadrato</string>
     <string name="icon_mask_style_teardrop">Lacrima</string>
-    <string name="icon_mask_style_rounded_rectangle">Quadrato\nSmussato</string>
+    <string name="icon_mask_style_rounded_rectangle">Arrotondato\nRettangolo</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Nuvola</string>
     <string name="icon_mask_style_cylinder">Cilindro</string>
@@ -209,15 +209,15 @@
     <string name="icon_mask_style_heart">Cuore</string>
     <string name="icon_mask_style_leaf">Foglia</string>
     <string name="icon_mask_style_stretched">Allungata</string>
-    <string name="icon_mask_style_tapered_rectangle">Quadrato\nTagliato</string>
+    <string name="icon_mask_style_tapered_rectangle">Affusolato\nRettangolo</string>
     <string name="icon_mask_style_vessel">Vaso</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
     <string name="icon_mask_style_force_round">Rotondo Forzato</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Colori Base</string>
     <string name="activity_desc_basic_colors">Cambia colore primario e secondario</string>
-    <string name="activity_title_monet_engine">Monet Engine</string>
-    <string name="activity_desc_monet_engine">Sovrascrivi palette di colore Monet</string>
+    <string name="activity_title_monet_engine">Motore Monet</string>
+    <string name="activity_desc_monet_engine">Sovrascrivi la tavolozza dei colori Monet</string>
     <string name="section_title_stock_colors">Colori Stock</string>
     <string name="apply_monet_accent_title">Accento Monet</string>
     <string name="apply_monet_accent_desc">Usa Monet di sistema come accento</string>
@@ -260,16 +260,16 @@
     <string name="qstile_btn1_title">Internet</string>
     <string name="qstile_btn1_desc">RIP in Pace</string>
     <string name="qstile_btn2_title">Aereo</string>
-    <string name="qstile_btn2_desc">Off</string>
+    <string name="qstile_btn2_desc">Spento</string>
     <string name="qstile_btn3_title">Posizione</string>
-    <string name="qstile_btn3_desc">Off</string>
+    <string name="qstile_btn3_desc">Spento</string>
     <string name="qstile_btn4_title">Bluetooth</string>
-    <string name="qstile_btn4_desc">On</string>
+    <string name="qstile_btn4_desc">Acceso</string>
     <!-- Row and Column -->
     <string name="qs_row_column_warn_desc">Alcune combinazioni potrebbero non essere compatibili con alcune ROM. In questi casi, è sufficiente sperimentare con combinazioni alternative fino a trovarne una che soddisfi al meglio le tue esigenze.</string>
     <string name="quick_qspanel_row_title">Riga Pannello QS Rapido</string>
     <string name="qspanel_row_title">Riga Pannello QS</string>
-    <string name="qspanel_column_title">Colonne Pannello QS</string>
+    <string name="qspanel_column_title">Colonna Pannello QS</string>
     <!-- Icon and Label -->
     <string name="section_title_size_and_position">Dimensione e Posizione</string>
     <string name="hide_label_title">Nascondi Etichetta</string>
@@ -308,7 +308,7 @@
     <string name="section_title_color">Colore</string>
     <string name="sb_color_tint_title">Tinta Colore</string>
     <string name="sb_color_tint_desc">Tinta icone barra di stato e testi</string>
-    <string name="sb_tint_system">Tinta Default di Sistema</string>
+    <string name="sb_tint_system">Tinta Predefinita di Sistema</string>
     <string name="sb_tint_monet">Tinta Monet/Accento</string>
     <string name="sb_tint_custom">Tinta Personalizzata (Scelta Colore)</string>
     <!-- Navigation Bar -->
@@ -316,7 +316,7 @@
     <string name="navbar_fullscreen_title">Schermo intero</string>
     <string name="navbar_fullscreen_desc">Nascondi spaziatura tastiera e pillola</string>
     <string name="navbar_immersive_title">Immersiva</string>
-    <string name="navbar_immersive_desc">Spaziatura tastiera di Default</string>
+    <string name="navbar_immersive_desc">Spaziatura tastiera predefinita</string>
     <string name="navbar_immersive_v2_title">Immersiva v2</string>
     <string name="navbar_immersive_v2_desc">Spaziatura tastiera ridotta</string>
     <string name="navbar_immersive_v3_title">Immersiva v3</string>
@@ -358,10 +358,10 @@
     <string name="volume_module_desc">Crea un modulo magisk flashabile per questo stile</string>
     <string name="volume_style_gradient">Gradiente</string>
     <string name="volume_style_doublelayer">Doppio Strato</string>
-    <string name="volume_style_shadedlayer">Sfumato</string>
-    <string name="volume_style_neumorph">Neumorfico</string>
-    <string name="volume_style_outline">Bordo</string>
-    <string name="volume_style_neumorphoutline">Bordo Neumorfico</string>
+    <string name="volume_style_shadedlayer">Strato Sfumato</string>
+    <string name="volume_style_neumorph">Neumorph</string>
+    <string name="volume_style_outline">Contorno</string>
+    <string name="volume_style_neumorphoutline">Contorno Neumorph</string>
     <string name="btn_create_module">Crea Modulo</string>
     <string name="toast_module_created">Modulo creato con successo</string>
     <string name="read_carefully">Leggi Attentamente!</string>
@@ -545,6 +545,7 @@
     <string name="battery_landscape_battery_o">Batteria Orizzontale O</string>
     <string name="battery_circle">Batteria Circolare</string>
     <string name="battery_dotted_circle">Batteria Circolare Tratteggiata</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Percentuale Volume</string>
     <string name="volume_percentage_desc">Mostra percentuale sopra il cursore del volume</string>
@@ -614,6 +615,7 @@
     <string name="wallpaper_fade_animation_desc">Anima lo sfondo e sfuma in AOD</string>
     <string name="foreground_image_title">Immagine in Primo Piano</string>
     <string name="foreground_image_desc">Immagine in primo piano per lo sfondo di profondità</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">Immagine Sfondo</string>
     <string name="background_image_desc">Immagine di sfondo per lo sfondo di profondità</string>
     <string name="depth_wallpaper_alert_msg">Questa funzione è attualmente in fase beta. Quindi sono previsti bug.\n\n<b>Bug Conosciuto:</b>\n• Toccare la schermata di blocco fa saltare lo sfondo.</string>
@@ -649,6 +651,8 @@
     <string name="hide_ls_carrier_desc">Nascondi nome operatore nella schermata di blocco</string>
     <string name="hide_ls_statusbar_title">Nascondi Barra Di Stato LS</string>
     <string name="hide_ls_statusbar_desc">Nascondi barra di stato nella schermata di blocco</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">Icone di Stato Fisse</string>
     <string name="fixed_status_icons_desc">Imposta le icone di stato in posizione fissa\nPotrebbe essere buggato su alcune rom</string>
     <!-- Changelog -->

@@ -21,7 +21,7 @@
     <string name="onboarding_subtitle_3">Iconify необходимо выполнить некоторую внутреннюю работу.</string>
     <string name="onboarding_desc_3">Начинаются внутренние задачи, намечается запуск необходимой работы. Готовы приступить?</string>
     <string name="need_storage_perm_title">Необходимо предоставить доступ к хранилищу</string>
-    <string name="need_storage_perm_desc">Необходиимо предоставить доступ к хранилищу для создания нужных файлов</string>
+    <string name="need_storage_perm_desc">Необходимо предоставить доступ к хранилищу для создания нужных файлов.</string>
     <string name="compatible_root_not_found_title">Совместимые Root-права не найдены</string>
     <string name="compatible_root_not_found_desc">Для продолжения предоставьте root-доступ одним из известных методов.</string>
     <string name="root_not_found_title">Root права не доступны</string>
@@ -29,7 +29,7 @@
     <string name="need_reboot_title">Необходимо перезагрузить устройство</string>
     <string name="need_reboot_desc">Перезагрузите устройство, чтобы все файлы встали на своё место.</string>
     <string name="installation_failed_title">Упс, это было неожиданно</string>
-    <string name="installation_failed_desc">Что-то пошло не так.\nОтправьте Лог разработчику, чтобы помочь исправить проблему.</string>
+    <string name="installation_failed_desc">Что-то пошло не так.\nОтправьте логи разработчику, чтобы помочь исправить проблему.</string>
     <string name="logs">Логи</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
@@ -42,18 +42,18 @@
     <string name="activity_title_notification">Уведомления</string>
     <string name="activity_desc_notification">Изменить стиль уведомлений</string>
     <string name="activity_title_progress_bar">Прогресс-бар</string>
-    <string name="activity_desc_progress_bar">Изменить стиль Прогресс-бара</string>
+    <string name="activity_desc_progress_bar">Изменить стиль прогресс-бара</string>
     <string name="activity_title_switch">Переключатель</string>
     <string name="activity_desc_switch">Изменить внешний вид переключателя</string>
     <string name="activity_title_toast_frame">Рамка Toast-уведомления</string>
     <string name="activity_desc_toast_frame">Изменить стиль Toast-уведомлений</string>
     <string name="activity_title_icon_shape">Форма иконок</string>
-    <string name="activity_desc_icon_shape">Изменить форму иконок в лунчере</string>
+    <string name="activity_desc_icon_shape">Изменить форму иконок в лаунчере</string>
     <string name="iconify_updated_title">Iconify только что обновился!</string>
     <string name="iconify_updated_desc">Перезагрузите телефон, для использования последних добавленных функций и опций.</string>
     <!-- Home Card View -->
     <string name="home_card_title">Оформите по-своему</string>
-    <string name="home_card_subtitle">Дайте волю своей фантазии, сделайте всё своим</string>
+    <string name="home_card_subtitle">Дайте волю своей фантазии, сделайте всё по-своему</string>
     <string name="home_card_hide">Скрыть</string>
     <!-- Tweaks -->
     <string name="activity_title_color_engine">Редактор цветов</string>
@@ -68,8 +68,8 @@
     <string name="activity_desc_qs_tile_size">Изменить размер плиток быстрых настроек</string>
     <string name="activity_title_qs_panel_margin">Отступ панели быстрых настроек</string>
     <string name="activity_desc_qs_panel_margin">Изменить отступ панели быстрых настроек</string>
-    <string name="activity_title_statusbar">Статусбар</string>
-    <string name="activity_desc_statusbar">Изменить внешний вид статусбара</string>
+    <string name="activity_title_statusbar">Строка состояния</string>
+    <string name="activity_desc_statusbar">Изменить внешний вид строки состояния</string>
     <string name="activity_title_navigation_bar">Строка навигации</string>
     <string name="activity_desc_navigation_bar">Изменить строку навигации</string>
     <string name="activity_title_volume_panel">Панель громкости</string>
@@ -80,7 +80,7 @@
     <string name="activity_desc_miscellaneous">Различные настройки и кастомизации</string>
     <string name="activity_title_xposed_menu">Меню XPosed</string>
     <string name="activity_desc_xposed_menu">Для этой опции необходим LSPosed</string>
-    <string name="activity_title_extras">Дополнительные</string>
+    <string name="activity_title_extras">Дополнительно</string>
     <string name="activity_desc_extras">Дополнительные настройки и параметры</string>
     <!-- Settings -->
     <string name="settings_section_title_general">Основные</string>
@@ -115,8 +115,8 @@
     <string name="settings_show_home_page_card_desc">Показать красивую карточку на главной странице.</string>
     <string name="settings_clear_app_cache_title">Очистить кэш приложения</string>
     <string name="settings_clear_app_cache_desc">Очистить кэш, созданный в результате использования пользовательских шрифтов, изображений или gif-файлов.</string>
-    <string name="activity_title_experimental">Экспериментальные</string>
-    <string name="activity_desc_experimental">Попробовать экспериментальные функции.</string>
+    <string name="activity_title_experimental">Экспериментальные настройки</string>
+    <string name="activity_desc_experimental">Попробовать экспериментальные настройки.</string>
     <string name="settings_disable_everything_title">Отключить всё</string>
     <string name="settings_disable_everything_desc">Отключить все оверлеи, цвета и другие изменения сделанные Iconify.</string>
     <string name="settings_section_title_about">О приложении</string>
@@ -145,7 +145,7 @@
     <string name="iconpack_pui_desc">Тонкий двухцветный набор иконок</string>
     <string name="iconpack_rounded_desc">Скруглённый набор иконок</string>
     <string name="iconpack_sam_desc">Заполненный набор иконок</string>
-    <string name="iconpack_victor_desc">Угловаьый набор иконок</string>
+    <string name="iconpack_victor_desc">Угловатый набор иконок</string>
     <!-- Colored Battery -->
     <string name="enable_colored_battery_title">Включить цветную батарею</string>
     <string name="enable_colored_battery_desc">Использовать свой цвет для иконки батареи</string>
@@ -460,9 +460,9 @@
     <string name="section_title_qs_margin">Отступ быстрых настроек</string>
     <string name="section_title_qs_elements">Элементы быстрых настроек</string>
     <string name="hide_qs_silent_text_title">Скрыть надпись Без звука у уведомлений</string>
-    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
-    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
-    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
+    <string name="hide_qs_silent_text_desc">Скрывать беззвучный текст, отображаемый в заголовке беззвучных уведомлений (требуется перезапуск SystemUI)</string>
+    <string name="hide_qs_footer_buttons_title">Скрыть кнопки нижнего колонтитула</string>
+    <string name="hide_qs_footer_buttons_desc">Скрыть кнопки нижнего колонтитула, отображаемые под стеком уведомлений</string>
     <!-- Battery Style -->
     <string name="battery_style_title">Стиль батареи</string>
     <string name="battery_width_title">Ширина батареи</string>
@@ -545,6 +545,7 @@
     <string name="battery_landscape_battery_o">Горизонтальная батарея O</string>
     <string name="battery_circle">Круглая батарея</string>
     <string name="battery_dotted_circle">Точечный круг батареи</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Проценты громкости</string>
     <string name="volume_percentage_desc">Показывать проценты выше слайдера громкости</string>
@@ -556,7 +557,7 @@
     <string name="btn_pick_image">Выбрать изображение</string>
     <string name="header_image_height_title">Высота изображения</string>
     <string name="header_image_alpha">Прозрачность изображения</string>
-    <string name="header_image_bottom_fade">Bottom Fade Amount</string>
+    <string name="header_image_bottom_fade">Нижняя величина затухания</string>
     <string name="header_image_zoom_to_fit_title">Увеличить размер</string>
     <string name="header_image_zoom_to_fit_desc">Размер изображение растянут по умолчанию</string>
     <string name="header_image_hide_in_landscape_title">Скрыть в ландшафтном режиме</string>
@@ -600,13 +601,13 @@
     <string name="lockscreen_clock_bottom_margin_title">Нижнее поле</string>
     <string name="lockscreen_clock_white_text_title">Белый текст</string>
     <string name="lockscreen_clock_white_text_desc">Сделать цвет белым</string>
-    <string name="btn_select">Выбрать</string>
-    <string name="battery_charging">Battery Charging</string>
-    <string name="battery_discharging">Battery Discharging</string>
-    <string name="battery_full">Battery Full</string>
-    <string name="battery_level_percentage">Battery Level</string>
-    <string name="welcome_back">Welcome back!</string>
-    <string name="default_user_name">User</string>
+    <string name="btn_select">Выбрыть </string>
+    <string name="battery_charging">Зарядка батареи</string>
+    <string name="battery_discharging">Разрядка батареи</string>
+    <string name="battery_full">Батарея заряжена</string>
+    <string name="battery_level_percentage">Уровень заряда</string>
+    <string name="welcome_back">Добро пожаловать!</string>
+    <string name="default_user_name">Пользователь</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Включить глубинные обои</string>
     <string name="enable_depth_wallpaper_desc">Показывать iOS-подобные глубинные обои\nНеобходимо использовать пользовательские часы блокировки экрана</string>
@@ -614,13 +615,14 @@
     <string name="wallpaper_fade_animation_desc">Анимировать обои и угасать в AOD</string>
     <string name="foreground_image_title">Изображение на переднем плане</string>
     <string name="foreground_image_desc">Изображение на переднем плане для глубинных обоев</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">Изображение на заднем плане</string>
     <string name="background_image_desc">Изображение на заднем плане для глубинных обоев</string>
-    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="depth_wallpaper_alert_msg">Эта функция находится на стадии бета-тестирования. Поэтому могут быть ошибки.\n\n<b>Известные ошибки:</b>\n• При нажатии на экран блокировки обои подпрыгивают.</string>
     <string name="wallpaper_parallax_effect_title">Эффект параллакса</string>
-    <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
-    <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
-    <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
+    <string name="wallpaper_parallax_effect_summary">Перемещайте слои фона и переднего плана с разной скоростью</string>
+    <string name="wallpaper_foreground_sensitivity_title">Чувствительность переднего плана</string>
+    <string name="wallpaper_background_sensitivity_title">Фоновая чувствительность</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Строка состояния</string>
     <string name="sb_clock_background_chip_title">Фишка часов статусбара</string>
@@ -649,8 +651,10 @@
     <string name="hide_ls_carrier_desc">Скрывает оператора на экране блокировки</string>
     <string name="hide_ls_statusbar_title">Скрыть статусбар</string>
     <string name="hide_ls_statusbar_desc">Скрывает статусбар на экране блокировки</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">Фиксированные иконки статусбара</string>
-    <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
+    <string name="fixed_status_icons_desc">Установить значки состояния в фиксированном положении\nВ некоторых прошивках могут быть ошибки</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Журнал изменеий</string>
     <string name="no_internet_connection">Не удалось подключится к серверу!\nЭто может быть вызвано проблемами с интернетом или доступностью серверов. Пожалуйста, попытайтесь снова позже.</string>
@@ -687,7 +691,7 @@
     <string name="info_xposed_desc">За помощь с Xposed.</string>
     <string name="info_tester_desc">За тестирование приложения.</string>
     <string name="info_betterqs_desc">За разрешение на использование Better QS</string>
-    <string name="info_binaries_desc">For android executable binaries.</string>
+    <string name="info_binaries_desc">Для исполняемых двоичных файлов Android.</string>
     <string name="section_title_contributors">Участники проекта</string>
     <string name="info_contributor_desc">Вклад на github.</string>
     <string name="info_contributor_desc_2">Помощь мне в Telegram.</string>
@@ -823,7 +827,7 @@
     <string name="toast_export_settings_successfull">Настройки успешно экспортированы</string>
     <string name="toast_selected_successfully">Выбрано успешно</string>
     <string name="toast_unavailable">Недоступно</string>
-    <string name="toast_use_from_xposed_menu">Use this feature from Xposed Menu</string>
+    <string name="toast_use_from_xposed_menu">Используйте эту функцию из меню Xposed</string>
     <!-- Push Notification -->
     <string name="new_update_title">Доступно обновление</string>
     <string name="new_update_desc">Доступна новая версия Iconify.</string>
@@ -889,7 +893,7 @@
     <string name="custom_qs_margin_title">Свои отступы панели быстрых настроек</string>
     <string name="custom_qs_margin_desc">Включить свои отступы для панели быстрых настроек</string>
     <string name="force_enable_blur_title">Включить размытие</string>
-    <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
+    <string name="force_enable_blur_desc">Принудительно включить размытие для неподдерживаемых прошивок</string>
     <string name="choose_header_image">Выбрать изображение для заголовка</string>
     <string name="choose_clock_font">Выбрать шрифт часов</string>
     <string name="pick_style">Выберите стиль по своему вкусу</string>
@@ -918,5 +922,5 @@
     <string name="one_time_reboot_needed">Необходимо перезагрузить устройство!</string>
     <string name="tap_to_select">Нажмите на превью, чтобы выбрать</string>
     <string name="dont_show_again">Больше не показывать</string>
-    <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
+    <string name="requires_lsposed_for_a14">Для обеспечения правильной функциональности, включение модуля Iconify в LSPosed является обязательным для Android 14 и выше.\n\nПосле этого включите исправления из: Tweaks &gt; Xposed Меню &gt; Темы &gt; Другие.</string>
 </resources>

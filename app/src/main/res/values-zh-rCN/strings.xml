@@ -545,6 +545,7 @@
     <string name="battery_landscape_battery_o">横向电池 O</string>
     <string name="battery_circle">环形电池</string>
     <string name="battery_dotted_circle">虚线环形电池</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">音量百分比</string>
     <string name="volume_percentage_desc">在音量滑块之上显示百分比</string>
@@ -614,6 +615,7 @@
     <string name="wallpaper_fade_animation_desc">在息屏显示中使壁纸动画化并具有淡出的动画</string>
     <string name="foreground_image_title">前景图</string>
     <string name="foreground_image_desc">深度壁纸的前景图</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">背景图</string>
     <string name="background_image_desc">深度壁纸的背景图</string>
     <string name="depth_wallpaper_alert_msg">这个功能尚且处于 Beta 阶段。所以预计还是会存在 Bug。\n\n<b>已知 Bug：</b>\n• 点击锁屏界面会让壁纸跳动。</string>
@@ -649,6 +651,8 @@
     <string name="hide_ls_carrier_desc">在锁屏上隐藏运营商名称</string>
     <string name="hide_ls_statusbar_title">隐藏锁屏状态栏</string>
     <string name="hide_ls_statusbar_desc">在锁屏上隐藏状态栏</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">固定状态图标</string>
     <string name="fixed_status_icons_desc">将状态图标设置在固定位置\n在某些系统上可能会出现错误</string>
     <!-- Changelog -->

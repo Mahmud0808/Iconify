@@ -545,6 +545,7 @@
     <string name="battery_landscape_battery_o">Bateria de paisagem O</string>
     <string name="battery_circle">Bateria circular</string>
     <string name="battery_dotted_circle">Bateria circular pontilhada</string>
+    <string name="battery_filled_circle">Bateria de círculo preenchido</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Porcentagem do volume</string>
     <string name="volume_percentage_desc">Mostrar porcentagem acima do controle deslizante de volume</string>
@@ -614,6 +615,7 @@
     <string name="wallpaper_fade_animation_desc">Anime o plano de fundo e desapareça na Tela ambiente</string>
     <string name="foreground_image_title">Imagem de primeiro plano</string>
     <string name="foreground_image_desc">Imagem de primeiro plano para o plano de fundo com profundidade</string>
+    <string name="foreground_image_alpha_title">Imagem de primeiro plano alfa</string>
     <string name="background_image_title">Imagem de fundo</string>
     <string name="background_image_desc">Imagem de fundo para o plano de fundo com profundidade</string>
     <string name="depth_wallpaper_alert_msg">Este recurso está atualmente em fase beta. Portanto, bugs são esperados.\n\n<b>Bug(s) conhecido(s):</b>\n• Tocar na tela de bloqueio faz o plano de fundo saltar.</string>
@@ -649,6 +651,8 @@
     <string name="hide_ls_carrier_desc">Oculte o nome da operadora na tela de bloqueio</string>
     <string name="hide_ls_statusbar_title">Ocultar barra de status na tela de bloqueio</string>
     <string name="hide_ls_statusbar_desc">Oculte a barra de status na tela de bloqueio</string>
+    <string name="hide_ls_lock_icon_title">Ocultar ícone de cadeado na tela de bloqueio</string>
+    <string name="hide_ls_lock_icon_desc">Oculte a visualização do ícone de cadeado na tela de bloqueio</string>
     <string name="fixed_status_icons_title">Ícones de status fixos</string>
     <string name="fixed_status_icons_desc">Defina ícones de status em posição fixa.\nPode haver bugs em algumas ROMs.</string>
     <!-- Changelog -->

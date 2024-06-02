@@ -545,6 +545,7 @@
     <string name="battery_landscape_battery_o">Fekvő akkumulátor O</string>
     <string name="battery_circle">Kör akkumulátor</string>
     <string name="battery_dotted_circle">Pontozott kör akkumulátor</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Százalékos hangerő</string>
     <string name="volume_percentage_desc">Megjeleníti a százalékértéket a hangerőcsúszka felett</string>
@@ -614,6 +615,7 @@
     <string name="wallpaper_fade_animation_desc">Animálja a háttérképet, és áttűnik az AOD-ba</string>
     <string name="foreground_image_title">Előtérkép</string>
     <string name="foreground_image_desc">Elsődleges kép a mélységi háttérhez</string>
+    <string name="foreground_image_alpha_title">Előtérkép Alfa értéke</string>
     <string name="background_image_title">Háttérkép</string>
     <string name="background_image_desc">Másodlagos kép a mélységi háttérhez</string>
     <string name="depth_wallpaper_alert_msg">Ez a funkció még bétatesztelés alatt van. Bugos lehet.\n\n<b>Ismert hibák:</b>\nA záróképernyő érintésére a háttérkép elcsúszik.</string>
@@ -649,6 +651,8 @@
     <string name="hide_ls_carrier_desc">A záróképernyőről eltűnik a Szolgáltató neve</string>
     <string name="hide_ls_statusbar_title">Nincs Állapotsor a képernyőzáron</string>
     <string name="hide_ls_statusbar_desc">A záróképernyőről eltűnik az Állapotsor</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">Rögzített Állapotikonok</string>
     <string name="fixed_status_icons_desc">Az állapotikonok rögzített pozícióba kerülnek\nJónéhány ROM-on buggolást okoz</string>
     <!-- Changelog -->

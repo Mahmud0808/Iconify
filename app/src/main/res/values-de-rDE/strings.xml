@@ -546,6 +546,7 @@ transparent machen</string>
     <string name="battery_landscape_battery_o">Horizontal Batterie O</string>
     <string name="battery_circle">Kreissymbol</string>
     <string name="battery_dotted_circle">Gepunktetes Kreissymbol</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Volume Percentage</string>
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
@@ -615,6 +616,7 @@ transparent machen</string>
     <string name="wallpaper_fade_animation_desc">Animiere Hintergrundbild und verblassen im AOD</string>
     <string name="foreground_image_title">Vordergrund Bild</string>
     <string name="foreground_image_desc">Vordergrundbild für Tiefeneffekt</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">Hintergrund Bild</string>
     <string name="background_image_desc">Hintergrundbild für Tiefeneffekt</string>
     <string name="depth_wallpaper_alert_msg">Diese Funktion befindet sich derzeit in der Beta-Phase. Daher werden Fehler erwartet.\n\n<b>Bekannte Bug(s):</b>\n• Tippen auf den Sperrbildschirm lässt das Hintergrundbild springen.</string>
@@ -650,6 +652,8 @@ transparent machen</string>
     <string name="hide_ls_carrier_desc">Netzanbieter auf Sperrbildschirm verbergen</string>
     <string name="hide_ls_statusbar_title">Verstecke Statusleiste</string>
     <string name="hide_ls_statusbar_desc">Statusleiste auf Sperrbildschirm ausblenden</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">Fixierte Statussymbole</string>
     <string name="fixed_status_icons_desc">Setze die Statussymbole an einer festen Position.\nKönnte auf einigen ROMs fehlerhaft sein.</string>
     <!-- Changelog -->
