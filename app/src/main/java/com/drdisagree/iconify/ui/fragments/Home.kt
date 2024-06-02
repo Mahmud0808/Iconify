@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -193,16 +192,14 @@ class Home : BaseFragment() {
                     R.drawable.ic_styles_progress
                 )
             )
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                add(
-                    arrayOf(
-                        R.id.action_homePage_to_switch1,
-                        appContextLocale.resources.getString(R.string.activity_title_switch),
-                        appContextLocale.resources.getString(R.string.activity_desc_switch),
-                        R.drawable.ic_styles_switch
-                    )
+            add(
+                arrayOf(
+                    R.id.action_homePage_to_switch1,
+                    appContextLocale.resources.getString(R.string.activity_title_switch),
+                    appContextLocale.resources.getString(R.string.activity_desc_switch),
+                    R.drawable.ic_styles_switch
                 )
-            }
+            )
             add(
                 arrayOf(
                     R.id.action_homePage_to_toastFrame,
