@@ -29,6 +29,7 @@ import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
 import com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
+import com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.isPixelVariant
@@ -57,6 +58,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private var hideSilentText = false
     private var qqsTopMargin = 100
     private var qsTopMargin = 100
+    private var tileTextSize: Float = (-1).toFloat()
     private var mParam: Any? = null
     private var mFooterButtonsContainer: ViewGroup? = null
     private var mFooterButtonsOnDrawListener: OnDrawListener? = null
@@ -80,6 +82,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         qsTextFollowAccent = Xprefs!!.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
         hideSilentText = Xprefs!!.getBoolean(HIDE_QS_SILENT_TEXT, false)
         hideFooterButtons = Xprefs!!.getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
+        tileTextSize = Xprefs!!.getInt(FABRICATED_QS_TEXT_SIZE, -1).toFloat()
 
         triggerQsElementVisibility()
     }
@@ -898,17 +901,34 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
     private fun setLabelSizes(paramThisObject: Any) {
         try {
+            val primaryTextScalingFactor = if (tileTextSize != (-1).toFloat()) {
+                tileTextSize / 10f
+            } else {
+                1f
+            }
+            val secondaryTextScalingFactor = if (tileTextSize != (-1).toFloat()) {
+                primaryTextScalingFactor - 0.08f
+            } else {
+                0.92f
+            }
+
             if (qsTilePrimaryTextSize != null && qsTilePrimaryTextSizeUnit != -1) {
-                (getObjectField(paramThisObject, "label") as TextView).setTextSize(
+                (getObjectField(
+                    paramThisObject,
+                    "label"
+                ) as TextView).setTextSize(
                     qsTilePrimaryTextSizeUnit,
-                    qsTilePrimaryTextSize!!
+                    qsTilePrimaryTextSize!! * primaryTextScalingFactor
                 )
             }
 
             if (qsTileSecondaryTextSize != null && qsTileSecondaryTextSizeUnit != -1) {
-                (getObjectField(paramThisObject, "secondaryLabel") as TextView).setTextSize(
+                (getObjectField(
+                    paramThisObject,
+                    "secondaryLabel"
+                ) as TextView).setTextSize(
                     qsTileSecondaryTextSizeUnit,
-                    (qsTileSecondaryTextSize!! * 0.92).toFloat()
+                    qsTileSecondaryTextSize!! * secondaryTextScalingFactor
                 )
             }
         } catch (ignored: Throwable) {

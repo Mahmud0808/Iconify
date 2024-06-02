@@ -24,6 +24,7 @@ import com.drdisagree.iconify.config.Prefs.getBoolean
 import com.drdisagree.iconify.config.Prefs.getString
 import com.drdisagree.iconify.config.Prefs.putBoolean
 import com.drdisagree.iconify.config.Prefs.putString
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.FragmentQsIconLabelBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -71,6 +72,7 @@ class QsIconLabel : BaseFragment() {
         binding.textSize.setResetClickListener {
             finalTextSize[0] = 14
             putString(FABRICATED_QS_TEXT_SIZE, finalTextSize[0].toString())
+            RPrefs.putInt(FABRICATED_QS_TEXT_SIZE, -1)
 
             removeResourceFromOverlay(
                 requireContext(),
@@ -85,6 +87,7 @@ class QsIconLabel : BaseFragment() {
             override fun onStopTrackingTouch(slider: Slider) {
                 finalTextSize[0] = slider.value.toInt()
                 putString(FABRICATED_QS_TEXT_SIZE, finalTextSize[0].toString())
+                RPrefs.putInt(FABRICATED_QS_TEXT_SIZE, finalTextSize[0] - 4)
 
                 buildOverlayWithResource(
                     requireContext(),
