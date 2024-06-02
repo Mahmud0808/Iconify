@@ -9,7 +9,7 @@
             android:insetRight="@*com.android.systemui:dimen/rounded_slider_track_inset">
             <shape>
                 <size android:height="@*com.android.systemui:dimen/volume_dialog_track_width" />
-                <corners android:radius="@*com.android.systemui:dimen/volume_dialog_track_corner_radius" />
+                <corners android:radius="@*com.android.systemui:dimen/volume_dialog_slider_corner_radius" />
                 <solid android:color="?android:colorBackground" />
             </shape>
         </inset>

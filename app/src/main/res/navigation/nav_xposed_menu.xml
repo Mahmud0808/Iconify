@@ -93,6 +93,13 @@
             app:exitAnim="@anim/fragment_fade_out"
             app:popEnterAnim="@anim/fragment_fade_in"
             app:popExitAnim="@anim/fragment_fade_out" />
+        <action
+            android:id="@+id/action_xposedMenu_to_xposedVolumePanel"
+            app:destination="@id/xposedVolumePanel"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
     </fragment>
     <fragment
         android:id="@+id/xposedBackgroundChip"
@@ -312,6 +319,19 @@
         <action
             android:id="@+id/action_experimental2_to_settings2"
             app:destination="@id/settings"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/xposedVolumePanel"
+        android:name="com.drdisagree.iconify.ui.fragments.XposedVolumePanel"
+        android:label="fragment_xposed_volume_panel"
+        tools:layout="@layout/fragment_xposed_volume_panel">
+        <action
+            android:id="@+id/action_xposedVolumePanel_to_xposedMenu"
+            app:destination="@id/xposedMenu"
             app:enterAnim="@anim/fragment_fade_in"
             app:exitAnim="@anim/fragment_fade_out"
             app:popEnterAnim="@anim/fragment_fade_in"

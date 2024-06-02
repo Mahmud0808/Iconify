@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bebasneue_bold"
+        android:includeFontPadding="false"
         android:format12Hour="EEEE"
         android:format24Hour="EEEE"
         android:tag="accent1|nolineheight"
@@ -26,6 +27,7 @@
         android:fontFamily="@font/bebasneue_bold"
         android:format12Hour="MMMM"
         android:format24Hour="MMMM"
+        android:includeFontPadding="false"
         android:tag="accent3"
         android:textColor="@android:color/system_accent3_300"
         android:textSize="35sp" />
@@ -33,6 +35,7 @@
     <TextClock
         android:id="@+id/curvedText3"
         android:layout_width="wrap_content"
+        android:includeFontPadding="false"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/bebasneue_bold"
@@ -44,6 +47,7 @@
 
     <TextClock
         android:id="@+id/curvedText4_12hour"
+        android:includeFontPadding="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

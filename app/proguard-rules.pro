@@ -1,3 +1,11 @@
+# Uncomment this to preserve the line number information for
+# debugging stack traces.
+-keepattributes SourceFile,LineNumberTable
+
+# If you keep the line number information, uncomment this to
+# hide the original source file name.
+-renamesourcefileattribute SourceFile
+
 # Kotlin
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
 	public static void check*(...);
@@ -43,6 +51,11 @@
 
 # Keep Recycler View Stuff
 -keep,allowoptimization,allowobfuscation class androidx.recyclerview.widget.** { *; }
+
+# Keep Parcelable Creators
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
 
 # Obfuscation
 -repackageclasses

@@ -45,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:includeFontPadding="false"
                     android:alpha="0.7"
                     android:format12Hour="a"
                     android:format24Hour="ss"
@@ -58,6 +59,7 @@
                 <TextClock
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_gravity="end"
                     android:format12Hour="h:mm"
                     android:format24Hour="h:mm"
@@ -93,6 +95,7 @@
                     android:format24Hour="EEE"
                     android:singleLine="true"
                     android:tag="text1|nolineheight"
+                    android:includeFontPadding="false"
                     android:textAlignment="viewEnd"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
@@ -105,6 +108,7 @@
                     android:format12Hour="dd"
                     android:format24Hour="dd"
                     android:singleLine="true"
+                    android:includeFontPadding="false"
                     android:tag="text1"
                     android:textAlignment="viewEnd"
                     android:textColor="@android:color/white"
@@ -117,6 +121,7 @@
                     android:layout_gravity="end"
                     android:format12Hour="MMMM"
                     android:format24Hour="MMMM"
+                    android:includeFontPadding="false"
                     android:singleLine="true"
                     android:tag="text1"
                     android:textAlignment="viewEnd"
@@ -134,7 +139,7 @@
             android:gravity="center_vertical">
 
             <ProgressBar
-                android:id="@+id/volume_progressbar"
+                android:tag="volume_progressbar"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:indeterminateDrawable="@drawable/widget_progress_track"
@@ -165,6 +170,7 @@
                     android:layout_gravity="start|center"
                     android:drawablePadding="3dp"
                     android:ellipsize="end"
+                    android:includeFontPadding="false"
                     android:gravity="start"
                     android:singleLine="true"
                     android:tag="text1"
@@ -179,14 +185,14 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/volume_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center"
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:tag="text1"
+                    android:tag="text1|volume_level"
+                    android:includeFontPadding="false"
                     android:text="40%"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
@@ -201,7 +207,7 @@
             android:gravity="center_vertical">
 
             <ProgressBar
-                android:id="@+id/battery_progressbar"
+                android:tag="battery_progressbar"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:indeterminateDrawable="@drawable/widget_progress_track"
@@ -227,15 +233,15 @@
                     app:tint="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/battery_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_gravity="start|center"
                     android:drawablePadding="3dp"
                     android:ellipsize="end"
                     android:gravity="start"
                     android:singleLine="true"
-                    android:tag="text1"
+                    android:tag="text1|battery_status"
                     android:text="Battery Status"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
@@ -247,14 +253,14 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/battery_percentage"
                     android:layout_width="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center"
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:tag="text1"
+                    android:tag="text1|battery_percentage"
                     android:text="40%"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"

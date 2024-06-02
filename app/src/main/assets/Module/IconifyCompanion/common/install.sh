@@ -5,5 +5,6 @@ ui_print "  "
 ui_print "********************************" 
 ui_print "  " 
 ui_print "********************************"
-ui_print " Extracting Files, please wait.... . "
+ui_print " Extracting Files, please wait..... "
+ui_print "  " 
 #add custom functions if u need

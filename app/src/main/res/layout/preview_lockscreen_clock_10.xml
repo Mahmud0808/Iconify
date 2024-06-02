@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="start|top"
+    android:layoutDirection="ltr"
     android:gravity="start|top">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_gravity="start|top"
@@ -22,7 +23,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -33,6 +34,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:tag="text1|nolineheight"
+                    android:includeFontPadding="false"
                     android:text="#include  "
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
@@ -42,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+                    android:includeFontPadding="false"
                     android:tag="accent1|nolineheight"
                     android:text="\u003Cstring\u003E"
                     android:textColor="@android:color/system_accent1_400"
@@ -50,7 +53,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -60,6 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+                    android:includeFontPadding="false"
                     android:tag="text1"
                     android:text="using namespace std;"
                     android:textColor="@android:color/white"
@@ -69,13 +73,14 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:includeFontPadding="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
@@ -88,7 +93,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -96,6 +101,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:tag="text1"
@@ -106,7 +112,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -114,6 +120,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:tag="text1"
@@ -124,7 +131,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -133,6 +140,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:tag="text1"
                     android:text="\t\ttime =  \u0022"
@@ -146,6 +154,7 @@
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:format12Hour="hh:mm"
                     android:format24Hour="HH:mm"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0.03"
                     android:tag="accent1"
                     android:textColor="@android:color/system_accent1_400"
@@ -154,6 +163,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:paddingStart="-0.5dip"
                     android:tag="text1"
@@ -164,7 +174,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -172,6 +182,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:tag="text1"
@@ -188,6 +199,7 @@
                     android:format12Hour="EEEE"
                     android:format24Hour="EEEE"
                     android:gravity="center"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0.3"
                     android:tag="accent1"
                     android:textAllCaps="true"
@@ -201,13 +213,14 @@
                     android:paddingStart="-0.5dip"
                     android:tag="text1"
                     android:text="\u0022;"
+                    android:includeFontPadding="false"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -217,6 +230,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+                    android:includeFontPadding="false"
                     android:tag="text1"
                     android:text="\t\tdate =  \u0022"
                     android:textColor="@android:color/white"
@@ -231,6 +245,7 @@
                     android:format24Hour="yyyy.MM.dd"
                     android:letterSpacing="0.03"
                     android:singleLine="true"
+                    android:includeFontPadding="false"
                     android:tag="accent3"
                     android:textColor="@android:color/system_accent3_400"
                     android:textSize="16sp" />
@@ -242,13 +257,14 @@
                     android:paddingStart="-0.5dip"
                     android:tag="text1"
                     android:text="\u0022;"
+                    android:includeFontPadding="false"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -258,6 +274,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+                    android:includeFontPadding="false"
                     android:tag="text1"
                     android:text="\t\tmonth =  \u0022"
                     android:textColor="@android:color/white"
@@ -272,6 +289,7 @@
                     android:format24Hour="MMMM"
                     android:gravity="center"
                     android:letterSpacing="0.3"
+                    android:includeFontPadding="false"
                     android:singleLine="true"
                     android:tag="accent3"
                     android:textAllCaps="true"
@@ -284,14 +302,15 @@
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:paddingStart="-0.5dip"
                     android:tag="text1"
+                    android:includeFontPadding="false"
                     android:text="\u0022;"
                     android:textColor="@android:color/white"
-                    android:textSize="10sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -299,6 +318,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:tag="text1"
@@ -309,7 +329,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:gravity="start"
@@ -317,6 +337,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
                     android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:tag="text1"

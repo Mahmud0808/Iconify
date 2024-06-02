@@ -19,6 +19,7 @@
             android:format24Hour="MMMM"
             android:singleLine="true"
             android:tag="text1|date"
+            android:includeFontPadding="false"
             android:textAllCaps="true"
             android:textColor="?android:textColorPrimary"
             android:textSize="14dp" />
@@ -31,6 +32,7 @@
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
             android:singleLine="true"
+            android:includeFontPadding="false"
             android:tag="text1|date"
             android:textAlignment="center"
             android:textAllCaps="true"
@@ -42,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
+            android:includeFontPadding="false"
             android:alpha="0.6"
             android:fontFamily="@font/bebasneue_bold"
             android:format12Hour="• hh:mm •"

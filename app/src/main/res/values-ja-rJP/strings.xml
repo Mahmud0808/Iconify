@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">セットアップの初期化中</string>
     <string name="step">ステップ</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">モジュール シェルを作成しています</string>
     <string name="module_installation_step2">必要なファイルを抽出中</string>
     <string name="module_installation_step3">オーバーレイ APK を作成中</string>
@@ -457,11 +458,11 @@
     <string name="hide_qs_tile_label_title">クイック設定タイルのラベルを非表示</string>
     <string name="hide_qs_tile_label_desc">垂直タイルの時のみ使用してください</string>
     <string name="section_title_qs_margin">クイック設定マージン</string>
-    <string name="section_title_qs_elements">QS Elements</string>
-    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
-    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
-    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
-    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
+    <string name="section_title_qs_elements">クイック設定の要素</string>
+    <string name="hide_qs_silent_text_title">サイレント テキストを非表示</string>
+    <string name="hide_qs_silent_text_desc">サイレント通知のヘッダーとして表示される サイレント を非表示にします (システム UI の再起動が必要)</string>
+    <string name="hide_qs_footer_buttons_title">フッターのボタンを非表示</string>
+    <string name="hide_qs_footer_buttons_desc">通知一覧の下に表示されるボタンを非表示にします</string>
     <!-- Battery Style -->
     <string name="battery_style_title">バッテリースタイル</string>
     <string name="battery_width_title">バッテリー横幅</string>
@@ -544,12 +545,19 @@
     <string name="battery_landscape_battery_o">横向き バッテリー O</string>
     <string name="battery_circle">Circle Battery</string>
     <string name="battery_dotted_circle">Dotted Circle Battery</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">Volume Percentage</string>
+    <string name="volume_percentage_desc">Show percentage above volume slider</string>
+    <string name="safety_warning_title">Safety Warning</string>
+    <string name="safety_warning_desc">Show warning on high volume</string>
     <!-- Header Image -->
     <string name="header_image_title">ヘッダー画像を選択</string>
     <string name="header_image_desc">クイック設定パネルのヘッダー画像を追加します\n「最近」からファイルを選択しないでください</string>
     <string name="btn_pick_image">画像を選択</string>
     <string name="header_image_height_title">画像の縦幅</string>
     <string name="header_image_alpha">画像の透明度</string>
+    <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">画面に合わせる</string>
     <string name="header_image_zoom_to_fit_desc">画像はデフォルトで拡大縮小します</string>
     <string name="header_image_hide_in_landscape_title">横画面では非表示</string>
@@ -593,6 +601,13 @@
     <string name="lockscreen_clock_bottom_margin_title">下部マージン</string>
     <string name="lockscreen_clock_white_text_title">ホワイト テキスト</string>
     <string name="lockscreen_clock_white_text_desc">すべての色を白に強制します</string>
+    <string name="btn_select">Select</string>
+    <string name="battery_charging">Battery Charging</string>
+    <string name="battery_discharging">Battery Discharging</string>
+    <string name="battery_full">Battery Full</string>
+    <string name="battery_level_percentage">Battery Level</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="default_user_name">User</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\nMust use custom lockscreen clock</string>
@@ -600,9 +615,14 @@
     <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">前景の画像</string>
     <string name="foreground_image_desc">深度のある壁紙の前景画像</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">背景の画像</string>
     <string name="background_image_desc">深度のある壁紙の背景画像</string>
-    <string name="depth_wallpaper_alert_msg">この機能はベータ段階です。そのためバグが予期されます。\n\n<b>既知のバグ:</b>\n・Always on Display はバグります。表示の問題を回避するために AOD を無効化してください。\nロック画面のタップは背景のジャンプを引き起こします。</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="wallpaper_parallax_effect_title">Parallax Effect</string>
+    <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
+    <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
+    <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">ステータスバー</string>
     <string name="sb_clock_background_chip_title">ステータスバー時計チップ</string>
@@ -631,6 +651,8 @@
     <string name="hide_ls_carrier_desc">ロック画面のキャリア名を非表示にします</string>
     <string name="hide_ls_statusbar_title">ロック画面のステータスバーを非表示</string>
     <string name="hide_ls_statusbar_desc">ロック画面のステータスバーを非表示にします</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">ステータス アイコンを固定</string>
     <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
     <!-- Changelog -->
@@ -657,6 +679,8 @@
     <string name="update_schedule3">毎日</string>
     <string name="update_schedule4">毎週</string>
     <string name="update_schedule5">しない</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">クレジット</string>
     <string name="section_title_thanks">スペシャル サンクス</string>
@@ -829,8 +853,11 @@
     <string name="section_title_media_player_icons">Media Player Icons</string>
     <string name="opt_selected">選択:</string>
     <string name="opt_selected1">選択: %s</string>
-    <string name="opt_selected2">選択: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(デフォルト)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">お待ちください</string>
     <string name="rebooting_desc">5 秒以内に再起動します</string>
     <string name="iconify_clipboard_label_version">Iconify バージョン</string>

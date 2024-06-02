@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|top"
+    android:gravity="center_horizontal|top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:fontFamily="@*android:string/config_clockFontFamily"
+            android:format12Hour="hh"
+            android:format24Hour="HH"
+            android:tag="text1|nolineheight"
+            android:includeFontPadding="false"
+            android:textAlignment="viewEnd"
+            android:textColor="@android:color/white"
+            android:textSize="75dp" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:fontFamily="@*android:string/config_clockFontFamily"
+            android:format12Hour="mm"
+            android:format24Hour="mm"
+            android:alpha="0.65"
+            android:includeFontPadding="false"
+            android:tag="text1|nolineheight"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/white"
+            android:textSize="75dp" />
+    </LinearLayout>
+
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:includeFontPadding="false"
+        android:format12Hour="MMMM • dd • yyy"
+        android:format24Hour="dd • MMMM • yyy"
+        android:alpha="0.4"
+        android:gravity="center"
+        android:singleLine="true"
+        android:tag="text1"
+        android:textColor="@android:color/white"
+        android:textSize="16dp" />
+</LinearLayout>

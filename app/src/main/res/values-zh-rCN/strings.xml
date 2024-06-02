@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">初始化安装</string>
     <string name="step">步骤</string>
+    <string name="step_number">步骤 %1$d/%2$d</string>
     <string name="module_installation_step1">创建模块外壳</string>
     <string name="module_installation_step2">提取必要的文件</string>
     <string name="module_installation_step3">创建覆盖层 APK</string>
@@ -22,7 +23,7 @@
     <string name="need_storage_perm_title">需要存储权限</string>
     <string name="need_storage_perm_desc">构建必要的文件需要存储权限。</string>
     <string name="compatible_root_not_found_title">无法找到兼容的 Root 方法</string>
-    <string name="compatible_root_not_found_desc">Use any popular root solutions to proceed.</string>
+    <string name="compatible_root_not_found_desc">使用任何流行的 root 解决方案进行操作。</string>
     <string name="root_not_found_title">Root不可访问</string>
     <string name="root_not_found_desc">看来你的设备没有被ROOT！</string>
     <string name="need_reboot_title">需要重启设备</string>
@@ -544,12 +545,19 @@
     <string name="battery_landscape_battery_o">横向电池 O</string>
     <string name="battery_circle">环形电池</string>
     <string name="battery_dotted_circle">虚线环形电池</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">音量百分比</string>
+    <string name="volume_percentage_desc">在音量滑块之上显示百分比</string>
+    <string name="safety_warning_title">安全警告</string>
+    <string name="safety_warning_desc">在高音量时显示警告</string>
     <!-- Header Image -->
     <string name="header_image_title">选择标头图片</string>
     <string name="header_image_desc">在快速设置面板上添加标头图片\n不要从最近文件中选择文件</string>
     <string name="btn_pick_image">选择图片</string>
     <string name="header_image_height_title">图片高度</string>
     <string name="header_image_alpha">图片透明度</string>
+    <string name="header_image_bottom_fade">底部淡出量</string>
     <string name="header_image_zoom_to_fit_title">适度放大</string>
     <string name="header_image_zoom_to_fit_desc">默认情况下，图片会被拉伸至合适的尺寸</string>
     <string name="header_image_hide_in_landscape_title">在横屏中隐藏</string>
@@ -593,6 +601,13 @@
     <string name="lockscreen_clock_bottom_margin_title">底边距</string>
     <string name="lockscreen_clock_white_text_title">白色文本</string>
     <string name="lockscreen_clock_white_text_desc">强制所有颜色为白色</string>
+    <string name="btn_select">选择</string>
+    <string name="battery_charging">电池充电</string>
+    <string name="battery_discharging">电池放电</string>
+    <string name="battery_full">电池充满</string>
+    <string name="battery_level_percentage">电池电量</string>
+    <string name="welcome_back">欢迎回来！</string>
+    <string name="default_user_name">用户</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">启用深度壁纸</string>
     <string name="enable_depth_wallpaper_desc">显示类 iOS 系统的深度壁纸\n必须使用自定义锁屏时钟</string>
@@ -600,9 +615,14 @@
     <string name="wallpaper_fade_animation_desc">在息屏显示中使壁纸动画化并具有淡出的动画</string>
     <string name="foreground_image_title">前景图</string>
     <string name="foreground_image_desc">深度壁纸的前景图</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">背景图</string>
     <string name="background_image_desc">深度壁纸的背景图</string>
-    <string name="depth_wallpaper_alert_msg">该功能目前处于测试阶段。因此预计会出现错误。\n\n<b>已知错误：</b>\n• 息屏显示已损坏。禁用息屏显示可避免显示问题。\n• 点击锁屏会使壁纸跳动。</string>
+    <string name="depth_wallpaper_alert_msg">这个功能尚且处于 Beta 阶段。所以预计还是会存在 Bug。\n\n<b>已知 Bug：</b>\n• 点击锁屏界面会让壁纸跳动。</string>
+    <string name="wallpaper_parallax_effect_title">视差效果</string>
+    <string name="wallpaper_parallax_effect_summary">以不同的速度移动背景层和前景层</string>
+    <string name="wallpaper_foreground_sensitivity_title">前景灵敏度</string>
+    <string name="wallpaper_background_sensitivity_title">前景灵敏度</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">状态栏</string>
     <string name="sb_clock_background_chip_title">状态条时钟 Chip</string>
@@ -631,6 +651,8 @@
     <string name="hide_ls_carrier_desc">在锁屏上隐藏运营商名称</string>
     <string name="hide_ls_statusbar_title">隐藏锁屏状态栏</string>
     <string name="hide_ls_statusbar_desc">在锁屏上隐藏状态栏</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">固定状态图标</string>
     <string name="fixed_status_icons_desc">将状态图标设置在固定位置\n在某些系统上可能会出现错误</string>
     <!-- Changelog -->
@@ -657,6 +679,8 @@
     <string name="update_schedule3">每天</string>
     <string name="update_schedule4">每周</string>
     <string name="update_schedule5">从不</string>
+    <string name="current_version_number">当前版本：%s</string>
+    <string name="latest_version_number">最新版本：%s</string>
     <!-- Credits -->
     <string name="section_title_credits">鸣谢</string>
     <string name="section_title_thanks">特别感谢</string>
@@ -667,40 +691,40 @@
     <string name="info_xposed_desc">在 Xposed 方面帮助我。</string>
     <string name="info_tester_desc">测试本应用程序。</string>
     <string name="info_betterqs_desc">许可使用「更好的快速设置」。</string>
-    <string name="info_binaries_desc">For android executable binaries.</string>
+    <string name="info_binaries_desc">Android 可执行二进制文件。</string>
     <string name="section_title_contributors">贡献者</string>
     <string name="info_contributor_desc">在 Github 上的贡献。</string>
     <string name="info_contributor_desc_2">在 Telegram 上协助我。</string>
     <string name="section_title_translators">译者</string>
-    <string name="af_translation">Afrikaans translation.</string>
+    <string name="af_translation">南非荷兰语翻译。</string>
     <string name="ar_translation">阿拉伯语翻译。</string>
-    <string name="ca_translation">Catalan translation.</string>
-    <string name="zh_cn_translation">Chinese translation.</string>
-    <string name="zh_tw_translation">Chinese translation.</string>
-    <string name="cs_translation">Czech translation.</string>
-    <string name="da_translation">Danish translation.</string>
-    <string name="nl_translation">Dutch translation.</string>
-    <string name="fi_translation">Finnish translation.</string>
+    <string name="ca_translation">加泰罗尼亚语翻译。</string>
+    <string name="zh_cn_translation">中文翻译。</string>
+    <string name="zh_tw_translation">中文翻译。</string>
+    <string name="cs_translation">捷克语翻译。</string>
+    <string name="da_translation">丹麦语翻译。</string>
+    <string name="nl_translation">荷兰语翻译。</string>
+    <string name="fi_translation">芬兰语翻译。</string>
     <string name="fr_translation">法语翻译。</string>
-    <string name="de_translation">German translation.</string>
-    <string name="el_translation">Greek translation.</string>
-    <string name="hu_translation">Hungarian translation.</string>
+    <string name="de_translation">德语翻译。</string>
+    <string name="el_translation">希腊语翻译。</string>
+    <string name="hu_translation">匈牙利语翻译。</string>
     <string name="id_translation">印度尼西亚语翻译。</string>
     <string name="it_translation">意大利语翻译。</string>
-    <string name="ja_translation">Japanese translation.</string>
-    <string name="ko_translation">Korean translation.</string>
-    <string name="no_translation">Norwegian translation.</string>
+    <string name="ja_translation">日语翻译。</string>
+    <string name="ko_translation">韩语翻译。</string>
+    <string name="no_translation">挪威语翻译。</string>
     <string name="fa_translation">波斯语翻译。</string>
     <string name="pl_translation">波兰语翻译。</string>
     <string name="pt_translation">葡萄牙语翻译。</string>
-    <string name="pt_br_translation">Portuguese (Brazilian) translation.</string>
-    <string name="ro_translation">Romanian translation.</string>
+    <string name="pt_br_translation">葡萄牙语（巴西）翻译。</string>
+    <string name="ro_translation">罗马尼亚语翻译。</string>
     <string name="ru_translation">俄语翻译。</string>
-    <string name="sr_translation">Serbian (Cyrillic) translation.</string>
+    <string name="sr_translation">塞尔维亚语（西里尔文）翻译。</string>
     <string name="es_translation">西班牙语翻译。</string>
-    <string name="sv_translation">Swedish translation.</string>
+    <string name="sv_translation">瑞典语翻译。</string>
     <string name="tr_translation">土耳其语翻译。</string>
-    <string name="uk_translation">Ukrainian translation.</string>
+    <string name="uk_translation">乌克兰语翻译。</string>
     <string name="vi_translation">越南语翻译。</string>
     <!-- Experimental -->
     <string name="experimental_features_title">实验性</string>
@@ -790,7 +814,7 @@
     <string name="toast_plumpy_colored_battery">Plumpy 默认使用彩色电池</string>
     <string name="toast_select_style">请先选择一种样式</string>
     <string name="toast_ksu_not_supported">暂时不支持KernelSU</string>
-    <string name="toast_only_magisk_supported">Only magisk is supported currently</string>
+    <string name="toast_only_magisk_supported">当前仅支持 magisk</string>
     <string name="toast_reboot_required">需要重启</string>
     <string name="toast_lsposed_not_found">未找到 LSPosed！</string>
     <string name="toast_easter_egg">你怎么知道的？</string>
@@ -829,8 +853,11 @@
     <string name="section_title_media_player_icons">媒体播放器图标</string>
     <string name="opt_selected">选择：</string>
     <string name="opt_selected1">选择：%s</string>
-    <string name="opt_selected2">选择：%s%s</string>
+    <string name="opt_selected2">已选择：%1$s%2$s</string>
+    <string name="opt_selected3">已选择：%1$s%2$s %3$s</string>
     <string name="opt_default">（默认）</string>
+    <string name="clock_none">不显示时钟</string>
+    <string name="clock_style_name">时钟样式 %d</string>
     <string name="loading_dialog_wait">请稍候</string>
     <string name="rebooting_desc">5 秒内重启</string>
     <string name="iconify_clipboard_label_version">Iconify 版本</string>

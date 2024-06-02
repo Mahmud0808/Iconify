@@ -114,7 +114,7 @@
                 android:maxLines="12"
                 android:textAlignment="viewStart"
                 android:textColor="@color/textColorSecondary"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
         </LinearLayout>
     </LinearLayout>

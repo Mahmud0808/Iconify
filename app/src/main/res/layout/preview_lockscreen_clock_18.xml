@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/timeCircle1"
+        android:includeFontPadding="false"
         android:fontFamily="@font/steelfish_rounded_bd"
         android:format12Hour="h:mm a"
         android:format24Hour="HH:mm"
@@ -52,6 +53,7 @@
         android:format12Hour="EEEE"
         android:format24Hour="EEEE"
         android:tag="text1"
+        android:includeFontPadding="false"
         android:textColor="@android:color/white"
         android:textSize="30sp" />
 
@@ -71,12 +73,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/dayTextView"
+        android:includeFontPadding="false"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@id/timeCircle3"
         android:fontFamily="@font/steelfish_rounded_bd"
         android:format12Hour="MMM.dd"
-        android:format24Hour="MMM.dd"
+        android:format24Hour="dd.MMM"
         android:tag="text1"
         android:textColor="@android:color/white"
         android:textSize="30sp" />

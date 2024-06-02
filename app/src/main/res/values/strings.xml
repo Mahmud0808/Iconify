@@ -5,6 +5,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Initializing setup</string>
     <string name="step">Step</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">Creating module shell</string>
     <string name="module_installation_step2">Extracting necessary files</string>
     <string name="module_installation_step3">Creating overlay APKs</string>
@@ -580,6 +581,13 @@
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
     <string name="battery_circle">Circle Battery</string>
     <string name="battery_dotted_circle">Dotted Circle Battery</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
+
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">Volume Percentage</string>
+    <string name="volume_percentage_desc">Show percentage above volume slider</string>
+    <string name="safety_warning_title">Safety Warning</string>
+    <string name="safety_warning_desc">Show warning on high volume</string>
 
     <!-- Header Image -->
     <string name="header_image_title">Pick Header Image</string>
@@ -649,9 +657,14 @@
     <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Foreground Image</string>
     <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">Background Image</string>
     <string name="background_image_desc">Background image for depth wallpaper</string>
-    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bugs:</b>\n• Always on Display is broken. Disable AOD to avoid display issues.\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="wallpaper_parallax_effect_title">Parallax Effect</string>
+    <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
+    <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
+    <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
 
     <!-- Background Chip -->
     <string name="section_title_status_bar">Status Bar</string>
@@ -682,6 +695,8 @@
     <string name="hide_ls_carrier_desc">Hide carrier name on lockscreen</string>
     <string name="hide_ls_statusbar_title">Hide LS Statusbar</string>
     <string name="hide_ls_statusbar_desc">Hide statusbar on lockscreen</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">Fixed Status Icons</string>
     <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
 
@@ -710,6 +725,8 @@
     <string name="update_schedule3">Every Day</string>
     <string name="update_schedule4">Every Week</string>
     <string name="update_schedule5">Never</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
 
     <!-- Credits -->
     <string name="section_title_credits">Credits</string>
@@ -893,8 +910,11 @@
     <string name="section_title_media_player_icons">Media Player Icons</string>
     <string name="opt_selected">Selected:</string>
     <string name="opt_selected1">Selected: %s</string>
-    <string name="opt_selected2">Selected: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(Default)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">Please Wait</string>
     <string name="rebooting_desc">Rebooting in 5 seconds</string>
     <string name="iconify_clipboard_label_version">Iconify Version</string>

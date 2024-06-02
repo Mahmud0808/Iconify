@@ -47,9 +47,9 @@ jobs:
         run: echo "VERSION_NAME=$(${{github.workspace}}/gradlew -q printVersionName)" >> $GITHUB_ENV
 
       - name: Bump application version code
-        uses: chkfung/android-version-actions@v1.2.2
+        uses: chkfung/android-version-actions@v1.2.3
         with:
-          gradlePath: app/build.gradle
+          gradlePath: app/build.gradle.kts
           versionCode: ${{github.run_number}}
           versionName: "${{ env.VERSION_NAME }} Dev (#${{github.run_number}})"
 

@@ -24,13 +24,14 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_marginEnd="5dp"
                 android:background="@drawable/custom_background"
                 android:backgroundTint="@android:color/system_accent1_400"
                 android:clipToOutline="true"
-                android:gravity="center_horizontal"
+                android:minWidth="90dp"
                 android:orientation="vertical"
                 android:padding="10dp"
                 android:tag="accent1">
@@ -38,8 +39,8 @@
                 <TextClock
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:format12Hour="dd"
+                    android:includeFontPadding="false"
                     android:format24Hour="dd"
                     android:singleLine="true"
                     android:tag="text1|nolineheight"
@@ -49,7 +50,7 @@
                 <TextClock
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
+                    android:includeFontPadding="false"
                     android:fontFamily="@font/dot57"
                     android:format12Hour="EEEE"
                     android:format24Hour="EEEE"
@@ -61,7 +62,8 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="90dp"
+                android:layout_height="wrap_content"
+                android:minHeight="90dp"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1.0"
                 android:background="@drawable/custom_background"
@@ -69,19 +71,15 @@
                 android:clipToOutline="true"
                 android:gravity="center|start"
                 android:orientation="vertical"
-                android:padding="10dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:orientation="vertical">
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="10dp">
 
                     <TextClock
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
                         android:layout_gravity="top"
+                        android:layout_marginTop="6dp"
+                        android:includeFontPadding="false"
                         android:fontFamily="@font/dot57"
                         android:format12Hour="hh.mm"
                         android:format24Hour="HH.mm"
@@ -93,7 +91,8 @@
                     <TextClock
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="6dp"
+                        android:includeFontPadding="false"
                         android:layout_gravity="bottom"
                         android:fontFamily="@font/dot57"
                         android:format12Hour="MMMM-yyy"
@@ -102,7 +101,6 @@
                         android:tag="text2"
                         android:textColor="@android:color/system_neutral1_1000"
                         android:textSize="18sp" />
-                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -127,7 +125,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:clickable="false"
-                        android:layout_marginBottom="6dp"
+                        android:layout_marginBottom="8dp"
                         android:src="@drawable/ic_lock"
                         android:tag="text1"
                         app:tint="@android:color/white" />
@@ -137,22 +135,23 @@
                         android:layout_height="wrap_content"
                         android:tag="text1|nolineheight"
                         android:text="@string/welcome_back"
+                        android:includeFontPadding="false"
                         android:textColor="@android:color/system_accent1_0"
-                        android:textSize="10sp" />
+                        android:textSize="10dp" />
 
                     <TextView
-                        android:id="@+id/summary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
                         android:fontFamily="@font/dot57"
-                        android:tag="accent1"
+                        android:tag="accent1|summary"
                         android:text="@string/default_user_name"
                         android:textColor="@android:color/system_accent1_100"
-                        android:textSize="16sp" />
+                        android:textSize="16dp" />
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/user_profile_image"
+                android:tag="user_profile_image"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:adjustViewBounds="true"

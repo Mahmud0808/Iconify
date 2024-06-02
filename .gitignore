@@ -12,3 +12,4 @@ local.properties
 /build
 crowdin.properties
 keystore.properties
+/.kotlin/sessions/kotlin-compiler-*.salive

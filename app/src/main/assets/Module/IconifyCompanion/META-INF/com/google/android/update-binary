@@ -15,6 +15,7 @@ require_new_magisk() {
   ui_print "*******************************"
   exit 1
 }
+
 #########################
 # Load util_functions.sh
 #########################
@@ -29,27 +30,29 @@ mount /data 2>/dev/null
 [ $MAGISK_VER_CODE -lt 20400 ] && require_new_magisk
 
 if ! $BOOTMODE; then
-ui_print " " 
-  ui_print "This is a magisk module" 
-  ui_print " Aborting....." 
-  ui_print " " 
-  ui_print " Go and flash in magisk" 
-  ui_print " " 
+  ui_print " "
+  ui_print "This is a magisk module"
+  ui_print " Aborting....."
+  ui_print " "
+  ui_print " Go and flash in magisk"
+  ui_print " "
   exit 0
-  fi
+fi
 
 echo " "
-echo " Module Template by @Jai_08 // @cool_modules " 
+echo " Module Template by @Jai_08 // @cool_modules "
 #Do not remove credit if you are using part of this template.
 echo "  "
 
 install_module
-remove()
-{
-rm -rf /data/adb/modules_update/$MODID 2>/dev/null
-  rm -rf /data/adb/modules/$MODID 2>/dev/null 
+
+remove() {
+  rm -rf /data/adb/modules_update/$MODID 2>/dev/null
+  rm -rf /data/adb/modules/$MODID 2>/dev/null
 }
+
 tar -xf $MODPATH/utils/myutils -C $MODPATH/utils/ 2>/dev/null
+
 zipp=$MODPATH/utils/zip
 zipa=$MODPATH/utils/zipalign
 bkpath=$MODPATH/OG/
@@ -58,195 +61,106 @@ mp=$NVBASE/modules
 set_perm $zipp 0 0 0755
 set_perm $zipa 0 0 0755
 
+file_paths="/system/system_ext/priv-app/SystemUI/SystemUI.apk
+/system/system_ext/priv-app/SystemUIGoogle/SystemUIGoogle.apk
+/system/priv-app/TsSystemUI/TsSystemUI.apk
+/system/priv-app/SystemUIGoogle/SystemUIGoogle.apk
+/system/priv-app/SystemUIWithLegacyRecents/SystemUIWithLegacyRecents.apk
+/system/system_ext/priv-app/MtkSystemUI/MtkSystemUI.apk
+/system/system_ext/priv-app/ParanoidSystemUI/ParanoidSystemUI.apk
+/system/system_ext/priv-app/StatixSystemUI/StatixSystemUI.apk
+/system/system_ext/priv-app/RisingSystemUI/RisingSystemUI.apk
+/system/priv-app/AsusSystemUI/AsusSystemUI.apk
+/system/priv-app/AsusSystemUIWW/AsusSystemUIWW.apk
+/system/product/priv-app/MtkSystemUI/MtkSystemUI.apk
+/system/product/priv-app/SystemUIGoogle/SystemUIGoogle.apk
+/system/product/priv-app/SystemUI/SystemUI.apk
+/system/priv-app/SystemUI/SystemUI.apk
+/system/product/priv-app/OPSystemUI/OPSystemUI.apk
+/system/product/priv-app/VinSystemUI/VinSystemUI.apk
+/system/system_ext/priv-app/OPSystemUI/OPSystemUI.apk
+/system/system_ext/priv-app/WeebSystemUI/WeebSystemUI.apk
+/system/system_ext/priv-app/sysuia/sysuia.apk
+/system/system_ext/priv-app/TranSystemUI/TranSystemUI.apk
+/system/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk
+/system/product/priv-app/MiuiSystemUI/MiuiSystemUI.apk"
 
-if [ -f "/system/system_ext/priv-app/SystemUI/SystemUI.apk" ]; then
-spath=system/system_ext/priv-app/SystemUI
-apkname=SystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Aosp A11+ Detected..."
-elif [ -f "/system/system_ext/priv-app/SystemUIGoogle/SystemUIGoogle.apk" ]; then
-spath=system/system_ext/priv-app/SystemUIGoogle
-apkname=SystemUIGoogle
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Pixel A11 / A12 Detected..." 
-elif [ -f "/system/priv-app/TsSystemUI/TsSystemUI.apk" ]; then
-spath=system/priv-app/TsSystemUI
-apkname=TsSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Techno Device Detected..." 
-elif [ -f "/system/priv-app/SystemUIGoogle/SystemUIGoogle.apk" ]; then
-spath=system/priv-app/SystemUIGoogle
-apkname=SystemUIGoogle
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Pixel Device Detected..." 
-elif [ -f "/system/priv-app/SystemUIWithLegacyRecents/SystemUIWithLegacyRecents.apk" ]; then
-spath=system/priv-app/SystemUIWithLegacyRecents
-apkname=SystemUIWithLegacyRecents
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Stock Rom / Sony Device Detected..." 
-elif [ -f "/system/system_ext/priv-app/MtkSystemUI/MtkSystemUI.apk" ]; then
-spath=system/system_ext/priv-app/MtkSystemUI
-apkname=MtkSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Mtk A11+ Detected..." 
-elif [ -f "/system/system_ext/priv-app/ParanoidSystemUI/ParanoidSystemUI.apk" ]; then
-spath=system/system_ext/priv-app/ParanoidSystemUI
-apkname=ParanoidSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Paranoid rom Detected..."
-elif [ -f "/system/system_ext/priv-app/StatixSystemUI/StatixSystemUI.apk" ]; then
-spath=system/system_ext/priv-app/StatixSystemUI
-apkname=StatixSystemUI
-ui_print " "
-ui_print " Processing..... "
-ui_print " Statix rom Detected..."
-elif [ -f "/system/system_ext/priv-app/RisingSystemUI/RisingSystemUI.apk" ]; then
-spath=system/system_ext/priv-app/RisingSystemUI
-apkname=RisingSystemUI
-ui_print " "
-ui_print " Processing..... "
-ui_print " Rising rom Detected..."
-elif [ -f "/system/priv-app/AsusSystemUI/AsusSystemUI.apk" ]; then
-spath=system/priv-app/AsusSystemUI
-apkname=AsusSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Asus Device Detected..." 
-elif [ -f "/system/priv-app/AsusSystemUIWW/AsusSystemUIWW.apk" ]; then
-spath=system/priv-app/AsusSystemUIWW
-apkname=AsusSystemUIWW
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Asus Stock rom Detected..." 
-elif [ -f "/system/product/priv-app/MtkSystemUI/MtkSystemUI.apk" ]; then
-spath=system/product/priv-app/MtkSystemUI
-apkname=MtkSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Mtk A10 Detected..." 
-elif [ -f "/system/product/priv-app/SystemUIGoogle/SystemUIGoogle.apk" ]; then
-spath=system/product/priv-app/SystemUIGoogle
-apkname=SystemUIGoogle
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Pixel A10 Detected..." 
-elif [ -f "/system/product/priv-app/SystemUI/SystemUI.apk" ]; then
-spath=system/product/priv-app/SystemUI
-apkname=SystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Aosp A10 Detected..."
-elif [ -f "/system/priv-app/SystemUI/SystemUI.apk" ]; then
-spath=system/priv-app/SystemUI
-apkname=SystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Aosp Detected..."
-elif [ -f "/system/product/priv-app/OPSystemUI/OPSystemUI.apk" ]; then
-spath=system/product/priv-app/OPSystemUI
-apkname=OPSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " OOS A10 Detected..."
-elif [ -f "/system/product/priv-app/VinSystemUI/VinSystemUI.apk" ]; then
-spath=system/product/priv-app/VinSystemUI
-apkname=VinSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Vos Device Detected..."
-elif [ -f "/system/system_ext/priv-app/OPSystemUI/OPSystemUI.apk" ]; then
-spath=system/system_ext/priv-app/OPSystemUI
-apkname=OPSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " OOS A11+ Detected..."
-elif [ -f "/system/system_ext/priv-app/WeebSystemUI/WeebSystemUI.apk" ]; then
-spath=system/system_ext/priv-app/WeebSystemUI
-apkname=WeebSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Weeb A11+ Detected..."
-elif [ -f "/system/system_ext/priv-app/sysuia/sysuia.apk" ]; then
-spath=system/system_ext/priv-app/sysuia
-apkname=sysuia
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Aosp Detected..."
-elif [ -f "/system/system_ext/priv-app/TranSystemUI/TranSystemUI.apk" ]; then
-spath=system/system_ext/priv-app/TranSystemUI
-apkname=TranSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Infix Detected..."
-elif [ -f "/system/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk" ]; then
-spath=system/system_ext/priv-app/MiuiSystemUI
-apkname=MiuiSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Miui A10 Detected..."
-elif [ -f "/system/product/priv-app/MiuiSystemUI/MiuiSystemUI.apk" ]; then
-spath=system/product/priv-app/MiuiSystemUI
-apkname=MiuiSystemUI
-ui_print " " 
-ui_print " Processing..... "
-ui_print " Miui A11+ Detected..."
-else
-ui_print " This Looks like a non supported Rom..."
-ui_print " Report in support group @cool_modules69 "
-remove
-exit 1
+found=0
+
+for apkpath in $file_paths; do
+    if [ -f "$apkpath" ]; then
+        spath=$(dirname "$apkpath")
+        apkname=$(basename "$spath")
+
+        echo " "
+        echo " Processing....."
+        echo " "
+        echo " SystemUI found: $apkname.apk"
+
+        found=1
+    fi
+done
+
+if [ "$found" -eq 0 ]; then
+    echo " "
+    echo " This looks like a non-supported ROM..."
+    echo " Report in support group @IconifyDiscussion"
+    exit 1
 fi
 
 insmodules=$(ls $mp)
 file=$MODPATH/jai/$apkname.apk
+
 mkdir -p $MODPATH/jai
 mkdir -p $bkpath
+
 cp -f $spath/$apkname.apk $bkpath
-for i in $insmodules
-do
-if [ -f "$mp/$i/OG/$apkname.apk" ]; then
-echo " Existing SystemUI Patcher module detected, Merging the patches.."
-cp -f $mp/$i/OG/$apkname.apk $bkpath
-break
-fi
+
+for i in $insmodules; do
+  if [ -f "$mp/$i/OG/$apkname.apk" ]; then
+    echo " Existing SystemUI Patcher module detected, Merging the patches.."
+    cp -f $mp/$i/OG/$apkname.apk $bkpath
+    break
+  fi
 done
+
 cp -f $spath/$apkname.apk $MODPATH/jai/
-ui_print " " 
 cd $MODPATH/substratumXML/SystemUI/
-echo " "
-if $zipp -qq -r $file * ; then echo " Installing Patches..... "
-else 
-echo " Failed to Patch your SystemUI "
-echo " Try again, if same issue report in support group @cool_modules69 "
-remove
-exit 1
+
+if $zipp -qq -r $file *; then
+  echo " "
+  echo " Installing Patches..... "
+else
+  echo " "
+  echo " Failed to Patch your SystemUI "
+  echo " Try again, if same issue report in support group @cool_modules69 "
+  remove
+  exit 1
 fi
-echo " "
+
 mkdir -p $MODPATH/$spath
-if $zipa -f 4 $file $MODPATH/$spath/$apkname.apk ; then echo " Installed Successfully"
-else 
-echo " Failed to Install, Report in support group to add support @cool_modules69 "
-remove
-exit 1
+
+if $zipa -f 4 $file $MODPATH/$spath/$apkname.apk; then
+echo " "
+  echo " Installed Successfully"
+else
+  echo " "
+  echo " Failed to Install, Report in support group to add support @cool_modules69 "
+  remove
+  exit 1
 fi
 
 rm -r $MODPATH/jai/
 rm -r $MODPATH/utils/
 rm -r $MODPATH/substratumXML
-sed -i "s|myname|$apkname|g" $MODPATH/post-fs-data.sh &> /dev/null
-sed -i "s|mypath|$spath|g" $MODPATH/post-fs-data.sh &> /dev/null
-rm -r /$mp/*/$spath/$apkname.apk 
-echo " " 
 
-echo " Reboot now to apply changes" 
-echo " " 
+sed -i "s|myname|$apkname|g" $MODPATH/post-fs-data.sh &>/dev/null
+sed -i "s|mypath|$spath|g" $MODPATH/post-fs-data.sh &>/dev/null
+
+rm -r /$mp/*/$spath/$apkname.apk
+
+echo " "
+echo " Reboot now to apply changes"
+echo " "
 
 exit 0
-

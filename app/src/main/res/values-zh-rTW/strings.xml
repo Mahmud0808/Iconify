@@ -4,6 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">初始化安裝</string>
     <string name="step">步驟</string>
+    <string name="step_number">Step %1$d/%2$d</string>
     <string name="module_installation_step1">建立模組殼層</string>
     <string name="module_installation_step2">正在解壓縮需要的檔案</string>
     <string name="module_installation_step3">正在建立用作覆蓋的 APK</string>
@@ -544,12 +545,19 @@
     <string name="battery_landscape_battery_o">Landscape Battery O</string>
     <string name="battery_circle">圓圈電池</string>
     <string name="battery_dotted_circle">點狀圓圈電池</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
+    <!-- Volume Panel -->
+    <string name="volume_percentage_title">Volume Percentage</string>
+    <string name="volume_percentage_desc">Show percentage above volume slider</string>
+    <string name="safety_warning_title">Safety Warning</string>
+    <string name="safety_warning_desc">Show warning on high volume</string>
     <!-- Header Image -->
     <string name="header_image_title">選取標頭圖像</string>
     <string name="header_image_desc">在快速設定面板上添加標頭圖像\n不要從“最近”資料夾中選擇檔案</string>
     <string name="btn_pick_image">選取圖像</string>
     <string name="header_image_height_title">圖像高度</string>
     <string name="header_image_alpha">圖像透明度</string>
+    <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">適當放大</string>
     <string name="header_image_zoom_to_fit_desc">預設情況下，圖像會被拉伸到合適的尺寸</string>
     <string name="header_image_hide_in_landscape_title">在 Landscape 中隱藏</string>
@@ -593,6 +601,13 @@
     <string name="lockscreen_clock_bottom_margin_title">下邊距</string>
     <string name="lockscreen_clock_white_text_title">白色文本</string>
     <string name="lockscreen_clock_white_text_desc">强制所有顔色为白色</string>
+    <string name="btn_select">Select</string>
+    <string name="battery_charging">Battery Charging</string>
+    <string name="battery_discharging">Battery Discharging</string>
+    <string name="battery_full">Battery Full</string>
+    <string name="battery_level_percentage">Battery Level</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="default_user_name">User</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">啓用深度桌布</string>
     <string name="enable_depth_wallpaper_desc">顯示類似iOS系統的深度桌布\n必須使用自訂鎖屏時鐘</string>
@@ -600,9 +615,14 @@
     <string name="wallpaper_fade_animation_desc">在AOD中為壁紙製作動畫並淡入淡出</string>
     <string name="foreground_image_title">前景圖</string>
     <string name="foreground_image_desc">深度桌布的前景圖</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">背景圖</string>
     <string name="background_image_desc">深度桌布的背景圖</string>
-    <string name="depth_wallpaper_alert_msg">此功能目前處於測試階段。因此，錯誤是意料之中的。\n\n<b>已知錯誤：</b>\n• Always on Display 已損壞。禁用 AOD 以避免顯示問題。\n• 點擊鎖屏會使牆紙跳動。</string>
+    <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
+    <string name="wallpaper_parallax_effect_title">Parallax Effect</string>
+    <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
+    <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
+    <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">狀態列</string>
     <string name="sb_clock_background_chip_title">狀態列時鐘 Chip</string>
@@ -631,6 +651,8 @@
     <string name="hide_ls_carrier_desc">在鎖屏上隱藏運營商名字</string>
     <string name="hide_ls_statusbar_title">隱藏鎖屏狀態列</string>
     <string name="hide_ls_statusbar_desc">在鎖屏上隱藏狀態列</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">固定狀態圖示</string>
     <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
     <!-- Changelog -->
@@ -657,6 +679,8 @@
     <string name="update_schedule3">每天</string>
     <string name="update_schedule4">每周</string>
     <string name="update_schedule5">從不</string>
+    <string name="current_version_number">Current Version: %s</string>
+    <string name="latest_version_number">Latest Version: %s</string>
     <!-- Credits -->
     <string name="section_title_credits">鳴謝</string>
     <string name="section_title_thanks">特別感謝</string>
@@ -829,8 +853,11 @@
     <string name="section_title_media_player_icons">媒體播放機圖示</string>
     <string name="opt_selected">選取:</string>
     <string name="opt_selected1">選取: %s</string>
-    <string name="opt_selected2">選取: %s%s</string>
+    <string name="opt_selected2">Selected: %1$s%2$s</string>
+    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
     <string name="opt_default">(預設)</string>
+    <string name="clock_none">No Clock</string>
+    <string name="clock_style_name">Clock Style %d</string>
     <string name="loading_dialog_wait">請稍後</string>
     <string name="rebooting_desc">5秒内重新啓動</string>
     <string name="iconify_clipboard_label_version">Iconify 版本</string>
