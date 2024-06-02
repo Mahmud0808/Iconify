@@ -1,0 +1,40 @@
+Iconify v6.8.0 has arrived! It has the following new changes:
+
+Feature Enhancements:
+• Improved lockscreen clocks with various refinements
+• Resolved black, white, and fluid theme issues for Android 14 QPR2
+• Corrected date format for 24-hour clock
+• Addressed header image animation with zoom to fit
+
+Depth Wallpaper:
+• Added parallax effect
+• Fixed fade-out delay on AOD
+• Introduced GIF support
+• Corrected misalignment with face unlock
+• Added option to adjust foreground opacity
+
+Lockscreen:
+• Added new clock (thanks to @hndrk-themer)
+• Enhanced RTL mode clocks
+• Option to hide lock icon
+• Fixed custom clock freezing issue on Android 14
+• Addressed status bar clock chip issues for Android 14 QPR2
+• Supported clock chip for VoltageOS ROM
+
+Volume Panel:
+• Added percentage display option
+• Fixed compilation error on Android 14 QPR2
+• Option to disable high volume warning
+
+Quick Settings:
+• QS footer now fully transparent with QS transparency
+• Fixed white/transparent tiles without custom QS tile styles
+
+Battery:
+• Added filled circle battery (thanks to @PixelXpert)
+
+Other:
+• Updated translations (thanks to all the contributors on Crowdin)
+• Numerous other improvements and bug fixes
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.8.0
