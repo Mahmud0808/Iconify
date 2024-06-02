@@ -898,17 +898,25 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
     private fun setLabelSizes(paramThisObject: Any) {
         try {
+            val textSize = mContext.resources.getDimensionPixelSize(
+                mContext.resources.getIdentifier(
+                    "qs_tile_text_size",
+                    "dimen",
+                    mContext.packageName
+                )
+            )
+
             if (qsTilePrimaryTextSize != null && qsTilePrimaryTextSizeUnit != -1) {
                 (getObjectField(paramThisObject, "label") as TextView).setTextSize(
                     qsTilePrimaryTextSizeUnit,
-                    qsTilePrimaryTextSize!!
+                    textSize.toFloat()
                 )
             }
 
             if (qsTileSecondaryTextSize != null && qsTileSecondaryTextSizeUnit != -1) {
                 (getObjectField(paramThisObject, "secondaryLabel") as TextView).setTextSize(
                     qsTileSecondaryTextSizeUnit,
-                    (qsTileSecondaryTextSize!! * 0.92).toFloat()
+                    (textSize * 0.92).toFloat()
                 )
             }
         } catch (ignored: Throwable) {
