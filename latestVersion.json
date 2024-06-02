@@ -1,8 +1,8 @@
 {
-  "versionName": "6.7.6",
-  "versionCode": 19,
-  "apkUrl": "https://github.com/Mahmud0808/Iconify/releases/download/v6.7.6/Iconify.v6.7.6.apk",
+  "versionName": "6.8.0",
+  "versionCode": 20,
+  "apkUrl": "https://github.com/Mahmud0808/Iconify/releases/download/v6.8.0/Iconify.v6.8.0.apk",
   "changelog": [
-    "### Iconify v6.7.6 (Hotfix) has arrived! It has the following new changes:\n\n## Feature Changes:\n- __Xposed Menu:__\n    - Hotfix for LSPosed mod not enabling for android 12.0 and 12.1\n\n## App Changes:\n- Bump AGP\n- And many more improvements...\n\nAlso included in this version are bug fixes and other improvements."
+    "### Iconify v6.8.0 has arrived! It has the following new changes:\n\n## Feature Changes:\n- __Enhancements:__\n    - Improved lockscreen clocks with various refinements\n    - Resolved black, white, and fluid theme issues for Android 14 QPR2\n    - Corrected date format for 24-hour clock\n    - Addressed header image animation with zoom to fit\n\n- __Depth Wallpaper:__\n    - Added parallax effect\n    - Fixed fade-out delay on AOD\n    - Introduced GIF support\n    - Corrected misalignment with face unlock\n    - Added option to adjust foreground opacity\n\n- __Lockscreen:__\n    - Added new clock (thanks to @hndrk-themer)\n    - Enhanced RTL mode clocks\n    - Option to hide lock icon\n    - Fixed custom clock freezing issue on Android 14\n    - Addressed status bar clock chip issues for Android 14 QPR2\n    - Supported clock chip for VoltageOS ROM\n\n- __Volume Panel:__\n    - Added percentage display option\n    - Fixed compilation error on Android 14 QPR2\n    - Option to disable high volume warning\n\n- __Quick Settings:__\n    - QS footer now fully transparent with QS transparency\n    - Fixed white/transparent tiles without custom QS tile styles\n\n- __Battery Style:__\n    - Added filled circle battery (thanks to [@PixelXpert](https://github.com/siavash79/PixelXpert))\n\n- __Other:__\n    - Numerous other improvements and bug fixes\n\n## App Changes:\n- Bump AGP and dependencies\n- Updated translations (thanks to all the contributors on [Crowdin](https://crowdin.com/project/iconify))\n- And many more improvements...\n\nAlso included in this version are bug fixes and other improvements."
   ]
 }
