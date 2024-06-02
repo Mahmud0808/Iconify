@@ -545,6 +545,7 @@
     <string name="battery_landscape_battery_o">Pozioma Bateria O</string>
     <string name="battery_circle">Circle Battery</string>
     <string name="battery_dotted_circle">Dotted Circle Battery</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Volume Percentage</string>
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
@@ -614,6 +615,7 @@
     <string name="wallpaper_fade_animation_desc">Animacja zanikania tapety na AOD</string>
     <string name="foreground_image_title">Obraz pierwszoplanowy</string>
     <string name="foreground_image_desc">Obraz pierwszoplanowy dla głębi tapety</string>
+    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
     <string name="background_image_title">Obraz drugoplanowy</string>
     <string name="background_image_desc">Obraz drugoplanowy dla głębi tapety</string>
     <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
@@ -649,6 +651,8 @@
     <string name="hide_ls_carrier_desc">Ukryj nazwę operatora na ekranie blokady</string>
     <string name="hide_ls_statusbar_title">Ukryj pasek stanu</string>
     <string name="hide_ls_statusbar_desc">Ukryj pasek stanu na ekranie blokady</string>
+    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
+    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">Stała pozycja ikon stanu</string>
     <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
     <!-- Changelog -->

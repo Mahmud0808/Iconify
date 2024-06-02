@@ -545,6 +545,7 @@
     <string name="battery_landscape_battery_o">Yatay Pil O</string>
     <string name="battery_circle">Daire Pil</string>
     <string name="battery_dotted_circle">Noktalı Daire Pil</string>
+    <string name="battery_filled_circle">Filled Circle Battery</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Ses yüzdesi</string>
     <string name="volume_percentage_desc">Ses kaydırıcısının üzerinde yüzdeyi göster</string>
@@ -614,6 +615,7 @@
     <string name="wallpaper_fade_animation_desc">Duvar kağıdını canlandır ve AOD\'da kaybol</string>
     <string name="foreground_image_title">Ön Plan Resmi</string>
     <string name="foreground_image_desc">Derinlikli duvar kağıdı için ön plan resmi</string>
+    <string name="foreground_image_alpha_title">Ön Plan Resmi</string>
     <string name="background_image_title">Arka Plan Resmi</string>
     <string name="background_image_desc">Derinlikli duvar kağıdı için arka plan resmi</string>
     <string name="depth_wallpaper_alert_msg">Bu özellik şu anda beta aşamasındadır. Bu nedenle hatalar görülebilir.\n\n<b>Bilinen hatalar:</b>\n• Kilit ekranına dokunmak duvar kağıdının sıçramasına neden olur.</string>
@@ -649,6 +651,8 @@
     <string name="hide_ls_carrier_desc">Kilit ekranında operatör adını gizle</string>
     <string name="hide_ls_statusbar_title">LS Durum Çubuğunu Gizle</string>
     <string name="hide_ls_statusbar_desc">Kilit ekranında durum çubuğunu gizle</string>
+    <string name="hide_ls_lock_icon_title">LS Kilit Simgesini Gizle</string>
+    <string name="hide_ls_lock_icon_desc">Kilit ekranında kilit simgesi görünümünü gizle</string>
     <string name="fixed_status_icons_title">Sabit Durum Simgeleri</string>
     <string name="fixed_status_icons_desc">Durum simgelerini sabit konuma ayarlayın\nBazı romlarda hatalı olabilir</string>
     <!-- Changelog -->
