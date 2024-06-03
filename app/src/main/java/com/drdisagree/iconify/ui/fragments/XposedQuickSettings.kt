@@ -15,12 +15,15 @@ import com.drdisagree.iconify.common.Preferences.HIDE_QS_SILENT_TEXT
 import com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
+import com.drdisagree.iconify.common.Preferences.QS_TEXT_SIZE_SCALING
 import com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
 import com.drdisagree.iconify.config.RPrefs.clearPref
 import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getFloat
 import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.putFloat
 import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.databinding.FragmentXposedQuickSettingsBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
@@ -55,6 +58,12 @@ class XposedQuickSettings : BaseFragment() {
 
             binding.hideTileLabel.setEnabled(isChecked)
 
+            binding.tileLabelSizeScaling.visibility = if (isChecked) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+
             Handler(Looper.getMainLooper()).postDelayed(
                 { SystemUtil.handleSystemUIRestart() },
                 SWITCH_ANIMATION_DELAY
@@ -67,10 +76,41 @@ class XposedQuickSettings : BaseFragment() {
         binding.hideTileLabel.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(HIDE_QSLABEL_SWITCH, isChecked)
 
+            binding.tileLabelSizeScaling.isEnabled = !isChecked
+
             Handler(Looper.getMainLooper()).postDelayed(
-                { SystemUtil.doubleToggleDarkMode() },
+                { SystemUtil.handleSystemUIRestart() },
                 SWITCH_ANIMATION_DELAY
             )
+        }
+
+        // Label size scaling
+        binding.tileLabelSizeScaling.visibility = if (binding.verticalTile.isSwitchChecked) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.tileLabelSizeScaling.isEnabled = !binding.hideTileLabel.isSwitchChecked
+
+        binding.tileLabelSizeScaling.sliderValue =
+            (getFloat(QS_TEXT_SIZE_SCALING, 1.0f) * 10).toInt()
+        binding.tileLabelSizeScaling.setOnSliderTouchListener(object :
+            Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {}
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                putFloat(QS_TEXT_SIZE_SCALING, slider.value / 10f)
+
+                Handler(Looper.getMainLooper()).postDelayed(
+                    { SystemUtil.handleSystemUIRestart() },
+                    SWITCH_ANIMATION_DELAY
+                )
+            }
+        })
+        binding.tileLabelSizeScaling.setResetClickListener {
+            clearPref(QS_TEXT_SIZE_SCALING)
+
+            true
         }
 
         // QQS panel top margin slider

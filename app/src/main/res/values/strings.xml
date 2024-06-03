@@ -491,6 +491,7 @@
     <string name="vertical_qs_tile_desc">Show label below QS icon</string>
     <string name="hide_qs_tile_label_title">Hide QS Tile Label</string>
     <string name="hide_qs_tile_label_desc">Use only with vertical tiles</string>
+    <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
     <string name="section_title_qs_margin">QS Margin</string>
     <string name="section_title_qs_elements">QS Elements</string>
     <string name="hide_qs_silent_text_title">Hide Silent Text</string>

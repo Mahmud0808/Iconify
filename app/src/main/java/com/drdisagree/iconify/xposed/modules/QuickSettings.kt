@@ -27,9 +27,9 @@ import com.drdisagree.iconify.common.Preferences.HIDE_QS_SILENT_TEXT
 import com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
+import com.drdisagree.iconify.common.Preferences.QS_TEXT_SIZE_SCALING
 import com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
-import com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.isPixelVariant
@@ -58,7 +58,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private var hideSilentText = false
     private var qqsTopMargin = 100
     private var qsTopMargin = 100
-    private var tileTextSize: Float = (-1).toFloat()
+    private var qsTextSizeScalingFactor = 1.0f
     private var mParam: Any? = null
     private var mFooterButtonsContainer: ViewGroup? = null
     private var mFooterButtonsOnDrawListener: OnDrawListener? = null
@@ -82,7 +82,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         qsTextFollowAccent = Xprefs!!.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
         hideSilentText = Xprefs!!.getBoolean(HIDE_QS_SILENT_TEXT, false)
         hideFooterButtons = Xprefs!!.getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
-        tileTextSize = Xprefs!!.getInt(FABRICATED_QS_TEXT_SIZE, -1).toFloat()
+        qsTextSizeScalingFactor = Xprefs!!.getFloat(QS_TEXT_SIZE_SCALING, 1.0f)
 
         triggerQsElementVisibility()
     }
@@ -112,21 +112,21 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 mParam = param.thisObject
 
                 try {
-                    (param.thisObject as LinearLayout).gravity = Gravity.CENTER
-                    (param.thisObject as LinearLayout).orientation = LinearLayout.VERTICAL
+                    (mParam as LinearLayout).gravity = Gravity.CENTER
+                    (mParam as LinearLayout).orientation = LinearLayout.VERTICAL
 
                     (getObjectField(
-                        param.thisObject,
+                        mParam,
                         "label"
                     ) as TextView).setGravity(Gravity.CENTER_HORIZONTAL)
 
                     (getObjectField(
-                        param.thisObject,
+                        mParam,
                         "secondaryLabel"
                     ) as TextView).setGravity(Gravity.CENTER_HORIZONTAL)
 
                     (getObjectField(
-                        param.thisObject,
+                        mParam,
                         "labelContainer"
                     ) as LinearLayout).setLayoutParams(
                         MarginLayoutParams(
@@ -135,32 +135,32 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                     )
 
                     (getObjectField(
-                        param.thisObject,
+                        mParam,
                         "sideView"
                     ) as View).visibility = View.GONE
 
-                    (param.thisObject as LinearLayout).removeView(
+                    (mParam as LinearLayout).removeView(
                         getObjectField(
-                            param.thisObject,
+                            mParam,
                             "labelContainer"
                         ) as LinearLayout
                     )
 
                     if (!isHideLabelActive) {
                         (getObjectField(
-                            param.thisObject,
+                            mParam,
                             "labelContainer"
                         ) as LinearLayout).gravity = Gravity.CENTER_HORIZONTAL
 
-                        (param.thisObject as LinearLayout).addView(
+                        (mParam as LinearLayout).addView(
                             getObjectField(
-                                param.thisObject,
+                                mParam,
                                 "labelContainer"
                             ) as LinearLayout
                         )
                     }
 
-                    fixTileLayout(param.thisObject as LinearLayout, mParam)
+                    fixTileLayout(mParam as LinearLayout, mParam)
 
                     if (qsTilePrimaryTextSize == null || qsTileSecondaryTextSize == null) {
                         try {
@@ -172,7 +172,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                                     "dimen",
                                     mContext.packageName
                                 ),
-                                getObjectField(param.thisObject, "label")
+                                getObjectField(mParam, "label")
                             )
 
                             callStaticMethod(
@@ -183,17 +183,17 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                                     "dimen",
                                     mContext.packageName
                                 ),
-                                getObjectField(param.thisObject, "secondaryLabel")
+                                getObjectField(mParam, "secondaryLabel")
                             )
                         } catch (ignored: Throwable) {
                         }
 
                         val primaryText = getObjectField(
-                            param.thisObject,
+                            mParam,
                             "label"
                         ) as TextView
                         val secondaryText = getObjectField(
-                            param.thisObject,
+                            mParam,
                             "secondaryLabel"
                         ) as TextView
 
@@ -901,24 +901,13 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
     private fun setLabelSizes(paramThisObject: Any) {
         try {
-            val primaryTextScalingFactor = if (tileTextSize != (-1).toFloat()) {
-                tileTextSize / 10f
-            } else {
-                1f
-            }
-            val secondaryTextScalingFactor = if (tileTextSize != (-1).toFloat()) {
-                primaryTextScalingFactor - 0.08f
-            } else {
-                0.92f
-            }
-
             if (qsTilePrimaryTextSize != null && qsTilePrimaryTextSizeUnit != -1) {
                 (getObjectField(
                     paramThisObject,
                     "label"
                 ) as TextView).setTextSize(
                     qsTilePrimaryTextSizeUnit,
-                    qsTilePrimaryTextSize!! * primaryTextScalingFactor
+                    qsTilePrimaryTextSize!! * qsTextSizeScalingFactor
                 )
             }
 
@@ -928,7 +917,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                     "secondaryLabel"
                 ) as TextView).setTextSize(
                     qsTileSecondaryTextSizeUnit,
-                    qsTileSecondaryTextSize!! * secondaryTextScalingFactor
+                    qsTileSecondaryTextSize!! * qsTextSizeScalingFactor * 0.92f
                 )
             }
         } catch (ignored: Throwable) {
