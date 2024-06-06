@@ -1,6 +1,6 @@
 [versions]
 agp = "8.4.1"
-appcompat = "1.6.1"
+appcompat = "1.7.0"
 bcpkixJdk18on = "1.77"
 circleindicator = "2.1.6"
 collapsingtoolbarlayoutSubtitle = "1.5.0"
