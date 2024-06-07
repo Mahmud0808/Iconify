@@ -650,22 +650,16 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 }
             }
 
-            try {
-                hookAllMethods(
-                    notificationBackgroundViewClass,
-                    "setCustomBackground$1",
-                    replaceTintColor
-                )
-            } catch (ignored: Throwable) {
-            }
+            val notificationBackgroundViewMethods = listOf(
+                "setCustomBackground",
+                "setCustomBackground$1"
+            )
 
-            try {
-                hookAllMethods(
-                    notificationBackgroundViewClass,
-                    "setCustomBackground",
-                    replaceTintColor
-                )
-            } catch (ignored: Throwable) {
+            for (method in notificationBackgroundViewMethods) {
+                try {
+                    hookAllMethods(notificationBackgroundViewClass, method, replaceTintColor)
+                } catch (ignored: Throwable) {
+                }
             }
 
             val removeButtonTint: XC_MethodHook = object : XC_MethodHook() {
@@ -691,14 +685,18 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 }
             }
 
-            try {
-                hookAllMethods(footerViewClass, "updateColors", removeButtonTint)
-            } catch (ignored: Throwable) {
-            }
+            val footerViewMethods = listOf(
+                "updateColors",
+                "updateColors$1",
+                "updateColors$2",
+                "updateColors$3"
+            )
 
-            try {
-                hookAllMethods(footerViewClass, "updateColors$3", removeButtonTint)
-            } catch (ignored: Throwable) {
+            for (method in footerViewMethods) {
+                try {
+                    hookAllMethods(footerViewClass, method, removeButtonTint)
+                } catch (ignored: Throwable) {
+                }
             }
         } catch (throwable: Throwable) {
             log(TAG + throwable)
