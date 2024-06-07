@@ -13,6 +13,7 @@ import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -542,7 +543,7 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
                         )
 
                         val mChargingIconView =
-                            (param.thisObject as LinearLayout).findViewWithTag<ImageView>(
+                            (param.thisObject as ViewGroup).findViewWithTag<ImageView>(
                                 ICONIFY_CHARGING_ICON_TAG
                             )
                         mChargingIconView?.setImageTintList(ColorStateList.valueOf(param.args[2] as Int))
@@ -709,10 +710,17 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
                 header.context,
                 android.R.attr.textColorSecondary
             )
-            val batteryIcon = getObjectField(
-                param.thisObject,
-                "batteryIcon"
-            ) as LinearLayout
+            val batteryIcon = try {
+                getObjectField(
+                    param.thisObject,
+                    "batteryIcon"
+                ) as LinearLayout
+            } catch (throwable: Throwable) {
+                getObjectField(
+                    param.thisObject,
+                    "batteryIcon"
+                ) as FrameLayout
+            }
 
             if (getObjectField(param.thisObject, "iconManager") != null) {
                 try {
@@ -771,7 +779,7 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
                     ) as BatteryDrawable
 
                     mBatteryDrawable.setShowPercentEnabled(mShowPercentInside)
-                    mBatteryDrawable.alpha = Math.round(batteryIconOpacity * 2.55f)
+                    mBatteryDrawable.alpha = Math.round(BATTERY_ICON_OPACITY * 2.55f)
                     updateCustomizeBatteryDrawable(mBatteryDrawable)
                 } catch (ignored: Throwable) {
                 }
@@ -917,7 +925,7 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
 
         if (mBatteryDrawable != null) {
             mBatteryDrawable.setShowPercentEnabled(mShowPercentInside)
-            mBatteryDrawable.alpha = Math.round(batteryIconOpacity * 2.55f)
+            mBatteryDrawable.alpha = Math.round(BATTERY_ICON_OPACITY * 2.55f)
         }
 
         return mBatteryDrawable
@@ -990,12 +998,12 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
 
     private fun updateChargingIconView(thisObject: Any, mCharging: Boolean = mIsChargingImpl) {
         var mChargingIconView =
-            (thisObject as LinearLayout).findViewWithTag<ImageView>(ICONIFY_CHARGING_ICON_TAG)
+            (thisObject as ViewGroup).findViewWithTag<ImageView>(ICONIFY_CHARGING_ICON_TAG)
 
         if (mChargingIconView == null) {
             mChargingIconView = ImageView(mContext)
             mChargingIconView.tag = ICONIFY_CHARGING_ICON_TAG
-            (thisObject as ViewGroup).addView(mChargingIconView, 1)
+            thisObject.addView(mChargingIconView, 1)
         }
 
         val drawable = if (modRes != null) {
@@ -1137,7 +1145,11 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
         val left: Int = mContext.toPx(mChargingIconML)
         val right: Int = mContext.toPx(mChargingIconMR)
         val size: Int = mContext.toPx(mChargingIconWH)
-        val lp = LinearLayout.LayoutParams(size, size)
+        val lp = if (thisObject is LinearLayout) {
+            LinearLayout.LayoutParams(size, size)
+        } else {
+            FrameLayout.LayoutParams(size, size)
+        }
 
         lp.setMargins(
             left,
@@ -1165,11 +1177,19 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateFlipper(thisObject: Any) {
-        val batteryView = thisObject as LinearLayout
-        batteryView.orientation = LinearLayout.HORIZONTAL
-        batteryView.gravity = Gravity.CENTER_VERTICAL or Gravity.START
-        batteryView.layoutDirection =
-            if (mSwapPercentage) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+        val batteryView = if (thisObject is LinearLayout) {
+            thisObject.orientation = LinearLayout.HORIZONTAL
+            thisObject.gravity = Gravity.CENTER_VERTICAL or Gravity.START
+            thisObject
+        } else {
+            thisObject as View
+        }
+
+        batteryView.layoutDirection = if (mSwapPercentage) {
+            View.LAYOUT_DIRECTION_RTL
+        } else {
+            View.LAYOUT_DIRECTION_LTR
+        }
     }
 
     private fun updateBatteryRotation(thisObject: Any) {
@@ -1178,8 +1198,11 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateBatteryRotation(mBatteryIconView: View) {
-        mBatteryIconView.rotation =
-            (if (!defaultLandscapeBatteryEnabled && mBatteryLayoutReverse) 180 else mBatteryRotation).toFloat()
+        mBatteryIconView.rotation = if (!defaultLandscapeBatteryEnabled && mBatteryLayoutReverse) {
+            180
+        } else {
+            mBatteryRotation
+        }.toFloat()
     }
 
     private fun updateCustomizeBatteryDrawable(thisObject: Any) {
@@ -1248,7 +1271,11 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
                 mBatteryIconView.context.resources.displayMetrics
             ).toInt()
 
-            val scaledLayoutParams = mBatteryIconView.layoutParams as LinearLayout.LayoutParams
+            val scaledLayoutParams = try {
+                mBatteryIconView.layoutParams as LinearLayout.LayoutParams
+            } catch (throwable: Throwable) {
+                mBatteryIconView.layoutParams as FrameLayout.LayoutParams
+            }
             scaledLayoutParams.width = (batteryWidth * iconScaleFactor).toInt()
             scaledLayoutParams.height = (batteryHeight * iconScaleFactor).toInt()
 
@@ -1284,7 +1311,6 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
     companion object {
         private val TAG = "Iconify - ${BatteryStyleManager::class.java.simpleName}: "
         private val batteryViews = ArrayList<View>()
-        private val batteryIconOpacity = 100
         private var mBatteryStyle = 0
         private var mShowPercentInside = false
         private var mHidePercentage = false
@@ -1298,5 +1324,6 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
         private var mBatteryMarginTop = 0
         private var mBatteryMarginRight = 0
         private var mBatteryMarginBottom = 0
+        private const val BATTERY_ICON_OPACITY = 100
     }
 }
