@@ -578,7 +578,8 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
 
         hookAllMethods(qsIconViewImplClass, "getIconColorForState", object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
-                val (isDisabledState: Boolean, isActiveState: Boolean) = getTileState(param)
+                val (isDisabledState: Boolean,
+                    isActiveState: Boolean) = Utils.getTileState(param)
 
                 if (!isDark && lightQSHeaderEnabled) {
                     if (isDisabledState) {
@@ -597,7 +598,8 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
         try {
             hookAllMethods(qsIconViewImplClass, "updateIcon", object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    val (isDisabledState: Boolean, isActiveState: Boolean) = getTileState(param)
+                    val (isDisabledState: Boolean,
+                        isActiveState: Boolean) = Utils.getTileState(param)
 
                     if (!isDark && lightQSHeaderEnabled) {
                         val mIcon = param.args[0] as ImageView
@@ -1010,44 +1012,6 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
         } catch (throwable: Throwable) {
             log(TAG + throwable)
         }
-    }
-
-    private fun getTileState(param: XC_MethodHook.MethodHookParam): Pair<Boolean, Boolean> {
-        val isDisabledState: Boolean = try {
-            getObjectField(
-                param.args[1],
-                "disabledByPolicy"
-            ) as Boolean ||
-                    getObjectField(
-                        param.args[1],
-                        "state"
-                    ) as Int == Tile.STATE_UNAVAILABLE
-        } catch (throwable: Throwable) {
-            getObjectField(
-                param.args[1],
-                "state"
-            ) as Int == Tile.STATE_UNAVAILABLE
-        }
-
-        val isActiveState: Boolean = try {
-            getObjectField(
-                param.args[1],
-                "state"
-            ) as Int == Tile.STATE_ACTIVE
-        } catch (throwable: Throwable) {
-            try {
-                param.args[1] as Int == Tile.STATE_ACTIVE
-            } catch (throwable1: Throwable) {
-                try {
-                    param.args[1] as Boolean
-                } catch (throwable2: Throwable) {
-                    log(TAG + throwable2)
-                    false
-                }
-            }
-        }
-
-        return Pair(isDisabledState, isActiveState)
     }
 
     private fun applyOverlays(force: Boolean) {
