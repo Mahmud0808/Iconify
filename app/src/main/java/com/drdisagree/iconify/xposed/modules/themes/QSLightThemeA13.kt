@@ -367,7 +367,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         hookAllMethods(qsIconViewImplClass, "updateIcon", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (lightQSHeaderEnabled && !isDark &&
-                    getIntField(param.args[1], "state") == STATE_ACTIVE
+                    getIntField(param.args[1], "state") == Tile.STATE_ACTIVE
                 ) {
                     try {
                         (param.args[0] as ImageView)
@@ -384,7 +384,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                 if (lightQSHeaderEnabled && !isDark) {
                     try {
                         if (param.args[0] is ImageView &&
-                            getIntField(param.args[1], "state") == STATE_ACTIVE
+                            getIntField(param.args[1], "state") == Tile.STATE_ACTIVE
                         ) {
                             setObjectField(param.thisObject, "mTint", colorInactive)
                         }
@@ -751,10 +751,10 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
             getObjectField(
                 param.args[1],
                 "state"
-            ) as Int == STATE_ACTIVE
+            ) as Int == Tile.STATE_ACTIVE
         } catch (throwable: Throwable) {
             try {
-                param.args[1] as Int == STATE_ACTIVE
+                param.args[1] as Int == Tile.STATE_ACTIVE
             } catch (throwable1: Throwable) {
                 try {
                     param.args[1] as Boolean
@@ -895,7 +895,6 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
     }
 
     companion object {
-        const val STATE_ACTIVE = 2
         private val TAG = "Iconify - ${QSLightThemeA13::class.java.simpleName}: "
         private var lightQSHeaderEnabled = false
         private var dualToneQSEnabled = false

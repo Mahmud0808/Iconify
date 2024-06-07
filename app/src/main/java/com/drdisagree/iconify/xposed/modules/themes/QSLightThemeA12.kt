@@ -378,7 +378,6 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
     }
 
     companion object {
-        const val STATE_ACTIVE = 2
         private val TAG = "Iconify - ${QSLightThemeA12::class.java.simpleName}: "
         private var lightQSHeaderEnabled = false
         private var dualToneQSEnabled = false

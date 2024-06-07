@@ -757,10 +757,10 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
             getObjectField(
                 param.args[1],
                 "state"
-            ) as Int == QSLightThemeA13.STATE_ACTIVE
+            ) as Int == Tile.STATE_ACTIVE
         } catch (throwable: Throwable) {
             try {
-                param.args[1] as Int == QSLightThemeA13.STATE_ACTIVE
+                param.args[1] as Int == Tile.STATE_ACTIVE
             } catch (throwable1: Throwable) {
                 try {
                     param.args[1] as Boolean
