@@ -457,6 +457,7 @@
     <string name="vertical_qs_tile_desc">在快速設定圖示下面顯示標簽</string>
     <string name="hide_qs_tile_label_title">隱藏快速設定圖示標簽</string>
     <string name="hide_qs_tile_label_desc">只能與垂直圖示一起使用</string>
+    <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
     <string name="section_title_qs_margin">快速設定邊距</string>
     <string name="section_title_qs_elements">「快速設定」元素</string>
     <string name="hide_qs_silent_text_title">Hide Silent Text</string>

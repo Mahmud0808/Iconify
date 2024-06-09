@@ -457,6 +457,7 @@
     <string name="vertical_qs_tile_desc">Mostrar etiqueta debajo del icono de Ajustes Rápidos</string>
     <string name="hide_qs_tile_label_title">Ocultar etiqueta en botones de Ajustes Rápidos</string>
     <string name="hide_qs_tile_label_desc">Usar solo con botones verticales</string>
+    <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
     <string name="section_title_qs_margin">QS Margin</string>
     <string name="section_title_qs_elements">QS Elements</string>
     <string name="hide_qs_silent_text_title">Hide Silent Text</string>

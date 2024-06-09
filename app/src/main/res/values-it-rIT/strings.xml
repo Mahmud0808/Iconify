@@ -457,6 +457,7 @@
     <string name="vertical_qs_tile_desc">Mostra etichetta sotto l\'icona QS</string>
     <string name="hide_qs_tile_label_title">Nascondi Etichetta Riquadro QS</string>
     <string name="hide_qs_tile_label_desc">Usa solo con riquadri verticali</string>
+    <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
     <string name="section_title_qs_margin">Margine QS</string>
     <string name="section_title_qs_elements">Elementi QS</string>
     <string name="hide_qs_silent_text_title">Nascondi Testo Silenzioso</string>

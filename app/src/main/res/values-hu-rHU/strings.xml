@@ -457,6 +457,7 @@
     <string name="vertical_qs_tile_desc">Címke megjelenítése az ikon alatt</string>
     <string name="hide_qs_tile_label_title">Csempefelirat elrejtése</string>
     <string name="hide_qs_tile_label_desc">Csak függőleges csempék esetében</string>
+    <string name="qs_tile_label_scaling_title">Szövegméretezés</string>
     <string name="section_title_qs_margin">Csempemargók</string>
     <string name="section_title_qs_elements">Gyorsbeállítások elemei</string>
     <string name="hide_qs_silent_text_title">Szövegelrejtés</string>
@@ -545,7 +546,7 @@
     <string name="battery_landscape_battery_o">Fekvő akkumulátor O</string>
     <string name="battery_circle">Kör akkumulátor</string>
     <string name="battery_dotted_circle">Pontozott kör akkumulátor</string>
-    <string name="battery_filled_circle">Filled Circle Battery</string>
+    <string name="battery_filled_circle">Kitöltött kör akkumulátor</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Százalékos hangerő</string>
     <string name="volume_percentage_desc">Megjeleníti a százalékértéket a hangerőcsúszka felett</string>
@@ -651,8 +652,8 @@
     <string name="hide_ls_carrier_desc">A záróképernyőről eltűnik a Szolgáltató neve</string>
     <string name="hide_ls_statusbar_title">Nincs Állapotsor a képernyőzáron</string>
     <string name="hide_ls_statusbar_desc">A záróképernyőről eltűnik az Állapotsor</string>
-    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
-    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
+    <string name="hide_ls_lock_icon_title">Zárolásikon elrejtése</string>
+    <string name="hide_ls_lock_icon_desc">A zárikon elrejtése a záróképernyőn</string>
     <string name="fixed_status_icons_title">Rögzített Állapotikonok</string>
     <string name="fixed_status_icons_desc">Az állapotikonok rögzített pozícióba kerülnek\nJónéhány ROM-on buggolást okoz</string>
     <!-- Changelog -->
