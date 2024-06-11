@@ -14,7 +14,7 @@
     <string name="onboarding_title_1">Наскучил стандартный UI ?</string>
     <string name="onboarding_subtitle_1">Давайте настроим все по нашему вкусу.</string>
     <string name="onboarding_desc_1">Избавьтесь от однообразности интерфейса – персонализируйте каждую деталь под стать вашему стилю и предпочтениям.</string>
-    <string name="onboarding_title_2">Поддерживается ли мой девайс?</string>
+    <string name="onboarding_title_2">Поддерживается ли мое устройство?</string>
     <string name="onboarding_subtitle_2">Iconify поддерживается на всех Pixel или AOSP прошивках.</string>
     <string name="onboarding_desc_2">Совместим со всеми Pixel и AOSP-подобными прошивками, обеспечивая широкую поддержку устройств Android.</string>
     <string name="onboarding_title_3">Может, Начнем Прямо Сейчас?</string>
@@ -93,7 +93,7 @@
     <string name="settings_app_theme_light">Светлая тема</string>
     <string name="settings_app_theme_dark">Тёмная тема</string>
     <string name="settings_app_theme_system">Системная тема</string>
-    <string name="settings_section_title_update">Обновления</string>
+    <string name="settings_section_title_update">Обновление</string>
     <string name="settings_check_for_update">Проверить обновления</string>
     <string name="settings_current_version">Установленная версия: %s</string>
     <string name="settings_auto_update_title">Обновлять автоматически</string>
@@ -281,17 +281,17 @@
     <string name="qs_text_color_normal">Обычный</string>
     <string name="qs_text_color_pixel">Pixel</string>
     <string name="label_always_white_title">Всегда белый</string>
-    <string name="label_always_white_desc">Белый для заголовка, Акцент для текста</string>
+    <string name="label_always_white_desc">Белые заголовок и подзаголовок</string>
     <string name="label_always_white_v2_title">Всегда белый v2</string>
-    <string name="label_always_white_v2_desc">Белый для заголовка, Акцент для текста</string>
+    <string name="label_always_white_v2_desc">Белый заголовок, акцент для подзаголовка</string>
     <string name="label_follow_system_title">Соответствовать системе</string>
-    <string name="label_follow_system_desc">Системный для заголовка, Системный для текста</string>
+    <string name="label_follow_system_desc">Системный для заголовка и подзаголовка</string>
     <string name="label_follow_system_v2_title">Соответствовать системе v2</string>
-    <string name="label_follow_system_v2_desc">Системный для заголовка, Акцент для текста</string>
+    <string name="label_follow_system_v2_desc">Системный для заголовка, акцент для подзаголовка</string>
     <string name="label_fix_text_color_title">Исправить цвет текста</string>
     <string name="label_fix_text_color_desc">Исправить нечитаемый цвет текста</string>
     <string name="label_follow_accent_title">Использовать акцентный цвет</string>
-    <string name="label_follow_accent_desc">Акцент заголовка и подзаголовка</string>
+    <string name="label_follow_accent_desc">Акцент для заголовка и подзаголовка</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Вертикальный</string>
     <string name="section_title_landscape">Горизонтальный</string>
@@ -307,7 +307,7 @@
     <string name="sb_height">Высота</string>
     <string name="section_title_color">Цвет</string>
     <string name="sb_color_tint_title">Оттенок</string>
-    <string name="sb_color_tint_desc">Оттенок иконок статусбара и текста</string>
+    <string name="sb_color_tint_desc">Оттенок иконок строки состояния и текста</string>
     <string name="sb_tint_system">Стандартный системный оттенок</string>
     <string name="sb_tint_monet">Monet оттенок</string>
     <string name="sb_tint_custom">Свой оттенок</string>
@@ -333,12 +333,12 @@
     <string name="navbar_disable_left_gesture_desc">Отключить жест назад с левой стороны</string>
     <string name="navbar_disable_right_gesture_title">Отключить правый жест</string>
     <string name="navbar_disable_right_gesture_desc">Отключить жест назад с правой стороны</string>
-    <string name="section_title_pill_navigation">Навигация пилюлей</string>
+    <string name="section_title_pill_navigation">Строка навигации</string>
     <string name="navbar_hide_pill_title">Скрыть строку навигации</string>
     <string name="navbar_hide_pill_desc">Скрывает строку навигации</string>
     <string name="navbar_monet_pill_title">Цвет Monet в строке навигации</string>
     <string name="navbar_monet_pill_desc">Применить цвет акцента к строке навигации</string>
-    <string name="section_title_pill_appearance">Отображение пилюли</string>
+    <string name="section_title_pill_appearance">Отображение строки навигации</string>
     <string name="pill_width_title">Ширина капсулы</string>
     <string name="pill_thickness_title">Толщина капсулы</string>
     <string name="pill_bottom_space_title">Нижнее пространство</string>
@@ -382,7 +382,7 @@
     <string name="section_title_tablet_mode">Планшетный режим</string>
     <string name="tablet_landscape_title">Планшетный ландшафтный режим</string>
     <string name="tablet_landscape_desc">Также известен как Better QS</string>
-    <string name="notch_bar_killer_title">Убийца выреза экрана</string>
+    <string name="notch_bar_killer_title">Убрать вырез экрана</string>
     <string name="notch_bar_killer_desc">Убрать пустое пространство выреза</string>
     <string name="tablet_header_title">Планшетный заголовок</string>
     <string name="tablet_header_desc">Включить большой заголовок экрана</string>
@@ -457,6 +457,7 @@
     <string name="vertical_qs_tile_desc">Показывать подпись под иконкой в быстрых настройках</string>
     <string name="hide_qs_tile_label_title">Скрыть подписи плиток быстрых настроек</string>
     <string name="hide_qs_tile_label_desc">Используйте только с вертикальными плитками</string>
+    <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
     <string name="section_title_qs_margin">Отступ быстрых настроек</string>
     <string name="section_title_qs_elements">Элементы быстрых настроек</string>
     <string name="hide_qs_silent_text_title">Скрыть надпись Без звука у уведомлений</string>
@@ -545,7 +546,7 @@
     <string name="battery_landscape_battery_o">Горизонтальная батарея O</string>
     <string name="battery_circle">Круглая батарея</string>
     <string name="battery_dotted_circle">Точечный круг батареи</string>
-    <string name="battery_filled_circle">Filled Circle Battery</string>
+    <string name="battery_filled_circle">Заполненный круг</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Проценты громкости</string>
     <string name="volume_percentage_desc">Показывать проценты выше слайдера громкости</string>
@@ -615,7 +616,7 @@
     <string name="wallpaper_fade_animation_desc">Анимировать обои и угасать в AOD</string>
     <string name="foreground_image_title">Изображение на переднем плане</string>
     <string name="foreground_image_desc">Изображение на переднем плане для глубинных обоев</string>
-    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
+    <string name="foreground_image_alpha_title">Alpha-прозрачность изображения переднего плана</string>
     <string name="background_image_title">Изображение на заднем плане</string>
     <string name="background_image_desc">Изображение на заднем плане для глубинных обоев</string>
     <string name="depth_wallpaper_alert_msg">Эта функция находится на стадии бета-тестирования. Поэтому могут быть ошибки.\n\n<b>Известные ошибки:</b>\n• При нажатии на экран блокировки обои подпрыгивают.</string>
@@ -625,9 +626,9 @@
     <string name="wallpaper_background_sensitivity_title">Фоновая чувствительность</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Строка состояния</string>
-    <string name="sb_clock_background_chip_title">Фишка часов статусбара</string>
-    <string name="sb_clock_background_chip_desc">Показывать фишку позади часов в статусбаре</string>
-    <string name="statusbar_clock_color_title">Цвет часов в статусбаре</string>
+    <string name="sb_clock_background_chip_title">Подложка часов строки состояния</string>
+    <string name="sb_clock_background_chip_desc">Показывать подложку позади часов в строке состояния</string>
+    <string name="statusbar_clock_color_title">Цвет часов в строке состояния</string>
     <string name="sbclock_color_follow_system">Соответствие системе</string>
     <string name="sbclock_color_transparent_text">Прозрачный текст</string>
     <string name="sbclock_color_custom_color">Кастомный цвет</string>
@@ -635,25 +636,25 @@
     <string name="clock_color_picker_desc">Установить цвет текста часов статусбара</string>
     <string name="section_title_status_icons">Иконки строки состояния</string>
     <string name="chip_style_title">Стиль фишки</string>
-    <string name="status_icons_chip_title">Фишка иконок статусбара</string>
-    <string name="status_icons_chip_desc">Показывать фишку позади иконок статусбара</string>
-    <string name="status_icons_chip_style_title">Стиль фишки</string>
+    <string name="status_icons_chip_title">Подложка иконок строки состояния</string>
+    <string name="status_icons_chip_desc">Показывать подложку позади иконок строки состояния</string>
+    <string name="status_icons_chip_style_title">Стиль подложки</string>
     <string name="fixed_status_icons_top_margin">Верхнее поле</string>
     <string name="fixed_status_icons_side_margin">Боковое поле</string>
     <!-- Xposed Others -->
     <string name="qs_header">Шапка быстрых настроек</string>
     <string name="hide_carrier_group_title">Скрыть группу Сим-карт</string>
     <string name="hide_carrier_group_desc">Скрыть группу Сим-карт в панели быстрых настроек</string>
-    <string name="hide_status_icons_title">Скрыть значки статусбара</string>
+    <string name="hide_status_icons_title">Скрыть иконки строки состояния</string>
     <string name="hide_status_icons_desc">Скрыть значки времени, даты и батареи</string>
     <string name="lock_screen">Экран блокировки</string>
     <string name="hide_ls_carrier_title">Скрыть оператора</string>
     <string name="hide_ls_carrier_desc">Скрывает оператора на экране блокировки</string>
-    <string name="hide_ls_statusbar_title">Скрыть статусбар</string>
-    <string name="hide_ls_statusbar_desc">Скрывает статусбар на экране блокировки</string>
-    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
-    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
-    <string name="fixed_status_icons_title">Фиксированные иконки статусбара</string>
+    <string name="hide_ls_statusbar_title">Скрыть строку состояния</string>
+    <string name="hide_ls_statusbar_desc">Скрывает строку состояния на экране блокировки</string>
+    <string name="hide_ls_lock_icon_title">Спрятать иконку блокировки экрана</string>
+    <string name="hide_ls_lock_icon_desc">Скрыть иконку блокировки на экране блокировки</string>
+    <string name="fixed_status_icons_title">Фиксированные иконки строки состояния</string>
     <string name="fixed_status_icons_desc">Установить значки состояния в фиксированном положении\nВ некоторых прошивках могут быть ошибки</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Журнал изменеий</string>

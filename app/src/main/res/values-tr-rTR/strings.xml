@@ -457,6 +457,7 @@
     <string name="vertical_qs_tile_desc">QS simgesinin altındaki etiketi göster</string>
     <string name="hide_qs_tile_label_title">QS Kutucuğu Etiketini Gizle</string>
     <string name="hide_qs_tile_label_desc">Sadece dikey kutucuklarla kullanın</string>
+    <string name="qs_tile_label_scaling_title">Metin Ölçeklendirme</string>
     <string name="section_title_qs_margin">QS Kenar Boşluğu</string>
     <string name="section_title_qs_elements">QS Öğeleri</string>
     <string name="hide_qs_silent_text_title">Sessiz Metni Gizle</string>
@@ -545,7 +546,7 @@
     <string name="battery_landscape_battery_o">Yatay Pil O</string>
     <string name="battery_circle">Daire Pil</string>
     <string name="battery_dotted_circle">Noktalı Daire Pil</string>
-    <string name="battery_filled_circle">Filled Circle Battery</string>
+    <string name="battery_filled_circle">Dolu Daire Pil</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">Ses yüzdesi</string>
     <string name="volume_percentage_desc">Ses kaydırıcısının üzerinde yüzdeyi göster</string>

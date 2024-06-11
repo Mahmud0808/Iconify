@@ -457,6 +457,7 @@
     <string name="vertical_qs_tile_desc">إظهار التسمية أسفل رمز QS</string>
     <string name="hide_qs_tile_label_title">إخفاء تسمية بلاط QS</string>
     <string name="hide_qs_tile_label_desc">استخدم فقط مع البلاط العمودي</string>
+    <string name="qs_tile_label_scaling_title">تحجيم النص</string>
     <string name="section_title_qs_margin">هامش QS</string>
     <string name="section_title_qs_elements">عناصر QS</string>
     <string name="hide_qs_silent_text_title">إخفاء النص الصامت</string>
@@ -545,7 +546,7 @@
     <string name="battery_landscape_battery_o">بطارية أفقية O</string>
     <string name="battery_circle">بطارية دائرة</string>
     <string name="battery_dotted_circle">بطارية دائرة منقطة</string>
-    <string name="battery_filled_circle">Filled Circle Battery</string>
+    <string name="battery_filled_circle">بطارية دائرية منقطة</string>
     <!-- Volume Panel -->
     <string name="volume_percentage_title">حجم الصوت</string>
     <string name="volume_percentage_desc">إظهار النسبة المئوية فوق شريط تمرير الصوت</string>
@@ -615,7 +616,7 @@
     <string name="wallpaper_fade_animation_desc">تحريك الخلفية والتلاشي في AOD</string>
     <string name="foreground_image_title">الصورة الأمامية</string>
     <string name="foreground_image_desc">الصورة الأمامية لخلفية العمق</string>
-    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
+    <string name="foreground_image_alpha_title">الصورة الأمامية الفا</string>
     <string name="background_image_title">صورة خلفية</string>
     <string name="background_image_desc">صورة خلفية لخلفية العمق</string>
     <string name="depth_wallpaper_alert_msg">هذه الميزة حالياً في المرحلة التجريبية. لذا من المتوقع حدوث أخطاء.\n\n<b>أخطاء المعروفة:</b>\n• النقر على شاشة القفل يجعل الخلفية تقفز.</string>
@@ -651,8 +652,8 @@
     <string name="hide_ls_carrier_desc">إخفاء اسم الناقل على شاشة القفل</string>
     <string name="hide_ls_statusbar_title">إخفاء LS Statusbar</string>
     <string name="hide_ls_statusbar_desc">إخفاء شريط الحالة على شاشة القفل</string>
-    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
-    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
+    <string name="hide_ls_lock_icon_title">إخفاء أيقونة القفل</string>
+    <string name="hide_ls_lock_icon_desc">إخفاء عرض رمز القفل العلوي على شاشة القفل</string>
     <string name="fixed_status_icons_title">أيقونات الحالة ثابتة</string>
     <string name="fixed_status_icons_desc">قم بتعيين أيقونات الحالة في موضع ثابت\n قد يكون هناك خطأ في بعض الرومات</string>
     <!-- Changelog -->

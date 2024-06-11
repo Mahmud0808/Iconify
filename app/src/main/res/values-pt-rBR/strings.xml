@@ -457,6 +457,7 @@
     <string name="vertical_qs_tile_desc">Mostre o rótulo abaixo do ícone QS</string>
     <string name="hide_qs_tile_label_title">Ocultar rótulo do bloco QS</string>
     <string name="hide_qs_tile_label_desc">Use apenas com rótulos verticais</string>
+    <string name="qs_tile_label_scaling_title">Tamanho do texto</string>
     <string name="section_title_qs_margin">Margem QS</string>
     <string name="section_title_qs_elements">Elementos QS</string>
     <string name="hide_qs_silent_text_title">Ocultar texto silencioso</string>
