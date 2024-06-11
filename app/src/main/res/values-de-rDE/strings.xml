@@ -458,6 +458,7 @@ transparent machen</string>
     <string name="vertical_qs_tile_desc">Zeige Text unter QS Symbol</string>
     <string name="hide_qs_tile_label_title">Verstecke QS Beschreibung</string>
     <string name="hide_qs_tile_label_desc">Nur mit vertikalen Kachen benutzen</string>
+    <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
     <string name="section_title_qs_margin">QS Abstand</string>
     <string name="section_title_qs_elements">QS Elemente</string>
     <string name="hide_qs_silent_text_title">Lautloser Text ausblenden</string>
