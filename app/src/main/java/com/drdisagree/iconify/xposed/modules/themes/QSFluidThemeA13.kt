@@ -720,8 +720,8 @@ class QSFluidThemeA13(context: Context?) : ModPack(context!!) {
                         val childCount = parent.childCount
                         for (i in 0 until childCount) {
                             val childView = parent.getChildAt(i)
-                            childView.background.setTint(colorInactive[0])
-                            childView.background.alpha = (INACTIVE_ALPHA * 255).toInt()
+                            childView.background?.setTint(colorInactive[0])
+                            childView.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
                         }
                     }
                 }
