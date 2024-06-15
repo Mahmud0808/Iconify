@@ -27,7 +27,6 @@ import com.drdisagree.iconify.common.Preferences.HIDE_QS_SILENT_TEXT
 import com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
-import com.drdisagree.iconify.common.Preferences.QS_TEXT_SIZE_SCALING
 import com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
 import com.drdisagree.iconify.config.XPrefs.Xprefs
@@ -58,7 +57,6 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private var hideSilentText = false
     private var qqsTopMargin = 100
     private var qsTopMargin = 100
-    private var qsTextSizeScalingFactor = 1.0f
     private var mParam: Any? = null
     private var mFooterButtonsContainer: ViewGroup? = null
     private var mFooterButtonsOnDrawListener: OnDrawListener? = null
@@ -82,7 +80,6 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         qsTextFollowAccent = Xprefs!!.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
         hideSilentText = Xprefs!!.getBoolean(HIDE_QS_SILENT_TEXT, false)
         hideFooterButtons = Xprefs!!.getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
-        qsTextSizeScalingFactor = Xprefs!!.getFloat(QS_TEXT_SIZE_SCALING, 1.0f)
 
         triggerQsElementVisibility()
     }
@@ -188,20 +185,15 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                         } catch (ignored: Throwable) {
                         }
 
-                        val primaryText = getObjectField(
+                        qsTilePrimaryTextSize = (getObjectField(
                             mParam,
                             "label"
-                        ) as TextView
-                        val secondaryText = getObjectField(
+                        ) as TextView).textSize
+
+                        qsTileSecondaryTextSize = (getObjectField(
                             mParam,
                             "secondaryLabel"
-                        ) as TextView
-
-                        qsTilePrimaryTextSize = primaryText.textSize
-                        qsTilePrimaryTextSizeUnit = primaryText.textSizeUnit
-
-                        qsTileSecondaryTextSize = secondaryText.textSize
-                        qsTileSecondaryTextSizeUnit = secondaryText.textSizeUnit
+                        ) as TextView).textSize
                     }
                 } catch (throwable: Throwable) {
                     log(TAG + throwable)
@@ -214,14 +206,6 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 if (!isVerticalQSTileActive) return
 
                 fixTileLayout(param.thisObject as LinearLayout, mParam)
-            }
-        })
-
-        hookAllMethods(qsTileViewImplClass, "onLayout", object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                if (!isVerticalQSTileActive) return
-
-                setLabelSizes(param.thisObject)
             }
         })
     }
@@ -897,39 +881,12 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun setLabelSizes(paramThisObject: Any) {
-        try {
-            if (qsTilePrimaryTextSize != null && qsTilePrimaryTextSizeUnit != -1) {
-                (getObjectField(
-                    paramThisObject,
-                    "label"
-                ) as TextView).setTextSize(
-                    qsTilePrimaryTextSizeUnit,
-                    qsTilePrimaryTextSize!! * qsTextSizeScalingFactor
-                )
-            }
-
-            if (qsTileSecondaryTextSize != null && qsTileSecondaryTextSizeUnit != -1) {
-                (getObjectField(
-                    paramThisObject,
-                    "secondaryLabel"
-                ) as TextView).setTextSize(
-                    qsTileSecondaryTextSizeUnit,
-                    qsTileSecondaryTextSize!! * qsTextSizeScalingFactor * 0.92f
-                )
-            }
-        } catch (ignored: Throwable) {
-        }
-    }
-
     companion object {
         private val TAG = "Iconify - ${QuickSettings::class.java.simpleName}: "
         private var isVerticalQSTileActive = false
         private var isHideLabelActive = false
         private var qsTilePrimaryTextSize: Float? = null
-        private var qsTilePrimaryTextSizeUnit: Int = -1
         private var qsTileSecondaryTextSize: Float? = null
-        private var qsTileSecondaryTextSizeUnit: Int = -1
         private var qqsTopMarginEnabled = false
         private var qsTopMarginEnabled = false
     }

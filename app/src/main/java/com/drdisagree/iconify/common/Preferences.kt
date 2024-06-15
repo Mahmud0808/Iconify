@@ -118,7 +118,6 @@ object Preferences {
     const val HIDE_QS_FOOTER_BUTTONS = "xposed_hideqsfooterbuttons"
     const val QS_TEXT_ALWAYS_WHITE = "xposed_qstextalwayswhite"
     const val QS_TEXT_FOLLOW_ACCENT = "xposed_qstextfollowaccent"
-    const val QS_TEXT_SIZE_SCALING = "xposed_qstextsizescaling"
 
     // Xposed view tags
     const val ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock"
@@ -249,6 +248,7 @@ object Preferences {
     const val SHOW_XPOSED_WARN = "IconifyShowXposedWarn"
     const val SHOW_HOME_CARD = "IconifyShowHomeCard"
     const val XPOSED_ONLY_MODE = "IconifyXposedOnlyMode"
+
     @JvmField
     var isXposedOnlyMode = getBoolean(XPOSED_ONLY_MODE, true) &&
             !SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING

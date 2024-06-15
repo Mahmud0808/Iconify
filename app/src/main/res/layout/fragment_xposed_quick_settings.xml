@@ -40,21 +40,6 @@
                 app:summaryText="@string/hide_qs_tile_label_desc"
                 app:titleText="@string/hide_qs_tile_label_title" />
 
-            <com.drdisagree.iconify.ui.widgets.SliderWidget
-                android:id="@+id/tile_label_size_scaling"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:decimalFormat="#.##"
-                app:isDecimalFormat="true"
-                app:outputScale="10"
-                app:sliderDefaultValue="10"
-                app:sliderStepSize="1"
-                app:sliderValue="10"
-                app:sliderValueFrom="5"
-                app:sliderValueTo="15"
-                app:titleText="@string/qs_tile_label_scaling_title"
-                app:valueFormat="x" />
-
             <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
