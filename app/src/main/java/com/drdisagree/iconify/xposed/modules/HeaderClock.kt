@@ -542,6 +542,7 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
         findViewWithTagAndChangeColor(clockView, "accent3", accent3)
         findViewWithTagAndChangeColor(clockView, "text1", textPrimary)
         findViewWithTagAndChangeColor(clockView, "text2", textInverse)
+        findViewWithTagAndChangeColor(clockView, "gradient", accent1, accent2, 26);
 
         if (typeface != null) {
             applyFontRecursively(clockView, typeface)
