@@ -2,6 +2,7 @@ package com.drdisagree.iconify.utils.overlay.manager
 
 import com.drdisagree.iconify.common.Dynamic.TOTAL_NOTIFICATIONS
 import com.drdisagree.iconify.common.Dynamic.isAtleastA14
+import com.drdisagree.iconify.common.Dynamic.isSecurityPatchBeforeJune2024
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
 import com.drdisagree.iconify.config.Prefs
 import com.drdisagree.iconify.config.RPrefs
@@ -21,7 +22,10 @@ object NotificationManager {
             enableOverlays("IconifyComponentCR1.overlay", "IconifyComponentCR2.overlay")
         }
 
-        if (isAtleastA14 && !RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, false)) {
+        if (isAtleastA14 &&
+            !RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, false) &&
+            isSecurityPatchBeforeJune2024()
+        ) {
             RPrefs.putBoolean(FIX_NOTIFICATION_COLOR, true)
             SystemUtil.restartSystemUI()
         }
@@ -30,7 +34,10 @@ object NotificationManager {
     fun disableOverlay(n: Int) {
         disableOverlay("IconifyComponentNFN$n.overlay")
 
-        if (isAtleastA14 && RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, false)) {
+        if (isAtleastA14 &&
+            RPrefs.getBoolean(FIX_NOTIFICATION_COLOR, false) &&
+            isSecurityPatchBeforeJune2024()
+        ) {
             RPrefs.putBoolean(FIX_NOTIFICATION_COLOR, false)
             SystemUtil.restartSystemUI()
         }
