@@ -17,7 +17,6 @@ object BinaryInstaller {
 
     private val TAG = BinaryInstaller::class.java.getSimpleName()
 
-    @JvmStatic
     fun symLinkBinaries() {
         Shell.cmd("mkdir -p $BIN_DIR").exec()
 

@@ -26,7 +26,6 @@ object OnboardingCompiler {
     private var key: PrivateKey? = null
     private var cert: X509Certificate? = null
 
-    @JvmStatic
     fun createManifest(name: String?, target: String?, source: String): Boolean {
         var hasErroredOut = false
         var attempt = 3
@@ -46,7 +45,6 @@ object OnboardingCompiler {
         return !hasErroredOut
     }
 
-    @JvmStatic
     fun runAapt(source: String, name: String): Boolean {
         var result: Shell.Result? = null
         var attempt = 3
@@ -111,7 +109,6 @@ object OnboardingCompiler {
         return folderCommand + compileCommand + linkCommand
     }
 
-    @JvmStatic
     fun zipAlign(source: String, name: String): Boolean {
         var result: Shell.Result? = null
         var attempt = 3
@@ -154,7 +151,6 @@ object OnboardingCompiler {
         return !result.isSuccess
     }
 
-    @JvmStatic
     fun apkSigner(source: String?, name: String): Boolean {
         try {
             if (key == null) {

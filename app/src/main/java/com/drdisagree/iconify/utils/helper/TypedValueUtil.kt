@@ -5,7 +5,6 @@ import androidx.annotation.IntRange
 
 object TypedValueUtil {
 
-    @JvmStatic
     fun createComplexDimension(
         @IntRange(from = -0x800000, to = 0x7FFFFF) value: Int,
         @ComplexDimensionUnit units: Int

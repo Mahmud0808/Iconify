@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.activity.result.ActivityResultLauncher
-import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.common.Resources
 import com.topjohnwu.superuser.Shell
@@ -23,7 +22,6 @@ object FileUtil {
 
     val DATA_DIR = appContext.filesDir.toString()
 
-    @JvmStatic
     @Throws(IOException::class)
     fun copyAssets(assetFolder: String) {
         cleanDir(assetFolder)
@@ -86,7 +84,6 @@ object FileUtil {
         }
     }
 
-    @JvmStatic
     fun getRealPath(obj: Any?): String? {
         return when (obj) {
             is Intent -> {
@@ -145,7 +142,6 @@ object FileUtil {
         return file.path
     }
 
-    @JvmStatic
     fun moveToIconifyHiddenDir(source: String, destination: String): Boolean {
         return Shell.cmd(
             "mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR,

@@ -59,7 +59,6 @@ import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyl
 
 object ViewHelper {
 
-    @JvmStatic
     fun disableNestedScrolling(viewPager: ViewPager2) {
         var recyclerView: RecyclerView? = null
 
@@ -75,7 +74,6 @@ object ViewHelper {
         }
     }
 
-    @JvmStatic
     fun setHeader(context: Context, toolbar: Toolbar, title: Int) {
         (context as AppCompatActivity).setSupportActionBar(toolbar)
         context.supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -83,7 +81,6 @@ object ViewHelper {
         toolbar.setTitle(title)
     }
 
-    @JvmStatic
     fun setHeader(
         context: Context,
         fragmentManager: FragmentManager,
@@ -106,7 +103,6 @@ object ViewHelper {
         return dp2px(dp.toInt())
     }
 
-    @JvmStatic
     fun dp2px(dp: Int): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -115,7 +111,6 @@ object ViewHelper {
         ).toInt()
     }
 
-    @JvmStatic
     fun getBatteryDrawables(context: Context): Array<Drawable> {
         val batteryColor = appContext.getColor(R.color.textColorPrimary)
 
@@ -186,7 +181,6 @@ object ViewHelper {
         return batteryDrawables
     }
 
-    @JvmStatic
     fun getChargingIcons(context: Context): Array<Drawable> {
         val chargingIcons = arrayOf(
             getDrawable(context, R.drawable.ic_charging_bold)!!,  // Bold

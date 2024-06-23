@@ -28,7 +28,6 @@ object ResourceManager {
 
     private val TAG = ResourceManager::class.java.getSimpleName()
 
-    @JvmStatic
     fun buildOverlayWithResource(vararg resourceEntries: ResourceEntry?): Boolean {
         val hasErroredOut = AtomicBoolean(false)
 
@@ -42,7 +41,6 @@ object ResourceManager {
         return hasErroredOut.get()
     }
 
-    @JvmStatic
     fun buildOverlayWithResource(context: Context?, vararg resourceEntries: ResourceEntry?) {
         if (!hasStoragePermission()) {
             requestStoragePermission(context!!)
@@ -55,7 +53,6 @@ object ResourceManager {
         }
     }
 
-    @JvmStatic
     fun removeResourceFromOverlay(vararg resourceEntries: ResourceEntry?): Boolean {
         val hasErroredOut = AtomicBoolean(false)
 
@@ -69,7 +66,6 @@ object ResourceManager {
         return hasErroredOut.get()
     }
 
-    @JvmStatic
     fun removeResourceFromOverlay(context: Context?, vararg resourceEntries: ResourceEntry?) {
         if (!hasStoragePermission()) {
             requestStoragePermission(context!!)

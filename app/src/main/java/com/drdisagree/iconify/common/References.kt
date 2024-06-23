@@ -41,6 +41,5 @@ object References {
     const val METADATA_THEME_CATEGORY = "THEME_CATEGORY"
 
     // Overlay categories
-    @JvmField
     val OVERLAY_CATEGORY_PREFIX = BuildConfig.APPLICATION_ID.replace(".debug", "") + ".category."
 }

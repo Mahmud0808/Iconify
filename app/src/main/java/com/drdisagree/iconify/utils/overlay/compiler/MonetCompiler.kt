@@ -17,7 +17,6 @@ object MonetCompiler {
     private val TAG = MonetCompiler::class.java.simpleName
     private var mForce = false
 
-    @JvmStatic
     @Throws(IOException::class)
     fun buildOverlay(resources: Array<String>, force: Boolean): Boolean {
         mForce = force

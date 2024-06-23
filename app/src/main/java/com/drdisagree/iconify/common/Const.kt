@@ -13,7 +13,6 @@ object Const {
     const val WELLBEING_PACKAGE = "com.google.android.apps.wellbeing"
     const val GMS_PACKAGE = "com.google.android.gms"
 
-    @JvmField
     val SYSTEM_PACKAGES = listOf(
         SYSTEMUI_PACKAGE,
         FRAMEWORK_PACKAGE,
@@ -47,7 +46,6 @@ object Const {
     const val ACTION_HOOK_CHECK_RESULT = "${BuildConfig.APPLICATION_ID}.ACTION_HOOK_CHECK_RESULT"
 
     // Module script
-    @JvmField
     val MAGISK_UPDATE_BINARY = """
             #!/sbin/sh
             

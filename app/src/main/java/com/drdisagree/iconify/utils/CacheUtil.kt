@@ -5,7 +5,6 @@ import java.io.File
 
 object CacheUtil {
 
-    @JvmStatic
     fun clearCache(context: Context) {
         try {
             var dir = context.cacheDir

@@ -6,7 +6,6 @@ import com.topjohnwu.superuser.Shell
 
 object BackupRestore {
 
-    @JvmStatic
     fun backupFiles() {
         // Create backup directory
         Shell.cmd("rm -rf " + Resources.BACKUP_DIR, "mkdir -p " + Resources.BACKUP_DIR).exec()
@@ -26,7 +25,6 @@ object BackupRestore {
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentDynamic2.apk")
     }
 
-    @JvmStatic
     fun restoreFiles() {
         restoreFile("system.prop", Resources.TEMP_MODULE_DIR)
         restoreFile("IconifyComponentME.apk", Resources.TEMP_MODULE_OVERLAY_DIR)

@@ -4,19 +4,15 @@ import com.topjohnwu.superuser.Shell
 
 object RootUtil {
 
-    @JvmStatic
     val isDeviceRooted: Boolean
         get() = java.lang.Boolean.TRUE == Shell.isAppGrantedRoot()
 
-    @JvmStatic
     val isMagiskInstalled: Boolean
         get() = Shell.cmd("magisk -v").exec().isSuccess
 
-    @JvmStatic
     val isKSUInstalled: Boolean
         get() = Shell.cmd("/data/adb/ksud -h").exec().isSuccess
 
-    @JvmStatic
     val isApatchInstalled: Boolean
         get() = Shell.cmd("apd --help").exec().isSuccess
 
@@ -24,7 +20,6 @@ object RootUtil {
         return folderExists("/data/adb/modules/$moduleId")
     }
 
-    @JvmStatic
     fun setPermissions(permission: Int, filename: String) {
         Shell.cmd("chmod $permission $filename").exec()
     }
@@ -49,7 +44,6 @@ object RootUtil {
         return false
     }
 
-    @JvmStatic
     fun folderExists(dir: String): Boolean {
         val lines = Shell.cmd("test -d $dir && echo '1'").exec().out
 
@@ -60,7 +54,6 @@ object RootUtil {
         return false
     }
 
-    @JvmStatic
     fun deviceProperlyRooted(): Boolean {
         return isDeviceRooted && (isMagiskInstalled || isKSUInstalled || isApatchInstalled)
     }

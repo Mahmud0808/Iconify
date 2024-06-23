@@ -20,7 +20,6 @@ object UpdateScheduler {
     private val UPDATE_WORK_NAME = BuildConfig.APPLICATION_ID
         .replace(".debug", "") + ".services.UpdateScheduler"
 
-    @JvmStatic
     fun scheduleUpdates(context: Context?) {
         Log.i(TAG, "Updating update schedule...")
 

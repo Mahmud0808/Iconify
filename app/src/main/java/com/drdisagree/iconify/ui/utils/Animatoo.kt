@@ -7,7 +7,6 @@ import com.drdisagree.iconify.R
 @Suppress("deprecation")
 object Animatoo {
 
-    @JvmStatic
     fun animateZoom(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_zoom_enter,
@@ -15,7 +14,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateFade(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_fade_enter,
@@ -23,7 +21,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateWindmill(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_windmill_enter,
@@ -31,7 +28,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateSpin(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_spin_enter,
@@ -39,7 +35,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateDiagonal(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_diagonal_right_enter,
@@ -47,7 +42,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateSplit(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_split_enter,
@@ -55,7 +49,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateShrink(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_shrink_enter,
@@ -63,7 +56,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateCard(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_card_enter,
@@ -71,7 +63,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateInAndOut(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_in_out_enter,
@@ -79,7 +70,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateSwipeLeft(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_swipe_left_enter,
@@ -87,7 +77,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateSwipeRight(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_swipe_right_enter,
@@ -95,7 +84,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateSlideLeft(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_slide_left_enter,
@@ -103,7 +91,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateSlideRight(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_slide_in_left,
@@ -111,7 +98,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateSlideDown(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_slide_down_enter,
@@ -119,7 +105,6 @@ object Animatoo {
         )
     }
 
-    @JvmStatic
     fun animateSlideUp(context: Context) {
         (context as Activity).overridePendingTransition(
             R.anim.animate_slide_up_enter,

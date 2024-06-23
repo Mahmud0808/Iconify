@@ -9,25 +9,21 @@ import com.topjohnwu.superuser.Shell
 
 object FabricatedUtil {
 
-    @JvmStatic
     val overlayList: List<String>
         get() = Shell.cmd(
             "cmd overlay list |  grep -E '....com.android.shell:IconifyComponent' | sed -E 's/^....com.android.shell:IconifyComponent//'"
         ).exec().out
 
-    @JvmStatic
     val enabledOverlayList: List<String>
         get() = Shell.cmd(
             "cmd overlay list |  grep -E '.x..com.android.shell:IconifyComponent' | sed -E 's/^.x..com.android.shell:IconifyComponent//'"
         ).exec().out
 
-    @JvmStatic
     val disabledOverlayList: List<String>
         get() = Shell.cmd(
             "cmd overlay list |  grep -E '. ..com.android.shell:IconifyComponent' | sed -E 's/^. ..com.android.shell:IconifyComponent//'"
         ).exec().out
 
-    @JvmStatic
     fun buildAndEnableOverlay(
         target: String?,
         name: String?,
@@ -56,7 +52,6 @@ object FabricatedUtil {
         Shell.cmd(commands[0], commands[1]).submit()
     }
 
-    @JvmStatic
     fun buildAndEnableOverlays(vararg args: Array<Any>) {
         val commands: MutableList<String> = ArrayList()
         val module: MutableList<String> = ArrayList()
@@ -158,7 +153,6 @@ object FabricatedUtil {
         return commands
     }
 
-    @JvmStatic
     fun disableOverlay(name: String) {
         Prefs.putBoolean("fabricated$name", false)
         Prefs.clearPrefs(
@@ -178,7 +172,6 @@ object FabricatedUtil {
         Shell.cmd(disableCmd).submit()
     }
 
-    @JvmStatic
     fun disableOverlays(vararg names: String) {
         val command = StringBuilder()
 
@@ -209,7 +202,6 @@ object FabricatedUtil {
         ).exec().out[0] == "1"
     }
 
-    @JvmStatic
     fun isOverlayDisabled(name: String): Boolean {
         return Shell.cmd(
             "[[ $(cmd overlay list | grep -o '\\[ \\] com.android.shell:IconifyComponent$name') ]] && echo 1 || echo 0"

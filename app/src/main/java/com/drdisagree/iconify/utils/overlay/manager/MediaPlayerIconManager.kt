@@ -6,7 +6,6 @@ import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlayExclusiveIn
 
 object MediaPlayerIconManager {
 
-    @JvmStatic
     fun enableOverlay(m: Int, n: Int) {
         disableOthers(m, n)
         enableOverlayExclusiveInCategory("IconifyComponentMPIP$m$n.overlay")

@@ -18,7 +18,6 @@ object ColorSchemeUtil {
 
     private val tones = intArrayOf(100, 99, 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0)
 
-    @JvmStatic
     fun generateColorPalette(context: Context, style: String?, color: Int): List<MutableList<Any>> {
         val palette: MutableList<MutableList<Any>> = ArrayList()
         val systemAccent1: MutableList<Any> = ArrayList()

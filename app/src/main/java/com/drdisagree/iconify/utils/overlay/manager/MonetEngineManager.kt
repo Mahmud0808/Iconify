@@ -8,7 +8,6 @@ import java.io.IOException
 
 object MonetEngineManager {
 
-    @JvmStatic
     @Throws(IOException::class)
     fun buildOverlay(palette: List<List<List<Any>>>, force: Boolean): Boolean {
         val colors = colorNames

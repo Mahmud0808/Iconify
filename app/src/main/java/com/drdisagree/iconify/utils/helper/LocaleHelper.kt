@@ -5,12 +5,10 @@ import android.os.LocaleList
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
 import com.drdisagree.iconify.config.Prefs.getString
-import java.util.Arrays
 import java.util.Locale
 
 object LocaleHelper {
 
-    @JvmStatic
     fun setLocale(context: Context): Context {
         var localeCode = getString(APP_LANGUAGE, "")
 

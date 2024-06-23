@@ -23,7 +23,6 @@ object SettingsIconsCompiler {
     private var mIconBg = 1
     private var mForce = false
 
-    @JvmStatic
     @Throws(IOException::class)
     fun buildOverlay(iconSet: Int, iconBg: Int, resources: String, force: Boolean): Boolean {
         mIconSet = iconSet

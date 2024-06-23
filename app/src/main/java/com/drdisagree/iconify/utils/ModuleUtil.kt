@@ -30,7 +30,6 @@ object ModuleUtil {
 
     private val TAG = ModuleUtil::class.java.getSimpleName()
 
-    @JvmStatic
     fun handleModule() {
         if (moduleExists()) {
             // Clean temporary directory
@@ -191,12 +190,10 @@ object ModuleUtil {
         ) && OverlayUtil.isOverlayDisabled("IconifyComponentME.overlay")
     }
 
-    @JvmStatic
     fun moduleExists(): Boolean {
         return RootUtil.folderExists(Resources.OVERLAY_DIR)
     }
 
-    @JvmStatic
     @Throws(Exception::class)
     fun createModule(sourceFolder: String, destinationFilePath: String): String {
         val input = File(sourceFolder)
@@ -212,7 +209,6 @@ object ModuleUtil {
         }
     }
 
-    @JvmStatic
     @Throws(Exception::class)
     fun flashModule(modulePath: String): Boolean {
         var result: Shell.Result? = null

@@ -16,7 +16,6 @@ object VolumeCompiler {
     private val TAG = VolumeCompiler::class.java.simpleName
     private var mOverlayName: String? = null
 
-    @JvmStatic
     @Throws(Exception::class)
     fun buildModule(overlayName: String, targetPackage: String): Boolean {
         mOverlayName = overlayName

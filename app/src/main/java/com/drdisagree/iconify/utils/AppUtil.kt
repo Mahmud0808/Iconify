@@ -10,7 +10,6 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.topjohnwu.superuser.Shell
@@ -29,7 +28,6 @@ object AppUtil {
         return false
     }
 
-    @JvmStatic
     fun isAppInstalledRoot(packageName: String): Boolean {
         return Shell.cmd("res=$(pm path $packageName); if [ ! -z \"\$res\" ]; then echo \"installed\"; else echo \"not found\"; fi")
             .exec().out[0].contains("installed")
@@ -47,7 +45,6 @@ object AppUtil {
         return 0
     }
 
-    @JvmStatic
     @SuppressLint("UseCompatLoadingForDrawables")
     fun getAppIcon(packageName: String?): Drawable? {
         var appIcon = ContextCompat.getDrawable(appContext, R.drawable.ic_android)
@@ -60,7 +57,6 @@ object AppUtil {
         return appIcon
     }
 
-    @JvmStatic
     fun getAppName(packageName: String?): String {
         val pm = appContext.applicationContext.packageManager
         var ai: ApplicationInfo? = null
@@ -73,7 +69,6 @@ object AppUtil {
         return (if (ai == null) "Unavailable" else pm.getApplicationLabel(ai)) as String
     }
 
-    @JvmStatic
     fun launchApp(activity: Activity, packageName: String?) {
         val launchIntent = appContext.packageManager.getLaunchIntentForPackage(
             packageName!!
@@ -90,7 +85,6 @@ object AppUtil {
         }
     }
 
-    @JvmStatic
     fun getSplitLocations(packageName: String?): Array<String?> {
         try {
             var splitLocations = appContext.packageManager.getApplicationInfo(
@@ -111,11 +105,9 @@ object AppUtil {
         return arrayOfNulls(0)
     }
 
-    @JvmStatic
     val isLsposedInstalled: Boolean
         get() = RootUtil.fileExists("/data/adb/lspd/manager.apk") || RootUtil.fileExists("/data/adb/modules/*lsposed*/manager.apk")
 
-    @JvmStatic
     fun restartApplication(activity: Activity) {
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = activity.intent

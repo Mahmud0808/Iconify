@@ -6,7 +6,6 @@ import com.drdisagree.iconify.config.Prefs.getInt
 
 object ThemeHelper {
 
-    @JvmStatic
     val theme: Int
         get() {
             val theme = getInt(APP_THEME, 2)

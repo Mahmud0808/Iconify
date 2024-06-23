@@ -11,7 +11,6 @@ import com.drdisagree.iconify.xposed.HookEntry
 
 object XPrefs {
 
-    @JvmField
     var Xprefs: SharedPreferences? = null
     private var packageName: String? = null
     private val listener =
@@ -21,7 +20,6 @@ object XPrefs {
             )
         }
 
-    @JvmStatic
     fun init(context: Context) {
         packageName = context.packageName
         Xprefs = RemotePreferences(context, BuildConfig.APPLICATION_ID, SHARED_XPREFERENCES, true)

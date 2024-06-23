@@ -8,37 +8,31 @@ import java.util.Objects
 
 object OverlayUtil {
 
-    @JvmStatic
     val overlayList: List<String>
         get() = Shell.cmd(
             "cmd overlay list |  grep -E '....IconifyComponent' | sed -E 's/^....//'"
         ).exec().out
 
-    @JvmStatic
     val enabledOverlayList: List<String>
         get() = Shell.cmd(
             "cmd overlay list |  grep -E '.x..IconifyComponent' | sed -E 's/^.x..//'"
         ).exec().out
 
-    @JvmStatic
     val disabledOverlayList: List<String>
         get() = Shell.cmd(
             "cmd overlay list |  grep -E '. ..IconifyComponent' | sed -E 's/^. ..//'"
         ).exec().out
 
-    @JvmStatic
     fun isOverlayEnabled(pkgName: String): Boolean {
         return Shell.cmd(
             "[[ $(cmd overlay list | grep -o '\\[x\\] $pkgName') ]] && echo 1 || echo 0"
         ).exec().out[0] == "1"
     }
 
-    @JvmStatic
     fun isOverlayDisabled(pkgName: String): Boolean {
         return !isOverlayEnabled(pkgName)
     }
 
-    @JvmStatic
     fun isOverlayInstalled(enabledOverlays: List<String>, pkgName: String): Boolean {
         for (line in enabledOverlays) {
             if (line == pkgName) return true
@@ -47,7 +41,6 @@ object OverlayUtil {
         return false
     }
 
-    @JvmStatic
     fun enableOverlay(pkgName: String) {
         Prefs.putBoolean(pkgName, true)
         Shell.cmd(
@@ -56,7 +49,6 @@ object OverlayUtil {
         ).submit()
     }
 
-    @JvmStatic
     fun enableOverlays(vararg pkgNames: String?) {
         val command = StringBuilder()
 
@@ -70,7 +62,6 @@ object OverlayUtil {
         Shell.cmd(command.toString().trim { it <= ' ' }).submit()
     }
 
-    @JvmStatic
     fun enableOverlayExclusiveInCategory(pkgName: String) {
         Prefs.putBoolean(pkgName, true)
         Shell.cmd(
@@ -79,7 +70,6 @@ object OverlayUtil {
         ).submit()
     }
 
-    @JvmStatic
     fun enableOverlaysExclusiveInCategory(vararg pkgNames: String?) {
         val command = StringBuilder()
 
@@ -94,13 +84,11 @@ object OverlayUtil {
         Shell.cmd(command.toString().trim { it <= ' ' }).submit()
     }
 
-    @JvmStatic
     fun disableOverlay(pkgName: String) {
         Prefs.putBoolean(pkgName, false)
         Shell.cmd("cmd overlay disable --user current $pkgName").submit()
     }
 
-    @JvmStatic
     fun disableOverlays(vararg pkgNames: String?) {
         val command = StringBuilder()
 
@@ -113,7 +101,6 @@ object OverlayUtil {
         Shell.cmd(command.toString().trim { it <= ' ' }).submit()
     }
 
-    @JvmStatic
     fun changeOverlayState(vararg args: Any) {
         require(args.size % 2 == 0) { "Number of arguments must be even." }
 
@@ -139,7 +126,6 @@ object OverlayUtil {
         Shell.cmd(command.toString().trim { it <= ' ' }).submit()
     }
 
-    @JvmStatic
     fun overlayExists(): Boolean {
         return Shell.cmd(
             "[ -f /system/product/overlay/IconifyComponentAMGC.apk ] && echo \"found\" || echo \"not found\""

@@ -249,7 +249,6 @@ object Preferences {
     const val SHOW_HOME_CARD = "IconifyShowHomeCard"
     const val XPOSED_ONLY_MODE = "IconifyXposedOnlyMode"
 
-    @JvmField
     var isXposedOnlyMode = getBoolean(XPOSED_ONLY_MODE, true) &&
             !SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING
 

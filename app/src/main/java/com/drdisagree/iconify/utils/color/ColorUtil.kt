@@ -46,7 +46,6 @@ object ColorUtil {
         return hsv[1]
     }
 
-    @JvmStatic
     fun setSaturation(color: Int, saturation: Float): Int {
         val r = Color.red(color)
         val g = Color.green(color)
@@ -70,7 +69,6 @@ object ColorUtil {
         return hsv[2]
     }
 
-    @JvmStatic
     fun setLightness(color: Int, lightness: Float): Int {
         val r = Color.red(color)
         val g = Color.green(color)
@@ -83,7 +81,6 @@ object ColorUtil {
         return Color.HSVToColor(hsv)
     }
 
-    @JvmStatic
     fun colorToHex(color: Int): String {
         val alpha = Color.alpha(color)
         val blue = Color.blue(color)
@@ -93,7 +90,6 @@ object ColorUtil {
         return String.format("#%02X%02X%02X%02X", alpha, red, green, blue)
     }
 
-    @JvmStatic
     fun colorToSpecialHex(color: Int): String {
         val blue = Color.blue(color)
         val green = Color.green(color)
@@ -119,7 +115,6 @@ object ColorUtil {
             0.0f
         )
 
-    @JvmStatic
     val colorNames: Array<Array<String?>>
         get() {
             val accentTypes = arrayOf(
@@ -155,7 +150,6 @@ object ColorUtil {
             return colorNames
         }
 
-    @JvmStatic
     fun getSystemColors(context: Context): Array<IntArray> {
         return arrayOf(
             intArrayOf(

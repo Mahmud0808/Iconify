@@ -20,7 +20,6 @@ object OnDemandCompiler {
     private var mStyle = 0
     private var mForce = false
 
-    @JvmStatic
     @Throws(IOException::class)
     fun buildOverlay(
         overlayName: String,

@@ -45,19 +45,19 @@ class InfoAdapter(
     @SuppressLint("DiscouragedApi")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is HeaderViewHolder) {
-            holder.header.text = itemList[position].getTitle()
+            holder.header.text = itemList[position].title
 
-            if (itemList[position].getTitle() == "") {
+            if (itemList[position].title == "") {
                 holder.itemView.visibility = View.GONE
                 holder.itemView.setLayoutParams(RecyclerView.LayoutParams(0, 0))
             }
         } else if (holder is ItemViewHolder) {
-            holder.icon.setImageResource(itemList[position].getIcon())
-            holder.title.text = itemList[position].getTitle()
-            holder.desc.text = itemList[position].getDesc()
-            holder.container.setOnClickListener(itemList[position].getOnClickListener())
+            holder.icon.setImageResource(itemList[position].icon)
+            holder.title.text = itemList[position].title
+            holder.desc.text = itemList[position].desc
+            holder.container.setOnClickListener(itemList[position].onClickListener)
 
-            val drawableName = context.resources.getResourceEntryName(itemList[position].getIcon())
+            val drawableName = context.resources.getResourceEntryName(itemList[position].icon)
             val typedValue = TypedValue()
 
             context.theme.resolveAttribute(
@@ -85,26 +85,15 @@ class InfoAdapter(
 
     internal class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var header: TextView
-
-        init {
-            header = itemView.findViewById(R.id.list_info_header)
-        }
+        var header: TextView = itemView.findViewById(R.id.list_info_header)
     }
 
     internal class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var icon: ImageView
-        var title: TextView
-        var desc: TextView
-        var container: RelativeLayout
-
-        init {
-            icon = itemView.findViewById(R.id.icon)
-            title = itemView.findViewById(R.id.title)
-            desc = itemView.findViewById(R.id.desc)
-            container = itemView.findViewById(R.id.list_info_item)
-        }
+        var icon: ImageView = itemView.findViewById(R.id.icon)
+        var title: TextView = itemView.findViewById(R.id.title)
+        var desc: TextView = itemView.findViewById(R.id.desc)
+        var container: RelativeLayout = itemView.findViewById(R.id.list_info_item)
     }
 
     companion object {

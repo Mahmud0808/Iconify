@@ -43,7 +43,6 @@ import java.util.Objects
 
 object ImportExport {
 
-    @JvmStatic
     fun exportSettings(preferences: SharedPreferences, outputStream: OutputStream) {
         try {
             outputStream.use {
@@ -58,7 +57,6 @@ object ImportExport {
         }
     }
 
-    @JvmStatic
     @Suppress("UNCHECKED_CAST")
     @Throws(IOException::class)
     fun importSettings(

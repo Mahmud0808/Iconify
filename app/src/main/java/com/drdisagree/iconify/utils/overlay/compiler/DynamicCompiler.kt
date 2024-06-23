@@ -24,7 +24,6 @@ object DynamicCompiler {
     private var mPackage: String? = null
     private var mForce = false
 
-    @JvmStatic
     @JvmOverloads
     @Throws(IOException::class)
     fun buildOverlay(force: Boolean = true): Boolean {

@@ -22,7 +22,6 @@ object RoundnessCompiler {
     private val mOverlayName = arrayOf("CR1", "CR2")
     private var mForce = false
 
-    @JvmStatic
     @Throws(IOException::class)
     fun buildOverlay(resources: Array<String>, force: Boolean): Boolean {
         mForce = force

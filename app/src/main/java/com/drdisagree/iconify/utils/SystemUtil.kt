@@ -45,11 +45,9 @@ object SystemUtil {
     private const val BLUR_CMD_4 = "persist.sysui.disableBlur=false"
     private const val BLUR_CMD_5 = "ro.config.avoid_gfx_accel=false"
 
-    @JvmStatic
     val isDarkMode: Boolean
         get() = appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES == Configuration.UI_MODE_NIGHT_YES
 
-    @JvmStatic
     fun restartSystemUI() {
         val loadTimeKey = String.format("%s%s", LOAD_TIME_KEY_KEY, SYSTEMUI_PACKAGE)
         val strikeKey = String.format("%s%s", PACKAGE_STRIKE_KEY_KEY, SYSTEMUI_PACKAGE)
@@ -69,7 +67,6 @@ object SystemUtil {
         ).submit()
     }
 
-    @JvmStatic
     fun handleSystemUIRestart() {
         val selectedBehavior = RPrefs.getInt(RESTART_SYSUI_BEHAVIOR_EXT, 0)
 
@@ -92,12 +89,10 @@ object SystemUtil {
         }
     }
 
-    @JvmStatic
     fun restartDevice() {
         Shell.cmd("am start -a android.intent.action.REBOOT").exec()
     }
 
-    @JvmStatic
     fun disableBlur(force: Boolean) {
         Shell.cmd(
             if (!force) "mv " + Resources.MODULE_DIR +
@@ -133,7 +128,6 @@ object SystemUtil {
         ).submit()
     }
 
-    @JvmStatic
     fun enableBlur(force: Boolean) {
         disableBlur(false)
         Shell.cmd(
@@ -152,7 +146,6 @@ object SystemUtil {
         ).submit()
     }
 
-    @JvmStatic
     fun mountRW() {
         Shell.cmd("mount -o remount,rw /").exec()
 
@@ -163,7 +156,6 @@ object SystemUtil {
         }
     }
 
-    @JvmStatic
     fun mountRO() {
         Shell.cmd("mount -o remount,ro /").exec()
 
@@ -178,7 +170,6 @@ object SystemUtil {
      * From AOSPMods
      * https://github.com/siavash79/AOSPMods/blob/canary/app/src/main/java/sh/siava/AOSPMods/utils/SystemUtils.java
      */
-    @JvmStatic
     fun doubleToggleDarkMode() {
         val isDark = isDarkMode
 
@@ -201,7 +192,6 @@ object SystemUtil {
         }
     }
 
-    @JvmStatic
     fun isBlurEnabled(force: Boolean): Boolean {
         return Shell.cmd(
             "if grep -q \"ro.surface_flinger.supports_background_blur\" " +
@@ -211,27 +201,22 @@ object SystemUtil {
         ).exec().out[0] == "yes"
     }
 
-    @JvmStatic
     val saveBootId: Unit // Save unique id of each boot
         get() {
             putString(BOOT_ID, Shell.cmd(DEVICE_BOOT_ID_CMD).exec().out.toString())
         }
 
-    @JvmStatic
     fun saveVersionCode() {
         Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE)
     }
 
-    @JvmStatic
     val savedVersionCode: Int
         get() = Prefs.getInt(VER_CODE, -1)
 
-    @JvmStatic
     fun hasStoragePermission(): Boolean {
         return Environment.isExternalStorageManager() || Environment.isExternalStorageLegacy()
     }
 
-    @JvmStatic
     fun requestStoragePermission(context: Context) {
         val intent = Intent()
         intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
@@ -247,7 +232,6 @@ object SystemUtil {
         )
     }
 
-    @JvmStatic
     fun enableRestartSystemuiAfterBoot() {
         disableRestartSystemuiAfterBoot()
 
@@ -256,7 +240,6 @@ object SystemUtil {
         ).submit()
     }
 
-    @JvmStatic
     fun disableRestartSystemuiAfterBoot() {
         Shell.cmd(
             "grep -v \"killall " + SYSTEMUI_PACKAGE + "\" " + Resources.MODULE_DIR + "/service.sh > " + Resources.MODULE_DIR + "/service.sh.tmp && mv " + Resources.MODULE_DIR + "/service.sh.tmp " + Resources.MODULE_DIR + "/service.sh"
