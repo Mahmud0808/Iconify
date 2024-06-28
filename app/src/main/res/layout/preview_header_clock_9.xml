@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -8,22 +9,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/container_background_accent"
-        android:tag="gradient">
+        android:gravity="center_horizontal"
+        android:tag="gradient"
+        tools:ignore="UselessParent">
 
         <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
-            android:layout_marginStart="4dp"
+            android:layout_margin="2dp"
             android:background="@drawable/time_container_background"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
             android:singleLine="true"
-            android:tag="text1|clock"
-            android:textColor="@android:color/white"
-            android:textSize="14dp"
+            android:tag="clock"
+            android:textColor="@color/white"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextClock
@@ -32,15 +35,12 @@
             android:layout_gravity="center"
             android:format12Hour="EEEE, MMM dd"
             android:format24Hour="EEEE, dd MMM"
-            android:paddingStart="5dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="8dp"
             android:singleLine="true"
-            android:tag="text2|date"
-            android:textColor="@android:color/white"
-            android:textSize="14dp"
-            android:textStyle="bold" />
+            android:tag="date"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
     </LinearLayout>
 </LinearLayout>
