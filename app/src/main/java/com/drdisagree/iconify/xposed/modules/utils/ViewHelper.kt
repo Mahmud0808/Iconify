@@ -118,6 +118,7 @@ object ViewHelper {
 
         val drawable = GradientDrawable()
         drawable.colors = intArrayOf(color1, color2)
+        drawable.orientation = GradientDrawable.Orientation.LEFT_RIGHT
         drawable.cornerRadius = view.context.toPx(cornerRadius).toFloat()
 
         if (view is ViewGroup) {
