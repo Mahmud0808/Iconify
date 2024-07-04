@@ -29,6 +29,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import android.widget.TextClock
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -57,6 +58,7 @@ import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.utils.TextUtil
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ArcProgressWidget.generateBitmap
+import com.drdisagree.iconify.xposed.modules.utils.TimeUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextMarginRecursively
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextScalingRecursively
@@ -496,6 +498,14 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                     clockView.findViewContainsTag("volume_progress") as ImageView?
                 mRamUsageArcProgress = clockView.findViewContainsTag("ram_usage_info") as ImageView?
                 (clockView.findViewContainsTag("device_name") as TextView).text = Build.MODEL
+            }
+
+            22 -> {
+                val hourView = clockView.findViewContainsTag("textHour") as TextView
+                val minuteView = clockView.findViewContainsTag("textMinute") as TextView
+                val tickIndicator = clockView.findViewContainsTag("tickIndicator") as TextClock
+
+                TimeUtils.setCurrentTimeTextClock(mContext, tickIndicator, hourView, minuteView)
             }
 
             else -> {

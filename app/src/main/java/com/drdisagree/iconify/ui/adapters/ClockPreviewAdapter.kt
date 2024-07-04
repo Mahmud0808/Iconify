@@ -67,21 +67,12 @@ class ClockPreviewAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val container: LinearLayout
-        private val title: TextView
-        private val clockContainer: LinearLayout
-        val checkIcon: ImageView
-        val button: MaterialButton
-        private val wallpaperView: ImageView
-
-        init {
-            container = itemView.findViewById(R.id.clock_preview_child)
-            title = itemView.findViewById(R.id.clock_title)
-            clockContainer = itemView.findViewById(R.id.clock_view_container)
-            checkIcon = itemView.findViewById(R.id.icon_selected)
-            button = itemView.findViewById(R.id.btn_select_style)
-            wallpaperView = itemView.findViewById(R.id.wallpaper_view)
-        }
+        val container: LinearLayout = itemView.findViewById(R.id.clock_preview_child)
+        private val title: TextView = itemView.findViewById(R.id.clock_title)
+        private val clockContainer: LinearLayout = itemView.findViewById(R.id.clock_view_container)
+        val checkIcon: ImageView = itemView.findViewById(R.id.icon_selected)
+        val button: MaterialButton = itemView.findViewById(R.id.btn_select_style)
+        private val wallpaperView: ImageView = itemView.findViewById(R.id.wallpaper_view)
 
         fun bind(model: ClockModel, position: Int) {
             title.text = model.title
