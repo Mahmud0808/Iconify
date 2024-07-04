@@ -6,6 +6,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -112,9 +113,38 @@ object ViewHelper {
         }
     }
 
+    fun findViewWithTagAndChangeColor(view: View?, tagContains: String, color1: Int, color2: Int, cornerRadius: Int) {
+        if (view == null) return
+
+        val drawable = GradientDrawable()
+        drawable.colors = intArrayOf(color1, color2)
+        drawable.orientation = GradientDrawable.Orientation.LEFT_RIGHT
+        drawable.cornerRadius = view.context.toPx(cornerRadius).toFloat()
+
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val child: View = view.getChildAt(i)
+                checkTagAndChangeBackgroundColor(child, tagContains, drawable)
+
+                if (child is ViewGroup) {
+                    checkTagAndChangeBackgroundColor(child, tagContains, drawable)
+                }
+            }
+        } else {
+            checkTagAndChangeBackgroundColor(view, tagContains, drawable)
+        }
+
+    }
+
     private fun checkTagAndChangeColor(view: View, tag: String, color: Int) {
         if (view.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
             changeViewColor(view, color)
+        }
+    }
+
+    private fun checkTagAndChangeBackgroundColor(view: View, tag: String, bkg: Drawable) {
+        if (view.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
+            changeViewBackgroundColor(view, bkg)
         }
     }
 
@@ -159,6 +189,10 @@ object ViewHelper {
                 view.background.mutate().setTint(color)
             }
         }
+    }
+
+    private fun changeViewBackgroundColor(view: View, bkg: Drawable) {
+        view.background = bkg
     }
 
     fun applyFontRecursively(view: View?, typeface: Typeface?) {
