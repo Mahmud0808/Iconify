@@ -121,16 +121,6 @@ object TimeUtils {
         setCurrentTimeHour(context, hourView)
         setCurrentTimeMinute(minuteView)
 
-        setupTextClockListener(context, tickIndicator, hourView, true)
-        setupTextClockListener(context, tickIndicator, minuteView, false)
-    }
-
-    private fun setupTextClockListener(
-        context: Context,
-        tickIndicator: TextClock,
-        textView: TextView,
-        isHour: Boolean
-    ) {
         tickIndicator.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -138,11 +128,8 @@ object TimeUtils {
 
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrEmpty()) {
-                    if (isHour) {
-                        setCurrentTimeHour(context, textView)
-                    } else {
-                        setCurrentTimeMinute(textView)
-                    }
+                    setCurrentTimeHour(context, hourView)
+                    setCurrentTimeMinute(minuteView)
                 }
             }
         })
