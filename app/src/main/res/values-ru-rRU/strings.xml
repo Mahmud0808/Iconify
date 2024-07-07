@@ -457,7 +457,7 @@
     <string name="vertical_qs_tile_desc">Показывать подпись под иконкой в быстрых настройках</string>
     <string name="hide_qs_tile_label_title">Скрыть подписи плиток быстрых настроек</string>
     <string name="hide_qs_tile_label_desc">Используйте только с вертикальными плитками</string>
-    <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
+    <string name="qs_tile_label_scaling_title">Масштабирование размера текста</string>
     <string name="section_title_qs_margin">Отступ быстрых настроек</string>
     <string name="section_title_qs_elements">Элементы быстрых настроек</string>
     <string name="hide_qs_silent_text_title">Скрыть надпись Без звука у уведомлений</string>
