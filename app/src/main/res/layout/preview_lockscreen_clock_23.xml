@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="accent2"
+            android:text="·"
+            android:textColor="@android:color/system_accent1_600"
+            android:textSize="40sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="accent3"
+            android:text="·"
+            android:textColor="@android:color/system_accent2_600"
+            android:textSize="40sp" />
+
+    </LinearLayout>
+
+    <TextClock
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-20dp"
+        android:format12Hour="EEEE"
+        android:format24Hour="EEEE"
+        android:tag="text1"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextClock
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="dd MMM"
+            android:format24Hour="dd MMM"
+            android:inputType="text|textCapCharacters"
+            android:tag="accent1"
+            android:textColor="@android:color/system_accent1_300"
+            android:textSize="28sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:text="x"
+            android:textColor="@android:color/white"
+            android:textSize="28sp" />
+
+        <TextClock
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format12Hour="hh:mm"
+            android:format24Hour="HH:mm"
+            android:tag="text2"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
