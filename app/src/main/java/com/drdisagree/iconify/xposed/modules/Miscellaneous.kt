@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -25,6 +27,10 @@ import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.findClassInArray
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getCenterClockView
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getLeftClockView
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getRightClockView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -55,6 +61,8 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     private var mobileSignalControllerParam: Any? = null
     private var sbClockSize = 14
     private var mClockView: TextView? = null
+    private var mCenterClockView: TextView? = null
+    private var mRightClockView: TextView? = null
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -790,29 +798,35 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     }
 
     private fun applyClockSize(loadPackageParam: LoadPackageParam) {
-        val collapsedStatusBarFragmentClass = findClassInArray(
+        val collapsedStatusBarFragment = findClassInArray(
             loadPackageParam,
-            "com.android.systemui.statusbar.phone.fragment.CollapsedStatusBarFragment", // A14 & A13
-            "com.android.systemui.statusbar.phone.CollapsedStatusBarFragment" // A12
+            "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
+            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
+
         )
 
-        if (collapsedStatusBarFragmentClass == null) return
+        if (collapsedStatusBarFragment == null) return
 
-        findAndHookMethod(collapsedStatusBarFragmentClass,
+        findAndHookMethod(collapsedStatusBarFragment,
             "onViewCreated",
             View::class.java,
             Bundle::class.java,
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    mClockView = getObjectField(param.thisObject, "mClockView") as TextView
-                    setClockSize()
-                    mClockView!!.addOnAttachStateChangeListener(object :
-                        View.OnAttachStateChangeListener {
-                        override fun onViewAttachedToWindow(v: View) {
-                            setClockSize()
-                        }
 
-                        override fun onViewDetachedFromWindow(v: View) {
+                    mClockView = getLeftClockView(mContext, param) as? TextView
+                    mCenterClockView = getCenterClockView(mContext, param) as? TextView
+                    mRightClockView = getRightClockView(mContext, param) as? TextView
+
+
+                    setClockSize()
+
+                    val textClock = mClockView ?: mCenterClockView ?: mRightClockView as TextView
+                    textClock.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+                        override fun afterTextChanged(s: Editable) {
+                            setClockSize()
                         }
                     })
                 }
@@ -820,20 +834,10 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
     }
 
-    private fun findClassInArray(lpparam: LoadPackageParam, vararg classNames: String): Class<*>? {
-        for (className in classNames) {
-            try {
-                val clazz = findClass(className, lpparam.classLoader)
-                return clazz
-            } catch (ignored: Throwable) {
-            }
-        }
-        return null
-    }
-
     private fun setClockSize() {
-        if (mClockView == null) return
-        mClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+        if (mClockView != null) mClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+        if (mCenterClockView != null) mCenterClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+        if (mRightClockView != null) mRightClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
     }
 
     companion object {
