@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="accent2"
+            android:tag="accent2|nolineheight"
             android:text="·"
             android:textColor="@android:color/system_accent1_600"
             android:textSize="40sp" />
@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="accent3"
+            android:tag="accent3|nolineheight"
             android:text="·"
             android:textColor="@android:color/system_accent2_600"
             android:textSize="40sp" />
@@ -37,7 +37,7 @@
         android:layout_marginTop="-20dp"
         android:format12Hour="EEEE"
         android:format24Hour="EEEE"
-        android:tag="text1"
+        android:tag="text1|nolineheight"
         android:textColor="#FFFFFF"
         android:textSize="40sp" />
 
