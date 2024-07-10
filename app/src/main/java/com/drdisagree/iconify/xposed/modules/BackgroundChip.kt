@@ -38,6 +38,10 @@ import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.findClassInArray
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getCenterClockView
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getLeftClockView
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getRightClockView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -125,15 +129,12 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
     }
 
     private fun statusbarClockChip(loadPackageParam: LoadPackageParam) {
-        var collapsedStatusBarFragment = findClassIfExists(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment",
-            loadPackageParam.classLoader
+        var collapsedStatusBarFragment = findClassInArray(
+            loadPackageParam,
+            "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
+            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
+
         )
-        if (collapsedStatusBarFragment == null) collapsedStatusBarFragment =
-            findClass(
-                "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
-                loadPackageParam.classLoader
-            )
         dependencyClass = findClass(
             "$SYSTEMUI_PACKAGE.Dependency",
             loadPackageParam.classLoader
@@ -150,9 +151,9 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
             Bundle::class.java,
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    mClockView = getLeftClockView(param)
-                    mCenterClockView = getCenterClockView(param)
-                    mRightClockView = getRightClockView(param)
+                    mClockView = getLeftClockView(mContext, param)
+                    mCenterClockView = getCenterClockView(mContext, param)
+                    mRightClockView = getRightClockView(mContext, param)
 
                     (getObjectField(
                         param.thisObject,
@@ -201,140 +202,6 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     }
                 }
             })
-    }
-
-    private fun getLeftClockView(param: XC_MethodHook.MethodHookParam) = try {
-        getObjectField(param.thisObject, "mClockView") as View
-    } catch (throwable1: Throwable) {
-        try {
-            getObjectField(param.thisObject, "mLeftClock") as View
-        } catch (throwable2: Throwable) {
-            try {
-                callMethod(
-                    getObjectField(
-                        param.thisObject,
-                        "mClockController"
-                    ),
-                    "getClock"
-                ) as View
-            } catch (throwable3: Throwable) {
-                try {
-                    val mActiveClock = getObjectField(
-                        getObjectField(
-                            param.thisObject,
-                            "mClockController"
-                        ),
-                        "mActiveClock"
-                    ) as View
-                    val mLeftClockId = mContext.resources.getIdentifier(
-                        "clock",
-                        "id",
-                        mContext.packageName
-                    )
-
-                    if (mActiveClock.id == mLeftClockId) {
-                        mActiveClock
-                    } else {
-                        null
-                    }
-                } catch (throwable4: Throwable) {
-                    log(TAG + throwable4)
-                    null
-                }
-            }
-        }
-    }
-
-    private fun getCenterClockView(param: XC_MethodHook.MethodHookParam) = try {
-        getObjectField(param.thisObject, "mCenterClockView") as View
-    } catch (throwable1: Throwable) {
-        try {
-            getObjectField(
-                param.thisObject,
-                "mCenterClock"
-            ) as View
-        } catch (throwable2: Throwable) {
-            try {
-                callMethod(
-                    getObjectField(
-                        param.thisObject,
-                        "mClockController"
-                    ),
-                    "mCenterClockView"
-                ) as View
-            } catch (throwable3: Throwable) {
-                try {
-                    val mActiveClock = getObjectField(
-                        getObjectField(
-                            param.thisObject,
-                            "mClockController"
-                        ),
-                        "mActiveClock"
-                    ) as View
-                    val mCenterClockId = mContext.resources.getIdentifier(
-                        "clock_center",
-                        "id",
-                        mContext.packageName
-                    )
-
-                    if (mActiveClock.id == mCenterClockId) {
-                        mActiveClock
-                    } else {
-                        null
-                    }
-                } catch (throwable4: Throwable) {
-                    try {
-                        (getObjectField(
-                            param.thisObject,
-                            "mCenterClockLayout"
-                        ) as LinearLayout).getChildAt(0)
-                    } catch (throwable5: Throwable) {
-                        null
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getRightClockView(param: XC_MethodHook.MethodHookParam) = try {
-        getObjectField(param.thisObject, "mRightClockView") as View
-    } catch (throwable1: Throwable) {
-        try {
-            getObjectField(param.thisObject, "mRightClock") as View
-        } catch (throwable2: Throwable) {
-            try {
-                callMethod(
-                    getObjectField(
-                        param.thisObject,
-                        "mClockController"
-                    ),
-                    "mRightClockView"
-                ) as View
-            } catch (throwable3: Throwable) {
-                try {
-                    val mActiveClock = getObjectField(
-                        getObjectField(
-                            param.thisObject,
-                            "mClockController"
-                        ),
-                        "mActiveClock"
-                    ) as View
-                    val mRightClockId = mContext.resources.getIdentifier(
-                        "clock_right",
-                        "id",
-                        mContext.packageName
-                    )
-
-                    if (mActiveClock.id == mRightClockId) {
-                        mActiveClock
-                    } else {
-                        null
-                    }
-                } catch (throwable4: Throwable) {
-                    null
-                }
-            }
-        }
     }
 
     private fun statusIconsChip(loadPackageParam: LoadPackageParam) {

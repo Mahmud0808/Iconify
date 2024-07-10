@@ -25,6 +25,10 @@ import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.findClassInArray
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getCenterClockView
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getLeftClockView
+import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getRightClockView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -55,6 +59,8 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     private var mobileSignalControllerParam: Any? = null
     private var sbClockSize = 14
     private var mClockView: TextView? = null
+    private var mCenterClockView: TextView? = null
+    private var mRightClockView: TextView? = null
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -804,9 +810,16 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
             Bundle::class.java,
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    mClockView = getObjectField(param.thisObject, "mClockView") as TextView
+
+                    mClockView = getLeftClockView(mContext, param) as TextView
+                    mCenterClockView = getCenterClockView(mContext, param) as TextView
+                    mRightClockView = getRightClockView(mContext, param) as TextView
+
                     setClockSize()
-                    mClockView!!.addOnAttachStateChangeListener(object :
+
+                    val textClock = mClockView ?: mCenterClockView ?: mRightClockView
+
+                    textClock!!.addOnAttachStateChangeListener(object :
                         View.OnAttachStateChangeListener {
                         override fun onViewAttachedToWindow(v: View) {
                             setClockSize()
@@ -820,20 +833,10 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
     }
 
-    private fun findClassInArray(lpparam: LoadPackageParam, vararg classNames: String): Class<*>? {
-        for (className in classNames) {
-            try {
-                val clazz = findClass(className, lpparam.classLoader)
-                return clazz
-            } catch (ignored: Throwable) {
-            }
-        }
-        return null
-    }
-
     private fun setClockSize() {
-        if (mClockView == null) return
-        mClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+        if (mClockView != null) mClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+        if (mCenterClockView != null) mCenterClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+        if (mRightClockView != null) mRightClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
     }
 
     companion object {
