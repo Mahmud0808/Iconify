@@ -16,6 +16,7 @@ import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.IconPackModel
 import com.drdisagree.iconify.ui.models.MenuModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
+import com.drdisagree.iconify.utils.overlay.manager.IconPackManager
 
 class IconPack : BaseFragment() {
 
@@ -238,8 +239,21 @@ class IconPack : BaseFragment() {
         return IconPackAdapter(
             requireContext(),
             iconPackList,
-            loadingDialog!!
+            loadingDialog!!,
+            "IPSUI",
+            onButtonClick
         )
+    }
+
+    private val onButtonClick = object : IconPackAdapter.OnButtonClick {
+
+        override fun onEnableClick(position: Int, item: IconPackModel) {
+            IconPackManager.enableOverlay(position + 1)
+        }
+
+        override fun onDisableClick(position: Int, item: IconPackModel) {
+            IconPackManager.disableOverlay(position + 1)
+        }
     }
 
     override fun onDestroy() {

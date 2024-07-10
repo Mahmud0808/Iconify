@@ -1,5 +1,9 @@
 package com.drdisagree.iconify.utils.overlay
 
+import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.util.Log
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.config.Prefs
@@ -22,6 +26,11 @@ object OverlayUtil {
         get() = Shell.cmd(
             "cmd overlay list |  grep -E '. ..IconifyComponent' | sed -E 's/^. ..//'"
         ).exec().out
+
+    fun getOverlayForComponent(componentName: String): List<String> {
+        return Shell.cmd("cmd overlay list | grep '....IconifyComponent$componentName'")
+            .exec().out
+    }
 
     fun isOverlayEnabled(pkgName: String): Boolean {
         return Shell.cmd(
@@ -46,6 +55,14 @@ object OverlayUtil {
         Shell.cmd(
             "cmd overlay enable --user current $pkgName",
             "cmd overlay set-priority $pkgName highest"
+        ).submit()
+    }
+
+    fun enableOverlay(pkgName: String, priority: String) {
+        Prefs.putBoolean(pkgName, true)
+        Shell.cmd(
+            "cmd overlay enable --user current $pkgName",
+            "cmd overlay set-priority $pkgName $priority"
         ).submit()
     }
 
@@ -156,4 +173,47 @@ object OverlayUtil {
             false
         }
     }
+
+    fun getDrawableFromOverlay(context: Context, pkg: String?, drawableName: String?): Drawable? {
+        try {
+            val pm = context.packageManager
+            val res = pm.getResourcesForApplication(pkg!!)
+            val resId = res.getIdentifier(drawableName, "drawable", pkg)
+            return if (resId != 0X0) res.getDrawable(resId)
+            else null
+        } catch (e: PackageManager.NameNotFoundException) {
+            Log.d("OverlayUtil", "getDrawableFromOverlay: Package Not Found " + e.message)
+            return null
+        }
+    }
+
+    fun getStringFromOverlay(context: Context, pkg: String, stringName: String): String? {
+        return try {
+            val pm = context.packageManager
+            val res = pm.getResourcesForApplication(pkg)
+            val resId = res.getIdentifier(stringName, "string", pkg)
+            if (resId != 0) res.getString(resId) else null
+        } catch (e: PackageManager.NameNotFoundException) {
+            Log.e("OverlayUtil", "getStringFromOverlay: Package Not Found" + e.message)
+            null
+        }
+    }
+
+    fun checkEnabledOverlay(componentName: String) : String {
+        val component =
+            Shell.cmd("cmd overlay list | grep \".x..IconifyComponent$componentName\"")
+                .exec().out
+        Log.d("OverlayUtil", "checkEnabledOverlay: $component")
+        if (component.isNotEmpty()) {
+            val num = component[0].split("IconifyComponent$componentName".toRegex())
+                .dropLastWhile { it.isEmpty() }
+                .toTypedArray()[1].split("\\.overlay".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()[0]
+            Log.d("OverlayUtil", "checkEnabledOverlay: $num")
+            Log.d("OverlayUtil", "checkEnabledOverlay: IconifyComponent$componentName$num.overlay")
+            return "IconifyComponent$componentName$num.overlay"
+        }
+        return "";
+    }
+
 }

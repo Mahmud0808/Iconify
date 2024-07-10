@@ -162,6 +162,22 @@ class Home : BaseFragment() {
             )
             add(
                 arrayOf(
+                    R.id.action_homePage_to_signalIcons,
+                    appContextLocale.resources.getString(R.string.activity_title_signal_icons),
+                    appContextLocale.resources.getString(R.string.activity_desc_signal_icons),
+                    R.drawable.ic_styles_signal_icons
+                )
+            )
+            add(
+                arrayOf(
+                    R.id.action_homePage_to_wifiIcons,
+                    appContextLocale.resources.getString(R.string.activity_title_wifi_icons),
+                    appContextLocale.resources.getString(R.string.activity_desc_wifi_icons),
+                    R.drawable.ic_styles_wifi_icons
+                )
+            )
+            add(
+                arrayOf(
                     R.id.action_homePage_to_brightnessBar,
                     appContextLocale.resources.getString(R.string.activity_title_brightness_bar),
                     appContextLocale.resources.getString(R.string.activity_desc_brightness_bar),

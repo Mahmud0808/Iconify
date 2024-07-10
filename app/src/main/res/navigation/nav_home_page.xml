@@ -38,6 +38,20 @@
             app:popEnterAnim="@anim/fragment_fade_in"
             app:popExitAnim="@anim/fragment_fade_out" />
         <action
+            android:id="@+id/action_homePage_to_signalIcons"
+            app:destination="@id/signalIcons"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
+        <action
+            android:id="@+id/action_homePage_to_wifiIcons"
+            app:destination="@id/wifiIcons"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
+        <action
             android:id="@+id/action_homePage_to_brightnessBar"
             app:destination="@id/brightnessBar"
             app:enterAnim="@anim/fragment_fade_in"
@@ -497,6 +511,32 @@
         <action
             android:id="@+id/action_iconPack_to_coloredBattery"
             app:destination="@id/coloredBattery"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/signalIcons"
+        android:name="com.drdisagree.iconify.ui.fragments.SignalIcons"
+        android:label="fragment_signal_icons"
+        tools:layout="@layout/fragment_icon_pack">
+        <action
+            android:id="@+id/action_signalIcons_to_homePage"
+            app:destination="@id/homePage"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/wifiIcons"
+        android:name="com.drdisagree.iconify.ui.fragments.WiFiIcons"
+        android:label="fragment_wifi_icons"
+        tools:layout="@layout/fragment_icon_pack">
+        <action
+            android:id="@+id/action_wifiIcons_to_homePage"
+            app:destination="@id/homePage"
             app:enterAnim="@anim/fragment_fade_in"
             app:exitAnim="@anim/fragment_fade_out"
             app:popEnterAnim="@anim/fragment_fade_in"
