@@ -37,11 +37,11 @@ import com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_OPTION
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.utils.XposedIcHelper.findClassInArray
-import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getCenterClockView
-import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getLeftClockView
-import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getRightClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getCenterClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getLeftClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getRightClockView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -124,12 +124,12 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         mLoadPackageParam = loadPackageParam
-        statusbarClockChip(loadPackageParam)
+        statusBarClockChip(loadPackageParam)
         statusIconsChip(loadPackageParam)
     }
 
-    private fun statusbarClockChip(loadPackageParam: LoadPackageParam) {
-        var collapsedStatusBarFragment = findClassInArray(
+    private fun statusBarClockChip(loadPackageParam: LoadPackageParam) {
+        val collapsedStatusBarFragment = findClassInArray(
             loadPackageParam,
             "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
             "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"

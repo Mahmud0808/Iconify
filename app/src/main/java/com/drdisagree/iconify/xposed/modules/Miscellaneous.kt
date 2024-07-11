@@ -27,13 +27,12 @@ import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.utils.XposedIcHelper.findClassInArray
-import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getCenterClockView
-import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getLeftClockView
-import com.drdisagree.iconify.xposed.utils.XposedIcHelper.getRightClockView
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getCenterClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getLeftClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getRightClockView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
-import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.findClass
@@ -813,11 +812,9 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
             Bundle::class.java,
             object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-
                     mClockView = getLeftClockView(mContext, param) as? TextView
                     mCenterClockView = getCenterClockView(mContext, param) as? TextView
                     mRightClockView = getRightClockView(mContext, param) as? TextView
-
 
                     setClockSize()
 

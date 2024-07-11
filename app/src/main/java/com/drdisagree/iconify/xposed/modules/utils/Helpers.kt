@@ -12,6 +12,8 @@ import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedHelpers.findClassIfExists
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @Suppress("unused")
 object Helpers {
@@ -153,6 +155,14 @@ object Helpers {
                 dumpChildViewsRecursive(context, childView, indentationLevel + 1)
             }
         }
+    }
+
+    fun findClassInArray(lpparam: LoadPackageParam, vararg classNames: String): Class<*>? {
+        for (className in classNames) {
+            val clazz = findClassIfExists(className, lpparam.classLoader)
+            if (clazz != null) return clazz
+        }
+        return null
     }
 
     private fun repeatString(str: String, times: Int): String {

@@ -1,29 +1,17 @@
-package com.drdisagree.iconify.xposed.utils
+package com.drdisagree.iconify.xposed.modules.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
-import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.getObjectField
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-object XposedIcHelper {
+object StatusBarClock {
 
-    private val TAG = "Iconify - ${XposedIcHelper::class.java.simpleName}: "
-
-    fun findClassInArray(lpparam: LoadPackageParam, vararg classNames: String): Class<*>? {
-        for (className in classNames) {
-            try {
-                val clazz = findClass(className, lpparam.classLoader)
-                return clazz
-            } catch (ignored: Throwable) {
-            }
-        }
-        return null
-    }
+    private val TAG = "Iconify - ${StatusBarClock::class.java.simpleName}: "
 
     fun getLeftClockView(mContext: Context, param: XC_MethodHook.MethodHookParam): View? {
         return getClockView(
@@ -59,6 +47,7 @@ object XposedIcHelper {
         )
     }
 
+    @SuppressLint("DiscouragedApi")
     private fun getClockView(
         mContext: Context,
         param: XC_MethodHook.MethodHookParam,
@@ -87,5 +76,4 @@ object XposedIcHelper {
             null
         }
     }
-
 }
