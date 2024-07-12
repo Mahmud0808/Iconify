@@ -214,8 +214,6 @@ class IconShape : BaseFragment() {
 
     private val onShapeClick = object : IconShapeAdapter.OnShapeClick {
         override fun onShapeClick(position: Int, item: IconShapeModel) {
-            // Show loading dialog
-            loadingDialog!!.show(appContextLocale.resources.getString(R.string.loading_dialog_wait))
 
             if (position == 0) {
                 Prefs.putInt(SELECTED_ICON_SHAPE, 0)
