@@ -31,6 +31,7 @@ import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getRightClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.setClockGravity
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedHelpers.callMethod
@@ -831,10 +832,27 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
     }
 
+    @SuppressLint("RtlHardcoded")
     private fun setClockSize() {
         if (mClockView != null) mClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
         if (mCenterClockView != null) mCenterClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
         if (mRightClockView != null) mRightClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+
+        setClockGravity(
+            mClockView,
+            Gravity.LEFT or Gravity.CENTER
+        )
+
+        setClockGravity(
+            mCenterClockView,
+            Gravity.CENTER
+        )
+
+        setClockGravity(
+            mRightClockView,
+            Gravity.RIGHT or Gravity.CENTER
+        )
+
     }
 
     companion object {

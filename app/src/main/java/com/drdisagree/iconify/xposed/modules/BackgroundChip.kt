@@ -42,6 +42,7 @@ import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getRightClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.setClockGravity
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -456,55 +457,7 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
             }
         }
 
-        val layoutParams = clockView.layoutParams
-        when (layoutParams) {
-            is LinearLayout.LayoutParams,  -> {
-                layoutParams.gravity = gravity
-            }
-
-            is FrameLayout.LayoutParams -> {
-                layoutParams.gravity = gravity
-            }
-
-            is RelativeLayout.LayoutParams -> {
-                when (gravity) {
-                    Gravity.LEFT or Gravity.CENTER -> {
-                        layoutParams.addRule(RelativeLayout.CENTER_VERTICAL)
-                        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT)
-                    }
-
-                    Gravity.CENTER -> {
-                        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT)
-                    }
-
-                    Gravity.RIGHT or Gravity.CENTER -> {
-                        layoutParams.addRule(RelativeLayout.CENTER_VERTICAL)
-                        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-                    }
-
-                    else -> {
-                        Log.w(
-                            "$TAG LayoutParamsCheck",
-                            "Unsupported gravity type for RelativeLayout: $gravity"
-                        )
-                    }
-                }
-            }
-
-            else -> {
-                Log.w(
-                    "$TAG LayoutParamsCheck",
-                    "Unknown LayoutParams type: ${layoutParams.javaClass.name}"
-                )
-            }
-        }
-        clockView.layoutParams = layoutParams
-
-        (clockView as TextView).includeFontPadding = false
-        clockView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT
-        clockView.setGravity(Gravity.CENTER)
-        clockView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER)
-        clockView.requestLayout()
+        setClockGravity(clockView, gravity)
     }
 
     private fun setQSStatusIconsBgA12() {
