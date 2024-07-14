@@ -43,6 +43,23 @@
             <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:titleText="@string/section_title_status_bar" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/sb_clock_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderDefaultValue="14"
+                app:sliderStepSize="1"
+                app:sliderValue="14"
+                app:sliderValueFrom="10"
+                app:sliderValueTo="24"
+                app:titleText="@string/sb_clock_size"
+                app:valueFormat="sp" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:titleText="@string/lock_screen" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget

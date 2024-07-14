@@ -19,6 +19,7 @@ import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH
+import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
@@ -70,6 +71,16 @@ class XposedOthers : BaseFragment() {
                 SWITCH_ANIMATION_DELAY
             )
         }
+
+        // SB Clock Size
+        binding.sbClockSize.sliderValue = getInt(SB_CLOCK_SIZE, 14)
+        binding.sbClockSize.setOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {}
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                putInt(SB_CLOCK_SIZE, slider.value.toInt())
+            }
+        })
 
         // Hide lockscreen carrier
         binding.hideLockscreenCarrier.isSwitchChecked = getBoolean(HIDE_LOCKSCREEN_CARRIER, false)
