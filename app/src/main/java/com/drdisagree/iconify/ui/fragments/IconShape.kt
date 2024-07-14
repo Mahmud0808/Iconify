@@ -9,11 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
@@ -21,8 +23,10 @@ import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE
 import com.drdisagree.iconify.config.Prefs
 import com.drdisagree.iconify.databinding.FragmentIconShapeBinding
+import com.drdisagree.iconify.ui.adapters.IconShapeAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
+import com.drdisagree.iconify.ui.models.IconShapeModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
 import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
@@ -56,256 +60,231 @@ class IconShape : BaseFragment() {
         loadingDialog = LoadingDialog(requireContext())
 
         // Icon masking shape list
-        addItem(initIconShapeList())
-        refreshBackground()
+        val gridLayoutManager = GridLayoutManager(appContext, 3) // 3 columns
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val totalItemCount = binding.iconShapeContainer.adapter?.itemCount ?: return 1
+                val spanCount = gridLayoutManager.spanCount
+
+                // Calculate the number of items in the last row
+                val itemsInLastRow = totalItemCount % spanCount
+                return if (position >= totalItemCount - itemsInLastRow) {
+                    // Adjust span size for the last row
+                    when (itemsInLastRow) {
+                        1 -> spanCount // 1 item spans all columns
+                        2 -> spanCount / 2 // 2 items span half of the columns each
+                        else -> 1 // Default span size (1 column each)
+                    }
+                } else {
+                    1 // Default span size (1 column each)
+                }
+            }
+        }
+        binding.iconShapeContainer.layoutManager = gridLayoutManager
+        binding.iconShapeContainer.adapter = initIconShapeList()
+        binding.iconShapeContainer.setHasFixedSize(true)
 
         return view
     }
 
-    private fun initIconShapeList(): ArrayList<Array<Any>> {
-        val iconShapePreviewStyles = ArrayList<Array<Any>>().apply {
+    private fun initIconShapeList(): IconShapeAdapter {
+        val iconShapePreviewStyles = ArrayList<IconShapeModel>().apply {
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_none,
                     R.string.icon_mask_style_none
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_pebble,
                     R.string.icon_mask_style_pebble
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_rounded_hexagon,
                     R.string.icon_mask_style_hexagon
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_samsung,
                     R.string.icon_mask_style_samsung
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_scroll,
                     R.string.icon_mask_style_scroll
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_teardrops,
                     R.string.icon_mask_style_teardrop
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_square,
                     R.string.icon_mask_style_square
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_rounded_rectangle,
                     R.string.icon_mask_style_rounded_rectangle
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_ios,
                     R.string.icon_mask_style_ios
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_cloudy,
                     R.string.icon_mask_style_cloudy
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_cylinder,
                     R.string.icon_mask_style_cylinder
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_flower,
                     R.string.icon_mask_style_flower
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_heart,
                     R.string.icon_mask_style_heart
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_leaf,
                     R.string.icon_mask_style_leaf
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_stretched,
                     R.string.icon_mask_style_stretched
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_tapered_rectangle,
                     R.string.icon_mask_style_tapered_rectangle
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_vessel,
                     R.string.icon_mask_style_vessel
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_rohie_meow,
                     R.string.icon_mask_style_rice_rohie_meow
                 )
             )
             add(
-                arrayOf(
+                IconShapeModel(
                     R.drawable.icon_shape_force_round,
                     R.string.icon_mask_style_force_round
                 )
             )
         }
 
-        return iconShapePreviewStyles
+        return IconShapeAdapter(
+            appContext,
+            iconShapePreviewStyles,
+            onShapeClick
+        )
     }
 
-    // Function to add new item in list
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private fun addItem(pack: ArrayList<Array<Any>>) {
-        @ColorInt val colorBackground = appContextLocale.resources.getColor(
-            R.color.colorBackground,
-            appContext.theme
-        )
+    private val onShapeClick = object : IconShapeAdapter.OnShapeClick {
+        override fun onShapeClick(position: Int, item: IconShapeModel) {
 
-        for (i in pack.indices) {
-            val list = LayoutInflater.from(requireContext())
-                .inflate(
-                    R.layout.view_icon_shape,
-                    binding.iconShapePreviewContainer,
-                    false
+            if (position == 0) {
+                Prefs.putInt(SELECTED_ICON_SHAPE, 0)
+                OverlayUtil.disableOverlay("IconifyComponentSIS.overlay")
+
+                Toast.makeText(
+                    appContext,
+                    resources.getString(R.string.toast_disabled),
+                    Toast.LENGTH_SHORT
+                ).show()
+                loadingDialog!!.hide()
+                return
+            }
+
+            if (!hasStoragePermission()) {
+                requestStoragePermission(
+                    requireContext()
                 )
+            } else {
+                // Show loading dialog
+                loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
 
-            val iconContainerBg = list.findViewById<LinearLayout>(R.id.mask_shape_bg)
-            val iconContainerFg = list.findViewById<LinearLayout>(R.id.mask_shape_fg)
+                Thread {
+                    val hasErroredOut = AtomicBoolean(false)
 
-            iconContainerBg.background = ContextCompat.getDrawable(appContext, pack[i][0] as Int)
-            iconContainerFg.background = ContextCompat.getDrawable(appContext, pack[i][0] as Int)
-            iconContainerFg.setBackgroundTintList(ColorStateList.valueOf(colorBackground))
-
-            val styleName = list.findViewById<TextView>(R.id.shape_name)
-            styleName.text = resources.getString(pack[i][1] as Int)
-
-            list.setOnClickListener {
-                if (i == 0) {
-                    Prefs.putInt(SELECTED_ICON_SHAPE, i)
-                    OverlayUtil.disableOverlay("IconifyComponentSIS.overlay")
-
-                    Toast.makeText(
-                        appContext,
-                        resources.getString(R.string.toast_disabled),
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    refreshBackground()
-                } else {
-                    if (!hasStoragePermission()) {
-                        requestStoragePermission(
-                            requireContext()
+                    try {
+                        hasErroredOut.set(
+                            buildOverlay(
+                                "SIS",
+                                position,
+                                FRAMEWORK_PACKAGE,
+                                true
+                            )
                         )
-                    } else {
-                        // Show loading dialog
-                        loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
-
-                        Thread {
-                            val hasErroredOut = AtomicBoolean(false)
-
-                            try {
-                                hasErroredOut.set(
-                                    buildOverlay(
-                                        "SIS",
-                                        i,
-                                        FRAMEWORK_PACKAGE,
-                                        true
-                                    )
-                                )
-                            } catch (e: IOException) {
-                                hasErroredOut.set(true)
-                                Log.e("IconShape", e.toString())
-                            }
-
-                            if (!hasErroredOut.get()) {
-                                Prefs.putInt(SELECTED_ICON_SHAPE, i)
-                                refreshBackground()
-                            }
-
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                // Hide loading dialog
-                                loadingDialog!!.hide()
-                                if (!hasErroredOut.get()) {
-                                    Toast.makeText(
-                                        appContext,
-                                        appContextLocale.resources
-                                            .getString(R.string.toast_applied),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    Toast.makeText(
-                                        appContext,
-                                        appContextLocale.resources
-                                            .getString(R.string.toast_error),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }, 3000)
-                        }.start()
+                    } catch (e: IOException) {
+                        hasErroredOut.set(true)
+                        Log.e("IconShape", e.toString())
                     }
-                }
-            }
 
-            binding.iconShapePreviewContainer.addView(list)
+                    if (!hasErroredOut.get()) {
+                        Prefs.putInt(SELECTED_ICON_SHAPE, position)
+                        refreshAdapter()
+                    }
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        // Hide loading dialog
+                        loadingDialog!!.hide()
+                        if (!hasErroredOut.get()) {
+                            Toast.makeText(
+                                appContext,
+                                appContextLocale.resources
+                                    .getString(R.string.toast_applied),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                appContext,
+                                appContextLocale.resources
+                                    .getString(R.string.toast_error),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }, 3000)
+                }.start()
+            }
         }
     }
 
-    // Function to check for bg drawable changes
-    private fun refreshBackground() {
-        @ColorInt val colorSuccess = appContextLocale.resources.getColor(
-            R.color.colorSuccess,
-            appContext.theme
-        )
-        @ColorInt val textColorSecondary = appContextLocale.resources.getColor(
-            R.color.textColorSecondary,
-            appContext.theme
-        )
-
-        for (i in 0 until binding.iconShapePreviewContainer.childCount) {
-            val child = binding.iconShapePreviewContainer.getChildAt(i)
-                .findViewById<LinearLayout>(R.id.list_item_shape)
-
-            val title = child.findViewById<TextView>(R.id.shape_name)
-            val iconContainerBg = child.findViewById<LinearLayout>(R.id.mask_shape_bg)
-
-            if (i == Prefs.getInt(SELECTED_ICON_SHAPE, 0)) {
-                iconContainerBg.setBackgroundTintList(ColorStateList.valueOf(colorSuccess))
-                title.setTextColor(colorSuccess)
-            } else {
-                iconContainerBg.setBackgroundTintList(ColorStateList.valueOf(textColorSecondary))
-                title.setTextColor(textColorSecondary)
-            }
-        }
+    private fun refreshAdapter() {
+        val ad = binding.iconShapeContainer.adapter as IconShapeAdapter
+        ad.notifyChange()
     }
 
     override fun onDestroy() {
