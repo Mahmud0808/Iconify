@@ -35,6 +35,10 @@
     <string name="activity_title_home_page">Ikonizáló (Iconify)</string>
     <string name="activity_title_icon_pack">Ikoncsomag</string>
     <string name="activity_desc_icon_pack">Lecserélheti a rendszerikonokat</string>
+    <string name="activity_title_signal_icons">Térerő-ikonok</string>
+    <string name="activity_desc_signal_icons">Itt változtathatja meg a rendszer térerő-kijelzését</string>
+    <string name="activity_title_wifi_icons">Wi-Fi ikonok</string>
+    <string name="activity_desc_wifi_icons">Itt változtathatja meg a rendszer Wi-Fi kijelzését</string>
     <string name="activity_title_brightness_bar">Fényerőszabályozó-sáv</string>
     <string name="activity_desc_brightness_bar">Testre szabhatja a csúszkát</string>
     <string name="activity_title_qs_shape">A Gyorsbeállítások csempéi</string>
@@ -602,6 +606,9 @@
     <string name="lockscreen_clock_bottom_margin_title">Alsó margó</string>
     <string name="lockscreen_clock_white_text_title">Fehér szöveg</string>
     <string name="lockscreen_clock_white_text_desc">Az összes színt a fehér felé kényszeríti</string>
+    <string name="lsclock_custom_image_title">Egyéni kép használata</string>
+    <string name="lsclock_custom_image_desc">Saját képet használhat a záróképernyő órájához.</string>
+    <string name="lsclock_custom_image_picker_title">Egyéni kép-kijelölés</string>
     <string name="btn_select">Választás</string>
     <string name="battery_charging">Az akku töltödik</string>
     <string name="battery_discharging">Az akku nem töltödik</string>

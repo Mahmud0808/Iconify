@@ -35,6 +35,10 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Icon Pack</string>
     <string name="activity_desc_icon_pack">Change system icon pack</string>
+    <string name="activity_title_signal_icons">Signal Icons</string>
+    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_wifi_icons">WiFi Icons</string>
+    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">Brightness Bar</string>
     <string name="activity_desc_brightness_bar">Customize progress slider</string>
     <string name="activity_title_qs_shape">QS Panel Tiles</string>
@@ -602,6 +606,9 @@
     <string name="lockscreen_clock_bottom_margin_title">Bottom Margin</string>
     <string name="lockscreen_clock_white_text_title">White Text</string>
     <string name="lockscreen_clock_white_text_desc">Force all colors to be white</string>
+    <string name="lsclock_custom_image_title">Use Custom Image</string>
+    <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
+    <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
     <string name="btn_select">Select</string>
     <string name="battery_charging">Battery Charging</string>
     <string name="battery_discharging">Battery Discharging</string>

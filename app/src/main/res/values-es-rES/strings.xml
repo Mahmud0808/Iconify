@@ -35,6 +35,10 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Paquete de iconos</string>
     <string name="activity_desc_icon_pack">Cambia el paquete de iconos del sistema</string>
+    <string name="activity_title_signal_icons">Signal Icons</string>
+    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_wifi_icons">WiFi Icons</string>
+    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">Barra de brillo</string>
     <string name="activity_desc_brightness_bar">Personalizar barra de progreso</string>
     <string name="activity_title_qs_shape">Panel de Ajustes Rápidos</string>
@@ -602,6 +606,9 @@
     <string name="lockscreen_clock_bottom_margin_title">Margen inferior del reloj</string>
     <string name="lockscreen_clock_white_text_title">Texto blanco</string>
     <string name="lockscreen_clock_white_text_desc">Forzar todos los colores en blanco</string>
+    <string name="lsclock_custom_image_title">Use Custom Image</string>
+    <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
+    <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
     <string name="btn_select">Seleccionar</string>
     <string name="battery_charging">Batería cargándose</string>
     <string name="battery_discharging">Batería descargándose</string>
