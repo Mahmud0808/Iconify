@@ -93,4 +93,13 @@
         <attr name="showSelectedPrefix" />
         <attr name="entries"/>
     </declare-styleable>
+
+    <declare-styleable name="EditTextWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="dialogTitleText" format="string" />
+        <attr name="dialogSubtitleText" format="string" />
+        <attr name="dialogHintText" format="string" />
+        <attr name="dialogText" format="string" />
+    </declare-styleable>
 </resources>

@@ -30,23 +30,28 @@ import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT3
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_TEXT1
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_TEXT2
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_SWITCH
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_DEVICENAME
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_SWITCH
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_TEXT_SCALING
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_STYLE
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
 import com.drdisagree.iconify.common.Resources.LSCLOCK_FONT_DIR
 import com.drdisagree.iconify.config.RPrefs.clearPref
 import com.drdisagree.iconify.config.RPrefs.clearPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
+import com.drdisagree.iconify.config.RPrefs.getString
 import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.config.RPrefs.putInt
+import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentXposedLockscreenClockBinding
 import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
+import com.drdisagree.iconify.ui.dialogs.EditTextDialog
 import com.drdisagree.iconify.ui.models.ClockModel
 import com.drdisagree.iconify.ui.utils.CarouselLayoutManager
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -60,6 +65,8 @@ class XposedLockscreenClock : BaseFragment() {
 
     private lateinit var binding: FragmentXposedLockscreenClockBinding
     private var totalClocks: Int = 1
+    private var userText: String = ""
+    private var deviceText: String = ""
 
     private var startActivityIntent = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -343,6 +350,28 @@ class XposedLockscreenClock : BaseFragment() {
             }
         })
 
+        showMoreLsSettings()
+
+        userText = getString(LSCLOCK_USERNAME, "").toString()
+        binding.lsclockCustomUsername.setEditTextText(userText)
+        binding.lsclockCustomUsername.setOnEditTextListener(object : EditTextDialog.EditTextDialogListener {
+            override fun onOkPressed(dialogId: Int, newText: String) {
+                putString(LSCLOCK_USERNAME, newText)
+                userText = newText
+                binding.lsclockCustomUsername.setEditTextText(userText)
+            }
+        })
+
+        deviceText = getString(LSCLOCK_DEVICENAME, "").toString()
+        binding.lsclockCustomDevicename.setEditTextText(deviceText)
+        binding.lsclockCustomDevicename.setOnEditTextListener(object : EditTextDialog.EditTextDialogListener {
+            override fun onOkPressed(dialogId: Int, newText: String) {
+                putString(LSCLOCK_DEVICENAME, newText)
+                deviceText = newText
+                binding.lsclockCustomDevicename.setEditTextText(deviceText)
+            }
+        })
+
         return view
     }
 
@@ -387,8 +416,15 @@ class XposedLockscreenClock : BaseFragment() {
             requireContext(),
             lsClock,
             LSCLOCK_SWITCH,
-            LSCLOCK_STYLE
+            LSCLOCK_STYLE,
+            onStyleSelected
         )
+    }
+
+    private val onStyleSelected = object : ClockPreviewAdapter.OnStyleSelected {
+        override fun onStyleSelected(position: Int) {
+            showMoreLsSettings()
+        }
     }
 
     private fun updateEnabled(enabled: Boolean) {
@@ -403,5 +439,14 @@ class XposedLockscreenClock : BaseFragment() {
         binding.lsClockTextscaling.setEnabled(enabled)
         binding.lsclockTopMargin.setEnabled(enabled)
         binding.lsclockBottomMargin.setEnabled(enabled)
+    }
+
+    private fun showMoreLsSettings() {
+        // More settings
+        val lsStyle = getInt(LSCLOCK_STYLE, 0)
+        val username = lsStyle == 7
+        val devicename = lsStyle == 19
+        binding.lsclockCustomUsername.visibility = if (username) View.VISIBLE else View.GONE
+        binding.lsclockCustomDevicename.visibility = if (devicename) View.VISIBLE else View.GONE
     }
 }

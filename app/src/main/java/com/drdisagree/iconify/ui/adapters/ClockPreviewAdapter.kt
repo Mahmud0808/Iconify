@@ -31,7 +31,8 @@ class ClockPreviewAdapter(
     private val context: Context,
     private val itemList: ArrayList<ClockModel>,
     prefSwitch: String?,
-    prefStyle: String
+    prefStyle: String,
+    private val mOnStyleSelected: OnStyleSelected? = null
 ) : RecyclerView.Adapter<ClockPreviewAdapter.ViewHolder>() {
 
     private val prefStyle: String
@@ -78,6 +79,9 @@ class ClockPreviewAdapter(
             title.text = model.title
             button.setOnClickListener {
                 RPrefs.putInt(prefStyle, position)
+                if (mOnStyleSelected != null) {
+                    mOnStyleSelected!!.onStyleSelected(position)
+                }
                 refreshLayout(this)
             }
 
@@ -164,6 +168,15 @@ class ClockPreviewAdapter(
                 adapter.notifyDataSetChanged()
             }
         }
+    }
+
+    /**
+     * Interface for style selection
+     * @param position The position of the selected style,
+     * in our case is the num of the layout
+     */
+    interface OnStyleSelected {
+        fun onStyleSelected(position: Int)
     }
 
     companion object {

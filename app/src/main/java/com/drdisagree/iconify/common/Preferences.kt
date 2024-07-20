@@ -57,6 +57,8 @@ object Preferences {
     const val LSCLOCK_FONT_SWITCH = "xposed_lockscreenclockfont"
     const val LSCLOCK_FONT_LINEHEIGHT = "xposed_lockscreenclockfontlineheight"
     const val LSCLOCK_FONT_TEXT_SCALING = "xposed_lockscreenclocktextscaling"
+    const val LSCLOCK_USERNAME = "xposed_lockscreenclockcustomusername"
+    const val LSCLOCK_DEVICENAME = "xposed_lockscreenclockcustomdevicename"
     const val FIXED_STATUS_ICONS_SWITCH = "xposed_fixedstatusicons"
     const val FIXED_STATUS_ICONS_SIDEMARGIN = "xposed_fixedstatusiconssidemargin"
     const val FIXED_STATUS_ICONS_TOPMARGIN = "xposed_fixedstatusiconstopmargin"
