@@ -26,7 +26,6 @@ class EditTextDialog (
     fun show(title: String, subTitle: String, hint: String, text: String) {
         if (dialog != null) dialog!!.dismiss()
 
-
         dialog = Dialog(context)
         binding = ViewEditTextDialogBinding.inflate(LayoutInflater.from(context))
 
@@ -50,14 +49,14 @@ class EditTextDialog (
         }
 
         dialog!!.setContentView(binding!!.root)
-
+        binding!!.root.setPadding(28.dpToPx(), 0, 28.dpToPx(), 0)
 
         dialog!!.create()
         dialog!!.show()
 
         val layoutParams = WindowManager.LayoutParams()
         layoutParams.copyFrom(dialog!!.window!!.attributes)
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
         dialog!!.window!!.setAttributes(layoutParams)
     }
@@ -85,5 +84,10 @@ class EditTextDialog (
      */
     interface EditTextDialogListener {
         fun onOkPressed(dialogId: Int, newText: String)
+    }
+
+    private fun Int.dpToPx(): Int {
+        val density = context.resources.displayMetrics.density
+        return (this * density).toInt()
     }
 }
