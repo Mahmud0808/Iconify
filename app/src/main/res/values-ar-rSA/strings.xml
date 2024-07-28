@@ -35,10 +35,10 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">حزمة الأيقونات</string>
     <string name="activity_desc_icon_pack">تغيير حزمة ايقونات النظام</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
-    <string name="activity_title_wifi_icons">WiFi Icons</string>
-    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
+    <string name="activity_title_signal_icons">أيقونات الإشارة</string>
+    <string name="activity_desc_signal_icons">تغيير أيقونات إشارة النظام</string>
+    <string name="activity_title_wifi_icons">أيقونات WiFi</string>
+    <string name="activity_desc_wifi_icons">تغيير أيقونات WiFi النظام</string>
     <string name="activity_title_brightness_bar">شريط السطوع</string>
     <string name="activity_desc_brightness_bar">تخصيص شريط التقدم</string>
     <string name="activity_title_qs_shape">QS بلاط لوحة</string>
@@ -606,9 +606,9 @@
     <string name="lockscreen_clock_bottom_margin_title">الهامش السفليn</string>
     <string name="lockscreen_clock_white_text_title">نص أبيض</string>
     <string name="lockscreen_clock_white_text_desc">إجبار كل الألوان على أن تكون بيضاء</string>
-    <string name="lsclock_custom_image_title">Use Custom Image</string>
-    <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
-    <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
+    <string name="lsclock_custom_image_title">استخدام صورة مخصصة</string>
+    <string name="lsclock_custom_image_desc">استخدم صورة مخصصة لساعة قفل الشاشة.</string>
+    <string name="lsclock_custom_image_picker_title">منتقي صورة مخصص</string>
     <string name="btn_select">اختر</string>
     <string name="battery_charging">شحن البطارية</string>
     <string name="battery_discharging">تفريغ البطارية</string>
@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">إخفاء عنوان شركة الإتصال من لوحة QS</string>
     <string name="hide_status_icons_title">إخفاء أيقونات الحالة</string>
     <string name="hide_status_icons_desc">قم بإزالة أيقونات الوقت والتاريخ والبطارية</string>
+    <string name="sb_clock_size">حجم ساعة شريط الحالة</string>
     <string name="lock_screen">شاشة القفل</string>
     <string name="hide_ls_carrier_title">إخفاء LS Carrier</string>
     <string name="hide_ls_carrier_desc">إخفاء اسم الناقل على شاشة القفل</string>

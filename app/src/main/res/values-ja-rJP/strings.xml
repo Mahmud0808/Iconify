@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">クイック設定パネルからキャリア名を非表示にします</string>
     <string name="hide_status_icons_title">ステータス アイコンを非表示</string>
     <string name="hide_status_icons_desc">時間、日付、バッテリーアイコンを削除します</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">ロック画面</string>
     <string name="hide_ls_carrier_title">ロック画面のキャリアを非表示</string>
     <string name="hide_ls_carrier_desc">ロック画面のキャリア名を非表示にします</string>

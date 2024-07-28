@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">A Gyorsbeállításokban nem látszik a szolgáltató</string>
     <string name="hide_status_icons_title">Az Állapotikonok elrejtése</string>
     <string name="hide_status_icons_desc">Az Idő, a Dátum és az Akkujelzés sem látható</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Záróképernyő</string>
     <string name="hide_ls_carrier_title">Nincs Szolgáltató a képernyőzáron</string>
     <string name="hide_ls_carrier_desc">A záróképernyőről eltűnik a Szolgáltató neve</string>

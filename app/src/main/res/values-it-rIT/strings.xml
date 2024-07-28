@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">Nascondi gruppo operatore dal pannello QS</string>
     <string name="hide_status_icons_title">Nascondi Icone Di Stato</string>
     <string name="hide_status_icons_desc">Rimuovi le icone di ora, data e batteria</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Schermata di Blocco</string>
     <string name="hide_ls_carrier_title">Nascondi Operatore LS</string>
     <string name="hide_ls_carrier_desc">Nascondi nome operatore nella schermata di blocco</string>

@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">Ocultar el grupo del operador del panel de Ajustes Rápidos</string>
     <string name="hide_status_icons_title">Ocultar iconos de estado</string>
     <string name="hide_status_icons_desc">Quitar la hora, la fecha y los iconos de la batería</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Pantalla de bloqueo</string>
     <string name="hide_ls_carrier_title">Ocultar Transportista en Pantalla de Bloqueo</string>
     <string name="hide_ls_carrier_desc">Ocultar el nombre del transportista en la pantalla de bloqueo</string>

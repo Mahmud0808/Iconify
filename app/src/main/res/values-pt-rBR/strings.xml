@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">Oculte grupos de operadoras do painel QS</string>
     <string name="hide_status_icons_title">Ocultar ícones de status</string>
     <string name="hide_status_icons_desc">Remova ícones de hora, data e bateria</string>
+    <string name="sb_clock_size">Tamanho do relógio da barra de status</string>
     <string name="lock_screen">Tela de bloqueio</string>
     <string name="hide_ls_carrier_title">Ocultar operadora na tela de bloqueio</string>
     <string name="hide_ls_carrier_desc">Oculte o nome da operadora na tela de bloqueio</string>

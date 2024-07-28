@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">Ẩn nhóm nhà mạng khỏi bảng QS</string>
     <string name="hide_status_icons_title">Ẩn biểu tượng trạng thái</string>
     <string name="hide_status_icons_desc">Xóa các biểu tượng thời gian, ngày tháng và pin</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Lock Screen</string>
     <string name="hide_ls_carrier_title">Hide LS Carrier</string>
     <string name="hide_ls_carrier_desc">Hide carrier name on lockscreen</string>
