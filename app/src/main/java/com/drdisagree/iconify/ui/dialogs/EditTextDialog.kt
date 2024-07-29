@@ -5,11 +5,12 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.view.WindowManager
 import com.drdisagree.iconify.databinding.ViewEditTextDialogBinding
 import com.drdisagree.iconify.ui.base.BaseActivity
 
-class EditTextDialog (
+class EditTextDialog(
     var context: Context,
     private var dialogId: Int
 ) : BaseActivity() {
@@ -49,7 +50,10 @@ class EditTextDialog (
         }
 
         dialog!!.setContentView(binding!!.root)
-        binding!!.root.setPadding(28.dpToPx(), 0, 28.dpToPx(), 0)
+
+        val dialogParams = binding!!.root.layoutParams as ViewGroup.MarginLayoutParams
+        dialogParams.setMargins(28.dpToPx(), 0, 28.dpToPx(), 0)
+        binding!!.root.layoutParams = dialogParams
 
         dialog!!.create()
         dialog!!.show()
