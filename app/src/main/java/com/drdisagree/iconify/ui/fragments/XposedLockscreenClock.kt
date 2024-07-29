@@ -354,7 +354,8 @@ class XposedLockscreenClock : BaseFragment() {
 
         userText = getString(LSCLOCK_USERNAME, "").toString()
         binding.lsclockCustomUsername.setEditTextText(userText)
-        binding.lsclockCustomUsername.setOnEditTextListener(object : EditTextDialog.EditTextDialogListener {
+        binding.lsclockCustomUsername.setOnEditTextListener(object :
+            EditTextDialog.EditTextDialogListener {
             override fun onOkPressed(dialogId: Int, newText: String) {
                 putString(LSCLOCK_USERNAME, newText)
                 userText = newText
@@ -364,7 +365,8 @@ class XposedLockscreenClock : BaseFragment() {
 
         deviceText = getString(LSCLOCK_DEVICENAME, "").toString()
         binding.lsclockCustomDevicename.setEditTextText(deviceText)
-        binding.lsclockCustomDevicename.setOnEditTextListener(object : EditTextDialog.EditTextDialogListener {
+        binding.lsclockCustomDevicename.setOnEditTextListener(object :
+            EditTextDialog.EditTextDialogListener {
             override fun onOkPressed(dialogId: Int, newText: String) {
                 putString(LSCLOCK_DEVICENAME, newText)
                 deviceText = newText
@@ -439,6 +441,8 @@ class XposedLockscreenClock : BaseFragment() {
         binding.lsClockTextscaling.setEnabled(enabled)
         binding.lsclockTopMargin.setEnabled(enabled)
         binding.lsclockBottomMargin.setEnabled(enabled)
+        binding.lsclockCustomUsername.setEnabled(enabled)
+        binding.lsclockCustomDevicename.setEnabled(enabled)
     }
 
     private fun showMoreLsSettings() {
