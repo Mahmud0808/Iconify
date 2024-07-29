@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.navigation.Navigation.findNavController
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.SplashActivity.Companion.SKIP_TO_HOMEPAGE_FOR_TESTING
 import com.drdisagree.iconify.databinding.FragmentTweaksBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -134,7 +135,7 @@ class Tweaks : BaseFragment() {
                 arrayOf(
                     View.OnClickListener {
                         // Check if LSPosed is installed or not
-                        if (!isLsposedInstalled) {
+                        if (!isLsposedInstalled && !SKIP_TO_HOMEPAGE_FOR_TESTING) {
                             Toast.makeText(
                                 appContext,
                                 resources.getString(R.string.toast_lsposed_not_found),
