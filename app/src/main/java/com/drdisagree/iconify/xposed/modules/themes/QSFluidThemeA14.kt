@@ -804,8 +804,11 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
                 if (!fluidQsThemeEnabled || !fluidNotifEnabled) return
 
                 try {
-                    val mManageButton =
-                        getObjectField(param.thisObject, "mManageButton") as Button
+                    val mManageButton: Button = try {
+                        getObjectField(param.thisObject, "mManageButton")
+                    } catch (ignored: Throwable) {
+                        getObjectField(param.thisObject, "mManageOrHistoryButton")
+                    } as Button
                     val mClearAllButton: Button = try {
                         getObjectField(param.thisObject, "mClearAllButton")
                     } catch (ignored: Throwable) {
@@ -814,7 +817,8 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
 
                     mManageButton.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
                     mClearAllButton.background?.alpha = (INACTIVE_ALPHA * 255).toInt()
-                } catch (ignored: Throwable) {
+                } catch (throwable: Throwable) {
+                    log(TAG + throwable)
                 }
             }
         }
@@ -826,9 +830,15 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
         } catch (ignored: Throwable) {
         }
 
-        try {
-            hookAllMethods(footerViewClass, "updateColors$3", updateNotificationFooterButtons)
-        } catch (ignored: Throwable) {
+        for (i in 1..3) {
+            try {
+                hookAllMethods(
+                    footerViewClass,
+                    "updateColors$${i}",
+                    updateNotificationFooterButtons
+                )
+            } catch (ignored: Throwable) {
+            }
         }
 
         // Power menu
