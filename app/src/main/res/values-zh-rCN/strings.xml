@@ -35,6 +35,10 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">图标包</string>
     <string name="activity_desc_icon_pack">更改系统图标包</string>
+    <string name="activity_title_signal_icons">Signal Icons</string>
+    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_wifi_icons">WiFi Icons</string>
+    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">亮度条</string>
     <string name="activity_desc_brightness_bar">自定义进度滑块</string>
     <string name="activity_title_qs_shape">快速设置面板图块</string>
@@ -602,6 +606,9 @@
     <string name="lockscreen_clock_bottom_margin_title">底边距</string>
     <string name="lockscreen_clock_white_text_title">白色文本</string>
     <string name="lockscreen_clock_white_text_desc">强制所有颜色为白色</string>
+    <string name="lsclock_custom_image_title">Use Custom Image</string>
+    <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
+    <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
     <string name="btn_select">选择</string>
     <string name="battery_charging">电池充电</string>
     <string name="battery_discharging">电池放电</string>

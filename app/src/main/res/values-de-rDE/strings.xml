@@ -35,6 +35,10 @@
     <string name="activity_title_home_page"></string>
     <string name="activity_title_icon_pack">Symbolpaket</string>
     <string name="activity_desc_icon_pack">System Icons verändern</string>
+    <string name="activity_title_signal_icons">Signal Icons</string>
+    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_wifi_icons">WiFi Icons</string>
+    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">Helligkeitsregler</string>
     <string name="activity_desc_brightness_bar">Verändere Fortschrittsbalken</string>
     <string name="activity_title_qs_shape">QS Kacheln</string>
@@ -603,6 +607,9 @@ transparent machen</string>
     <string name="lockscreen_clock_bottom_margin_title">Unterer Abstand</string>
     <string name="lockscreen_clock_white_text_title">Weißer Text</string>
     <string name="lockscreen_clock_white_text_desc">Zwinge alle Farben weiß zu sein</string>
+    <string name="lsclock_custom_image_title">Use Custom Image</string>
+    <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
+    <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
     <string name="btn_select">Auswählen</string>
     <string name="battery_charging">Akku ladend</string>
     <string name="battery_discharging">Akku entladend</string>

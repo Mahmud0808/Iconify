@@ -35,6 +35,10 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">アイコンパック</string>
     <string name="activity_desc_icon_pack">システム アイコンパックを変更</string>
+    <string name="activity_title_signal_icons">Signal Icons</string>
+    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_wifi_icons">WiFi Icons</string>
+    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">明るさ調節バー</string>
     <string name="activity_desc_brightness_bar">進捗スライダーをカスタマイズ</string>
     <string name="activity_title_qs_shape">クイック設定パネルタイル</string>
@@ -602,6 +606,9 @@
     <string name="lockscreen_clock_bottom_margin_title">下部マージン</string>
     <string name="lockscreen_clock_white_text_title">ホワイト テキスト</string>
     <string name="lockscreen_clock_white_text_desc">すべての色を白に強制します</string>
+    <string name="lsclock_custom_image_title">Use Custom Image</string>
+    <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
+    <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
     <string name="btn_select">選択</string>
     <string name="battery_charging">バッテリー充電中</string>
     <string name="battery_discharging">バッテリー放電中</string>

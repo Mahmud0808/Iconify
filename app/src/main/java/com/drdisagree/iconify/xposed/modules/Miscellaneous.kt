@@ -3,6 +3,9 @@ package com.drdisagree.iconify.xposed.modules
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -20,12 +23,19 @@ import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_LOCK_ICON
 import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
+import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getCenterClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getLeftClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getRightClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.setClockGravity
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedHelpers.callMethod
+import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.getObjectField
@@ -49,6 +59,10 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     private var statusIcons: LinearLayout? = null
     private var statusIconContainer: LinearLayout? = null
     private var mobileSignalControllerParam: Any? = null
+    private var sbClockSize = 14
+    private var mClockView: TextView? = null
+    private var mCenterClockView: TextView? = null
+    private var mRightClockView: TextView? = null
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -63,6 +77,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
             hideLockscreenStatusbar = getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false)
             hideLockscreenLockIcon = getBoolean(HIDE_LOCKSCREEN_LOCK_ICON, false)
             hideDataDisabledIcon = getBoolean(HIDE_DATA_DISABLED_ICON, false)
+            sbClockSize = getInt(SB_CLOCK_SIZE, 14)
         }
 
         if (key.isNotEmpty()) {
@@ -81,6 +96,10 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                     it == FIXED_STATUS_ICONS_SIDEMARGIN
                 ) {
                     fixedStatusIconsA12()
+                }
+
+                if (it == SB_CLOCK_SIZE) {
+                    setClockSize()
                 }
 
                 if (it == HIDE_LOCKSCREEN_CARRIER ||
@@ -110,6 +129,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
         hideLockscreenCarrierOrStatusbar()
         hideLockscreenLockIcon()
         hideDataDisabledIcon(loadPackageParam)
+        applyClockSize(loadPackageParam)
     }
 
     private fun hideElements(loadPackageParam: LoadPackageParam) {
@@ -319,18 +339,18 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                     override fun handleLayoutInflated(liparam: LayoutInflatedParam) {
                         if (!qsCarrierGroupHidden) return
 
-                            liparam.view.findViewById<LinearLayout>(
-                                liparam.res.getIdentifier(
-                                    "carrier_group",
-                                    "id",
-                                    mContext.packageName
-                                )
-                            ).apply {
-                                layoutParams.height = 0
-                                layoutParams.width = 0
-                                setMinimumWidth(0)
-                                visibility = View.INVISIBLE
-                            }
+                        liparam.view.findViewById<LinearLayout>(
+                            liparam.res.getIdentifier(
+                                "carrier_group",
+                                "id",
+                                mContext.packageName
+                            )
+                        ).apply {
+                            layoutParams.height = 0
+                            layoutParams.width = 0
+                            setMinimumWidth(0)
+                            visibility = View.INVISIBLE
+                        }
                     }
                 })
         } catch (ignored: Throwable) {
@@ -350,127 +370,127 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                         if (!hideStatusIcons) return
 
                         try {
-                                liparam.view.findViewById<TextView>(
-                                    liparam.res.getIdentifier(
-                                        "clock",
-                                        "id",
-                                        mContext.packageName
-                                    )
-                                ).apply {
-                                    layoutParams.height = 0
-                                    layoutParams.width = 0
-                                    setTextAppearance(0)
-                                    setTextColor(0)
-                                }
+                            liparam.view.findViewById<TextView>(
+                                liparam.res.getIdentifier(
+                                    "clock",
+                                    "id",
+                                    mContext.packageName
+                                )
+                            ).apply {
+                                layoutParams.height = 0
+                                layoutParams.width = 0
+                                setTextAppearance(0)
+                                setTextColor(0)
+                            }
                         } catch (ignored: Throwable) {
                         }
 
                         try {
-                                liparam.view.findViewById<TextView>(
-                                    liparam.res.getIdentifier(
-                                        "date_clock",
-                                        "id",
-                                        mContext.packageName
-                                    )
-                                ).apply {
-                                    layoutParams.height = 0
-                                    layoutParams.width = 0
-                                    setTextAppearance(0)
-                                    setTextColor(0)
-                                }
+                            liparam.view.findViewById<TextView>(
+                                liparam.res.getIdentifier(
+                                    "date_clock",
+                                    "id",
+                                    mContext.packageName
+                                )
+                            ).apply {
+                                layoutParams.height = 0
+                                layoutParams.width = 0
+                                setTextAppearance(0)
+                                setTextColor(0)
+                            }
                         } catch (ignored: Throwable) {
                         }
 
                         try {
-                                liparam.view.findViewById<LinearLayout>(
-                                    liparam.res.getIdentifier(
-                                        "carrier_group",
-                                        "id",
-                                        mContext.packageName
-                                    )
-                                ).apply {
-                                    layoutParams.height = 0
-                                    layoutParams.width = 0
-                                    setMinimumWidth(0)
-                                    visibility = View.INVISIBLE
-                                }
+                            liparam.view.findViewById<LinearLayout>(
+                                liparam.res.getIdentifier(
+                                    "carrier_group",
+                                    "id",
+                                    mContext.packageName
+                                )
+                            ).apply {
+                                layoutParams.height = 0
+                                layoutParams.width = 0
+                                setMinimumWidth(0)
+                                visibility = View.INVISIBLE
+                            }
                         } catch (ignored: Throwable) {
                         }
 
                         try {
-                                liparam.view.findViewById<LinearLayout>(
-                                    liparam.res.getIdentifier(
-                                        "statusIcons",
-                                        "id",
-                                        mContext.packageName
-                                    )
-                                ).apply {
-                                    layoutParams.height = 0
-                                    layoutParams.width = 0
-                                }
+                            liparam.view.findViewById<LinearLayout>(
+                                liparam.res.getIdentifier(
+                                    "statusIcons",
+                                    "id",
+                                    mContext.packageName
+                                )
+                            ).apply {
+                                layoutParams.height = 0
+                                layoutParams.width = 0
+                            }
                         } catch (ignored: Throwable) {
                         }
 
                         try {
-                                liparam.view.findViewById<LinearLayout>(
-                                    liparam.res.getIdentifier(
-                                        "batteryRemainingIcon",
-                                        "id",
-                                        mContext.packageName
-                                    )
-                                ).apply {
-                                    layoutParams.height = 0
-                                    layoutParams.width = 0
-                                }
+                            liparam.view.findViewById<LinearLayout>(
+                                liparam.res.getIdentifier(
+                                    "batteryRemainingIcon",
+                                    "id",
+                                    mContext.packageName
+                                )
+                            ).apply {
+                                layoutParams.height = 0
+                                layoutParams.width = 0
+                            }
                         } catch (ignored: Throwable) {
                         }
 
                         try {
-                                liparam.view.findViewById<FrameLayout>(
-                                    liparam.res.getIdentifier(
-                                        "rightLayout",
-                                        "id",
-                                        mContext.packageName
-                                    )
-                                ).apply {
-                                    layoutParams.height = 0
-                                    layoutParams.width = 0
-                                    visibility = View.INVISIBLE
-                                }
+                            liparam.view.findViewById<FrameLayout>(
+                                liparam.res.getIdentifier(
+                                    "rightLayout",
+                                    "id",
+                                    mContext.packageName
+                                )
+                            ).apply {
+                                layoutParams.height = 0
+                                layoutParams.width = 0
+                                visibility = View.INVISIBLE
+                            }
                         } catch (ignored: Throwable) {
                         }
 
                         // Ricedroid date
                         try {
-                                liparam.view.findViewById<TextView>(
-                                    liparam.res.getIdentifier(
-                                        "date",
-                                        "id",
-                                        mContext.packageName
-                                    )
-                                ).apply {
-                                    layoutParams.height = 0
-                                    layoutParams.width = 0
-                                    setTextAppearance(0)
-                                    setTextColor(0)
-                                }
+                            liparam.view.findViewById<TextView>(
+                                liparam.res.getIdentifier(
+                                    "date",
+                                    "id",
+                                    mContext.packageName
+                                )
+                            ).apply {
+                                layoutParams.height = 0
+                                layoutParams.width = 0
+                                setTextAppearance(0)
+                                setTextColor(0)
+                            }
                         } catch (ignored: Throwable) {
                         }
 
                         // Nusantara clock
                         try {
-                                liparam.view.findViewById<TextView>(
-                                    liparam.res.getIdentifier(
-                                        "jr_clock",
-                                        "id",
-                                        mContext.packageName
-                                    )
-                                ).apply {
-                                    layoutParams.height = 0
-                                    layoutParams.width = 0
-                                    setTextAppearance(0)
-                                    setTextColor(0)
-                                }
+                            liparam.view.findViewById<TextView>(
+                                liparam.res.getIdentifier(
+                                    "jr_clock",
+                                    "id",
+                                    mContext.packageName
+                                )
+                            ).apply {
+                                layoutParams.height = 0
+                                layoutParams.width = 0
+                                setTextAppearance(0)
+                                setTextColor(0)
+                            }
                         } catch (ignored: Throwable) {
                         }
 
@@ -508,11 +528,11 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
                         try {
                             liparam.view.findViewById<TextView>(
-                                    liparam.res.getIdentifier(
-                                        "date",
-                                        "id",
-                                        mContext.packageName
-                                    )
+                                liparam.res.getIdentifier(
+                                    "date",
+                                    "id",
+                                    mContext.packageName
+                                )
                             ).apply {
                                 setTextAppearance(0)
                                 layoutParams.height = 0
@@ -692,49 +712,49 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                     override fun handleLayoutInflated(liparam: LayoutInflatedParam) {
                         if (hideLockscreenCarrier) {
                             try {
-                                    liparam.view.findViewById<TextView>(
-                                        liparam.res.getIdentifier(
-                                            "keyguard_carrier_text",
-                                            "id",
-                                            mContext.packageName
-                                        )
-                                    ).apply {
-                                        layoutParams.height = 0
-                                        visibility = View.INVISIBLE
-                                        requestLayout()
-                                    }
+                                liparam.view.findViewById<TextView>(
+                                    liparam.res.getIdentifier(
+                                        "keyguard_carrier_text",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                ).apply {
+                                    layoutParams.height = 0
+                                    visibility = View.INVISIBLE
+                                    requestLayout()
+                                }
                             } catch (ignored: Throwable) {
                             }
                         }
 
                         if (hideLockscreenStatusbar) {
                             try {
-                                    liparam.view.findViewById<LinearLayout>(
-                                        liparam.res.getIdentifier(
-                                            "status_icon_area",
-                                            "id",
-                                            mContext.packageName
-                                        )
-                                    ).apply {
-                                        layoutParams.height = 0
-                                        visibility = View.INVISIBLE
-                                        requestLayout()
-                                    }
+                                liparam.view.findViewById<LinearLayout>(
+                                    liparam.res.getIdentifier(
+                                        "status_icon_area",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                ).apply {
+                                    layoutParams.height = 0
+                                    visibility = View.INVISIBLE
+                                    requestLayout()
+                                }
                             } catch (ignored: Throwable) {
                             }
 
                             try {
-                                    liparam.view.findViewById<TextView>(
-                                        liparam.res.getIdentifier(
-                                            "keyguard_carrier_text",
-                                            "id",
-                                            mContext.packageName
-                                        )
-                                    ).apply {
-                                        layoutParams.height = 0
-                                        visibility = View.INVISIBLE
-                                        requestLayout()
-                                    }
+                                liparam.view.findViewById<TextView>(
+                                    liparam.res.getIdentifier(
+                                        "keyguard_carrier_text",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                ).apply {
+                                    layoutParams.height = 0
+                                    visibility = View.INVISIBLE
+                                    requestLayout()
+                                }
                             } catch (ignored: Throwable) {
                             }
                         }
@@ -775,6 +795,64 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                 })
         } catch (ignored: Throwable) {
         }
+    }
+
+    private fun applyClockSize(loadPackageParam: LoadPackageParam) {
+        val collapsedStatusBarFragment = findClassInArray(
+            loadPackageParam,
+            "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
+            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
+
+        )
+
+        if (collapsedStatusBarFragment == null) return
+
+        findAndHookMethod(collapsedStatusBarFragment,
+            "onViewCreated",
+            View::class.java,
+            Bundle::class.java,
+            object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    mClockView = getLeftClockView(mContext, param) as? TextView
+                    mCenterClockView = getCenterClockView(mContext, param) as? TextView
+                    mRightClockView = getRightClockView(mContext, param) as? TextView
+
+                    setClockSize()
+
+                    val textClock = mClockView ?: mCenterClockView ?: mRightClockView as TextView
+                    textClock.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+                        override fun afterTextChanged(s: Editable) {
+                            setClockSize()
+                        }
+                    })
+                }
+            })
+
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private fun setClockSize() {
+        if (mClockView != null) mClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+        if (mCenterClockView != null) mCenterClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+        if (mRightClockView != null) mRightClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+
+        setClockGravity(
+            mClockView,
+            Gravity.LEFT or Gravity.CENTER
+        )
+
+        setClockGravity(
+            mCenterClockView,
+            Gravity.CENTER
+        )
+
+        setClockGravity(
+            mRightClockView,
+            Gravity.RIGHT or Gravity.CENTER
+        )
+
     }
 
     companion object {

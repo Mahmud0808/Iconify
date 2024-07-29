@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/list_item_toast"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="8dp">
 
     <LinearLayout
         android:id="@+id/toast_container"
@@ -12,14 +16,15 @@
         android:layout_gravity="center"
         android:background="@drawable/container_main"
         android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="16dp"
         android:paddingVertical="14dp">
 
         <TextView
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:layout_marginBottom="1dp"
             android:text="@string/toast_message"
             android:textColor="@color/text_color_primary" />

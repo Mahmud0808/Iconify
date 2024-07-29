@@ -35,6 +35,10 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Pacote de ícones</string>
     <string name="activity_desc_icon_pack">Altere o pacote de ícones do sistema</string>
+    <string name="activity_title_signal_icons">Ícones de sinal</string>
+    <string name="activity_desc_signal_icons">Altere os ícones de sinal do sistema</string>
+    <string name="activity_title_wifi_icons">Ícones de Wi-Fi</string>
+    <string name="activity_desc_wifi_icons">Altere os ícones de Wi-Fi do sistema</string>
     <string name="activity_title_brightness_bar">Barra de brilho</string>
     <string name="activity_desc_brightness_bar">Personalize o controle deslizante</string>
     <string name="activity_title_qs_shape">Blocos do painel QS</string>
@@ -602,6 +606,9 @@
     <string name="lockscreen_clock_bottom_margin_title">Margem inferior</string>
     <string name="lockscreen_clock_white_text_title">Texto branco</string>
     <string name="lockscreen_clock_white_text_desc">Force todas as cores a serem brancas</string>
+    <string name="lsclock_custom_image_title">Usar imagem personalizada</string>
+    <string name="lsclock_custom_image_desc">Use uma imagem personalizada para o relógio da tela de bloqueio.</string>
+    <string name="lsclock_custom_image_picker_title">Seletor de imagens personalizado</string>
     <string name="btn_select">Selecionar</string>
     <string name="battery_charging">Bateria carregando</string>
     <string name="battery_discharging">Bateria descarregando</string>
