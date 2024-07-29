@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">Ukryj nazwę operatora w szybkich ustawieniach</string>
     <string name="hide_status_icons_title">Ukryj ikony stanu</string>
     <string name="hide_status_icons_desc">Ukryj ikony stanu takie jak Wi-Fi, bateria oraz pozostałe</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Ekran blokady</string>
     <string name="hide_ls_carrier_title">Ukryj nazwę operatora</string>
     <string name="hide_ls_carrier_desc">Ukryj nazwę operatora na ekranie blokady</string>

@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">从快速设置面板上隐藏运营商组</string>
     <string name="hide_status_icons_title">隐藏状态图标</string>
     <string name="hide_status_icons_desc">移除时间、日期和电池图标</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">锁屏</string>
     <string name="hide_ls_carrier_title">隐藏锁屏运营商</string>
     <string name="hide_ls_carrier_desc">在锁屏上隐藏运营商名称</string>

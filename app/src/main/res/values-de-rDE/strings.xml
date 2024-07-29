@@ -655,6 +655,7 @@ transparent machen</string>
     <string name="hide_carrier_group_desc">Mobilfunkanbieter vom QS-Panel verbergen</string>
     <string name="hide_status_icons_title">Statussymbole verbergen</string>
     <string name="hide_status_icons_desc">Zeit, Datum und Batteriesymbole verbergen</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Sperrbildschirm</string>
     <string name="hide_ls_carrier_title">Verstecke Netzanbieter</string>
     <string name="hide_ls_carrier_desc">Netzanbieter auf Sperrbildschirm verbergen</string>

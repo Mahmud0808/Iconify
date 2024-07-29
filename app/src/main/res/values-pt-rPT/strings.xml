@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">Ocultar nome do operador no painel das DR</string>
     <string name="hide_status_icons_title">Escoder os ícones de estado</string>
     <string name="hide_status_icons_desc">Remove o relógio, a data e a bateria</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Lock Screen</string>
     <string name="hide_ls_carrier_title">Esconder operadora no modo claro</string>
     <string name="hide_ls_carrier_desc">Esconder operadora no ecrã de bloqueio</string>

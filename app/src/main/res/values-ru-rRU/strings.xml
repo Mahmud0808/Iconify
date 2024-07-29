@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">Скрыть группу Сим-карт в панели быстрых настроек</string>
     <string name="hide_status_icons_title">Скрыть иконки строки состояния</string>
     <string name="hide_status_icons_desc">Скрыть значки времени, даты и батареи</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Экран блокировки</string>
     <string name="hide_ls_carrier_title">Скрыть оператора</string>
     <string name="hide_ls_carrier_desc">Скрывает оператора на экране блокировки</string>

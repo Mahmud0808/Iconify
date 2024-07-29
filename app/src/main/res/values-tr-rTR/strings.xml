@@ -35,10 +35,10 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Simge Paketi</string>
     <string name="activity_desc_icon_pack">Sistem simge paketini özelleştir</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
-    <string name="activity_title_wifi_icons">WiFi Icons</string>
-    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
+    <string name="activity_title_signal_icons">Sinyal Simgesi</string>
+    <string name="activity_desc_signal_icons">Sistem sinyal simgelerini değiştir</string>
+    <string name="activity_title_wifi_icons">WiFi Simgesi</string>
+    <string name="activity_desc_wifi_icons">Sistem WiFi simgelerini değiştir</string>
     <string name="activity_title_brightness_bar">Parlaklık Çubuğu</string>
     <string name="activity_desc_brightness_bar">Parlaklık kaydırıcısını özelleştir</string>
     <string name="activity_title_qs_shape">QS Panel Kutucukları</string>
@@ -606,9 +606,9 @@
     <string name="lockscreen_clock_bottom_margin_title">Alt Kenar Boşluğu</string>
     <string name="lockscreen_clock_white_text_title">Beyaz Metin</string>
     <string name="lockscreen_clock_white_text_desc">Metin renklerini beyaz olmaya zorla</string>
-    <string name="lsclock_custom_image_title">Use Custom Image</string>
-    <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
-    <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
+    <string name="lsclock_custom_image_title">Özel Resim Kullan</string>
+    <string name="lsclock_custom_image_desc">Kilit ekranı saati için özel resim kullan.</string>
+    <string name="lsclock_custom_image_picker_title">Özel Resim Seçici</string>
     <string name="btn_select">Seç</string>
     <string name="battery_charging">Pil şarj ediliyor</string>
     <string name="battery_discharging">Pil şarj edilmiyor</string>
@@ -654,6 +654,7 @@
     <string name="hide_carrier_group_desc">Operatör grubunu QS panelinden gizle</string>
     <string name="hide_status_icons_title">Durum Simgelerini Gizle</string>
     <string name="hide_status_icons_desc">Saat, tarih ve pil simgelerini kaldır</string>
+    <string name="sb_clock_size">Durum Çubuğu Saat Boyutu</string>
     <string name="lock_screen">Kilit Ekranı</string>
     <string name="hide_ls_carrier_title">LS Operatörünü Gizle</string>
     <string name="hide_ls_carrier_desc">Kilit ekranında operatör adını gizle</string>
