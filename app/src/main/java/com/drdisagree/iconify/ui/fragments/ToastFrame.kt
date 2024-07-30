@@ -87,8 +87,6 @@ class ToastFrame : BaseFragment() {
 
     private val onToastClick = object : ToastAdapter.OnToastClick {
         override fun onToastClick(position: Int, item: ToastModel) {
-            // Show loading dialog
-            loadingDialog!!.show(appContextLocale.resources.getString(R.string.loading_dialog_wait))
 
             if (!hasStoragePermission()) {
                 requestStoragePermission(appContext)
@@ -105,6 +103,9 @@ class ToastFrame : BaseFragment() {
                 ).show()
                 return
             }
+
+            // Show loading dialog
+            loadingDialog!!.show(appContextLocale.resources.getString(R.string.loading_dialog_wait))
 
             Thread {
                 val hasErroredOut = AtomicBoolean(false)
