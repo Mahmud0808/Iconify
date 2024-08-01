@@ -89,6 +89,7 @@ class ToastFrame : BaseFragment() {
             add(ToastModel(R.drawable.toast_frame_style_9, String.format(appContextLocale.resources.getString(R.string.style), 9)))
             add(ToastModel(R.drawable.toast_frame_style_10, String.format(appContextLocale.resources.getString(R.string.style), 10)))
             add(ToastModel(R.drawable.toast_frame_style_11, String.format(appContextLocale.resources.getString(R.string.style), 11)))
+            add(ToastModel(R.drawable.toast_frame_style_12, String.format(appContextLocale.resources.getString(R.string.style), 12)))
         }
 
         return ToastAdapter(
