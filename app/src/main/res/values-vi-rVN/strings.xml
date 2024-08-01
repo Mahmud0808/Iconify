@@ -761,31 +761,7 @@
     <string name="exported_settings">Đã lưu cài đặt thành công</string>
     <!-- Style List -->
     <string name="style_0">Không có</string>
-    <string name="style_1">Kiểu 1</string>
-    <string name="style_2">kiểu 2</string>
-    <string name="style_3">kiểu 3</string>
-    <string name="style_4">Kiểu 4</string>
-    <string name="style_5">Kiểu 5</string>
-    <string name="style_6">Kiểu 6</string>
-    <string name="style_7">Kiểu 7</string>
-    <string name="style_8">Kiểu 8</string>
-    <string name="style_9">Kiểu 9</string>
-    <string name="style_10">Kiểu 10</string>
-    <string name="style_11">Style 11</string>
-    <string name="style_12">Style 12</string>
-    <string name="style_13">Style 13</string>
-    <string name="style_14">Style 14</string>
-    <string name="style_15">Style 15</string>
-    <string name="style_16">Style 16</string>
-    <string name="style_17">Style 17</string>
-    <string name="style_18">Style 18</string>
-    <string name="style_19">Style 19</string>
-    <string name="style_20">Style 20</string>
-    <string name="style_21">Style 21</string>
-    <string name="style_22">Style 22</string>
-    <string name="style_23">Style 23</string>
-    <string name="style_24">Style 24</string>
-    <string name="style_25">Style 25</string>
+    <string name="style">kiểu %d</string>
     <!-- Buttons -->
     <string name="btn_continue">TIẾP TỤC</string>
     <string name="btn_restart">Khởi động lại</string>

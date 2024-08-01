@@ -711,31 +711,7 @@
     <string name="exported_settings">Saved settings successfully</string>
     <!-- Style List -->
     <string name="style_0">None</string>
-    <string name="style_1">Style 1</string>
-    <string name="style_2">Style 2</string>
-    <string name="style_3">Style 3</string>
-    <string name="style_4">Style 4</string>
-    <string name="style_5">Style 5</string>
-    <string name="style_6">Style 6</string>
-    <string name="style_7">Style 7</string>
-    <string name="style_8">Style 8</string>
-    <string name="style_9">Style 9</string>
-    <string name="style_10">Style 10</string>
-    <string name="style_11">Style 11</string>
-    <string name="style_12">Style 12</string>
-    <string name="style_13">Style 13</string>
-    <string name="style_14">Style 14</string>
-    <string name="style_15">Style 15</string>
-    <string name="style_16">Style 16</string>
-    <string name="style_17">Style 17</string>
-    <string name="style_18">Style 18</string>
-    <string name="style_19">Style 19</string>
-    <string name="style_20">Style 20</string>
-    <string name="style_21">Style 21</string>
-    <string name="style_22">Style 22</string>
-    <string name="style_23">Style 23</string>
-    <string name="style_24">Style 24</string>
-    <string name="style_25">Style 25</string>
+    <string name="style">Style %d</string>
     <!-- Buttons -->
     <string name="btn_continue">Continue</string>
     <string name="btn_restart">Restart</string>

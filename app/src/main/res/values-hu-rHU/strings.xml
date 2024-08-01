@@ -761,31 +761,7 @@
     <string name="exported_settings">A beállítások mentése sikeres volt</string>
     <!-- Style List -->
     <string name="style_0">Nincs</string>
-    <string name="style_1">1.stílus</string>
-    <string name="style_2">2.stílus</string>
-    <string name="style_3">3.stílus</string>
-    <string name="style_4">4.stílus</string>
-    <string name="style_5">5.stílus</string>
-    <string name="style_6">6.stílus</string>
-    <string name="style_7">7.stílus</string>
-    <string name="style_8">8.stílus</string>
-    <string name="style_9">9.stílus</string>
-    <string name="style_10">10.stílus</string>
-    <string name="style_11">11.stílus</string>
-    <string name="style_12">12.stílus</string>
-    <string name="style_13">13.stílus</string>
-    <string name="style_14">14.stílus</string>
-    <string name="style_15">15.stílus</string>
-    <string name="style_16">16.stílus</string>
-    <string name="style_17">17.stílus</string>
-    <string name="style_18">18.stílus</string>
-    <string name="style_19">19.stílus</string>
-    <string name="style_20">20.stílus</string>
-    <string name="style_21">21.stílus</string>
-    <string name="style_22">22.stílus</string>
-    <string name="style_23">23.stílus</string>
-    <string name="style_24">24.stílus</string>
-    <string name="style_25">25.stílus</string>
+    <string name="style">%d.stílus</string>
     <!-- Buttons -->
     <string name="btn_continue">Folytatás</string>
     <string name="btn_restart">Újraindítás</string>

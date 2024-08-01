@@ -77,18 +77,18 @@ class ToastFrame : BaseFragment() {
     private fun initToastFrameItems(): ToastAdapter {
         val selectedStyle = getInt(SELECTED_TOAST_FRAME, -1)
         val toastFrameStyle = ArrayList<ToastModel>().apply {
-            add(ToastModel(R.drawable.toast_frame_style_1, R.string.style_0))
-            add(ToastModel(R.drawable.toast_frame_style_1, R.string.style_1))
-            add(ToastModel(R.drawable.toast_frame_style_2, R.string.style_2))
-            add(ToastModel(R.drawable.toast_frame_style_3, R.string.style_3))
-            add(ToastModel(R.drawable.toast_frame_style_4, R.string.style_4))
-            add(ToastModel(R.drawable.toast_frame_style_5, R.string.style_5))
-            add(ToastModel(R.drawable.toast_frame_style_6, R.string.style_6))
-            add(ToastModel(R.drawable.toast_frame_style_7, R.string.style_7))
-            add(ToastModel(R.drawable.toast_frame_style_8, R.string.style_8))
-            add(ToastModel(R.drawable.toast_frame_style_9, R.string.style_9))
-            add(ToastModel(R.drawable.toast_frame_style_10, R.string.style_10))
-            add(ToastModel(R.drawable.toast_frame_style_11, R.string.style_11))
+            add(ToastModel(R.drawable.toast_frame_style_1, appContextLocale.resources.getString(R.string.style_0)))
+            add(ToastModel(R.drawable.toast_frame_style_1, String.format(appContextLocale.resources.getString(R.string.style), 1)))
+            add(ToastModel(R.drawable.toast_frame_style_2, String.format(appContextLocale.resources.getString(R.string.style), 2)))
+            add(ToastModel(R.drawable.toast_frame_style_3, String.format(appContextLocale.resources.getString(R.string.style), 3)))
+            add(ToastModel(R.drawable.toast_frame_style_4, String.format(appContextLocale.resources.getString(R.string.style), 4)))
+            add(ToastModel(R.drawable.toast_frame_style_5, String.format(appContextLocale.resources.getString(R.string.style), 5)))
+            add(ToastModel(R.drawable.toast_frame_style_6, String.format(appContextLocale.resources.getString(R.string.style), 6)))
+            add(ToastModel(R.drawable.toast_frame_style_7, String.format(appContextLocale.resources.getString(R.string.style), 7)))
+            add(ToastModel(R.drawable.toast_frame_style_8, String.format(appContextLocale.resources.getString(R.string.style), 8)))
+            add(ToastModel(R.drawable.toast_frame_style_9, String.format(appContextLocale.resources.getString(R.string.style), 9)))
+            add(ToastModel(R.drawable.toast_frame_style_10, String.format(appContextLocale.resources.getString(R.string.style), 10)))
+            add(ToastModel(R.drawable.toast_frame_style_11, String.format(appContextLocale.resources.getString(R.string.style), 11)))
         }
 
         return ToastAdapter(

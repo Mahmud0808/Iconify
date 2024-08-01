@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.drdisagree.iconify.Iconify.Companion.appContext
+import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.CHIP_QSSTATUSICONS_STYLE
@@ -127,13 +128,13 @@ class XposedBackgroundChip : BaseFragment() {
 
     private fun initStatusBarChipStyles(): ArrayList<Array<Any>> {
         val statusBarChipStyle = ArrayList<Array<Any>>().apply {
-            add(arrayOf(R.drawable.chip_status_bar_1, R.string.style_1))
-            add(arrayOf(R.drawable.chip_status_bar_2, R.string.style_2))
-            add(arrayOf(R.drawable.chip_status_bar_3, R.string.style_3))
-            add(arrayOf(R.drawable.chip_status_bar_4, R.string.style_4))
-            add(arrayOf(R.drawable.chip_status_bar_5, R.string.style_5))
-            add(arrayOf(R.drawable.chip_status_bar_6, R.string.style_6))
-            add(arrayOf(R.drawable.chip_status_bar_7, R.string.style_7))
+            add(arrayOf(R.drawable.chip_status_bar_1, String.format(appContextLocale.resources.getString(R.string.style), 1)))
+            add(arrayOf(R.drawable.chip_status_bar_2, String.format(appContextLocale.resources.getString(R.string.style), 2)))
+            add(arrayOf(R.drawable.chip_status_bar_3, String.format(appContextLocale.resources.getString(R.string.style), 3)))
+            add(arrayOf(R.drawable.chip_status_bar_4, String.format(appContextLocale.resources.getString(R.string.style), 4)))
+            add(arrayOf(R.drawable.chip_status_bar_5, String.format(appContextLocale.resources.getString(R.string.style), 5)))
+            add(arrayOf(R.drawable.chip_status_bar_6, String.format(appContextLocale.resources.getString(R.string.style), 6)))
+            add(arrayOf(R.drawable.chip_status_bar_7, String.format(appContextLocale.resources.getString(R.string.style), 7)))
         }
 
         return statusBarChipStyle
@@ -141,12 +142,12 @@ class XposedBackgroundChip : BaseFragment() {
 
     private fun initStatusIconsChipStyles(): ArrayList<Array<Any>> {
         val statusIconsChipStyle = ArrayList<Array<Any>>().apply {
-            add(arrayOf(R.drawable.chip_status_icons_1, R.string.style_1))
-            add(arrayOf(R.drawable.chip_status_icons_2, R.string.style_2))
-            add(arrayOf(R.drawable.chip_status_icons_3, R.string.style_3))
-            add(arrayOf(R.drawable.chip_status_icons_4, R.string.style_4))
-            add(arrayOf(R.drawable.chip_status_icons_5, R.string.style_5))
-            add(arrayOf(R.drawable.chip_status_icons_6, R.string.style_6))
+            add(arrayOf(R.drawable.chip_status_icons_1, String.format(appContextLocale.resources.getString(R.string.style), 1)))
+            add(arrayOf(R.drawable.chip_status_icons_2, String.format(appContextLocale.resources.getString(R.string.style), 2)))
+            add(arrayOf(R.drawable.chip_status_icons_3, String.format(appContextLocale.resources.getString(R.string.style), 3)))
+            add(arrayOf(R.drawable.chip_status_icons_4, String.format(appContextLocale.resources.getString(R.string.style), 4)))
+            add(arrayOf(R.drawable.chip_status_icons_5, String.format(appContextLocale.resources.getString(R.string.style), 5)))
+            add(arrayOf(R.drawable.chip_status_icons_6, String.format(appContextLocale.resources.getString(R.string.style), 6)))
         }
 
         return statusIconsChipStyle

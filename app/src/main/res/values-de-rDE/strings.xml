@@ -762,31 +762,7 @@ transparent machen</string>
     <string name="exported_settings">Einstellungen Speichern erfolgreich</string>
     <!-- Style List -->
     <string name="style_0">Nichts</string>
-    <string name="style_1">Stil 1</string>
-    <string name="style_2">Stil 2</string>
-    <string name="style_3">Stil 3</string>
-    <string name="style_4">Stil 4</string>
-    <string name="style_5">Stil 5</string>
-    <string name="style_6">Stil 6</string>
-    <string name="style_7">Stil 7</string>
-    <string name="style_8">Stil 8</string>
-    <string name="style_9">Stil 9</string>
-    <string name="style_10">Stil 10</string>
-    <string name="style_11">Stil 11</string>
-    <string name="style_12">Stil 12</string>
-    <string name="style_13">Stil 13</string>
-    <string name="style_14">Stil 14</string>
-    <string name="style_15">Stil 15</string>
-    <string name="style_16">Stil 16</string>
-    <string name="style_17">Stil 17</string>
-    <string name="style_18">Stil 18</string>
-    <string name="style_19">Stil 19</string>
-    <string name="style_20">Stil 20</string>
-    <string name="style_21">Stil 21</string>
-    <string name="style_22">Stil 22</string>
-    <string name="style_23">Stil 23</string>
-    <string name="style_24">Stil 24</string>
-    <string name="style_25">Stil 25</string>
+    <string name="style">Stil %d</string>
     <!-- Buttons -->
     <string name="btn_continue">Weiter</string>
     <string name="btn_restart">Neustart</string>

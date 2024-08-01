@@ -761,31 +761,7 @@
     <string name="exported_settings">Configuración guardada con éxito</string>
     <!-- Style List -->
     <string name="style_0">Ninguno</string>
-    <string name="style_1">Estilo 1</string>
-    <string name="style_2">Estilo 2</string>
-    <string name="style_3">Estilo 3</string>
-    <string name="style_4">Estilo 4</string>
-    <string name="style_5">Estilo 5</string>
-    <string name="style_6">Estilo 6</string>
-    <string name="style_7">Estilo 7</string>
-    <string name="style_8">Estilo 8</string>
-    <string name="style_9">Estilo 9</string>
-    <string name="style_10">Estilo 10</string>
-    <string name="style_11">Estilo 11</string>
-    <string name="style_12">Estilo 12</string>
-    <string name="style_13">Estilo 13</string>
-    <string name="style_14">Estilo 14</string>
-    <string name="style_15">Estilo 15</string>
-    <string name="style_16">Estilo 16</string>
-    <string name="style_17">Estilo 17</string>
-    <string name="style_18">Estilo 18</string>
-    <string name="style_19">Estilo 19</string>
-    <string name="style_20">Estilo 20</string>
-    <string name="style_21">Estilo 21</string>
-    <string name="style_22">Estilo 22</string>
-    <string name="style_23">Estilo 23</string>
-    <string name="style_24">Estilo 24</string>
-    <string name="style_25">Estilo 25</string>
+    <string name="style">Estilo %d</string>
     <!-- Buttons -->
     <string name="btn_continue">CONTINUAR</string>
     <string name="btn_restart">Reiniciar</string>

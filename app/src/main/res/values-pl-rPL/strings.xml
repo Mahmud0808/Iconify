@@ -761,31 +761,7 @@
     <string name="exported_settings">Ustawienia wyeksportowane pomyślnie</string>
     <!-- Style List -->
     <string name="style_0">Brak</string>
-    <string name="style_1">Styl 1</string>
-    <string name="style_2">Styl 2</string>
-    <string name="style_3">Styl 3</string>
-    <string name="style_4">Styl 4</string>
-    <string name="style_5">Styl 5</string>
-    <string name="style_6">Styl 6</string>
-    <string name="style_7">Styl 7</string>
-    <string name="style_8">Styl 8</string>
-    <string name="style_9">Styl 9</string>
-    <string name="style_10">Styl 10</string>
-    <string name="style_11">Styl 11</string>
-    <string name="style_12">Styl 12</string>
-    <string name="style_13">Styl 13</string>
-    <string name="style_14">Styl 14</string>
-    <string name="style_15">Styl 15</string>
-    <string name="style_16">Styl 16</string>
-    <string name="style_17">Styl 17</string>
-    <string name="style_18">Styl 18</string>
-    <string name="style_19">Styl 19</string>
-    <string name="style_20">Styl 20</string>
-    <string name="style_21">Styl 21</string>
-    <string name="style_22">Styl 22</string>
-    <string name="style_23">Styl 23</string>
-    <string name="style_24">Styl 24</string>
-    <string name="style_25">Styl 25</string>
+    <string name="style">Styl %d</string>
     <!-- Buttons -->
     <string name="btn_continue">Kontynuuj</string>
     <string name="btn_restart">Zrestartuj</string>

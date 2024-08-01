@@ -761,31 +761,7 @@
     <string name="exported_settings">Настройки успешно сохранены</string>
     <!-- Style List -->
     <string name="style_0">Нет</string>
-    <string name="style_1">Стиль 1</string>
-    <string name="style_2">Стиль 2</string>
-    <string name="style_3">Стиль 3</string>
-    <string name="style_4">Стиль 4</string>
-    <string name="style_5">Стиль 5</string>
-    <string name="style_6">Стиль 6</string>
-    <string name="style_7">Стиль 7</string>
-    <string name="style_8">Стиль 8</string>
-    <string name="style_9">Стиль 8</string>
-    <string name="style_10">Стиль 10</string>
-    <string name="style_11">Стиль 11</string>
-    <string name="style_12">Стиль 12</string>
-    <string name="style_13">Стиль 13</string>
-    <string name="style_14">Стиль 14</string>
-    <string name="style_15">Стиль 15</string>
-    <string name="style_16">Стиль 16</string>
-    <string name="style_17">Стиль 17</string>
-    <string name="style_18">Стиль 18</string>
-    <string name="style_19">Стиль 19</string>
-    <string name="style_20">Стиль 20</string>
-    <string name="style_21">Стиль 21</string>
-    <string name="style_22">Стиль 22</string>
-    <string name="style_23">Стиль 23</string>
-    <string name="style_24">Стиль 24</string>
-    <string name="style_25">Стиль 25</string>
+    <string name="style">Стиль %d</string>
     <!-- Buttons -->
     <string name="btn_continue">ПРОДОЛЖИТЬ</string>
     <string name="btn_restart">Перезапуск</string>
