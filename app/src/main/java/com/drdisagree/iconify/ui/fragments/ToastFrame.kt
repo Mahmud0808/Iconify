@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
@@ -54,7 +55,19 @@ class ToastFrame : BaseFragment() {
         loadingDialog = LoadingDialog(requireContext())
 
         // Toast Frame style
-        binding.toastStylesContainer.setLayoutManager(GridLayoutManager(requireContext(), 2))
+        val gridLayout = GridLayoutManager(requireContext(), 2)
+        gridLayout.spanSizeLookup = object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val lastIndex = binding.toastStylesContainer.adapter?.itemCount?.minus(1) ?: 0
+
+                return if (position == lastIndex && lastIndex % gridLayout.spanCount == 0) {
+                    2
+                } else {
+                    1
+                }
+            }
+        }
+        binding.toastStylesContainer.setLayoutManager(gridLayout)
         binding.toastStylesContainer.setAdapter(initToastFrameItems())
         binding.toastStylesContainer.setHasFixedSize(true)
 
