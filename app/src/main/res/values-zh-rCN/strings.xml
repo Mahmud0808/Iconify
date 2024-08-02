@@ -761,31 +761,7 @@
     <string name="exported_settings">成功保存了设置</string>
     <!-- Style List -->
     <string name="style_0">无</string>
-    <string name="style_1">样式 1</string>
-    <string name="style_2">样式 2</string>
-    <string name="style_3">样式 3</string>
-    <string name="style_4">样式 4</string>
-    <string name="style_5">样式 5</string>
-    <string name="style_6">样式 6</string>
-    <string name="style_7">样式 7</string>
-    <string name="style_8">样式 8</string>
-    <string name="style_9">样式 9</string>
-    <string name="style_10">样式 10</string>
-    <string name="style_11">样式 11</string>
-    <string name="style_12">样式 12</string>
-    <string name="style_13">样式 13</string>
-    <string name="style_14">样式 14</string>
-    <string name="style_15">样式 15</string>
-    <string name="style_16">样式 16</string>
-    <string name="style_17">样式 17</string>
-    <string name="style_18">样式 18</string>
-    <string name="style_19">样式 19</string>
-    <string name="style_20">样式 20</string>
-    <string name="style_21">样式 21</string>
-    <string name="style_22">样式 22</string>
-    <string name="style_23">样式 23</string>
-    <string name="style_24">样式 24</string>
-    <string name="style_25">样式 25</string>
+    <string name="style">样式 %d</string>
     <!-- Buttons -->
     <string name="btn_continue">继续</string>
     <string name="btn_restart">重启</string>

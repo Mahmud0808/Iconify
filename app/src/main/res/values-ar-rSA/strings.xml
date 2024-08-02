@@ -761,31 +761,7 @@
     <string name="exported_settings">تم حفظ الإعدادات بنجاح</string>
     <!-- Style List -->
     <string name="style_0">لا شيء</string>
-    <string name="style_1">النمط 1</string>
-    <string name="style_2">النمط 2</string>
-    <string name="style_3">النمط 3</string>
-    <string name="style_4">النمط 4</string>
-    <string name="style_5">النمط 5</string>
-    <string name="style_6">النمط 6</string>
-    <string name="style_7">النمط 7</string>
-    <string name="style_8">النمط 8</string>
-    <string name="style_9">النمط 9</string>
-    <string name="style_10">النمط 10</string>
-    <string name="style_11">النمط 11</string>
-    <string name="style_12">النمط 12</string>
-    <string name="style_13">النمط 13</string>
-    <string name="style_14">النمط 14</string>
-    <string name="style_15">النمط 15</string>
-    <string name="style_16">النمط 16</string>
-    <string name="style_17">النمط 17</string>
-    <string name="style_18">النمط 18</string>
-    <string name="style_19">النمط 19</string>
-    <string name="style_20">النمط 20</string>
-    <string name="style_21">النمط 21</string>
-    <string name="style_22">النمط 22</string>
-    <string name="style_23">النمط 23</string>
-    <string name="style_24">النمط 24</string>
-    <string name="style_25">النمط 25</string>
+    <string name="style">النمط %d</string>
     <!-- Buttons -->
     <string name="btn_continue">استمر</string>
     <string name="btn_restart">إعداة تشغيل</string>
