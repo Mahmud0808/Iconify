@@ -609,6 +609,10 @@
     <string name="lsclock_custom_image_title">Usar imagem personalizada</string>
     <string name="lsclock_custom_image_desc">Use uma imagem personalizada para o relógio da tela de bloqueio.</string>
     <string name="lsclock_custom_image_picker_title">Seletor de imagens personalizado</string>
+    <string name="lockscreen_clock_custom_devicename">Nome do dispositivo personalizado</string>
+    <string name="lockscreen_clock_custom_devicename_desc">Defina um nome de dispositivo personalizado para o relógio da tela de bloqueio.\nMantenha em branco para usar o nome do dispositivo do sistema.</string>
+    <string name="lockscreen_clock_custom_username">Nome do usuário personalizado</string>
+    <string name="lockscreen_clock_custom_username_desc">Defina um nome de usuário personalizado para o relógio da tela de bloqueio.\nMantenha em branco para usar o nome de usuário do sistema.</string>
     <string name="btn_select">Selecionar</string>
     <string name="battery_charging">Bateria carregando</string>
     <string name="battery_discharging">Bateria descarregando</string>
