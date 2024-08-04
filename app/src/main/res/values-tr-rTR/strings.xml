@@ -609,6 +609,10 @@
     <string name="lsclock_custom_image_title">Özel Resim Kullan</string>
     <string name="lsclock_custom_image_desc">Kilit ekranı saati için özel resim kullan.</string>
     <string name="lsclock_custom_image_picker_title">Özel Resim Seçici</string>
+    <string name="lockscreen_clock_custom_devicename">Özel Cihaz Adı</string>
+    <string name="lockscreen_clock_custom_devicename_desc">Kilit ekranı saati için özel cihaz adı ayarlayın.\nSistemin Cihaz Adını kullanmak için boş bırakın.</string>
+    <string name="lockscreen_clock_custom_username">Özel Kullanıcı Adı</string>
+    <string name="lockscreen_clock_custom_username_desc">Kilit ekranı saati için özel kullanıcı adı ayarlayın.\nSistemin Kullanıcı Adını kullanmak için boş bırakın.</string>
     <string name="btn_select">Seç</string>
     <string name="battery_charging">Pil şarj ediliyor</string>
     <string name="battery_discharging">Pil şarj edilmiyor</string>
@@ -761,7 +765,7 @@
     <string name="exported_settings">Ayarlar başarıyla kaydedildi</string>
     <!-- Style List -->
     <string name="style_0">Yok</string>
-    <string name="style">Stil %d</string>
+    <string name="style">Style %d</string>
     <!-- Buttons -->
     <string name="btn_continue">Devam et</string>
     <string name="btn_restart">Yeniden Başlat</string>

@@ -609,6 +609,10 @@
     <string name="lsclock_custom_image_title">Use Custom Image</string>
     <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
     <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
+    <string name="lockscreen_clock_custom_devicename">Custom Device Name</string>
+    <string name="lockscreen_clock_custom_devicename_desc">Set custom device name for lockscreen clock.\nKeep blank to use System\'s Device Name.</string>
+    <string name="lockscreen_clock_custom_username">Custom User Name</string>
+    <string name="lockscreen_clock_custom_username_desc">Set custom user name for lockscreen clock.\nKeep blank to use System\'s User Name.</string>
     <string name="btn_select">Seleccionar</string>
     <string name="battery_charging">Batería cargándose</string>
     <string name="battery_discharging">Batería descargándose</string>
@@ -761,7 +765,7 @@
     <string name="exported_settings">Configuración guardada con éxito</string>
     <!-- Style List -->
     <string name="style_0">Ninguno</string>
-    <string name="style">Estilo %d</string>
+    <string name="style">Style %d</string>
     <!-- Buttons -->
     <string name="btn_continue">CONTINUAR</string>
     <string name="btn_restart">Reiniciar</string>

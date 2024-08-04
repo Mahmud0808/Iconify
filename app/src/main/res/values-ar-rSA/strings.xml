@@ -609,6 +609,10 @@
     <string name="lsclock_custom_image_title">استخدام صورة مخصصة</string>
     <string name="lsclock_custom_image_desc">استخدم صورة مخصصة لساعة قفل الشاشة.</string>
     <string name="lsclock_custom_image_picker_title">منتقي صورة مخصص</string>
+    <string name="lockscreen_clock_custom_devicename">Custom Device Name</string>
+    <string name="lockscreen_clock_custom_devicename_desc">Set custom device name for lockscreen clock.\nKeep blank to use System\'s Device Name.</string>
+    <string name="lockscreen_clock_custom_username">Custom User Name</string>
+    <string name="lockscreen_clock_custom_username_desc">Set custom user name for lockscreen clock.\nKeep blank to use System\'s User Name.</string>
     <string name="btn_select">اختر</string>
     <string name="battery_charging">شحن البطارية</string>
     <string name="battery_discharging">تفريغ البطارية</string>
@@ -761,7 +765,7 @@
     <string name="exported_settings">تم حفظ الإعدادات بنجاح</string>
     <!-- Style List -->
     <string name="style_0">لا شيء</string>
-    <string name="style">النمط %d</string>
+    <string name="style">Style %d</string>
     <!-- Buttons -->
     <string name="btn_continue">استمر</string>
     <string name="btn_restart">إعداة تشغيل</string>

@@ -609,6 +609,10 @@
     <string name="lsclock_custom_image_title">Egyéni kép használata</string>
     <string name="lsclock_custom_image_desc">Saját képet használhat a záróképernyő órájához.</string>
     <string name="lsclock_custom_image_picker_title">Egyéni kép-kijelölés</string>
+    <string name="lockscreen_clock_custom_devicename">Egyéni Készüléknév</string>
+    <string name="lockscreen_clock_custom_devicename_desc">Állítson be egyéni nevet a zárolási képernyő órájához.\nHagyja üresen, ha a rendszer nevezze el.</string>
+    <string name="lockscreen_clock_custom_username">Egyéni Felhasználónév</string>
+    <string name="lockscreen_clock_custom_username_desc">Állítson be egyéni nevet a zárolási képernyő órájához.\nHagyja üresen, ha a rendszer nevezze el.</string>
     <string name="btn_select">Választás</string>
     <string name="battery_charging">Az akku töltödik</string>
     <string name="battery_discharging">Az akku nem töltödik</string>
@@ -654,7 +658,7 @@
     <string name="hide_carrier_group_desc">A Gyorsbeállításokban nem látszik a szolgáltató</string>
     <string name="hide_status_icons_title">Az Állapotikonok elrejtése</string>
     <string name="hide_status_icons_desc">Az Idő, a Dátum és az Akkujelzés sem látható</string>
-    <string name="sb_clock_size">Statusbar Clock Size</string>
+    <string name="sb_clock_size">Az állapotsori Óra mérete</string>
     <string name="lock_screen">Záróképernyő</string>
     <string name="hide_ls_carrier_title">Nincs Szolgáltató a képernyőzáron</string>
     <string name="hide_ls_carrier_desc">A záróképernyőről eltűnik a Szolgáltató neve</string>
@@ -761,7 +765,7 @@
     <string name="exported_settings">A beállítások mentése sikeres volt</string>
     <!-- Style List -->
     <string name="style_0">Nincs</string>
-    <string name="style">%d.stílus</string>
+    <string name="style">%d stílus</string>
     <!-- Buttons -->
     <string name="btn_continue">Folytatás</string>
     <string name="btn_restart">Újraindítás</string>
