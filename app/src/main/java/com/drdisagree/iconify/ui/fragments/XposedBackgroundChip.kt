@@ -168,7 +168,7 @@ class XposedBackgroundChip : BaseFragment() {
             clockContainer.background = ContextCompat.getDrawable(appContext, pack[i][0] as Int)
 
             val styleName = list.findViewById<TextView>(R.id.style_name)
-            styleName.text = resources.getString(pack[i][1] as Int)
+            styleName.text = pack[i][1] as String
 
             list.setOnClickListener {
                 RPrefs.putInt(CHIP_STATUSBAR_CLOCKBG_STYLE, i)
@@ -205,7 +205,7 @@ class XposedBackgroundChip : BaseFragment() {
             iconContainer.background = ContextCompat.getDrawable(appContext, pack[i][0] as Int)
 
             val styleName = list.findViewById<TextView>(R.id.style_name)
-            styleName.text = resources.getString(pack[i][1] as Int)
+            styleName.text = pack[i][1] as String
 
             list.setOnClickListener {
                 RPrefs.putInt(CHIP_QSSTATUSICONS_STYLE, i)
