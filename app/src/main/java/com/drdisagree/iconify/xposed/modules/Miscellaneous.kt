@@ -24,6 +24,7 @@ import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
+import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE_SWITCH
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
@@ -59,6 +60,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     private var statusIcons: LinearLayout? = null
     private var statusIconContainer: LinearLayout? = null
     private var mobileSignalControllerParam: Any? = null
+    private var sbClockSizeSwitch = false
     private var sbClockSize = 14
     private var mClockView: TextView? = null
     private var mCenterClockView: TextView? = null
@@ -77,6 +79,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
             hideLockscreenStatusbar = getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false)
             hideLockscreenLockIcon = getBoolean(HIDE_LOCKSCREEN_LOCK_ICON, false)
             hideDataDisabledIcon = getBoolean(HIDE_DATA_DISABLED_ICON, false)
+            sbClockSizeSwitch = getBoolean(SB_CLOCK_SIZE_SWITCH, false)
             sbClockSize = getInt(SB_CLOCK_SIZE, 14)
         }
 
@@ -98,7 +101,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                     fixedStatusIconsA12()
                 }
 
-                if (it == SB_CLOCK_SIZE) {
+                if (it == SB_CLOCK_SIZE_SWITCH || it == SB_CLOCK_SIZE) {
                     setClockSize()
                 }
 
@@ -834,6 +837,8 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
     @SuppressLint("RtlHardcoded")
     private fun setClockSize() {
+        if (!sbClockSizeSwitch) return
+
         if (mClockView != null) mClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
         if (mCenterClockView != null) mCenterClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
         if (mRightClockView != null) mRightClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
