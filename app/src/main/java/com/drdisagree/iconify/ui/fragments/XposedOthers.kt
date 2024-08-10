@@ -20,6 +20,7 @@ import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH
 import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
+import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE_SWITCH
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
@@ -73,6 +74,16 @@ class XposedOthers : BaseFragment() {
         }
 
         // SB Clock Size
+        binding.sbClockSizeSwitch.isSwitchChecked = getBoolean(SB_CLOCK_SIZE_SWITCH, false)
+        binding.sbClockSizeSwitch.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            binding.sbClockSize.visibility = if (isChecked) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            putBoolean(SB_CLOCK_SIZE_SWITCH, isChecked)
+        }
+
         binding.sbClockSize.sliderValue = getInt(SB_CLOCK_SIZE, 14)
         binding.sbClockSize.setOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {}
@@ -81,6 +92,11 @@ class XposedOthers : BaseFragment() {
                 putInt(SB_CLOCK_SIZE, slider.value.toInt())
             }
         })
+        binding.sbClockSize.visibility = if (getBoolean(SB_CLOCK_SIZE_SWITCH, false)) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
         // Hide lockscreen carrier
         binding.hideLockscreenCarrier.isSwitchChecked = getBoolean(HIDE_LOCKSCREEN_CARRIER, false)
