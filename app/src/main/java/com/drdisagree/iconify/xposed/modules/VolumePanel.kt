@@ -2,16 +2,20 @@ package com.drdisagree.iconify.xposed.modules
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.common.Preferences.VOLUME_COLORED_RINGER_ICON
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_PERCENTAGE
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_SAFETY_WARNING
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -21,22 +25,71 @@ import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.XposedHelpers.setObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlin.math.ceil
+import kotlin.properties.Delegates
 
 @SuppressLint("DiscouragedApi", "DefaultLocale")
 class VolumePanel(context: Context?) : ModPack(context!!) {
 
     private var showPercentage = false
     private var showWarning = true
+    private var coloredRingerIcon = false
+    private lateinit var mSelectedRingerIcon: ImageView;
+    private var ringerIconDefaultColor by Delegates.notNull<Int>();
+    private var ringerIconTextColor by Delegates.notNull<Int>();
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
 
         showPercentage = Xprefs!!.getBoolean(VOLUME_PANEL_PERCENTAGE, false)
         showWarning = Xprefs!!.getBoolean(VOLUME_PANEL_SAFETY_WARNING, true)
+        coloredRingerIcon = Xprefs!!.getBoolean(VOLUME_COLORED_RINGER_ICON, false)
+
+        if (key.isNotEmpty()) {
+            key[0].let {
+                if (it == VOLUME_COLORED_RINGER_ICON) {
+                    setRingerIconColor()
+                }
+            }
+        }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+        coloredSelectedRingerIcon(loadPackageParam)
         showVolumePercentage(loadPackageParam)
+    }
+
+    private fun coloredSelectedRingerIcon(loadPackageParam: LoadPackageParam) {
+        val volumeDialogImplClass = findClass(
+            "$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl",
+            loadPackageParam.classLoader
+        )
+
+        hookAllMethods(volumeDialogImplClass, "initDialog", object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                mSelectedRingerIcon = getObjectField(
+                    param.thisObject,
+                    "mSelectedRingerIcon"
+                ) as ImageView
+
+                ringerIconDefaultColor = mSelectedRingerIcon.imageTintList!!.defaultColor
+                ringerIconTextColor = SettingsLibUtils.getColorAttrDefaultColor(
+                    mSelectedRingerIcon.context,
+                    android.R.attr.textColorPrimary
+                )
+
+                setRingerIconColor()
+            }
+        })
+    }
+
+    private fun setRingerIconColor() {
+        mSelectedRingerIcon.imageTintList = ColorStateList.valueOf(
+            if (coloredRingerIcon) {
+                ringerIconTextColor
+            } else {
+                ringerIconDefaultColor
+            }
+        )
     }
 
     private fun showVolumePercentage(loadPackageParam: LoadPackageParam) {
@@ -50,7 +103,7 @@ class VolumePanel(context: Context?) : ModPack(context!!) {
                 if (!showPercentage) return
 
                 val rowHeader: TextView = getObjectField(
-                    param.args[0],
+                    param.thisObject,
                     "header"
                 ) as TextView
 

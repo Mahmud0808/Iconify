@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
+import com.drdisagree.iconify.common.Preferences.VOLUME_COLORED_RINGER_ICON
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_PERCENTAGE
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_SAFETY_WARNING
 import com.drdisagree.iconify.config.RPrefs.getBoolean
@@ -53,6 +54,12 @@ class XposedVolumePanel : BaseFragment() {
         binding.safetyWarning.isSwitchChecked = getBoolean(VOLUME_PANEL_SAFETY_WARNING, true)
         binding.safetyWarning.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(VOLUME_PANEL_SAFETY_WARNING, isChecked)
+        }
+
+        // Colored ringer icon
+        binding.coloredRingerIcon.isSwitchChecked = getBoolean(VOLUME_COLORED_RINGER_ICON, false)
+        binding.coloredRingerIcon.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            putBoolean(VOLUME_COLORED_RINGER_ICON, isChecked)
         }
 
         return view

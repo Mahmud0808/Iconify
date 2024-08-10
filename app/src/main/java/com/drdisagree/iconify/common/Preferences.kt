@@ -21,6 +21,7 @@ object Preferences {
     const val HIDE_QSLABEL_SWITCH = "xposed_hideqslabel"
     const val VOLUME_PANEL_PERCENTAGE = "xposed_volumepanelpercentage"
     const val VOLUME_PANEL_SAFETY_WARNING = "xposed_volumepanelsafetywarning"
+    const val VOLUME_COLORED_RINGER_ICON = "xposed_volumecoloredringericon"
     const val HEADER_IMAGE_SWITCH = "xposed_headerimage"
     const val HEADER_IMAGE_LANDSCAPE_SWITCH = "xposed_headerimagelandscape"
     const val HEADER_IMAGE_BOTTOM_FADE_AMOUNT = "xposed_headerimagebottomfadeamount"

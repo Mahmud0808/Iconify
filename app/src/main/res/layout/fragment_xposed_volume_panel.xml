@@ -36,6 +36,13 @@
                 app:summaryText="@string/safety_warning_desc"
                 app:titleText="@string/safety_warning_title" />
 
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/colored_ringer_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/colored_ringer_icon_desc"
+                app:titleText="@string/colored_ringer_icon_title" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

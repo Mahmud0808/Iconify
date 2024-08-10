@@ -593,6 +593,8 @@
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
     <string name="safety_warning_title">Safety Warning</string>
     <string name="safety_warning_desc">Show warning on high volume</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
 
     <!-- Header Image -->
     <string name="header_image_title">Pick Header Image</string>
