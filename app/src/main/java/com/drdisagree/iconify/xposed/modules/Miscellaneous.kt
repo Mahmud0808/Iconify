@@ -32,9 +32,9 @@ import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getRightClockView
-import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.setClockGravity
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
+import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.findClass
@@ -805,10 +805,12 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
             loadPackageParam,
             "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
             "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
-
         )
 
-        if (collapsedStatusBarFragment == null) return
+        if (collapsedStatusBarFragment == null) {
+            log("$TAG - applyClockSize: CollapsedStatusBarFragment not found")
+            return
+        }
 
         findAndHookMethod(collapsedStatusBarFragment,
             "onViewCreated",
@@ -822,14 +824,31 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
                     setClockSize()
 
-                    val textClock = mClockView ?: mCenterClockView ?: mRightClockView as TextView
-                    textClock.addTextChangedListener(object : TextWatcher {
-                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+                    val textChangeListener = object : TextWatcher {
+                        override fun beforeTextChanged(
+                            s: CharSequence,
+                            start: Int,
+                            count: Int,
+                            after: Int
+                        ) {
+                        }
+
+                        override fun onTextChanged(
+                            s: CharSequence,
+                            start: Int,
+                            before: Int,
+                            count: Int
+                        ) {
+                        }
+
                         override fun afterTextChanged(s: Editable) {
                             setClockSize()
                         }
-                    })
+                    }
+
+                    mClockView?.addTextChangedListener(textChangeListener)
+                    mCenterClockView?.addTextChangedListener(textChangeListener)
+                    mRightClockView?.addTextChangedListener(textChangeListener)
                 }
             })
 
@@ -839,25 +858,20 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     private fun setClockSize() {
         if (!sbClockSizeSwitch) return
 
-        if (mClockView != null) mClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
-        if (mCenterClockView != null) mCenterClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
-        if (mRightClockView != null) mRightClockView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+        mClockView?.let {
+            it.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+            it.requestLayout()
+        }
 
-        setClockGravity(
-            mClockView,
-            Gravity.LEFT or Gravity.CENTER
-        )
+        mCenterClockView?.let {
+            it.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+            it.requestLayout()
+        }
 
-        setClockGravity(
-            mCenterClockView,
-            Gravity.CENTER
-        )
-
-        setClockGravity(
-            mRightClockView,
-            Gravity.RIGHT or Gravity.CENTER
-        )
-
+        mRightClockView?.let {
+            it.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+            it.requestLayout()
+        }
     }
 
     companion object {
