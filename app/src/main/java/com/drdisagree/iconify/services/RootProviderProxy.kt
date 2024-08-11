@@ -13,7 +13,6 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter.SegmentResultListener
 import com.topjohnwu.superuser.Shell
-import de.robv.android.xposed.XposedBridge.log
 import java.io.File
 import java.io.FileOutputStream
 
@@ -90,8 +89,9 @@ class RootProviderProxy : Service() {
                         input,
                         object : SegmentResultListener {
                             override fun onStart() {
-                                log(
-                                    TAG + "BitmapSubjectSegmenter - onStart: Extracting wallpaper subject..."
+                                Log.i(
+                                    TAG,
+                                    "BitmapSubjectSegmenter - onStart: Extracting wallpaper subject..."
                                 )
 
                                 Toast.makeText(
@@ -119,8 +119,9 @@ class RootProviderProxy : Service() {
 
                                     tempFile.delete()
 
-                                    log(
-                                        TAG + "BitmapSubjectSegmenter - onSuccess: Extracted wallpaper subject!"
+                                    Log.i(
+                                        TAG,
+                                        "BitmapSubjectSegmenter - onSuccess: Extracted wallpaper subject!"
                                     )
 
                                     Toast.makeText(
@@ -129,7 +130,10 @@ class RootProviderProxy : Service() {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } catch (throwable: Throwable) {
-                                    log(TAG + "BitmapSubjectSegmenter - onSuccess: $throwable")
+                                    Log.i(
+                                        TAG,
+                                        "BitmapSubjectSegmenter - onSuccess: $throwable"
+                                    )
 
                                     Toast.makeText(
                                         applicationContext,
@@ -140,8 +144,9 @@ class RootProviderProxy : Service() {
                             }
 
                             override fun onFail() {
-                                log(
-                                    TAG + "BitmapSubjectSegmenter - onFail: Failed to extract wallpaper subject!"
+                                Log.i(
+                                    TAG,
+                                    "BitmapSubjectSegmenter - onFail: Failed to extract wallpaper subject!"
                                 )
 
                                 Toast.makeText(
@@ -152,7 +157,7 @@ class RootProviderProxy : Service() {
                             }
                         })
             } catch (throwable: Throwable) {
-                log(TAG + "BitmapSubjectSegmenter - segmentSubject: $throwable")
+                Log.i(TAG, "BitmapSubjectSegmenter - segmentSubject: $throwable")
             }
         }
 
