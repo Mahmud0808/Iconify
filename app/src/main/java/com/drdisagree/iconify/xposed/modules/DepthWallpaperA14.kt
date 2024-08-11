@@ -10,11 +10,15 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.drdisagree.iconify.IExtractSubjectCallback
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
@@ -263,10 +267,27 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                     }
 
                     if (!cacheIsValid) {
+                        val mainHandler = Handler(Looper.getMainLooper())
+
+                        val callback = object : IExtractSubjectCallback.Stub() {
+                            override fun onStart(message: String?) {
+                                mainHandler.post {
+                                    Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+                            override fun onResult(success: Boolean, message: String) {
+                                mainHandler.post {
+                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+
                         enqueueProxyCommand { proxy ->
                             proxy?.extractSubject(
                                 finalScaledWallpaperBitmap,
-                                foregroundPath
+                                foregroundPath,
+                                callback
                             )
                         }
                     }

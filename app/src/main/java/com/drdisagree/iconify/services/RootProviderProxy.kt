@@ -4,17 +4,16 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Handler
 import android.os.IBinder
-import android.os.Looper
 import android.os.RemoteException
 import android.util.Log
-import android.widget.Toast
+import com.drdisagree.iconify.IExtractSubjectCallback
 import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.utils.FileUtil
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter.SegmentResultListener
+import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse
 import com.topjohnwu.superuser.Shell
 import java.io.File
 import java.io.FileOutputStream
@@ -85,29 +84,22 @@ class RootProviderProxy : Service() {
         }
 
         @Throws(RemoteException::class)
-        override fun extractSubject(input: Bitmap, resultPath: String) {
+        override fun extractSubject(
+            input: Bitmap,
+            resultPath: String,
+            callback: IExtractSubjectCallback
+        ) {
             ensureEnvironment()
 
-            val mainHandler = Handler(Looper.getMainLooper())
-
             try {
-                BitmapSubjectSegmenter(applicationContext)
+                val bitmapSubjectSegmenter = BitmapSubjectSegmenter(applicationContext)
+
+                bitmapSubjectSegmenter
                     .segmentSubject(
                         input,
                         object : SegmentResultListener {
                             override fun onStart() {
-                                Log.i(
-                                    TAG,
-                                    "BitmapSubjectSegmenter - onStart: Extracting wallpaper subject..."
-                                )
-
-                                mainHandler.post {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Extracting wallpaper subject...",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
+                                callback.onStart("Extracting wallpaper subject...")
                             }
 
                             override fun onSuccess(result: Bitmap?) {
@@ -131,59 +123,40 @@ class RootProviderProxy : Service() {
 
                                     tempFile.delete()
 
-                                    Log.i(
-                                        TAG,
-                                        "BitmapSubjectSegmenter - onSuccess: Extracted wallpaper subject!"
+                                    callback.onResult(
+                                        true,
+                                        "Extracted wallpaper subject!"
                                     )
-
-                                    mainHandler.post {
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Extracted wallpaper subject!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
                                 } catch (throwable: Throwable) {
-                                    Log.i(
+                                    Log.e(
                                         TAG,
                                         "BitmapSubjectSegmenter - onSuccess: $throwable"
                                     )
 
-                                    mainHandler.post {
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Failed to extract wallpaper subject!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
+                                    callback.onResult(
+                                        false,
+                                        "Failed to extract wallpaper subject!"
+                                    )
                                 }
                             }
 
                             override fun onFail() {
-                                Log.i(
-                                    TAG,
-                                    "BitmapSubjectSegmenter - onFail: Failed to extract wallpaper subject!"
-                                )
-
-                                mainHandler.post {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Failed to extract wallpaper subject!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                bitmapSubjectSegmenter.checkModelAvailability { moduleAvailabilityResponse: ModuleAvailabilityResponse? ->
+                                    callback.onResult(
+                                        false,
+                                        if (moduleAvailabilityResponse?.areModulesAvailable() == true) {
+                                            "Failed to extract wallpaper subject!"
+                                        } else {
+                                            "AI model is not available!"
+                                        }
+                                    )
                                 }
                             }
                         })
             } catch (throwable: Throwable) {
-                Log.i(TAG, "BitmapSubjectSegmenter - segmentSubject: $throwable")
+                Log.e(TAG, "BitmapSubjectSegmenter - segmentSubject: $throwable")
 
-                mainHandler.post {
-                    Toast.makeText(
-                        applicationContext,
-                        "Failed to extract wallpaper subject!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                callback.onResult(false, "Failed to extract wallpaper subject!")
             }
         }
 
