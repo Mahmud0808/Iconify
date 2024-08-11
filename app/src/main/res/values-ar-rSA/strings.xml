@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">إظهار النسبة المئوية فوق شريط تمرير الصوت</string>
     <string name="safety_warning_title">تحذير الأمان</string>
     <string name="safety_warning_desc">إظهار التحذير على مستوى الصوت العالي</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">اختر صورة الرأس</string>
     <string name="header_image_desc">أضف صورة العنوان على لوحة QS\nلا تحدد ملفًا من الحالي</string>
@@ -609,10 +611,10 @@
     <string name="lsclock_custom_image_title">استخدام صورة مخصصة</string>
     <string name="lsclock_custom_image_desc">استخدم صورة مخصصة لساعة قفل الشاشة.</string>
     <string name="lsclock_custom_image_picker_title">منتقي صورة مخصص</string>
-    <string name="lockscreen_clock_custom_devicename">Custom Device Name</string>
-    <string name="lockscreen_clock_custom_devicename_desc">Set custom device name for lockscreen clock.\nKeep blank to use System\'s Device Name.</string>
-    <string name="lockscreen_clock_custom_username">Custom User Name</string>
-    <string name="lockscreen_clock_custom_username_desc">Set custom user name for lockscreen clock.\nKeep blank to use System\'s User Name.</string>
+    <string name="lockscreen_clock_custom_devicename">اسم جهاز مخصص</string>
+    <string name="lockscreen_clock_custom_devicename_desc">قم بتعيين اسم جهاز مخصص لساعة شاشة القفل.\nاتركه فارغًا لاستخدام اسم جهاز النظام.</string>
+    <string name="lockscreen_clock_custom_username">اسم مستخدم مخصص</string>
+    <string name="lockscreen_clock_custom_username_desc">قم بتعيين اسم مستخدم مخصص لساعة شاشة القفل.\nاتركه فارغًا لاستخدام اسم مستخدم النظام.</string>
     <string name="btn_select">اختر</string>
     <string name="battery_charging">شحن البطارية</string>
     <string name="battery_discharging">تفريغ البطارية</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">إخفاء عنوان شركة الإتصال من لوحة QS</string>
     <string name="hide_status_icons_title">إخفاء أيقونات الحالة</string>
     <string name="hide_status_icons_desc">قم بإزالة أيقونات الوقت والتاريخ والبطارية</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">حجم ساعة شريط الحالة</string>
     <string name="lock_screen">شاشة القفل</string>
     <string name="hide_ls_carrier_title">إخفاء LS Carrier</string>
@@ -765,7 +769,7 @@
     <string name="exported_settings">تم حفظ الإعدادات بنجاح</string>
     <!-- Style List -->
     <string name="style_0">لا شيء</string>
-    <string name="style">Style %d</string>
+    <string name="style">النمط %d</string>
     <!-- Buttons -->
     <string name="btn_continue">استمر</string>
     <string name="btn_restart">إعداة تشغيل</string>

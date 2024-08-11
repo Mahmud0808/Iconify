@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">音量スライダーの上にパーセンテージを表示します</string>
     <string name="safety_warning_title">安全上の警告</string>
     <string name="safety_warning_desc">大音量の場合に警告を表示します</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">ヘッダー画像を選択</string>
     <string name="header_image_desc">クイック設定パネルのヘッダー画像を追加します\n「最近」からファイルを選択しないでください</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">クイック設定パネルからキャリア名を非表示にします</string>
     <string name="hide_status_icons_title">ステータス アイコンを非表示</string>
     <string name="hide_status_icons_desc">時間、日付、バッテリーアイコンを削除します</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">ロック画面</string>
     <string name="hide_ls_carrier_title">ロック画面のキャリアを非表示</string>

@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
     <string name="safety_warning_title">Safety Warning</string>
     <string name="safety_warning_desc">Show warning on high volume</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">Pick Header Image</string>
     <string name="header_image_desc">Add header image on QS panel\nDo not select file from Recent</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">Hide carrier group from QS panel</string>
     <string name="hide_status_icons_title">Hide Status Icons</string>
     <string name="hide_status_icons_desc">Remove time, date and battery icons</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Lock Screen</string>
     <string name="hide_ls_carrier_title">Hide LS Carrier</string>

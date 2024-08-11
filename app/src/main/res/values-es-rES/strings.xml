@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">Mostrar porcentaje sobre el deslizador del volumen</string>
     <string name="safety_warning_title">Advertencia de seguridad</string>
     <string name="safety_warning_desc">Mostrar advertencia en volumen alto</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">Seleccionar imagen de encabezado</string>
     <string name="header_image_desc">Añadir imagen de encabezado en el panel de Ajustes Rápidos\nNo selecciones archivos de \"Recientes\"</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">Ocultar el grupo del operador del panel de Ajustes Rápidos</string>
     <string name="hide_status_icons_title">Ocultar iconos de estado</string>
     <string name="hide_status_icons_desc">Quitar la hora, la fecha y los iconos de la batería</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Pantalla de bloqueo</string>
     <string name="hide_ls_carrier_title">Ocultar Transportista en Pantalla de Bloqueo</string>

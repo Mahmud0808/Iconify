@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">نمایش درصد باتری بالای نوار تنظیم صدا</string>
     <string name="safety_warning_title">هشدار ایمنی</string>
     <string name="safety_warning_desc">هشدار ایمنی در حجم صدای بالا</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">انتخاب فایل تصویر هدر</string>
     <string name="header_image_desc">اصافه کردن تصویر به هدر نوارابزار\nفایل تصویر را از بخش فایل‌های اخیر انتخاب نکنید</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">مخفی کردن اپراتور از نوارابزار</string>
     <string name="hide_status_icons_title">مخفی کردن آیکون‌های نوار اعلان</string>
     <string name="hide_status_icons_desc">مخفی کردن آیکون ساعت و تارخ و باتری</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Lock Screen</string>
     <string name="hide_ls_carrier_title">Hide LS Carrier</string>

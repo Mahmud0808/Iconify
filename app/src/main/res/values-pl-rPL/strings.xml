@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
     <string name="safety_warning_title">Safety Warning</string>
     <string name="safety_warning_desc">Show warning on high volume</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">Wybierz obraz nagłówka</string>
     <string name="header_image_desc">Dodaj obraz w nagłówku szybkich ustawień\nNie wybieraj pliku z Ostatnich</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">Ukryj nazwę operatora w szybkich ustawieniach</string>
     <string name="hide_status_icons_title">Ukryj ikony stanu</string>
     <string name="hide_status_icons_desc">Ukryj ikony stanu takie jak Wi-Fi, bateria oraz pozostałe</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Ekran blokady</string>
     <string name="hide_ls_carrier_title">Ukryj nazwę operatora</string>

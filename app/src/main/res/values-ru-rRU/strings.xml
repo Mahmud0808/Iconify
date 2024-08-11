@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">Показывать проценты выше слайдера громкости</string>
     <string name="safety_warning_title">Предупреждение о безопасности</string>
     <string name="safety_warning_desc">Показывать предупреждение на большой громкости</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">Выберите изображение заголовка</string>
     <string name="header_image_desc">Добавить изображения на панель быстрых настроек\nНе выбирайте его из вкладки \"Последние\"</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">Скрыть группу Сим-карт в панели быстрых настроек</string>
     <string name="hide_status_icons_title">Скрыть иконки строки состояния</string>
     <string name="hide_status_icons_desc">Скрыть значки времени, даты и батареи</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Экран блокировки</string>
     <string name="hide_ls_carrier_title">Скрыть оператора</string>

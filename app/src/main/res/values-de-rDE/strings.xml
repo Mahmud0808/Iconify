@@ -557,6 +557,8 @@ transparent machen</string>
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
     <string name="safety_warning_title">Sicherheitswarnung</string>
     <string name="safety_warning_desc">Warnung bei hoher Lautstärke anzeigen</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">Header-Bild auswählen</string>
     <string name="header_image_desc">Headerbild aufs QS-Panel hinzufügen\nNicht \"Zuletzt benutzt\" verwenden</string>
@@ -659,6 +661,8 @@ transparent machen</string>
     <string name="hide_carrier_group_desc">Mobilfunkanbieter vom QS-Panel verbergen</string>
     <string name="hide_status_icons_title">Statussymbole verbergen</string>
     <string name="hide_status_icons_desc">Zeit, Datum und Batteriesymbole verbergen</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Sperrbildschirm</string>
     <string name="hide_ls_carrier_title">Verstecke Netzanbieter</string>

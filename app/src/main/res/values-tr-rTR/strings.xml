@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">Ses kaydırıcısının üzerinde yüzdeyi göster</string>
     <string name="safety_warning_title">Güvenlik uyarısı</string>
     <string name="safety_warning_desc">Yüksek ses seviyesinde uyarı göster</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">Başlık Resmi Seç</string>
     <string name="header_image_desc">QS paneline başlık resmi ekleyin\nSon kullanılanlar\'dan dosya seçmeyin</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">Operatör grubunu QS panelinden gizle</string>
     <string name="hide_status_icons_title">Durum Simgelerini Gizle</string>
     <string name="hide_status_icons_desc">Saat, tarih ve pil simgelerini kaldır</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Durum Çubuğu Saat Boyutu</string>
     <string name="lock_screen">Kilit Ekranı</string>
     <string name="hide_ls_carrier_title">LS Operatörünü Gizle</string>
@@ -765,7 +769,7 @@
     <string name="exported_settings">Ayarlar başarıyla kaydedildi</string>
     <!-- Style List -->
     <string name="style_0">Yok</string>
-    <string name="style">Style %d</string>
+    <string name="style">Stil %d</string>
     <!-- Buttons -->
     <string name="btn_continue">Devam et</string>
     <string name="btn_restart">Yeniden Başlat</string>

@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">Mostra percentuale sopra il cursore del volume</string>
     <string name="safety_warning_title">Avvertimento di Sicurezza</string>
     <string name="safety_warning_desc">Mostra avvertimento su volume elevato</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">Scegli Immagine Intestazione</string>
     <string name="header_image_desc">Aggiungi immagine intestazione nel pannello QS\nNon selezionare il file dai Recenti</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">Nascondi gruppo operatore dal pannello QS</string>
     <string name="hide_status_icons_title">Nascondi Icone Di Stato</string>
     <string name="hide_status_icons_desc">Rimuovi le icone di ora, data e batteria</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Schermata di Blocco</string>
     <string name="hide_ls_carrier_title">Nascondi Operatore LS</string>

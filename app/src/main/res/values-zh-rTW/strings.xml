@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
     <string name="safety_warning_title">Safety Warning</string>
     <string name="safety_warning_desc">Show warning on high volume</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">選取標頭圖像</string>
     <string name="header_image_desc">在快速設定面板上添加標頭圖像\n不要從“最近”資料夾中選擇檔案</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">從快速設定面板上隱藏運營商組</string>
     <string name="hide_status_icons_title">隱藏狀態圖示</string>
     <string name="hide_status_icons_desc">移除時間、日期和電池圖示</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">鎖定熒幕</string>
     <string name="hide_ls_carrier_title">隱藏鎖屏運營商</string>

@@ -556,6 +556,8 @@
     <string name="volume_percentage_desc">Megjeleníti a százalékértéket a hangerőcsúszka felett</string>
     <string name="safety_warning_title">Biztonsági figyelmeztetés</string>
     <string name="safety_warning_desc">Figyelmeztetés, ha túl hangos</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">Fejléckép-választó</string>
     <string name="header_image_desc">Adjon hozzá fejlécképet a panelen\nNe válasszon fájlt az Előzményekből</string>
@@ -658,6 +660,8 @@
     <string name="hide_carrier_group_desc">A Gyorsbeállításokban nem látszik a szolgáltató</string>
     <string name="hide_status_icons_title">Az Állapotikonok elrejtése</string>
     <string name="hide_status_icons_desc">Az Idő, a Dátum és az Akkujelzés sem látható</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Az állapotsori Óra mérete</string>
     <string name="lock_screen">Záróképernyő</string>
     <string name="hide_ls_carrier_title">Nincs Szolgáltató a képernyőzáron</string>
