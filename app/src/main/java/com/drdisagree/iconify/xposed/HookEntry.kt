@@ -174,8 +174,6 @@ class HookEntry : ServiceConnection {
     }
 
     private fun connectRootService() {
-        log(TAG + "Connecting root service...")
-
         try {
             val intent = Intent().apply {
                 setComponent(
