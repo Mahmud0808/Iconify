@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
+import android.os.Environment
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -22,8 +23,6 @@ import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVE
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
-import com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR
-import com.drdisagree.iconify.common.Resources.DEPTH_WALL_FG_DIR
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
@@ -67,6 +66,10 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
     private var lockScreenSubjectCacheValid = false
     private var mLayersCreated = false
     private var showOnAOD = true
+    private var foregroundPath = Environment.getExternalStorageDirectory()
+        .toString() + "/.iconify_files/depth_wallpaper_fg.png"
+    private var backgroundPath = Environment.getExternalStorageDirectory()
+        .toString() + "/.iconify_files/depth_wallpaper_bg.png"
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -263,7 +266,7 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                         enqueueProxyCommand { proxy ->
                             proxy?.extractSubject(
                                 finalScaledWallpaperBitmap,
-                                DEPTH_WALL_FG_DIR
+                                foregroundPath
                             )
                         }
                     }
@@ -300,7 +303,7 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
         var cacheIsValid = false
 
         try {
-            val wallpaperCacheFile = File(DEPTH_WALL_BG_DIR)
+            val wallpaperCacheFile = File(backgroundPath)
 
             val compressedBitmap = ByteArrayOutputStream()
             wallpaperBitmap.compress(Bitmap.CompressFormat.JPEG, 100, compressedBitmap)
@@ -364,9 +367,9 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                 )
 
         if (showSubject) {
-            if (!lockScreenSubjectCacheValid && File(DEPTH_WALL_FG_DIR).exists()) {
+            if (!lockScreenSubjectCacheValid && File(foregroundPath).exists()) {
                 try {
-                    FileInputStream(DEPTH_WALL_FG_DIR).use { inputStream ->
+                    FileInputStream(foregroundPath).use { inputStream ->
                         val bitmapDrawable =
                             BitmapDrawable.createFromStream(inputStream, "")
                         bitmapDrawable!!.alpha = 255
@@ -434,7 +437,7 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
         }
 
         try {
-            File(DEPTH_WALL_FG_DIR).delete()
+            File(foregroundPath).delete()
         } catch (ignored: Throwable) {
         }
     }
