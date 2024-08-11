@@ -623,7 +623,7 @@ transparent machen</string>
     <string name="default_user_name">Benutzer</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Aktiviere Tiefenwallpaper</string>
-    <string name="enable_depth_wallpaper_desc">Zeige ein Wallpaper mit iOS ähnlichem Tiefeneffekt\nEs muss eine angepasste Uhr für den Sperrbildschirm verwendet werden</string>
+    <string name="enable_depth_wallpaper_desc">Zeige ein Wallpaper mit iOS ähnlichem Tiefeneffekt\n%s</string>
     <string name="wallpaper_fade_animation_title">Einblenden AOD</string>
     <string name="wallpaper_fade_animation_desc">Animiere Hintergrundbild und verblassen im AOD</string>
     <string name="foreground_image_title">Vordergrund Bild</string>

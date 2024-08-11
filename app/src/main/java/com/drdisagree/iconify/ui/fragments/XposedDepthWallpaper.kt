@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -35,7 +36,10 @@ import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.FileUtil.getRealPath
 import com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir
 import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter
+import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse
 import com.google.android.material.slider.Slider
+
 
 class XposedDepthWallpaper : BaseFragment() {
 
@@ -127,11 +131,28 @@ class XposedDepthWallpaper : BaseFragment() {
             putBoolean(DEPTH_WALLPAPER_SWITCH, isSwitchChecked)
             updateEnabledState()
 
-            Handler(Looper.getMainLooper()).postDelayed(
-                { SystemUtil.handleSystemUIRestart() },
-                SWITCH_ANIMATION_DELAY
-            )
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+                Handler(Looper.getMainLooper()).postDelayed(
+                    { SystemUtil.handleSystemUIRestart() },
+                    SWITCH_ANIMATION_DELAY
+                )
+            }
         }
+        BitmapSubjectSegmenter(requireContext())
+            .checkModelAvailability { moduleAvailabilityResponse: ModuleAvailabilityResponse? ->
+                binding.depthWallpaper.setSummary(
+                    getString(
+                        R.string.enable_depth_wallpaper_desc,
+                        getString(
+                            if (moduleAvailabilityResponse?.areModulesAvailable() == true) {
+                                R.string.depth_wallpaper_model_ready
+                            } else {
+                                R.string.depth_wallpaper_model_not_available
+                            }
+                        )
+                    )
+                )
+            }
 
         // Foreground image
         binding.foregroundImage.setEnabled(binding.depthWallpaper.isSwitchChecked)

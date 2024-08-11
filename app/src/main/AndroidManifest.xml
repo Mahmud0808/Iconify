@@ -22,7 +22,8 @@
         <package android:name="app.revanced.android.youtube" />
         <package android:name="app.revanced.android.apps.youtube.music" />
     </queries>
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
     <application
@@ -104,6 +105,10 @@
             android:exported="true"
             tools:ignore="ExportedService" />
         -->
+        <service
+            android:name=".services.RootProviderProxy"
+            android:exported="true"
+            tools:ignore="ExportedService" />
         <service
             android:name=".services.TileNotchBarKiller"
             android:exported="true"

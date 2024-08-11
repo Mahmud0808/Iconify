@@ -622,7 +622,7 @@
     <string name="default_user_name">ユーザー</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">奥行きのある壁紙を有効化</string>
-    <string name="enable_depth_wallpaper_desc">iOS のような深みのある壁紙を表示します\nカスタムロック画面の時計を使用する必要があります</string>
+    <string name="enable_depth_wallpaper_desc">iOS のような深みのある壁紙を表示します\n%s</string>
     <string name="wallpaper_fade_animation_title">AOD をフェードイン</string>
     <string name="wallpaper_fade_animation_desc">AOD で壁紙をアニメーション化してフェードアウトさせます</string>
     <string name="foreground_image_title">前景の画像</string>

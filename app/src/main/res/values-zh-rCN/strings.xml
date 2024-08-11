@@ -622,7 +622,7 @@
     <string name="default_user_name">用户</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">启用深度壁纸</string>
-    <string name="enable_depth_wallpaper_desc">显示类 iOS 系统的深度壁纸\n必须使用自定义锁屏时钟</string>
+    <string name="enable_depth_wallpaper_desc">显示类 iOS 系统的深度壁纸\n%s</string>
     <string name="wallpaper_fade_animation_title">息屏显示淡入</string>
     <string name="wallpaper_fade_animation_desc">在息屏显示中使壁纸动画化并具有淡出的动画</string>
     <string name="foreground_image_title">前景图</string>

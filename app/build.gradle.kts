@@ -65,6 +65,7 @@ android {
         viewBinding = true
         dataBinding = true
         buildConfig = true
+        aidl = true
     }
 
     compileOptions {
@@ -189,6 +190,10 @@ dependencies {
 
     // Fading Edge Layout
     implementation(libs.fadingedgelayout)
+
+    // Google Subject Segmentation - MLKit
+    implementation(libs.com.google.android.gms.play.services.mlkit.subject.segmentation)
+    implementation(libs.play.services.base)
 
     // Misc
     implementation(libs.androidx.appcompat)

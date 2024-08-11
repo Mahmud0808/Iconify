@@ -622,7 +622,7 @@
     <string name="default_user_name">المستخدم</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">تمكين خلفية العمق</string>
-    <string name="enable_depth_wallpaper_desc">إظهار نظام التشغيل iOS كخلفية للعمق\n يجب استخدام ساعة قفل مخصصة</string>
+    <string name="enable_depth_wallpaper_desc">إظهار نظام التشغيل iOS كخلفية للعمق\n%s</string>
     <string name="wallpaper_fade_animation_title">التلاشي في AOD</string>
     <string name="wallpaper_fade_animation_desc">تحريك الخلفية والتلاشي في AOD</string>
     <string name="foreground_image_title">الصورة الأمامية</string>

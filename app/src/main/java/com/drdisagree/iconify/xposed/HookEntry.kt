@@ -1,35 +1,39 @@
 package com.drdisagree.iconify.xposed
 
+import android.annotation.SuppressLint
 import android.app.Instrumentation
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.IBinder
+import android.os.RemoteException
 import com.drdisagree.iconify.BuildConfig
+import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.config.XPrefs
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector
 import com.drdisagree.iconify.xposed.utils.SystemUtil
-import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.util.LinkedList
+import java.util.Queue
 import java.util.concurrent.CompletableFuture
 
-class HookEntry : IXposedHookLoadPackage {
-
-    companion object {
-        var isChildProcess = false
-
-        @JvmField
-        val runningMods = ArrayList<ModPack>()
-    }
+class HookEntry : ServiceConnection {
 
     private var mContext: Context? = null
-    private val tag = "Iconify - ${this::class.java.simpleName}: "
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    init {
+        instance = this
+    }
+
+    fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         isChildProcess = try {
             loadPackageParam.processName.contains(":")
         } catch (ignored: Throwable) {
@@ -59,7 +63,7 @@ class HookEntry : IXposedHookLoadPackage {
                                 CompletableFuture.runAsync { waitForXprefsLoad(loadPackageParam) }
                             }
                         } catch (throwable: Throwable) {
-                            log(tag + throwable)
+                            log(TAG + throwable)
                         }
                     }
                 })
@@ -122,7 +126,7 @@ class HookEntry : IXposedHookLoadPackage {
                 runningMods.add(instance)
             } catch (throwable: Throwable) {
                 log("Start Error Dump - Occurred in ${mod.name}")
-                log(tag + throwable)
+                log(TAG + throwable)
             }
         }
     }
@@ -143,5 +147,93 @@ class HookEntry : IXposedHookLoadPackage {
         log("Iconify Version: ${BuildConfig.VERSION_NAME}")
 
         onXPrefsReady(loadPackageParam)
+    }
+
+    private fun forceConnectRootService() {
+        Thread {
+            while (SystemUtil.UserManager == null || !SystemUtil.UserManager!!.isUserUnlocked) {
+                // device is still CE encrypted
+                SystemUtil.sleep(2000)
+            }
+
+            SystemUtil.sleep(5000) // wait for the unlocked account to settle down a bit
+
+            while (rootProxyIPC == null) {
+                connectRootService()
+                SystemUtil.sleep(5000)
+            }
+        }.start()
+    }
+
+    private fun connectRootService() {
+        try {
+            val intent = Intent().apply {
+                setComponent(
+                    ComponentName(
+                        BuildConfig.APPLICATION_ID,
+                        "${BuildConfig.APPLICATION_ID}.services.RootProviderProxy"
+                    )
+                )
+            }
+
+            mContext!!.bindService(
+                intent,
+                instance!!,
+                Context.BIND_AUTO_CREATE or Context.BIND_ADJUST_WITH_ACTIVITY
+            )
+        } catch (throwable: Throwable) {
+            log(TAG + throwable)
+        }
+    }
+
+    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+        rootProxyIPC = IRootProviderProxy.Stub.asInterface(service)
+
+        synchronized(proxyQueue) {
+            while (!proxyQueue.isEmpty()) {
+                try {
+                    proxyQueue.poll()!!.run(rootProxyIPC)
+                } catch (ignored: Throwable) {
+                }
+            }
+        }
+    }
+
+    override fun onServiceDisconnected(name: ComponentName?) {
+        rootProxyIPC = null
+        forceConnectRootService()
+    }
+
+    fun interface ProxyRunnable {
+        @Throws(RemoteException::class)
+        fun run(proxy: IRootProviderProxy?)
+    }
+
+    companion object {
+        private val TAG = "Iconify - ${this::class.java.simpleName}: "
+
+        @SuppressLint("StaticFieldLeak")
+        var instance: HookEntry? = null
+
+        @JvmField
+        val runningMods = ArrayList<ModPack>()
+        var isChildProcess = false
+        var rootProxyIPC: IRootProviderProxy? = null
+        val proxyQueue: Queue<ProxyRunnable> = LinkedList()
+
+        fun enqueueProxyCommand(runnable: ProxyRunnable) {
+            rootProxyIPC?.let {
+                try {
+                    runnable.run(it)
+                } catch (ignored: RemoteException) {
+                }
+            } ?: run {
+                synchronized(proxyQueue) {
+                    proxyQueue.add(runnable)
+                }
+
+                instance!!.forceConnectRootService()
+            }
+        }
     }
 }
