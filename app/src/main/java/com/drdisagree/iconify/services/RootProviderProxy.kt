@@ -28,13 +28,14 @@ class RootProviderProxy : Service() {
     internal inner class RootProviderProxyIPC(context: Context) : IRootProviderProxy.Stub() {
 
         init {
-            if (Shell.getCachedShell() == null) {
+            try {
                 Shell.setDefaultBuilder(
                     Shell.Builder.create()
                         .setFlags(Shell.FLAG_MOUNT_MASTER)
                         .setFlags(Shell.FLAG_REDIRECT_STDERR)
                         .setTimeout(20)
                 )
+            } catch (ignored: Throwable) {
             }
 
             rootGranted = Shell.getShell().isRoot
