@@ -103,7 +103,7 @@ class VolumePanel(context: Context?) : ModPack(context!!) {
                 if (!showPercentage) return
 
                 val rowHeader: TextView = getObjectField(
-                    param.thisObject,
+                    param.args[0],
                     "header"
                 ) as TextView
 
