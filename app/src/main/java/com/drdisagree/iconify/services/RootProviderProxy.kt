@@ -99,7 +99,7 @@ class RootProviderProxy : Service() {
                         input,
                         object : SegmentResultListener {
                             override fun onStart() {
-                                callback.onStart("Extracting wallpaper subject...")
+                                callback.onStart(getString(R.string.depth_wallpaper_subject_extraction_started))
                             }
 
                             override fun onSuccess(result: Bitmap?) {
@@ -119,13 +119,12 @@ class RootProviderProxy : Service() {
                                         tempFile.absolutePath,
                                         resultPath
                                     )
-                                    Shell.cmd("chmod 644 $resultPath").exec()
 
                                     tempFile.delete()
 
                                     callback.onResult(
                                         true,
-                                        "Extracted wallpaper subject!"
+                                        getString(R.string.depth_wallpaper_subject_extraction_success)
                                     )
                                 } catch (throwable: Throwable) {
                                     Log.e(
@@ -135,7 +134,7 @@ class RootProviderProxy : Service() {
 
                                     callback.onResult(
                                         false,
-                                        "Failed to extract wallpaper subject!"
+                                        getString(R.string.depth_wallpaper_subject_extraction_failed)
                                     )
                                 }
                             }
@@ -145,9 +144,9 @@ class RootProviderProxy : Service() {
                                     callback.onResult(
                                         false,
                                         if (moduleAvailabilityResponse?.areModulesAvailable() == true) {
-                                            "Failed to extract wallpaper subject!"
+                                            getString(R.string.depth_wallpaper_subject_extraction_failed)
                                         } else {
-                                            "AI model is not available!"
+                                            getString(R.string.depth_wallpaper_missing_ai_model)
                                         }
                                     )
                                 }
@@ -156,7 +155,10 @@ class RootProviderProxy : Service() {
             } catch (throwable: Throwable) {
                 Log.e(TAG, "BitmapSubjectSegmenter - segmentSubject: $throwable")
 
-                callback.onResult(false, "Failed to extract wallpaper subject!")
+                callback.onResult(
+                    false,
+                    getString(R.string.depth_wallpaper_subject_extraction_failed)
+                )
             }
         }
 

@@ -681,6 +681,10 @@
     <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
     <string name="depth_wallpaper_model_ready">AI model is downloaded on the device</string>
     <string name="depth_wallpaper_model_not_available">AI model isn\'t available on the device (yet)</string>
+    <string name="depth_wallpaper_subject_extraction_started">Extracting wallpaper subject…</string>
+    <string name="depth_wallpaper_subject_extraction_success">Extracted wallpaper subject!</string>
+    <string name="depth_wallpaper_subject_extraction_failed">Failed to extract wallpaper subject!</string>
+    <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
 
     <!-- Background Chip -->
     <string name="section_title_status_bar">Status Bar</string>
