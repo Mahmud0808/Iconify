@@ -174,6 +174,8 @@ class HookEntry : ServiceConnection {
     }
 
     private fun connectRootService() {
+        log(TAG + "Connecting root service...")
+
         try {
             val intent = Intent().apply {
                 setComponent(
@@ -223,7 +225,7 @@ class HookEntry : ServiceConnection {
     }
 
     companion object {
-        private val TAG = "Iconify - ${HookEntry::class.java.simpleName}: "
+        private val TAG = "Iconify - ${this::class.java.simpleName}: "
 
         @SuppressLint("StaticFieldLeak")
         var instance: HookEntry? = null
