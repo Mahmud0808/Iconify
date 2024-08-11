@@ -24,9 +24,6 @@ class RootProviderProxy : Service() {
 
     internal inner class RootProviderProxyIPC(context: Context) : IRootProviderProxy.Stub() {
 
-        private val rootAllowedPacks: List<String>
-        private val rootGranted: Boolean
-
         init {
             try {
                 Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_MOUNT_MASTER))
@@ -175,11 +172,14 @@ class RootProviderProxy : Service() {
             for (packageName in packageManager.getPackagesForUid(uid)!!) {
                 if (rootAllowedPacks.contains(packageName)) return
             }
-            throw RemoteException("You do know you're not supposed to use this service. So...")
+
+            throw RemoteException("$packageName is not allowed to use root commands")
         }
     }
 
     companion object {
         var TAG: String = "Iconify - ${this::class.java.simpleName}: "
+        private var rootAllowedPacks: List<String> = listOf()
+        private var rootGranted: Boolean = false
     }
 }

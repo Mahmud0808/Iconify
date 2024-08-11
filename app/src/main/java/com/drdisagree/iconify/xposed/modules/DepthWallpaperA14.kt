@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
@@ -264,11 +263,6 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                     }
 
                     if (!cacheIsValid) {
-                        Toast.makeText(
-                            mContext,
-                            "Extracting wallpaper subject...",
-                            Toast.LENGTH_LONG
-                        ).show()
                         enqueueProxyCommand { proxy ->
                             proxy?.extractSubject(
                                 finalScaledWallpaperBitmap,

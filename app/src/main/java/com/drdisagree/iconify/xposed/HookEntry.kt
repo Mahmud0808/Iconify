@@ -10,6 +10,7 @@ import android.os.IBinder
 import android.os.RemoteException
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.IRootProviderProxy
+import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.config.XPrefs
 import com.drdisagree.iconify.config.XPrefs.Xprefs
@@ -113,6 +114,14 @@ class HookEntry : ServiceConnection {
     }
 
     private fun loadModPacks(loadPackageParam: LoadPackageParam) {
+        if (HookRes.modRes!!.getStringArray(R.array.root_requirement).toList().contains(
+                loadPackageParam.packageName
+            )
+        ) {
+            log(TAG + "${loadPackageParam.packageName} requires root access, attempting to force connect...")
+            forceConnectRootService()
+        }
+
         for (mod in EntryList.getEntries(loadPackageParam.packageName)) {
             try {
                 val instance = mod.getConstructor(Context::class.java).newInstance(mContext)
