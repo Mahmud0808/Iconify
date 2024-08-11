@@ -118,7 +118,6 @@ class HookEntry : ServiceConnection {
                 loadPackageParam.packageName
             )
         ) {
-            log(TAG + "${loadPackageParam.packageName} requires root access, attempting to force connect...")
             forceConnectRootService()
         }
 
@@ -180,7 +179,12 @@ class HookEntry : ServiceConnection {
                 setComponent(
                     ComponentName(
                         BuildConfig.APPLICATION_ID,
-                        "${BuildConfig.APPLICATION_ID}.services.RootProviderProxy"
+                        "${
+                            BuildConfig.APPLICATION_ID.replace(
+                                ".debug",
+                                ""
+                            )
+                        }.services.RootProviderProxy"
                     )
                 )
             }
@@ -219,7 +223,7 @@ class HookEntry : ServiceConnection {
     }
 
     companion object {
-        private val TAG = "Iconify - ${this::class.java.simpleName}: "
+        private val TAG = "Iconify - ${HookEntry::class.java.simpleName}: "
 
         @SuppressLint("StaticFieldLeak")
         var instance: HookEntry? = null
@@ -242,6 +246,34 @@ class HookEntry : ServiceConnection {
                 }
 
                 instance!!.forceConnectRootService()
+            }
+        }
+
+        fun enableOverlay(packageName: String) {
+            enqueueProxyCommand { proxy ->
+                proxy?.enableOverlay(packageName)
+            }
+        }
+
+        fun enableOverlays(vararg packageNames: String) {
+            enqueueProxyCommand { proxy ->
+                packageNames.forEach { packageName ->
+                    proxy?.enableOverlay(packageName)
+                }
+            }
+        }
+
+        fun disableOverlay(packageName: String) {
+            enqueueProxyCommand { proxy ->
+                proxy?.disableOverlay(packageName)
+            }
+        }
+
+        fun disableOverlays(vararg packageNames: String) {
+            enqueueProxyCommand { proxy ->
+                packageNames.forEach { packageName ->
+                    proxy?.disableOverlay(packageName)
+                }
             }
         }
     }

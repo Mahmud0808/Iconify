@@ -11,51 +11,25 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
-import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @Suppress("unused")
 object Helpers {
-    fun enableOverlay(pkgName: String) {
-        Shell.cmd(
-            "cmd overlay enable --user current $pkgName",
-            "cmd overlay set-priority $pkgName highest"
-        ).exec()
-    }
-
-    fun disableOverlay(pkgName: String) {
-        Shell.cmd("cmd overlay disable --user current $pkgName").exec()
-    }
-
-    fun enableOverlays(vararg pkgNames: String?) {
-        val command = StringBuilder()
-        for (pkgName in pkgNames) {
-            command.append("cmd overlay enable --user current $pkgName; cmd overlay set-priority $pkgName highest; ")
-        }
-        Shell.cmd(command.toString().trim()).submit()
-    }
-
-    fun disableOverlays(vararg pkgNames: String?) {
-        val command = StringBuilder()
-        for (pkgName in pkgNames) {
-            command.append("cmd overlay disable --user current $pkgName; ")
-        }
-        Shell.cmd(command.toString().trim()).submit()
-    }
 
     fun findAndDumpClass(className: String, classLoader: ClassLoader?): Class<*> {
         dumpClass(className, classLoader)
-        return XposedHelpers.findClass(className, classLoader)
+        return findClass(className, classLoader)
     }
 
     fun findAndDumpClassIfExists(className: String, classLoader: ClassLoader?): Class<*> {
         dumpClass(className, classLoader)
-        return XposedHelpers.findClassIfExists(className, classLoader)
+        return findClassIfExists(className, classLoader)
     }
 
-    fun dumpClass(className: String, classLoader: ClassLoader?) {
-        val ourClass = XposedHelpers.findClassIfExists(className, classLoader)
+    private fun dumpClass(className: String, classLoader: ClassLoader?) {
+        val ourClass = findClassIfExists(className, classLoader)
         if (ourClass == null) {
             log("Class: $className not found")
             return
@@ -63,7 +37,7 @@ object Helpers {
         dumpClass(ourClass)
     }
 
-    fun dumpClass(ourClass: Class<*>) {
+    private fun dumpClass(ourClass: Class<*>) {
         val ms = ourClass.getDeclaredMethods()
         log("\n\nClass: ${ourClass.getName()}")
         log("extends: ${ourClass.superclass.getName()}")

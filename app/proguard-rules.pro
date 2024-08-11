@@ -60,3 +60,12 @@
 # Obfuscation
 -repackageclasses
 -allowaccessmodification
+
+# Root Service
+-keep class com.drdisagree.iconify.services.RootProviderProxy { *; }
+-keep class com.drdisagree.iconify.IRootProviderProxy { *; }
+
+# AIDL Classes
+-keep interface **.I* { *; }
+-keep class **.I*$Stub { *; }
+-keep class **.I*$Stub$Proxy { *; }

@@ -4,12 +4,15 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.os.RemoteException
 import android.util.Log
 import android.widget.Toast
 import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.utils.FileUtil
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter.SegmentResultListener
 import com.topjohnwu.superuser.Shell
@@ -25,9 +28,13 @@ class RootProviderProxy : Service() {
     internal inner class RootProviderProxyIPC(context: Context) : IRootProviderProxy.Stub() {
 
         init {
-            try {
-                Shell.setDefaultBuilder(Shell.Builder.create().setFlags(Shell.FLAG_MOUNT_MASTER))
-            } catch (ignored: Throwable) {
+            if (Shell.getCachedShell() == null) {
+                Shell.setDefaultBuilder(
+                    Shell.Builder.create()
+                        .setFlags(Shell.FLAG_MOUNT_MASTER)
+                        .setFlags(Shell.FLAG_REDIRECT_STDERR)
+                        .setTimeout(20)
+                )
             }
 
             rootGranted = Shell.getShell().isRoot
@@ -80,6 +87,8 @@ class RootProviderProxy : Service() {
         override fun extractSubject(input: Bitmap, resultPath: String) {
             ensureEnvironment()
 
+            val mainHandler = Handler(Looper.getMainLooper())
+
             try {
                 BitmapSubjectSegmenter(applicationContext)
                     .segmentSubject(
@@ -91,11 +100,13 @@ class RootProviderProxy : Service() {
                                     "BitmapSubjectSegmenter - onStart: Extracting wallpaper subject..."
                                 )
 
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Extracting wallpaper subject...",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                mainHandler.post {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Extracting wallpaper subject...",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
                             }
 
                             override fun onSuccess(result: Bitmap?) {
@@ -111,7 +122,10 @@ class RootProviderProxy : Service() {
                                     outputStream.close()
                                     result.recycle()
 
-                                    Shell.cmd("cp -F ${tempFile.absolutePath} $resultPath").exec()
+                                    FileUtil.moveToIconifyHiddenDir(
+                                        tempFile.absolutePath,
+                                        resultPath
+                                    )
                                     Shell.cmd("chmod 644 $resultPath").exec()
 
                                     tempFile.delete()
@@ -121,22 +135,26 @@ class RootProviderProxy : Service() {
                                         "BitmapSubjectSegmenter - onSuccess: Extracted wallpaper subject!"
                                     )
 
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Extracted wallpaper subject!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    mainHandler.post {
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Extracted wallpaper subject!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 } catch (throwable: Throwable) {
                                     Log.i(
                                         TAG,
                                         "BitmapSubjectSegmenter - onSuccess: $throwable"
                                     )
 
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Failed to extract wallpaper subject!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    mainHandler.post {
+                                        Toast.makeText(
+                                            applicationContext,
+                                            "Failed to extract wallpaper subject!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
                             }
 
@@ -146,15 +164,25 @@ class RootProviderProxy : Service() {
                                     "BitmapSubjectSegmenter - onFail: Failed to extract wallpaper subject!"
                                 )
 
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Failed to extract wallpaper subject!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                mainHandler.post {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Failed to extract wallpaper subject!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         })
             } catch (throwable: Throwable) {
                 Log.i(TAG, "BitmapSubjectSegmenter - segmentSubject: $throwable")
+
+                mainHandler.post {
+                    Toast.makeText(
+                        applicationContext,
+                        "Failed to extract wallpaper subject!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 
@@ -178,7 +206,7 @@ class RootProviderProxy : Service() {
     }
 
     companion object {
-        var TAG: String = "Iconify - ${this::class.java.simpleName}: "
+        var TAG: String = "Iconify - ${RootProviderProxy::class.java.simpleName}: "
         private var rootAllowedPacks: List<String> = listOf()
         private var rootGranted: Boolean = false
     }
