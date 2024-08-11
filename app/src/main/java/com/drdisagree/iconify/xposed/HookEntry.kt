@@ -175,12 +175,13 @@ class HookEntry : ServiceConnection {
     }
 
     private fun connectRootService() {
+        log(TAG + "Connecting to RootProviderProxy...")
         try {
             val intent = Intent().apply {
                 setComponent(
                     ComponentName(
                         BuildConfig.APPLICATION_ID,
-                        "${BuildConfig.APPLICATION_ID}.services.RootProviderProxy"
+                        "com.drdisagree.iconify.services.RootProviderProxy"
                     )
                 )
             }

@@ -90,12 +90,6 @@ class RootProviderProxy : Service() {
                                     TAG,
                                     "BitmapSubjectSegmenter - onStart: Extracting wallpaper subject..."
                                 )
-
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Extracting wallpaper subject...",
-                                    Toast.LENGTH_LONG
-                                ).show()
                             }
 
                             override fun onSuccess(result: Bitmap?) {
@@ -121,22 +115,11 @@ class RootProviderProxy : Service() {
                                         "BitmapSubjectSegmenter - onSuccess: Extracted wallpaper subject!"
                                     )
 
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Extracted wallpaper subject!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
                                 } catch (throwable: Throwable) {
                                     Log.i(
                                         TAG,
                                         "BitmapSubjectSegmenter - onSuccess: $throwable"
                                     )
-
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Failed to extract wallpaper subject!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
                                 }
                             }
 
