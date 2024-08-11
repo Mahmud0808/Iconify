@@ -267,17 +267,15 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                     }
 
                     if (!cacheIsValid) {
-                        val mainHandler = Handler(Looper.getMainLooper())
-
                         val callback = object : IExtractSubjectCallback.Stub() {
-                            override fun onStart(message: String?) {
-                                mainHandler.post {
+                            override fun onStart(message: String) {
+                                Handler(Looper.getMainLooper()).post {
                                     Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
                                 }
                             }
 
                             override fun onResult(success: Boolean, message: String) {
-                                mainHandler.post {
+                                Handler(Looper.getMainLooper()).post {
                                     Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                 }
                             }
