@@ -225,7 +225,7 @@ class HookEntry : ServiceConnection {
     }
 
     companion object {
-        private val TAG = "Iconify - ${this::class.java.simpleName}: "
+        private val TAG = "Iconify - ${HookEntry::class.java.simpleName}: "
 
         @SuppressLint("StaticFieldLeak")
         var instance: HookEntry? = null

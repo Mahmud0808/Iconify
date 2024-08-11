@@ -206,7 +206,7 @@ class RootProviderProxy : Service() {
     }
 
     companion object {
-        var TAG: String = "Iconify - ${this::class.java.simpleName}: "
+        var TAG: String = "Iconify - ${RootProviderProxy::class.java.simpleName}: "
         private var rootAllowedPacks: List<String> = listOf()
         private var rootGranted: Boolean = false
     }
