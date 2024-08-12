@@ -81,7 +81,7 @@ import java.util.concurrent.TimeUnit
 class LockscreenClock(context: Context?) : ModPack(context!!) {
 
     private var showLockscreenClock = false
-    private var showDepthWallpaper = false
+    private var showDepthWallpaper = false // was used in android 13 and below
     private var mClockViewContainer: ViewGroup? = null
     private var mStatusViewContainer: ViewGroup? = null
     private var mUserManager: UserManager? = null
@@ -119,12 +119,14 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
 
+        val isAndroid13OrBelow = Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
+
         showLockscreenClock = Xprefs!!.getBoolean(LSCLOCK_SWITCH, false)
         showDepthWallpaper = Xprefs!!.getBoolean(DEPTH_WALLPAPER_SWITCH, false)
+                && isAndroid13OrBelow
 
         if (key.isNotEmpty() &&
             (key[0] == LSCLOCK_SWITCH ||
-                    key[0] == DEPTH_WALLPAPER_SWITCH ||
                     key[0] == LSCLOCK_COLOR_SWITCH ||
                     key[0] == LSCLOCK_COLOR_CODE_ACCENT1 ||
                     key[0] == LSCLOCK_COLOR_CODE_ACCENT2 ||
@@ -139,7 +141,11 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                     key[0] == LSCLOCK_FONT_TEXT_SCALING ||
                     key[0] == LSCLOCK_USERNAME ||
                     key[0] == LSCLOCK_DEVICENAME ||
-                    key[0] == DEPTH_WALLPAPER_FADE_ANIMATION)
+                    (isAndroid13OrBelow &&
+                            (key[0] == DEPTH_WALLPAPER_SWITCH ||
+                                    key[0] == DEPTH_WALLPAPER_FADE_ANIMATION)
+                            )
+                    )
         ) {
             updateClockView()
         }
@@ -305,7 +311,8 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         val currentTime = System.currentTimeMillis()
         val isClockAdded =
             mClockViewContainer!!.findViewWithTag<View?>(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null
-        val isDepthClock = mClockViewContainer!!.tag === ICONIFY_DEPTH_WALLPAPER_TAG
+        val isDepthClock = mClockViewContainer!!.tag === ICONIFY_DEPTH_WALLPAPER_TAG &&
+                Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
 
         if (isClockAdded && currentTime - lastUpdated < THRESHOLD_TIME) {
             return
@@ -492,8 +499,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
 
             7 -> {
                 val usernameView = clockView.findViewContainsTag("summary") as TextView?
-                usernameView?.text = if (customUserName.isNotEmpty()) customUserName
-                else  userName
+                usernameView?.text = customUserName.ifEmpty { userName }
                 val imageView = clockView.findViewContainsTag("user_profile_image") as ImageView?
                 userImage?.let { imageView?.setImageDrawable(it) }
             }
@@ -506,8 +512,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                     clockView.findViewContainsTag("volume_progress") as ImageView?
                 mRamUsageArcProgress = clockView.findViewContainsTag("ram_usage_info") as ImageView?
                 val devName = clockView.findViewContainsTag("device_name") as TextView?
-                devName!!.text = if (customDeviceName.isNotEmpty()) customDeviceName
-                else Build.MODEL
+                devName!!.text = customDeviceName.ifEmpty { Build.MODEL }
             }
 
             22 -> {
