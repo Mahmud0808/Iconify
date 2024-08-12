@@ -32,6 +32,7 @@ import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getRightClockView
+import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.setClockGravity
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -872,20 +873,17 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
         mClockView?.let {
             it.setTextSize(unit, leftClockSize.toFloat())
-            it.gravity = Gravity.LEFT or Gravity.CENTER
-            it.requestLayout()
+            setClockGravity(it, Gravity.LEFT or Gravity.CENTER)
         }
 
         mCenterClockView?.let {
             it.setTextSize(unit, centerClockSize.toFloat())
-            it.gravity = Gravity.CENTER
-            it.requestLayout()
+            setClockGravity(it, Gravity.CENTER)
         }
 
         mRightClockView?.let {
             it.setTextSize(unit, rightClockSize.toFloat())
-            it.gravity = Gravity.RIGHT or Gravity.CENTER
-            it.requestLayout()
+            setClockGravity(it, Gravity.RIGHT or Gravity.CENTER)
         }
     }
 
