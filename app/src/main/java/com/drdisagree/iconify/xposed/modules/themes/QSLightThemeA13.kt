@@ -298,14 +298,29 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                             "configurationControllerListener"
                         )
 
-                        hookAllMethods(
-                            configurationControllerListener.javaClass,
+                        val applyComponentColors = object : XC_MethodHook() {
+                            override fun afterHookedMethod(param: MethodHookParam) {
+                                setHeaderComponentsColor(mView, iconManager, batteryIcon)
+                            }
+                        }
+
+                        val methods = listOf(
                             "onConfigChanged",
-                            object : XC_MethodHook() {
-                                override fun afterHookedMethod(param: MethodHookParam) {
-                                    setHeaderComponentsColor(mView, iconManager, batteryIcon)
-                                }
-                            })
+                            "onDensityOrFontScaleChanged",
+                            "onUiModeChanged",
+                            "onThemeChanged"
+                        )
+
+                        for (method in methods) {
+                            try {
+                                hookAllMethods(
+                                    configurationControllerListener.javaClass,
+                                    method,
+                                    applyComponentColors
+                                )
+                            } catch (ignored: Throwable) {
+                            }
+                        }
 
                         setHeaderComponentsColor(mView, iconManager, batteryIcon)
                     } catch (throwable: Throwable) {

@@ -19,9 +19,9 @@ import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
 import com.drdisagree.iconify.config.XPrefs.Xprefs
-import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlays
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enableOverlay
+import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttrDefaultColor
 import com.drdisagree.iconify.xposed.utils.SystemUtil
@@ -234,15 +234,29 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                         "configurationControllerListener"
                     )
 
-                    hookAllMethods(
-                        configurationControllerListener.javaClass,
+                    val applyComponentColors = object : XC_MethodHook() {
+                        override fun afterHookedMethod(param: MethodHookParam) {
+                            setHeaderComponentsColor(mView, iconManager, batteryIcon)
+                        }
+                    }
+
+                    val methods = listOf(
                         "onConfigChanged",
-                        object : XC_MethodHook() {
-                            @Throws(Throwable::class)
-                            override fun afterHookedMethod(param: MethodHookParam) {
-                                setHeaderComponentsColor(mView, iconManager, batteryIcon)
-                            }
-                        })
+                        "onDensityOrFontScaleChanged",
+                        "onUiModeChanged",
+                        "onThemeChanged"
+                    )
+
+                    for (method in methods) {
+                        try {
+                            hookAllMethods(
+                                configurationControllerListener.javaClass,
+                                method,
+                                applyComponentColors
+                            )
+                        } catch (ignored: Throwable) {
+                        }
+                    }
 
                     setHeaderComponentsColor(mView, iconManager, batteryIcon)
                 } catch (throwable: Throwable) {
