@@ -622,7 +622,7 @@
     <string name="default_user_name">User</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Activer le fond d\'écran en profondeur</string>
-    <string name="enable_depth_wallpaper_desc">Afficher un fond d\'écran comme dans iOS en profondeur.\nVous devez utiliser une horloge d\'écran de verrouillage personnalisée</string>
+    <string name="enable_depth_wallpaper_desc">Afficher un fond d\'écran comme dans iOS en profondeur.\n%s</string>
     <string name="wallpaper_fade_animation_title">Fondu en AOD</string>
     <string name="wallpaper_fade_animation_desc">Animer le fond d\'écran et le faire disparaître dans AOD</string>
     <string name="foreground_image_title">Image de devant</string>

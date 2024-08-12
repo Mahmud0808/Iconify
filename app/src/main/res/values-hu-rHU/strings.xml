@@ -622,7 +622,7 @@
     <string name="default_user_name">Felhasználó</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">A mélységi háttérkép engedélyezése</string>
-    <string name="enable_depth_wallpaper_desc">Az iOS-hez hasonló mélységi háttérképet jelenít meg\nEgyéni zárképernyő-órát kell használni</string>
+    <string name="enable_depth_wallpaper_desc">Az iOS-hez hasonló mélységi háttérképet jelenít meg\n%s</string>
     <string name="wallpaper_fade_animation_title">Átúszás \'Mindig bekapcsolvá\'-ra</string>
     <string name="wallpaper_fade_animation_desc">Animálja a háttérképet, és áttűnik az AOD-ba</string>
     <string name="foreground_image_title">Előtérkép</string>

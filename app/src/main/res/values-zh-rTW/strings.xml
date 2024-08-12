@@ -622,7 +622,7 @@
     <string name="default_user_name">User</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">啓用深度桌布</string>
-    <string name="enable_depth_wallpaper_desc">顯示類似iOS系統的深度桌布\n必須使用自訂鎖屏時鐘</string>
+    <string name="enable_depth_wallpaper_desc">顯示類似iOS系統的深度桌布\n%s</string>
     <string name="wallpaper_fade_animation_title">淡入AOD</string>
     <string name="wallpaper_fade_animation_desc">在AOD中為壁紙製作動畫並淡入淡出</string>
     <string name="foreground_image_title">前景圖</string>

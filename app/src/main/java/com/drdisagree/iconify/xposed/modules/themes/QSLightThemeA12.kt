@@ -10,8 +10,8 @@ import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.utils.Helpers.disableOverlays
-import com.drdisagree.iconify.xposed.modules.utils.Helpers.enableOverlay
+import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlays
+import com.drdisagree.iconify.xposed.HookEntry.Companion.enableOverlay
 import com.drdisagree.iconify.xposed.utils.SystemUtil
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors

@@ -666,7 +666,11 @@
 
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
-    <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\nMust use custom lockscreen clock</string>
+    <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\n%s</string>
+    <string name="enable_custom_depth_wallpaper_title">Custom Images</string>
+    <string name="enable_custom_depth_wallpaper_desc">Set custom images as depth wallpaper</string>
+    <string name="depth_wallpaper_on_aod_title">Show on AOD</string>
+    <string name="depth_wallpaper_on_aod_desc">Show subject on always on display</string>
     <string name="wallpaper_fade_animation_title">Fade in AOD</string>
     <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Foreground Image</string>
@@ -679,6 +683,12 @@
     <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
     <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
     <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
+    <string name="depth_wallpaper_model_ready">AI model is downloaded on the device</string>
+    <string name="depth_wallpaper_model_not_available">AI model isn\'t available on the device (yet)</string>
+    <string name="depth_wallpaper_subject_extraction_started">Extracting wallpaper subject…</string>
+    <string name="depth_wallpaper_subject_extraction_success">Extracted wallpaper subject!</string>
+    <string name="depth_wallpaper_subject_extraction_failed">Failed to extract wallpaper subject!</string>
+    <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
 
     <!-- Background Chip -->
     <string name="section_title_status_bar">Status Bar</string>

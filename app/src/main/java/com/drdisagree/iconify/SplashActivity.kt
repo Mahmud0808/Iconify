@@ -14,6 +14,7 @@ import com.drdisagree.iconify.utils.ModuleUtil
 import com.drdisagree.iconify.utils.RootUtil
 import com.drdisagree.iconify.utils.SystemUtil
 import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter
 import com.google.android.material.color.DynamicColors
 import com.topjohnwu.superuser.Shell
 
@@ -48,6 +49,7 @@ class SplashActivity : AppCompatActivity() {
                     isVersionCodeCorrect
                 ) {
                     keepShowing = false
+                    BitmapSubjectSegmenter(this@SplashActivity)
                     Intent(this@SplashActivity, MainActivity::class.java)
                 } else {
                     keepShowing = false

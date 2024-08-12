@@ -28,10 +28,18 @@
                 app:summaryText="@string/enable_depth_wallpaper_desc"
                 app:titleText="@string/enable_depth_wallpaper_title" />
 
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/custom_depth_wallpaper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/enable_custom_depth_wallpaper_desc"
+                app:titleText="@string/enable_custom_depth_wallpaper_title" />
+
             <com.drdisagree.iconify.ui.widgets.FilePickerWidget
                 android:id="@+id/foreground_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:buttonText="@string/btn_pick_image"
                 app:filePickerType="image"
                 app:summaryText="@string/foreground_image_desc"
@@ -41,6 +49,7 @@
                 android:id="@+id/background_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:buttonText="@string/btn_pick_image"
                 app:filePickerType="image"
                 app:summaryText="@string/background_image_desc"
@@ -56,6 +65,14 @@
                 app:sliderValueTo="100"
                 app:titleText="@string/foreground_image_alpha_title"
                 app:valueFormat="%" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/depth_wallpaper_on_aod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isChecked="true"
+                app:summaryText="@string/depth_wallpaper_on_aod_desc"
+                app:titleText="@string/depth_wallpaper_on_aod_title" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/wallpaper_fade_animation"

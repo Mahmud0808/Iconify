@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -15,11 +16,13 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
+import com.drdisagree.iconify.common.Preferences.CUSTOM_DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_ALPHA
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_ON_AOD
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR
@@ -35,7 +38,10 @@ import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.FileUtil.getRealPath
 import com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir
 import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter
+import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse
 import com.google.android.material.slider.Slider
+
 
 class XposedDepthWallpaper : BaseFragment() {
 
@@ -127,10 +133,43 @@ class XposedDepthWallpaper : BaseFragment() {
             putBoolean(DEPTH_WALLPAPER_SWITCH, isSwitchChecked)
             updateEnabledState()
 
-            Handler(Looper.getMainLooper()).postDelayed(
-                { SystemUtil.handleSystemUIRestart() },
-                SWITCH_ANIMATION_DELAY
-            )
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+                Handler(Looper.getMainLooper()).postDelayed(
+                    { SystemUtil.handleSystemUIRestart() },
+                    SWITCH_ANIMATION_DELAY
+                )
+            }
+        }
+        BitmapSubjectSegmenter(requireContext())
+            .checkModelAvailability { moduleAvailabilityResponse: ModuleAvailabilityResponse? ->
+                binding.depthWallpaper.setSummary(
+                    getString(
+                        R.string.enable_depth_wallpaper_desc,
+                        getString(
+                            if (moduleAvailabilityResponse?.areModulesAvailable() == true) {
+                                R.string.depth_wallpaper_model_ready
+                            } else {
+                                R.string.depth_wallpaper_model_not_available
+                            }
+                        )
+                    )
+                )
+            }
+
+        // Custom depth wallpaper
+        binding.customDepthWallpaper.visibility =
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+        binding.customDepthWallpaper.isSwitchChecked = getBoolean(
+            CUSTOM_DEPTH_WALLPAPER_SWITCH,
+            false
+        )
+        binding.customDepthWallpaper.setSwitchChangeListener { _: CompoundButton?, isSwitchChecked: Boolean ->
+            putBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH, isSwitchChecked)
+            updateEnabledState()
         }
 
         // Foreground image
@@ -152,18 +191,40 @@ class XposedDepthWallpaper : BaseFragment() {
             }
         })
 
+        // Show on AOD
+        binding.depthWallpaperOnAod.visibility =
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+        binding.depthWallpaperOnAod.setEnabled(binding.depthWallpaper.isSwitchChecked)
+        binding.depthWallpaperOnAod.isSwitchChecked = getBoolean(DEPTH_WALLPAPER_ON_AOD, true)
+        binding.depthWallpaperOnAod.setSwitchChangeListener { _: CompoundButton?, isSwitchChecked: Boolean ->
+            putBoolean(DEPTH_WALLPAPER_ON_AOD, isSwitchChecked)
+        }
+
         // Fade animation
+        binding.wallpaperFadeAnimation.visibility =
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
         binding.wallpaperFadeAnimation.setEnabled(binding.depthWallpaper.isSwitchChecked)
         binding.wallpaperFadeAnimation.isSwitchChecked =
             getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false)
         binding.wallpaperFadeAnimation.setSwitchChangeListener { _: CompoundButton?, isSwitchChecked: Boolean ->
-            putBoolean(
-                DEPTH_WALLPAPER_FADE_ANIMATION,
-                isSwitchChecked
-            )
+            putBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, isSwitchChecked)
         }
 
         // Parallax effect
+        binding.parallaxEffect.visibility =
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
         binding.parallaxEffect.setEnabled(binding.depthWallpaper.isSwitchChecked)
         binding.parallaxEffect.isSwitchChecked = getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
         binding.parallaxEffect.setSwitchChangeListener { _: CompoundButton?, isSwitchChecked: Boolean ->
@@ -215,6 +276,8 @@ class XposedDepthWallpaper : BaseFragment() {
     private fun updateEnabledState() {
         val isDepthWallpaperEnabled = binding.depthWallpaper.isSwitchChecked
 
+        binding.customDepthWallpaper.setEnabled(isDepthWallpaperEnabled)
+        binding.depthWallpaperOnAod.setEnabled(isDepthWallpaperEnabled)
         binding.wallpaperFadeAnimation.setEnabled(isDepthWallpaperEnabled)
         binding.foregroundImage.setEnabled(isDepthWallpaperEnabled)
         binding.backgroundImage.setEnabled(isDepthWallpaperEnabled)
@@ -223,7 +286,26 @@ class XposedDepthWallpaper : BaseFragment() {
         binding.foregroundSensitivity.setEnabled(isDepthWallpaperEnabled)
         binding.backgroundSensitivity.setEnabled(isDepthWallpaperEnabled)
 
+        val isBelowA14Feature = Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
+
+        binding.wallpaperFadeAnimation.visibility = if (isBelowA14Feature) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.parallaxEffect.visibility = if (isBelowA14Feature) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.depthWallpaperOnAod.visibility = if (isBelowA14Feature) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
         val isParallaxEffectEnabled = binding.parallaxEffect.isSwitchChecked
+                && isBelowA14Feature
 
         binding.backgroundSensitivity.visibility = if (isParallaxEffectEnabled) {
             View.VISIBLE
@@ -231,6 +313,20 @@ class XposedDepthWallpaper : BaseFragment() {
             View.GONE
         }
         binding.foregroundSensitivity.visibility = if (isParallaxEffectEnabled) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+
+        val isImagePickersEnabled = binding.customDepthWallpaper.isSwitchChecked
+                || isBelowA14Feature
+
+        binding.foregroundImage.visibility = if (isImagePickersEnabled) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.backgroundImage.visibility = if (isImagePickersEnabled) {
             View.VISIBLE
         } else {
             View.GONE

@@ -22,7 +22,8 @@
         <package android:name="app.revanced.android.youtube" />
         <package android:name="app.revanced.android.apps.youtube.music" />
     </queries>
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
     <application
@@ -105,6 +106,10 @@
             tools:ignore="ExportedService" />
         -->
         <service
+            android:name=".services.RootProviderProxy"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
             android:name=".services.TileNotchBarKiller"
             android:exported="true"
             android:icon="@drawable/ic_tile_notch_bar_killer"
@@ -161,6 +166,9 @@
                 android:value="true" />
         </service> <!-- Quick Settings Tile -->
         <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="subject_segment" /> <!-- ML Kit download -->
+        <meta-data
             android:name="xposedmodule"
             android:value="true" /> <!-- xposed meta data -->
         <meta-data
@@ -172,6 +180,9 @@
         <meta-data
             android:name="xposedscope"
             android:resource="@array/module_scope" /> <!-- xposed meta data -->
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="subject_segment" /> <!-- ML Kit download -->
         <provider
             android:name=".provider.RemotePrefProvider"
             android:authorities="${applicationId}"

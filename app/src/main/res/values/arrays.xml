@@ -5,6 +5,9 @@
         <item>com.android.systemui</item>
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
+    <string-array name="root_requirement" translatable="false">
+        <item>com.android.systemui</item>
+    </string-array>
     <string-array name="locale_name">
         <item>Afrikaans</item>
         <item>Arabic</item>

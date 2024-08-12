@@ -29,6 +29,9 @@
 -keep class com.drdisagree.iconify.xposed.** {
     <init>(android.content.Context);
 }
+-keep class com.drdisagree.iconify.services.RootProviderProxy
+-keep class com.drdisagree.iconify.IRootProviderProxy
+-keepclassmembers class com.drdisagree.iconify.services.RootProviderProxy
 
 # EventBus
 -keepattributes *Annotation*
@@ -60,3 +63,12 @@
 # Obfuscation
 -repackageclasses
 -allowaccessmodification
+
+# Root Service
+-keep class com.drdisagree.iconify.services.RootProviderProxy { *; }
+-keep class com.drdisagree.iconify.IRootProviderProxy { *; }
+
+# AIDL Classes
+-keep interface **.I* { *; }
+-keep class **.I*$Stub { *; }
+-keep class **.I*$Stub$Proxy { *; }

@@ -15,6 +15,7 @@ eventbus = "3.3.1"
 fadingedgelayout = "1.0.0"
 glide = "4.16.0"
 flexbox = "3.0.0"
+googlePlayServicesMlkitSubjectSegmentationVersion = "16.0.0-beta1"
 guava = "33.2.1-jre"
 jsoup = "1.18.1"
 kapt = "2.0.0"
@@ -25,6 +26,7 @@ libsuVersion = "5.2.2"
 lottie = "6.4.1"
 navigationUiKtx = "2.7.7"
 navigationFragmentKtx = "2.7.7"
+playServicesBase = "18.5.0"
 slf4jApi = "2.0.13"
 viewpager2 = "1.1.0"
 recyclerviewSelection = "1.1.0"
@@ -52,6 +54,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 circleindicator = { module = "me.relex:circleindicator", version.ref = "circleindicator" }
 collapsingtoolbarlayout-subtitle = { module = "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle", version.ref = "collapsingtoolbarlayoutSubtitle" }
 colorpicker = { module = "com.github.PolideaInternal:ColorPicker", version.ref = "colorpicker" }
+com-google-android-gms-play-services-mlkit-subject-segmentation = { module = "com.google.android.gms:play-services-mlkit-subject-segmentation", version.ref = "googlePlayServicesMlkitSubjectSegmentationVersion" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsuVersion" }
 dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
@@ -66,6 +69,7 @@ library = { module = "com.android.databinding:library", version.ref = "library" 
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 nio = { module = "com.github.topjohnwu.libsu:nio", version.ref = "libsuVersion" }
+play-services-base = { module = "com.google.android.gms:play-services-base", version.ref = "playServicesBase" }
 remotepreferences = { module = "com.crossbowffs.remotepreferences:remotepreferences", version.ref = "remotepreferences" }
 service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsuVersion" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jApi" }

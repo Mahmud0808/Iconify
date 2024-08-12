@@ -622,7 +622,7 @@
     <string name="default_user_name">User</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Włącz głębię tapety</string>
-    <string name="enable_depth_wallpaper_desc">Włącz efekt głębi tapety w stylu iOS\nWymagane używanie niestandardowego zegara na ekranie blokady</string>
+    <string name="enable_depth_wallpaper_desc">Włącz efekt głębi tapety w stylu iOS\n%s</string>
     <string name="wallpaper_fade_animation_title">Zanikanie na AOD</string>
     <string name="wallpaper_fade_animation_desc">Animacja zanikania tapety na AOD</string>
     <string name="foreground_image_title">Obraz pierwszoplanowy</string>

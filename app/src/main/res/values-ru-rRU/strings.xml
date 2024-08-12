@@ -622,7 +622,7 @@
     <string name="default_user_name">Пользователь</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Включить глубинные обои</string>
-    <string name="enable_depth_wallpaper_desc">Показывать iOS-подобные глубинные обои\nНеобходимо использовать пользовательские часы блокировки экрана</string>
+    <string name="enable_depth_wallpaper_desc">Показывать iOS-подобные глубинные обои\n%s</string>
     <string name="wallpaper_fade_animation_title">Угасание в AOD</string>
     <string name="wallpaper_fade_animation_desc">Анимировать обои и угасать в AOD</string>
     <string name="foreground_image_title">Изображение на переднем плане</string>

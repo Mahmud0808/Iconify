@@ -622,7 +622,7 @@
     <string name="default_user_name">Usuario</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Habilitar fondo de pantalla con profundidad</string>
-    <string name="enable_depth_wallpaper_desc">Mostrar fondo de pantalla parecido a iOS\nDebes utilizar reloj personalizado en pantalla de bloqueo</string>
+    <string name="enable_depth_wallpaper_desc">Mostrar fondo de pantalla parecido a iOS\n%s</string>
     <string name="wallpaper_fade_animation_title">Desvanecer en AOD</string>
     <string name="wallpaper_fade_animation_desc">Anima el fondo de pantalla y desvanecer en AOD</string>
     <string name="foreground_image_title">Imagen del primer plano</string>
