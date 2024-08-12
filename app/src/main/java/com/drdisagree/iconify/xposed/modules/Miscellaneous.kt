@@ -65,6 +65,9 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     private var mClockView: TextView? = null
     private var mCenterClockView: TextView? = null
     private var mRightClockView: TextView? = null
+    private var mLeftClockSize = 14
+    private var mCenterClockSize = 14
+    private var mRightClockSize = 14
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -101,7 +104,9 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                     fixedStatusIconsA12()
                 }
 
-                if (it == SB_CLOCK_SIZE_SWITCH || it == SB_CLOCK_SIZE) {
+                if (it == SB_CLOCK_SIZE_SWITCH ||
+                    it == SB_CLOCK_SIZE
+                ) {
                     setClockSize()
                 }
 
@@ -822,6 +827,10 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                     mCenterClockView = getCenterClockView(mContext, param) as? TextView
                     mRightClockView = getRightClockView(mContext, param) as? TextView
 
+                    mLeftClockSize = mClockView?.textSize?.toInt() ?: 14
+                    mCenterClockSize = mCenterClockView?.textSize?.toInt() ?: 14
+                    mRightClockSize = mRightClockView?.textSize?.toInt() ?: 14
+
                     setClockSize()
 
                     val textChangeListener = object : TextWatcher {
@@ -856,20 +865,26 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
     @SuppressLint("RtlHardcoded")
     private fun setClockSize() {
-        if (!sbClockSizeSwitch) return
+        val leftClockSize = if (sbClockSizeSwitch) sbClockSize else mLeftClockSize
+        val centerClockSize = if (sbClockSizeSwitch) sbClockSize else mCenterClockSize
+        val rightClockSize = if (sbClockSizeSwitch) sbClockSize else mRightClockSize
+        val unit = if (sbClockSizeSwitch) TypedValue.COMPLEX_UNIT_SP else TypedValue.COMPLEX_UNIT_PX
 
         mClockView?.let {
-            it.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+            it.setTextSize(unit, leftClockSize.toFloat())
+            it.gravity = Gravity.LEFT or Gravity.CENTER
             it.requestLayout()
         }
 
         mCenterClockView?.let {
-            it.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+            it.setTextSize(unit, centerClockSize.toFloat())
+            it.gravity = Gravity.CENTER
             it.requestLayout()
         }
 
         mRightClockView?.let {
-            it.setTextSize(TypedValue.COMPLEX_UNIT_SP, sbClockSize.toFloat())
+            it.setTextSize(unit, rightClockSize.toFloat())
+            it.gravity = Gravity.RIGHT or Gravity.CENTER
             it.requestLayout()
         }
     }

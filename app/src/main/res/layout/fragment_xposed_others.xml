@@ -46,17 +46,16 @@
                 app:titleText="@string/section_title_status_bar" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/sb_clock_size_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/sb_clock_size_switch"
-                app:titleText="@string/sb_clock_size_switch_title"
-                app:summaryText="@string/sb_clock_size_switch_desc"/>
+                app:summaryText="@string/sb_clock_size_switch_desc"
+                app:titleText="@string/sb_clock_size_switch_title" />
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget
                 android:id="@+id/sb_clock_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:sliderDefaultValue="14"
                 app:sliderStepSize="1"
                 app:sliderValue="14"
                 app:sliderValueFrom="10"

@@ -73,17 +73,21 @@ class XposedOthers : BaseFragment() {
             )
         }
 
-        // SB Clock Size
+        // SB Clock Size Switch
         binding.sbClockSizeSwitch.isSwitchChecked = getBoolean(SB_CLOCK_SIZE_SWITCH, false)
         binding.sbClockSizeSwitch.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             binding.sbClockSize.visibility = if (isChecked) {
+                putBoolean(SB_CLOCK_SIZE_SWITCH, true)
+                putInt(SB_CLOCK_SIZE, binding.sbClockSize.sliderValue)
                 View.VISIBLE
             } else {
+                putInt(SB_CLOCK_SIZE, 14)
+                putBoolean(SB_CLOCK_SIZE_SWITCH, false)
                 View.GONE
             }
-            putBoolean(SB_CLOCK_SIZE_SWITCH, isChecked)
         }
 
+        // SB Clock Size Slider
         binding.sbClockSize.sliderValue = getInt(SB_CLOCK_SIZE, 14)
         binding.sbClockSize.setOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {}
@@ -92,7 +96,7 @@ class XposedOthers : BaseFragment() {
                 putInt(SB_CLOCK_SIZE, slider.value.toInt())
             }
         })
-        binding.sbClockSize.visibility = if (getBoolean(SB_CLOCK_SIZE_SWITCH, false)) {
+        binding.sbClockSize.visibility = if (binding.sbClockSizeSwitch.isSwitchChecked) {
             View.VISIBLE
         } else {
             View.GONE
