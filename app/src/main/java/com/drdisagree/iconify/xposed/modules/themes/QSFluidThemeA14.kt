@@ -374,12 +374,20 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
                     )
 
                     try {
-                        val zeroAlphaFlow =
-                            stateFlowImplClass.getConstructor(Any::class.java).newInstance(0f)
+                        val zeroAlphaFlow = stateFlowImplClass
+                            .getConstructor(Any::class.java)
+                            .newInstance(0f)
+
+                        val readonlyStateFlowInstance = try {
+                            readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow)
+                        } catch (ignored: Throwable) {
+                            readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow, null)
+                        }
+
                         setObjectField(
                             param.thisObject,
                             "backgroundAlpha",
-                            readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow)
+                            readonlyStateFlowInstance
                         )
                     } catch (throwable: Throwable) {
                         log(TAG + throwable)
