@@ -13,7 +13,6 @@ import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @Suppress("unused")
 object Helpers {
@@ -131,9 +130,9 @@ object Helpers {
         }
     }
 
-    fun findClassInArray(lpparam: LoadPackageParam, vararg classNames: String): Class<*>? {
+    fun findClassInArray(classLoader: ClassLoader, vararg classNames: String): Class<*>? {
         for (className in classNames) {
-            val clazz = findClassIfExists(className, lpparam.classLoader)
+            val clazz = findClassIfExists(className, classLoader)
             if (clazz != null) return clazz
         }
         return null

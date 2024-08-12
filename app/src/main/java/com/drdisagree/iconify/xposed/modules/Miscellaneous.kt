@@ -808,7 +808,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
     private fun applyClockSize(loadPackageParam: LoadPackageParam) {
         val collapsedStatusBarFragment = findClassInArray(
-            loadPackageParam,
+            loadPackageParam.classLoader,
             "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
             "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
         )

@@ -101,7 +101,7 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         val qsImplClass = findClassInArray(
-            loadPackageParam,
+            loadPackageParam.classLoader,
             "$SYSTEMUI_PACKAGE.qs.QSImpl",
             "$SYSTEMUI_PACKAGE.qs.QSFragment"
         )
