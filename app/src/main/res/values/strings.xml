@@ -667,6 +667,10 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\n%s</string>
+    <string name="enable_custom_depth_wallpaper_title">Custom Images</string>
+    <string name="enable_custom_depth_wallpaper_desc">Set custom images as depth wallpaper</string>
+    <string name="depth_wallpaper_on_aod_title">Show on AOD</string>
+    <string name="depth_wallpaper_on_aod_desc">Show subject on always on display</string>
     <string name="wallpaper_fade_animation_title">Fade in AOD</string>
     <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Foreground Image</string>

@@ -115,7 +115,7 @@ class RootProviderProxy : Service() {
                                     outputStream.close()
                                     result.recycle()
 
-                                    FileUtil.moveToIconifyHiddenDir(
+                                    val isSuccess = FileUtil.moveToIconifyHiddenDir(
                                         tempFile.absolutePath,
                                         resultPath
                                     )
@@ -124,7 +124,11 @@ class RootProviderProxy : Service() {
 
                                     callback.onResult(
                                         true,
-                                        getString(R.string.depth_wallpaper_subject_extraction_success)
+                                        if (isSuccess) {
+                                            getString(R.string.depth_wallpaper_subject_extraction_success)
+                                        } else {
+                                            getString(R.string.depth_wallpaper_subject_extraction_failed)
+                                        }
                                     )
                                 } catch (throwable: Throwable) {
                                     Log.e(

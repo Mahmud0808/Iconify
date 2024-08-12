@@ -20,18 +20,17 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.drdisagree.iconify.IExtractSubjectCallback
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
-import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_ALPHA
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER
-import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_ON_AOD
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
-import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
-import com.drdisagree.iconify.xposed.modules.utils.ParallaxImageView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -44,30 +43,25 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import kotlin.math.max
-
 
 @SuppressLint("DiscouragedApi")
 class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
 
     private var showDepthWallpaper = false
-    private var showFadingAnimation = false
-    private var enableParallaxEffect = false
+    private var showCustomImages = false
     private var backgroundMovement = 1.0f
     private var foregroundMovement = 3.0f
-    private var mDepthWallpaperLayout: FrameLayout? = null
-    private var mDepthWallpaperBackground: ParallaxImageView? = null
-    private var mDepthWallpaperForeground: ParallaxImageView? = null
-    private var mDozing = false
-    private var unzoomWallpaper = false
     private var foregroundAlpha = 1.0f
     private var mScrimController: Any? = null
-    private var mLockScreenSubject: FrameLayout? = null
-    private var mSubjectDimmingOverlay: Drawable? = null
+    private var mForegroundDimmingOverlay: Drawable? = null
+    private var mWallpaperForeground: FrameLayout? = null
     private var mWallpaperBackground: FrameLayout? = null
     private var mWallpaperBitmapContainer: FrameLayout? = null
     private var mWallpaperDimmingOverlay: FrameLayout? = null
-    private var lockScreenSubjectCacheValid = false
+    private var mWallpaperForegroundCacheValid = false
     private var mLayersCreated = false
     private var showOnAOD = true
     private var foregroundPath = Environment.getExternalStorageDirectory()
@@ -79,13 +73,30 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
         if (Xprefs == null) return
 
         showDepthWallpaper = Xprefs!!.getBoolean(DEPTH_WALLPAPER_SWITCH, false)
-        showFadingAnimation = Xprefs!!.getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false)
-        enableParallaxEffect = Xprefs!!.getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
+        showCustomImages = Xprefs!!.getBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH, false)
         backgroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
         foregroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
-        unzoomWallpaper = Xprefs!!.getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
         foregroundAlpha = Xprefs!!.getInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
-        showOnAOD = !showFadingAnimation
+        showOnAOD = Xprefs!!.getBoolean(DEPTH_WALLPAPER_ON_AOD, true)
+
+        if (key.isNotEmpty()) {
+            key[0].let {
+                if (it == DEPTH_WALLPAPER_SWITCH ||
+                    it == DEPTH_WALLPAPER_CHANGED ||
+                    it == CUSTOM_DEPTH_WALLPAPER_SWITCH
+                ) {
+                    if (it == DEPTH_WALLPAPER_CHANGED) {
+                        mWallpaperForegroundCacheValid = false
+                    }
+
+                    if (it == CUSTOM_DEPTH_WALLPAPER_SWITCH && !showCustomImages) {
+                        invalidateCache()
+                    }
+
+                    setCustomDepthWallpaper()
+                }
+            }
+        }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -121,7 +132,7 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                         "mState"
                     ).toString() != "KEYGUARD"
                 ) {
-                    mLockScreenSubject?.post { mLockScreenSubject?.setAlpha(foregroundAlpha) }
+                    mWallpaperForeground?.post { mWallpaperForeground?.setAlpha(foregroundAlpha) }
                 } else if (getObjectField(
                         mScrimController,
                         "mNotificationsScrim"
@@ -138,13 +149,13 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                         notificationAlpha = 0f
                     }
 
-                    val subjectAlpha = if (notificationAlpha > mScrimBehindAlphaKeyguard) {
+                    val foregroundAlpha = if (notificationAlpha > mScrimBehindAlphaKeyguard) {
                         (1f - notificationAlpha) / (1f - mScrimBehindAlphaKeyguard)
                     } else {
                         1f
                     }
 
-                    mLockScreenSubject?.post { mLockScreenSubject?.setAlpha(subjectAlpha) }
+                    mWallpaperForeground?.post { mWallpaperForeground?.setAlpha(foregroundAlpha) }
                 }
             }
         })
@@ -152,12 +163,10 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
         hookAllMethods(centralSurfacesImplClass, "start", object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (!showDepthWallpaper) return
-
                 val scrimBehind = getObjectField(mScrimController, "mScrimBehind") as View
                 val rootView = scrimBehind.parent as ViewGroup
 
-                @SuppressLint("DiscouragedApi") val targetView = rootView.findViewById<ViewGroup>(
+                val targetView = rootView.findViewById<ViewGroup>(
                     mContext.resources.getIdentifier(
                         "notification_container_parent",
                         "id",
@@ -171,7 +180,14 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
 
                 rootView.addView(mWallpaperBackground, 0)
 
-                targetView.addView(mLockScreenSubject, 1)
+                targetView.addView(mWallpaperForeground, 1)
+            }
+        })
+
+        hookAllMethods(centralSurfacesImplClass, "onStartedWakingUp", object : XC_MethodHook() {
+            @Throws(Throwable::class)
+            override fun afterHookedMethod(param: MethodHookParam) {
+                setDepthWallpaper()
             }
         })
 
@@ -179,8 +195,8 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
             // lockscreen wallpaper changed
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (showDepthWallpaper && isLockScreenWallpaper(param.thisObject)) {
-                    invalidateLSWSC()
+                if (showDepthWallpaper && !showCustomImages && isLockScreenWallpaper(param.thisObject)) {
+                    invalidateCache()
                 }
             }
         })
@@ -195,9 +211,9 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                         ),
                         "getWallpaperInfo",
                         WallpaperManager.FLAG_LOCK
-                    ) != null
+                    ) != null && !showCustomImages
                 ) { // it's live wallpaper. we can't use that
-                    invalidateLSWSC()
+                    invalidateCache()
                 }
             }
         })
@@ -206,7 +222,7 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
             @RequiresApi(Build.VERSION_CODES.TIRAMISU)
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (showDepthWallpaper && isLockScreenWallpaper(param.thisObject)) {
+                if (showDepthWallpaper && !showCustomImages && isLockScreenWallpaper(param.thisObject)) {
                     val wallpaperBitmap = Bitmap.createBitmap((param.args[0] as Bitmap))
 
                     val cacheIsValid: Boolean = assertCache(wallpaperBitmap)
@@ -262,8 +278,17 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                     }
 
                     mWallpaperBackground!!.post {
-                        mWallpaperBitmapContainer!!.background =
-                            BitmapDrawable(mContext.resources, finalScaledWallpaperBitmap)
+                        mWallpaperBitmapContainer!!.background = BitmapDrawable(
+                            mContext.resources,
+                            finalScaledWallpaperBitmap
+                        )
+                        if (mScrimController != null) {
+                            mWallpaperDimmingOverlay!!.setBackgroundColor(Color.BLACK)
+                            mWallpaperDimmingOverlay!!.alpha = getFloatField(
+                                mScrimController,
+                                "mScrimBehindAlphaKeyguard"
+                            )
+                        }
                     }
 
                     if (!cacheIsValid) {
@@ -315,6 +340,25 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                 }
             }
         })
+
+        /*
+         * Custom depth wallpaper images
+         */
+        val keyguardBottomAreaViewClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.phone.KeyguardBottomAreaView",
+            loadPackageParam.classLoader
+        )
+
+        hookAllMethods(
+            keyguardBottomAreaViewClass,
+            "onConfigurationChanged",
+            object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    setCustomDepthWallpaper()
+                }
+            })
+
+        setCustomDepthWallpaper()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -343,7 +387,7 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
         }
 
         if (!cacheIsValid) {
-            invalidateLSWSC()
+            invalidateCache()
         }
 
         return cacheIsValid
@@ -355,7 +399,13 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
         mWallpaperBitmapContainer = FrameLayout(mContext)
         val layoutParams = FrameLayout.LayoutParams(-1, -1)
 
-        mWallpaperDimmingOverlay!!.setBackgroundColor(Color.BLACK)
+        mWallpaperDimmingOverlay!!.setBackgroundColor(
+            if (File(backgroundPath).exists()) {
+                Color.BLACK
+            } else {
+                Color.TRANSPARENT
+            }
+        )
         mWallpaperDimmingOverlay!!.layoutParams = layoutParams
         mWallpaperBitmapContainer!!.setLayoutParams(layoutParams)
 
@@ -363,75 +413,74 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
         mWallpaperBackground!!.addView(mWallpaperDimmingOverlay)
         mWallpaperBackground!!.setLayoutParams(layoutParams)
 
-        mLockScreenSubject = FrameLayout(mContext)
-        mLockScreenSubject!!.setLayoutParams(layoutParams)
+        mWallpaperForeground = FrameLayout(mContext)
+        mWallpaperForeground!!.setLayoutParams(layoutParams)
 
         mLayersCreated = true
     }
 
     private fun isLockScreenWallpaper(canvasEngine: Any): Boolean {
-        return ((getWallpaperFlag(canvasEngine)
-                and WallpaperManager.FLAG_LOCK)
-                == WallpaperManager.FLAG_LOCK)
+        return ((getWallpaperFlag(canvasEngine) and WallpaperManager.FLAG_LOCK) == WallpaperManager.FLAG_LOCK)
     }
 
     private fun setDepthWallpaper() {
-        val state = getObjectField(mScrimController, "mState").toString()
-        val showSubject = (showDepthWallpaper &&
-                (state == "KEYGUARD" ||
-                        (showOnAOD &&
-                                (state == "AOD" || state == "PULSING")
-                                )
-                        )
-                )
+        if (mScrimController == null) return
 
-        if (showSubject) {
-            if (!lockScreenSubjectCacheValid && File(foregroundPath).exists()) {
+        val state = getObjectField(mScrimController, "mState").toString()
+        val showForeground = (showDepthWallpaper &&
+                (state == "KEYGUARD" || (showOnAOD && (state == "AOD" || state == "PULSING"))))
+
+        if (showForeground) {
+            if (!mWallpaperForegroundCacheValid && File(foregroundPath).exists()) {
                 try {
                     FileInputStream(foregroundPath).use { inputStream ->
-                        val bitmapDrawable =
-                            BitmapDrawable.createFromStream(inputStream, "")
+                        val bitmapDrawable = BitmapDrawable.createFromStream(
+                            inputStream,
+                            ""
+                        )
                         bitmapDrawable!!.alpha = 255
 
-                        mSubjectDimmingOverlay =
-                            bitmapDrawable.constantState!!.newDrawable().mutate()
-                        mSubjectDimmingOverlay!!.setTint(Color.BLACK)
+                        mForegroundDimmingOverlay = bitmapDrawable.constantState!!
+                            .newDrawable().mutate()
+                        mForegroundDimmingOverlay!!.setTint(Color.BLACK)
 
-                        mLockScreenSubject!!.background = LayerDrawable(
+                        mWallpaperForeground!!.background = LayerDrawable(
                             arrayOf(
                                 bitmapDrawable,
-                                mSubjectDimmingOverlay
+                                mForegroundDimmingOverlay
                             )
                         )
-                        lockScreenSubjectCacheValid = true
+                        mWallpaperForegroundCacheValid = true
                     }
                 } catch (ignored: Throwable) {
                 }
             }
 
-            if (lockScreenSubjectCacheValid) {
-                mLockScreenSubject!!.background.alpha = (foregroundAlpha * 255).toInt()
+            if (mWallpaperForegroundCacheValid) {
+                mWallpaperForeground!!.background.alpha = (foregroundAlpha * 255).toInt()
 
-                if (state != "KEYGUARD") { //AOD
-                    mSubjectDimmingOverlay!!.alpha = 192
+                if (state != "KEYGUARD") { // AOD
+                    mForegroundDimmingOverlay!!.alpha = 192
                 } else {
                     // this is the dimmed wallpaper coverage
-                    mSubjectDimmingOverlay!!.alpha =
-                        Math.round(
-                            getFloatField(
-                                mScrimController,
-                                "mScrimBehindAlphaKeyguard"
-                            ) * 240
-                        ) // A tad bit lower than max. show it a bit lighter than other stuff
-                    mWallpaperDimmingOverlay!!.alpha =
-                        getFloatField(mScrimController, "mScrimBehindAlphaKeyguard")
+                    mForegroundDimmingOverlay!!.alpha = Math.round(
+                        getFloatField(
+                            mScrimController,
+                            "mScrimBehindAlphaKeyguard"
+                        ) * 240
+                    ) // A tad bit lower than max. show it a bit lighter than other stuff
+
+                    mWallpaperDimmingOverlay!!.alpha = getFloatField(
+                        mScrimController,
+                        "mScrimBehindAlphaKeyguard"
+                    )
                 }
 
                 mWallpaperBackground!!.visibility = View.VISIBLE
-                mLockScreenSubject!!.visibility = View.VISIBLE
+                mWallpaperForeground!!.visibility = View.VISIBLE
             }
         } else if (mLayersCreated) {
-            mLockScreenSubject!!.visibility = View.GONE
+            mWallpaperForeground!!.visibility = View.GONE
 
             if (state == "UNLOCKED") {
                 mWallpaperBackground!!.visibility = View.GONE
@@ -443,20 +492,81 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
         return callMethod(canvasEngine, "getWallpaperFlags") as Int
     }
 
-    private fun invalidateLSWSC() { // invalidate lock screen wallpaper subject cache
-        lockScreenSubjectCacheValid = false
+    private fun invalidateCache() { // invalidate lock screen wallpaper subject cache
+        mWallpaperForegroundCacheValid = false
 
         if (mLayersCreated) {
-            mLockScreenSubject!!.post {
-                mLockScreenSubject!!.visibility = View.GONE
-                mLockScreenSubject!!.background = null
+            mWallpaperForeground!!.post {
+                mWallpaperForeground!!.visibility = View.GONE
+                mWallpaperForeground!!.background = null
                 mWallpaperBackground!!.visibility = View.GONE
                 mWallpaperBitmapContainer!!.background = null
             }
         }
 
         try {
-            File(foregroundPath).delete()
+            if (File(foregroundPath).exists()) {
+                File(foregroundPath).delete()
+            }
+        } catch (ignored: Throwable) {
+        }
+    }
+
+    /*
+     * Custom depth wallpaper images
+     */
+    private fun setCustomDepthWallpaper() {
+        if (!showDepthWallpaper || !showCustomImages) return
+
+        if (!mLayersCreated) {
+            createLayers()
+        }
+
+        try {
+            val mainHandler = Handler(Looper.getMainLooper())
+            val executor = Executors.newSingleThreadScheduledExecutor()
+
+            executor.scheduleAtFixedRate({
+                val androidDir =
+                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
+
+                if (androidDir.isDirectory()) {
+                    mainHandler.post {
+                        try {
+                            if (File(backgroundPath).exists()) {
+                                FileInputStream(backgroundPath).use { inputStream ->
+                                    val bitmapDrawable = BitmapDrawable.createFromStream(
+                                        inputStream,
+                                        ""
+                                    )
+                                    bitmapDrawable!!.alpha = 255
+
+                                    mWallpaperBackground!!.post {
+                                        mWallpaperBitmapContainer!!.background = bitmapDrawable
+
+                                        if (mScrimController != null) {
+                                            mWallpaperDimmingOverlay!!.setBackgroundColor(Color.BLACK)
+                                            mWallpaperDimmingOverlay!!.alpha = getFloatField(
+                                                mScrimController,
+                                                "mScrimBehindAlphaKeyguard"
+                                            )
+                                        }
+
+                                        mWallpaperBackground!!.visibility = View.VISIBLE
+                                    }
+                                }
+                            }
+                        } catch (ignored: Throwable) {
+                        }
+
+                        // this sets the dimmed foreground wallpaper
+                        setDepthWallpaper()
+                    }
+
+                    executor.shutdown()
+                    executor.shutdownNow()
+                }
+            }, 0, 5, TimeUnit.SECONDS)
         } catch (ignored: Throwable) {
         }
     }
