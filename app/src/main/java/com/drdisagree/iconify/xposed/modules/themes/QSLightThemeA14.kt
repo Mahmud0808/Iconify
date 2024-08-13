@@ -22,6 +22,7 @@ import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlays
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enableOverlay
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttrDefaultColor
 import com.drdisagree.iconify.xposed.utils.SystemUtil
@@ -46,7 +47,7 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
 
     private var mBehindColors: Any? = null
     private var isDark: Boolean
-    private var colorInactive: Int? = null
+    private var colorInactive: Int = -1
     private var unlockedScrimState: Any? = null
     private var qsTextAlwaysWhite = false
     private var qsTextFollowAccent = false
@@ -166,23 +167,18 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.qs.footer.ui.binder.FooterActionsViewBinder",
             loadPackageParam.classLoader
         )
-        var shadeHeaderControllerClass = findClassIfExists(
+        val shadeHeaderControllerClass = findClassInArray(
+            loadPackageParam.classLoader,
             "$SYSTEMUI_PACKAGE.shade.ShadeHeaderController",
-            loadPackageParam.classLoader
+            "$SYSTEMUI_PACKAGE.shade.LargeScreenShadeHeaderController",
         )
-        if (shadeHeaderControllerClass == null) {
-            shadeHeaderControllerClass = findClass(
-                "$SYSTEMUI_PACKAGE.shade.LargeScreenShadeHeaderController",
-                loadPackageParam.classLoader
-            )
-        }
 
         // Background color of android 14's charging chip. Fix for light QS theme situation
         val batteryStatusChipColorHook: XC_MethodHook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (lightQSHeaderEnabled && !isDark) {
                     (getObjectField(param.thisObject, "roundedContainer") as LinearLayout)
-                        .background.setTint(colorInactive!!)
+                        .background.setTint(colorInactive)
 
                     val colorPrimary: Int =
                         getColorAttrDefaultColor(mContext, android.R.attr.textColorPrimaryInverse)
@@ -305,58 +301,62 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (isDark || !lightQSHeaderEnabled) return
 
-                val view = (param.thisObject as ViewGroup).findViewById<ViewGroup>(
-                    mContext.resources.getIdentifier(
-                        "qs_footer_actions",
-                        "id",
-                        mContext.packageName
-                    )
-                ).also {
-                    it.background?.setTint(Color.TRANSPARENT)
-                    it.elevation = 0f
-                }
-
-                // Settings button
-                view.findViewById<View>(
-                    mContext.resources.getIdentifier(
-                        "settings_button_container",
-                        "id",
-                        mContext.packageName
-                    )
-                ).findViewById<ImageView>(
-                    mContext.resources.getIdentifier(
-                        "icon",
-                        "id",
-                        mContext.packageName
-                    )
-                ).setImageTintList(ColorStateList.valueOf(Color.BLACK))
-
-                // Power menu button
                 try {
-                    view.findViewById<ImageView?>(
+                    val view = (param.thisObject as ViewGroup).findViewById<ViewGroup>(
                         mContext.resources.getIdentifier(
-                            "pm_lite",
+                            "qs_footer_actions",
                             "id",
                             mContext.packageName
                         )
-                    )
-                } catch (ignored: ClassCastException) {
-                    view.findViewById<ViewGroup?>(
-                        mContext.resources.getIdentifier(
-                            "pm_lite",
-                            "id",
-                            mContext.packageName
-                        )
-                    )
-                }?.apply {
-                    if (this is ImageView) {
-                        setImageTintList(ColorStateList.valueOf(Color.WHITE))
-                    } else if (this is ViewGroup) {
-                        (getChildAt(0) as ImageView).setColorFilter(
-                            Color.WHITE,
-                            PorterDuff.Mode.SRC_IN
-                        )
+                    ).also {
+                        it.background?.setTint(Color.TRANSPARENT)
+                        it.elevation = 0f
                     }
+
+                    // Settings button
+                    view.findViewById<View>(
+                        mContext.resources.getIdentifier(
+                            "settings_button_container",
+                            "id",
+                            mContext.packageName
+                        )
+                    ).findViewById<ImageView>(
+                        mContext.resources.getIdentifier(
+                            "icon",
+                            "id",
+                            mContext.packageName
+                        )
+                    ).setImageTintList(ColorStateList.valueOf(Color.BLACK))
+
+                    // Power menu button
+                    try {
+                        view.findViewById<ImageView?>(
+                            mContext.resources.getIdentifier(
+                                "pm_lite",
+                                "id",
+                                mContext.packageName
+                            )
+                        )
+                    } catch (ignored: ClassCastException) {
+                        view.findViewById<ViewGroup?>(
+                            mContext.resources.getIdentifier(
+                                "pm_lite",
+                                "id",
+                                mContext.packageName
+                            )
+                        )
+                    }?.apply {
+                        if (this is ImageView) {
+                            setImageTintList(ColorStateList.valueOf(Color.WHITE))
+                        } else if (this is ViewGroup) {
+                            (getChildAt(0) as ImageView).setColorFilter(
+                                Color.WHITE,
+                                PorterDuff.Mode.SRC_IN
+                            )
+                        }
+                    }
+                } catch (ignored: Throwable) {
+                    // it will fail on compose implementation
                 }
             }
         })
@@ -364,12 +364,12 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
         // QS Customize panel
         hookAllConstructors(qsCustomizerClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (!isDark && lightQSHeaderEnabled) {
-                    val mainView = param.thisObject as ViewGroup
+                if (isDark || !lightQSHeaderEnabled) return
 
-                    for (i in 0 until mainView.childCount) {
-                        mainView.getChildAt(i).setBackgroundColor(mScrimBehindTint)
-                    }
+                val mainView = param.thisObject as ViewGroup
+
+                for (i in 0 until mainView.childCount) {
+                    mainView.getChildAt(i).setBackgroundColor(mScrimBehindTint)
                 }
             }
         })
@@ -387,32 +387,32 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
         // QS security footer count circle
         hookAllConstructors(numberButtonViewHolderClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (!isDark && lightQSHeaderEnabled) {
-                    (getObjectField(param.thisObject, "newDot") as ImageView)
-                        .setColorFilter(Color.BLACK)
+                if (isDark || !lightQSHeaderEnabled) return
 
-                    (getObjectField(param.thisObject, "number") as TextView)
-                        .setTextColor(Color.BLACK)
-                }
+                (getObjectField(param.thisObject, "newDot") as ImageView)
+                    .setColorFilter(Color.BLACK)
+
+                (getObjectField(param.thisObject, "number") as TextView)
+                    .setTextColor(Color.BLACK)
             }
         })
 
         // QS security footer
         hookAllConstructors(textButtonViewHolderClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (!isDark && lightQSHeaderEnabled) {
-                    (getObjectField(param.thisObject, "chevron") as ImageView)
-                        .setColorFilter(Color.BLACK)
+                if (isDark || !lightQSHeaderEnabled) return
 
-                    (getObjectField(param.thisObject, "icon") as ImageView)
-                        .setColorFilter(Color.BLACK)
+                (getObjectField(param.thisObject, "chevron") as ImageView)
+                    .setColorFilter(Color.BLACK)
 
-                    (getObjectField(param.thisObject, "newDot") as ImageView)
-                        .setColorFilter(Color.BLACK)
+                (getObjectField(param.thisObject, "icon") as ImageView)
+                    .setColorFilter(Color.BLACK)
 
-                    (getObjectField(param.thisObject, "text") as TextView)
-                        .setTextColor(Color.BLACK)
-                }
+                (getObjectField(param.thisObject, "newDot") as ImageView)
+                    .setColorFilter(Color.BLACK)
+
+                (getObjectField(param.thisObject, "text") as TextView)
+                    .setTextColor(Color.BLACK)
             }
         })
 
@@ -420,27 +420,27 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
             hookAllMethods(qsFooterViewClass, "onFinishInflate", object : XC_MethodHook() {
                 // QS Footer built text row
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    if (!isDark && lightQSHeaderEnabled) {
-                        try {
-                            (getObjectField(param.thisObject, "mBuildText") as TextView)
-                                .setTextColor(Color.BLACK)
-                        } catch (ignored: Throwable) {
-                        }
+                    if (isDark || !lightQSHeaderEnabled) return
 
-                        try {
-                            (getObjectField(param.thisObject, "mEditButton") as ImageView)
-                                .setColorFilter(Color.BLACK)
-                        } catch (ignored: Throwable) {
-                        }
+                    try {
+                        (getObjectField(param.thisObject, "mBuildText") as TextView)
+                            .setTextColor(Color.BLACK)
+                    } catch (ignored: Throwable) {
+                    }
 
-                        try {
-                            setObjectField(
-                                getObjectField(param.thisObject, "mPageIndicator"),
-                                "mTint",
-                                ColorStateList.valueOf(Color.BLACK)
-                            )
-                        } catch (ignored: Throwable) {
-                        }
+                    try {
+                        (getObjectField(param.thisObject, "mEditButton") as ImageView)
+                            .setColorFilter(Color.BLACK)
+                    } catch (ignored: Throwable) {
+                    }
+
+                    try {
+                        setObjectField(
+                            getObjectField(param.thisObject, "mPageIndicator"),
+                            "mTint",
+                            ColorStateList.valueOf(Color.BLACK)
+                        )
+                    } catch (ignored: Throwable) {
                     }
                 }
             })
@@ -485,8 +485,14 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                 if (isDark || !lightQSHeaderEnabled) return
 
                 try {
-                    (getObjectField(param.thisObject, "mIcon") as ImageView)
-                        .setImageTintList(ColorStateList.valueOf(Color.BLACK))
+                    val iconColor = if ((param.args?.get(0) ?: false) as Boolean) {
+                        Color.WHITE
+                    } else {
+                        Color.BLACK
+                    }
+                    val mIcon = getObjectField(param.thisObject, "mIcon") as ImageView
+
+                    mIcon.setImageTintList(ColorStateList.valueOf(iconColor))
                 } catch (throwable: Throwable) {
                     log(TAG + throwable)
                 }
@@ -500,7 +506,7 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                 ) {
                     try {
                         (param.args[0] as ImageView)
-                            .setImageTintList(ColorStateList.valueOf(colorInactive!!))
+                            .setImageTintList(ColorStateList.valueOf(colorInactive))
                     } catch (throwable: Throwable) {
                         log(TAG + throwable)
                     }
@@ -526,22 +532,25 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
 
         try {
             // White QS Clock bug
-            hookAllMethods(quickStatusBarHeaderClass, "onFinishInflate", object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    try {
-                        mClockViewQSHeader = getObjectField(param.thisObject, "mClockView")
-                    } catch (ignored: Throwable) {
-                    }
-
-                    if (!isDark && lightQSHeaderEnabled && mClockViewQSHeader != null) {
+            hookAllMethods(
+                quickStatusBarHeaderClass,
+                "onFinishInflate",
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
                         try {
-                            (mClockViewQSHeader as TextView).setTextColor(Color.WHITE)
-                        } catch (throwable: Throwable) {
-                            log(TAG + throwable)
+                            mClockViewQSHeader = getObjectField(param.thisObject, "mClockView")
+                        } catch (ignored: Throwable) {
+                        }
+
+                        if (!isDark && lightQSHeaderEnabled && mClockViewQSHeader != null) {
+                            try {
+                                (mClockViewQSHeader as TextView).setTextColor(Color.WHITE)
+                            } catch (throwable: Throwable) {
+                                log(TAG + throwable)
+                            }
                         }
                     }
-                }
-            })
+                })
 
             // White QS Clock bug
             hookAllMethods(clockClass, "onColorsChanged", object : XC_MethodHook() {
@@ -584,6 +593,26 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
 
                     setObjectField(param.thisObject, "colorLabelInactive", Color.BLACK)
                     setObjectField(param.thisObject, "colorSecondaryLabelInactive", -0x80000000)
+
+                    val sideView = getObjectField(param.thisObject, "sideView") as ViewGroup
+
+                    val customDrawable = sideView.findViewById<ImageView>(
+                        mContext.resources.getIdentifier(
+                            "customDrawable",
+                            "id",
+                            mContext.packageName
+                        )
+                    )
+                    customDrawable.setImageTintList(ColorStateList.valueOf(Color.WHITE))
+
+                    val chevron = sideView.findViewById<ImageView>(
+                        mContext.resources.getIdentifier(
+                            "chevron",
+                            "id",
+                            mContext.packageName
+                        )
+                    )
+                    chevron.setImageTintList(ColorStateList.valueOf(Color.WHITE))
                 } catch (throwable: Throwable) {
                     log(TAG + throwable)
                 }
@@ -702,11 +731,14 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
 
                     if (code != PM_LITE_BACKGROUND_CODE) {
                         try {
-                            if (mContext.resources.getResourceName(code).split("/".toRegex())
-                                    .dropLastWhile { it.isEmpty() }
-                                    .toTypedArray()[1] == "onShadeInactiveVariant"
-                            ) {
-                                result = Color.BLACK // number button text
+                            when (mContext.resources.getResourceName(code).split("/")[1]) {
+                                "underSurface", "onShadeActive", "shadeInactive" -> {
+                                    result = colorInactive // button backgrounds
+                                }
+
+                                "onShadeInactiveVariant" -> {
+                                    result = Color.BLACK // "number button" text
+                                }
                             }
                         } catch (ignored: Throwable) {
                         }
@@ -725,11 +757,11 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                     // Power button
                     val power = getObjectField(param.thisObject, "power")
                     setObjectField(power, "iconTint", Color.WHITE)
+                    setObjectField(power, "backgroundColor", PM_LITE_BACKGROUND_CODE)
 
                     // Settings button
                     val settings = getObjectField(param.thisObject, "settings")
                     setObjectField(settings, "iconTint", Color.BLACK)
-                    //                    setObjectField(settings, "backgroundColor", colorInactive);
 
                     // We must use the classes defined in the apk. Using our own will fail.
                     val stateFlowImplClass = findClass(
@@ -820,18 +852,16 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                         ), mContext
                     )
                     val surfaceBackground = states.defaultColor
-                    val accentStates: ColorStateList =
-                        getColorAttr(
-                            mContext.resources.getIdentifier(
-                                "colorAccent",
-                                "attr",
-                                "android"
-                            ), mContext
-                        )
-                    val accent = accentStates.defaultColor
+                    val accentColor = getColorAttr(
+                        mContext.resources.getIdentifier(
+                            "colorAccent",
+                            "attr",
+                            "android"
+                        ), mContext
+                    ).defaultColor
 
                     callMethod(mBehindColors, "setMainColor", surfaceBackground)
-                    callMethod(mBehindColors, "setSecondaryColor", accent)
+                    callMethod(mBehindColors, "setSecondaryColor", accentColor)
 
                     val contrast = ColorUtils.calculateContrast(
                         callMethod(
@@ -1139,13 +1169,11 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
             }
 
             for (i in 1..3) {
-                val id = String.format("carrier%s", i)
-
                 try {
                     (getObjectField(
                         mView.findViewById(
                             mContext.resources.getIdentifier(
-                                id,
+                                "carrier$i",
                                 "id",
                                 mContext.packageName
                             )
@@ -1155,7 +1183,7 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                     (getObjectField(
                         mView.findViewById(
                             mContext.resources.getIdentifier(
-                                id,
+                                "carrier$i",
                                 "id",
                                 mContext.packageName
                             )
@@ -1165,7 +1193,7 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                     (getObjectField(
                         mView.findViewById(
                             mContext.resources.getIdentifier(
-                                id,
+                                "carrier$i",
                                 "id",
                                 mContext.packageName
                             )
