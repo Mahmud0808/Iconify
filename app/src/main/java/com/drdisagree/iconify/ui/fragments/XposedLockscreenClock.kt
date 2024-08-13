@@ -108,7 +108,7 @@ class XposedLockscreenClock : BaseFragment() {
         binding.enableLockscreenClock.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked && isAtleastA14) {
                 Shell.cmd(
-                    "adb shell settings put secure lock_screen_custom_clock_face default"
+                    "settings put secure lock_screen_custom_clock_face default"
                 ).exec()
             }
 
