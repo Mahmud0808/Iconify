@@ -44,6 +44,7 @@ object Const {
     )
     const val ACTION_HOOK_CHECK_REQUEST = "${BuildConfig.APPLICATION_ID}.ACTION_HOOK_CHECK_REQUEST"
     const val ACTION_HOOK_CHECK_RESULT = "${BuildConfig.APPLICATION_ID}.ACTION_HOOK_CHECK_RESULT"
+    const val ACTION_BOOT_COMPLETED = "${BuildConfig.APPLICATION_ID}.ACTION_BOOT_COMPLETED"
 
     // Module script
     val MAGISK_UPDATE_BINARY = """

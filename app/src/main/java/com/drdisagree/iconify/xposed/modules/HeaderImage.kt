@@ -1,9 +1,14 @@
 package com.drdisagree.iconify.xposed.modules
 
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
 import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
+import android.os.Build
 import android.os.Environment
 import android.util.TypedValue
 import android.view.Gravity
@@ -14,6 +19,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.bosphere.fadingedgelayout.FadingEdgeLayout
+import com.drdisagree.iconify.common.Const.ACTION_BOOT_COMPLETED
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_BOTTOM_FADE_AMOUNT
@@ -49,6 +55,16 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
     private var mQsHeaderLayout: FadingEdgeLayout? = null
     private var mQsHeaderImageView: ImageView? = null
     private var bottomFadeAmount = 0
+    private var mBroadcastRegistered = false
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent != null && intent.action != null) {
+                if (intent.action == ACTION_BOOT_COMPLETED) {
+                    updateQSHeaderImage()
+                }
+            }
+        }
+    }
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -73,7 +89,28 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
         }
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+        if (!mBroadcastRegistered) {
+            val intentFilter = IntentFilter()
+            intentFilter.addAction(ACTION_BOOT_COMPLETED)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                mContext.registerReceiver(
+                    mReceiver,
+                    intentFilter,
+                    Context.RECEIVER_EXPORTED
+                )
+            } else {
+                mContext.registerReceiver(
+                    mReceiver,
+                    intentFilter
+                )
+            }
+
+            mBroadcastRegistered = true
+        }
+
         val quickStatusBarHeader = findClass(
             "$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader",
             loadPackageParam.classLoader
@@ -232,9 +269,10 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
     private fun loadImageOrGif(iv: ImageView) {
         try {
             val executor = Executors.newSingleThreadScheduledExecutor()
-            executor.scheduleAtFixedRate({
+            executor.scheduleWithFixedDelay({
                 val androidDir =
                     File(Environment.getExternalStorageDirectory().toString() + "/Android")
+
                 if (androidDir.isDirectory()) {
                     try {
                         val source = ImageDecoder.createSource(

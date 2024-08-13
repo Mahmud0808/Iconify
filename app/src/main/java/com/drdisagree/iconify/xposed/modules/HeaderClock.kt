@@ -1,8 +1,10 @@
 package com.drdisagree.iconify.xposed.modules
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -29,6 +31,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.TextUtilsCompat
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Const.ACTION_BOOT_COMPLETED
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_CENTERED
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT1
@@ -73,6 +76,7 @@ import java.util.Locale
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
+
 @SuppressLint("DiscouragedApi")
 class HeaderClock(context: Context?) : ModPack(context!!) {
 
@@ -89,6 +93,16 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
             onClockClick()
         } else if (tag == "date") {
             onDateClick()
+        }
+    }
+    private var mBroadcastRegistered = false
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent != null && intent.action != null) {
+                if (intent.action == ACTION_BOOT_COMPLETED) {
+                    updateClockView()
+                }
+            }
         }
     }
 
@@ -119,7 +133,28 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
         }
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+        if (!mBroadcastRegistered) {
+            val intentFilter = IntentFilter()
+            intentFilter.addAction(ACTION_BOOT_COMPLETED)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                mContext.registerReceiver(
+                    mReceiver,
+                    intentFilter,
+                    Context.RECEIVER_EXPORTED
+                )
+            } else {
+                mContext.registerReceiver(
+                    mReceiver,
+                    intentFilter
+                )
+            }
+
+            mBroadcastRegistered = true
+        }
+
         initResources(mContext)
 
         val qsSecurityFooterUtilsClass = findClassIfExists(
