@@ -873,17 +873,26 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
 
         mClockView?.let {
             it.setTextSize(unit, leftClockSize.toFloat())
-            setClockGravity(it, Gravity.LEFT or Gravity.CENTER)
+
+            if (sbClockSizeSwitch) {
+                setClockGravity(it, Gravity.LEFT or Gravity.CENTER)
+            }
         }
 
         mCenterClockView?.let {
             it.setTextSize(unit, centerClockSize.toFloat())
-            setClockGravity(it, Gravity.CENTER)
+
+            if (sbClockSizeSwitch) {
+                setClockGravity(it, Gravity.CENTER)
+            }
         }
 
         mRightClockView?.let {
             it.setTextSize(unit, rightClockSize.toFloat())
-            setClockGravity(it, Gravity.RIGHT or Gravity.CENTER)
+
+            if (sbClockSizeSwitch) {
+                setClockGravity(it, Gravity.RIGHT or Gravity.CENTER)
+            }
         }
     }
 
