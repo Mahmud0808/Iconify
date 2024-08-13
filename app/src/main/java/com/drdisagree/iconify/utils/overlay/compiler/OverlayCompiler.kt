@@ -15,7 +15,6 @@ import com.drdisagree.iconify.utils.helper.Logger.writeLog
 import com.topjohnwu.superuser.Shell
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
-import java.util.Locale
 
 object OverlayCompiler {
 
@@ -75,10 +74,26 @@ object OverlayCompiler {
         val command = aaptCommand.toString()
         var result = Shell.cmd(command).exec()
 
-        if (!result.isSuccess && listContains(result.out, "colorSurfaceHeader")) {
-            Shell.cmd("find $source/res -type f -name \"*.xml\" -exec sed -i '/colorSurfaceHeader/d' {} +")
-                .exec()
-            result = Shell.cmd(command).exec()
+        if (!result.isSuccess) {
+            val keywords = listOf(
+                "colorSurfaceHeader",
+                "materialColorOnSurface",
+                "materialColorSurfaceContainerHigh",
+                "materialColorSurfaceContainerHighest"
+            )
+
+            val foundKeywords = keywords.filter { keyword ->
+                result.out.any { it.contains(keyword, ignoreCase = true) }
+            }
+
+            if (foundKeywords.isNotEmpty()) {
+                foundKeywords.forEach { keyword ->
+                    Shell.cmd(
+                        "find $source/res -type f -name \"*.xml\" -exec sed -i '/$keyword/d' {} +"
+                    ).exec()
+                }
+                result = Shell.cmd(command).exec()
+            }
         }
 
         if (result.isSuccess) {
@@ -164,18 +179,6 @@ object OverlayCompiler {
             Log.e(TAG, e.toString())
             writeLog("$TAG - APKSigner", "Failed to sign $fileName", e)
             return true
-        }
-
-        return false
-    }
-
-    fun listContains(list: List<String>, target: String): Boolean {
-        for (item in list) {
-            if (item.lowercase(Locale.getDefault())
-                    .contains(target.lowercase(Locale.getDefault()))
-            ) {
-                return true
-            }
         }
 
         return false

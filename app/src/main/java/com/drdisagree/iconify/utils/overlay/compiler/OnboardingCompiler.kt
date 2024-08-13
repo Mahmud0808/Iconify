@@ -64,16 +64,28 @@ object OnboardingCompiler {
         while (attempt-- != 0) {
             result = Shell.cmd(command).exec()
 
-            if (!result.isSuccess && OverlayCompiler.listContains(
-                    result.out,
-                    "colorSurfaceHeader"
+            if (!result.isSuccess) {
+                val keywords = listOf(
+                    "colorSurfaceHeader",
+                    "materialColorOnSurface",
+                    "materialColorSurfaceContainerHigh",
+                    "materialColorSurfaceContainerHighest"
                 )
-            ) {
-                Shell.cmd(
-                    "find $source/res -type f -name \"*.xml\" -exec sed -i '/colorSurfaceHeader/d' {} +"
-                ).exec()
-                result = Shell.cmd(command).exec()
+
+                val foundKeywords = keywords.filter { keyword ->
+                    result!!.out.any { it.contains(keyword, ignoreCase = true) }
+                }
+
+                if (foundKeywords.isNotEmpty()) {
+                    foundKeywords.forEach { keyword ->
+                        Shell.cmd(
+                            "find $source/res -type f -name \"*.xml\" -exec sed -i '/$keyword/d' {} +"
+                        ).exec()
+                    }
+                    result = Shell.cmd(command).exec()
+                }
             }
+
             if (result.isSuccess) {
                 Log.i("$TAG - AAPT", "Successfully built APK for $name")
                 break
