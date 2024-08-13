@@ -469,7 +469,11 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
                     if (!blackQSHeaderEnabled) return
 
                     try {
-                        val iconColor = if (param.args[0] as Boolean) Color.BLACK else Color.WHITE
+                        val iconColor = if ((param.args?.get(0) ?: false) as Boolean) {
+                            Color.BLACK
+                        } else {
+                            Color.WHITE
+                        }
                         val mIcon = getObjectField(param.thisObject, "mIcon") as ImageView
 
                         mIcon.setImageTintList(ColorStateList.valueOf(iconColor))
@@ -789,7 +793,7 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
                     // Power button
                     val power = getObjectField(param.thisObject, "power")
                     setObjectField(power, "iconTint", Color.BLACK)
-                    setObjectField(power, "backgroundColor", PM_LITE_BACKGROUND_CODE);
+                    setObjectField(power, "backgroundColor", PM_LITE_BACKGROUND_CODE)
 
                     // Settings button
                     val settings = getObjectField(param.thisObject, "settings")
