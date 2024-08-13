@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
+import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.common.Preferences.HIDE_QS_FOOTER_BUTTONS
 import com.drdisagree.iconify.common.Preferences.HIDE_QS_SILENT_TEXT
@@ -135,6 +136,13 @@ class XposedQuickSettings : BaseFragment() {
         binding.hideSilentText.isSwitchChecked = getBoolean(HIDE_QS_SILENT_TEXT, false)
         binding.hideSilentText.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(HIDE_QS_SILENT_TEXT, isChecked)
+
+            if (isAtleastA14) {
+                Handler(Looper.getMainLooper()).postDelayed(
+                    { SystemUtil.handleSystemUIRestart() },
+                    SWITCH_ANIMATION_DELAY
+                )
+            }
         }
 
         // Hide footer buttons
