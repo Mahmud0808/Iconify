@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.modules.utils
 
 import android.content.Context
+import android.util.ArraySet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,12 @@ import com.topjohnwu.superuser.Shell
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
+import de.robv.android.xposed.XposedBridge.hookMethod
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
+import java.lang.reflect.Method
+import java.util.regex.Pattern
 
 @Suppress("unused")
 object Helpers {
@@ -84,6 +88,45 @@ object Helpers {
             hookAllConstructors(clazz, hook)
         } catch (ignored: Throwable) {
         }
+    }
+
+    fun hookAllMethodsMatchPattern(
+        clazz: Class<*>,
+        namePattern: String,
+        callback: XC_MethodHook
+    ): Set<XC_MethodHook.Unhook> {
+        val result: MutableSet<XC_MethodHook.Unhook> = ArraySet()
+
+        for (method in findMethods(clazz, namePattern)) {
+            result.add(hookMethod(method, callback))
+        }
+
+        return result
+    }
+
+    private fun findMethods(clazz: Class<*>, namePattern: String): Set<Method> {
+        val result: MutableSet<Method> = ArraySet()
+        val methods: Array<Method> = clazz.methods
+
+        for (method in methods) {
+            if (Pattern.matches(namePattern, method.name)) {
+                result.add(method)
+            }
+        }
+
+        return result
+    }
+
+    fun findMethod(clazz: Class<*>, namePattern: String): Method? {
+        val methods: Array<Method> = clazz.methods
+
+        for (method in methods) {
+            if (Pattern.matches(namePattern, method.name)) {
+                return method
+            }
+        }
+
+        return null
     }
 
     fun dumpChildViews(context: Context, view: View) {
