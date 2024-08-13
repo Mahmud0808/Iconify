@@ -689,6 +689,7 @@
     <string name="depth_wallpaper_subject_extraction_success">Extracted wallpaper subject!</string>
     <string name="depth_wallpaper_subject_extraction_failed">Failed to extract wallpaper subject!</string>
     <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
+    <string name="use_custom_lockscreen_clock">Must use custom lockscreen clock</string>
 
     <!-- Background Chip -->
     <string name="section_title_status_bar">Status Bar</string>

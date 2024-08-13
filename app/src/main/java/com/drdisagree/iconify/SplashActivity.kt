@@ -2,6 +2,7 @@ package com.drdisagree.iconify
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
@@ -49,7 +50,9 @@ class SplashActivity : AppCompatActivity() {
                     isVersionCodeCorrect
                 ) {
                     keepShowing = false
-                    BitmapSubjectSegmenter(this@SplashActivity)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        BitmapSubjectSegmenter(this@SplashActivity)
+                    }
                     Intent(this@SplashActivity, MainActivity::class.java)
                 } else {
                     keepShowing = false

@@ -140,21 +140,30 @@ class XposedDepthWallpaper : BaseFragment() {
                 )
             }
         }
-        BitmapSubjectSegmenter(requireContext())
-            .checkModelAvailability { moduleAvailabilityResponse: ModuleAvailabilityResponse? ->
-                binding.depthWallpaper.setSummary(
-                    getString(
-                        R.string.enable_depth_wallpaper_desc,
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU) {
+            binding.depthWallpaper.setSummary(
+                getString(
+                    R.string.enable_depth_wallpaper_desc,
+                    getString(R.string.use_custom_lockscreen_clock)
+                )
+            )
+        } else {
+            BitmapSubjectSegmenter(requireContext())
+                .checkModelAvailability { moduleAvailabilityResponse: ModuleAvailabilityResponse? ->
+                    binding.depthWallpaper.setSummary(
                         getString(
-                            if (moduleAvailabilityResponse?.areModulesAvailable() == true) {
-                                R.string.depth_wallpaper_model_ready
-                            } else {
-                                R.string.depth_wallpaper_model_not_available
-                            }
+                            R.string.enable_depth_wallpaper_desc,
+                            getString(
+                                if (moduleAvailabilityResponse?.areModulesAvailable() == true) {
+                                    R.string.depth_wallpaper_model_ready
+                                } else {
+                                    R.string.depth_wallpaper_model_not_available
+                                }
+                            )
                         )
                     )
-                )
-            }
+                }
+        }
 
         // Custom depth wallpaper
         binding.customDepthWallpaper.visibility =
