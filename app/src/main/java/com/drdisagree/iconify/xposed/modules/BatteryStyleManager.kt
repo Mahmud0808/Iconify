@@ -1006,137 +1006,135 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
             thisObject.addView(mChargingIconView, 1)
         }
 
-        val drawable = if (modRes != null) {
-            when (mChargingIconStyle) {
-                0 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_bold,
-                    mContext.theme
-                )
+        val drawable = when (mChargingIconStyle) {
+            0 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_bold,
+                mContext.theme
+            )
 
-                1 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_asus,
-                    mContext.theme
-                )
+            1 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_asus,
+                mContext.theme
+            )
 
-                2 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_buddy,
-                    mContext.theme
-                )
+            2 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_buddy,
+                mContext.theme
+            )
 
-                3 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_evplug,
-                    mContext.theme
-                )
+            3 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_evplug,
+                mContext.theme
+            )
 
-                4 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_idc,
-                    mContext.theme
-                )
+            4 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_idc,
+                mContext.theme
+            )
 
-                5 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_ios,
-                    mContext.theme
-                )
+            5 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_ios,
+                mContext.theme
+            )
 
-                6 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_koplak,
-                    mContext.theme
-                )
+            6 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_koplak,
+                mContext.theme
+            )
 
-                7 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_miui,
-                    mContext.theme
-                )
+            7 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_miui,
+                mContext.theme
+            )
 
-                8 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_mmk,
-                    mContext.theme
-                )
+            8 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_mmk,
+                mContext.theme
+            )
 
-                9 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_moto,
-                    mContext.theme
-                )
+            9 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_moto,
+                mContext.theme
+            )
 
-                10 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_nokia,
-                    mContext.theme
-                )
+            10 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_nokia,
+                mContext.theme
+            )
 
-                11 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_plug,
-                    mContext.theme
-                )
+            11 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_plug,
+                mContext.theme
+            )
 
-                12 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_powercable,
-                    mContext.theme
-                )
+            12 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_powercable,
+                mContext.theme
+            )
 
-                13 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_powercord,
-                    mContext.theme
-                )
+            13 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_powercord,
+                mContext.theme
+            )
 
-                14 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_powerstation,
-                    mContext.theme
-                )
+            14 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_powerstation,
+                mContext.theme
+            )
 
-                15 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_realme,
-                    mContext.theme
-                )
+            15 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_realme,
+                mContext.theme
+            )
 
-                16 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_soak,
-                    mContext.theme
-                )
+            16 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_soak,
+                mContext.theme
+            )
 
-                17 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_stres,
-                    mContext.theme
-                )
+            17 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_stres,
+                mContext.theme
+            )
 
-                18 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_strip,
-                    mContext.theme
-                )
+            18 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_strip,
+                mContext.theme
+            )
 
-                19 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_usbcable,
-                    mContext.theme
-                )
+            19 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_usbcable,
+                mContext.theme
+            )
 
-                20 -> ResourcesCompat.getDrawable(
-                    modRes!!,
-                    R.drawable.ic_charging_xiaomi,
-                    mContext.theme
-                )
+            20 -> ResourcesCompat.getDrawable(
+                modRes,
+                R.drawable.ic_charging_xiaomi,
+                mContext.theme
+            )
 
-                else -> null
-            }
-        } else null
+            else -> null
+        }
 
         if (drawable != null && drawable !== mChargingIconView.getDrawable()) {
             mChargingIconView.setImageDrawable(drawable)

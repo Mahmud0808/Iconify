@@ -114,9 +114,10 @@ class HookEntry : ServiceConnection {
     }
 
     private fun loadModPacks(loadPackageParam: LoadPackageParam) {
-        if (HookRes.modRes!!.getStringArray(R.array.root_requirement).toList().contains(
-                loadPackageParam.packageName
-            )
+        if (HookRes.modRes
+                .getStringArray(R.array.root_requirement)
+                .toList()
+                .contains(loadPackageParam.packageName)
         ) {
             forceConnectRootService()
         }
@@ -142,13 +143,10 @@ class HookEntry : ServiceConnection {
     private fun waitForXprefsLoad(loadPackageParam: LoadPackageParam) {
         while (true) {
             try {
-                Xprefs?.getBoolean("LoadTestBooleanValue", false)
+                Xprefs!!.getBoolean("LoadTestBooleanValue", false)
                 break
             } catch (ignored: Throwable) {
-                try {
-                    Thread.sleep(1000)
-                } catch (ignored1: Throwable) {
-                }
+                SystemUtil.sleep(1000);
             }
         }
 
@@ -227,8 +225,6 @@ class HookEntry : ServiceConnection {
 
         @SuppressLint("StaticFieldLeak")
         var instance: HookEntry? = null
-
-        @JvmField
         val runningMods = ArrayList<ModPack>()
         var isChildProcess = false
         var rootProxyIPC: IRootProviderProxy? = null
