@@ -5,6 +5,8 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.Process
 import android.os.UserManager
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector.resetCounter
@@ -15,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.Contract
+import java.util.concurrent.CountDownLatch
 import javax.annotation.Nullable
 
 
@@ -28,16 +31,28 @@ class SystemUtil(var mContext: Context) {
         get() = mContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES ==
                 Configuration.UI_MODE_NIGHT_YES
 
-    private fun getUserManager(): UserManager {
+    private fun getUserManager(): UserManager? {
         if (mUserManager == null) {
+            val latch = CountDownLatch(1)
+
+            Handler(Looper.getMainLooper()).post {
+                try {
+                    mUserManager = mContext.getSystemService(Context.USER_SERVICE) as UserManager
+                } catch (throwable: Throwable) {
+                    log(TAG + throwable)
+                } finally {
+                    latch.countDown()
+                }
+            }
+
             try {
-                mUserManager = mContext.getSystemService(Context.USER_SERVICE) as UserManager
-            } catch (throwable: Throwable) {
-                log(TAG + throwable)
+                latch.await()
+            } catch (e: InterruptedException) {
+                log(TAG + e.message)
             }
         }
 
-        return mUserManager!!
+        return mUserManager
     }
 
     companion object {
