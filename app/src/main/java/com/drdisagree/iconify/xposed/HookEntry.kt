@@ -103,7 +103,7 @@ class HookEntry : ServiceConnection {
     }
 
     private fun onXPrefsReady(loadPackageParam: LoadPackageParam) {
-        if (BootLoopProtector.isBootLooped(loadPackageParam.packageName)) {
+        if (!isChildProcess && BootLoopProtector.isBootLooped(loadPackageParam.packageName)) {
             log("Possible bootloop in ${loadPackageParam.packageName} ; Iconify will not load for now...")
             return
         }
