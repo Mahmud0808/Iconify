@@ -16,7 +16,6 @@
     <color name="system_neutral2_900">@*android:color/black</color>
     <style name="Theme.DeviceDefault.SystemUI" parent="@*android:style/Theme.DeviceDefault">
         <item name="@*android:colorSurfaceHeader">@*android:color/black</item>
-        <item name="@*android:materialColorOnSurface">@*android:color/black</item>
         <item name="@*android:materialColorSurfaceContainerHigh">@*android:color/black</item>
         <item name="@*android:materialColorSurfaceContainerHighest">@*android:color/black</item>
     </style>
