@@ -3,10 +3,12 @@ package com.drdisagree.iconify.xposed.modules.utils
 import android.content.Context
 import android.content.res.ColorStateList
 import com.drdisagree.iconify.xposed.ModPack
+import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedHelpers.callStaticMethod
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-class SettingsLibUtils(context: Context?) : ModPack(context!!) {
+class SettingsLibUtils(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
@@ -21,84 +23,125 @@ class SettingsLibUtils(context: Context?) : ModPack(context!!) {
     }
 
     companion object {
+        private val TAG = SettingsLibUtils::class.java.simpleName
         private var UtilsClass: Class<*>? = null
 
-        fun getColorAttr(context: Context?, resID: Int): ColorStateList {
-            return getColorAttr(resID, context)
+        fun getColorAttr(resID: Int, context: Context): ColorStateList {
+            return getColorAttr(
+                context,
+                resID
+            )
         }
 
-        fun getColorAttr(resID: Int, context: Context?): ColorStateList {
-            return if (UtilsClass == null) ColorStateList.valueOf(0) else try {
-                XposedHelpers.callStaticMethod(
+        fun getColorAttr(context: Context, resID: Int): ColorStateList {
+            return getColorStateListFromUtils(
+                "getColorAttr",
+                context,
+                resID
+            )
+        }
+
+        fun getColorAttrDefaultColor(resID: Int, context: Context, defValue: Int = 0): Int {
+            return getColorFromUtils(
+                "getColorAttrDefaultColor",
+                context,
+                resID,
+                defValue
+            )
+        }
+
+        fun getColorAttrDefaultColor(context: Context, resID: Int, defValue: Int = 0): Int {
+            return getColorFromUtils(
+                "getColorAttrDefaultColor",
+                context,
+                resID,
+                defValue
+            )
+        }
+
+        fun getColorStateListDefaultColor(context: Context, resID: Int): Int {
+            return getColorStateListFromUtils(
+                "getColorStateListDefaultColor",
+                context,
+                resID
+            ).defaultColor
+        }
+
+        private fun getColorFromUtils(
+            methodName: String,
+            context: Context,
+            resID: Int,
+            defValue: Int = 0
+        ): Int {
+            if (UtilsClass == null) return defValue
+
+            return try {
+                callStaticMethod(
                     UtilsClass,
-                    "getColorAttr",
-                    resID,
-                    context
-                ) as ColorStateList
-            } catch (throwable: Throwable) {
-                XposedHelpers.callStaticMethod(
-                    UtilsClass,
-                    "getColorAttr",
-                    context,
-                    resID
-                ) as ColorStateList
-            }
-        }
-
-        fun getColorAttrDefaultColor(resID: Int, context: Context?): Int {
-            return getColorAttrDefaultColor(context, resID)
-        }
-
-        fun getColorAttrDefaultColor(context: Context?, resID: Int): Int {
-            return getColorAttrDefaultColor(resID, context, 0)
-        }
-
-        fun getColorAttrDefaultColor(resID: Int, context: Context?, defValue: Int): Int {
-            return if (UtilsClass == null) 0 else try {
-                XposedHelpers.callStaticMethod(
-                    UtilsClass,
-                    "getColorAttrDefaultColor",
+                    methodName,
                     resID,
                     context
                 ) as Int
-            } catch (throwable: Throwable) {
+            } catch (ignored: Throwable) {
                 try {
-                    XposedHelpers.callStaticMethod(
+                    callStaticMethod(
                         UtilsClass,
-                        "getColorAttrDefaultColor",
+                        methodName,
                         context,
                         resID
                     ) as Int
-                } catch (throwable1: Throwable) {
-                    XposedHelpers.callStaticMethod(
-                        UtilsClass,
-                        "getColorAttrDefaultColor",
-                        context,
-                        resID,
-                        defValue
-                    ) as Int
+                } catch (ignored: Throwable) {
+                    try {
+                        callStaticMethod(
+                            UtilsClass,
+                            methodName,
+                            context,
+                            resID,
+                            defValue
+                        ) as Int
+                    } catch (ignored: Throwable) {
+                        try {
+                            callStaticMethod(
+                                UtilsClass,
+                                methodName,
+                                resID,
+                                defValue,
+                                context
+                            ) as Int
+                        } catch (throwable: Throwable) {
+                            log(TAG + throwable)
+                            defValue
+                        }
+                    }
                 }
             }
         }
 
-        fun getColorStateListDefaultColor(context: Context?, resID: Int): Int {
-            return if (UtilsClass == null) 0 else try {
-                (XposedHelpers.callStaticMethod(
+        private fun getColorStateListFromUtils(
+            methodName: String,
+            context: Context,
+            resID: Int
+        ): ColorStateList {
+            if (UtilsClass == null) return ColorStateList.valueOf(0)
+
+            return try {
+                callStaticMethod(
                     UtilsClass,
-                    "getColorStateListDefaultColor",
-                    context,
-                    resID
-                ) as ColorStateList).defaultColor
-            } catch (throwable: Throwable) {
+                    methodName,
+                    resID,
+                    context
+                ) as ColorStateList
+            } catch (ignored: Throwable) {
                 try {
-                    (XposedHelpers.callStaticMethod(
+                    callStaticMethod(
                         UtilsClass,
-                        "getColorStateListDefaultColor",
-                        resID,
-                        context
-                    ) as ColorStateList).defaultColor
-                } catch (throwable1: Throwable) {
-                    0
+                        methodName,
+                        context,
+                        resID
+                    ) as ColorStateList
+                } catch (throwable: Throwable) {
+                    log(TAG + throwable)
+                    ColorStateList.valueOf(0)
                 }
             }
         }
