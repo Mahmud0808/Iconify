@@ -240,10 +240,6 @@ class OmniJawsClient(private val mContext: Context) {
             val packageManager = mContext.packageManager
             mRes = packageManager.getResourcesForApplication(mPackageName!!)
         } catch (e: Exception) {
-            Log.d(TAG, "loadCustomIconPackage", e)
-            mRes = null
-        }
-        if (mRes == null) {
             Log.w(TAG, "Icon pack loading failed - loading default")
             loadDefaultIconsPackage()
         }

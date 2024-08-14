@@ -23,6 +23,7 @@ import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
 import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedBridge.log
 import java.util.Locale
 import java.util.function.Consumer
 
@@ -131,7 +132,6 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     }
 
     private fun enableUpdates() {
-        XposedBridge.log(TAG + "enableUpdates")
         if (mWeatherClient != null) {
             mWeatherClient.addObserver(this)
             //WeatherScheduler.scheduleUpdateNow(mContext);
@@ -167,7 +167,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
 
     override fun weatherError(errorReason: Int) {
         // Show only Disabled and Permission errors
-        XposedBridge.log(TAG + "weatherError " + errorReason)
+        log(TAG + "weatherError " + errorReason)
         if (errorReason == OmniJawsClient.EXTRA_ERROR_DISABLED) {
             mWeatherInfo = null
         }
@@ -226,7 +226,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 mWindLayout!!.visibility = if (mShowWeatherWind) VISIBLE else GONE
             }
         } catch (e: Exception) {
-            XposedBridge.log(TAG + "Weather query failed" + e.message)
+            log(TAG + "Weather query failed" + e.message)
             Log.e(TAG, "Weather query failed", e)
         }
     }
@@ -439,7 +439,6 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
         showLocation: Boolean, showText: Boolean,
         showHumidity: Boolean, showWind: Boolean, name: String
     ) {
-        if (BuildConfig.DEBUG) XposedBridge.log(TAG + "updateWeatherSettings " + (instances.isEmpty()))
         instances.stream()
             .filter { obj: Array<Any> ->
                 obj[1] == name
