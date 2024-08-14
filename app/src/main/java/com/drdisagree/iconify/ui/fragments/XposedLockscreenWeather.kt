@@ -7,12 +7,12 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_COLOR
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_LEFT
@@ -173,7 +174,14 @@ class XposedLockscreenWeather:BaseFragment(),
             binding.lockscreenWeatherCustomColor.visibility = if (isChecked) View.VISIBLE else View.GONE
         }
 
-        binding.lockscreenWeatherCustomColor.previewColor = getInt(WEATHER_TEXT_COLOR, 0xFFFFFFFF.toInt())
+        binding.lockscreenWeatherCustomColor.previewColor = getInt(WEATHER_TEXT_COLOR, Color.WHITE)
+        binding.lockscreenWeatherCustomColor.setColorPickerListener(
+            activity = requireActivity(),
+            defaultColor = getInt(WEATHER_TEXT_COLOR, Color.WHITE),
+            showPresets = true,
+            showAlphaSlider = false,
+            showColorShades = true
+        )
         binding.lockscreenWeatherCustomColor.setOnColorSelectedListener { color: Int ->
             putInt(WEATHER_TEXT_COLOR, color)
         }
@@ -210,7 +218,6 @@ class XposedLockscreenWeather:BaseFragment(),
                 object : IconsAdapter.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         val value = values[position]
-                        Log.d("Weather", "Selected weather icon pack: $value")
                         putString(WEATHER_ICON_PACK, value!!.replace(".debug", ""))
                         binding.lockscreenWeatherIconPack.setSummary(entries[position]!!)
                         forceRefreshWeatherSettings()
@@ -383,7 +390,6 @@ class XposedLockscreenWeather:BaseFragment(),
 
     private fun queryAndUpdateWeather() {
         mWeatherClient.queryWeather()
-        Log.d("Weather", "Querying weather " + mWeatherClient.getWeatherInfo().toString())
         if (mWeatherClient.getWeatherInfo() != null) {
             requireActivity().runOnUiThread {
                 binding.lockscreenWeatherLastUpdate.setSummary(mWeatherClient.getWeatherInfo()!!.lastUpdateTime)
@@ -425,7 +431,6 @@ class XposedLockscreenWeather:BaseFragment(),
         for (r in packageManager.queryIntentActivities(i, 0)) {
             val packageName = r.activityInfo.packageName
             if (packageName == DEFAULT_WEATHER_ICON_PACKAGE) {
-                Log.d("Weather", "Weather Icon Pack: " + r.activityInfo.name)
                 values.add(0, r.activityInfo.name)
                 drawables.add(
                     0,
@@ -441,10 +446,8 @@ class XposedLockscreenWeather:BaseFragment(),
                 )
             } else {
                 values.add(r.activityInfo.name)
-                Log.d("Weather", "Weather Icon Pack: " + r.activityInfo.name)
                 val name = r.activityInfo.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }
                     .toTypedArray()
-                Log.d("Weather", "Weather Icon Pack: " + r.activityInfo.name)
                 drawables.add(
                     ResourcesCompat.getDrawable(
                         resources, resources.getIdentifier(
