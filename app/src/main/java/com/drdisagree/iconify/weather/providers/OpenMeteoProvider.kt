@@ -38,7 +38,6 @@ class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) 
             speedUnit,
             timeZone
         )
-        Log.d(TAG, "Condition URL = $conditionUrl")
         val conditionResponse = retrieve(conditionUrl) ?: return null
         log(
             TAG,
@@ -69,11 +68,9 @@ class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) 
                 parseForecasts(JSONObject(conditionResponse).getJSONObject("daily"), metric),
                 System.currentTimeMillis()
             )
-
-            log(TAG, "Weather updated: $w")
             return w
         } catch (e: JSONException) {
-            Log.w(
+            Log.e(
                 TAG,
                 "Received malformed weather data (coordinates = $selection)", e
             )

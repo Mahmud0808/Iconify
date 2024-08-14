@@ -121,10 +121,6 @@ class WeatherContentProvider : ContentProvider() {
                     COLUMN_FORCE_REFRESH
                 )
             ) {
-                if (DEBUG) Log.i(
-                    TAG,
-                    "update: $uri $values"
-                )
                 scheduleUpdateNow(mContext)
             }
         }
@@ -208,7 +204,6 @@ class WeatherContentProvider : ContentProvider() {
         }
 
         fun updateCachedWeatherInfo(context: Context) {
-            if (DEBUG) Log.d(TAG, "updateCachedWeatherInfo()")
             sCachedWeatherInfo = Config.getWeatherData(context)
             context.contentResolver.notifyChange(
                 Uri.parse("content://$AUTHORITY/weather"), null

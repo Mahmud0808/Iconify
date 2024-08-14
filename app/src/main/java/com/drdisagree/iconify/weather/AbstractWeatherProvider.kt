@@ -23,10 +23,6 @@ abstract class AbstractWeatherProvider(protected var mContext: Context) {
 
         NetworkUtils.downloadUrlMemoryAsString(url) { result: String? ->
             if (result != null) {
-                Log.d(
-                    TAG,
-                    "Download success $result"
-                )
                 response = result
             } else {
                 response = ""
