@@ -13,8 +13,11 @@ import java.util.Locale
 import java.util.TimeZone
 
 class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) {
-    override fun getCustomWeather(id: String?, metric: Boolean): WeatherInfo? {
-        return handleWeatherRequest(id, metric)
+
+    override fun getCustomWeather(lat: String?, lon: String?, metric: Boolean): WeatherInfo? {
+        val coordinates =
+            String.format(Locale.US, PART_COORDINATES, lat!!.toFloat(), lon!!.toFloat())
+        return handleWeatherRequest(coordinates, metric)
     }
 
     override fun getLocationWeather(location: Location?, metric: Boolean): WeatherInfo? {

@@ -19,7 +19,8 @@ import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.weather.providers.OpenMeteoProvider
 
 object Config {
-    const val PREF_KEY_LOCATION_ID: String = "location_id"
+    const val PREF_KEY_LOCATION_LAT: String = "location_lat"
+    const val PREF_KEY_LOCATION_LON: String = "location_lon"
     const val PREF_KEY_LOCATION_NAME: String = "location_name"
     const val PREF_KEY_WEATHER_DATA: String = "weather_data"
     const val PREF_KEY_LAST_UPDATE: String = "last_update"
@@ -61,12 +62,17 @@ object Config {
         return getPrefs(context).getBoolean(WEATHER_CUSTOM_LOCATION, false)
     }
 
-    fun getLocationId(context: Context): String? {
-        return getWeatherPrefs(context).getString(PREF_KEY_LOCATION_ID, null)
+    fun getLocationLat(context: Context): String? {
+        return getWeatherPrefs(context).getString(PREF_KEY_LOCATION_LAT, null)
     }
 
-    fun setLocationId(context: Context, id: String?) {
-        getWeatherPrefs(context).edit().putString(PREF_KEY_LOCATION_ID, id).apply()
+    fun getLocationLon(context: Context): String? {
+        return getWeatherPrefs(context).getString(PREF_KEY_LOCATION_LON, null)
+    }
+
+    fun setLocationId(context: Context, lat: String?, lon: String?) {
+        getWeatherPrefs(context).edit().putString(PREF_KEY_LOCATION_LAT, lat).apply()
+        getWeatherPrefs(context).edit().putString(PREF_KEY_LOCATION_LON, lon).apply()
     }
 
     fun getLocationName(context: Context): String? {

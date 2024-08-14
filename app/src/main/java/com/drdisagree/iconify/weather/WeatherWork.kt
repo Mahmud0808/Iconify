@@ -18,7 +18,8 @@ import com.drdisagree.iconify.utils.OmniJawsClient.EXTRA_ERROR_DISABLED
 import com.drdisagree.iconify.utils.OmniJawsClient.EXTRA_ERROR_LOCATION
 import com.drdisagree.iconify.utils.OmniJawsClient.EXTRA_ERROR_NETWORK
 import com.drdisagree.iconify.utils.OmniJawsClient.EXTRA_ERROR_NO_PERMISSIONS
-import com.drdisagree.iconify.weather.Config.getLocationId
+import com.drdisagree.iconify.weather.Config.getLocationLat
+import com.drdisagree.iconify.weather.Config.getLocationLon
 import com.drdisagree.iconify.weather.Config.getProvider
 import com.drdisagree.iconify.weather.Config.isCustomLocation
 import com.drdisagree.iconify.weather.Config.isEnabled
@@ -194,8 +195,8 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
             while (i < RETRY_MAX_NUM) {
                 w = if (location != null && !isCustomLocation(mContext)) {
                     provider.getLocationWeather(location, isMetric)
-                } else if (getLocationId(mContext) != null) {
-                    provider.getCustomWeather(getLocationId(mContext), isMetric)
+                } else if (!TextUtils.isEmpty(getLocationLat(mContext)) && !TextUtils.isEmpty(getLocationLon(mContext))) {
+                    provider.getCustomWeather(getLocationLat(mContext)!!, getLocationLon(mContext)!!, isMetric)
                 } else {
                     Log.w(TAG, "No valid custom location and location is null")
                     break
