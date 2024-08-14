@@ -45,7 +45,7 @@ abstract class AbstractWeatherProvider(protected var mContext: Context) {
         return response
     }
 
-    abstract fun getCustomWeather(id: String?, metric: Boolean): WeatherInfo?
+    abstract fun getCustomWeather(lat: String?, lon: String?, metric: Boolean): WeatherInfo?
 
     abstract fun getLocationWeather(location: Location?, metric: Boolean): WeatherInfo?
 
