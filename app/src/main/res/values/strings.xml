@@ -1071,6 +1071,7 @@
     <string name="weather_margin_top">Top margin</string>
     <string name="weather_centered">Center Layout</string>
     <string name="weather_margin_left">Left Margin</string>
+    <string name="weather_margin_bottom">Bottom Margin</string>
 
     <!-- Lockscreen Weather styles -->
     <string name="lockscreen_weather_selection_title">Weather Background Style</string>
