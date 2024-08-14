@@ -47,7 +47,7 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
 
     private var mBehindColors: Any? = null
     private var isDark: Boolean
-    private var colorInactive: Int = -1
+    private var colorInactive: Int? = null
     private var unlockedScrimState: Any? = null
     private var qsTextAlwaysWhite = false
     private var qsTextFollowAccent = false
@@ -176,23 +176,23 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
         // Background color of android 14's charging chip. Fix for light QS theme situation
         val batteryStatusChipColorHook: XC_MethodHook = object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (lightQSHeaderEnabled && !isDark) {
-                    (getObjectField(param.thisObject, "roundedContainer") as LinearLayout)
-                        .background.setTint(colorInactive)
+                if (isDark || !lightQSHeaderEnabled) return
 
-                    val colorPrimary: Int =
-                        getColorAttrDefaultColor(mContext, android.R.attr.textColorPrimaryInverse)
-                    val textColorSecondary: Int =
-                        getColorAttrDefaultColor(mContext, android.R.attr.textColorSecondaryInverse)
+                (getObjectField(param.thisObject, "roundedContainer") as LinearLayout)
+                    .background.setTint(colorInactive!!)
 
-                    callMethod(
-                        getObjectField(param.thisObject, "batteryMeterView"),
-                        "updateColors",
-                        colorPrimary,
-                        textColorSecondary,
-                        colorPrimary
-                    )
-                }
+                val colorPrimary: Int =
+                    getColorAttrDefaultColor(mContext, android.R.attr.textColorPrimaryInverse)
+                val textColorSecondary: Int =
+                    getColorAttrDefaultColor(mContext, android.R.attr.textColorSecondaryInverse)
+
+                callMethod(
+                    getObjectField(param.thisObject, "batteryMeterView"),
+                    "updateColors",
+                    colorPrimary,
+                    textColorSecondary,
+                    colorPrimary
+                )
             }
         }
 
@@ -506,7 +506,7 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                 ) {
                     try {
                         (param.args[0] as ImageView)
-                            .setImageTintList(ColorStateList.valueOf(colorInactive))
+                            .setImageTintList(ColorStateList.valueOf(colorInactive!!))
                     } catch (throwable: Throwable) {
                         log(TAG + throwable)
                     }
@@ -733,7 +733,7 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
                         try {
                             when (mContext.resources.getResourceName(code).split("/")[1]) {
                                 "underSurface", "onShadeActive", "shadeInactive" -> {
-                                    result = colorInactive // button backgrounds
+                                    result = colorInactive!! // button backgrounds
                                 }
 
                                 "onShadeInactiveVariant" -> {
