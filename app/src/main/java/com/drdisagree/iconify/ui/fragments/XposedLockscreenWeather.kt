@@ -12,7 +12,10 @@ import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_LEFT
@@ -57,6 +61,7 @@ import com.drdisagree.iconify.ui.adapters.IconsAdapter.Companion.WEATHER_ICONS_A
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.OmniJawsClient
+import com.drdisagree.iconify.utils.SystemUtil
 import com.drdisagree.iconify.weather.AbstractWeatherProvider.Companion.PART_COORDINATES
 import com.drdisagree.iconify.weather.Config
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -117,6 +122,12 @@ class XposedLockscreenWeather:BaseFragment(),
             } else {
                 checkLocationPermissions(false)
             }
+            updateUI()
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                { SystemUtil.handleSystemUIRestart() },
+                SWITCH_ANIMATION_DELAY
+            )
         }
 
         binding.lockscreenWeatherUpdateInterval.setSelectedIndex(getInt(WEATHER_UPDATE_INTERVAL, 1))
@@ -206,7 +217,7 @@ class XposedLockscreenWeather:BaseFragment(),
         getAvailableWeatherIconPacks(entries, values, drawables)
         val entriesChar: Array<CharSequence> = entries.filterNotNull().toTypedArray()
         val valuesChar: Array<CharSequence> = values.filterNotNull().toTypedArray()
-        val currentIconPack = Config.getIconPack(requireContext())
+        val currentIconPack = if (TextUtils.isEmpty(Config.getIconPack(requireContext()))) valuesChar[0].toString() else Config.getIconPack(requireContext())
         val mAdapter =
             IconsAdapter(
                 entriesChar,
@@ -222,7 +233,7 @@ class XposedLockscreenWeather:BaseFragment(),
                     }
                 })
         mAdapter.setDrawables(drawables.filterNotNull().toTypedArray())
-        val summary = if (values.contains(currentIconPack)) entries[values.indexOf(currentIconPack)] else entries[0]
+        val summary = if (!TextUtils.isEmpty(currentIconPack) && values.contains(currentIconPack)) entries[values.indexOf(currentIconPack)] else entries[0]
         binding.lockscreenWeatherIconPack.setSummary(summary!!)
         binding.lockscreenWeatherIconPack.setLayoutManager(LinearLayoutManager(requireContext()))
         binding.lockscreenWeatherIconPack.setAdapter(mAdapter)
@@ -475,7 +486,7 @@ class XposedLockscreenWeather:BaseFragment(),
 
     }
 
-    var mCustomLocationLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+    private var mCustomLocationLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {

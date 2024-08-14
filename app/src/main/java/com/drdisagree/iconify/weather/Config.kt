@@ -127,7 +127,7 @@ object Config {
     }
 
     fun getIconPack(context: Context): String? {
-        return getPrefs(context).getString(WEATHER_ICON_PACK, BuildConfig.APPLICATION_ID + ".google")
+        return getPrefs(context).getString(WEATHER_ICON_PACK, null)
     }
 
     fun setUpdateError(context: Context, value: Boolean) {
