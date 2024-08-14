@@ -11,6 +11,7 @@ import com.drdisagree.iconify.xposed.modules.HeaderClock
 import com.drdisagree.iconify.xposed.modules.HeaderImage
 import com.drdisagree.iconify.xposed.modules.IconUpdater
 import com.drdisagree.iconify.xposed.modules.LockscreenClock
+import com.drdisagree.iconify.xposed.modules.LockscreenWeather
 import com.drdisagree.iconify.xposed.modules.Miscellaneous
 import com.drdisagree.iconify.xposed.modules.QSTransparency
 import com.drdisagree.iconify.xposed.modules.QuickSettings
@@ -37,6 +38,7 @@ object EntryList {
         HeaderClock::class.java,
         HeaderImage::class.java,
         LockscreenClock::class.java,
+        LockscreenWeather::class.java,
         Miscellaneous::class.java,
         QSTransparency::class.java,
         QuickSettings::class.java,

@@ -26,6 +26,14 @@
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
+    <!-- Weather Updater -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Weather Updater -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Weather Updater -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Get Location for Weather -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Get Location for Weather -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- Get Location for Weather -->
+    <uses-permission android:name="com.drdisagree.iconify.READ_WEATHER" /> <!-- Permission for self Weather Provider -->
+
     <application
         android:name=".Iconify"
         android:allowBackup="false"
@@ -189,6 +197,23 @@
             android:directBootAware="true"
             android:exported="true"
             tools:ignore="ExportedContentProvider" /> <!-- Remote Preferences Provider -->
+        <provider
+            android:name=".weather.WeatherContentProvider"
+            android:authorities="com.drdisagree.iconify.weatherprovider"
+            android:exported="true" /> <!-- Weather Content Provider -->
+
+        <!-- name is used a prefix +"_" for images e.g. weather_<condition_id>
+             weather_foo_<condition_id> -->
+        <activity
+            android:name=".google"
+            android:exported="false"
+            android:label="Google">
+            <intent-filter>
+                <action android:name="org.omnirom.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

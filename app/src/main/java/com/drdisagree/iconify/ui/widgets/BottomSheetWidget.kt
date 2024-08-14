@@ -103,6 +103,11 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
     }
 
     private fun buildEntries() {
+        if (arrayResId == 0) {
+            mEntries = emptyArray()
+            mEntryValues = emptyArray()
+            return
+        }
         mEntries = resources.getTextArray(arrayResId)
 
         val mValues: MutableList<String> = ArrayList()

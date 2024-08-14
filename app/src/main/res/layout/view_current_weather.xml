@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_vertical">
+
+    <!-- Weather Layout -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/leftText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:tag="text" />
+
+        <ImageView
+            android:id="@+id/currentImage"
+            android:layout_marginHorizontal="2dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp" />
+
+        <TextView
+            android:id="@+id/rightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:tag="text" />
+
+        <TextView
+            android:id="@+id/weatherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            android:tag="text" />
+    </LinearLayout>
+
+    <!-- Humidity Layout -->
+    <LinearLayout
+        android:id="@+id/humLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp">
+
+        <ImageView
+            android:id="@+id/humImage"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/humText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:tag="text" />
+    </LinearLayout>
+
+    <!-- Wind Layout -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/windLayout"
+        android:layout_marginTop="2dp">
+
+        <ImageView
+            android:id="@+id/windImage"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/windText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:tag="text" />
+    </LinearLayout>
+
+</LinearLayout>

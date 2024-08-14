@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.XposedLockscreenWeather">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/enable_lockscreen_weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/lockscreen_weather" />
+
+            <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                android:id="@+id/lockscreen_weather_update_interval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/update_interval_title"
+                app:entries="@array/update_interval_entries" />
+
+            <com.drdisagree.iconify.ui.widgets.MenuWidget
+                android:id="@+id/lockscreen_weather_last_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/last_update_time" />
+
+            <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                android:id="@+id/lockscreen_weather_units"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/units_title"
+                app:entries="@array/units_entries" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/lockscreen_weather_show_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_show_location"
+                app:summaryText="@string/general_on" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/lockscreen_weather_show_condition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_show_condition"
+                app:summaryText="@string/general_on" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/lockscreen_weather_show_humidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_show_humidity"
+                app:summaryText="@string/general_off" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/lockscreen_weather_show_wind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_show_wind"
+                app:summaryText="@string/general_off" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/lockscreen_weather_text_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_text_size"
+                app:sliderStepSize="1"
+                app:sliderValueFrom="13"
+                app:sliderValueTo="24"
+                app:sliderValue="16"
+                app:sliderDefaultValue="16"
+                app:valueFormat="sp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/lockscreen_weather_image_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_image_size"
+                app:sliderStepSize="1"
+                app:sliderValueFrom="13"
+                app:sliderValueTo="24"
+                app:sliderValue="18"
+                app:sliderDefaultValue="18"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/lockscreen_weather_custom_color_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_custom_color"
+                app:summaryText="@string/general_off" />
+
+            <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                android:id="@+id/lockscreen_weather_custom_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_custom_color"
+                app:summaryText="@string/general_off" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/lockscreen_weather_custom_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/custom_location_title"
+                app:summaryText="@string/general_off" />
+
+            <com.drdisagree.iconify.ui.widgets.MenuWidget
+                android:id="@+id/lockscreen_weather_custom_location_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_custom_location_title" />
+
+            <com.drdisagree.iconify.ui.widgets.BottomSheetWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_icon_pack_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/lockscreen_weather_custom_margins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_custom_margins"
+                app:summaryText="@string/general_off" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/lockscreen_weather_margin_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_margin_top"
+                app:sliderStepSize="1"
+                app:sliderValue="0"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="100"
+                app:sliderDefaultValue="0"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/lockscreen_weather_margin_left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_margin_left"
+                app:sliderStepSize="1"
+                app:sliderValue="0"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="100"
+                app:sliderDefaultValue="0"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                android:id="@+id/lockscreen_weather_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/lockscreen_weather_selection_title"
+                app:entries="@array/lockscreen_weather_bg_entries" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
