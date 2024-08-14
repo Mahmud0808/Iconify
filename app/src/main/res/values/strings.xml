@@ -992,7 +992,6 @@
     <string name="units_title">Unit</string>
     <string name="weather_progress_title">Verifying location</string>
     <string name="weather_select_location">Select location</string>
-    <string name="custom_location_title">Custom location</string>
     <string name="weather_custom_location_dialog_title">Enter location</string>
     <string name="weather_custom_location_title">Location</string>
     <string name="weather_custom_location_missing">Set custom location</string>
@@ -1038,10 +1037,6 @@
     <string name="omnijaws_service_error_permissions">Location permissions not granted</string>
     <string name="location_browse_activity_title">Select location</string>
     <string name="location_query_hint">Search for a location</string>
-    <string name="weather_custom_margins">Custom Margins</string>
-    <string name="weather_margin_top">Top margin</string>
-    <string name="weather_centered">Center Layout</string>
-    <string name="weather_margin_left">Left Margin</string>
     <string name="weather_permission_dialog_title">Enable Location Permissions</string>
     <string name="weather_permission_dialog_message">Location permissions are required to fetch weather data. Click OK to open Settings.</string>
 
@@ -1058,12 +1053,24 @@
     <string name="lockscreen_weather">Show Weather on Lockscreen</string>
     <string name="last_update_time">Last update time</string>
     <string name="weather_show_location">Show Location</string>
+    <string name="weather_show_location_summary">Show Location before icon</string>
     <string name="weather_show_condition">Show Condition</string>
+    <string name="weather_show_condition_summary">Show Condition after temperature</string>
     <string name="weather_show_humidity">Show Humidity</string>
+    <string name="weather_show_humidity_summary">Show Humidity in a new row</string>
     <string name="weather_show_wind">Show Wind</string>
+    <string name="weather_show_wind_summary">Show Wind in a new row</string>
     <string name="weather_text_size">Text Size</string>
     <string name="weather_image_size">Image Size</string>
     <string name="weather_custom_color">Weather Text Custom Color</string>
+    <string name="weather_custom_color_summary">Custom color for all text in weather view</string>
+    <string name="custom_location_title">Custom location</string>
+    <string name="custom_location_summary">Set custom location for weather</string>
+    <string name="weather_custom_margins">Custom Margins</string>
+    <string name="weather_custom_margins_summary">Set custom margins for weather</string>
+    <string name="weather_margin_top">Top margin</string>
+    <string name="weather_centered">Center Layout</string>
+    <string name="weather_margin_left">Left Margin</string>
 
     <!-- Lockscreen Weather styles -->
     <string name="lockscreen_weather_selection_title">Weather Background Style</string>

@@ -52,28 +52,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="@string/weather_show_location"
-                app:summaryText="@string/general_on" />
+                app:summaryText="@string/weather_show_location_summary" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/lockscreen_weather_show_condition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="@string/weather_show_condition"
-                app:summaryText="@string/general_on" />
+                app:summaryText="@string/weather_show_condition_summary" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/lockscreen_weather_show_humidity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="@string/weather_show_humidity"
-                app:summaryText="@string/general_off" />
+                app:summaryText="@string/weather_show_humidity_summary" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/lockscreen_weather_show_wind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="@string/weather_show_wind"
-                app:summaryText="@string/general_off" />
+                app:summaryText="@string/weather_show_wind_summary" />
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget
                 android:id="@+id/lockscreen_weather_text_size"
@@ -104,21 +104,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="@string/weather_custom_color"
-                app:summaryText="@string/general_off" />
+                app:summaryText="@string/weather_custom_color_summary" />
 
             <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
                 android:id="@+id/lockscreen_weather_custom_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:titleText="@string/weather_custom_color"
-                app:summaryText="@string/general_off" />
+                app:titleText="@string/weather_custom_color"/>
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/lockscreen_weather_custom_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="@string/custom_location_title"
-                app:summaryText="@string/general_off" />
+                app:summaryText="@string/custom_location_summary" />
 
             <com.drdisagree.iconify.ui.widgets.MenuWidget
                 android:id="@+id/lockscreen_weather_custom_location_menu"
@@ -127,6 +126,7 @@
                 app:titleText="@string/weather_custom_location_title" />
 
             <com.drdisagree.iconify.ui.widgets.BottomSheetWidget
+                android:id="@+id/lockscreen_weather_icon_pack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="@string/weather_icon_pack_title" />
@@ -136,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleText="@string/weather_custom_margins"
-                app:summaryText="@string/general_off" />
+                app:summaryText="@string/weather_custom_margins_summary" />
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget
                 android:id="@+id/lockscreen_weather_margin_top"
