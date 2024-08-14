@@ -66,9 +66,7 @@ object OnboardingCompiler {
 
             if (!result.isSuccess) {
                 val keywords = listOf(
-                    "colorSurfaceHeader",
-                    "materialColorSurfaceContainerHigh",
-                    "materialColorSurfaceContainerHighest"
+                    "colorSurfaceHeader"
                 )
 
                 val foundKeywords = keywords.filter { keyword ->
