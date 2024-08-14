@@ -1,11 +1,13 @@
 package com.drdisagree.iconify.ui.fragments
 
 import android.Manifest
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +19,8 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
@@ -24,6 +28,7 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_LEFT
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
+import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_SIZE
 import com.drdisagree.iconify.common.Preferences.WEATHER_SHOW_CONDITION
 import com.drdisagree.iconify.common.Preferences.WEATHER_SHOW_HUMIDITY
@@ -43,16 +48,25 @@ import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentXposedLockscreenWeatherBinding
 import com.drdisagree.iconify.services.WeatherScheduler
+import com.drdisagree.iconify.ui.activities.LocationBrowseActivity
+import com.drdisagree.iconify.ui.activities.LocationBrowseActivity.Companion.DATA_LOCATION_LAT
+import com.drdisagree.iconify.ui.activities.LocationBrowseActivity.Companion.DATA_LOCATION_LON
+import com.drdisagree.iconify.ui.activities.LocationBrowseActivity.Companion.DATA_LOCATION_NAME
+import com.drdisagree.iconify.ui.adapters.IconsAdapter
+import com.drdisagree.iconify.ui.adapters.IconsAdapter.Companion.WEATHER_ICONS_ADAPTER
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.OmniJawsClient
+import com.drdisagree.iconify.weather.AbstractWeatherProvider.Companion.PART_COORDINATES
 import com.drdisagree.iconify.weather.Config
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
+import java.util.Locale
 
 class XposedLockscreenWeather:BaseFragment(),
     OmniJawsClient.OmniJawsObserver {
 
+    private val DEFAULT_WEATHER_ICON_PACKAGE: String = BuildConfig.APPLICATION_ID + ".google"
     private lateinit var binding: FragmentXposedLockscreenWeatherBinding
     private lateinit var mWeatherClient: OmniJawsClient
     private var mTriggerPermissionCheck = false
@@ -167,11 +181,46 @@ class XposedLockscreenWeather:BaseFragment(),
         binding.lockscreenWeatherCustomLocation.isSwitchChecked = getBoolean(WEATHER_CUSTOM_LOCATION, false)
         binding.lockscreenWeatherCustomLocation.setSwitchChangeListener{ _: CompoundButton?, isChecked: Boolean ->
             putBoolean(WEATHER_CUSTOM_LOCATION, isChecked)
+            binding.lockscreenWeatherCustomLocationMenu.isEnabled = isChecked
         }
 
-        binding.lockscreenWeatherCustomLocationMenu.setOnClickListener(View.OnClickListener {
-            //TODO: Implement custom location
-        })
+        binding.lockscreenWeatherCustomLocationMenu.setSummary(Config.getLocationName(requireContext()))
+        binding.lockscreenWeatherCustomLocationMenu.setOnClickListener {
+            mCustomLocationLauncher.launch(
+                Intent(
+                    requireContext(),
+                    LocationBrowseActivity::class.java
+                )
+            )
+        }
+
+        val entries: MutableList<String?> = ArrayList()
+        val values: MutableList<String?> = ArrayList()
+        val drawables: MutableList<Drawable?> = ArrayList()
+        getAvailableWeatherIconPacks(entries, values, drawables)
+        val entriesChar: Array<CharSequence> = entries.filterNotNull().toTypedArray()
+        val valuesChar: Array<CharSequence> = values.filterNotNull().toTypedArray()
+        val currentIconPack = Config.getIconPack(requireContext())
+        val mAdapter =
+            IconsAdapter(
+                entriesChar,
+                valuesChar,
+                currentIconPack!!,
+                WEATHER_ICONS_ADAPTER,
+                object : IconsAdapter.OnItemClickListener {
+                    override fun onItemClick(view: View, position: Int) {
+                        val value = values[position]
+                        Log.d("Weather", "Selected weather icon pack: $value")
+                        putString(WEATHER_ICON_PACK, value!!.replace(".debug", ""))
+                        binding.lockscreenWeatherIconPack.setSummary(entries[position]!!)
+                        forceRefreshWeatherSettings()
+                    }
+                })
+        mAdapter.setDrawables(drawables.filterNotNull().toTypedArray())
+        val summary = entries[values.indexOf(currentIconPack)]
+        binding.lockscreenWeatherIconPack.setSummary(summary!!)
+        binding.lockscreenWeatherIconPack.setLayoutManager(LinearLayoutManager(requireContext()))
+        binding.lockscreenWeatherIconPack.setAdapter(mAdapter)
 
         binding.lockscreenWeatherCustomMargins.isSwitchChecked = getBoolean(WEATHER_CUSTOM_MARGINS, false)
         binding.lockscreenWeatherCustomMargins.setSwitchChangeListener{ _: CompoundButton?, isChecked: Boolean ->
@@ -200,12 +249,25 @@ class XposedLockscreenWeather:BaseFragment(),
             putInt(WEATHER_STYLE, it)
         }
 
-//        updateUI(getBoolean(WEATHER_SWITCH, false))
+        if (!getBoolean(WEATHER_CUSTOM_LOCATION, false)) {
+            checkLocationEnabledInitial()
+        } else {
+            forceRefreshWeatherSettings()
+        }
+
+        updateUI()
     }
 
     override fun onResume() {
         super.onResume()
+
         mWeatherClient.addObserver(this)
+
+        if (getBoolean(WEATHER_SWITCH, false)
+            && !getBoolean(WEATHER_CUSTOM_LOCATION, false)
+        ) {
+            checkLocationEnabled()
+        }
         if (mTriggerPermissionCheck) {
             checkLocationPermissions(true)
             mTriggerPermissionCheck = false
@@ -349,6 +411,97 @@ class XposedLockscreenWeather:BaseFragment(),
         val s: String = errorString
         requireActivity().runOnUiThread {
             binding.lockscreenWeatherLastUpdate.setSummary(s)
+        }
+    }
+
+    private fun getAvailableWeatherIconPacks(
+        entries: MutableList<String?>,
+        values: MutableList<String?>,
+        drawables: MutableList<Drawable?>
+    ) {
+        val i = Intent()
+        val packageManager = requireContext().packageManager
+        i.setAction(BuildConfig.APPLICATION_ID + ".WeatherIconPack")
+        for (r in packageManager.queryIntentActivities(i, 0)) {
+            val packageName = r.activityInfo.packageName
+            if (packageName == DEFAULT_WEATHER_ICON_PACKAGE) {
+                Log.d("Weather", "Weather Icon Pack: " + r.activityInfo.name)
+                values.add(0, r.activityInfo.name)
+                drawables.add(
+                    0,
+                    ResourcesCompat.getDrawable(
+                        resources,
+                        resources.getIdentifier(
+                            "google_30",
+                            "drawable",
+                            BuildConfig.APPLICATION_ID
+                        ),
+                        requireContext().theme
+                    )
+                )
+            } else {
+                values.add(r.activityInfo.name)
+                Log.d("Weather", "Weather Icon Pack: " + r.activityInfo.name)
+                val name = r.activityInfo.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()
+                Log.d("Weather", "Weather Icon Pack: " + r.activityInfo.name)
+                drawables.add(
+                    ResourcesCompat.getDrawable(
+                        resources, resources.getIdentifier(
+                            name[name.size - 1].lowercase(
+                                Locale.getDefault()
+                            ) + "_30", "drawable", BuildConfig.APPLICATION_ID
+                        ), requireContext().theme
+                    )
+                )
+            }
+            var label: String? = r.activityInfo.loadLabel(packageManager).toString()
+            if (label == null) {
+                label = r.activityInfo.packageName
+            }
+            if (packageName == DEFAULT_WEATHER_ICON_PACKAGE) {
+                entries.add(0, label)
+            } else {
+                entries.add(label)
+            }
+        }
+    }
+
+    private fun updateUI() {
+
+        val enabled = getBoolean(WEATHER_SWITCH, false)
+
+        for (i in 0 until binding.lockscreenWeatherContainer.childCount) {
+            val child = binding.lockscreenWeatherContainer.getChildAt(i)
+            if (child != binding.enableLockscreenWeather) child.isEnabled = enabled
+        }
+
+        binding.lockscreenWeatherCustomColor.visibility = if (getBoolean(WEATHER_TEXT_COLOR_SWITCH, false)) View.VISIBLE else View.GONE
+        binding.lockscreenWeatherCustomLocationMenu.isEnabled = getBoolean(WEATHER_CUSTOM_LOCATION, false)
+        binding.lockscreenWeatherMarginTop.visibility = if (getBoolean(WEATHER_CUSTOM_MARGINS, false)) View.VISIBLE else View.GONE
+        binding.lockscreenWeatherMarginLeft.visibility = if (getBoolean(WEATHER_CUSTOM_MARGINS, false)) View.VISIBLE else View.GONE
+
+    }
+
+    var mCustomLocationLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val intent: Intent? = result.data
+            if (intent!!.hasExtra(DATA_LOCATION_NAME)) {
+                val locationName = intent.getStringExtra(DATA_LOCATION_NAME)
+                val lat = intent.getDoubleExtra(DATA_LOCATION_LAT, 0.0)
+                val lon = intent.getDoubleExtra(DATA_LOCATION_LON, 0.0)
+                Config.setLocationId(requireContext(), lat.toString(), lon.toString())
+                Config.setLocationName(requireContext(), locationName)
+                binding.lockscreenWeatherCustomLocationMenu.setSummary(locationName)
+                if (getBoolean(WEATHER_SWITCH, false)
+                    && !getBoolean(WEATHER_CUSTOM_LOCATION, false)
+                ) {
+                    checkLocationEnabled()
+                }
+                forceRefreshWeatherSettings()
+            }
         }
     }
 
