@@ -14,10 +14,10 @@ import androidx.concurrent.futures.CallbackToFutureAdapter
 import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.utils.OmniJawsClient.EXTRA_ERROR_DISABLED
-import com.drdisagree.iconify.utils.OmniJawsClient.EXTRA_ERROR_LOCATION
-import com.drdisagree.iconify.utils.OmniJawsClient.EXTRA_ERROR_NETWORK
-import com.drdisagree.iconify.utils.OmniJawsClient.EXTRA_ERROR_NO_PERMISSIONS
+import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_DISABLED
+import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_NETWORK
+import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_LOCATION
+import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_NO_PERMISSIONS
 import com.drdisagree.iconify.weather.Config.getLocationLat
 import com.drdisagree.iconify.weather.Config.getLocationLon
 import com.drdisagree.iconify.weather.Config.getProvider

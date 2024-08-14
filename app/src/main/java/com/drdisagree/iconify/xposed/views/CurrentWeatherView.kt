@@ -65,7 +65,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             )
         } catch (ignored: PackageManager.NameNotFoundException) {
         }
-        mWeatherClient = OmniJawsClient(appContext, true)
+        mWeatherClient = OmniJawsClient(mContext)
 
         inflateView()
 
@@ -190,7 +190,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 return
             }
             mWeatherClient.queryWeather()
-            mWeatherInfo = mWeatherClient.getWeatherInfo()
+            mWeatherInfo = mWeatherClient.weatherInfo
             if (mWeatherInfo != null) {
                 var formattedCondition: String = mWeatherInfo!!.condition.toString()
                 if (formattedCondition.lowercase(Locale.getDefault()).contains("clouds")) {

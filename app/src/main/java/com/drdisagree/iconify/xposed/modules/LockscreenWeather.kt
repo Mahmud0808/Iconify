@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_LEFT
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
@@ -126,7 +127,12 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             } catch (ignored: Throwable) {
             }
             mWeatherContainer.addView(currentWeatherView)
-            mStatusViewContainer!!.addView(mWeatherContainer)
+            val clockView = mStatusViewContainer!!.findViewWithTag<ViewGroup>(ICONIFY_LOCKSCREEN_CLOCK_TAG)
+            if (clockView == null) {
+                mStatusViewContainer!!.addView(mWeatherContainer)
+            } else {
+                mStatusViewContainer!!.addView(mWeatherContainer, mStatusViewContainer!!.indexOfChild(clockView))
+            }
             refreshWeatherView(currentWeatherView)
             updateMargins()
         } catch (ignored: Throwable) {

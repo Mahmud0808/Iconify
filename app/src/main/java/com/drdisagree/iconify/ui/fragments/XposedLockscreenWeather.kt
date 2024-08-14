@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_COLOR
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_LEFT
@@ -88,7 +87,7 @@ class XposedLockscreenWeather:BaseFragment(),
             R.string.activity_title_lockscreen_weather
         )
 
-        mWeatherClient = OmniJawsClient(requireContext(), false)
+        mWeatherClient = OmniJawsClient(requireContext())
 
         return view
     }
@@ -112,7 +111,6 @@ class XposedLockscreenWeather:BaseFragment(),
             putBoolean(WEATHER_SWITCH, isChecked)
             Config.setEnabled(requireContext(), isChecked, WEATHER_SWITCH)
 
-//            updateEnabled(isChecked)
 
             if (!hasPermissions()) {
                 showPermissionDialog()
@@ -218,13 +216,13 @@ class XposedLockscreenWeather:BaseFragment(),
                 object : IconsAdapter.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
                         val value = values[position]
-                        putString(WEATHER_ICON_PACK, value!!.replace(".debug", ""))
+                        putString(WEATHER_ICON_PACK, value!!)
                         binding.lockscreenWeatherIconPack.setSummary(entries[position]!!)
                         forceRefreshWeatherSettings()
                     }
                 })
         mAdapter.setDrawables(drawables.filterNotNull().toTypedArray())
-        val summary = entries[values.indexOf(currentIconPack)]
+        val summary = if (values.contains(currentIconPack)) entries[values.indexOf(currentIconPack)] else entries[0]
         binding.lockscreenWeatherIconPack.setSummary(summary!!)
         binding.lockscreenWeatherIconPack.setLayoutManager(LinearLayoutManager(requireContext()))
         binding.lockscreenWeatherIconPack.setAdapter(mAdapter)
@@ -390,9 +388,9 @@ class XposedLockscreenWeather:BaseFragment(),
 
     private fun queryAndUpdateWeather() {
         mWeatherClient.queryWeather()
-        if (mWeatherClient.getWeatherInfo() != null) {
+        if (mWeatherClient.weatherInfo != null) {
             requireActivity().runOnUiThread {
-                binding.lockscreenWeatherLastUpdate.setSummary(mWeatherClient.getWeatherInfo()!!.lastUpdateTime)
+                binding.lockscreenWeatherLastUpdate.setSummary(mWeatherClient.weatherInfo!!.lastUpdateTime)
             }
         }
     }
@@ -429,7 +427,7 @@ class XposedLockscreenWeather:BaseFragment(),
         val packageManager = requireContext().packageManager
         i.setAction(BuildConfig.APPLICATION_ID + ".WeatherIconPack")
         for (r in packageManager.queryIntentActivities(i, 0)) {
-            val packageName = r.activityInfo.packageName
+            val packageName = r.activityInfo.applicationInfo.packageName
             if (packageName == DEFAULT_WEATHER_ICON_PACKAGE) {
                 values.add(0, r.activityInfo.name)
                 drawables.add(
@@ -445,7 +443,7 @@ class XposedLockscreenWeather:BaseFragment(),
                     )
                 )
             } else {
-                values.add(r.activityInfo.name)
+                values.add(packageName + "." + r.activityInfo.name.split(".").last())
                 val name = r.activityInfo.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }
                     .toTypedArray()
                 drawables.add(
