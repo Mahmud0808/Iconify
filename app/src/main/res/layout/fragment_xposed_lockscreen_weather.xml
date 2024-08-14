@@ -138,8 +138,8 @@
                 android:layout_height="wrap_content"
                 app:titleText="@string/weather_margin_top"
                 app:sliderStepSize="1"
-                app:sliderValue="0"
-                app:sliderValueFrom="20"
+                app:sliderValue="20"
+                app:sliderValueFrom="0"
                 app:sliderValueTo="100"
                 app:sliderDefaultValue="20"
                 app:valueFormat="dp" />
@@ -150,8 +150,8 @@
                 android:layout_height="wrap_content"
                 app:titleText="@string/weather_margin_left"
                 app:sliderStepSize="1"
-                app:sliderValue="0"
-                app:sliderValueFrom="20"
+                app:sliderValue="20"
+                app:sliderValueFrom="0"
                 app:sliderValueTo="100"
                 app:sliderDefaultValue="20"
                 app:valueFormat="dp" />
