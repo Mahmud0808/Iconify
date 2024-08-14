@@ -143,4 +143,33 @@
         <item>@string/settings_auto_force_reload_ui</item>
         <item>@string/settings_manual_restart_systemui</item>
     </string-array>
+
+    <!-- Lockscreen Weather Units -->
+    <string-array name="units_entries" translatable="false">
+        <item>@string/unit_metric</item>
+        <item>@string/unit_imperial</item>
+    </string-array>
+
+    <!-- Lockscreen Weather Update Interval -->
+    <string-array name="update_interval_entries" translatable="false">
+        <item>@string/interval_1_hour</item>
+        <item>@string/interval_2_hour</item>
+        <item>@string/interval_4_hour</item>
+        <item>@string/interval_6_hour</item>
+        <item>@string/interval_12_hour</item>
+    </string-array>
+
+    <!-- Lockscreen Weather styles -->
+    <string-array name="lockscreen_weather_bg_entries">
+        <item>@string/lockscreen_weather_selection_default</item>
+        <item>@string/lockscreen_weather_selection_str_box</item>
+        <item>@string/lockscreen_weather_selection_str_round</item>
+        <item>@string/lockscreen_weather_selection_qbeta_style</item>
+        <item>@string/lockscreen_weather_selection_str_accent</item>
+        <item>@string/lockscreen_weather_selection_str_accent_transparent</item>
+        <item>@string/lockscreen_weather_selection_str_gradient</item>
+        <item>@string/lockscreen_weather_selection_str_border_accent</item>
+        <item>@string/lockscreen_weather_selection_str_border_gradient</item>
+    </string-array>
+
 </resources>

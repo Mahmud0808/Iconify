@@ -199,6 +199,13 @@
                 app:titleText="@string/lockscreen_clock_custom_username"
                 app:summaryText="@string/lockscreen_clock_custom_username_desc" />
 
+            <com.drdisagree.iconify.ui.widgets.MenuWidget
+                android:id="@+id/ls_weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/activity_title_lockscreen_weather"
+                app:summaryText="@string/activity_desc_lockscreen_weather" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

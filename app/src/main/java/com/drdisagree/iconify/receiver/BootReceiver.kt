@@ -7,6 +7,7 @@ import android.util.Log
 import com.drdisagree.iconify.common.Const.ACTION_BOOT_COMPLETED
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.services.UpdateScheduler
+import com.drdisagree.iconify.services.WeatherScheduler
 
 class BootReceiver : BroadcastReceiver() {
 
@@ -18,6 +19,9 @@ class BootReceiver : BroadcastReceiver() {
 
             // Schedule updates
             UpdateScheduler.scheduleUpdates(context)
+
+            // Schedule Weather Updates
+            WeatherScheduler.scheduleUpdates(context)
 
             // Update QS clock on boot
             val broadcast: Intent = Intent(ACTION_BOOT_COMPLETED)
