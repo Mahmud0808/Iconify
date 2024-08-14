@@ -25,7 +25,7 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
-import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS
+import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_LEFT
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
@@ -227,26 +227,19 @@ class XposedLockscreenWeather:BaseFragment(),
         binding.lockscreenWeatherIconPack.setLayoutManager(LinearLayoutManager(requireContext()))
         binding.lockscreenWeatherIconPack.setAdapter(mAdapter)
 
-        binding.lockscreenWeatherCustomMargins.isSwitchChecked = getBoolean(WEATHER_CUSTOM_MARGINS, false)
-        binding.lockscreenWeatherCustomMargins.setSwitchChangeListener{ _: CompoundButton?, isChecked: Boolean ->
-            putBoolean(WEATHER_CUSTOM_MARGINS, isChecked)
-            if (isChecked) {
-                binding.lockscreenWeatherMarginTop.visibility = View.VISIBLE
-                binding.lockscreenWeatherMarginLeft.visibility = View.VISIBLE
-            } else {
-                binding.lockscreenWeatherMarginTop.visibility = View.GONE
-                binding.lockscreenWeatherMarginLeft.visibility = View.GONE
-            }
-        }
-
-        binding.lockscreenWeatherMarginTop.sliderValue = getInt(WEATHER_CUSTOM_MARGINS_TOP, 0)
+        binding.lockscreenWeatherMarginTop.sliderValue = getInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
         binding.lockscreenWeatherMarginTop.setOnSliderChangeListener{ _: Slider?, value: Float, _: Boolean ->
             putInt(WEATHER_CUSTOM_MARGINS_TOP, value.toInt())
         }
 
-        binding.lockscreenWeatherMarginLeft.sliderValue = getInt(WEATHER_CUSTOM_MARGINS_LEFT, 0)
+        binding.lockscreenWeatherMarginLeft.sliderValue = getInt(WEATHER_CUSTOM_MARGINS_LEFT, 20)
         binding.lockscreenWeatherMarginLeft.setOnSliderChangeListener{ _: Slider?, value: Float, _: Boolean ->
             putInt(WEATHER_CUSTOM_MARGINS_LEFT, value.toInt())
+        }
+
+        binding.lockscreenWeatherMarginBottom.sliderValue = getInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
+        binding.lockscreenWeatherMarginBottom.setOnSliderChangeListener{ _: Slider?, value: Float, _: Boolean ->
+            putInt(WEATHER_CUSTOM_MARGINS_BOTTOM, value.toInt())
         }
 
         binding.lockscreenWeatherBg.setSelectedIndex(getInt(WEATHER_STYLE, 0))
@@ -479,8 +472,6 @@ class XposedLockscreenWeather:BaseFragment(),
 
         binding.lockscreenWeatherCustomColor.visibility = if (getBoolean(WEATHER_TEXT_COLOR_SWITCH, false)) View.VISIBLE else View.GONE
         binding.lockscreenWeatherCustomLocationMenu.isEnabled = getBoolean(WEATHER_CUSTOM_LOCATION, false)
-        binding.lockscreenWeatherMarginTop.visibility = if (getBoolean(WEATHER_CUSTOM_MARGINS, false)) View.VISIBLE else View.GONE
-        binding.lockscreenWeatherMarginLeft.visibility = if (getBoolean(WEATHER_CUSTOM_MARGINS, false)) View.VISIBLE else View.GONE
 
     }
 
