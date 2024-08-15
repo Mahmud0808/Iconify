@@ -49,8 +49,8 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
     private var qsTextFollowAccent = false
     private var shadeCarrierGroupController: Any? = null
     private val modernShadeCarrierGroupMobileViews = ArrayList<Any>()
-    private var colorActive: Int = -1
-    private var colorInactive: Int = -1
+    private var colorActive: Int? = null
+    private var colorInactive: Int? = null
 
     init {
         isDark = SystemUtil.isDarkMode
@@ -764,12 +764,16 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
                     var result = 0
 
                     if (code == PM_LITE_BACKGROUND_CODE) {
-                        result = colorActive
+                        if (colorActive != null) {
+                            result = colorActive!!
+                        }
                     } else {
                         try {
                             when (mContext.resources.getResourceName(code).split("/")[1]) {
                                 "underSurface", "onShadeActive", "shadeInactive" -> {
-                                    result = colorInactive // button backgrounds
+                                    if (colorInactive != null) {
+                                        result = colorInactive!! // button backgrounds
+                                    }
                                 }
 
                                 "onShadeInactiveVariant" -> {
