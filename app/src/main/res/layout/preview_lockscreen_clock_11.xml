@@ -27,15 +27,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@*android:string/config_clockFontFamily"
-                android:includeFontPadding="false"
                 android:format12Hour="hh:mm"
                 android:format24Hour="HH:mm"
+                android:includeFontPadding="false"
+                android:layoutDirection="locale"
                 android:letterSpacing="0.02"
+                android:maxLines="1"
                 android:paddingBottom="10dp"
                 android:tag="text1|nolineheight"
                 android:textColor="@android:color/white"
                 android:textSize="50.0dip"
-                android:layoutDirection="locale"
                 android:textStyle="bold" />
 
             <TextClock
@@ -46,13 +47,14 @@
                 android:fontFamily="@*android:string/config_clockFontFamily"
                 android:format12Hour="ss"
                 android:format24Hour="ss"
-                android:letterSpacing="0.02"
                 android:includeFontPadding="false"
+                android:layoutDirection="locale"
+                android:letterSpacing="0.02"
+                android:maxLines="1"
                 android:paddingLeft="2dp"
                 android:paddingBottom="10dp"
                 android:tag="accent1|nolineheight"
                 android:textColor="@android:color/system_accent1_400"
-                android:layoutDirection="locale"
                 android:textSize="50.0dip" />
         </LinearLayout>
 
@@ -69,9 +71,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@*android:string/config_clockFontFamily"
-                android:includeFontPadding="false"
                 android:format12Hour="EEEE, "
                 android:format24Hour="EEEE, "
+                android:includeFontPadding="false"
                 android:tag="text1"
                 android:textColor="@android:color/white"
                 android:textSize="16dp" />
@@ -93,12 +95,12 @@
             <TextClock
                 android:id="@+id/clock_year"
                 android:layout_width="match_parent"
-                android:includeFontPadding="false"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@*android:string/config_clockFontFamily"
                 android:format12Hour="yyyy"
                 android:format24Hour="yyyy"
+                android:includeFontPadding="false"
                 android:tag="text1"
                 android:textColor="@android:color/white"
                 android:textSize="16dp" />

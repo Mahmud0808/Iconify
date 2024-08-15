@@ -22,7 +22,7 @@
             android:includeFontPadding="false"
             android:tag="accent1|nolineheight"
             android:text="It's"
-            android:textAlignment="viewEnd"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/system_accent1_100"
             android:textSize="36dp"
             tools:ignore="HardcodedText" />
@@ -34,7 +34,7 @@
             android:includeFontPadding="false"
             android:tag="text1|textHour"
             android:text="Five"
-            android:textAlignment="viewEnd"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/white"
             android:textSize="36dp" />
 
@@ -45,7 +45,7 @@
             android:includeFontPadding="false"
             android:tag="text1|textMinute"
             android:text="Sixteen"
-            android:textAlignment="viewEnd"
+            android:textAlignment="viewStart"
             android:textColor="@android:color/white"
             android:textSize="36dp" />
 
