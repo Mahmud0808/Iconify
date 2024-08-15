@@ -149,7 +149,7 @@
                 app:sliderStepSize="1"
                 app:sliderValue="10"
                 app:sliderValueFrom="5"
-                app:sliderValueTo="15"
+                app:sliderValueTo="25"
                 app:titleText="@string/header_clock_font_text_scaling_title"
                 app:valueFormat="x" />
 
