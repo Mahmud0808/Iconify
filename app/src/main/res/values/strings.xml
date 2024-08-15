@@ -488,6 +488,8 @@
     <string name="section_title_others">Others</string>
     <string name="fix_notification_color_title">Fix Notification Color</string>
     <string name="fix_notification_color_desc">Fix custom notification style on android 14</string>
+    <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
+    <string name="fix_notification_footer_button_color_desc">Fix custom footer button style on android 14</string>
 
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Tile</string>

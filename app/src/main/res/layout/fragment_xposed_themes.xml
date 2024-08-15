@@ -88,7 +88,7 @@
                 android:id="@+id/fix_qs_tile_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:isChecked="true"
+                app:isChecked="false"
                 app:summaryText="Fix custom QS tile style on android 14"
                 app:titleText="Fix QS Tile Color" />
 
@@ -96,9 +96,17 @@
                 android:id="@+id/fix_notification_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:isChecked="true"
+                app:isChecked="false"
                 app:summaryText="@string/fix_notification_color_desc"
                 app:titleText="@string/fix_notification_color_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/fix_notification_footer_button_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isChecked="false"
+                app:summaryText="@string/fix_notification_footer_button_color_desc"
+                app:titleText="@string/fix_notification_footer_button_color_title" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

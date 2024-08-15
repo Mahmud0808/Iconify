@@ -7,6 +7,8 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.service.quicksettings.Tile
 import android.view.Gravity
 import android.view.View
@@ -20,6 +22,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
+import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.common.Preferences.HIDE_QS_FOOTER_BUTTONS
@@ -31,7 +34,9 @@ import com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.hookAllMethodsMatchPattern
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.isPixelVariant
+import com.drdisagree.iconify.xposed.modules.utils.SystemUtils.isSecurityPatchBeforeJune2024
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
@@ -51,6 +56,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
     private var fixQsTileColor = true
     private var fixNotificationColor = true
+    private var fixNotificationFooterButtonsColor = true
     private var qsTextAlwaysWhite = false
     private var qsTextFollowAccent = false
     private var hideFooterButtons = false
@@ -62,6 +68,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private var mFooterButtonsOnDrawListener: OnDrawListener? = null
     private var mSilentTextContainer: ViewGroup? = null
     private var mSilentTextOnDrawListener: OnDrawListener? = null
+    private val isAtLeastAndroid14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -72,10 +79,13 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         qsTopMarginEnabled = Xprefs!!.getInt(QS_TOPMARGIN, -1) != -1
         qqsTopMargin = Xprefs!!.getInt(QQS_TOPMARGIN, 100)
         qsTopMargin = Xprefs!!.getInt(QS_TOPMARGIN, 100)
-        fixQsTileColor = Build.VERSION.SDK_INT >= 34 &&
+        fixQsTileColor = isAtLeastAndroid14 &&
                 Xprefs!!.getBoolean(FIX_QS_TILE_COLOR, false)
-        fixNotificationColor = Build.VERSION.SDK_INT >= 34 &&
-                Xprefs!!.getBoolean(FIX_NOTIFICATION_COLOR, false)
+        fixNotificationColor = isAtLeastAndroid14 &&
+                Xprefs!!.getBoolean(FIX_NOTIFICATION_COLOR, false) &&
+                isSecurityPatchBeforeJune2024()
+        fixNotificationFooterButtonsColor = isAtLeastAndroid14 &&
+                Xprefs!!.getBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
         qsTextAlwaysWhite = Xprefs!!.getBoolean(QS_TEXT_ALWAYS_WHITE, false)
         qsTextFollowAccent = Xprefs!!.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
         hideSilentText = Xprefs!!.getBoolean(HIDE_QS_SILENT_TEXT, false)
@@ -309,6 +319,8 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     }
 
     private fun fixQsTileAndLabelColorA14(loadPackageParam: LoadPackageParam) {
+        if (!isAtLeastAndroid14) return
+
         try {
             val qsTileViewImplClass = findClass(
                 "$SYSTEMUI_PACKAGE.qs.tileimpl.QSTileViewImpl",
@@ -317,7 +329,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
             val removeQsTileTint: XC_MethodHook = object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    if (fixQsTileColor && Build.VERSION.SDK_INT >= 34) {
+                    if (fixQsTileColor) {
                         try {
                             setObjectField(
                                 param.thisObject,
@@ -556,7 +568,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     }
 
     private fun fixNotificationColorA14(loadPackageParam: LoadPackageParam) {
-        if (Build.VERSION.SDK_INT < 34) return
+        if (!isAtLeastAndroid14) return
 
         try {
             val activatableNotificationViewClass = findClass(
@@ -611,7 +623,9 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
                     setObjectField(notificationBackgroundView, "mTintColor", 0)
 
-                    notificationBackgroundView.invalidate()
+                    Handler(Looper.getMainLooper()).post {
+                        notificationBackgroundView.invalidate()
+                    }
                 }
             }
 
@@ -626,62 +640,47 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 removeNotificationTint
             )
 
-            val replaceTintColor: XC_MethodHook = object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    if (!fixNotificationColor) return
+            hookAllMethodsMatchPattern(notificationBackgroundViewClass,
+                "setCustomBackground.*",
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        if (!fixNotificationColor) return
 
-                    setObjectField(param.thisObject, "mTintColor", 0)
-                }
-            }
-
-            val notificationBackgroundViewMethods = listOf(
-                "setCustomBackground",
-                "setCustomBackground$1"
-            )
-
-            for (method in notificationBackgroundViewMethods) {
-                try {
-                    hookAllMethods(notificationBackgroundViewClass, method, replaceTintColor)
-                } catch (ignored: Throwable) {
-                }
-            }
-
-            val removeButtonTint: XC_MethodHook = object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    if (!fixNotificationColor) return
-
-                    try {
-                        val mManageButton =
-                            getObjectField(param.thisObject, "mManageButton") as Button
-                        val mClearAllButton = try {
-                            getObjectField(param.thisObject, "mClearAllButton")
-                        } catch (ignored: Throwable) {
-                            getObjectField(param.thisObject, "mDismissButton")
-                        } as Button
-
-                        mManageButton.background?.clearColorFilter()
-                        mClearAllButton.background?.clearColorFilter()
-
-                        mManageButton.invalidate()
-                        mClearAllButton.invalidate()
-                    } catch (ignored: Throwable) {
+                        setObjectField(param.thisObject, "mTintColor", 0)
                     }
                 }
-            }
-
-            val footerViewMethods = listOf(
-                "updateColors",
-                "updateColors$1",
-                "updateColors$2",
-                "updateColors$3"
             )
 
-            for (method in footerViewMethods) {
-                try {
-                    hookAllMethods(footerViewClass, method, removeButtonTint)
-                } catch (ignored: Throwable) {
+            hookAllMethodsMatchPattern(footerViewClass,
+                "updateColors.*",
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        if (!fixNotificationFooterButtonsColor) return
+
+                        try {
+                            val mManageButton = try {
+                                getObjectField(param.thisObject, "mManageButton")
+                            } catch (ignored: Throwable) {
+                                getObjectField(param.thisObject, "mManageOrHistoryButton")
+                            } as Button
+                            val mClearAllButton = try {
+                                getObjectField(param.thisObject, "mClearAllButton")
+                            } catch (ignored: Throwable) {
+                                getObjectField(param.thisObject, "mDismissButton")
+                            } as Button
+
+                            mManageButton.background?.colorFilter = null
+                            mClearAllButton.background?.colorFilter = null
+
+                            Handler(Looper.getMainLooper()).post {
+                                mManageButton.invalidate()
+                                mClearAllButton.invalidate()
+                            }
+                        } catch (ignored: Throwable) {
+                        }
+                    }
                 }
-            }
+            )
         } catch (throwable: Throwable) {
             log(TAG + throwable)
         }

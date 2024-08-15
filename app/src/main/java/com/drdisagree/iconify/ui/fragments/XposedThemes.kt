@@ -13,6 +13,7 @@ import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.BLACK_QSPANEL
 import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
+import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR
 import com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY
 import com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY
@@ -117,17 +118,17 @@ class XposedThemes : BaseFragment() {
 
         // Others section
         binding.sectionOthers.visibility = if (isAtleastA14) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
         // Fix qs tile color
         binding.fixQsTileColor.visibility = if (isAtleastA14) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
         binding.fixQsTileColor.isSwitchChecked = getBoolean(FIX_QS_TILE_COLOR, false)
         binding.fixQsTileColor.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(FIX_QS_TILE_COLOR, isChecked)
@@ -147,6 +148,24 @@ class XposedThemes : BaseFragment() {
         binding.fixNotificationColor.isSwitchChecked = getBoolean(FIX_NOTIFICATION_COLOR, false)
         binding.fixNotificationColor.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(FIX_NOTIFICATION_COLOR, isChecked)
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                { SystemUtil.handleSystemUIRestart() },
+                SWITCH_ANIMATION_DELAY
+            )
+        }
+
+        // Fix notification footer button color
+        binding.fixNotificationFooterButtonColor.visibility = if (isAtleastA14) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.fixNotificationFooterButtonColor.isSwitchChecked = getBoolean(
+            FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false
+        )
+        binding.fixNotificationFooterButtonColor.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            putBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, isChecked)
 
             Handler(Looper.getMainLooper()).postDelayed(
                 { SystemUtil.handleSystemUIRestart() },

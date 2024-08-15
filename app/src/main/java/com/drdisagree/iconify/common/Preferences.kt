@@ -121,6 +121,7 @@ object Preferences {
     const val QS_TOPMARGIN = "xposed_qspanelTopMargin"
     const val FIX_QS_TILE_COLOR = "xposed_fixqstilecolor"
     const val FIX_NOTIFICATION_COLOR = "xposed_fixnotificationcolor"
+    const val FIX_NOTIFICATION_FOOTER_BUTTON_COLOR = "xposed_fixnotificationfooterbuttoncolor"
     const val HIDE_QS_SILENT_TEXT = "xposed_hideqssilenttext"
     const val HIDE_QS_FOOTER_BUTTONS = "xposed_hideqsfooterbuttons"
     const val QS_TEXT_ALWAYS_WHITE = "xposed_qstextalwayswhite"
