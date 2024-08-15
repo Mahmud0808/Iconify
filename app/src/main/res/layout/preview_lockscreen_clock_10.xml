@@ -3,137 +3,166 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="start|top"
-    android:layoutDirection="ltr"
-    android:gravity="start|top">
+    android:gravity="start|top"
+    android:layoutDirection="ltr">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="start|top"
-        android:layout_marginStart="50dp"
-        android:gravity="start"
-        android:orientation="horizontal">
+        android:layout_marginHorizontal="18dp"
+        android:background="@drawable/preview_lockscreen_clock_10_background"
+        android:orientation="vertical"
+        android:padding="18dp"
+        android:theme="@style/ConsolasFontTextAppearance">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginBottom="18dp"
+            android:gravity="start|center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="6dp"
+                android:src="@drawable/circle"
+                android:tint="#FF5F56" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="6dp"
+                android:src="@drawable/circle"
+                android:tint="#FFBD2E" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@drawable/circle"
+                android:tint="#27C940" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
-            android:gravity="start"
+            android:gravity="start|center"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center"
                 android:gravity="start"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:tag="text1|nolineheight"
                     android:includeFontPadding="false"
-                    android:text="#include  "
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:includeFontPadding="false"
-                    android:tag="accent1|nolineheight"
-                    android:text="\u003Cstring\u003E"
-                    android:textColor="@android:color/system_accent1_400"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:gravity="start"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:includeFontPadding="false"
-                    android:tag="text1"
-                    android:text="using namespace std;"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:tag="nolineheight"
+                    android:text="#include \u003Ciostream\u003E"
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center"
                 android:gravity="start"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:includeFontPadding="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:tag="text1"
-                    android:text="int main()"
-                    android:textColor="@android:color/white"
+                    android:includeFontPadding="false"
+                    android:text="using namespace "
+                    android:textColor="#E6CD69"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="std"
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text=";"
+                    android:textColor="#CFD2D1"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center"
                 android:gravity="start"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:tag="text1"
+                    android:includeFontPadding="false"
+                    android:text="int "
+                    android:textColor="#9FCA56"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="main"
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="()"
+                    android:textColor="#CFD2D1"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
                     android:text="{"
-                    android:textColor="@android:color/white"
+                    android:textColor="#CFD2D1"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:gravity="start"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:includeFontPadding="false"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:tag="text1"
-                    android:text="\t\tstring time, date, day, month;"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center"
                 android:gravity="start"
                 android:orientation="horizontal">
 
@@ -141,211 +170,308 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:tag="text1"
-                    android:text="\t\ttime =  \u0022"
-                    android:textColor="@android:color/white"
+                    android:text="\t\tcout "
+                    android:textColor="#A074C4"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="&lt;&lt; "
+                    android:textColor="#9FCA56"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="\u0022"
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextClock
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:format12Hour="hh:mm"
                     android:format24Hour="HH:mm"
                     android:includeFontPadding="false"
                     android:letterSpacing="0.03"
-                    android:tag="accent1"
-                    android:textColor="@android:color/system_accent1_400"
-                    android:textSize="16sp" />
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:paddingStart="-0.5dip"
-                    android:tag="text1"
-                    android:text="\u0022;"
-                    android:textColor="@android:color/white"
+                    android:text="\u0022"
+                    android:textColor="#54B5DB"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text=";"
+                    android:textColor="#CFD2D1"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center"
                 android:gravity="start"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:tag="text1"
-                    android:text="\t\tday =  \u0022"
-                    android:textColor="@android:color/white"
+                    android:includeFontPadding="false"
+                    android:text="\t\tcout "
+                    android:textColor="#A074C4"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="&lt;&lt; "
+                    android:textColor="#9FCA56"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="\u0022"
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextClock
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:format12Hour="EEEE"
                     android:format24Hour="EEEE"
                     android:gravity="center"
                     android:includeFontPadding="false"
                     android:letterSpacing="0.3"
-                    android:tag="accent1"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/system_accent1_400"
-                    android:textSize="16sp" />
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:paddingStart="-0.5dip"
-                    android:tag="text1"
-                    android:text="\u0022;"
                     android:includeFontPadding="false"
-                    android:textColor="@android:color/white"
+                    android:text="\u0022"
+                    android:textColor="#54B5DB"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text=";"
+                    android:textColor="#CFD2D1"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center"
                 android:gravity="start"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:includeFontPadding="false"
-                    android:tag="text1"
-                    android:text="\t\tdate =  \u0022"
-                    android:textColor="@android:color/white"
+                    android:text="\t\tcout "
+                    android:textColor="#A074C4"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="&lt;&lt; "
+                    android:textColor="#9FCA56"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="\u0022"
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextClock
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:format12Hour="yyyy.MM.dd"
-                    android:format24Hour="yyyy.MM.dd"
+                    android:format12Hour="MM.dd.yyyy"
+                    android:format24Hour="dd.MM.yyyy"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0.03"
                     android:singleLine="true"
-                    android:includeFontPadding="false"
-                    android:tag="accent3"
-                    android:textColor="@android:color/system_accent3_400"
-                    android:textSize="16sp" />
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:paddingStart="-0.5dip"
-                    android:tag="text1"
-                    android:text="\u0022;"
                     android:includeFontPadding="false"
-                    android:textColor="@android:color/white"
+                    android:text="\u0022"
+                    android:textColor="#54B5DB"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text=";"
+                    android:textColor="#CFD2D1"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center"
                 android:gravity="start"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:includeFontPadding="false"
-                    android:tag="text1"
-                    android:text="\t\tmonth =  \u0022"
-                    android:textColor="@android:color/white"
+                    android:text="\t\tcout "
+                    android:textColor="#A074C4"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="&lt;&lt; "
+                    android:textColor="#9FCA56"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="\u0022"
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextClock
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
                     android:format12Hour="MMMM"
                     android:format24Hour="MMMM"
                     android:gravity="center"
+                    android:includeFontPadding="false"
                     android:letterSpacing="0.3"
-                    android:includeFontPadding="false"
                     android:singleLine="true"
-                    android:tag="accent3"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/system_accent2_400"
-                    android:textSize="16sp" />
+                    android:textColor="#54B5DB"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:paddingStart="-0.5dip"
-                    android:tag="text1"
                     android:includeFontPadding="false"
-                    android:text="\u0022;"
-                    android:textColor="@android:color/white"
+                    android:text="\u0022"
+                    android:textColor="#54B5DB"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text=";"
+                    android:textColor="#CFD2D1"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center"
                 android:gravity="start"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:tag="text1"
-                    android:text="\t\treturn 0;"
-                    android:textColor="@android:color/white"
+                    android:includeFontPadding="false"
+                    android:text="\t\treturn "
+                    android:textColor="#E6CD69"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="0"
+                    android:textColor="#CD3F45"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text=";"
+                    android:textColor="#CFD2D1"
+                    android:textSize="16sp"
+                    android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="start|center"
                 android:gravity="start"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:includeFontPadding="false"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
-                    android:tag="text1"
+                    android:includeFontPadding="false"
                     android:text="}"
-                    android:textColor="@android:color/white"
+                    android:textColor="#CFD2D1"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

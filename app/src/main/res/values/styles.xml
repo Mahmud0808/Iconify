@@ -238,4 +238,9 @@
         <item name="android:layout_marginEnd">16dp</item>
         <item name="android:alpha">0.4</item>
     </style>
+
+    <style name="ConsolasFontTextAppearance">
+        <item name="fontFamily">@font/consolas</item>
+        <item name="android:fontFamily">@font/consolas</item>
+    </style>
 </resources>
