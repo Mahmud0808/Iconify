@@ -55,13 +55,13 @@
             <LinearLayout
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:minWidth="140dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
+                    android:layout_marginBottom="3dp"
                     android:alpha="0.9"
                     android:drawableStart="@drawable/ic_ios_device_scaled"
                     android:drawablePadding="3dp"

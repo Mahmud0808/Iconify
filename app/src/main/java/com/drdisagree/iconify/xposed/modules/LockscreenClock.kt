@@ -410,7 +410,8 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         val clockStyle: Int = Xprefs!!.getInt(LSCLOCK_STYLE, 0)
         val topMargin: Int = Xprefs!!.getInt(LSCLOCK_TOPMARGIN, 100)
         val bottomMargin: Int = Xprefs!!.getInt(LSCLOCK_BOTTOMMARGIN, 40)
-        val clockScale: Float = (Xprefs!!.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
+        val textScaleFactor: Float =
+            (Xprefs!!.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
         val customFont = Environment.getExternalStorageDirectory().toString() +
                 "/.iconify_files/lsclock_font.ttf"
         val lineHeight: Int = Xprefs!!.getInt(LSCLOCK_FONT_LINEHEIGHT, 0)
@@ -478,10 +479,6 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
 
         applyTextMarginRecursively(mContext, clockView, lineHeight)
 
-        if (clockScale != 1f) {
-            applyTextScalingRecursively(clockView, clockScale)
-        }
-
         if (clockStyle != 10) {
             TextUtil.convertTextViewsToTitleCase(clockView)
         }
@@ -531,6 +528,27 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 mVolumeProgress = null
             }
         }
+
+        if (textScaleFactor != 1f) {
+            applyTextScalingRecursively(clockView, textScaleFactor)
+
+            mVolumeLevelArcProgress?.layoutParams?.apply {
+                width = (width * textScaleFactor).toInt()
+                height = (height * textScaleFactor).toInt()
+            }
+
+            mRamUsageArcProgress?.layoutParams?.apply {
+                width = (width * textScaleFactor).toInt()
+                height = (height * textScaleFactor).toInt()
+            }
+
+            (mBatteryProgress?.parent as ViewGroup?)?.apply {
+                layoutParams?.apply {
+                    width = (width * textScaleFactor).toInt()
+                }
+                requestLayout()
+            }
+        }
     }
 
     private fun initBatteryStatus() {
@@ -570,28 +588,30 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         val volLevel = mAudioManager!!.getStreamVolume(AudioManager.STREAM_MUSIC)
         val maxVolLevel = mAudioManager!!.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         val volPercent = (volLevel.toFloat() / maxVolLevel * 100).toInt()
+        val textScaleFactor: Float =
+            (Xprefs!!.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
 
-        if (mVolumeProgress != null) {
-            mVolumeProgress!!.progress = volPercent
-        }
+        mVolumeProgress?.progress = volPercent
 
-        if (mVolumeLevelView != null) {
-            mVolumeLevelView!!.text =
-                appContext!!.resources.getString(R.string.percentage_text, volPercent)
-        }
+        mVolumeLevelView?.text =
+            appContext!!.resources.getString(R.string.percentage_text, volPercent)
 
-        if (mVolumeLevelArcProgress != null) {
-            val widgetBitmap = generateBitmap(
-                mContext,
-                volPercent,
-                appContext!!.resources.getString(R.string.percentage_text, volPercent),
-                40,
-                ContextCompat.getDrawable(appContext!!, R.drawable.ic_volume_up),
-                36
+        mVolumeLevelArcProgress?.setImageBitmap(
+            generateBitmap(
+                context = mContext,
+                percentage = volPercent,
+                textInside = appContext!!.resources.getString(
+                    R.string.percentage_text,
+                    volPercent
+                ),
+                textInsideSizePx = (40 * textScaleFactor).toInt(),
+                iconDrawable = ContextCompat.getDrawable(
+                    appContext!!,
+                    R.drawable.ic_volume_up
+                ),
+                iconSizePx = 38
             )
-
-            mVolumeLevelArcProgress!!.setImageBitmap(widgetBitmap)
-        }
+        )
     }
 
     private fun initRamUsage() {
@@ -601,22 +621,22 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         mActivityManager!!.getMemoryInfo(memoryInfo)
         val usedMemory = memoryInfo.totalMem - memoryInfo.availMem
         val usedMemoryPercentage = (usedMemory * 100 / memoryInfo.totalMem).toInt()
+        val textScaleFactor: Float =
+            (Xprefs!!.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
 
-        if (mRamUsageArcProgress != null) {
-            val widgetBitmap = generateBitmap(
+        mRamUsageArcProgress?.setImageBitmap(
+            generateBitmap(
                 context = mContext,
                 percentage = usedMemoryPercentage,
                 textInside = appContext!!.resources.getString(
                     R.string.percentage_text,
                     usedMemoryPercentage
                 ),
-                textInsideSizePx = 40,
+                textInsideSizePx = (40 * textScaleFactor).toInt(),
                 textBottom = "RAM",
                 textBottomSizePx = 28
             )
-
-            mRamUsageArcProgress!!.setImageBitmap(widgetBitmap)
-        }
+        )
     }
 
     @get:SuppressLint("MissingPermission")
