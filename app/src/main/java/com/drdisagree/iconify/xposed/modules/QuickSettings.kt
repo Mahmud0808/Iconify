@@ -26,6 +26,7 @@ import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_FOOTER_BUTTON_
 import com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.common.Preferences.HIDE_QS_FOOTER_BUTTONS
+import com.drdisagree.iconify.common.Preferences.HIDE_QS_ON_LOCKSCREEN
 import com.drdisagree.iconify.common.Preferences.HIDE_QS_SILENT_TEXT
 import com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
@@ -34,6 +35,7 @@ import com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.hookAllMethodsMatchPattern
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.isPixelVariant
 import com.drdisagree.iconify.xposed.modules.utils.SystemUtils.isSecurityPatchBeforeJune2024
@@ -59,8 +61,9 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private var fixNotificationFooterButtonsColor = true
     private var qsTextAlwaysWhite = false
     private var qsTextFollowAccent = false
-    private var hideFooterButtons = false
+    private var hideQsOnLockscreen = false
     private var hideSilentText = false
+    private var hideFooterButtons = false
     private var qqsTopMargin = 100
     private var qsTopMargin = 100
     private var mParam: Any? = null
@@ -68,6 +71,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private var mFooterButtonsOnDrawListener: OnDrawListener? = null
     private var mSilentTextContainer: ViewGroup? = null
     private var mSilentTextOnDrawListener: OnDrawListener? = null
+    private var mKeyguardStateController: Any? = null
     private val isAtLeastAndroid14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
     override fun updatePrefs(vararg key: String) {
@@ -88,6 +92,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 Xprefs!!.getBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
         qsTextAlwaysWhite = Xprefs!!.getBoolean(QS_TEXT_ALWAYS_WHITE, false)
         qsTextFollowAccent = Xprefs!!.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
+        hideQsOnLockscreen = Xprefs!!.getBoolean(HIDE_QS_ON_LOCKSCREEN, false)
         hideSilentText = Xprefs!!.getBoolean(HIDE_QS_SILENT_TEXT, false)
         hideFooterButtons = Xprefs!!.getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
 
@@ -100,6 +105,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         fixQsTileAndLabelColorA14(loadPackageParam)
         fixNotificationColorA14(loadPackageParam)
         manageQsElementVisibility(loadPackageParam)
+        disableQsOnSecureLockScreen(loadPackageParam)
     }
 
     private fun setVerticalTiles(loadPackageParam: LoadPackageParam) {
@@ -688,16 +694,11 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
     private fun manageQsElementVisibility(loadPackageParam: LoadPackageParam) {
         try {
-            var footerViewClass = findClassIfExists(
+            val footerViewClass = findClassInArray(
+                loadPackageParam.classLoader,
                 "$SYSTEMUI_PACKAGE.statusbar.notification.footer.ui.view.FooterView",
-                loadPackageParam.classLoader
+                "$SYSTEMUI_PACKAGE.statusbar.notification.row.FooterView"
             )
-            if (footerViewClass == null) {
-                footerViewClass = findClass(
-                    "$SYSTEMUI_PACKAGE.statusbar.notification.row.FooterView",
-                    loadPackageParam.classLoader
-                )
-            }
 
             hookAllMethods(footerViewClass, "onFinishInflate", object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -746,6 +747,56 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         } catch (throwable: Throwable) {
             log(TAG + throwable)
         }
+    }
+
+    private fun disableQsOnSecureLockScreen(loadPackageParam: LoadPackageParam) {
+        val remoteInputQuickSettingsDisablerClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.policy.RemoteInputQuickSettingsDisabler",
+            loadPackageParam.classLoader
+        )
+        val phoneStatusBarPolicyClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarPolicy",
+            loadPackageParam.classLoader
+        )
+
+        hookAllConstructors(phoneStatusBarPolicyClass, object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                mKeyguardStateController = getObjectField(
+                    param.thisObject,
+                    "mKeyguardStateController"
+                )
+
+                if (mKeyguardStateController == null) {
+                    log(TAG + "mKeyguardStateController is null")
+                }
+            }
+        })
+
+        hookAllMethods(remoteInputQuickSettingsDisablerClass,
+            "adjustDisableFlags",
+            object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    if (!hideQsOnLockscreen || mKeyguardStateController == null) return
+
+                    val isUnlocked = !(getObjectField(
+                        mKeyguardStateController,
+                        "mShowing"
+                    ) as Boolean) || getObjectField(
+                        mKeyguardStateController,
+                        "mCanDismissLockScreen"
+                    ) as Boolean
+
+                    /*
+                     * Location: frameworks/base/core/java/android/app/StatusBarManager.java
+                     * public static final int DISABLE2_QUICK_SETTINGS = 1;
+                     */
+                    param.result = if (hideQsOnLockscreen && !isUnlocked) {
+                        param.args[0] as Int or 1 // DISABLE2_QUICK_SETTINGS
+                    } else {
+                        param.args[0]
+                    }
+                }
+            })
     }
 
     private fun isQsIconLabelStateActive(param: MethodHookParam?, stateIndex: Int): Boolean {

@@ -123,6 +123,7 @@ object Preferences {
     const val FIX_NOTIFICATION_COLOR = "xposed_fixnotificationcolor"
     const val FIX_NOTIFICATION_FOOTER_BUTTON_COLOR = "xposed_fixnotificationfooterbuttoncolor"
     const val HIDE_QS_SILENT_TEXT = "xposed_hideqssilenttext"
+    const val HIDE_QS_ON_LOCKSCREEN = "xposed_hideqsonlockscreen"
     const val HIDE_QS_FOOTER_BUTTONS = "xposed_hideqsfooterbuttons"
     const val QS_TEXT_ALWAYS_WHITE = "xposed_qstextalwayswhite"
     const val QS_TEXT_FOLLOW_ACCENT = "xposed_qstextfollowaccent"

@@ -96,6 +96,13 @@
                 app:titleText="@string/section_title_qs_elements" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/hide_qs_on_lockscreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/hide_qs_on_lockscreen_desc"
+                app:titleText="@string/hide_qs_on_lockscreen_title" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/hide_silent_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

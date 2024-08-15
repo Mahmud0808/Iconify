@@ -500,8 +500,10 @@
     <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
     <string name="section_title_qs_margin">QS Margin</string>
     <string name="section_title_qs_elements">QS Elements</string>
+    <string name="hide_qs_on_lockscreen_title">Hide QS on Lockscreen</string>
+    <string name="hide_qs_on_lockscreen_desc">Disable quick settings panel on secured lockscreen</string>
     <string name="hide_qs_silent_text_title">Hide Silent Text</string>
-    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
+    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
     <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
     <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
 
