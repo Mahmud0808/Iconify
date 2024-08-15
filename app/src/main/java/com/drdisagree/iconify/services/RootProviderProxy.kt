@@ -123,7 +123,7 @@ class RootProviderProxy : Service() {
                                     tempFile.delete()
 
                                     callback.onResult(
-                                        true,
+                                        isSuccess,
                                         if (isSuccess) {
                                             getString(R.string.depth_wallpaper_subject_extraction_success)
                                         } else {
