@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -597,11 +598,13 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
             }
 
             val removeNotificationTint: XC_MethodHook = object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
+                override fun beforeHookedMethod(param: MethodHookParam) {
                     if (!fixNotificationColor) return
 
-                    val notificationBackgroundView =
-                        getObjectField(param.thisObject, "mBackgroundNormal") as View
+                    val notificationBackgroundView = getObjectField(
+                        param.thisObject,
+                        "mBackgroundNormal"
+                    ) as View
 
                     try {
                         setObjectField(
@@ -613,21 +616,36 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                     }
 
                     try {
-                        callMethod(
-                            getObjectField(
-                                notificationBackgroundView,
-                                "mBackground"
-                            ), "clearColorFilter"
-                        )
+                        setObjectField(notificationBackgroundView, "mTintColor", 0)
                     } catch (ignored: Throwable) {
                     }
+                }
+
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (!fixNotificationColor) return
+
+                    val notificationBackgroundView = getObjectField(
+                        param.thisObject,
+                        "mBackgroundNormal"
+                    ) as View
 
                     try {
                         callMethod(notificationBackgroundView, "setColorFilter", 0)
                     } catch (ignored: Throwable) {
                     }
 
-                    setObjectField(notificationBackgroundView, "mTintColor", 0)
+                    try {
+                        (getObjectField(
+                            notificationBackgroundView,
+                            "mBackground"
+                        ) as Drawable).colorFilter = null
+                    } catch (ignored: Throwable) {
+                    }
+
+                    try {
+                        setObjectField(notificationBackgroundView, "mTintColor", 0)
+                    } catch (ignored: Throwable) {
+                    }
 
                     Handler(Looper.getMainLooper()).post {
                         notificationBackgroundView.invalidate()
@@ -644,6 +662,23 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 activatableNotificationViewClass,
                 "updateBackgroundTint",
                 removeNotificationTint
+            )
+
+            hookAllMethods(activatableNotificationViewClass,
+                "calculateBgColor",
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        if (!fixNotificationColor) return
+
+                        try {
+                            param.result = getObjectField(
+                                param.thisObject,
+                                "mCurrentBackgroundTint"
+                            )
+                        } catch (ignored: Throwable) {
+                        }
+                    }
+                }
             )
 
             hookAllMethodsMatchPattern(notificationBackgroundViewClass,
