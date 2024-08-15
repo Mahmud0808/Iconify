@@ -66,7 +66,7 @@
                     android:tag="nolineheight"
                     android:text="#include \u003Ciostream\u003E"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -83,7 +83,7 @@
                     android:includeFontPadding="false"
                     android:text="using namespace "
                     android:textColor="#E6CD69"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -92,7 +92,7 @@
                     android:includeFontPadding="false"
                     android:text="std"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -101,7 +101,7 @@
                     android:includeFontPadding="false"
                     android:text=";"
                     android:textColor="#CFD2D1"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
             </LinearLayout>
@@ -119,7 +119,7 @@
                     android:includeFontPadding="false"
                     android:text="int "
                     android:textColor="#9FCA56"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -128,7 +128,7 @@
                     android:includeFontPadding="false"
                     android:text="main"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -137,7 +137,7 @@
                     android:includeFontPadding="false"
                     android:text="()"
                     android:textColor="#CFD2D1"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
             </LinearLayout>
@@ -155,7 +155,7 @@
                     android:includeFontPadding="false"
                     android:text="{"
                     android:textColor="#CFD2D1"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
@@ -172,7 +172,7 @@
                     android:includeFontPadding="false"
                     android:text="\t\tcout "
                     android:textColor="#A074C4"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -181,7 +181,7 @@
                     android:includeFontPadding="false"
                     android:text="&lt;&lt; "
                     android:textColor="#9FCA56"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -190,7 +190,7 @@
                     android:includeFontPadding="false"
                     android:text="\u0022"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextClock
@@ -201,7 +201,7 @@
                     android:includeFontPadding="false"
                     android:letterSpacing="0.03"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -210,7 +210,7 @@
                     android:includeFontPadding="false"
                     android:text="\u0022"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -219,7 +219,7 @@
                     android:includeFontPadding="false"
                     android:text=";"
                     android:textColor="#CFD2D1"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
@@ -236,7 +236,7 @@
                     android:includeFontPadding="false"
                     android:text="\t\tcout "
                     android:textColor="#A074C4"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -245,7 +245,7 @@
                     android:includeFontPadding="false"
                     android:text="&lt;&lt; "
                     android:textColor="#9FCA56"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -254,7 +254,7 @@
                     android:includeFontPadding="false"
                     android:text="\u0022"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextClock
@@ -267,7 +267,7 @@
                     android:letterSpacing="0.3"
                     android:textAllCaps="true"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -276,7 +276,7 @@
                     android:includeFontPadding="false"
                     android:text="\u0022"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -285,7 +285,7 @@
                     android:includeFontPadding="false"
                     android:text=";"
                     android:textColor="#CFD2D1"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
@@ -302,7 +302,7 @@
                     android:includeFontPadding="false"
                     android:text="\t\tcout "
                     android:textColor="#A074C4"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -311,7 +311,7 @@
                     android:includeFontPadding="false"
                     android:text="&lt;&lt; "
                     android:textColor="#9FCA56"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -320,7 +320,7 @@
                     android:includeFontPadding="false"
                     android:text="\u0022"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextClock
@@ -332,7 +332,7 @@
                     android:letterSpacing="0.03"
                     android:singleLine="true"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -341,7 +341,7 @@
                     android:includeFontPadding="false"
                     android:text="\u0022"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -350,7 +350,7 @@
                     android:includeFontPadding="false"
                     android:text=";"
                     android:textColor="#CFD2D1"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
@@ -367,7 +367,7 @@
                     android:includeFontPadding="false"
                     android:text="\t\tcout "
                     android:textColor="#A074C4"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -376,7 +376,7 @@
                     android:includeFontPadding="false"
                     android:text="&lt;&lt; "
                     android:textColor="#9FCA56"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -385,7 +385,7 @@
                     android:includeFontPadding="false"
                     android:text="\u0022"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextClock
@@ -399,7 +399,7 @@
                     android:singleLine="true"
                     android:textAllCaps="true"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -408,7 +408,7 @@
                     android:includeFontPadding="false"
                     android:text="\u0022"
                     android:textColor="#54B5DB"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -417,7 +417,7 @@
                     android:includeFontPadding="false"
                     android:text=";"
                     android:textColor="#CFD2D1"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
@@ -434,7 +434,7 @@
                     android:includeFontPadding="false"
                     android:text="\t\treturn "
                     android:textColor="#E6CD69"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -443,7 +443,7 @@
                     android:includeFontPadding="false"
                     android:text="0"
                     android:textColor="#CD3F45"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
 
                 <TextView
@@ -452,7 +452,7 @@
                     android:includeFontPadding="false"
                     android:text=";"
                     android:textColor="#CFD2D1"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
 
@@ -469,7 +469,7 @@
                     android:includeFontPadding="false"
                     android:text="}"
                     android:textColor="#CFD2D1"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:theme="@style/ConsolasFontTextAppearance" />
             </LinearLayout>
         </LinearLayout>
