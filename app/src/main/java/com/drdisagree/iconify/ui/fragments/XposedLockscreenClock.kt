@@ -375,12 +375,6 @@ class XposedLockscreenClock : BaseFragment() {
             }
         })
 
-        binding.lsWeather.setOnClickListener {
-            findNavController(binding.lsWeather).navigate(
-                (R.id.action_xposedLockscreenClock_to_xposedLockscreenWeather)
-            )
-        }
-
         return view
     }
 
@@ -450,7 +444,6 @@ class XposedLockscreenClock : BaseFragment() {
         binding.lsclockBottomMargin.isEnabled = enabled
         binding.lsclockCustomUsername.isEnabled = enabled
         binding.lsclockCustomDevicename.isEnabled = enabled
-        binding.lsWeather.isEnabled = enabled
     }
 
     private fun showMoreLsSettings() {
