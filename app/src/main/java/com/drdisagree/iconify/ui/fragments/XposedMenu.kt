@@ -306,6 +306,14 @@ class XposedMenu : BaseFragment() {
             )
             add(
                 arrayOf(
+                    R.id.action_xposedMenu2_to_xposedLockscreenWeather,
+                    appContextLocale.resources.getString(R.string.activity_title_lockscreen_weather),
+                    appContextLocale.resources.getString(R.string.activity_desc_lockscreen_weather),
+                    R.drawable.ic_xposed_lockscreen_weather
+                )
+            )
+            add(
+                arrayOf(
                     R.id.action_xposedMenu2_to_xposedDepthWallpaper,
                     appContextLocale.resources.getString(R.string.activity_title_depth_wallpaper),
                     appContextLocale.resources.getString(R.string.activity_desc_depth_wallpaper),
