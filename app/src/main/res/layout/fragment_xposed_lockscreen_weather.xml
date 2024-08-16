@@ -179,6 +179,13 @@
                 app:entries="@array/lockscreen_weather_bg_entries"
                 app:titleText="@string/lockscreen_weather_selection_title" />
 
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/lockscreen_weather_center_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/weather_center_view_summary"
+                app:titleText="@string/weather_center_view_title" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

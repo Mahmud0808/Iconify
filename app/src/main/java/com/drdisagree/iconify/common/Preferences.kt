@@ -267,6 +267,7 @@ object Preferences {
     const val WEATHER_CUSTOM_MARGINS_SIDE: String = "weather_custom_margins_side"
     const val WEATHER_CUSTOM_MARGINS_BOTTOM: String = "weather_custom_margins_bottom"
     const val WEATHER_STYLE: String = "weather_style"
+    const val WEATHER_CENTER_VIEW: String = "weather_center_view"
 
     // Settings
     const val APP_LANGUAGE = "IconifyAppLanguage"

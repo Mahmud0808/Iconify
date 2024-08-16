@@ -28,6 +28,7 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
+import com.drdisagree.iconify.common.Preferences.WEATHER_CENTER_VIEW
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_SIDE
@@ -265,6 +266,11 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
         binding.lockscreenWeatherBg.setSelectedIndex(getInt(WEATHER_STYLE, 0))
         binding.lockscreenWeatherBg.setOnItemSelectedListener {
             putInt(WEATHER_STYLE, it)
+        }
+
+        binding.lockscreenWeatherCenterView.isSwitchChecked = getBoolean(WEATHER_CENTER_VIEW, false)
+        binding.lockscreenWeatherCenterView.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            putBoolean(WEATHER_CENTER_VIEW, isChecked)
         }
 
         updateUI()

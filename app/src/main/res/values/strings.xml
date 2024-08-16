@@ -1079,6 +1079,8 @@
     <string name="weather_centered">Center Layout</string>
     <string name="weather_margin_side">Side Margin</string>
     <string name="weather_margin_bottom">Bottom Margin</string>
+    <string name="weather_center_view_title">Center Weather View</string>
+    <string name="weather_center_view_summary">Move weather view to center horizontally</string>
 
     <!-- Lockscreen Weather styles -->
     <string name="lockscreen_weather_selection_title">Weather Background Style</string>

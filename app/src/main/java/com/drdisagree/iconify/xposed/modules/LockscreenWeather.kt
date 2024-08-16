@@ -2,10 +2,12 @@ package com.drdisagree.iconify.xposed.modules
 
 import android.content.Context
 import android.graphics.Color
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
+import com.drdisagree.iconify.common.Preferences.WEATHER_CENTER_VIEW
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_SIDE
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
@@ -45,11 +47,10 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
     private var mTopMargin: Int = 0
     private var mBottomMargin: Int = 0
     private var mWeatherBackground = 0
+    private var mCenterWeather = false
     private lateinit var mWeatherContainer: LinearLayout
-
     private var mStatusViewContainer: ViewGroup? = null
     private var mStatusArea: ViewGroup? = null
-
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
@@ -68,28 +69,28 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
         mTopMargin = Xprefs!!.getInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
         mBottomMargin = Xprefs!!.getInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
         mWeatherBackground = Xprefs!!.getInt(WEATHER_STYLE, 0)
+        mCenterWeather = Xprefs!!.getBoolean(WEATHER_CENTER_VIEW, false)
 
         if (key.isNotEmpty() &&
-            (key[0] == (WEATHER_SHOW_LOCATION) ||
-                    key[0] == (WEATHER_SHOW_CONDITION) ||
-                    key[0] == (WEATHER_SHOW_HUMIDITY) ||
-                    key[0] == (WEATHER_SHOW_WIND) ||
-                    key[0] == (WEATHER_TEXT_COLOR_SWITCH) ||
-                    key[0] == (WEATHER_TEXT_COLOR) ||
-                    key[0] == (WEATHER_TEXT_SIZE) ||
-                    key[0] == (WEATHER_ICON_SIZE) ||
-                    key[0] == (WEATHER_STYLE) ||
-                    key[0] == (WEATHER_CUSTOM_MARGINS_BOTTOM) ||
-                    key[0] == (WEATHER_CUSTOM_MARGINS_SIDE) ||
-                    key[0] == (WEATHER_CUSTOM_MARGINS_TOP))
+            (key[0] == WEATHER_SHOW_LOCATION ||
+                    key[0] == WEATHER_SHOW_CONDITION ||
+                    key[0] == WEATHER_SHOW_HUMIDITY ||
+                    key[0] == WEATHER_SHOW_WIND ||
+                    key[0] == WEATHER_TEXT_COLOR_SWITCH ||
+                    key[0] == WEATHER_TEXT_COLOR ||
+                    key[0] == WEATHER_TEXT_SIZE ||
+                    key[0] == WEATHER_ICON_SIZE ||
+                    key[0] == WEATHER_STYLE ||
+                    key[0] == WEATHER_CUSTOM_MARGINS_BOTTOM ||
+                    key[0] == WEATHER_CUSTOM_MARGINS_SIDE ||
+                    key[0] == WEATHER_CUSTOM_MARGINS_TOP ||
+                    key[0] == WEATHER_CENTER_VIEW)
         ) {
             updateWeatherView()
         }
-
     }
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-
         mWeatherContainer = LinearLayout(mContext)
         mWeatherContainer.layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -124,7 +125,6 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!weatherEnabled) return
 
-
                 mStatusArea = getObjectField(
                     param.thisObject,
                     "mStatusArea"
@@ -138,17 +138,16 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
 
     private fun placeWeatherView() {
         try {
-            val currentWeatherView: CurrentWeatherView =
-                CurrentWeatherView.getInstance(mContext, LOCKSCREEN_WEATHER)
-            try {
-                (currentWeatherView.parent as ViewGroup).removeView(currentWeatherView)
-            } catch (ignored: Throwable) {
-            }
-            try {
-                (mWeatherContainer.parent as ViewGroup).removeView(mWeatherContainer)
-            } catch (ignored: Throwable) {
-            }
+            val currentWeatherView: CurrentWeatherView = CurrentWeatherView.getInstance(
+                mContext,
+                LOCKSCREEN_WEATHER
+            )
+
+            (currentWeatherView.parent as ViewGroup?)?.removeView(currentWeatherView)
+            (mWeatherContainer.parent as ViewGroup?)?.removeView(mWeatherContainer)
+
             mWeatherContainer.addView(currentWeatherView)
+
             if (customLockscreenClock) {
                 mStatusViewContainer!!.addView(mWeatherContainer)
             } else {
@@ -156,6 +155,7 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
                 // But before notifications
                 mStatusArea!!.addView(mWeatherContainer, mStatusArea!!.childCount - 1)
             }
+
             refreshWeatherView(currentWeatherView)
             updateMargins()
         } catch (ignored: Throwable) {
@@ -171,31 +171,41 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             mSideMargin,
             mBottomMargin
         )
+
+        mWeatherContainer.gravity = if (mCenterWeather) {
+            Gravity.CENTER_HORIZONTAL
+        } else {
+            Gravity.START
+        }
     }
 
     private fun refreshWeatherView(currentWeatherView: CurrentWeatherView?) {
         if (currentWeatherView == null) return
-        currentWeatherView.updateSizes(
-            weatherTextSize,
-            weatherImageSize,
-            LOCKSCREEN_WEATHER
-        )
-        currentWeatherView.updateColors(
-            if (weatherCustomColor) weatherColor else Color.WHITE,
-            LOCKSCREEN_WEATHER
-        )
-        currentWeatherView.updateWeatherSettings(
-            weatherShowLocation,
-            weatherShowCondition,
-            weatherShowHumidity,
-            weatherShowWind,
-            LOCKSCREEN_WEATHER
-        )
-        currentWeatherView.visibility = if (weatherEnabled) View.VISIBLE else View.GONE
-        currentWeatherView.updateWeatherBg(
-            mWeatherBackground,
-            LOCKSCREEN_WEATHER
-        )
+
+        currentWeatherView.apply {
+            updateSizes(
+                weatherTextSize,
+                weatherImageSize,
+                LOCKSCREEN_WEATHER
+            )
+            updateColors(
+                if (weatherCustomColor) weatherColor else Color.WHITE,
+                LOCKSCREEN_WEATHER
+            )
+            updateWeatherSettings(
+                weatherShowLocation,
+                weatherShowCondition,
+                weatherShowHumidity,
+                weatherShowWind,
+                LOCKSCREEN_WEATHER
+            )
+            visibility = if (weatherEnabled) View.VISIBLE else View.GONE
+            updateWeatherBg(
+                mWeatherBackground,
+                LOCKSCREEN_WEATHER
+            )
+        }
+
         updateMargins()
     }
 
@@ -206,5 +216,4 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
     companion object {
         const val LOCKSCREEN_WEATHER = "iconify_ls_weather"
     }
-
 }
