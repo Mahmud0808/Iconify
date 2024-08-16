@@ -22,7 +22,6 @@ import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedBridge.log
 import java.util.Locale
 import java.util.function.Consumer
@@ -193,7 +192,10 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             mWeatherInfo = mWeatherClient.weatherInfo
             if (mWeatherInfo != null) {
                 var formattedCondition: String = mWeatherInfo!!.condition.toString()
-                if (formattedCondition.lowercase(Locale.getDefault()).contains("clouds")) {
+
+                if (formattedCondition.lowercase(Locale.getDefault()).contains("clouds") ||
+                    formattedCondition.lowercase(Locale.getDefault()).contains("overcast")
+                ) {
                     formattedCondition = modRes.getString(R.string.weather_condition_clouds)
                 } else if (formattedCondition.lowercase(Locale.getDefault()).contains("rain")) {
                     formattedCondition = modRes.getString(R.string.weather_condition_rain)
@@ -208,6 +210,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 } else if (formattedCondition.lowercase(Locale.getDefault()).contains("mist")) {
                     formattedCondition = modRes.getString(R.string.weather_condition_mist)
                 }
+
                 val d: Drawable =
                     mWeatherClient.getWeatherConditionImage(mWeatherInfo!!.conditionCode)
                 mCurrentImage!!.setImageDrawable(d)
@@ -222,7 +225,8 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 mHumLayout!!.visibility = if (mShowWeatherHumidity) VISIBLE else GONE
 
                 mWindImage!!.setImageDrawable(mWindDrawable)
-                mWindText!!.text = ((mWeatherInfo!!.windDirection + " " + mWeatherInfo!!.pinWheel) + " · " + mWeatherInfo!!.windSpeed) + " " + mWeatherInfo!!.windUnits
+                mWindText!!.text =
+                    ((mWeatherInfo!!.windDirection + " " + mWeatherInfo!!.pinWheel) + " · " + mWeatherInfo!!.windSpeed) + " " + mWeatherInfo!!.windUnits
                 mWindLayout!!.visibility = if (mShowWeatherWind) VISIBLE else GONE
             }
         } catch (e: Exception) {
@@ -344,14 +348,16 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 mWeatherHorPadding = Math.round(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor).toFloat(),
+                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                            .toFloat(),
                         mContext.resources.displayMetrics
                     )
                 )
                 mWeatherVerPadding = Math.round(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver).toFloat(),
+                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                            .toFloat(),
                         mContext.resources.displayMetrics
                     )
                 )
@@ -366,14 +372,16 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 mWeatherHorPadding = Math.round(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor).toFloat(),
+                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                            .toFloat(),
                         mContext.resources.displayMetrics
                     )
                 )
                 mWeatherVerPadding = Math.round(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver).toFloat(),
+                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                            .toFloat(),
                         mContext.resources.displayMetrics
                     )
                 )
@@ -388,14 +396,16 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 mWeatherHorPadding = Math.round(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor).toFloat(),
+                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                            .toFloat(),
                         mContext.resources.displayMetrics
                     )
                 )
                 mWeatherVerPadding = Math.round(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver).toFloat(),
+                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                            .toFloat(),
                         mContext.resources.displayMetrics
                     )
                 )
@@ -410,14 +420,16 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 mWeatherHorPadding = Math.round(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor).toFloat(),
+                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                            .toFloat(),
                         mContext.resources.displayMetrics
                     )
                 )
                 mWeatherVerPadding = Math.round(
                     TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver).toFloat(),
+                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                            .toFloat(),
                         mContext.resources.displayMetrics
                     )
                 )
