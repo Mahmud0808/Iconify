@@ -72,6 +72,7 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
 
     private lateinit var binding: FragmentXposedLockscreenWeatherBinding
     private lateinit var mWeatherClient: OmniJawsClient
+    private val mapping: IntArray = intArrayOf(1, 2, 4, 6, 12)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -109,9 +110,18 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
             )
         }
 
-        binding.lockscreenWeatherUpdateInterval.setSelectedIndex(getInt(WEATHER_UPDATE_INTERVAL, 1))
+        val updateInterval = WeatherConfig.getUpdateInterval(requireContext())
+        var selectedIndex = 1
+        when (updateInterval) {
+            1 -> selectedIndex = 0
+            2 -> selectedIndex = 1
+            4 -> selectedIndex = 2
+            6 -> selectedIndex = 3
+            12 -> selectedIndex = 4
+        }
+        binding.lockscreenWeatherUpdateInterval.setSelectedIndex(selectedIndex)
         binding.lockscreenWeatherUpdateInterval.setOnItemSelectedListener {
-            putInt(WEATHER_UPDATE_INTERVAL, it)
+            putString(WEATHER_UPDATE_INTERVAL, mapping[it].toString())
             forceRefreshWeatherSettings()
         }
 
@@ -465,7 +475,7 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
                     )
                 )
             }
-            val label: String? = r.activityInfo.packageName
+            val label: String = r.activityInfo.loadLabel(packageManager).toString()
             if (packageName == DEFAULT_WEATHER_ICON_PACKAGE) {
                 entries.add(0, label)
             } else {
