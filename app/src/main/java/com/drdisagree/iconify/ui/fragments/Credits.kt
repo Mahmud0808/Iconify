@@ -158,6 +158,15 @@ class Credits : BaseFragment() {
             add(
                 InfoModel(
                     requireContext(),
+                    "Luigi",
+                    appContextLocale.resources.getString(R.string.info_contributor_desc),
+                    "https://github.com/DHD2280",
+                    R.drawable.ic_user
+                )
+            )
+            add(
+                InfoModel(
+                    requireContext(),
                     "Azure-Helper",
                     appContextLocale.resources.getString(R.string.info_contributor_desc),
                     "https://github.com/Azure-Helper",
