@@ -1018,8 +1018,8 @@
     <string name="interval_6_hour">6 hours</string>
     <string name="interval_12_hour">12 hours</string>
     <string name="weather_tile_title">Weather</string>
-    <string name="weather_icon_pack_title">Condition icon pack</string>
-    <string name="weather_icon_pack_playstore">Find icon packs</string>
+    <string name="weather_icon_pack_title">Condition Icon Pack</string>
+    <string name="weather_icon_pack_playstore">Find more icon packs</string>
     <string name="service_disabled">Disabled</string>
     <string name="service_error">Error</string>
     <string name="omnijaws_service_waiting">Waiting \u2026</string>

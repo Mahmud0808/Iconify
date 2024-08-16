@@ -203,7 +203,8 @@
         <provider
             android:name=".weather.WeatherContentProvider"
             android:authorities="com.drdisagree.iconify.weatherprovider"
-            android:exported="true" /> <!-- Weather Content Provider -->
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" /> <!-- Weather Content Provider -->
 
         <!-- name is used a prefix +"_" for images e.g. weather_<condition_id>
              weather_foo_<condition_id> -->
@@ -240,7 +241,7 @@
         <activity
             android:name=".weatherclient"
             android:exported="false"
-            android:label="Weather Client" >
+            android:label="Weather Client">
             <intent-filter>
                 <action android:name="${applicationId}.WeatherIconPack" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -248,38 +249,38 @@
         </activity>
 
         <activity
-            android:label="Stickers"
             android:name=".stickers"
-            android:exported="false">
+            android:exported="false"
+            android:label="Stickers">
             <intent-filter>
-                <action android:name="${applicationId}.WeatherIconPack"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:label="Marshmallow"
             android:name=".marshmallow"
-            android:exported="false">
+            android:exported="false"
+            android:label="Marshmallow">
             <intent-filter>
-                <action android:name="${applicationId}.WeatherIconPack"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:label="Color Hand"
             android:name=".icons8_color_hand"
-            android:exported="false">
+            android:exported="false"
+            android:label="Color Hand">
             <intent-filter>
-                <action android:name="${applicationId}.WeatherIconPack"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".weather_faded"
-            android:label="Faded"
-            android:exported="false">
+            android:exported="false"
+            android:label="Faded">
             <intent-filter>
                 <action android:name="${applicationId}.WeatherIconPack" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -288,8 +289,8 @@
 
         <activity
             android:name=".weather_weezle"
-            android:label="Weezle"
-            android:exported="false">
+            android:exported="false"
+            android:label="Weezle">
             <intent-filter>
                 <action android:name="${applicationId}.WeatherIconPack" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -298,8 +299,8 @@
 
         <activity
             android:name=".weather_gs6"
-            android:label="Galaxy S6"
-            android:exported="false">
+            android:exported="false"
+            android:label="Galaxy S6">
             <intent-filter>
                 <action android:name="${applicationId}.WeatherIconPack" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -308,8 +309,8 @@
 
         <activity
             android:name=".weather_miui"
-            android:label="MIUI"
-            android:exported="false">
+            android:exported="false"
+            android:label="MIUI">
             <intent-filter>
                 <action android:name="${applicationId}.WeatherIconPack" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -318,8 +319,8 @@
 
         <activity
             android:name=".weather_sthul"
-            android:label="Sthul"
-            android:exported="false">
+            android:exported="false"
+            android:label="Sthul">
             <intent-filter>
                 <action android:name="${applicationId}.WeatherIconPack" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -328,8 +329,8 @@
 
         <activity
             android:name=".weather_tapas"
-            android:label="Tapas"
-            android:exported="false">
+            android:exported="false"
+            android:label="Tapas">
             <intent-filter>
                 <action android:name="${applicationId}.WeatherIconPack" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -338,8 +339,8 @@
 
         <activity
             android:name=".weather_magical"
-            android:label="Magical"
-            android:exported="false">
+            android:exported="false"
+            android:label="Magical">
             <intent-filter>
                 <action android:name="${applicationId}.WeatherIconPack" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -348,8 +349,8 @@
 
         <activity
             android:name=".weather_vclouds"
-            android:label="VClouds"
-            android:exported="false">
+            android:exported="false"
+            android:label="VClouds">
             <intent-filter>
                 <action android:name="${applicationId}.WeatherIconPack" />
                 <category android:name="android.intent.category.DEFAULT" />

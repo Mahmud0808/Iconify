@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -19,7 +20,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,9 +33,10 @@ import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class LocationBrowseActivity : BaseActivity() {
+open class LocationBrowseActivity : BaseActivity() {
+
     private val mLocationBrowseList: MutableList<LocationBrowseItem> = ArrayList()
-    private var mAdapter: LocagtionListAdapter? = null
+    private var mAdapter: LocationListAdapter? = null
     private val mExecutorService: ExecutorService = Executors.newSingleThreadExecutor()
     private val mHandler = Handler(Looper.getMainLooper())
     private var mQueryString: String? = null
@@ -49,7 +50,7 @@ class LocationBrowseActivity : BaseActivity() {
         }
     }
 
-    private class LocationBrowseItem(
+    private open class LocationBrowseItem(
         val cityExt: String,
         private val mCountryId: String,
         val city: String,
@@ -57,14 +58,23 @@ class LocationBrowseActivity : BaseActivity() {
         val lon: Double
     ) {
         protected val id: String
-            get() = city + "," + mCountryId
+            get() = "$city,$mCountryId"
 
         override fun equals(other: Any?): Boolean {
             return (other is LocationBrowseItem) && this.id == other.id
         }
+
+        override fun hashCode(): Int {
+            var result = cityExt.hashCode()
+            result = 31 * result + mCountryId.hashCode()
+            result = 31 * result + city.hashCode()
+            result = 31 * result + lat.hashCode()
+            result = 31 * result + lon.hashCode()
+            return result
+        }
     }
 
-    inner class LocagtionListAdapter : RecyclerView.Adapter<LocagtionListAdapter.ViewHolder>() {
+    inner class LocationListAdapter : RecyclerView.Adapter<LocationListAdapter.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             return ViewHolder(inflater.inflate(R.layout.location_browse_item, parent, false))
@@ -78,11 +88,12 @@ class LocationBrowseActivity : BaseActivity() {
             (holder.itemView.findViewById<View>(R.id.location_city_ext) as TextView).text =
                 city.cityExt
 
-            holder.itemView.setOnClickListener { view: View? ->
-                val intent = Intent()
-                intent.putExtra(DATA_LOCATION_NAME, city.city)
-                intent.putExtra(DATA_LOCATION_LAT, city.lat)
-                intent.putExtra(DATA_LOCATION_LON, city.lon)
+            holder.itemView.setOnClickListener {
+                val intent = Intent().apply {
+                    putExtra(DATA_LOCATION_NAME, city.city)
+                    putExtra(DATA_LOCATION_LAT, city.lat)
+                    putExtra(DATA_LOCATION_LON, city.lon)
+                }
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             }
@@ -103,7 +114,7 @@ class LocationBrowseActivity : BaseActivity() {
         val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
         toolbar.setTitle(R.string.custom_location_title)
         setSupportActionBar(toolbar)
-        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         mProgressBar = findViewById(R.id.query_progressbar)
 
@@ -113,6 +124,7 @@ class LocationBrowseActivity : BaseActivity() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 mHandler.removeCallbacks(mQueryRunnable)
                 mQueryString = s.toString()
@@ -130,7 +142,7 @@ class LocationBrowseActivity : BaseActivity() {
             }
         })
 
-        mAdapter = LocagtionListAdapter()
+        mAdapter = LocationListAdapter()
         val queryList: RecyclerView = findViewById(R.id.query_result)
         queryList.adapter = mAdapter
         queryList.layoutManager = LinearLayoutManager(this)
@@ -148,6 +160,7 @@ class LocationBrowseActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     protected fun getLocations(input: String?) {
         mLocationBrowseList.clear()
 
@@ -158,39 +171,37 @@ class LocationBrowseActivity : BaseActivity() {
                     input!!.trim { it <= ' ' }), lang
             )
             val response: String = NetworkUtils.downloadUrlMemoryAsString(url)
-            if (response != null) {
-                val jsonResults = JSONObject(response).getJSONArray("geonames")
-                val count = jsonResults.length()
-                Log.d(
-                    TAG,
-                    "URL = $url returning a response of count = $count"
-                )
+            val jsonResults = JSONObject(response).getJSONArray("geonames")
+            val count = jsonResults.length()
+            Log.d(
+                TAG,
+                "URL = $url returning a response of count = $count"
+            )
 
-                for (i in 0 until count) {
-                    val result = jsonResults.getJSONObject(i)
+            for (i in 0 until count) {
+                val result = jsonResults.getJSONObject(i)
 
-                    val population =
-                        if (result.has("population")) result.getInt("population") else 0
-                    if (population == 0) {
-                        continue
-                    }
+                val population =
+                    if (result.has("population")) result.getInt("population") else 0
+                if (population == 0) {
+                    continue
+                }
 
-                    val city = result.getString("name")
-                    val country = result.getString("countryName")
-                    val countryId = result.getString("countryId")
-                    val adminName =
-                        if (result.has("adminName1")) result.getString("adminName1") else ""
-                    val cityExt =
-                        (if (TextUtils.isEmpty(adminName)) "" else "$adminName, ") + country
-                    val lat = result.getDouble("lat")
-                    val lon = result.getDouble("lng")
+                val city = result.getString("name")
+                val country = result.getString("countryName")
+                val countryId = result.getString("countryId")
+                val adminName =
+                    if (result.has("adminName1")) result.getString("adminName1") else ""
+                val cityExt =
+                    (if (TextUtils.isEmpty(adminName)) "" else "$adminName, ") + country
+                val lat = result.getDouble("lat")
+                val lon = result.getDouble("lng")
 
-                    val locationItem = LocationBrowseItem(cityExt, countryId, city, lat, lon)
-                    if (!mLocationBrowseList.contains(locationItem)) {
-                        mLocationBrowseList.add(locationItem)
-                        if (mLocationBrowseList.size == 5) {
-                            break
-                        }
+                val locationItem = LocationBrowseItem(cityExt, countryId, city, lat, lon)
+                if (!mLocationBrowseList.contains(locationItem)) {
+                    mLocationBrowseList.add(locationItem)
+                    if (mLocationBrowseList.size == 5) {
+                        break
                     }
                 }
             }
@@ -216,7 +227,7 @@ class LocationBrowseActivity : BaseActivity() {
     }
 
     companion object {
-        private const val TAG = "LocationBrowseActivity"
+        private val TAG = LocationBrowseActivity::class.java.simpleName
 
         const val DATA_LOCATION_NAME: String = "location_name"
         const val DATA_LOCATION_LAT: String = "location_lat"
@@ -224,7 +235,6 @@ class LocationBrowseActivity : BaseActivity() {
 
         private const val URL_PLACES =
             "https://secure.geonames.org/searchJSON?name_startsWith=%s&lang=%s&username=omnijaws&maxRows=20"
-
 
         fun prefixTextWithIcon(context: Context?, iconRes: Int, msg: CharSequence): CharSequence {
             // Update the hint to contain the icon.
