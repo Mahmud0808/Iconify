@@ -21,7 +21,6 @@ import com.drdisagree.iconify.ui.utils.ViewHelper.setTextRecursively
 import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
-import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
 import de.robv.android.xposed.XposedBridge.log
 import java.util.Locale
 import java.util.function.Consumer
@@ -29,6 +28,7 @@ import java.util.function.Consumer
 @SuppressLint("ViewConstructor")
 class CurrentWeatherView(context: Context, name: String) : LinearLayout(context),
     OmniJawsClient.OmniJawsObserver {
+
     private var mCurrentImage: ImageView? = null
     private var mHumImage: ImageView? = null
     private var mWindImage: ImageView? = null
@@ -45,7 +45,6 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     private var mHumDrawable: Drawable? = null
     private var mWindDrawable: Drawable? = null
     private var mWeatherBgSelection = 0
-
     private var mShowWeatherLocation = false
     private var mShowWeatherText = false
     private var mShowWeatherHumidity = false
@@ -70,7 +69,6 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
         inflateView()
 
         enableUpdates()
-
     }
 
     private fun inflateView() {
@@ -470,7 +468,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     }
 
     companion object {
-        const val TAG: String = "CurrentWeatherView: "
+        private val TAG: String = CurrentWeatherView::class.java.name
 
         val Int.dp: Int
             get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
@@ -485,21 +483,13 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 }
                 .forEach { obj: Array<Any> ->
                     val instance = obj[0] as CurrentWeatherView
-                    val params = LayoutParams(
-                        size.dp,
-                        size.dp
-                    )
+                    val params = instance.mCurrentImage!!.layoutParams as LayoutParams
+                    params.width = size.dp
+                    params.height = size.dp
                     params.gravity = Gravity.CENTER_VERTICAL
                     instance.mCurrentImage!!.layoutParams = params
                     instance.mHumImage!!.layoutParams = params
                     instance.mWindImage!!.layoutParams = params
-                    setMargins(
-                        instance.mCurrentImage!!, instance.mContext,
-                        if (instance.mShowWeatherLocation) 1.dp else 2.dp,
-                        0,
-                        if (instance.mShowWeatherLocation) 1.dp else 2.dp,
-                        0
-                    )
                 }
         }
 
