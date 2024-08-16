@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_LEFT
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
@@ -31,6 +32,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class LockscreenWeather(context: Context?) : ModPack(context!!) {
 
+    private var customLockscreenClock = false
     private var weatherEnabled = false
     private var weatherShowLocation = true
     private var weatherShowCondition = true
@@ -47,11 +49,13 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
     private lateinit var mWeatherContainer: LinearLayout
 
     private var mStatusViewContainer: ViewGroup? = null
+    private var mStatusArea: ViewGroup? = null
 
 
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
 
+        customLockscreenClock = Xprefs!!.getBoolean(LSCLOCK_SWITCH, false)
         weatherEnabled = Xprefs!!.getBoolean(WEATHER_SWITCH, false)
         weatherShowLocation = Xprefs!!.getBoolean(WEATHER_SHOW_LOCATION, true)
         weatherShowCondition = Xprefs!!.getBoolean(WEATHER_SHOW_CONDITION, true)
@@ -87,6 +91,12 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
 
+        mWeatherContainer = LinearLayout(mContext)
+        mWeatherContainer.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
         val keyguardStatusViewClass = findClass(
             "com.android.keyguard.KeyguardStatusView",
             loadPackageParam.classLoader
@@ -96,15 +106,29 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!weatherEnabled) return
 
-                mWeatherContainer = LinearLayout(mContext)
-                mWeatherContainer.layoutParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-
                 mStatusViewContainer = getObjectField(
                     param.thisObject,
                     "mStatusViewContainer"
+                ) as ViewGroup
+
+                placeWeatherView()
+
+            }
+        })
+
+        val keyguardClockSwitch = findClass(
+            "com.android.keyguard.KeyguardClockSwitch",
+            loadPackageParam.classLoader
+        )
+
+        hookAllMethods(keyguardClockSwitch, "onFinishInflate", object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                if (!weatherEnabled) return
+
+
+                mStatusArea = getObjectField(
+                    param.thisObject,
+                    "mStatusArea"
                 ) as ViewGroup
 
                 placeWeatherView()
@@ -126,12 +150,13 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             } catch (ignored: Throwable) {
             }
             mWeatherContainer.addView(currentWeatherView)
-            val clockView = mStatusViewContainer!!.findViewWithTag<ViewGroup>(ICONIFY_LOCKSCREEN_CLOCK_TAG)
-            if (clockView == null) {
-                mStatusViewContainer!!.addView(mWeatherContainer)
-            } else {
-                mStatusViewContainer!!.addView(mWeatherContainer, mStatusViewContainer!!.indexOfChild(clockView))
-            }
+           if (customLockscreenClock) {
+               mStatusViewContainer!!.addView(mWeatherContainer)
+           } else {
+               // Put weather view inside the status area
+               // But before notifications
+               mStatusArea!!.addView(mWeatherContainer, mStatusArea!!.childCount - 1)
+           }
             refreshWeatherView(currentWeatherView)
             updateMargins()
         } catch (ignored: Throwable) {
