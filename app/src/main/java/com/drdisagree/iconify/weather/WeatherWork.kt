@@ -15,17 +15,17 @@ import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_DISABLED
-import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_NETWORK
 import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_LOCATION
+import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_NETWORK
 import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_NO_PERMISSIONS
-import com.drdisagree.iconify.weather.Config.getLocationLat
-import com.drdisagree.iconify.weather.Config.getLocationLon
-import com.drdisagree.iconify.weather.Config.getProvider
-import com.drdisagree.iconify.weather.Config.isCustomLocation
-import com.drdisagree.iconify.weather.Config.isEnabled
-import com.drdisagree.iconify.weather.Config.isMetric
-import com.drdisagree.iconify.weather.Config.setUpdateError
-import com.drdisagree.iconify.weather.Config.setWeatherData
+import com.drdisagree.iconify.weather.WeatherConfig.getLocationLat
+import com.drdisagree.iconify.weather.WeatherConfig.getLocationLon
+import com.drdisagree.iconify.weather.WeatherConfig.getProvider
+import com.drdisagree.iconify.weather.WeatherConfig.isCustomLocation
+import com.drdisagree.iconify.weather.WeatherConfig.isEnabled
+import com.drdisagree.iconify.weather.WeatherConfig.isMetric
+import com.drdisagree.iconify.weather.WeatherConfig.setUpdateError
+import com.drdisagree.iconify.weather.WeatherConfig.setWeatherData
 import com.google.common.util.concurrent.ListenableFuture
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -117,6 +117,7 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
         return gpsEnabled || networkEnabled
     }
 
+    @get:Suppress("deprecation")
     @get:SuppressLint("MissingPermission")
     private val currentLocation: Location?
         get() {
@@ -195,8 +196,15 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
             while (i < RETRY_MAX_NUM) {
                 w = if (location != null && !isCustomLocation(mContext)) {
                     provider.getLocationWeather(location, isMetric)
-                } else if (!TextUtils.isEmpty(getLocationLat(mContext)) && !TextUtils.isEmpty(getLocationLon(mContext))) {
-                    provider.getCustomWeather(getLocationLat(mContext)!!, getLocationLon(mContext)!!, isMetric)
+                } else if (!TextUtils.isEmpty(getLocationLat(mContext)) && !TextUtils.isEmpty(
+                        getLocationLon(mContext)
+                    )
+                ) {
+                    provider.getCustomWeather(
+                        getLocationLat(mContext)!!,
+                        getLocationLon(mContext)!!,
+                        isMetric
+                    )
                 } else {
                     Log.w(TAG, "No valid custom location and location is null")
                     break
@@ -237,11 +245,12 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
                 mContext.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
+    @Suppress("deprecation")
     companion object {
         private const val TAG = "WeatherWork"
         private const val DEBUG = false
-        private val ACTION_BROADCAST = BuildConfig.APPLICATION_ID.replace(".debug", "") + ".WEATHER_UPDATE"
-        private val ACTION_ERROR = BuildConfig.APPLICATION_ID.replace(".debug", "") + ".WEATHER_ERROR"
+        private const val ACTION_BROADCAST = "${BuildConfig.APPLICATION_ID}.WEATHER_UPDATE"
+        private const val ACTION_ERROR = "${BuildConfig.APPLICATION_ID}.WEATHER_ERROR"
 
         private const val EXTRA_ERROR = "error"
 

@@ -1000,7 +1000,7 @@
     <string name="weather_custom_location_title">Location</string>
     <string name="weather_custom_location_missing">Set custom location</string>
     <string name="weather_retrieve_location_dialog_title">Cannot retrieve location!</string>
-    <string name="weather_retrieve_location_dialog_message">Network geolocation is disabled.\n\nSet a custom location or enable network location</string>
+    <string name="weather_retrieve_location_dialog_message">Network geolocation is disabled.\n\nSet a custom location or enable network location.</string>
     <string name="weather_retrieve_location_dialog_enable_button">Enable</string>
     <string name="settings_title">Settings</string>
     <string name="auto_update_title">Automatic updates</string>
@@ -1054,8 +1054,9 @@
     <string name="weather_condition_mist">Misty</string>
 
     <!-- Lockscreen Weather -->
-    <string name="lockscreen_weather">Show Weather on Lockscreen</string>
-    <string name="last_update_time">Last update time</string>
+    <string name="lockscreen_weather_title">Weather on Lockscreen</string>
+    <string name="lockscreen_weather_desc">Show weather on lockscreen</string>
+    <string name="last_update_time">Last Update Time</string>
     <string name="weather_show_location">Show Location</string>
     <string name="weather_show_location_summary">Show Location before icon</string>
     <string name="weather_show_condition">Show Condition</string>
@@ -1066,15 +1067,17 @@
     <string name="weather_show_wind_summary">Show Wind in a new row</string>
     <string name="weather_text_size">Text Size</string>
     <string name="weather_image_size">Image Size</string>
-    <string name="weather_custom_color">Weather Text Custom Color</string>
-    <string name="weather_custom_color_summary">Custom color for all text in weather view</string>
+    <string name="weather_custom_color_title">Text Color</string>
+    <string name="weather_custom_color_summary">Set custom color for text</string>
+    <string name="weather_custom_color_switch_title">Custom Color</string>
+    <string name="weather_custom_color_switch_summary">Custom color for all text in weather view</string>
     <string name="custom_location_title">Custom location</string>
     <string name="custom_location_summary">Set custom location for weather</string>
     <string name="weather_custom_margins">Custom Margins</string>
     <string name="weather_custom_margins_summary">Set custom margins for weather</string>
     <string name="weather_margin_top">Top margin</string>
     <string name="weather_centered">Center Layout</string>
-    <string name="weather_margin_left">Left Margin</string>
+    <string name="weather_margin_side">Side Margin</string>
     <string name="weather_margin_bottom">Bottom Margin</string>
 
     <!-- Lockscreen Weather styles -->

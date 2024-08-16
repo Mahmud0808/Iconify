@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.utils
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,13 +10,16 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.text.TextUtils
+import android.text.format.DateFormat
 import android.util.Log
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.weather.Config
+import com.drdisagree.iconify.weather.WeatherConfig
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 /*
  * Copyright (C) 2021 The OmniROM Project
@@ -35,9 +39,9 @@ import java.util.Date
  *
  */
 
-
 class OmniJawsClient(private val mContext: Context) {
-    class WeatherInfo {
+
+    class WeatherInfo(private val mContext: Context) {
         var city: String? = null
         var windSpeed: String? = null
         var windDirection: String? = null
@@ -59,7 +63,8 @@ class OmniJawsClient(private val mContext: Context) {
 
         val lastUpdateTime: String
             get() {
-                val sdf = SimpleDateFormat("HH:mm:ss")
+                val hourFormat = if (DateFormat.is24HourFormat(mContext)) "HH" else "hh"
+                val sdf = SimpleDateFormat("$hourFormat:mm:ss", Locale.getDefault())
                 return sdf.format(Date(timeStamp!!))
             }
     }
@@ -111,70 +116,73 @@ class OmniJawsClient(private val mContext: Context) {
     fun queryWeather() {
         try {
             weatherInfo = null
-            var c = mContext.contentResolver.query(
+
+            var cursor = mContext.contentResolver.query(
                 WEATHER_URI, WEATHER_PROJECTION,
                 null, null, null
             )
-            if (c != null) {
-                try {
-                    val count = c.count
-                    if (count > 0) {
-                        weatherInfo = WeatherInfo()
-                        val forecastList: MutableList<DayForecast> = ArrayList()
-                        var i = 0
-                        i = 0
-                        while (i < count) {
-                            c.moveToPosition(i)
-                            if (i == 0) {
-                                weatherInfo!!.city = c.getString(0)
-                                weatherInfo!!.windSpeed = getFormattedValue(c.getFloat(1))
-                                weatherInfo!!.windDirection = c.getInt(2).toString() + "\u00b0"
-                                weatherInfo!!.conditionCode = c.getInt(3)
-                                weatherInfo!!.temp = getFormattedValue(c.getFloat(4))
-                                weatherInfo!!.humidity = c.getString(5)
-                                weatherInfo!!.condition = c.getString(6)
-                                weatherInfo!!.timeStamp = c.getString(11).toLong()
-                                weatherInfo!!.pinWheel = c.getString(13)
-                            } else {
-                                val day = DayForecast()
-                                day.low = getFormattedValue(c.getFloat(7))
-                                day.high = getFormattedValue(c.getFloat(8))
-                                day.condition = c.getString(9)
-                                day.conditionCode = c.getInt(10)
-                                day.date = c.getString(12)
-                                forecastList.add(day)
+
+            cursor?.use {
+                val count = it.count
+
+                if (count > 0) {
+                    weatherInfo = WeatherInfo(mContext)
+                    val forecastList: MutableList<DayForecast> = ArrayList()
+                    var i = 0
+
+                    while (i < count) {
+                        it.moveToPosition(i)
+
+                        if (i == 0) {
+                            weatherInfo?.apply {
+                                city = it.getString(0)
+                                windSpeed = getFormattedValue(it.getFloat(1))
+                                weatherInfo!!.windDirection = it.getInt(2).toString() + "\u00b0"
+                                weatherInfo!!.conditionCode = it.getInt(3)
+                                weatherInfo!!.temp = getFormattedValue(it.getFloat(4))
+                                weatherInfo!!.humidity = it.getString(5)
+                                weatherInfo!!.condition = it.getString(6)
+                                weatherInfo!!.timeStamp = it.getString(11).toLong()
+                                weatherInfo!!.pinWheel = it.getString(13)
                             }
-                            i++
+                        } else {
+                            val day = DayForecast()
+                            day.low = getFormattedValue(it.getFloat(7))
+                            day.high = getFormattedValue(it.getFloat(8))
+                            day.condition = it.getString(9)
+                            day.conditionCode = it.getInt(10)
+                            day.date = it.getString(12)
+                            forecastList.add(day)
                         }
-                        weatherInfo!!.forecasts = forecastList
+                        i++
                     }
-                } finally {
-                    c.close()
-                }
-            }
-            c = mContext.contentResolver.query(
-                SETTINGS_URI, SETTINGS_PROJECTION,
-                null, null, null
-            )
-            if (c != null) {
-                try {
-                    val count = c.count
-                    if (count == 1) {
-                        c.moveToPosition(0)
-                        mMetric = c.getInt(1) == 0
-                        if (weatherInfo != null) {
-                            weatherInfo!!.tempUnits = temperatureUnit
-                            weatherInfo!!.windUnits = windUnit
-                            weatherInfo!!.provider = c.getString(2)
-                            weatherInfo!!.iconPack = c.getString(4)
-                        }
-                    }
-                } finally {
-                    c.close()
+                    weatherInfo!!.forecasts = forecastList
                 }
             }
 
-            if (DEBUG) Log.d(TAG, "queryWeather " + weatherInfo)
+            cursor = mContext.contentResolver.query(
+                SETTINGS_URI, SETTINGS_PROJECTION,
+                null, null, null
+            )
+
+            cursor?.use {
+                val count = it.count
+
+                if (count == 1) {
+                    it.moveToPosition(0)
+                    mMetric = it.getInt(1) == 0
+
+                    weatherInfo?.apply {
+                        tempUnits = temperatureUnit
+                        windUnits = windUnit
+                        provider = it.getString(2)
+                        iconPack = it.getString(4)
+                    }
+                }
+            }
+
+            if (DEBUG) Log.d(TAG, "queryWeather $weatherInfo")
+
             updateSettings()
         } catch (e: Exception) {
             Log.e(TAG, "queryWeather", e)
@@ -185,10 +193,12 @@ class OmniJawsClient(private val mContext: Context) {
         mPackageName = ICON_PACKAGE_DEFAULT
         mIconPrefix = ICON_PREFIX_DEFAULT
         mSettingIconPackage = "$mPackageName.$mIconPrefix"
+
         if (DEBUG) Log.d(
             TAG,
             "Load default icon pack $mSettingIconPackage $mPackageName $mIconPrefix"
         )
+
         try {
             val packageManager = mContext.packageManager
             mRes = packageManager.getResourcesForApplication(mPackageName!!)
@@ -196,12 +206,15 @@ class OmniJawsClient(private val mContext: Context) {
             Log.d(TAG, "loadDefaultIconsPackage", e)
             mRes = null
         }
+
         if (mRes == null) {
             Log.w(TAG, "No default package found")
         }
     }
 
+    @Suppress("deprecation")
     private val defaultConditionImage: Drawable
+        @SuppressLint("DiscouragedApi", "UseCompatLoadingForDrawables")
         get() {
             val packageName = ICON_PACKAGE_DEFAULT
             val iconPrefix = ICON_PREFIX_DEFAULT
@@ -209,18 +222,19 @@ class OmniJawsClient(private val mContext: Context) {
             try {
                 val packageManager = mContext.packageManager
                 val res = packageManager.getResourcesForApplication(packageName)
-                if (res != null) {
-                    val resId = res.getIdentifier(iconPrefix + "_na", "drawable", packageName)
-                    val d = res.getDrawable(resId)
-                    if (d != null) {
-                        return d
-                    }
+                val resId = res.getIdentifier(iconPrefix + "_na", "drawable", packageName)
+                val d = mRes!!.getDrawable(resId)
+
+                if (d != null) {
+                    return d
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "defaultConditionImage", e)
             }
+
             // absolute absolute fallback
             Log.w(TAG, "No default package found")
+
             return ColorDrawable(Color.RED)
         }
 
@@ -229,13 +243,16 @@ class OmniJawsClient(private val mContext: Context) {
             TAG,
             "Load custom icon pack $mSettingIconPackage"
         )
+
         val idx = mSettingIconPackage!!.lastIndexOf(".")
         mPackageName = mSettingIconPackage!!.substring(0, idx)
         mIconPrefix = mSettingIconPackage!!.substring(idx + 1)
+
         if (DEBUG) Log.d(
             TAG,
             "Load custom icon pack $mPackageName $mIconPrefix"
         )
+
         try {
             val packageManager = mContext.packageManager
             mRes = packageManager.getResourcesForApplication(mPackageName!!)
@@ -245,20 +262,28 @@ class OmniJawsClient(private val mContext: Context) {
         }
     }
 
+    @Suppress("deprecation")
+    @SuppressLint("DiscouragedApi", "UseCompatLoadingForDrawables")
     fun getWeatherConditionImage(conditionCode: Int): Drawable {
         try {
-            var resId =
-                mRes!!.getIdentifier(mIconPrefix + "_" + conditionCode, "drawable", mPackageName)
+            var resId = mRes!!.getIdentifier(
+                mIconPrefix + "_" + conditionCode,
+                "drawable",
+                mPackageName
+            )
             var d = mRes!!.getDrawable(resId)
             if (d != null) {
                 return d
             }
+
             Log.w(
                 TAG,
                 "Failed to get condition image for $conditionCode use default"
             )
+
             resId = mRes!!.getIdentifier(mIconPrefix + "_na", "drawable", mPackageName)
             d = mRes!!.getDrawable(resId)
+
             if (d != null) {
                 return d
             }
@@ -273,7 +298,7 @@ class OmniJawsClient(private val mContext: Context) {
     }
 
     val isOmniJawsEnabled: Boolean
-        get() = Config.isEnabled(mContext)
+        get() = WeatherConfig.isEnabled(mContext)
 
     private val temperatureUnit: String
         get() = "\u00b0" + (if (mMetric) "C" else "F")
@@ -296,6 +321,7 @@ class OmniJawsClient(private val mContext: Context) {
         }
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     fun addObserver(observer: OmniJawsObserver) {
         if (mObserver.isEmpty()) {
             if (mReceiver != null) {
@@ -309,7 +335,11 @@ class OmniJawsClient(private val mContext: Context) {
             filter.addAction(WEATHER_UPDATE)
             filter.addAction(WEATHER_ERROR)
             if (DEBUG) Log.d(TAG, "registerReceiver")
-            mContext.registerReceiver(mReceiver, filter, Context.RECEIVER_EXPORTED)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                mContext.registerReceiver(mReceiver, filter, Context.RECEIVER_EXPORTED)
+            } else {
+                mContext.registerReceiver(mReceiver, filter)
+            }
         }
         mObserver.add(observer)
     }
@@ -329,7 +359,7 @@ class OmniJawsClient(private val mContext: Context) {
     companion object {
         private const val TAG = "OmniJawsClient"
         private val DEBUG = BuildConfig.DEBUG
-        const val SERVICE_PACKAGE: String = BuildConfig.APPLICATION_ID
+        private const val SERVICE_PACKAGE: String = BuildConfig.APPLICATION_ID
         val WEATHER_URI
                 : Uri = Uri.parse("content://com.drdisagree.iconify.weatherprovider/weather")
         val SETTINGS_URI
@@ -371,8 +401,8 @@ class OmniJawsClient(private val mContext: Context) {
             "icon_pack"
         )
 
-        private const val WEATHER_UPDATE = SERVICE_PACKAGE + ".WEATHER_UPDATE"
-        private const val WEATHER_ERROR = SERVICE_PACKAGE + ".WEATHER_ERROR"
+        private const val WEATHER_UPDATE = "$SERVICE_PACKAGE.WEATHER_UPDATE"
+        private const val WEATHER_ERROR = "$SERVICE_PACKAGE.WEATHER_ERROR"
 
         private val sNoDigitsFormat = DecimalFormat("0")
 

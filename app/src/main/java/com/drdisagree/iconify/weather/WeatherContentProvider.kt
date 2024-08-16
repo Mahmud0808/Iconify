@@ -8,8 +8,6 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
-import android.util.Log
-import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.services.WeatherScheduler.scheduleUpdateNow
 
 class WeatherContentProvider : ContentProvider() {
@@ -17,7 +15,7 @@ class WeatherContentProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         mContext = context
-        sCachedWeatherInfo = mContext?.let { Config.getWeatherData(it) }
+        sCachedWeatherInfo = mContext?.let { WeatherConfig.getWeatherData(it) }
         return true
     }
 
@@ -31,26 +29,28 @@ class WeatherContentProvider : ContentProvider() {
         val projectionType = sUriMatcher.match(uri)
         val result = MatrixCursor(resolveProjection(projection, projectionType))
 
-
         if (projectionType == URI_TYPE_SETTINGS) {
             result.newRow()
-                .add(COLUMN_ENABLED, if (Config.isEnabled(mContext!!)) 1 else 0)
-                .add(COLUMN_PROVIDER, Config.getProviderId(mContext!!))
-                .add(COLUMN_INTERVAL, Config.getUpdateInterval(mContext!!))
-                .add(COLUMN_UNITS, if (Config.isMetric(mContext!!)) 0 else 1)
+                .add(COLUMN_ENABLED, if (WeatherConfig.isEnabled(mContext!!)) 1 else 0)
+                .add(COLUMN_PROVIDER, WeatherConfig.getProviderId(mContext!!))
+                .add(COLUMN_INTERVAL, WeatherConfig.getUpdateInterval(mContext!!))
+                .add(COLUMN_UNITS, if (WeatherConfig.isMetric(mContext!!)) 0 else 1)
                 .add(
                     COLUMN_LOCATION,
-                    if (Config.isCustomLocation(mContext!!)) Config.getLocationName(mContext!!) else ""
+                    if (WeatherConfig.isCustomLocation(mContext!!)) WeatherConfig.getLocationName(
+                        mContext!!
+                    ) else ""
                 )
                 .add(
                     COLUMN_SETUP,
-                    if (!Config.isSetupDone(mContext!!) && sCachedWeatherInfo == null) 0 else 1
+                    if (!WeatherConfig.isSetupDone(mContext!!) && sCachedWeatherInfo == null) 0 else 1
                 )
                 .add(
                     COLUMN_ICON_PACK,
-                    if (Config.getIconPack(mContext!!) != null) Config.getIconPack(mContext!!) else ""
+                    if (WeatherConfig.getIconPack(mContext!!) != null) WeatherConfig.getIconPack(
+                        mContext!!
+                    ) else ""
                 )
-
 
             return result
         } else if (projectionType == URI_TYPE_WEATHER) {
@@ -78,7 +78,6 @@ class WeatherContentProvider : ContentProvider() {
                         .add(COLUMN_FORECAST_CONDITION_CODE, day.conditionCode)
                         .add(COLUMN_FORECAST_DATE, day.date)
                 }
-
 
                 return result
             }
@@ -121,7 +120,7 @@ class WeatherContentProvider : ContentProvider() {
                     COLUMN_FORCE_REFRESH
                 )
             ) {
-                scheduleUpdateNow(mContext)
+                scheduleUpdateNow(mContext!!)
             }
         }
         return 0
@@ -204,7 +203,7 @@ class WeatherContentProvider : ContentProvider() {
         }
 
         fun updateCachedWeatherInfo(context: Context) {
-            sCachedWeatherInfo = Config.getWeatherData(context)
+            sCachedWeatherInfo = WeatherConfig.getWeatherData(context)
             context.contentResolver.notifyChange(
                 Uri.parse("content://$AUTHORITY/weather"), null
             )

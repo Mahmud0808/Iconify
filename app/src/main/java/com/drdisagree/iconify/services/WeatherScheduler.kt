@@ -9,32 +9,33 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.weather.Config
+import com.drdisagree.iconify.weather.WeatherConfig
 import com.drdisagree.iconify.weather.WeatherWork
 import java.util.concurrent.TimeUnit
 
 object WeatherScheduler {
     private const val UPDATE_WORK_NAME: String = BuildConfig.APPLICATION_ID + ".WeatherSchedule"
 
-    fun scheduleUpdates(context: Context?) {
+    fun scheduleUpdates(context: Context) {
         Log.d("Weather Scheduler", "Updating update schedule...")
 
         if (!WorkManager.isInitialized()) {
-            WorkManager.initialize(context!!, Configuration.Builder().build())
+            WorkManager.initialize(context, Configuration.Builder().build())
         }
 
-        val workManager = WorkManager.getInstance(context!!)
+        val workManager = WorkManager.getInstance(context)
 
-        val weatherEnabled: Boolean = Config.isEnabled(context)
+        val weatherEnabled: Boolean = WeatherConfig.isEnabled(context)
 
         Log.d("Weather Scheduler", "Weather enabled: $weatherEnabled")
 
         if (weatherEnabled) {
             Log.d("Weather Scheduler", "Scheduling updates")
-            val builder: PeriodicWorkRequest.Builder =
-                PeriodicWorkRequest.Builder(WeatherWork::class.java,
-                    Config.getUpdateInterval(context).toLong(), TimeUnit.HOURS)
-                    .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.HOURS)
+            val builder: PeriodicWorkRequest.Builder = PeriodicWorkRequest.Builder(
+                WeatherWork::class.java,
+                WeatherConfig.getUpdateInterval(context).toLong(), TimeUnit.HOURS
+            )
+                .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.HOURS)
 
             workManager.enqueueUniquePeriodicWork(
                 UPDATE_WORK_NAME,
@@ -46,26 +47,27 @@ object WeatherScheduler {
         }
     }
 
-    fun unscheduleUpdates(context: Context?) {
+    fun cancelUpdates(context: Context) {
         if (!WorkManager.isInitialized()) {
-            WorkManager.initialize(context!!, Configuration.Builder().build())
+            WorkManager.initialize(context, Configuration.Builder().build())
         }
 
-        val workManager = WorkManager.getInstance(context!!)
+        val workManager = WorkManager.getInstance(context)
 
         workManager.cancelUniqueWork(UPDATE_WORK_NAME)
     }
 
-    fun scheduleUpdateNow(context: Context?) {
+    fun scheduleUpdateNow(context: Context) {
         Log.d("Weather Scheduler", "Check update now")
 
         if (!WorkManager.isInitialized()) {
-            WorkManager.initialize(context!!, Configuration.Builder().build())
+            WorkManager.initialize(context, Configuration.Builder().build())
         }
 
-        val workManager = WorkManager.getInstance(context!!)
+        val workManager = WorkManager.getInstance(context)
 
-        val builder: OneTimeWorkRequest.Builder = OneTimeWorkRequest.Builder(WeatherWork::class.java)
+        val builder: OneTimeWorkRequest.Builder =
+            OneTimeWorkRequest.Builder(WeatherWork::class.java)
 
         workManager.enqueue(builder.build())
     }

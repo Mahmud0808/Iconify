@@ -5,10 +5,9 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
-import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_LEFT
+import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_SIDE
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_SIZE
 import com.drdisagree.iconify.common.Preferences.WEATHER_SHOW_CONDITION
@@ -42,7 +41,7 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
     private var weatherColor = Color.WHITE
     private var weatherTextSize: Int = 16
     private var weatherImageSize: Int = 18
-    private var mLeftMargin: Int = 0
+    private var mSideMargin: Int = 0
     private var mTopMargin: Int = 0
     private var mBottomMargin: Int = 0
     private var mWeatherBackground = 0
@@ -65,7 +64,7 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
         weatherColor = Xprefs!!.getInt(WEATHER_TEXT_COLOR, Color.WHITE)
         weatherTextSize = Xprefs!!.getInt(WEATHER_TEXT_SIZE, 16)
         weatherImageSize = Xprefs!!.getInt(WEATHER_ICON_SIZE, 18)
-        mLeftMargin = Xprefs!!.getInt(WEATHER_CUSTOM_MARGINS_LEFT, 20)
+        mSideMargin = Xprefs!!.getInt(WEATHER_CUSTOM_MARGINS_SIDE, 20)
         mTopMargin = Xprefs!!.getInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
         mBottomMargin = Xprefs!!.getInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
         mWeatherBackground = Xprefs!!.getInt(WEATHER_STYLE, 0)
@@ -81,7 +80,7 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
                     key[0] == (WEATHER_ICON_SIZE) ||
                     key[0] == (WEATHER_STYLE) ||
                     key[0] == (WEATHER_CUSTOM_MARGINS_BOTTOM) ||
-                    key[0] == (WEATHER_CUSTOM_MARGINS_LEFT) ||
+                    key[0] == (WEATHER_CUSTOM_MARGINS_SIDE) ||
                     key[0] == (WEATHER_CUSTOM_MARGINS_TOP))
         ) {
             updateWeatherView()
@@ -150,13 +149,13 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             } catch (ignored: Throwable) {
             }
             mWeatherContainer.addView(currentWeatherView)
-           if (customLockscreenClock) {
-               mStatusViewContainer!!.addView(mWeatherContainer)
-           } else {
-               // Put weather view inside the status area
-               // But before notifications
-               mStatusArea!!.addView(mWeatherContainer, mStatusArea!!.childCount - 1)
-           }
+            if (customLockscreenClock) {
+                mStatusViewContainer!!.addView(mWeatherContainer)
+            } else {
+                // Put weather view inside the status area
+                // But before notifications
+                mStatusArea!!.addView(mWeatherContainer, mStatusArea!!.childCount - 1)
+            }
             refreshWeatherView(currentWeatherView)
             updateMargins()
         } catch (ignored: Throwable) {
@@ -167,9 +166,9 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
         setMargins(
             mWeatherContainer,
             mContext,
-            mLeftMargin,
+            mSideMargin,
             mTopMargin,
-            mLeftMargin,
+            mSideMargin,
             mBottomMargin
         )
     }

@@ -264,7 +264,7 @@ object Preferences {
     const val WEATHER_UNITS: String = "weather_units"
     const val WEATHER_CUSTOM_LOCATION: String = "weather_custom_location_switch"
     const val WEATHER_CUSTOM_MARGINS_TOP: String = "weather_custom_margins_top"
-    const val WEATHER_CUSTOM_MARGINS_LEFT: String = "weather_custom_margins_left"
+    const val WEATHER_CUSTOM_MARGINS_SIDE: String = "weather_custom_margins_side"
     const val WEATHER_CUSTOM_MARGINS_BOTTOM: String = "weather_custom_margins_bottom"
     const val WEATHER_STYLE: String = "weather_style"
 

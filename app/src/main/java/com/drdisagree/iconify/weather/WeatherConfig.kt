@@ -17,14 +17,15 @@ import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.weather.providers.OpenMeteoProvider
 
-object Config {
-    const val PREF_KEY_LOCATION_LAT: String = "location_lat"
-    const val PREF_KEY_LOCATION_LON: String = "location_lon"
-    const val PREF_KEY_LOCATION_NAME: String = "location_name"
-    const val PREF_KEY_WEATHER_DATA: String = "weather_data"
-    const val PREF_KEY_LAST_UPDATE: String = "last_update"
-    const val PREF_KEY_UPDATE_ERROR: String = "update_error"
-    const val WEATHER_PREFS: String = BuildConfig.APPLICATION_ID + "_weatherprefs"
+object WeatherConfig {
+
+    private const val PREF_KEY_LOCATION_LAT: String = "location_lat"
+    private const val PREF_KEY_LOCATION_LON: String = "location_lon"
+    private const val PREF_KEY_LOCATION_NAME: String = "location_name"
+    private const val PREF_KEY_WEATHER_DATA: String = "weather_data"
+    private const val PREF_KEY_LAST_UPDATE: String = "last_update"
+    private const val PREF_KEY_UPDATE_ERROR: String = "update_error"
+    private const val WEATHER_PREFS: String = BuildConfig.APPLICATION_ID + "_weatherprefs"
 
     private fun getPrefs(context: Context): SharedPreferences {
         try {
