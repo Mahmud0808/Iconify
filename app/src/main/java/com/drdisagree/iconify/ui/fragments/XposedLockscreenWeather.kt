@@ -68,7 +68,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 import java.util.Locale
 
-
 class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver {
 
     private lateinit var binding: FragmentXposedLockscreenWeatherBinding
@@ -102,7 +101,22 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
         binding.enableLockscreenWeather.isSwitchChecked = getBoolean(WEATHER_SWITCH, false)
         binding.enableLockscreenWeather.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(WEATHER_SWITCH, isChecked)
+
             WeatherConfig.setEnabled(requireContext(), isChecked, WEATHER_SWITCH)
+            queryAndUpdateWeather()
+
+            if (isChecked) {
+                if (mWeatherClient.weatherInfo != null) {
+                    // Weather enabled but updated more than 1h ago
+                    if (System.currentTimeMillis() - mWeatherClient.weatherInfo!!.timeStamp!! > 3600000) {
+                        WeatherScheduler.scheduleUpdateNow(requireContext());
+                    }
+                } else {
+                    // Weather not enabled so we will update now
+                    WeatherScheduler.scheduleUpdateNow(requireContext());
+                }
+            }
+
             updateUI()
 
             Handler(Looper.getMainLooper()).postDelayed(
@@ -273,6 +287,10 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
             putBoolean(WEATHER_CENTER_VIEW, isChecked)
         }
 
+        if (getBoolean(WEATHER_SWITCH, false)) {
+            queryAndUpdateWeather()
+        }
+
         updateUI()
     }
 
@@ -285,13 +303,10 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
     }
 
     private fun handlePermissions() {
-        if (getBoolean(WEATHER_SWITCH, false)) {
-            if (!getBoolean(WEATHER_CUSTOM_LOCATION, false)) {
-                checkLocationEnabled(mInitialCheck)
-                mInitialCheck = false
-            } else {
-                forceRefreshWeatherSettings()
-            }
+        if (getBoolean(WEATHER_SWITCH, false) &&
+            !getBoolean(WEATHER_CUSTOM_LOCATION, false)
+        ) {
+            checkLocationEnabled(false)
         }
     }
 
@@ -531,9 +546,8 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
                 if (getBoolean(WEATHER_SWITCH, false)
                     && !getBoolean(WEATHER_CUSTOM_LOCATION, false)
                 ) {
-                    checkLocationEnabled(mInitialCheck)
+                    checkLocationEnabled(true)
                 }
-                forceRefreshWeatherSettings()
             }
         }
     }
@@ -548,7 +562,6 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
     }
 
     companion object {
-        private var mInitialCheck = true
         private const val DEFAULT_WEATHER_ICON_PACKAGE: String =
             "${BuildConfig.APPLICATION_ID}.google"
     }

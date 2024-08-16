@@ -103,14 +103,12 @@ class OmniJawsClient(private val mContext: Context) {
     }
 
     var weatherInfo: WeatherInfo? = null
-        private set
     private var mRes: Resources? = null
     private var mPackageName: String? = null
     private var mIconPrefix: String? = null
     private var mSettingIconPackage: String? = null
     private var mMetric = false
-    private val mObserver: MutableList<OmniJawsObserver> =
-        ArrayList()
+    private val mObserver: MutableList<OmniJawsObserver> = ArrayList()
     private var mReceiver: WeatherUpdateReceiver? = null
 
     fun queryWeather() {
