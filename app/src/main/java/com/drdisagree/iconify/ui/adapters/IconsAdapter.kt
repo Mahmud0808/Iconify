@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.adapters
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -12,8 +11,6 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.databinding.ViewListIconItemBinding
 import com.drdisagree.iconify.databinding.ViewListOptionWeatherIconsBinding
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
-import com.drdisagree.iconify.ui.models.IconPackModel
 
 class IconsAdapter(
     private val mEntries: Array<CharSequence>,
@@ -22,7 +19,6 @@ class IconsAdapter(
     private val mAdapterType: Int,
     private val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
 
     companion object {
         const val ICONS_ADAPTER = 0
@@ -50,24 +46,30 @@ class IconsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (mAdapterType == ICONS_ADAPTER) {
-            return IconsViewHolder(
-                ViewListIconItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+        when (mAdapterType) {
+            ICONS_ADAPTER -> {
+                return IconsViewHolder(
+                    ViewListIconItemBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
-            )
-        } else if (mAdapterType == WEATHER_ICONS_ADAPTER) {
-            return WeatherIconsViewHolder(
-                ViewListOptionWeatherIconsBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
+            }
+
+            WEATHER_ICONS_ADAPTER -> {
+                return WeatherIconsViewHolder(
+                    ViewListOptionWeatherIconsBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
-            )
-        } else {
-            throw IllegalStateException(javaClass.getSimpleName() + " - No adapter type provided")
+            }
+
+            else -> {
+                throw IllegalStateException(javaClass.getSimpleName() + " - No adapter type provided")
+            }
         }
     }
 
@@ -76,6 +78,7 @@ class IconsAdapter(
             ICONS_ADAPTER -> {
                 bindIconsViewHolder(holder as IconsViewHolder, position)
             }
+
             WEATHER_ICONS_ADAPTER -> {
                 bindWeatherIconsViewHolder(holder as WeatherIconsViewHolder, position)
             }

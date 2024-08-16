@@ -397,7 +397,8 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
 
     private fun queryAndUpdateWeather() {
         mWeatherClient.queryWeather()
-        if (mWeatherClient.weatherInfo != null) {
+
+        if (mWeatherClient.weatherInfo != null && activity != null) {
             requireActivity().runOnUiThread {
                 binding.lockscreenWeatherLastUpdate.setSummary(mWeatherClient.weatherInfo!!.lastUpdateTime)
             }
@@ -475,6 +476,7 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
                     )
                 )
             }
+
             val label: String = r.activityInfo.loadLabel(packageManager).toString()
             if (packageName == DEFAULT_WEATHER_ICON_PACKAGE) {
                 entries.add(0, label)
