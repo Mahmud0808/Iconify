@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
@@ -430,19 +431,19 @@ class XposedLockscreenClock : BaseFragment() {
     }
 
     private fun updateEnabled(enabled: Boolean) {
-        binding.lockscreenClockFont.setEnabled(enabled)
-        binding.lsClockCustomColor.setEnabled(enabled)
-        binding.colorPickerAccent1.setEnabled(enabled)
-        binding.colorPickerAccent2.setEnabled(enabled)
-        binding.colorPickerAccent3.setEnabled(enabled)
-        binding.colorPickerText1.setEnabled(enabled)
-        binding.colorPickerText2.setEnabled(enabled)
-        binding.lsclockLineHeight.setEnabled(enabled)
-        binding.lsClockTextscaling.setEnabled(enabled)
-        binding.lsclockTopMargin.setEnabled(enabled)
-        binding.lsclockBottomMargin.setEnabled(enabled)
-        binding.lsclockCustomUsername.setEnabled(enabled)
-        binding.lsclockCustomDevicename.setEnabled(enabled)
+        binding.lockscreenClockFont.isEnabled = enabled
+        binding.lsClockCustomColor.isEnabled = enabled
+        binding.colorPickerAccent1.isEnabled = enabled
+        binding.colorPickerAccent2.isEnabled = enabled
+        binding.colorPickerAccent3.isEnabled = enabled
+        binding.colorPickerText1.isEnabled = enabled
+        binding.colorPickerText2.isEnabled = enabled
+        binding.lsclockLineHeight.isEnabled = enabled
+        binding.lsClockTextscaling.isEnabled = enabled
+        binding.lsclockTopMargin.isEnabled = enabled
+        binding.lsclockBottomMargin.isEnabled = enabled
+        binding.lsclockCustomUsername.isEnabled = enabled
+        binding.lsclockCustomDevicename.isEnabled = enabled
     }
 
     private fun showMoreLsSettings() {

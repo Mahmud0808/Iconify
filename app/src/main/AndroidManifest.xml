@@ -26,6 +26,14 @@
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
+    <!-- Weather Updater -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Weather Updater -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Weather Updater -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Get Location for Weather -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Get Location for Weather -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- Get Location for Weather -->
+    <uses-permission android:name="com.drdisagree.iconify.READ_WEATHER" /> <!-- Permission for self Weather Provider -->
+
     <application
         android:name=".Iconify"
         android:allowBackup="false"
@@ -45,6 +53,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.activities.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.LocationBrowseActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
@@ -189,6 +200,163 @@
             android:directBootAware="true"
             android:exported="true"
             tools:ignore="ExportedContentProvider" /> <!-- Remote Preferences Provider -->
+        <provider
+            android:name=".weather.WeatherContentProvider"
+            android:authorities="com.drdisagree.iconify.weatherprovider"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" /> <!-- Weather Content Provider -->
+
+        <!-- name is used a prefix +"_" for images e.g. weather_<condition_id>
+             weather_foo_<condition_id> -->
+        <activity
+            android:name=".google"
+            android:exported="false"
+            android:label="Google">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".outline"
+            android:exported="false"
+            android:label="Outline">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".weather_color"
+            android:exported="false"
+            android:label="LockClock">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".weatherclient"
+            android:exported="false"
+            android:label="Weather Client">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".stickers"
+            android:exported="false"
+            android:label="Stickers">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".marshmallow"
+            android:exported="false"
+            android:label="Marshmallow">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".icons8_color_hand"
+            android:exported="false"
+            android:label="Color Hand">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".weather_faded"
+            android:exported="false"
+            android:label="Faded">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".weather_weezle"
+            android:exported="false"
+            android:label="Weezle">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".weather_gs6"
+            android:exported="false"
+            android:label="Galaxy S6">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".weather_miui"
+            android:exported="false"
+            android:label="MIUI">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".weather_sthul"
+            android:exported="false"
+            android:label="Sthul">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".weather_tapas"
+            android:exported="false"
+            android:label="Tapas">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".weather_magical"
+            android:exported="false"
+            android:label="Magical">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".weather_vclouds"
+            android:exported="false"
+            android:label="VClouds">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.adapters.IconsAdapter
+import com.drdisagree.iconify.ui.adapters.IconsAdapter.Companion.ICONS_ADAPTER
 import com.drdisagree.iconify.utils.SystemUtil
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -37,7 +38,8 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
     private lateinit var mEntryValues: Array<CharSequence>
     private var mDrawables: Array<Drawable>? = null
     private var mValue: String = selectedIndex.toString()
-    private var mAdapter: IconsAdapter? = null
+    private var mAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>? = null
+    private var mLayoutManager: RecyclerView.LayoutManager? = null
     private var onItemClickListener: OnItemClickListener? = null
 
     constructor(context: Context) : super(context) {
@@ -103,6 +105,11 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
     }
 
     private fun buildEntries() {
+        if (arrayResId == 0) {
+            mEntries = emptyArray()
+            mEntryValues = emptyArray()
+            return
+        }
         mEntries = resources.getTextArray(arrayResId)
 
         val mValues: MutableList<String> = ArrayList()
@@ -119,6 +126,10 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
 
     fun setTitle(title: String?) {
         titleTextView.text = title
+    }
+
+    fun setSummary(summary: String) {
+        summaryTextView.text = summary
     }
 
     private fun setSelectedText(summaryResId: Int) {
@@ -144,12 +155,16 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
 
     fun setDrawable(drawable: Array<Drawable>) {
         mDrawables = drawable
-        mAdapter?.setDrawables(drawable)
+        if (mAdapter is IconsAdapter) (mAdapter as IconsAdapter).setDrawables(drawable)
     }
 
     fun setCurrentValue(currentValue: String) {
         mValue = currentValue
-        mAdapter?.setCurrentValue(currentValue)
+        if (mAdapter is IconsAdapter) (mAdapter as IconsAdapter).setCurrentValue(currentValue)
+    }
+
+    fun setLayoutManager(layoutManager: RecyclerView.LayoutManager) {
+        mLayoutManager = layoutManager
     }
 
     fun setIconVisibility(visibility: Int) {
@@ -185,13 +200,20 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
 
         toolbar.title = titleTextView.text
         toolbar.isTitleCentered = true
-        recyclerView.layoutManager = GridLayoutManager(context, 3)
+        recyclerView.layoutManager = mLayoutManager ?: GridLayoutManager(context, 3)
 
-        mAdapter = IconsAdapter(mEntries, mEntryValues, mValue, this)
-        mAdapter!!.setDrawables(mDrawables)
+        if (mAdapter == null) {
+            mAdapter = IconsAdapter(mEntries, mEntryValues, mValue, ICONS_ADAPTER, this)
+            (mAdapter!! as IconsAdapter).setDrawables(mDrawables)
+        }
         recyclerView.adapter = mAdapter
 
         mBottomSheetDialog.setContentView(view)
+    }
+
+    fun setAdapter(adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>) {
+        mAdapter = adapter
+        initBottomSheetDialog()
     }
 
     override fun setEnabled(enabled: Boolean) {

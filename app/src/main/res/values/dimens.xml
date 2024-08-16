@@ -34,4 +34,14 @@
     <dimen name="list_dialog_toolbar_margin_top">-20dp</dimen>
     <dimen name="list_dialog_list_margin_side">4dp</dimen>
 
+    <!-- Weather styles padding-->
+    <dimen name="widget_date_box_padding_hor">12dp</dimen>
+    <dimen name="widget_date_box_padding_ver">8dp</dimen>
+    <dimen name="q_nowplay_pill_padding_hor">17.0sp</dimen>
+    <dimen name="q_nowplay_pill_padding_ver">8.0sp</dimen>
+
+    <!-- Accent Date styles padding-->
+    <dimen name="widget_date_accent_box_padding_hor">10dp</dimen>
+    <dimen name="widget_date_accent_box_padding_ver">6dp</dimen>
+
 </resources>

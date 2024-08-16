@@ -73,6 +73,13 @@
             app:popEnterAnim="@anim/fragment_fade_in"
             app:popExitAnim="@anim/fragment_fade_out" />
         <action
+            android:id="@+id/action_xposedMenu2_to_xposedLockscreenWeather"
+            app:destination="@id/xposedLockscreenWeather"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
+        <action
             android:id="@+id/action_xposedMenu2_to_xposedDepthWallpaper"
             app:destination="@id/xposedDepthWallpaper"
             app:enterAnim="@anim/fragment_fade_in"
@@ -199,6 +206,19 @@
         tools:layout="@layout/fragment_xposed_lockscreen_clock">
         <action
             android:id="@+id/action_xposedLockscreenClock_to_xposedMenu2"
+            app:destination="@id/xposedMenu"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/xposedLockscreenWeather"
+        android:name="com.drdisagree.iconify.ui.fragments.XposedLockscreenWeather"
+        android:label="fragment_xposed_lockscreen_weather"
+        tools:layout="@layout/fragment_xposed_lockscreen_weather">
+        <action
+            android:id="@+id/action_xposedLockscreenWeather_to_xposedMenu2"
             app:destination="@id/xposedMenu"
             app:enterAnim="@anim/fragment_fade_in"
             app:exitAnim="@anim/fragment_fade_out"

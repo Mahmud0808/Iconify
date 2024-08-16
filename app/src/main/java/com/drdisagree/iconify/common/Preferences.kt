@@ -248,6 +248,26 @@ object Preferences {
     const val NAVBAR_LOW_SENS = "navbarlowsens"
     const val NAVBAR_HIDE_PILL = "navbarhidepill"
 
+    // Weather
+    const val WEATHER_SWITCH: String = "weather_switch"
+    const val WEATHER_ICON_PACK: String = "weather_icon_pack"
+    const val WEATHER_UPDATE_INTERVAL: String = "weather_update_interval"
+    const val WEATHER_SHOW_LOCATION: String = "weather_show_location"
+    const val WEATHER_SHOW_CONDITION: String = "weather_show_condition"
+    const val WEATHER_SHOW_HUMIDITY: String = "weather_show_humidity"
+    const val WEATHER_SHOW_WIND: String = "weather_show_wind"
+    const val WEATHER_TEXT_SIZE: String = "weather_text_size"
+    const val WEATHER_ICON_SIZE: String = "weather_icon_size"
+    const val WEATHER_TEXT_COLOR_SWITCH: String = "weather_text_color_switch"
+    const val WEATHER_TEXT_COLOR: String = "weather_text_color"
+    const val WEATHER_OWM_KEY: String = "owm_key"
+    const val WEATHER_UNITS: String = "weather_units"
+    const val WEATHER_CUSTOM_LOCATION: String = "weather_custom_location_switch"
+    const val WEATHER_CUSTOM_MARGINS_TOP: String = "weather_custom_margins_top"
+    const val WEATHER_CUSTOM_MARGINS_SIDE: String = "weather_custom_margins_side"
+    const val WEATHER_CUSTOM_MARGINS_BOTTOM: String = "weather_custom_margins_bottom"
+    const val WEATHER_STYLE: String = "weather_style"
+
     // Settings
     const val APP_LANGUAGE = "IconifyAppLanguage"
     const val APP_ICON = "IconifyAppIcon"
