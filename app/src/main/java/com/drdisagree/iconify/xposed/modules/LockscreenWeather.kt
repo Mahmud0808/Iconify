@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.view.children
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_CENTER_VIEW
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
@@ -176,6 +177,13 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             Gravity.CENTER_HORIZONTAL
         } else {
             Gravity.START
+        }
+        (mWeatherContainer.getChildAt(0) as LinearLayout?)?.children?.forEach {
+            (it as LinearLayout).gravity = if (mCenterWeather) {
+                Gravity.CENTER_HORIZONTAL
+            } else {
+                Gravity.START or Gravity.CENTER_VERTICAL
+            }
         }
     }
 
