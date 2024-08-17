@@ -94,7 +94,7 @@ class EditTextWidget : RelativeLayout {
      * Set the text for the EditText in the dialog
      * @param text The text to be displayed in the EditText
      */
-    fun setEditTextText(text: String) {
+    fun setEditTextValue(text: String) {
         dialogText = text
     }
 

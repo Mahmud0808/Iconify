@@ -47,13 +47,14 @@
                 android:id="@+id/lockscreen_weather_provider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:titleText="@string/weather_provider"
-                app:entries="@array/weather_provider_entries" />
+                app:entries="@array/weather_provider_entries"
+                app:titleText="@string/weather_provider" />
 
             <com.drdisagree.iconify.ui.widgets.EditTextWidget
                 android:id="@+id/lockscreen_weather_owm_key"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:summaryText="@string/not_available"
                 app:titleText="@string/weather_api_key" />
 
             <com.drdisagree.iconify.ui.widgets.RadioDialogWidget

@@ -149,7 +149,7 @@ object WeatherConfig {
                 == PackageManager.PERMISSION_GRANTED)
     }
 
-    fun getOwmKey(context: Context): String? {
-        return getPrefs(context).getString(WEATHER_OWM_KEY, "")
+    fun getOwmKey(context: Context): String {
+        return getPrefs(context).getString(WEATHER_OWM_KEY, "") ?: ""
     }
 }

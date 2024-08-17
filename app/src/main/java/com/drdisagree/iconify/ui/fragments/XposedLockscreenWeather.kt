@@ -28,7 +28,6 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
-import com.drdisagree.iconify.common.Preferences.LSCLOCK_DEVICENAME
 import com.drdisagree.iconify.common.Preferences.WEATHER_CENTER_VIEW
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
@@ -151,27 +150,47 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
             forceRefreshWeatherSettings()
         }
 
-        binding.lockscreenWeatherProvider.setSelectedIndex(RPrefs.getString(WEATHER_PROVIDER, "0")!!.toInt())
+        binding.lockscreenWeatherProvider.setSelectedIndex(
+            RPrefs.getString(WEATHER_PROVIDER, "0")!!.toInt()
+        )
         binding.lockscreenWeatherProvider.setOnItemSelectedListener {
             putString(WEATHER_PROVIDER, it.toString())
 
-            if (WeatherConfig.getOwmKey(requireContext()).isNullOrEmpty() && it != 0) {
+            if (WeatherConfig.getOwmKey(requireContext()).isEmpty() && it != 0) {
                 showOwnKeyDialog()
             } else {
                 forceRefreshWeatherSettings()
             }
         }
 
-        binding.lockscreenWeatherOwmKey.setSummary(WeatherConfig.getOwmKey(requireContext()))
-        binding.lockscreenWeatherOwmKey.setEditTextText(WeatherConfig.getOwmKey(requireContext())!!)
+        val owmKey = WeatherConfig.getOwmKey(requireContext())
+        if (owmKey.isEmpty()) {
+            binding.lockscreenWeatherOwmKey.setSummary(getString(R.string.not_available))
+        } else {
+            binding.lockscreenWeatherOwmKey.setSummary(
+                "*".repeat(owmKey.length - 4) + owmKey.takeLast(
+                    4
+                )
+            )
+        }
+        binding.lockscreenWeatherOwmKey.setEditTextValue(owmKey)
         binding.lockscreenWeatherOwmKey.setOnEditTextListener(object :
             EditTextDialog.EditTextDialogListener {
             override fun onOkPressed(dialogId: Int, newText: String) {
                 putString(WEATHER_OWM_KEY, newText)
                 handlePermissions()
                 forceRefreshWeatherSettings()
-                binding.lockscreenWeatherOwmKey.setSummary(newText)
-                binding.lockscreenWeatherOwmKey.setEditTextText(newText)
+
+                val maskedKey = if (newText.length > 4) {
+                    "*".repeat(newText.length - 4) + newText.takeLast(4)
+                } else {
+                    newText.ifEmpty {
+                        getString(R.string.not_available)
+                    }
+                }
+
+                binding.lockscreenWeatherOwmKey.setSummary(maskedKey)
+                binding.lockscreenWeatherOwmKey.setEditTextValue(newText)
             }
         })
 
