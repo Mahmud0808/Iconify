@@ -191,9 +191,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             if (mWeatherInfo != null) {
                 var formattedCondition: String = mWeatherInfo!!.condition.toString()
 
-                if (formattedCondition.lowercase(Locale.getDefault()).contains("clouds") ||
-                    formattedCondition.lowercase(Locale.getDefault()).contains("overcast")
-                ) {
+                if (formattedCondition.lowercase(Locale.getDefault()).contains("clouds")) {
                     formattedCondition = modRes.getString(R.string.weather_condition_clouds)
                 } else if (formattedCondition.lowercase(Locale.getDefault()).contains("rain")) {
                     formattedCondition = modRes.getString(R.string.weather_condition_rain)
