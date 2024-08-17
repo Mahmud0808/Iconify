@@ -15,9 +15,10 @@ import java.util.concurrent.TimeUnit
 
 object WeatherScheduler {
     private const val UPDATE_WORK_NAME: String = BuildConfig.APPLICATION_ID + ".WeatherSchedule"
+    private val TAG = "Iconify - ${WeatherScheduler::class.java.simpleName}: "
 
     fun scheduleUpdates(context: Context) {
-        Log.d("Weather Scheduler", "Updating update schedule...")
+        Log.d(TAG, "Updating update schedule...")
 
         if (!WorkManager.isInitialized()) {
             WorkManager.initialize(context, Configuration.Builder().build())
@@ -27,10 +28,10 @@ object WeatherScheduler {
 
         val weatherEnabled: Boolean = WeatherConfig.isEnabled(context)
 
-        Log.d("Weather Scheduler", "Weather enabled: $weatherEnabled")
+        Log.d(TAG, "Weather enabled: $weatherEnabled")
 
         if (weatherEnabled) {
-            Log.d("Weather Scheduler", "Scheduling updates")
+            Log.d(TAG, "Scheduling updates")
             val builder: PeriodicWorkRequest.Builder = PeriodicWorkRequest.Builder(
                 WeatherWork::class.java,
                 WeatherConfig.getUpdateInterval(context).toLong(), TimeUnit.HOURS
@@ -58,7 +59,7 @@ object WeatherScheduler {
     }
 
     fun scheduleUpdateNow(context: Context) {
-        Log.d("Weather Scheduler", "Check update now")
+        Log.d(TAG, "Check update now")
 
         if (!WorkManager.isInitialized()) {
             WorkManager.initialize(context, Configuration.Builder().build())
@@ -71,4 +72,5 @@ object WeatherScheduler {
 
         workManager.enqueue(builder.build())
     }
+
 }

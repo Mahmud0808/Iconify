@@ -53,6 +53,7 @@ class EditTextWidget : RelativeLayout {
         if (TextUtils.isEmpty(dialogTitle) || dialogTitle == "null") dialogTitle = typedArray.getString(R.styleable.EditTextWidget_titleText).toString();
         dialogSubtitle = typedArray.getString(R.styleable.EditTextWidget_dialogSubtitleText).toString()
         if (dialogSubtitle.isEmpty() || dialogSubtitle == "null") dialogSubtitle = typedArray.getString(R.styleable.EditTextWidget_summaryText).toString();
+        if (dialogSubtitle == "null") dialogSubtitle = "" // catch null summary
         dialogHint = typedArray.getString(R.styleable.EditTextWidget_dialogHintText).toString()
         dialogText = typedArray.getString(R.styleable.EditTextWidget_dialogText).toString()
 
@@ -93,7 +94,7 @@ class EditTextWidget : RelativeLayout {
      * Set the text for the EditText in the dialog
      * @param text The text to be displayed in the EditText
      */
-    fun setEditTextText(text: String) {
+    fun setEditTextValue(text: String) {
         dialogText = text
     }
 

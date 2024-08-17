@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
@@ -354,24 +353,24 @@ class XposedLockscreenClock : BaseFragment() {
         showMoreLsSettings()
 
         userText = getString(LSCLOCK_USERNAME, "").toString()
-        binding.lsclockCustomUsername.setEditTextText(userText)
+        binding.lsclockCustomUsername.setEditTextValue(userText)
         binding.lsclockCustomUsername.setOnEditTextListener(object :
             EditTextDialog.EditTextDialogListener {
             override fun onOkPressed(dialogId: Int, newText: String) {
                 putString(LSCLOCK_USERNAME, newText)
                 userText = newText
-                binding.lsclockCustomUsername.setEditTextText(userText)
+                binding.lsclockCustomUsername.setEditTextValue(userText)
             }
         })
 
         deviceText = getString(LSCLOCK_DEVICENAME, "").toString()
-        binding.lsclockCustomDevicename.setEditTextText(deviceText)
+        binding.lsclockCustomDevicename.setEditTextValue(deviceText)
         binding.lsclockCustomDevicename.setOnEditTextListener(object :
             EditTextDialog.EditTextDialogListener {
             override fun onOkPressed(dialogId: Int, newText: String) {
                 putString(LSCLOCK_DEVICENAME, newText)
                 deviceText = newText
-                binding.lsclockCustomDevicename.setEditTextText(deviceText)
+                binding.lsclockCustomDevicename.setEditTextValue(deviceText)
             }
         })
 
