@@ -53,6 +53,7 @@ class EditTextWidget : RelativeLayout {
         if (TextUtils.isEmpty(dialogTitle) || dialogTitle == "null") dialogTitle = typedArray.getString(R.styleable.EditTextWidget_titleText).toString();
         dialogSubtitle = typedArray.getString(R.styleable.EditTextWidget_dialogSubtitleText).toString()
         if (dialogSubtitle.isEmpty() || dialogSubtitle == "null") dialogSubtitle = typedArray.getString(R.styleable.EditTextWidget_summaryText).toString();
+        if (dialogSubtitle == "null") dialogSubtitle = "" // catch null summary
         dialogHint = typedArray.getString(R.styleable.EditTextWidget_dialogHintText).toString()
         dialogText = typedArray.getString(R.styleable.EditTextWidget_dialogText).toString()
 

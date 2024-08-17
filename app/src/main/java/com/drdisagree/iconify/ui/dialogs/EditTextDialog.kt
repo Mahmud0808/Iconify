@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.drdisagree.iconify.databinding.ViewEditTextDialogBinding
@@ -37,7 +38,8 @@ class EditTextDialog(
 
         binding!!.title.text = title
         if (subTitle.isNotEmpty()) binding!!.subtitle.text = subTitle
-        if (hint.isNotEmpty()) binding!!.editText.hint = hint
+        else binding!!.subtitle.visibility = GONE
+        if (hint.isNotEmpty() && hint != "null") binding!!.editText.hint = hint
         if (text.isNotEmpty()) binding!!.editText.setText(text)
 
         binding!!.confirm.setOnClickListener {
