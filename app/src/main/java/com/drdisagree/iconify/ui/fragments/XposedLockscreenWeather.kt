@@ -106,6 +106,7 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
             queryAndUpdateWeather()
 
             if (isChecked) {
+                WeatherScheduler.scheduleUpdates(requireContext())
                 if (mWeatherClient.weatherInfo != null) {
                     // Weather enabled but updated more than 1h ago
                     if (System.currentTimeMillis() - mWeatherClient.weatherInfo!!.timeStamp!! > 3600000) {
@@ -137,7 +138,7 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
         binding.lockscreenWeatherUpdateInterval.setSelectedIndex(selectedIndex)
         binding.lockscreenWeatherUpdateInterval.setOnItemSelectedListener {
             putString(WEATHER_UPDATE_INTERVAL, mapping[it].toString())
-            forceRefreshWeatherSettings()
+            WeatherScheduler.scheduleUpdates(requireContext())
         }
 
         binding.lockscreenWeatherLastUpdate.setOnClickListener {
