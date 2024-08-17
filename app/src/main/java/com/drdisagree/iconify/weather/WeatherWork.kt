@@ -35,10 +35,11 @@ import java.util.concurrent.atomic.AtomicReference
 
 class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
     ListenableWorker(mContext, workerParams) {
+
     override fun startWork(): ListenableFuture<Result> {
         if (DEBUG) Log.d(TAG, "startWork")
 
-        return CallbackToFutureAdapter.getFuture<Result> { completer: CallbackToFutureAdapter.Completer<Result> ->
+        return CallbackToFutureAdapter.getFuture { completer: CallbackToFutureAdapter.Completer<Result> ->
             if (!isEnabled(mContext)) {
                 handleError(
                     completer,
@@ -47,18 +48,23 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
                 )
                 return@getFuture completer
             }
-            if (!checkPermissions()) {
-                handleError(
-                    completer,
-                    EXTRA_ERROR_NO_PERMISSIONS,
-                    "Location permissions are not granted"
-                )
-                return@getFuture completer
-            }
 
-            if (!doCheckLocationEnabled()) {
-                handleError(completer, EXTRA_ERROR_NETWORK, "Location services are disabled")
-                return@getFuture completer
+            if (!isCustomLocation(mContext)) {
+                // Check permissions and location enabled
+                // only if not using custom location
+                if (!checkPermissions()) {
+                    handleError(
+                        completer,
+                        EXTRA_ERROR_NO_PERMISSIONS,
+                        "Location permissions are not granted"
+                    )
+                    return@getFuture completer
+                }
+
+                if (!doCheckLocationEnabled()) {
+                    handleError(completer, EXTRA_ERROR_NETWORK, "Location services are disabled")
+                    return@getFuture completer
+                }
             }
 
             executor.execute {

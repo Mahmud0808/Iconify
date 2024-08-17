@@ -35,6 +35,8 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_SIDE
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_SIZE
+import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
+import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
 import com.drdisagree.iconify.common.Preferences.WEATHER_SHOW_CONDITION
 import com.drdisagree.iconify.common.Preferences.WEATHER_SHOW_HUMIDITY
 import com.drdisagree.iconify.common.Preferences.WEATHER_SHOW_LOCATION
@@ -46,6 +48,7 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_SIZE
 import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
 import com.drdisagree.iconify.common.Preferences.WEATHER_UPDATE_INTERVAL
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
@@ -60,6 +63,7 @@ import com.drdisagree.iconify.ui.activities.LocationBrowseActivity.Companion.DAT
 import com.drdisagree.iconify.ui.adapters.IconsAdapter
 import com.drdisagree.iconify.ui.adapters.IconsAdapter.Companion.WEATHER_ICONS_ADAPTER
 import com.drdisagree.iconify.ui.base.BaseFragment
+import com.drdisagree.iconify.ui.dialogs.EditTextDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.utils.SystemUtil
@@ -106,6 +110,7 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
             queryAndUpdateWeather()
 
             if (isChecked) {
+                WeatherScheduler.scheduleUpdates(requireContext())
                 if (mWeatherClient.weatherInfo != null) {
                     // Weather enabled but updated more than 1h ago
                     if (System.currentTimeMillis() - mWeatherClient.weatherInfo!!.timeStamp!! > 3600000) {
@@ -137,13 +142,57 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
         binding.lockscreenWeatherUpdateInterval.setSelectedIndex(selectedIndex)
         binding.lockscreenWeatherUpdateInterval.setOnItemSelectedListener {
             putString(WEATHER_UPDATE_INTERVAL, mapping[it].toString())
-            forceRefreshWeatherSettings()
+            WeatherScheduler.scheduleUpdates(requireContext())
         }
 
         binding.lockscreenWeatherLastUpdate.setOnClickListener {
             handlePermissions()
             forceRefreshWeatherSettings()
         }
+
+        binding.lockscreenWeatherProvider.setSelectedIndex(
+            RPrefs.getString(WEATHER_PROVIDER, "0")!!.toInt()
+        )
+        binding.lockscreenWeatherProvider.setOnItemSelectedListener {
+            putString(WEATHER_PROVIDER, it.toString())
+
+            if (WeatherConfig.getOwmKey(requireContext()).isEmpty() && it != 0) {
+                showOwnKeyDialog()
+            } else {
+                forceRefreshWeatherSettings()
+            }
+        }
+
+        val owmKey = WeatherConfig.getOwmKey(requireContext())
+        if (owmKey.isEmpty()) {
+            binding.lockscreenWeatherOwmKey.setSummary(getString(R.string.not_available))
+        } else {
+            binding.lockscreenWeatherOwmKey.setSummary(
+                "*".repeat(owmKey.length - 4) + owmKey.takeLast(
+                    4
+                )
+            )
+        }
+        binding.lockscreenWeatherOwmKey.setEditTextValue(owmKey)
+        binding.lockscreenWeatherOwmKey.setOnEditTextListener(object :
+            EditTextDialog.EditTextDialogListener {
+            override fun onOkPressed(dialogId: Int, newText: String) {
+                putString(WEATHER_OWM_KEY, newText)
+                handlePermissions()
+                forceRefreshWeatherSettings()
+
+                val maskedKey = if (newText.length > 4) {
+                    "*".repeat(newText.length - 4) + newText.takeLast(4)
+                } else {
+                    newText.ifEmpty {
+                        getString(R.string.not_available)
+                    }
+                }
+
+                binding.lockscreenWeatherOwmKey.setSummary(maskedKey)
+                binding.lockscreenWeatherOwmKey.setEditTextValue(newText)
+            }
+        })
 
         binding.lockscreenWeatherUnits.setSelectedIndex(if (WeatherConfig.isMetric(requireContext())) 0 else 1)
         binding.lockscreenWeatherUnits.setOnItemSelectedListener { index: Int ->
@@ -300,6 +349,16 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
         mWeatherClient.addObserver(this)
 
         handlePermissions()
+    }
+
+    private fun showOwnKeyDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(appContextLocale.getString(R.string.weather_provider_owm_key_title))
+            .setMessage(appContextLocale.getString(R.string.weather_provider_owm_key_message))
+            .setCancelable(false)
+            .setPositiveButton(appContextLocale.getString(R.string.understood), null)
+            .create()
+            .show()
     }
 
     private fun handlePermissions() {

@@ -1057,6 +1057,12 @@
     <string name="lockscreen_weather_title">Weather on Lockscreen</string>
     <string name="lockscreen_weather_desc">Show weather on lockscreen</string>
     <string name="last_update_time">Last Update Time</string>
+    <string name="weather_provider">Weather Provider</string>
+    <string name="openmeteo" translatable="false">OpenMeteo</string>
+    <string name="openweathermap" translatable="false">OpenWeatherMap</string>
+    <string name="weather_api_key">OpenWeatherMap API Key</string>
+    <string name="weather_provider_owm_key_title">OpenWeatherMap API Key required</string>
+    <string name="weather_provider_owm_key_message">Please enter your OpenWeatherMap API key to fetch weather data.</string>
     <string name="weather_show_location">Show Location</string>
     <string name="weather_show_location_summary">Show Location before icon</string>
     <string name="weather_show_condition">Show Condition</string>

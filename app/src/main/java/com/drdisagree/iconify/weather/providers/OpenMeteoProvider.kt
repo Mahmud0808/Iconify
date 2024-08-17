@@ -266,19 +266,34 @@ class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) 
             "%s&hourly=relativehumidity_2m&daily=weathercode,temperature_2m_max,temperature_2m_min&current_weather=true&temperature_unit=%s&windspeed_unit=%s&timezone=%s&past_days=1&models=best_match,gfs_seamless"
 
 
+        /* OpenMeteo WMO Weather interpretation codes (WW)
+         * 0 	Clear sky
+         * 1, 2, 3 	Mainly clear, partly cloudy, and overcast
+         * 45, 48 	Fog and depositing rime fog
+         * 51, 53, 55 	Drizzle: Light, moderate, and dense intensity
+         * 56, 57 	Freezing Drizzle: Light and dense intensity
+         * 61, 63, 65 	Rain: Slight, moderate and heavy intensity
+         * 66, 67 	Freezing Rain: Light and heavy intensity
+         * 71, 73, 75 	Snow fall: Slight, moderate, and heavy intensity
+         * 77 	Snow grains
+         * 80, 81, 82 	Rain showers: Slight, moderate, and violent
+         * 85, 86 	Snow showers slight and heavy
+         * 95 * 	Thunderstorm: Slight or moderate
+         * 96, 99 * 	Thunderstorm with slight and heavy hail
+         */
         private fun getWeatherDescription(code: Int): String {
             return when (code) {
                 0 -> "Clear sky"
                 1 -> "Mainly clear"
-                2 -> "Partly cloudy"
-                3 -> "Overcast"
+                2 -> "Partly clouds"
+                3 -> "Clouds"
                 45 -> "Fog"
                 48 -> "Depositing rime fog"
-                51 -> "Light intensity drizzle"
-                53 -> "Moderate intensity drizzle"
-                55 -> "Dense intensity drizzle"
-                56 -> "Light intensity freezing drizzle"
-                57 -> "Dense intensity freezing drizzle"
+                51 -> "Light intensity drizzle rain"
+                53 -> "Moderate intensity drizzle rain"
+                55 -> "Dense intensity drizzle rain"
+                56 -> "Light intensity freezing drizzle rain"
+                57 -> "Dense intensity freezing drizzle rain"
                 61 -> "Slight intensity rain"
                 63 -> "Moderate intensity rain"
                 65 -> "Heavy intensity rain"
