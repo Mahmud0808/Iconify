@@ -532,19 +532,21 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         if (textScaleFactor != 1f) {
             applyTextScalingRecursively(clockView, textScaleFactor)
 
+            val reduceFactor = if (textScaleFactor > 1f) 0.91f else 1f
+
             mVolumeLevelArcProgress?.layoutParams?.apply {
-                width = (width * textScaleFactor).toInt()
-                height = (height * textScaleFactor).toInt()
+                width = (width * textScaleFactor * reduceFactor).toInt()
+                height = (height * textScaleFactor * reduceFactor).toInt()
             }
 
             mRamUsageArcProgress?.layoutParams?.apply {
-                width = (width * textScaleFactor).toInt()
-                height = (height * textScaleFactor).toInt()
+                width = (width * textScaleFactor * reduceFactor).toInt()
+                height = (height * textScaleFactor * reduceFactor).toInt()
             }
 
             (mBatteryProgress?.parent as ViewGroup?)?.apply {
                 layoutParams?.apply {
-                    width = (width * textScaleFactor).toInt()
+                    width = (width * textScaleFactor * reduceFactor).toInt()
                 }
                 requestLayout()
             }
@@ -590,6 +592,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         val volPercent = (volLevel.toFloat() / maxVolLevel * 100).toInt()
         val textScaleFactor: Float =
             (Xprefs!!.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
+        val reduceFactor = if (textScaleFactor > 1f) 0.91f else 1f
 
         mVolumeProgress?.progress = volPercent
 
@@ -604,7 +607,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                     R.string.percentage_text,
                     volPercent
                 ),
-                textInsideSizePx = (40 * textScaleFactor).toInt(),
+                textInsideSizePx = (40 * textScaleFactor * reduceFactor).toInt(),
                 iconDrawable = ContextCompat.getDrawable(
                     appContext!!,
                     R.drawable.ic_volume_up
@@ -623,6 +626,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         val usedMemoryPercentage = (usedMemory * 100 / memoryInfo.totalMem).toInt()
         val textScaleFactor: Float =
             (Xprefs!!.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
+        val reduceFactor = if (textScaleFactor > 1f) 0.91f else 1f
 
         mRamUsageArcProgress?.setImageBitmap(
             generateBitmap(
@@ -632,7 +636,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                     R.string.percentage_text,
                     usedMemoryPercentage
                 ),
-                textInsideSizePx = (40 * textScaleFactor).toInt(),
+                textInsideSizePx = (40 * textScaleFactor * reduceFactor).toInt(),
                 textBottom = "RAM",
                 textBottomSizePx = 28
             )

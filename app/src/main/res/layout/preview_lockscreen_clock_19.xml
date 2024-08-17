@@ -67,7 +67,7 @@
                     android:drawablePadding="3dp"
                     android:drawableTint="@android:color/white"
                     android:ellipsize="end"
-                    android:gravity="start"
+                    android:gravity="start|center"
                     android:includeFontPadding="false"
                     android:singleLine="true"
                     android:tag="text1|battery_percentage"
