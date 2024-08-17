@@ -159,6 +159,12 @@
         <item>@string/interval_12_hour</item>
     </string-array>
 
+    <!-- Lockscreen Weather Provider -->
+    <string-array name="weather_provider_entries">
+        <item>@string/openmeteo</item>
+        <item>@string/openweathermap</item>
+    </string-array>
+
     <!-- Lockscreen Weather styles -->
     <string-array name="lockscreen_weather_bg_entries">
         <item>@string/lockscreen_weather_selection_default</item>

@@ -10,12 +10,14 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
+import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
 import com.drdisagree.iconify.common.Preferences.WEATHER_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
 import com.drdisagree.iconify.common.Preferences.WEATHER_UPDATE_INTERVAL
 import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.weather.providers.OpenMeteoProvider
+import com.drdisagree.iconify.weather.providers.OpenWeatherMapProvider
 
 object WeatherConfig {
 
@@ -46,12 +48,19 @@ object WeatherConfig {
     }
 
     fun getProvider(context: Context): AbstractWeatherProvider {
-        return OpenMeteoProvider(context)
+        val provider = getPrefs(context).getString(WEATHER_PROVIDER, "0")
+        return when (provider) {
+            "1" -> return OpenWeatherMapProvider(context)
+            else -> return OpenMeteoProvider(context)
+        }
     }
 
     fun getProviderId(context: Context): String {
-        //val provider = getPrefs(context).getString(WEATHER_PROVIDER, "0")
-        return "OpenWeatherMap"
+        val provider = getPrefs(context).getString(WEATHER_PROVIDER, "0")
+        return when (provider) {
+            "1" -> "OpenWeatherMap"
+            else -> "OpenMeteo"
+        }
     }
 
     fun isMetric(context: Context): Boolean {
@@ -141,6 +150,6 @@ object WeatherConfig {
     }
 
     fun getOwmKey(context: Context): String? {
-        return getPrefs(context).getString(WEATHER_OWM_KEY, null)
+        return getPrefs(context).getString(WEATHER_OWM_KEY, "")
     }
 }

@@ -28,6 +28,7 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_DEVICENAME
 import com.drdisagree.iconify.common.Preferences.WEATHER_CENTER_VIEW
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
@@ -35,6 +36,8 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_SIDE
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_SIZE
+import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
+import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
 import com.drdisagree.iconify.common.Preferences.WEATHER_SHOW_CONDITION
 import com.drdisagree.iconify.common.Preferences.WEATHER_SHOW_HUMIDITY
 import com.drdisagree.iconify.common.Preferences.WEATHER_SHOW_LOCATION
@@ -46,6 +49,7 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_SIZE
 import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
 import com.drdisagree.iconify.common.Preferences.WEATHER_UPDATE_INTERVAL
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
@@ -60,6 +64,7 @@ import com.drdisagree.iconify.ui.activities.LocationBrowseActivity.Companion.DAT
 import com.drdisagree.iconify.ui.adapters.IconsAdapter
 import com.drdisagree.iconify.ui.adapters.IconsAdapter.Companion.WEATHER_ICONS_ADAPTER
 import com.drdisagree.iconify.ui.base.BaseFragment
+import com.drdisagree.iconify.ui.dialogs.EditTextDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.utils.SystemUtil
@@ -145,6 +150,30 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
             handlePermissions()
             forceRefreshWeatherSettings()
         }
+
+        binding.lockscreenWeatherProvider.setSelectedIndex(RPrefs.getString(WEATHER_PROVIDER, "0")!!.toInt())
+        binding.lockscreenWeatherProvider.setOnItemSelectedListener {
+            putString(WEATHER_PROVIDER, it.toString())
+
+            if (WeatherConfig.getOwmKey(requireContext()).isNullOrEmpty() && it != 0) {
+                showOwnKeyDialog()
+            } else {
+                forceRefreshWeatherSettings()
+            }
+        }
+
+        binding.lockscreenWeatherOwmKey.setSummary(WeatherConfig.getOwmKey(requireContext()))
+        binding.lockscreenWeatherOwmKey.setEditTextText(WeatherConfig.getOwmKey(requireContext())!!)
+        binding.lockscreenWeatherOwmKey.setOnEditTextListener(object :
+            EditTextDialog.EditTextDialogListener {
+            override fun onOkPressed(dialogId: Int, newText: String) {
+                putString(WEATHER_OWM_KEY, newText)
+                handlePermissions()
+                forceRefreshWeatherSettings()
+                binding.lockscreenWeatherOwmKey.setSummary(newText)
+                binding.lockscreenWeatherOwmKey.setEditTextText(newText)
+            }
+        })
 
         binding.lockscreenWeatherUnits.setSelectedIndex(if (WeatherConfig.isMetric(requireContext())) 0 else 1)
         binding.lockscreenWeatherUnits.setOnItemSelectedListener { index: Int ->
@@ -301,6 +330,16 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
         mWeatherClient.addObserver(this)
 
         handlePermissions()
+    }
+
+    private fun showOwnKeyDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(appContextLocale.getString(R.string.weather_provider_owm_key_title))
+            .setMessage(appContextLocale.getString(R.string.weather_provider_owm_key_message))
+            .setCancelable(false)
+            .setPositiveButton(appContextLocale.getString(R.string.understood), null)
+            .create()
+            .show()
     }
 
     private fun handlePermissions() {

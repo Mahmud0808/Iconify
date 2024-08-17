@@ -44,6 +44,19 @@
                 app:titleText="@string/last_update_time" />
 
             <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                android:id="@+id/lockscreen_weather_provider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_provider"
+                app:entries="@array/weather_provider_entries" />
+
+            <com.drdisagree.iconify.ui.widgets.EditTextWidget
+                android:id="@+id/lockscreen_weather_owm_key"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/weather_api_key" />
+
+            <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
                 android:id="@+id/lockscreen_weather_units"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
