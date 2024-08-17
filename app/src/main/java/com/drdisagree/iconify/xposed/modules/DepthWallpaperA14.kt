@@ -431,7 +431,9 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                 (state == "KEYGUARD" || (showOnAOD && (state == "AOD" || state == "PULSING"))))
 
         if (showForeground) {
-            if (!mWallpaperForegroundCacheValid && File(foregroundPath).exists()) {
+            if ((!mWallpaperForegroundCacheValid || mWallpaperForeground!!.background == null) &&
+                File(foregroundPath).exists()
+            ) {
                 try {
                     FileInputStream(foregroundPath).use { inputStream ->
                         val bitmapDrawable = BitmapDrawable.createFromStream(
