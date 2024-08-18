@@ -127,6 +127,8 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
     @get:SuppressLint("MissingPermission")
     private val currentLocation: Location?
         get() {
+            if (isCustomLocation(mContext)) return null
+
             val lm = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
             if (!doCheckLocationEnabled()) {
