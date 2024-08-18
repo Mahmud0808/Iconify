@@ -415,6 +415,8 @@
     <string name="activity_desc_header_clock">QS paneline özel saat ekle</string>
     <string name="activity_title_lockscreen_clock">Kilit Ekranı Saati</string>
     <string name="activity_desc_lockscreen_clock">Kilit ekranına özel saat ekle</string>
+    <string name="activity_title_lockscreen_weather">Kilit Ekranı Hava Durumu</string>
+    <string name="activity_desc_lockscreen_weather">Kilit ekranına hava durumu ekleyin</string>
     <string name="activity_title_depth_wallpaper">Derinlikli Duvar Kağıdı</string>
     <string name="activity_desc_depth_wallpaper">İOS\'a benzer derinlikli duvar kağıdını göster</string>
     <string name="activity_title_background_chip">Arka Plan Butonu</string>
@@ -455,6 +457,8 @@
     <string name="section_title_others">Diğer</string>
     <string name="fix_notification_color_title">Bildirim Rengini Düzelt</string>
     <string name="fix_notification_color_desc">Android 14\'te özel bildirim stilini düzelt</string>
+    <string name="fix_notification_footer_button_color_title">Bildirim Altbilgi Düğmesi Rengini Düzelt</string>
+    <string name="fix_notification_footer_button_color_desc">Android 14\'te özel altbilgi düğmesi stilini düzeltin</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Kutucuğu</string>
     <string name="vertical_qs_tile_title">Dikey QS Kutucuğu</string>
@@ -464,8 +468,10 @@
     <string name="qs_tile_label_scaling_title">Metin Ölçeklendirme</string>
     <string name="section_title_qs_margin">QS Kenar Boşluğu</string>
     <string name="section_title_qs_elements">QS Öğeleri</string>
+    <string name="hide_qs_on_lockscreen_title">Kilit Ekranında QS\'yi Gizle</string>
+    <string name="hide_qs_on_lockscreen_desc">Güvenli kilit ekranında hızlı ayarlar panelini devre dışı bırak</string>
     <string name="hide_qs_silent_text_title">Sessiz Metni Gizle</string>
-    <string name="hide_qs_silent_text_desc">Sessiz bildirimlerin başlığı olarak gösterilen sessiz metni gizle (SystemUI\'nin yeniden başlatılmasını gerektirir)</string>
+    <string name="hide_qs_silent_text_desc">Sessiz bildirimlerin üstbilgisi olarak gösterilen sessiz metni gizle</string>
     <string name="hide_qs_footer_buttons_title">Altbilgi Butonlarını Gizle</string>
     <string name="hide_qs_footer_buttons_desc">Bildirim yığınının altında gösterilen altbilgi butonlarını gizle</string>
     <!-- Battery Style -->
@@ -556,6 +562,8 @@
     <string name="volume_percentage_desc">Ses kaydırıcısının üzerinde yüzdeyi göster</string>
     <string name="safety_warning_title">Güvenlik uyarısı</string>
     <string name="safety_warning_desc">Yüksek ses seviyesinde uyarı göster</string>
+    <string name="colored_ringer_icon_title">Renkli Zil Simgesi</string>
+    <string name="colored_ringer_icon_desc">Seçili zil sesi simgesi görünmezse etkinleştir</string>
     <!-- Header Image -->
     <string name="header_image_title">Başlık Resmi Seç</string>
     <string name="header_image_desc">QS paneline başlık resmi ekleyin\nSon kullanılanlar\'dan dosya seçmeyin</string>
@@ -622,7 +630,11 @@
     <string name="default_user_name">Kullanıcı</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Derinlikli Duvar Kağıdını Etkinleştir</string>
-    <string name="enable_depth_wallpaper_desc">iOS\'a benzer derinlik duvar kağıdını göster\n%s</string>
+    <string name="enable_depth_wallpaper_desc">iOS\'a benzer derinlikli duvar kağıdını göster\n%s</string>
+    <string name="enable_custom_depth_wallpaper_title">Özel Resimler</string>
+    <string name="enable_custom_depth_wallpaper_desc">Özel görüntüleri derinlikli duvar kağıdı olarak ayarla</string>
+    <string name="depth_wallpaper_on_aod_title">AOD\'de göster</string>
+    <string name="depth_wallpaper_on_aod_desc">Konuyu her zaman ekranda göster</string>
     <string name="wallpaper_fade_animation_title">AOD\'da Solma</string>
     <string name="wallpaper_fade_animation_desc">Duvar kağıdını canlandır ve AOD\'da kaybol</string>
     <string name="foreground_image_title">Ön Plan Resmi</string>
@@ -635,6 +647,13 @@
     <string name="wallpaper_parallax_effect_summary">Arka plan ve ön plan katmanlarını farklı hızlarda hareket ettir</string>
     <string name="wallpaper_foreground_sensitivity_title">Ön Plan Hassasiyeti</string>
     <string name="wallpaper_background_sensitivity_title">Arka Plan Hassasiyeti</string>
+    <string name="depth_wallpaper_model_ready">Yapay zeka modeli cihaza indirildi</string>
+    <string name="depth_wallpaper_model_not_available">AI modeli cihazda mevcut değil (henüz)</string>
+    <string name="depth_wallpaper_subject_extraction_started">Duvar kağıdı konusu çıkarılıyor…</string>
+    <string name="depth_wallpaper_subject_extraction_success">Duvar kağıdı konusu çıkarıldı!</string>
+    <string name="depth_wallpaper_subject_extraction_failed">Duvar kağıdı konusu çıkarılamadı!</string>
+    <string name="depth_wallpaper_missing_ai_model">Yapay zeka modeli mevcut değil!</string>
+    <string name="use_custom_lockscreen_clock">Özel kilit ekranı saati kullanılmalıdır</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Durum Çubuğu</string>
     <string name="sb_clock_background_chip_title">Durum Çubuğu Saat Butonu</string>
@@ -658,6 +677,8 @@
     <string name="hide_carrier_group_desc">Operatör grubunu QS panelinden gizle</string>
     <string name="hide_status_icons_title">Durum Simgelerini Gizle</string>
     <string name="hide_status_icons_desc">Saat, tarih ve pil simgelerini kaldır</string>
+    <string name="sb_clock_size_switch_title">Özel Durum Çubuğu Saat Boyutu</string>
+    <string name="sb_clock_size_switch_desc">Durum Çubuğu Saati için özel bir boyut ayarla</string>
     <string name="sb_clock_size">Durum Çubuğu Saat Boyutu</string>
     <string name="lock_screen">Kilit Ekranı</string>
     <string name="hide_ls_carrier_title">LS Operatörünü Gizle</string>
@@ -765,7 +786,7 @@
     <string name="exported_settings">Ayarlar başarıyla kaydedildi</string>
     <!-- Style List -->
     <string name="style_0">Yok</string>
-    <string name="style">Style %d</string>
+    <string name="style">Stil %d</string>
     <!-- Buttons -->
     <string name="btn_continue">Devam et</string>
     <string name="btn_restart">Yeniden Başlat</string>
@@ -912,4 +933,106 @@
     <string name="tap_to_select">Seçmek için önizlemeye dokunun</string>
     <string name="dont_show_again">Tekrar Gösterme</string>
     <string name="requires_lsposed_for_a14">Düzgün işlevsellik sağlamak amacıyla Android 14 ve sonraki sürümler için LSPosed\'de Iconify modülünün etkinleştirilmesi zorunludur.\n\nBundan sonra düzeltmeleri şuradan etkinleştirin: İnce ayarlar &gt; Xposed Menüsü &gt; Temalar &gt; Diğer.</string>
+    <!-- Weather -->
+    <!-- Omni Jaws Strings -->
+    <string name="units_title">Birim</string>
+    <string name="weather_progress_title">Konum doğrulanıyor</string>
+    <string name="weather_select_location">Konum seç</string>
+    <string name="weather_custom_location_dialog_title">Konum gir</string>
+    <string name="weather_custom_location_title">Konum</string>
+    <string name="weather_custom_location_missing">Özel konum ayarla</string>
+    <string name="weather_retrieve_location_dialog_title">Konum alınamıyor!</string>
+    <string name="weather_retrieve_location_dialog_message">Ağ coğrafi konumu devre dışı.\n\nÖzel bir konum ayarlayın veya ağ konumunu etkinleştirin.</string>
+    <string name="weather_retrieve_location_dialog_enable_button">Etkinleştir</string>
+    <string name="settings_title">Ayarlar</string>
+    <string name="auto_update_title">Otomatik güncellemeler</string>
+    <string name="auto_update_summary">Arada bir yeni sürümleri kontrol et</string>
+    <string name="update_over_wifi_title">Güncellemeleri yalnızca WiFi üzerinden kontrol et</string>
+    <string name="update_over_wifi_summary">Güncellemeleri yalnızca wifi\'ye bağlıyken arka planda kontrol et</string>
+    <string name="unit_metric">Metrik (\u00b0C)</string>
+    <string name="unit_imperial">İngiliz standartı (\u00b0F)</string>
+    <string name="update">Güncelle</string>
+    <string name="enable_title">Etkinleştir</string>
+    <string name="update_interval_title">Güncelleme aralığı</string>
+    <string name="interval_1_hour">1 saat</string>
+    <string name="interval_2_hour">2 saat</string>
+    <string name="interval_4_hour">4 saat</string>
+    <string name="interval_6_hour">6 saat</string>
+    <string name="interval_12_hour">12 saat</string>
+    <string name="weather_tile_title">Hava Durumu</string>
+    <string name="weather_icon_pack_title">Durum Simge Paketi</string>
+    <string name="weather_icon_pack_playstore">Daha fazla simge paketi edinin</string>
+    <string name="service_disabled">Devre dışı</string>
+    <string name="service_error">Hata</string>
+    <string name="omnijaws_service_waiting">Bekleniyor\u2026</string>
+    <string name="omnijaws_service_unkown">Hava durumu verileri yok</string>
+    <string name="omnijaws_service_error">Hava durumu bilgisi yüklenemedi</string>
+    <string name="omnijaws_service_init">Bekleniyor\u2026</string>
+    <string name="omnijaws_service_progress">Güncelleniyor\u2026</string>
+    <string name="omnijaws_service_disabled">Hizmet kapatıldı</string>
+    <string name="omnijaws_current_text">Şimdi</string>
+    <string name="show_background_title">Arka plan gölgesi</string>
+    <string name="weather_config_title">Hizmet ayarları</string>
+    <string name="omnijaws_city_unkown">Bilinmeyen</string>
+    <string name="omnijaws_service_error_long">Hava durumu bilgisi yüklenemedi</string>
+    <string name="omnijaws_label_default">Hava Durumu</string>
+    <string name="omnijaws_service_last_update">Son güncelleme:</string>
+    <string name="omnijaws_service_error_location">Konum mevcut değil</string>
+    <string name="omnijaws_service_error_network">Ağ bulunmadı</string>
+    <string name="omnijaws_service_error_permissions">Konum izni verilmedi</string>
+    <string name="location_browse_activity_title">Konum seç</string>
+    <string name="location_query_hint">Konum arayın</string>
+    <string name="weather_permission_dialog_title">Konum İzinlerini Etkinleştir</string>
+    <string name="weather_permission_dialog_message">Hava durumu verilerini almak için konum izinleri gereklidir. Ayarları açmak için Tamam\'a tıklayın.</string>
+    <!-- Weather Conditions -->
+    <string name="weather_condition_clouds">Bulutlu</string>
+    <string name="weather_condition_rain">Yağmurlu</string>
+    <string name="weather_condition_clear">Güneşli</string>
+    <string name="weather_condition_storm">Fırtınalı</string>
+    <string name="weather_condition_snow">Karlı</string>
+    <string name="weather_condition_wind">Rüzgarlı</string>
+    <string name="weather_condition_mist">Sisli</string>
+    <!-- Lockscreen Weather -->
+    <string name="lockscreen_weather_title">Kilit Ekranında Hava Durumu</string>
+    <string name="lockscreen_weather_desc">Kilit ekranında hava durumunu göster</string>
+    <string name="last_update_time">Son Güncelleme Zamanı</string>
+    <string name="weather_provider">Weather Provider</string>
+    <string name="weather_api_key">OpenWeatherMap API Key</string>
+    <string name="weather_provider_owm_key_title">OpenWeatherMap API Key required</string>
+    <string name="weather_provider_owm_key_message">Please enter your OpenWeatherMap API key to fetch weather data.</string>
+    <string name="weather_show_location">Konumu Göster</string>
+    <string name="weather_show_location_summary">Simgeden önce konumu göster</string>
+    <string name="weather_show_condition">Durumu Göster</string>
+    <string name="weather_show_condition_summary">Sıcaklıktan sonraki durumu göster</string>
+    <string name="weather_show_humidity">Nemi Göster</string>
+    <string name="weather_show_humidity_summary">Nemi yeni bir satırda göster</string>
+    <string name="weather_show_wind">Rüzgarı Göster</string>
+    <string name="weather_show_wind_summary">Rüzgarı yeni bir satırda göster</string>
+    <string name="weather_text_size">Metin Boyutu</string>
+    <string name="weather_image_size">Resim Boyutu</string>
+    <string name="weather_custom_color_title">Metin Rengi</string>
+    <string name="weather_custom_color_summary">Metin için özel renk ayarlayın</string>
+    <string name="weather_custom_color_switch_title">Özel Renk</string>
+    <string name="weather_custom_color_switch_summary">Hava durumu görünümündeki tüm metinler için özel renk</string>
+    <string name="custom_location_title">Özel konum</string>
+    <string name="custom_location_summary">Hava durumu için özel konum ayarlayın</string>
+    <string name="weather_custom_margins">Özel Kenar Boşlukları</string>
+    <string name="weather_custom_margins_summary">Hava durumu için özel kenar boşlukları ayarlayın</string>
+    <string name="weather_margin_top">Üst kenar boşluğu</string>
+    <string name="weather_centered">Orta Düzen</string>
+    <string name="weather_margin_side">Yan Kenar Boşluğu</string>
+    <string name="weather_margin_bottom">Alt Kenar Boşluğu</string>
+    <string name="weather_center_view_title">Merkez Hava Durumu Görünümü</string>
+    <string name="weather_center_view_summary">Hava durumu görünümünü yatay olarak ortaya taşı</string>
+    <!-- Lockscreen Weather styles -->
+    <string name="lockscreen_weather_selection_title">Hava Durumu Arka Plan Stili</string>
+    <string name="lockscreen_weather_selection_default">Varsayılan</string>
+    <string name="lockscreen_weather_selection_str_box">Yarı şeffaf kutu</string>
+    <string name="lockscreen_weather_selection_str_round">Yarı şeffaf kutu (yuvarlak)</string>
+    <string name="lockscreen_weather_selection_qbeta_style">Q-Beta stili</string>
+    <string name="lockscreen_weather_selection_str_accent">Yuvarlak, basit ve vurgu renkli</string>
+    <string name="lockscreen_weather_selection_str_accent_transparent">Yuvarlak, şeffaf ve vurgu rengi içerir</string>
+    <string name="lockscreen_weather_selection_str_gradient">Gradyan</string>
+    <string name="lockscreen_weather_selection_str_border_accent">Vurgu renkli karanlık kenar</string>
+    <string name="lockscreen_weather_selection_str_border_gradient">Karanlık gradyan renkli kenarlar</string>
 </resources>

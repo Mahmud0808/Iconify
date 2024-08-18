@@ -415,6 +415,8 @@
     <string name="activity_desc_header_clock">Adicione algum relógio personalizado no painel QS</string>
     <string name="activity_title_lockscreen_clock">Relógio da tela de bloqueio</string>
     <string name="activity_desc_lockscreen_clock">Adicione um relógio personalizado na tela de bloqueio</string>
+    <string name="activity_title_lockscreen_weather">Clima na tela de bloqueio</string>
+    <string name="activity_desc_lockscreen_weather">Adicione o clima na tela de bloqueio</string>
     <string name="activity_title_depth_wallpaper">Plano de fundo com profundidade</string>
     <string name="activity_desc_depth_wallpaper">Mostrar plano de fundo com profundidade semelhante ao iOS</string>
     <string name="activity_title_background_chip">Chip de fundo</string>
@@ -455,6 +457,8 @@
     <string name="section_title_others">Outros</string>
     <string name="fix_notification_color_title">Corrigir cor de notificação</string>
     <string name="fix_notification_color_desc">Corrige o estilo de notificação personalizado no Android 14</string>
+    <string name="fix_notification_footer_button_color_title">Corrigir cor do botão do rodapé de notificação</string>
+    <string name="fix_notification_footer_button_color_desc">Corrija o estilo do botão de rodapé personalizado no Android 14</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">Bloco QS</string>
     <string name="vertical_qs_tile_title">Bloco QS vertical</string>
@@ -464,8 +468,10 @@
     <string name="qs_tile_label_scaling_title">Tamanho do texto</string>
     <string name="section_title_qs_margin">Margem QS</string>
     <string name="section_title_qs_elements">Elementos QS</string>
+    <string name="hide_qs_on_lockscreen_title">Ocultar QS na tela de bloqueio</string>
+    <string name="hide_qs_on_lockscreen_desc">Desative o painel de configurações rápidas na tela de bloqueio segura</string>
     <string name="hide_qs_silent_text_title">Ocultar texto silencioso</string>
-    <string name="hide_qs_silent_text_desc">Oculte o texto silencioso mostrado como cabeçalho de notificações silenciosas (requer reinicialização da Interface do sistema)</string>
+    <string name="hide_qs_silent_text_desc">Oculte o texto silencioso mostrado como cabeçalho de notificações silenciosas</string>
     <string name="hide_qs_footer_buttons_title">Ocultar botões do rodapé</string>
     <string name="hide_qs_footer_buttons_desc">Oculte os botões do rodapé mostrados na pilha de notificações</string>
     <!-- Battery Style -->
@@ -556,6 +562,8 @@
     <string name="volume_percentage_desc">Mostrar porcentagem acima do controle deslizante de volume</string>
     <string name="safety_warning_title">Aviso de segurança</string>
     <string name="safety_warning_desc">Mostrar aviso de volume alto</string>
+    <string name="colored_ringer_icon_title">Ícone de toque colorido</string>
+    <string name="colored_ringer_icon_desc">Ative se o ícone de toque selecionado estiver invisível</string>
     <!-- Header Image -->
     <string name="header_image_title">Escolha a imagem do cabeçalho</string>
     <string name="header_image_desc">Adicione uma imagem de cabeçalho no painel QS.\nNão selecione o arquivo de Recente.</string>
@@ -622,7 +630,11 @@
     <string name="default_user_name">Usuário</string>
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Ativar plano de fundo com profundidade</string>
-    <string name="enable_depth_wallpaper_desc">Mostre o plano de fundo com profundidade semelhante ao iOS.\n%s</string>
+    <string name="enable_depth_wallpaper_desc">Mostrar iOS como plano de fundo de profundidade\n%s</string>
+    <string name="enable_custom_depth_wallpaper_title">Imagens personalizadas</string>
+    <string name="enable_custom_depth_wallpaper_desc">Defina imagens personalizadas como plano de fundo de profundidade</string>
+    <string name="depth_wallpaper_on_aod_title">Mostrar no AOD</string>
+    <string name="depth_wallpaper_on_aod_desc">Mostre o assunto na tela sempre ativa</string>
     <string name="wallpaper_fade_animation_title">Desaparecer na Tela ambiente</string>
     <string name="wallpaper_fade_animation_desc">Anime o plano de fundo e desapareça na Tela ambiente</string>
     <string name="foreground_image_title">Imagem de primeiro plano</string>
@@ -635,6 +647,13 @@
     <string name="wallpaper_parallax_effect_summary">Mova as camadas de fundo e primeiro plano em velocidades diferentes</string>
     <string name="wallpaper_foreground_sensitivity_title">Sensibilidade do primeiro plano</string>
     <string name="wallpaper_background_sensitivity_title">Sensibilidade do segundo plano</string>
+    <string name="depth_wallpaper_model_ready">O modelo IA está sendo baixado no dispositivo</string>
+    <string name="depth_wallpaper_model_not_available">O modelo IA não está disponível no dispositivo (ainda)</string>
+    <string name="depth_wallpaper_subject_extraction_started">Extraindo assunto do plano de fundo…</string>
+    <string name="depth_wallpaper_subject_extraction_success">Assunto do plano de fundo extraído!</string>
+    <string name="depth_wallpaper_subject_extraction_failed">Falha ao extrair o assunto do plano de fundo!</string>
+    <string name="depth_wallpaper_missing_ai_model">O modelo IA não está disponível!</string>
+    <string name="use_custom_lockscreen_clock">Deve usar um relógio de tela de bloqueio personalizado</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Barra de status</string>
     <string name="sb_clock_background_chip_title">Chip de relógio da barra de status</string>
@@ -658,6 +677,8 @@
     <string name="hide_carrier_group_desc">Oculte grupos de operadoras do painel QS</string>
     <string name="hide_status_icons_title">Ocultar ícones de status</string>
     <string name="hide_status_icons_desc">Remova ícones de hora, data e bateria</string>
+    <string name="sb_clock_size_switch_title">Tamanho personalizado do relógio da barra de status</string>
+    <string name="sb_clock_size_switch_desc">Defina um tamanho personalizado para o relógio da barra de status</string>
     <string name="sb_clock_size">Tamanho do relógio da barra de status</string>
     <string name="lock_screen">Tela de bloqueio</string>
     <string name="hide_ls_carrier_title">Ocultar operadora na tela de bloqueio</string>
@@ -912,4 +933,106 @@
     <string name="tap_to_select">Toque na visualização para selecionar</string>
     <string name="dont_show_again">Não mostrar novamente</string>
     <string name="requires_lsposed_for_a14">Para garantir a funcionalidade adequada, ativar o módulo Iconify no LSPosed é obrigatório para o Android 14 e superior.\n\nDepois disso, ative as correções em: Ajustes &gt; Menu Xposed &gt; Temas &gt; Outros.</string>
+    <!-- Weather -->
+    <!-- Omni Jaws Strings -->
+    <string name="units_title">Unidade</string>
+    <string name="weather_progress_title">Verificando localização</string>
+    <string name="weather_select_location">Selecionar localização</string>
+    <string name="weather_custom_location_dialog_title">Inserir localização</string>
+    <string name="weather_custom_location_title">Localização</string>
+    <string name="weather_custom_location_missing">Definir localização personalizada</string>
+    <string name="weather_retrieve_location_dialog_title">Não é possível recuperar a localização!</string>
+    <string name="weather_retrieve_location_dialog_message">A geolocalização da rede está desativada.\n\nDefina um local personalizado ou ative a localização de rede.</string>
+    <string name="weather_retrieve_location_dialog_enable_button">Ativar</string>
+    <string name="settings_title">Configurações</string>
+    <string name="auto_update_title">Atualizações automáticas</string>
+    <string name="auto_update_summary">Verifique se há novas versões de vez em quando</string>
+    <string name="update_over_wifi_title">Verificar atualizações apenas por Wi-Fi</string>
+    <string name="update_over_wifi_summary">Verifique se há atualizações em segundo plano somente quando conectado ao Wi-Fi</string>
+    <string name="unit_metric">Métrica (\u00b0C)</string>
+    <string name="unit_imperial">Imperial (\u00b0F)</string>
+    <string name="update">Atualizar</string>
+    <string name="enable_title">Ativar</string>
+    <string name="update_interval_title">Intervalo de atualização</string>
+    <string name="interval_1_hour">1 hora</string>
+    <string name="interval_2_hour">2 horas</string>
+    <string name="interval_4_hour">4 horas</string>
+    <string name="interval_6_hour">6 horas</string>
+    <string name="interval_12_hour">12 horas</string>
+    <string name="weather_tile_title">Clima</string>
+    <string name="weather_icon_pack_title">Pacote de ícones de condição</string>
+    <string name="weather_icon_pack_playstore">Encontre mais pacotes de ícones</string>
+    <string name="service_disabled">Desativado</string>
+    <string name="service_error">Erro</string>
+    <string name="omnijaws_service_waiting">Esperando \u2026</string>
+    <string name="omnijaws_service_unkown">Sem informações do clima</string>
+    <string name="omnijaws_service_error">Erro ao carregar as informações do clima</string>
+    <string name="omnijaws_service_init">Esperando\u2026</string>
+    <string name="omnijaws_service_progress">Atualizando\u2026</string>
+    <string name="omnijaws_service_disabled">Serviço desativado</string>
+    <string name="omnijaws_current_text">Agora</string>
+    <string name="show_background_title">Sombra de fundo</string>
+    <string name="weather_config_title">Configurações de serviço</string>
+    <string name="omnijaws_city_unkown">Desconhecido</string>
+    <string name="omnijaws_service_error_long">Erro ao carregar as informações do clima</string>
+    <string name="omnijaws_label_default">Clima</string>
+    <string name="omnijaws_service_last_update">Última atualização:</string>
+    <string name="omnijaws_service_error_location">Nenhum local disponível</string>
+    <string name="omnijaws_service_error_network">Nenhuma rede encontrada</string>
+    <string name="omnijaws_service_error_permissions">Permissões de localização não concedidas</string>
+    <string name="location_browse_activity_title">Selecionar localização</string>
+    <string name="location_query_hint">Pesquisar por localização</string>
+    <string name="weather_permission_dialog_title">Ativar permissões de localização</string>
+    <string name="weather_permission_dialog_message">Permissões de localização são necessárias para obter dados meteorológicos. Clique em OK para abrir as Configurações.</string>
+    <!-- Weather Conditions -->
+    <string name="weather_condition_clouds">Nublado</string>
+    <string name="weather_condition_rain">Chuva</string>
+    <string name="weather_condition_clear">Ensolarado</string>
+    <string name="weather_condition_storm">Tempestade</string>
+    <string name="weather_condition_snow">Neve</string>
+    <string name="weather_condition_wind">Ventoso</string>
+    <string name="weather_condition_mist">Nevoado</string>
+    <!-- Lockscreen Weather -->
+    <string name="lockscreen_weather_title">Clima na tela de bloqueio</string>
+    <string name="lockscreen_weather_desc">Mostre a previsão do tempo na tela de bloqueio</string>
+    <string name="last_update_time">Hora da última atualização</string>
+    <string name="weather_provider">Weather Provider</string>
+    <string name="weather_api_key">OpenWeatherMap API Key</string>
+    <string name="weather_provider_owm_key_title">OpenWeatherMap API Key required</string>
+    <string name="weather_provider_owm_key_message">Please enter your OpenWeatherMap API key to fetch weather data.</string>
+    <string name="weather_show_location">Mostrar localização</string>
+    <string name="weather_show_location_summary">Mostre a localização antes do ícone</string>
+    <string name="weather_show_condition">Mostrar condição</string>
+    <string name="weather_show_condition_summary">Mostre a condição após a temperatura</string>
+    <string name="weather_show_humidity">Mostrar umidade</string>
+    <string name="weather_show_humidity_summary">Mostre a umidade em uma nova linha</string>
+    <string name="weather_show_wind">Mostrar vento</string>
+    <string name="weather_show_wind_summary">Mostre o vento em uma nova linha</string>
+    <string name="weather_text_size">Tamanho do texto</string>
+    <string name="weather_image_size">Tamanho da imagem</string>
+    <string name="weather_custom_color_title">Cor do texto</string>
+    <string name="weather_custom_color_summary">Defina uma cor personalizada para o texto</string>
+    <string name="weather_custom_color_switch_title">Cor personalizada</string>
+    <string name="weather_custom_color_switch_summary">Cor personalizada para todo o texto na visualização do clima</string>
+    <string name="custom_location_title">Localização personalizada</string>
+    <string name="custom_location_summary">Defina um local personalizado para o clima</string>
+    <string name="weather_custom_margins">Margens personalizadas</string>
+    <string name="weather_custom_margins_summary">Defina margens personalizadas para o clima</string>
+    <string name="weather_margin_top">Margem superior</string>
+    <string name="weather_centered">Layout central</string>
+    <string name="weather_margin_side">Margem lateral</string>
+    <string name="weather_margin_bottom">Margem inferior</string>
+    <string name="weather_center_view_title">Visualização do clima central</string>
+    <string name="weather_center_view_summary">Mova a visualização do clima para centralizar horizontalmente</string>
+    <!-- Lockscreen Weather styles -->
+    <string name="lockscreen_weather_selection_title">Estilo de fundo do clima</string>
+    <string name="lockscreen_weather_selection_default">Padrão</string>
+    <string name="lockscreen_weather_selection_str_box">Caixa semitransparente</string>
+    <string name="lockscreen_weather_selection_str_round">Caixa semitransparente (redonda)</string>
+    <string name="lockscreen_weather_selection_qbeta_style">Pílula Q-Beta</string>
+    <string name="lockscreen_weather_selection_str_accent">Arredondado, simples e com destaque</string>
+    <string name="lockscreen_weather_selection_str_accent_transparent">Arredondado, transparente e com destaque</string>
+    <string name="lockscreen_weather_selection_str_gradient">Gradiente</string>
+    <string name="lockscreen_weather_selection_str_border_accent">Escuro com bordas destacadas</string>
+    <string name="lockscreen_weather_selection_str_border_gradient">Escuro com bordas gradientes</string>
 </resources>
