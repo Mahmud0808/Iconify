@@ -415,6 +415,8 @@
     <string name="activity_desc_header_clock">Add custom clock on QS panel</string>
     <string name="activity_title_lockscreen_clock">Lockscreen Clock</string>
     <string name="activity_desc_lockscreen_clock">Add custom clock on lockscreen</string>
+    <string name="activity_title_lockscreen_weather">Lockscreen Weather</string>
+    <string name="activity_desc_lockscreen_weather">Add weather on lockscreen</string>
     <string name="activity_title_depth_wallpaper">Depth Wallpaper</string>
     <string name="activity_desc_depth_wallpaper">Show iOS like depth wallpaper</string>
     <string name="activity_title_background_chip">Background Chip</string>
@@ -455,6 +457,8 @@
     <string name="section_title_others">Others</string>
     <string name="fix_notification_color_title">Fix Notification Color</string>
     <string name="fix_notification_color_desc">Fix custom notification style on android 14</string>
+    <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
+    <string name="fix_notification_footer_button_color_desc">Fix custom footer button style on android 14</string>
     <!-- Quick Settings -->
     <string name="section_title_qs_tile">QS Tile</string>
     <string name="vertical_qs_tile_title">Vertical QS Tile</string>
@@ -464,8 +468,10 @@
     <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
     <string name="section_title_qs_margin">QS Margin</string>
     <string name="section_title_qs_elements">QS Elements</string>
+    <string name="hide_qs_on_lockscreen_title">Hide QS on Lockscreen</string>
+    <string name="hide_qs_on_lockscreen_desc">Disable quick settings panel on secured lockscreen</string>
     <string name="hide_qs_silent_text_title">Hide Silent Text</string>
-    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
+    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
     <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
     <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
     <!-- Battery Style -->
@@ -556,6 +562,8 @@
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
     <string name="safety_warning_title">Safety Warning</string>
     <string name="safety_warning_desc">Show warning on high volume</string>
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
     <!-- Header Image -->
     <string name="header_image_title">Pick Header Image</string>
     <string name="header_image_desc">Add header image on QS panel\nDo not select file from Recent</string>
@@ -623,6 +631,10 @@
     <!-- Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\n%s</string>
+    <string name="enable_custom_depth_wallpaper_title">Custom Images</string>
+    <string name="enable_custom_depth_wallpaper_desc">Set custom images as depth wallpaper</string>
+    <string name="depth_wallpaper_on_aod_title">Show on AOD</string>
+    <string name="depth_wallpaper_on_aod_desc">Show subject on always on display</string>
     <string name="wallpaper_fade_animation_title">Fade in AOD</string>
     <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Foreground Image</string>
@@ -635,6 +647,13 @@
     <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
     <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
     <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
+    <string name="depth_wallpaper_model_ready">AI model is downloaded on the device</string>
+    <string name="depth_wallpaper_model_not_available">AI model isn\'t available on the device (yet)</string>
+    <string name="depth_wallpaper_subject_extraction_started">Extracting wallpaper subject…</string>
+    <string name="depth_wallpaper_subject_extraction_success">Extracted wallpaper subject!</string>
+    <string name="depth_wallpaper_subject_extraction_failed">Failed to extract wallpaper subject!</string>
+    <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
+    <string name="use_custom_lockscreen_clock">Must use custom lockscreen clock</string>
     <!-- Background Chip -->
     <string name="section_title_status_bar">Status Bar</string>
     <string name="sb_clock_background_chip_title">Statusbar Clock Chip</string>
@@ -658,6 +677,8 @@
     <string name="hide_carrier_group_desc">Hide carrier group from QS panel</string>
     <string name="hide_status_icons_title">Hide Status Icons</string>
     <string name="hide_status_icons_desc">Remove time, date and battery icons</string>
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
     <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Lock Screen</string>
     <string name="hide_ls_carrier_title">Hide LS Carrier</string>
@@ -912,4 +933,106 @@
     <string name="tap_to_select">Tap on preview to select</string>
     <string name="dont_show_again">Don\'t show again</string>
     <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
+    <!-- Weather -->
+    <!-- Omni Jaws Strings -->
+    <string name="units_title">Unit</string>
+    <string name="weather_progress_title">Verifying location</string>
+    <string name="weather_select_location">Select location</string>
+    <string name="weather_custom_location_dialog_title">Enter location</string>
+    <string name="weather_custom_location_title">Location</string>
+    <string name="weather_custom_location_missing">Set custom location</string>
+    <string name="weather_retrieve_location_dialog_title">Cannot retrieve location!</string>
+    <string name="weather_retrieve_location_dialog_message">Network geolocation is disabled.\n\nSet a custom location or enable network location.</string>
+    <string name="weather_retrieve_location_dialog_enable_button">Enable</string>
+    <string name="settings_title">Settings</string>
+    <string name="auto_update_title">Automatic updates</string>
+    <string name="auto_update_summary">Check for new versions once in a while</string>
+    <string name="update_over_wifi_title">Check updates over WiFi only</string>
+    <string name="update_over_wifi_summary">Check for updates in background only when connected to wifi</string>
+    <string name="unit_metric">Metric (\u00b0C)</string>
+    <string name="unit_imperial">Imperial (\u00b0F)</string>
+    <string name="update">Update</string>
+    <string name="enable_title">Enable</string>
+    <string name="update_interval_title">Update interval</string>
+    <string name="interval_1_hour">1 hour</string>
+    <string name="interval_2_hour">2 hours</string>
+    <string name="interval_4_hour">4 hours</string>
+    <string name="interval_6_hour">6 hours</string>
+    <string name="interval_12_hour">12 hours</string>
+    <string name="weather_tile_title">Weather</string>
+    <string name="weather_icon_pack_title">Condition Icon Pack</string>
+    <string name="weather_icon_pack_playstore">Find more icon packs</string>
+    <string name="service_disabled">Disabled</string>
+    <string name="service_error">Error</string>
+    <string name="omnijaws_service_waiting">Waiting \u2026</string>
+    <string name="omnijaws_service_unkown">No weather data</string>
+    <string name="omnijaws_service_error">Error loading weather data</string>
+    <string name="omnijaws_service_init">Waiting\u2026</string>
+    <string name="omnijaws_service_progress">Updating\u2026</string>
+    <string name="omnijaws_service_disabled">Service disabled</string>
+    <string name="omnijaws_current_text">Now</string>
+    <string name="show_background_title">Background shadow</string>
+    <string name="weather_config_title">Service settings</string>
+    <string name="omnijaws_city_unkown">Unknown</string>
+    <string name="omnijaws_service_error_long">Error loading weather data</string>
+    <string name="omnijaws_label_default">Weather</string>
+    <string name="omnijaws_service_last_update">Last update:</string>
+    <string name="omnijaws_service_error_location">No location available</string>
+    <string name="omnijaws_service_error_network">No network found</string>
+    <string name="omnijaws_service_error_permissions">Location permissions not granted</string>
+    <string name="location_browse_activity_title">Select location</string>
+    <string name="location_query_hint">Search for a location</string>
+    <string name="weather_permission_dialog_title">Enable Location Permissions</string>
+    <string name="weather_permission_dialog_message">Location permissions are required to fetch weather data. Click OK to open Settings.</string>
+    <!-- Weather Conditions -->
+    <string name="weather_condition_clouds">Cloudy</string>
+    <string name="weather_condition_rain">Rainy</string>
+    <string name="weather_condition_clear">Sunny</string>
+    <string name="weather_condition_storm">Stormy</string>
+    <string name="weather_condition_snow">Snowy</string>
+    <string name="weather_condition_wind">Windy</string>
+    <string name="weather_condition_mist">Misty</string>
+    <!-- Lockscreen Weather -->
+    <string name="lockscreen_weather_title">Weather on Lockscreen</string>
+    <string name="lockscreen_weather_desc">Show weather on lockscreen</string>
+    <string name="last_update_time">Last Update Time</string>
+    <string name="weather_provider">Weather Provider</string>
+    <string name="weather_api_key">OpenWeatherMap API Key</string>
+    <string name="weather_provider_owm_key_title">OpenWeatherMap API Key required</string>
+    <string name="weather_provider_owm_key_message">Please enter your OpenWeatherMap API key to fetch weather data.</string>
+    <string name="weather_show_location">Show Location</string>
+    <string name="weather_show_location_summary">Show Location before icon</string>
+    <string name="weather_show_condition">Show Condition</string>
+    <string name="weather_show_condition_summary">Show Condition after temperature</string>
+    <string name="weather_show_humidity">Show Humidity</string>
+    <string name="weather_show_humidity_summary">Show Humidity in a new row</string>
+    <string name="weather_show_wind">Show Wind</string>
+    <string name="weather_show_wind_summary">Show Wind in a new row</string>
+    <string name="weather_text_size">Text Size</string>
+    <string name="weather_image_size">Image Size</string>
+    <string name="weather_custom_color_title">Text Color</string>
+    <string name="weather_custom_color_summary">Set custom color for text</string>
+    <string name="weather_custom_color_switch_title">Custom Color</string>
+    <string name="weather_custom_color_switch_summary">Custom color for all text in weather view</string>
+    <string name="custom_location_title">Custom location</string>
+    <string name="custom_location_summary">Set custom location for weather</string>
+    <string name="weather_custom_margins">Custom Margins</string>
+    <string name="weather_custom_margins_summary">Set custom margins for weather</string>
+    <string name="weather_margin_top">Top margin</string>
+    <string name="weather_centered">Center Layout</string>
+    <string name="weather_margin_side">Side Margin</string>
+    <string name="weather_margin_bottom">Bottom Margin</string>
+    <string name="weather_center_view_title">Center Weather View</string>
+    <string name="weather_center_view_summary">Move weather view to center horizontally</string>
+    <!-- Lockscreen Weather styles -->
+    <string name="lockscreen_weather_selection_title">Weather Background Style</string>
+    <string name="lockscreen_weather_selection_default">Default</string>
+    <string name="lockscreen_weather_selection_str_box">Semi-transparent box</string>
+    <string name="lockscreen_weather_selection_str_round">Semi-transparent box (round)</string>
+    <string name="lockscreen_weather_selection_qbeta_style">Q-Beta pill</string>
+    <string name="lockscreen_weather_selection_str_accent">Rounded, simple and with accent</string>
+    <string name="lockscreen_weather_selection_str_accent_transparent">Rounded, transparent and with accent</string>
+    <string name="lockscreen_weather_selection_str_gradient">Gradient</string>
+    <string name="lockscreen_weather_selection_str_border_accent">Dark with accented borders</string>
+    <string name="lockscreen_weather_selection_str_border_gradient">Dark with gradient borders</string>
 </resources>
