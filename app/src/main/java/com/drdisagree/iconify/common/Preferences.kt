@@ -66,6 +66,7 @@ object Preferences {
     const val HIDE_LOCKSCREEN_STATUSBAR = "xposed_hidelockscreenstatusbar"
     const val SB_CLOCK_SIZE_SWITCH = "xposed_sbclocksizeswitch"
     const val SB_CLOCK_SIZE = "xposed_sbclocksize"
+    const val COLORED_STATUSBAR_ICON = "xposed_coloredstatusbaricon"
     const val HIDE_LOCKSCREEN_CARRIER = "xposed_hidelockscreencarrier"
     const val HIDE_LOCKSCREEN_LOCK_ICON = "xposed_hidelockscreenlockicon"
     const val LIGHT_QSPANEL = "xposed_lightqspanel"

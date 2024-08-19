@@ -107,6 +107,13 @@
             app:exitAnim="@anim/fragment_fade_out"
             app:popEnterAnim="@anim/fragment_fade_in"
             app:popExitAnim="@anim/fragment_fade_out" />
+        <action
+            android:id="@+id/action_xposedMenu_to_xposedStatusbar"
+            app:destination="@id/xposedStatusbar"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
     </fragment>
     <fragment
         android:id="@+id/xposedBackgroundChip"
@@ -356,5 +363,14 @@
             app:exitAnim="@anim/fragment_fade_out"
             app:popEnterAnim="@anim/fragment_fade_in"
             app:popExitAnim="@anim/fragment_fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/xposedStatusbar"
+        android:name="com.drdisagree.iconify.ui.fragments.XposedStatusbar"
+        android:label="fragment_xposed_statusbar"
+        tools:layout="@layout/fragment_xposed_statusbar">
+        <action
+            android:id="@+id/action_xposedStatusbar_to_xposedMenu"
+            app:destination="@id/xposedMenu" />
     </fragment>
 </navigation>

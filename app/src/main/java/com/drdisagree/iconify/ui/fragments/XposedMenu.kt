@@ -274,6 +274,14 @@ class XposedMenu : BaseFragment() {
             )
             add(
                 arrayOf(
+                    R.id.action_xposedMenu_to_xposedStatusbar,
+                    resources.getString(R.string.activity_title_statusbar),
+                    resources.getString(R.string.activity_desc_statusbar),
+                    R.drawable.ic_tweaks_statusbar
+                )
+            )
+            add(
+                arrayOf(
                     R.id.action_xposedMenu_to_xposedVolumePanel,
                     appContextLocale.resources.getString(R.string.activity_title_volume_panel),
                     appContextLocale.resources.getString(R.string.activity_desc_volume_panel),

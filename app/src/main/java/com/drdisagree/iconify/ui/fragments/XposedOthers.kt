@@ -13,14 +13,10 @@ import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN
-import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_CARRIER
 import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_LOCK_ICON
-import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH
-import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
-import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE_SWITCH
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
@@ -66,58 +62,6 @@ class XposedOthers : BaseFragment() {
         binding.hideStatusIcons.isSwitchChecked = getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
         binding.hideStatusIcons.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(HIDE_STATUS_ICONS_SWITCH, isChecked)
-
-            Handler(Looper.getMainLooper()).postDelayed(
-                { SystemUtil.handleSystemUIRestart() },
-                SWITCH_ANIMATION_DELAY
-            )
-        }
-
-        // SB Clock Size Switch
-        binding.sbClockSizeSwitch.isSwitchChecked = getBoolean(SB_CLOCK_SIZE_SWITCH, false)
-        binding.sbClockSizeSwitch.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            binding.sbClockSize.visibility = if (isChecked) {
-                putBoolean(SB_CLOCK_SIZE_SWITCH, true)
-                putInt(SB_CLOCK_SIZE, binding.sbClockSize.sliderValue)
-                View.VISIBLE
-            } else {
-                putInt(SB_CLOCK_SIZE, 14)
-                putBoolean(SB_CLOCK_SIZE_SWITCH, false)
-                View.GONE
-            }
-        }
-
-        // SB Clock Size Slider
-        binding.sbClockSize.sliderValue = getInt(SB_CLOCK_SIZE, 14)
-        binding.sbClockSize.setOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-            override fun onStartTrackingTouch(slider: Slider) {}
-
-            override fun onStopTrackingTouch(slider: Slider) {
-                putInt(SB_CLOCK_SIZE, slider.value.toInt())
-            }
-        })
-        binding.sbClockSize.visibility = if (binding.sbClockSizeSwitch.isSwitchChecked) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-
-        // Hide lockscreen carrier
-        binding.hideLockscreenCarrier.isSwitchChecked = getBoolean(HIDE_LOCKSCREEN_CARRIER, false)
-        binding.hideLockscreenCarrier.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            putBoolean(HIDE_LOCKSCREEN_CARRIER, isChecked)
-
-            Handler(Looper.getMainLooper()).postDelayed(
-                { SystemUtil.handleSystemUIRestart() },
-                SWITCH_ANIMATION_DELAY
-            )
-        }
-
-        // Hide lockscreen statusbar
-        binding.hideLockscreenStatusbar.isSwitchChecked =
-            getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false)
-        binding.hideLockscreenStatusbar.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            putBoolean(HIDE_LOCKSCREEN_STATUSBAR, isChecked)
 
             Handler(Looper.getMainLooper()).postDelayed(
                 { SystemUtil.handleSystemUIRestart() },

@@ -43,44 +43,7 @@
             <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:titleText="@string/section_title_status_bar" />
-
-            <com.drdisagree.iconify.ui.widgets.SwitchWidget
-                android:id="@+id/sb_clock_size_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:summaryText="@string/sb_clock_size_switch_desc"
-                app:titleText="@string/sb_clock_size_switch_title" />
-
-            <com.drdisagree.iconify.ui.widgets.SliderWidget
-                android:id="@+id/sb_clock_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:sliderStepSize="1"
-                app:sliderValue="14"
-                app:sliderValueFrom="10"
-                app:sliderValueTo="24"
-                app:titleText="@string/sb_clock_size"
-                app:valueFormat="sp" />
-
-            <com.drdisagree.iconify.ui.widgets.TitleWidget
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:titleText="@string/lock_screen" />
-
-            <com.drdisagree.iconify.ui.widgets.SwitchWidget
-                android:id="@+id/hide_lockscreen_carrier"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:summaryText="@string/hide_ls_carrier_desc"
-                app:titleText="@string/hide_ls_carrier_title" />
-
-            <com.drdisagree.iconify.ui.widgets.SwitchWidget
-                android:id="@+id/hide_lockscreen_statusbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:summaryText="@string/hide_ls_statusbar_desc"
-                app:titleText="@string/hide_ls_statusbar_title" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/hide_lockscreen_lock_icon"

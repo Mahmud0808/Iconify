@@ -15,6 +15,7 @@ import com.drdisagree.iconify.xposed.modules.LockscreenWeather
 import com.drdisagree.iconify.xposed.modules.Miscellaneous
 import com.drdisagree.iconify.xposed.modules.QSTransparency
 import com.drdisagree.iconify.xposed.modules.QuickSettings
+import com.drdisagree.iconify.xposed.modules.Statusbar
 import com.drdisagree.iconify.xposed.modules.VolumePanel
 import com.drdisagree.iconify.xposed.modules.themes.QSBlackThemeA13
 import com.drdisagree.iconify.xposed.modules.themes.QSBlackThemeA14
@@ -42,6 +43,7 @@ object EntryList {
         Miscellaneous::class.java,
         QSTransparency::class.java,
         QuickSettings::class.java,
+        Statusbar::class.java,
         BatteryStyleManager::class.java,
         VolumePanel::class.java
     )
