@@ -142,7 +142,8 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
         binding.lockscreenWeatherUpdateInterval.setSelectedIndex(selectedIndex)
         binding.lockscreenWeatherUpdateInterval.setOnItemSelectedListener {
             putString(WEATHER_UPDATE_INTERVAL, mapping[it].toString())
-            WeatherScheduler.scheduleUpdates(requireContext())
+            handlePermissions()
+            forceRefreshWeatherSettings()
         }
 
         binding.lockscreenWeatherLastUpdate.setOnClickListener {
@@ -258,6 +259,8 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
         binding.lockscreenWeatherCustomLocation.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(WEATHER_CUSTOM_LOCATION, isChecked)
             binding.lockscreenWeatherCustomLocationMenu.isEnabled = isChecked
+            handlePermissions()
+            forceRefreshWeatherSettings()
         }
 
         val locationName = WeatherConfig.getLocationName(requireContext())
@@ -347,8 +350,13 @@ class XposedLockscreenWeather : BaseFragment(), OmniJawsClient.OmniJawsObserver 
         super.onResume()
 
         mWeatherClient.addObserver(this)
-
         handlePermissions()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        mWeatherClient.removeObserver(this)
     }
 
     private fun showOwnKeyDialog() {
