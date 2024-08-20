@@ -131,13 +131,8 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     private fun enableUpdates() {
         if (mWeatherClient != null) {
             mWeatherClient.addObserver(this)
-            //WeatherScheduler.scheduleUpdateNow(mContext);
             queryAndUpdateWeather()
         }
-    }
-
-    fun disableUpdates() {
-        mWeatherClient?.removeObserver(this)
     }
 
     private fun setErrorView(errorReason: Int) {
