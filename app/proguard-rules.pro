@@ -30,6 +30,10 @@
     <init>(android.content.Context);
 }
 
+# Weather
+-keepnames class  com.drdisagree.iconify.weather.**
+-keep class com.drdisagree.iconify.weather.** { *; }
+
 # EventBus
 -keepattributes *Annotation*
 -keepclassmembers,allowoptimization,allowobfuscation class * {
