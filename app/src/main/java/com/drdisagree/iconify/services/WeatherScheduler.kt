@@ -9,8 +9,8 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.weather.WeatherConfig
-import com.drdisagree.iconify.weather.WeatherWork
+import com.drdisagree.iconify.utils.weather.WeatherConfig
+import com.drdisagree.iconify.utils.weather.WeatherWork
 import java.util.concurrent.TimeUnit
 
 object WeatherScheduler {

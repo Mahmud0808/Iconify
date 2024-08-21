@@ -62,7 +62,7 @@ import com.drdisagree.iconify.utils.SystemUtil.saveBootId
 import com.drdisagree.iconify.utils.SystemUtil.saveVersionCode
 import com.drdisagree.iconify.utils.helper.ImportExport.exportSettings
 import com.drdisagree.iconify.utils.helper.ImportExport.importSettings
-import com.drdisagree.iconify.weather.WeatherConfig
+import com.drdisagree.iconify.utils.weather.WeatherConfig
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topjohnwu.superuser.Shell
 import java.util.Date

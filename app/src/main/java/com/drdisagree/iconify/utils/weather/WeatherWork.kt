@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.weather
+package com.drdisagree.iconify.utils.weather
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -18,14 +18,14 @@ import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_DISABLE
 import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_LOCATION
 import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_NETWORK
 import com.drdisagree.iconify.utils.OmniJawsClient.Companion.EXTRA_ERROR_NO_PERMISSIONS
-import com.drdisagree.iconify.weather.WeatherConfig.getLocationLat
-import com.drdisagree.iconify.weather.WeatherConfig.getLocationLon
-import com.drdisagree.iconify.weather.WeatherConfig.getProvider
-import com.drdisagree.iconify.weather.WeatherConfig.isCustomLocation
-import com.drdisagree.iconify.weather.WeatherConfig.isEnabled
-import com.drdisagree.iconify.weather.WeatherConfig.isMetric
-import com.drdisagree.iconify.weather.WeatherConfig.setUpdateError
-import com.drdisagree.iconify.weather.WeatherConfig.setWeatherData
+import com.drdisagree.iconify.utils.weather.WeatherConfig.getLocationLat
+import com.drdisagree.iconify.utils.weather.WeatherConfig.getLocationLon
+import com.drdisagree.iconify.utils.weather.WeatherConfig.getProvider
+import com.drdisagree.iconify.utils.weather.WeatherConfig.isCustomLocation
+import com.drdisagree.iconify.utils.weather.WeatherConfig.isEnabled
+import com.drdisagree.iconify.utils.weather.WeatherConfig.isMetric
+import com.drdisagree.iconify.utils.weather.WeatherConfig.setUpdateError
+import com.drdisagree.iconify.utils.weather.WeatherConfig.setWeatherData
 import com.google.common.util.concurrent.ListenableFuture
 import java.text.SimpleDateFormat
 import java.util.Locale

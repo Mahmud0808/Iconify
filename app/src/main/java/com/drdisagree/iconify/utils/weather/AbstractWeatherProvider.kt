@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.weather
+package com.drdisagree.iconify.utils.weather
 
 import android.content.Context
 import android.location.Geocoder
@@ -7,8 +7,8 @@ import android.text.TextUtils
 import android.util.Log
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.utils.NetworkUtils
-import com.drdisagree.iconify.weather.WeatherConfig.getLocationName
-import com.drdisagree.iconify.weather.WeatherConfig.isCustomLocation
+import com.drdisagree.iconify.utils.weather.WeatherConfig.getLocationName
+import com.drdisagree.iconify.utils.weather.WeatherConfig.isCustomLocation
 import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat

@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.weather
+package com.drdisagree.iconify.utils.weather
 
 import android.content.Context
 import java.text.DecimalFormat

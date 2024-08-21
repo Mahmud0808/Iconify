@@ -201,7 +201,7 @@
             android:exported="true"
             tools:ignore="ExportedContentProvider" /> <!-- Remote Preferences Provider -->
         <provider
-            android:name=".weather.WeatherContentProvider"
+            android:name=".utils.weather.WeatherContentProvider"
             android:authorities="com.drdisagree.iconify.weatherprovider"
             android:exported="true"
             tools:ignore="ExportedContentProvider" /> <!-- Weather Content Provider -->

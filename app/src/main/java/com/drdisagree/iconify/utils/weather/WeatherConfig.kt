@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.weather
+package com.drdisagree.iconify.utils.weather
 
 import android.Manifest
 import android.content.Context
@@ -15,8 +15,8 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
 import com.drdisagree.iconify.common.Preferences.WEATHER_UPDATE_INTERVAL
 import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 import com.drdisagree.iconify.config.XPrefs.Xprefs
-import com.drdisagree.iconify.weather.providers.OpenMeteoProvider
-import com.drdisagree.iconify.weather.providers.OpenWeatherMapProvider
+import com.drdisagree.iconify.utils.weather.providers.OpenMeteoProvider
+import com.drdisagree.iconify.utils.weather.providers.OpenWeatherMapProvider
 
 object WeatherConfig {
 

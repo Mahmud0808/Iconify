@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.weather
+package com.drdisagree.iconify.utils.weather
 
 import android.annotation.SuppressLint
 import android.content.ContentProvider

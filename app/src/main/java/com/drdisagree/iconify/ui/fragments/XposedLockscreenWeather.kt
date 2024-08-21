@@ -67,7 +67,7 @@ import com.drdisagree.iconify.ui.dialogs.EditTextDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.weather.WeatherConfig
+import com.drdisagree.iconify.utils.weather.WeatherConfig
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 import java.util.Locale

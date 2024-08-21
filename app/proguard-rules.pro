@@ -31,8 +31,8 @@
 }
 
 # Weather
--keepnames class com.drdisagree.iconify.weather.**
--keep class com.drdisagree.iconify.weather.** { *; }
+-keepnames class com.drdisagree.iconify.utils.weather.**
+-keep class com.drdisagree.iconify.utils.weather.** { *; }
 
 # EventBus
 -keepattributes *Annotation*

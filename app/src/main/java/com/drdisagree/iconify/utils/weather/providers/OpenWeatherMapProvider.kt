@@ -1,12 +1,12 @@
-package com.drdisagree.iconify.weather.providers
+package com.drdisagree.iconify.utils.weather.providers
 
 import android.content.Context
 import android.location.Location
 import android.text.TextUtils
 import android.util.Log
-import com.drdisagree.iconify.weather.AbstractWeatherProvider
-import com.drdisagree.iconify.weather.WeatherConfig
-import com.drdisagree.iconify.weather.WeatherInfo
+import com.drdisagree.iconify.utils.weather.AbstractWeatherProvider
+import com.drdisagree.iconify.utils.weather.WeatherConfig
+import com.drdisagree.iconify.utils.weather.WeatherInfo
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject

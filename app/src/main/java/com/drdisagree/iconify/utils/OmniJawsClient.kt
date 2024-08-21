@@ -15,7 +15,7 @@ import android.text.TextUtils
 import android.text.format.DateFormat
 import android.util.Log
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.weather.WeatherConfig
+import com.drdisagree.iconify.utils.weather.WeatherConfig
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
