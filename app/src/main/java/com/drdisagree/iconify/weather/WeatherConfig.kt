@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.util.Log
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
@@ -44,7 +43,21 @@ object WeatherConfig {
 
     private fun getWeatherPrefs(context: Context): SharedPreferences {
         val deviceProtectedContext = context.createDeviceProtectedStorageContext()
-        return deviceProtectedContext.getSharedPreferences(WEATHER_PREFS, Context.MODE_PRIVATE)
+        return deviceProtectedContext.getSharedPreferences(WEATHER_PREFS, MODE_PRIVATE)
+    }
+
+    fun clear(context: Context) {
+        getWeatherPrefs(context).edit().clear().apply()
+        val prefs = listOf(
+            WEATHER_PROVIDER,
+            WEATHER_UNITS,
+            WEATHER_UPDATE_INTERVAL,
+            WEATHER_OWM_KEY,
+            PREF_KEY_UPDATE_ERROR
+        )
+        prefs.forEach {
+            getPrefs(context).edit().remove(it).apply()
+        }
     }
 
     fun getProvider(context: Context): AbstractWeatherProvider {
@@ -106,7 +119,6 @@ object WeatherConfig {
     }
 
     fun setWeatherData(data: WeatherInfo, context: Context) {
-        Log.d("Weather", "Setting weather data " + data.toSerializedString())
         getWeatherPrefs(context).edit().putString(PREF_KEY_WEATHER_DATA, data.toSerializedString())
             .apply()
         getWeatherPrefs(context).edit().putLong(PREF_KEY_LAST_UPDATE, System.currentTimeMillis())
