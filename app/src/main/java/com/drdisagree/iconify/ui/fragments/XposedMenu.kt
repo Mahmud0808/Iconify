@@ -207,7 +207,7 @@ class XposedMenu : BaseFragment() {
                 intent.setComponent(
                     ComponentName(
                         "org.lsposed.manager",
-                        "org.lsposed.manager.ui.activity.MainActivity"
+                        "org.lsposed.manager.ui.activities.MainActivity"
                     )
                 )
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

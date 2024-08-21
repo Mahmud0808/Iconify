@@ -13,12 +13,11 @@ object XPrefs {
 
     var Xprefs: SharedPreferences? = null
     private var packageName: String? = null
-    private val listener =
-        OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
-            loadEverything(
-                key
-            )
-        }
+    private val listener = OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
+        loadEverything(
+            key
+        )
+    }
 
     fun init(context: Context) {
         packageName = context.packageName

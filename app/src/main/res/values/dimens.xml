@@ -11,6 +11,7 @@
     <dimen name="preview_icon_size">18dp</dimen>
     <dimen name="cont_corner_radius">24dp</dimen>
     <dimen name="cont_corner_radius2">22dp</dimen>
+    <dimen name="searchbar_corner_radius">16dp</dimen>
     <dimen name="reset_button_size">20dp</dimen>
     <dimen name="header_title_size">18sp</dimen>
     <dimen name="content_marginTop">24dp</dimen>
@@ -43,5 +44,13 @@
     <!-- Accent Date styles padding-->
     <dimen name="widget_date_accent_box_padding_hor">10dp</dimen>
     <dimen name="widget_date_accent_box_padding_ver">6dp</dimen>
+
+
+    <dimen name="searchbar_height">56dp</dimen>
+
+    <dimen name="preference_padding_start">15dip</dimen>
+    <dimen name="preference_padding_end">6dip</dimen>
+    <dimen name="preference_padding_top">6dip</dimen>
+    <dimen name="preference_padding_bottom">6dip</dimen>
 
 </resources>

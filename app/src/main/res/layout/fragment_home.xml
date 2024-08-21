@@ -24,11 +24,28 @@
                 android:id="@+id/home_card"
                 layout="@layout/view_home_card" />
 
+            <include
+                android:id="@+id/new_update"
+                layout="@layout/view_new_update"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/reboot_reminder"
+                layout="@layout/view_reboot"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/home_page_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:id="@android:id/list_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical" />
 
         </LinearLayout>

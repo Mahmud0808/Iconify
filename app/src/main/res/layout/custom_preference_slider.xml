@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:foreground="?selectableItemBackgroundBorderless"
+    android:paddingStart="@dimen/preference_padding_start"
+    android:paddingTop="@dimen/preference_padding_top"
+    android:paddingEnd="@dimen/preference_padding_end"
+    android:paddingBottom="@dimen/preference_padding_bottom">
+
+    <ImageView
+        android:id="@android:id/icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="18dp"
+        android:contentDescription="@android:string/untitled"
+        android:visibility="gone"
+        app:tint="?attr/colorOnSurface" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@android:id/widget_frame"
+        android:layout_toEndOf="@android:id/icon"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@android:id/title"
+            style="?android:attr/textAppearanceListItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnSurface" />
+
+        <TextView
+            android:id="@android:id/summary"
+            style="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@android:id/title"
+            android:alpha="0.8"
+            android:textColor="?attr/colorOnSurface" />
+
+        <LinearLayout
+            android:id="@android:id/widget_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@android:id/summary"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@android:id/widget_frame"
+            android:orientation="horizontal">
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/reset_button"
+                android:layout_width="38dp"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/ic_reset" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

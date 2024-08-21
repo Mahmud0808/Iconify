@@ -1,12 +1,15 @@
 package com.drdisagree.iconify.ui.activities
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.view.MenuItem
-import androidx.navigation.NavController
+import androidx.appcompat.app.ActionBar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.airbnb.lottie.LottieCompositionFactory
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences
@@ -20,28 +23,46 @@ import com.drdisagree.iconify.databinding.ActivityHomePageBinding
 import com.drdisagree.iconify.ui.base.BaseActivity
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
+import com.drdisagree.iconify.ui.fragments.home.Home
+import com.drdisagree.iconify.ui.fragments.settings.Settings
+import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
+import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResultListener
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil
 import com.drdisagree.iconify.utils.overlay.OverlayUtil
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.topjohnwu.superuser.Shell
 import org.greenrobot.eventbus.EventBus
+import java.util.UUID
 
-class MainActivity : BaseActivity(), ColorPickerDialogListener {
+class MainActivity : BaseActivity(),
+    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback,
+    SearchPreferenceResultListener,
+    ColorPickerDialogListener {
 
     private lateinit var binding: ActivityHomePageBinding
-    private var selectedFragment: Int? = null
-    private var colorPickerDialog: ColorPickerDialog.Builder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomePageBinding.inflate(layoutInflater)
         setContentView(binding.getRoot())
 
-        // Setup navigation
+        colorPickerDialog = ColorPickerDialog.newBuilder()
+        myFragmentManager = supportFragmentManager
+        myActionBar = supportActionBar
+
         setupNavigation()
         Prefs.putBoolean(ON_HOME_PAGE, true)
 
+        if (savedInstanceState == null) {
+            replaceFragment(if (!Preferences.isXposedOnlyMode) Home() else Tweaks())
+        }
+
+        initData()
+    }
+
+    private fun initData() {
         Thread {
             // Clear lottie cache
             LottieCompositionFactory.clearCache(this)
@@ -68,87 +89,101 @@ class MainActivity : BaseActivity(), ColorPickerDialogListener {
                 ).exec().out[0] == "1"
             RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state)
         }.start()
-
-        colorPickerDialog = ColorPickerDialog.newBuilder()
     }
 
     private fun setupNavigation() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
-                ?: return
-        val navController = navHostFragment.navController
-
         if (Preferences.isXposedOnlyMode) {
-            navController.setGraph(R.navigation.nav_xposed_menu)
             binding.bottomNavigationView.menu.clear()
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_xposed_only)
         }
 
-        setupWithNavController(binding.bottomNavigationView, navController)
+        supportFragmentManager.addOnBackStackChangedListener {
+            val tag = getTopFragmentTag()
+            val xposedOnlyMode = Preferences.isXposedOnlyMode
 
-        binding.bottomNavigationView.setOnItemSelectedListener { item: MenuItem ->
-            setFragment(item.itemId, navController, Preferences.isXposedOnlyMode)
-            true
+            val homeIndex = 0
+            val tweaksIndex = if (xposedOnlyMode) 0 else 1
+            val settingsIndex = if (xposedOnlyMode) 1 else 2
+
+            when (tag) {
+                Home::class.java.simpleName -> {
+                    selectedFragment = R.id.homePage
+                    binding.bottomNavigationView.menu.getItem(homeIndex).setChecked(true)
+                }
+
+                Tweaks::class.java.simpleName -> {
+                    selectedFragment = R.id.tweaks
+                    binding.bottomNavigationView.menu.getItem(tweaksIndex).setChecked(true)
+                }
+
+                Settings::class.java.simpleName -> {
+                    selectedFragment = R.id.settings
+                    binding.bottomNavigationView.menu.getItem(settingsIndex).setChecked(true)
+                }
+            }
         }
-    }
 
-    @SuppressLint("NonConstantResourceId")
-    private fun setFragment(itemId: Int, navController: NavController, isXposedOnlyMode: Boolean) {
-        val currentDestination = navController.currentDestination ?: return
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            val fragmentTag: String = getTopFragmentTag()
 
-        if (isXposedOnlyMode) {
-            when (itemId) {
-                R.id.xposedMenu -> {
-                    if (currentDestination.id != itemId) {
-                        navController.popBackStack(navController.graph.startDestinationId, false)
-                        selectedFragment = itemId
+            when (item.itemId) {
+                R.id.homePage -> {
+                    if (fragmentTag != Home::class.java.simpleName) {
+                        selectedFragment = R.id.homePage
+                        replaceFragment(Home())
                     }
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.tweaks -> {
+                    if (fragmentTag != Tweaks::class.java.simpleName) {
+                        selectedFragment = R.id.tweaks
+                        replaceFragment(Tweaks())
+                    }
+                    return@setOnItemSelectedListener true
                 }
 
                 R.id.settings -> {
-                    if (currentDestination.id != itemId) {
-                        navController.popBackStack(navController.graph.startDestinationId, false)
-                        findNavController(
-                            this,
-                            R.id.fragmentContainerView
-                        ).navigate(R.id.action_xposedMenu_to_settings2)
-                        selectedFragment = itemId
+                    if (fragmentTag != Settings::class.java.simpleName) {
+                        selectedFragment = R.id.settings
+                        replaceFragment(Settings())
                     }
+                    return@setOnItemSelectedListener true
                 }
-            }
-            return
-        }
 
-        when (itemId) {
-            R.id.homePage -> {
-                if (currentDestination.id != itemId) {
-                    navController.popBackStack(navController.graph.startDestinationId, false)
-                    selectedFragment = itemId
-                }
-            }
-
-            R.id.tweaks -> {
-                if (currentDestination.id != itemId) {
-                    navController.popBackStack(navController.graph.startDestinationId, false)
-                    findNavController(
-                        this,
-                        R.id.fragmentContainerView
-                    ).navigate(R.id.action_home2_to_tweaks)
-                    selectedFragment = itemId
-                }
-            }
-
-            R.id.settings -> {
-                if (currentDestination.id != itemId) {
-                    navController.popBackStack(navController.graph.startDestinationId, false)
-                    findNavController(
-                        this,
-                        R.id.fragmentContainerView
-                    ).navigate(R.id.action_home2_to_settings)
-                    selectedFragment = itemId
+                else -> {
+                    return@setOnItemSelectedListener true
                 }
             }
         }
+    }
+
+    private fun getTopFragmentTag(): String {
+        var fragment = UUID.randomUUID().toString()
+
+        val last: Int = supportFragmentManager.fragments.size - 1
+
+        if (last >= 0) {
+            when (val topFragment = supportFragmentManager.fragments[last]) {
+                is Home -> {
+                    fragment = Home::class.java.simpleName
+                }
+
+                is Tweaks -> {
+                    fragment = Tweaks::class.java.simpleName
+                }
+
+                is Settings -> {
+                    fragment = Settings::class.java.simpleName
+                }
+
+                else -> {
+                    fragment = topFragment.tag ?: UUID.randomUUID().toString()
+                }
+            }
+        }
+
+        return fragment
     }
 
     fun showColorPickerDialog(
@@ -158,7 +193,7 @@ class MainActivity : BaseActivity(), ColorPickerDialogListener {
         showAlphaSlider: Boolean,
         showColorShades: Boolean
     ) {
-        colorPickerDialog!!.setDialogStyle(R.style.ColorPicker)
+        colorPickerDialog
             .setColor(defaultColor)
             .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
             .setAllowCustom(false)
@@ -167,13 +202,15 @@ class MainActivity : BaseActivity(), ColorPickerDialogListener {
             .setShowAlphaSlider(showAlphaSlider)
             .setShowColorShades(showColorShades)
 
-        colorPickerDialog!!.show(this)
+        colorPickerDialog.show(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        if (selectedFragment != null) outState.putInt(DATA_KEY, selectedFragment!!)
+        if (selectedFragment != null) {
+            outState.putInt(DATA_KEY, selectedFragment!!)
+        }
     }
 
     public override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -190,12 +227,96 @@ class MainActivity : BaseActivity(), ColorPickerDialogListener {
         EventBus.getDefault().post(ColorDismissedEvent(dialogId))
     }
 
+    @Suppress("deprecation")
+    override fun onPreferenceStartFragment(
+        caller: PreferenceFragmentCompat,
+        pref: Preference
+    ): Boolean {
+        val args = pref.extras
+        val fragment = supportFragmentManager.fragmentFactory.instantiate(
+            classLoader, pref.fragment!!
+        )
+        fragment.arguments = args
+        fragment.setTargetFragment(caller, 0)
+
+        replaceFragment(fragment)
+        return true
+    }
+
+    override fun onSearchResultClicked(result: SearchPreferenceResult) {
+        Handler(mainLooper).post { Tweaks().onSearchResultClicked(result) }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(this, R.id.fragmentContainerView)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val itemID = item.itemId
+
+        if (itemID == android.R.id.home) {
+            onBackPressedDispatcher.onBackPressed()
+            return true
+        }
+
+        return false
+    }
+
     companion object {
         private const val DATA_KEY = "mDataKey"
+        private lateinit var myFragmentManager: FragmentManager
+        private var myActionBar: ActionBar? = null
+        private var selectedFragment: Int? = null
+        private lateinit var colorPickerDialog: ColorPickerDialog.Builder
+        val prefsList: List<Array<Any>> = ArrayList()
+
+        @JvmStatic
+        fun replaceFragment(fragment: Fragment) {
+            val fragmentTag = fragment.javaClass.simpleName
+            val fragmentTransaction: FragmentTransaction = myFragmentManager.beginTransaction()
+
+            fragmentTransaction.setCustomAnimations(
+                R.anim.fragment_fade_in,
+                R.anim.fragment_fade_out,
+                R.anim.fragment_fade_in,
+                R.anim.fragment_fade_out
+            )
+
+            fragmentTransaction.replace(R.id.fragmentContainerView, fragment, fragmentTag)
+
+            if (fragmentTag == Home::class.java.simpleName ||
+                (fragmentTag == Tweaks::class.java.simpleName && Preferences.isXposedOnlyMode)
+            ) {
+                myFragmentManager.popBackStack(
+                    null,
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE
+                )
+            } else if (fragmentTag == Tweaks::class.java.simpleName ||
+                fragmentTag == Settings::class.java.simpleName
+            ) {
+                myFragmentManager.popBackStack(
+                    null,
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE
+                )
+                fragmentTransaction.addToBackStack(fragmentTag)
+            } else {
+                fragmentTransaction.addToBackStack(fragmentTag)
+            }
+
+            fragmentTransaction.commit()
+        }
+
+        @JvmStatic
+        fun backButtonEnabled() {
+            myActionBar?.setDisplayHomeAsUpEnabled(true)
+            myActionBar?.setDisplayShowHomeEnabled(true)
+        }
+
+        @JvmStatic
+        fun backButtonDisabled() {
+            myActionBar?.setDisplayHomeAsUpEnabled(false)
+            myActionBar?.setDisplayShowHomeEnabled(false)
+        }
     }
 }

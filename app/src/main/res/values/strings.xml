@@ -33,6 +33,14 @@
     <string name="installation_failed_desc">Logs have been saved in documents folder.</string>
     <string name="logs">Logs</string>
 
+    <!-- Search Preference -->
+    <string name="searchpreference_search">Search…</string>
+    <string name="searchpreference_clear">Clear</string>
+    <string name="searchpreference_history_entry">History entry</string>
+    <string name="searchpreference_more">More</string>
+    <string name="searchpreference_clear_history">Clear history</string>
+    <string name="searchpreference_no_results">No results</string>
+
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Icon Pack</string>

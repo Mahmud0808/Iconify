@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackgroundBorderless"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:paddingStart="@dimen/preference_padding_start"
+    android:paddingTop="@dimen/preference_padding_top"
+    android:paddingEnd="@dimen/preference_padding_end"
+    android:paddingBottom="@dimen/preference_padding_bottom">
+
+    <ImageView
+        android:id="@android:id/icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="18dp"
+        android:contentDescription="@android:string/untitled"
+        android:visibility="gone"
+        app:tint="?attr/colorOnSurface" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@android:id/widget_frame"
+        android:layout_toEndOf="@android:id/icon"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@android:id/title"
+            style="?android:attr/textAppearanceListItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_primary" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@android:id/summary"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@android:id/title"
+            android:alpha="0.7"
+            android:textColor="@color/text_color_secondary" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@android:id/widget_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical" />
+
+</RelativeLayout>
