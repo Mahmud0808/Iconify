@@ -25,6 +25,7 @@ import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVE
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_ON_AOD
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
+import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
 import com.drdisagree.iconify.common.Resources.DEPTH_WALL_BG_DIR
 import com.drdisagree.iconify.common.Resources.DEPTH_WALL_FG_DIR
 import com.drdisagree.iconify.config.RPrefs
@@ -277,6 +278,17 @@ class XposedDepthWallpaper : BaseFragment() {
             true
         }
 
+        // Unzoom depth wallpaper
+        binding.unzoomDepthWallpaper.isSwitchChecked = getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
+        binding.unzoomDepthWallpaper.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            putBoolean(UNZOOM_DEPTH_WALLPAPER, isChecked)
+
+            Handler(Looper.getMainLooper()).postDelayed(
+                { SystemUtil.restartSystemUI() },
+                SWITCH_ANIMATION_DELAY
+            )
+        }
+
         updateEnabledState()
 
         return view
@@ -294,6 +306,7 @@ class XposedDepthWallpaper : BaseFragment() {
         binding.parallaxEffect.setEnabled(isDepthWallpaperEnabled)
         binding.foregroundSensitivity.setEnabled(isDepthWallpaperEnabled)
         binding.backgroundSensitivity.setEnabled(isDepthWallpaperEnabled)
+        binding.unzoomDepthWallpaper.setEnabled(isDepthWallpaperEnabled)
 
         val isBelowA14Feature = Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
 
@@ -303,6 +316,11 @@ class XposedDepthWallpaper : BaseFragment() {
             View.GONE
         }
         binding.parallaxEffect.visibility = if (isBelowA14Feature) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        binding.unzoomDepthWallpaper.visibility = if (isBelowA14Feature) {
             View.VISIBLE
         } else {
             View.GONE

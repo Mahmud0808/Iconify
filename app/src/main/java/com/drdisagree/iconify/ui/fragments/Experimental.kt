@@ -11,7 +11,6 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_OVERLAP
 import com.drdisagree.iconify.common.Preferences.HIDE_DATA_DISABLED_ICON
-import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.databinding.FragmentExperimentalBinding
@@ -43,17 +42,6 @@ class Experimental : BaseFragment() {
         binding.headerImageOverlap.isSwitchChecked = getBoolean(HEADER_IMAGE_OVERLAP, false)
         binding.headerImageOverlap.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(HEADER_IMAGE_OVERLAP, isChecked)
-
-            Handler(Looper.getMainLooper()).postDelayed(
-                { SystemUtil.restartSystemUI() },
-                SWITCH_ANIMATION_DELAY
-            )
-        }
-
-        // Unzoom depth wallpaper
-        binding.unzoomDepthWallpaper.isSwitchChecked = getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
-        binding.unzoomDepthWallpaper.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            putBoolean(UNZOOM_DEPTH_WALLPAPER, isChecked)
 
             Handler(Looper.getMainLooper()).postDelayed(
                 { SystemUtil.restartSystemUI() },

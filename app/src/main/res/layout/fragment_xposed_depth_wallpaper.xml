@@ -112,6 +112,13 @@
                 app:titleText="@string/wallpaper_background_sensitivity_title"
                 app:valueFormat="x" />
 
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/unzoom_depth_wallpaper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/unzoom_depth_wallpaper_desc"
+                app:titleText="@string/unzoom_depth_wallpaper_title" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

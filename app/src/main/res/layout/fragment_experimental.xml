@@ -29,13 +29,6 @@
                 app:titleText="@string/overlap_header_image_title" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
-                android:id="@+id/unzoom_depth_wallpaper"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:summaryText="@string/unzoom_depth_wallpaper_desc"
-                app:titleText="@string/unzoom_depth_wallpaper_title" />
-
-            <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:id="@+id/hide_data_disabled_icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
