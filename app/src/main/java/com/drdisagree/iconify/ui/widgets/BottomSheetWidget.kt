@@ -176,6 +176,7 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
     }
 
     fun setSelectedIndex(selectedIndex: Int) {
+        if (arrayResId == 0) return
         var idx = selectedIndex
         val list = listOf(*resources.getStringArray(arrayResId))
 
