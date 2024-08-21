@@ -25,7 +25,7 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_SIZE
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
-import com.drdisagree.iconify.xposed.views.CurrentWeatherView
+import com.drdisagree.iconify.xposed.modules.views.CurrentWeatherView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedHelpers.findClass
