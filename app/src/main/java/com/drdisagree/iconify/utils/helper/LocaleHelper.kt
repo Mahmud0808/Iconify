@@ -2,7 +2,6 @@ package com.drdisagree.iconify.utils.helper
 
 import android.content.Context
 import android.os.LocaleList
-import android.widget.Toast
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
 import com.drdisagree.iconify.config.RPrefs.getString
@@ -11,11 +10,9 @@ import java.util.Locale
 object LocaleHelper {
 
     fun setLocale(context: Context): Context {
-        var localeCode = getString(APP_LANGUAGE, "")
+        var localeCode = getString(APP_LANGUAGE, "")!!
 
-        Toast.makeText(context, localeCode, Toast.LENGTH_SHORT).show()
-
-        if (localeCode!!.isEmpty()) {
+        if (localeCode.isEmpty()) {
             val locales = context.resources.configuration.getLocales()
             val localeCodes = listOf(*context.resources.getStringArray(R.array.locale_code))
 
@@ -30,7 +27,7 @@ object LocaleHelper {
                 }
             }
 
-            if (localeCode!!.isEmpty()) {
+            if (localeCode.isEmpty()) {
                 localeCode = "en-US"
             }
         }

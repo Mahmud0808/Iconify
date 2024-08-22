@@ -23,6 +23,7 @@ import com.drdisagree.iconify.common.Preferences.VER_CODE
 import com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.getString
 import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector.LOAD_TIME_KEY_KEY
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector.PACKAGE_STRIKE_KEY_KEY
@@ -202,7 +203,10 @@ object SystemUtil {
 
     val saveBootId: Unit // Save unique id of each boot
         get() {
-            putString(BOOT_ID, Shell.cmd(DEVICE_BOOT_ID_CMD).exec().out.toString())
+            val bootId = Shell.cmd(DEVICE_BOOT_ID_CMD).exec().out.toString()
+            if (getString(BOOT_ID) != bootId) {
+                putString(BOOT_ID, bootId)
+            }
         }
 
     fun saveVersionCode() {

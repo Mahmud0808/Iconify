@@ -27,7 +27,7 @@
 
         <EditText
             android:id="@+id/search"
-            style="@style/TextAppearance.Material3.TitleMedium"
+            style="@style/TextAppearance.Material3.BodyLarge"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
@@ -59,7 +59,7 @@
             android:contentDescription="@string/searchpreference_more"
             android:padding="4dp"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_more"
+            app:srcCompat="@drawable/ic_menu"
             app:tint="@color/text_color_primary" />
 
     </LinearLayout>

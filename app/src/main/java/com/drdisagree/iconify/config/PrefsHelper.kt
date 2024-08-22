@@ -4,17 +4,35 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.preference.Preference
 import androidx.preference.PreferenceGroup
+import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Resources.shouldShowRebootDialog
 import com.drdisagree.iconify.ui.preferences.SliderPreference
 
 object PrefsHelper {
 
-    @JvmStatic
     fun isVisible(key: String?): Boolean {
         return when (key) {
+            "IconifyUpdateOverWifi" -> RPrefs.getBoolean(
+                "IconifyAutoUpdate",
+                true
+            )
+
             "experimentalFeatures" -> RPrefs.getBoolean(
                 "iconify_easter_egg",
+                false
+            )
+
+            "iconifyHomeCard" -> RPrefs.getBoolean(
+                "IconifyShowHomeCard",
+                true
+            )
+
+            "rebootReminder" -> shouldShowRebootDialog()
+
+            "newUpdate" -> RPrefs.getBoolean(
+                "newUpdateFound",
                 false
             )
 
@@ -64,12 +82,32 @@ object PrefsHelper {
                         )
                 val selectedLanguageCode = if (currentLanguageCode < 0) listOf<String>(
                     *fragmentCompat.resources.getStringArray(R.array.locale_code)
-                ).indexOf("en") else currentLanguageCode
+                ).indexOf("en-US") else currentLanguageCode
 
                 return listOf<String>(*fragmentCompat.resources.getStringArray(R.array.locale_name))[selectedLanguageCode]
             }
 
+            "checkForUpdatePref" -> BuildConfig.VERSION_NAME
+
             else -> null
+        }
+    }
+
+    fun setupAllPreferences(group: PreferenceGroup) {
+        var i = 0
+        while (true) {
+            try {
+                val thisPreference = group.getPreference(i)
+
+                setupPreference(thisPreference)
+
+                if (thisPreference is PreferenceGroup) {
+                    setupAllPreferences(thisPreference)
+                }
+            } catch (ignored: Throwable) {
+                break
+            }
+            i++
         }
     }
 
@@ -93,24 +131,6 @@ object PrefsHelper {
                 }
             }
         } catch (ignored: Throwable) {
-        }
-    }
-
-    fun setupAllPreferences(group: PreferenceGroup) {
-        var i = 0
-        while (true) {
-            try {
-                val thisPreference = group.getPreference(i)
-
-                setupPreference(thisPreference)
-
-                if (thisPreference is PreferenceGroup) {
-                    setupAllPreferences(thisPreference)
-                }
-            } catch (ignored: Throwable) {
-                break
-            }
-            i++
         }
     }
 }

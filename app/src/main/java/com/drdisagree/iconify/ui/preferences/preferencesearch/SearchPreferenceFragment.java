@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.ui.preferences.preferencesearch;
 
-import static com.drdisagree.iconify.ui.activities.MainActivity.backButtonEnabled;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -153,6 +150,7 @@ public class SearchPreferenceFragment extends Fragment implements SearchPreferen
         menuHost.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menu.clear();
                 menuInflater.inflate(R.menu.settings_menu, menu);
             }
 
@@ -216,8 +214,6 @@ public class SearchPreferenceFragment extends Fragment implements SearchPreferen
             showKeyboard();
         }
 
-        backButtonEnabled();
-
         if (getContext() != null) {
             if (viewHolder.toolbar != null) {
                 ((AppCompatActivity) getContext()).setSupportActionBar(viewHolder.toolbar);
@@ -226,8 +222,7 @@ public class SearchPreferenceFragment extends Fragment implements SearchPreferen
 
             if (getContext() instanceof AppCompatActivity) {
                 Objects.requireNonNull(((AppCompatActivity) getContext())
-                                .getSupportActionBar())
-                        .setDisplayHomeAsUpEnabled(true);
+                        .getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
             }
         }
     }

@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,12 +18,11 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.Navigation.findNavController
-import androidx.preference.ListPreference
 import androidx.preference.Preference
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
+import com.drdisagree.iconify.common.Const
 import com.drdisagree.iconify.common.Preferences.EASTER_EGG
 import com.drdisagree.iconify.common.Preferences.FIRST_INSTALL
 import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
@@ -30,6 +30,8 @@ import com.drdisagree.iconify.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
+import com.drdisagree.iconify.ui.preferences.PreferenceCategory
+import com.drdisagree.iconify.ui.preferences.PreferenceMenu
 import com.drdisagree.iconify.utils.AppUtil.restartApplication
 import com.drdisagree.iconify.utils.SystemUtil.disableBlur
 import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
@@ -68,85 +70,65 @@ class Settings : ControlledPreferenceFragmentCompat() {
     override val scopes: Array<String>?
         get() = null
 
+    override fun updateScreen(key: String?) {
+        super.updateScreen(key)
+
+        when (key) {
+            "IconifyAppLanguage" -> {
+                restartApplication(requireActivity())
+            }
+
+            "IconifyAppIcon" -> {
+                val splashActivities = appContextLocale.resources
+                    .getStringArray(R.array.app_icon_identifier)
+                changeIcon(RPrefs.getString(key, splashActivities[0])!!)
+            }
+
+            "IconifyAppTheme" -> {
+                restartApplication(requireActivity())
+            }
+        }
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
+        findPreference<PreferenceMenu>("iconifyGitHub")?.setOnPreferenceClickListener {
+            startActivity(
+                Intent(Intent.ACTION_VIEW).apply {
+                    setData(Uri.parse(Const.GITHUB_REPO))
+                }
+            )
+            true
+        }
+
+        findPreference<PreferenceMenu>("iconifyTelegram")?.setOnPreferenceClickListener {
+            startActivity(
+                Intent(Intent.ACTION_VIEW).apply {
+                    setData(Uri.parse(Const.TELEGRAM_GROUP))
+                }
+            )
+            true
+        }
+
+        findPreference<PreferenceMenu>("iconifyTranslate")?.setOnPreferenceClickListener {
+            startActivity(
+                Intent(Intent.ACTION_VIEW).apply {
+                    setData(Uri.parse(Const.ICONIFY_CROWDIN))
+                }
+            )
+            true
+        }
+
+        experimentalFeatures = findPreference("experimentalFeatures")
+        findPreference<PreferenceCategory>("miscSettings")?.setOnPreferenceClickListener {
+            onEasterViewClicked()
+            true
+        }
+
         // Show loading dialog
-        loadingDialog = LoadingDialog(requireActivity())
+//        loadingDialog = LoadingDialog(requireActivity())
 
-        // Language
-        val localeCodes = listOf(*resources.getStringArray(R.array.locale_code))
-        var currentLanguage = localeCodes.indexOf("en-US")
-        val locales = resources.configuration.getLocales()
-
-        for (i in 0 until locales.size()) {
-            val languageCode = locales[i].language
-            val countryCode = locales[i].country
-            val languageFormat = "$languageCode-$countryCode"
-
-            if (localeCodes.contains(RPrefs.getString(APP_LANGUAGE, languageFormat))) {
-                currentLanguage = localeCodes.indexOf(
-                    RPrefs.getString(APP_LANGUAGE, languageFormat)
-                )
-                break
-            }
-        }
-
-        findPreference<ListPreference>("IconifyAppLanguage")?.apply {
-            setDefaultValue(localeCodes[currentLanguage])
-            onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
-                restartApplication(requireActivity())
-                true
-            }
-        }
-
-//        // App Icon
-//        binding.settingsGeneral.appIcon.setSelectedIndex(RPrefs.getInt(APP_ICON, 0))
-//        binding.settingsGeneral.appIcon.setOnItemSelectedListener { index: Int ->
-//            RPrefs.putInt(APP_ICON, index)
-//            val splashActivities =
-//                appContextLocale.resources.getStringArray(R.array.app_icon_identifier)
-//
-//            changeIcon(splashActivities[index])
-//        }
-//
-//        // App Theme
-//        binding.settingsGeneral.appTheme.setSelectedIndex(RPrefs.getInt(APP_THEME, 2))
-//        binding.settingsGeneral.appTheme.setOnItemSelectedListener { index: Int ->
-//            RPrefs.putInt(APP_THEME, index)
-//
-//            restartApplication(requireActivity())
-//        }
-//
-//        // Check for update
-//        binding.settingsUpdate.checkUpdate.setSummary(
-//            resources.getString(
-//                R.string.settings_current_version,
-//                BuildConfig.VERSION_NAME
-//            )
-//        )
-//        binding.settingsUpdate.checkUpdate.setOnClickListener {
-//            findNavController(view).navigate(
-//                R.id.action_settings_to_appUpdates
-//            )
-//        }
-//
-//        // Auto update
-//        binding.settingsUpdate.autoUpdate.isSwitchChecked = RPrefs.getBoolean(AUTO_UPDATE, true)
-//        binding.settingsUpdate.autoUpdate.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-//            RPrefs.putBoolean(AUTO_UPDATE, isChecked)
-//            scheduleUpdates(requireContext().applicationContext)
-//            binding.settingsUpdate.autoUpdateWifiOnly.setEnabled(isChecked)
-//        }
-//
-//        // Check over wifi only
-//        binding.settingsUpdate.autoUpdateWifiOnly.setEnabled(binding.settingsUpdate.autoUpdate.isSwitchChecked)
-//        binding.settingsUpdate.autoUpdateWifiOnly.isSwitchChecked =
-//            RPrefs.getBoolean(UPDATE_OVER_WIFI, true)
-//        binding.settingsUpdate.autoUpdateWifiOnly.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-//            RPrefs.putBoolean(UPDATE_OVER_WIFI, isChecked)
-//        }
-//
 //        // Show xposed warn
 //        binding.settingsXposed.hideWarnMessage.isSwitchChecked =
 //            RPrefs.getBoolean(SHOW_XPOSED_WARN, true)
@@ -196,22 +178,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
 //                Toast.LENGTH_SHORT
 //            ).show()
 //        }
-//
-//        // Experimental features
-        experimentalFeatures = findPreference("experimentalFeatures")
-//        binding.settingsMisc.settingsMiscTitle.setOnClickListener { onEasterViewClicked() }
-//        binding.settingsMisc.experimentalFeatures.setOnClickListener {
-//            findNavController(
-//                view
-//            ).navigate(R.id.action_settings_to_experimental)
-//        }
-//        binding.settingsMisc.experimentalFeatures.visibility =
-//            if (RPrefs.getBoolean(EASTER_EGG)) {
-//                View.VISIBLE
-//            } else {
-//                View.GONE
-//            }
-//
 //        // Disable Everything
 //        binding.settingsMisc.buttonDisableEverything.setOnClickListener {
 //            MaterialAlertDialogBuilder(requireActivity())
@@ -239,34 +205,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
 //                    dialog.dismiss()
 //                }
 //                .show()
-//        }
-//
-//        binding.settingsMisc.buttonDisableEverything.visibility =
-//            if (Preferences.isXposedOnlyMode) {
-//                View.GONE
-//            } else {
-//                View.VISIBLE
-//            }
-//
-//        // Github repository
-//        binding.settingsAbout.githubRepository.setOnClickListener {
-//            startActivity(
-//                Intent(Intent.ACTION_VIEW).setData(Uri.parse(Const.GITHUB_REPO))
-//            )
-//        }
-//
-//        // Telegram group
-//        binding.settingsAbout.telegramGroup.setOnClickListener {
-//            val intent = Intent(Intent.ACTION_VIEW)
-//            intent.setData(Uri.parse(Const.TELEGRAM_GROUP))
-//            startActivity(intent)
-//        }
-//
-//        // Credits
-//        binding.settingsAbout.credits.setOnClickListener {
-//            findNavController(view).navigate(
-//                R.id.action_settings_to_credits2
-//            )
 //        }
     }
 
@@ -321,8 +259,9 @@ class Settings : ControlledPreferenceFragmentCompat() {
 
     private fun changeIcon(splash: String) {
         val manager = requireActivity().packageManager
-        val splashActivities =
-            appContextLocale.resources.getStringArray(R.array.app_icon_identifier)
+        val splashActivities = appContextLocale.resources
+            .getStringArray(R.array.app_icon_identifier)
+
         for (splashActivity in splashActivities) {
             manager.setComponentEnabledSetting(
                 ComponentName(

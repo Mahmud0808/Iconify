@@ -20,11 +20,16 @@ import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding
 import com.drdisagree.iconify.ui.base.BaseActivity
+import com.drdisagree.iconify.ui.base.BaseFragment
+import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.models.SearchPreferenceItem
+import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchConfiguration
+import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFragment
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResultListener
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil
@@ -52,6 +57,7 @@ class MainActivity : BaseActivity(),
         myActionBar = supportActionBar
 
         setupNavigation()
+        setupSearchConfiguration()
         RPrefs.putBoolean(ON_HOME_PAGE, true)
 
         if (savedInstanceState == null) {
@@ -157,6 +163,21 @@ class MainActivity : BaseActivity(),
         }
     }
 
+    private fun setupSearchConfiguration() {
+        searchConfiguration.apply {
+            setActivity(this@MainActivity)
+            setFragmentContainerViewId(R.id.fragmentContainerView)
+
+            searchableFragments.forEach {
+                index(it.xml).addBreadcrumb(resources.getString(it.title))
+            }
+
+            setBreadcrumbsEnabled(true)
+            setHistoryEnabled(true)
+            setFuzzySearchEnabled(false)
+        }
+    }
+
     private fun getTopFragmentTag(): String {
         var fragment = UUID.randomUUID().toString()
 
@@ -243,7 +264,13 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onSearchResultClicked(result: SearchPreferenceResult) {
-        Handler(mainLooper).post { Tweaks().onSearchResultClicked(result) }
+        Handler(mainLooper).post {
+            val lastFragment = getLastFragment(excludeSearchFragment = true)
+
+            (lastFragment as? BaseFragment)?.onSearchResultClicked(result)
+                ?: (lastFragment as? ControlledPreferenceFragmentCompat)
+                    ?.onSearchResultClicked(result)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -268,9 +295,7 @@ class MainActivity : BaseActivity(),
         private var myActionBar: ActionBar? = null
         private var selectedFragment: Int? = null
         private lateinit var colorPickerDialog: ColorPickerDialog.Builder
-        val prefsList: List<Array<Any>> = ArrayList()
 
-        @JvmStatic
         fun replaceFragment(fragment: Fragment) {
             val fragmentTag = fragment.javaClass.simpleName
             val fragmentTransaction: FragmentTransaction = myFragmentManager.beginTransaction()
@@ -306,16 +331,28 @@ class MainActivity : BaseActivity(),
             fragmentTransaction.commit()
         }
 
-        @JvmStatic
-        fun backButtonEnabled() {
-            myActionBar?.setDisplayHomeAsUpEnabled(true)
-            myActionBar?.setDisplayShowHomeEnabled(true)
+        private fun getLastFragment(excludeSearchFragment: Boolean = false): Fragment? {
+            val index = myFragmentManager.backStackEntryCount - 1
+            var backEntry = myFragmentManager.getBackStackEntryAt(index)
+            var fragment = myFragmentManager.findFragmentByTag(backEntry.name)
+
+            if (excludeSearchFragment && fragment is SearchPreferenceFragment) {
+                backEntry = myFragmentManager.getBackStackEntryAt(index - 1)
+                fragment = myFragmentManager.findFragmentByTag(backEntry.name)
+            }
+
+            return fragment
         }
 
-        @JvmStatic
-        fun backButtonDisabled() {
-            myActionBar?.setDisplayHomeAsUpEnabled(false)
-            myActionBar?.setDisplayShowHomeEnabled(false)
+        fun popCurrentFragment() {
+            myFragmentManager.popBackStack()
         }
+
+        val searchConfiguration = SearchConfiguration()
+
+        val searchableFragments = arrayOf(
+            SearchPreferenceItem(R.xml.home_page, R.string.navbar_home, Home()),
+            SearchPreferenceItem(R.xml.settings, R.string.navbar_settings, Settings()),
+        )
     }
 }

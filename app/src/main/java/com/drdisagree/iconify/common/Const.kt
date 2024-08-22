@@ -25,6 +25,9 @@ object Const {
     // Telegram group
     const val TELEGRAM_GROUP = "https://t.me/IconifyDiscussion"
 
+    // Crowdin
+    const val ICONIFY_CROWDIN = "https://crowdin.com/project/iconify"
+
     // Parse new update
     const val LATEST_VERSION_URL =
         "https://raw.githubusercontent.com/Mahmud0808/Iconify/stable/latestVersion.json"

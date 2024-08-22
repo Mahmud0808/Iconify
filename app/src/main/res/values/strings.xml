@@ -39,7 +39,7 @@
     <string name="searchpreference_history_entry">History entry</string>
     <string name="searchpreference_more">More</string>
     <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_results">No results</string>
+    <string name="searchpreference_no_result">No result</string>
 
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
@@ -141,6 +141,8 @@
     <string name="settings_github_repository_desc" translatable="false">Mahmud0808/Iconify</string>
     <string name="settings_telegram_group_title">Telegram Group</string>
     <string name="settings_telegram_group_desc" translatable="false">\@IconifyDiscussion</string>
+    <string name="settings_translate_title">Translate Iconify</string>
+    <string name="settings_translate_desc">Help translate Iconify to your language.</string>
     <string name="settings_credits_title">Credits</string>
     <string name="settings_credits_desc">Thanking those who made this possible.</string>
 

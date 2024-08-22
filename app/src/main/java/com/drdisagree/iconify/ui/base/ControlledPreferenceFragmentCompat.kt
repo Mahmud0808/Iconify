@@ -24,15 +24,20 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 import com.drdisagree.iconify.config.PrefsHelper
 import com.drdisagree.iconify.config.RPrefs
-import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchConfiguration
+import com.drdisagree.iconify.ui.activities.MainActivity.Companion.popCurrentFragment
+import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
+import com.drdisagree.iconify.ui.activities.MainActivity.Companion.searchConfiguration
+import com.drdisagree.iconify.ui.activities.MainActivity.Companion.searchableFragments
+import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
 import com.drdisagree.iconify.utils.helper.LocaleHelper
 
 abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
     private val changeListener =
-        OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
+        OnSharedPreferenceChangeListener { _: SharedPreferences, key: String? ->
             updateScreen(
                 key
             )
@@ -58,10 +63,13 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.setStorageDeviceProtected()
+        preferenceManager.sharedPreferencesName = SHARED_XPREFERENCES
+        preferenceManager.sharedPreferencesMode = Context.MODE_PRIVATE
+
         try {
             setPreferencesFromResource(layoutResource, rootKey)
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to load preferences", e)
+            Log.e(TAG, "Failed to load preference from resource", e)
         }
     }
 
@@ -88,18 +96,11 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
         mView = view
 
-        val searchConfiguration = SearchConfiguration().apply {
-            setActivity(requireActivity() as AppCompatActivity)
-            setFragmentContainerViewId(R.id.fragmentContainerView)
-            setBreadcrumbsEnabled(true)
-            setHistoryEnabled(true)
-            setFuzzySearchEnabled(false)
-        }
-
         if (hasMenu) {
             val menuHost: MenuHost = requireActivity()
             menuHost.addMenuProvider(object : MenuProvider {
                 override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menu.clear()
                     menuInflater.inflate(menuResource, menu)
                 }
 
@@ -123,6 +124,22 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
         updateScreen(null)
 
         return super.onCreateAdapter(preferenceScreen)
+    }
+
+    fun onSearchResultClicked(result: SearchPreferenceResult) {
+        if (result.resourceFile == layoutResource) {
+            popCurrentFragment()
+            SearchPreferenceResult.highlight(this, result.key)
+        } else {
+            for (searchableFragment in searchableFragments) {
+                if (searchableFragment.xml == result.resourceFile) {
+                    popCurrentFragment()
+                    replaceFragment(searchableFragment.fragment)
+                    SearchPreferenceResult.highlight(searchableFragment.fragment, result.key);
+                    break
+                }
+            }
+        }
     }
 
     override fun onResume() {

@@ -73,9 +73,7 @@ public class SearchPreference extends Preference implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        SearchConfiguration searchConfiguration = getSearchConfiguration();
-//        searchConfiguration.setFragmentContainerViewId(R.id.fragment_container);
-        searchConfiguration.showSearchFragment();
+        getSearchConfiguration().showSearchFragment();
     }
 
     /**

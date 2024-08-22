@@ -64,6 +64,7 @@ import com.drdisagree.iconify.utils.helper.ImportExport.importSettings
 import com.drdisagree.iconify.utils.weather.WeatherConfig
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topjohnwu.superuser.Shell
+import java.lang.Integer.parseInt
 import java.util.Date
 import java.util.concurrent.Executors
 
@@ -225,9 +226,16 @@ class Settings : BaseFragment() {
         }
 
         // App Theme
-        binding.settingsGeneral.appTheme.setSelectedIndex(RPrefs.getInt(APP_THEME, 2))
+        binding.settingsGeneral.appTheme.setSelectedIndex(
+            parseInt(
+                RPrefs.getString(
+                    APP_THEME,
+                    "2"
+                )!!
+            )
+        )
         binding.settingsGeneral.appTheme.setOnItemSelectedListener { index: Int ->
-            RPrefs.putInt(APP_THEME, index)
+            RPrefs.putString(APP_THEME, index.toString())
 
             restartApplication(requireActivity())
         }

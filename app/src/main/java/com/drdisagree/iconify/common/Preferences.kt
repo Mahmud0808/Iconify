@@ -186,6 +186,7 @@ object Preferences {
     const val UPDATE_SCHEDULE = "iconify_update_schedule"
     const val UPDATE_CHECK_TIME = "iconify_update_check_time"
     const val LAST_UPDATE_CHECK_TIME = "iconify_last_update_check_time"
+    const val NEW_UPDATE_VERSION_CODE = "iconify_new_update_version_code"
     const val FIRST_INSTALL = "firstInstall"
     const val UPDATE_DETECTED = "updateDetected"
     const val ON_HOME_PAGE = "onHomePage"

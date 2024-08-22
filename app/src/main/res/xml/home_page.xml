@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/apk/sh.siava.pixelxpert.ui.preferencesearch">
+
+    <com.drdisagree.iconify.ui.preferences.HomeCardPreference
+        android:key="iconifyHomeCard"
+        android:layout="@layout/view_home_card"
+        app:iconSpaceReserved="false"
+        search:ignore="true" />
+
+    <com.drdisagree.iconify.ui.preferences.UpdateCheckerPreference
+        android:key="newUpdate"
+        android:layout="@layout/view_new_update"
+        app:iconSpaceReserved="false"
+        app:isPreferenceVisible="false"
+        search:ignore="true" />
+
+    <com.drdisagree.iconify.ui.preferences.RebootReminderPreference
+        android:key="rebootReminder"
+        android:layout="@layout/view_reboot"
+        app:iconSpaceReserved="false"
+        app:isPreferenceVisible="false"
+        search:ignore="true" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_iconpack"

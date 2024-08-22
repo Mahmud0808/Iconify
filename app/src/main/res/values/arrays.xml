@@ -89,6 +89,11 @@
         <item>@string/settings_app_theme_dark</item>
         <item>@string/settings_app_theme_system</item>
     </string-array>
+    <string-array name="app_theme_identifier" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
     <string-array name="settings_icon_bg">
         <item>@string/settings_icons_minimal</item>
         <item>@string/settings_icons_filled</item>

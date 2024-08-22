@@ -5,16 +5,20 @@ import android.graphics.drawable.RippleDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Objects;
+import com.drdisagree.iconify.R;
+import com.google.android.material.appbar.AppBarLayout;
 
+import java.util.Objects;
 
 public class SearchPreferenceResult {
     private final String key;
@@ -45,8 +49,14 @@ public class SearchPreferenceResult {
         if (adapter instanceof PreferenceGroup.PreferencePositionCallback callback) {
             final int position = callback.getPreferenceAdapterPosition(prefResult);
 
+            if (prefsFragment.getView() != null && prefsFragment.getView().findViewById(R.id.collapsing_toolbar) != null) {
+                AppBarLayout appBarLayout = (AppBarLayout) prefsFragment.getView().findViewById(R.id.collapsing_toolbar).getParent();
+                appBarLayout.setExpanded(false);
+            }
+
             if (position != RecyclerView.NO_POSITION) {
-                recyclerView.scrollToPosition(position);
+                recyclerView.post(() -> recyclerView.scrollToPosition(position));
+
                 recyclerView.postDelayed(() -> {
                     RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(position);
                     if (holder != null) {
@@ -70,6 +80,7 @@ public class SearchPreferenceResult {
      */
     private static void highlightFallback(PreferenceFragmentCompat prefsFragment, final Preference prefResult) {
         prefsFragment.scrollToPreference(prefResult);
+
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             try {
                 final RecyclerView recyclerView = prefsFragment.getListView();
@@ -78,8 +89,14 @@ public class SearchPreferenceResult {
                 if (adapter instanceof PreferenceGroup.PreferencePositionCallback callback) {
                     final int position = callback.getPreferenceAdapterPosition(prefResult);
 
+                    if (prefsFragment.getView() != null && prefsFragment.getView().findViewById(R.id.collapsing_toolbar) != null) {
+                        AppBarLayout appBarLayout = (AppBarLayout) prefsFragment.getView().findViewById(R.id.collapsing_toolbar).getParent();
+                        appBarLayout.setExpanded(false);
+                    }
+
                     if (position != RecyclerView.NO_POSITION) {
-                        recyclerView.scrollToPosition(position);
+                        recyclerView.post(() -> recyclerView.scrollToPosition(position));
+
                         recyclerView.postDelayed(() -> {
                             RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(position);
                             if (holder != null) {
@@ -92,7 +109,7 @@ public class SearchPreferenceResult {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("highlightFallback", "Failed to highlight preference", e);
             }
         }, 400);
     }
