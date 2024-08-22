@@ -448,12 +448,60 @@
     <string name="activity_desc_lockscreen_clock">Add custom clock on lockscreen</string>
     <string name="activity_title_lockscreen_weather">Lockscreen Weather</string>
     <string name="activity_desc_lockscreen_weather">Add weather on lockscreen</string>
+    <string name="activity_title_lockscreen_widgets">Lockscreen Widgets</string>
+    <string name="activity_desc_lockscreen_widgets">Add widgets on lockscreen</string>
     <string name="activity_title_depth_wallpaper">Depth Wallpaper</string>
     <string name="activity_desc_depth_wallpaper">Show iOS like depth wallpaper</string>
     <string name="activity_title_background_chip">Background Chip</string>
     <string name="activity_desc_background_chip">Add colored chip behind clock</string>
     <string name="activity_title_xposed_others">Others</string>
     <string name="activity_desc_xposed_others">Miscellaneous xposed tweaks</string>
+
+    <!-- Lockscreen Widgets -->
+    <string name="lockscreen_widgets_title">Lockscreen Widgets</string>
+    <string name="lockscreen_widgets_enabled_title">Enable Lockscreen Widgets</string>
+    <string name="lockscreen_widgets_enabled_summary">Add widgets to lockscreen</string>
+    <string name="lockscreen_display_widgets_title">Device info Widget</string>
+    <string name="lockscreen_display_widgets_summary">Show device info widget on lockscreen</string>
+    <string name="linear_progress_color">Linear Progress Color</string>
+    <string name="circular_progress_color">Circular Progress Color</string>
+    <string name="text_color">Text Color</string>
+    <string name="custom_device_name">Custom Device Name</string>
+    <string name="custom_device_name_summary">Set custom device name.\nKeep blank to disable.</string>
+    <string name="large_widgets_category_title">Big widgets</string>
+    <string name="main_custom_widgets1">Big widget 1</string>
+    <string name="main_custom_widgets2">Big widget 2</string>
+    <string name="mini_widgets_category_title">Mini widgets</string>
+    <string name="custom_widgets1">Mini widget 1</string>
+    <string name="custom_widgets2">Mini widget 2</string>
+    <string name="custom_widgets3">Mini widget 3</string>
+    <string name="custom_widgets4">Mini widget 4</string>
+    <string name="widgets_custom_color">Custom Colors</string>
+    <string name="widgets_custom_color_title">Customize widget colors</string>
+    <string name="big_active">Big Widget Active Color</string>
+    <string name="big_inactive">Big Widget Inactive Color</string>
+    <string name="big_icon_active">Big Widget Icon Active Color</string>
+    <string name="big_icon_inactive">Big Widget Icon Inactive Color</string>
+    <string name="mini_active">Mini Widget Active Color</string>
+    <string name="mini_inactive">Mini Widget Inactive Color</string>
+    <string name="mini_icon_active">Mini Widget Icon Active Color</string>
+    <string name="mini_icon_inactive">Mini Widget Icon Inactive Color</string>
+
+    <!-- LS Widgets Actions -->
+    <string name="camera">Camera</string>
+    <string name="clock_timer">Clock/Timer</string>
+    <string name="calculator">Calculator</string>
+    <string name="gallery">Gallery</string>
+    <string name="media">Media Player</string>
+    <string name="torch">Torch</string>
+    <string name="controls_media_button_play">Play</string>
+    <string name="weather">Weather</string>
+    <string name="wifi">Wifi</string>
+    <string name="data">Data</string>
+    <string name="ringer">Ringer</string>
+    <string name="bt">Bluetooth</string>
+    <string name="home_controls">Home Controls</string>
+    <string name="wallet">Wallet</string>
 
     <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Transparency</string>

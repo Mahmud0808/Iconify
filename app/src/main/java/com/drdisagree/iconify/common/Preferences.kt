@@ -60,6 +60,31 @@ object Preferences {
     const val LSCLOCK_FONT_TEXT_SCALING = "xposed_lockscreenclocktextscaling"
     const val LSCLOCK_USERNAME = "xposed_lockscreenclockcustomusername"
     const val LSCLOCK_DEVICENAME = "xposed_lockscreenclockcustomdevicename"
+    // LS Widgets
+    const val LOCKSCREEN_WIDGETS_ENABLED: String = "lockscreen_widgets_enabled"
+    const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET: String = "lockscreen_device_widget"
+    const val LOCKSCREEN_WIDGETS: String = "lockscreen_widgets"
+    const val LOCKSCREEN_WIDGETS_EXTRAS: String = "lockscreen_widgets_extras"
+    const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH: String =
+        "lockscreen_device_widget_custom_color"
+    const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR: String =
+        "lockscreen_device_widget_linear_progress_color"
+    const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR: String =
+        "lockscreen_device_widget_circular_progress_color"
+    const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR: String =
+        "lockscreen_device_widget_text_color"
+    const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE: String =
+        "lockscreen_device_widget_device_name"
+    const val LOCKSCREEN_WIDGETS_CUSTOM_COLOR: String = "lockscreen_widgets_custom_color"
+    const val LOCKSCREEN_WIDGETS_BIG_ACTIVE: String = "lockscreen_widgets_big_active"
+    const val LOCKSCREEN_WIDGETS_BIG_INACTIVE: String = "lockscreen_widgets_big_inactive"
+    const val LOCKSCREEN_WIDGETS_SMALL_ACTIVE: String = "lockscreen_widgets_small_active"
+    const val LOCKSCREEN_WIDGETS_SMALL_INACTIVE: String = "lockscreen_widgets_small_inactive"
+    const val LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE: String = "lockscreen_widgets_big_icon_active"
+    const val LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE: String = "lockscreen_widgets_big_icon_inactive"
+    const val LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE: String = "lockscreen_widgets_small_icon_active"
+    const val LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE: String =
+        "lockscreen_widgets_small_icon_inactive"
     const val FIXED_STATUS_ICONS_SWITCH = "xposed_fixedstatusicons"
     const val FIXED_STATUS_ICONS_SIDEMARGIN = "xposed_fixedstatusiconssidemargin"
     const val FIXED_STATUS_ICONS_TOPMARGIN = "xposed_fixedstatusiconstopmargin"
