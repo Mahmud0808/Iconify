@@ -31,8 +31,6 @@ import com.drdisagree.iconify.utils.helper.LocaleHelper
 
 abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
-    private var mPreferences: RPrefs? = null
-
     private val changeListener =
         OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
             updateScreen(
@@ -120,9 +118,7 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
     }
 
     public override fun onCreateAdapter(preferenceScreen: PreferenceScreen): RecyclerView.Adapter<*> {
-        mPreferences = RPrefs.instance
-
-        mPreferences!!.registerOnSharedPreferenceChangeListener(changeListener)
+        RPrefs.registerOnSharedPreferenceChangeListener(changeListener)
 
         updateScreen(null)
 
@@ -145,7 +141,7 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
     }
 
     override fun onDestroy() {
-        mPreferences?.unregisterOnSharedPreferenceChangeListener(changeListener)
+        RPrefs.unregisterOnSharedPreferenceChangeListener(changeListener)
 
         super.onDestroy()
     }

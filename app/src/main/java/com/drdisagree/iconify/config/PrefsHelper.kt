@@ -11,17 +11,9 @@ import com.drdisagree.iconify.ui.preferences.SliderPreference
 object PrefsHelper {
 
     @JvmStatic
-    val getPrefs: RPrefs
-        get() = mPrefs
-
-    private val mPrefs: RPrefs by lazy {
-        RPrefs.instance
-    }
-
-    @JvmStatic
     fun isVisible(key: String?): Boolean {
         return when (key) {
-            "experimentalFeatures" -> mPrefs.getBoolean(
+            "experimentalFeatures" -> RPrefs.getBoolean(
                 "iconify_easter_egg",
                 false
             )
@@ -39,11 +31,11 @@ object PrefsHelper {
     @SuppressLint("DefaultLocale")
     fun getSummary(fragmentCompat: Context, key: String): String? {
         if (key.contains("Slider")) {
-            return String.format("%.2f", mPrefs.getSliderFloat(key, 0f))
+            return String.format("%.2f", RPrefs.getSliderFloat(key, 0f))
         }
         if (key.contains("Switch")) {
             return fragmentCompat.getString(
-                if (mPrefs.getBoolean(
+                if (RPrefs.getBoolean(
                         key,
                         false
                     )
@@ -51,13 +43,13 @@ object PrefsHelper {
             )
         }
         if (key.contains("List")) {
-            return mPrefs.getString(key, "")
+            return RPrefs.getString(key, "")
         }
         if (key.contains("EditText")) {
-            return mPrefs.getString(key, "")
+            return RPrefs.getString(key, "")
         }
         if (key.contains("MultiSelect")) {
-            return mPrefs.getStringSet(key, emptySet()).toString()
+            return RPrefs.getStringSet(key, emptySet()).toString()
         }
 
         return when (key) {
@@ -65,7 +57,7 @@ object PrefsHelper {
                 val currentLanguageCode =
                     listOf<String?>(*fragmentCompat.resources.getStringArray(R.array.locale_code))
                         .indexOf(
-                            mPrefs.getString(
+                            RPrefs.getString(
                                 "IconifyAppLanguage",
                                 fragmentCompat.resources.configuration.locales[0].language
                             )

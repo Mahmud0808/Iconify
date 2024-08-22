@@ -1,66 +1,66 @@
-package com.drdisagree.iconify.ui.preferences;
+package com.drdisagree.iconify.ui.preferences
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.HapticFeedbackConstants;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.HapticFeedbackConstants
+import androidx.preference.Preference
+import androidx.preference.PreferenceViewHolder
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.ui.utils.CarouselLayoutManager
+import com.drdisagree.iconify.ui.utils.SnapOnScrollListener
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceViewHolder;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
+class RecyclerPreference(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
+    Preference(context, attrs, defStyleAttr) {
 
-import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.PrefsHelper;
-import com.drdisagree.iconify.ui.utils.CarouselLayoutManager;
-import com.drdisagree.iconify.ui.utils.SnapOnScrollListener;
+    private var mRecyclerView: RecyclerView? = null
+    private var mAdapter: RecyclerView.Adapter<*>? = null
+    private var mKey: String? = null
+    private var mDefaultValue = 0
 
-public class RecyclerPreference extends Preference {
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private String mKey;
-    private int mDefaultValue;
-
-    public RecyclerPreference(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        setSelectable(false);
-        setLayoutResource(R.layout.custom_preference_recyclerview);
-
+    init {
+        isSelectable = false
+        layoutResource = R.layout.custom_preference_recyclerview
     }
 
-    public RecyclerPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-        setSelectable(false);
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0) {
+        isSelectable = false
     }
 
-    public void setPreference(String key, int defaultValue) {
-        mKey = key;
-        mDefaultValue = defaultValue;
+    fun setPreference(key: String?, defaultValue: Int) {
+        mKey = key
+        mDefaultValue = defaultValue
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
-        super.onBindViewHolder(holder);
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
+        super.onBindViewHolder(holder)
 
-        mRecyclerView = (RecyclerView) holder.findViewById(R.id.recycler_view);
+        mRecyclerView = holder.findViewById(R.id.recycler_view) as RecyclerView
         // Create a new LayoutManager instance for each RecyclerView
-        mRecyclerView.setLayoutManager(new CarouselLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView!!.layoutManager = CarouselLayoutManager(
+            context, RecyclerView.HORIZONTAL, false
+        )
+        mRecyclerView!!.adapter = mAdapter
         //mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.scrollToPosition(PrefsHelper.getGetPrefs().getInt(mKey, mDefaultValue));
-        SnapHelper snapHelper = new PagerSnapHelper();
-        if (mRecyclerView.getOnFlingListener() == null) {
-            snapHelper.attachToRecyclerView(mRecyclerView);
-            SnapOnScrollListener snapOnScrollListener = new SnapOnScrollListener(snapHelper, SnapOnScrollListener.Behavior.NOTIFY_ON_SCROLL, position -> mRecyclerView.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK));
-            mRecyclerView.addOnScrollListener(snapOnScrollListener);
+        mRecyclerView!!.scrollToPosition(RPrefs.getInt(mKey, mDefaultValue))
+        val snapHelper: SnapHelper = PagerSnapHelper()
+        if (mRecyclerView!!.onFlingListener == null) {
+            snapHelper.attachToRecyclerView(mRecyclerView)
+            val snapOnScrollListener = SnapOnScrollListener(
+                snapHelper, SnapOnScrollListener.Behavior.NOTIFY_ON_SCROLL
+            ) { _: Int ->
+                mRecyclerView!!.performHapticFeedback(
+                    HapticFeedbackConstants.CLOCK_TICK
+                )
+            }
+            mRecyclerView!!.addOnScrollListener(snapOnScrollListener)
         }
     }
 
-    public void setAdapter(RecyclerView.Adapter adapter) {
-        mAdapter = adapter;
+    fun setAdapter(adapter: RecyclerView.Adapter<*>?) {
+        mAdapter = adapter
     }
-
 }
