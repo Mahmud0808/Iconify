@@ -12,8 +12,8 @@ import com.drdisagree.iconify.common.Preferences.LAND_QSTILE_EXPANDED_HEIGHT
 import com.drdisagree.iconify.common.Preferences.LAND_QSTILE_NONEXPANDED_HEIGHT
 import com.drdisagree.iconify.common.Preferences.PORT_QSTILE_EXPANDED_HEIGHT
 import com.drdisagree.iconify.common.Preferences.PORT_QSTILE_NONEXPANDED_HEIGHT
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.clearPrefs
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.clearPrefs
 import com.drdisagree.iconify.databinding.FragmentQsTileSizeBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
@@ -51,7 +51,7 @@ class QsTileSize : BaseFragment() {
         loadingDialog = LoadingDialog(requireContext())
 
         // Portrait non expanded height
-        val portNonExpandedHeight = intArrayOf(Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60))
+        val portNonExpandedHeight = intArrayOf(RPrefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60))
         binding.portNonexpandedHeight.sliderValue = portNonExpandedHeight[0]
         binding.portNonexpandedHeight.setOnSliderTouchListener(object :
             Slider.OnSliderTouchListener {
@@ -69,7 +69,7 @@ class QsTileSize : BaseFragment() {
         }
 
         // Portrait Expanded height
-        val portExpandedHeight = intArrayOf(Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80))
+        val portExpandedHeight = intArrayOf(RPrefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80))
         binding.portExpandedHeight.sliderValue = portExpandedHeight[0]
         binding.portExpandedHeight.setOnSliderTouchListener(object :
             Slider.OnSliderTouchListener {
@@ -87,7 +87,7 @@ class QsTileSize : BaseFragment() {
         }
 
         // Landscape non expanded height
-        val landNonExpandedHeight = intArrayOf(Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60))
+        val landNonExpandedHeight = intArrayOf(RPrefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60))
         binding.landNonexpandedHeight.sliderValue = landNonExpandedHeight[0]
         binding.landNonexpandedHeight.setOnSliderTouchListener(object :
             Slider.OnSliderTouchListener {
@@ -105,7 +105,7 @@ class QsTileSize : BaseFragment() {
         }
 
         // Landscape Expanded height
-        val landExpandedHeight = intArrayOf(Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80))
+        val landExpandedHeight = intArrayOf(RPrefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80))
         binding.landExpandedHeight.sliderValue = landExpandedHeight[0]
         binding.landExpandedHeight.setOnSliderTouchListener(object :
             Slider.OnSliderTouchListener {
@@ -176,10 +176,10 @@ class QsTileSize : BaseFragment() {
                     )
 
                     if (!hasErroredOut.get()) {
-                        Prefs.putInt(PORT_QSTILE_NONEXPANDED_HEIGHT, portNonExpandedHeight[0])
-                        Prefs.putInt(PORT_QSTILE_EXPANDED_HEIGHT, portExpandedHeight[0])
-                        Prefs.putInt(LAND_QSTILE_NONEXPANDED_HEIGHT, landNonExpandedHeight[0])
-                        Prefs.putInt(LAND_QSTILE_EXPANDED_HEIGHT, landExpandedHeight[0])
+                        RPrefs.putInt(PORT_QSTILE_NONEXPANDED_HEIGHT, portNonExpandedHeight[0])
+                        RPrefs.putInt(PORT_QSTILE_EXPANDED_HEIGHT, portExpandedHeight[0])
+                        RPrefs.putInt(LAND_QSTILE_NONEXPANDED_HEIGHT, landNonExpandedHeight[0])
+                        RPrefs.putInt(LAND_QSTILE_EXPANDED_HEIGHT, landExpandedHeight[0])
                     }
 
                     Handler(Looper.getMainLooper()).postDelayed({
@@ -273,10 +273,10 @@ class QsTileSize : BaseFragment() {
     }
 
     private val isQsTileHeightEnabled: Boolean
-        get() = Prefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) != 60 ||
-                Prefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) != 80 ||
-                Prefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) != 60 ||
-                Prefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) != 80
+        get() = RPrefs.getInt(PORT_QSTILE_NONEXPANDED_HEIGHT, 60) != 60 ||
+                RPrefs.getInt(PORT_QSTILE_EXPANDED_HEIGHT, 80) != 80 ||
+                RPrefs.getInt(LAND_QSTILE_NONEXPANDED_HEIGHT, 60) != 60 ||
+                RPrefs.getInt(LAND_QSTILE_EXPANDED_HEIGHT, 80) != 80
 
     override fun onDestroy() {
         loadingDialog?.dismiss()

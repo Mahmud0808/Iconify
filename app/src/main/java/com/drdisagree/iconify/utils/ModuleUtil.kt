@@ -14,7 +14,7 @@ import com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT
 import com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.utils.helper.BackupRestore.backupFiles
 import com.drdisagree.iconify.utils.helper.BinaryInstaller.symLinkBinaries
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil
@@ -78,7 +78,7 @@ object ModuleUtil {
                         "done\n" +
                         "sleep 3\n\n" +
                         "${
-                            if (Prefs.getBoolean(
+                            if (RPrefs.getBoolean(
                                     RESTART_SYSUI_AFTER_BOOT,
                                     false
                                 )
@@ -149,11 +149,11 @@ object ModuleUtil {
             if (value is Boolean && value && key.startsWith("fabricated")) {
                 val name = key.replace("fabricated", "")
                 val commands = FabricatedUtil.buildCommands(
-                    Prefs.getString("FOCMDtarget$name")!!,
-                    Prefs.getString("FOCMDname$name")!!,
-                    Prefs.getString("FOCMDtype$name")!!,
-                    Prefs.getString("FOCMDresourceName$name")!!,
-                    Prefs.getString("FOCMDval$name")!!
+                    RPrefs.getString("FOCMDtarget$name")!!,
+                    RPrefs.getString("FOCMDname$name")!!,
+                    RPrefs.getString("FOCMDtype$name")!!,
+                    RPrefs.getString("FOCMDresourceName$name")!!,
+                    RPrefs.getString("FOCMDval$name")!!
                 )
 
                 postExec.append(commands[0]).append('\n').append(commands[1]).append('\n')

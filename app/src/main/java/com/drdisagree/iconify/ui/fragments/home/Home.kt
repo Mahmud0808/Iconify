@@ -20,10 +20,10 @@ import com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD
 import com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME
 import com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED
 import com.drdisagree.iconify.common.Preferences.VER_CODE
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.getLong
-import com.drdisagree.iconify.config.Prefs.putLong
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getLong
+import com.drdisagree.iconify.config.RPrefs.putLong
 import com.drdisagree.iconify.services.UpdateScheduler.scheduleUpdates
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
@@ -120,9 +120,9 @@ class Home : ControlledPreferenceFragmentCompat() {
             }
         }
 
-        Prefs.putBoolean(FIRST_INSTALL, false)
-        Prefs.putBoolean(UPDATE_DETECTED, false)
-        Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE)
+        RPrefs.putBoolean(FIRST_INSTALL, false)
+        RPrefs.putBoolean(UPDATE_DETECTED, false)
+        RPrefs.putInt(VER_CODE, BuildConfig.VERSION_CODE)
         saveBootId
 
         val homeCard = view.findViewById<MaterialCardView>(R.id.home_card)
@@ -140,7 +140,7 @@ class Home : ControlledPreferenceFragmentCompat() {
                 .alpha(0f)
                 .withEndAction {
                     homeCard.visibility = View.GONE
-                    Prefs.putBoolean(SHOW_HOME_CARD, false)
+                    RPrefs.putBoolean(SHOW_HOME_CARD, false)
                 }
                 .start()
         }

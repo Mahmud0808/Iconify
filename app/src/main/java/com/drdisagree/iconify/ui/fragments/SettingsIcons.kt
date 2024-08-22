@@ -20,8 +20,8 @@ import com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_COLOR
 import com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SET
 import com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SHAPE
 import com.drdisagree.iconify.common.Preferences.SELECTED_SETTINGS_ICONS_SIZE
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.clearPrefs
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.clearPrefs
 import com.drdisagree.iconify.databinding.FragmentSettingsIconsBinding
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -58,31 +58,31 @@ class SettingsIcons : Fragment() {
         loadingDialog = LoadingDialog(requireContext())
 
         // Retrieve previously saved preferences
-        selectedIcon = Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1)
+        selectedIcon = RPrefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1)
 
         // Background style
-        binding.bgStyle.setSelectedIndex(Prefs.getInt(SELECTED_SETTINGS_ICONS_BG, 1) - 1)
+        binding.bgStyle.setSelectedIndex(RPrefs.getInt(SELECTED_SETTINGS_ICONS_BG, 1) - 1)
         binding.bgStyle.setOnItemSelectedListener { index: Int ->
             selectedBackground = index + 1
         }
         selectedBackground = binding.bgStyle.getSelectedIndex() + 1
 
         // Background Shape
-        binding.bgShape.setSelectedIndex(Prefs.getInt(SELECTED_SETTINGS_ICONS_SHAPE, 1) - 1)
+        binding.bgShape.setSelectedIndex(RPrefs.getInt(SELECTED_SETTINGS_ICONS_SHAPE, 1) - 1)
         binding.bgShape.setOnItemSelectedListener { index: Int ->
             selectedShape = index + 1
         }
         selectedShape = binding.bgShape.getSelectedIndex() + 1
 
         // Icon Size
-        binding.iconSize.setSelectedIndex(Prefs.getInt(SELECTED_SETTINGS_ICONS_SIZE, 1) - 1)
+        binding.iconSize.setSelectedIndex(RPrefs.getInt(SELECTED_SETTINGS_ICONS_SIZE, 1) - 1)
         binding.iconSize.setOnItemSelectedListener { index: Int ->
             selectedSize = index + 1
         }
         selectedSize = binding.iconSize.getSelectedIndex() + 1
 
         // Icon color
-        binding.iconColor.setSelectedIndex(Prefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1) - 1)
+        binding.iconColor.setSelectedIndex(RPrefs.getInt(SELECTED_SETTINGS_ICONS_COLOR, 1) - 1)
         binding.iconColor.setOnItemSelectedListener { index: Int ->
             selectedIconColor = index + 1
         }
@@ -115,7 +115,7 @@ class SettingsIcons : Fragment() {
         refreshBackground()
 
         // Enable and disable button
-        if (Prefs.getBoolean("IconifyComponentSIP1.overlay")) {
+        if (RPrefs.getBoolean("IconifyComponentSIP1.overlay")) {
             binding.disableSettingsIcons.visibility = View.VISIBLE
         }
         binding.enableSettingsIcons.setOnClickListener {
@@ -146,11 +146,11 @@ class SettingsIcons : Fragment() {
 
                     Handler(Looper.getMainLooper()).post {
                         if (!hasErroredOut.get()) {
-                            Prefs.putInt(SELECTED_SETTINGS_ICONS_SET, selectedIcon)
-                            Prefs.putInt(SELECTED_SETTINGS_ICONS_BG, selectedBackground)
-                            Prefs.putInt(SELECTED_SETTINGS_ICONS_SHAPE, selectedShape)
-                            Prefs.putInt(SELECTED_SETTINGS_ICONS_SIZE, selectedSize)
-                            Prefs.putInt(SELECTED_SETTINGS_ICONS_COLOR, selectedIconColor)
+                            RPrefs.putInt(SELECTED_SETTINGS_ICONS_SET, selectedIcon)
+                            RPrefs.putInt(SELECTED_SETTINGS_ICONS_BG, selectedBackground)
+                            RPrefs.putInt(SELECTED_SETTINGS_ICONS_SHAPE, selectedShape)
+                            RPrefs.putInt(SELECTED_SETTINGS_ICONS_SIZE, selectedSize)
+                            RPrefs.putInt(SELECTED_SETTINGS_ICONS_COLOR, selectedIconColor)
 
                             binding.disableSettingsIcons.visibility = View.VISIBLE
                             binding.iconPacksList.getChildAt(selectedIcon - 1)
@@ -181,7 +181,7 @@ class SettingsIcons : Fragment() {
             }
         }
         binding.disableSettingsIcons.setOnClickListener {
-            binding.iconPacksList.getChildAt(Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) - 1)
+            binding.iconPacksList.getChildAt(RPrefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) - 1)
                 .findViewById<View>(R.id.icon_selected).visibility = View.INVISIBLE
 
             clearPrefs(
@@ -291,7 +291,7 @@ class SettingsIcons : Fragment() {
 
             itemSelected(
                 child,
-                Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == i + 1,
+                RPrefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == i + 1,
                 i + 1
             )
         }
@@ -349,8 +349,8 @@ class SettingsIcons : Fragment() {
                 )
             )
             parent.findViewById<View>(R.id.icon_selected).visibility =
-                if (Prefs.getBoolean("IconifyComponentSIP1.overlay") &&
-                    Prefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == selectedIndex
+                if (RPrefs.getBoolean("IconifyComponentSIP1.overlay") &&
+                    RPrefs.getInt(SELECTED_SETTINGS_ICONS_SET, 1) == selectedIndex
                 ) View.VISIBLE else View.INVISIBLE
             parent.findViewById<View>(R.id.iconpack_desc).setAlpha(0.8f)
         } else {

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.drdisagree.iconify.R;
-import com.drdisagree.iconify.config.PreferenceHelper;
+import com.drdisagree.iconify.config.PrefsHelper;
 import com.drdisagree.iconify.ui.utils.CarouselLayoutManager;
 import com.drdisagree.iconify.ui.utils.SnapOnScrollListener;
 
@@ -50,7 +50,7 @@ public class RecyclerPreference extends Preference {
         mRecyclerView.setLayoutManager(new CarouselLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         mRecyclerView.setAdapter(mAdapter);
         //mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.scrollToPosition(PreferenceHelper.instance.mPreferences.getInt(mKey, mDefaultValue));
+        mRecyclerView.scrollToPosition(PrefsHelper.getGetPrefs().getInt(mKey, mDefaultValue));
         SnapHelper snapHelper = new PagerSnapHelper();
         if (mRecyclerView.getOnFlingListener() == null) {
             snapHelper.attachToRecyclerView(mRecyclerView);

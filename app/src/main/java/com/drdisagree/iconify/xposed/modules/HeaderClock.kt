@@ -49,7 +49,6 @@ import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.ICONIFY_HEADER_CLOCK_TAG
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.utils.TextUtil
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
@@ -59,6 +58,8 @@ import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextScalingRe
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -107,11 +108,11 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        showHeaderClock = Xprefs!!.getBoolean(HEADER_CLOCK_SWITCH, false)
-        centeredClockView = Xprefs!!.getBoolean(HEADER_CLOCK_CENTERED, false)
-        hideLandscapeHeaderClock = Xprefs!!.getBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, true)
+        showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false)
+        centeredClockView = Xprefs.getBoolean(HEADER_CLOCK_CENTERED, false)
+        hideLandscapeHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, true)
 
         if (key.isNotEmpty() &&
             (key[0] == HEADER_CLOCK_SWITCH ||
@@ -500,7 +501,7 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
             if (appContext == null || Xprefs == null) return null
 
             val inflater = LayoutInflater.from(appContext)
-            val clockStyle: Int = Xprefs!!.getInt(HEADER_CLOCK_STYLE, 0)
+            val clockStyle: Int = Xprefs.getInt(HEADER_CLOCK_STYLE, 0)
 
             return inflater.inflate(
                 appContext!!.resources.getIdentifier(
@@ -513,17 +514,17 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
         }
 
     private fun modifyClockView(clockView: View) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        val clockStyle: Int = Xprefs!!.getInt(HEADER_CLOCK_STYLE, 0)
-        val customFontEnabled: Boolean = Xprefs!!.getBoolean(HEADER_CLOCK_FONT_SWITCH, false)
+        val clockStyle: Int = Xprefs.getInt(HEADER_CLOCK_STYLE, 0)
+        val customFontEnabled: Boolean = Xprefs.getBoolean(HEADER_CLOCK_FONT_SWITCH, false)
         val clockScale: Float =
-            (Xprefs!!.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
-        val sideMargin: Int = Xprefs!!.getInt(HEADER_CLOCK_SIDEMARGIN, 0)
-        val topMargin: Int = Xprefs!!.getInt(HEADER_CLOCK_TOPMARGIN, 8)
+            (Xprefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
+        val sideMargin: Int = Xprefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0)
+        val topMargin: Int = Xprefs.getInt(HEADER_CLOCK_TOPMARGIN, 8)
         val customFont = Environment.getExternalStorageDirectory().toString() +
                 "/.iconify_files/headerclock_font.ttf"
-        val accent1: Int = Xprefs!!.getInt(
+        val accent1: Int = Xprefs.getInt(
             HEADER_CLOCK_COLOR_CODE_ACCENT1,
             mContext.resources.getColor(
                 mContext.resources.getIdentifier(
@@ -533,7 +534,7 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
                 ), mContext.theme
             )
         )
-        val accent2: Int = Xprefs!!.getInt(
+        val accent2: Int = Xprefs.getInt(
             HEADER_CLOCK_COLOR_CODE_ACCENT2,
             mContext.resources.getColor(
                 mContext.resources.getIdentifier(
@@ -543,7 +544,7 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
                 ), mContext.theme
             )
         )
-        val accent3: Int = Xprefs!!.getInt(
+        val accent3: Int = Xprefs.getInt(
             HEADER_CLOCK_COLOR_CODE_ACCENT3,
             mContext.resources.getColor(
                 mContext.resources.getIdentifier(
@@ -553,11 +554,11 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
                 ), mContext.theme
             )
         )
-        val textPrimary: Int = Xprefs!!.getInt(
+        val textPrimary: Int = Xprefs.getInt(
             HEADER_CLOCK_COLOR_CODE_TEXT1,
             getColorResCompat(mContext, android.R.attr.textColorPrimary)
         )
-        val textInverse: Int = Xprefs!!.getInt(
+        val textInverse: Int = Xprefs.getInt(
             HEADER_CLOCK_COLOR_CODE_TEXT2,
             getColorResCompat(mContext, android.R.attr.textColorPrimaryInverse)
         )

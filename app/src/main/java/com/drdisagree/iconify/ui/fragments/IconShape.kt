@@ -21,7 +21,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.FragmentIconShapeBinding
 import com.drdisagree.iconify.ui.adapters.IconShapeAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
@@ -216,7 +216,7 @@ class IconShape : BaseFragment() {
         override fun onShapeClick(position: Int, item: IconShapeModel) {
 
             if (position == 0) {
-                Prefs.putInt(SELECTED_ICON_SHAPE, 0)
+                RPrefs.putInt(SELECTED_ICON_SHAPE, 0)
                 OverlayUtil.disableOverlay("IconifyComponentSIS.overlay")
 
                 Toast.makeText(
@@ -254,7 +254,7 @@ class IconShape : BaseFragment() {
                     }
 
                     if (!hasErroredOut.get()) {
-                        Prefs.putInt(SELECTED_ICON_SHAPE, position)
+                        RPrefs.putInt(SELECTED_ICON_SHAPE, position)
                         refreshAdapter()
                     }
 

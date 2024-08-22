@@ -11,7 +11,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.SELECTED_ICON_SHAPE
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.ViewIconShapeBinding
 import com.drdisagree.iconify.databinding.ViewToastFrameBinding
 import com.drdisagree.iconify.ui.models.IconShapeModel
@@ -22,7 +22,7 @@ class IconShapeAdapter (
     private var iconShapeClick: OnShapeClick
 ) : RecyclerView.Adapter<IconShapeAdapter.ViewHolder>() {
 
-    private var selected = Prefs.getInt(SELECTED_ICON_SHAPE, -1)
+    private var selected = RPrefs.getInt(SELECTED_ICON_SHAPE, -1)
     @ColorInt
     val colorBackground = appContextLocale.resources.getColor(
         R.color.colorBackground,
@@ -69,7 +69,7 @@ class IconShapeAdapter (
 
     fun notifyChange() {
         refresh(false)
-        selected = Prefs.getInt(SELECTED_ICON_SHAPE, -1)
+        selected = RPrefs.getInt(SELECTED_ICON_SHAPE, -1)
         refresh(true)
     }
 

@@ -34,13 +34,14 @@ import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
 import com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
-import com.drdisagree.iconify.config.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.hookAllMethodsMatchPattern
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.isPixelVariant
 import com.drdisagree.iconify.xposed.modules.utils.SystemUtils.isSecurityPatchBeforeJune2024
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
@@ -76,26 +77,26 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private val isAtLeastAndroid14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        isVerticalQSTileActive = Xprefs!!.getBoolean(VERTICAL_QSTILE_SWITCH, false)
-        isHideLabelActive = Xprefs!!.getBoolean(HIDE_QSLABEL_SWITCH, false)
-        qqsTopMarginEnabled = Xprefs!!.getInt(QQS_TOPMARGIN, -1) != -1
-        qsTopMarginEnabled = Xprefs!!.getInt(QS_TOPMARGIN, -1) != -1
-        qqsTopMargin = Xprefs!!.getInt(QQS_TOPMARGIN, 100)
-        qsTopMargin = Xprefs!!.getInt(QS_TOPMARGIN, 100)
+        isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false)
+        isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false)
+        qqsTopMarginEnabled = Xprefs.getInt(QQS_TOPMARGIN, -1) != -1
+        qsTopMarginEnabled = Xprefs.getInt(QS_TOPMARGIN, -1) != -1
+        qqsTopMargin = Xprefs.getInt(QQS_TOPMARGIN, 100)
+        qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100)
         fixQsTileColor = isAtLeastAndroid14 &&
-                Xprefs!!.getBoolean(FIX_QS_TILE_COLOR, false)
+                Xprefs.getBoolean(FIX_QS_TILE_COLOR, false)
         fixNotificationColor = isAtLeastAndroid14 &&
-                Xprefs!!.getBoolean(FIX_NOTIFICATION_COLOR, false) &&
+                Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false) &&
                 isSecurityPatchBeforeJune2024()
         fixNotificationFooterButtonsColor = isAtLeastAndroid14 &&
-                Xprefs!!.getBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
-        qsTextAlwaysWhite = Xprefs!!.getBoolean(QS_TEXT_ALWAYS_WHITE, false)
-        qsTextFollowAccent = Xprefs!!.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
-        hideQsOnLockscreen = Xprefs!!.getBoolean(HIDE_QS_ON_LOCKSCREEN, false)
-        hideSilentText = Xprefs!!.getBoolean(HIDE_QS_SILENT_TEXT, false)
-        hideFooterButtons = Xprefs!!.getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
+                Xprefs.getBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
+        qsTextAlwaysWhite = Xprefs.getBoolean(QS_TEXT_ALWAYS_WHITE, false)
+        qsTextFollowAccent = Xprefs.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
+        hideQsOnLockscreen = Xprefs.getBoolean(HIDE_QS_ON_LOCKSCREEN, false)
+        hideSilentText = Xprefs.getBoolean(HIDE_QS_SILENT_TEXT, false)
+        hideFooterButtons = Xprefs.getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
 
         triggerQsElementVisibility()
     }

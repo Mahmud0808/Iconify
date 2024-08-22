@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.config;
+package com.drdisagree.iconify.xposed.utils;
 
 import android.content.Context;
 
@@ -7,13 +7,14 @@ import com.drdisagree.iconify.ui.preferences.SliderPreference;
 
 import java.util.List;
 
-public class ExtendedRPrefs extends RemotePreferences {
+@SuppressWarnings("unused")
+public class ExtendedRemotePreferences extends RemotePreferences {
 
-    public ExtendedRPrefs(Context context, String authority, String prefFileName) {
+    public ExtendedRemotePreferences(Context context, String authority, String prefFileName) {
         super(context, authority, prefFileName);
     }
 
-    public ExtendedRPrefs(Context context, String authority, String prefFileName, boolean strictMode) {
+    public ExtendedRemotePreferences(Context context, String authority, String prefFileName, boolean strictMode) {
         super(context, authority, prefFileName, strictMode);
     }
 

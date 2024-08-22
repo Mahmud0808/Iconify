@@ -43,9 +43,8 @@ import com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD
 import com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN
 import com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI
 import com.drdisagree.iconify.common.Resources.MODULE_DIR
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.putString
 import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentSettingsBinding
 import com.drdisagree.iconify.services.UpdateScheduler.scheduleUpdates
 import com.drdisagree.iconify.ui.base.BaseFragment
@@ -85,7 +84,7 @@ class Settings : BaseFragment() {
             Executors.newSingleThreadExecutor().execute {
                 try {
                     exportSettings(
-                        Prefs.prefs,
+                        RPrefs.getPrefs,
                         appContext.contentResolver.openOutputStream(data.data!!)!!
                     )
 
@@ -126,7 +125,7 @@ class Settings : BaseFragment() {
                     Executors.newSingleThreadExecutor().execute {
                         try {
                             val success = importSettings(
-                                Prefs.prefs,
+                                RPrefs.getPrefs,
                                 appContext.contentResolver.openInputStream(data.data!!)!!,
                                 true
                             )
@@ -198,9 +197,9 @@ class Settings : BaseFragment() {
             val countryCode = locales[i].country
             val languageFormat = "$languageCode-$countryCode"
 
-            if (localeCodes.contains(Prefs.getString(APP_LANGUAGE, languageFormat))) {
+            if (localeCodes.contains(RPrefs.getString(APP_LANGUAGE, languageFormat))) {
                 currentLanguage =
-                    localeCodes.indexOf(Prefs.getString(APP_LANGUAGE, languageFormat))
+                    localeCodes.indexOf(RPrefs.getString(APP_LANGUAGE, languageFormat))
                 break
             }
         }
@@ -216,9 +215,9 @@ class Settings : BaseFragment() {
         }
 
         // App Icon
-        binding.settingsGeneral.appIcon.setSelectedIndex(Prefs.getInt(APP_ICON, 0))
+        binding.settingsGeneral.appIcon.setSelectedIndex(RPrefs.getInt(APP_ICON, 0))
         binding.settingsGeneral.appIcon.setOnItemSelectedListener { index: Int ->
-            Prefs.putInt(APP_ICON, index)
+            RPrefs.putInt(APP_ICON, index)
             val splashActivities =
                 appContextLocale.resources.getStringArray(R.array.app_icon_identifier)
 
@@ -226,9 +225,9 @@ class Settings : BaseFragment() {
         }
 
         // App Theme
-        binding.settingsGeneral.appTheme.setSelectedIndex(Prefs.getInt(APP_THEME, 2))
+        binding.settingsGeneral.appTheme.setSelectedIndex(RPrefs.getInt(APP_THEME, 2))
         binding.settingsGeneral.appTheme.setOnItemSelectedListener { index: Int ->
-            Prefs.putInt(APP_THEME, index)
+            RPrefs.putInt(APP_THEME, index)
 
             restartApplication(requireActivity())
         }
@@ -247,9 +246,9 @@ class Settings : BaseFragment() {
         }
 
         // Auto update
-        binding.settingsUpdate.autoUpdate.isSwitchChecked = Prefs.getBoolean(AUTO_UPDATE, true)
+        binding.settingsUpdate.autoUpdate.isSwitchChecked = RPrefs.getBoolean(AUTO_UPDATE, true)
         binding.settingsUpdate.autoUpdate.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            Prefs.putBoolean(AUTO_UPDATE, isChecked)
+            RPrefs.putBoolean(AUTO_UPDATE, isChecked)
             scheduleUpdates(requireContext().applicationContext)
             binding.settingsUpdate.autoUpdateWifiOnly.setEnabled(isChecked)
         }
@@ -257,16 +256,16 @@ class Settings : BaseFragment() {
         // Check over wifi only
         binding.settingsUpdate.autoUpdateWifiOnly.setEnabled(binding.settingsUpdate.autoUpdate.isSwitchChecked)
         binding.settingsUpdate.autoUpdateWifiOnly.isSwitchChecked =
-            Prefs.getBoolean(UPDATE_OVER_WIFI, true)
+            RPrefs.getBoolean(UPDATE_OVER_WIFI, true)
         binding.settingsUpdate.autoUpdateWifiOnly.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            Prefs.putBoolean(UPDATE_OVER_WIFI, isChecked)
+            RPrefs.putBoolean(UPDATE_OVER_WIFI, isChecked)
         }
 
         // Show xposed warn
         binding.settingsXposed.hideWarnMessage.isSwitchChecked =
-            Prefs.getBoolean(SHOW_XPOSED_WARN, true)
+            RPrefs.getBoolean(SHOW_XPOSED_WARN, true)
         binding.settingsXposed.hideWarnMessage.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            Prefs.putBoolean(SHOW_XPOSED_WARN, isChecked)
+            RPrefs.putBoolean(SHOW_XPOSED_WARN, isChecked)
         }
 
         // Restart systemui behavior
@@ -279,9 +278,9 @@ class Settings : BaseFragment() {
 
         // Restart systemui after boot
         binding.settingsMisc.restartSysuiAfterBoot.isSwitchChecked =
-            Prefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false)
+            RPrefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false)
         binding.settingsMisc.restartSysuiAfterBoot.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            Prefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked)
+            RPrefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked)
             if (isChecked) {
                 enableRestartSystemuiAfterBoot()
             } else {
@@ -290,9 +289,9 @@ class Settings : BaseFragment() {
         }
 
         // Home page card
-        binding.settingsMisc.homePageCard.isSwitchChecked = Prefs.getBoolean(SHOW_HOME_CARD, true)
+        binding.settingsMisc.homePageCard.isSwitchChecked = RPrefs.getBoolean(SHOW_HOME_CARD, true)
         binding.settingsMisc.homePageCard.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            Prefs.putBoolean(SHOW_HOME_CARD, isChecked)
+            RPrefs.putBoolean(SHOW_HOME_CARD, isChecked)
         }
         binding.settingsMisc.homePageCard.visibility =
             if (Preferences.isXposedOnlyMode) {
@@ -320,7 +319,7 @@ class Settings : BaseFragment() {
             ).navigate(R.id.action_settings_to_experimental)
         }
         binding.settingsMisc.experimentalFeatures.visibility =
-            if (Prefs.getBoolean(EASTER_EGG)) {
+            if (RPrefs.getBoolean(EASTER_EGG)) {
                 View.VISIBLE
             } else {
                 View.GONE
@@ -461,8 +460,8 @@ class Settings : BaseFragment() {
         if (nextIndex == NUM_CLICKS_REQUIRED - 1 || oldestIndex > 0) {
             val diff = (timeMillis - clickTimestamps[oldestIndex]).toInt()
             if (diff < SECONDS_FOR_CLICKS * 1000) {
-                if (!Prefs.getBoolean(EASTER_EGG)) {
-                    Prefs.putBoolean(EASTER_EGG, true)
+                if (!RPrefs.getBoolean(EASTER_EGG)) {
+                    RPrefs.putBoolean(EASTER_EGG, true)
 
                     binding.settingsMisc.experimentalFeatures.visibility = View.VISIBLE
 
@@ -499,15 +498,15 @@ class Settings : BaseFragment() {
 
         fun disableEverything() {
             WeatherConfig.clear(appContext)
-            Prefs.clearAllPrefs()
+            RPrefs.clearAllPrefs()
             RPrefs.clearAllPrefs()
 
             saveBootId
             disableBlur(false)
             saveVersionCode()
 
-            Prefs.putBoolean(ON_HOME_PAGE, true)
-            Prefs.putBoolean(FIRST_INSTALL, false)
+            RPrefs.putBoolean(ON_HOME_PAGE, true)
+            RPrefs.putBoolean(FIRST_INSTALL, false)
 
             Shell.cmd(
                 "> $MODULE_DIR/system.prop; > $MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable \$ol; done; killall com.android.systemui"

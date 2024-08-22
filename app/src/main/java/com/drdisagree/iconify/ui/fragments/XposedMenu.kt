@@ -32,7 +32,6 @@ import com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_REQUEST
 import com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_RESULT
 import com.drdisagree.iconify.common.Preferences
 import com.drdisagree.iconify.common.Preferences.SHOW_XPOSED_WARN
-import com.drdisagree.iconify.config.Prefs
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.FragmentXposedMenuBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
@@ -82,7 +81,7 @@ class XposedMenu : BaseFragment() {
 
             try {
                 exportSettings(
-                    RPrefs.prefs,
+                    RPrefs.getPrefs,
                     requireContext().contentResolver.openOutputStream(data.data!!)!!
                 )
 
@@ -118,7 +117,7 @@ class XposedMenu : BaseFragment() {
                     Executors.newSingleThreadExecutor().execute {
                         try {
                             val success = importSettings(
-                                RPrefs.prefs,
+                                RPrefs.getPrefs,
                                 appContext.contentResolver.openInputStream(data.data!!)!!,
                                 false
                             )
@@ -351,7 +350,7 @@ class XposedMenu : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (Prefs.getBoolean(SHOW_XPOSED_WARN, true)) {
+        if (RPrefs.getBoolean(SHOW_XPOSED_WARN, true)) {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(requireContext().resources.getString(R.string.attention))
                 .setMessage(
@@ -374,7 +373,7 @@ class XposedMenu : BaseFragment() {
                 .setNegativeButton(requireContext().resources.getString(R.string.dont_show_again)) { dialog: DialogInterface, _: Int ->
                     dialog.dismiss()
 
-                    Prefs.putBoolean(SHOW_XPOSED_WARN, false)
+                    RPrefs.putBoolean(SHOW_XPOSED_WARN, false)
                 }
                 .setCancelable(true)
                 .show()

@@ -28,9 +28,10 @@ import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_OVERLAP
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -67,15 +68,15 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        showHeaderImage = Xprefs!!.getBoolean(HEADER_IMAGE_SWITCH, false)
-        headerImageAlpha = Xprefs!!.getInt(HEADER_IMAGE_ALPHA, 100)
-        imageHeight = Xprefs!!.getInt(HEADER_IMAGE_HEIGHT, 140)
-        zoomToFit = Xprefs!!.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false)
-        headerImageOverlap = Xprefs!!.getBoolean(HEADER_IMAGE_OVERLAP, false)
-        hideLandscapeHeaderImage = Xprefs!!.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true)
-        bottomFadeAmount = mContext.toPx(Xprefs!!.getInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40))
+        showHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_SWITCH, false)
+        headerImageAlpha = Xprefs.getInt(HEADER_IMAGE_ALPHA, 100)
+        imageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 140)
+        zoomToFit = Xprefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false)
+        headerImageOverlap = Xprefs.getBoolean(HEADER_IMAGE_OVERLAP, false)
+        hideLandscapeHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true)
+        bottomFadeAmount = mContext.toPx(Xprefs.getInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40))
 
         if (key.isNotEmpty() &&
             (key[0] == HEADER_IMAGE_SWITCH ||

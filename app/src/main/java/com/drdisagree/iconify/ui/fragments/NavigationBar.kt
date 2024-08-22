@@ -23,10 +23,10 @@ import com.drdisagree.iconify.common.Preferences.PILL_SHAPE_SWITCH
 import com.drdisagree.iconify.common.References.FABRICATED_PILL_BOTTOM_SPACE
 import com.drdisagree.iconify.common.References.FABRICATED_PILL_THICKNESS
 import com.drdisagree.iconify.common.References.FABRICATED_PILL_WIDTH
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.getInt
-import com.drdisagree.iconify.config.Prefs.putBoolean
-import com.drdisagree.iconify.config.Prefs.putInt
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getInt
+import com.drdisagree.iconify.config.RPrefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.databinding.FragmentNavigationBarBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader

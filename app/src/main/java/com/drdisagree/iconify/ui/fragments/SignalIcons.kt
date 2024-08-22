@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.config.Prefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.databinding.FragmentIconPackBinding
 import com.drdisagree.iconify.ui.adapters.IconPackAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment

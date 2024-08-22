@@ -20,8 +20,8 @@ import com.drdisagree.iconify.common.Preferences.STR_NULL
 import com.drdisagree.iconify.common.References.FABRICATED_BATTERY_COLOR_BG
 import com.drdisagree.iconify.common.References.FABRICATED_BATTERY_COLOR_FG
 import com.drdisagree.iconify.common.References.FABRICATED_COLORED_BATTERY
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.putString
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentColoredBatteryBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -52,11 +52,11 @@ class ColoredBattery : BaseFragment() {
 
         // Enable colored battery
         binding.enableColoredBattery.isSwitchChecked =
-            if (Prefs.getString(COLORED_BATTERY_CHECK, STR_NULL) == STR_NULL) {
+            if (RPrefs.getString(COLORED_BATTERY_CHECK, STR_NULL) == STR_NULL) {
                 isOverlayEnabled("IconifyComponentIPSUI2.overlay") ||
                         isOverlayEnabled("IconifyComponentIPSUI4.overlay")
             } else {
-                Prefs.getBoolean(COLORED_BATTERY_SWITCH)
+                RPrefs.getBoolean(COLORED_BATTERY_SWITCH)
             }
 
         binding.enableColoredBattery.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
@@ -82,11 +82,11 @@ class ColoredBattery : BaseFragment() {
                             "0"
                         )
 
-                        if (Prefs.getString(FABRICATED_BATTERY_COLOR_BG) != STR_NULL) FabricatedUtil.disableOverlay(
+                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_BG) != STR_NULL) FabricatedUtil.disableOverlay(
                             FABRICATED_BATTERY_COLOR_BG
                         )
 
-                        if (Prefs.getString(FABRICATED_BATTERY_COLOR_FG) != STR_NULL) FabricatedUtil.disableOverlay(
+                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_FG) != STR_NULL) FabricatedUtil.disableOverlay(
                             FABRICATED_BATTERY_COLOR_FG
                         )
                     }
@@ -105,18 +105,18 @@ class ColoredBattery : BaseFragment() {
                         ).show()
                     }
 
-                    Prefs.putBoolean(COLORED_BATTERY_SWITCH, isChecked)
+                    RPrefs.putBoolean(COLORED_BATTERY_SWITCH, isChecked)
                 }, SWITCH_ANIMATION_DELAY
             )
         }
 
-        colorBackground = if (Prefs.getString(FABRICATED_BATTERY_COLOR_BG) != STR_NULL) {
-            Prefs.getString(FABRICATED_BATTERY_COLOR_BG)
+        colorBackground = if (RPrefs.getString(FABRICATED_BATTERY_COLOR_BG) != STR_NULL) {
+            RPrefs.getString(FABRICATED_BATTERY_COLOR_BG)
         } else {
             (-0xf0f10).toString()
         }
-        colorFilled = if (Prefs.getString(FABRICATED_BATTERY_COLOR_FG) != STR_NULL) {
-            Prefs.getString(FABRICATED_BATTERY_COLOR_FG)
+        colorFilled = if (RPrefs.getString(FABRICATED_BATTERY_COLOR_FG) != STR_NULL) {
+            RPrefs.getString(FABRICATED_BATTERY_COLOR_FG)
         } else {
             (-0xf0f10).toString()
         }

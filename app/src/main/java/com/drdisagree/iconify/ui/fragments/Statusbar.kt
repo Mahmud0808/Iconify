@@ -17,8 +17,8 @@ import com.drdisagree.iconify.common.References.FABRICATED_SB_COLOR_TINT
 import com.drdisagree.iconify.common.References.FABRICATED_SB_HEIGHT
 import com.drdisagree.iconify.common.References.FABRICATED_SB_LEFT_PADDING
 import com.drdisagree.iconify.common.References.FABRICATED_SB_RIGHT_PADDING
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.putString
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentStatusbarBinding
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.BaseFragment
@@ -42,9 +42,9 @@ import org.greenrobot.eventbus.Subscribe
 class Statusbar : BaseFragment() {
 
     private lateinit var binding: FragmentStatusbarBinding
-    private val finalSBLeftPadding = intArrayOf(Prefs.getInt(FABRICATED_SB_LEFT_PADDING, 8))
-    private val finalSBRightPadding = intArrayOf(Prefs.getInt(FABRICATED_SB_RIGHT_PADDING, 8))
-    private val finalSBHeight = intArrayOf(Prefs.getInt(FABRICATED_SB_HEIGHT, 28))
+    private val finalSBLeftPadding = intArrayOf(RPrefs.getInt(FABRICATED_SB_LEFT_PADDING, 8))
+    private val finalSBRightPadding = intArrayOf(RPrefs.getInt(FABRICATED_SB_RIGHT_PADDING, 8))
+    private val finalSBHeight = intArrayOf(RPrefs.getInt(FABRICATED_SB_HEIGHT, 28))
 
     private val sbLeftPaddingListener: Slider.OnSliderTouchListener =
         object : Slider.OnSliderTouchListener {
@@ -52,7 +52,7 @@ class Statusbar : BaseFragment() {
 
             override fun onStopTrackingTouch(slider: Slider) {
                 finalSBLeftPadding[0] = slider.value.toInt()
-                Prefs.putInt(FABRICATED_SB_LEFT_PADDING, finalSBLeftPadding[0])
+                RPrefs.putInt(FABRICATED_SB_LEFT_PADDING, finalSBLeftPadding[0])
 
                 buildOverlayWithResource(
                     requireContext(),
@@ -72,7 +72,7 @@ class Statusbar : BaseFragment() {
 
             override fun onStopTrackingTouch(slider: Slider) {
                 finalSBRightPadding[0] = slider.value.toInt()
-                Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, finalSBRightPadding[0])
+                RPrefs.putInt(FABRICATED_SB_RIGHT_PADDING, finalSBRightPadding[0])
 
                 buildOverlayWithResource(
                     requireContext(),
@@ -92,7 +92,7 @@ class Statusbar : BaseFragment() {
 
             override fun onStopTrackingTouch(slider: Slider) {
                 finalSBHeight[0] = slider.value.toInt()
-                Prefs.putInt(FABRICATED_SB_HEIGHT, finalSBHeight[0])
+                RPrefs.putInt(FABRICATED_SB_HEIGHT, finalSBHeight[0])
 
                 buildOverlayWithResource(
                     requireContext(),
@@ -146,7 +146,7 @@ class Statusbar : BaseFragment() {
 
         // Reset left padding
         binding.sbLeftPadding.setResetClickListener {
-            Prefs.putInt(FABRICATED_SB_LEFT_PADDING, 8)
+            RPrefs.putInt(FABRICATED_SB_LEFT_PADDING, 8)
 
             removeResourceFromOverlay(
                 requireContext(),
@@ -162,7 +162,7 @@ class Statusbar : BaseFragment() {
 
         // Reset right padding
         binding.sbRightPadding.setResetClickListener {
-            Prefs.putInt(FABRICATED_SB_RIGHT_PADDING, 8)
+            RPrefs.putInt(FABRICATED_SB_RIGHT_PADDING, 8)
 
             removeResourceFromOverlay(
                 requireContext(),
@@ -178,7 +178,7 @@ class Statusbar : BaseFragment() {
 
         // Reset height
         binding.sbHeight.setResetClickListener {
-            Prefs.putInt(FABRICATED_SB_HEIGHT, 28)
+            RPrefs.putInt(FABRICATED_SB_HEIGHT, 28)
 
             removeResourceFromOverlay(
                 requireContext(),
@@ -193,9 +193,9 @@ class Statusbar : BaseFragment() {
         colorSBTint = resources.getColor(R.color.colorAccent, appContext.theme).toString()
 
         //set current chosen style
-        selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE)
+        selectedStyle = RPrefs.getString(FABRICATED_SB_COLOR_SOURCE)
         when {
-            selectedStyle == "Monet" || Prefs.getBoolean("IconifyComponentSBTint.overlay") -> {
+            selectedStyle == "Monet" || RPrefs.getBoolean("IconifyComponentSBTint.overlay") -> {
                 binding.sbTintMonet.setChecked(true)
                 putString(FABRICATED_SB_COLOR_SOURCE, "Monet")
             }
@@ -266,7 +266,7 @@ class Statusbar : BaseFragment() {
     @Subscribe
     fun onDialogDismissed(event: ColorDismissedEvent) {
         if (event.dialogId == 1) {
-            selectedStyle = Prefs.getString(FABRICATED_SB_COLOR_SOURCE)
+            selectedStyle = RPrefs.getString(FABRICATED_SB_COLOR_SOURCE)
             when (selectedStyle) {
                 "System" -> binding.sbTintSystem.setChecked(true)
                 "Monet" -> binding.sbTintMonet.setChecked(true)

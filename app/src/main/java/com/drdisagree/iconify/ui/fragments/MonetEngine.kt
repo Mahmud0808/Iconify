@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
@@ -44,14 +45,14 @@ import com.drdisagree.iconify.common.Preferences.MONET_SECONDARY_ACCENT_SATURATI
 import com.drdisagree.iconify.common.Preferences.MONET_SECONDARY_COLOR
 import com.drdisagree.iconify.common.Preferences.MONET_STYLE
 import com.drdisagree.iconify.common.Preferences.STR_NULL
-import com.drdisagree.iconify.config.Prefs.clearPrefs
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.getInt
-import com.drdisagree.iconify.config.Prefs.getString
-import com.drdisagree.iconify.config.Prefs.prefs
-import com.drdisagree.iconify.config.Prefs.putBoolean
-import com.drdisagree.iconify.config.Prefs.putInt
-import com.drdisagree.iconify.config.Prefs.putString
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.clearPrefs
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getInt
+import com.drdisagree.iconify.config.RPrefs.getString
+import com.drdisagree.iconify.config.RPrefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.putInt
+import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentMonetEngineBinding
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.BaseFragment
@@ -108,7 +109,7 @@ class MonetEngine : BaseFragment() {
 
             try {
                 exportSettings(
-                    prefs,
+                    RPrefs.getPrefs,
                     requireContext().contentResolver.openOutputStream(data.data!!)!!
                 )
 
@@ -144,7 +145,7 @@ class MonetEngine : BaseFragment() {
                     Handler(Looper.getMainLooper()).post {
                         try {
                             val success = importMonetSettings(
-                                prefs,
+                                RPrefs.getPrefs,
                                 requireContext().contentResolver.openInputStream(data.data!!)!!
                             )
 

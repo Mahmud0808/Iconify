@@ -8,11 +8,12 @@ import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
-import com.drdisagree.iconify.config.XPrefs.Xprefs
-import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlays
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enableOverlay
+import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.utils.SystemUtil
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -41,11 +42,11 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        lightQSHeaderEnabled = Xprefs!!.getBoolean(LIGHT_QSPANEL, false)
+        lightQSHeaderEnabled = Xprefs.getBoolean(LIGHT_QSPANEL, false)
         dualToneQSEnabled = lightQSHeaderEnabled &&
-                Xprefs!!.getBoolean(DUALTONE_QSPANEL, false)
+                Xprefs.getBoolean(DUALTONE_QSPANEL, false)
 
         applyOverlays(true)
     }

@@ -21,18 +21,17 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import androidx.preference.PreferenceScreen
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.config.ExtendedPrefs
-import com.drdisagree.iconify.config.PreferenceHelper
+import com.drdisagree.iconify.config.PrefsHelper
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchConfiguration
 import com.drdisagree.iconify.utils.helper.LocaleHelper
 
 abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
-    private var mPreferences: ExtendedPrefs? = null
+    private var mPreferences: RPrefs? = null
 
     private val changeListener =
         OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
@@ -121,11 +120,7 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
     }
 
     public override fun onCreateAdapter(preferenceScreen: PreferenceScreen): RecyclerView.Adapter<*> {
-        mPreferences = ExtendedPrefs.from(
-            PreferenceManager.getDefaultSharedPreferences(
-                requireContext().createDeviceProtectedStorageContext()
-            )
-        )
+        mPreferences = RPrefs.instance
 
         mPreferences!!.registerOnSharedPreferenceChangeListener(changeListener)
 
@@ -150,14 +145,13 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
     }
 
     override fun onDestroy() {
-        if (mPreferences != null) {
-            mPreferences!!.unregisterOnSharedPreferenceChangeListener(changeListener)
-        }
+        mPreferences?.unregisterOnSharedPreferenceChangeListener(changeListener)
+
         super.onDestroy()
     }
 
     open fun updateScreen(key: String?) {
-        PreferenceHelper.setupAllPreferences(this.preferenceScreen)
+        PrefsHelper.setupAllPreferences(this.preferenceScreen)
     }
 
     override fun setDivider(divider: Drawable?) {

@@ -17,7 +17,6 @@ import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE
 import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME
 import com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH
 import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
-import com.drdisagree.iconify.config.Prefs
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding
 import com.drdisagree.iconify.ui.base.BaseActivity
@@ -53,7 +52,7 @@ class MainActivity : BaseActivity(),
         myActionBar = supportActionBar
 
         setupNavigation()
-        Prefs.putBoolean(ON_HOME_PAGE, true)
+        RPrefs.putBoolean(ON_HOME_PAGE, true)
 
         if (savedInstanceState == null) {
             replaceFragment(if (!Preferences.isXposedOnlyMode) Home() else Tweaks())
@@ -70,15 +69,15 @@ class MainActivity : BaseActivity(),
             // Get list of enabled overlays
             val enabledOverlays = OverlayUtil.enabledOverlayList
             for (overlay in enabledOverlays) {
-                Prefs.putBoolean(overlay, true)
+                RPrefs.putBoolean(overlay, true)
             }
 
             val fabricatedEnabledOverlays = FabricatedUtil.enabledOverlayList
             for (overlay in fabricatedEnabledOverlays) {
-                Prefs.putBoolean("fabricated$overlay", true)
+                RPrefs.putBoolean("fabricated$overlay", true)
             }
 
-            Prefs.putBoolean(
+            RPrefs.putBoolean(
                 MONET_ENGINE_SWITCH,
                 enabledOverlays.contains("IconifyComponentME.overlay")
             )
@@ -232,14 +231,14 @@ class MainActivity : BaseActivity(),
         caller: PreferenceFragmentCompat,
         pref: Preference
     ): Boolean {
-        val args = pref.extras
-        val fragment = supportFragmentManager.fragmentFactory.instantiate(
-            classLoader, pref.fragment!!
+        replaceFragment(
+            supportFragmentManager.fragmentFactory.instantiate(
+                classLoader, pref.fragment!!
+            ).apply {
+                arguments = pref.extras
+                setTargetFragment(caller, 0)
+            }
         )
-        fragment.arguments = args
-        fragment.setTargetFragment(caller, 0)
-
-        replaceFragment(fragment)
         return true
     }
 

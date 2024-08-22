@@ -1,5 +1,6 @@
-package com.drdisagree.iconify.config
+package com.drdisagree.iconify.xposed.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
@@ -11,17 +12,24 @@ import com.drdisagree.iconify.xposed.HookEntry
 
 object XPrefs {
 
-    var Xprefs: SharedPreferences? = null
-    private var packageName: String? = null
+    @SuppressLint("StaticFieldLeak")
+    lateinit var Xprefs: ExtendedRemotePreferences
     private val listener = OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
         loadEverything(
             key
         )
     }
 
+    val XprefsIsInitialized: Boolean
+        get() = ::Xprefs.isInitialized
+
     fun init(context: Context) {
-        packageName = context.packageName
-        Xprefs = RemotePreferences(context, BuildConfig.APPLICATION_ID, SHARED_XPREFERENCES, true)
+        Xprefs = ExtendedRemotePreferences(
+            context,
+            BuildConfig.APPLICATION_ID,
+            SHARED_XPREFERENCES,
+            true
+        )
         (Xprefs as RemotePreferences).registerOnSharedPreferenceChangeListener(listener)
     }
 

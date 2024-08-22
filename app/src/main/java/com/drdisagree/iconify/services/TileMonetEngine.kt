@@ -4,8 +4,8 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.utils.overlay.OverlayUtil
 
 

@@ -16,7 +16,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.LATEST_VERSION_URL
 import com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI
 import com.drdisagree.iconify.common.Preferences.VER_CODE
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.fragments.AppUpdates
 import com.topjohnwu.superuser.Shell
@@ -56,7 +56,7 @@ class UpdateWorker(context: Context, params: WorkerParameters) : CoroutineWorker
     }
 
     private fun isGoodNetworkAvailable(): Boolean {
-        val updateOverWifiOnly = Prefs.getBoolean(UPDATE_OVER_WIFI, true)
+        val updateOverWifiOnly = RPrefs.getBoolean(UPDATE_OVER_WIFI, true)
         val connectivityManager =
             applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities =

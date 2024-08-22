@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.common
 
 import com.drdisagree.iconify.SplashActivity
-import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getBoolean
 
 object Preferences {
 

@@ -15,7 +15,6 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.UI_CORNER_RADIUS
-import com.drdisagree.iconify.config.Prefs
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.FragmentUiRoundnessBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
@@ -70,7 +69,7 @@ class UiRoundness : BaseFragment() {
             binding.autoBrightness.background as GradientDrawable
         )
 
-        val finalUiCornerRadius = intArrayOf(Prefs.getInt(UI_CORNER_RADIUS, 28))
+        val finalUiCornerRadius = intArrayOf(RPrefs.getInt(UI_CORNER_RADIUS, 28))
 
         if (finalUiCornerRadius[0] == 28) {
             binding.cornerRadiusOutput.text =
@@ -146,7 +145,7 @@ class UiRoundness : BaseFragment() {
 
                     Handler(Looper.getMainLooper()).post {
                         if (!hasErroredOut.get()) {
-                            Prefs.putInt(UI_CORNER_RADIUS, finalUiCornerRadius[0])
+                            RPrefs.putInt(UI_CORNER_RADIUS, finalUiCornerRadius[0])
                             RPrefs.putInt(UI_CORNER_RADIUS, finalUiCornerRadius[0])
                         }
 

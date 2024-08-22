@@ -19,7 +19,7 @@ import com.drdisagree.iconify.common.References.FABRICATED_QQS_TILE
 import com.drdisagree.iconify.common.References.FABRICATED_QS_COLUMN
 import com.drdisagree.iconify.common.References.FABRICATED_QS_ROW
 import com.drdisagree.iconify.common.References.FABRICATED_QS_TILE
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.FragmentQsRowColumnBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
@@ -54,7 +54,7 @@ class QsRowColumn : BaseFragment() {
         loadingDialog = LoadingDialog(requireContext())
 
         // Quick QsPanel Row
-        val finalQqsRow = intArrayOf(Prefs.getInt(FABRICATED_QQS_ROW, 2))
+        val finalQqsRow = intArrayOf(RPrefs.getInt(FABRICATED_QQS_ROW, 2))
         binding.qqsRow.sliderValue = finalQqsRow[0]
         binding.qqsRow.setOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {}
@@ -65,7 +65,7 @@ class QsRowColumn : BaseFragment() {
         })
 
         // QsPanel Row
-        val finalQsRow = intArrayOf(Prefs.getInt(FABRICATED_QS_ROW, 4))
+        val finalQsRow = intArrayOf(RPrefs.getInt(FABRICATED_QS_ROW, 4))
         binding.qsRow.sliderValue = finalQsRow[0]
         binding.qsRow.setOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {}
@@ -76,7 +76,7 @@ class QsRowColumn : BaseFragment() {
         })
 
         // QsPanel Column
-        val finalQsColumn = intArrayOf(Prefs.getInt(FABRICATED_QS_COLUMN, 2))
+        val finalQsColumn = intArrayOf(RPrefs.getInt(FABRICATED_QS_COLUMN, 2))
         binding.qsColumn.sliderValue = finalQsColumn[0]
         binding.qsColumn.setOnSliderTouchListener(object : Slider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: Slider) {}
@@ -91,12 +91,12 @@ class QsRowColumn : BaseFragment() {
             // Show loading dialog
             loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
             Thread {
-                Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, true)
-                Prefs.putInt(FABRICATED_QQS_ROW, finalQqsRow[0])
-                Prefs.putInt(FABRICATED_QS_ROW, finalQsRow[0])
-                Prefs.putInt(FABRICATED_QS_COLUMN, finalQsColumn[0])
-                Prefs.putInt(FABRICATED_QQS_TILE, finalQqsRow[0] * finalQsColumn[0])
-                Prefs.putInt(FABRICATED_QS_TILE, finalQsColumn[0] * finalQsRow[0])
+                RPrefs.putBoolean(QS_ROW_COLUMN_SWITCH, true)
+                RPrefs.putInt(FABRICATED_QQS_ROW, finalQqsRow[0])
+                RPrefs.putInt(FABRICATED_QS_ROW, finalQsRow[0])
+                RPrefs.putInt(FABRICATED_QS_COLUMN, finalQsColumn[0])
+                RPrefs.putInt(FABRICATED_QQS_TILE, finalQqsRow[0] * finalQsColumn[0])
+                RPrefs.putInt(FABRICATED_QS_TILE, finalQsColumn[0] * finalQsRow[0])
 
                 applyRowColumn()
 
@@ -122,7 +122,7 @@ class QsRowColumn : BaseFragment() {
 
         // Reset button
         binding.qsRowColumnReset.visibility =
-            if (Prefs.getBoolean(QS_ROW_COLUMN_SWITCH)) {
+            if (RPrefs.getBoolean(QS_ROW_COLUMN_SWITCH)) {
                 View.VISIBLE
             } else {
                 View.GONE
@@ -135,7 +135,7 @@ class QsRowColumn : BaseFragment() {
                 resetRowColumn()
 
                 Handler(Looper.getMainLooper()).post {
-                    Prefs.putBoolean(QS_ROW_COLUMN_SWITCH, false)
+                    RPrefs.putBoolean(QS_ROW_COLUMN_SWITCH, false)
                     Handler(Looper.getMainLooper()).postDelayed({
                         // Hide loading dialog
                         loadingDialog!!.hide()
@@ -153,7 +153,7 @@ class QsRowColumn : BaseFragment() {
             }.start()
         }
 
-        if (Prefs.getBoolean(ALERT_DIALOG_QSROWCOL, true)) {
+        if (RPrefs.getBoolean(ALERT_DIALOG_QSROWCOL, true)) {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(resources.getString(R.string.hey_there))
                 .setMessage(resources.getString(R.string.qs_row_column_warn_desc))
@@ -162,7 +162,7 @@ class QsRowColumn : BaseFragment() {
                 }
                 .setNegativeButton(getString(R.string.dont_show_again)) { dialog: DialogInterface, _: Int ->
                     dialog.dismiss()
-                    Prefs.putBoolean(ALERT_DIALOG_QSROWCOL, false)
+                    RPrefs.putBoolean(ALERT_DIALOG_QSROWCOL, false)
                 }
                 .setCancelable(true)
                 .show()
@@ -185,28 +185,28 @@ class QsRowColumn : BaseFragment() {
                     FABRICATED_QQS_ROW,
                     "integer",
                     "quick_qs_panel_max_rows",
-                    Prefs.getInt(FABRICATED_QQS_ROW, 2).toString()
+                    RPrefs.getInt(FABRICATED_QQS_ROW, 2).toString()
                 ),
                 arrayOf(
                     SYSTEMUI_PACKAGE,
                     FABRICATED_QS_ROW,
                     "integer",
                     "quick_settings_max_rows",
-                    Prefs.getInt(FABRICATED_QS_ROW, 4).toString()
+                    RPrefs.getInt(FABRICATED_QS_ROW, 4).toString()
                 ),
                 arrayOf(
                     SYSTEMUI_PACKAGE,
                     FABRICATED_QS_COLUMN,
                     "integer",
                     "quick_settings_num_columns",
-                    Prefs.getInt(FABRICATED_QS_COLUMN, 2).toString()
+                    RPrefs.getInt(FABRICATED_QS_COLUMN, 2).toString()
                 ),
                 arrayOf(
                     SYSTEMUI_PACKAGE,
                     FABRICATED_QQS_TILE,
                     "integer",
                     "quick_qs_panel_max_tiles",
-                    (Prefs.getInt(FABRICATED_QQS_ROW, 2) * Prefs.getInt(
+                    (RPrefs.getInt(FABRICATED_QQS_ROW, 2) * RPrefs.getInt(
                         FABRICATED_QS_COLUMN,
                         2
                     )).toString()
@@ -216,7 +216,7 @@ class QsRowColumn : BaseFragment() {
                     FABRICATED_QS_TILE,
                     "integer",
                     "quick_settings_min_num_tiles",
-                    (Prefs.getInt(FABRICATED_QS_COLUMN, 2) * Prefs.getInt(
+                    (RPrefs.getInt(FABRICATED_QS_COLUMN, 2) * RPrefs.getInt(
                         FABRICATED_QS_ROW,
                         4
                     )).toString()

@@ -32,13 +32,14 @@ import com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH
 import com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCKBG_SWITCH
 import com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_CODE
 import com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_OPTION
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.setClockGravity
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -78,19 +79,19 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
     private var mLoadPackageParam: LoadPackageParam? = null
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        mShowSBClockBg = Xprefs!!.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false)
-        mShowQSStatusIconsBg = Xprefs!!.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)
-        qsStatusIconsChipStyle = Xprefs!!.getInt(CHIP_QSSTATUSICONS_STYLE, 0)
-        statusBarClockChipStyle = Xprefs!!.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)
-        statusBarClockColorOption = Xprefs!!.getInt(STATUSBAR_CLOCK_COLOR_OPTION, 0)
-        statusBarClockColorCode = Xprefs!!.getInt(STATUSBAR_CLOCK_COLOR_CODE, Color.WHITE)
-        showHeaderClock = Xprefs!!.getBoolean(HEADER_CLOCK_SWITCH, false)
-        hideStatusIcons = Xprefs!!.getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
-        fixedStatusIcons = Xprefs!!.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
-        topMarginStatusIcons = Xprefs!!.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
-        sideMarginStatusIcons = Xprefs!!.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
+        mShowSBClockBg = Xprefs.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false)
+        mShowQSStatusIconsBg = Xprefs.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)
+        qsStatusIconsChipStyle = Xprefs.getInt(CHIP_QSSTATUSICONS_STYLE, 0)
+        statusBarClockChipStyle = Xprefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)
+        statusBarClockColorOption = Xprefs.getInt(STATUSBAR_CLOCK_COLOR_OPTION, 0)
+        statusBarClockColorCode = Xprefs.getInt(STATUSBAR_CLOCK_COLOR_CODE, Color.WHITE)
+        showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false)
+        hideStatusIcons = Xprefs.getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
+        fixedStatusIcons = Xprefs.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
+        topMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
+        sideMarginStatusIcons = Xprefs.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
 
         if (key.isNotEmpty()) {
             if (key[0] == STATUSBAR_CLOCKBG_SWITCH ||

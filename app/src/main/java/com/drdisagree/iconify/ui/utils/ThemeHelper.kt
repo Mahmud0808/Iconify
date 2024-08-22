@@ -2,7 +2,7 @@ package com.drdisagree.iconify.ui.utils
 
 import androidx.appcompat.app.AppCompatDelegate
 import com.drdisagree.iconify.common.Preferences.APP_THEME
-import com.drdisagree.iconify.config.Prefs.getInt
+import com.drdisagree.iconify.config.RPrefs.getInt
 
 object ThemeHelper {
 
