@@ -49,7 +49,7 @@ import com.drdisagree.iconify.utils.overlay.OverlayUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.concurrent.Executors
 
-class XposedMenu : BaseFragment() {
+class Xposed : BaseFragment() {
 
     private lateinit var binding: FragmentXposedMenuBinding
 

@@ -2,8 +2,8 @@
 <resources>
 
     <style name="ThemeOverlay.App.MaterialAlertDialog.Monet" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="dialogCornerRadius">28dp</item>
-        <item name="android:background">@drawable/container_main</item>
+        <item name="dialogCornerRadius">@dimen/cont_corner_radius</item>
+        <item name="android:background">@drawable/container_main_no_ripple</item>
     </style>
 
     <style name="PrefsThemeToolbar" parent="PreferenceThemeOverlay.v14.Material">

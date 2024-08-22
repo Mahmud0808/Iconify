@@ -5,9 +5,8 @@
     android:background="?android:attr/selectableItemBackground"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:orientation="vertical"
-    android:paddingVertical="16dp"
-    android:paddingStart="38dp"
-    android:paddingEnd="16dp">
+    android:paddingHorizontal="@dimen/container_marginSide"
+    android:paddingVertical="16dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"

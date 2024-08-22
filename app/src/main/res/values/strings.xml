@@ -834,6 +834,7 @@
     <!-- Bottom Navigation -->
     <string name="navbar_home">Home</string>
     <string name="navbar_tweaks">Tweaks</string>
+    <string name="navbar_xposed">Xposed</string>
     <string name="navbar_settings">Settings</string>
 
     <!-- Settings 3 dot menu -->

@@ -24,6 +24,7 @@ import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
+import com.drdisagree.iconify.ui.fragments.Xposed
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
@@ -61,7 +62,7 @@ class MainActivity : BaseActivity(),
         RPrefs.putBoolean(ON_HOME_PAGE, true)
 
         if (savedInstanceState == null) {
-            replaceFragment(if (!Preferences.isXposedOnlyMode) Home() else Tweaks())
+            replaceFragment(if (!Preferences.isXposedOnlyMode) Home() else Xposed())
         }
 
         initData()
@@ -75,24 +76,41 @@ class MainActivity : BaseActivity(),
             // Get list of enabled overlays
             val enabledOverlays = OverlayUtil.enabledOverlayList
             for (overlay in enabledOverlays) {
-                RPrefs.putBoolean(overlay, true)
+                if (!RPrefs.getBoolean(overlay, false)) {
+                    RPrefs.putBoolean(overlay, true)
+                }
             }
 
             val fabricatedEnabledOverlays = FabricatedUtil.enabledOverlayList
             for (overlay in fabricatedEnabledOverlays) {
-                RPrefs.putBoolean("fabricated$overlay", true)
+                if (!RPrefs.getBoolean("fabricated$overlay", false)) {
+                    RPrefs.putBoolean("fabricated$overlay", true)
+                }
             }
 
-            RPrefs.putBoolean(
-                MONET_ENGINE_SWITCH,
-                enabledOverlays.contains("IconifyComponentME.overlay")
-            )
+            if (enabledOverlays.contains("IconifyComponentME.overlay") &&
+                !RPrefs.getBoolean(MONET_ENGINE_SWITCH, false)
+            ) {
+                RPrefs.putBoolean(
+                    MONET_ENGINE_SWITCH,
+                    true
+                )
+            } else if (!enabledOverlays.contains("IconifyComponentME.overlay") &&
+                RPrefs.getBoolean(MONET_ENGINE_SWITCH, false)
+            ) {
+                RPrefs.putBoolean(
+                    MONET_ENGINE_SWITCH,
+                    false
+                )
+            }
 
-            val state =
-                Shell.cmd(
-                    "[[ $(cmd overlay list | grep -o '\\[x\\] $FORCE_RELOAD_PACKAGE_NAME') ]] && echo 1 || echo 0"
-                ).exec().out[0] == "1"
-            RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state)
+            val state = Shell.cmd(
+                "[[ $(cmd overlay list | grep -o '\\[x\\] $FORCE_RELOAD_PACKAGE_NAME') ]] && echo 1 || echo 0"
+            ).exec().out[0] == "1"
+
+            if (state != RPrefs.getBoolean(FORCE_RELOAD_OVERLAY_STATE, false)) {
+                RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state)
+            }
         }.start()
     }
 
@@ -107,8 +125,9 @@ class MainActivity : BaseActivity(),
             val xposedOnlyMode = Preferences.isXposedOnlyMode
 
             val homeIndex = 0
-            val tweaksIndex = if (xposedOnlyMode) 0 else 1
-            val settingsIndex = if (xposedOnlyMode) 1 else 2
+            val tweaksIndex = 1
+            val xposedIndex = if (!xposedOnlyMode) 2 else 0
+            val settingsIndex = if (!xposedOnlyMode) 3 else 1
 
             when (tag) {
                 Home::class.java.simpleName -> {
@@ -119,6 +138,11 @@ class MainActivity : BaseActivity(),
                 Tweaks::class.java.simpleName -> {
                     selectedFragment = R.id.tweaks
                     binding.bottomNavigationView.menu.getItem(tweaksIndex).setChecked(true)
+                }
+
+                Xposed::class.java.simpleName -> {
+                    selectedFragment = R.id.xposed
+                    binding.bottomNavigationView.menu.getItem(xposedIndex).setChecked(true)
                 }
 
                 Settings::class.java.simpleName -> {
@@ -144,6 +168,14 @@ class MainActivity : BaseActivity(),
                     if (fragmentTag != Tweaks::class.java.simpleName) {
                         selectedFragment = R.id.tweaks
                         replaceFragment(Tweaks())
+                    }
+                    return@setOnItemSelectedListener true
+                }
+
+                R.id.xposed -> {
+                    if (fragmentTag != Xposed::class.java.simpleName) {
+                        selectedFragment = R.id.xposed
+                        replaceFragment(Xposed())
                     }
                     return@setOnItemSelectedListener true
                 }

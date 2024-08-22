@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="module_scope" translatable="false">
         <item>android</item>
         <item>com.android.systemui</item>
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
+
     <string-array name="root_requirement" translatable="false">
         <item>com.android.systemui</item>
     </string-array>
+
     <string-array name="locale_name">
         <item>Afrikaans</item>
         <item>Arabic</item>
@@ -41,6 +44,7 @@
         <item>Ukrainian</item>
         <item>Vietnamese</item>
     </string-array>
+
     <string-array name="locale_code" translatable="false">
         <item>af-ZA</item>
         <item>ar-SA</item>
@@ -74,58 +78,69 @@
         <item>uk-UA</item>
         <item>vi-VN</item>
     </string-array>
+
     <string-array name="app_icon">
         <item>@string/settings_app_icon_default</item>
         <item>@string/settings_app_icon_themed</item>
         <item>@string/settings_app_icon_retro</item>
     </string-array>
+
     <string-array name="app_icon_identifier" translatable="false">
         <item>SplashActivity</item>
         <item>SplashActivityThemed</item>
         <item>SplashActivityRetro</item>
     </string-array>
+
     <string-array name="app_theme">
         <item>@string/settings_app_theme_light</item>
         <item>@string/settings_app_theme_dark</item>
         <item>@string/settings_app_theme_system</item>
     </string-array>
+
     <string-array name="app_theme_identifier" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
     </string-array>
+
     <string-array name="settings_icon_bg">
         <item>@string/settings_icons_minimal</item>
         <item>@string/settings_icons_filled</item>
         <item>@string/settings_icons_outline</item>
         <item>@string/settings_icons_neumorph</item>
     </string-array>
+
     <string-array name="settings_icon_shape">
         <item>@string/settings_icons_circle</item>
         <item>@string/settings_icons_squircle</item>
         <item>@string/settings_icons_square</item>
     </string-array>
+
     <string-array name="settings_icon_size">
         <item>@string/settings_icons_size1</item>
         <item>@string/settings_icons_size2</item>
         <item>@string/settings_icons_size3</item>
         <item>@string/settings_icons_size4</item>
     </string-array>
+
     <string-array name="settings_icon_color">
         <item>@string/settings_icons_follow_system</item>
         <item>@string/settings_icons_system_inverse</item>
         <item>@string/settings_icons_monet_accent</item>
     </string-array>
+
     <string-array name="xposed_force_apply_method">
         <item>@string/method_toggle_dark_mode</item>
         <item>@string/method_restart_systemui</item>
         <item>@string/method_do_nothing</item>
     </string-array>
+
     <string-array name="statusbar_clock_color">
         <item>@string/sbclock_color_follow_system</item>
         <item>@string/sbclock_color_transparent_text</item>
         <item>@string/sbclock_color_custom_color</item>
     </string-array>
+
     <string-array name="monet_style">
         <item>@string/monet_neutral</item>
         <item>@string/monet_monochrome</item>
@@ -137,6 +152,7 @@
         <item>@string/monet_content</item>
         <item>@string/monet_fruitsalad</item>
     </string-array>
+
     <string-array name="update_schedule">
         <item>@string/update_schedule1</item>
         <item>@string/update_schedule2</item>
