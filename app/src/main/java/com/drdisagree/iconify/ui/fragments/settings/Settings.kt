@@ -1,7 +1,5 @@
 package com.drdisagree.iconify.ui.fragments.settings
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.ComponentName
 import android.content.DialogInterface
 import android.content.Intent
@@ -10,14 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.Navigation.findNavController
 import androidx.preference.Preference
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
@@ -29,18 +20,16 @@ import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
 import com.drdisagree.iconify.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.preferences.PreferenceCategory
 import com.drdisagree.iconify.ui.preferences.PreferenceMenu
 import com.drdisagree.iconify.utils.AppUtil.restartApplication
+import com.drdisagree.iconify.utils.CacheUtil.clearCache
 import com.drdisagree.iconify.utils.SystemUtil.disableBlur
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
+import com.drdisagree.iconify.utils.SystemUtil.disableRestartSystemuiAfterBoot
+import com.drdisagree.iconify.utils.SystemUtil.enableRestartSystemuiAfterBoot
 import com.drdisagree.iconify.utils.SystemUtil.restartSystemUI
 import com.drdisagree.iconify.utils.SystemUtil.saveBootId
 import com.drdisagree.iconify.utils.SystemUtil.saveVersionCode
-import com.drdisagree.iconify.utils.helper.ImportExport.exportSettings
-import com.drdisagree.iconify.utils.helper.ImportExport.importSettings
 import com.drdisagree.iconify.utils.weather.WeatherConfig
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topjohnwu.superuser.Shell
@@ -49,7 +38,6 @@ import java.util.concurrent.Executors
 
 class Settings : ControlledPreferenceFragmentCompat() {
 
-    private var loadingDialog: LoadingDialog? = null
     private var clickTimestamps = LongArray(NUM_CLICKS_REQUIRED)
     private var oldestIndex = 0
     private var nextIndex = 0
@@ -65,10 +53,7 @@ class Settings : ControlledPreferenceFragmentCompat() {
         get() = R.xml.settings
 
     override val hasMenu: Boolean
-        get() = false
-
-    override val scopes: Array<String>?
-        get() = null
+        get() = true
 
     override fun updateScreen(key: String?) {
         super.updateScreen(key)
@@ -87,11 +72,65 @@ class Settings : ControlledPreferenceFragmentCompat() {
             "IconifyAppTheme" -> {
                 restartApplication(requireActivity())
             }
+
+            "restartSysuiAfterBoot" -> {
+                if (RPrefs.getBoolean(key, false)) {
+                    enableRestartSystemuiAfterBoot()
+                } else {
+                    disableRestartSystemuiAfterBoot()
+                }
+            }
         }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
+
+        experimentalFeatures = findPreference("experimentalFeatures")
+        findPreference<PreferenceCategory>("miscSettings")?.setOnPreferenceClickListener {
+            onEasterViewClicked()
+            true
+        }
+
+        findPreference<PreferenceMenu>("clearAppCache")?.setOnPreferenceClickListener {
+            clearCache(appContext)
+            Toast.makeText(
+                appContext,
+                appContextLocale.resources.getString(R.string.toast_clear_cache),
+                Toast.LENGTH_SHORT
+            ).show()
+            true
+        }
+
+        findPreference<PreferenceMenu>("disableEverything")?.setOnPreferenceClickListener {
+            MaterialAlertDialogBuilder(requireActivity())
+                .setCancelable(true)
+                .setTitle(requireContext().resources.getString(R.string.import_settings_confirmation_title))
+                .setMessage(requireContext().resources.getString(R.string.import_settings_confirmation_desc))
+                .setPositiveButton(getString(R.string.positive)) { dialog: DialogInterface, _: Int ->
+                    dialog.dismiss()
+
+                    // Show loading dialog
+                    loadingDialog?.show(resources.getString(R.string.loading_dialog_wait))
+
+                    Executors.newSingleThreadExecutor().execute {
+                        Settings.disableEverything()
+                        Handler(Looper.getMainLooper()).postDelayed({
+
+                            // Hide loading dialog
+                            loadingDialog?.hide()
+
+                            // Restart SystemUI
+                            restartSystemUI()
+                        }, 3000)
+                    }
+                }
+                .setNegativeButton(getString(R.string.negative)) { dialog: DialogInterface, _: Int ->
+                    dialog.dismiss()
+                }
+                .show()
+            true
+        }
 
         findPreference<PreferenceMenu>("iconifyGitHub")?.setOnPreferenceClickListener {
             startActivity(
@@ -118,142 +157,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
                 }
             )
             true
-        }
-
-        experimentalFeatures = findPreference("experimentalFeatures")
-        findPreference<PreferenceCategory>("miscSettings")?.setOnPreferenceClickListener {
-            onEasterViewClicked()
-            true
-        }
-
-        // Show loading dialog
-//        loadingDialog = LoadingDialog(requireActivity())
-
-//        // Show xposed warn
-//        binding.settingsXposed.hideWarnMessage.isSwitchChecked =
-//            RPrefs.getBoolean(SHOW_XPOSED_WARN, true)
-//        binding.settingsXposed.hideWarnMessage.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-//            RPrefs.putBoolean(SHOW_XPOSED_WARN, isChecked)
-//        }
-//
-//        // Restart systemui behavior
-//        binding.settingsXposed.modApplyingMethod.setSelectedIndex(
-//            RPrefs.getInt(RESTART_SYSUI_BEHAVIOR_EXT, 0)
-//        )
-//        binding.settingsXposed.modApplyingMethod.setOnItemSelectedListener { index: Int ->
-//            RPrefs.putInt(RESTART_SYSUI_BEHAVIOR_EXT, index)
-//        }
-//
-//        // Restart systemui after boot
-//        binding.settingsMisc.restartSysuiAfterBoot.isSwitchChecked =
-//            RPrefs.getBoolean(RESTART_SYSUI_AFTER_BOOT, false)
-//        binding.settingsMisc.restartSysuiAfterBoot.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-//            RPrefs.putBoolean(RESTART_SYSUI_AFTER_BOOT, isChecked)
-//            if (isChecked) {
-//                enableRestartSystemuiAfterBoot()
-//            } else {
-//                disableRestartSystemuiAfterBoot()
-//            }
-//        }
-//
-//        // Home page card
-//        binding.settingsMisc.homePageCard.isSwitchChecked = RPrefs.getBoolean(SHOW_HOME_CARD, true)
-//        binding.settingsMisc.homePageCard.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-//            RPrefs.putBoolean(SHOW_HOME_CARD, isChecked)
-//        }
-//        binding.settingsMisc.homePageCard.visibility =
-//            if (Preferences.isXposedOnlyMode) {
-//                View.GONE
-//            } else {
-//                View.VISIBLE
-//            }
-//
-//        // Clear App Cache
-//        binding.settingsMisc.clearCache.setOnClickListener {
-//            clearCache(appContext)
-//
-//            Toast.makeText(
-//                appContext,
-//                appContextLocale.resources.getString(R.string.toast_clear_cache),
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
-//        // Disable Everything
-//        binding.settingsMisc.buttonDisableEverything.setOnClickListener {
-//            MaterialAlertDialogBuilder(requireActivity())
-//                .setCancelable(true)
-//                .setTitle(requireContext().resources.getString(R.string.import_settings_confirmation_title))
-//                .setMessage(requireContext().resources.getString(R.string.import_settings_confirmation_desc))
-//                .setPositiveButton(getString(R.string.positive)) { dialog: DialogInterface, _: Int ->
-//                    dialog.dismiss()
-//
-//                    // Show loading dialog
-//                    loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
-//                    Executors.newSingleThreadExecutor().execute {
-//                        Settings.disableEverything()
-//                        Handler(Looper.getMainLooper()).postDelayed({
-//
-//                            // Hide loading dialog
-//                            loadingDialog!!.hide()
-//
-//                            // Restart SystemUI
-//                            restartSystemUI()
-//                        }, 3000)
-//                    }
-//                }
-//                .setNegativeButton(getString(R.string.negative)) { dialog: DialogInterface, _: Int ->
-//                    dialog.dismiss()
-//                }
-//                .show()
-//        }
-    }
-
-    override fun onDestroy() {
-        loadingDialog?.hide()
-
-        super.onDestroy()
-    }
-
-    @Suppress("deprecation")
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.settings_menu, menu)
-
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    @Suppress("deprecation")
-    @Deprecated("Deprecated in Java")
-    @SuppressLint("NonConstantResourceId")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_changelog -> findNavController(requireView()).navigate(R.id.action_settings_to_changelog2)
-            R.id.menu_export_settings -> importExportSettings(true)
-            R.id.menu_import_settings -> importExportSettings(false)
-            R.id.restart_systemui -> Handler(Looper.getMainLooper()).postDelayed(
-                { restartSystemUI() },
-                300
-            )
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun importExportSettings(export: Boolean) {
-        if (!hasStoragePermission()) {
-            requestStoragePermission(requireContext())
-        } else {
-            val fileIntent = Intent()
-            fileIntent.setAction(if (export) Intent.ACTION_CREATE_DOCUMENT else Intent.ACTION_GET_CONTENT)
-            fileIntent.setType("*/*")
-            fileIntent.putExtra(Intent.EXTRA_TITLE, "configs" + ".iconify")
-
-            if (export) {
-                startExportActivityIntent.launch(fileIntent)
-            } else {
-                startImportActivityIntent.launch(fileIntent)
-            }
         }
     }
 
@@ -314,93 +217,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
 
         if (nextIndex == NUM_CLICKS_REQUIRED) nextIndex = 0
         if (oldestIndex == NUM_CLICKS_REQUIRED) oldestIndex = 0
-    }
-
-    private var startExportActivityIntent = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result1: ActivityResult ->
-        if (result1.resultCode == Activity.RESULT_OK) {
-            val data = result1.data ?: return@registerForActivityResult
-
-            Executors.newSingleThreadExecutor().execute {
-                try {
-                    exportSettings(
-                        RPrefs.getPrefs,
-                        appContext.contentResolver.openOutputStream(data.data!!)!!
-                    )
-
-                    Handler(Looper.getMainLooper()).post {
-                        Toast.makeText(
-                            appContext,
-                            appContextLocale.resources.getString(R.string.toast_export_settings_successfull),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } catch (exception: Exception) {
-                    Handler(Looper.getMainLooper()).post {
-                        Toast.makeText(
-                            appContext,
-                            appContextLocale.resources.getString(R.string.toast_error),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("Settings", "Error exporting settings", exception)
-                    }
-                }
-            }
-        }
-    }
-
-    private var startImportActivityIntent = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result2: ActivityResult ->
-        if (result2.resultCode == Activity.RESULT_OK) {
-            val data = result2.data ?: return@registerForActivityResult
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(requireContext().resources.getString(R.string.import_settings_confirmation_title))
-                .setMessage(requireContext().resources.getString(R.string.import_settings_confirmation_desc))
-                .setPositiveButton(
-                    requireContext().resources.getString(R.string.btn_positive)
-                ) { dialog: DialogInterface, _: Int ->
-                    dialog.dismiss()
-                    loadingDialog!!.show(resources.getString(R.string.loading_dialog_wait))
-                    Executors.newSingleThreadExecutor().execute {
-                        try {
-                            val success = importSettings(
-                                RPrefs.getPrefs,
-                                appContext.contentResolver.openInputStream(data.data!!)!!,
-                                true
-                            )
-                            Handler(Looper.getMainLooper()).post {
-                                loadingDialog!!.hide()
-                                if (success) {
-                                    Toast.makeText(
-                                        appContext,
-                                        appContext.resources.getString(R.string.toast_import_settings_successfull),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    Toast.makeText(
-                                        appContext,
-                                        appContext.resources.getString(R.string.toast_error),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                        } catch (exception: Exception) {
-                            Handler(Looper.getMainLooper()).post {
-                                Toast.makeText(
-                                    appContext,
-                                    appContext.resources.getString(R.string.toast_error),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                Log.e("Settings", "Error importing settings", exception)
-                            }
-                        }
-                    }
-                }
-                .setNegativeButton(requireContext().resources.getString(R.string.btn_negative)) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
-                .show()
-        }
     }
 
     companion object {

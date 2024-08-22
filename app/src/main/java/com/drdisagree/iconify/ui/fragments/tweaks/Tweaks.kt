@@ -17,7 +17,4 @@ class Tweaks : ControlledPreferenceFragmentCompat() {
 
     override val hasMenu: Boolean
         get() = true
-
-    override val scopes: Array<String>?
-        get() = null
 }

@@ -35,9 +35,6 @@ class Home : ControlledPreferenceFragmentCompat() {
     override val hasMenu: Boolean
         get() = false
 
-    override val scopes: Array<String>?
-        get() = null
-
     override val themeResource: Int
         get() = R.style.PrefsThemeCollapsingToolbar
 

@@ -72,6 +72,7 @@
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="xposedSettings"
         android:title="@string/settings_section_title_xposed"
         app:iconSpaceReserved="true"
         search:ignore="true">
@@ -83,12 +84,16 @@
             android:title="@string/settings_show_warning_title"
             app:defaultValue="true" />
 
-        <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        <com.drdisagree.iconify.ui.preferences.ListPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/settings_restart_systemui_behavior"
+            android:entries="@array/xposed_mod_apply_method"
+            android:entryValues="@array/xposed_mod_apply_method_identifier"
             android:icon="@drawable/ic_xposed_restart_systemui"
-            android:key="android.theme.customization.icon_pack"
-            android:summary="@string/settings_auto_restart_systemui"
+            android:key="IconifyRestartSysuiBehaviorExtended"
             android:title="@string/settings_restart_systemui_behavior"
-            app:showArrow="false" />
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 
@@ -100,7 +105,7 @@
 
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
             android:icon="@drawable/ic_restart_systemui_after_boot"
-            android:key="android.theme.customization.navbar"
+            android:key="restartSysuiAfterBoot"
             android:summary="@string/settings_restart_systemui_after_boot_desc"
             android:title="@string/settings_restart_systemui_after_boot_title" />
 
@@ -113,7 +118,7 @@
 
         <com.drdisagree.iconify.ui.preferences.PreferenceMenu
             android:icon="@drawable/ic_clear_cache"
-            android:key="android.theme.customization.icon_pack"
+            android:key="clearAppCache"
             android:summary="@string/settings_clear_app_cache_desc"
             android:title="@string/settings_clear_app_cache_title"
             app:showArrow="false" />

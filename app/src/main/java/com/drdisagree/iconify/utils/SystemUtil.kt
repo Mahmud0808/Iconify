@@ -68,7 +68,7 @@ object SystemUtil {
     }
 
     fun handleSystemUIRestart() {
-        val selectedBehavior = RPrefs.getInt(RESTART_SYSUI_BEHAVIOR_EXT, 0)
+        val selectedBehavior = getString(RESTART_SYSUI_BEHAVIOR_EXT, "0")!!.toInt()
 
         when (selectedBehavior) {
             0 -> {

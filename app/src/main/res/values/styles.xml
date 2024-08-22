@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="ThemeOverlay.App.MaterialAlertDialog.Monet" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="dialogCornerRadius">28dp</item>
+        <item name="android:background">@drawable/container_main</item>
+    </style>
+
     <style name="PrefsThemeToolbar" parent="PreferenceThemeOverlay.v14.Material">
         <item name="android:layout">@layout/fragment_preference_container</item>
     </style>

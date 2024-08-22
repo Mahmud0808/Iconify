@@ -143,10 +143,17 @@
         <item>@string/update_schedule3</item>
         <item>@string/update_schedule4</item>
     </string-array>
+
     <string-array name="xposed_mod_apply_method">
         <item>@string/settings_auto_restart_systemui</item>
         <item>@string/settings_auto_force_reload_ui</item>
         <item>@string/settings_manual_restart_systemui</item>
+    </string-array>
+
+    <string-array name="xposed_mod_apply_method_identifier" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <!-- Lockscreen Weather Units -->
