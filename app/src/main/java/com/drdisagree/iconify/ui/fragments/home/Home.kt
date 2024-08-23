@@ -59,6 +59,7 @@ class Home : ControlledPreferenceFragmentCompat(), AppBarLayout.OnOffsetChangedL
 
         appBarLayout = view.findViewById(R.id.appBarLayout)
         appBarLayout.addOnOffsetChangedListener(this)
+        listView.scrollToPosition(0)
 
         if (getBoolean(FIRST_INSTALL, false)) {
             putBoolean(FIRST_INSTALL, false)
