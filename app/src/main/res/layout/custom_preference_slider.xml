@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:foreground="?selectableItemBackgroundBorderless"
-    android:paddingStart="@dimen/preference_padding_start"
-    android:paddingTop="@dimen/preference_padding_top"
-    android:paddingEnd="@dimen/preference_padding_end"
-    android:paddingBottom="@dimen/preference_padding_bottom">
+    android:background="@drawable/item_background_material"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="4dp">
 
     <ImageView
         android:id="@android:id/icon"
@@ -19,7 +19,7 @@
         android:layout_marginEnd="18dp"
         android:contentDescription="@android:string/untitled"
         android:visibility="gone"
-        app:tint="?attr/colorOnSurface" />
+        app:tint="?attr/colorPrimary" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,34 +29,35 @@
         android:layout_toEndOf="@android:id/icon"
         android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
+        <TextView
             android:id="@android:id/title"
-            style="?android:attr/textAppearanceListItem"
-            android:layout_width="wrap_content"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?attr/colorOnSurface" />
+            android:textAlignment="viewStart"
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:id="@android:id/summary"
-            style="?android:attr/textAppearanceSmall"
-            android:layout_width="wrap_content"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@android:id/title"
-            android:alpha="0.8"
-            android:textColor="?attr/colorOnSurface" />
+            android:textAlignment="viewStart"
+            android:textColor="@color/text_color_secondary" />
 
         <LinearLayout
             android:id="@android:id/widget_frame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@android:id/summary"
-            android:layout_marginTop="4dp"
             android:orientation="vertical" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@android:id/widget_frame"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <com.google.android.material.slider.RangeSlider
@@ -68,11 +69,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/reset_button"
-                android:layout_width="38dp"
+                style="?attr/materialIconButtonFilledTonalStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon="@drawable/ic_reset" />
 
         </LinearLayout>
-
     </RelativeLayout>
 </RelativeLayout>

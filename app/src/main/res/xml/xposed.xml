@@ -61,10 +61,10 @@
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_xposed_lockscreen"
-        android:key="xposedLockscreen"
+        android:key="xposedLockscreenClock"
         android:summary="@string/activity_desc_lockscreen_clock"
         android:title="@string/activity_title_lockscreen_clock"
-        app:fragment="com.drdisagree.iconify.ui.fragments.XposedLockscreen" />
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedLockscreenClock" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_xposed_lockscreen_weather"

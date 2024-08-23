@@ -27,7 +27,7 @@
                 android:clickable="true"
                 android:orientation="vertical"
                 android:paddingHorizontal="24dp"
-                android:paddingTop="22dp"
+                android:paddingTop="16dp"
                 android:paddingBottom="4dp">
 
                 <TextView
