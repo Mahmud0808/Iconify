@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:fillViewport="true"
-    tools:context=".ui.fragments.Xposed">
+    tools:context=".ui.fragments.XposedMenu">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"

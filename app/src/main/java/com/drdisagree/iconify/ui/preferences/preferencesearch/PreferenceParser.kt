@@ -213,7 +213,7 @@ internal class PreferenceParser(private val mContext: Context) {
         private const val MAX_RESULTS = 10
         private const val NS_ANDROID = "http://schemas.android.com/apk/res/android"
         private const val NS_SEARCH =
-            "http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferencesearch.preferencesearch"
+            "http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch"
         private val BLACKLIST: List<String> = listOf(
             SearchPreference::class.java.name, "PreferenceCategory"
         )

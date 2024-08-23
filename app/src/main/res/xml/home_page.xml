@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:search="http://schemas.android.com/apk/sh.siava.pixelxpert.ui.preferencesearch">
+    xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
 
     <com.drdisagree.iconify.ui.preferences.HomeCardPreference
         android:key="iconifyHomeCard"
@@ -25,70 +25,60 @@
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_iconpack"
-        android:key="android.theme.customization.icon_pack"
         android:summary="@string/activity_desc_icon_pack"
         android:title="@string/activity_title_icon_pack"
         app:fragment="com.drdisagree.iconify.ui.fragments.IconPack" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_signal_icons"
-        android:key="android.theme.customization.signal_icons"
         android:summary="@string/activity_desc_signal_icons"
         android:title="@string/activity_title_signal_icons"
         app:fragment="com.drdisagree.iconify.ui.fragments.SignalIcons" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_wifi_icons"
-        android:key="android.theme.customization.wifi_icons"
         android:summary="@string/activity_desc_wifi_icons"
         android:title="@string/activity_title_wifi_icons"
         app:fragment="com.drdisagree.iconify.ui.fragments.WiFiIcons" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_brightness"
-        android:key="android.theme.customization.brightnessbar"
         android:summary="@string/activity_desc_brightness_bar"
         android:title="@string/activity_title_brightness_bar"
         app:fragment="com.drdisagree.iconify.ui.fragments.BrightnessBar" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_qs_shape"
-        android:key="android.theme.customization.qspanel_tile"
         android:summary="@string/activity_desc_qs_shape"
         android:title="@string/activity_title_qs_shape"
         app:fragment="com.drdisagree.iconify.ui.fragments.QsPanelTile" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_notification"
-        android:key="android.theme.customization.notification"
         android:summary="@string/activity_desc_notification"
         android:title="@string/activity_title_notification"
         app:fragment="com.drdisagree.iconify.ui.fragments.Notification" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_progress"
-        android:key="android.theme.customization.progressbar"
         android:summary="@string/activity_desc_progress_bar"
         android:title="@string/activity_title_progress_bar"
         app:fragment="com.drdisagree.iconify.ui.fragments.ProgressBar" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_switch"
-        android:key="android.theme.customization.switch"
         android:summary="@string/activity_desc_switch"
         android:title="@string/activity_title_switch"
         app:fragment="com.drdisagree.iconify.ui.fragments.Switch" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_toast_frame"
-        android:key="android.theme.customization.toast_frame"
         android:summary="@string/activity_desc_toast_frame"
         android:title="@string/activity_title_toast_frame"
         app:fragment="com.drdisagree.iconify.ui.fragments.ToastFrame" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_icon_shape"
-        android:key="android.theme.customization.icon_shape"
         android:summary="@string/activity_desc_icon_shape"
         android:title="@string/activity_title_icon_shape"
         app:fragment="com.drdisagree.iconify.ui.fragments.IconShape" />

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/tools">
+
+    <com.drdisagree.iconify.ui.preferences.HookCheckPreference
+        android:key="xposedHookCheck"
+        android:layout="@layout/view_xposed_hook_check"
+        app:iconSpaceReserved="false"
+        app:isPreferenceVisible="false"
+        search:ignore="true" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_transparency_blur"
+        android:summary="@string/activity_desc_transparency_blur"
+        android:title="@string/activity_title_transparency_blur"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedTransparencyBlur" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_quick_settings"
+        android:summary="@string/activity_desc_quick_settings"
+        android:title="@string/activity_title_quick_settings"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedQuickSettings" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_colored_battery"
+        android:summary="@string/activity_desc_battery_style"
+        android:title="@string/activity_title_battery_style"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedBatteryStyle" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_tweaks_statusbar"
+        android:summary="@string/activity_desc_statusbar"
+        android:title="@string/activity_title_statusbar"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedStatusbar" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_tweaks_volume"
+        android:summary="@string/activity_desc_volume_panel"
+        android:title="@string/activity_title_volume_panel"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedVolumePanel" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_header_image"
+        android:summary="@string/activity_desc_header_image"
+        android:title="@string/activity_title_header_image"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedHeaderImage" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_header_clock"
+        android:summary="@string/activity_desc_header_clock"
+        android:title="@string/activity_title_header_clock"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedHeaderClock" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_lockscreen"
+        android:summary="@string/activity_desc_lockscreen_clock"
+        android:title="@string/activity_title_lockscreen_clock"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedLockscreen" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_lockscreen_weather"
+        android:summary="@string/activity_desc_lockscreen_weather"
+        android:title="@string/activity_title_lockscreen_weather"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedLockscreenWeather" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_depth_wallpaper"
+        android:summary="@string/activity_desc_depth_wallpaper"
+        android:title="@string/activity_title_depth_wallpaper"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedDepthWallpaper" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_background_chip"
+        android:summary="@string/activity_desc_background_chip"
+        android:title="@string/activity_title_background_chip"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedBackgroundChip" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_misc"
+        android:summary="@string/activity_desc_xposed_others"
+        android:title="@string/activity_title_xposed_others"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedOthers" />
+
+</PreferenceScreen>

@@ -36,6 +36,8 @@ object PrefsHelper {
                 false
             )
 
+            "xposedHookCheck" -> !RPrefs.getBoolean(key)
+
             else -> true
         }
     }

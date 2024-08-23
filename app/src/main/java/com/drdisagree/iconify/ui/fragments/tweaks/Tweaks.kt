@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.ui.fragments.tweaks
 
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.common.Preferences
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 
 class Tweaks : ControlledPreferenceFragmentCompat() {
@@ -10,7 +9,7 @@ class Tweaks : ControlledPreferenceFragmentCompat() {
         get() = getString(R.string.navbar_tweaks)
 
     override val backButtonEnabled: Boolean
-        get() = !Preferences.isXposedOnlyMode
+        get() = true
 
     override val layoutResource: Int
         get() = R.xml.tweaks

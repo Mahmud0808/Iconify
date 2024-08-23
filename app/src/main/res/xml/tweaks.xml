@@ -4,74 +4,62 @@
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_tweaks_color"
-        android:key="android.theme.customization.style"
         android:summary="@string/activity_desc_color_engine"
         android:title="@string/activity_title_color_engine" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_tweaks_roundness"
-        android:key="android.theme.customization.notifications"
         android:summary="@string/activity_desc_ui_roundness"
         android:title="@string/activity_title_ui_roundness"
         app:fragment="com.drdisagree.iconify.ui.fragments.UiRoundness" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_qs_row_column"
-        android:key="android.theme.customization.notifications_roundness"
         android:summary="@string/activity_desc_qs_row_column"
         android:title="@string/activity_title_qs_row_column" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_qs_icon_and_label"
-        android:key="android.theme.customization.navbar"
         android:summary="@string/activity_desc_qs_icon_label"
         android:title="@string/activity_title_qs_icon_label" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_qs_tile_size"
-        android:key="android.theme.customization.toast_frame"
         android:summary="@string/activity_desc_qs_tile_size"
         android:title="@string/activity_title_qs_tile_size" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_qs_top_margin"
-        android:key="android.theme.customization.icon_pack"
         android:summary="@string/activity_desc_qs_panel_margin"
         android:title="@string/activity_title_qs_panel_margin" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_tweaks_statusbar"
-        android:key="android.theme.customization.settings_icons"
         android:summary="@string/activity_desc_statusbar"
         android:title="@string/activity_title_statusbar" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_tweaks_navbar"
-        android:key="android.theme.customization.signal_icon"
         android:summary="@string/activity_desc_navigation_bar"
         android:title="@string/activity_title_navigation_bar" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_tweaks_media"
-        android:key="android.theme.customization.wifi_icon"
         android:summary="@string/activity_desc_media_player"
         android:title="@string/activity_title_media_player" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_tweaks_volume"
-        android:key="android.theme.customization.wifi_icon"
         android:summary="@string/activity_desc_volume_panel"
         android:title="@string/activity_title_volume_panel" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_tweaks_miscellaneous"
-        android:key="android.theme.customization.wifi_icon"
         android:summary="@string/activity_desc_miscellaneous"
         android:title="@string/activity_title_miscellaneous" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_tweaks_xposed_menu"
-        android:key="android.theme.customization.wifi_icon"
         android:summary="@string/activity_desc_xposed_menu"
         android:title="@string/activity_title_xposed_menu" />
 

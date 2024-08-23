@@ -6,7 +6,7 @@
     app:startDestination="@id/xposedMenu">
     <fragment
         android:id="@+id/xposedMenu"
-        android:name="com.drdisagree.iconify.ui.fragments.Xposed"
+        android:name="com.drdisagree.iconify.ui.fragments.XposedMenu"
         android:label="fragment_xposed_menu"
         tools:layout="@layout/fragment_xposed_menu">
         <action
