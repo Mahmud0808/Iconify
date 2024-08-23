@@ -28,6 +28,11 @@
                 app:titleText="@string/lockscreen_widgets_enabled_title"
                 app:summaryText="@string/lockscreen_widgets_enabled_summary" />
 
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/lockscreen_display_widgets_title" />
+
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,6 +79,11 @@
                 app:titleText="@string/custom_device_name"
                 app:iconSpaceReserved="false" />
 
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/large_widgets_category_title" />
+
             <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
                 android:id="@+id/big_widget_1"
                 android:layout_width="match_parent"
@@ -87,6 +97,11 @@
                 android:layout_height="wrap_content"
                 app:titleText="@string/main_custom_widgets2"
                 app:entries="@array/lockscreen_widgets_entries" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/mini_widgets_category_title" />
 
             <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
                 android:id="@+id/mini_widget_1"
@@ -116,11 +131,10 @@
                 app:titleText="@string/custom_widgets4"
                 app:entries="@array/lockscreen_widgets_entries" />
 
-            <com.drdisagree.iconify.ui.widgets.MenuWidget
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/weather_settings"
-                app:titleText="@string/weather_settings" />
+                app:titleText="@string/widgets_custom_color" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:layout_width="match_parent"
@@ -192,6 +206,17 @@
                 app:titleText="@string/mini_icon_inactive"
                 app:cpv_showAlphaSlider="true"
                 app:iconSpaceReserved="false" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_misc"/>
+
+            <com.drdisagree.iconify.ui.widgets.MenuWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/weather_settings"
+                app:titleText="@string/weather_settings" />
 
         </LinearLayout>
 
