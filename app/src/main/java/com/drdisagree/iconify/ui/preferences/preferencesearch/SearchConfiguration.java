@@ -147,7 +147,9 @@ public class SearchConfiguration {
      */
     public SearchIndexItem index(@XmlRes int resId) {
         SearchIndexItem item = new SearchIndexItem(resId, this);
-        filesToIndex.add(item);
+        if (!filesToIndex.contains(item)) {
+            filesToIndex.add(item);
+        }
         return item;
     }
 

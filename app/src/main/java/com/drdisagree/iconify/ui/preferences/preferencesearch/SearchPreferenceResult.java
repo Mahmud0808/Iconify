@@ -39,7 +39,7 @@ public class SearchPreferenceResult {
         final Preference prefResult = prefsFragment.findPreference(key);
 
         if (prefResult == null) {
-            Log.e("doHighlight", "Preference not found on given screen");
+            Log.w("doHighlight", "Preference with key " + key + " not found on given screen " + prefsFragment.getClass().getSimpleName() + ".");
             return;
         }
 

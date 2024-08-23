@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.activities
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -115,6 +116,16 @@ class MainActivity : BaseActivity(),
     }
 
     private fun setupNavigation() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (myFragmentManager.backStackEntryCount > 1) {
+                    popCurrentFragment()
+                } else {
+                    finish()
+                }
+            }
+        })
+
         if (Preferences.isXposedOnlyMode) {
             binding.bottomNavigationView.menu.clear()
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_xposed_only)
@@ -361,20 +372,10 @@ class MainActivity : BaseActivity(),
 
             when {
                 fragmentTag == Home::class.java.simpleName ||
-                        (fragmentTag == Xposed::class.java.simpleName && Preferences.isXposedOnlyMode) -> {
-                    myFragmentManager.popBackStack(
-                        null,
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE
-                    )
-                }
-
-                fragmentTag == Tweaks::class.java.simpleName ||
+                        fragmentTag == Tweaks::class.java.simpleName ||
                         fragmentTag == Xposed::class.java.simpleName ||
                         fragmentTag == Settings::class.java.simpleName -> {
-                    myFragmentManager.popBackStack(
-                        null,
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE
-                    )
+                    myFragmentManager.popBackStack(Home::class.java.simpleName, 0)
                     fragmentTransaction.addToBackStack(fragmentTag)
                 }
 
