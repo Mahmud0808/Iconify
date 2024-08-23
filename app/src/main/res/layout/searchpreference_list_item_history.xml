@@ -18,10 +18,10 @@
         android:layout_height="24dp"
         android:layout_gravity="center"
         android:layout_marginStart="6dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="14dp"
         android:contentDescription="@string/searchpreference_history_entry"
         app:srcCompat="@drawable/ic_history"
-        app:tint="?attr/colorOnSurface" />
+        app:tint="@color/text_color_secondary" />
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -32,7 +32,7 @@
             android:id="@+id/term"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/colorOnSurface" />
+            android:textColor="@color/text_color_secondary" />
 
     </RelativeLayout>
 </LinearLayout>
