@@ -79,13 +79,6 @@
         app:iconSpaceReserved="true"
         search:ignore="true">
 
-        <com.drdisagree.iconify.ui.preferences.SwitchPreference
-            android:icon="@drawable/ic_xposed_warn"
-            android:key="IconifyShowXposedWarn"
-            android:summary="@string/settings_show_warning_desc"
-            android:title="@string/settings_show_warning_title"
-            app:defaultValue="true" />
-
         <com.drdisagree.iconify.ui.preferences.ListPreference
             android:defaultValue="0"
             android:dialogTitle="@string/settings_restart_systemui_behavior"

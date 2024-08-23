@@ -3,6 +3,7 @@ package com.drdisagree.iconify.ui.preferences
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
@@ -10,11 +11,17 @@ import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
+import android.widget.ImageView
 import androidx.preference.Preference
+import androidx.preference.PreferenceViewHolder
+import com.drdisagree.iconify.Iconify.Companion.appContextLocale
+import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_REQUEST
 import com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_RESULT
+import com.drdisagree.iconify.common.Preferences
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.utils.extension.ObservableVariable
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(context, attrs) {
 
@@ -40,6 +47,34 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
                     RPrefs.putBoolean("xposedHookCheck", it)
                 }
             }
+        }
+    }
+
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
+        super.onBindViewHolder(holder)
+
+        holder.itemView.findViewById<ImageView>(R.id.info_icon).setOnClickListener {
+            MaterialAlertDialogBuilder(context)
+                .setTitle(context.resources.getString(R.string.attention))
+                .setMessage(
+                    buildString {
+                        append(
+                            (if (Preferences.isXposedOnlyMode) {
+                                appContextLocale.resources.getString(
+                                    R.string.xposed_only_desc
+                                ) + "\n\n"
+                            } else {
+                                ""
+                            })
+                        )
+                        append(appContextLocale.resources.getString(R.string.lsposed_warn))
+                    }
+                )
+                .setPositiveButton(context.resources.getString(R.string.understood)) { dialog: DialogInterface, _: Int ->
+                    dialog.dismiss()
+                }
+                .setCancelable(true)
+                .show()
         }
     }
 
