@@ -111,6 +111,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private var mSecondaryWidgetViews: Array<ImageView>? = null
     private var mMainWidgetsList: List<String>? = ArrayList()
     private var mSecondaryWidgetsList: List<String>? = ArrayList()
+    private var mIsLargeClock: Boolean = false
 
     private val mAudioManager: AudioManager?
     private val mWifiManager: WifiManager?
@@ -623,7 +624,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             mMainWidgetsContainer.visibility = if (isMainWidgetsEmpty) GONE else VISIBLE
         }
         if (mSecondaryWidgetsContainer != null) {
-            mSecondaryWidgetsContainer.visibility = if (isSecondaryWidgetsEmpty) GONE else VISIBLE
+            mSecondaryWidgetsContainer.visibility = if (isSecondaryWidgetsEmpty || mIsLargeClock) GONE else VISIBLE
         }
         val shouldHideContainer = isEmpty || mDozing || !lockscreenWidgetsEnabled
         visibility = if (shouldHideContainer) GONE else VISIBLE
@@ -1600,6 +1601,12 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             *instance!!.mSecondaryLockscreenWidgetsList!!.split(",".toRegex())
                 .dropLastWhile { it.isEmpty() }
                 .toTypedArray())
+        instance!!.updateWidgetViews()
+    }
+
+    fun setIsLargeClock(isLargeClock: Boolean) {
+        log("LockscreenWidgets setIsLargeClock $isLargeClock")
+        instance!!.mIsLargeClock = isLargeClock
         instance!!.updateWidgetViews()
     }
 

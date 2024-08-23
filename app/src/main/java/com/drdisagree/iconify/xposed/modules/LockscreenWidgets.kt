@@ -208,6 +208,15 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             }
         })
 
+        hookAllMethods(keyguardClockSwitch, "updateClockViews", object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                if (!mWidgetsEnabled) return
+
+                updateLockscreenWidgetsOnClock(param.args[0] as Boolean)
+
+            }
+        })
+
         val dozeScrimControllerClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController",
             loadPackageParam.classLoader
@@ -248,6 +257,12 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
         log(TAG + "Updating Lockscreen Widgets")
         val lsWidgets = LockscreenWidgetsView.getInstance() ?: return
         lsWidgets.setOptions(mWidgetsEnabled, mDeviceWidgetEnabled, mMainWidgets, mExtraWidgets)
+    }
+
+    private fun updateLockscreenWidgetsOnClock(isLargeClock: Boolean) {
+        log(TAG + "Updating Lockscreen Widgets on Clock")
+        val lsWidgets = LockscreenWidgetsView.getInstance() ?: return
+        lsWidgets.setIsLargeClock(isLargeClock)
     }
 
     private fun updateLsDeviceWidget() {
