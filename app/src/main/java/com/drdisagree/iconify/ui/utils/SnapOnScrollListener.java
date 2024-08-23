@@ -1,69 +1,72 @@
-package com.drdisagree.iconify.ui.utils
+package com.drdisagree.iconify.ui.utils;
 
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
+import android.view.View;
 
-class SnapOnScrollListener : RecyclerView.OnScrollListener {
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
-    private val snapHelper: SnapHelper
-    private var behavior = Behavior.NOTIFY_ON_SCROLL
-    private var onSnapPositionChangeListener: OnSnapPositionChangeListener? = null
+public class SnapOnScrollListener extends RecyclerView.OnScrollListener {
+    private final SnapHelper snapHelper;
+    private Behavior behavior = Behavior.NOTIFY_ON_SCROLL;
+    private OnSnapPositionChangeListener onSnapPositionChangeListener;
 
-    private var snapPosition = RecyclerView.NO_POSITION
+    private int snapPosition = RecyclerView.NO_POSITION;
 
-    constructor(snapHelper: SnapHelper) {
-        this.snapHelper = snapHelper
+    public SnapOnScrollListener(SnapHelper snapHelper) {
+        this.snapHelper = snapHelper;
     }
 
-    constructor(
-        snapHelper: SnapHelper,
-        behavior: Behavior,
-        onSnapPositionChangeListener: OnSnapPositionChangeListener?
-    ) {
-        this.snapHelper = snapHelper
-        this.behavior = behavior
-        this.onSnapPositionChangeListener = onSnapPositionChangeListener
+    public SnapOnScrollListener(SnapHelper snapHelper, Behavior behavior, OnSnapPositionChangeListener onSnapPositionChangeListener) {
+        this.snapHelper = snapHelper;
+        this.behavior = behavior;
+        this.onSnapPositionChangeListener = onSnapPositionChangeListener;
     }
 
-    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+    @Override
+    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (behavior == Behavior.NOTIFY_ON_SCROLL) {
-            maybeNotifySnapPositionChange(recyclerView)
+            maybeNotifySnapPositionChange(recyclerView);
         }
     }
 
-    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+    @Override
+    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         if (behavior == Behavior.NOTIFY_ON_SCROLL_STATE_IDLE
-            && newState == RecyclerView.SCROLL_STATE_IDLE
-        ) {
-            maybeNotifySnapPositionChange(recyclerView)
+                && newState == RecyclerView.SCROLL_STATE_IDLE) {
+            maybeNotifySnapPositionChange(recyclerView);
         }
     }
 
-    private fun maybeNotifySnapPositionChange(recyclerView: RecyclerView) {
-        val snapPosition = getSnapPosition(recyclerView)
-        val snapPositionChanged = this.snapPosition != snapPosition
-
+    private void maybeNotifySnapPositionChange(RecyclerView recyclerView) {
+        int snapPosition = getSnapPosition(recyclerView);
+        boolean snapPositionChanged = this.snapPosition != snapPosition;
         if (snapPositionChanged) {
             if (onSnapPositionChangeListener != null) {
-                onSnapPositionChangeListener!!.onSnapPositionChange(snapPosition)
+                onSnapPositionChangeListener.onSnapPositionChange(snapPosition);
             }
-            this.snapPosition = snapPosition
+            this.snapPosition = snapPosition;
         }
     }
 
-    private fun getSnapPosition(recyclerView: RecyclerView): Int {
-        val layoutManager = recyclerView.layoutManager ?: return RecyclerView.NO_POSITION
-        val snapView = snapHelper.findSnapView(layoutManager) ?: return RecyclerView.NO_POSITION
-        return layoutManager.getPosition(snapView)
+    public int getSnapPosition(RecyclerView recyclerView) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager == null) {
+            return RecyclerView.NO_POSITION;
+        }
+        View snapView = snapHelper.findSnapView(layoutManager);
+        if (snapView == null) {
+            return RecyclerView.NO_POSITION;
+        }
+        return layoutManager.getPosition(snapView);
     }
 
 
-    enum class Behavior {
+    public enum Behavior {
         NOTIFY_ON_SCROLL,
         NOTIFY_ON_SCROLL_STATE_IDLE
     }
 
-    interface OnSnapPositionChangeListener {
-        fun onSnapPositionChange(position: Int)
+    public interface OnSnapPositionChangeListener {
+        void onSnapPositionChange(int position);
     }
 }
