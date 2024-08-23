@@ -238,6 +238,26 @@
             app:exitAnim="@anim/fragment_fade_out"
             app:popEnterAnim="@anim/fragment_fade_in"
             app:popExitAnim="@anim/fragment_fade_out" />
+        <action
+            android:id="@+id/action_xposedLockscreenWeather_to_weatherSettings"
+            app:destination="@id/weatherSettings"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherSettings"
+        android:name="com.drdisagree.iconify.ui.fragments.WeatherSettings"
+        android:label="fragment_weather_settings"
+        tools:layout="@layout/fragment_weather_settings">
+        <action
+            android:id="@+id/action_weatherSettings_to_xposedLockscreenWidgets"
+            app:destination="@id/xposedMenu"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
     </fragment>
     <fragment
         android:id="@+id/xposedLockscreenWidgets"

@@ -39,8 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/device_widget_custom_color"
-                app:titleText="@string/widgets_custom_color" />
-                app:iconSpaceReserved="false" />
+                app:titleText="@string/widgets_custom_color"
+                app:iconSpaceReserved="false"/>
 
             <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
                 android:layout_width="match_parent"
@@ -116,6 +116,12 @@
                 app:titleText="@string/custom_widgets4"
                 app:entries="@array/lockscreen_widgets_entries" />
 
+            <com.drdisagree.iconify.ui.widgets.MenuWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/weather_settings"
+                app:titleText="@string/weather_settings" />
+
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -186,7 +192,6 @@
                 app:titleText="@string/mini_icon_inactive"
                 app:cpv_showAlphaSlider="true"
                 app:iconSpaceReserved="false" />
-
 
         </LinearLayout>
 

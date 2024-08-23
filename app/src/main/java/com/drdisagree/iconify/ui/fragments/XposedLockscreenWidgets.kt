@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.navigation.Navigation.findNavController
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS
@@ -203,6 +204,13 @@ class XposedLockscreenWidgets : BaseFragment() {
             updatePrefs()
         }
 
+        // Weather Settings
+        binding.weatherSettings.setOnClickListener{
+            findNavController(binding.weatherSettings).navigate(
+                (R.id.action_xposedLockscreenWeather_to_weatherSettings)
+            )
+        }
+
         // Widgets Colors
         binding.widgetsCustomColor.isSwitchChecked = getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, false)
         binding.widgetsCustomColor.setSwitchChangeListener{
@@ -266,6 +274,8 @@ class XposedLockscreenWidgets : BaseFragment() {
         val deviceWidgetCustomColor = getBoolean(
             LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, false)
         val widgetsCustomColor = getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, false)
+        val mainWidgets: String? = RPrefs.getString(LOCKSCREEN_WIDGETS, "")
+        val extraWidgets: String? = RPrefs.getString(LOCKSCREEN_WIDGETS_EXTRAS, "")
 
         // Device Widget Prefs
         binding.deviceWidgetCustomColor.isEnabled = widgetsEnabled && deviceWidgetEnabled
@@ -302,6 +312,8 @@ class XposedLockscreenWidgets : BaseFragment() {
         binding.widgetsSmallInactive.isEnabled = widgetsEnabled && widgetsCustomColor
         binding.widgetsSmallIconActive.isEnabled = widgetsEnabled && widgetsCustomColor
         binding.widgetsSmallIconInactive.isEnabled = widgetsEnabled && widgetsCustomColor
+
+        binding.weatherSettings.isEnabled = mainWidgets!!.contains("weather") || extraWidgets!!.contains("weather")
 
     }
 
