@@ -108,7 +108,7 @@ public class SearchPreferenceFragment extends Fragment implements SearchPreferen
         }
         viewHolder.moreButton.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(requireContext(), viewHolder.moreButton);
-            popup.getMenuInflater().inflate(R.menu.searchpreference_more, popup.getMenu());
+            popup.getMenuInflater().inflate(R.menu.search_more, popup.getMenu());
             popup.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.clear_history) {
                     clearHistory();
@@ -151,7 +151,7 @@ public class SearchPreferenceFragment extends Fragment implements SearchPreferen
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 menu.clear();
-                menuInflater.inflate(R.menu.settings_menu, menu);
+                menuInflater.inflate(R.menu.search_menu, menu);
             }
 
             @Override
@@ -217,7 +217,7 @@ public class SearchPreferenceFragment extends Fragment implements SearchPreferen
         if (getContext() != null) {
             if (viewHolder.toolbar != null) {
                 ((AppCompatActivity) getContext()).setSupportActionBar(viewHolder.toolbar);
-                viewHolder.toolbar.setTitle("Search");
+                viewHolder.toolbar.setTitle(R.string.search_title);
             }
 
             if (getContext() instanceof AppCompatActivity) {

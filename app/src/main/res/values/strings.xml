@@ -34,6 +34,7 @@
     <string name="logs">Logs</string>
 
     <!-- Search Preference -->
+    <string name="search_title">Search</string>
     <string name="searchpreference_search">Search…</string>
     <string name="searchpreference_clear">Clear</string>
     <string name="searchpreference_history_entry">History entry</string>
