@@ -52,7 +52,6 @@ import com.drdisagree.iconify.xposed.modules.utils.ExtendedFAB
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.getBooleanField
-import de.robv.android.xposed.XposedHelpers.getObjectField
 import java.lang.reflect.Method
 import java.util.Locale
 import kotlin.math.abs
@@ -133,9 +132,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private var mCameraId: String? = null
     private var isFlashOn = false
 
-    private var mWifiIndicators: Any? = null
-    private var mMobileIndicators: Any? = null
-
     private val mAudioMode = 0
     private val mMediaUpdater: Runnable
     private val mHandler: Handler
@@ -169,13 +165,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         object : ControllersProvider.OnMobileDataChanged {
             override fun setMobileDataIndicators(mMobileDataIndicators: Any?) {
                 log("LockscreenWidgets setMobileDataIndicators")
-                val qsIcon = getObjectField(mMobileDataIndicators, "qsIcon")
-                this@LockscreenWidgetsView.mMobileIndicators = mMobileDataIndicators
-                if (qsIcon == null) {
-                    log("LockscreenWidgets setMobileDataIndicators qsIcon null")
-                    updateMobileDataState(false)
-                    return
-                }
                 updateMobileDataState(isMobileDataEnabled)
             }
 
@@ -198,13 +187,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val mWifiCallback: ControllersProvider.OnWifiChanged = object : ControllersProvider.OnWifiChanged {
         override fun onWifiChanged(mWifiIndicators: Any?) {
             log("LockscreenWidgets onWifiChanged")
-            this@LockscreenWidgetsView.mWifiIndicators = mWifiIndicators
-            val qsIcon = getObjectField(mWifiIndicators, "qsIcon")
-            log("LockscreenWidgets onWifiChanged qsIcon " + (qsIcon != null))
-            if (qsIcon == null) {
-                updateWiFiButtonState(false)
-                return
-            }
             updateWiFiButtonState(isWifiEnabled)
         }
     }
@@ -582,6 +564,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         updateBtState()
         updateWiFiButtonState(isWifiEnabled)
         updateMobileDataState(isMobileDataEnabled)
+        updateHotspotButtonState(0)
     }
 
     override fun onAttachedToWindow() {
@@ -732,7 +715,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     }
                 }
                 setUpWidgetResources(iv, efab,
-                    { toggleWiFi() }, getDrawable(WIFI_INACTIVE, SYSTEMUI_PACKAGE), getString("wifi_Connected", SYSTEMUI_PACKAGE)
+                    { toggleWiFi() }, getDrawable(WIFI_INACTIVE, SYSTEMUI_PACKAGE), getString(
+                        WIFI_LABEL, SYSTEMUI_PACKAGE)
                 )
             }
 
@@ -1147,9 +1131,10 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun toggleHotspot() {
-        val mHostpotController: Any? = ControllersProvider.mHotspotController
-        if (mHostpotController != null) {
-            callMethod(mHostpotController, "setHotspotEnabled", !isHotspotEnabled())
+        val mHotspotTile = ControllersProvider.mHotspotTile
+        if (mHotspotTile != null) {
+            val finalView = hotspotButton ?: hotspotButtonFab
+            callMethod(mHotspotTile, "handleClick", finalView)
         }
         updateHotspotButtonState(0)
         postDelayed({ updateHotspotButtonState(0) }, 350L)
@@ -1160,22 +1145,18 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         get() {
             val dataController: Any? = ControllersProvider.mDataController
             log("LockscreenWidgets isMobileDataEnabled (dataController == null) " + (dataController == null))
-            if (dataController != null) {
-                return callMethod(dataController, "isMobileDataEnabled") as Boolean
-            } else {
-                try {
-                    val connectivityManager = mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                    val cmClass = Class.forName(ConnectivityManager::class.java.name)
-                    val method= cmClass.getDeclaredMethod("getMobileDataEnabled")
-                    method.isAccessible = true
-                    // Call the method on the ConnectivityManager instance
-                    val result = method.invoke(connectivityManager)
-                    // Safely handle the return value
-                    return if (result is Boolean) result else false
-                } catch (e: Exception) {
-                    log("LockscreenWidgets isMobileDataEnabled error: " + e.message)
-                    return false
-                }
+            try {
+                val connectivityManager = mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val cmClass = Class.forName(ConnectivityManager::class.java.name)
+                val method= cmClass.getDeclaredMethod("getMobileDataEnabled")
+                method.isAccessible = true
+                // Call the method on the ConnectivityManager instance
+                val result = method.invoke(connectivityManager)
+                // Safely handle the return value
+                return if (result is Boolean) result else false
+            } catch (e: Exception) {
+                log("LockscreenWidgets isMobileDataEnabled error: " + e.message)
+                return false
             }
         }
 
@@ -1284,6 +1265,11 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     init {
         instance = this
+
+        this.layoutParams = LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
 
         mContext = context
         mAudioManager = mContext.getSystemService(AudioManager::class.java)
@@ -1522,19 +1508,15 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         }
 
     private fun isHotspotEnabled(): Boolean {
-        val hotspotController: Any? = ControllersProvider.mHotspotController
-        if (hotspotController != null) {
-            return callMethod(hotspotController, "isHotspotEnabled") as Boolean
-        } else {
-            try {
-                val method: Method = WifiManager::class.java.getDeclaredMethod("getWifiApState")
-                method.isAccessible = true
-                val actualState =
-                    method.invoke(mWifiManager, null as Array<Any?>?) as Int
-                return actualState == HOTSPOT_ENABLED
-            } catch (t: Throwable) {
-                log("LockscreenWidgetsView isHotspotEnabled error: " + t.message)
-            }
+        try {
+            val wifiManager = mContext.getSystemService(WifiManager::class.java)
+            val method: Method = wifiManager.javaClass.getDeclaredMethod("getWifiApState")
+            method.isAccessible = true
+            val actualState =
+                method.invoke(wifiManager) as Int
+            return actualState == HOTSPOT_ENABLED
+        } catch (t: Throwable) {
+            log("LockscreenWidgetsView isHotspotEnabled error: " + t.message)
         }
         return false
     }
