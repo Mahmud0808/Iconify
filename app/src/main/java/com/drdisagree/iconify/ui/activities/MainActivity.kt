@@ -330,6 +330,24 @@ class MainActivity : BaseActivity(),
 
         fun replaceFragment(fragment: Fragment) {
             val fragmentTag = fragment.javaClass.simpleName
+            val currentFragment = myFragmentManager.findFragmentById(R.id.fragmentContainerView)
+
+            if (currentFragment != null &&
+                currentFragment.javaClass.simpleName == SearchPreferenceFragment::class.java.simpleName
+            ) {
+                myFragmentManager.popBackStack()
+            }
+
+            if (currentFragment != null &&
+                currentFragment.javaClass.simpleName == fragmentTag
+            ) {
+                return
+            }
+
+            if (myFragmentManager.popBackStackImmediate(fragmentTag, 0)) {
+                return
+            }
+
             val fragmentTransaction: FragmentTransaction = myFragmentManager.beginTransaction()
 
             fragmentTransaction.setCustomAnimations(
@@ -341,23 +359,28 @@ class MainActivity : BaseActivity(),
 
             fragmentTransaction.replace(R.id.fragmentContainerView, fragment, fragmentTag)
 
-            if (fragmentTag == Home::class.java.simpleName ||
-                (fragmentTag == Tweaks::class.java.simpleName && Preferences.isXposedOnlyMode)
-            ) {
-                myFragmentManager.popBackStack(
-                    null,
-                    FragmentManager.POP_BACK_STACK_INCLUSIVE
-                )
-            } else if (fragmentTag == Tweaks::class.java.simpleName ||
-                fragmentTag == Settings::class.java.simpleName
-            ) {
-                myFragmentManager.popBackStack(
-                    null,
-                    FragmentManager.POP_BACK_STACK_INCLUSIVE
-                )
-                fragmentTransaction.addToBackStack(fragmentTag)
-            } else {
-                fragmentTransaction.addToBackStack(fragmentTag)
+            when {
+                fragmentTag == Home::class.java.simpleName ||
+                        (fragmentTag == Xposed::class.java.simpleName && Preferences.isXposedOnlyMode) -> {
+                    myFragmentManager.popBackStack(
+                        null,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
+                }
+
+                fragmentTag == Tweaks::class.java.simpleName ||
+                        fragmentTag == Xposed::class.java.simpleName ||
+                        fragmentTag == Settings::class.java.simpleName -> {
+                    myFragmentManager.popBackStack(
+                        null,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
+                    fragmentTransaction.addToBackStack(fragmentTag)
+                }
+
+                else -> {
+                    fragmentTransaction.addToBackStack(fragmentTag)
+                }
             }
 
             fragmentTransaction.commit()
@@ -384,7 +407,7 @@ class MainActivity : BaseActivity(),
 
         val searchableFragments = arrayOf(
             SearchPreferenceItem(R.xml.home_page, R.string.navbar_home, Home()),
-            SearchPreferenceItem(R.xml.tweaks, R.string.navbar_tweaks, Settings()),
+            SearchPreferenceItem(R.xml.tweaks, R.string.navbar_tweaks, Tweaks()),
             SearchPreferenceItem(R.xml.xposed, R.string.navbar_xposed, Xposed()),
             SearchPreferenceItem(R.xml.settings, R.string.navbar_settings, Settings()),
         )

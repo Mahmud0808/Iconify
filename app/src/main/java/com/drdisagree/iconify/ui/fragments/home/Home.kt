@@ -19,9 +19,12 @@ import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.fragments.AppUpdates
 import com.drdisagree.iconify.ui.preferences.UpdateCheckerPreference
 import com.drdisagree.iconify.utils.SystemUtil.saveBootId
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class Home : ControlledPreferenceFragmentCompat() {
+class Home : ControlledPreferenceFragmentCompat(), AppBarLayout.OnOffsetChangedListener {
+
+    private lateinit var appBarLayout: AppBarLayout
 
     override val title: String
         get() = getString(R.string.app_name)
@@ -51,6 +54,9 @@ class Home : ControlledPreferenceFragmentCompat() {
             scheduleUpdates(appContext)
         }
 
+        appBarLayout = view.findViewById(R.id.appBarLayout)
+        appBarLayout.addOnOffsetChangedListener(this)
+
         if (getBoolean(FIRST_INSTALL, false)) {
             putBoolean(FIRST_INSTALL, false)
         }
@@ -75,5 +81,34 @@ class Home : ControlledPreferenceFragmentCompat() {
 
             checkForUpdate()
         }
+    }
+
+    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+        if (verticalOffset == 0) {
+            if (!isToolbarFullyExpanded) {
+                listView.scrollToPosition(0)
+                isToolbarFullyExpanded = true
+            }
+        } else {
+            isToolbarFullyExpanded = false
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!isToolbarFullyExpanded) {
+            listView.scrollToPosition(0)
+            isToolbarFullyExpanded = true
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        appBarLayout.removeOnOffsetChangedListener(this)
+    }
+
+    companion object {
+        private var isToolbarFullyExpanded = true
     }
 }

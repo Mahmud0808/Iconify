@@ -181,7 +181,6 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
         } else {
             for (searchableFragment in searchableFragments) {
                 if (searchableFragment.xml == result.resourceFile) {
-                    popCurrentFragment()
                     replaceFragment(searchableFragment.fragment)
                     SearchPreferenceResult.highlight(searchableFragment.fragment, result.key);
                     break

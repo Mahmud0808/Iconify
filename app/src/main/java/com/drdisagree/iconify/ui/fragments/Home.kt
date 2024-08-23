@@ -6,11 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.LATEST_VERSION_URL
@@ -23,12 +20,10 @@ import com.drdisagree.iconify.common.Preferences.VER_CODE
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getLong
 import com.drdisagree.iconify.databinding.FragmentHomeBinding
-import com.drdisagree.iconify.services.UpdateScheduler.scheduleUpdates
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.widgets.MenuWidget
 import com.drdisagree.iconify.utils.RootUtil.folderExists
 import com.drdisagree.iconify.utils.extension.TaskExecutor
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -51,18 +46,18 @@ class Home : BaseFragment() {
         val view: View = binding.getRoot()
 
         // Header
-        binding.header.toolbar.setTitle(resources.getString(R.string.activity_title_home_page))
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.header.toolbar)
-
-        val intent = requireActivity().intent
-        if (intent != null && intent.getBooleanExtra(AppUpdates.KEY_NEW_UPDATE, false)) {
-            (requireActivity().findViewById<View>(R.id.bottomNavigationView) as BottomNavigationView).selectedItemId =
-                R.id.settings
-            NavHostFragment.findNavController(this).navigate(R.id.action_settings_to_appUpdates)
-            intent.removeExtra(AppUpdates.Companion.KEY_NEW_UPDATE)
-        } else {
-            scheduleUpdates(appContext)
-        }
+//        binding.header.toolbar.setTitle(resources.getString(R.string.activity_title_home_page))
+//        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.header.toolbar)
+//
+//        val intent = requireActivity().intent
+//        if (intent != null && intent.getBooleanExtra(AppUpdates.KEY_NEW_UPDATE, false)) {
+//            (requireActivity().findViewById<View>(R.id.bottomNavigationView) as BottomNavigationView).selectedItemId =
+//                R.id.settings
+//            NavHostFragment.findNavController(this).navigate(R.id.action_settings_to_appUpdates)
+//            intent.removeExtra(AppUpdates.Companion.KEY_NEW_UPDATE)
+//        } else {
+//            scheduleUpdates(appContext)
+//        }
 
         // New update available dialog
 //        val listView1 = LayoutInflater.from(requireActivity())
