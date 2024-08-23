@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.preferences
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -52,6 +53,23 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
+
+        holder.itemView.setOnClickListener {
+            try {
+                context.startActivity(
+                    Intent(Intent.ACTION_MAIN).apply {
+                        setComponent(
+                            ComponentName(
+                                "org.lsposed.manager",
+                                "org.lsposed.manager.ui.activity.MainActivity"
+                            )
+                        )
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                )
+            } catch (ignored: Exception) {
+            }
+        }
 
         holder.itemView.findViewById<ImageView>(R.id.info_icon).setOnClickListener {
             MaterialAlertDialogBuilder(context)
