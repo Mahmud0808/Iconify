@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="transparencyXposedSettings"
+        android:title="@string/section_title_transparency"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_qstransparency"
+            android:summary="@string/transparent_qs_panel_desc"
+            android:title="@string/transparent_qs_panel_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_notiftransparency"
+            android:summary="@string/transparent_notif_shade_desc"
+            android:title="@string/transparent_notif_shade_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_lockscreen_shade"
+            android:summary="@string/keep_lockscreen_shade_desc"
+            android:title="@string/keep_lockscreen_shade_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SliderPreference
+            android:key="xposed_qsalpha"
+            android:title="@string/transparency_alpha_title"
+            app:defaultValue="60"
+            app:iconSpaceReserved="false"
+            app:maxVal="100"
+            app:minVal="0"
+            app:tickInterval="1" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="blurXposedSettings"
+        android:title="@string/section_title_blur"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="qsBlurSwitch"
+            android:summary="@string/window_level_blur_desc"
+            android:title="@string/window_level_blur_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:dependency="qsBlurSwitch"
+            android:key="aggressiveQsBlurSwitch"
+            android:summary="@string/aggressive_blur_desc"
+            android:title="@string/aggressive_blur_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SliderPreference
+            android:key="xposed_blurradiusvalue"
+            android:title="@string/blur_intensity_title"
+            app:defaultValue="23"
+            app:iconSpaceReserved="false"
+            app:maxVal="600"
+            app:minVal="0"
+            app:tickInterval="1" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+</PreferenceScreen>

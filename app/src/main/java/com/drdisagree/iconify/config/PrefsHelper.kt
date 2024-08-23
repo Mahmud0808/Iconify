@@ -8,35 +8,30 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Resources.shouldShowRebootDialog
+import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.ui.preferences.SliderPreference
 
 object PrefsHelper {
 
     fun isVisible(key: String?): Boolean {
         return when (key) {
-            "IconifyUpdateOverWifi" -> RPrefs.getBoolean(
-                "IconifyAutoUpdate",
-                true
-            )
+            "IconifyUpdateOverWifi" -> getBoolean("IconifyAutoUpdate", true)
 
-            "experimentalFeatures" -> RPrefs.getBoolean(
-                "iconify_easter_egg",
-                false
-            )
+            "experimentalFeatures" -> getBoolean("iconify_easter_egg")
 
-            "iconifyHomeCard" -> RPrefs.getBoolean(
-                "IconifyShowHomeCard",
-                true
-            )
+            "iconifyHomeCard" -> getBoolean("IconifyShowHomeCard", true)
 
             "rebootReminder" -> shouldShowRebootDialog()
 
-            "newUpdate" -> RPrefs.getBoolean(
-                "newUpdateFound",
-                false
-            )
+            "newUpdate" -> getBoolean("newUpdateFound")
 
-            "xposedHookCheck" -> !RPrefs.getBoolean(key)
+            "xposedHookCheck" -> !getBoolean(key)
+
+            "xposed_lockscreen_shade",
+            "xposed_qsalpha" -> getBoolean("xposed_qstransparency") ||
+                    getBoolean("xposed_notiftransparency")
+
+            "aggressiveQsBlurSwitch" -> getBoolean("qsBlurSwitch")
 
             else -> true
         }
@@ -55,7 +50,7 @@ object PrefsHelper {
         }
         if (key.contains("Switch")) {
             return fragmentCompat.getString(
-                if (RPrefs.getBoolean(key, false)) {
+                if (getBoolean(key, false)) {
                     android.R.string.ok
                 } else {
                     android.R.string.cancel
@@ -90,6 +85,10 @@ object PrefsHelper {
             }
 
             "checkForUpdatePref" -> BuildConfig.VERSION_NAME
+
+            "xposed_qsalpha" -> "${RPrefs.getSliderInt(key, 60)}%"
+
+            "xposed_blurradiusvalue" -> "${RPrefs.getSliderInt(key, 23)}px"
 
             else -> null
         }

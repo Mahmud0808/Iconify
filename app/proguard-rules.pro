@@ -21,6 +21,10 @@
     public static int d(...);
 }
 
+# Activity and Fragment names
+-keep class com.drdisagree.iconify.ui.activities.**
+-keep class com.drdisagree.iconify.ui.fragments.**
+
 # Xposed
 -keep class de.robv.android.xposed.**
 -keep class com.drdisagree.iconify.xposed.InitHook
