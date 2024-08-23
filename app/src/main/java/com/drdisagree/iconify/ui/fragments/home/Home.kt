@@ -9,8 +9,6 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.FIRST_INSTALL
 import com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED
 import com.drdisagree.iconify.common.Preferences.VER_CODE
-import com.drdisagree.iconify.config.RPrefs.getBoolean
-import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.services.UpdateScheduler.scheduleUpdates
@@ -64,15 +62,9 @@ class Home : ControlledPreferenceFragmentCompat(), AppBarLayout.OnOffsetChangedL
             listView.scrollToPosition(0)
         }
 
-        if (getBoolean(FIRST_INSTALL, false)) {
-            putBoolean(FIRST_INSTALL, false)
-        }
-        if (getBoolean(UPDATE_DETECTED, false)) {
-            putBoolean(UPDATE_DETECTED, false)
-        }
-        if (getInt(VER_CODE, 0) != BuildConfig.VERSION_CODE) {
-            putInt(VER_CODE, BuildConfig.VERSION_CODE)
-        }
+        putBoolean(FIRST_INSTALL, false)
+        putBoolean(UPDATE_DETECTED, false)
+        putInt(VER_CODE, BuildConfig.VERSION_CODE)
         saveBootId
     }
 

@@ -44,9 +44,7 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
 
                 isHooked = it
 
-                if (RPrefs.getBoolean("hookCheckPreference") != it) {
-                    RPrefs.putBoolean("xposedHookCheck", it)
-                }
+                RPrefs.putBoolean("xposedHookCheck", it)
             }
         }
     }
@@ -118,9 +116,7 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
 
     private val delayedHookCheck: Runnable = Runnable {
         if (!isHooked) {
-            if (RPrefs.getBoolean("xposedHookCheck")) {
-                RPrefs.putBoolean("xposedHookCheck", false)
-            }
+            RPrefs.putBoolean("xposedHookCheck", false)
         }
     }
 
