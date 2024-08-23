@@ -193,6 +193,7 @@
         <item>@string/home_controls</item>
         <item>@string/camera</item>
         <item>@string/wallet</item>
+        <item>@string/hotspot</item>
     </string-array>
     <string-array name="lockscreen_widgets_values" translatable="false">
         <item>none</item>
@@ -208,6 +209,7 @@
         <item>homecontrols</item>
         <item>camera</item>
         <item>wallet</item>
+        <item>hotspot</item>
     </string-array>
 
 </resources>

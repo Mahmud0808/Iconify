@@ -486,6 +486,7 @@
     <string name="mini_inactive">Mini Widget Inactive Color</string>
     <string name="mini_icon_active">Mini Widget Icon Active Color</string>
     <string name="mini_icon_inactive">Mini Widget Icon Inactive Color</string>
+    <string name="weather_settings">Weather Settings</string>
 
     <!-- LS Widgets Actions -->
     <string name="camera">Camera</string>
@@ -502,6 +503,7 @@
     <string name="bt">Bluetooth</string>
     <string name="home_controls">Home Controls</string>
     <string name="wallet">Wallet</string>
+    <string name="hotspot">Hotspot</string>
 
     <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Transparency</string>
