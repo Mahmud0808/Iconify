@@ -1,58 +1,62 @@
-package com.drdisagree.iconify.ui.preferences;
+package com.drdisagree.iconify.ui.preferences
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.ViewGroup;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.View
+import android.widget.ImageView
+import androidx.preference.ListPreference
+import androidx.preference.PreferenceViewHolder
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.utils.MiscUtil.showSystemUiRestartDialog
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.preference.PreferenceViewHolder;
+class ListPreference : ListPreference {
 
-import com.drdisagree.iconify.R;
+    private var requiresRestart: Boolean = false
 
-public class ListPreference extends androidx.preference.ListPreference {
+    constructor(
+        context: Context,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(context, attrs, defStyleAttr, defStyleRes) {
+        initResource(attrs)
+    }
 
-	public ListPreference(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-		super(context, attrs, defStyleAttr, defStyleRes);
-		initResource();
-	}
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        initResource(attrs)
+    }
 
-	public ListPreference(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-		super(context, attrs, defStyleAttr);
-		initResource();
-	}
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        initResource(attrs)
+    }
 
-	public ListPreference(@NonNull Context context, @Nullable AttributeSet attrs) {
-		super(context, attrs);
-		initResource();
-	}
+    constructor(context: Context) : super(context) {
+        initResource(null)
+    }
 
-	public ListPreference(@NonNull Context context) {
-		super(context);
-		initResource();
-	}
+    private fun initResource(attrs: AttributeSet?) {
+        layoutResource = R.layout.custom_preference_list
 
-	private void initResource() {
-		setLayoutResource(R.layout.custom_preference_list);
-	}
+        attrs?.let {
+            val a = context.obtainStyledAttributes(it, R.styleable.ListPreference)
+            requiresRestart = a.getBoolean(R.styleable.ListPreference_requiresRestart, false)
+            a.recycle()
+        }
+    }
 
-	@Override
-	public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
-		super.onBindViewHolder(holder);
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
+        super.onBindViewHolder(holder)
 
-		if (holder.getBindingAdapterPosition() == 0) {
-			ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
-			layoutParams.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getContext().getResources().getDisplayMetrics());
-			holder.itemView.setLayoutParams(layoutParams);
-		} else {
-			if (holder.getBindingAdapter() != null) {
-				if (holder.getBindingAdapterPosition() == holder.getBindingAdapter().getItemCount() - 1) {
-					ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
-					layoutParams.bottomMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getContext().getResources().getDisplayMetrics());
-					holder.itemView.setLayoutParams(layoutParams);
-				}
-			}
-		}
-	}
+        holder.itemView.findViewById<ImageView>(R.id.alert_icon)?.apply {
+            visibility = if (requiresRestart) View.VISIBLE else View.GONE
+
+            setOnClickListener {
+                showSystemUiRestartDialog(context)
+            }
+        }
+    }
 }

@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="PreferenceMenu">
         <attr name="showArrow" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SwitchPreference">
+        <attr name="requiresRestart" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ListPreference">
+        <attr name="requiresRestart" />
+    </declare-styleable>
+
+    <declare-styleable name="ColorPreference">
+        <attr name="requiresRestart" />
     </declare-styleable>
 
     <declare-styleable name="MaterialTimePickerPreference">
@@ -127,6 +140,7 @@
         <attr name="showResetButton" format="float" />
         <attr name="showValueLabel" format="boolean" />
         <attr name="units" format="string" />
+        <attr name="requiresRestart" />
     </declare-styleable>
 
     <declare-styleable name="footerPreferenceStyle">

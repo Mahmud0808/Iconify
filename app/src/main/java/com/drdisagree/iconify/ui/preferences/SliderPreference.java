@@ -5,6 +5,8 @@ package com.drdisagree.iconify.ui.preferences;
  * https://github.com/siavash79/rangesliderpreference
  */
 
+import static com.drdisagree.iconify.utils.MiscUtil.showSystemUiRestartDialog;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -13,6 +15,7 @@ import android.util.JsonReader;
 import android.util.JsonWriter;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,15 +37,17 @@ import java.util.Scanner;
 import com.drdisagree.iconify.R;
 
 public class SliderPreference extends Preference {
-    @SuppressWarnings("unused")
-    private static final String TAG = "Slider Preference";
+
+    private static final String TAG = SliderPreference.class.getSimpleName();
     private float valueFrom;
     private float valueTo;
     private final float tickInterval;
     private final boolean showResetButton;
+    private final boolean requiresRestart;
     public final List<Float> defaultValue = new ArrayList<>();
     public RangeSlider slider;
     private MaterialButton mResetButton;
+    @SuppressWarnings("unused")
     private TextView sliderValue;
     int valueCount;
 
@@ -67,6 +72,7 @@ public class SliderPreference extends Preference {
         tickInterval = a.getFloat(R.styleable.SliderPreference_tickInterval, 1f);
         showResetButton = a.getBoolean(R.styleable.SliderPreference_showResetButton, true);
         showValueLabel = a.getBoolean(R.styleable.SliderPreference_showValueLabel, true);
+        requiresRestart = a.getBoolean(R.styleable.SliderPreference_requiresRestart, false);
         String defaultValStr = a.getString(androidx.preference.R.styleable.Preference_defaultValue);
 
         try {
@@ -191,6 +197,12 @@ public class SliderPreference extends Preference {
             });
         } else {
             mResetButton.setVisibility(View.GONE);
+        }
+
+        ImageView icon = holder.itemView.findViewById(R.id.alert_icon);
+        if (icon != null) {
+            icon.setVisibility(requiresRestart ? View.VISIBLE : View.GONE);
+            icon.setOnClickListener(v -> showSystemUiRestartDialog(getContext()));
         }
 
         sliderValue = (TextView) holder.findViewById(androidx.preference.R.id.seekbar_value);

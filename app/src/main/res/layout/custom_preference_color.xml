@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
+    android:background="@drawable/item_background_material"
     android:clickable="true"
-    android:focusable="true"
-    android:foreground="?selectableItemBackgroundBorderless"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:paddingStart="@dimen/preference_padding_start"
-    android:paddingTop="@dimen/preference_padding_top"
-    android:paddingEnd="@dimen/preference_padding_end"
-    android:paddingBottom="@dimen/preference_padding_bottom">
+    android:paddingStart="6dp"
+    android:paddingEnd="24dp">
 
     <ImageView
         android:id="@android:id/icon"
@@ -19,36 +16,60 @@
         android:layout_height="20dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="18dp"
-        android:contentDescription="@android:string/untitled"
+        android:layout_marginStart="18dp"
+        android:contentDescription="@string/icon"
         android:visibility="gone"
-        app:tint="?attr/colorOnSurface" />
+        app:tint="?attr/colorPrimary" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/text_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginVertical="16dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="10dp"
         android:layout_toStartOf="@android:id/widget_frame"
         android:layout_toEndOf="@android:id/icon"
         android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@android:id/title"
-            style="?android:attr/textAppearanceListItem"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color_primary" />
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
-        <com.google.android.material.textview.MaterialTextView
+            <TextView
+                android:id="@android:id/title"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
+                android:textColor="@color/text_color_primary" />
+
+            <ImageView
+                android:id="@+id/alert_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/action_bar_item_background_material"
+                android:contentDescription="@string/icon"
+                android:src="@drawable/ic_info_duotone"
+                android:visibility="gone"
+                app:tint="@color/text_color_primary" />
+
+        </LinearLayout>
+
+        <TextView
             android:id="@android:id/summary"
             style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@android:id/title"
-            android:alpha="0.7"
+            android:textAlignment="viewStart"
             android:textColor="@color/text_color_secondary" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@android:id/widget_frame"
@@ -56,8 +77,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="6dp"
         android:orientation="vertical" />
 
 </RelativeLayout>

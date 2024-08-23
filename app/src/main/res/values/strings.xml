@@ -1116,4 +1116,8 @@
     <string name="lockscreen_weather_selection_str_border_accent">Dark with accented borders</string>
     <string name="lockscreen_weather_selection_str_border_gradient">Dark with gradient borders</string>
 
+    <!-- Alert Dialogs -->
+    <string name="systemui_restart_required_title">SystemUI Restart Required</string>
+    <string name="systemui_restart_required_desc">A restart of SystemUI is required for this change to take effect.</string>
+
 </resources>
