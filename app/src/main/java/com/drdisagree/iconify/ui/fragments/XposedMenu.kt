@@ -325,7 +325,7 @@ class XposedMenu : BaseFragment() {
                     R.id.action_xposedMenu2_to_xposedLockscreenWidgets,
                     appContextLocale.resources.getString(R.string.activity_title_lockscreen_widgets),
                     appContextLocale.resources.getString(R.string.activity_desc_lockscreen_widgets),
-                    R.drawable.ic_xposed_lockscreen_weather
+                    R.drawable.ic_xposed_lockscreen_widgets
                 )
             )
             add(
