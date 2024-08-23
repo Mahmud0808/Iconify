@@ -4,6 +4,7 @@
     xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
 
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="generalSettings"
         android:title="@string/settings_section_title_general"
         app:iconSpaceReserved="true"
         search:ignore="true">
@@ -44,6 +45,7 @@
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="updateSettings"
         android:title="@string/settings_section_title_update"
         app:iconSpaceReserved="true"
         search:ignore="true">
@@ -141,6 +143,7 @@
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="aboutSettings"
         android:title="@string/settings_section_title_about"
         app:iconSpaceReserved="true"
         search:ignore="true">
