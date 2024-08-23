@@ -55,11 +55,11 @@ object PrefsHelper {
         }
         if (key.contains("Switch")) {
             return fragmentCompat.getString(
-                if (RPrefs.getBoolean(
-                        key,
-                        false
-                    )
-                ) android.R.string.ok else android.R.string.cancel
+                if (RPrefs.getBoolean(key, false)) {
+                    android.R.string.ok
+                } else {
+                    android.R.string.cancel
+                }
             )
         }
         if (key.contains("List")) {
