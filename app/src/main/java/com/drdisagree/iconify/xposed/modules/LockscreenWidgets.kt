@@ -1,9 +1,15 @@
 package com.drdisagree.iconify.xposed.modules
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
+import android.os.Build
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.drdisagree.iconify.common.Const.ACTION_BOOT_COMPLETED
+import com.drdisagree.iconify.common.Const.ACTION_WEATHER_INFLATED
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ACTIVE
@@ -24,6 +30,7 @@ import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ICON_A
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_INACTIVE
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
+import com.drdisagree.iconify.common.Preferences.WEATHER_SWITCH
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.views.LockscreenWidgetsView
@@ -50,6 +57,10 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     // Ls custom clock
     private var customLockscreenClock = false
 
+    // Ls weather
+    private var lsWeather = false
+    private var lsWeatherInflated = false
+
     // Widgets Prefs
     // Lockscreen Widgets
     private var mWidgetsEnabled: Boolean = false
@@ -71,11 +82,27 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     private var mMainWidgets: String = ""
     private var mExtraWidgets: String = ""
 
+    private var mBroadcastRegistered = false
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent != null && intent.action != null) {
+                if (intent.action == ACTION_WEATHER_INFLATED && mWidgetsEnabled) {
+                    log(TAG + "Weather inflated")
+                    lsWeatherInflated = true
+                    placeWidgets()
+                }
+            }
+        }
+    }
+
     override fun updatePrefs(vararg key: String) {
         if (Xprefs == null) return
 
         // Ls custom clock
         customLockscreenClock = Xprefs!!.getBoolean(LSCLOCK_SWITCH, false)
+
+        // Ls weather
+        lsWeather = Xprefs!!.getBoolean(WEATHER_SWITCH, false)
 
         // Widgets
         mWidgetsEnabled = Xprefs!!.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
@@ -135,6 +162,28 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     }
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+
+        // Receiver to handle weather inflated
+        if (!mBroadcastRegistered) {
+            val intentFilter = IntentFilter()
+            intentFilter.addAction(ACTION_WEATHER_INFLATED)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                mContext.registerReceiver(
+                    mReceiver,
+                    intentFilter,
+                    Context.RECEIVER_EXPORTED
+                )
+            } else {
+                mContext.registerReceiver(
+                    mReceiver,
+                    intentFilter
+                )
+            }
+
+            mBroadcastRegistered = true
+        }
+
         mWidgetsContainer = LinearLayout(mContext)
         mWidgetsContainer.layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -230,7 +279,8 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     }
 
     private fun placeWidgets() {
-        if (mStatusViewContainer == null) return
+        if (mStatusViewContainer == null || mStatusArea == null) return
+        if (lsWeather && !lsWeatherInflated) return
         try {
             val lsWidgets = LockscreenWidgetsView.getInstance(mContext, mActivityStarter)
             (lsWidgets.parent as ViewGroup?)?.removeView(lsWidgets)
