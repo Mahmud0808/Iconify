@@ -84,19 +84,13 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     log(TAG + "InternetTile found")
-                    mNetworkController = getObjectField(param.thisObject, "mController")
                     mCellularTile = param.thisObject
+                    mNetworkController = getObjectField(param.thisObject, "mController")
+                    mDataController = getObjectField(param.thisObject, "mDataController")
                 }
             })
         } catch (t: Throwable) {
             log(TAG + "NetworkController not found " + t.message)
-        }
-        try {
-            SignalIconClass = findClass(
-                "com.android.systemui.qs.tiles.InternetTile\$SignalIcon",
-                loadPackageParam.classLoader)
-        } catch (t: Throwable) {
-            log(TAG + "SignalIcon not found " + t.message)
         }
 
         // Bluetooth Controller
@@ -175,10 +169,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val enabled = XposedHelpers.callMethod(
-                            param.thisObject,
-                            "isHotspotEnabled"
-                        ) as Boolean
+                        val enabled = getIntField(param.thisObject, "mHotspotState") == 13
                         val devices =
                             getIntField(param.thisObject, "mNumConnectedDevices")
                         onHotspotChanged(enabled, devices)
@@ -196,6 +187,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
             hookAllConstructors(HotspotTile, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
+                    mHotspotTile = param.thisObject
                     mHotspotController = getObjectField(param.thisObject, "mHotspotController")
                 }
             })
@@ -437,11 +429,12 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         var SignalIconClass: Class<*>? = null
 
         var mBluetoothController: Any? = null
-        val mDataController: Any? = null
+        var mDataController: Any? = null
         var mNetworkController: Any? = null
         var mHotspotController: Any? = null
 
         val mBluetoothTile: Any? = null
+        var mHotspotTile: Any? = null
         var mCellularTile: Any? = null
         var mDeviceControlsTile: Any? = null
         val mCalculatorTile: Any? = null
