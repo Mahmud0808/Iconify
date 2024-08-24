@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Прозрачность</string>
     <string name="transparent_qs_panel_title">Прозрачность панели быстрых настроек</string>
     <string name="transparent_qs_panel_desc">Сделать фон панели быстрых настроек прозрачным</string>
-    <string name="transparency_alpha_title">Значение \"Альфа\" прозрачности</string>
+    <string name="qs_background_opacity_title">Значение \"Альфа\" прозрачности</string>
     <string name="transparent_notif_shade_title">Прозрачность только фона уведомлений</string>
     <string name="transparent_notif_shade_desc">Сделать прозрачным только фон уведомлений</string>
     <string name="keep_lockscreen_shade_title">Затемнять обои на экране блокировки</string>

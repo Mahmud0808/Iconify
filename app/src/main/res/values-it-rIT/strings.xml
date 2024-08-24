@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Trasparenza</string>
     <string name="transparent_qs_panel_title">Pannello QS Trasparente</string>
     <string name="transparent_qs_panel_desc">Rendi trasparente lo sfondo del pannello QS</string>
-    <string name="transparency_alpha_title">Trasparenza Alfa</string>
+    <string name="qs_background_opacity_title">Trasparenza Alfa</string>
     <string name="transparent_notif_shade_title">Solo Area Notifica Trasparente</string>
     <string name="transparent_notif_shade_desc">Rendi trasparente solo l\'area notifiche</string>
     <string name="keep_lockscreen_shade_title">Oscura Sfondo Schermata di Blocco</string>

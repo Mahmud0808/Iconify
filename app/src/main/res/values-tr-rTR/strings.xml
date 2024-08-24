@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Şeffaflık</string>
     <string name="transparent_qs_panel_title">Şeffaf QS Paneli</string>
     <string name="transparent_qs_panel_desc">QS panelinin arka planını şeffaf yap</string>
-    <string name="transparency_alpha_title">Şeffaflık Değeri</string>
+    <string name="qs_background_opacity_title">Şeffaflık Değeri</string>
     <string name="transparent_notif_shade_title">Yalnızca Şeffaf Bildirim Gölgesi</string>
     <string name="transparent_notif_shade_desc">Yalnızca bildirim gölgesini şeffaf yap</string>
     <string name="keep_lockscreen_shade_title">Loş Kilit Ekranı Duvar Kağıdı</string>

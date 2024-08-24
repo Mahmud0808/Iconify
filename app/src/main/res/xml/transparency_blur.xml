@@ -32,7 +32,7 @@
 
         <com.drdisagree.iconify.ui.preferences.SliderPreference
             android:key="xposed_qsalpha"
-            android:title="@string/transparency_alpha_title"
+            android:title="@string/qs_background_opacity_title"
             app:defaultValue="60"
             app:iconSpaceReserved="false"
             app:maxVal="100"

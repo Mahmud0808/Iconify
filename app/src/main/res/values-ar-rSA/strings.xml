@@ -427,7 +427,7 @@
     <string name="section_title_transparency">شفافية</string>
     <string name="transparent_qs_panel_title">لوحة QS الشفافة</string>
     <string name="transparent_qs_panel_desc">جعل خلفية لوحة QS شفافة</string>
-    <string name="transparency_alpha_title">الشفافية ألفا</string>
+    <string name="qs_background_opacity_title">الشفافية ألفا</string>
     <string name="transparent_notif_shade_title">لون Notif الشفاف فقط</string>
     <string name="transparent_notif_shade_desc">اجعل غطاء الإشعارات فقط شفافًا</string>
     <string name="keep_lockscreen_shade_title">تعتيم خلفية شاشة القفل</string>

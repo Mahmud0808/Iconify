@@ -56,7 +56,7 @@
                 app:sliderValue="60"
                 app:sliderValueFrom="0"
                 app:sliderValueTo="100"
-                app:titleText="@string/transparency_alpha_title"
+                app:titleText="@string/qs_background_opacity_title"
                 app:valueFormat="%" />
 
             <com.drdisagree.iconify.ui.widgets.TitleWidget

@@ -470,8 +470,8 @@
     <string name="section_title_transparency">Transparency</string>
     <string name="transparent_qs_panel_title">Transparent QS Panel</string>
     <string name="transparent_qs_panel_desc">Make QS panel background transparent</string>
-    <string name="transparency_alpha_title">Transparency Alpha</string>
-    <string name="transparent_notif_shade_title">Transparent Notif Shade Only</string>
+    <string name="qs_background_opacity_title">Background Opacity</string>
+    <string name="transparent_notif_shade_title">Transparent Notification Shade</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
     <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>
     <string name="keep_lockscreen_shade_desc">Suitable for light-colored wallpapers</string>

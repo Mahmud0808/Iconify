@@ -28,6 +28,7 @@ import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.fragments.xposed.TransparencyBlur
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.models.SearchPreferenceItem
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchConfiguration
@@ -411,6 +412,11 @@ class MainActivity : BaseActivity(),
             SearchPreferenceItem(R.xml.tweaks, R.string.navbar_tweaks, Tweaks()),
             SearchPreferenceItem(R.xml.xposed, R.string.navbar_xposed, Xposed()),
             SearchPreferenceItem(R.xml.settings, R.string.navbar_settings, Settings()),
+            SearchPreferenceItem(
+                R.xml.transparency_blur,
+                R.string.activity_title_transparency_blur,
+                TransparencyBlur()
+            ),
         )
     }
 }
