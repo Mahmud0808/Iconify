@@ -7,9 +7,7 @@
     android:background="@drawable/item_background_material"
     android:clickable="true"
     android:focusable="true"
-    android:paddingHorizontal="24dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="4dp">
+    android:paddingHorizontal="24dp">
 
     <ImageView
         android:id="@android:id/icon"
@@ -26,6 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp"
         android:layout_toStartOf="@android:id/widget_frame"
         android:layout_toEndOf="@android:id/icon"
         android:orientation="vertical">
@@ -50,7 +50,7 @@
                 android:id="@+id/alert_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:background="@drawable/action_bar_item_background_material"
                 android:contentDescription="@string/icon"
                 android:src="@drawable/ic_info_duotone"
@@ -86,7 +86,6 @@
                 android:id="@+id/slider"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
                 android:layout_weight="1" />
 
             <com.google.android.material.button.MaterialButton
@@ -94,6 +93,8 @@
                 style="?attr/materialIconButtonFilledTonalStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:visibility="gone"
                 app:icon="@drawable/ic_reset" />
 
         </LinearLayout>

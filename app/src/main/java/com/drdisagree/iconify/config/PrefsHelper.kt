@@ -45,25 +45,16 @@ object PrefsHelper {
 
     @SuppressLint("DefaultLocale")
     fun getSummary(fragmentCompat: Context, key: String): String? {
-        if (key.contains("Slider")) {
+        if (key.endsWith("Slider")) {
             return String.format("%.2f", RPrefs.getSliderFloat(key, 0f))
         }
-        if (key.contains("Switch")) {
-            return fragmentCompat.getString(
-                if (getBoolean(key, false)) {
-                    android.R.string.ok
-                } else {
-                    android.R.string.cancel
-                }
-            )
-        }
-        if (key.contains("List")) {
+        if (key.endsWith("List")) {
             return RPrefs.getString(key, "")
         }
-        if (key.contains("EditText")) {
+        if (key.endsWith("EditText")) {
             return RPrefs.getString(key, "")
         }
-        if (key.contains("MultiSelect")) {
+        if (key.endsWith("MultiSelect")) {
             return RPrefs.getStringSet(key, emptySet()).toString()
         }
 

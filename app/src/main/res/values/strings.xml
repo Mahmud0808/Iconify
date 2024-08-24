@@ -1117,7 +1117,14 @@
     <string name="lockscreen_weather_selection_str_border_gradient">Dark with gradient borders</string>
 
     <!-- Alert Dialogs -->
-    <string name="systemui_restart_required_title">SystemUI Restart Required</string>
-    <string name="systemui_restart_required_desc">A restart of SystemUI is required for this change to take effect.</string>
+    <string name="systemui_restart_required_title">SystemUI Restart Needed</string>
+    <string name="systemui_restart_required_desc">A SystemUI restart is needed for this change to take effect.</string>
+    <string name="device_restart_required_title">Device Restart Needed</string>
+    <string name="device_restart_required_desc">A device restart is needed for this change to take effect.</string>
+    <string name="switch_theme_required_title">Switch Device Theme</string>
+    <string name="switch_theme_required_desc">Switch between light and dark themes if unexpected behavior occurs.</string>
+    <string name="device_rotation_required_title">Device Rotation Theme</string>
+    <string name="device_rotation_required_desc">Switch rotation of your device for this change to take effect.</string>
+
 
 </resources>

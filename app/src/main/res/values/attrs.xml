@@ -6,15 +6,53 @@
     </declare-styleable>
 
     <declare-styleable name="SwitchPreference">
-        <attr name="requiresRestart" format="boolean" />
+        <attr name="requiresSystemUiRestart" format="boolean" />
+        <attr name="requiresDeviceRestart" format="boolean" />
+        <attr name="requiresThemeSwitch" format="boolean" />
+        <attr name="requiresDeviceRotation" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ListPreference">
-        <attr name="requiresRestart" />
+        <attr name="requiresSystemUiRestart" />
+        <attr name="requiresDeviceRestart" />
+        <attr name="requiresThemeSwitch" />
+        <attr name="requiresDeviceRotation" />
     </declare-styleable>
 
     <declare-styleable name="ColorPreference">
-        <attr name="requiresRestart" />
+        <attr name="requiresSystemUiRestart" />
+        <attr name="requiresDeviceRestart" />
+        <attr name="requiresThemeSwitch" />
+        <attr name="requiresDeviceRotation" />
+    </declare-styleable>
+
+    <declare-styleable name="SearchPreference">
+        <attr name="textHint" format="string" />
+        <attr name="textNoResults" format="string" />
+        <attr name="textClearHistory" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="SliderPreference">
+        <attr name="valueCount" format="integer" />
+        <attr name="updatesContinuously" format="boolean" />
+        <attr name="tickInterval" format="float" />
+        <attr name="minVal" format="float" />
+        <attr name="maxVal" format="float" />
+        <attr name="showResetButton" format="boolean" />
+        <attr name="showValueLabel" format="boolean" />
+        <attr name="units" format="string" />
+        <attr name="requiresSystemUiRestart" />
+        <attr name="requiresDeviceRestart" />
+        <attr name="requiresThemeSwitch" />
+        <attr name="requiresDeviceRotation" />
+    </declare-styleable>
+
+    <declare-styleable name="footerPreferenceStyle">
+        <attr name="footerPreferenceStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="BackgroundChipPreference">
+        <attr name="backgroundChipStyle" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="MaterialTimePickerPreference">
@@ -125,28 +163,6 @@
         <attr name="dialogText" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="SearchPreference">
-        <attr name="textHint" format="string" />
-        <attr name="textNoResults" format="string" />
-        <attr name="textClearHistory" format="string" />
-    </declare-styleable>
-
-    <declare-styleable name="SliderPreference">
-        <attr name="valueCount" format="integer" />
-        <attr name="updatesContinuously" format="boolean" />
-        <attr name="tickInterval" format="float" />
-        <attr name="minVal" format="float" />
-        <attr name="maxVal" format="float" />
-        <attr name="showResetButton" format="float" />
-        <attr name="showValueLabel" format="boolean" />
-        <attr name="units" format="string" />
-        <attr name="requiresRestart" />
-    </declare-styleable>
-
-    <declare-styleable name="footerPreferenceStyle">
-        <attr name="footerPreferenceStyle" format="reference" />
-    </declare-styleable>
-
     <declare-styleable name="CategoryWidget">
         <attr name="titleText" />
     </declare-styleable>
@@ -158,10 +174,6 @@
         <attr name="iconSpaceReserved" />
         <attr name="entries" />
         <attr name="entryValues" format="reference" />
-    </declare-styleable>
-
-    <declare-styleable name="BackgroundChipPreference">
-        <attr name="backgroundChipStyle" format="integer" />
     </declare-styleable>
 
 </resources>

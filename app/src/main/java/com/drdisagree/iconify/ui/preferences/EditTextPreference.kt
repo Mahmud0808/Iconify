@@ -1,17 +1,25 @@
 package com.drdisagree.iconify.ui.preferences
 
 import android.content.Context
+import android.content.res.Configuration
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.ColorInt
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceViewHolder
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.utils.MiscUtil.showSystemUiRestartDialog
+import com.drdisagree.iconify.utils.MiscUtil.showAlertDialog
 
 class EditTextPreference : EditTextPreference {
 
-    private var requiresRestart: Boolean = false
+    private var requiresSystemUiRestart: Boolean = false
+    private var requiresDeviceRestart = false
+    private var requiresThemeSwitch = false
+    private var requiresDeviceRotation = false
 
     constructor(
         context: Context,
@@ -43,7 +51,14 @@ class EditTextPreference : EditTextPreference {
 
         attrs?.let {
             val a = context.obtainStyledAttributes(it, R.styleable.SwitchPreference)
-            requiresRestart = a.getBoolean(R.styleable.SwitchPreference_requiresRestart, false)
+            requiresSystemUiRestart =
+                a.getBoolean(R.styleable.SwitchPreference_requiresSystemUiRestart, false)
+            requiresDeviceRestart =
+                a.getBoolean(R.styleable.SwitchPreference_requiresDeviceRestart, false)
+            requiresThemeSwitch =
+                a.getBoolean(R.styleable.SwitchPreference_requiresThemeSwitch, false)
+            requiresDeviceRotation =
+                a.getBoolean(R.styleable.SwitchPreference_requiresDeviceRotation, false)
             a.recycle()
         }
     }
@@ -52,10 +67,35 @@ class EditTextPreference : EditTextPreference {
         super.onBindViewHolder(holder)
 
         holder.itemView.findViewById<ImageView>(R.id.alert_icon)?.apply {
-            visibility = if (requiresRestart) View.VISIBLE else View.GONE
+            visibility =
+                if (requiresSystemUiRestart || requiresDeviceRestart || requiresThemeSwitch || requiresDeviceRotation) View.VISIBLE else View.GONE
+
+            if (requiresDeviceRestart) {
+                val isDarkMode =
+                    context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES == Configuration.UI_MODE_NIGHT_YES
+
+                val typedValue = TypedValue()
+                val theme = context.theme
+                theme.resolveAttribute(
+                    com.google.android.material.R.attr.colorError,
+                    typedValue,
+                    true
+                )
+                @ColorInt val color = typedValue.data
+                colorFilter = BlendModeColorFilter(
+                    color,
+                    if (isDarkMode) BlendMode.SRC_ATOP else BlendMode.SRC_IN
+                )
+            }
 
             setOnClickListener {
-                showSystemUiRestartDialog(context)
+                showAlertDialog(
+                    context,
+                    requiresSystemUiRestart,
+                    requiresDeviceRestart,
+                    requiresThemeSwitch,
+                    requiresDeviceRotation
+                )
             }
         }
     }

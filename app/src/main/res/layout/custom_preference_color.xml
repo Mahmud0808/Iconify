@@ -52,7 +52,7 @@
                 android:id="@+id/alert_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:background="@drawable/action_bar_item_background_material"
                 android:contentDescription="@string/icon"
                 android:src="@drawable/ic_info_duotone"
