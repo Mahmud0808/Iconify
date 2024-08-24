@@ -18,6 +18,118 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_home_page" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/hide_all"
+        style="?attr/floatingActionButtonSmallSurfaceStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/restart_device"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_close" />
+
+    <TextView
+        android:id="@+id/hide_all_text"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/hide_all"
+        android:layout_alignBottom="@id/hide_all"
+        android:layout_gravity="center_vertical"
+        android:layout_marginVertical="2dp"
+        android:layout_marginEnd="6dp"
+        android:layout_toStartOf="@id/hide_all"
+        android:background="@drawable/container_small"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:text="Dismiss"
+        android:textColor="@color/text_color_primary"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/restart_device"
+        style="?attr/floatingActionButtonSmallStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/restart_systemui"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="?attr/colorErrorContainer"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_pixel_device"
+        app:tint="?attr/colorOnErrorContainer" />
+
+    <TextView
+        android:id="@+id/restart_device_text"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/restart_device"
+        android:layout_alignBottom="@id/restart_device"
+        android:layout_gravity="center_vertical"
+        android:layout_marginVertical="2dp"
+        android:layout_marginEnd="6dp"
+        android:layout_toStartOf="@id/restart_device"
+        android:background="@drawable/container_small"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:text="Restart Device"
+        android:textColor="@color/text_color_primary"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/restart_systemui"
+        style="?attr/floatingActionButtonSmallStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/pending_actions"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:importantForAccessibility="no"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_restart_device" />
+
+    <TextView
+        android:id="@+id/restart_systemui_text"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/restart_systemui"
+        android:layout_alignBottom="@id/restart_systemui"
+        android:layout_gravity="center_vertical"
+        android:layout_marginVertical="2dp"
+        android:layout_marginEnd="6dp"
+        android:layout_toStartOf="@id/restart_systemui"
+        android:background="@drawable/container_small"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:text="@string/btn_restart_systemui"
+        android:textColor="@color/text_color_primary"
+        android:visibility="gone" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/pending_actions"
+        style="?attr/extendedFloatingActionButtonTertiaryStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomNavigationView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:importantForAccessibility="no"
+        android:text="Pending"
+        android:visibility="gone"
+        app:icon="@drawable/ic_info" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         style="@style/Widget.BottomNavigationView"

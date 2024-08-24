@@ -13,22 +13,19 @@
             android:key="xposed_qstransparency"
             android:summary="@string/transparent_qs_panel_desc"
             android:title="@string/transparent_qs_panel_title"
-            app:iconSpaceReserved="false"
-            app:requiresSystemUiRestart="true" />
+            app:iconSpaceReserved="false" />
 
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
             android:key="xposed_notiftransparency"
             android:summary="@string/transparent_notif_shade_desc"
             android:title="@string/transparent_notif_shade_title"
-            app:iconSpaceReserved="false"
-            app:requiresSystemUiRestart="true" />
+            app:iconSpaceReserved="false" />
 
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
             android:key="xposed_lockscreen_shade"
             android:summary="@string/keep_lockscreen_shade_desc"
             android:title="@string/keep_lockscreen_shade_title"
-            app:iconSpaceReserved="false"
-            app:requiresSystemUiRestart="true" />
+            app:iconSpaceReserved="false" />
 
         <com.drdisagree.iconify.ui.preferences.SliderPreference
             android:key="xposed_qsalpha"
@@ -52,16 +49,14 @@
             android:key="qsBlurSwitch"
             android:summary="@string/window_level_blur_desc"
             android:title="@string/window_level_blur_title"
-            app:iconSpaceReserved="false"
-            app:requiresDeviceRestart="true" />
+            app:iconSpaceReserved="false" />
 
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
             android:dependency="qsBlurSwitch"
             android:key="aggressiveQsBlurSwitch"
             android:summary="@string/aggressive_blur_desc"
             android:title="@string/aggressive_blur_title"
-            app:iconSpaceReserved="false"
-            app:requiresDeviceRestart="true" />
+            app:iconSpaceReserved="false" />
 
         <com.drdisagree.iconify.ui.preferences.SliderPreference
             android:key="xposed_blurradiusvalue"
@@ -70,7 +65,6 @@
             app:iconSpaceReserved="false"
             app:maxVal="600"
             app:minVal="0"
-            app:requiresSystemUiRestart="true"
             app:showResetButton="true"
             app:tickInterval="1" />
 

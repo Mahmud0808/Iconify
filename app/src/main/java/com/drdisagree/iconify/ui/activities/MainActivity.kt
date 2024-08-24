@@ -1,8 +1,12 @@
 package com.drdisagree.iconify.ui.activities
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
@@ -13,6 +17,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.airbnb.lottie.LottieCompositionFactory
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Dynamic
 import com.drdisagree.iconify.common.Preferences
 import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE
 import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME
@@ -35,6 +40,7 @@ import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchConfiguratio
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFragment
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResultListener
+import com.drdisagree.iconify.utils.SystemUtil
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil
 import com.drdisagree.iconify.utils.overlay.OverlayUtil
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
@@ -47,8 +53,6 @@ class MainActivity : BaseActivity(),
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback,
     SearchPreferenceResultListener,
     ColorPickerDialogListener {
-
-    private lateinit var binding: ActivityHomePageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +72,8 @@ class MainActivity : BaseActivity(),
         }
 
         initData()
+
+        setupFloatingActionButtons()
     }
 
     private fun initData() {
@@ -114,6 +120,58 @@ class MainActivity : BaseActivity(),
                 RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state)
             }
         }.start()
+    }
+
+    private fun setupFloatingActionButtons() {
+        binding.hideAll.hide()
+        binding.restartSystemui.hide()
+        binding.restartDevice.hide()
+        binding.pendingActions.shrink()
+
+        showOrHidePendingActionButton(
+            Dynamic.requiresSystemUiRestart,
+            Dynamic.requiresDeviceRestart
+        )
+
+        binding.pendingActions.setOnClickListener {
+            showOrHideFabButtons()
+        }
+
+        binding.hideAll.setOnClickListener {
+            Dynamic.requiresSystemUiRestart = false
+            Dynamic.requiresDeviceRestart = false
+
+            showOrHidePendingActionButton(
+                requiresSystemUiRestart = false,
+                requiresDeviceRestart = false
+            )
+        }
+
+        binding.restartSystemui.setOnClickListener {
+            Dynamic.requiresSystemUiRestart = false
+
+            showOrHidePendingActionButton(
+                requiresSystemUiRestart = false,
+                requiresDeviceRestart = Dynamic.requiresDeviceRestart
+            )
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                SystemUtil.restartSystemUI()
+            }, android.R.integer.config_longAnimTime.toLong())
+        }
+
+        binding.restartDevice.setOnClickListener {
+            Dynamic.requiresDeviceRestart = false
+
+            showOrHidePendingActionButton(
+                requiresSystemUiRestart = Dynamic.requiresSystemUiRestart,
+                requiresDeviceRestart = false
+            )
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                SystemUtil.restartDevice()
+            }, android.R.integer.config_longAnimTime.toLong())
+        }
     }
 
     private fun setupNavigation() {
@@ -273,14 +331,20 @@ class MainActivity : BaseActivity(),
         super.onSaveInstanceState(outState)
 
         if (selectedFragment != null) {
-            outState.putInt(DATA_KEY, selectedFragment!!)
+            outState.putInt(SELECTED_FRAGMENT_KEY, selectedFragment!!)
         }
+
+        outState.putBoolean(REQUIRE_SYSTEMUI_RESTART_KEY, Dynamic.requiresSystemUiRestart)
+        outState.putBoolean(REQUIRE_DEVICE_RESTART_KEY, Dynamic.requiresDeviceRestart)
     }
 
     public override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        selectedFragment = savedInstanceState.getInt(DATA_KEY)
+        selectedFragment = savedInstanceState.getInt(SELECTED_FRAGMENT_KEY)
+        Dynamic.requiresSystemUiRestart =
+            savedInstanceState.getBoolean(REQUIRE_SYSTEMUI_RESTART_KEY)
+        Dynamic.requiresDeviceRestart = savedInstanceState.getBoolean(REQUIRE_DEVICE_RESTART_KEY)
     }
 
     override fun onColorSelected(dialogId: Int, color: Int) {
@@ -334,7 +398,10 @@ class MainActivity : BaseActivity(),
     }
 
     companion object {
-        private const val DATA_KEY = "mDataKey"
+        private lateinit var binding: ActivityHomePageBinding
+        private const val SELECTED_FRAGMENT_KEY = "mSelectedFragmentKey"
+        private const val REQUIRE_SYSTEMUI_RESTART_KEY = "mSystemUiRestartKey"
+        private const val REQUIRE_DEVICE_RESTART_KEY = "mDeviceRestartKey"
         private lateinit var myFragmentManager: FragmentManager
         private var myActionBar: ActionBar? = null
         private var selectedFragment: Int? = null
@@ -403,6 +470,122 @@ class MainActivity : BaseActivity(),
 
         fun popCurrentFragment() {
             myFragmentManager.popBackStack()
+        }
+
+        @JvmStatic
+        fun showOrHidePendingActionButton(
+            requiresSystemUiRestart: Boolean = false,
+            requiresDeviceRestart: Boolean = false,
+        ) {
+            Dynamic.requiresSystemUiRestart =
+                requiresSystemUiRestart || Dynamic.requiresSystemUiRestart
+            Dynamic.requiresDeviceRestart = requiresDeviceRestart || Dynamic.requiresDeviceRestart
+
+            try {
+                if (!Dynamic.requiresSystemUiRestart && !Dynamic.requiresDeviceRestart) {
+                    binding.hideAll.hide()
+                    binding.hideAllText.fadeOut()
+                    binding.restartSystemui.hide()
+                    binding.restartSystemuiText.fadeOut()
+                    binding.restartDevice.hide()
+                    binding.restartDeviceText.fadeOut()
+                    binding.pendingActions.hide()
+                    binding.pendingActions.shrink()
+                } else {
+                    if (binding.hideAll.isShown && Dynamic.requiresSystemUiRestart && !binding.restartSystemui.isShown) {
+                        binding.restartSystemui.show()
+                        binding.restartSystemuiText.fadeIn()
+                    } else if (!Dynamic.requiresSystemUiRestart && binding.restartSystemui.isShown) {
+                        binding.restartSystemui.hide()
+                        binding.restartSystemuiText.fadeOut()
+                    }
+
+                    if (binding.hideAll.isShown && Dynamic.requiresDeviceRestart && !binding.restartDevice.isShown) {
+                        binding.restartDevice.show()
+                        binding.restartDeviceText.fadeIn()
+                    } else if (!Dynamic.requiresDeviceRestart && binding.restartDevice.isShown) {
+                        binding.restartDevice.hide()
+                        binding.restartDeviceText.fadeOut()
+                    }
+
+                    if (!binding.hideAll.isShown) {
+                        binding.pendingActions.shrink()
+                    } else {
+                        binding.pendingActions.extend()
+                    }
+
+                    binding.pendingActions.show()
+                }
+            } catch (_: Exception) {
+            }
+        }
+
+        private fun showOrHideFabButtons() {
+            try {
+                val pendingActionsShown = binding.pendingActions.isShown
+                var isAnyButtonShown: Boolean
+
+                if (!binding.hideAll.isShown && pendingActionsShown) {
+                    binding.hideAll.show()
+                    binding.hideAllText.fadeIn()
+                    isAnyButtonShown = true
+                } else {
+                    binding.hideAll.hide()
+                    binding.hideAllText.fadeOut()
+                    isAnyButtonShown = false
+                }
+
+                if (!binding.restartSystemui.isShown && Dynamic.requiresSystemUiRestart && pendingActionsShown) {
+                    binding.restartSystemui.show()
+                    binding.restartSystemuiText.fadeIn()
+                    isAnyButtonShown = true
+                } else {
+                    binding.restartSystemui.hide()
+                    binding.restartSystemuiText.fadeOut()
+                    isAnyButtonShown = isAnyButtonShown || false
+                }
+
+                if (!binding.restartDevice.isShown && Dynamic.requiresDeviceRestart && pendingActionsShown) {
+                    binding.restartDevice.show()
+                    binding.restartDeviceText.fadeIn()
+                    isAnyButtonShown = true
+                } else {
+                    binding.restartDevice.hide()
+                    binding.restartDeviceText.fadeOut()
+                    isAnyButtonShown = isAnyButtonShown || false
+                }
+
+                if (isAnyButtonShown) {
+                    binding.pendingActions.extend()
+                } else {
+                    binding.pendingActions.shrink()
+                }
+            } catch (_: Exception) {
+            }
+        }
+
+        private fun View.fadeIn(duration: Long = 300) {
+            this.apply {
+                alpha = 0f
+                visibility = View.VISIBLE
+                animate()
+                    .alpha(1f)
+                    .setDuration(duration)
+                    .setListener(null)
+            }
+        }
+
+        private fun View.fadeOut(duration: Long = 300) {
+            this.apply {
+                animate()
+                    .alpha(0f)
+                    .setDuration(duration)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            visibility = View.GONE
+                        }
+                    })
+            }
         }
 
         val searchConfiguration = SearchConfiguration()

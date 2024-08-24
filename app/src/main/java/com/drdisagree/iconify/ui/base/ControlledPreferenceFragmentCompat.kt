@@ -34,9 +34,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Dynamic
 import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 import com.drdisagree.iconify.config.PrefsHelper
 import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.activities.MainActivity.Companion.popCurrentFragment
 import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
 import com.drdisagree.iconify.ui.activities.MainActivity.Companion.searchConfiguration
@@ -151,7 +153,16 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
                         R.id.restart_systemui -> {
                             Handler(Looper.getMainLooper()).postDelayed(
-                                { restartSystemUI() },
+                                {
+                                    Dynamic.requiresSystemUiRestart = false
+
+                                    MainActivity.showOrHidePendingActionButton(
+                                        requiresSystemUiRestart = false,
+                                        requiresDeviceRestart = Dynamic.requiresDeviceRestart
+                                    )
+
+                                    restartSystemUI()
+                                },
                                 300
                             )
                             true

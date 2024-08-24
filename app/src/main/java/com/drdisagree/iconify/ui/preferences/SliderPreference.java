@@ -5,29 +5,21 @@ package com.drdisagree.iconify.ui.preferences;
  * https://github.com/siavash79/rangesliderpreference
  */
 
-import static com.drdisagree.iconify.utils.MiscUtil.showAlertDialog;
-
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.BlendMode;
-import android.graphics.BlendModeColorFilter;
 import android.util.AttributeSet;
 import android.util.JsonReader;
 import android.util.JsonWriter;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
+import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.RangeSlider;
 
@@ -49,10 +41,6 @@ public class SliderPreference extends Preference {
     private float valueTo;
     private final float tickInterval;
     private final boolean showResetButton;
-    private final boolean requiresSystemUiRestart;
-    private final boolean requiresDeviceRestart;
-    private final boolean requiresThemeSwitch;
-    private final boolean requiresDeviceRotation;
     public final List<Float> defaultValue = new ArrayList<>();
     public RangeSlider slider;
     private MaterialButton mResetButton;
@@ -81,10 +69,6 @@ public class SliderPreference extends Preference {
         tickInterval = a.getFloat(R.styleable.SliderPreference_tickInterval, 1f);
         showResetButton = a.getBoolean(R.styleable.SliderPreference_showResetButton, false);
         showValueLabel = a.getBoolean(R.styleable.SliderPreference_showValueLabel, true);
-        requiresSystemUiRestart = a.getBoolean(R.styleable.SliderPreference_requiresSystemUiRestart, false);
-        requiresDeviceRestart = a.getBoolean(R.styleable.SliderPreference_requiresDeviceRestart, false);
-        requiresThemeSwitch = a.getBoolean(R.styleable.SliderPreference_requiresThemeSwitch, false);
-        requiresDeviceRotation = a.getBoolean(R.styleable.SliderPreference_requiresDeviceRotation, false);
         String defaultValStr = a.getString(androidx.preference.R.styleable.Preference_defaultValue);
 
         try {
@@ -209,22 +193,6 @@ public class SliderPreference extends Preference {
             });
         } else {
             mResetButton.setVisibility(View.GONE);
-        }
-
-        ImageView icon = holder.itemView.findViewById(R.id.alert_icon);
-        if (icon != null) {
-            icon.setVisibility(requiresSystemUiRestart || requiresDeviceRestart || requiresThemeSwitch || requiresDeviceRotation ? View.VISIBLE : View.GONE);
-            icon.setOnClickListener(v -> showAlertDialog(getContext(), requiresSystemUiRestart, requiresDeviceRestart, requiresThemeSwitch, requiresDeviceRotation));
-
-            if (requiresDeviceRestart) {
-                boolean isDarkMode = (getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = getContext().getTheme();
-                theme.resolveAttribute(com.google.android.material.R.attr.colorError, typedValue, true);
-                @ColorInt int color = typedValue.data;
-                icon.setColorFilter(new BlendModeColorFilter(color, isDarkMode ? BlendMode.SRC_ATOP : BlendMode.SRC_IN));
-            }
         }
 
         sliderValue = holder.itemView.findViewById(androidx.preference.R.id.seekbar_value);

@@ -50,4 +50,8 @@ object Dynamic {
     // Device information
     val isAtleastA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
     val isAndroid14 = Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+
+    // Floating action buttons
+    var requiresSystemUiRestart = false
+    var requiresDeviceRestart = false
 }

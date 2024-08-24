@@ -1,21 +1,10 @@
 package com.drdisagree.iconify.ui.preferences;
 
-import static com.drdisagree.iconify.utils.MiscUtil.showAlertDialog;
-
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.res.ColorStateList;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.BlendMode;
-import android.graphics.BlendModeColorFilter;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -23,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
+import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.jaredrummler.android.colorpicker.R;
 import com.jaredrummler.android.colorpicker.ColorPanelView;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -46,10 +36,6 @@ public class ColorPreference extends Preference implements ColorPickerDialogList
     private int previewSize;
     private int[] presets;
     private int dialogTitle;
-    private boolean requiresSystemUiRestart;
-    private boolean requiresDeviceRestart;
-    private boolean requiresThemeSwitch;
-    private boolean requiresDeviceRotation;
 
     public ColorPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -88,13 +74,6 @@ public class ColorPreference extends Preference implements ColorPickerDialogList
                     previewSize == SIZE_LARGE ? R.layout.cpv_preference_square_large : R.layout.cpv_preference_square);
         }
         a.recycle();
-
-        TypedArray attr = getContext().obtainStyledAttributes(attrs, com.drdisagree.iconify.R.styleable.ColorPreference);
-        requiresSystemUiRestart = attr.getBoolean(com.drdisagree.iconify.R.styleable.ColorPreference_requiresSystemUiRestart, false);
-        requiresDeviceRestart = attr.getBoolean(com.drdisagree.iconify.R.styleable.ColorPreference_requiresDeviceRestart, false);
-        requiresThemeSwitch = attr.getBoolean(com.drdisagree.iconify.R.styleable.ColorPreference_requiresThemeSwitch, false);
-        requiresDeviceRotation = attr.getBoolean(com.drdisagree.iconify.R.styleable.ColorPreference_requiresDeviceRotation, false);
-        attr.recycle();
 
         initResource();
     }
@@ -157,25 +136,10 @@ public class ColorPreference extends Preference implements ColorPickerDialogList
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
+
         ColorPanelView preview = holder.itemView.findViewById(R.id.cpv_preference_preview_color_panel);
         if (preview != null) {
             preview.setColor(color);
-        }
-
-        ImageView icon = holder.itemView.findViewById(com.drdisagree.iconify.R.id.alert_icon);
-        if (icon != null) {
-            icon.setVisibility(requiresSystemUiRestart || requiresDeviceRestart || requiresThemeSwitch ? View.VISIBLE : View.GONE);
-            icon.setOnClickListener(v -> showAlertDialog(getContext(), requiresSystemUiRestart, requiresDeviceRestart, requiresThemeSwitch, requiresDeviceRotation));
-
-            if (requiresDeviceRestart) {
-                boolean isDarkMode = (getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_YES) == Configuration.UI_MODE_NIGHT_YES;
-
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = getContext().getTheme();
-                theme.resolveAttribute(com.google.android.material.R.attr.colorError, typedValue, true);
-                @ColorInt int color = typedValue.data;
-                icon.setColorFilter(new BlendModeColorFilter(color, isDarkMode ? BlendMode.SRC_ATOP : BlendMode.SRC_IN));
-            }
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.putBoolean
+import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.preferences.SwitchPreference
 import com.drdisagree.iconify.utils.SystemUtil.disableBlur
@@ -32,12 +33,18 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
                 if (getBoolean(key)) {
                     putBoolean("xposed_notiftransparency", false)
                 }
+                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
             }
 
             "xposed_notiftransparency" -> {
                 if (getBoolean(key)) {
                     putBoolean("xposed_qstransparency", false)
                 }
+                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+            }
+
+            "xposed_lockscreen_shade" -> {
+                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
             }
 
             "qsBlurSwitch" -> {
@@ -47,6 +54,7 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
                     putBoolean("aggressiveQsBlurSwitch", false)
                     disableBlur(force = false)
                 }
+                MainActivity.showOrHidePendingActionButton(requiresDeviceRestart = true)
             }
 
             "aggressiveQsBlurSwitch" -> {
@@ -55,6 +63,11 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
                 } else {
                     disableBlur(force = true)
                 }
+                MainActivity.showOrHidePendingActionButton(requiresDeviceRestart = true)
+            }
+
+            "xposed_blurradiusvalue" -> {
+                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
             }
         }
     }

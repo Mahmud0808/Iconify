@@ -5,27 +5,6 @@
         <attr name="showArrow" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="SwitchPreference">
-        <attr name="requiresSystemUiRestart" format="boolean" />
-        <attr name="requiresDeviceRestart" format="boolean" />
-        <attr name="requiresThemeSwitch" format="boolean" />
-        <attr name="requiresDeviceRotation" format="boolean" />
-    </declare-styleable>
-
-    <declare-styleable name="ListPreference">
-        <attr name="requiresSystemUiRestart" />
-        <attr name="requiresDeviceRestart" />
-        <attr name="requiresThemeSwitch" />
-        <attr name="requiresDeviceRotation" />
-    </declare-styleable>
-
-    <declare-styleable name="ColorPreference">
-        <attr name="requiresSystemUiRestart" />
-        <attr name="requiresDeviceRestart" />
-        <attr name="requiresThemeSwitch" />
-        <attr name="requiresDeviceRotation" />
-    </declare-styleable>
-
     <declare-styleable name="SearchPreference">
         <attr name="textHint" format="string" />
         <attr name="textNoResults" format="string" />
@@ -41,10 +20,6 @@
         <attr name="showResetButton" format="boolean" />
         <attr name="showValueLabel" format="boolean" />
         <attr name="units" format="string" />
-        <attr name="requiresSystemUiRestart" />
-        <attr name="requiresDeviceRestart" />
-        <attr name="requiresThemeSwitch" />
-        <attr name="requiresDeviceRotation" />
     </declare-styleable>
 
     <declare-styleable name="footerPreferenceStyle">

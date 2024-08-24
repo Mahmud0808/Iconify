@@ -33,33 +33,13 @@
         android:layout_toEndOf="@android:id/icon"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@android:id/title"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:orientation="horizontal"
-            tools:ignore="UseCompoundDrawables">
-
-            <TextView
-                android:id="@android:id/title"
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewStart"
-                android:textColor="@color/text_color_primary" />
-
-            <ImageView
-                android:id="@+id/alert_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/action_bar_item_background_material"
-                android:contentDescription="@string/icon"
-                android:src="@drawable/ic_info_duotone"
-                android:visibility="gone"
-                app:tint="@color/text_color_primary" />
-
-        </LinearLayout>
+            android:textAlignment="viewStart"
+            android:textColor="@color/text_color_primary" />
 
         <TextView
             android:id="@android:id/summary"
