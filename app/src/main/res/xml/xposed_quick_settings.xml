@@ -44,7 +44,8 @@
             app:iconSpaceReserved="false"
             app:maxVal="300"
             app:minVal="20"
-            app:tickInterval="1" />
+            app:tickInterval="1"
+            app:valueFormat="dp" />
 
         <com.drdisagree.iconify.ui.preferences.SliderPreference
             android:dependency="xposed_customqsmargin"
@@ -54,7 +55,8 @@
             app:iconSpaceReserved="false"
             app:maxVal="300"
             app:minVal="20"
-            app:tickInterval="1" />
+            app:tickInterval="1"
+            app:valueFormat="dp" />
 
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 

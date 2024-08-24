@@ -57,7 +57,8 @@
             app:iconSpaceReserved="false"
             app:maxVal="480"
             app:minVal="0"
-            app:tickInterval="1" />
+            app:tickInterval="1"
+            app:valueFormat="dp" />
 
         <com.drdisagree.iconify.ui.preferences.SliderPreference
             android:dependency="xposed_fixedstatusicons"
@@ -67,7 +68,8 @@
             app:iconSpaceReserved="false"
             app:maxVal="480"
             app:minVal="0"
-            app:tickInterval="1" />
+            app:tickInterval="1"
+            app:valueFormat="dp" />
 
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 </PreferenceScreen>

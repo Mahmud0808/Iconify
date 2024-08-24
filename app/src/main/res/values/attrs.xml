@@ -5,6 +5,10 @@
         <attr name="showArrow" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="FilePickerPreference">
+        <attr name="buttonText" format="string|reference" />
+    </declare-styleable>
+
     <declare-styleable name="SearchPreference">
         <attr name="textHint" format="string" />
         <attr name="textNoResults" format="string" />
@@ -20,6 +24,10 @@
         <attr name="showResetButton" format="boolean" />
         <attr name="showValueLabel" format="boolean" />
         <attr name="units" format="string" />
+        <attr name="isDecimalFormat" format="boolean" />
+        <attr name="decimalFormat" format="string" />
+        <attr name="valueFormat" format="string" />
+        <attr name="outputScale" format="float" />
     </declare-styleable>
 
     <declare-styleable name="footerPreferenceStyle">
@@ -84,11 +92,11 @@
         <attr name="sliderValue" format="integer" />
         <attr name="sliderValueFrom" format="integer" />
         <attr name="sliderValueTo" format="integer" />
-        <attr name="valueFormat" format="string" />
+        <attr name="valueFormat" />
         <attr name="sliderDefaultValue" format="integer" />
-        <attr name="isDecimalFormat" format="boolean" />
-        <attr name="decimalFormat" format="string" />
-        <attr name="outputScale" format="float" />
+        <attr name="isDecimalFormat" />
+        <attr name="decimalFormat" />
+        <attr name="outputScale" />
         <attr name="hasResetButton" format="boolean" />
     </declare-styleable>
 
@@ -107,7 +115,7 @@
     <declare-styleable name="FilePickerWidget">
         <attr name="titleText" />
         <attr name="summaryText" />
-        <attr name="buttonText" format="string" />
+        <attr name="buttonText" />
         <attr name="filePickerType" format="string" />
     </declare-styleable>
 

@@ -20,6 +20,19 @@ import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT1
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT2
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT3
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_TEXT1
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_TEXT2
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_SWITCH
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_DEVICENAME
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_TEXT_SCALING
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_STYLE
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.common.Preferences.NEW_UPDATE_FOUND
 import com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH
 import com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN
@@ -36,6 +49,8 @@ import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
 import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
 import com.drdisagree.iconify.common.Resources.shouldShowRebootDialog
 import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getInt
+import com.drdisagree.iconify.config.RPrefs.getSliderInt
 import com.drdisagree.iconify.ui.preferences.SliderPreference
 
 object PrefsHelper {
@@ -75,6 +90,16 @@ object PrefsHelper {
             }
 
             FIXED_STATUS_ICONS_SIDEMARGIN -> getBoolean(FIXED_STATUS_ICONS_SWITCH)
+
+            LSCLOCK_COLOR_CODE_ACCENT1,
+            LSCLOCK_COLOR_CODE_ACCENT2,
+            LSCLOCK_COLOR_CODE_ACCENT3,
+            LSCLOCK_COLOR_CODE_TEXT1,
+            LSCLOCK_COLOR_CODE_TEXT2 -> getBoolean(LSCLOCK_COLOR_SWITCH)
+
+            LSCLOCK_DEVICENAME -> getInt(LSCLOCK_STYLE, 0) == 7
+
+            LSCLOCK_USERNAME -> getInt(LSCLOCK_STYLE, 0) == 19
 
             else -> true
         }
@@ -120,18 +145,26 @@ object PrefsHelper {
 
             "checkForUpdatePref" -> BuildConfig.VERSION_NAME
 
-            QSALPHA_LEVEL -> "${RPrefs.getSliderInt(key, 60)}%"
+            QSALPHA_LEVEL -> "${getSliderInt(key, 60)}%"
 
-            BLUR_RADIUS_VALUE -> "${RPrefs.getSliderInt(key, 23)}px"
+            BLUR_RADIUS_VALUE -> "${getSliderInt(key, 23)}px"
 
             QQS_TOPMARGIN,
-            QS_TOPMARGIN -> "${RPrefs.getSliderInt(key, 100)}dp"
+            QS_TOPMARGIN -> "${getSliderInt(key, 100)}dp"
 
-            SB_CLOCK_SIZE -> "${RPrefs.getSliderInt(key, 14)}px"
+            SB_CLOCK_SIZE -> "${getSliderInt(key, 14)}px"
 
-            FIXED_STATUS_ICONS_TOPMARGIN -> "${RPrefs.getSliderInt(key, 8)}dp"
+            FIXED_STATUS_ICONS_TOPMARGIN -> "${getSliderInt(key, 8)}dp"
 
-            FIXED_STATUS_ICONS_SIDEMARGIN -> "${RPrefs.getSliderInt(key, 0)}dp"
+            FIXED_STATUS_ICONS_SIDEMARGIN -> "${getSliderInt(key, 0)}dp"
+
+            LSCLOCK_FONT_LINEHEIGHT -> "${getSliderInt(key, 0)}dp"
+
+            LSCLOCK_FONT_TEXT_SCALING -> "${String.format("%.1f", getSliderInt(key, 10) / 10f)}x"
+
+            LSCLOCK_TOPMARGIN -> "${getSliderInt(key, 100)}dp"
+
+            LSCLOCK_BOTTOMMARGIN -> "${getSliderInt(key, 40)}dp"
 
             else -> null
         }

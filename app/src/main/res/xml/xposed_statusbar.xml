@@ -15,10 +15,11 @@
         android:title="@string/sb_clock_size"
         app:defaultValue="14"
         app:iconSpaceReserved="false"
-        app:updatesContinuously="true"
         app:maxVal="24"
         app:minVal="10"
-        app:tickInterval="1" />
+        app:tickInterval="1"
+        app:updatesContinuously="true"
+        app:valueFormat="px" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:key="xposed_coloredstatusbaricon"

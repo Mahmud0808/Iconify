@@ -634,7 +634,7 @@
     <string name="header_clock_font_title">Clock Font</string>
     <string name="header_clock_font_desc">Use custom font for header clock\nDo not select file from Recent</string>
     <string name="custom_header_clock_color_title">Custom Clock Color</string>
-    <string name="custom_header_clock_color_desc">Custom color instead of primary color</string>
+    <string name="custom_header_clock_color_desc">Custom colors instead of system colors</string>
     <string name="header_clock_color_picker_title">Clock Color Picker</string>
     <string name="header_clock_color_picker_desc">Set color of header clock text</string>
     <string name="header_clock_font_text_scaling_title">Text Scaling</string>
@@ -654,9 +654,9 @@
     <string name="lockscreen_clock_auto_hide_clock_desc">Hide clock on incoming notification</string>
     <string name="custom_lockscreen_clock_style_title">Clock Style</string>
     <string name="lockscreen_clock_font_title">Clock Font</string>
-    <string name="lockscreen_clock_font_desc">Use custom font for lockscreen clock\nDo not select file from Recent</string>
+    <string name="lockscreen_clock_font_desc">Use custom font for lockscreen clock</string>
     <string name="lsclock_custom_color_title">Custom Clock Color</string>
-    <string name="lsclock_custom_color_desc">Custom color instead of primary color</string>
+    <string name="lsclock_custom_color_desc">Custom colors instead of system colors</string>
     <string name="lsclock_color_picker_title">Clock Color Picker</string>
     <string name="lsclock_color_picker_desc">Set color of lockscreen clock text</string>
     <string name="lockscreen_font_text_scaling_title">Text Scaling</string>
@@ -1006,6 +1006,10 @@
     <string name="tap_to_select">Tap on preview to select</string>
     <string name="dont_show_again">Don\'t show again</string>
     <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks > Xposed Menu > Themes > Others.</string>
+    <string name="file_picker_desc">Do not select file from Recent</string>
+    <string name="btn_dismiss">Dismiss</string>
+    <string name="btn_restart_device">Restart Device</string>
+    <string name="btn_pending">Pending</string>
 
     <!-- Weather -->
     <!-- Omni Jaws Strings -->

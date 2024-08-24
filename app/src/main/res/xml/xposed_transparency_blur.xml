@@ -35,7 +35,8 @@
             app:maxVal="100"
             app:minVal="0"
             app:showResetButton="true"
-            app:tickInterval="1" />
+            app:tickInterval="1"
+            app:valueFormat="%" />
 
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 
@@ -66,7 +67,8 @@
             app:maxVal="600"
             app:minVal="0"
             app:showResetButton="true"
-            app:tickInterval="1" />
+            app:tickInterval="1"
+            app:valueFormat="px" />
 
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 </PreferenceScreen>
