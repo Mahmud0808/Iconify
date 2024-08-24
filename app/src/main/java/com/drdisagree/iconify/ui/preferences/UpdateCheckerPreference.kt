@@ -11,6 +11,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.LATEST_VERSION_URL
 import com.drdisagree.iconify.common.Preferences.AUTO_UPDATE
 import com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME
+import com.drdisagree.iconify.common.Preferences.NEW_UPDATE_FOUND
 import com.drdisagree.iconify.common.Preferences.NEW_UPDATE_VERSION_CODE
 import com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME
 import com.drdisagree.iconify.common.Preferences.VER_CODE
@@ -68,7 +69,7 @@ class UpdateCheckerPreference(context: Context, attrs: AttributeSet?) : Preferen
                 )!!.toInt() <= BuildConfig.VERSION_CODE
             ) {
                 putString(NEW_UPDATE_VERSION_CODE, BuildConfig.VERSION_CODE.toString())
-                putBoolean("newUpdateFound", false)
+                putBoolean(NEW_UPDATE_FOUND, false)
             }
         }
     }
@@ -125,10 +126,10 @@ class UpdateCheckerPreference(context: Context, attrs: AttributeSet?) : Preferen
                 )
 
                 putString(NEW_UPDATE_VERSION_CODE, newUpdateVersionCode)
-                putBoolean("newUpdateFound", true)
+                putBoolean(NEW_UPDATE_FOUND, true)
             } else {
                 putString(NEW_UPDATE_VERSION_CODE, BuildConfig.VERSION_CODE.toString())
-                putBoolean("newUpdateFound", false)
+                putBoolean(NEW_UPDATE_FOUND, false)
             }
         } catch (_: Exception) {
         }

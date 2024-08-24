@@ -14,9 +14,14 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const
+import com.drdisagree.iconify.common.Preferences.APP_ICON
+import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
+import com.drdisagree.iconify.common.Preferences.APP_THEME
 import com.drdisagree.iconify.common.Preferences.EASTER_EGG
+import com.drdisagree.iconify.common.Preferences.EXPERIMENTAL_FEATURES
 import com.drdisagree.iconify.common.Preferences.FIRST_INSTALL
 import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
+import com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT
 import com.drdisagree.iconify.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
@@ -59,21 +64,21 @@ class Settings : ControlledPreferenceFragmentCompat() {
         super.updateScreen(key)
 
         when (key) {
-            "IconifyAppLanguage" -> {
+            APP_LANGUAGE -> {
                 restartApplication(requireActivity())
             }
 
-            "IconifyAppIcon" -> {
+            APP_ICON -> {
                 val splashActivities = appContextLocale.resources
                     .getStringArray(R.array.app_icon_identifier)
                 changeIcon(RPrefs.getString(key, splashActivities[0])!!)
             }
 
-            "IconifyAppTheme" -> {
+            APP_THEME -> {
                 restartApplication(requireActivity())
             }
 
-            "restartSysuiAfterBoot" -> {
+            RESTART_SYSUI_AFTER_BOOT -> {
                 if (RPrefs.getBoolean(key, false)) {
                     enableRestartSystemuiAfterBoot()
                 } else {
@@ -86,7 +91,7 @@ class Settings : ControlledPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
-        experimentalFeatures = findPreference("experimentalFeatures")
+        experimentalFeatures = findPreference(EXPERIMENTAL_FEATURES)
         findPreference<PreferenceCategory>("miscSettings")?.setOnPreferenceClickListener {
             onEasterViewClicked()
             true

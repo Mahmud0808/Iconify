@@ -33,7 +33,11 @@ import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.fragments.xposed.Others
+import com.drdisagree.iconify.ui.fragments.xposed.QuickSettings
+import com.drdisagree.iconify.ui.fragments.xposed.Statusbar
 import com.drdisagree.iconify.ui.fragments.xposed.TransparencyBlur
+import com.drdisagree.iconify.ui.fragments.xposed.VolumePanel
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.models.SearchPreferenceItem
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchConfiguration
@@ -594,14 +598,50 @@ class MainActivity : BaseActivity(),
         val searchConfiguration = SearchConfiguration()
 
         val searchableFragments = arrayOf(
-            SearchPreferenceItem(R.xml.home_page, R.string.navbar_home, Home()),
-            SearchPreferenceItem(R.xml.tweaks, R.string.navbar_tweaks, Tweaks()),
-            SearchPreferenceItem(R.xml.xposed, R.string.navbar_xposed, Xposed()),
-            SearchPreferenceItem(R.xml.settings, R.string.navbar_settings, Settings()),
             SearchPreferenceItem(
-                R.xml.transparency_blur,
+                R.xml.home_page,
+                R.string.navbar_home,
+                Home()
+            ),
+            SearchPreferenceItem(
+                R.xml.tweaks,
+                R.string.navbar_tweaks,
+                Tweaks()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed,
+                R.string.navbar_xposed,
+                Xposed()
+            ),
+            SearchPreferenceItem(
+                R.xml.settings,
+                R.string.navbar_settings,
+                Settings()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed_transparency_blur,
                 R.string.activity_title_transparency_blur,
                 TransparencyBlur()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed_quick_settings,
+                R.string.activity_title_quick_settings,
+                QuickSettings()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed_statusbar,
+                R.string.activity_title_statusbar,
+                Statusbar()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed_volume_panel,
+                R.string.activity_title_volume_panel,
+                VolumePanel()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed_others,
+                R.string.activity_title_xposed_others,
+                Others()
             ),
         )
     }
