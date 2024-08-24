@@ -398,6 +398,7 @@ class MainActivity : BaseActivity(),
     }
 
     companion object {
+        @Suppress("StaticFieldLeak")
         private lateinit var binding: ActivityHomePageBinding
         private const val SELECTED_FRAGMENT_KEY = "mSelectedFragmentKey"
         private const val REQUIRE_SYSTEMUI_RESTART_KEY = "mSystemUiRestartKey"
@@ -409,23 +410,25 @@ class MainActivity : BaseActivity(),
 
         fun replaceFragment(fragment: Fragment) {
             val fragmentTag = fragment.javaClass.simpleName
-            val currentFragment = myFragmentManager.findFragmentById(R.id.fragmentContainerView)
+            var currentFragment = myFragmentManager.findFragmentById(R.id.fragmentContainerView)
 
             if (currentFragment != null &&
                 currentFragment.javaClass.simpleName == SearchPreferenceFragment::class.java.simpleName
             ) {
                 myFragmentManager.popBackStack()
+                currentFragment = myFragmentManager.findFragmentById(R.id.fragmentContainerView)
             }
 
             if (currentFragment != null &&
                 currentFragment.javaClass.simpleName == fragmentTag
             ) {
-                return
+                popCurrentFragment()
             }
 
-            if (myFragmentManager.popBackStackImmediate(fragmentTag, 0)) {
-                return
-            }
+            myFragmentManager.popBackStackImmediate(
+                fragmentTag,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
 
             val fragmentTransaction: FragmentTransaction = myFragmentManager.beginTransaction()
 
