@@ -2,6 +2,12 @@ package com.drdisagree.iconify.ui.fragments.xposed
 
 import android.os.Bundle
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Preferences.AGGRESSIVE_QSPANEL_BLUR_SWITCH
+import com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH
+import com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH
+import com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH
+import com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.ui.activities.MainActivity
@@ -20,7 +26,7 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
         get() = true
 
     override val layoutResource: Int
-        get() = R.xml.transparency_blur
+        get() = R.xml.xposed_transparency_blur
 
     override val hasMenu: Boolean
         get() = true
@@ -29,35 +35,35 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
         super.updateScreen(key)
 
         when (key) {
-            "xposed_qstransparency" -> {
+            QS_TRANSPARENCY_SWITCH -> {
                 if (getBoolean(key)) {
-                    putBoolean("xposed_notiftransparency", false)
+                    putBoolean(NOTIF_TRANSPARENCY_SWITCH, false)
                 }
                 MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
             }
 
-            "xposed_notiftransparency" -> {
+            NOTIF_TRANSPARENCY_SWITCH -> {
                 if (getBoolean(key)) {
-                    putBoolean("xposed_qstransparency", false)
+                    putBoolean(QS_TRANSPARENCY_SWITCH, false)
                 }
                 MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
             }
 
-            "xposed_lockscreen_shade" -> {
+            LOCKSCREEN_SHADE_SWITCH -> {
                 MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
             }
 
-            "qsBlurSwitch" -> {
+            QSPANEL_BLUR_SWITCH -> {
                 if (getBoolean(key)) {
                     enableBlur(force = false)
                 } else {
-                    putBoolean("aggressiveQsBlurSwitch", false)
+                    putBoolean(AGGRESSIVE_QSPANEL_BLUR_SWITCH, false)
                     disableBlur(force = false)
                 }
                 MainActivity.showOrHidePendingActionButton(requiresDeviceRestart = true)
             }
 
-            "aggressiveQsBlurSwitch" -> {
+            AGGRESSIVE_QSPANEL_BLUR_SWITCH -> {
                 if (getBoolean(key)) {
                     enableBlur(force = true)
                 } else {
@@ -66,7 +72,7 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
                 MainActivity.showOrHidePendingActionButton(requiresDeviceRestart = true)
             }
 
-            "xposed_blurradiusvalue" -> {
+            BLUR_RADIUS_VALUE -> {
                 MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
             }
         }
@@ -75,9 +81,10 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
-        findPreference<SwitchPreference>("qsBlurSwitch")?.isChecked = isBlurEnabled(force = false)
+        findPreference<SwitchPreference>(QSPANEL_BLUR_SWITCH)?.isChecked =
+            isBlurEnabled(force = false)
 
-        findPreference<SwitchPreference>("aggressiveQsBlurSwitch")?.isChecked =
+        findPreference<SwitchPreference>(AGGRESSIVE_QSPANEL_BLUR_SWITCH)?.isChecked =
             isBlurEnabled(force = true)
     }
 }

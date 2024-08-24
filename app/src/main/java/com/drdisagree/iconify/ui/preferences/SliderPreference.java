@@ -206,12 +206,12 @@ public class SliderPreference extends Preference {
 
     public void setMin(float value) {
         valueFrom = value;
-        slider.setValueFrom(value);
+        if (slider != null) slider.setValueFrom(value);
     }
 
     public void setMax(float value) {
         valueTo = value;
-        slider.setValueTo(value);
+        if (slider != null) slider.setValueTo(value);
     }
 
     public static List<Float> getValues(SharedPreferences prefs, String key, float defaultValue) {

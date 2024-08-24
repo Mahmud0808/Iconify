@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences
+import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.preferences.HookCheckPreference
 
@@ -27,7 +28,7 @@ class Xposed : ControlledPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
-        findPreference<HookCheckPreference>("xposedHookCheck")?.apply {
+        findPreference<HookCheckPreference>(XPOSED_HOOK_CHECK)?.apply {
             hookCheckPreference = this
 
             setOnPreferenceClickListener {

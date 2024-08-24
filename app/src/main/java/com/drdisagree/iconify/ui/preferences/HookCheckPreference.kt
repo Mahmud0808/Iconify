@@ -20,6 +20,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_REQUEST
 import com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_RESULT
 import com.drdisagree.iconify.common.Preferences
+import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.utils.extension.ObservableVariable
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -44,7 +45,7 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
 
                 isHooked = it
 
-                RPrefs.putBoolean("xposedHookCheck", it)
+                RPrefs.putBoolean(XPOSED_HOOK_CHECK, it)
             }
         }
     }
@@ -116,7 +117,7 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
 
     private val delayedHookCheck: Runnable = Runnable {
         if (!isHooked) {
-            RPrefs.putBoolean("xposedHookCheck", false)
+            RPrefs.putBoolean(XPOSED_HOOK_CHECK, false)
         }
     }
 
