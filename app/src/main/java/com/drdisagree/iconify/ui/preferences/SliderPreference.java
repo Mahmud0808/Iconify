@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
@@ -177,6 +178,9 @@ public class SliderPreference extends Preference {
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
+
+        TextView title = holder.itemView.findViewById(android.R.id.title);
+        title.setTextColor(ContextCompat.getColor(getContext(), R.color.textColorPrimary));
 
         slider = holder.itemView.findViewById(R.id.slider);
         slider.setTag(getKey());
