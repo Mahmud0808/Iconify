@@ -43,6 +43,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.utils.OmniJawsClient
+import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.ControllersProvider
 import com.drdisagree.iconify.xposed.modules.LockscreenWidgets.Companion.LaunchableImageView
@@ -601,7 +602,11 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         val isEmpty = isMainWidgetsEmpty && isSecondaryWidgetsEmpty
 
         if (mDeviceWidgetContainer != null) {
-            mDeviceWidgetContainer.visibility = if (deviceWidgetsEnabled) VISIBLE else GONE
+            mDeviceWidgetContainer.visibility = if (deviceWidgetsEnabled) {
+                if (mIsLargeClock) View.GONE else View.VISIBLE
+            } else {
+                View.GONE
+            }
         }
         if (mMainWidgetsContainer != null) {
             mMainWidgetsContainer.visibility = if (isMainWidgetsEmpty) GONE else VISIBLE
@@ -715,7 +720,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     }
                 }
                 setUpWidgetResources(iv, efab,
-                    { toggleWiFi() }, getDrawable(WIFI_INACTIVE, SYSTEMUI_PACKAGE), getString(
+                    { toggleWiFi() }, getDrawable(WIFI_INACTIVE, FRAMEWORK_PACKAGE), getString(
                         WIFI_LABEL, SYSTEMUI_PACKAGE)
                 )
             }
@@ -1143,8 +1148,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     private val isMobileDataEnabled: Boolean
         get() {
-            val dataController: Any? = ControllersProvider.mDataController
-            log("LockscreenWidgets isMobileDataEnabled (dataController == null) " + (dataController == null))
             try {
                 val connectivityManager = mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 val cmClass = Class.forName(ConnectivityManager::class.java.name)
@@ -1168,8 +1171,9 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         }
 
     private fun toggleMobileData() {
-        if (ControllersProvider.mDataController == null) return
-        callMethod(ControllersProvider.mDataController, "setMobileDataEnabled", !isMobileDataEnabled)
+        enqueueProxyCommand { proxy ->
+            proxy?.runCommand("svc data " + if (isMobileDataEnabled) "disable" else "enable")
+        }
         updateMobileDataState(!isMobileDataEnabled)
         mHandler.postDelayed({ updateMobileDataState(isMobileDataEnabled) }, 250L)
         vibrate(1)
@@ -1405,17 +1409,16 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private fun updateMobileDataState(enabled: Boolean) {
         if (!isWidgetEnabled("data")) return
         if (dataButton == null && dataButtonFab == null) return
-        val networkController: Any? = ControllersProvider.mNetworkController
         val inactive = getString(DATA_LABEL, SYSTEMUI_PACKAGE)
         val networkName = if (!TextUtils.isEmpty(activeMobileDataCarrier)) activeMobileDataCarrier
         else inactive
-        val hasNetwork = networkController != null && !TextUtils.isEmpty(networkName)
+        val hasNetwork = enabled && !TextUtils.isEmpty(networkName)
         updateTileButtonState(
             dataButton,
             dataButtonFab,
             enabled,
             getDrawable(DATA_ICON, FRAMEWORK_PACKAGE),
-            if (hasNetwork && enabled) networkName else inactive
+            if (hasNetwork) networkName else inactive
         )
     }
 
@@ -1589,7 +1592,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     fun setIsLargeClock(isLargeClock: Boolean) {
         log("LockscreenWidgets setIsLargeClock $isLargeClock")
         instance!!.mIsLargeClock = isLargeClock
-        instance!!.updateWidgetViews()
+        instance!!.updateContainerVisibility()
     }
 
     /**
