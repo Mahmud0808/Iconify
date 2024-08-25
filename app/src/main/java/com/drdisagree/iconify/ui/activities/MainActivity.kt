@@ -334,23 +334,23 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
         if (selectedFragment != null) {
             outState.putInt(SELECTED_FRAGMENT_KEY, selectedFragment!!)
         }
 
         outState.putBoolean(REQUIRE_SYSTEMUI_RESTART_KEY, Dynamic.requiresSystemUiRestart)
         outState.putBoolean(REQUIRE_DEVICE_RESTART_KEY, Dynamic.requiresDeviceRestart)
+
+        super.onSaveInstanceState(outState)
     }
 
     public override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-
         selectedFragment = savedInstanceState.getInt(SELECTED_FRAGMENT_KEY)
         Dynamic.requiresSystemUiRestart =
             savedInstanceState.getBoolean(REQUIRE_SYSTEMUI_RESTART_KEY)
         Dynamic.requiresDeviceRestart = savedInstanceState.getBoolean(REQUIRE_DEVICE_RESTART_KEY)
+
+        super.onRestoreInstanceState(savedInstanceState)
     }
 
     override fun onColorSelected(dialogId: Int, color: Int) {
@@ -431,10 +431,13 @@ class MainActivity : BaseActivity(),
                 popCurrentFragment()
             }
 
-            myFragmentManager.popBackStackImmediate(
-                fragmentTag,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE
-            )
+            try {
+                myFragmentManager.popBackStackImmediate(
+                    fragmentTag,
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE
+                )
+            } catch (ignored: IllegalStateException) {
+            }
 
             val fragmentTransaction: FragmentTransaction = myFragmentManager.beginTransaction()
 
