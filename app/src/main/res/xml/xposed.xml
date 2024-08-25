@@ -81,6 +81,13 @@
         app:fragment="com.drdisagree.iconify.ui.fragments.XposedLockscreenWeather" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_lockscreen_widgets"
+        android:key="xposedLockscreenWidgets"
+        android:summary="@string/activity_desc_lockscreen_widgets"
+        android:title="@string/activity_title_lockscreen_widgets"
+        app:fragment="com.drdisagree.iconify.ui.fragments.XposedLockscreenWidgets" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_xposed_depth_wallpaper"
         android:key="xposedDepthWallpaper"
         android:summary="@string/activity_desc_depth_wallpaper"

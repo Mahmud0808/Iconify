@@ -59,21 +59,23 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        customLockscreenClock = Xprefs.getBoolean(LSCLOCK_SWITCH, false)
-        weatherEnabled = Xprefs.getBoolean(WEATHER_SWITCH, false)
-        weatherShowLocation = Xprefs.getBoolean(WEATHER_SHOW_LOCATION, true)
-        weatherShowCondition = Xprefs.getBoolean(WEATHER_SHOW_CONDITION, true)
-        weatherShowHumidity = Xprefs.getBoolean(WEATHER_SHOW_HUMIDITY, false)
-        weatherShowWind = Xprefs.getBoolean(WEATHER_SHOW_WIND, false)
-        weatherCustomColor = Xprefs.getBoolean(WEATHER_TEXT_COLOR_SWITCH, false)
-        weatherColor = Xprefs.getInt(WEATHER_TEXT_COLOR, Color.WHITE)
-        weatherTextSize = Xprefs.getInt(WEATHER_TEXT_SIZE, 16)
-        weatherImageSize = Xprefs.getInt(WEATHER_ICON_SIZE, 18)
-        mSideMargin = Xprefs.getInt(WEATHER_CUSTOM_MARGINS_SIDE, 20)
-        mTopMargin = Xprefs.getInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
-        mBottomMargin = Xprefs.getInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
-        mWeatherBackground = Xprefs.getInt(WEATHER_STYLE, 0)
-        mCenterWeather = Xprefs.getBoolean(WEATHER_CENTER_VIEW, false)
+        Xprefs.apply {
+            customLockscreenClock = getBoolean(LSCLOCK_SWITCH, false)
+            weatherEnabled = getBoolean(WEATHER_SWITCH, false)
+            weatherShowLocation = getBoolean(WEATHER_SHOW_LOCATION, true)
+            weatherShowCondition = getBoolean(WEATHER_SHOW_CONDITION, true)
+            weatherShowHumidity = getBoolean(WEATHER_SHOW_HUMIDITY, false)
+            weatherShowWind = getBoolean(WEATHER_SHOW_WIND, false)
+            weatherCustomColor = getBoolean(WEATHER_TEXT_COLOR_SWITCH, false)
+            weatherColor = getInt(WEATHER_TEXT_COLOR, Color.WHITE)
+            weatherTextSize = getInt(WEATHER_TEXT_SIZE, 16)
+            weatherImageSize = getInt(WEATHER_ICON_SIZE, 18)
+            mSideMargin = getInt(WEATHER_CUSTOM_MARGINS_SIDE, 20)
+            mTopMargin = getInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
+            mBottomMargin = getInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
+            mWeatherBackground = getInt(WEATHER_STYLE, 0)
+            mCenterWeather = getBoolean(WEATHER_CENTER_VIEW, false)
+        }
 
         if (key.isNotEmpty() &&
             (key[0] == WEATHER_SHOW_LOCATION ||

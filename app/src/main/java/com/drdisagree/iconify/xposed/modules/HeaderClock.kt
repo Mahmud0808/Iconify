@@ -110,9 +110,11 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        showHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_SWITCH, false)
-        centeredClockView = Xprefs.getBoolean(HEADER_CLOCK_CENTERED, false)
-        hideLandscapeHeaderClock = Xprefs.getBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, true)
+        Xprefs.apply {
+            showHeaderClock = getBoolean(HEADER_CLOCK_SWITCH, false)
+            centeredClockView = getBoolean(HEADER_CLOCK_CENTERED, false)
+            hideLandscapeHeaderClock = getBoolean(HEADER_CLOCK_LANDSCAPE_SWITCH, true)
+        }
 
         if (key.isNotEmpty() &&
             (key[0] == HEADER_CLOCK_SWITCH ||
@@ -519,9 +521,9 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
         val clockStyle: Int = Xprefs.getInt(HEADER_CLOCK_STYLE, 0)
         val customFontEnabled: Boolean = Xprefs.getBoolean(HEADER_CLOCK_FONT_SWITCH, false)
         val clockScale: Float =
-            (Xprefs.getInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
-        val sideMargin: Int = Xprefs.getInt(HEADER_CLOCK_SIDEMARGIN, 0)
-        val topMargin: Int = Xprefs.getInt(HEADER_CLOCK_TOPMARGIN, 8)
+            (Xprefs.getSliderInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
+        val sideMargin: Int = Xprefs.getSliderInt(HEADER_CLOCK_SIDEMARGIN, 0)
+        val topMargin: Int = Xprefs.getSliderInt(HEADER_CLOCK_TOPMARGIN, 8)
         val customFont = Environment.getExternalStorageDirectory().toString() +
                 "/.iconify_files/headerclock_font.ttf"
         val accent1: Int = Xprefs.getInt(

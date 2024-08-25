@@ -48,9 +48,11 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        blackQSHeaderEnabled = Xprefs.getBoolean(Preferences.BLACK_QSPANEL, false)
-        qsTextAlwaysWhite = Xprefs.getBoolean(Preferences.QS_TEXT_ALWAYS_WHITE, false)
-        qsTextFollowAccent = Xprefs.getBoolean(Preferences.QS_TEXT_FOLLOW_ACCENT, false)
+        Xprefs.apply {
+            blackQSHeaderEnabled = getBoolean(Preferences.BLACK_QSPANEL, false)
+            qsTextAlwaysWhite = getBoolean(Preferences.QS_TEXT_ALWAYS_WHITE, false)
+            qsTextFollowAccent = getBoolean(Preferences.QS_TEXT_FOLLOW_ACCENT, false)
+        }
 
         initColors(true)
     }

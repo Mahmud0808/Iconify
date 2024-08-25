@@ -102,36 +102,36 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        // Ls custom clock
-        customLockscreenClock = Xprefs.getBoolean(LSCLOCK_SWITCH, false)
+        Xprefs.apply {
+            // Ls custom clock
+            customLockscreenClock = getBoolean(LSCLOCK_SWITCH, false)
 
-        // Ls weather
-        lsWeather = Xprefs.getBoolean(WEATHER_SWITCH, false)
+            // Ls weather
+            lsWeather = getBoolean(WEATHER_SWITCH, false)
 
-        // Widgets
-        mWidgetsEnabled = Xprefs.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
-        mDeviceWidgetEnabled = Xprefs.getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET, false)
-        mMainWidgets = Xprefs.getString(LOCKSCREEN_WIDGETS, "")!!
-        mExtraWidgets = Xprefs.getString(LOCKSCREEN_WIDGETS_EXTRAS, "")!!
-        mDeviceCustomColor =
-            Xprefs.getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, false)
-        mDeviceLinearColor =
-            Xprefs.getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR, Color.WHITE)
-        mDeviceCircularColor =
-            Xprefs.getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR, Color.WHITE)
-        mDeviceTextColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR, Color.WHITE)
-        mDeviceName = Xprefs.getString(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE, "")!!
-        mWidgetsCustomColor = Xprefs.getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, false)
-        mBigInactiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_BIG_INACTIVE, Color.BLACK)
-        mBigActiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_BIG_ACTIVE, Color.WHITE)
-        mSmallInactiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_SMALL_INACTIVE, Color.BLACK)
-        mSmallActiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_SMALL_ACTIVE, Color.WHITE)
-        mBigIconActiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE, Color.BLACK)
-        mBigIconInactiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE, Color.WHITE)
-        mSmallIconActiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE, Color.BLACK)
-        mSmallIconInactiveColor =
-            Xprefs.getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE, Color.WHITE)
-        mBottomMargin = Xprefs.getInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
+            // Widgets
+            mWidgetsEnabled = getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
+            mDeviceWidgetEnabled = getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET, false)
+            mMainWidgets = getString(LOCKSCREEN_WIDGETS, "")!!
+            mExtraWidgets = getString(LOCKSCREEN_WIDGETS_EXTRAS, "")!!
+            mDeviceCustomColor =
+                getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, false)
+            mDeviceLinearColor = getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR, Color.WHITE)
+            mDeviceCircularColor =
+                getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR, Color.WHITE)
+            mDeviceTextColor = getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR, Color.WHITE)
+            mDeviceName = getString(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE, "")!!
+            mWidgetsCustomColor = getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, false)
+            mBigInactiveColor = getInt(LOCKSCREEN_WIDGETS_BIG_INACTIVE, Color.BLACK)
+            mBigActiveColor = getInt(LOCKSCREEN_WIDGETS_BIG_ACTIVE, Color.WHITE)
+            mSmallInactiveColor = getInt(LOCKSCREEN_WIDGETS_SMALL_INACTIVE, Color.BLACK)
+            mSmallActiveColor = getInt(LOCKSCREEN_WIDGETS_SMALL_ACTIVE, Color.WHITE)
+            mBigIconActiveColor = getInt(LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE, Color.BLACK)
+            mBigIconInactiveColor = getInt(LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE, Color.WHITE)
+            mSmallIconActiveColor = getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE, Color.BLACK)
+            mSmallIconInactiveColor = getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE, Color.WHITE)
+            mBottomMargin = getInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
+        }
 
         if (key.isNotEmpty()) {
             if (key[0] == LOCKSCREEN_WIDGETS_ENABLED ||

@@ -70,13 +70,15 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        showHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_SWITCH, false)
-        headerImageAlpha = Xprefs.getInt(HEADER_IMAGE_ALPHA, 100)
-        imageHeight = Xprefs.getInt(HEADER_IMAGE_HEIGHT, 140)
-        zoomToFit = Xprefs.getBoolean(HEADER_IMAGE_ZOOMTOFIT, false)
-        headerImageOverlap = Xprefs.getBoolean(HEADER_IMAGE_OVERLAP, false)
-        hideLandscapeHeaderImage = Xprefs.getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true)
-        bottomFadeAmount = mContext.toPx(Xprefs.getInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40))
+        Xprefs.apply {
+            showHeaderImage = getBoolean(HEADER_IMAGE_SWITCH, false)
+            headerImageAlpha = getSliderInt(HEADER_IMAGE_ALPHA, 100)
+            imageHeight = getSliderInt(HEADER_IMAGE_HEIGHT, 140)
+            zoomToFit = getBoolean(HEADER_IMAGE_ZOOMTOFIT, false)
+            headerImageOverlap = getBoolean(HEADER_IMAGE_OVERLAP, false)
+            hideLandscapeHeaderImage = getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true)
+            bottomFadeAmount = mContext.toPx(getSliderInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40))
+        }
 
         if (key.isNotEmpty() &&
             (key[0] == HEADER_IMAGE_SWITCH ||

@@ -66,7 +66,7 @@ class Statusbar(context: Context?) : ModPack(context!!) {
         Xprefs.apply {
             mColoredStatusbarIcon = getBoolean(COLORED_STATUSBAR_ICON, false)
             sbClockSizeSwitch = getBoolean(SB_CLOCK_SIZE_SWITCH, false)
-            sbClockSize = getInt(SB_CLOCK_SIZE, 14)
+            sbClockSize = getSliderInt(SB_CLOCK_SIZE, 14)
             hideLockscreenCarrier = getBoolean(HIDE_LOCKSCREEN_CARRIER, false)
             hideLockscreenStatusbar = getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false)
         }

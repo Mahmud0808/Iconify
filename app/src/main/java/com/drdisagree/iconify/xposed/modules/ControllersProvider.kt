@@ -33,7 +33,6 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         if (!XprefsIsInitialized) return
 
         mWidgetsEnabled = Xprefs.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
-
     }
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {

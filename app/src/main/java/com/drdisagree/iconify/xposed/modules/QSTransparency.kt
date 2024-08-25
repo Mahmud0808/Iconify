@@ -37,12 +37,14 @@ class QSTransparency(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        qsTransparencyActive = Xprefs.getBoolean(QS_TRANSPARENCY_SWITCH, false)
-        onlyNotifTransparencyActive = Xprefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false)
-        keepLockScreenShade = Xprefs.getBoolean(LOCKSCREEN_SHADE_SWITCH, false)
-        alpha = (Xprefs.getInt(QSALPHA_LEVEL, 60).toFloat() / 100.0).toFloat()
-        blurEnabled = Xprefs.getBoolean(QSPANEL_BLUR_SWITCH, false)
-        blurRadius = Xprefs.getInt(BLUR_RADIUS_VALUE, 23)
+        Xprefs.apply {
+            qsTransparencyActive = getBoolean(QS_TRANSPARENCY_SWITCH, false)
+            onlyNotifTransparencyActive = getBoolean(NOTIF_TRANSPARENCY_SWITCH, false)
+            keepLockScreenShade = getBoolean(LOCKSCREEN_SHADE_SWITCH, false)
+            alpha = (getSliderInt(QSALPHA_LEVEL, 60).toFloat() / 100.0).toFloat()
+            blurEnabled = getBoolean(QSPANEL_BLUR_SWITCH, false)
+            blurRadius = getSliderInt(BLUR_RADIUS_VALUE, 23)
+        }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {

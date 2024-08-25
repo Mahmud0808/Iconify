@@ -44,9 +44,10 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        lightQSHeaderEnabled = Xprefs.getBoolean(LIGHT_QSPANEL, false)
-        dualToneQSEnabled = lightQSHeaderEnabled &&
-                Xprefs.getBoolean(DUALTONE_QSPANEL, false)
+        Xprefs.apply {
+            lightQSHeaderEnabled = getBoolean(LIGHT_QSPANEL, false)
+            dualToneQSEnabled = lightQSHeaderEnabled && getBoolean(DUALTONE_QSPANEL, false)
+        }
 
         applyOverlays(true)
     }

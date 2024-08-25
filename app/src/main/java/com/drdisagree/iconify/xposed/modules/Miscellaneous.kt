@@ -54,8 +54,8 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
             qsCarrierGroupHidden = getBoolean(QSPANEL_HIDE_CARRIER, false)
             hideStatusIcons = getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
             fixedStatusIcons = getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
-            topMarginStatusIcons = getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
-            sideMarginStatusIcons = getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
+            topMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
+            sideMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
             hideLockscreenLockIcon = getBoolean(HIDE_LOCKSCREEN_LOCK_ICON, false)
             hideDataDisabledIcon = getBoolean(HIDE_DATA_DISABLED_ICON, false)
         }

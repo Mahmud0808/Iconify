@@ -41,9 +41,11 @@ class VolumePanel(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        showPercentage = Xprefs.getBoolean(VOLUME_PANEL_PERCENTAGE, false)
-        showWarning = Xprefs.getBoolean(VOLUME_PANEL_SAFETY_WARNING, true)
-        coloredRingerIcon = Xprefs.getBoolean(VOLUME_COLORED_RINGER_ICON, false)
+        Xprefs.apply {
+            showPercentage = getBoolean(VOLUME_PANEL_PERCENTAGE, false)
+            showWarning = getBoolean(VOLUME_PANEL_SAFETY_WARNING, true)
+            coloredRingerIcon = getBoolean(VOLUME_COLORED_RINGER_ICON, false)
+        }
 
         if (key.isNotEmpty()) {
             key[0].let {

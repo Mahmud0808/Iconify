@@ -85,23 +85,25 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false)
-        isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false)
-        customQsMarginsEnabled = Xprefs.getBoolean(CUSTOM_QS_MARGIN, false)
-        qqsTopMargin = Xprefs.getInt(QQS_TOPMARGIN, 100)
-        qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100)
-        fixQsTileColor = isAtLeastAndroid14 &&
-                Xprefs.getBoolean(FIX_QS_TILE_COLOR, false)
-        fixNotificationColor = isAtLeastAndroid14 &&
-                Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false) &&
-                isSecurityPatchBeforeJune2024()
-        fixNotificationFooterButtonsColor = isAtLeastAndroid14 &&
-                Xprefs.getBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
-        qsTextAlwaysWhite = Xprefs.getBoolean(QS_TEXT_ALWAYS_WHITE, false)
-        qsTextFollowAccent = Xprefs.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
-        hideQsOnLockscreen = Xprefs.getBoolean(HIDE_QS_ON_LOCKSCREEN, false)
-        hideSilentText = Xprefs.getBoolean(HIDE_QS_SILENT_TEXT, false)
-        hideFooterButtons = Xprefs.getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
+        Xprefs.apply {
+            isVerticalQSTileActive = getBoolean(VERTICAL_QSTILE_SWITCH, false)
+            isHideLabelActive = getBoolean(HIDE_QSLABEL_SWITCH, false)
+            customQsMarginsEnabled = getBoolean(CUSTOM_QS_MARGIN, false)
+            qqsTopMargin = getSliderInt(QQS_TOPMARGIN, 100)
+            qsTopMargin = getSliderInt(QS_TOPMARGIN, 100)
+            fixQsTileColor = isAtLeastAndroid14 &&
+                    getBoolean(FIX_QS_TILE_COLOR, false)
+            fixNotificationColor = isAtLeastAndroid14 &&
+                    getBoolean(FIX_NOTIFICATION_COLOR, false) &&
+                    isSecurityPatchBeforeJune2024()
+            fixNotificationFooterButtonsColor = isAtLeastAndroid14 &&
+                    getBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
+            qsTextAlwaysWhite = getBoolean(QS_TEXT_ALWAYS_WHITE, false)
+            qsTextFollowAccent = getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
+            hideQsOnLockscreen = getBoolean(HIDE_QS_ON_LOCKSCREEN, false)
+            hideSilentText = getBoolean(HIDE_QS_SILENT_TEXT, false)
+            hideFooterButtons = getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
+        }
 
         triggerQsElementVisibility()
     }

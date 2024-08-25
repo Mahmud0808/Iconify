@@ -62,13 +62,15 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        showDepthWallpaper = Xprefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false)
-        showFadingAnimation = Xprefs.getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false)
-        enableParallaxEffect = Xprefs.getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
-        backgroundMovement = Xprefs.getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
-        foregroundMovement = Xprefs.getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
-        unzoomWallpaper = Xprefs.getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
-        foregroundAlpha = Xprefs.getInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
+        Xprefs.apply {
+            showDepthWallpaper = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
+            showFadingAnimation = getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false)
+            enableParallaxEffect = getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
+            backgroundMovement = getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
+            foregroundMovement = getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
+            unzoomWallpaper = getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
+            foregroundAlpha = getSliderInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
+        }
 
         if (key.isNotEmpty() &&
             (key[0] == DEPTH_WALLPAPER_SWITCH ||

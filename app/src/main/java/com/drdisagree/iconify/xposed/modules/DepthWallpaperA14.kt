@@ -73,12 +73,14 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        showDepthWallpaper = Xprefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false)
-        showCustomImages = Xprefs.getBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH, false)
-        backgroundMovement = Xprefs.getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
-        foregroundMovement = Xprefs.getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
-        foregroundAlpha = Xprefs.getInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
-        showOnAOD = Xprefs.getBoolean(DEPTH_WALLPAPER_ON_AOD, true)
+        Xprefs.apply {
+            showDepthWallpaper = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
+            showCustomImages = getBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH, false)
+            backgroundMovement = getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
+            foregroundMovement = getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
+            foregroundAlpha = getSliderInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
+            showOnAOD = getBoolean(DEPTH_WALLPAPER_ON_AOD, true)
+        }
 
         if (key.isNotEmpty()) {
             key[0].let {

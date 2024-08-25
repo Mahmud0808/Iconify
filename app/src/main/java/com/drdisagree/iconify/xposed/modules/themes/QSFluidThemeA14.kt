@@ -26,13 +26,13 @@ import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY
 import com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY
 import com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL
-import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.RoundedCornerProgressDrawable
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.utils.SystemUtil
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
@@ -81,11 +81,13 @@ class QSFluidThemeA14(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        fluidQsThemeEnabled = Xprefs.getBoolean(FLUID_QSPANEL, false)
-        fluidNotifEnabled = fluidQsThemeEnabled &&
-                Xprefs.getBoolean(FLUID_NOTIF_TRANSPARENCY, false)
-        fluidPowerMenuEnabled = fluidQsThemeEnabled &&
-                Xprefs.getBoolean(FLUID_POWERMENU_TRANSPARENCY, false)
+        Xprefs.apply {
+            fluidQsThemeEnabled = getBoolean(FLUID_QSPANEL, false)
+            fluidNotifEnabled = fluidQsThemeEnabled &&
+                    getBoolean(FLUID_NOTIF_TRANSPARENCY, false)
+            fluidPowerMenuEnabled = fluidQsThemeEnabled &&
+                    getBoolean(FLUID_POWERMENU_TRANSPARENCY, false)
+        }
 
         initResources()
     }
