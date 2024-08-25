@@ -18,6 +18,15 @@ import com.drdisagree.iconify.common.Preferences.EXPERIMENTAL_FEATURES
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT1
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT2
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT3
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_TEXT1
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_TEXT2
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_SWITCH
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN
@@ -101,6 +110,12 @@ object PrefsHelper {
 
             LSCLOCK_USERNAME -> getInt(LSCLOCK_STYLE, 0) == 19
 
+            HEADER_CLOCK_COLOR_CODE_ACCENT1,
+            HEADER_CLOCK_COLOR_CODE_ACCENT2,
+            HEADER_CLOCK_COLOR_CODE_ACCENT3,
+            HEADER_CLOCK_COLOR_CODE_TEXT1,
+            HEADER_CLOCK_COLOR_CODE_TEXT2 -> getBoolean(HEADER_CLOCK_COLOR_SWITCH)
+
             else -> true
         }
     }
@@ -160,11 +175,16 @@ object PrefsHelper {
 
             LSCLOCK_FONT_LINEHEIGHT -> "${getSliderInt(key, 0)}dp"
 
+            HEADER_CLOCK_FONT_TEXT_SCALING,
             LSCLOCK_FONT_TEXT_SCALING -> "${String.format("%.1f", getSliderInt(key, 10) / 10f)}x"
 
             LSCLOCK_TOPMARGIN -> "${getSliderInt(key, 100)}dp"
 
             LSCLOCK_BOTTOMMARGIN -> "${getSliderInt(key, 40)}dp"
+
+            HEADER_CLOCK_SIDEMARGIN -> "${getSliderInt(key, 0)}dp"
+
+            HEADER_CLOCK_TOPMARGIN -> "${getSliderInt(key, 8)}dp"
 
             else -> null
         }

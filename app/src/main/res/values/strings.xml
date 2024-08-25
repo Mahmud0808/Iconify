@@ -632,7 +632,7 @@
     <string name="custom_header_clock_desc">Add a custom clock on QS panel</string>
     <string name="header_clock_style_title">Clock Style</string>
     <string name="header_clock_font_title">Clock Font</string>
-    <string name="header_clock_font_desc">Use custom font for header clock\nDo not select file from Recent</string>
+    <string name="header_clock_font_desc">Use custom font for header clock</string>
     <string name="custom_header_clock_color_title">Custom Clock Color</string>
     <string name="custom_header_clock_color_desc">Custom colors instead of system colors</string>
     <string name="header_clock_color_picker_title">Clock Color Picker</string>
@@ -1010,6 +1010,11 @@
     <string name="btn_dismiss">Dismiss</string>
     <string name="btn_restart_device">Restart Device</string>
     <string name="btn_pending">Pending</string>
+    <string name="accent_primary">Accent Primary</string>
+    <string name="accent_secondary">Accent Secondary</string>
+    <string name="accent_tertiary">Accent Tertiary</string>
+    <string name="text_color_primary">Text Color Primary</string>
+    <string name="text_color_inverse">Text Color Inverse</string>
 
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
