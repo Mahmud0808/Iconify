@@ -2,6 +2,8 @@ package com.drdisagree.iconify.xposed.modules
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_ENABLED
+import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
@@ -15,6 +17,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class ControllersProvider(context: Context?) : ModPack(context!!) {
 
+    private var mWidgetsEnabled = false
+
     private var mBluetoothEnabled = false
 
     private val mMobileDataChangedListeners = ArrayList<OnMobileDataChanged>()
@@ -24,9 +28,16 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
     private val mHotspotChangedListeners = ArrayList<OnHotspotChanged>()
     private val mDozeChangedListeners = ArrayList<OnDozingChanged>()
 
-    override fun updatePrefs(vararg key: String) {}
+    override fun updatePrefs(vararg key: String) {
+        if (Xprefs == null) return
+
+        mWidgetsEnabled = Xprefs!!.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
+
+    }
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+        if (!mWidgetsEnabled) return
+
         instance = this
 
         // Network Callbacks
