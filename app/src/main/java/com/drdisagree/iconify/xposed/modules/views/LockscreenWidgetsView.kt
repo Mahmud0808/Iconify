@@ -477,7 +477,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         }
     }
 
-    fun disableWeatherUpdates() {
+    private fun disableWeatherUpdates() {
         if (mWeatherClient != null) {
             weatherButton = null
             weatherButtonFab = null
@@ -1398,11 +1398,18 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         ControllersProvider.getInstance().registerDozingCallback(mDozeCallback)
 
         // Add a Screen On Receiver so we can update the widgets state when the screen is turned on
-        mContext.registerReceiver(
-            mScreenOnReceiver,
-            IntentFilter(Intent.ACTION_SCREEN_ON),
-            Context.RECEIVER_EXPORTED
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mContext.registerReceiver(
+                mScreenOnReceiver,
+                IntentFilter(Intent.ACTION_SCREEN_ON),
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            mContext.registerReceiver(
+                mScreenOnReceiver,
+                IntentFilter(Intent.ACTION_SCREEN_ON)
+            )
+        }
     }
 
     private fun updateWiFiButtonState(enabled: Boolean) {
@@ -1493,6 +1500,10 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun showBluetoothDialog(view: View) {
+        if (Build.VERSION.SDK_INT < 34) {
+            mActivityLauncherUtils.launchBluetoothSettings()
+            return
+        }
         val finalView: View = if (view is ExtendedFAB) {
             view.parent as View
         } else {
