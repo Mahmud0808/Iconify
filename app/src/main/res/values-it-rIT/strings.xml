@@ -569,7 +569,7 @@
     <string name="header_image_desc">Aggiungi immagine intestazione nel pannello QS\nNon selezionare il file dai Recenti</string>
     <string name="btn_pick_image">Scegli Immagine</string>
     <string name="header_image_height_title">Altezza Immagine</string>
-    <string name="header_image_alpha">Immagine Alfa</string>
+    <string name="header_image_opacity">Immagine Alfa</string>
     <string name="header_image_bottom_fade">Quantità Dissolvenza Inferiore</string>
     <string name="header_image_zoom_to_fit_title">Zoom Per Adattare</string>
     <string name="header_image_zoom_to_fit_desc">L\'immagine è allungata per adattarsi in modo predefinito</string>

@@ -34,6 +34,7 @@ import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
+import com.drdisagree.iconify.ui.fragments.xposed.HeaderImage
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClock
 import com.drdisagree.iconify.ui.fragments.xposed.Others
 import com.drdisagree.iconify.ui.fragments.xposed.QuickSettings
@@ -648,6 +649,11 @@ class MainActivity : BaseActivity(),
                 R.xml.xposed_volume_panel,
                 R.string.activity_title_volume_panel,
                 VolumePanel()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed_header_image,
+                R.string.activity_title_header_image,
+                HeaderImage()
             ),
             SearchPreferenceItem(
                 R.xml.xposed_header_clock,

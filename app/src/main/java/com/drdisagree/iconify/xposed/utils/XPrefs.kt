@@ -9,11 +9,13 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Const.PREF_UPDATE_EXCLUSIONS
 import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 import com.drdisagree.iconify.xposed.HookEntry
+import de.robv.android.xposed.XposedBridge.log
 
 object XPrefs {
 
     @SuppressLint("StaticFieldLeak")
     lateinit var Xprefs: ExtendedRemotePreferences
+    private val TAG = "Iconify - ${XPrefs::class.java.simpleName}: "
     private val listener = OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
         loadEverything(
             key
@@ -41,7 +43,11 @@ object XPrefs {
         }
 
         HookEntry.runningMods.forEach { thisMod ->
-            thisMod.updatePrefs(*key.filterNotNull().toTypedArray())
+            try {
+                thisMod.updatePrefs(*key.filterNotNull().toTypedArray())
+            } catch (throwable: Throwable) {
+                log(TAG + throwable)
+            }
         }
     }
 }

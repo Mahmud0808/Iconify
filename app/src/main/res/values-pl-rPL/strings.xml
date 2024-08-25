@@ -569,7 +569,7 @@
     <string name="header_image_desc">Dodaj obraz w nagłówku szybkich ustawień\nNie wybieraj pliku z Ostatnich</string>
     <string name="btn_pick_image">Wybierz obraz</string>
     <string name="header_image_height_title">Wysokość obrazu</string>
-    <string name="header_image_alpha">Przezroczystość obrazu</string>
+    <string name="header_image_opacity">Przezroczystość obrazu</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Dopasuj do rozmiaru</string>
     <string name="header_image_zoom_to_fit_desc">Obraz będzie domyślnie rozciągany, aby dopasować się do ustalonego rozmiaru</string>

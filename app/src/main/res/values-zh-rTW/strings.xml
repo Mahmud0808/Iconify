@@ -569,7 +569,7 @@
     <string name="header_image_desc">在快速設定面板上添加標頭圖像\n不要從“最近”資料夾中選擇檔案</string>
     <string name="btn_pick_image">選取圖像</string>
     <string name="header_image_height_title">圖像高度</string>
-    <string name="header_image_alpha">圖像透明度</string>
+    <string name="header_image_opacity">圖像透明度</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">適當放大</string>
     <string name="header_image_zoom_to_fit_desc">預設情況下，圖像會被拉伸到合適的尺寸</string>

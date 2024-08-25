@@ -569,7 +569,7 @@
     <string name="header_image_desc">Thêm hình ảnh tiêu đề trên bảng QS\nKhông chọn tệp từ Gần đây</string>
     <string name="btn_pick_image">Chọn hình ảnh</string>
     <string name="header_image_height_title">Chiều cao hình ảnh</string>
-    <string name="header_image_alpha">Hình ảnh Alpha</string>
+    <string name="header_image_opacity">Hình ảnh Alpha</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Thu phóng cho vừa</string>
     <string name="header_image_zoom_to_fit_desc">Hình ảnh được kéo dài để phù hợp theo mặc định</string>

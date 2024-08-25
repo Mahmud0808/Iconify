@@ -569,7 +569,7 @@
     <string name="header_image_desc">أضف صورة العنوان على لوحة QS\nلا تحدد ملفًا من الحالي</string>
     <string name="btn_pick_image">اختر صورة</string>
     <string name="header_image_height_title">ارتفاع الصورة</string>
-    <string name="header_image_alpha">صورة ألفا</string>
+    <string name="header_image_opacity">صورة ألفا</string>
     <string name="header_image_bottom_fade">كمية التلاشي السفلي</string>
     <string name="header_image_zoom_to_fit_title">تكبير للتناسب</string>
     <string name="header_image_zoom_to_fit_desc">يتم تمديد الصورة لتناسب بشكل افتراضي</string>

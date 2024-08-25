@@ -569,7 +569,7 @@
     <string name="header_image_desc">Додати зображення заголовка на панель швидких налаштувань\nНе вибирайте файл з «Нещодавні»</string>
     <string name="btn_pick_image">Обрати зображення</string>
     <string name="header_image_height_title">Висота зображення</string>
-    <string name="header_image_alpha">Прозорість зображення</string>
+    <string name="header_image_opacity">Прозорість зображення</string>
     <string name="header_image_bottom_fade">Нижня величина затухання</string>
     <string name="header_image_zoom_to_fit_title">Масштаб за розміром</string>
     <string name="header_image_zoom_to_fit_desc">По стандарту зображення розтягнуто</string>

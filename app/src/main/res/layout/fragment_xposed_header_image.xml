@@ -49,7 +49,7 @@
                 app:sliderValue="100"
                 app:sliderValueFrom="0"
                 app:sliderValueTo="100"
-                app:titleText="@string/header_image_alpha"
+                app:titleText="@string/header_image_opacity"
                 app:valueFormat="%" />
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget

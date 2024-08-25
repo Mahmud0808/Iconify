@@ -569,7 +569,7 @@
     <string name="header_image_desc">Adicione uma imagem de cabeçalho no painel QS.\nNão selecione o arquivo de Recente.</string>
     <string name="btn_pick_image">Escolher imagem</string>
     <string name="header_image_height_title">Altura da imagem</string>
-    <string name="header_image_alpha">Imagem alfa</string>
+    <string name="header_image_opacity">Imagem alfa</string>
     <string name="header_image_bottom_fade">Quantidade de esmaecimento inferior</string>
     <string name="header_image_zoom_to_fit_title">Zoom para ajustar</string>
     <string name="header_image_zoom_to_fit_desc">A imagem é esticada para caber por padrão</string>

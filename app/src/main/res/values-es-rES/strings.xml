@@ -569,7 +569,7 @@
     <string name="header_image_desc">Añadir imagen de encabezado en el panel de Ajustes Rápidos\nNo selecciones archivos de \"Recientes\"</string>
     <string name="btn_pick_image">Seleccionar imagen</string>
     <string name="header_image_height_title">Altura de la imagen</string>
-    <string name="header_image_alpha">Alfa de la imagen</string>
+    <string name="header_image_opacity">Alfa de la imagen</string>
     <string name="header_image_bottom_fade">Cantidad de desvanecimiento inferior</string>
     <string name="header_image_zoom_to_fit_title">Ajustar al zoom</string>
     <string name="header_image_zoom_to_fit_desc">La imagen se estira para ajustarse por defecto</string>

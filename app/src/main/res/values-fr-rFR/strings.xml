@@ -569,7 +569,7 @@
     <string name="header_image_desc">Add header image on QS panel\nDo not select file from Recent</string>
     <string name="btn_pick_image">Pick Image</string>
     <string name="header_image_height_title">Image Height</string>
-    <string name="header_image_alpha">Image Alpha</string>
+    <string name="header_image_opacity">Image Alpha</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Zoomer pour s\'adapter</string>
     <string name="header_image_zoom_to_fit_desc">L\'image est étirée pour s\'adapter par défaut</string>

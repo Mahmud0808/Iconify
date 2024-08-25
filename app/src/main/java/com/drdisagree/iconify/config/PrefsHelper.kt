@@ -35,6 +35,9 @@ import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
+import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA
+import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_BOTTOM_FADE_AMOUNT
+import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH
@@ -204,6 +207,12 @@ object PrefsHelper {
             HEADER_CLOCK_SIDEMARGIN -> "${getSliderInt(key, 0)}dp"
 
             HEADER_CLOCK_TOPMARGIN -> "${getSliderInt(key, 8)}dp"
+
+            HEADER_IMAGE_HEIGHT -> "${getSliderInt(key, 140)}dp"
+
+            HEADER_IMAGE_ALPHA -> "${getSliderInt(key, 100)}%"
+
+            HEADER_IMAGE_BOTTOM_FADE_AMOUNT -> "${getSliderInt(key, 40)}%"
 
             else -> null
         }

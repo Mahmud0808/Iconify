@@ -670,7 +670,7 @@
     <string name="header_image_desc">Add header image on QS panel\nDo not select file from Recent</string>
     <string name="btn_pick_image">Pick Image</string>
     <string name="header_image_height_title">Image Height</string>
-    <string name="header_image_alpha">Image Alpha</string>
+    <string name="header_image_opacity">Image Opacity</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Zoom To Fit</string>
     <string name="header_image_zoom_to_fit_desc">Image is stretched to fit by default</string>
@@ -744,7 +744,7 @@
     <string name="wallpaper_fade_animation_desc">Animate wallpaper and fade away in AOD</string>
     <string name="foreground_image_title">Foreground Image</string>
     <string name="foreground_image_desc">Foreground image for depth wallpaper</string>
-    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
+    <string name="foreground_image_alpha_title">Foreground Image Opacity</string>
     <string name="background_image_title">Background Image</string>
     <string name="background_image_desc">Background image for depth wallpaper</string>
     <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>

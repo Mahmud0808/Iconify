@@ -569,7 +569,7 @@
     <string name="header_image_desc">クイック設定パネルのヘッダー画像を追加します\n「最近」からファイルを選択しないでください</string>
     <string name="btn_pick_image">画像を選択</string>
     <string name="header_image_height_title">画像の縦幅</string>
-    <string name="header_image_alpha">画像の透明度</string>
+    <string name="header_image_opacity">画像の透明度</string>
     <string name="header_image_bottom_fade">下部のフェード量</string>
     <string name="header_image_zoom_to_fit_title">画面に合わせる</string>
     <string name="header_image_zoom_to_fit_desc">画像はデフォルトで拡大縮小します</string>

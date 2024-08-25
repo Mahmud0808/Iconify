@@ -570,7 +570,7 @@ transparent machen</string>
     <string name="header_image_desc">Headerbild aufs QS-Panel hinzufügen\nNicht \"Zuletzt benutzt\" verwenden</string>
     <string name="btn_pick_image">Bild auswählen</string>
     <string name="header_image_height_title">Bildhöhe</string>
-    <string name="header_image_alpha">Bildtransparenz</string>
+    <string name="header_image_opacity">Bildtransparenz</string>
     <string name="header_image_bottom_fade">Höhe des unteren Ausblendens</string>
     <string name="header_image_zoom_to_fit_title">Passend vergrößern</string>
     <string name="header_image_zoom_to_fit_desc">Bild ist standardmäßig gestreckt um zu passen</string>

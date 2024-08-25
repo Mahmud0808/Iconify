@@ -569,7 +569,7 @@
     <string name="header_image_desc">Adicionar imagem de cabeçalho ao painel das DR\nNão escolha um ficheiro da localização \"Recentes\".</string>
     <string name="btn_pick_image">Escolha uma imagem</string>
     <string name="header_image_height_title">Altura da imagem</string>
-    <string name="header_image_alpha">Opacidade da imagem</string>
+    <string name="header_image_opacity">Opacidade da imagem</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Zoom para ajuste</string>
     <string name="header_image_zoom_to_fit_desc">A imagem é esticada para ajuste por defeito</string>

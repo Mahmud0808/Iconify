@@ -569,7 +569,7 @@
     <string name="header_image_desc">在快速设置面板上添加标头图片\n不要从最近文件中选择文件</string>
     <string name="btn_pick_image">选择图片</string>
     <string name="header_image_height_title">图片高度</string>
-    <string name="header_image_alpha">图片透明度</string>
+    <string name="header_image_opacity">图片透明度</string>
     <string name="header_image_bottom_fade">底部淡出量</string>
     <string name="header_image_zoom_to_fit_title">适度放大</string>
     <string name="header_image_zoom_to_fit_desc">默认情况下，图片会被拉伸至合适的尺寸</string>

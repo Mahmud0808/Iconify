@@ -569,7 +569,7 @@
     <string name="header_image_desc">Adjon hozzá fejlécképet a panelen\nNe válasszon fájlt az Előzményekből</string>
     <string name="btn_pick_image">Képválasztó</string>
     <string name="header_image_height_title">Képmagasság</string>
-    <string name="header_image_alpha">A kép alfája</string>
+    <string name="header_image_opacity">A kép alfája</string>
     <string name="header_image_bottom_fade">Az alsó halványítás erőssége</string>
     <string name="header_image_zoom_to_fit_title">Nagyítás kitöltéssel</string>
     <string name="header_image_zoom_to_fit_desc">A kép alapértelmezés szerinti illesztése</string>

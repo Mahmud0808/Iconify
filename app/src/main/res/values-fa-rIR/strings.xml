@@ -569,7 +569,7 @@
     <string name="header_image_desc">اصافه کردن تصویر به هدر نوارابزار\nفایل تصویر را از بخش فایل‌های اخیر انتخاب نکنید</string>
     <string name="btn_pick_image">انتخاب فایل تصویر</string>
     <string name="header_image_height_title">ارتفاع تصویر</string>
-    <string name="header_image_alpha">میزان شفافیت تصویر هدر</string>
+    <string name="header_image_opacity">میزان شفافیت تصویر هدر</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">بزرگنمایی تصویر هدر</string>
     <string name="header_image_zoom_to_fit_desc">به صورت پیش‌فرض توصیر کشیده می‌شود تا به درستی قرار بگیرد</string>

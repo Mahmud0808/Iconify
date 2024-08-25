@@ -569,7 +569,7 @@
     <string name="header_image_desc">Добавить изображения на панель быстрых настроек\nНе выбирайте его из вкладки \"Последние\"</string>
     <string name="btn_pick_image">Выбрать изображение</string>
     <string name="header_image_height_title">Высота изображения</string>
-    <string name="header_image_alpha">Прозрачность изображения</string>
+    <string name="header_image_opacity">Прозрачность изображения</string>
     <string name="header_image_bottom_fade">Нижняя величина затухания</string>
     <string name="header_image_zoom_to_fit_title">Увеличить размер</string>
     <string name="header_image_zoom_to_fit_desc">Размер изображение растянут по умолчанию</string>

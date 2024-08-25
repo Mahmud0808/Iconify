@@ -569,7 +569,7 @@
     <string name="header_image_desc">QS paneline başlık resmi ekleyin\nSon kullanılanlar\'dan dosya seçmeyin</string>
     <string name="btn_pick_image">Resim Seç</string>
     <string name="header_image_height_title">Resim Yüksekliği</string>
-    <string name="header_image_alpha">Resim Değeri</string>
+    <string name="header_image_opacity">Resim Değeri</string>
     <string name="header_image_bottom_fade">Alt Solma Miktarı</string>
     <string name="header_image_zoom_to_fit_title">Sığdırmak İçin Yakınlaştır</string>
     <string name="header_image_zoom_to_fit_desc">Görüntü varsayılan olarak sığacak şekilde uzatılır</string>
