@@ -1,12 +1,14 @@
 package com.drdisagree.iconify.xposed.modules
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.view.children
+import com.drdisagree.iconify.common.Const.ACTION_WEATHER_INFLATED
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_CENTER_VIEW
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
@@ -159,6 +161,11 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
 
             refreshWeatherView(currentWeatherView)
             updateMargins()
+
+            // Weather placed, now inflate widgets
+            val broadcast = Intent(ACTION_WEATHER_INFLATED)
+            broadcast.setFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+            Thread { mContext.sendBroadcast(broadcast) }.start()
         } catch (ignored: Throwable) {
         }
     }

@@ -134,4 +134,11 @@
     <color name="colorErrorContainerDark">#FF8C1D18</color>
     <color name="colorOnErrorContainerLight">#FF410E0B</color>
     <color name="colorOnErrorContainerDark">#FFF9DEDC</color>
+
+    <!-- Lockscreen Widgets -->
+    <color name="lockscreen_widget_background_color_dark">@android:color/system_neutral1_900</color>
+    <color name="lockscreen_widget_background_color_light">@android:color/system_neutral1_0</color>
+    <color name="lockscreen_widget_active_color_dark">@android:color/system_accent1_100</color>
+    <color name="lockscreen_widget_active_color_light">@android:color/system_accent1_600</color>
+    <color name="card_surface_color">@android:color/system_neutral1_100</color>
 </resources>
