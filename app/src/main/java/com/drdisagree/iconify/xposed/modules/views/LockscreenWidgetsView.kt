@@ -50,6 +50,7 @@ import com.drdisagree.iconify.xposed.modules.LockscreenWidgets.Companion.Launcha
 import com.drdisagree.iconify.xposed.modules.LockscreenWidgets.Companion.LaunchableLinearLayout
 import com.drdisagree.iconify.xposed.modules.utils.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.utils.ExtendedFAB
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.getBooleanField
@@ -242,8 +243,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         mDeviceWidgetView = DeviceWidgetView(context)
 
         deviceWidget.addView(mDeviceWidgetView)
-
-        log("LockscreenWidgets createDeviceWidgetContainer done")
+        deviceWidget.setPadding(0, 0, 0, mContext.toPx(18))
 
         return deviceWidget
     }
