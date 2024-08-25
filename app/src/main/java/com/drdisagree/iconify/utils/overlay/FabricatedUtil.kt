@@ -3,7 +3,7 @@ package com.drdisagree.iconify.utils.overlay
 import android.os.Build
 import android.util.TypedValue
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.utils.helper.TypedValueUtil.createComplexDimension
 import com.topjohnwu.superuser.Shell
 
@@ -36,12 +36,12 @@ object FabricatedUtil {
 
         val commands = buildCommands(target, name, type, resourceName, `val`)
 
-        Prefs.putBoolean("fabricated$name", true)
-        Prefs.putString("FOCMDtarget$name", target)
-        Prefs.putString("FOCMDname$name", name)
-        Prefs.putString("FOCMDtype$name", type)
-        Prefs.putString("FOCMDresourceName$name", resourceName)
-        Prefs.putString("FOCMDval$name", `val`)
+        RPrefs.putBoolean("fabricated$name", true)
+        RPrefs.putString("FOCMDtarget$name", target)
+        RPrefs.putString("FOCMDname$name", name)
+        RPrefs.putString("FOCMDtype$name", type)
+        RPrefs.putString("FOCMDresourceName$name", resourceName)
+        RPrefs.putString("FOCMDval$name", `val`)
 
         Shell.cmd(
             "mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + name + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp"
@@ -69,12 +69,12 @@ object FabricatedUtil {
                 arg[4] as String
             )
 
-            Prefs.putBoolean("fabricated" + arg[1], true)
-            Prefs.putString("FOCMDtarget" + arg[1], arg[0] as String)
-            Prefs.putString("FOCMDname" + arg[1], arg[1] as String)
-            Prefs.putString("FOCMDtype" + arg[1], arg[2] as String)
-            Prefs.putString("FOCMDresourceName" + arg[1], arg[3] as String)
-            Prefs.putString("FOCMDval" + arg[1], arg[4] as String)
+            RPrefs.putBoolean("fabricated" + arg[1], true)
+            RPrefs.putString("FOCMDtarget" + arg[1], arg[0] as String)
+            RPrefs.putString("FOCMDname" + arg[1], arg[1] as String)
+            RPrefs.putString("FOCMDtype" + arg[1], arg[2] as String)
+            RPrefs.putString("FOCMDresourceName" + arg[1], arg[3] as String)
+            RPrefs.putString("FOCMDval" + arg[1], arg[4] as String)
 
             module.add("mv " + Resources.MODULE_DIR + "/post-exec.sh " + Resources.MODULE_DIR + "/post-exec.txt; grep -v \"IconifyComponent" + arg[1] + "\" " + Resources.MODULE_DIR + "/post-exec.txt > " + Resources.MODULE_DIR + "/post-exec.txt.tmp && mv " + Resources.MODULE_DIR + "/post-exec.txt.tmp " + Resources.MODULE_DIR + "/post-exec.sh; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt; rm -rf " + Resources.MODULE_DIR + "/post-exec.txt.tmp")
             module.add("echo -e \"${tempCommands[0]}\n${tempCommands[1]}\" >> ${Resources.MODULE_DIR}/post-exec.sh")
@@ -154,8 +154,8 @@ object FabricatedUtil {
     }
 
     fun disableOverlay(name: String) {
-        Prefs.putBoolean("fabricated$name", false)
-        Prefs.clearPrefs(
+        RPrefs.putBoolean("fabricated$name", false)
+        RPrefs.clearPrefs(
             "FOCMDtarget$name",
             "FOCMDname$name",
             "FOCMDtype$name",
@@ -176,8 +176,8 @@ object FabricatedUtil {
         val command = StringBuilder()
 
         for (name in names) {
-            Prefs.putBoolean("fabricated$name", false)
-            Prefs.clearPrefs(
+            RPrefs.putBoolean("fabricated$name", false)
+            RPrefs.clearPrefs(
                 "FOCMDtarget$name",
                 "FOCMDname$name",
                 "FOCMDtype$name",

@@ -129,7 +129,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     // Color Picker
-    implementation(libs.colorpicker)
+    implementation(libs.jaredrummler.colorpicker)
 
     // Splash Screen
     implementation(libs.androidx.core.splashscreen)
@@ -142,6 +142,9 @@ dependencies {
 
     // Zip Util
     implementation(libs.zip4j)
+
+    // Preference
+    implementation(libs.androidx.preference.ktx)
 
     // Remote Preference
     implementation(libs.remotepreferences)
@@ -201,6 +204,7 @@ dependencies {
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.slf4j.api)
+    implementation(libs.commons.text)
 }
 
 tasks.register("printVersionName") {

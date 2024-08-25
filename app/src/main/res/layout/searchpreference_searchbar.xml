@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:foregroundGravity="center_vertical"
+    app:cardBackgroundColor="?attr/colorSurfaceContainer"
+    app:cardCornerRadius="@dimen/searchbar_corner_radius"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/searchbar_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/searchpreference_search"
+            app:srcCompat="@drawable/ic_search"
+            app:tint="?attr/colorOnSurface" />
+
+        <EditText
+            android:id="@+id/search"
+            style="@style/TextAppearance.Material3.BodyLarge"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:autofillHints="preferenceSearch"
+            android:background="@null"
+            android:hint="@string/searchpreference_search"
+            android:inputType="textNoSuggestions"
+            android:textColor="@color/text_color_primary"
+            android:textColorHint="@color/text_color_secondary" />
+
+        <ImageView
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?actionBarItemBackground"
+            android:contentDescription="@string/searchpreference_clear"
+            android:padding="4dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_clear"
+            app:tint="@color/text_color_primary" />
+
+        <ImageView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/searchpreference_more"
+            android:padding="4dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_menu"
+            app:tint="@color/text_color_primary" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

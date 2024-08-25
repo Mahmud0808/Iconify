@@ -13,8 +13,8 @@ import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY
 import com.drdisagree.iconify.common.Preferences.STR_NULL
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.getString
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getString
 import com.drdisagree.iconify.databinding.FragmentColorEngineBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader

@@ -20,10 +20,10 @@ import com.drdisagree.iconify.common.Preferences.STR_NULL
 import com.drdisagree.iconify.common.References.FABRICATED_QS_ICON_SIZE
 import com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON
 import com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.getString
-import com.drdisagree.iconify.config.Prefs.putBoolean
-import com.drdisagree.iconify.config.Prefs.putString
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getString
+import com.drdisagree.iconify.config.RPrefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentQsIconLabelBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader

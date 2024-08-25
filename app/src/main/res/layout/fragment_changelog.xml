@@ -24,7 +24,7 @@
             android:clickable="true"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
-            android:paddingVertical="22dp"
+            android:paddingVertical="16dp"
             android:visibility="invisible">
 
             <LinearLayout

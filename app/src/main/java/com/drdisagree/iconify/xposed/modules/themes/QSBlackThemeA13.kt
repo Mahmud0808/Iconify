@@ -12,10 +12,11 @@ import android.widget.TextView
 import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
 import com.drdisagree.iconify.xposed.utils.SystemUtil
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -45,11 +46,11 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        blackQSHeaderEnabled = Xprefs!!.getBoolean(Preferences.BLACK_QSPANEL, false)
-        qsTextAlwaysWhite = Xprefs!!.getBoolean(Preferences.QS_TEXT_ALWAYS_WHITE, false)
-        qsTextFollowAccent = Xprefs!!.getBoolean(Preferences.QS_TEXT_FOLLOW_ACCENT, false)
+        blackQSHeaderEnabled = Xprefs.getBoolean(Preferences.BLACK_QSPANEL, false)
+        qsTextAlwaysWhite = Xprefs.getBoolean(Preferences.QS_TEXT_ALWAYS_WHITE, false)
+        qsTextFollowAccent = Xprefs.getBoolean(Preferences.QS_TEXT_FOLLOW_ACCENT, false)
 
         initColors(true)
     }

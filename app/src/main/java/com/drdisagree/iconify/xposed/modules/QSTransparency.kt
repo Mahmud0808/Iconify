@@ -12,8 +12,9 @@ import com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL
 import com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH
 import com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -34,14 +35,14 @@ class QSTransparency(context: Context?) : ModPack(context!!) {
     private var blurRadius = 23
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        qsTransparencyActive = Xprefs!!.getBoolean(QS_TRANSPARENCY_SWITCH, false)
-        onlyNotifTransparencyActive = Xprefs!!.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false)
-        keepLockScreenShade = Xprefs!!.getBoolean(LOCKSCREEN_SHADE_SWITCH, false)
-        alpha = (Xprefs!!.getInt(QSALPHA_LEVEL, 60).toFloat() / 100.0).toFloat()
-        blurEnabled = Xprefs!!.getBoolean(QSPANEL_BLUR_SWITCH, false)
-        blurRadius = Xprefs!!.getInt(BLUR_RADIUS_VALUE, 23)
+        qsTransparencyActive = Xprefs.getBoolean(QS_TRANSPARENCY_SWITCH, false)
+        onlyNotifTransparencyActive = Xprefs.getBoolean(NOTIF_TRANSPARENCY_SWITCH, false)
+        keepLockScreenShade = Xprefs.getBoolean(LOCKSCREEN_SHADE_SWITCH, false)
+        alpha = (Xprefs.getInt(QSALPHA_LEVEL, 60).toFloat() / 100.0).toFloat()
+        blurEnabled = Xprefs.getBoolean(QSPANEL_BLUR_SWITCH, false)
+        blurRadius = Xprefs.getInt(BLUR_RADIUS_VALUE, 23)
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {

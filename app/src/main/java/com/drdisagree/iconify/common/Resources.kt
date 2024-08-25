@@ -3,6 +3,10 @@ package com.drdisagree.iconify.common
 import android.os.Environment
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
+import com.drdisagree.iconify.common.Preferences.FIRST_INSTALL
+import com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.utils.RootUtil.folderExists
 
 object Resources {
 
@@ -75,5 +79,7 @@ object Resources {
     // Resource names
     const val HEADER_CLOCK_LAYOUT = "preview_header_clock_"
     const val LOCKSCREEN_CLOCK_LAYOUT = "preview_lockscreen_clock_"
-    const val LOCKSCREEN_CLOCK_LOTTIE = "lottie_lockscreen_clock_"
+
+    fun shouldShowRebootDialog() = (!getBoolean(FIRST_INSTALL) && getBoolean(UPDATE_DETECTED)) ||
+            folderExists("/data/adb/modules_update/Iconify")
 }

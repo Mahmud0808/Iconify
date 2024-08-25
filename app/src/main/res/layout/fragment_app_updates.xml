@@ -97,7 +97,7 @@
                             android:id="@+id/update_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginVertical="22dp"
+                            android:layout_marginVertical="16dp"
                             android:layout_marginStart="18dp"
                             android:layout_marginEnd="24dp"
                             android:layout_toEndOf="@id/settings_iv_check_update"
@@ -165,7 +165,7 @@
                 android:clickable="true"
                 android:orientation="vertical"
                 android:paddingHorizontal="24dp"
-                android:paddingVertical="22dp"
+                android:paddingVertical="16dp"
                 android:visibility="gone">
 
                 <LinearLayout

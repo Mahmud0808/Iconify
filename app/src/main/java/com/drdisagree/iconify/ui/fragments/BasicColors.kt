@@ -21,11 +21,11 @@ import com.drdisagree.iconify.common.Preferences.CUSTOM_PRIMARY_COLOR_SWITCH
 import com.drdisagree.iconify.common.Preferences.CUSTOM_SECONDARY_COLOR_SWITCH
 import com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY
-import com.drdisagree.iconify.config.Prefs.clearPrefs
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.getString
-import com.drdisagree.iconify.config.Prefs.putBoolean
-import com.drdisagree.iconify.config.Prefs.putString
+import com.drdisagree.iconify.config.RPrefs.clearPrefs
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getString
+import com.drdisagree.iconify.config.RPrefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentBasicColorsBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader

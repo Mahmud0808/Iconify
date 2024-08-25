@@ -22,6 +22,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_QS_MARGIN
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR
@@ -34,13 +35,14 @@ import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
 import com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.hookAllMethodsMatchPattern
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.isPixelVariant
 import com.drdisagree.iconify.xposed.modules.utils.SystemUtils.isSecurityPatchBeforeJune2024
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
@@ -74,28 +76,32 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private var mSilentTextOnDrawListener: OnDrawListener? = null
     private var mKeyguardStateController: Any? = null
     private val isAtLeastAndroid14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+    private var isVerticalQSTileActive = false
+    private var isHideLabelActive = false
+    private var customQsMarginsEnabled = false
+    private var qsTilePrimaryTextSize: Float? = null
+    private var qsTileSecondaryTextSize: Float? = null
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        isVerticalQSTileActive = Xprefs!!.getBoolean(VERTICAL_QSTILE_SWITCH, false)
-        isHideLabelActive = Xprefs!!.getBoolean(HIDE_QSLABEL_SWITCH, false)
-        qqsTopMarginEnabled = Xprefs!!.getInt(QQS_TOPMARGIN, -1) != -1
-        qsTopMarginEnabled = Xprefs!!.getInt(QS_TOPMARGIN, -1) != -1
-        qqsTopMargin = Xprefs!!.getInt(QQS_TOPMARGIN, 100)
-        qsTopMargin = Xprefs!!.getInt(QS_TOPMARGIN, 100)
+        isVerticalQSTileActive = Xprefs.getBoolean(VERTICAL_QSTILE_SWITCH, false)
+        isHideLabelActive = Xprefs.getBoolean(HIDE_QSLABEL_SWITCH, false)
+        customQsMarginsEnabled = Xprefs.getBoolean(CUSTOM_QS_MARGIN, false)
+        qqsTopMargin = Xprefs.getInt(QQS_TOPMARGIN, 100)
+        qsTopMargin = Xprefs.getInt(QS_TOPMARGIN, 100)
         fixQsTileColor = isAtLeastAndroid14 &&
-                Xprefs!!.getBoolean(FIX_QS_TILE_COLOR, false)
+                Xprefs.getBoolean(FIX_QS_TILE_COLOR, false)
         fixNotificationColor = isAtLeastAndroid14 &&
-                Xprefs!!.getBoolean(FIX_NOTIFICATION_COLOR, false) &&
+                Xprefs.getBoolean(FIX_NOTIFICATION_COLOR, false) &&
                 isSecurityPatchBeforeJune2024()
         fixNotificationFooterButtonsColor = isAtLeastAndroid14 &&
-                Xprefs!!.getBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
-        qsTextAlwaysWhite = Xprefs!!.getBoolean(QS_TEXT_ALWAYS_WHITE, false)
-        qsTextFollowAccent = Xprefs!!.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
-        hideQsOnLockscreen = Xprefs!!.getBoolean(HIDE_QS_ON_LOCKSCREEN, false)
-        hideSilentText = Xprefs!!.getBoolean(HIDE_QS_SILENT_TEXT, false)
-        hideFooterButtons = Xprefs!!.getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
+                Xprefs.getBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
+        qsTextAlwaysWhite = Xprefs.getBoolean(QS_TEXT_ALWAYS_WHITE, false)
+        qsTextFollowAccent = Xprefs.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
+        hideQsOnLockscreen = Xprefs.getBoolean(HIDE_QS_ON_LOCKSCREEN, false)
+        hideSilentText = Xprefs.getBoolean(HIDE_QS_SILENT_TEXT, false)
+        hideFooterButtons = Xprefs.getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
 
         triggerQsElementVisibility()
     }
@@ -230,52 +236,50 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private fun setQsMargin(loadPackageParam: LoadPackageParam) {
         hookAllMethods(Resources::class.java, "getDimensionPixelSize", object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
-                if (qqsTopMarginEnabled) {
-                    val qqsHeaderResNames = arrayOf(
-                        "qs_header_system_icons_area_height",
-                        "qqs_layout_margin_top",
-                        "qs_header_row_min_height",
-                        "large_screen_shade_header_min_height"
-                    )
+                if (!customQsMarginsEnabled) return
 
-                    for (resName in qqsHeaderResNames) {
-                        try {
-                            val resId = mContext.resources.getIdentifier(
-                                resName,
-                                "dimen",
-                                mContext.packageName
-                            )
+                val qqsHeaderResNames = arrayOf(
+                    "qs_header_system_icons_area_height",
+                    "qqs_layout_margin_top",
+                    "qs_header_row_min_height",
+                    "large_screen_shade_header_min_height"
+                )
 
-                            if (param.args[0] == resId) {
-                                param.result =
-                                    (qqsTopMargin * mContext.resources.displayMetrics.density).toInt()
-                            }
-                        } catch (ignored: Throwable) {
+                for (resName in qqsHeaderResNames) {
+                    try {
+                        val resId = mContext.resources.getIdentifier(
+                            resName,
+                            "dimen",
+                            mContext.packageName
+                        )
+
+                        if (param.args[0] == resId) {
+                            param.result =
+                                (qqsTopMargin * mContext.resources.displayMetrics.density).toInt()
                         }
+                    } catch (ignored: Throwable) {
                     }
                 }
 
-                if (qsTopMarginEnabled) {
-                    val qsHeaderResNames = arrayOf(
-                        "qs_panel_padding_top",
-                        "qs_panel_padding_top_combined_headers",
-                        "qs_header_height"
-                    )
+                val qsHeaderResNames = arrayOf(
+                    "qs_panel_padding_top",
+                    "qs_panel_padding_top_combined_headers",
+                    "qs_header_height"
+                )
 
-                    for (resName in qsHeaderResNames) {
-                        try {
-                            val resId = mContext.resources.getIdentifier(
-                                resName,
-                                "dimen",
-                                mContext.packageName
-                            )
+                for (resName in qsHeaderResNames) {
+                    try {
+                        val resId = mContext.resources.getIdentifier(
+                            resName,
+                            "dimen",
+                            mContext.packageName
+                        )
 
-                            if (param.args[0] == resId) {
-                                param.result =
-                                    (qsTopMargin * mContext.resources.displayMetrics.density).toInt()
-                            }
-                        } catch (ignored: Throwable) {
+                        if (param.args[0] == resId) {
+                            param.result =
+                                (qsTopMargin * mContext.resources.displayMetrics.density).toInt()
                         }
+                    } catch (ignored: Throwable) {
                     }
                 }
             }
@@ -288,9 +292,9 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
             hookAllMethods(quickStatusBarHeader, "updateResources", object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    if (!qqsTopMarginEnabled) return
+                    if (!customQsMarginsEnabled) return
 
-                    if (Build.VERSION.SDK_INT >= 33) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         try {
                             val res = mContext.resources
 
@@ -968,11 +972,5 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
     companion object {
         private val TAG = "Iconify - ${QuickSettings::class.java.simpleName}: "
-        private var isVerticalQSTileActive = false
-        private var isHideLabelActive = false
-        private var qsTilePrimaryTextSize: Float? = null
-        private var qsTileSecondaryTextSize: Float? = null
-        private var qqsTopMarginEnabled = false
-        private var qsTopMarginEnabled = false
     }
 }

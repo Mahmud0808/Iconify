@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_volumepanelpercentage"
+        android:summary="@string/volume_percentage_desc"
+        android:title="@string/volume_percentage_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_volumepanelsafetywarning"
+        android:summary="@string/safety_warning_desc"
+        android:title="@string/safety_warning_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_volumecoloredringericon"
+        android:summary="@string/colored_ringer_icon_desc"
+        android:title="@string/colored_ringer_icon_title"
+        app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

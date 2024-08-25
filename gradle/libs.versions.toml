@@ -4,7 +4,8 @@ appcompat = "1.7.0"
 bcpkixJdk18on = "1.78.1"
 circleindicator = "2.1.6"
 collapsingtoolbarlayoutSubtitle = "1.5.0"
-colorpicker = "1.0.0"
+colorpickerVersion = "1.1.0"
+commonsText = "1.12.0"
 compiler = "4.16.0"
 concurrentFutures = "1.2.0"
 constraintlayout = "2.1.4"
@@ -27,6 +28,7 @@ lottie = "6.4.1"
 navigationUiKtx = "2.7.7"
 navigationFragmentKtx = "2.7.7"
 playServicesBase = "18.5.0"
+preferenceKtx = "1.2.1"
 slf4jApi = "2.0.13"
 viewpager2 = "1.1.0"
 recyclerviewSelection = "1.1.0"
@@ -44,6 +46,7 @@ androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayo
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 androidx-recyclerview-selection = { module = "androidx.recyclerview:recyclerview-selection", version.ref = "recyclerviewSelection" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
@@ -53,8 +56,8 @@ bcpkix-jdk18on = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bc
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 circleindicator = { module = "me.relex:circleindicator", version.ref = "circleindicator" }
 collapsingtoolbarlayout-subtitle = { module = "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle", version.ref = "collapsingtoolbarlayoutSubtitle" }
-colorpicker = { module = "com.github.PolideaInternal:ColorPicker", version.ref = "colorpicker" }
 com-google-android-gms-play-services-mlkit-subject-segmentation = { module = "com.google.android.gms:play-services-mlkit-subject-segmentation", version.ref = "googlePlayServicesMlkitSubjectSegmentationVersion" }
+commons-text = { module = "org.apache.commons:commons-text", version.ref = "commonsText" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsuVersion" }
 dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
@@ -63,6 +66,7 @@ fadingedgelayout = { module = "com.github.bosphere.android-fadingedgelayout:fadi
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
+jaredrummler-colorpicker = { module = "com.jaredrummler:colorpicker", version.ref = "colorpickerVersion" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 library = { module = "com.android.databinding:library", version.ref = "library" }

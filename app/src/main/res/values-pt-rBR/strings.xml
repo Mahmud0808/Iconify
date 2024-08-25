@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Transparência</string>
     <string name="transparent_qs_panel_title">Painel QS transparente</string>
     <string name="transparent_qs_panel_desc">Torne o fundo do painel QS transparente</string>
-    <string name="transparency_alpha_title">Transparência alfa</string>
+    <string name="qs_background_opacity_title">Transparência alfa</string>
     <string name="transparent_notif_shade_title">Somente sombra de notificação transparente</string>
     <string name="transparent_notif_shade_desc">Torne apenas a aba de notificação transparente</string>
     <string name="keep_lockscreen_shade_title">Plano de fundo escuro na tela de bloqueio</string>

@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Transparency</string>
     <string name="transparent_qs_panel_title">Bảng QS trong suốt</string>
     <string name="transparent_qs_panel_desc">Làm cho nền bảng điều khiển QS trong suốt</string>
-    <string name="transparency_alpha_title">Trong suốt Alpha</string>
+    <string name="qs_background_opacity_title">Trong suốt Alpha</string>
     <string name="transparent_notif_shade_title">Transparent Notif Shade Only</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
     <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>

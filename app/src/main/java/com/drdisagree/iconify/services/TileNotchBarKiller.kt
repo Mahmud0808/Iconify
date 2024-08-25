@@ -5,8 +5,8 @@ import android.service.quicksettings.TileService
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Preferences.NOTCH_BAR_KILLER_SWITCH
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.utils.SystemUtil
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager

@@ -1,42 +1,29 @@
 package com.drdisagree.iconify.ui.fragments
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.LATEST_VERSION_URL
 import com.drdisagree.iconify.common.Preferences.AUTO_UPDATE
 import com.drdisagree.iconify.common.Preferences.FIRST_INSTALL
 import com.drdisagree.iconify.common.Preferences.LAST_UPDATE_CHECK_TIME
-import com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD
 import com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME
 import com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED
 import com.drdisagree.iconify.common.Preferences.VER_CODE
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.getLong
-import com.drdisagree.iconify.config.Prefs.putLong
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getLong
 import com.drdisagree.iconify.databinding.FragmentHomeBinding
-import com.drdisagree.iconify.services.UpdateScheduler.scheduleUpdates
 import com.drdisagree.iconify.ui.base.BaseFragment
-import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.widgets.MenuWidget
 import com.drdisagree.iconify.utils.RootUtil.folderExists
-import com.drdisagree.iconify.utils.SystemUtil.restartDevice
-import com.drdisagree.iconify.utils.SystemUtil.saveBootId
 import com.drdisagree.iconify.utils.extension.TaskExecutor
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -59,93 +46,93 @@ class Home : BaseFragment() {
         val view: View = binding.getRoot()
 
         // Header
-        binding.header.toolbar.setTitle(resources.getString(R.string.activity_title_home_page))
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.header.toolbar)
-
-        val intent = requireActivity().intent
-        if (intent != null && intent.getBooleanExtra(AppUpdates.KEY_NEW_UPDATE, false)) {
-            (requireActivity().findViewById<View>(R.id.bottomNavigationView) as BottomNavigationView).selectedItemId =
-                R.id.settings
-            NavHostFragment.findNavController(this).navigate(R.id.action_settings_to_appUpdates)
-            intent.removeExtra(AppUpdates.Companion.KEY_NEW_UPDATE)
-        } else {
-            scheduleUpdates(appContext)
-        }
+//        binding.header.toolbar.setTitle(resources.getString(R.string.activity_title_home_page))
+//        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.header.toolbar)
+//
+//        val intent = requireActivity().intent
+//        if (intent != null && intent.getBooleanExtra(AppUpdates.KEY_NEW_UPDATE, false)) {
+//            (requireActivity().findViewById<View>(R.id.bottomNavigationView) as BottomNavigationView).selectedItemId =
+//                R.id.settings
+//            NavHostFragment.findNavController(this).navigate(R.id.action_settings_to_appUpdates)
+//            intent.removeExtra(AppUpdates.Companion.KEY_NEW_UPDATE)
+//        } else {
+//            scheduleUpdates(appContext)
+//        }
 
         // New update available dialog
-        val listView1 = LayoutInflater.from(requireActivity())
-            .inflate(
-                R.layout.view_new_update,
-                binding.homePageList,
-                false
-            )
+//        val listView1 = LayoutInflater.from(requireActivity())
+//            .inflate(
+//                R.layout.view_new_update,
+//                binding.homePageList,
+//                false
+//            )
 
-        checkUpdate = listView1.findViewById(R.id.check_update)
-        binding.homePageList.addView(listView1)
-        (checkUpdate as LinearLayout).visibility = View.GONE
-        updateDesc = binding.homePageList.findViewById(R.id.update_desc)
-
-        if (shouldCheckForUpdate()) {
-            putLong(LAST_UPDATE_CHECK_TIME, System.currentTimeMillis())
-
-            try {
-                checkForUpdate = CheckForUpdate()
-                checkForUpdate!!.execute()
-            } catch (ignored: Exception) {
-            }
-        }
-
-        // Reboot needed dialog
-        val listView2 = LayoutInflater.from(requireActivity())
-            .inflate(
-                R.layout.view_reboot,
-                binding.homePageList,
-                false
-            )
-
-        val rebootReminder = listView2.findViewById<LinearLayout>(R.id.reboot_reminder)
-        binding.homePageList.addView(listView2)
-        rebootReminder.visibility = View.GONE
-
-        if (shouldShowRebootDialog()) {
-            rebootReminder.visibility = View.VISIBLE
-
-            binding.homePageList.findViewById<View>(R.id.btn_reboot).setOnClickListener {
-                val rebootingDialog = LoadingDialog(requireActivity())
-
-                rebootingDialog.show(resources.getString(R.string.rebooting_desc))
-
-                Handler(Looper.getMainLooper()).postDelayed({
-                    rebootingDialog.hide()
-                    restartDevice()
-                }, 5000)
-            }
-        }
-
-        Prefs.putBoolean(FIRST_INSTALL, false)
-        Prefs.putBoolean(UPDATE_DETECTED, false)
-        Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE)
-        saveBootId
-
-        // Home page list items
-        addItem(initHomePageList())
-
-        binding.homeCard.container.visibility =
-            if (getBoolean(SHOW_HOME_CARD, true)) View.VISIBLE else View.GONE
-
-        binding.homeCard.button.setOnClickListener {
-            binding.homeCard
-                .container
-                .animate()
-                .setDuration(400)
-                .translationX(binding.homeCard.container.width * 2f)
-                .alpha(0f)
-                .withEndAction {
-                    binding.homeCard.container.visibility = View.GONE
-                    Prefs.putBoolean(SHOW_HOME_CARD, false)
-                }
-                .start()
-        }
+//        checkUpdate = listView1.findViewById(R.id.check_update)
+//        binding.homePageList.addView(listView1)
+//        (checkUpdate as LinearLayout).visibility = View.GONE
+//        updateDesc = binding.homePageList.findViewById(R.id.update_desc)
+//
+//        if (shouldCheckForUpdate()) {
+//            putLong(LAST_UPDATE_CHECK_TIME, System.currentTimeMillis())
+//
+//            try {
+//                checkForUpdate = CheckForUpdate()
+//                checkForUpdate!!.execute()
+//            } catch (ignored: Exception) {
+//            }
+//        }
+//
+//        // Reboot needed dialog
+//        val listView2 = LayoutInflater.from(requireActivity())
+//            .inflate(
+//                R.layout.view_reboot,
+//                binding.homePageList,
+//                false
+//            )
+//
+//        val rebootReminder = listView2.findViewById<LinearLayout>(R.id.reboot_reminder)
+//        binding.homePageList.addView(listView2)
+//        rebootReminder.visibility = View.GONE
+//
+//        if (shouldShowRebootDialog()) {
+//            rebootReminder.visibility = View.VISIBLE
+//
+//            binding.homePageList.findViewById<View>(R.id.btn_reboot).setOnClickListener {
+//                val rebootingDialog = LoadingDialog(requireActivity())
+//
+//                rebootingDialog.show(resources.getString(R.string.rebooting_desc))
+//
+//                Handler(Looper.getMainLooper()).postDelayed({
+//                    rebootingDialog.hide()
+//                    restartDevice()
+//                }, 5000)
+//            }
+//        }
+//
+//        RPrefs.putBoolean(FIRST_INSTALL, false)
+//        RPrefs.putBoolean(UPDATE_DETECTED, false)
+//        RPrefs.putInt(VER_CODE, BuildConfig.VERSION_CODE)
+//        saveBootId
+//
+//        // Home page list items
+//        addItem(initHomePageList())
+//
+//        binding.homeCard.container.visibility =
+//            if (getBoolean(SHOW_HOME_CARD, true)) View.VISIBLE else View.GONE
+//
+//        binding.homeCard.button.setOnClickListener {
+//            binding.homeCard
+//                .container
+//                .animate()
+//                .setDuration(400)
+//                .translationX(binding.homeCard.container.width * 2f)
+//                .alpha(0f)
+//                .withEndAction {
+//                    binding.homeCard.container.visibility = View.GONE
+//                    RPrefs.putBoolean(SHOW_HOME_CARD, false)
+//                }
+//                .start()
+//        }
 
         return view
     }
@@ -269,7 +256,7 @@ class Home : BaseFragment() {
                 ).navigate((pack[i][0] as Int))
             }
 
-            binding.homePageList.addView(widget)
+//            binding.homePageList.addView(widget)
         }
     }
 

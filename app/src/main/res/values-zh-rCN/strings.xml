@@ -427,7 +427,7 @@
     <string name="section_title_transparency">透明度</string>
     <string name="transparent_qs_panel_title">透明快速设置面板</string>
     <string name="transparent_qs_panel_desc">使快速设置面板背景透明</string>
-    <string name="transparency_alpha_title">透明度</string>
+    <string name="qs_background_opacity_title">透明度</string>
     <string name="transparent_notif_shade_title">透明通知栏</string>
     <string name="transparent_notif_shade_desc">仅使通知栏透明</string>
     <string name="keep_lockscreen_shade_title">保持锁屏遮罩</string>

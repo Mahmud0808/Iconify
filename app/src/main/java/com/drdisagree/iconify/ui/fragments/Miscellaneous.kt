@@ -16,8 +16,8 @@ import com.drdisagree.iconify.common.Preferences.NOTCH_BAR_KILLER_SWITCH
 import com.drdisagree.iconify.common.Preferences.PROGRESS_WAVE_ANIMATION_SWITCH
 import com.drdisagree.iconify.common.Preferences.TABLET_LANDSCAPE_SWITCH
 import com.drdisagree.iconify.common.References.FABRICATED_TABLET_HEADER
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.databinding.FragmentMiscellaneousBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -69,7 +69,7 @@ class Miscellaneous : BaseFragment() {
                     return@setSwitchChangeListener
                 }
 
-                Prefs.putBoolean(TABLET_LANDSCAPE_SWITCH, isChecked)
+                RPrefs.putBoolean(TABLET_LANDSCAPE_SWITCH, isChecked)
 
                 val resourceEntry1 = ResourceEntry(
                     SYSTEMUI_PACKAGE,
@@ -220,7 +220,7 @@ class Miscellaneous : BaseFragment() {
                     return@setSwitchChangeListener
                 }
 
-                Prefs.putBoolean(NOTCH_BAR_KILLER_SWITCH, isChecked)
+                RPrefs.putBoolean(NOTCH_BAR_KILLER_SWITCH, isChecked)
 
                 if (isChecked) {
                     buildOverlayWithResource(
@@ -275,7 +275,7 @@ class Miscellaneous : BaseFragment() {
         binding.tabletHeader.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             Handler(Looper.getMainLooper()).postDelayed(
                 {
-                    Prefs.putBoolean(FABRICATED_TABLET_HEADER, isChecked)
+                    RPrefs.putBoolean(FABRICATED_TABLET_HEADER, isChecked)
 
                     if (isChecked) {
                         buildAndEnableOverlay(
@@ -328,7 +328,7 @@ class Miscellaneous : BaseFragment() {
                     return@setSwitchChangeListener
                 }
 
-                Prefs.putBoolean(PROGRESS_WAVE_ANIMATION_SWITCH, isChecked)
+                RPrefs.putBoolean(PROGRESS_WAVE_ANIMATION_SWITCH, isChecked)
 
                 if (isChecked) {
                     buildOverlayWithResource(

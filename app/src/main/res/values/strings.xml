@@ -33,6 +33,15 @@
     <string name="installation_failed_desc">Logs have been saved in documents folder.</string>
     <string name="logs">Logs</string>
 
+    <!-- Search Preference -->
+    <string name="search_title">Search</string>
+    <string name="searchpreference_search">Search…</string>
+    <string name="searchpreference_clear">Clear</string>
+    <string name="searchpreference_history_entry">History entry</string>
+    <string name="searchpreference_more">More</string>
+    <string name="searchpreference_clear_history">Clear history</string>
+    <string name="searchpreference_no_result">No result</string>
+
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Icon Pack</string>
@@ -133,6 +142,8 @@
     <string name="settings_github_repository_desc" translatable="false">Mahmud0808/Iconify</string>
     <string name="settings_telegram_group_title">Telegram Group</string>
     <string name="settings_telegram_group_desc" translatable="false">\@IconifyDiscussion</string>
+    <string name="settings_translate_title">Translate Iconify</string>
+    <string name="settings_translate_desc">Help translate Iconify to your language.</string>
     <string name="settings_credits_title">Credits</string>
     <string name="settings_credits_desc">Thanking those who made this possible.</string>
 
@@ -509,8 +520,8 @@
     <string name="section_title_transparency">Transparency</string>
     <string name="transparent_qs_panel_title">Transparent QS Panel</string>
     <string name="transparent_qs_panel_desc">Make QS panel background transparent</string>
-    <string name="transparency_alpha_title">Transparency Alpha</string>
-    <string name="transparent_notif_shade_title">Transparent Notif Shade Only</string>
+    <string name="qs_background_opacity_title">Background Opacity</string>
+    <string name="transparent_notif_shade_title">Transparent Notification Shade</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
     <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>
     <string name="keep_lockscreen_shade_desc">Suitable for light-colored wallpapers</string>
@@ -538,6 +549,8 @@
     <string name="power_menu_transparency_title">Power Menu Transparency</string>
     <string name="power_menu_transparency_desc">Power menu transparency for Fluid QS\nDo not use custom notification style</string>
     <string name="section_title_others">Others</string>
+    <string name="fix_qs_tile_color_title">Fix QS Tile Color</string>
+    <string name="fix_qs_tile_color_desc">Fix custom QS tile style on android 14</string>
     <string name="fix_notification_color_title">Fix Notification Color</string>
     <string name="fix_notification_color_desc">Fix custom notification style on android 14</string>
     <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
@@ -671,9 +684,9 @@
     <string name="custom_header_clock_desc">Add a custom clock on QS panel</string>
     <string name="header_clock_style_title">Clock Style</string>
     <string name="header_clock_font_title">Clock Font</string>
-    <string name="header_clock_font_desc">Use custom font for header clock\nDo not select file from Recent</string>
+    <string name="header_clock_font_desc">Use custom font for header clock</string>
     <string name="custom_header_clock_color_title">Custom Clock Color</string>
-    <string name="custom_header_clock_color_desc">Custom color instead of primary color</string>
+    <string name="custom_header_clock_color_desc">Custom colors instead of system colors</string>
     <string name="header_clock_color_picker_title">Clock Color Picker</string>
     <string name="header_clock_color_picker_desc">Set color of header clock text</string>
     <string name="header_clock_font_text_scaling_title">Text Scaling</string>
@@ -693,9 +706,9 @@
     <string name="lockscreen_clock_auto_hide_clock_desc">Hide clock on incoming notification</string>
     <string name="custom_lockscreen_clock_style_title">Clock Style</string>
     <string name="lockscreen_clock_font_title">Clock Font</string>
-    <string name="lockscreen_clock_font_desc">Use custom font for lockscreen clock\nDo not select file from Recent</string>
+    <string name="lockscreen_clock_font_desc">Use custom font for lockscreen clock</string>
     <string name="lsclock_custom_color_title">Custom Clock Color</string>
-    <string name="lsclock_custom_color_desc">Custom color instead of primary color</string>
+    <string name="lsclock_custom_color_desc">Custom colors instead of system colors</string>
     <string name="lsclock_color_picker_title">Clock Color Picker</string>
     <string name="lsclock_color_picker_desc">Set color of lockscreen clock text</string>
     <string name="lockscreen_font_text_scaling_title">Text Scaling</string>
@@ -874,6 +887,7 @@
     <!-- Bottom Navigation -->
     <string name="navbar_home">Home</string>
     <string name="navbar_tweaks">Tweaks</string>
+    <string name="navbar_xposed">Xposed</string>
     <string name="navbar_settings">Settings</string>
 
     <!-- Settings 3 dot menu -->
@@ -1044,6 +1058,15 @@
     <string name="tap_to_select">Tap on preview to select</string>
     <string name="dont_show_again">Don\'t show again</string>
     <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks > Xposed Menu > Themes > Others.</string>
+    <string name="file_picker_desc">Do not select file from Recent</string>
+    <string name="btn_dismiss">Dismiss</string>
+    <string name="btn_restart_device">Restart Device</string>
+    <string name="btn_pending">Pending</string>
+    <string name="accent_primary">Accent Primary</string>
+    <string name="accent_secondary">Accent Secondary</string>
+    <string name="accent_tertiary">Accent Tertiary</string>
+    <string name="text_color_primary">Text Color Primary</string>
+    <string name="text_color_inverse">Text Color Inverse</string>
 
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
@@ -1153,5 +1176,16 @@
     <string name="lockscreen_weather_selection_str_gradient">Gradient</string>
     <string name="lockscreen_weather_selection_str_border_accent">Dark with accented borders</string>
     <string name="lockscreen_weather_selection_str_border_gradient">Dark with gradient borders</string>
+
+    <!-- Alert Dialogs -->
+    <string name="systemui_restart_required_title">SystemUI Restart Needed</string>
+    <string name="systemui_restart_required_desc">A SystemUI restart is needed for this change to take effect.</string>
+    <string name="device_restart_required_title">Device Restart Needed</string>
+    <string name="device_restart_required_desc">A device restart is needed for this change to take effect.</string>
+    <string name="switch_theme_required_title">Switch Device Theme</string>
+    <string name="switch_theme_required_desc">Switch between light and dark themes if unexpected behavior occurs.</string>
+    <string name="device_rotation_required_title">Device Rotation Theme</string>
+    <string name="device_rotation_required_desc">Switch rotation of your device for this change to take effect.</string>
+
 
 </resources>

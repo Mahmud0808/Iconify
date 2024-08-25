@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Transparenz</string>
     <string name="transparent_qs_panel_title">Transparentes QS-Panel</string>
     <string name="transparent_qs_panel_desc">Macht den QS-Panel-Hintergrund transparent</string>
-    <string name="transparency_alpha_title">Transparenz Alpha</string>
+    <string name="qs_background_opacity_title">Transparenz Alpha</string>
     <string name="transparent_notif_shade_title">Nur transparentes Benachrichtigungsfeld</string>
     <string name="transparent_notif_shade_desc">Nur das Feld hinter den Benachrichtigungen
 transparent machen</string>

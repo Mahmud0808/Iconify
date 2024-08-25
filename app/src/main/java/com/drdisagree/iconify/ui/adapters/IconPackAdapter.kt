@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.IconPackModel
 import com.drdisagree.iconify.utils.overlay.manager.IconPackManager

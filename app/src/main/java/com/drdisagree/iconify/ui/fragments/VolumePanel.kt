@@ -16,7 +16,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_BACKGROUND_WIDTH
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.FragmentVolumePanelBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.InfoDialog
@@ -57,7 +57,7 @@ class VolumePanel : BaseFragment() {
             R.string.activity_title_volume_panel
         )
 
-        binding.thinBg.isChecked = Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 1
+        binding.thinBg.isChecked = RPrefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 1
         binding.thinBg.addOnCheckedChangeListener { button: MaterialButton, isChecked: Boolean ->
             if (button.isPressed) {
                 if (!hasStoragePermission()) {
@@ -68,7 +68,7 @@ class VolumePanel : BaseFragment() {
                         binding.toggleButtonGroup.uncheck(binding.thickBg.id)
                         binding.toggleButtonGroup.uncheck(binding.noBg.id)
 
-                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 1)
+                        RPrefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 1)
 
                         buildOverlayWithResource(
                             requireContext(),
@@ -92,7 +92,7 @@ class VolumePanel : BaseFragment() {
                             )
                         )
                     } else {
-                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0)
+                        RPrefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0)
 
                         removeResourceFromOverlay(
                             requireContext(),
@@ -105,7 +105,7 @@ class VolumePanel : BaseFragment() {
             }
         }
 
-        binding.thickBg.isChecked = Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 2
+        binding.thickBg.isChecked = RPrefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 2
         binding.thickBg.addOnCheckedChangeListener { button: MaterialButton, isChecked: Boolean ->
             if (button.isPressed) {
                 if (!hasStoragePermission()) {
@@ -116,7 +116,7 @@ class VolumePanel : BaseFragment() {
                         binding.toggleButtonGroup.uncheck(binding.thinBg.id)
                         binding.toggleButtonGroup.uncheck(binding.noBg.id)
 
-                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 2)
+                        RPrefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 2)
 
                         buildOverlayWithResource(
                             requireContext(),
@@ -140,7 +140,7 @@ class VolumePanel : BaseFragment() {
                             )
                         )
                     } else {
-                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0)
+                        RPrefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0)
 
                         removeResourceFromOverlay(
                             requireContext(),
@@ -153,7 +153,7 @@ class VolumePanel : BaseFragment() {
             }
         }
 
-        binding.noBg.isChecked = Prefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 3
+        binding.noBg.isChecked = RPrefs.getInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0) == 3
         binding.noBg.addOnCheckedChangeListener { button: MaterialButton, isChecked: Boolean ->
             if (button.isPressed) {
                 if (!hasStoragePermission()) {
@@ -164,7 +164,7 @@ class VolumePanel : BaseFragment() {
                         binding.toggleButtonGroup.uncheck(binding.thinBg.id)
                         binding.toggleButtonGroup.uncheck(binding.thickBg.id)
 
-                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 3)
+                        RPrefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 3)
 
                         buildOverlayWithResource(
                             requireContext(),
@@ -188,7 +188,7 @@ class VolumePanel : BaseFragment() {
                             )
                         )
                     } else {
-                        Prefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0)
+                        RPrefs.putInt(VOLUME_PANEL_BACKGROUND_WIDTH, 0)
 
                         removeResourceFromOverlay(
                             requireContext(),

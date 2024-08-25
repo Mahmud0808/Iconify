@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Transparency</string>
     <string name="transparent_qs_panel_title">Painel das DR transparente</string>
     <string name="transparent_qs_panel_desc">Aplicar transparência no pano de fundo do painel das DR</string>
-    <string name="transparency_alpha_title">Nível de opacidade</string>
+    <string name="qs_background_opacity_title">Nível de opacidade</string>
     <string name="transparent_notif_shade_title">Apenas na área de notificações</string>
     <string name="transparent_notif_shade_desc">Aplicar transparência apenas na ára das notificações</string>
     <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>

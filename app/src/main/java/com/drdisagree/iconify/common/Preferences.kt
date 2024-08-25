@@ -1,11 +1,12 @@
 package com.drdisagree.iconify.common
 
 import com.drdisagree.iconify.SplashActivity
-import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getBoolean
 
 object Preferences {
 
     // Xposed mods
+    const val XPOSED_HOOK_CHECK = "xposedHookCheck"
     const val FORCE_RELOAD_OVERLAY_STATE = "xposed_force_reload_overlay_state"
     const val QS_TRANSPARENCY_SWITCH = "xposed_qstransparency"
     const val NOTIF_TRANSPARENCY_SWITCH = "xposed_notiftransparency"
@@ -144,6 +145,7 @@ object Preferences {
     const val CUSTOM_BATTERY_INSIDE_PERCENTAGE = "xposed_custombatteryinsidepercentage"
     const val CUSTOM_BATTERY_HIDE_BATTERY = "xposed_custombatteryhidebattery"
     const val BLUR_RADIUS_VALUE = "xposed_blurradiusvalue"
+    const val CUSTOM_QS_MARGIN = "xposed_customqsmargin"
     const val QQS_TOPMARGIN = "xposed_qqspanelTopMargin"
     const val QS_TOPMARGIN = "xposed_qspanelTopMargin"
     const val FIX_QS_TILE_COLOR = "xposed_fixqstilecolor"
@@ -212,6 +214,7 @@ object Preferences {
     const val UPDATE_SCHEDULE = "iconify_update_schedule"
     const val UPDATE_CHECK_TIME = "iconify_update_check_time"
     const val LAST_UPDATE_CHECK_TIME = "iconify_last_update_check_time"
+    const val NEW_UPDATE_VERSION_CODE = "iconify_new_update_version_code"
     const val FIRST_INSTALL = "firstInstall"
     const val UPDATE_DETECTED = "updateDetected"
     const val ON_HOME_PAGE = "onHomePage"
@@ -306,6 +309,7 @@ object Preferences {
     const val SHOW_XPOSED_WARN = "IconifyShowXposedWarn"
     const val SHOW_HOME_CARD = "IconifyShowHomeCard"
     const val XPOSED_ONLY_MODE = "IconifyXposedOnlyMode"
+    const val NEW_UPDATE_FOUND = "newUpdateFound"
 
     var isXposedOnlyMode = getBoolean(XPOSED_ONLY_MODE, true) &&
             !SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING
@@ -314,6 +318,7 @@ object Preferences {
     const val BOOT_ID = "boot_id"
     const val VER_CODE = "versionCode"
     const val EASTER_EGG = "iconify_easter_egg"
+    const val EXPERIMENTAL_FEATURES = "experimentalFeatures"
     const val ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol"
     const val SHOW_QS_TILE_NORMAL_WARN = "showQsTileNormalWarn"
     const val SHOW_QS_TILE_PIXEL_WARN = "showQsTilePixelWarn"

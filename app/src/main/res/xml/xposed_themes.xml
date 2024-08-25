@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="xposedThemesForPixelRoms"
+        android:title="@string/section_title_for_pixel_roms"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_lightqspanel"
+            android:summary="@string/light_theme_desc"
+            android:title="@string/light_theme_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:dependency="xposed_lightqspanel"
+            android:key="xposed_dualtoneqspanel"
+            android:summary="@string/dual_tone_desc"
+            android:title="@string/dual_tone_title"
+            app:iconSpaceReserved="false" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="xposedThemesForCustomRoms"
+        android:title="@string/section_title_for_custom_roms"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_blackqspanel"
+            android:summary="@string/black_theme_desc"
+            android:title="@string/black_theme_title"
+            app:iconSpaceReserved="false" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="xposedThemesTranslucentTheme"
+        android:title="@string/section_title_translucent_theme"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_fluidqspanel"
+            android:summary="@string/fluid_qs_theme_desc"
+            android:title="@string/fluid_qs_theme_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:dependency="xposed_fluidqspanel"
+            android:key="xposed_fluidnotiftransparency"
+            android:summary="@string/notification_transparency_desc"
+            android:title="@string/notification_transparency_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:dependency="xposed_fluidqspanel"
+            android:key="xposed_fluidpowermenutransparency"
+            android:summary="@string/power_menu_transparency_desc"
+            android:title="@string/power_menu_transparency_title"
+            app:iconSpaceReserved="false" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="xposedThemesOthers"
+        android:title="@string/section_title_others"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_fixqstilecolor"
+            android:summary="@string/fix_qs_tile_color_desc"
+            android:title="@string/fix_qs_tile_color_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_fixnotificationcolor"
+            android:summary="@string/fix_notification_color_desc"
+            android:title="@string/fix_notification_color_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_fixnotificationfooterbuttoncolor"
+            android:summary="@string/fix_notification_footer_button_color_desc"
+            android:title="@string/fix_notification_footer_button_color_title"
+            app:iconSpaceReserved="false" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+</PreferenceScreen>

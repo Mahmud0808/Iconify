@@ -18,9 +18,10 @@ import com.drdisagree.iconify.common.Preferences.HIDE_DATA_DISABLED_ICON
 import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_LOCK_ICON
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedHelpers.callMethod
@@ -47,9 +48,9 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     private var mobileSignalControllerParam: Any? = null
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        Xprefs!!.apply {
+        Xprefs.apply {
             qsCarrierGroupHidden = getBoolean(QSPANEL_HIDE_CARRIER, false)
             hideStatusIcons = getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
             fixedStatusIcons = getBoolean(FIXED_STATUS_ICONS_SWITCH, false)

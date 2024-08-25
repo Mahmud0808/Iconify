@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="xposedOthersQsHeader"
+        android:title="@string/qs_header"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_qspanelhidecarrier"
+            android:summary="@string/hide_carrier_group_desc"
+            android:title="@string/hide_carrier_group_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_hidestatusicons"
+            android:summary="@string/hide_status_icons_desc"
+            android:title="@string/hide_status_icons_title"
+            app:iconSpaceReserved="false" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="xposedOthersLockScreen"
+        android:title="@string/lock_screen"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_hidelockscreenlockicon"
+            android:summary="@string/hide_ls_lock_icon_desc"
+            android:title="@string/hide_ls_lock_icon_title"
+            app:iconSpaceReserved="false" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="xposedOthersStatusIcons"
+        android:title="@string/section_title_status_icons"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_fixedstatusicons"
+            android:summary="@string/fixed_status_icons_desc"
+            android:title="@string/fixed_status_icons_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SliderPreference
+            android:dependency="xposed_fixedstatusicons"
+            android:key="xposed_fixedstatusiconstopmargin"
+            android:title="@string/fixed_status_icons_top_margin"
+            app:defaultValue="8"
+            app:iconSpaceReserved="false"
+            app:maxVal="480"
+            app:minVal="0"
+            app:tickInterval="1"
+            app:valueFormat="dp" />
+
+        <com.drdisagree.iconify.ui.preferences.SliderPreference
+            android:dependency="xposed_fixedstatusicons"
+            android:key="xposed_fixedstatusiconssidemargin"
+            android:title="@string/fixed_status_icons_side_margin"
+            app:defaultValue="0"
+            app:iconSpaceReserved="false"
+            app:maxVal="480"
+            app:minVal="0"
+            app:tickInterval="1"
+            app:valueFormat="dp" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+</PreferenceScreen>

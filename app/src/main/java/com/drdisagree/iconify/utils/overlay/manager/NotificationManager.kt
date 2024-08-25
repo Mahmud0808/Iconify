@@ -5,7 +5,6 @@ import com.drdisagree.iconify.common.Dynamic.isAndroid14
 import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR
-import com.drdisagree.iconify.config.Prefs
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.utils.SystemUtil
 import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlay
@@ -71,8 +70,8 @@ object NotificationManager {
 
     private fun disableOthers(n: Int) {
         for (i in 1..TOTAL_NOTIFICATIONS) {
-            Prefs.putBoolean("IconifyComponentNFN$i.overlay", i == n)
-            Prefs.putBoolean("IconifyComponentNFP$i.overlay", false)
+            RPrefs.putBoolean("IconifyComponentNFN$i.overlay", i == n)
+            RPrefs.putBoolean("IconifyComponentNFP$i.overlay", false)
         }
     }
 }

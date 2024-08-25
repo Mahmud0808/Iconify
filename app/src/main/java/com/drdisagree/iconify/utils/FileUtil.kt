@@ -8,6 +8,8 @@ import android.provider.OpenableColumns
 import androidx.activity.result.ActivityResultLauncher
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.common.Resources
+import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
 import com.topjohnwu.superuser.Shell
 import java.io.File
 import java.io.FileOutputStream
@@ -148,6 +150,40 @@ object FileUtil {
             "rm -f \"$destination\"",
             "mv -f \"$source\" \"$destination\""
         ).exec().isSuccess
+    }
+
+    fun launchFilePicker(
+        context: Context,
+        type: String?,
+        launcher: ActivityResultLauncher<Intent?>
+    ) {
+        if (!hasStoragePermission()) {
+            requestStoragePermission(context)
+        } else {
+            var fileType = "*/*"
+
+            if (type.isNullOrEmpty() || type == "all") {
+                fileType = "*/*"
+            } else if (type == "image") {
+                fileType = "image/*"
+            } else if (type == "font") {
+                fileType = "font/*"
+            } else if (type == "video") {
+                fileType = "video/*"
+            } else if (type == "audio") {
+                fileType = "audio/*"
+            } else if (type == "pdf") {
+                fileType = "application/pdf"
+            } else if (type == "text") {
+                fileType = "text/*"
+            } else if (type == "zip") {
+                fileType = "application/zip"
+            } else if (type == "apk") {
+                fileType = "application/vnd.android.package-archive"
+            }
+
+            launchFilePicker(launcher, fileType)
+        }
     }
 
     fun launchFilePicker(launcher: ActivityResultLauncher<Intent?>, type: String?) {

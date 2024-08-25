@@ -150,10 +150,8 @@ class ClockPreviewAdapter(
     fun loadWallpaper(adapter: ClockPreviewAdapter) {
         CoroutineScope(Dispatchers.Main).launch {
             val bitmap = withContext(Dispatchers.IO) {
-                val context = adapter.context
-
                 WallpaperUtil.getCompressedWallpaper(
-                    context,
+                    adapter.context,
                     80,
                     if (prefSwitch == LSCLOCK_SWITCH) {
                         WallpaperManager.FLAG_LOCK

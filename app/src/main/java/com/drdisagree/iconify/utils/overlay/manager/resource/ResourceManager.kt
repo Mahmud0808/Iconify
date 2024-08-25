@@ -11,8 +11,8 @@ import com.drdisagree.iconify.common.Const
 import com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES
 import com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_LAND
 import com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_NIGHT
-import com.drdisagree.iconify.config.Prefs.getString
-import com.drdisagree.iconify.config.Prefs.putString
+import com.drdisagree.iconify.config.RPrefs.getString
+import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
 import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
 import com.drdisagree.iconify.utils.extension.TaskExecutor

@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Transparencia</string>
     <string name="transparent_qs_panel_title">Panel Ajustes Rápidos transparente</string>
     <string name="transparent_qs_panel_desc">Hacer transparente el fondo del panel de Ajustes Rápidos</string>
-    <string name="transparency_alpha_title">Transparencia alfa</string>
+    <string name="qs_background_opacity_title">Transparencia alfa</string>
     <string name="transparent_notif_shade_title">Solo Sombra de Notificaciones Transparente</string>
     <string name="transparent_notif_shade_desc">Hace que solo la sombra de las notificaciones sea transparente</string>
     <string name="keep_lockscreen_shade_title">Atenuar fondo de pantalla de bloqueo</string>

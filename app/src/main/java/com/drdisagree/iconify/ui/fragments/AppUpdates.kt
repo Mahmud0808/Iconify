@@ -23,8 +23,8 @@ import com.drdisagree.iconify.common.Const.LATEST_VERSION_URL
 import com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME
 import com.drdisagree.iconify.common.Preferences.UPDATE_SCHEDULE
 import com.drdisagree.iconify.common.Preferences.VER_CODE
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.putLong
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.putLong
 import com.drdisagree.iconify.databinding.FragmentAppUpdatesBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.dp2px
@@ -60,9 +60,9 @@ class AppUpdates : BaseFragment() {
         )
 
         // Update Schedule
-        binding.updateSchedule.setSelectedIndex(Prefs.getInt(UPDATE_SCHEDULE, 1))
+        binding.updateSchedule.setSelectedIndex(RPrefs.getInt(UPDATE_SCHEDULE, 1))
         binding.updateSchedule.setOnItemSelectedListener { index: Int ->
-            Prefs.putInt(UPDATE_SCHEDULE, index)
+            RPrefs.putInt(UPDATE_SCHEDULE, index)
             when (index) {
                 0 -> putLong(UPDATE_CHECK_TIME, 6)
                 1 -> putLong(UPDATE_CHECK_TIME, 12)

@@ -6,7 +6,7 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.topjohnwu.superuser.Shell
 import java.util.Objects
 
@@ -51,7 +51,7 @@ object OverlayUtil {
     }
 
     fun enableOverlay(pkgName: String) {
-        Prefs.putBoolean(pkgName, true)
+        RPrefs.putBoolean(pkgName, true)
         Shell.cmd(
             "cmd overlay enable --user current $pkgName",
             "cmd overlay set-priority $pkgName highest"
@@ -59,7 +59,7 @@ object OverlayUtil {
     }
 
     fun enableOverlay(pkgName: String, priority: String) {
-        Prefs.putBoolean(pkgName, true)
+        RPrefs.putBoolean(pkgName, true)
         Shell.cmd(
             "cmd overlay enable --user current $pkgName",
             "cmd overlay set-priority $pkgName $priority"
@@ -70,7 +70,7 @@ object OverlayUtil {
         val command = StringBuilder()
 
         for (pkgName in pkgNames) {
-            Prefs.putBoolean(pkgName, true)
+            RPrefs.putBoolean(pkgName, true)
 
             command.append("cmd overlay enable --user current ").append(pkgName)
                 .append("; cmd overlay set-priority ").append(pkgName).append(" highest; ")
@@ -80,7 +80,7 @@ object OverlayUtil {
     }
 
     fun enableOverlayExclusiveInCategory(pkgName: String) {
-        Prefs.putBoolean(pkgName, true)
+        RPrefs.putBoolean(pkgName, true)
         Shell.cmd(
             "cmd overlay enable-exclusive --user current --category $pkgName",
             "cmd overlay set-priority $pkgName highest"
@@ -91,7 +91,7 @@ object OverlayUtil {
         val command = StringBuilder()
 
         for (pkgName in pkgNames) {
-            Prefs.putBoolean(pkgName, true)
+            RPrefs.putBoolean(pkgName, true)
 
             command.append("cmd overlay enable-exclusive --user current --category ")
                 .append(pkgName).append("; cmd overlay set-priority ").append(pkgName)
@@ -102,7 +102,7 @@ object OverlayUtil {
     }
 
     fun disableOverlay(pkgName: String) {
-        Prefs.putBoolean(pkgName, false)
+        RPrefs.putBoolean(pkgName, false)
         Shell.cmd("cmd overlay disable --user current $pkgName").submit()
     }
 
@@ -110,7 +110,7 @@ object OverlayUtil {
         val command = StringBuilder()
 
         for (pkgName in pkgNames) {
-            Prefs.putBoolean(pkgName, false)
+            RPrefs.putBoolean(pkgName, false)
 
             command.append("cmd overlay disable --user current ").append(pkgName).append("; ")
         }
@@ -128,7 +128,7 @@ object OverlayUtil {
             val pkgName = args[i] as String
             val state = args[i + 1] as Boolean
 
-            Prefs.putBoolean(pkgName, state)
+            RPrefs.putBoolean(pkgName, state)
 
             if (state) {
                 command.append("cmd overlay enable --user current ").append(pkgName)

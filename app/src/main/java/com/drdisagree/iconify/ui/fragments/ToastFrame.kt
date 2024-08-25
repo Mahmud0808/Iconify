@@ -15,8 +15,8 @@ import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Preferences.SELECTED_TOAST_FRAME
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.getInt
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.databinding.FragmentToastFrameBinding
 import com.drdisagree.iconify.ui.adapters.ToastAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
@@ -108,7 +108,7 @@ class ToastFrame : BaseFragment() {
             }
 
             if (position == 0) {
-                Prefs.putInt(SELECTED_TOAST_FRAME, -1)
+                RPrefs.putInt(SELECTED_TOAST_FRAME, -1)
                 OverlayUtil.disableOverlay("IconifyComponentTSTFRM.overlay")
                 Toast.makeText(
                     appContext,
@@ -139,7 +139,7 @@ class ToastFrame : BaseFragment() {
                 }
 
                 if (!hasErroredOut.get()) {
-                    Prefs.putInt(SELECTED_TOAST_FRAME, position)
+                    RPrefs.putInt(SELECTED_TOAST_FRAME, position)
                     val ad = binding.toastStylesContainer.adapter as ToastAdapter
                     ad.notifyChange()
                 }

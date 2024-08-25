@@ -13,9 +13,9 @@ import com.drdisagree.iconify.common.Preferences.LAND_QQS_TOP_MARGIN
 import com.drdisagree.iconify.common.Preferences.LAND_QS_TOP_MARGIN
 import com.drdisagree.iconify.common.Preferences.PORT_QQS_TOP_MARGIN
 import com.drdisagree.iconify.common.Preferences.PORT_QS_TOP_MARGIN
-import com.drdisagree.iconify.config.Prefs.clearPrefs
-import com.drdisagree.iconify.config.Prefs.getInt
-import com.drdisagree.iconify.config.Prefs.putInt
+import com.drdisagree.iconify.config.RPrefs.clearPrefs
+import com.drdisagree.iconify.config.RPrefs.getInt
+import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.databinding.FragmentQsPanelMarginBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog

@@ -21,11 +21,15 @@
     public static int d(...);
 }
 
+# Activity and Fragment names
+-keep class com.drdisagree.iconify.ui.activities.**
+-keep class com.drdisagree.iconify.ui.fragments.**
+
 # Xposed
 -keep class de.robv.android.xposed.**
 -keep class com.drdisagree.iconify.xposed.InitHook
 -keepnames class com.drdisagree.iconify.xposed.**
--keepnames class com.drdisagree.iconify.config.XPrefs
+-keepnames class com.drdisagree.iconify.xposed.utils.XPrefs
 -keep class com.drdisagree.iconify.xposed.** {
     <init>(android.content.Context);
 }

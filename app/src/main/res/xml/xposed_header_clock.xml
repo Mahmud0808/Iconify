@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_headerclock"
+        android:summary="@string/custom_header_clock_desc"
+        android:title="@string/custom_header_clock_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.RecyclerPreference
+        android:dependency="xposed_headerclock"
+        android:key="xposed_headerclockstyle"
+        android:summary="@string/pick_style"
+        android:title="@string/header_clock_style_title"
+        app:iconSpaceReserved="false"
+        search:ignore="true" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_headerclock"
+        android:key="xposed_headerclockfont"
+        android:summary="@string/header_clock_font_desc"
+        android:title="@string/header_clock_font_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.FilePickerPreference
+        android:dependency="xposed_headerclockfont"
+        android:key="xposed_headerclockfontpicker"
+        android:summary="@string/file_picker_desc"
+        android:title="@string/btn_pick_font"
+        app:buttonText="@string/btn_pick_font"
+        app:iconSpaceReserved="false"
+        search:ignore="true" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_headerclock"
+        android:key="xposed_headerclockcolor"
+        android:summary="@string/custom_header_clock_color_desc"
+        android:title="@string/custom_header_clock_color_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="@color/cpv_color_primary"
+        android:dependency="xposed_headerclockcolor"
+        android:key="xposed_headerclockcolorcodeaccent1"
+        android:title="@string/accent_primary"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="@color/cpv_color_secondary"
+        android:dependency="xposed_headerclockcolor"
+        android:key="xposed_headerclockcolorcodeaccent2"
+        android:title="@string/accent_secondary"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="@color/cpv_color_tertiary"
+        android:dependency="xposed_headerclockcolor"
+        android:key="xposed_headerclockcolorcodeaccent3"
+        android:title="@string/accent_tertiary"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="0xffffffff"
+        android:dependency="xposed_headerclockcolor"
+        android:key="xposed_headerclockcolorcodetext1"
+        android:title="@string/text_color_primary"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="0xff000000"
+        android:dependency="xposed_headerclockcolor"
+        android:key="xposed_headerclockcolorcodetext2"
+        android:title="@string/text_color_inverse"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_headerclock"
+        android:key="xposed_headerclocktextscaling"
+        android:title="@string/header_clock_font_text_scaling_title"
+        app:decimalFormat="#.#"
+        app:defaultValue="10"
+        app:iconSpaceReserved="false"
+        app:isDecimalFormat="true"
+        app:maxVal="25"
+        app:minVal="5"
+        app:outputScale="10.0"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="x" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_headerclock"
+        android:key="xposed_headerclocksidemargin"
+        android:title="@string/header_clock_side_margin_title"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="200"
+        app:minVal="0"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_headerclock"
+        android:key="xposed_headerclocktopmargin"
+        android:title="@string/fixed_status_icons_top_margin"
+        app:defaultValue="8"
+        app:iconSpaceReserved="false"
+        app:maxVal="250"
+        app:minVal="0"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_headerclock"
+        android:key="xposed_headerclockcentered"
+        android:summary="@string/header_clock_center_clock_desc"
+        android:title="@string/header_clock_center_clock_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_headerclock"
+        android:key="xposed_headerclocklandscape"
+        android:summary="@string/header_clock_hide_landscape_desc"
+        android:title="@string/header_clock_hide_landscape_title"
+        app:defaultValue="true"
+        app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

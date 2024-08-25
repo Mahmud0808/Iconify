@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Transparency</string>
     <string name="transparent_qs_panel_title">شفاف کردن پنل نوارابزار</string>
     <string name="transparent_qs_panel_desc">با استفاده از این قسمت پیش‌زمینه نوارابزار خود را شفاف (محو) کنید</string>
-    <string name="transparency_alpha_title">میزان شفافیت</string>
+    <string name="qs_background_opacity_title">میزان شفافیت</string>
     <string name="transparent_notif_shade_title">Transparent Notif Shade Only</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
     <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>

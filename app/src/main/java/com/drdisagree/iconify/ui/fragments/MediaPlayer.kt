@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.FragmentMediaPlayerBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -35,7 +35,7 @@ class MediaPlayer : BaseFragment() {
 
         refreshPreview()
 
-        binding.mpAccent.isSwitchChecked = Prefs.getBoolean("IconifyComponentMPA.overlay")
+        binding.mpAccent.isSwitchChecked = RPrefs.getBoolean("IconifyComponentMPA.overlay")
         binding.mpAccent.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 binding.mpSystem.isSwitchChecked = false
@@ -56,7 +56,7 @@ class MediaPlayer : BaseFragment() {
             refreshPreview()
         }
 
-        binding.mpSystem.isSwitchChecked = Prefs.getBoolean("IconifyComponentMPS.overlay")
+        binding.mpSystem.isSwitchChecked = RPrefs.getBoolean("IconifyComponentMPS.overlay")
         binding.mpSystem.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 binding.mpAccent.isSwitchChecked = false
@@ -77,7 +77,7 @@ class MediaPlayer : BaseFragment() {
             refreshPreview()
         }
 
-        binding.mpPitchBlack.isSwitchChecked = Prefs.getBoolean("IconifyComponentMPB.overlay")
+        binding.mpPitchBlack.isSwitchChecked = RPrefs.getBoolean("IconifyComponentMPB.overlay")
         binding.mpPitchBlack.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 binding.mpAccent.isSwitchChecked = false
@@ -107,11 +107,11 @@ class MediaPlayer : BaseFragment() {
         binding.mpSystemPreview.previewMpSystem.visibility = View.GONE
 
         when {
-            Prefs.getBoolean("IconifyComponentMPA.overlay") -> {
+            RPrefs.getBoolean("IconifyComponentMPA.overlay") -> {
                 binding.mpAccentPreview.previewMpAccent.visibility = View.VISIBLE
             }
 
-            Prefs.getBoolean("IconifyComponentMPB.overlay") -> {
+            RPrefs.getBoolean("IconifyComponentMPB.overlay") -> {
                 binding.mpPitchBlackPreview.previewMpBlack.visibility = View.VISIBLE
             }
 
