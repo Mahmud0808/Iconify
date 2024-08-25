@@ -155,7 +155,7 @@ class OpenWeatherMapProvider(context: Context?) : AbstractWeatherProvider(contex
 
     private val languageCode: String
         get() {
-            val locale: Locale = mContext.getResources().getConfiguration().locale
+            val locale: Locale = mContext.resources.configuration.locale
             val selector = locale.language + "-" + locale.country
 
             for ((key, value) in LANGUAGE_CODE_MAPPING) {

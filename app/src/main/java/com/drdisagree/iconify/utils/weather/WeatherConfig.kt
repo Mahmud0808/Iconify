@@ -6,6 +6,8 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import com.drdisagree.iconify.BuildConfig
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_EXTRAS
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
@@ -131,7 +133,9 @@ object WeatherConfig {
 
     fun isEnabled(context: Context): Boolean {
         val lsWeather = getPrefs(context).getBoolean(WEATHER_SWITCH, false)
-        return lsWeather
+        val bigWidgets = getPrefs(context).getString(LOCKSCREEN_WIDGETS, "")
+        val miniWidgets = getPrefs(context).getString(LOCKSCREEN_WIDGETS_EXTRAS, "")
+        return lsWeather || bigWidgets!!.contains("weather") || miniWidgets!!.contains("weather")
     }
 
     fun setEnabled(context: Context, value: Boolean, key: String?) {

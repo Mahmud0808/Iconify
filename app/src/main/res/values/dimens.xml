@@ -11,7 +11,6 @@
     <dimen name="preview_icon_size">18dp</dimen>
     <dimen name="cont_corner_radius">24dp</dimen>
     <dimen name="cont_corner_radius2">22dp</dimen>
-    <dimen name="searchbar_corner_radius">16dp</dimen>
     <dimen name="reset_button_size">20dp</dimen>
     <dimen name="header_title_size">18sp</dimen>
     <dimen name="content_marginTop">24dp</dimen>
@@ -45,9 +44,21 @@
     <dimen name="widget_date_accent_box_padding_hor">10dp</dimen>
     <dimen name="widget_date_accent_box_padding_ver">6dp</dimen>
 
+    <!-- Lockscreen Widgets Dimens -->
+    <dimen name="kg_widget_margin_vertical">10dp</dimen>
+    <dimen name="kg_widget_margin_bottom">6dp</dimen>
+    <dimen name="kg_widgets_margin_horizontal">12dp</dimen>
+    <dimen name="kg_widgets_main_margin_start">12dp</dimen>
+    <dimen name="kg_widgets_main_margin_end">12dp</dimen>
+    <dimen name="kg_widget_circle_size">68dp</dimen>
+    <dimen name="kg_widgets_icon_padding">18dp</dimen>
+    <dimen name="kg_main_widgets_icon_padding">20dp</dimen>
+    <dimen name="kg_widget_main_height">88dp</dimen>
+    <dimen name="kg_widget_main_width">175dp</dimen>
 
+    <!-- Searchbar dimens -->
     <dimen name="searchbar_height">56dp</dimen>
-
+    <dimen name="searchbar_corner_radius">16dp</dimen>
     <dimen name="preference_padding_start">15dip</dimen>
     <dimen name="preference_padding_end">6dip</dimen>
     <dimen name="preference_padding_top">6dip</dimen>
