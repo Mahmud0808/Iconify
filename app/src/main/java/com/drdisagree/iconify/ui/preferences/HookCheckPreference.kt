@@ -22,7 +22,6 @@ import com.drdisagree.iconify.common.Const.ACTION_HOOK_CHECK_RESULT
 import com.drdisagree.iconify.common.Preferences
 import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
 import com.drdisagree.iconify.config.RPrefs
-import com.drdisagree.iconify.utils.extension.ObservableVariable
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(context, attrs) {
@@ -35,19 +34,6 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
 
     init {
         intentFilterHookedSystemUI.addAction(ACTION_HOOK_CHECK_RESULT)
-
-        isXposedHooked.setOnChangeListener { newValue ->
-            newValue?.let {
-                try {
-                    delayedHandler.removeCallbacks(delayedHookCheck)
-                } catch (ignored: Exception) {
-                }
-
-                isHooked = it
-
-                RPrefs.putBoolean(XPOSED_HOOK_CHECK, it)
-            }
-        }
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
@@ -132,7 +118,15 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == ACTION_HOOK_CHECK_RESULT) {
                 isHookSuccessful = true
-                isXposedHooked.setValue(true)
+
+                try {
+                    delayedHandler.removeCallbacks(delayedHookCheck)
+                } catch (ignored: Exception) {
+                }
+
+                isHooked = true
+
+                RPrefs.putBoolean(XPOSED_HOOK_CHECK, true)
             }
         }
     }
@@ -149,7 +143,14 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
 
             override fun onFinish() {
                 if (!isHookSuccessful) {
-                    isXposedHooked.setValue(false)
+                    try {
+                        delayedHandler.removeCallbacks(delayedHookCheck)
+                    } catch (ignored: Exception) {
+                    }
+
+                    isHooked = false
+
+                    RPrefs.putBoolean(XPOSED_HOOK_CHECK, false)
                 }
             }
         }.start()
@@ -170,9 +171,5 @@ class HookCheckPreference(context: Context, attrs: AttributeSet?) : Preference(c
             context.unregisterReceiver(receiverHookedSystemUI)
         } catch (ignored: Exception) {
         }
-    }
-
-    companion object {
-        val isXposedHooked = ObservableVariable<Boolean>()
     }
 }
