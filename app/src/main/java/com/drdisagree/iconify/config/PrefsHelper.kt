@@ -8,16 +8,24 @@ import androidx.preference.PreferenceGroup
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.AGGRESSIVE_QSPANEL_BLUR_SWITCH
 import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
 import com.drdisagree.iconify.common.Preferences.AUTO_UPDATE
 import com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE
 import com.drdisagree.iconify.common.Preferences.CUSTOM_QS_MARGIN
+import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.EASTER_EGG
 import com.drdisagree.iconify.common.Preferences.EXPERIMENTAL_FEATURES
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN
+import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
+import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR
+import com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR
+import com.drdisagree.iconify.common.Preferences.FLUID_NOTIF_TRANSPARENCY
+import com.drdisagree.iconify.common.Preferences.FLUID_POWERMENU_TRANSPARENCY
+import com.drdisagree.iconify.common.Preferences.FLUID_QSPANEL
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT1
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT2
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT3
@@ -28,6 +36,7 @@ import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
+import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT1
@@ -115,6 +124,16 @@ object PrefsHelper {
             HEADER_CLOCK_COLOR_CODE_ACCENT3,
             HEADER_CLOCK_COLOR_CODE_TEXT1,
             HEADER_CLOCK_COLOR_CODE_TEXT2 -> getBoolean(HEADER_CLOCK_COLOR_SWITCH)
+
+            DUALTONE_QSPANEL -> getBoolean(LIGHT_QSPANEL)
+
+            FLUID_NOTIF_TRANSPARENCY,
+            FLUID_POWERMENU_TRANSPARENCY -> getBoolean(FLUID_QSPANEL)
+
+            "xposedThemesOthers",
+            FIX_QS_TILE_COLOR,
+            FIX_NOTIFICATION_COLOR,
+            FIX_NOTIFICATION_FOOTER_BUTTON_COLOR -> isAtleastA14
 
             else -> true
         }

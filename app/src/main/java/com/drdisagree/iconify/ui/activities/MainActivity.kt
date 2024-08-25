@@ -38,6 +38,7 @@ import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClock
 import com.drdisagree.iconify.ui.fragments.xposed.Others
 import com.drdisagree.iconify.ui.fragments.xposed.QuickSettings
 import com.drdisagree.iconify.ui.fragments.xposed.Statusbar
+import com.drdisagree.iconify.ui.fragments.xposed.Themes
 import com.drdisagree.iconify.ui.fragments.xposed.TransparencyBlur
 import com.drdisagree.iconify.ui.fragments.xposed.VolumePanel
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
@@ -632,6 +633,11 @@ class MainActivity : BaseActivity(),
                 R.xml.xposed_quick_settings,
                 R.string.activity_title_quick_settings,
                 QuickSettings()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed_themes,
+                R.string.activity_title_themes,
+                Themes()
             ),
             SearchPreferenceItem(
                 R.xml.xposed_statusbar,
