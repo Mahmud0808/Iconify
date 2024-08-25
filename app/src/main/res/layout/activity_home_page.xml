@@ -39,14 +39,14 @@
         android:layout_alignTop="@id/hide_all"
         android:layout_alignBottom="@id/hide_all"
         android:layout_gravity="center_vertical"
-        android:layout_marginVertical="2dp"
+        android:layout_marginVertical="4dp"
         android:layout_marginEnd="6dp"
         android:layout_toStartOf="@id/hide_all"
         android:background="@drawable/container_small"
         android:gravity="center_vertical"
         android:paddingHorizontal="12dp"
         android:paddingVertical="6dp"
-        android:text="Dismiss"
+        android:text="@string/btn_dismiss"
         android:textColor="@color/text_color_primary"
         android:visibility="gone" />
 
@@ -73,14 +73,14 @@
         android:layout_alignTop="@id/restart_device"
         android:layout_alignBottom="@id/restart_device"
         android:layout_gravity="center_vertical"
-        android:layout_marginVertical="2dp"
+        android:layout_marginVertical="4dp"
         android:layout_marginEnd="6dp"
         android:layout_toStartOf="@id/restart_device"
         android:background="@drawable/container_small"
         android:gravity="center_vertical"
         android:paddingHorizontal="12dp"
         android:paddingVertical="6dp"
-        android:text="Restart Device"
+        android:text="@string/btn_restart_device"
         android:textColor="@color/text_color_primary"
         android:visibility="gone" />
 
@@ -105,7 +105,7 @@
         android:layout_alignTop="@id/restart_systemui"
         android:layout_alignBottom="@id/restart_systemui"
         android:layout_gravity="center_vertical"
-        android:layout_marginVertical="2dp"
+        android:layout_marginVertical="4dp"
         android:layout_marginEnd="6dp"
         android:layout_toStartOf="@id/restart_systemui"
         android:background="@drawable/container_small"
@@ -126,7 +126,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:importantForAccessibility="no"
-        android:text="Pending"
+        android:text="@string/btn_pending"
         android:visibility="gone"
         app:icon="@drawable/ic_info" />
 

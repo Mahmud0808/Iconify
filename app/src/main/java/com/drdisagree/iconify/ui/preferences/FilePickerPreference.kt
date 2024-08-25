@@ -2,6 +2,8 @@ package com.drdisagree.iconify.ui.preferences
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.drdisagree.iconify.R
@@ -55,6 +57,12 @@ class FilePickerPreference : Preference {
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
 
+        if (isEnabled) {
+            holder.itemView.findViewById<TextView>(android.R.id.title)?.apply {
+                setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))
+            }
+        }
+
         holder.itemView.findViewById<MaterialButton>(R.id.btn_picker)?.apply {
             text = mButtonText
             this.isEnabled = isEnabled
@@ -62,7 +70,7 @@ class FilePickerPreference : Preference {
         }
     }
 
-    fun setOnClick(onClick: () -> Unit) {
+    fun setOnButtonClick(onClick: () -> Unit) {
         mOnClick = onClick
     }
 }

@@ -22,8 +22,10 @@ import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.adapters.ClockPreviewAdapter
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.models.ClockModel
+import com.drdisagree.iconify.ui.preferences.FilePickerPreference
 import com.drdisagree.iconify.ui.preferences.RecyclerPreference
 import com.drdisagree.iconify.utils.FileUtil.getRealPath
+import com.drdisagree.iconify.utils.FileUtil.launchFilePicker
 import com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir
 import com.topjohnwu.superuser.Shell
 
@@ -89,6 +91,12 @@ class LockscreenClock : ControlledPreferenceFragmentCompat() {
         findPreference<RecyclerPreference>(LSCLOCK_STYLE)?.apply {
             setAdapter(initLockscreenClockStyles())
             setPreference(LSCLOCK_STYLE, 0)
+        }
+
+        findPreference<FilePickerPreference>("xposed_lockscreenclockfontpicker")?.apply {
+            setOnButtonClick {
+                launchFilePicker(context, "font", startActivityIntent)
+            }
         }
     }
 

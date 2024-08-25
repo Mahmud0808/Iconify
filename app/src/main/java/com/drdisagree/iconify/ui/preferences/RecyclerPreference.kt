@@ -54,7 +54,7 @@ class RecyclerPreference : Preference {
             layoutManager = CarouselLayoutManager(
                 context, RecyclerView.HORIZONTAL, false
             ).also {
-                it.setMinifyDistance(0.6f)
+                it.setMinifyDistance(0.8f)
             }
             adapter = mAdapter
             setHasFixedSize(true);

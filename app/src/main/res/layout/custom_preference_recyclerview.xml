@@ -5,17 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_background_material"
-    android:clickable="true"
-    android:paddingStart="6dp"
-    android:paddingEnd="24dp">
+    android:clickable="true">
 
     <ImageView
         android:id="@android:id/icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="24dp"
         android:contentDescription="@string/icon"
         android:visibility="gone"
         app:tint="?attr/colorPrimary" />
@@ -24,9 +21,8 @@
         android:id="@+id/text_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginVertical="16dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="10dp"
         android:layout_toStartOf="@android:id/widget_frame"
         android:layout_toEndOf="@android:id/icon"
         android:orientation="vertical">
@@ -61,7 +57,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_container"
-        android:layout_marginStart="18dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal">
@@ -72,7 +67,8 @@
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:paddingHorizontal="16dp" />
 
     </LinearLayout>
 </RelativeLayout>

@@ -152,7 +152,7 @@ object FileUtil {
         ).exec().isSuccess
     }
 
-    private fun pickFile(
+    fun launchFilePicker(
         context: Context,
         type: String?,
         launcher: ActivityResultLauncher<Intent?>
