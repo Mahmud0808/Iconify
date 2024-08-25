@@ -185,45 +185,50 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             }
         }
 
-    private val mWifiCallback: ControllersProvider.OnWifiChanged = object : ControllersProvider.OnWifiChanged {
-        override fun onWifiChanged(mWifiIndicators: Any?) {
-            log("LockscreenWidgets onWifiChanged")
-            updateWiFiButtonState(isWifiEnabled)
-        }
-    }
-
-    private val mBluetoothCallback: ControllersProvider.OnBluetoothChanged = object : ControllersProvider.OnBluetoothChanged {
-        override fun onBluetoothChanged(enabled: Boolean) {
-            log("LockscreenWidgets onBluetoothChanged $enabled")
-            isBluetoothOn = enabled
-            updateBtState()
-        }
-    }
-
-    private val mTorchCallback: ControllersProvider.OnTorchModeChanged = object : ControllersProvider.OnTorchModeChanged {
-        override fun onTorchModeChanged(enabled: Boolean) {
-            log("LockscreenWidgets onTorchChanged $enabled")
-            isFlashOn = enabled
-            updateTorchButtonState()
-        }
-    }
-
-    private val mHotspotCallback: ControllersProvider.OnHotspotChanged = object : ControllersProvider.OnHotspotChanged {
-        override fun onHotspotChanged(enabled: Boolean, connectedDevices: Int) {
-            log("LockscreenWidgets onHotspotChanged $enabled")
-            updateHotspotButtonState(connectedDevices)
-        }
-    }
-
-    private val mDozeCallback: ControllersProvider.OnDozingChanged = object : ControllersProvider.OnDozingChanged {
-        override fun onDozingChanged(dozing: Boolean) {
-            if (mDozing == dozing) {
-                return
+    private val mWifiCallback: ControllersProvider.OnWifiChanged =
+        object : ControllersProvider.OnWifiChanged {
+            override fun onWifiChanged(mWifiIndicators: Any?) {
+                log("LockscreenWidgets onWifiChanged")
+                updateWiFiButtonState(isWifiEnabled)
             }
-            mDozing = dozing
-            updateContainerVisibility()
         }
-    }
+
+    private val mBluetoothCallback: ControllersProvider.OnBluetoothChanged =
+        object : ControllersProvider.OnBluetoothChanged {
+            override fun onBluetoothChanged(enabled: Boolean) {
+                log("LockscreenWidgets onBluetoothChanged $enabled")
+                isBluetoothOn = enabled
+                updateBtState()
+            }
+        }
+
+    private val mTorchCallback: ControllersProvider.OnTorchModeChanged =
+        object : ControllersProvider.OnTorchModeChanged {
+            override fun onTorchModeChanged(enabled: Boolean) {
+                log("LockscreenWidgets onTorchChanged $enabled")
+                isFlashOn = enabled
+                updateTorchButtonState()
+            }
+        }
+
+    private val mHotspotCallback: ControllersProvider.OnHotspotChanged =
+        object : ControllersProvider.OnHotspotChanged {
+            override fun onHotspotChanged(enabled: Boolean, connectedDevices: Int) {
+                log("LockscreenWidgets onHotspotChanged $enabled")
+                updateHotspotButtonState(connectedDevices)
+            }
+        }
+
+    private val mDozeCallback: ControllersProvider.OnDozingChanged =
+        object : ControllersProvider.OnDozingChanged {
+            override fun onDozingChanged(dozing: Boolean) {
+                if (mDozing == dozing) {
+                    return
+                }
+                mDozing = dozing
+                updateContainerVisibility()
+            }
+        }
 
     private fun createDeviceWidgetContainer(context: Context): LinearLayout {
         val deviceWidget = LinearLayout(context)
@@ -248,7 +253,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         log("LockscreenWidgets createMainWidgetsContainer LaunchableLinearLayout " + (LaunchableLinearLayout != null))
         try {
             mainWidgetsContainer =
-                LaunchableLinearLayout!!.getConstructor(Context::class.java).newInstance(context) as LinearLayout?
+                LaunchableLinearLayout!!.getConstructor(Context::class.java)
+                    .newInstance(context) as LinearLayout?
         } catch (e: Exception) {
             log("LockscreenWidgets createMainWidgetsContainer LaunchableLinearLayout not found: " + e.message)
             mainWidgetsContainer = LinearLayout(context)
@@ -257,7 +263,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         if (mainWidgetsContainer == null) {
             mainWidgetsContainer = LinearLayout(context) // Ensure the creation on our linear layout
         }
-        
+
         mainWidgetsContainer.orientation = HORIZONTAL
         mainWidgetsContainer.gravity = Gravity.CENTER
         mainWidgetsContainer.setLayoutParams(
@@ -309,7 +315,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         log("LockscreenWidgets createSecondaryWidgetsContainer LaunchableLinearLayout " + (LaunchableLinearLayout != null))
         try {
             secondaryWidgetsContainer =
-                LaunchableLinearLayout?.getConstructor(Context::class.java)?.newInstance(context) as LinearLayout?
+                LaunchableLinearLayout?.getConstructor(Context::class.java)
+                    ?.newInstance(context) as LinearLayout?
         } catch (e: Exception) {
             log("LockscreenWidgets createMainWidgetsContainer LaunchableLinearLayout not found: " + e.message)
             secondaryWidgetsContainer = LinearLayout(context)
@@ -344,13 +351,14 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         for (mSecondaryWidgetView: ImageView? in mSecondaryWidgetViews!!) {
             secondaryWidgetsContainer.addView(mSecondaryWidgetView)
         }
-        
+
         return secondaryWidgetsContainer
     }
 
     private fun createImageView(context: Context): ImageView {
         val imageView: ImageView = try {
-            LaunchableImageView?.getConstructor(Context::class.java)?.newInstance(context) as ImageView
+            LaunchableImageView?.getConstructor(Context::class.java)
+                ?.newInstance(context) as ImageView
         } catch (e: Exception) {
             // LaunchableImageView not found or other error, ensure the creation of our ImageView
             ImageView(context)
@@ -540,7 +548,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     mWeatherClient!!.getWeatherConditionImage(mWeatherInfo!!.conditionCode)
                 if (weatherButtonFab != null) {
                     weatherButtonFab!!.icon = d
-                    weatherButtonFab!!.text = (mWeatherInfo!!.temp + mWeatherInfo!!.tempUnits) + " • " + formattedCondition
+                    weatherButtonFab!!.text =
+                        (mWeatherInfo!!.temp + mWeatherInfo!!.tempUnits) + " • " + formattedCondition
                     weatherButtonFab!!.iconTint = null
                 }
                 if (weatherButton != null) {
@@ -612,7 +621,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             mMainWidgetsContainer.visibility = if (isMainWidgetsEmpty) GONE else VISIBLE
         }
         if (mSecondaryWidgetsContainer != null) {
-            mSecondaryWidgetsContainer.visibility = if (isSecondaryWidgetsEmpty || mIsLargeClock) GONE else VISIBLE
+            mSecondaryWidgetsContainer.visibility =
+                if (isSecondaryWidgetsEmpty || mIsLargeClock) GONE else VISIBLE
         }
         val shouldHideContainer = isEmpty || mDozing || !lockscreenWidgetsEnabled
         visibility = if (shouldHideContainer) GONE else VISIBLE
@@ -623,7 +633,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
         if (mMainWidgetViews != null && mMainWidgetsList != null) {
             for (i in mMainWidgetViews!!.indices) {
-                mMainWidgetViews!![i].visibility = if (i < mMainWidgetsList!!.size) VISIBLE else GONE
+                mMainWidgetViews!![i].visibility =
+                    if (i < mMainWidgetsList!!.size) VISIBLE else GONE
             }
             for (i in 0 until min(
                 mMainWidgetsList!!.size.toDouble(),
@@ -719,9 +730,11 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                         true
                     }
                 }
-                setUpWidgetResources(iv, efab,
+                setUpWidgetResources(
+                    iv, efab,
                     { toggleWiFi() }, getDrawable(WIFI_INACTIVE, FRAMEWORK_PACKAGE), getString(
-                        WIFI_LABEL, SYSTEMUI_PACKAGE)
+                        WIFI_LABEL, SYSTEMUI_PACKAGE
+                    )
                 )
             }
 
@@ -743,7 +756,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 setUpWidgetResources(
                     iv, efab,
                     { toggleMobileData() }, getDrawable(DATA_ICON, FRAMEWORK_PACKAGE), getString(
-                        DATA_LABEL, SYSTEMUI_PACKAGE)
+                        DATA_LABEL, SYSTEMUI_PACKAGE
+                    )
                 )
             }
 
@@ -764,8 +778,13 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 }
                 setUpWidgetResources(
                     iv, efab,
-                    { toggleRingerMode() }, getDrawable(RINGER_NORMAL, SYSTEMUI_PACKAGE), getString(
-                        RINGER_LABEL_INACTIVE, SYSTEMUI_PACKAGE)
+                    { toggleRingerMode() },
+                    ResourcesCompat.getDrawable(
+                        modRes,
+                        R.drawable.ic_ringer_normal,
+                        mContext.theme
+                    ),
+                    getString(RINGER_LABEL_INACTIVE, SYSTEMUI_PACKAGE)
                 )
             }
 
@@ -788,7 +807,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     iv, efab,
                     { toggleBluetoothState() }, getDrawable(
                         BT_ICON,
-                        SYSTEMUI_PACKAGE), getString(BT_LABEL, SYSTEMUI_PACKAGE)
+                        SYSTEMUI_PACKAGE
+                    ), getString(BT_LABEL, SYSTEMUI_PACKAGE)
                 )
             }
 
@@ -800,9 +820,13 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     torchButtonFab = efab
                 }
                 setUpWidgetResources(
-                    iv, efab,
-                    { toggleFlashlight() }, getDrawable(TORCH_RES_INACTIVE, SYSTEMUI_PACKAGE), getString(
-                        TORCH_LABEL, SYSTEMUI_PACKAGE)
+                    iv,
+                    efab,
+                    { toggleFlashlight() },
+                    getDrawable(TORCH_RES_INACTIVE, SYSTEMUI_PACKAGE),
+                    getString(
+                        TORCH_LABEL, SYSTEMUI_PACKAGE
+                    )
                 )
             }
 
@@ -811,10 +835,16 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 vibrate(1)
             }, getDrawable("ic_alarm", SYSTEMUI_PACKAGE), modRes.getString(R.string.clock_timer))
 
-            "camera" -> setUpWidgetResources(iv, efab, {
-                mActivityLauncherUtils.launchCamera()
-                vibrate(1)
-            }, getDrawable(CAMERA_ICON, SYSTEMUI_PACKAGE), getString(CAMERA_LABEL, SYSTEMUI_PACKAGE))
+            "camera" -> setUpWidgetResources(
+                iv,
+                efab,
+                {
+                    mActivityLauncherUtils.launchCamera()
+                    vibrate(1)
+                },
+                getDrawable(CAMERA_ICON, SYSTEMUI_PACKAGE),
+                getString(CAMERA_LABEL, SYSTEMUI_PACKAGE)
+            )
 
             "calculator" -> setUpWidgetResources(
                 iv,
@@ -827,30 +857,37 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             )
 
             "homecontrols" -> setUpWidgetResources(
-                iv, efab,
+                iv,
+                efab,
                 { view: View ->
                     this.launchHomeControls(
                         view
                     )
-                }, getDrawable(HOME_CONTROLS, SYSTEMUI_PACKAGE), getString(HOME_CONTROLS_LABEL, SYSTEMUI_PACKAGE)
+                },
+                getDrawable(HOME_CONTROLS, SYSTEMUI_PACKAGE),
+                getString(HOME_CONTROLS_LABEL, SYSTEMUI_PACKAGE)
             )
 
-            "wallet" -> setUpWidgetResources(iv, efab,
+            "wallet" -> setUpWidgetResources(
+                iv,
+                efab,
                 { view: View ->
                     this.launchWallet(
                         view
                     )
-                }, getDrawable(WALLET_ICON, SYSTEMUI_PACKAGE), getString(WALLET_LABEL, SYSTEMUI_PACKAGE)
+                },
+                getDrawable(WALLET_ICON, SYSTEMUI_PACKAGE),
+                getString(WALLET_LABEL, SYSTEMUI_PACKAGE)
             )
 
             "media" -> {
                 if (iv != null) {
                     mediaButton = iv
-                    mediaButton!!.setOnLongClickListener {true}
+                    mediaButton!!.setOnLongClickListener { true }
                 }
                 if (efab != null) {
                     mediaButtonFab = efab
-                    mediaButtonFab!!.setOnLongClickListener {true}
+                    mediaButtonFab!!.setOnLongClickListener { true }
                 }
                 setUpWidgetResources(
                     iv, efab,
@@ -996,9 +1033,11 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 }
             }
             if (efab != null) {
-                efab.backgroundTintList = ColorStateList.valueOf(if (active) mBigActiveColor else mBigInactiveColor)
+                efab.backgroundTintList =
+                    ColorStateList.valueOf(if (active) mBigActiveColor else mBigInactiveColor)
                 if (efab !== weatherButtonFab) {
-                    efab.iconTint = ColorStateList.valueOf(if (active) mBigIconActiveColor else mBigIconInactiveColor)
+                    efab.iconTint =
+                        ColorStateList.valueOf(if (active) mBigIconActiveColor else mBigIconInactiveColor)
                 } else {
                     efab.iconTint = null
                 }
@@ -1149,9 +1188,10 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val isMobileDataEnabled: Boolean
         get() {
             try {
-                val connectivityManager = mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val connectivityManager =
+                    mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
                 val cmClass = Class.forName(ConnectivityManager::class.java.name)
-                val method= cmClass.getDeclaredMethod("getMobileDataEnabled")
+                val method = cmClass.getDeclaredMethod("getMobileDataEnabled")
                 method.isAccessible = true
                 // Call the method on the ConnectivityManager instance
                 val result = method.invoke(connectivityManager)
@@ -1257,8 +1297,12 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         if (!isWidgetEnabled("torch")) return
         log("LockscreenWidgets updateTorchButtonState $isFlashOn")
         updateTileButtonState(
-            torchButton, torchButtonFab, isFlashOn,
-            getDrawable(TORCH_RES_ACTIVE, SYSTEMUI_PACKAGE), getString(TORCH_LABEL, SYSTEMUI_PACKAGE))
+            torchButton,
+            torchButtonFab,
+            isFlashOn,
+            getDrawable(TORCH_RES_ACTIVE, SYSTEMUI_PACKAGE),
+            getString(TORCH_LABEL, SYSTEMUI_PACKAGE)
+        )
     }
 
     private val mRingerModeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -1308,7 +1352,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         if (mWeatherClient == null) {
             mWeatherClient = OmniJawsClient(context)
         }
-        
+
         try {
             mCameraId = mCameraManager.cameraIdList[0]
         } catch (e: Throwable) {
@@ -1383,7 +1427,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         val icon: Drawable? = getDrawable(
             if (enabled && connected) WIFI_ACTIVE
             else if (enabled) WIFI_ACTIVE
-            else WIFI_INACTIVE, FRAMEWORK_PACKAGE)
+            else WIFI_INACTIVE, FRAMEWORK_PACKAGE
+        )
         updateTileButtonState(
             wifiButton, wifiButtonFab,
             isWifiEnabled,
@@ -1424,8 +1469,10 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     private val activeMobileDataCarrier: String
         get() {
-            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val telephonyManager =
+                context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 
             val activeNetwork = connectivityManager.activeNetwork
             val networkCapabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
@@ -1478,7 +1525,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             btButton, btButtonFab, isBluetoothOn,
             icon,
             if (isConnected) deviceName!!
-            else getString(BT_LABEL, SYSTEMUI_PACKAGE))
+            else getString(BT_LABEL, SYSTEMUI_PACKAGE)
+        )
     }
 
     private fun updateHotspotButtonState(numDevices: Int) {
@@ -1674,12 +1722,15 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 HOME_CONTROLS_LABEL -> {
                     return modRes.getString(R.string.home_controls)
                 }
+
                 CALCULATOR_LABEL -> {
                     return modRes.getString(R.string.calculator)
                 }
+
                 CAMERA_LABEL -> {
                     return modRes.getString(R.string.camera)
                 }
+
                 WALLET_LABEL -> {
                     return modRes.getString(R.string.wallet)
                 }
@@ -1692,13 +1743,17 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val ringerDrawable: Drawable?
         get() {
             val resName = when (mAudioManager!!.ringerMode) {
-                AudioManager.RINGER_MODE_NORMAL -> RINGER_NORMAL
-                AudioManager.RINGER_MODE_VIBRATE -> RINGER_VIBRATE
-                AudioManager.RINGER_MODE_SILENT -> RINGER_SILENT
+                AudioManager.RINGER_MODE_NORMAL -> R.drawable.ic_ringer_normal
+                AudioManager.RINGER_MODE_VIBRATE -> R.drawable.ic_ringer_vibrate
+                AudioManager.RINGER_MODE_SILENT -> R.drawable.ic_ringer_mute
                 else -> throw IllegalStateException("Unexpected value: " + mAudioManager.ringerMode)
             }
 
-            return getDrawable(resName, SYSTEMUI_PACKAGE)
+            return ResourcesCompat.getDrawable(
+                modRes,
+                resName,
+                mContext.theme
+            )
         }
 
     private val ringerText: String
@@ -1735,9 +1790,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
         const val BT_ICON: String = "qs_bluetooth_icon_on"
         const val DATA_ICON: String = "perm_group_network"
-        const val RINGER_NORMAL: String = " ic_volume_ringer"
-        const val RINGER_VIBRATE: String = "ic_volume_ringer_vibrate"
-        const val RINGER_SILENT: String = "ic_volume_ringer_mute"
         const val TORCH_RES_ACTIVE: String = "qs_flashlight_icon_on"
         const val TORCH_RES_INACTIVE: String = "qs_flashlight_icon_off"
         const val WIFI_ACTIVE: String = "ic_wifi_signal_4"
