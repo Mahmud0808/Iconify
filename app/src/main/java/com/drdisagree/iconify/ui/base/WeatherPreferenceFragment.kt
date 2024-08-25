@@ -17,7 +17,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.preference.Preference
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
-import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
@@ -40,14 +39,12 @@ import java.util.Locale
 abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
     OmniJawsClient.OmniJawsObserver {
 
-    private val DEFAULT_WEATHER_ICON_PACKAGE: String = "${BuildConfig.APPLICATION_ID}.google"
     private var mCustomLocation: SwitchPreference? = null
     private var mInitialCheck = true
     private var mWeatherIconPack: BottomSheetListPreference? = null
     private var mUpdateStatus: Preference? = null
     private var mWeatherClient: OmniJawsClient? = null
     private var mCustomLocationActivity: Preference? = null
-    private val PREF_KEY_UPDATE_STATUS: String = "update_status"
 
     abstract fun getMainSwitchKey(): String
 
@@ -76,14 +73,14 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         var valueIndex: Int = mWeatherIconPack!!.findIndexOfValue(settingHeaderPackage)
         if (valueIndex == -1) {
             // no longer found
-            settingHeaderPackage = DEFAULT_WEATHER_ICON_PACKAGE
+            settingHeaderPackage = Companion.DEFAULT_WEATHER_ICON_PACKAGE
             //WeatherConfig.setIconPack(getContext(), settingHeaderPackage);
             valueIndex = mWeatherIconPack!!.findIndexOfValue(settingHeaderPackage)
         }
         mWeatherIconPack!!.setValueIndex(if (valueIndex >= 0) valueIndex else 0)
         mWeatherIconPack!!.setSummary(mWeatherIconPack!!.getEntry())
 
-        mUpdateStatus = findPreference(PREF_KEY_UPDATE_STATUS)
+        mUpdateStatus = findPreference(Companion.PREF_KEY_UPDATE_STATUS)
         if (mUpdateStatus != null) {
             mUpdateStatus!!.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
@@ -101,7 +98,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         mCustomLocationActivity = findPreference("weather_custom_location_picker")
         if (mCustomLocationActivity != null) {
             mCustomLocationActivity!!.onPreferenceClickListener =
-                Preference.OnPreferenceClickListener { preference: Preference? ->
+                Preference.OnPreferenceClickListener {
                     mCustomLocationLauncher.launch(
                         Intent(
                             context,
@@ -122,7 +119,9 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
     }
 
     private fun handlePermissions() {
-        if (!getBoolean(WEATHER_CUSTOM_LOCATION, false)) {
+        if (getBoolean(WEATHER_SWITCH, false) &&
+            !getBoolean(WEATHER_CUSTOM_LOCATION, false)
+        ) {
             checkLocationEnabled(mInitialCheck)
             mInitialCheck = false
         } else {
@@ -282,6 +281,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         }
     }
 
+    @Suppress("DiscouragedApi")
     private fun getAvailableWeatherIconPacks(
         entries: MutableList<String?>,
         values: MutableList<String>,
@@ -292,7 +292,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         i.setAction(BuildConfig.APPLICATION_ID + ".WeatherIconPack")
         for (r in packageManager.queryIntentActivities(i, 0)) {
             val packageName = r.activityInfo.packageName
-            if (packageName == DEFAULT_WEATHER_ICON_PACKAGE) {
+            if (packageName == Companion.DEFAULT_WEATHER_ICON_PACKAGE) {
                 values.add(0, r.activityInfo.name)
                 drawables.add(
                     0,
@@ -320,7 +320,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
                     )
                 )
             }
-            var label: String? = r.activityInfo.loadLabel(packageManager).toString()
+            var label: String? = r.activityInfo?.loadLabel(packageManager)?.toString()
             if (label == null) {
                 label = r.activityInfo.packageName
             }
@@ -337,24 +337,31 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
     }
 
     override fun weatherError(errorReason: Int) {
-        var errorString: String? = null
-        errorString = if (errorReason == OmniJawsClient.EXTRA_ERROR_DISABLED) {
-            resources.getString(R.string.omnijaws_service_disabled)
-        } else if (errorReason == OmniJawsClient.EXTRA_ERROR_LOCATION) {
-            resources.getString(R.string.omnijaws_service_error_location)
-        } else if (errorReason == OmniJawsClient.EXTRA_ERROR_NETWORK) {
-            resources.getString(R.string.omnijaws_service_error_network)
-        } else if (errorReason == OmniJawsClient.EXTRA_ERROR_NO_PERMISSIONS) {
-            resources.getString(R.string.omnijaws_service_error_permissions)
-        } else {
-            resources.getString(R.string.omnijaws_service_error_long)
+        val errorString: String = when (errorReason) {
+            OmniJawsClient.EXTRA_ERROR_DISABLED -> {
+                resources.getString(R.string.omnijaws_service_disabled)
+            }
+
+            OmniJawsClient.EXTRA_ERROR_LOCATION -> {
+                resources.getString(R.string.omnijaws_service_error_location)
+            }
+
+            OmniJawsClient.EXTRA_ERROR_NETWORK -> {
+                resources.getString(R.string.omnijaws_service_error_network)
+            }
+
+            OmniJawsClient.EXTRA_ERROR_NO_PERMISSIONS -> {
+                resources.getString(R.string.omnijaws_service_error_permissions)
+            }
+
+            else -> {
+                resources.getString(R.string.omnijaws_service_error_long)
+            }
         }
-        if (errorString != null) {
-            val s: String = errorString
-            requireActivity().runOnUiThread {
-                if (mUpdateStatus != null) {
-                    mUpdateStatus!!.summary = s
-                }
+        val s: String = errorString
+        requireActivity().runOnUiThread {
+            if (mUpdateStatus != null) {
+                mUpdateStatus!!.summary = s
             }
         }
     }
@@ -370,7 +377,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         }
     }
 
-    var requestPermissionLauncher: ActivityResultLauncher<Array<String>> =
+    private var requestPermissionLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { result ->
@@ -380,9 +387,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
             val coarseLocationGranted: Boolean = result.getOrDefault(
                 Manifest.permission.ACCESS_COARSE_LOCATION, false
             )
-            if ((fineLocationGranted != null && fineLocationGranted) ||
-                (coarseLocationGranted != null && coarseLocationGranted)
-            ) {
+            if (fineLocationGranted || coarseLocationGranted) {
                 forceRefreshWeatherSettings()
             }
         }
@@ -391,5 +396,9 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         WeatherScheduler.scheduleUpdateNow(appContext)
     }
 
-
+    companion object {
+        private const val DEFAULT_WEATHER_ICON_PACKAGE: String =
+            "${BuildConfig.APPLICATION_ID}.google"
+        private const val PREF_KEY_UPDATE_STATUS: String = "update_status"
+    }
 }

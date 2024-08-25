@@ -4,7 +4,6 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import com.drdisagree.iconify.Iconify.Companion.appContext
-import com.drdisagree.iconify.common.Preferences.STR_NULL
 import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 import com.drdisagree.iconify.ui.preferences.SliderPreference
 
@@ -64,7 +63,7 @@ object RPrefs : SharedPreferences {
     }
 
     fun getString(key: String?): String? {
-        return prefs.getString(key, STR_NULL)
+        return prefs.getString(key, null)
     }
 
     // Custom slider preference methods

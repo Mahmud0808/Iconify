@@ -6,10 +6,11 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
 import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
 import com.drdisagree.iconify.common.Preferences.WEATHER_SWITCH
 import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.WeatherPreferenceFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class LockscreenWeather: WeatherPreferenceFragment() {
+class LockscreenWeather : WeatherPreferenceFragment() {
 
     override val title: String
         get() = getString(R.string.activity_title_lockscreen_weather)
@@ -39,11 +40,19 @@ class LockscreenWeather: WeatherPreferenceFragment() {
 
     override fun updateScreen(key: String?) {
         super.updateScreen(key)
-        if (key == WEATHER_PROVIDER) {
-            if (RPrefs.getString(WEATHER_PROVIDER) == "1" && RPrefs.getString(WEATHER_OWM_KEY, "")!!.isEmpty()) {
-                showOwnKeyDialog()
+
+        when (key) {
+            WEATHER_SWITCH -> {
+                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+            }
+
+            WEATHER_PROVIDER -> {
+                if (RPrefs.getString(WEATHER_PROVIDER) == "1" && RPrefs.getString(WEATHER_OWM_KEY)
+                        .isNullOrEmpty()
+                ) {
+                    showOwnKeyDialog()
+                }
             }
         }
     }
-
 }

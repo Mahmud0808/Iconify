@@ -78,10 +78,12 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_SIDE
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
+import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_SIZE
 import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
 import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
+import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_SIZE
 import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
 import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
 import com.drdisagree.iconify.common.Resources.shouldShowRebootDialog
@@ -89,6 +91,7 @@ import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.getSliderInt
 import com.drdisagree.iconify.config.RPrefs.getString
+import com.drdisagree.iconify.config.RPrefs.getStringSet
 import com.drdisagree.iconify.ui.preferences.SliderPreference
 import com.drdisagree.iconify.utils.weather.WeatherConfig
 
@@ -187,6 +190,7 @@ object PrefsHelper {
             WEATHER_PROVIDER,
             WEATHER_UNITS,
             WEATHER_CUSTOM_LOCATION -> WeatherConfig.isEnabled(appContext)
+
             WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1"
 
             else -> true
@@ -199,13 +203,13 @@ object PrefsHelper {
             return String.format("%.2f", RPrefs.getSliderFloat(key, 0f))
         }
         if (key.endsWith("List")) {
-            return RPrefs.getString(key, "")
+            return getString(key, "")
         }
         if (key.endsWith("EditText")) {
-            return RPrefs.getString(key, "")
+            return getString(key, "")
         }
         if (key.endsWith("MultiSelect")) {
-            return RPrefs.getStringSet(key, emptySet()).toString()
+            return getStringSet(key, emptySet()).toString()
         }
 
         return when (key) {
@@ -213,7 +217,7 @@ object PrefsHelper {
                 val currentLanguageCode =
                     listOf<String?>(*fragmentCompat.resources.getStringArray(R.array.locale_code))
                         .indexOf(
-                            RPrefs.getString(
+                            getString(
                                 APP_LANGUAGE,
                                 fragmentCompat.resources.configuration.locales[0].language
                             )
@@ -258,6 +262,14 @@ object PrefsHelper {
             HEADER_IMAGE_ALPHA -> "${getSliderInt(key, 100)}%"
 
             HEADER_IMAGE_BOTTOM_FADE_AMOUNT -> "${getSliderInt(key, 40)}%"
+
+            WEATHER_CUSTOM_MARGINS_TOP,
+            WEATHER_CUSTOM_MARGINS_SIDE,
+            WEATHER_CUSTOM_MARGINS_BOTTOM -> "${getSliderInt(key, 0)}dp"
+
+            WEATHER_TEXT_SIZE -> "${getSliderInt(key, 16)}sp"
+
+            WEATHER_ICON_SIZE -> "${getSliderInt(key, 18)}dp"
 
             else -> null
         }

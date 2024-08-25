@@ -6,8 +6,8 @@
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:defaultValue="false"
         android:key="weather_switch"
-        android:title="@string/lockscreen_weather_title"
         android:summary="@string/lockscreen_weather_desc"
+        android:title="@string/lockscreen_weather_title"
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.ListPreference
@@ -20,10 +20,11 @@
         app:iconSpaceReserved="false"
         app:useSimpleSummaryProvider="true" />
 
-    <Preference
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:key="update_status"
         android:title="@string/last_update_time"
-        app:iconSpaceReserved="false" />
+        app:iconSpaceReserved="false"
+        app:showArrow="false" />
 
     <com.drdisagree.iconify.ui.preferences.ListPreference
         android:defaultValue="2"
@@ -97,7 +98,7 @@
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="weather_switch"
-        android:key="weather_image_size"
+        android:key="weather_icon_size"
         android:title="@string/weather_image_size"
         app:defaultValue="18"
         app:maxVal="24"
@@ -105,8 +106,8 @@
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:defaultValue="false"
-        android:key="weather_custom_color_switch"
         android:dependency="weather_switch"
+        android:key="weather_custom_color_switch"
         android:summaryOff="@string/general_off"
         android:summaryOn="@string/general_on"
         android:title="@string/weather_custom_color_switch_title"
@@ -116,8 +117,8 @@
         android:defaultValue="@color/white"
         android:dependency="weather_custom_color_switch"
         android:key="weather_custom_color"
-        android:title="@string/weather_custom_color_title"
         android:summary="@string/weather_custom_color_summary"
+        android:title="@string/weather_custom_color_title"
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
@@ -140,38 +141,41 @@
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:defaultValue="false"
-        android:key="weather_centered"
         android:dependency="weather_switch"
-        android:title="@string/weather_center_view_title"
+        android:key="weather_centered"
         android:summary="@string/weather_center_view_summary"
+        android:title="@string/weather_center_view_title"
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
-        android:dependency="weather_custom_margins"
-        android:key="weather_margin_top"
+        android:dependency="weather_switch"
+        android:key="weather_custom_margins_top"
         android:title="@string/weather_margin_top"
         app:defaultValue="0"
         app:iconSpaceReserved="false"
         app:maxVal="100"
-        app:minVal="0" />
+        app:minVal="0"
+        app:valueFormat="dp" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
-        android:dependency="weather_custom_margins"
-        android:key="weather_margin_left"
+        android:dependency="weather_switch"
+        android:key="weather_custom_margins_side"
         android:title="@string/weather_margin_side"
         app:defaultValue="0"
         app:iconSpaceReserved="false"
         app:maxVal="100"
-        app:minVal="0" />
+        app:minVal="0"
+        app:valueFormat="dp" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
-        android:dependency="weather_custom_margins"
-        android:key="weather_margin_bottom"
+        android:dependency="weather_switch"
+        android:key="weather_custom_margins_bottom"
         android:title="@string/weather_margin_bottom"
         app:defaultValue="0"
         app:iconSpaceReserved="false"
         app:maxVal="100"
-        app:minVal="0" />
+        app:minVal="0"
+        app:valueFormat="dp" />
 
     <com.drdisagree.iconify.ui.preferences.ListPreference
         android:defaultValue="0"
