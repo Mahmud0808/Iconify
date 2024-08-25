@@ -35,10 +35,10 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Набор иконок</string>
     <string name="activity_desc_icon_pack">Изменить набор иконок системы</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
-    <string name="activity_title_wifi_icons">WiFi Icons</string>
-    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
+    <string name="activity_title_signal_icons">Иконка сети</string>
+    <string name="activity_desc_signal_icons">Изменить системную иконку сети</string>
+    <string name="activity_title_wifi_icons">Иконка WiFi</string>
+    <string name="activity_desc_wifi_icons">Изменить системную иконка WiFi</string>
     <string name="activity_title_brightness_bar">Слайдер яркости</string>
     <string name="activity_desc_brightness_bar">Изменить слайдер яркости</string>
     <string name="activity_title_qs_shape">Плитки панели быстрых настроек</string>
@@ -415,15 +415,15 @@
     <string name="activity_desc_header_clock">Добавить кастомные часы на панель быстрых настроек</string>
     <string name="activity_title_lockscreen_clock">Экран блокировки</string>
     <string name="activity_desc_lockscreen_clock">Изменить элементы экрана блокировки</string>
-    <string name="activity_title_lockscreen_weather">Lockscreen Weather</string>
-    <string name="activity_desc_lockscreen_weather">Add weather on lockscreen</string>
+    <string name="activity_title_lockscreen_weather">Погода на экране блокировки</string>
+    <string name="activity_desc_lockscreen_weather">Добавить погоду на экран блокировки</string>
     <string name="activity_title_depth_wallpaper">Глубинные обои</string>
     <string name="activity_desc_depth_wallpaper">Показывать обои с эффектом глубины, как в iOS</string>
     <string name="activity_title_background_chip">Цвет фона фишки</string>
     <string name="activity_desc_background_chip">Добавить цветную фишку позади элементов интерфейса</string>
     <string name="activity_title_xposed_others">Другое</string>
     <string name="activity_desc_xposed_others">Другие LSposed настройки и кастомизации</string>
-    <!-- Transparency & Blur -->
+    <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Прозрачность</string>
     <string name="transparent_qs_panel_title">Прозрачность панели быстрых настроек</string>
     <string name="transparent_qs_panel_desc">Сделать фон панели быстрых настроек прозрачным</string>
@@ -438,7 +438,7 @@
     <string name="aggressive_blur_title">Принудительное включение размытия</string>
     <string name="aggressive_blur_desc">Может вызвать бутлуп на некоторых прошивках</string>
     <string name="blur_intensity_title">Радиус размытия</string>
-    <!-- Themes -->
+    <!-- Xposed Themes -->
     <string name="section_title_for_pixel_roms">Для прошивок Pixel</string>
     <string name="light_theme_title">Светлая тема</string>
     <string name="light_theme_desc">Светлая панель быстрых настроек в светлом режиме\nДолжна использоваться кастомная форма плиток</string>
@@ -457,9 +457,9 @@
     <string name="section_title_others">Другое</string>
     <string name="fix_notification_color_title">Исправить цвет уведомлений</string>
     <string name="fix_notification_color_desc">Исправить пользовательский стиль уведомления на Android 14</string>
-    <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
-    <string name="fix_notification_footer_button_color_desc">Fix custom footer button style on android 14</string>
-    <!-- Quick Settings -->
+    <string name="fix_notification_footer_button_color_title">Исправить цвет кнопки нижнего колонтитула уведомления</string>
+    <string name="fix_notification_footer_button_color_desc">Исправить пользовательский стиль уведомления на Android 14</string>
+    <!-- Xposed Quick Settings -->
     <string name="section_title_qs_tile">Плитка быстрых настроек</string>
     <string name="vertical_qs_tile_title">Вертикальные плитки быстрых настроек</string>
     <string name="vertical_qs_tile_desc">Показывать подпись под иконкой в быстрых настройках</string>
@@ -468,13 +468,13 @@
     <string name="qs_tile_label_scaling_title">Масштабирование размера текста</string>
     <string name="section_title_qs_margin">Отступ быстрых настроек</string>
     <string name="section_title_qs_elements">Элементы быстрых настроек</string>
-    <string name="hide_qs_on_lockscreen_title">Hide QS on Lockscreen</string>
-    <string name="hide_qs_on_lockscreen_desc">Disable quick settings panel on secured lockscreen</string>
+    <string name="hide_qs_on_lockscreen_title">Скрыть QS на экране блокировки</string>
+    <string name="hide_qs_on_lockscreen_desc">Отключить панель быстрых настроек на заблокированном экране блокировки</string>
     <string name="hide_qs_silent_text_title">Скрыть надпись Без звука у уведомлений</string>
-    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
+    <string name="hide_qs_silent_text_desc">Скрыть беззвучный текст, отображаемый в заголовке беззвучных уведомлений</string>
     <string name="hide_qs_footer_buttons_title">Скрыть кнопки нижнего колонтитула</string>
     <string name="hide_qs_footer_buttons_desc">Скрыть кнопки нижнего колонтитула, отображаемые под стеком уведомлений</string>
-    <!-- Battery Style -->
+    <!-- Xposed Battery Style -->
     <string name="battery_style_title">Стиль батареи</string>
     <string name="battery_width_title">Ширина батареи</string>
     <string name="battery_height_title">Высота батареи</string>
@@ -557,14 +557,14 @@
     <string name="battery_circle">Круглая батарея</string>
     <string name="battery_dotted_circle">Точечный круг батареи</string>
     <string name="battery_filled_circle">Заполненный круг</string>
-    <!-- Volume Panel -->
+    <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Проценты громкости</string>
     <string name="volume_percentage_desc">Показывать проценты выше слайдера громкости</string>
     <string name="safety_warning_title">Предупреждение о безопасности</string>
     <string name="safety_warning_desc">Показывать предупреждение на большой громкости</string>
-    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
-    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
-    <!-- Header Image -->
+    <string name="colored_ringer_icon_title">Цветной значок звонка</string>
+    <string name="colored_ringer_icon_desc">Включить, если выбранный значок звонка невидим</string>
+    <!-- Xposed Header Image -->
     <string name="header_image_title">Выберите изображение заголовка</string>
     <string name="header_image_desc">Добавить изображения на панель быстрых настроек\nНе выбирайте его из вкладки \"Последние\"</string>
     <string name="btn_pick_image">Выбрать изображение</string>
@@ -577,7 +577,7 @@
     <string name="header_image_hide_in_landscape_desc">Скрыть изображение в ландшафтном режиме</string>
     <string name="header_image_alpha_gradient_title">Альфа градиент</string>
     <string name="header_image_alpha_gradient_desc">Добавить эффект выцветания к изображению в заголовке</string>
-    <!-- Header Clock -->
+    <!-- Xposed Header Clock -->
     <string name="custom_header_clock_title">Свои часы в заголовке</string>
     <string name="custom_header_clock_desc">Добавить кастомные часы на панель быстрых настроек</string>
     <string name="header_clock_style_title">Стиль часов</string>
@@ -596,7 +596,7 @@
     <string name="header_clock_center_clock_desc">Пересестить часы в центр</string>
     <string name="header_clock_hide_landscape_title">Скрыть в ландшафтном режиме</string>
     <string name="header_clock_hide_landscape_desc">Скрыть часы в ландшафтном режиме</string>
-    <!-- Lockscreen Clock -->
+    <!-- Xposed Lockscreen Clock -->
     <string name="custom_lockscreen_clock_title">Кастомные часы на экране блокировки</string>
     <string name="custom_lockscreen_clock_desc">Включить кастомные часы на экране блокировки</string>
     <string name="lockscreen_clock_auto_hide_clock_title">Автоматически скрывать часы</string>
@@ -614,13 +614,13 @@
     <string name="lockscreen_clock_bottom_margin_title">Нижнее поле</string>
     <string name="lockscreen_clock_white_text_title">Белый текст</string>
     <string name="lockscreen_clock_white_text_desc">Сделать цвет белым</string>
-    <string name="lsclock_custom_image_title">Use Custom Image</string>
-    <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
-    <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
-    <string name="lockscreen_clock_custom_devicename">Custom Device Name</string>
-    <string name="lockscreen_clock_custom_devicename_desc">Set custom device name for lockscreen clock.\nKeep blank to use System\'s Device Name.</string>
-    <string name="lockscreen_clock_custom_username">Custom User Name</string>
-    <string name="lockscreen_clock_custom_username_desc">Set custom user name for lockscreen clock.\nKeep blank to use System\'s User Name.</string>
+    <string name="lsclock_custom_image_title">Использовать пользовательское изображение</string>
+    <string name="lsclock_custom_image_desc">Используйте пользовательское изображение для часов на экране блокировки.</string>
+    <string name="lsclock_custom_image_picker_title">Пользовательский выбор изображения</string>
+    <string name="lockscreen_clock_custom_devicename">Пользовательское имя устройства</string>
+    <string name="lockscreen_clock_custom_devicename_desc">Установите пользовательское имя устройства для часов на экране блокировки.\nОставьте поле пустым, чтобы использовать системное имя устройства.</string>
+    <string name="lockscreen_clock_custom_username">Пользовательское имя пользователя</string>
+    <string name="lockscreen_clock_custom_username_desc">Установить имя пользователя для часов на экране блокировки.\nОставьте поле пустым, чтобы использовать системное имя пользователя.</string>
     <string name="btn_select">Выбрыть </string>
     <string name="battery_charging">Зарядка батареи</string>
     <string name="battery_discharging">Разрядка батареи</string>
@@ -628,13 +628,13 @@
     <string name="battery_level_percentage">Уровень заряда</string>
     <string name="welcome_back">Добро пожаловать!</string>
     <string name="default_user_name">Пользователь</string>
-    <!-- Depth Wallpaper -->
+    <!-- Xposed Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Включить глубинные обои</string>
-    <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\n%s</string>
-    <string name="enable_custom_depth_wallpaper_title">Custom Images</string>
-    <string name="enable_custom_depth_wallpaper_desc">Set custom images as depth wallpaper</string>
-    <string name="depth_wallpaper_on_aod_title">Show on AOD</string>
-    <string name="depth_wallpaper_on_aod_desc">Show subject on always on display</string>
+    <string name="enable_depth_wallpaper_desc">Показывать глубинные обои в стиле iOS\n%s</string>
+    <string name="enable_custom_depth_wallpaper_title">Пользовательские изображения</string>
+    <string name="enable_custom_depth_wallpaper_desc">Установить пользовательское изображение в качестве глубинных обоев</string>
+    <string name="depth_wallpaper_on_aod_title">Отображать на AOD</string>
+    <string name="depth_wallpaper_on_aod_desc">Показать тему на AOD</string>
     <string name="wallpaper_fade_animation_title">Угасание в AOD</string>
     <string name="wallpaper_fade_animation_desc">Анимировать обои и угасать в AOD</string>
     <string name="foreground_image_title">Изображение на переднем плане</string>
@@ -647,14 +647,14 @@
     <string name="wallpaper_parallax_effect_summary">Перемещайте слои фона и переднего плана с разной скоростью</string>
     <string name="wallpaper_foreground_sensitivity_title">Чувствительность переднего плана</string>
     <string name="wallpaper_background_sensitivity_title">Фоновая чувствительность</string>
-    <string name="depth_wallpaper_model_ready">AI model is downloaded on the device</string>
-    <string name="depth_wallpaper_model_not_available">AI model isn\'t available on the device (yet)</string>
+    <string name="depth_wallpaper_model_ready">Модель ИИ установлена на данном устройстве</string>
+    <string name="depth_wallpaper_model_not_available">Модель ИИ недоступна на данном устройстве (пока-что)</string>
     <string name="depth_wallpaper_subject_extraction_started">Extracting wallpaper subject…</string>
     <string name="depth_wallpaper_subject_extraction_success">Extracted wallpaper subject!</string>
     <string name="depth_wallpaper_subject_extraction_failed">Failed to extract wallpaper subject!</string>
     <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
     <string name="use_custom_lockscreen_clock">Must use custom lockscreen clock</string>
-    <!-- Background Chip -->
+    <!-- Xposed Background Chip -->
     <string name="section_title_status_bar">Строка состояния</string>
     <string name="sb_clock_background_chip_title">Подложка часов строки состояния</string>
     <string name="sb_clock_background_chip_desc">Показывать подложку позади часов в строке состояния</string>
@@ -671,20 +671,23 @@
     <string name="status_icons_chip_style_title">Стиль подложки</string>
     <string name="fixed_status_icons_top_margin">Верхнее поле</string>
     <string name="fixed_status_icons_side_margin">Боковое поле</string>
+    <!-- Xposed Statusbar -->
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
+    <string name="colored_statusbar_icon_title">Colored Statusbar Icon</string>
+    <string name="colored_statusbar_icon_desc">Show app icon as notification icon</string>
+    <string name="hide_ls_carrier_title">Скрыть оператора</string>
+    <string name="hide_ls_carrier_desc">Скрывает оператора на экране блокировки</string>
+    <string name="hide_ls_statusbar_title">Скрыть строку состояния</string>
+    <string name="hide_ls_statusbar_desc">Скрывает строку состояния на экране блокировки</string>
     <!-- Xposed Others -->
     <string name="qs_header">Шапка быстрых настроек</string>
     <string name="hide_carrier_group_title">Скрыть группу Сим-карт</string>
     <string name="hide_carrier_group_desc">Скрыть группу Сим-карт в панели быстрых настроек</string>
     <string name="hide_status_icons_title">Скрыть иконки строки состояния</string>
     <string name="hide_status_icons_desc">Скрыть значки времени, даты и батареи</string>
-    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
-    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
-    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Экран блокировки</string>
-    <string name="hide_ls_carrier_title">Скрыть оператора</string>
-    <string name="hide_ls_carrier_desc">Скрывает оператора на экране блокировки</string>
-    <string name="hide_ls_statusbar_title">Скрыть строку состояния</string>
-    <string name="hide_ls_statusbar_desc">Скрывает строку состояния на экране блокировки</string>
     <string name="hide_ls_lock_icon_title">Спрятать иконку блокировки экрана</string>
     <string name="hide_ls_lock_icon_desc">Скрыть иконку блокировки на экране блокировки</string>
     <string name="fixed_status_icons_title">Фиксированные иконки строки состояния</string>

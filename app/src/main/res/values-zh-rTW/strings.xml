@@ -423,7 +423,7 @@
     <string name="activity_desc_background_chip">在時鐘後面添加彩色 Chip</string>
     <string name="activity_title_xposed_others">其他</string>
     <string name="activity_desc_xposed_others">Xposed 雜項調整</string>
-    <!-- Transparency & Blur -->
+    <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">透明度</string>
     <string name="transparent_qs_panel_title">透明快速設定面板</string>
     <string name="transparent_qs_panel_desc">讓快速設定面板透明</string>
@@ -438,7 +438,7 @@
     <string name="aggressive_blur_title">激進的模糊啟用器</string>
     <string name="aggressive_blur_desc">可能會讓某些系統進入開機迴圈 (bootloop)</string>
     <string name="blur_intensity_title">模糊强度</string>
-    <!-- Themes -->
+    <!-- Xposed Themes -->
     <string name="section_title_for_pixel_roms">對於 Pixel ROM</string>
     <string name="light_theme_title">淺色主題</string>
     <string name="light_theme_desc">淺色模式下的快速設定主題\n必須使用自訂的快速設定形狀</string>
@@ -459,7 +459,7 @@
     <string name="fix_notification_color_desc">修復 android 14 上的自訂通知樣式</string>
     <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
     <string name="fix_notification_footer_button_color_desc">Fix custom footer button style on android 14</string>
-    <!-- Quick Settings -->
+    <!-- Xposed Quick Settings -->
     <string name="section_title_qs_tile">快速設定圖示</string>
     <string name="vertical_qs_tile_title">竪向快速設定方塊</string>
     <string name="vertical_qs_tile_desc">在快速設定圖示下面顯示標簽</string>
@@ -474,7 +474,7 @@
     <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
     <string name="hide_qs_footer_buttons_title">隱藏尾端按鈕</string>
     <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
-    <!-- Battery Style -->
+    <!-- Xposed Battery Style -->
     <string name="battery_style_title">電池樣式</string>
     <string name="battery_width_title">電池寬度</string>
     <string name="battery_height_title">電池高度</string>
@@ -557,14 +557,14 @@
     <string name="battery_circle">圓圈電池</string>
     <string name="battery_dotted_circle">點狀圓圈電池</string>
     <string name="battery_filled_circle">Filled Circle Battery</string>
-    <!-- Volume Panel -->
+    <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Volume Percentage</string>
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
     <string name="safety_warning_title">Safety Warning</string>
     <string name="safety_warning_desc">Show warning on high volume</string>
     <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
     <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
-    <!-- Header Image -->
+    <!-- Xposed Header Image -->
     <string name="header_image_title">選取標頭圖像</string>
     <string name="header_image_desc">在快速設定面板上添加標頭圖像\n不要從“最近”資料夾中選擇檔案</string>
     <string name="btn_pick_image">選取圖像</string>
@@ -577,7 +577,7 @@
     <string name="header_image_hide_in_landscape_desc">在 Landscape 模式中隱藏圖像</string>
     <string name="header_image_alpha_gradient_title">Alpha 梯度</string>
     <string name="header_image_alpha_gradient_desc">為標頭圖像添加淡入淡出效果</string>
-    <!-- Header Clock -->
+    <!-- Xposed Header Clock -->
     <string name="custom_header_clock_title">自訂標頭時鐘</string>
     <string name="custom_header_clock_desc">在快速設定面板上添加一個自訂時鐘</string>
     <string name="header_clock_style_title">時鐘風格</string>
@@ -596,7 +596,7 @@
     <string name="header_clock_center_clock_desc">將時鐘移動至視圖的中間</string>
     <string name="header_clock_hide_landscape_title">在 Landscape 中隱藏</string>
     <string name="header_clock_hide_landscape_desc">在 Landscape 模式中隱藏時鐘</string>
-    <!-- Lockscreen Clock -->
+    <!-- Xposed Lockscreen Clock -->
     <string name="custom_lockscreen_clock_title">自訂鎖屏時鐘</string>
     <string name="custom_lockscreen_clock_desc">啓用自訂鎖屏時鐘</string>
     <string name="lockscreen_clock_auto_hide_clock_title">自動隱藏時鐘</string>
@@ -628,7 +628,7 @@
     <string name="battery_level_percentage">Battery Level</string>
     <string name="welcome_back">Welcome back!</string>
     <string name="default_user_name">User</string>
-    <!-- Depth Wallpaper -->
+    <!-- Xposed Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">啓用深度桌布</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\n%s</string>
     <string name="enable_custom_depth_wallpaper_title">Custom Images</string>
@@ -654,7 +654,7 @@
     <string name="depth_wallpaper_subject_extraction_failed">Failed to extract wallpaper subject!</string>
     <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
     <string name="use_custom_lockscreen_clock">Must use custom lockscreen clock</string>
-    <!-- Background Chip -->
+    <!-- Xposed Background Chip -->
     <string name="section_title_status_bar">狀態列</string>
     <string name="sb_clock_background_chip_title">狀態列時鐘 Chip</string>
     <string name="sb_clock_background_chip_desc">狀態列時鐘後面的 Chip</string>
@@ -671,20 +671,23 @@
     <string name="status_icons_chip_style_title">Chip 樣式</string>
     <string name="fixed_status_icons_top_margin">上邊距</string>
     <string name="fixed_status_icons_side_margin">側邊距</string>
+    <!-- Xposed Statusbar -->
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
+    <string name="colored_statusbar_icon_title">Colored Statusbar Icon</string>
+    <string name="colored_statusbar_icon_desc">Show app icon as notification icon</string>
+    <string name="hide_ls_carrier_title">隱藏鎖屏運營商</string>
+    <string name="hide_ls_carrier_desc">在鎖屏上隱藏運營商名字</string>
+    <string name="hide_ls_statusbar_title">隱藏鎖屏狀態列</string>
+    <string name="hide_ls_statusbar_desc">在鎖屏上隱藏狀態列</string>
     <!-- Xposed Others -->
     <string name="qs_header">快速設定面板頁眉</string>
     <string name="hide_carrier_group_title">隱藏運營商組</string>
     <string name="hide_carrier_group_desc">從快速設定面板上隱藏運營商組</string>
     <string name="hide_status_icons_title">隱藏狀態圖示</string>
     <string name="hide_status_icons_desc">移除時間、日期和電池圖示</string>
-    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
-    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
-    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">鎖定熒幕</string>
-    <string name="hide_ls_carrier_title">隱藏鎖屏運營商</string>
-    <string name="hide_ls_carrier_desc">在鎖屏上隱藏運營商名字</string>
-    <string name="hide_ls_statusbar_title">隱藏鎖屏狀態列</string>
-    <string name="hide_ls_statusbar_desc">在鎖屏上隱藏狀態列</string>
     <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
     <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">固定狀態圖示</string>

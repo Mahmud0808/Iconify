@@ -423,7 +423,7 @@
     <string name="activity_desc_background_chip">Aggiungi chip colorato dietro l\'orologio</string>
     <string name="activity_title_xposed_others">Altro</string>
     <string name="activity_desc_xposed_others">Vari aggiustamenti xposed</string>
-    <!-- Transparency & Blur -->
+    <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Trasparenza</string>
     <string name="transparent_qs_panel_title">Pannello QS Trasparente</string>
     <string name="transparent_qs_panel_desc">Rendi trasparente lo sfondo del pannello QS</string>
@@ -438,7 +438,7 @@
     <string name="aggressive_blur_title">Abilita Sfocatura Aggressiva</string>
     <string name="aggressive_blur_desc">Potrebbe causare bootloop in alcune rom</string>
     <string name="blur_intensity_title">Intensità Sfocatura</string>
-    <!-- Themes -->
+    <!-- Xposed Themes -->
     <string name="section_title_for_pixel_roms">Per Rom Pixel</string>
     <string name="light_theme_title">Tema Chiaro</string>
     <string name="light_theme_desc">Tema QS chiaro in modalità chiaro\nRichiede l\'utilizzo dei modelli QS personalizzati</string>
@@ -459,7 +459,7 @@
     <string name="fix_notification_color_desc">Correggi lo stile di notifica personalizzato su Android 14</string>
     <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
     <string name="fix_notification_footer_button_color_desc">Fix custom footer button style on android 14</string>
-    <!-- Quick Settings -->
+    <!-- Xposed Quick Settings -->
     <string name="section_title_qs_tile">Riquadro QS</string>
     <string name="vertical_qs_tile_title">Riquadro QS Verticale</string>
     <string name="vertical_qs_tile_desc">Mostra etichetta sotto l\'icona QS</string>
@@ -474,7 +474,7 @@
     <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
     <string name="hide_qs_footer_buttons_title">Nascondi Pulsanti Piè Pagina</string>
     <string name="hide_qs_footer_buttons_desc">Nascondi i pulsanti a piè pagina mostrati sotto la finestra delle notifiche</string>
-    <!-- Battery Style -->
+    <!-- Xposed Battery Style -->
     <string name="battery_style_title">Stile Batteria</string>
     <string name="battery_width_title">Larghezza Batteria</string>
     <string name="battery_height_title">Altezza Batteria</string>
@@ -557,14 +557,14 @@
     <string name="battery_circle">Batteria Circolare</string>
     <string name="battery_dotted_circle">Batteria Circolare Tratteggiata</string>
     <string name="battery_filled_circle">Filled Circle Battery</string>
-    <!-- Volume Panel -->
+    <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Percentuale Volume</string>
     <string name="volume_percentage_desc">Mostra percentuale sopra il cursore del volume</string>
     <string name="safety_warning_title">Avvertimento di Sicurezza</string>
     <string name="safety_warning_desc">Mostra avvertimento su volume elevato</string>
     <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
     <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
-    <!-- Header Image -->
+    <!-- Xposed Header Image -->
     <string name="header_image_title">Scegli Immagine Intestazione</string>
     <string name="header_image_desc">Aggiungi immagine intestazione nel pannello QS\nNon selezionare il file dai Recenti</string>
     <string name="btn_pick_image">Scegli Immagine</string>
@@ -577,7 +577,7 @@
     <string name="header_image_hide_in_landscape_desc">Nascondi immagine in modalità orizzontale</string>
     <string name="header_image_alpha_gradient_title">Gradiente Alfa</string>
     <string name="header_image_alpha_gradient_desc">Aggiungi un effetto sbiadito all\'immagine nell\'intestazione</string>
-    <!-- Header Clock -->
+    <!-- Xposed Header Clock -->
     <string name="custom_header_clock_title">Orologio Intestazione Personalizzato</string>
     <string name="custom_header_clock_desc">Aggiungi orologio personalizzato sul pannello QS</string>
     <string name="header_clock_style_title">Stile Orologio</string>
@@ -596,7 +596,7 @@
     <string name="header_clock_center_clock_desc">Sposta l\'orologio al centro della visualizzazione</string>
     <string name="header_clock_hide_landscape_title">Nascondi in Modalità Orizzontale</string>
     <string name="header_clock_hide_landscape_desc">Nascondi l\'orologio in modalità orizzontale</string>
-    <!-- Lockscreen Clock -->
+    <!-- Xposed Lockscreen Clock -->
     <string name="custom_lockscreen_clock_title">Orologio Schermata di Blocco Personalizzato</string>
     <string name="custom_lockscreen_clock_desc">Abilita orologio personalizzato nella schermata di blocco</string>
     <string name="lockscreen_clock_auto_hide_clock_title">Nascondi Orologio Automaticamente</string>
@@ -628,7 +628,7 @@
     <string name="battery_level_percentage">Livello Batteria</string>
     <string name="welcome_back">Bentornato!</string>
     <string name="default_user_name">Utente</string>
-    <!-- Depth Wallpaper -->
+    <!-- Xposed Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Abilita Sfondo Di Profondità</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\n%s</string>
     <string name="enable_custom_depth_wallpaper_title">Custom Images</string>
@@ -654,7 +654,7 @@
     <string name="depth_wallpaper_subject_extraction_failed">Failed to extract wallpaper subject!</string>
     <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
     <string name="use_custom_lockscreen_clock">Must use custom lockscreen clock</string>
-    <!-- Background Chip -->
+    <!-- Xposed Background Chip -->
     <string name="section_title_status_bar">Barra di Stato</string>
     <string name="sb_clock_background_chip_title">Chip Orologio Barra di Stato</string>
     <string name="sb_clock_background_chip_desc">Visualizza chip dietro l\'orologio della barra di stato</string>
@@ -671,20 +671,23 @@
     <string name="status_icons_chip_style_title">Stile Chip</string>
     <string name="fixed_status_icons_top_margin">Margine Superiore</string>
     <string name="fixed_status_icons_side_margin">Margine Laterale</string>
+    <!-- Xposed Statusbar -->
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
+    <string name="colored_statusbar_icon_title">Colored Statusbar Icon</string>
+    <string name="colored_statusbar_icon_desc">Show app icon as notification icon</string>
+    <string name="hide_ls_carrier_title">Nascondi Operatore LS</string>
+    <string name="hide_ls_carrier_desc">Nascondi nome operatore nella schermata di blocco</string>
+    <string name="hide_ls_statusbar_title">Nascondi Barra Di Stato LS</string>
+    <string name="hide_ls_statusbar_desc">Nascondi barra di stato nella schermata di blocco</string>
     <!-- Xposed Others -->
     <string name="qs_header">Intestazione QS</string>
     <string name="hide_carrier_group_title">Nascondi Gruppo Operatore</string>
     <string name="hide_carrier_group_desc">Nascondi gruppo operatore dal pannello QS</string>
     <string name="hide_status_icons_title">Nascondi Icone Di Stato</string>
     <string name="hide_status_icons_desc">Rimuovi le icone di ora, data e batteria</string>
-    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
-    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
-    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">Schermata di Blocco</string>
-    <string name="hide_ls_carrier_title">Nascondi Operatore LS</string>
-    <string name="hide_ls_carrier_desc">Nascondi nome operatore nella schermata di blocco</string>
-    <string name="hide_ls_statusbar_title">Nascondi Barra Di Stato LS</string>
-    <string name="hide_ls_statusbar_desc">Nascondi barra di stato nella schermata di blocco</string>
     <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
     <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">Icone di Stato Fisse</string>

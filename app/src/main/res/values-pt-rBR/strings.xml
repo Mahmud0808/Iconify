@@ -423,7 +423,7 @@
     <string name="activity_desc_background_chip">Adicione um chip colorido atrás do relógio</string>
     <string name="activity_title_xposed_others">Outros</string>
     <string name="activity_desc_xposed_others">Diversos ajustes do Xposed</string>
-    <!-- Transparency & Blur -->
+    <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Transparência</string>
     <string name="transparent_qs_panel_title">Painel QS transparente</string>
     <string name="transparent_qs_panel_desc">Torne o fundo do painel QS transparente</string>
@@ -438,7 +438,7 @@
     <string name="aggressive_blur_title">Ativador de blur agressivo</string>
     <string name="aggressive_blur_desc">Pode causar bootloop em algumas ROMs</string>
     <string name="blur_intensity_title">Intensidade do blur</string>
-    <!-- Themes -->
+    <!-- Xposed Themes -->
     <string name="section_title_for_pixel_roms">Para ROMs Pixel</string>
     <string name="light_theme_title">Tema claro</string>
     <string name="light_theme_desc">Tema claro no QS em modo claro.\nÉ necessário usar uma forma QS personalizada.</string>
@@ -459,7 +459,7 @@
     <string name="fix_notification_color_desc">Corrige o estilo de notificação personalizado no Android 14</string>
     <string name="fix_notification_footer_button_color_title">Corrigir cor do botão do rodapé de notificação</string>
     <string name="fix_notification_footer_button_color_desc">Corrija o estilo do botão de rodapé personalizado no Android 14</string>
-    <!-- Quick Settings -->
+    <!-- Xposed Quick Settings -->
     <string name="section_title_qs_tile">Bloco QS</string>
     <string name="vertical_qs_tile_title">Bloco QS vertical</string>
     <string name="vertical_qs_tile_desc">Mostre o rótulo abaixo do ícone QS</string>
@@ -474,7 +474,7 @@
     <string name="hide_qs_silent_text_desc">Oculte o texto silencioso mostrado como cabeçalho de notificações silenciosas</string>
     <string name="hide_qs_footer_buttons_title">Ocultar botões do rodapé</string>
     <string name="hide_qs_footer_buttons_desc">Oculte os botões do rodapé mostrados na pilha de notificações</string>
-    <!-- Battery Style -->
+    <!-- Xposed Battery Style -->
     <string name="battery_style_title">Estilo da bateria</string>
     <string name="battery_width_title">Largura da bateria</string>
     <string name="battery_height_title">Altura da bateria</string>
@@ -557,14 +557,14 @@
     <string name="battery_circle">Bateria circular</string>
     <string name="battery_dotted_circle">Bateria circular pontilhada</string>
     <string name="battery_filled_circle">Bateria de círculo preenchido</string>
-    <!-- Volume Panel -->
+    <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Porcentagem do volume</string>
     <string name="volume_percentage_desc">Mostrar porcentagem acima do controle deslizante de volume</string>
     <string name="safety_warning_title">Aviso de segurança</string>
     <string name="safety_warning_desc">Mostrar aviso de volume alto</string>
     <string name="colored_ringer_icon_title">Ícone de toque colorido</string>
     <string name="colored_ringer_icon_desc">Ative se o ícone de toque selecionado estiver invisível</string>
-    <!-- Header Image -->
+    <!-- Xposed Header Image -->
     <string name="header_image_title">Escolha a imagem do cabeçalho</string>
     <string name="header_image_desc">Adicione uma imagem de cabeçalho no painel QS.\nNão selecione o arquivo de Recente.</string>
     <string name="btn_pick_image">Escolher imagem</string>
@@ -577,7 +577,7 @@
     <string name="header_image_hide_in_landscape_desc">Oculte a imagem no modo paisagem</string>
     <string name="header_image_alpha_gradient_title">Gradiente alfa</string>
     <string name="header_image_alpha_gradient_desc">Adicione um efeito desbotado à imagem do cabeçalho</string>
-    <!-- Header Clock -->
+    <!-- Xposed Header Clock -->
     <string name="custom_header_clock_title">Relógio do cabeçalho personalizado</string>
     <string name="custom_header_clock_desc">Adicione um relógio personalizado no painel QS</string>
     <string name="header_clock_style_title">Estilo do relógio</string>
@@ -596,7 +596,7 @@
     <string name="header_clock_center_clock_desc">Mova o relógio para o centro da visão</string>
     <string name="header_clock_hide_landscape_title">Ocultar na paisagem</string>
     <string name="header_clock_hide_landscape_desc">Oculte o relógio no modo paisagem</string>
-    <!-- Lockscreen Clock -->
+    <!-- Xposed Lockscreen Clock -->
     <string name="custom_lockscreen_clock_title">Relógio da tela de bloqueio personalizado</string>
     <string name="custom_lockscreen_clock_desc">Ativar relógio da tela de bloqueio personalizado</string>
     <string name="lockscreen_clock_auto_hide_clock_title">Ocultar relógio automaticamente</string>
@@ -628,7 +628,7 @@
     <string name="battery_level_percentage">Nível da bateria</string>
     <string name="welcome_back">Bem-vindo de volta!</string>
     <string name="default_user_name">Usuário</string>
-    <!-- Depth Wallpaper -->
+    <!-- Xposed Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Ativar plano de fundo com profundidade</string>
     <string name="enable_depth_wallpaper_desc">Mostrar iOS como plano de fundo de profundidade\n%s</string>
     <string name="enable_custom_depth_wallpaper_title">Imagens personalizadas</string>
@@ -654,7 +654,7 @@
     <string name="depth_wallpaper_subject_extraction_failed">Falha ao extrair o assunto do plano de fundo!</string>
     <string name="depth_wallpaper_missing_ai_model">O modelo IA não está disponível!</string>
     <string name="use_custom_lockscreen_clock">Deve usar um relógio de tela de bloqueio personalizado</string>
-    <!-- Background Chip -->
+    <!-- Xposed Background Chip -->
     <string name="section_title_status_bar">Barra de status</string>
     <string name="sb_clock_background_chip_title">Chip de relógio da barra de status</string>
     <string name="sb_clock_background_chip_desc">Chip de exibição atrás do relógio da barra de status</string>
@@ -671,20 +671,23 @@
     <string name="status_icons_chip_style_title">Estilo do chip</string>
     <string name="fixed_status_icons_top_margin">Margem superior</string>
     <string name="fixed_status_icons_side_margin">Margem lateral</string>
+    <!-- Xposed Statusbar -->
+    <string name="sb_clock_size_switch_title">Tamanho personalizado do relógio da barra de status</string>
+    <string name="sb_clock_size_switch_desc">Defina um tamanho personalizado para o relógio da barra de status</string>
+    <string name="sb_clock_size">Tamanho do relógio da barra de status</string>
+    <string name="colored_statusbar_icon_title">Ícone colorido na barra de status</string>
+    <string name="colored_statusbar_icon_desc">Mostre o ícone do app como ícone de notificação</string>
+    <string name="hide_ls_carrier_title">Ocultar operadora na tela de bloqueio</string>
+    <string name="hide_ls_carrier_desc">Oculte o nome da operadora na tela de bloqueio</string>
+    <string name="hide_ls_statusbar_title">Ocultar barra de status na tela de bloqueio</string>
+    <string name="hide_ls_statusbar_desc">Oculte a barra de status na tela de bloqueio</string>
     <!-- Xposed Others -->
     <string name="qs_header">Cabeçalho QS</string>
     <string name="hide_carrier_group_title">Ocultar grupo de operadoras</string>
     <string name="hide_carrier_group_desc">Oculte grupos de operadoras do painel QS</string>
     <string name="hide_status_icons_title">Ocultar ícones de status</string>
     <string name="hide_status_icons_desc">Remova ícones de hora, data e bateria</string>
-    <string name="sb_clock_size_switch_title">Tamanho personalizado do relógio da barra de status</string>
-    <string name="sb_clock_size_switch_desc">Defina um tamanho personalizado para o relógio da barra de status</string>
-    <string name="sb_clock_size">Tamanho do relógio da barra de status</string>
     <string name="lock_screen">Tela de bloqueio</string>
-    <string name="hide_ls_carrier_title">Ocultar operadora na tela de bloqueio</string>
-    <string name="hide_ls_carrier_desc">Oculte o nome da operadora na tela de bloqueio</string>
-    <string name="hide_ls_statusbar_title">Ocultar barra de status na tela de bloqueio</string>
-    <string name="hide_ls_statusbar_desc">Oculte a barra de status na tela de bloqueio</string>
     <string name="hide_ls_lock_icon_title">Ocultar ícone de cadeado na tela de bloqueio</string>
     <string name="hide_ls_lock_icon_desc">Oculte a visualização do ícone de cadeado na tela de bloqueio</string>
     <string name="fixed_status_icons_title">Ícones de status fixos</string>
@@ -996,10 +999,10 @@
     <string name="lockscreen_weather_title">Clima na tela de bloqueio</string>
     <string name="lockscreen_weather_desc">Mostre a previsão do tempo na tela de bloqueio</string>
     <string name="last_update_time">Hora da última atualização</string>
-    <string name="weather_provider">Weather Provider</string>
-    <string name="weather_api_key">OpenWeatherMap API Key</string>
-    <string name="weather_provider_owm_key_title">OpenWeatherMap API Key required</string>
-    <string name="weather_provider_owm_key_message">Please enter your OpenWeatherMap API key to fetch weather data.</string>
+    <string name="weather_provider">Provedor de clima</string>
+    <string name="weather_api_key">Chave da API OpenWeatherMap</string>
+    <string name="weather_provider_owm_key_title">Chave da API OpenWeatherMap necessária</string>
+    <string name="weather_provider_owm_key_message">Por favor, insira sua chave da API OpenWeatherMap para obter dados meteorológicos.</string>
     <string name="weather_show_location">Mostrar localização</string>
     <string name="weather_show_location_summary">Mostre a localização antes do ícone</string>
     <string name="weather_show_condition">Mostrar condição</string>
