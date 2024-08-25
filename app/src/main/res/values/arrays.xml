@@ -177,6 +177,10 @@
         <item>@string/unit_metric</item>
         <item>@string/unit_imperial</item>
     </string-array>
+    <string-array name="units_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
 
     <!-- Lockscreen Weather Update Interval -->
     <string-array name="update_interval_entries" translatable="false">
@@ -186,11 +190,22 @@
         <item>@string/interval_6_hour</item>
         <item>@string/interval_12_hour</item>
     </string-array>
+    <string-array name="update_interval_values">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+        <item>12</item>
+    </string-array>
 
     <!-- Lockscreen Weather Provider -->
     <string-array name="weather_provider_entries">
         <item>@string/openmeteo</item>
         <item>@string/openweathermap</item>
+    </string-array>
+    <string-array name="weather_provider_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
     </string-array>
 
     <!-- Lockscreen Weather styles -->
@@ -204,6 +219,18 @@
         <item>@string/lockscreen_weather_selection_str_gradient</item>
         <item>@string/lockscreen_weather_selection_str_border_accent</item>
         <item>@string/lockscreen_weather_selection_str_border_gradient</item>
+    </string-array>
+
+    <string-array name="lockscreen_weather_bg_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
     </string-array>
 
     <!-- Lockscreen Widgets -->

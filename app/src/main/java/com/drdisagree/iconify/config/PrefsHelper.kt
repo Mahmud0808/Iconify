@@ -74,12 +74,23 @@ import com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD
 import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
 import com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
+import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
+import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
+import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_SIDE
+import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
+import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
+import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
+import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR
+import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
+import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
 import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
 import com.drdisagree.iconify.common.Resources.shouldShowRebootDialog
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.getSliderInt
+import com.drdisagree.iconify.config.RPrefs.getString
 import com.drdisagree.iconify.ui.preferences.SliderPreference
+import com.drdisagree.iconify.utils.weather.WeatherConfig
 
 object PrefsHelper {
 
@@ -129,6 +140,12 @@ object PrefsHelper {
 
             LSCLOCK_USERNAME -> getInt(LSCLOCK_STYLE, 0) == 19
 
+            // Weather Common
+            WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1"
+
+            // Lockscreen Weather
+            WEATHER_TEXT_COLOR -> getBoolean(WEATHER_TEXT_COLOR_SWITCH)
+
             HEADER_CLOCK_COLOR_CODE_ACCENT1,
             HEADER_CLOCK_COLOR_CODE_ACCENT2,
             HEADER_CLOCK_COLOR_CODE_ACCENT3,
@@ -164,6 +181,14 @@ object PrefsHelper {
 
     fun isEnabled(key: String): Boolean {
         return when (key) {
+
+            // Weather Common Prefs
+            "update_status",
+            WEATHER_PROVIDER,
+            WEATHER_UNITS,
+            WEATHER_CUSTOM_LOCATION -> WeatherConfig.isEnabled(appContext)
+            WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1"
+
             else -> true
         }
     }
