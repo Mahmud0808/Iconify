@@ -1808,7 +1808,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         const val HOME_CONTROLS: String = "controls_icon"
         const val CALCULATOR_ICON: String = "status_bar_qs_calculator_inactive"
         const val CAMERA_ICON: String =
-            "ic_device_camera" // Use qs camera access icon for camera
+            "ic_camera" // Use qs camera access icon for camera
         const val WALLET_ICON: String = "ic_wallet_lockscreen"
         const val HOTSPOT_ACTIVE: String = "qs_hotspot_icon_on"
         const val HOTSPOT_INACTIVE: String = "qs_hotspot_icon_off"
