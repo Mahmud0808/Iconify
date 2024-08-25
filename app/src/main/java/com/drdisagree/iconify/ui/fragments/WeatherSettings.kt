@@ -11,15 +11,18 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
+import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
 import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
 import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
@@ -29,6 +32,8 @@ import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentWeatherSettingsBinding
 import com.drdisagree.iconify.services.WeatherScheduler
+import com.drdisagree.iconify.ui.adapters.IconsAdapter
+import com.drdisagree.iconify.ui.adapters.IconsAdapter.Companion.WEATHER_ICONS_ADAPTER
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.EditTextDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -137,6 +142,41 @@ class WeatherSettings: BaseFragment(), OmniJawsClient.OmniJawsObserver {
             putString(WEATHER_UNITS, index.toString())
             forceRefreshWeatherSettings()
         }
+
+        val entries: MutableList<String?> = ArrayList()
+        val values: MutableList<String?> = ArrayList()
+        val drawables: MutableList<Drawable?> = ArrayList()
+        getAvailableWeatherIconPacks(entries, values, drawables)
+        val entriesChar: Array<CharSequence> = entries.filterNotNull().toTypedArray()
+        val valuesChar: Array<CharSequence> = values.filterNotNull().toTypedArray()
+        val currentIconPack = if (TextUtils.isEmpty(WeatherConfig.getIconPack(requireContext()))) {
+            valuesChar[0].toString()
+        } else {
+            WeatherConfig.getIconPack(requireContext())
+        }
+        val mAdapter = IconsAdapter(
+            entriesChar,
+            valuesChar,
+            currentIconPack!!,
+            WEATHER_ICONS_ADAPTER,
+            object : IconsAdapter.OnItemClickListener {
+                override fun onItemClick(view: View, position: Int) {
+                    val value = values[position]
+                    putString(WEATHER_ICON_PACK, value!!)
+                    binding.weatherIconPack.setSummary(entries[position]!!)
+                    forceRefreshWeatherSettings()
+                }
+            }
+        )
+        mAdapter.setDrawables(drawables.filterNotNull().toTypedArray())
+        val summary = if (!TextUtils.isEmpty(currentIconPack) && values.contains(currentIconPack)) {
+            entries[values.indexOf(currentIconPack)]
+        } else {
+            entries[0]
+        }
+        binding.weatherIconPack.setSummary(summary!!)
+        binding.weatherIconPack.setLayoutManager(LinearLayoutManager(requireContext()))
+        binding.weatherIconPack.setAdapter(mAdapter)
 
     }
 
