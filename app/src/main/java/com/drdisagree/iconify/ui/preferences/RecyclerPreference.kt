@@ -2,6 +2,8 @@ package com.drdisagree.iconify.ui.preferences
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -62,6 +64,12 @@ class RecyclerPreference : Preference {
             if (onFlingListener == null) {
                 LinearSnapHelper().attachToRecyclerView(this)
             }
+            suppressLayout(!isEnabled)
+        }
+
+        if (isEnabled) {
+            val title = holder.itemView.findViewById<TextView>(android.R.id.title)
+            title.setTextColor(ContextCompat.getColor(context, R.color.textColorPrimary))
         }
     }
 
