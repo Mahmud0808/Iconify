@@ -2,7 +2,6 @@ package com.drdisagree.iconify.xposed.modules
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import com.drdisagree.iconify.xposed.ModPack
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
@@ -28,8 +27,6 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {}
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-        if (Build.VERSION.SDK_INT != 34) return
-
         instance = this
 
         // Network Callbacks
@@ -83,14 +80,11 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
             hookAllConstructors(InternetTile, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    log(TAG + "InternetTile found")
                     mCellularTile = param.thisObject
-                    mNetworkController = getObjectField(param.thisObject, "mController")
-                    mDataController = getObjectField(param.thisObject, "mDataController")
                 }
             })
         } catch (t: Throwable) {
-            log(TAG + "NetworkController not found " + t.message)
+            log(TAG + "InternetTile error " + t.message)
         }
 
         // Bluetooth Controller
@@ -426,11 +420,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
         const val TAG: String = "ControllersProvider"
 
-        var SignalIconClass: Class<*>? = null
-
         var mBluetoothController: Any? = null
-        var mDataController: Any? = null
-        var mNetworkController: Any? = null
         var mHotspotController: Any? = null
 
         val mBluetoothTile: Any? = null
@@ -439,9 +429,6 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         var mDeviceControlsTile: Any? = null
         val mCalculatorTile: Any? = null
         var mWalletTile: Any? = null
-
-        val mQsDialogLaunchAnimator: Any? = null
-        val mQsMediaDialogController: Any? = null
 
         fun getInstance(): ControllersProvider {
             return instance!!
