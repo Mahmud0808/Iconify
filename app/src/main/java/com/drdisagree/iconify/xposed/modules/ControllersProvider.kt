@@ -3,8 +3,9 @@ package com.drdisagree.iconify.xposed.modules
 import android.annotation.SuppressLint
 import android.content.Context
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_ENABLED
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -29,9 +30,9 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
     private val mDozeChangedListeners = ArrayList<OnDozingChanged>()
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        mWidgetsEnabled = Xprefs!!.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
+        mWidgetsEnabled = Xprefs.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
 
     }
 
@@ -41,7 +42,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         instance = this
 
         // Network Callbacks
-        val CallbackHandler = findClass(
+        val callbackHandler = findClass(
             "com.android.systemui.statusbar.connectivity.CallbackHandler",
             loadPackageParam.classLoader
         )
@@ -49,7 +50,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
         // Mobile Data
         hookAllMethods(
-            CallbackHandler,
+            callbackHandler,
             "setMobileDataIndicators",
             object : XC_MethodHook() {
                 @Throws(Throwable::class)
@@ -58,7 +59,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
                 }
             })
 
-        hookAllMethods(CallbackHandler, "setIsAirplaneMode", object : XC_MethodHook() {
+        hookAllMethods(callbackHandler, "setIsAirplaneMode", object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: MethodHookParam) {
                 //mAirplane = (boolean) param.args[0];
@@ -66,7 +67,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
             }
         })
 
-        hookAllMethods(CallbackHandler, "setNoSims", object : XC_MethodHook() {
+        hookAllMethods(callbackHandler, "setNoSims", object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: MethodHookParam) {
                 onSetNoSims(param.args[0] as Boolean, param.args[1] as Boolean)
@@ -75,7 +76,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
 
         // WiFi
-        hookAllMethods(CallbackHandler, "setWifiIndicators", object : XC_MethodHook() {
+        hookAllMethods(callbackHandler, "setWifiIndicators", object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun afterHookedMethod(param: MethodHookParam) {
                 onWifiChanged(param.args[0])
@@ -84,11 +85,11 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
         // Network Controller from Internet Tile
         try {
-            val InternetTile = findClass(
+            val internetTile = findClass(
                 "com.android.systemui.qs.tiles.InternetTile",
                 loadPackageParam.classLoader
             )
-            hookAllConstructors(InternetTile, object : XC_MethodHook() {
+            hookAllConstructors(internetTile, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     mCellularTile = param.thisObject
@@ -100,18 +101,18 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
         // Bluetooth Controller
         try {
-            val BluetoothControllerImpl = findClass(
+            val bluetoothControllerImpl = findClass(
                 "com.android.systemui.statusbar.policy.BluetoothControllerImpl",
                 loadPackageParam.classLoader
             )
-            hookAllConstructors(BluetoothControllerImpl, object : XC_MethodHook() {
+            hookAllConstructors(bluetoothControllerImpl, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     mBluetoothController = param.thisObject
                 }
             })
             hookAllMethods(
-                BluetoothControllerImpl,
+                bluetoothControllerImpl,
                 "onBluetoothStateChanged",
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
@@ -121,7 +122,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
                     }
                 })
             hookAllMethods(
-                BluetoothControllerImpl,
+                bluetoothControllerImpl,
                 "onConnectionStateChanged",
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
@@ -136,11 +137,11 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
         // Stole FlashLight Callback
         try {
-            val FlashlightControllerImpl = findClass(
+            val flashlightControllerImpl = findClass(
                 "com.android.systemui.statusbar.policy.FlashlightControllerImpl",
                 loadPackageParam.classLoader
             )
-            hookAllConstructors(FlashlightControllerImpl, object : XC_MethodHook() {
+            hookAllConstructors(flashlightControllerImpl, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val mTorchCallback = getObjectField(param.thisObject, "mTorchCallback")
@@ -164,12 +165,12 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
         // Get an Hotspot Callback
         try {
-            val HotspotControllerImpl = findClass(
+            val hotspotControllerImpl = findClass(
                 "com.android.systemui.statusbar.policy.HotspotControllerImpl",
                 loadPackageParam.classLoader
             )
             hookAllMethods(
-                HotspotControllerImpl,
+                hotspotControllerImpl,
                 "fireHotspotChangedCallback",
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
@@ -185,11 +186,11 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         }
 
 
-        // Hostpost Tile - for settings Hotspot
+        // Hotspot Tile - for settings Hotspot
         try {
-            val HotspotTile =
+            val hotspotTile =
                 findClass("com.android.systemui.qs.tiles.HotspotTile", loadPackageParam.classLoader)
-            hookAllConstructors(HotspotTile, object : XC_MethodHook() {
+            hookAllConstructors(hotspotTile, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     mHotspotTile = param.thisObject
@@ -197,17 +198,17 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
                 }
             })
         } catch (t: Throwable) {
-            log(TAG + "OplusHotspotTile error: " + t.message)
+            log(TAG + "HotspotTile error: " + t.message)
         }
 
         // Home Controls Tile - for ControlsActivity
         try {
-            val DeviceControlsTile =
+            val deviceControlsTile =
                 findClass(
                     "com.android.systemui.qs.tiles.DeviceControlsTile",
                     loadPackageParam.classLoader
                 )
-            hookAllConstructors(DeviceControlsTile, object : XC_MethodHook() {
+            hookAllConstructors(deviceControlsTile, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     mDeviceControlsTile = param.thisObject
@@ -220,11 +221,11 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
         // Wallet Tile - for opening wallet
         try {
-            val QuickAccessWalletTile = findClass(
+            val quickAccessWalletTile = findClass(
                 "com.android.systemui.qs.tiles.QuickAccessWalletTile",
                 loadPackageParam.classLoader
             )
-            hookAllConstructors(QuickAccessWalletTile, object : XC_MethodHook() {
+            hookAllConstructors(quickAccessWalletTile, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     mWalletTile = param.thisObject
@@ -236,8 +237,11 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
         // Doze Callback
         try {
-            val DozeScrimController = findClass("com.android.systemui.statusbar.phone.DozeScrimController", loadPackageParam.classLoader)
-            hookAllMethods(DozeScrimController, "onDozingChanged", object : XC_MethodHook() {
+            val dozeScrimController = findClass(
+                "com.android.systemui.statusbar.phone.DozeScrimController",
+                loadPackageParam.classLoader
+            )
+            hookAllMethods(dozeScrimController, "onDozingChanged", object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     onDozingChanged(param.args[0] as Boolean)
@@ -379,10 +383,10 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun onWifiChanged(WifiIndicators: Any) {
+    private fun onWifiChanged(wifiIndicators: Any) {
         for (callback in mWifiChangedListeners) {
             try {
-                callback.onWifiChanged(WifiIndicators)
+                callback.onWifiChanged(wifiIndicators)
             } catch (ignored: Throwable) {
             }
         }

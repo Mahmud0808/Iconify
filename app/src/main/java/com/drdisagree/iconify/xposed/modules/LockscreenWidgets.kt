@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.modules
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -31,10 +32,11 @@ import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ICON_I
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_INACTIVE
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_SWITCH
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.views.LockscreenWidgetsView
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -98,39 +100,39 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
         // Ls custom clock
-        customLockscreenClock = Xprefs!!.getBoolean(LSCLOCK_SWITCH, false)
+        customLockscreenClock = Xprefs.getBoolean(LSCLOCK_SWITCH, false)
 
         // Ls weather
-        lsWeather = Xprefs!!.getBoolean(WEATHER_SWITCH, false)
+        lsWeather = Xprefs.getBoolean(WEATHER_SWITCH, false)
 
         // Widgets
-        mWidgetsEnabled = Xprefs!!.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
-        mDeviceWidgetEnabled = Xprefs!!.getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET, false)
-        mMainWidgets = Xprefs!!.getString(LOCKSCREEN_WIDGETS, "")!!
-        mExtraWidgets = Xprefs!!.getString(LOCKSCREEN_WIDGETS_EXTRAS, "")!!
+        mWidgetsEnabled = Xprefs.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
+        mDeviceWidgetEnabled = Xprefs.getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET, false)
+        mMainWidgets = Xprefs.getString(LOCKSCREEN_WIDGETS, "")!!
+        mExtraWidgets = Xprefs.getString(LOCKSCREEN_WIDGETS_EXTRAS, "")!!
         mDeviceCustomColor =
-            Xprefs!!.getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, false)
+            Xprefs.getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, false)
         mDeviceLinearColor =
-            Xprefs!!.getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR, Color.WHITE)
+            Xprefs.getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR, Color.WHITE)
         mDeviceCircularColor =
-            Xprefs!!.getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR, Color.WHITE)
-        mDeviceTextColor = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR, Color.WHITE)
-        mDeviceName = Xprefs!!.getString(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE, "")!!
-        mWidgetsCustomColor = Xprefs!!.getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, false)
-        mBigInactiveColor = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_BIG_INACTIVE, Color.BLACK)
-        mBigActiveColor = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_BIG_ACTIVE, Color.WHITE)
-        mSmallInactiveColor = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_SMALL_INACTIVE, Color.BLACK)
-        mSmallActiveColor = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_SMALL_ACTIVE, Color.WHITE)
-        mBigIconActiveColor = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE, Color.BLACK)
-        mBigIconInactiveColor = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE, Color.WHITE)
-        mSmallIconActiveColor = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE, Color.BLACK)
+            Xprefs.getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR, Color.WHITE)
+        mDeviceTextColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR, Color.WHITE)
+        mDeviceName = Xprefs.getString(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE, "")!!
+        mWidgetsCustomColor = Xprefs.getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, false)
+        mBigInactiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_BIG_INACTIVE, Color.BLACK)
+        mBigActiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_BIG_ACTIVE, Color.WHITE)
+        mSmallInactiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_SMALL_INACTIVE, Color.BLACK)
+        mSmallActiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_SMALL_ACTIVE, Color.WHITE)
+        mBigIconActiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE, Color.BLACK)
+        mBigIconInactiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE, Color.WHITE)
+        mSmallIconActiveColor = Xprefs.getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE, Color.BLACK)
         mSmallIconInactiveColor =
-            Xprefs!!.getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE, Color.WHITE)
-        mBottomMargin = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
-        
+            Xprefs.getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE, Color.WHITE)
+        mBottomMargin = Xprefs.getInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
+
         if (key.isNotEmpty()) {
             if (key[0] == LOCKSCREEN_WIDGETS_ENABLED ||
                 key[0] == LOCKSCREEN_WIDGETS_DEVICE_WIDGET ||
@@ -166,6 +168,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
 
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
 
         // Receiver to handle weather inflated
@@ -196,24 +199,30 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
         )
 
         try {
-            LaunchableImageView = findClass("com.android.systemui.animation.view.LaunchableImageView", loadPackageParam.classLoader)
+            LaunchableImageView = findClass(
+                "com.android.systemui.animation.view.LaunchableImageView",
+                loadPackageParam.classLoader
+            )
         } catch (t: Throwable) {
             log(ControllersProvider.TAG + " Error finding LaunchableImageView: " + t.message)
         }
 
         try {
-            LaunchableLinearLayout = findClass("com.android.systemui.animation.view.LaunchableLinearLayout", loadPackageParam.classLoader)
+            LaunchableLinearLayout = findClass(
+                "com.android.systemui.animation.view.LaunchableLinearLayout",
+                loadPackageParam.classLoader
+            )
         } catch (t: Throwable) {
             log(ControllersProvider.TAG + " Error finding LaunchableLinearLayout: " + t.message)
         }
 
         try {
-            val KeyguardQuickAffordanceInteractor = findClass(
+            val keyguardQuickAffordanceInteractor = findClass(
                 "com.android.systemui.keyguard.domain.interactor.KeyguardQuickAffordanceInteractor",
                 loadPackageParam.classLoader
             )
             XposedBridge.hookAllConstructors(
-                KeyguardQuickAffordanceInteractor,
+                keyguardQuickAffordanceInteractor,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {

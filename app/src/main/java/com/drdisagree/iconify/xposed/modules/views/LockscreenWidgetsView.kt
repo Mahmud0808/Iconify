@@ -1139,8 +1139,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun launchWallet(view: View) {
-        val WalletTile: Any? = ControllersProvider.mWalletTile
-        if (WalletTile != null) {
+        val mWalletTile: Any? = ControllersProvider.mWalletTile
+        if (mWalletTile != null) {
             val finalView: View = if (view is ExtendedFAB) {
                 view.parent as View
             } else {
@@ -1148,7 +1148,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             }
             post {
                 callMethod(
-                    WalletTile,
+                    mWalletTile,
                     "handleClick",
                     finalView
                 )
