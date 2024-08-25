@@ -41,8 +41,8 @@ import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.activities.MainActivity.Companion.popCurrentFragment
 import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
-import com.drdisagree.iconify.ui.activities.MainActivity.Companion.searchConfiguration
-import com.drdisagree.iconify.ui.activities.MainActivity.Companion.searchableFragments
+import com.drdisagree.iconify.common.Resources.searchConfiguration
+import com.drdisagree.iconify.common.Resources.searchableFragments
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.fragments.Changelog
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
