@@ -23,6 +23,8 @@ import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE
 import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME
 import com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH
 import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
+import com.drdisagree.iconify.common.Resources.searchConfiguration
+import com.drdisagree.iconify.common.Resources.searchableFragments
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.ActivityHomePageBinding
 import com.drdisagree.iconify.ui.base.BaseActivity
@@ -33,20 +35,7 @@ import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
-import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
-import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
-import com.drdisagree.iconify.ui.fragments.xposed.HeaderImage
-import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClock
-import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWeather
-import com.drdisagree.iconify.ui.fragments.xposed.Others
-import com.drdisagree.iconify.ui.fragments.xposed.QuickSettings
-import com.drdisagree.iconify.ui.fragments.xposed.Statusbar
-import com.drdisagree.iconify.ui.fragments.xposed.Themes
-import com.drdisagree.iconify.ui.fragments.xposed.TransparencyBlur
-import com.drdisagree.iconify.ui.fragments.xposed.VolumePanel
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
-import com.drdisagree.iconify.ui.models.SearchPreferenceItem
-import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchConfiguration
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFragment
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResultListener
@@ -603,85 +592,5 @@ class MainActivity : BaseActivity(),
                     })
             }
         }
-
-        val searchConfiguration = SearchConfiguration()
-
-        val searchableFragments = arrayOf(
-            SearchPreferenceItem(
-                R.xml.home_page,
-                R.string.navbar_home,
-                Home()
-            ),
-            SearchPreferenceItem(
-                R.xml.tweaks,
-                R.string.navbar_tweaks,
-                Tweaks()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed,
-                R.string.navbar_xposed,
-                Xposed()
-            ),
-            SearchPreferenceItem(
-                R.xml.settings,
-                R.string.navbar_settings,
-                Settings()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_transparency_blur,
-                R.string.activity_title_transparency_blur,
-                TransparencyBlur()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_quick_settings,
-                R.string.activity_title_quick_settings,
-                QuickSettings()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_themes,
-                R.string.activity_title_themes,
-                Themes()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_statusbar,
-                R.string.activity_title_statusbar,
-                Statusbar()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_volume_panel,
-                R.string.activity_title_volume_panel,
-                VolumePanel()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_header_image,
-                R.string.activity_title_header_image,
-                HeaderImage()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_header_clock,
-                R.string.activity_title_header_clock,
-                HeaderClock()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_lockscreen_clock,
-                R.string.activity_title_lockscreen_clock,
-                LockscreenClock()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_lockscreen_weather,
-                R.string.activity_title_lockscreen_weather,
-                LockscreenWeather()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_depth_wallpaper,
-                R.string.activity_title_depth_wallpaper,
-                DepthWallpaper()
-            ),
-            SearchPreferenceItem(
-                R.xml.xposed_others,
-                R.string.activity_title_xposed_others,
-                Others()
-            ),
-        )
     }
 }
