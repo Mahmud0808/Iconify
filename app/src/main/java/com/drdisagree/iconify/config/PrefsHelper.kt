@@ -13,7 +13,13 @@ import com.drdisagree.iconify.common.Preferences.AGGRESSIVE_QSPANEL_BLUR_SWITCH
 import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
 import com.drdisagree.iconify.common.Preferences.AUTO_UPDATE
 import com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Preferences.CUSTOM_QS_MARGIN
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_ON_AOD
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
 import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.EASTER_EGG
 import com.drdisagree.iconify.common.Preferences.EXPERIMENTAL_FEATURES
@@ -65,6 +71,7 @@ import com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH
 import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
 import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE_SWITCH
 import com.drdisagree.iconify.common.Preferences.SHOW_HOME_CARD
+import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
 import com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
 import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
@@ -137,6 +144,19 @@ object PrefsHelper {
             FIX_QS_TILE_COLOR,
             FIX_NOTIFICATION_COLOR,
             FIX_NOTIFICATION_FOOTER_BUTTON_COLOR -> isAtleastA14
+
+            CUSTOM_DEPTH_WALLPAPER_SWITCH,
+            DEPTH_WALLPAPER_ON_AOD -> Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU
+
+            DEPTH_WALLPAPER_FADE_ANIMATION,
+            DEPTH_WALLPAPER_PARALLAX_EFFECT,
+            DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER,
+            DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER,
+            UNZOOM_DEPTH_WALLPAPER -> Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
+
+            "xposed_depthwallpaperbgimagepicker",
+            "xposed_depthwallpaperfgimagepicker" -> getBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH) ||
+                    Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
 
             else -> true
         }

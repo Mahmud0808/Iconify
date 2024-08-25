@@ -92,7 +92,7 @@
         android:key="xposedDepthWallpaper"
         android:summary="@string/activity_desc_depth_wallpaper"
         android:title="@string/activity_title_depth_wallpaper"
-        app:fragment="com.drdisagree.iconify.ui.fragments.XposedDepthWallpaper" />
+        app:fragment="com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_xposed_background_chip"

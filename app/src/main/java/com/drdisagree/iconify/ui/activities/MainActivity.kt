@@ -33,6 +33,7 @@ import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderImage
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClock
@@ -664,6 +665,11 @@ class MainActivity : BaseActivity(),
                 R.xml.xposed_lockscreen_clock,
                 R.string.activity_title_lockscreen_clock,
                 LockscreenClock()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed_depth_wallpaper,
+                R.string.activity_title_depth_wallpaper,
+                DepthWallpaper()
             ),
             SearchPreferenceItem(
                 R.xml.xposed_others,
