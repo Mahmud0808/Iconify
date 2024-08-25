@@ -238,13 +238,6 @@
             app:exitAnim="@anim/fragment_fade_out"
             app:popEnterAnim="@anim/fragment_fade_in"
             app:popExitAnim="@anim/fragment_fade_out" />
-        <action
-            android:id="@+id/action_xposedLockscreenWeather_to_weatherSettings"
-            app:destination="@id/weatherSettings"
-            app:enterAnim="@anim/fragment_fade_in"
-            app:exitAnim="@anim/fragment_fade_out"
-            app:popEnterAnim="@anim/fragment_fade_in"
-            app:popExitAnim="@anim/fragment_fade_out" />
     </fragment>
     <fragment
         android:id="@+id/weatherSettings"
@@ -267,6 +260,13 @@
         <action
             android:id="@+id/action_xposedLockscreenWidgets_to_xposedMenu2"
             app:destination="@id/xposedMenu"
+            app:enterAnim="@anim/fragment_fade_in"
+            app:exitAnim="@anim/fragment_fade_out"
+            app:popEnterAnim="@anim/fragment_fade_in"
+            app:popExitAnim="@anim/fragment_fade_out" />
+        <action
+            android:id="@+id/action_xposedLockscreenWidgets_to_weatherSettings"
+            app:destination="@id/weatherSettings"
             app:enterAnim="@anim/fragment_fade_in"
             app:exitAnim="@anim/fragment_fade_out"
             app:popEnterAnim="@anim/fragment_fade_in"
