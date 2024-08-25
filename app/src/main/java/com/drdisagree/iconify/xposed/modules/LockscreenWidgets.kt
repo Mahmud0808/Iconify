@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.os.Build
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.drdisagree.iconify.common.Const.ACTION_BOOT_COMPLETED
 import com.drdisagree.iconify.common.Const.ACTION_WEATHER_INFLATED
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS
@@ -260,9 +259,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
         hookAllMethods(keyguardClockSwitch, "updateClockViews", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!mWidgetsEnabled) return
-
                 updateLockscreenWidgetsOnClock(param.args[0] as Boolean)
-
             }
         })
 
@@ -291,7 +288,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             if (customLockscreenClock) {
                 mStatusViewContainer!!.addView(mWidgetsContainer)
             } else {
-                // Put weather view inside the status area
+                // Put widgets view inside the status area
                 // But before notifications
                 mStatusArea!!.addView(mWidgetsContainer, mStatusArea!!.childCount - 1)
             }
@@ -312,7 +309,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     private fun updateLockscreenWidgetsOnClock(isLargeClock: Boolean) {
         log(TAG + "Updating Lockscreen Widgets on Clock")
         val lsWidgets = LockscreenWidgetsView.getInstance() ?: return
-        lsWidgets.setIsLargeClock(isLargeClock)
+        lsWidgets.setIsLargeClock(if (customLockscreenClock) false else isLargeClock)
     }
 
     private fun updateLsDeviceWidget() {
