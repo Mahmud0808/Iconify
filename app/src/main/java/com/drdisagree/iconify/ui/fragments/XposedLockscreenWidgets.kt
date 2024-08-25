@@ -207,7 +207,7 @@ class XposedLockscreenWidgets : BaseFragment() {
         // Weather Settings
         binding.weatherSettings.setOnClickListener{
             findNavController(binding.weatherSettings).navigate(
-                (R.id.action_xposedLockscreenWeather_to_weatherSettings)
+                (R.id.action_xposedLockscreenWidgets_to_weatherSettings)
             )
         }
 
@@ -356,6 +356,8 @@ class XposedLockscreenWidgets : BaseFragment() {
     }
 
     private fun updatePrefs() {
+        mWeatherClient.queryWeather()
+
         val mainWidgets = "${mWidgetsValues!![bigWidget1]},${mWidgetsValues!![bigWidget2]}"
         val extraWidgets = "${mWidgetsValues!![miniWidget1]},${mWidgetsValues!![miniWidget2]},${mWidgetsValues!![miniWidget3]},${mWidgetsValues!![miniWidget4]}"
 
@@ -370,7 +372,9 @@ class XposedLockscreenWidgets : BaseFragment() {
         val weatherEnabled =
             mainWidgets.contains("weather") || extraWidgets.contains("weather")
 
-        if (weatherEnabled && wasWeatherEnabled) {
+        binding.weatherSettings.isEnabled = weatherEnabled
+
+        if (weatherEnabled && wasWeatherEnabled && mWeatherClient.weatherInfo != null) {
             // Weather enabled but updater more than 1h ago
             if (System.currentTimeMillis() - mWeatherClient.weatherInfo?.timeStamp!! > 3600000) {
                 WeatherScheduler.scheduleUpdateNow(requireContext())
@@ -380,7 +384,6 @@ class XposedLockscreenWidgets : BaseFragment() {
             WeatherScheduler.scheduleUpdates(requireContext())
             WeatherScheduler.scheduleUpdateNow(requireContext())
         }
-
     }
 
 }
