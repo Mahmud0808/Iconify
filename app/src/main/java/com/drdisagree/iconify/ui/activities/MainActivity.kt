@@ -37,6 +37,7 @@ import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderImage
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClock
+import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWeather
 import com.drdisagree.iconify.ui.fragments.xposed.Others
 import com.drdisagree.iconify.ui.fragments.xposed.QuickSettings
 import com.drdisagree.iconify.ui.fragments.xposed.Statusbar
@@ -665,6 +666,11 @@ class MainActivity : BaseActivity(),
                 R.xml.xposed_lockscreen_clock,
                 R.string.activity_title_lockscreen_clock,
                 LockscreenClock()
+            ),
+            SearchPreferenceItem(
+                R.xml.xposed_lockscreen_weather,
+                R.string.activity_title_lockscreen_weather,
+                LockscreenWeather()
             ),
             SearchPreferenceItem(
                 R.xml.xposed_depth_wallpaper,
