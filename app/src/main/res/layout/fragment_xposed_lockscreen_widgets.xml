@@ -218,6 +218,21 @@
                 android:id="@+id/weather_settings"
                 app:titleText="@string/weather_settings" />
 
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:title="@string/weather_custom_margins" />
+            
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/widgets_bottom_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/lockscreen_clock_bottom_margin_title"
+                app:sliderValue="0"
+                app:sliderValueFrom="-100"
+                app:sliderValueTo="400"
+                app:valueFormat="dp" />
+            
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -85,6 +85,7 @@ object Preferences {
     const val LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE: String = "lockscreen_widgets_small_icon_active"
     const val LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE: String =
         "lockscreen_widgets_small_icon_inactive"
+    const val LOCKSCREEN_WIDGETS_BOTTOM_MARGIN: String = "lockscreen_widgets_bottom_margin"
     const val FIXED_STATUS_ICONS_SWITCH = "xposed_fixedstatusicons"
     const val FIXED_STATUS_ICONS_SIDEMARGIN = "xposed_fixedstatusiconssidemargin"
     const val FIXED_STATUS_ICONS_TOPMARGIN = "xposed_fixedstatusiconstopmargin"

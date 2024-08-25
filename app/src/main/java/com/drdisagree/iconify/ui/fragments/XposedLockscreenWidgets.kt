@@ -18,6 +18,7 @@ import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_INACTIVE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BOTTOM_MARGIN
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_CUSTOM_COLOR
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR
@@ -45,6 +46,7 @@ import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.utils.SystemUtil
 import com.drdisagree.iconify.utils.weather.WeatherConfig
+import com.google.android.material.slider.Slider
 
 class XposedLockscreenWidgets : BaseFragment() {
 
@@ -266,6 +268,14 @@ class XposedLockscreenWidgets : BaseFragment() {
             }
         }
 
+        binding.widgetsBottomMargin.sliderValue = getInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
+        binding.widgetsBottomMargin.setOnSliderChangeListener{ slider: Slider, _: Float, _: Boolean ->
+            putInt(
+                LOCKSCREEN_WIDGETS_BOTTOM_MARGIN,
+                slider.value.toInt()
+            )
+        }
+
     }
 
     private fun updateUI() {
@@ -314,6 +324,8 @@ class XposedLockscreenWidgets : BaseFragment() {
         binding.widgetsSmallIconInactive.isEnabled = widgetsEnabled && widgetsCustomColor
 
         binding.weatherSettings.isEnabled = mainWidgets!!.contains("weather") || extraWidgets!!.contains("weather")
+
+        binding.widgetsBottomMargin.isEnabled = widgetsEnabled
 
     }
 

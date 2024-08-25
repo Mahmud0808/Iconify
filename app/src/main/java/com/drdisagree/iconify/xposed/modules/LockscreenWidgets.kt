@@ -15,6 +15,7 @@ import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_INACTIVE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BOTTOM_MARGIN
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_CUSTOM_COLOR
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR
@@ -32,6 +33,7 @@ import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_SWITCH
 import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.views.LockscreenWidgetsView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
@@ -80,6 +82,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     private var mDeviceName = ""
     private var mMainWidgets: String = ""
     private var mExtraWidgets: String = ""
+    private var mBottomMargin = 0
 
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -126,7 +129,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
         mSmallIconActiveColor = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE, Color.BLACK)
         mSmallIconInactiveColor =
             Xprefs!!.getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE, Color.WHITE)
-
+        mBottomMargin = Xprefs!!.getInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
         
         if (key.isNotEmpty()) {
             if (key[0] == LOCKSCREEN_WIDGETS_ENABLED ||
@@ -155,6 +158,9 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                 key[0] == LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE
             ) {
                 updateLockscreenWidgetsColors()
+            }
+            if (key[0] == LOCKSCREEN_WIDGETS_BOTTOM_MARGIN) {
+                updateMargins()
             }
         }
 
@@ -295,6 +301,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             updateLockscreenWidgets()
             updateLsDeviceWidget()
             updateLockscreenWidgetsColors()
+            updateMargins()
         } catch (ignored: Throwable) {
         }
 
@@ -333,6 +340,17 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             mSmallInactiveColor, mSmallActiveColor,
             mBigIconInactiveColor, mBigIconActiveColor,
             mSmallIconInactiveColor, mSmallIconActiveColor
+        )
+    }
+
+    private fun updateMargins() {
+        setMargins(
+            mWidgetsContainer,
+            mContext,
+            0,
+            0,
+            0,
+            mBottomMargin
         )
     }
 
