@@ -45,6 +45,20 @@
         app:fragment="com.drdisagree.iconify.ui.fragments.WiFiIcons" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_media_player_icon"
+        android:key="mediaIcon"
+        android:summary="@string/activity_desc_media_icons"
+        android:title="@string/activity_title_media_icons"
+        app:fragment="com.drdisagree.iconify.ui.fragments.MediaIcons" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_settings_icon_pack"
+        android:key="settingsIcon"
+        android:summary="@string/activity_desc_settings_icons"
+        android:title="@string/activity_title_settings_icons"
+        app:fragment="com.drdisagree.iconify.ui.fragments.SettingsIcons" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_brightness"
         android:key="brightnessBar"
         android:summary="@string/activity_desc_brightness_bar"

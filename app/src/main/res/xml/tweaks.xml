@@ -17,6 +17,13 @@
         app:fragment="com.drdisagree.iconify.ui.fragments.UiRoundness" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_colored_battery"
+        android:key="coloredBattery"
+        android:summary="@string/activity_desc_colored_battery"
+        android:title="@string/activity_title_colored_battery"
+        app:fragment="com.drdisagree.iconify.ui.fragments.ColoredBattery" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:fragment="com.drdisagree.iconify.ui.fragments.QsRowColumn"
         android:icon="@drawable/ic_qs_row_column"
         android:key="qsRowColumn"

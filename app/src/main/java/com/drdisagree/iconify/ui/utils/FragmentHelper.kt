@@ -1,15 +1,13 @@
 package com.drdisagree.iconify.ui.utils
 
 import androidx.fragment.app.Fragment
-import com.drdisagree.iconify.ui.fragments.AppUpdates
 import com.drdisagree.iconify.ui.fragments.BasicColors
 import com.drdisagree.iconify.ui.fragments.BrightnessBar
 import com.drdisagree.iconify.ui.fragments.BrightnessBarPixel
 import com.drdisagree.iconify.ui.fragments.CellularIcons
-import com.drdisagree.iconify.ui.fragments.Changelog
 import com.drdisagree.iconify.ui.fragments.ColorEngine
 import com.drdisagree.iconify.ui.fragments.ColoredBattery
-import com.drdisagree.iconify.ui.fragments.Credits
+import com.drdisagree.iconify.ui.fragments.Experimental
 import com.drdisagree.iconify.ui.fragments.IconPack
 import com.drdisagree.iconify.ui.fragments.IconShape
 import com.drdisagree.iconify.ui.fragments.MediaIcons
@@ -37,6 +35,9 @@ import com.drdisagree.iconify.ui.fragments.XposedBackgroundChip
 import com.drdisagree.iconify.ui.fragments.XposedBatteryStyle
 import com.drdisagree.iconify.ui.fragments.XposedLockscreenWidgets
 import com.drdisagree.iconify.ui.fragments.home.Home
+import com.drdisagree.iconify.ui.fragments.settings.AppUpdates
+import com.drdisagree.iconify.ui.fragments.settings.Changelog
+import com.drdisagree.iconify.ui.fragments.settings.Credits
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
 import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
@@ -113,7 +114,8 @@ object FragmentHelper {
                 fragment is Settings ||
                         fragment is AppUpdates ||
                         fragment is Changelog ||
-                        fragment is Credits
+                        fragment is Credits ||
+                        fragment is Experimental
             }
 
             else -> false
