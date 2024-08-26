@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_ENABLED
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
@@ -282,7 +281,7 @@ class WeatherSettings : BaseFragment(), OmniJawsClient.OmniJawsObserver {
     }
 
     private fun handlePermissions() {
-        if (getBoolean(LOCKSCREEN_WIDGETS_ENABLED) && !getBoolean(WEATHER_CUSTOM_LOCATION)) {
+        if (WeatherConfig.isEnabled(requireContext()) && !getBoolean(WEATHER_CUSTOM_LOCATION)) {
             checkLocationEnabled(false)
         }
     }
