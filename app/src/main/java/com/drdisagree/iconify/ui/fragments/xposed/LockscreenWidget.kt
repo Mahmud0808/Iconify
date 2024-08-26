@@ -10,11 +10,13 @@ import com.drdisagree.iconify.common.Preferences.EXTRA_WIDGET_3_KEY
 import com.drdisagree.iconify.common.Preferences.EXTRA_WIDGET_4_KEY
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_ENABLED
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_EXTRAS
 import com.drdisagree.iconify.common.Preferences.MAIN_WIDGET_1_KEY
 import com.drdisagree.iconify.common.Preferences.MAIN_WIDGET_2_KEY
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.services.WeatherScheduler
+import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.utils.weather.WeatherConfig
@@ -88,6 +90,12 @@ class LockscreenWidget : ControlledPreferenceFragmentCompat() {
         } else if (weatherEnabled) {
             WeatherScheduler.scheduleUpdates(requireContext())
             WeatherScheduler.scheduleUpdateNow(requireContext())
+        }
+
+        when (key) {
+            LOCKSCREEN_WIDGETS_ENABLED -> {
+                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+            }
         }
     }
 
