@@ -61,6 +61,7 @@ object Preferences {
     const val LSCLOCK_FONT_TEXT_SCALING = "xposed_lockscreenclocktextscaling"
     const val LSCLOCK_USERNAME = "xposed_lockscreenclockcustomusername"
     const val LSCLOCK_DEVICENAME = "xposed_lockscreenclockcustomdevicename"
+
     // LS Widgets
     const val LOCKSCREEN_WIDGETS_ENABLED: String = "lockscreen_widgets_enabled"
     const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET: String = "lockscreen_device_widget"
@@ -118,8 +119,10 @@ object Preferences {
     const val DEPTH_WALLPAPER_ON_AOD = "xposed_depthwallpaperaonaod"
     const val DEPTH_WALLPAPER_FADE_ANIMATION = "xposed_depthwallpaperfadeanimation"
     const val DEPTH_WALLPAPER_PARALLAX_EFFECT = "xposed_depthwallpaperparallaxeffect"
-    const val DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER = "xposed_depthwallpaperbackgroundmovementmultiplier"
-    const val DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER = "xposed_depthwallpaperforegroundmovementmultiplier"
+    const val DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER =
+        "xposed_depthwallpaperbackgroundmovementmultiplier"
+    const val DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER =
+        "xposed_depthwallpaperforegroundmovementmultiplier"
     const val DEPTH_WALLPAPER_CHANGED = "xposed_depthwallpaperchanged"
     const val UNZOOM_DEPTH_WALLPAPER = "xposed_unzoomdepthwallpaper"
     const val CUSTOM_BATTERY_LAYOUT_REVERSE = "xposed_custombatterylayoutreverse"
@@ -285,6 +288,7 @@ object Preferences {
 
     // Weather
     const val WEATHER_SWITCH: String = "weather_switch"
+    const val PREF_KEY_UPDATE_STATUS: String = "update_status"
     const val WEATHER_ICON_PACK: String = "weather_icon_pack"
     const val WEATHER_UPDATE_INTERVAL: String = "weather_update_interval"
     const val WEATHER_SHOW_LOCATION: String = "weather_show_location"
@@ -299,6 +303,7 @@ object Preferences {
     const val WEATHER_UNITS: String = "weather_units"
     const val WEATHER_PROVIDER: String = "weather_provider"
     const val WEATHER_CUSTOM_LOCATION: String = "weather_custom_location_switch"
+    const val WEATHER_CUSTOM_LOCATION_PICKER: String = "weather_custom_location_picker"
     const val WEATHER_CUSTOM_MARGINS_TOP: String = "weather_custom_margins_top"
     const val WEATHER_CUSTOM_MARGINS_SIDE: String = "weather_custom_margins_side"
     const val WEATHER_CUSTOM_MARGINS_BOTTOM: String = "weather_custom_margins_bottom"

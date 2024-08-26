@@ -7,6 +7,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceGroup
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
+import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.AGGRESSIVE_QSPANEL_BLUR_SWITCH
@@ -78,6 +79,7 @@ import com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.common.Preferences.NEW_UPDATE_FOUND
 import com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH
+import com.drdisagree.iconify.common.Preferences.PREF_KEY_UPDATE_STATUS
 import com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL
 import com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH
@@ -91,9 +93,11 @@ import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
 import com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI
 import com.drdisagree.iconify.common.Preferences.VERTICAL_QSTILE_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
+import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION_PICKER
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_SIDE
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
+import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_SIZE
 import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
 import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
@@ -101,6 +105,7 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_SIZE
 import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
+import com.drdisagree.iconify.common.Preferences.WEATHER_UPDATE_INTERVAL
 import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
 import com.drdisagree.iconify.common.Resources.shouldShowRebootDialog
 import com.drdisagree.iconify.config.RPrefs.getBoolean
@@ -161,6 +166,7 @@ object PrefsHelper {
 
             // Weather Common
             WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1"
+            WEATHER_CUSTOM_LOCATION_PICKER -> getBoolean(WEATHER_CUSTOM_LOCATION)
 
             // Lockscreen Weather
             WEATHER_TEXT_COLOR -> getBoolean(WEATHER_TEXT_COLOR_SWITCH)
@@ -214,6 +220,8 @@ object PrefsHelper {
             LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE,
             LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE -> getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR)
 
+            "xposed_lockscreenwidget_weather_settings" -> WeatherConfig.isEnabled(appContext)
+
             else -> true
         }
     }
@@ -222,12 +230,15 @@ object PrefsHelper {
         return when (key) {
 
             // Weather Common Prefs
-            "update_status",
+            WEATHER_UPDATE_INTERVAL,
+            PREF_KEY_UPDATE_STATUS,
             WEATHER_PROVIDER,
             WEATHER_UNITS,
-            WEATHER_CUSTOM_LOCATION -> WeatherConfig.isEnabled(appContext)
+            WEATHER_CUSTOM_LOCATION,
+            WEATHER_ICON_PACK -> WeatherConfig.isEnabled(appContext)
 
-            WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1"
+            WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1" &&
+                    WeatherConfig.isEnabled(appContext)
 
             else -> true
         }
@@ -308,6 +319,26 @@ object PrefsHelper {
             WEATHER_ICON_SIZE -> "${getSliderInt(key, 18)}dp"
 
             LOCKSCREEN_WIDGETS_BOTTOM_MARGIN -> "${getSliderInt(key, 0)}dp"
+
+            WEATHER_CUSTOM_LOCATION_PICKER -> {
+                WeatherConfig.getLocationName(appContext).let {
+                    if (it.isNullOrEmpty()) appContextLocale.getString(R.string.not_available) else it
+                }
+            }
+
+            WEATHER_OWM_KEY -> {
+                val owmKey = getString(WEATHER_OWM_KEY, "")!!
+
+                if (owmKey.length > 4) {
+                    "*".repeat(owmKey.length - 4) + owmKey.takeLast(
+                        4
+                    )
+                } else if (owmKey.isNotEmpty()) {
+                    "*".repeat(owmKey.length)
+                } else {
+                    appContextLocale.getString(R.string.not_available)
+                }
+            }
 
             else -> null
         }

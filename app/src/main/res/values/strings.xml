@@ -467,6 +467,7 @@
     <string name="activity_desc_background_chip">Add colored chip behind clock</string>
     <string name="activity_title_xposed_others">Others</string>
     <string name="activity_desc_xposed_others">Miscellaneous xposed tweaks</string>
+    <string name="activity_title_xposed_weather_settings">Weather Settings</string>
 
     <!-- Lockscreen Widgets -->
     <string name="lockscreen_widgets_title">Lockscreen Widgets</string>

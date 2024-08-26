@@ -40,8 +40,7 @@
         android:key="owm_key"
         android:singleLine="true"
         android:title="@string/weather_api_key"
-        app:iconSpaceReserved="false"
-        app:useSimpleSummaryProvider="true" />
+        app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.ListPreference
         android:defaultValue="0"

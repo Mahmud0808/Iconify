@@ -18,10 +18,10 @@ import androidx.preference.Preference
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Preferences.PREF_KEY_UPDATE_STATUS
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
-import com.drdisagree.iconify.common.Preferences.WEATHER_SWITCH
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.services.WeatherScheduler
@@ -40,11 +40,9 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
     OmniJawsClient.OmniJawsObserver {
 
     private var mCustomLocation: SwitchPreference? = null
-    private var mInitialCheck = true
     private var mWeatherIconPack: BottomSheetListPreference? = null
     private var mUpdateStatus: Preference? = null
     private var mWeatherClient: OmniJawsClient? = null
-    private var mCustomLocationActivity: Preference? = null
 
     abstract fun getMainSwitchKey(): String
 
@@ -80,7 +78,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         mWeatherIconPack!!.setValueIndex(if (valueIndex >= 0) valueIndex else 0)
         mWeatherIconPack!!.setSummary(mWeatherIconPack!!.getEntry())
 
-        mUpdateStatus = findPreference(Companion.PREF_KEY_UPDATE_STATUS)
+        mUpdateStatus = findPreference(PREF_KEY_UPDATE_STATUS)
         if (mUpdateStatus != null) {
             mUpdateStatus!!.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
@@ -95,19 +93,17 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
             true
         }
 
-        mCustomLocationActivity = findPreference("weather_custom_location_picker")
-        if (mCustomLocationActivity != null) {
-            mCustomLocationActivity!!.onPreferenceClickListener =
-                Preference.OnPreferenceClickListener {
-                    mCustomLocationLauncher.launch(
-                        Intent(
-                            context,
-                            LocationBrowseActivity::class.java
-                        )
+        findPreference<Preference>("weather_custom_location_picker")?.apply {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                mCustomLocationLauncher.launch(
+                    Intent(
+                        context,
+                        LocationBrowseActivity::class.java
                     )
-                    true
-                }
-            mCustomLocationActivity!!.setSummary(WeatherConfig.getLocationName(requireContext()))
+                )
+                true
+            }
+            setSummary(WeatherConfig.getLocationName(requireContext()))
         }
     }
 
@@ -119,11 +115,10 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
     }
 
     private fun handlePermissions() {
-        if (getBoolean(WEATHER_SWITCH, false) &&
+        if (WeatherConfig.isEnabled(requireContext()) &&
             !getBoolean(WEATHER_CUSTOM_LOCATION, false)
         ) {
-            checkLocationEnabled(mInitialCheck)
-            mInitialCheck = false
+            checkLocationEnabled(false)
         } else {
             forceRefreshWeatherSettings()
         }
@@ -160,7 +155,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
                     mUpdateStatus!!.setSummary(locationName)
                 }
 
-                if (getBoolean(WEATHER_SWITCH, false)
+                if (WeatherConfig.isEnabled(requireContext())
                     && !getBoolean(WEATHER_CUSTOM_LOCATION, false)
                 ) {
                     checkLocationEnabled(true)
@@ -399,6 +394,5 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
     companion object {
         private const val DEFAULT_WEATHER_ICON_PACKAGE: String =
             "${BuildConfig.APPLICATION_ID}.google"
-        private const val PREF_KEY_UPDATE_STATUS: String = "update_status"
     }
 }
