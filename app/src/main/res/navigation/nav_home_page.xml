@@ -518,7 +518,7 @@
     </fragment>
     <fragment
         android:id="@+id/signalIcons"
-        android:name="com.drdisagree.iconify.ui.fragments.SignalIcons"
+        android:name="com.drdisagree.iconify.ui.fragments.CellularIcons"
         android:label="fragment_signal_icons"
         tools:layout="@layout/fragment_icon_pack">
         <action

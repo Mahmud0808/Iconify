@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">آیکونیفای</string>
     <string name="activity_title_icon_pack">آیکون‌ها</string>
     <string name="activity_desc_icon_pack">تغییر ظاهر آیکون‌های سیستم</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_cellular_icons">Signal Icons</string>
+    <string name="activity_desc_cellular_icons">Change system signal icons</string>
     <string name="activity_title_wifi_icons">WiFi Icons</string>
     <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">نوار تنظیم نور صفحه</string>

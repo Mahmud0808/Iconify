@@ -77,11 +77,10 @@ class ClockPreviewAdapter(
 
         fun bind(model: ClockModel, position: Int) {
             title.text = model.title
+
             button.setOnClickListener {
                 RPrefs.putInt(prefStyle, position)
-                if (mOnStyleSelected != null) {
-                    mOnStyleSelected!!.onStyleSelected(position)
-                }
+                mOnStyleSelected?.onStyleSelected(position)
                 refreshLayout(this)
             }
 
@@ -168,12 +167,12 @@ class ClockPreviewAdapter(
         }
     }
 
-    /**
-     * Interface for style selection
-     * @param position The position of the selected style,
-     * in our case is the num of the layout
-     */
     interface OnStyleSelected {
+        /**
+         * Interface for style selection
+         * @param position The position of the selected style,
+         * in our case is the num of the layout
+         */
         fun onStyleSelected(position: Int)
     }
 

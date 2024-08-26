@@ -33,9 +33,9 @@
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_signal_icons"
         android:key="signalIcons"
-        android:summary="@string/activity_desc_signal_icons"
-        android:title="@string/activity_title_signal_icons"
-        app:fragment="com.drdisagree.iconify.ui.fragments.SignalIcons" />
+        android:summary="@string/activity_desc_cellular_icons"
+        android:title="@string/activity_title_cellular_icons"
+        app:fragment="com.drdisagree.iconify.ui.fragments.CellularIcons" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_styles_wifi_icons"

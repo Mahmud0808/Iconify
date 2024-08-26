@@ -150,8 +150,8 @@ class Home : BaseFragment() {
             add(
                 arrayOf(
                     R.id.action_homePage_to_signalIcons,
-                    appContextLocale.resources.getString(R.string.activity_title_signal_icons),
-                    appContextLocale.resources.getString(R.string.activity_desc_signal_icons),
+                    appContextLocale.resources.getString(R.string.activity_title_cellular_icons),
+                    appContextLocale.resources.getString(R.string.activity_desc_cellular_icons),
                     R.drawable.ic_styles_signal_icons
                 )
             )

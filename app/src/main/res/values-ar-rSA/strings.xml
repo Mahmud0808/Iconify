@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">حزمة الأيقونات</string>
     <string name="activity_desc_icon_pack">تغيير حزمة ايقونات النظام</string>
-    <string name="activity_title_signal_icons">أيقونات الإشارة</string>
-    <string name="activity_desc_signal_icons">تغيير أيقونات إشارة النظام</string>
+    <string name="activity_title_cellular_icons">أيقونات الإشارة</string>
+    <string name="activity_desc_cellular_icons">تغيير أيقونات إشارة النظام</string>
     <string name="activity_title_wifi_icons">أيقونات WiFi</string>
     <string name="activity_desc_wifi_icons">تغيير أيقونات WiFi النظام</string>
     <string name="activity_title_brightness_bar">شريط السطوع</string>

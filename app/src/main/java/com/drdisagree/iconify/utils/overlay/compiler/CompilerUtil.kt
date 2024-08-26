@@ -156,6 +156,14 @@ object CompilerUtil {
                     "icon_pack_sysui_style"
                 }
 
+                "WIFI" -> {
+                    "icon_pack_wifi_icons"
+                }
+
+                "SGIC" -> {
+                    "icon_pack_signal_icons"
+                }
+
                 else -> {
                     "iconify_component_" + mPackageName.lowercase(Locale.getDefault())
                 }

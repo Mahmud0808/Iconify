@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,16 +20,14 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.IconPackModel
-import com.drdisagree.iconify.utils.overlay.manager.IconPackManager
 
 class IconPackAdapter(
     var context: Context,
     private var itemList: ArrayList<IconPackModel>,
     var loadingDialog: LoadingDialog,
-    private var componentName : String,
-    private var onButtonClick : OnButtonClick? = null
+    private var componentName: String,
+    private var onButtonClick: OnButtonClick? = null
 ) : RecyclerView.Adapter<IconPackAdapter.ViewHolder>() {
-
 
     private var iconPackKeys = ArrayList<String>()
     private var linearLayoutManager: LinearLayoutManager? = null
@@ -47,16 +44,19 @@ class IconPackAdapter(
     init {
         // Preference key
         for (i in 1..itemList.size) iconPackKeys.add(
-            itemList[i - 1].packageName.takeIf { !it.isNullOrEmpty() } ?: "IconifyComponent${mComponentName}${i}.overlay"
+            itemList[i - 1].packageName.takeIf { !it.isNullOrEmpty() }
+                ?: "IconifyComponent${mComponentName}${i}.overlay"
         )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.view_list_option_iconpack, parent, false)
+        val view = LayoutInflater.from(context).inflate(
+            R.layout.view_list_option_iconpack,
+            parent,
+            false
+        )
         return ViewHolder(view)
     }
-
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.styleName.text = itemList[position].name
@@ -145,7 +145,10 @@ class IconPackAdapter(
 
             Thread {
                 if (onButtonClick != null) {
-                    onButtonClick!!.onEnableClick(holder.bindingAdapterPosition, itemList[holder.bindingAdapterPosition])
+                    onButtonClick!!.onEnableClick(
+                        holder.bindingAdapterPosition,
+                        itemList[holder.bindingAdapterPosition]
+                    )
                 }
 
                 (context as Activity).runOnUiThread {
@@ -176,7 +179,10 @@ class IconPackAdapter(
 
             Thread {
                 if (onButtonClick != null) {
-                    onButtonClick!!.onDisableClick(holder.bindingAdapterPosition, itemList[holder.bindingAdapterPosition])
+                    onButtonClick!!.onDisableClick(
+                        holder.bindingAdapterPosition,
+                        itemList[holder.bindingAdapterPosition]
+                    )
                 }
 
                 (context as Activity).runOnUiThread {
@@ -292,27 +298,15 @@ class IconPackAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var container: LinearLayout
-        var styleName: TextView
-        var desc: TextView
-        var icon1: ImageView
-        var icon2: ImageView
-        var icon3: ImageView
-        var icon4: ImageView
-        var btnEnable: Button
-        var btnDisable: Button
-
-        init {
-            container = itemView.findViewById(R.id.icon_pack_child)
-            styleName = itemView.findViewById(R.id.iconpack_title)
-            desc = itemView.findViewById(R.id.iconpack_desc)
-            icon1 = itemView.findViewById(R.id.iconpack_preview1)
-            icon2 = itemView.findViewById(R.id.iconpack_preview2)
-            icon3 = itemView.findViewById(R.id.iconpack_preview3)
-            icon4 = itemView.findViewById(R.id.iconpack_preview4)
-            btnEnable = itemView.findViewById(R.id.enable_iconpack)
-            btnDisable = itemView.findViewById(R.id.disable_iconpack)
-        }
+        var container: LinearLayout = itemView.findViewById(R.id.icon_pack_child)
+        var styleName: TextView = itemView.findViewById(R.id.iconpack_title)
+        var desc: TextView = itemView.findViewById(R.id.iconpack_desc)
+        var icon1: ImageView = itemView.findViewById(R.id.iconpack_preview1)
+        var icon2: ImageView = itemView.findViewById(R.id.iconpack_preview2)
+        var icon3: ImageView = itemView.findViewById(R.id.iconpack_preview3)
+        var icon4: ImageView = itemView.findViewById(R.id.iconpack_preview4)
+        var btnEnable: Button = itemView.findViewById(R.id.enable_iconpack)
+        var btnDisable: Button = itemView.findViewById(R.id.disable_iconpack)
     }
 
     /**

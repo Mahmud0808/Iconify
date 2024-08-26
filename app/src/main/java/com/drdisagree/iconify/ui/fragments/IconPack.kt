@@ -248,11 +248,11 @@ class IconPack : BaseFragment() {
     private val onButtonClick = object : IconPackAdapter.OnButtonClick {
 
         override fun onEnableClick(position: Int, item: IconPackModel) {
-            IconPackManager.enableOverlay(position + 1)
+            IconPackManager.enableOverlay(index = position + 1, "IPAS", "IPSUI")
         }
 
         override fun onDisableClick(position: Int, item: IconPackModel) {
-            IconPackManager.disableOverlay(position + 1)
+            IconPackManager.disableOverlay(index = position + 1, "IPAS", "IPSUI")
         }
     }
 
