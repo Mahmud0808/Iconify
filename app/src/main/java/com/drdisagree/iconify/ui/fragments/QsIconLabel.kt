@@ -16,7 +16,6 @@ import com.drdisagree.iconify.common.Preferences.QS_HIDE_LABEL_SWITCH
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT_NORMAL
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_COLOR_VARIANT_PIXEL
-import com.drdisagree.iconify.common.Preferences.STR_NULL
 import com.drdisagree.iconify.common.References.FABRICATED_QS_ICON_SIZE
 import com.drdisagree.iconify.common.References.FABRICATED_QS_MOVE_ICON
 import com.drdisagree.iconify.common.References.FABRICATED_QS_TEXT_SIZE
@@ -62,7 +61,7 @@ class QsIconLabel : BaseFragment() {
 
         // Text Size
         val finalTextSize = intArrayOf(14)
-        if (getString(FABRICATED_QS_TEXT_SIZE) != STR_NULL) {
+        if (getString(FABRICATED_QS_TEXT_SIZE) != null) {
             finalTextSize[0] = getString(FABRICATED_QS_TEXT_SIZE)!!.toInt()
             binding.textSize.sliderValue = finalTextSize[0]
         }
@@ -100,7 +99,7 @@ class QsIconLabel : BaseFragment() {
 
         // Icon Size
         val finalIconSize = intArrayOf(20)
-        if (getString(FABRICATED_QS_ICON_SIZE) != STR_NULL) {
+        if (getString(FABRICATED_QS_ICON_SIZE) != null) {
             finalIconSize[0] = getString(FABRICATED_QS_ICON_SIZE)!!.toInt()
             binding.iconSize.sliderValue = finalIconSize[0]
         }
@@ -461,7 +460,7 @@ class QsIconLabel : BaseFragment() {
 
         // Move Icon
         val finalMoveIcon = intArrayOf(16)
-        if (getString(FABRICATED_QS_MOVE_ICON) != STR_NULL) {
+        if (getString(FABRICATED_QS_MOVE_ICON) != null) {
             finalMoveIcon[0] = getString(FABRICATED_QS_MOVE_ICON)!!.toInt()
             binding.moveIcon.sliderValue = finalMoveIcon[0]
         }

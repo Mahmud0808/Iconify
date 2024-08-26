@@ -12,7 +12,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.Navigation.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.airbnb.lottie.LottieCompositionFactory
@@ -26,7 +25,7 @@ import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
 import com.drdisagree.iconify.common.Resources.searchConfiguration
 import com.drdisagree.iconify.common.Resources.searchableFragments
 import com.drdisagree.iconify.config.RPrefs
-import com.drdisagree.iconify.databinding.ActivityHomePageBinding
+import com.drdisagree.iconify.databinding.ActivityMainBinding
 import com.drdisagree.iconify.ui.base.BaseActivity
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
@@ -55,7 +54,7 @@ class MainActivity : BaseActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHomePageBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.getRoot())
 
         colorPickerDialog = ColorPickerDialog.newBuilder()
@@ -380,11 +379,6 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(this, R.id.fragmentContainerView)
-        return navController.navigateUp() || super.onSupportNavigateUp()
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemID = item.itemId
 
@@ -398,7 +392,7 @@ class MainActivity : BaseActivity(),
 
     companion object {
         @Suppress("StaticFieldLeak")
-        private lateinit var binding: ActivityHomePageBinding
+        private lateinit var binding: ActivityMainBinding
         private const val SELECTED_FRAGMENT_KEY = "mSelectedFragmentKey"
         private const val REQUIRE_SYSTEMUI_RESTART_KEY = "mSystemUiRestartKey"
         private const val REQUIRE_DEVICE_RESTART_KEY = "mDeviceRestartKey"

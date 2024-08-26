@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.navigation.Navigation.findNavController
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS
@@ -40,6 +39,7 @@ import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentXposedLockscreenWidgetsBinding
 import com.drdisagree.iconify.services.WeatherScheduler
+import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.EditTextDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -91,7 +91,8 @@ class XposedLockscreenWidgets : BaseFragment() {
         updateUI()
 
         // Main Switch
-        binding.lockscreenWidgetsSwitch.isSwitchChecked = getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
+        binding.lockscreenWidgetsSwitch.isSwitchChecked =
+            getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
         binding.lockscreenWidgetsSwitch.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
 
             putBoolean(LOCKSCREEN_WIDGETS_ENABLED, isChecked)
@@ -111,23 +112,28 @@ class XposedLockscreenWidgets : BaseFragment() {
             updateUI()
         }
 
-        binding.deviceWidgetCustomColor.isSwitchChecked = getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, false)
+        binding.deviceWidgetCustomColor.isSwitchChecked =
+            getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, false)
         binding.deviceWidgetCustomColor.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, isChecked)
             updateUI()
         }
 
-        binding.widgetDeviceName.setEditTextValue(RPrefs.getString(
-            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE, Build.MODEL)!!)
+        binding.widgetDeviceName.setEditTextValue(
+            RPrefs.getString(
+                LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE, Build.MODEL
+            )!!
+        )
         binding.widgetDeviceName.setOnEditTextListener(object :
-        EditTextDialog.EditTextDialogListener {
+            EditTextDialog.EditTextDialogListener {
             override fun onOkPressed(dialogId: Int, newText: String) {
                 putString(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE, newText)
                 binding.widgetDeviceName.setEditTextValue(newText)
             }
         })
 
-        binding.deviceWidgetLinearProgressColor.previewColor = getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR, Color.WHITE)
+        binding.deviceWidgetLinearProgressColor.previewColor =
+            getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR, Color.WHITE)
         binding.deviceWidgetLinearProgressColor.setColorPickerListener(
             activity = requireActivity(),
             defaultColor = getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR, Color.WHITE),
@@ -139,7 +145,8 @@ class XposedLockscreenWidgets : BaseFragment() {
             putInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR, color)
         }
 
-        binding.deviceWidgetCircularProgressColor.previewColor = getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR, Color.WHITE)
+        binding.deviceWidgetCircularProgressColor.previewColor =
+            getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR, Color.WHITE)
         binding.deviceWidgetCircularProgressColor.setColorPickerListener(
             activity = requireActivity(),
             defaultColor = getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR, Color.WHITE),
@@ -152,7 +159,8 @@ class XposedLockscreenWidgets : BaseFragment() {
         }
 
         binding.deviceWidgetTextColor.previewColor = getInt(
-            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR, Color.WHITE)
+            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR, Color.WHITE
+        )
         binding.deviceWidgetTextColor.setColorPickerListener(
             activity = requireActivity(),
             defaultColor = getInt(LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR, Color.WHITE),
@@ -207,16 +215,14 @@ class XposedLockscreenWidgets : BaseFragment() {
         }
 
         // Weather Settings
-        binding.weatherSettings.setOnClickListener{
-            findNavController(binding.weatherSettings).navigate(
-                (R.id.action_xposedLockscreenWidgets_to_weatherSettings)
-            )
+        binding.weatherSettings.setOnClickListener {
+            replaceFragment(WeatherSettings())
         }
 
         // Widgets Colors
-        binding.widgetsCustomColor.isSwitchChecked = getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, false)
-        binding.widgetsCustomColor.setSwitchChangeListener{
-            _, isChecked ->
+        binding.widgetsCustomColor.isSwitchChecked =
+            getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, false)
+        binding.widgetsCustomColor.setSwitchChangeListener { _, isChecked ->
             putBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, isChecked)
             updateUI()
         }
@@ -254,7 +260,8 @@ class XposedLockscreenWidgets : BaseFragment() {
 
         if (widgetsColors.size == widgetsColorPrefs.size) {
             for (i in widgetsColors.indices) {
-                widgetsColors[i].previewColor = getInt(widgetsColorPrefs[i], widgetsColorDefaultPrefs[i])
+                widgetsColors[i].previewColor =
+                    getInt(widgetsColorPrefs[i], widgetsColorDefaultPrefs[i])
                 widgetsColors[i].setColorPickerListener(
                     activity = requireActivity(),
                     defaultColor = getInt(widgetsColorPrefs[i], widgetsColorDefaultPrefs[i]),
@@ -269,7 +276,7 @@ class XposedLockscreenWidgets : BaseFragment() {
         }
 
         binding.widgetsBottomMargin.sliderValue = getInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
-        binding.widgetsBottomMargin.setOnSliderChangeListener{ slider: Slider, _: Float, _: Boolean ->
+        binding.widgetsBottomMargin.setOnSliderChangeListener { slider: Slider, _: Float, _: Boolean ->
             putInt(
                 LOCKSCREEN_WIDGETS_BOTTOM_MARGIN,
                 slider.value.toInt()
@@ -282,7 +289,8 @@ class XposedLockscreenWidgets : BaseFragment() {
         val widgetsEnabled = getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
         val deviceWidgetEnabled = getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET, false)
         val deviceWidgetCustomColor = getBoolean(
-            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, false)
+            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH, false
+        )
         val widgetsCustomColor = getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR, false)
         val mainWidgets: String? = RPrefs.getString(LOCKSCREEN_WIDGETS, "")
         val extraWidgets: String? = RPrefs.getString(LOCKSCREEN_WIDGETS_EXTRAS, "")
@@ -291,8 +299,10 @@ class XposedLockscreenWidgets : BaseFragment() {
         binding.deviceWidgetCustomColor.isEnabled = widgetsEnabled && deviceWidgetEnabled
         binding.deviceWidgetTextColor.isEnabled = widgetsEnabled && deviceWidgetEnabled
         binding.widgetDeviceName.isEnabled = widgetsEnabled && deviceWidgetEnabled
-        binding.deviceWidgetLinearProgressColor.visibility = if (widgetsEnabled && deviceWidgetEnabled && deviceWidgetCustomColor) View.VISIBLE else View.GONE
-        binding.deviceWidgetCircularProgressColor.visibility = if (widgetsEnabled && deviceWidgetEnabled && deviceWidgetCustomColor) View.VISIBLE else View.GONE
+        binding.deviceWidgetLinearProgressColor.visibility =
+            if (widgetsEnabled && deviceWidgetEnabled && deviceWidgetCustomColor) View.VISIBLE else View.GONE
+        binding.deviceWidgetCircularProgressColor.visibility =
+            if (widgetsEnabled && deviceWidgetEnabled && deviceWidgetCustomColor) View.VISIBLE else View.GONE
 
         binding.deviceWidget.isEnabled = widgetsEnabled
         binding.bigWidget1.isEnabled = widgetsEnabled
@@ -305,12 +315,17 @@ class XposedLockscreenWidgets : BaseFragment() {
         // Visibility of color picker based on switch
         binding.widgetsBigActive.visibility = if (widgetsCustomColor) View.VISIBLE else View.GONE
         binding.widgetsBigInactive.visibility = if (widgetsCustomColor) View.VISIBLE else View.GONE
-        binding.widgetsBigIconActive.visibility = if (widgetsCustomColor) View.VISIBLE else View.GONE
-        binding.widgetsBigIconInactive.visibility = if (widgetsCustomColor) View.VISIBLE else View.GONE
+        binding.widgetsBigIconActive.visibility =
+            if (widgetsCustomColor) View.VISIBLE else View.GONE
+        binding.widgetsBigIconInactive.visibility =
+            if (widgetsCustomColor) View.VISIBLE else View.GONE
         binding.widgetsSmallActive.visibility = if (widgetsCustomColor) View.VISIBLE else View.GONE
-        binding.widgetsSmallInactive.visibility = if (widgetsCustomColor) View.VISIBLE else View.GONE
-        binding.widgetsSmallIconActive.visibility = if (widgetsCustomColor) View.VISIBLE else View.GONE
-        binding.widgetsSmallIconInactive.visibility = if (widgetsCustomColor) View.VISIBLE else View.GONE
+        binding.widgetsSmallInactive.visibility =
+            if (widgetsCustomColor) View.VISIBLE else View.GONE
+        binding.widgetsSmallIconActive.visibility =
+            if (widgetsCustomColor) View.VISIBLE else View.GONE
+        binding.widgetsSmallIconInactive.visibility =
+            if (widgetsCustomColor) View.VISIBLE else View.GONE
 
         // Switch enabled based on main switch
         binding.widgetsCustomColor.isEnabled = widgetsEnabled
@@ -323,7 +338,8 @@ class XposedLockscreenWidgets : BaseFragment() {
         binding.widgetsSmallIconActive.isEnabled = widgetsEnabled && widgetsCustomColor
         binding.widgetsSmallIconInactive.isEnabled = widgetsEnabled && widgetsCustomColor
 
-        binding.weatherSettings.isEnabled = mainWidgets!!.contains("weather") || extraWidgets!!.contains("weather")
+        binding.weatherSettings.isEnabled =
+            mainWidgets!!.contains("weather") || extraWidgets!!.contains("weather")
 
         binding.widgetsBottomMargin.isEnabled = widgetsEnabled
 
@@ -371,7 +387,8 @@ class XposedLockscreenWidgets : BaseFragment() {
         mWeatherClient.queryWeather()
 
         val mainWidgets = "${mWidgetsValues!![bigWidget1]},${mWidgetsValues!![bigWidget2]}"
-        val extraWidgets = "${mWidgetsValues!![miniWidget1]},${mWidgetsValues!![miniWidget2]},${mWidgetsValues!![miniWidget3]},${mWidgetsValues!![miniWidget4]}"
+        val extraWidgets =
+            "${mWidgetsValues!![miniWidget1]},${mWidgetsValues!![miniWidget2]},${mWidgetsValues!![miniWidget3]},${mWidgetsValues!![miniWidget4]}"
 
         Log.d("LockscreenWidgets", "Main: $mainWidgets")
         Log.d("LockscreenWidgets", "Extra: $extraWidgets")

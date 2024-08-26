@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNavigationView"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_home_page" />
+        tools:layout="@layout/fragment_preference_container_home" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/hide_all"

@@ -51,7 +51,7 @@ class Notification : BaseFragment() {
                 R.layout.view_section_title_notif,
                 R.string.notification_styles
             ),
-            initNotifItems()
+            initNotificationItems()
         )
 
         binding.notificationsContainer.setAdapter(adapter)
@@ -61,10 +61,10 @@ class Notification : BaseFragment() {
     }
 
     private fun initActivityItems(): MenuAdapter {
-        val notifActivityList = ArrayList<MenuModel>().apply {
+        val notificationActivityList = ArrayList<MenuModel>().apply {
             add(
                 MenuModel(
-                    R.id.action_notification_to_notificationPixel,
+                    NotificationPixel(),
                     resources.getString(R.string.activity_title_pixel_variant),
                     resources.getString(R.string.activity_desc_pixel_variant),
                     R.drawable.ic_pixel_device
@@ -74,12 +74,12 @@ class Notification : BaseFragment() {
 
         return MenuAdapter(
             requireContext(),
-            notifActivityList
+            notificationActivityList
         )
     }
 
-    private fun initNotifItems(): NotificationAdapter {
-        val notifList = ArrayList<NotificationModel>().apply {
+    private fun initNotificationItems(): NotificationAdapter {
+        val notificationList = ArrayList<NotificationModel>().apply {
             add(
                 NotificationModel(
                     "Default",
@@ -204,7 +204,7 @@ class Notification : BaseFragment() {
 
         return NotificationAdapter(
             requireContext(),
-            notifList,
+            notificationList,
             loadingDialog!!,
             "NFN"
         )

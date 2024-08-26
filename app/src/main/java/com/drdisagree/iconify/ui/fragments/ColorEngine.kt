@@ -7,15 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
-import androidx.navigation.Navigation.findNavController
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_SECONDARY
-import com.drdisagree.iconify.common.Preferences.STR_NULL
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getString
 import com.drdisagree.iconify.databinding.FragmentColorEngineBinding
+import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.overlay.OverlayUtil
@@ -46,12 +45,12 @@ class ColorEngine : BaseFragment() {
 
         // Basic colors
         binding.basicColors.setOnClickListener {
-            findNavController(view).navigate(R.id.action_colorEngine_to_basicColors)
+            replaceFragment(BasicColors())
         }
 
         // Monet engine
         binding.monetEngine.setOnClickListener {
-            findNavController(view).navigate(R.id.action_colorEngine_to_monetEngine)
+            replaceFragment(MonetEngine())
         }
 
         // Apply monet accent and gradient
@@ -89,7 +88,7 @@ class ColorEngine : BaseFragment() {
                 }, SWITCH_ANIMATION_DELAY
             )
         }
-        
+
         return view
     }
 
@@ -117,13 +116,13 @@ class ColorEngine : BaseFragment() {
 
     private fun applyDefaultColors() {
         if (shouldUseDefaultColors()) {
-            if (getString(COLOR_ACCENT_PRIMARY) == STR_NULL) {
+            if (getString(COLOR_ACCENT_PRIMARY) == null) {
                 BasicColors.applyDefaultPrimaryColors()
             } else {
                 BasicColors.applyPrimaryColors()
             }
 
-            if (getString(COLOR_ACCENT_SECONDARY) == STR_NULL) {
+            if (getString(COLOR_ACCENT_SECONDARY) == null) {
                 BasicColors.applyDefaultSecondaryColors()
             } else {
                 BasicColors.applySecondaryColors()

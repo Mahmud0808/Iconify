@@ -44,7 +44,6 @@ import com.drdisagree.iconify.common.Preferences.MONET_PRIMARY_COLOR
 import com.drdisagree.iconify.common.Preferences.MONET_SECONDARY_ACCENT_SATURATION
 import com.drdisagree.iconify.common.Preferences.MONET_SECONDARY_COLOR
 import com.drdisagree.iconify.common.Preferences.MONET_STYLE
-import com.drdisagree.iconify.common.Preferences.STR_NULL
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.config.RPrefs.clearPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
@@ -418,7 +417,7 @@ class MonetEngine : BaseFragment() {
         binding.enableCustomMonet.setOnClickListener {
             if (!hasStoragePermission()) {
                 requestStoragePermission(requireContext())
-            } else if (selectedStyle == STR_NULL) {
+            } else if (selectedStyle == null) {
                 Toast.makeText(
                     appContext,
                     appContextLocale.resources.getString(R.string.toast_select_style),
@@ -583,6 +582,7 @@ class MonetEngine : BaseFragment() {
         return view
     }
 
+    @SuppressLint("SetTextI18n")
     private fun assignStockColorsToPalette() {
         val systemColors = getSystemColors(requireContext())
         val temp: MutableList<MutableList<Any>> = ArrayList()

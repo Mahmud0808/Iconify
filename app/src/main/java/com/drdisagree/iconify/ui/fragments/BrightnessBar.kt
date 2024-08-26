@@ -64,7 +64,7 @@ class BrightnessBar : BaseFragment() {
         val brightnessBarActivityList = ArrayList<MenuModel>().apply {
             add(
                 MenuModel(
-                    R.id.action_brightnessBar_to_brightnessBarPixel,
+                    BrightnessBarPixel(),
                     resources.getString(R.string.activity_title_pixel_variant),
                     resources.getString(R.string.activity_desc_pixel_variant),
                     R.drawable.ic_pixel_device

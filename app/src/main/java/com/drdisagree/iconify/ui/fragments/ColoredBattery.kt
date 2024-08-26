@@ -16,7 +16,6 @@ import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.COLORED_BATTERY_CHECK
 import com.drdisagree.iconify.common.Preferences.COLORED_BATTERY_SWITCH
-import com.drdisagree.iconify.common.Preferences.STR_NULL
 import com.drdisagree.iconify.common.References.FABRICATED_BATTERY_COLOR_BG
 import com.drdisagree.iconify.common.References.FABRICATED_BATTERY_COLOR_FG
 import com.drdisagree.iconify.common.References.FABRICATED_COLORED_BATTERY
@@ -52,7 +51,7 @@ class ColoredBattery : BaseFragment() {
 
         // Enable colored battery
         binding.enableColoredBattery.isSwitchChecked =
-            if (RPrefs.getString(COLORED_BATTERY_CHECK, STR_NULL) == STR_NULL) {
+            if (RPrefs.getString(COLORED_BATTERY_CHECK) == null) {
                 isOverlayEnabled("IconifyComponentIPSUI2.overlay") ||
                         isOverlayEnabled("IconifyComponentIPSUI4.overlay")
             } else {
@@ -82,11 +81,11 @@ class ColoredBattery : BaseFragment() {
                             "0"
                         )
 
-                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_BG) != STR_NULL) FabricatedUtil.disableOverlay(
+                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_BG) != null) FabricatedUtil.disableOverlay(
                             FABRICATED_BATTERY_COLOR_BG
                         )
 
-                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_FG) != STR_NULL) FabricatedUtil.disableOverlay(
+                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_FG) != null) FabricatedUtil.disableOverlay(
                             FABRICATED_BATTERY_COLOR_FG
                         )
                     }
@@ -110,12 +109,12 @@ class ColoredBattery : BaseFragment() {
             )
         }
 
-        colorBackground = if (RPrefs.getString(FABRICATED_BATTERY_COLOR_BG) != STR_NULL) {
+        colorBackground = if (RPrefs.getString(FABRICATED_BATTERY_COLOR_BG) != null) {
             RPrefs.getString(FABRICATED_BATTERY_COLOR_BG)
         } else {
             (-0xf0f10).toString()
         }
-        colorFilled = if (RPrefs.getString(FABRICATED_BATTERY_COLOR_FG) != STR_NULL) {
+        colorFilled = if (RPrefs.getString(FABRICATED_BATTERY_COLOR_FG) != null) {
             RPrefs.getString(FABRICATED_BATTERY_COLOR_FG)
         } else {
             (-0xf0f10).toString()
@@ -123,7 +122,8 @@ class ColoredBattery : BaseFragment() {
 
         // Battery background color
         binding.batteryBackgroundColor.setColorPickerListener(
-            activity = requireActivity(), defaultColor = colorBackground!!.toInt(),
+            activity = requireActivity(),
+            defaultColor = colorBackground!!.toInt(),
             showPresets = true,
             showAlphaSlider = false,
             showColorShades = true

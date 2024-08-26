@@ -65,7 +65,7 @@ class IconPack : BaseFragment() {
         val iconPackActivityList = ArrayList<MenuModel>().apply {
             add(
                 MenuModel(
-                    R.id.action_iconPack_to_coloredBattery,
+                    ColoredBattery(),
                     resources.getString(R.string.activity_title_colored_battery),
                     resources.getString(R.string.activity_desc_colored_battery),
                     R.drawable.ic_colored_battery
@@ -73,7 +73,7 @@ class IconPack : BaseFragment() {
             )
             add(
                 MenuModel(
-                    R.id.action_iconPack_to_mediaIcons,
+                    MediaIcons(),
                     resources.getString(R.string.activity_title_media_icons),
                     resources.getString(R.string.activity_desc_media_icons),
                     R.drawable.ic_media_player_icon
@@ -81,7 +81,7 @@ class IconPack : BaseFragment() {
             )
             add(
                 MenuModel(
-                    R.id.action_iconPack_to_settingsIcons,
+                    SettingsIcons(),
                     resources.getString(R.string.activity_title_settings_icons),
                     resources.getString(R.string.activity_desc_settings_icons),
                     R.drawable.ic_settings_icon_pack

@@ -210,7 +210,6 @@ object Preferences {
     const val RESTART_SYSUI_BEHAVIOR_EXT = "IconifyRestartSysuiBehaviorExtended"
 
     // Preference keys
-    const val STR_NULL = "null"
     const val UPDATE_SCHEDULE = "iconify_update_schedule"
     const val UPDATE_CHECK_TIME = "iconify_update_check_time"
     const val LAST_UPDATE_CHECK_TIME = "iconify_last_update_check_time"

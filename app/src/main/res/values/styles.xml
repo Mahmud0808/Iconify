@@ -11,7 +11,7 @@
     </style>
 
     <style name="PrefsThemeCollapsingToolbar" parent="PreferenceThemeOverlay.v14.Material">
-        <item name="android:layout">@layout/fragment_home</item>
+        <item name="android:layout">@layout/fragment_preference_container_home</item>
     </style>
 
     <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
