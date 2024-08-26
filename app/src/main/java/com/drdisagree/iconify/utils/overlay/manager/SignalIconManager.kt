@@ -30,6 +30,12 @@ object SignalIconManager {
         if (iconPackPkgName.isNotEmpty()) {
             OverlayUtil.enableOverlay(iconPackPkgName, "high")
         }
+
+        enableOverlaysExclusiveInCategory("IconifyComponent$category$n.overlay")
+
+        if (otherSignalPack.isNotEmpty()) {
+            enableOverlaysExclusiveInCategory(otherSignalPack)
+        }
     }
 
     fun disableOverlay(n: Int, category: String) {
