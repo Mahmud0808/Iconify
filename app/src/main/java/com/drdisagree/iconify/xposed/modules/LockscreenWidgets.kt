@@ -91,7 +91,6 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent != null && intent.action != null) {
                 if (intent.action == ACTION_WEATHER_INFLATED && mWidgetsEnabled) {
-                    log(TAG + "Weather inflated")
                     lsWeatherInflated = true
                     placeWidgets()
                 }
@@ -291,6 +290,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     }
 
     private fun placeWidgets() {
+        if (!mWidgetsEnabled) return
         if (mStatusViewContainer == null || mStatusArea == null) return
         if (lsWeather && !lsWeatherInflated) return
         try {
