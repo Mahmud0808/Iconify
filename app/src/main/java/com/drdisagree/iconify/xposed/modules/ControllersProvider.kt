@@ -133,6 +133,21 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
             log(TAG + "BluetoothControllerImpl not found " + t.message)
         }
 
+        // Get Bluetooth Tile for Dialog
+        try {
+            val BluetoothTile = findClass(
+                "com.android.systemui.qs.tiles.BluetoothTile",
+                loadPackageParam.classLoader
+            )
+            hookAllConstructors(BluetoothTile, object : XC_MethodHook() {
+                @Throws(Throwable::class)
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    mBluetoothTile = param.thisObject
+                }
+            })
+        } catch (t: Throwable) {
+            log(TAG + "BluetoothTile not found " + t.message)
+        }
 
         // Stole FlashLight Callback
         try {
@@ -437,7 +452,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         var mBluetoothController: Any? = null
         var mHotspotController: Any? = null
 
-        val mBluetoothTile: Any? = null
+        var mBluetoothTile: Any? = null
         var mHotspotTile: Any? = null
         var mCellularTile: Any? = null
         var mDeviceControlsTile: Any? = null
