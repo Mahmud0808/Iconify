@@ -103,17 +103,7 @@ object Resources {
 
     val searchConfiguration = SearchConfiguration()
 
-    val searchableFragments = arrayOf(
-        SearchPreferenceItem(
-            R.xml.home_page,
-            R.string.navbar_home,
-            Home()
-        ),
-        SearchPreferenceItem(
-            R.xml.tweaks,
-            R.string.navbar_tweaks,
-            Tweaks()
-        ),
+    private val commonFragments = arrayOf(
         SearchPreferenceItem(
             R.xml.xposed,
             R.string.navbar_xposed,
@@ -178,6 +168,23 @@ object Resources {
             R.xml.xposed_others,
             R.string.activity_title_xposed_others,
             Others()
-        ),
+        )
     )
+
+    val searchableFragments = if (Preferences.isXposedOnlyMode) {
+        commonFragments
+    } else {
+        arrayOf(
+            SearchPreferenceItem(
+                R.xml.home_page,
+                R.string.navbar_home,
+                Home()
+            ),
+            SearchPreferenceItem(
+                R.xml.tweaks,
+                R.string.navbar_tweaks,
+                Tweaks()
+            )
+        ) + commonFragments
+    }
 }
