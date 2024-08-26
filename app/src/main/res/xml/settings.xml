@@ -54,7 +54,7 @@
             android:icon="@drawable/ic_check_update"
             android:key="checkForUpdatePref"
             android:title="@string/settings_check_for_update"
-            app:fragment="com.drdisagree.iconify.ui.fragments.AppUpdates"
+            app:fragment="com.drdisagree.iconify.ui.fragments.settings.AppUpdates"
             app:showArrow="false" />
 
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
@@ -104,7 +104,7 @@
             android:key="experimentalFeatures"
             android:summary="@string/activity_desc_experimental"
             android:title="@string/experimental_features_title"
-            app:fragment="com.drdisagree.iconify.ui.fragments.Experimental"
+            app:fragment="com.drdisagree.iconify.ui.fragments.settings.Experimental"
             app:showArrow="false" />
 
         <com.drdisagree.iconify.ui.preferences.PreferenceMenu
@@ -148,7 +148,7 @@
             android:key="iconifyCredits"
             android:summary="@string/settings_credits_desc"
             android:title="@string/settings_credits_title"
-            app:fragment="com.drdisagree.iconify.ui.fragments.Credits"
+            app:fragment="com.drdisagree.iconify.ui.fragments.settings.Credits"
             app:showArrow="false" />
 
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
