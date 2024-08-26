@@ -178,6 +178,8 @@ object PrefsHelper {
             "xposed_depthwallpaperfgimagepicker" -> getBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH) ||
                     Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
 
+            "mediaIcon" -> Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
+
             else -> true
         }
     }

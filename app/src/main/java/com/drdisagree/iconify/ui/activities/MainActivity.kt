@@ -179,7 +179,7 @@ class MainActivity : BaseActivity(),
                 if (myFragmentManager.backStackEntryCount > 1) {
                     popCurrentFragment()
                 } else {
-                    finish()
+                    handleBackPress()
                 }
             }
         })
@@ -261,6 +261,51 @@ class MainActivity : BaseActivity(),
                     return@setOnItemSelectedListener true
                 }
             }
+        }
+    }
+
+    private fun handleBackPress() {
+        val topFragment = getTopFragment()
+        val xposedOnlyMode = Preferences.isXposedOnlyMode
+
+        val homeIndex = 0
+        val tweaksIndex = 1
+        val xposedIndex = if (!xposedOnlyMode) 2 else 0
+        val settingsIndex = if (!xposedOnlyMode) 3 else 1
+
+        when {
+            isInGroup(topFragment, homeIndex) && topFragment !is Home -> {
+                clearBackStack()
+                replaceFragment(Home())
+            }
+
+            isInGroup(topFragment, tweaksIndex) && topFragment !is Tweaks -> {
+                clearBackStack()
+                replaceFragment(Tweaks())
+            }
+
+            isInGroup(topFragment, xposedIndex) && topFragment !is Xposed -> {
+                clearBackStack()
+                replaceFragment(Xposed())
+            }
+
+            isInGroup(topFragment, settingsIndex) && topFragment !is Settings -> {
+                clearBackStack()
+                replaceFragment(Settings())
+            }
+
+            (topFragment is Settings || topFragment is Xposed || topFragment is Tweaks) -> {
+                clearBackStack()
+                replaceFragment(Home())
+            }
+
+            else -> finish()
+        }
+    }
+
+    private fun clearBackStack() {
+        while (myFragmentManager.backStackEntryCount > 0) {
+            myFragmentManager.popBackStackImmediate()
         }
     }
 

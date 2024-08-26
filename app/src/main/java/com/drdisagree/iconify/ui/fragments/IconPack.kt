@@ -4,17 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.databinding.FragmentIconPackBinding
 import com.drdisagree.iconify.ui.adapters.IconPackAdapter
-import com.drdisagree.iconify.ui.adapters.MenuAdapter
-import com.drdisagree.iconify.ui.adapters.SectionTitleAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.IconPackModel
-import com.drdisagree.iconify.ui.models.MenuModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.overlay.manager.IconPackManager
 
@@ -45,51 +41,10 @@ class IconPack : BaseFragment() {
         // RecyclerView
         binding.iconPackContainer.setLayoutManager(LinearLayoutManager(requireContext()))
 
-        val adapter = ConcatAdapter(
-            initActivityItems(),
-            SectionTitleAdapter(
-                requireContext(),
-                R.layout.view_section_title,
-                R.string.icon_pack_styles
-            ),
-            initIconPackItems()
-        )
-
-        binding.iconPackContainer.setAdapter(adapter)
+        binding.iconPackContainer.setAdapter(initIconPackItems())
         binding.iconPackContainer.setHasFixedSize(true)
 
         return view
-    }
-
-    private fun initActivityItems(): MenuAdapter {
-        val iconPackActivityList = ArrayList<MenuModel>().apply {
-            add(
-                MenuModel(
-                    ColoredBattery(),
-                    resources.getString(R.string.activity_title_colored_battery),
-                    resources.getString(R.string.activity_desc_colored_battery),
-                    R.drawable.ic_colored_battery
-                )
-            )
-            add(
-                MenuModel(
-                    MediaIcons(),
-                    resources.getString(R.string.activity_title_media_icons),
-                    resources.getString(R.string.activity_desc_media_icons),
-                    R.drawable.ic_media_player_icon
-                )
-            )
-            add(
-                MenuModel(
-                    SettingsIcons(),
-                    resources.getString(R.string.activity_title_settings_icons),
-                    resources.getString(R.string.activity_desc_settings_icons),
-                    R.drawable.ic_settings_icon_pack
-                )
-            )
-        }
-
-        return MenuAdapter(requireContext(), iconPackActivityList)
     }
 
     private fun initIconPackItems(): IconPackAdapter {
