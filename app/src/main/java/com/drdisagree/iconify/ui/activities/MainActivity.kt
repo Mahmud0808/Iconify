@@ -33,6 +33,9 @@ import com.drdisagree.iconify.ui.events.ColorDismissedEvent
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
+import com.drdisagree.iconify.ui.fragments.tweaks.BasicColors
+import com.drdisagree.iconify.ui.fragments.tweaks.ColorEngine
+import com.drdisagree.iconify.ui.fragments.tweaks.MonetEngine
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFragment
@@ -274,38 +277,33 @@ class MainActivity : BaseActivity(),
         val settingsIndex = if (!xposedOnlyMode) 3 else 1
 
         when {
+            topFragment is BasicColors || topFragment is MonetEngine -> {
+                clearAndReplaceFragment(ColorEngine())
+            }
+
             isInGroup(topFragment, homeIndex) && topFragment !is Home -> {
-                clearBackStack()
-                replaceFragment(Home())
+                clearAndReplaceFragment(Home())
             }
 
             isInGroup(topFragment, tweaksIndex) && topFragment !is Tweaks -> {
-                clearBackStack()
-                replaceFragment(Tweaks())
+                clearAndReplaceFragment(Tweaks())
             }
 
             isInGroup(topFragment, xposedIndex) && topFragment !is Xposed -> {
-                clearBackStack()
-                replaceFragment(Xposed())
+                clearAndReplaceFragment(Xposed())
             }
 
             isInGroup(topFragment, settingsIndex) && topFragment !is Settings -> {
-                clearBackStack()
-                replaceFragment(Settings())
+                clearAndReplaceFragment(Settings())
             }
 
             (topFragment is Settings || topFragment is Xposed || topFragment is Tweaks) -> {
-                clearBackStack()
-                replaceFragment(Home())
+                clearAndReplaceFragment(Home())
             }
 
-            else -> finish()
-        }
-    }
-
-    private fun clearBackStack() {
-        while (myFragmentManager.backStackEntryCount > 0) {
-            myFragmentManager.popBackStackImmediate()
+            else -> {
+                finish()
+            }
         }
     }
 
@@ -484,6 +482,13 @@ class MainActivity : BaseActivity(),
             }
 
             fragmentTransaction.commit()
+        }
+
+        private fun clearAndReplaceFragment(fragment: Fragment) {
+            while (myFragmentManager.backStackEntryCount > 0) {
+                myFragmentManager.popBackStackImmediate()
+            }
+            replaceFragment(fragment)
         }
 
         private fun getLastFragment(excludeSearchFragment: Boolean = false): Fragment? {
