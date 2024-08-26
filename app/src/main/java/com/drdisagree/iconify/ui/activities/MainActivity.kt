@@ -38,6 +38,7 @@ import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFragment
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResultListener
+import com.drdisagree.iconify.ui.utils.FragmentHelper.isInGroup
 import com.drdisagree.iconify.utils.SystemUtil
 import com.drdisagree.iconify.utils.overlay.FabricatedUtil
 import com.drdisagree.iconify.utils.overlay.OverlayUtil
@@ -189,7 +190,7 @@ class MainActivity : BaseActivity(),
         }
 
         supportFragmentManager.addOnBackStackChangedListener {
-            val tag = getTopFragmentTag()
+            val fragment = getTopFragment()
             val xposedOnlyMode = Preferences.isXposedOnlyMode
 
             val homeIndex = 0
@@ -197,23 +198,23 @@ class MainActivity : BaseActivity(),
             val xposedIndex = if (!xposedOnlyMode) 2 else 0
             val settingsIndex = if (!xposedOnlyMode) 3 else 1
 
-            when (tag) {
-                Home::class.java.simpleName -> {
+            when {
+                isInGroup(fragment, homeIndex) && !xposedOnlyMode -> {
                     selectedFragment = R.id.homePage
                     binding.bottomNavigationView.menu.getItem(homeIndex).setChecked(true)
                 }
 
-                Tweaks::class.java.simpleName -> {
+                isInGroup(fragment, tweaksIndex) && !xposedOnlyMode -> {
                     selectedFragment = R.id.tweaks
                     binding.bottomNavigationView.menu.getItem(tweaksIndex).setChecked(true)
                 }
 
-                Xposed::class.java.simpleName -> {
+                isInGroup(fragment, xposedIndex) -> {
                     selectedFragment = R.id.xposed
                     binding.bottomNavigationView.menu.getItem(xposedIndex).setChecked(true)
                 }
 
-                Settings::class.java.simpleName -> {
+                isInGroup(fragment, settingsIndex) -> {
                     selectedFragment = R.id.settings
                     binding.bottomNavigationView.menu.getItem(settingsIndex).setChecked(true)
                 }
@@ -278,32 +279,18 @@ class MainActivity : BaseActivity(),
         }
     }
 
-    private fun getTopFragmentTag(): String {
-        var fragment = UUID.randomUUID().toString()
-
+    private fun getTopFragment(): Fragment {
         val last: Int = supportFragmentManager.fragments.size - 1
 
         if (last >= 0) {
-            when (val topFragment = supportFragmentManager.fragments[last]) {
-                is Home -> {
-                    fragment = Home::class.java.simpleName
-                }
-
-                is Tweaks -> {
-                    fragment = Tweaks::class.java.simpleName
-                }
-
-                is Settings -> {
-                    fragment = Settings::class.java.simpleName
-                }
-
-                else -> {
-                    fragment = topFragment.tag ?: UUID.randomUUID().toString()
-                }
-            }
+            return supportFragmentManager.fragments[last]
         }
 
-        return fragment
+        return Home()
+    }
+
+    private fun getTopFragmentTag(): String {
+        return getTopFragment().tag ?: UUID.randomUUID().toString()
     }
 
     fun showColorPickerDialog(
