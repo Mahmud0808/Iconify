@@ -16,14 +16,12 @@ import com.drdisagree.iconify.common.Const
 import com.drdisagree.iconify.common.Preferences.APP_ICON
 import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
 import com.drdisagree.iconify.common.Preferences.APP_THEME
-import com.drdisagree.iconify.common.Preferences.EASTER_EGG
 import com.drdisagree.iconify.common.Preferences.FIRST_INSTALL
 import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
 import com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT
 import com.drdisagree.iconify.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
-import com.drdisagree.iconify.ui.preferences.PreferenceCategory
 import com.drdisagree.iconify.ui.preferences.PreferenceMenu
 import com.drdisagree.iconify.utils.AppUtil.restartApplication
 import com.drdisagree.iconify.utils.CacheUtil.clearCache
@@ -36,14 +34,9 @@ import com.drdisagree.iconify.utils.SystemUtil.saveVersionCode
 import com.drdisagree.iconify.utils.weather.WeatherConfig
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topjohnwu.superuser.Shell
-import java.util.Date
 import java.util.concurrent.Executors
 
 class Settings : ControlledPreferenceFragmentCompat() {
-
-    private var clickTimestamps = LongArray(NUM_CLICKS_REQUIRED)
-    private var oldestIndex = 0
-    private var nextIndex = 0
 
     override val title: String
         get() = getString(R.string.settings_title)
@@ -87,11 +80,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
-
-        findPreference<PreferenceCategory>("miscSettings")?.setOnPreferenceClickListener {
-            onEasterViewClicked()
-            true
-        }
 
         findPreference<PreferenceMenu>("clearAppCache")?.setOnPreferenceClickListener {
             clearCache(appContext)
@@ -182,46 +170,7 @@ class Settings : ControlledPreferenceFragmentCompat() {
         }
     }
 
-    private fun onEasterViewClicked() {
-        val timeMillis = Date().time
-
-        if (nextIndex == NUM_CLICKS_REQUIRED - 1 || oldestIndex > 0) {
-            val diff = (timeMillis - clickTimestamps[oldestIndex]).toInt()
-            if (diff < SECONDS_FOR_CLICKS * 1000) {
-                if (!RPrefs.getBoolean(EASTER_EGG)) {
-                    RPrefs.putBoolean(EASTER_EGG, true)
-
-                    Toast.makeText(
-                        requireContext(),
-                        requireContext().resources.getString(R.string.toast_easter_egg),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        requireContext().resources.getString(R.string.toast_easter_egg_activated),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                oldestIndex = 0
-                nextIndex = 0
-            } else {
-                oldestIndex++
-            }
-        }
-
-        clickTimestamps[nextIndex] = timeMillis
-        nextIndex++
-
-        if (nextIndex == NUM_CLICKS_REQUIRED) nextIndex = 0
-        if (oldestIndex == NUM_CLICKS_REQUIRED) oldestIndex = 0
-    }
-
     companion object {
-        private const val SECONDS_FOR_CLICKS = 3.0
-        private const val NUM_CLICKS_REQUIRED = 7
-
         fun disableEverything() {
             WeatherConfig.clear(appContext)
             RPrefs.clearAllPrefs()

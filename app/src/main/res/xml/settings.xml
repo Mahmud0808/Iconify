@@ -73,48 +73,46 @@
 
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 
-    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+    <com.drdisagree.iconify.ui.preferences.EasterPreference
         android:key="miscSettings"
-        android:title="@string/settings_section_title_miscellaneous"
+        android:layout="@layout/view_widget_title_misc"
         app:iconSpaceReserved="true"
-        search:ignore="true">
+        search:ignore="true" />
 
-        <com.drdisagree.iconify.ui.preferences.SwitchPreference
-            android:icon="@drawable/ic_restart_systemui_after_boot"
-            android:key="restartSysuiAfterBoot"
-            android:summary="@string/settings_restart_systemui_after_boot_desc"
-            android:title="@string/settings_restart_systemui_after_boot_title" />
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:icon="@drawable/ic_restart_systemui_after_boot"
+        android:key="restartSysuiAfterBoot"
+        android:summary="@string/settings_restart_systemui_after_boot_desc"
+        android:title="@string/settings_restart_systemui_after_boot_title" />
 
-        <com.drdisagree.iconify.ui.preferences.SwitchPreference
-            android:icon="@drawable/ic_card"
-            android:key="IconifyShowHomeCard"
-            android:summary="@string/settings_show_home_page_card_desc"
-            android:title="@string/settings_show_home_page_card_title"
-            app:defaultValue="true" />
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:icon="@drawable/ic_card"
+        android:key="IconifyShowHomeCard"
+        android:summary="@string/settings_show_home_page_card_desc"
+        android:title="@string/settings_show_home_page_card_title"
+        app:defaultValue="true" />
 
-        <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-            android:icon="@drawable/ic_clear_cache"
-            android:key="clearAppCache"
-            android:summary="@string/settings_clear_app_cache_desc"
-            android:title="@string/settings_clear_app_cache_title"
-            app:showArrow="false" />
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_clear_cache"
+        android:key="clearAppCache"
+        android:summary="@string/settings_clear_app_cache_desc"
+        android:title="@string/settings_clear_app_cache_title"
+        app:showArrow="false" />
 
-        <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-            android:icon="@drawable/ic_experimental"
-            android:key="experimentalFeatures"
-            android:summary="@string/activity_desc_experimental"
-            android:title="@string/experimental_features_title"
-            app:fragment="com.drdisagree.iconify.ui.fragments.settings.Experimental"
-            app:showArrow="false" />
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_experimental"
+        android:key="experimentalFeatures"
+        android:summary="@string/activity_desc_experimental"
+        android:title="@string/experimental_features_title"
+        app:fragment="com.drdisagree.iconify.ui.fragments.settings.Experimental"
+        app:showArrow="false" />
 
-        <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-            android:icon="@drawable/ic_disable_everything"
-            android:key="disableEverything"
-            android:summary="@string/settings_disable_everything_desc"
-            android:title="@string/settings_disable_everything_title"
-            app:showArrow="false" />
-
-    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_disable_everything"
+        android:key="disableEverything"
+        android:summary="@string/settings_disable_everything_desc"
+        android:title="@string/settings_disable_everything_title"
+        app:showArrow="false" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
         android:key="aboutSettings"
