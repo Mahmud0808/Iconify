@@ -47,6 +47,22 @@ import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_HEIGHT
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ACTIVE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BIG_INACTIVE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_BOTTOM_MARGIN
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_CUSTOM_COLOR
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ACTIVE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_INACTIVE
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_BOTTOMMARGIN
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT1
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT2
@@ -180,6 +196,24 @@ object PrefsHelper {
 
             "mediaIcon" -> Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
 
+            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH,
+            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE -> getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET)
+
+            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR,
+            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CIRCULAR_COLOR,
+            LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR -> getBoolean(
+                LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH
+            )
+
+            LOCKSCREEN_WIDGETS_BIG_ACTIVE,
+            LOCKSCREEN_WIDGETS_BIG_INACTIVE,
+            LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE,
+            LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE,
+            LOCKSCREEN_WIDGETS_SMALL_ACTIVE,
+            LOCKSCREEN_WIDGETS_SMALL_INACTIVE,
+            LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE,
+            LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE -> getBoolean(LOCKSCREEN_WIDGETS_CUSTOM_COLOR)
+
             else -> true
         }
     }
@@ -272,6 +306,8 @@ object PrefsHelper {
             WEATHER_TEXT_SIZE -> "${getSliderInt(key, 16)}sp"
 
             WEATHER_ICON_SIZE -> "${getSliderInt(key, 18)}dp"
+
+            LOCKSCREEN_WIDGETS_BOTTOM_MARGIN -> "${getSliderInt(key, 0)}dp"
 
             else -> null
         }

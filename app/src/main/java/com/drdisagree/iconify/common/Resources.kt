@@ -15,6 +15,7 @@ import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderImage
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClock
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWeather
+import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWidget
 import com.drdisagree.iconify.ui.fragments.xposed.Others
 import com.drdisagree.iconify.ui.fragments.xposed.QuickSettings
 import com.drdisagree.iconify.ui.fragments.xposed.Statusbar
@@ -158,6 +159,11 @@ object Resources {
             R.xml.xposed_lockscreen_weather,
             R.string.activity_title_lockscreen_weather,
             LockscreenWeather()
+        ),
+        SearchPreferenceItem(
+            R.xml.xposed_lockscreen_widget,
+            R.string.activity_title_lockscreen_widget,
+            LockscreenWidget()
         ),
         SearchPreferenceItem(
             R.xml.xposed_depth_wallpaper,

@@ -144,15 +144,13 @@
         android:key="xposed_lockscreenclockcustomdevicename"
         android:summary="@string/lockscreen_clock_custom_devicename_desc"
         android:title="@string/lockscreen_clock_custom_devicename"
-        app:iconSpaceReserved="false"
-        app:useSimpleSummaryProvider="true" />
+        app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.EditTextPreference
         android:dependency="xposed_lockscreenclock"
         android:key="xposed_lockscreenclockcustomusername"
         android:summary="@string/lockscreen_clock_custom_username_desc"
         android:title="@string/lockscreen_clock_custom_username"
-        app:iconSpaceReserved="false"
-        app:useSimpleSummaryProvider="true" />
+        app:iconSpaceReserved="false" />
 
 </PreferenceScreen>

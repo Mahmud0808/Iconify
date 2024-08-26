@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import androidx.preference.Preference
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
@@ -18,7 +17,6 @@ import com.drdisagree.iconify.common.Preferences.APP_ICON
 import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
 import com.drdisagree.iconify.common.Preferences.APP_THEME
 import com.drdisagree.iconify.common.Preferences.EASTER_EGG
-import com.drdisagree.iconify.common.Preferences.EXPERIMENTAL_FEATURES
 import com.drdisagree.iconify.common.Preferences.FIRST_INSTALL
 import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
 import com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT
@@ -46,7 +44,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
     private var clickTimestamps = LongArray(NUM_CLICKS_REQUIRED)
     private var oldestIndex = 0
     private var nextIndex = 0
-    private var experimentalFeatures: Preference? = null
 
     override val title: String
         get() = getString(R.string.settings_title)
@@ -91,7 +88,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
-        experimentalFeatures = findPreference(EXPERIMENTAL_FEATURES)
         findPreference<PreferenceCategory>("miscSettings")?.setOnPreferenceClickListener {
             onEasterViewClicked()
             true
@@ -194,8 +190,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
             if (diff < SECONDS_FOR_CLICKS * 1000) {
                 if (!RPrefs.getBoolean(EASTER_EGG)) {
                     RPrefs.putBoolean(EASTER_EGG, true)
-
-                    experimentalFeatures?.isVisible = true
 
                     Toast.makeText(
                         requireContext(),

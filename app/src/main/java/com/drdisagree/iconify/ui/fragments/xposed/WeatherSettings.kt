@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_ENABLED
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
 import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
@@ -42,7 +43,7 @@ import com.drdisagree.iconify.utils.weather.WeatherConfig
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Locale
 
-class WeatherSettings: BaseFragment(), OmniJawsClient.OmniJawsObserver {
+class WeatherSettings : BaseFragment(), OmniJawsClient.OmniJawsObserver {
 
     private lateinit var binding: FragmentWeatherSettingsBinding
     private lateinit var mWeatherClient: OmniJawsClient
@@ -63,7 +64,7 @@ class WeatherSettings: BaseFragment(), OmniJawsClient.OmniJawsObserver {
             requireContext(),
             getParentFragmentManager(),
             binding.header.toolbar,
-            R.string.activity_title_lockscreen_widgets
+            R.string.activity_title_lockscreen_widget
         )
 
         return binding.root
@@ -281,8 +282,7 @@ class WeatherSettings: BaseFragment(), OmniJawsClient.OmniJawsObserver {
     }
 
     private fun handlePermissions() {
-        if (!getBoolean(WEATHER_CUSTOM_LOCATION, false)
-        ) {
+        if (getBoolean(LOCKSCREEN_WIDGETS_ENABLED) && !getBoolean(WEATHER_CUSTOM_LOCATION)) {
             checkLocationEnabled(false)
         }
     }

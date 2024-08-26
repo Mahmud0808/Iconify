@@ -66,6 +66,12 @@ object Preferences {
     const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET: String = "lockscreen_device_widget"
     const val LOCKSCREEN_WIDGETS: String = "lockscreen_widgets"
     const val LOCKSCREEN_WIDGETS_EXTRAS: String = "lockscreen_widgets_extras"
+    const val MAIN_WIDGET_1_KEY: String = "main_custom_widgets1"
+    const val MAIN_WIDGET_2_KEY: String = "main_custom_widgets2"
+    const val EXTRA_WIDGET_1_KEY: String = "custom_widgets1"
+    const val EXTRA_WIDGET_2_KEY: String = "custom_widgets2"
+    const val EXTRA_WIDGET_3_KEY: String = "custom_widgets3"
+    const val EXTRA_WIDGET_4_KEY: String = "custom_widgets4"
     const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH: String =
         "lockscreen_device_widget_custom_color"
     const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR: String =
