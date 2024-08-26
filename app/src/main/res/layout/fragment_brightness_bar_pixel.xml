@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".ui.fragments.BrightnessBarPixel">
+    tools:context=".ui.fragments.home.BrightnessBarPixel">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/brightness_bar_pixel_container"

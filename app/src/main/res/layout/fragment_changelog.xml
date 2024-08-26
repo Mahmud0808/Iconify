@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".ui.fragments.Changelog">
+    tools:context=".ui.fragments.settings.Changelog">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"

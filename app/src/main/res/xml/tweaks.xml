@@ -24,7 +24,7 @@
         app:fragment="com.drdisagree.iconify.ui.fragments.ColoredBattery" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-        android:fragment="com.drdisagree.iconify.ui.fragments.QsRowColumn"
+        android:fragment="com.drdisagree.iconify.ui.fragments.tweaks.QsRowColumn"
         android:icon="@drawable/ic_qs_row_column"
         android:key="qsRowColumn"
         android:summary="@string/activity_desc_qs_row_column"

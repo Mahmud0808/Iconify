@@ -176,7 +176,7 @@ object Resources {
     } else {
         arrayOf(
             SearchPreferenceItem(
-                R.xml.home_page,
+                R.xml.home,
                 R.string.navbar_home,
                 Home()
             ),

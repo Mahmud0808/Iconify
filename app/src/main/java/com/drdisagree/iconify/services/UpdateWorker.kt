@@ -18,7 +18,7 @@ import com.drdisagree.iconify.common.Preferences.UPDATE_OVER_WIFI
 import com.drdisagree.iconify.common.Preferences.VER_CODE
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.activities.MainActivity
-import com.drdisagree.iconify.ui.fragments.AppUpdates
+import com.drdisagree.iconify.ui.fragments.settings.AppUpdates
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

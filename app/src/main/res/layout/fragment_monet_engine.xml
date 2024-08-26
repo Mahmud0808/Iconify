@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".ui.fragments.MonetEngine">
+    tools:context=".ui.fragments.tweaks.MonetEngine">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

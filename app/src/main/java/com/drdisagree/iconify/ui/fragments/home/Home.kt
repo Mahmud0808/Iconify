@@ -14,7 +14,7 @@ import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.services.UpdateScheduler.scheduleUpdates
 import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
-import com.drdisagree.iconify.ui.fragments.AppUpdates
+import com.drdisagree.iconify.ui.fragments.settings.AppUpdates
 import com.drdisagree.iconify.ui.preferences.UpdateCheckerPreference
 import com.drdisagree.iconify.utils.SystemUtil.saveBootId
 import com.google.android.material.appbar.AppBarLayout
@@ -31,7 +31,7 @@ class Home : ControlledPreferenceFragmentCompat(), AppBarLayout.OnOffsetChangedL
         get() = false
 
     override val layoutResource: Int
-        get() = R.xml.home_page
+        get() = R.xml.home
 
     override val hasMenu: Boolean
         get() = true

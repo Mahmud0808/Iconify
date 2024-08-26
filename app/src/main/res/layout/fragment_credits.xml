@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".ui.fragments.Credits">
+    tools:context=".ui.fragments.settings.Credits">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/info_container"
