@@ -204,5 +204,5 @@ object Resources {
                 Tweaks()
             )
         ) + commonFragments
-    }
+    }.distinctBy { it.fragment::class.java }
 }
