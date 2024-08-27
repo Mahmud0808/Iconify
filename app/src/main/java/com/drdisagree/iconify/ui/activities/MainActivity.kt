@@ -2,8 +2,13 @@ package com.drdisagree.iconify.ui.activities
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
+import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
+import android.os.LocaleList
 import android.os.Looper
 import android.view.MenuItem
 import android.view.View
@@ -18,8 +23,10 @@ import com.airbnb.lottie.LottieCompositionFactory
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Dynamic
 import com.drdisagree.iconify.common.Preferences
+import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
 import com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH
 import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
+import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
 import com.drdisagree.iconify.common.Resources.searchConfiguration
 import com.drdisagree.iconify.common.Resources.searchableFragments
 import com.drdisagree.iconify.config.RPrefs
@@ -53,7 +60,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import java.util.Locale
 import java.util.UUID
+
 
 class MainActivity : BaseActivity(),
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback,
@@ -82,6 +91,28 @@ class MainActivity : BaseActivity(),
         initData()
 
         setupFloatingActionButtons()
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        val prefs: SharedPreferences =
+            newBase.createDeviceProtectedStorageContext().getSharedPreferences(
+            SHARED_XPREFERENCES, MODE_PRIVATE
+        )
+
+        val localeCode = prefs.getString(APP_LANGUAGE, "")
+        val locale =
+            if (localeCode!!.isNotEmpty()) Locale.forLanguageTag(localeCode) else Locale.getDefault()
+
+        val res: Resources = newBase.resources
+        val configuration: Configuration = res.configuration
+
+        configuration.setLocale(locale)
+
+        val localeList = LocaleList(locale)
+        LocaleList.setDefault(localeList)
+        configuration.setLocales(localeList)
+
+        super.attachBaseContext(newBase.createConfigurationContext(configuration))
     }
 
     private fun initData() {
