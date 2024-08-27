@@ -91,7 +91,6 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent != null && intent.action != null) {
                 if (intent.action == ACTION_WEATHER_INFLATED && mWidgetsEnabled) {
-                    log(TAG + "Weather inflated")
                     lsWeatherInflated = true
                     placeWidgets()
                 }
@@ -204,7 +203,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                 loadPackageParam.classLoader
             )
         } catch (t: Throwable) {
-            log(ControllersProvider.TAG + " Error finding LaunchableImageView: " + t.message)
+            log(TAG + " Error finding LaunchableImageView: " + t.message)
         }
 
         try {
@@ -213,7 +212,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                 loadPackageParam.classLoader
             )
         } catch (t: Throwable) {
-            log(ControllersProvider.TAG + " Error finding LaunchableLinearLayout: " + t.message)
+            log(TAG + " Error finding LaunchableLinearLayout: " + t.message)
         }
 
         try {
@@ -231,6 +230,23 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                     }
                 })
         } catch (ignored: Throwable) {
+        }
+
+        if (Build.VERSION.SDK_INT == 33) {
+            try {
+                val KeyguardBottomAreaView = findClass(
+                    "com.android.systemui.statusbar.phone.KeyguardBottomAreaView",
+                    loadPackageParam.classLoader
+                )
+                hookAllMethods(KeyguardBottomAreaView, "onFinishInflate", object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        mActivityStarter = getObjectField(param.thisObject, "mActivityStarter")
+                        setActivityStarter()
+                    }
+                })
+            } catch (ignored: Throwable) {
+            }
         }
 
         val keyguardStatusViewClass = findClass(
@@ -291,6 +307,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     }
 
     private fun placeWidgets() {
+        if (!mWidgetsEnabled) return
         if (mStatusViewContainer == null || mStatusArea == null) return
         if (lsWeather && !lsWeatherInflated) return
         try {
