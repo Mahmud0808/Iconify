@@ -175,7 +175,7 @@ class ClockChip : BaseFragment() {
                 activity = requireActivity(),
                 defaultColor = startColor,
                 showPresets = true,
-                showAlphaSlider = false,
+                showAlphaSlider = true,
                 showColorShades = true
             )
             setOnColorSelectedListener { color: Int ->
@@ -189,7 +189,7 @@ class ClockChip : BaseFragment() {
                 activity = requireActivity(),
                 defaultColor = endColor,
                 showPresets = true,
-                showAlphaSlider = false,
+                showAlphaSlider = true,
                 showColorShades = true
             )
             setOnColorSelectedListener { color: Int ->
@@ -215,7 +215,7 @@ class ClockChip : BaseFragment() {
                 activity = requireActivity(),
                 defaultColor = strokeColor,
                 showPresets = true,
-                showAlphaSlider = false,
+                showAlphaSlider = true,
                 showColorShades = true
             )
             setOnColorSelectedListener { color: Int ->
