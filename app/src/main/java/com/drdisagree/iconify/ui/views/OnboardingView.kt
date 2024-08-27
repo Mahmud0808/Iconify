@@ -273,7 +273,7 @@ class OnboardingView : FrameLayout {
 
                     handleInstallation()
                 } else {
-                    putBoolean(XPOSED_ONLY_MODE, true)
+                    putBoolean(XPOSED_ONLY_MODE, !overlayExists())
 
                     val intent = Intent(context, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
