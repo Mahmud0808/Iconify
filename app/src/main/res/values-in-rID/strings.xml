@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Status Bar</string>
     <string name="sb_clock_background_chip_title">Chip Jam Statusbar</string>
     <string name="sb_clock_background_chip_desc">Tampilkan chip di belakang jam statusbar</string>
-    <string name="statusbar_clock_color_title">Statusbar Clock Color</string>
+    <string name="statusbar_clock_text_title">Statusbar Clock Color</string>
     <string name="sbclock_color_follow_system">Follow System</string>
     <string name="sbclock_color_transparent_text">Transparent Text</string>
     <string name="sbclock_color_custom_color">Custom Color</string>
-    <string name="clock_color_picker_title">Clock Color Picker</string>
-    <string name="clock_color_picker_desc">Set color of statubsar clock text</string>
+    <string name="clock_text_color_picker_title">Clock Color Picker</string>
+    <string name="clock_text_color_picker_desc">Set color of statubsar clock text</string>
     <string name="section_title_status_icons">Status Icons</string>
     <string name="chip_style_title">Chip Style</string>
     <string name="status_icons_chip_title">Status Icons Chip</string>

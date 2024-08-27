@@ -2,6 +2,7 @@
 agp = "8.5.2"
 appcompat = "1.7.0"
 bcpkixJdk18on = "1.78.1"
+blurview = "version-2.0.5"
 circleindicator = "2.1.6"
 collapsingtoolbarlayoutSubtitle = "1.5.0"
 colorpickerVersion = "1.1.0"
@@ -54,6 +55,7 @@ androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntime" }
 bcpkix-jdk18on = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bcpkixJdk18on" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+blurview = { module = "com.github.Dimezis:BlurView", version.ref = "blurview" }
 circleindicator = { module = "me.relex:circleindicator", version.ref = "circleindicator" }
 collapsingtoolbarlayout-subtitle = { module = "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle", version.ref = "collapsingtoolbarlayoutSubtitle" }
 com-google-android-gms-play-services-mlkit-subject-segmentation = { module = "com.google.android.gms:play-services-mlkit-subject-segmentation", version.ref = "googlePlayServicesMlkitSubjectSegmentationVersion" }

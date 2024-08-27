@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Barra de estado</string>
     <string name="sb_clock_background_chip_title">Ficha de reloj de la barra de estado</string>
     <string name="sb_clock_background_chip_desc">Mostrar ficha detrás del reloj de la barra de estado</string>
-    <string name="statusbar_clock_color_title">Color del Reloj de la Barra de Estado</string>
+    <string name="statusbar_clock_text_title">Color del Reloj de la Barra de Estado</string>
     <string name="sbclock_color_follow_system">Seguir el Sistema</string>
     <string name="sbclock_color_transparent_text">Texto Transparente</string>
     <string name="sbclock_color_custom_color">Color Personalizado</string>
-    <string name="clock_color_picker_title">Selector de Color del Reloj</string>
-    <string name="clock_color_picker_desc">Establecer el color del texto del reloj de la barra de estado</string>
+    <string name="clock_text_color_picker_title">Selector de Color del Reloj</string>
+    <string name="clock_text_color_picker_desc">Establecer el color del texto del reloj de la barra de estado</string>
     <string name="section_title_status_icons">Iconos de estado</string>
     <string name="chip_style_title">Estilo de la ficha</string>
     <string name="status_icons_chip_title">Ficha de los iconos de estado</string>

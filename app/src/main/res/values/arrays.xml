@@ -177,6 +177,7 @@
         <item>@string/unit_metric</item>
         <item>@string/unit_imperial</item>
     </string-array>
+
     <string-array name="units_values" translatable="false">
         <item>0</item>
         <item>1</item>
@@ -190,6 +191,7 @@
         <item>@string/interval_6_hour</item>
         <item>@string/interval_12_hour</item>
     </string-array>
+
     <string-array name="update_interval_values">
         <item>1</item>
         <item>2</item>
@@ -203,6 +205,7 @@
         <item>@string/openmeteo</item>
         <item>@string/openweathermap</item>
     </string-array>
+
     <string-array name="weather_provider_values" translatable="false">
         <item>0</item>
         <item>1</item>
@@ -250,6 +253,7 @@
         <item>@string/wallet</item>
         <item>@string/hotspot</item>
     </string-array>
+
     <string-array name="lockscreen_widgets_values" translatable="false">
         <item>none</item>
         <item>calculator</item>
@@ -265,6 +269,17 @@
         <item>camera</item>
         <item>wallet</item>
         <item>hotspot</item>
+    </string-array>
+
+    <string-array name="gradient_direction">
+        <item>Left to Right</item>
+        <item>Right to Left</item>
+        <item>Top to Bottom</item>
+        <item>Bottom to Top</item>
+        <item>Top Left to Bottom Right</item>
+        <item>Top Right to Bottom Left</item>
+        <item>Bottom Left to Top Right</item>
+        <item>Bottom Right to Top Left</item>
     </string-array>
 
 </resources>

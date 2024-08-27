@@ -198,6 +198,9 @@ dependencies {
     implementation(libs.com.google.android.gms.play.services.mlkit.subject.segmentation)
     implementation(libs.play.services.base)
 
+    // Blur View
+    implementation(libs.blurview)
+
     // Misc
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)

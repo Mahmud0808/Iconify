@@ -37,6 +37,7 @@ import com.drdisagree.iconify.ui.fragments.tweaks.Statusbar
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
 import com.drdisagree.iconify.ui.fragments.tweaks.UiRoundness
 import com.drdisagree.iconify.ui.fragments.tweaks.VolumePanel
+import com.drdisagree.iconify.ui.fragments.xposed.BackgroundChip
 import com.drdisagree.iconify.ui.fragments.xposed.BatteryStyle
 import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
@@ -49,7 +50,6 @@ import com.drdisagree.iconify.ui.fragments.xposed.QuickSettings
 import com.drdisagree.iconify.ui.fragments.xposed.Themes
 import com.drdisagree.iconify.ui.fragments.xposed.TransparencyBlur
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
-import com.drdisagree.iconify.ui.fragments.xposed.XposedBackgroundChip
 
 object FragmentHelper {
 
@@ -106,7 +106,7 @@ object FragmentHelper {
                         fragment is LockscreenWeather ||
                         fragment is LockscreenWidget ||
                         fragment is DepthWallpaper ||
-                        fragment is XposedBackgroundChip ||
+                        fragment is BackgroundChip ||
                         fragment is Others
             }
 

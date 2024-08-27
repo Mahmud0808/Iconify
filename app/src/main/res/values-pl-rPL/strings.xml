@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Pasek stanu</string>
     <string name="sb_clock_background_chip_title">Tło zegara</string>
     <string name="sb_clock_background_chip_desc">Wyświetl tło za zegarem paska stanu</string>
-    <string name="statusbar_clock_color_title">Kolor zegara</string>
+    <string name="statusbar_clock_text_title">Kolor zegara</string>
     <string name="sbclock_color_follow_system">Systemowy</string>
     <string name="sbclock_color_transparent_text">Przezroczysty tekst</string>
     <string name="sbclock_color_custom_color">Niestandardowy kolor</string>
-    <string name="clock_color_picker_title">Selektor koloru zegara</string>
-    <string name="clock_color_picker_desc">Ustaw kolor tekstu zegara paska stanu</string>
+    <string name="clock_text_color_picker_title">Selektor koloru zegara</string>
+    <string name="clock_text_color_picker_desc">Ustaw kolor tekstu zegara paska stanu</string>
     <string name="section_title_status_icons">Ikony stanu</string>
     <string name="chip_style_title">Styl tła</string>
     <string name="status_icons_chip_title">Tło ikon stanu</string>

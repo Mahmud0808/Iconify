@@ -465,6 +465,7 @@
     <string name="activity_desc_depth_wallpaper">Show iOS like depth wallpaper</string>
     <string name="activity_title_background_chip">Background Chip</string>
     <string name="activity_desc_background_chip">Add colored chip behind clock</string>
+    <string name="activity_title_clock_chip">Clock Chip</string>
     <string name="activity_title_xposed_others">Others</string>
     <string name="activity_desc_xposed_others">Miscellaneous xposed tweaks</string>
     <string name="activity_title_xposed_weather_settings">Weather Settings</string>
@@ -765,19 +766,46 @@
     <string name="section_title_status_bar">Status Bar</string>
     <string name="sb_clock_background_chip_title">Statusbar Clock Chip</string>
     <string name="sb_clock_background_chip_desc">Display chip behind statusbar clock</string>
-    <string name="statusbar_clock_color_title">Statusbar Clock Color</string>
+    <string name="sb_clock_customize_chip_title">Customize Clock Chip</string>
+    <string name="sb_clock_customize_chip_desc">Custom colors, roundness, stroke etc.</string>
+    <string name="statusbar_clock_text_title">Clock Text Color</string>
     <string name="sbclock_color_follow_system">Follow System</string>
     <string name="sbclock_color_transparent_text">Transparent Text</string>
     <string name="sbclock_color_custom_color">Custom Color</string>
-    <string name="clock_color_picker_title">Clock Color Picker</string>
-    <string name="clock_color_picker_desc">Set color of statubsar clock text</string>
+    <string name="clock_text_color_picker_title">Text Color Picker</string>
+    <string name="clock_text_color_picker_desc">Set color of statubsar clock text</string>
     <string name="section_title_status_icons">Status Icons</string>
     <string name="chip_style_title">Chip Style</string>
     <string name="status_icons_chip_title">Status Icons Chip</string>
     <string name="status_icons_chip_desc">Display chip behind status icons</string>
+    <string name="status_icons_customize_chip_title">Customize Status Icons Chip</string>
+    <string name="status_icons_customize_chip_desc">Custom colors, roundness, stroke etc.</string>
     <string name="status_icons_chip_style_title">Chip Style</string>
     <string name="fixed_status_icons_top_margin">Top Margin</string>
     <string name="fixed_status_icons_side_margin">Side Margin</string>
+    <string name="section_title_background">Background</string>
+    <string name="accent_fill_color">Accent Fill Color</string>
+    <string name="gradient_direction">Gradient Direction</string>
+    <string name="fill_start_color">Fill Start Color</string>
+    <string name="fill_end_color">Fill End Color</string>
+    <string name="section_title_border">Border</string>
+    <string name="enable_border">Enable Border</string>
+    <string name="accent_border_color">Accent Border Color</string>
+    <string name="border_color">Border Color</string>
+    <string name="dashed_border">Dashed Border</string>
+    <string name="dash_width">Dash Width</string>
+    <string name="dash_gap">Dash Gap</string>
+    <string name="border_thickness">Border Thickness</string>
+    <string name="section_title_padding">Padding</string>
+    <string name="padding_left">Padding Left</string>
+    <string name="padding_right">Padding Right</string>
+    <string name="padding_top">Padding Top</string>
+    <string name="padding_bottom">Padding Bottom</string>
+    <string name="section_title_corner_radius">Corner Radius</string>
+    <string name="top_left_radius">Top Left Radius</string>
+    <string name="top_right_radius">Top Right Radius</string>
+    <string name="bottom_left_radius">Bottom Left Radius</string>
+    <string name="bottom_right_radius">Bottom Right Radius</string>
 
     <!-- Xposed Statusbar -->
     <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
@@ -915,6 +943,7 @@
     <string name="btn_disable">Disable</string>
     <string name="btn_enable">Enable</string>
     <string name="btn_apply">Apply</string>
+    <string name="btn_save">Save</string>
     <string name="btn_disable_custom_colors">Disable Custom Colors</string>
     <string name="btn_enable_custom_colors">Apply Colors</string>
     <string name="btn_reset">Reset</string>
@@ -987,10 +1016,9 @@
     <string name="hey_there">Hey There!</string>
     <string name="icon">Icon</string>
     <string name="section_title_media_player_icons">Media Player Icons</string>
-    <string name="opt_selected">Selected:</string>
-    <string name="opt_selected1">Selected: %s</string>
-    <string name="opt_selected2">Selected: %1$s%2$s</string>
-    <string name="opt_selected3">Selected: %1$s%2$s %3$s</string>
+    <string name="opt_selected1" translatable="false">%s</string>
+    <string name="opt_selected2" translatable="false">%1$s%2$s</string>
+    <string name="opt_selected3" translatable="false">%1$s%2$s %3$s</string>
     <string name="opt_default">(Default)</string>
     <string name="clock_none">No Clock</string>
     <string name="clock_style_name">Clock Style %d</string>

@@ -37,6 +37,10 @@ import com.drdisagree.iconify.ui.fragments.tweaks.BasicColors
 import com.drdisagree.iconify.ui.fragments.tweaks.ColorEngine
 import com.drdisagree.iconify.ui.fragments.tweaks.MonetEngine
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.fragments.xposed.BackgroundChip
+import com.drdisagree.iconify.ui.fragments.xposed.ClockChip
+import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWidget
+import com.drdisagree.iconify.ui.fragments.xposed.WeatherSettings
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFragment
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
@@ -279,6 +283,14 @@ class MainActivity : BaseActivity(),
         when {
             topFragment is BasicColors || topFragment is MonetEngine -> {
                 clearAndReplaceFragment(ColorEngine())
+            }
+
+            topFragment is WeatherSettings -> {
+                clearAndReplaceFragment(LockscreenWidget())
+            }
+
+            topFragment is ClockChip -> {
+                clearAndReplaceFragment(BackgroundChip())
             }
 
             isInGroup(topFragment, homeIndex) && topFragment !is Home -> {

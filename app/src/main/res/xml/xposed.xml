@@ -18,6 +18,13 @@
         app:fragment="com.drdisagree.iconify.ui.fragments.xposed.TransparencyBlur" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_background_chip"
+        android:key="xposedBackgroundChip"
+        android:summary="@string/activity_desc_background_chip"
+        android:title="@string/activity_title_background_chip"
+        app:fragment="com.drdisagree.iconify.ui.fragments.xposed.BackgroundChip" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_xposed_quick_settings"
         android:key="xposedQuickSettings"
         android:summary="@string/activity_desc_quick_settings"
@@ -93,13 +100,6 @@
         android:summary="@string/activity_desc_depth_wallpaper"
         android:title="@string/activity_title_depth_wallpaper"
         app:fragment="com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper" />
-
-    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-        android:icon="@drawable/ic_xposed_background_chip"
-        android:key="xposedBackgroundChip"
-        android:summary="@string/activity_desc_background_chip"
-        android:title="@string/activity_title_background_chip"
-        app:fragment="com.drdisagree.iconify.ui.fragments.xposed.XposedBackgroundChip" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_xposed_misc"

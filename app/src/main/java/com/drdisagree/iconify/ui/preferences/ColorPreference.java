@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
-import com.drdisagree.iconify.ui.activities.MainActivity;
 import com.jaredrummler.android.colorpicker.R;
 import com.jaredrummler.android.colorpicker.ColorPanelView;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;

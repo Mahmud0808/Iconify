@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Állapotsor</string>
     <string name="sb_clock_background_chip_title">Állapotsori óralap</string>
     <string name="sb_clock_background_chip_desc">Óralap kijelzése az állapotikonok mögött</string>
-    <string name="statusbar_clock_color_title">Az állapotsori óra színe</string>
+    <string name="statusbar_clock_text_title">Az állapotsori óra színe</string>
     <string name="sbclock_color_follow_system">Rendszerkövetés</string>
     <string name="sbclock_color_transparent_text">Áttetsző szöveg</string>
     <string name="sbclock_color_custom_color">Egyéni szín</string>
-    <string name="clock_color_picker_title">Óraszín-választó</string>
-    <string name="clock_color_picker_desc">Állítsa be az állapotsor-óra szövegének színét</string>
+    <string name="clock_text_color_picker_title">Óraszín-választó</string>
+    <string name="clock_text_color_picker_desc">Állítsa be az állapotsor-óra szövegének színét</string>
     <string name="section_title_status_icons">Állapotikonok</string>
     <string name="chip_style_title">A háttér-lap stílusa</string>
     <string name="status_icons_chip_title">Állapotikonok háttérlapja</string>

@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Durum Çubuğu</string>
     <string name="sb_clock_background_chip_title">Durum Çubuğu Saat Butonu</string>
     <string name="sb_clock_background_chip_desc">Durum çubuğundaki saatte arka planı göster</string>
-    <string name="statusbar_clock_color_title">Durum Çubuğu Saat Rengi</string>
+    <string name="statusbar_clock_text_title">Durum Çubuğu Saat Rengi</string>
     <string name="sbclock_color_follow_system">Sisteme Göre</string>
     <string name="sbclock_color_transparent_text">Şeffaf Metin</string>
     <string name="sbclock_color_custom_color">Özel Renk</string>
-    <string name="clock_color_picker_title">Saat Rengi Seçici</string>
-    <string name="clock_color_picker_desc">Durum çubuğu saat metninin rengini ayarla</string>
+    <string name="clock_text_color_picker_title">Saat Rengi Seçici</string>
+    <string name="clock_text_color_picker_desc">Durum çubuğu saat metninin rengini ayarla</string>
     <string name="section_title_status_icons">Durum Simgeleri</string>
     <string name="chip_style_title">Buton Stili</string>
     <string name="status_icons_chip_title">Durum Simgeleri Butonu</string>

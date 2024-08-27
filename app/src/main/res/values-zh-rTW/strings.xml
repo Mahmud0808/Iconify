@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">狀態列</string>
     <string name="sb_clock_background_chip_title">狀態列時鐘 Chip</string>
     <string name="sb_clock_background_chip_desc">狀態列時鐘後面的 Chip</string>
-    <string name="statusbar_clock_color_title">狀態列時鐘顔色</string>
+    <string name="statusbar_clock_text_title">狀態列時鐘顔色</string>
     <string name="sbclock_color_follow_system">追隨系統</string>
     <string name="sbclock_color_transparent_text">透明文本</string>
     <string name="sbclock_color_custom_color">自訂顔色</string>
-    <string name="clock_color_picker_title">時鐘顔色選取</string>
-    <string name="clock_color_picker_desc">設定狀態列時鐘文本的顔色</string>
+    <string name="clock_text_color_picker_title">時鐘顔色選取</string>
+    <string name="clock_text_color_picker_desc">設定狀態列時鐘文本的顔色</string>
     <string name="section_title_status_icons">狀態圖示</string>
     <string name="chip_style_title">Chip 樣式</string>
     <string name="status_icons_chip_title">狀態圖示 Chip</string>

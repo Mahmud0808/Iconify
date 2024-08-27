@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">ステータスバー</string>
     <string name="sb_clock_background_chip_title">ステータスバー時計チップ</string>
     <string name="sb_clock_background_chip_desc">ステータスバー時計の後ろにチップを表示します</string>
-    <string name="statusbar_clock_color_title">ステータスバー時計色</string>
+    <string name="statusbar_clock_text_title">ステータスバー時計色</string>
     <string name="sbclock_color_follow_system">システムに従う</string>
     <string name="sbclock_color_transparent_text">透過テキスト</string>
     <string name="sbclock_color_custom_color">カスタムカラー</string>
-    <string name="clock_color_picker_title">時計カラーピッカー</string>
-    <string name="clock_color_picker_desc">ステータスバー時計の色を設定します</string>
+    <string name="clock_text_color_picker_title">時計カラーピッカー</string>
+    <string name="clock_text_color_picker_desc">ステータスバー時計の色を設定します</string>
     <string name="section_title_status_icons">ステータスアイコン</string>
     <string name="chip_style_title">チップ スタイル</string>
     <string name="status_icons_chip_title">ステータスアイコンチップ</string>

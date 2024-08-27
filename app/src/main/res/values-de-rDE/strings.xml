@@ -659,12 +659,12 @@ transparent machen</string>
     <string name="section_title_status_bar">Statusleiste</string>
     <string name="sb_clock_background_chip_title">Statusleiste Uhr-Chip</string>
     <string name="sb_clock_background_chip_desc">Chip hinter der Statusleisten-Uhr anzeigen</string>
-    <string name="statusbar_clock_color_title">Statusleisten Uhr Farbe</string>
+    <string name="statusbar_clock_text_title">Statusleisten Uhr Farbe</string>
     <string name="sbclock_color_follow_system">Folge System</string>
     <string name="sbclock_color_transparent_text">Transparenter Text</string>
     <string name="sbclock_color_custom_color">Benutzerdefinierte Farbe</string>
-    <string name="clock_color_picker_title">Uhrfarbwähler</string>
-    <string name="clock_color_picker_desc">Farbe der Statusbar Uhr setzen</string>
+    <string name="clock_text_color_picker_title">Uhrfarbwähler</string>
+    <string name="clock_text_color_picker_desc">Farbe der Statusbar Uhr setzen</string>
     <string name="section_title_status_icons">Statussymbole</string>
     <string name="chip_style_title">Chip-Stil</string>
     <string name="status_icons_chip_title">Statussymbole Chip</string>

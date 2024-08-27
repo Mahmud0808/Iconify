@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Рядок стану</string>
     <string name="sb_clock_background_chip_title">Тло годинника в рядку стану</string>
     <string name="sb_clock_background_chip_desc">Показувати тло за годинником в рядку стану</string>
-    <string name="statusbar_clock_color_title">Колір годинника в рядку стану</string>
+    <string name="statusbar_clock_text_title">Колір годинника в рядку стану</string>
     <string name="sbclock_color_follow_system">Як у системі</string>
     <string name="sbclock_color_transparent_text">Прозорий текст</string>
     <string name="sbclock_color_custom_color">Свій колір</string>
-    <string name="clock_color_picker_title">Палітра кольорів для годинника</string>
-    <string name="clock_color_picker_desc">Змінити колір тексту годинника в рядку стану</string>
+    <string name="clock_text_color_picker_title">Палітра кольорів для годинника</string>
+    <string name="clock_text_color_picker_desc">Змінити колір тексту годинника в рядку стану</string>
     <string name="section_title_status_icons">Значки рядка стану</string>
     <string name="chip_style_title">Стиль тла</string>
     <string name="status_icons_chip_title">Індикатор значків рядка стану</string>

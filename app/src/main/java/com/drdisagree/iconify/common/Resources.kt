@@ -10,6 +10,7 @@ import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.fragments.xposed.BackgroundChip
 import com.drdisagree.iconify.ui.fragments.xposed.BatteryStyle
 import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
@@ -120,6 +121,11 @@ object Resources {
             R.xml.xposed_transparency_blur,
             R.string.activity_title_transparency_blur,
             TransparencyBlur()
+        ),
+        SearchPreferenceItem(
+            R.xml.xposed_background_chip,
+            R.string.activity_title_background_chip,
+            BackgroundChip()
         ),
         SearchPreferenceItem(
             R.xml.xposed_quick_settings,

@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Строка состояния</string>
     <string name="sb_clock_background_chip_title">Подложка часов строки состояния</string>
     <string name="sb_clock_background_chip_desc">Показывать подложку позади часов в строке состояния</string>
-    <string name="statusbar_clock_color_title">Цвет часов в строке состояния</string>
+    <string name="statusbar_clock_text_title">Цвет часов в строке состояния</string>
     <string name="sbclock_color_follow_system">Соответствие системе</string>
     <string name="sbclock_color_transparent_text">Прозрачный текст</string>
     <string name="sbclock_color_custom_color">Кастомный цвет</string>
-    <string name="clock_color_picker_title">Выбор цвета часов</string>
-    <string name="clock_color_picker_desc">Установить цвет текста часов статусбара</string>
+    <string name="clock_text_color_picker_title">Выбор цвета часов</string>
+    <string name="clock_text_color_picker_desc">Установить цвет текста часов статусбара</string>
     <string name="section_title_status_icons">Иконки строки состояния</string>
     <string name="chip_style_title">Стиль фишки</string>
     <string name="status_icons_chip_title">Подложка иконок строки состояния</string>

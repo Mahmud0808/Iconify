@@ -18,7 +18,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.CHIP_QSSTATUSICONS_STYLE
-import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCKBG_STYLE
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STYLE_CHANGED
 import com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH
 import com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCKBG_SWITCH
 import com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_CODE
@@ -171,7 +171,7 @@ class XposedBackgroundChip : BaseFragment() {
             styleName.text = pack[i][1] as String
 
             list.setOnClickListener {
-                RPrefs.putInt(CHIP_STATUSBAR_CLOCKBG_STYLE, i)
+                RPrefs.putInt(CHIP_STATUSBAR_CLOCK_STYLE_CHANGED, i)
                 refreshBackgroundStatusBar()
             }
 
@@ -187,7 +187,7 @@ class XposedBackgroundChip : BaseFragment() {
 
             val title = child.findViewById<TextView>(R.id.style_name)
 
-            if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)) {
+            if (i == RPrefs.getInt(CHIP_STATUSBAR_CLOCK_STYLE_CHANGED, 0)) {
                 title.setTextColor(resources.getColor(R.color.colorAccent, appContext.theme))
             } else {
                 title.setTextColor(resources.getColor(R.color.textColorSecondary, appContext.theme))

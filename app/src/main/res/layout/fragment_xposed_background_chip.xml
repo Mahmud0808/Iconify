@@ -38,14 +38,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:entries="@array/statusbar_clock_color"
-                app:titleText="@string/statusbar_clock_color_title" />
+                app:titleText="@string/statusbar_clock_text_title" />
 
             <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
                 android:id="@+id/clock_text_color_picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:summaryText="@string/clock_color_picker_desc"
-                app:titleText="@string/clock_color_picker_title" />
+                app:summaryText="@string/clock_text_color_picker_desc"
+                app:titleText="@string/clock_text_color_picker_title" />
 
             <LinearLayout
                 android:layout_width="match_parent"
