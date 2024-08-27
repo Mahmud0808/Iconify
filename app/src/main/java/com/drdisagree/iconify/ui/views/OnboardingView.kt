@@ -213,7 +213,6 @@ class OnboardingView : FrameLayout {
                 if (getInt(VER_CODE) != BuildConfig.VERSION_CODE || !moduleExists || !overlayExists) {
                     if (!moduleExists || !overlayExists) {
                         RPrefs.clearAllPrefs()
-                        RPrefs.clearAllPrefs()
                     }
 
                     handleInstallation()
@@ -270,7 +269,6 @@ class OnboardingView : FrameLayout {
                 }, (if (clickedButton) 10 else 1000).toLong())
             } else {
                 if (!moduleExists()) {
-                    RPrefs.clearAllPrefs()
                     RPrefs.clearAllPrefs()
 
                     handleInstallation()

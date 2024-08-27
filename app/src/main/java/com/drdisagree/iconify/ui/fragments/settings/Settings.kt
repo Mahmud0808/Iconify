@@ -174,7 +174,6 @@ class Settings : ControlledPreferenceFragmentCompat() {
         fun disableEverything() {
             WeatherConfig.clear(appContext)
             RPrefs.clearAllPrefs()
-            RPrefs.clearAllPrefs()
 
             saveBootId
             disableBlur(false)
