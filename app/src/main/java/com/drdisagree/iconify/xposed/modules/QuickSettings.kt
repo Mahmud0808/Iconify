@@ -7,6 +7,7 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -45,6 +46,7 @@ import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
+import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -342,28 +344,58 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
             val removeQsTileTint: XC_MethodHook = object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    if (fixQsTileColor) {
-                        try {
-                            setObjectField(
-                                param.thisObject,
-                                "colorActive",
-                                Color.WHITE
-                            )
-                            setObjectField(
-                                param.thisObject,
-                                "colorInactive",
-                                Color.TRANSPARENT
-                            )
-                            setObjectField(
-                                param.thisObject,
-                                "colorUnavailable",
-                                Color.TRANSPARENT
-                            )
-                        } catch (throwable: Throwable) {
-                            log(TAG + throwable)
-                        }
+                    if (!fixQsTileColor) return
+
+                    try {
+                        setObjectField(
+                            param.thisObject,
+                            "colorActive",
+                            Color.WHITE
+                        )
+                        setObjectField(
+                            param.thisObject,
+                            "colorInactive",
+                            Color.TRANSPARENT
+                        )
+                        setObjectField(
+                            param.thisObject,
+                            "colorUnavailable",
+                            Color.TRANSPARENT
+                        )
+                    } catch (throwable: Throwable) {
+                        log(TAG + throwable)
                     }
                 }
+            }
+
+            if (fixQsTileColor && qsTileViewImplClass.declaredMethods.find { it.name == "setStateLayer" } != null) {
+                hookAllMethods(
+                    qsTileViewImplClass,
+                    "setStateLayer",
+                    object : XC_MethodReplacement() {
+                        override fun replaceHookedMethod(param: MethodHookParam): Any? {
+                            val currentState = getObjectField(
+                                param.thisObject,
+                                "currentState"
+                            ) as Int
+
+                            val ld: LayerDrawable = (getObjectField(
+                                param.thisObject,
+                                "backgroundDrawable"
+                            ) as LayerDrawable).mutate() as LayerDrawable
+
+                            when (currentState) {
+                                Tile.STATE_ACTIVE -> ld.setTint(Color.WHITE)
+
+                                Tile.STATE_INACTIVE -> ld.setTint(Color.TRANSPARENT)
+
+                                else -> ld.setTint(Color.TRANSPARENT)
+                            }
+
+                            return null
+                        }
+                    }
+                )
             }
 
             hookAllConstructors(qsTileViewImplClass, removeQsTileTint)
