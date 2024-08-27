@@ -392,7 +392,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
             if (appContext == null || !XprefsIsInitialized) return null
 
             val inflater = LayoutInflater.from(appContext)
-            val clockStyle: Int = Xprefs.getString(LSCLOCK_STYLE, "0")!!.toInt()
+            val clockStyle: Int = Xprefs.getInt(LSCLOCK_STYLE, 0)
 
             val view: View = inflater.inflate(
                 appContext!!.resources.getIdentifier(
@@ -409,7 +409,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
     private fun modifyClockView(clockView: View) {
         if (!XprefsIsInitialized) return
 
-        val clockStyle: Int = Xprefs.getString(LSCLOCK_STYLE, "0")!!.toInt()
+        val clockStyle: Int = Xprefs.getInt(LSCLOCK_STYLE, 0)
         val topMargin: Int = Xprefs.getSliderInt(LSCLOCK_TOPMARGIN, 100)
         val bottomMargin: Int = Xprefs.getSliderInt(LSCLOCK_BOTTOMMARGIN, 40)
         val textScaleFactor: Float =
