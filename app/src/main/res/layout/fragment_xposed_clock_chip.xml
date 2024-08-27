@@ -25,7 +25,7 @@
             <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:titleText="Text" />
+                app:titleText="@string/section_title_text" />
 
             <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
                 android:id="@+id/clock_text_color"

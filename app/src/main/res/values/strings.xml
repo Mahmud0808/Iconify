@@ -768,6 +768,7 @@
     <string name="sb_clock_background_chip_desc">Display chip behind statusbar clock</string>
     <string name="sb_clock_customize_chip_title">Customize Clock Chip</string>
     <string name="sb_clock_customize_chip_desc">Custom colors, roundness, stroke etc.</string>
+    <string name="section_title_text">Text</string>
     <string name="statusbar_clock_text_title">Clock Text Color</string>
     <string name="sbclock_color_follow_system">Follow System</string>
     <string name="sbclock_color_transparent_text">Transparent Text</string>
@@ -1215,6 +1216,5 @@
     <string name="switch_theme_required_desc">Switch between light and dark themes if unexpected behavior occurs.</string>
     <string name="device_rotation_required_title">Device Rotation Theme</string>
     <string name="device_rotation_required_desc">Switch rotation of your device for this change to take effect.</string>
-
 
 </resources>
