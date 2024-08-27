@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.ui.fragments.xposed
 
-import android.os.Bundle
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_SWITCH
 import com.drdisagree.iconify.config.RPrefs.getBoolean
@@ -31,9 +30,5 @@ class BackgroundChip : ControlledPreferenceFragmentCompat() {
                 }
             }
         }
-    }
-
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        super.onCreatePreferences(savedInstanceState, rootKey)
     }
 }

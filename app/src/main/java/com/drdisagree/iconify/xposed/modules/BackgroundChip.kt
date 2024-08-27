@@ -152,7 +152,6 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                 getInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_LEFT, 28).toFloat(),
                 getInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_LEFT, 28).toFloat(),
             )
-
             mShowQSStatusIconsBg = getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)
             qsStatusIconsChipStyle = getInt(CHIP_QSSTATUSICONS_STYLE, 0)
             showHeaderClock = getBoolean(HEADER_CLOCK_SWITCH, false)
@@ -284,14 +283,9 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
     private fun updateStatusBarClock(force: Boolean) {
         if (!mShowSBClockBg) return
 
-        val clockPaddingStartEnd: Int = mContext.toPx(8)
-        val clockPaddingTopBottom: Int = mContext.toPx(2)
-
         if (mClockView != null && mClockView!!.background == null || force) {
             updateClockView(
                 mClockView,
-                clockPaddingStartEnd,
-                clockPaddingTopBottom,
                 Gravity.LEFT or Gravity.CENTER
             )
         }
@@ -299,8 +293,6 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
         if (mCenterClockView != null && mCenterClockView!!.background == null || force) {
             updateClockView(
                 mCenterClockView,
-                clockPaddingStartEnd,
-                clockPaddingTopBottom,
                 Gravity.CENTER
             )
         }
@@ -308,8 +300,6 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
         if (mRightClockView != null && mRightClockView!!.background == null || force) {
             updateClockView(
                 mRightClockView,
-                clockPaddingStartEnd,
-                clockPaddingTopBottom,
                 Gravity.RIGHT or Gravity.CENTER
             )
         }
@@ -420,22 +410,26 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
     }
 
     private fun setSBClockBackgroundChip(view: View) {
-        view.background = ChipDrawable.createChipDrawable(
-            context = mContext,
-            accentFill = accentFillEnabled,
-            startColor = startColor,
-            endColor = endColor,
-            gradientDirection = gradientDirection,
-            padding = padding,
-            strokeEnabled = strokeEnabled,
-            accentStroke = accentBorderEnabled,
-            strokeWidth = strokeWidth,
-            strokeColor = strokeColor,
-            dashedBorderEnabled = dashedBorderEnabled,
-            dashWidth = strokeDashWidth,
-            dashGap = strokeDashGap,
-            cornerRadii = cornerRadii
-        )
+        if (mShowSBClockBg) {
+            view.background = ChipDrawable.createChipDrawable(
+                context = mContext,
+                accentFill = accentFillEnabled,
+                startColor = startColor,
+                endColor = endColor,
+                gradientDirection = gradientDirection,
+                padding = intArrayOf(0, 0, 0, 0),
+                strokeEnabled = strokeEnabled,
+                accentStroke = accentBorderEnabled,
+                strokeWidth = strokeWidth,
+                strokeColor = strokeColor,
+                dashedBorderEnabled = dashedBorderEnabled,
+                dashWidth = strokeDashWidth,
+                dashGap = strokeDashGap,
+                cornerRadii = cornerRadii
+            )
+        } else {
+            view.background = null
+        }
     }
 
     private fun setStatusIconsBackgroundChip(layout: LinearLayout) {
@@ -465,11 +459,15 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
         }
     }
 
-    @SuppressLint("RtlHardcoded")
-    private fun updateClockView(clockView: View?, startEnd: Int, topBottom: Int, gravity: Int) {
+    private fun updateClockView(clockView: View?, gravity: Int) {
         if (clockView == null) return
 
-        clockView.setPadding(startEnd, topBottom, startEnd, topBottom)
+        clockView.setPadding(
+            mContext.toPx(padding[0]),
+            mContext.toPx(padding[1]),
+            mContext.toPx(padding[2]),
+            mContext.toPx(padding[3])
+        )
 
         setSBClockBackgroundChip(clockView)
 

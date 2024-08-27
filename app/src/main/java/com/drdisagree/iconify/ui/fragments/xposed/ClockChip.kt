@@ -44,6 +44,7 @@ import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.databinding.FragmentXposedClockChipBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.views.ChipDrawable
 import com.drdisagree.iconify.xposed.modules.views.ChipDrawable.GradientDirection.Companion.toIndex
 import com.google.android.material.slider.Slider
@@ -398,13 +399,20 @@ class ClockChip : BaseFragment() {
             }
         }
 
+        binding.previewClock.setPadding(
+            requireContext().toPx(padding[0]),
+            requireContext().toPx(padding[1]),
+            requireContext().toPx(padding[2]),
+            requireContext().toPx(padding[3])
+        )
+
         binding.previewClock.background = ChipDrawable.createChipDrawable(
             context = requireContext(),
             accentFill = this.accentFillEnabled,
             startColor = startColor,
             endColor = endColor,
             gradientDirection = gradientDirection,
-            padding = padding,
+            padding = intArrayOf(0, 0, 0, 0),
             strokeEnabled = strokeEnabled,
             accentStroke = accentBorderEnabled,
             strokeWidth = strokeWidth,
