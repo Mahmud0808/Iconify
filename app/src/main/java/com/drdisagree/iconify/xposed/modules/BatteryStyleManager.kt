@@ -86,7 +86,6 @@ import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_STYLE
 import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_SWAP_PERCENTAGE
 import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_WIDTH
 import com.drdisagree.iconify.common.Preferences.ICONIFY_CHARGING_ICON_TAG
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
@@ -127,6 +126,8 @@ import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyl
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyleB
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.XC_MethodReplacement
@@ -176,63 +177,61 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
     private var mIsCharging = false
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        val batteryStyle: Int = Xprefs!!.getInt(CUSTOM_BATTERY_STYLE, 0)
-        val hidePercentage: Boolean = Xprefs!!.getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false)
-        val defaultInsidePercentage = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
-                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYL ||
-                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYM
-        val insidePercentage = defaultInsidePercentage ||
-                Xprefs!!.getBoolean(CUSTOM_BATTERY_INSIDE_PERCENTAGE, false)
-        defaultLandscapeBatteryEnabled = batteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE ||
-                batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE
-        customBatteryEnabled = batteryStyle != BATTERY_STYLE_DEFAULT &&
-                batteryStyle != BATTERY_STYLE_DEFAULT_LANDSCAPE &&
-                batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE
+        var batteryStyle: Int
 
-        mBatteryRotation = if (defaultLandscapeBatteryEnabled) {
-            if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
-                90
+        Xprefs.apply {
+            batteryStyle = getString(CUSTOM_BATTERY_STYLE, "0")!!.toInt()
+            val hidePercentage: Boolean = getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false)
+            val defaultInsidePercentage = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
+                    batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYL ||
+                    batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYM
+            val insidePercentage = defaultInsidePercentage ||
+                    getBoolean(CUSTOM_BATTERY_INSIDE_PERCENTAGE, false)
+            defaultLandscapeBatteryEnabled = batteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE ||
+                    batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE
+            customBatteryEnabled = batteryStyle != BATTERY_STYLE_DEFAULT &&
+                    batteryStyle != BATTERY_STYLE_DEFAULT_LANDSCAPE &&
+                    batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE
+
+            mBatteryRotation = if (defaultLandscapeBatteryEnabled) {
+                if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
+                    90
+                } else {
+                    270
+                }
             } else {
-                270
+                0
             }
-        } else {
-            0
-        }
 
-        mHidePercentage = hidePercentage || insidePercentage
-        mShowPercentInside = insidePercentage && (defaultInsidePercentage || !hidePercentage)
-        mHideBattery = Xprefs!!.getBoolean(CUSTOM_BATTERY_HIDE_BATTERY, false)
-        mBatteryLayoutReverse = Xprefs!!.getBoolean(CUSTOM_BATTERY_LAYOUT_REVERSE, false)
-        mBatteryCustomDimension = Xprefs!!.getBoolean(CUSTOM_BATTERY_DIMENSION, false)
-        mBatteryScaleWidth = Xprefs!!.getInt(CUSTOM_BATTERY_WIDTH, 20)
-        mBatteryScaleHeight = Xprefs!!.getInt(CUSTOM_BATTERY_HEIGHT, 20)
-        mScaledPerimeterAlpha = Xprefs!!.getBoolean(CUSTOM_BATTERY_PERIMETER_ALPHA, false)
-        mScaledFillAlpha = Xprefs!!.getBoolean(CUSTOM_BATTERY_FILL_ALPHA, false)
-        mRainbowFillColor = Xprefs!!.getBoolean(CUSTOM_BATTERY_RAINBOW_FILL_COLOR, false)
-        mCustomBlendColor = Xprefs!!.getBoolean(CUSTOM_BATTERY_BLEND_COLOR, false)
-        mCustomChargingColor = Xprefs!!.getInt(CUSTOM_BATTERY_CHARGING_COLOR, Color.BLACK)
-        mCustomFillColor = Xprefs!!.getInt(CUSTOM_BATTERY_FILL_COLOR, Color.BLACK)
-        mCustomFillGradColor = Xprefs!!.getInt(CUSTOM_BATTERY_FILL_GRAD_COLOR, Color.BLACK)
-        mCustomPowerSaveColor = Xprefs!!.getInt(
-            CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR,
-            Color.BLACK
-        )
-        mCustomPowerSaveFillColor = Xprefs!!.getInt(
-            CUSTOM_BATTERY_POWERSAVE_FILL_COLOR,
-            Color.BLACK
-        )
-        mSwapPercentage = Xprefs!!.getBoolean(CUSTOM_BATTERY_SWAP_PERCENTAGE, false)
-        mChargingIconSwitch = Xprefs!!.getBoolean(CUSTOM_BATTERY_CHARGING_ICON_SWITCH, false)
-        mChargingIconStyle = Xprefs!!.getInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, 0)
-        mChargingIconML = Xprefs!!.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, 1)
-        mChargingIconMR = Xprefs!!.getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, 0)
-        mChargingIconWH = Xprefs!!.getInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, 14)
-        mBatteryMarginLeft = mContext.toPx(Xprefs!!.getInt(CUSTOM_BATTERY_MARGIN_LEFT, 4))
-        mBatteryMarginTop = mContext.toPx(Xprefs!!.getInt(CUSTOM_BATTERY_MARGIN_TOP, 0))
-        mBatteryMarginRight = mContext.toPx(Xprefs!!.getInt(CUSTOM_BATTERY_MARGIN_RIGHT, 4))
-        mBatteryMarginBottom = mContext.toPx(Xprefs!!.getInt(CUSTOM_BATTERY_MARGIN_BOTTOM, 0))
+            mHidePercentage = hidePercentage || insidePercentage
+            mShowPercentInside = insidePercentage && (defaultInsidePercentage || !hidePercentage)
+            mHideBattery = getBoolean(CUSTOM_BATTERY_HIDE_BATTERY, false)
+            mBatteryLayoutReverse = getBoolean(CUSTOM_BATTERY_LAYOUT_REVERSE, false)
+            mBatteryCustomDimension = getBoolean(CUSTOM_BATTERY_DIMENSION, false)
+            mBatteryScaleWidth = getSliderInt(CUSTOM_BATTERY_WIDTH, 20)
+            mBatteryScaleHeight = getSliderInt(CUSTOM_BATTERY_HEIGHT, 20)
+            mScaledPerimeterAlpha = getBoolean(CUSTOM_BATTERY_PERIMETER_ALPHA, false)
+            mScaledFillAlpha = getBoolean(CUSTOM_BATTERY_FILL_ALPHA, false)
+            mRainbowFillColor = getBoolean(CUSTOM_BATTERY_RAINBOW_FILL_COLOR, false)
+            mCustomBlendColor = getBoolean(CUSTOM_BATTERY_BLEND_COLOR, false)
+            mCustomChargingColor = getInt(CUSTOM_BATTERY_CHARGING_COLOR, Color.BLACK)
+            mCustomFillColor = getInt(CUSTOM_BATTERY_FILL_COLOR, Color.BLACK)
+            mCustomFillGradColor = getInt(CUSTOM_BATTERY_FILL_GRAD_COLOR, Color.BLACK)
+            mCustomPowerSaveColor = getInt(CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR, Color.BLACK)
+            mCustomPowerSaveFillColor = getInt(CUSTOM_BATTERY_POWERSAVE_FILL_COLOR, Color.BLACK)
+            mSwapPercentage = getBoolean(CUSTOM_BATTERY_SWAP_PERCENTAGE, false)
+            mChargingIconSwitch = getBoolean(CUSTOM_BATTERY_CHARGING_ICON_SWITCH, false)
+            mChargingIconStyle = getString(CUSTOM_BATTERY_CHARGING_ICON_STYLE, "0")!!.toInt()
+            mChargingIconML = getSliderInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, 1)
+            mChargingIconMR = getSliderInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, 0)
+            mChargingIconWH = getSliderInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, 14)
+            mBatteryMarginLeft = mContext.toPx(getSliderInt(CUSTOM_BATTERY_MARGIN_LEFT, 4))
+            mBatteryMarginTop = mContext.toPx(getSliderInt(CUSTOM_BATTERY_MARGIN_TOP, 0))
+            mBatteryMarginRight = mContext.toPx(getSliderInt(CUSTOM_BATTERY_MARGIN_RIGHT, 4))
+            mBatteryMarginBottom = mContext.toPx(getSliderInt(CUSTOM_BATTERY_MARGIN_BOTTOM, 0))
+        }
 
         if (mBatteryStyle != batteryStyle) {
             mBatteryStyle = batteryStyle

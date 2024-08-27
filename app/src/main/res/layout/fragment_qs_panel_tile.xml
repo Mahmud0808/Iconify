@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".ui.fragments.QsPanelTile">
+    tools:context=".ui.fragments.home.QsPanelTile">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/qs_shapes_container"

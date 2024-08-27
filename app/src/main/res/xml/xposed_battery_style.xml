@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.drdisagree.iconify.ui.preferences.BottomSheetListPreference
+        android:defaultValue="0"
+        android:entries="@array/custom_battery_style"
+        android:entryValues="@array/custom_battery_style_values"
+        android:key="xposed_custombatterystyle"
+        android:title="@string/battery_style_title"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:key="xposed_custombatterywidth"
+        android:title="@string/battery_width_title"
+        app:defaultValue="20"
+        app:iconSpaceReserved="false"
+        app:maxVal="30"
+        app:minVal="10"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:key="xposed_custombatteryheight"
+        android:title="@string/battery_height_title"
+        app:defaultValue="20"
+        app:iconSpaceReserved="false"
+        app:maxVal="30"
+        app:minVal="10"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatteryhidepercentage"
+        android:summary="@string/hide_percentage_desc"
+        android:title="@string/hide_percentage_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatteryinsidepercentage"
+        android:summary="@string/inside_percentage_desc"
+        android:title="@string/inside_percentage_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatteryhidebattery"
+        android:summary="@string/hide_battery_desc"
+        android:title="@string/hide_battery_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatteryswappercentage"
+        android:summary="@string/reverse_layout_desc"
+        android:title="@string/reverse_layout_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatterylayoutreverse"
+        android:summary="@string/rotate_layout_desc"
+        android:title="@string/rotate_layout_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatteryperimeteralpha"
+        android:summary="@string/perimeter_alpha_desc"
+        android:title="@string/perimeter_alpha_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatteryfilledalpha"
+        android:summary="@string/fill_alpha_desc"
+        android:title="@string/fill_alpha_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatteryrainbowfillcolor"
+        android:summary="@string/rainbow_color_desc"
+        android:title="@string/rainbow_color_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatteryblendcolor"
+        android:summary="@string/blend_color_desc"
+        android:title="@string/blend_color_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="0xff000000"
+        android:dependency="xposed_custombatteryblendcolor"
+        android:key="xposed_custombatteryfillcolor"
+        android:summary="@string/fill_color_desc"
+        android:title="@string/fill_color_title"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="0xff000000"
+        android:dependency="xposed_custombatteryblendcolor"
+        android:key="xposed_custombatteryfillgradcolor"
+        android:summary="@string/fill_gradient_color_desc"
+        android:title="@string/fill_gradient_color_title"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="0xff000000"
+        android:dependency="xposed_custombatteryblendcolor"
+        android:key="xposed_custombatterychargingcolor"
+        android:summary="@string/charging_fill_color_desc"
+        android:title="@string/charging_fill_color_title"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="0xff000000"
+        android:dependency="xposed_custombatteryblendcolor"
+        android:key="xposed_custombatterypowersavefillcolor"
+        android:summary="@string/powersave_fill_color_desc"
+        android:title="@string/powersave_fill_color_title"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="0xff000000"
+        android:dependency="xposed_custombatteryblendcolor"
+        android:key="xposed_custombatterypowersaveindicatorcolor"
+        android:summary="@string/powersave_indicator_color_desc"
+        android:title="@string/powersave_indicator_color_title"
+        app:cpv_allowPresets="false"
+        app:cpv_dialogType="custom"
+        app:cpv_showAlphaSlider="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatterydimension"
+        android:summary="@string/custom_margins_desc"
+        android:title="@string/custom_margins_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_custombatterydimension"
+        android:key="xposed_custombatterymarginleft"
+        android:title="@string/battery_margin_left_title"
+        app:defaultValue="4"
+        app:iconSpaceReserved="false"
+        app:maxVal="8"
+        app:minVal="0"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_custombatterydimension"
+        android:key="xposed_custombatterymarginright"
+        android:title="@string/battery_margin_right_title"
+        app:defaultValue="4"
+        app:iconSpaceReserved="false"
+        app:maxVal="8"
+        app:minVal="0"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_custombatterydimension"
+        android:key="xposed_custombatterymargintop"
+        android:title="@string/battery_margin_top_title"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="8"
+        app:minVal="0"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_custombatterydimension"
+        android:key="xposed_custombatterymarginbottom"
+        android:title="@string/battery_margin_bottom_title"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="8"
+        app:minVal="0"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_custombatterychargingiconswitch"
+        android:summary="@string/custom_charging_icon_desc"
+        android:title="@string/custom_charging_icon_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.BottomSheetListPreference
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:defaultValue="0"
+        android:dependency="xposed_custombatterychargingiconswitch"
+        android:key="xposed_custombatterychargingiconstyle"
+        android:title="@string/charging_icon_style_title"
+        app:entries="@array/custom_charging_icon_style"
+        app:entryValues="@array/custom_charging_icon_style_value"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_custombatterychargingiconswitch"
+        android:key="xposed_custombatterychargingiconmarginleft"
+        android:title="@string/charging_icon_margin_left_title"
+        app:defaultValue="1"
+        app:iconSpaceReserved="false"
+        app:maxVal="6"
+        app:minVal="0"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_custombatterychargingiconswitch"
+        android:key="xposed_custombatterychargingiconmarginright"
+        android:title="@string/charging_icon_margin_right_title"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="6"
+        app:minVal="0"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_custombatterychargingiconswitch"
+        android:key="xposed_custombatterychargingiconwidthheight"
+        android:title="@string/charging_icon_size_title"
+        app:defaultValue="14"
+        app:iconSpaceReserved="false"
+        app:maxVal="20"
+        app:minVal="8"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+</PreferenceScreen>

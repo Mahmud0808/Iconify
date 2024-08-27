@@ -56,7 +56,6 @@ import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.utils.TextUtil
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ArcProgressWidget.generateBitmap
@@ -67,6 +66,8 @@ import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyTextScalingRe
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -117,13 +118,14 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
         val isAndroid13OrBelow = Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
 
-        showLockscreenClock = Xprefs!!.getBoolean(LSCLOCK_SWITCH, false)
-        showDepthWallpaper = Xprefs!!.getBoolean(DEPTH_WALLPAPER_SWITCH, false)
-                && isAndroid13OrBelow
+        Xprefs.apply {
+            showLockscreenClock = getBoolean(LSCLOCK_SWITCH, false)
+            showDepthWallpaper = isAndroid13OrBelow && getBoolean(DEPTH_WALLPAPER_SWITCH, false)
+        }
 
         if (key.isNotEmpty() &&
             (key[0] == LSCLOCK_SWITCH ||
@@ -387,10 +389,10 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
 
     private val clockView: View?
         get() {
-            if (appContext == null || Xprefs == null) return null
+            if (appContext == null || !XprefsIsInitialized) return null
 
             val inflater = LayoutInflater.from(appContext)
-            val clockStyle: Int = Xprefs!!.getInt(LSCLOCK_STYLE, 0)
+            val clockStyle: Int = Xprefs.getString(LSCLOCK_STYLE, "0")!!.toInt()
 
             val view: View = inflater.inflate(
                 appContext!!.resources.getIdentifier(
@@ -405,22 +407,22 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         }
 
     private fun modifyClockView(clockView: View) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        val clockStyle: Int = Xprefs!!.getInt(LSCLOCK_STYLE, 0)
-        val topMargin: Int = Xprefs!!.getInt(LSCLOCK_TOPMARGIN, 100)
-        val bottomMargin: Int = Xprefs!!.getInt(LSCLOCK_BOTTOMMARGIN, 40)
+        val clockStyle: Int = Xprefs.getString(LSCLOCK_STYLE, "0")!!.toInt()
+        val topMargin: Int = Xprefs.getSliderInt(LSCLOCK_TOPMARGIN, 100)
+        val bottomMargin: Int = Xprefs.getSliderInt(LSCLOCK_BOTTOMMARGIN, 40)
         val textScaleFactor: Float =
-            (Xprefs!!.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
+            (Xprefs.getSliderInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
         val customFont = Environment.getExternalStorageDirectory().toString() +
                 "/.iconify_files/lsclock_font.ttf"
-        val lineHeight: Int = Xprefs!!.getInt(LSCLOCK_FONT_LINEHEIGHT, 0)
-        val customFontEnabled: Boolean = Xprefs!!.getBoolean(LSCLOCK_FONT_SWITCH, false)
-        val customColorEnabled: Boolean = Xprefs!!.getBoolean(LSCLOCK_COLOR_SWITCH, false)
-        val customUserName: String = Xprefs!!.getString(LSCLOCK_USERNAME, "").toString()
-        val customDeviceName: String = Xprefs!!.getString(LSCLOCK_DEVICENAME, "").toString()
+        val lineHeight: Int = Xprefs.getSliderInt(LSCLOCK_FONT_LINEHEIGHT, 0)
+        val customFontEnabled: Boolean = Xprefs.getBoolean(LSCLOCK_FONT_SWITCH, false)
+        val customColorEnabled: Boolean = Xprefs.getBoolean(LSCLOCK_COLOR_SWITCH, false)
+        val customUserName: String = Xprefs.getString(LSCLOCK_USERNAME, "").toString()
+        val customDeviceName: String = Xprefs.getString(LSCLOCK_DEVICENAME, "").toString()
 
-        val accent1: Int = Xprefs!!.getInt(
+        val accent1: Int = Xprefs.getInt(
             LSCLOCK_COLOR_CODE_ACCENT1,
             mContext.resources.getColor(
                 mContext.resources.getIdentifier(
@@ -430,7 +432,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 ), mContext.theme
             )
         )
-        val accent2: Int = Xprefs!!.getInt(
+        val accent2: Int = Xprefs.getInt(
             LSCLOCK_COLOR_CODE_ACCENT2,
             mContext.resources.getColor(
                 mContext.resources.getIdentifier(
@@ -440,7 +442,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 ), mContext.theme
             )
         )
-        val accent3: Int = Xprefs!!.getInt(
+        val accent3: Int = Xprefs.getInt(
             LSCLOCK_COLOR_CODE_ACCENT3,
             mContext.resources.getColor(
                 mContext.resources.getIdentifier(
@@ -450,11 +452,11 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 ), mContext.theme
             )
         )
-        val text1: Int = Xprefs!!.getInt(
+        val text1: Int = Xprefs.getInt(
             LSCLOCK_COLOR_CODE_TEXT1,
             Color.WHITE
         )
-        val text2: Int = Xprefs!!.getInt(
+        val text2: Int = Xprefs.getInt(
             LSCLOCK_COLOR_CODE_TEXT2,
             Color.BLACK
         )
@@ -591,7 +593,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         val maxVolLevel = mAudioManager!!.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         val volPercent = (volLevel.toFloat() / maxVolLevel * 100).toInt()
         val textScaleFactor: Float =
-            (Xprefs!!.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
+            (Xprefs.getSliderInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
         val reduceFactor = if (textScaleFactor > 1f) 0.91f else 1f
 
         mVolumeProgress?.progress = volPercent
@@ -625,7 +627,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         val usedMemory = memoryInfo.totalMem - memoryInfo.availMem
         val usedMemoryPercentage = (usedMemory * 100 / memoryInfo.totalMem).toInt()
         val textScaleFactor: Float =
-            (Xprefs!!.getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
+            (Xprefs.getSliderInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
         val reduceFactor = if (textScaleFactor > 1f) 0.91f else 1f
 
         mRamUsageArcProgress?.setImageBitmap(

@@ -9,7 +9,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.SELECTED_TOAST_FRAME
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.ViewToastFrameBinding
 import com.drdisagree.iconify.ui.models.ToastModel
 
@@ -19,7 +19,7 @@ class ToastAdapter (
     private var toastClick: OnToastClick
 ) : RecyclerView.Adapter<ToastAdapter.ViewHolder>() {
 
-    private var selected = Prefs.getInt(SELECTED_TOAST_FRAME, -1)
+    private var selected = RPrefs.getInt(SELECTED_TOAST_FRAME, -1)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ViewToastFrameBinding =
@@ -58,7 +58,7 @@ class ToastAdapter (
 
     fun notifyChange() {
         refresh(false)
-        selected = Prefs.getInt(SELECTED_TOAST_FRAME, -1)
+        selected = RPrefs.getInt(SELECTED_TOAST_FRAME, -1)
         refresh(true)
     }
 

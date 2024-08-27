@@ -35,8 +35,8 @@
     <string name="activity_title_home_page"></string>
     <string name="activity_title_icon_pack">Symbolpaket</string>
     <string name="activity_desc_icon_pack">System Icons verändern</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_cellular_icons">Signal Icons</string>
+    <string name="activity_desc_cellular_icons">Change system signal icons</string>
     <string name="activity_title_wifi_icons">WiFi Symbole</string>
     <string name="activity_desc_wifi_icons">Ändere System WiFi Symbole</string>
     <string name="activity_title_brightness_bar">Helligkeitsregler</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Transparenz</string>
     <string name="transparent_qs_panel_title">Transparentes QS-Panel</string>
     <string name="transparent_qs_panel_desc">Macht den QS-Panel-Hintergrund transparent</string>
-    <string name="transparency_alpha_title">Transparenz Alpha</string>
+    <string name="qs_background_opacity_title">Transparenz Alpha</string>
     <string name="transparent_notif_shade_title">Nur transparentes Benachrichtigungsfeld</string>
     <string name="transparent_notif_shade_desc">Nur das Feld hinter den Benachrichtigungen
 transparent machen</string>
@@ -506,8 +506,8 @@ transparent machen</string>
     <string name="powersave_fill_color_desc">Ändere Farbe des Energiesparmodus Akkus</string>
     <string name="powersave_indicator_color_title">Energiesparmodus Indikator Farbe</string>
     <string name="powersave_indicator_color_desc">Ändere Farbe des Energiesparmodus Indikators</string>
-    <string name="custom_dimensions_title">Benutzerdefinierte Größe</string>
-    <string name="custom_dimensions_desc">Setze benutzerdefinierte Größe für Akkusymbol</string>
+    <string name="custom_margins_title">Benutzerdefinierte Größe</string>
+    <string name="custom_margins_desc">Setze benutzerdefinierte Größe für Akkusymbol</string>
     <string name="battery_margin_left_title">Akku Abstand links</string>
     <string name="battery_margin_right_title">Akku Abstand rechts</string>
     <string name="battery_margin_top_title">Akku Abstand oben</string>
@@ -570,7 +570,7 @@ transparent machen</string>
     <string name="header_image_desc">Headerbild aufs QS-Panel hinzufügen\nNicht \"Zuletzt benutzt\" verwenden</string>
     <string name="btn_pick_image">Bild auswählen</string>
     <string name="header_image_height_title">Bildhöhe</string>
-    <string name="header_image_alpha">Bildtransparenz</string>
+    <string name="header_image_opacity">Bildtransparenz</string>
     <string name="header_image_bottom_fade">Höhe des unteren Ausblendens</string>
     <string name="header_image_zoom_to_fit_title">Passend vergrößern</string>
     <string name="header_image_zoom_to_fit_desc">Bild ist standardmäßig gestreckt um zu passen</string>
@@ -659,12 +659,12 @@ transparent machen</string>
     <string name="section_title_status_bar">Statusleiste</string>
     <string name="sb_clock_background_chip_title">Statusleiste Uhr-Chip</string>
     <string name="sb_clock_background_chip_desc">Chip hinter der Statusleisten-Uhr anzeigen</string>
-    <string name="statusbar_clock_color_title">Statusleisten Uhr Farbe</string>
+    <string name="statusbar_clock_text_title">Statusleisten Uhr Farbe</string>
     <string name="sbclock_color_follow_system">Folge System</string>
     <string name="sbclock_color_transparent_text">Transparenter Text</string>
     <string name="sbclock_color_custom_color">Benutzerdefinierte Farbe</string>
-    <string name="clock_color_picker_title">Uhrfarbwähler</string>
-    <string name="clock_color_picker_desc">Farbe der Statusbar Uhr setzen</string>
+    <string name="clock_text_color_picker_title">Uhrfarbwähler</string>
+    <string name="clock_text_color_picker_desc">Farbe der Statusbar Uhr setzen</string>
     <string name="section_title_status_icons">Statussymbole</string>
     <string name="chip_style_title">Chip-Stil</string>
     <string name="status_icons_chip_title">Statussymbole Chip</string>

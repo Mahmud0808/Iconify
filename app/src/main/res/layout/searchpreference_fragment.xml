@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:clipChildren="false"
+    android:fillViewport="true"
+    android:focusable="true"
+    android:foreground="@color/transparent"
+    tools:context=".ui.preferences.preferencesearch.SearchPreferenceFragment">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:background="?android:attr/windowBackground"
+        android:clipToPadding="false"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/searchpreference_searchbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/searchbar_height"
+            android:layout_marginHorizontal="@dimen/container_marginSide"
+            android:layout_marginVertical="12dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/no_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="48dp"
+            android:text="@string/searchpreference_no_result"
+            android:textColor="?attr/colorOnSurface"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+</RelativeLayout>

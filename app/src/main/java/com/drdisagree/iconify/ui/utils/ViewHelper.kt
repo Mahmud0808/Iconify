@@ -76,11 +76,15 @@ object ViewHelper {
         }
     }
 
-    fun setHeader(context: Context, toolbar: Toolbar, title: Int) {
+    fun setHeader(context: Context, toolbar: Toolbar, title: Any) {
         (context as AppCompatActivity).setSupportActionBar(toolbar)
         context.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         context.supportActionBar?.setDisplayShowHomeEnabled(true)
-        toolbar.setTitle(title)
+        if (title is Int) {
+            toolbar.setTitle(title)
+        } else if (title is String) {
+            toolbar.setTitle(title)
+        }
     }
 
     fun setHeader(
@@ -89,7 +93,21 @@ object ViewHelper {
         toolbar: Toolbar,
         title: Int
     ) {
-        toolbar.setTitle(context.resources.getString(title))
+        setHeader(
+            context,
+            fragmentManager,
+            toolbar,
+            context.resources.getString(title)
+        )
+    }
+
+    fun setHeader(
+        context: Context,
+        fragmentManager: FragmentManager,
+        toolbar: Toolbar,
+        title: String
+    ) {
+        toolbar.setTitle(title)
         (context as AppCompatActivity).setSupportActionBar(toolbar)
         context.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         context.supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -180,6 +198,7 @@ object ViewHelper {
                 batteryDrawables[2] = getRotateDrawable(batteryIcon, -90f)
             }
         }
+
         return batteryDrawables
     }
 

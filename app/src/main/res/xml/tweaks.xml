@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_tweaks_color"
+        android:key="colorEngine"
+        android:summary="@string/activity_desc_color_engine"
+        android:title="@string/activity_title_color_engine"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.ColorEngine" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_tweaks_roundness"
+        android:key="uiRoundness"
+        android:summary="@string/activity_desc_ui_roundness"
+        android:title="@string/activity_title_ui_roundness"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.UiRoundness" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_colored_battery"
+        android:key="coloredBattery"
+        android:summary="@string/activity_desc_colored_battery"
+        android:title="@string/activity_title_colored_battery"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.ColoredBattery" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_qs_row_column"
+        android:key="qsRowColumn"
+        android:summary="@string/activity_desc_qs_row_column"
+        android:title="@string/activity_title_qs_row_column"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.QsRowColumn" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_qs_icon_and_label"
+        android:key="qsIconLabel"
+        android:summary="@string/activity_desc_qs_icon_label"
+        android:title="@string/activity_title_qs_icon_label"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.QsIconLabel" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_qs_tile_size"
+        android:key="qsTileSize"
+        android:summary="@string/activity_desc_qs_tile_size"
+        android:title="@string/activity_title_qs_tile_size"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.QsTileSize" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_qs_top_margin"
+        android:key="qsPanelMargin"
+        android:summary="@string/activity_desc_qs_panel_margin"
+        android:title="@string/activity_title_qs_panel_margin"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.QsPanelMargin" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_tweaks_statusbar"
+        android:key="statusBarTweaks"
+        android:summary="@string/activity_desc_statusbar"
+        android:title="@string/activity_title_statusbar"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.Statusbar" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_tweaks_navbar"
+        android:key="navBarTweaks"
+        android:summary="@string/activity_desc_navigation_bar"
+        android:title="@string/activity_title_navigation_bar"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.NavigationBar" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_tweaks_media"
+        android:key="mediaPlayerTweaks"
+        android:summary="@string/activity_desc_media_player"
+        android:title="@string/activity_title_media_player"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.MediaPlayer" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_tweaks_volume"
+        android:key="volumePanelTweaks"
+        android:summary="@string/activity_desc_volume_panel"
+        android:title="@string/activity_title_volume_panel"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.VolumePanel" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_tweaks_miscellaneous"
+        android:key="miscellaneousTweaks"
+        android:summary="@string/activity_desc_miscellaneous"
+        android:title="@string/activity_title_miscellaneous"
+        app:fragment="com.drdisagree.iconify.ui.fragments.tweaks.Miscellaneous" />
+
+</PreferenceScreen>

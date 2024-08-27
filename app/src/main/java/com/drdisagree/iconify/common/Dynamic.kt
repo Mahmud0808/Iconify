@@ -14,9 +14,6 @@ object Dynamic {
     val TOTAL_BRIGHTNESSBARSPIXEL =
         Shell.cmd("cmd overlay list | grep '....IconifyComponentBBP'").exec().out.size
 
-    val TOTAL_ICONPACKS =
-        Shell.cmd("cmd overlay list | grep '....IconifyComponentIPAS'").exec().out.size
-
     val TOTAL_NOTIFICATIONS =
         Shell.cmd("cmd overlay list | grep '....IconifyComponentNFN'").exec().out.size
 
@@ -50,4 +47,8 @@ object Dynamic {
     // Device information
     val isAtleastA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
     val isAndroid14 = Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+
+    // Floating action buttons
+    var requiresSystemUiRestart = false
+    var requiresDeviceRestart = false
 }

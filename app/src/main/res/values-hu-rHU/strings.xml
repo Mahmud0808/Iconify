@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Ikonizáló (Iconify)</string>
     <string name="activity_title_icon_pack">Ikoncsomag</string>
     <string name="activity_desc_icon_pack">Lecserélheti a rendszerikonokat</string>
-    <string name="activity_title_signal_icons">Térerő-ikonok</string>
-    <string name="activity_desc_signal_icons">Itt változtathatja meg a rendszer térerő-kijelzését</string>
+    <string name="activity_title_cellular_icons">Térerő-ikonok</string>
+    <string name="activity_desc_cellular_icons">Itt változtathatja meg a rendszer térerő-kijelzését</string>
     <string name="activity_title_wifi_icons">Wi-Fi ikonok</string>
     <string name="activity_desc_wifi_icons">Itt változtathatja meg a rendszer Wi-Fi kijelzését</string>
     <string name="activity_title_brightness_bar">Fényerőszabályozó-sáv</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Átlátszóság</string>
     <string name="transparent_qs_panel_title">Átlátszó Gyorsbeállítások-panel</string>
     <string name="transparent_qs_panel_desc">A panel hátterét átlátszóvá teheti</string>
-    <string name="transparency_alpha_title">Átlátszósági érték</string>
+    <string name="qs_background_opacity_title">Átlátszósági érték</string>
     <string name="transparent_notif_shade_title">Csak az értesítés árnyéka</string>
     <string name="transparent_notif_shade_desc">Kizárólag az értesítési árnyék lesz átlátszó</string>
     <string name="keep_lockscreen_shade_title">Homályos Záróképernyő-háttér</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Az akkukímélő színének megváltoztatása</string>
     <string name="powersave_indicator_color_title">Az akkukímélő-indikátor színe</string>
     <string name="powersave_indicator_color_desc">Az akkukímélő-indikátor színének módosítása</string>
-    <string name="custom_dimensions_title">Egyéni méretek</string>
-    <string name="custom_dimensions_desc">Egyedi akkumulátor-ikon méreteket is beállíthat</string>
+    <string name="custom_margins_title">Egyéni méretek</string>
+    <string name="custom_margins_desc">Egyedi akkumulátor-ikon méreteket is beállíthat</string>
     <string name="battery_margin_left_title">Akku-margó bal</string>
     <string name="battery_margin_right_title">Akku-margó jobb</string>
     <string name="battery_margin_top_title">Akku-margó felül</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">Adjon hozzá fejlécképet a panelen\nNe válasszon fájlt az Előzményekből</string>
     <string name="btn_pick_image">Képválasztó</string>
     <string name="header_image_height_title">Képmagasság</string>
-    <string name="header_image_alpha">A kép alfája</string>
+    <string name="header_image_opacity">A kép alfája</string>
     <string name="header_image_bottom_fade">Az alsó halványítás erőssége</string>
     <string name="header_image_zoom_to_fit_title">Nagyítás kitöltéssel</string>
     <string name="header_image_zoom_to_fit_desc">A kép alapértelmezés szerinti illesztése</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Állapotsor</string>
     <string name="sb_clock_background_chip_title">Állapotsori óralap</string>
     <string name="sb_clock_background_chip_desc">Óralap kijelzése az állapotikonok mögött</string>
-    <string name="statusbar_clock_color_title">Az állapotsori óra színe</string>
+    <string name="statusbar_clock_text_title">Az állapotsori óra színe</string>
     <string name="sbclock_color_follow_system">Rendszerkövetés</string>
     <string name="sbclock_color_transparent_text">Áttetsző szöveg</string>
     <string name="sbclock_color_custom_color">Egyéni szín</string>
-    <string name="clock_color_picker_title">Óraszín-választó</string>
-    <string name="clock_color_picker_desc">Állítsa be az állapotsor-óra szövegének színét</string>
+    <string name="clock_text_color_picker_title">Óraszín-választó</string>
+    <string name="clock_text_color_picker_desc">Állítsa be az állapotsor-óra szövegének színét</string>
     <string name="section_title_status_icons">Állapotikonok</string>
     <string name="chip_style_title">A háttér-lap stílusa</string>
     <string name="status_icons_chip_title">Állapotikonok háttérlapja</string>

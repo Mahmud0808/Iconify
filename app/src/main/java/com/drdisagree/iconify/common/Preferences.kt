@@ -1,20 +1,63 @@
 package com.drdisagree.iconify.common
 
 import com.drdisagree.iconify.SplashActivity
-import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getBoolean
 
 object Preferences {
 
     // Xposed mods
+    const val XPOSED_HOOK_CHECK = "xposedHookCheck"
     const val FORCE_RELOAD_OVERLAY_STATE = "xposed_force_reload_overlay_state"
     const val QS_TRANSPARENCY_SWITCH = "xposed_qstransparency"
     const val NOTIF_TRANSPARENCY_SWITCH = "xposed_notiftransparency"
     const val LOCKSCREEN_SHADE_SWITCH = "xposed_lockscreen_shade"
     const val QSALPHA_LEVEL = "xposed_qsalpha"
     const val STATUSBAR_CLOCKBG_SWITCH = "xposed_sbclockbg"
-    const val STATUSBAR_CLOCK_COLOR_OPTION = "xposed_sbclockcolor"
-    const val STATUSBAR_CLOCK_COLOR_CODE = "xposed_sbclockcolorcode"
-    const val CHIP_STATUSBAR_CLOCKBG_STYLE = "xposed_chipstatusbarclockbgstyle"
+    const val CHIP_STATUSBAR_CLOCK_SWITCH = "xposed_chipstatusbarclock"
+    const val CHIP_STATUSBAR_CLOCK_STYLE_CHANGED = "xposed_chipstatusbarclockstylechanged"
+    const val CHIP_STATUSBAR_CLOCK_TEXT_COLOR_OPTION = "xposed_sbclockcolor"
+    const val CHIP_STATUSBAR_CLOCK_TEXT_COLOR_CODE = "xposed_sbclockcolorcode"
+    const val CHIP_STATUSBAR_CLOCK_ACCENT = "xposed_chipstatusbarclockaccent"
+    const val CHIP_STATUSBAR_CLOCK_START_COLOR = "xposed_chipstatusbarclockstartcolor"
+    const val CHIP_STATUSBAR_CLOCK_END_COLOR = "xposed_chipstatusbarclockendcolor"
+    const val CHIP_STATUSBAR_CLOCK_GRADIENT_DIRECTION = "xposed_chipstatusbarclockgradientdirection"
+    const val CHIP_STATUSBAR_CLOCK_PADDING_LEFT = "xposed_chipstatusbarclockpaddingleft"
+    const val CHIP_STATUSBAR_CLOCK_PADDING_RIGHT = "xposed_chipstatusbarclockpaddingright"
+    const val CHIP_STATUSBAR_CLOCK_PADDING_TOP = "xposed_chipstatusbarclockpaddingtop"
+    const val CHIP_STATUSBAR_CLOCK_PADDING_BOTTOM = "xposed_chipstatusbarclockpaddingbottom"
+    const val CHIP_STATUSBAR_CLOCK_STROKE_SWITCH = "xposed_chipstatusbarclockstroke"
+    const val CHIP_STATUSBAR_CLOCK_STROKE_WIDTH = "xposed_chipstatusbarclockstrokewidth"
+    const val CHIP_STATUSBAR_CLOCK_STROKE_ACCENT = "xposed_chipstatusbarclockstrokeaccent"
+    const val CHIP_STATUSBAR_CLOCK_STROKE_COLOR = "xposed_chipstatusbarclockstrokecolor"
+    const val CHIP_STATUSBAR_CLOCK_STROKE_DASH = "xposed_chipstatusbarclockstrokedash"
+    const val CHIP_STATUSBAR_CLOCK_STROKE_DASH_WIDTH = "xposed_chipstatusbarclockstrokedashwidth"
+    const val CHIP_STATUSBAR_CLOCK_STROKE_DASH_GAP = "xposed_chipstatusbarclockstrokedashgap"
+    const val CHIP_STATUSBAR_CLOCK_RADIUS_TOP_LEFT = "xposed_chipstatusbarclockradiustopleft"
+    const val CHIP_STATUSBAR_CLOCK_RADIUS_TOP_RIGHT = "xposed_chipstatusbarclockradiustopright"
+    const val CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_RIGHT =
+        "xposed_chipstatusbarclockradiusbottomright"
+    const val CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_LEFT = "xposed_chipstatusbarclockradiusbottomleft"
+    const val CHIP_STATUS_ICONS_SWITCH = "xposed_chipstatusicons"
+    const val CHIP_STATUS_ICONS_STYLE_CHANGED = "xposed_chipstatusiconsstylechanged"
+    const val CHIP_STATUS_ICONS_ACCENT = "xposed_chipstatusiconsaccent"
+    const val CHIP_STATUS_ICONS_START_COLOR = "xposed_chipstatusiconsstartcolor"
+    const val CHIP_STATUS_ICONS_END_COLOR = "xposed_chipstatusiconsendcolor"
+    const val CHIP_STATUS_ICONS_GRADIENT_DIRECTION = "xposed_chipstatusiconsgradientdirection"
+    const val CHIP_STATUS_ICONS_PADDING_LEFT = "xposed_chipstatusiconspaddingleft"
+    const val CHIP_STATUS_ICONS_PADDING_RIGHT = "xposed_chipstatusiconspaddingright"
+    const val CHIP_STATUS_ICONS_PADDING_TOP = "xposed_chipstatusiconspaddingtop"
+    const val CHIP_STATUS_ICONS_PADDING_BOTTOM = "xposed_chipstatusiconspaddingbottom"
+    const val CHIP_STATUS_ICONS_STROKE_SWITCH = "xposed_chipstatusiconsstroke"
+    const val CHIP_STATUS_ICONS_STROKE_WIDTH = "xposed_chipstatusiconsstrokewidth"
+    const val CHIP_STATUS_ICONS_STROKE_ACCENT = "xposed_chipstatusiconsstrokeaccent"
+    const val CHIP_STATUS_ICONS_STROKE_COLOR = "xposed_chipstatusiconsstrokecolor"
+    const val CHIP_STATUS_ICONS_STROKE_DASH = "xposed_chipstatusiconsstrokedash"
+    const val CHIP_STATUS_ICONS_STROKE_DASH_WIDTH = "xposed_chipstatusiconsstrokedashwidth"
+    const val CHIP_STATUS_ICONS_STROKE_DASH_GAP = "xposed_chipstatusiconsstrokedashgap"
+    const val CHIP_STATUS_ICONS_RADIUS_TOP_LEFT = "xposed_chipstatusiconsradiustopleft"
+    const val CHIP_STATUS_ICONS_RADIUS_TOP_RIGHT = "xposed_chipstatusiconsradiustopright"
+    const val CHIP_STATUS_ICONS_RADIUS_BOTTOM_RIGHT = "xposed_chipstatusiconsradiusbottomright"
+    const val CHIP_STATUS_ICONS_RADIUS_BOTTOM_LEFT = "xposed_chipstatusiconsradiusbottomleft"
     const val QSPANEL_STATUSICONSBG_SWITCH = "xposed_qsstatusiconsbg"
     const val CHIP_QSSTATUSICONS_STYLE = "xposed_chipqsstatusiconsstyle"
     const val VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile"
@@ -60,11 +103,18 @@ object Preferences {
     const val LSCLOCK_FONT_TEXT_SCALING = "xposed_lockscreenclocktextscaling"
     const val LSCLOCK_USERNAME = "xposed_lockscreenclockcustomusername"
     const val LSCLOCK_DEVICENAME = "xposed_lockscreenclockcustomdevicename"
+
     // LS Widgets
     const val LOCKSCREEN_WIDGETS_ENABLED: String = "lockscreen_widgets_enabled"
     const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET: String = "lockscreen_device_widget"
     const val LOCKSCREEN_WIDGETS: String = "lockscreen_widgets"
     const val LOCKSCREEN_WIDGETS_EXTRAS: String = "lockscreen_widgets_extras"
+    const val MAIN_WIDGET_1_KEY: String = "main_custom_widgets1"
+    const val MAIN_WIDGET_2_KEY: String = "main_custom_widgets2"
+    const val EXTRA_WIDGET_1_KEY: String = "custom_widgets1"
+    const val EXTRA_WIDGET_2_KEY: String = "custom_widgets2"
+    const val EXTRA_WIDGET_3_KEY: String = "custom_widgets3"
+    const val EXTRA_WIDGET_4_KEY: String = "custom_widgets4"
     const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH: String =
         "lockscreen_device_widget_custom_color"
     const val LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR: String =
@@ -111,8 +161,10 @@ object Preferences {
     const val DEPTH_WALLPAPER_ON_AOD = "xposed_depthwallpaperaonaod"
     const val DEPTH_WALLPAPER_FADE_ANIMATION = "xposed_depthwallpaperfadeanimation"
     const val DEPTH_WALLPAPER_PARALLAX_EFFECT = "xposed_depthwallpaperparallaxeffect"
-    const val DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER = "xposed_depthwallpaperbackgroundmovementmultiplier"
-    const val DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER = "xposed_depthwallpaperforegroundmovementmultiplier"
+    const val DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER =
+        "xposed_depthwallpaperbackgroundmovementmultiplier"
+    const val DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER =
+        "xposed_depthwallpaperforegroundmovementmultiplier"
     const val DEPTH_WALLPAPER_CHANGED = "xposed_depthwallpaperchanged"
     const val UNZOOM_DEPTH_WALLPAPER = "xposed_unzoomdepthwallpaper"
     const val CUSTOM_BATTERY_LAYOUT_REVERSE = "xposed_custombatterylayoutreverse"
@@ -144,6 +196,7 @@ object Preferences {
     const val CUSTOM_BATTERY_INSIDE_PERCENTAGE = "xposed_custombatteryinsidepercentage"
     const val CUSTOM_BATTERY_HIDE_BATTERY = "xposed_custombatteryhidebattery"
     const val BLUR_RADIUS_VALUE = "xposed_blurradiusvalue"
+    const val CUSTOM_QS_MARGIN = "xposed_customqsmargin"
     const val QQS_TOPMARGIN = "xposed_qqspanelTopMargin"
     const val QS_TOPMARGIN = "xposed_qspanelTopMargin"
     const val FIX_QS_TILE_COLOR = "xposed_fixqstilecolor"
@@ -208,10 +261,10 @@ object Preferences {
     const val RESTART_SYSUI_BEHAVIOR_EXT = "IconifyRestartSysuiBehaviorExtended"
 
     // Preference keys
-    const val STR_NULL = "null"
     const val UPDATE_SCHEDULE = "iconify_update_schedule"
     const val UPDATE_CHECK_TIME = "iconify_update_check_time"
     const val LAST_UPDATE_CHECK_TIME = "iconify_last_update_check_time"
+    const val NEW_UPDATE_VERSION_CODE = "iconify_new_update_version_code"
     const val FIRST_INSTALL = "firstInstall"
     const val UPDATE_DETECTED = "updateDetected"
     const val ON_HOME_PAGE = "onHomePage"
@@ -277,6 +330,7 @@ object Preferences {
 
     // Weather
     const val WEATHER_SWITCH: String = "weather_switch"
+    const val PREF_KEY_UPDATE_STATUS: String = "update_status"
     const val WEATHER_ICON_PACK: String = "weather_icon_pack"
     const val WEATHER_UPDATE_INTERVAL: String = "weather_update_interval"
     const val WEATHER_SHOW_LOCATION: String = "weather_show_location"
@@ -291,6 +345,7 @@ object Preferences {
     const val WEATHER_UNITS: String = "weather_units"
     const val WEATHER_PROVIDER: String = "weather_provider"
     const val WEATHER_CUSTOM_LOCATION: String = "weather_custom_location_switch"
+    const val WEATHER_CUSTOM_LOCATION_PICKER: String = "weather_custom_location_picker"
     const val WEATHER_CUSTOM_MARGINS_TOP: String = "weather_custom_margins_top"
     const val WEATHER_CUSTOM_MARGINS_SIDE: String = "weather_custom_margins_side"
     const val WEATHER_CUSTOM_MARGINS_BOTTOM: String = "weather_custom_margins_bottom"
@@ -306,6 +361,7 @@ object Preferences {
     const val SHOW_XPOSED_WARN = "IconifyShowXposedWarn"
     const val SHOW_HOME_CARD = "IconifyShowHomeCard"
     const val XPOSED_ONLY_MODE = "IconifyXposedOnlyMode"
+    const val NEW_UPDATE_FOUND = "newUpdateFound"
 
     var isXposedOnlyMode = getBoolean(XPOSED_ONLY_MODE, true) &&
             !SplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING
@@ -314,6 +370,7 @@ object Preferences {
     const val BOOT_ID = "boot_id"
     const val VER_CODE = "versionCode"
     const val EASTER_EGG = "iconify_easter_egg"
+    const val EXPERIMENTAL_FEATURES = "experimentalFeatures"
     const val ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol"
     const val SHOW_QS_TILE_NORMAL_WARN = "showQsTileNormalWarn"
     const val SHOW_QS_TILE_PIXEL_WARN = "showQsTilePixelWarn"

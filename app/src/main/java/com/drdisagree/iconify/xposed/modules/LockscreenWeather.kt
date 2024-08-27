@@ -24,10 +24,11 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_SIZE
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.views.CurrentWeatherView
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedHelpers.findClass
@@ -56,23 +57,25 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
     private var mStatusArea: ViewGroup? = null
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        customLockscreenClock = Xprefs!!.getBoolean(LSCLOCK_SWITCH, false)
-        weatherEnabled = Xprefs!!.getBoolean(WEATHER_SWITCH, false)
-        weatherShowLocation = Xprefs!!.getBoolean(WEATHER_SHOW_LOCATION, true)
-        weatherShowCondition = Xprefs!!.getBoolean(WEATHER_SHOW_CONDITION, true)
-        weatherShowHumidity = Xprefs!!.getBoolean(WEATHER_SHOW_HUMIDITY, false)
-        weatherShowWind = Xprefs!!.getBoolean(WEATHER_SHOW_WIND, false)
-        weatherCustomColor = Xprefs!!.getBoolean(WEATHER_TEXT_COLOR_SWITCH, false)
-        weatherColor = Xprefs!!.getInt(WEATHER_TEXT_COLOR, Color.WHITE)
-        weatherTextSize = Xprefs!!.getInt(WEATHER_TEXT_SIZE, 16)
-        weatherImageSize = Xprefs!!.getInt(WEATHER_ICON_SIZE, 18)
-        mSideMargin = Xprefs!!.getInt(WEATHER_CUSTOM_MARGINS_SIDE, 20)
-        mTopMargin = Xprefs!!.getInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
-        mBottomMargin = Xprefs!!.getInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
-        mWeatherBackground = Xprefs!!.getInt(WEATHER_STYLE, 0)
-        mCenterWeather = Xprefs!!.getBoolean(WEATHER_CENTER_VIEW, false)
+        Xprefs.apply {
+            customLockscreenClock = getBoolean(LSCLOCK_SWITCH, false)
+            weatherEnabled = getBoolean(WEATHER_SWITCH, false)
+            weatherShowLocation = getBoolean(WEATHER_SHOW_LOCATION, true)
+            weatherShowCondition = getBoolean(WEATHER_SHOW_CONDITION, true)
+            weatherShowHumidity = getBoolean(WEATHER_SHOW_HUMIDITY, false)
+            weatherShowWind = getBoolean(WEATHER_SHOW_WIND, false)
+            weatherCustomColor = getBoolean(WEATHER_TEXT_COLOR_SWITCH, false)
+            weatherColor = getInt(WEATHER_TEXT_COLOR, Color.WHITE)
+            weatherTextSize = getSliderInt(WEATHER_TEXT_SIZE, 16)
+            weatherImageSize = getSliderInt(WEATHER_ICON_SIZE, 18)
+            mSideMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_SIDE, 20)
+            mTopMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
+            mBottomMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
+            mWeatherBackground = getInt(WEATHER_STYLE, 0)
+            mCenterWeather = getBoolean(WEATHER_CENTER_VIEW, false)
+        }
 
         if (key.isNotEmpty() &&
             (key[0] == WEATHER_SHOW_LOCATION ||

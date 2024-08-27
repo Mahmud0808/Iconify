@@ -11,6 +11,11 @@
         android:icon="@drawable/ic_navbar_tweaks"
         android:title="@string/navbar_tweaks" />
     <item
+        android:id="@+id/xposed"
+        android:enabled="true"
+        android:icon="@drawable/ic_navbar_xposed"
+        android:title="@string/navbar_xposed" />
+    <item
         android:id="@+id/settings"
         android:enabled="true"
         android:icon="@drawable/ic_navbar_settings"

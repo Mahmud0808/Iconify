@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Pacote de ícones</string>
     <string name="activity_desc_icon_pack">Altere o pacote de ícones do sistema</string>
-    <string name="activity_title_signal_icons">Ícones de sinal</string>
-    <string name="activity_desc_signal_icons">Altere os ícones de sinal do sistema</string>
+    <string name="activity_title_cellular_icons">Ícones de sinal</string>
+    <string name="activity_desc_cellular_icons">Altere os ícones de sinal do sistema</string>
     <string name="activity_title_wifi_icons">Ícones de Wi-Fi</string>
     <string name="activity_desc_wifi_icons">Altere os ícones de Wi-Fi do sistema</string>
     <string name="activity_title_brightness_bar">Barra de brilho</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Transparência</string>
     <string name="transparent_qs_panel_title">Painel QS transparente</string>
     <string name="transparent_qs_panel_desc">Torne o fundo do painel QS transparente</string>
-    <string name="transparency_alpha_title">Transparência alfa</string>
+    <string name="qs_background_opacity_title">Transparência alfa</string>
     <string name="transparent_notif_shade_title">Somente sombra de notificação transparente</string>
     <string name="transparent_notif_shade_desc">Torne apenas a aba de notificação transparente</string>
     <string name="keep_lockscreen_shade_title">Plano de fundo escuro na tela de bloqueio</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Altere a cor da bateria para a economia de energia</string>
     <string name="powersave_indicator_color_title">Cor do indicador de economia de energia</string>
     <string name="powersave_indicator_color_desc">Altere a cor do indicador de economia de energia</string>
-    <string name="custom_dimensions_title">Dimensões personalizadas</string>
-    <string name="custom_dimensions_desc">Defina dimensões personalizadas para o ícone da bateria</string>
+    <string name="custom_margins_title">Dimensões personalizadas</string>
+    <string name="custom_margins_desc">Defina dimensões personalizadas para o ícone da bateria</string>
     <string name="battery_margin_left_title">Margem esquerda da bateria</string>
     <string name="battery_margin_right_title">Margem direita da bateria</string>
     <string name="battery_margin_top_title">Margem superior da bateria</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">Adicione uma imagem de cabeçalho no painel QS.\nNão selecione o arquivo de Recente.</string>
     <string name="btn_pick_image">Escolher imagem</string>
     <string name="header_image_height_title">Altura da imagem</string>
-    <string name="header_image_alpha">Imagem alfa</string>
+    <string name="header_image_opacity">Imagem alfa</string>
     <string name="header_image_bottom_fade">Quantidade de esmaecimento inferior</string>
     <string name="header_image_zoom_to_fit_title">Zoom para ajustar</string>
     <string name="header_image_zoom_to_fit_desc">A imagem é esticada para caber por padrão</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Barra de status</string>
     <string name="sb_clock_background_chip_title">Chip de relógio da barra de status</string>
     <string name="sb_clock_background_chip_desc">Chip de exibição atrás do relógio da barra de status</string>
-    <string name="statusbar_clock_color_title">Cor do relógio da barra de status</string>
+    <string name="statusbar_clock_text_title">Cor do relógio da barra de status</string>
     <string name="sbclock_color_follow_system">Seguir sistema</string>
     <string name="sbclock_color_transparent_text">Texto transparente</string>
     <string name="sbclock_color_custom_color">Cor customizada</string>
-    <string name="clock_color_picker_title">Seletor de cores do relógio</string>
-    <string name="clock_color_picker_desc">Defina a cor do texto do relógio da barra de status</string>
+    <string name="clock_text_color_picker_title">Seletor de cores do relógio</string>
+    <string name="clock_text_color_picker_desc">Defina a cor do texto do relógio da barra de status</string>
     <string name="section_title_status_icons">Ícones de status</string>
     <string name="chip_style_title">Estilo do chip</string>
     <string name="status_icons_chip_title">Chip de ícones de status</string>

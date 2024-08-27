@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">アイコンパック</string>
     <string name="activity_desc_icon_pack">システム アイコンパックを変更</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_cellular_icons">Signal Icons</string>
+    <string name="activity_desc_cellular_icons">Change system signal icons</string>
     <string name="activity_title_wifi_icons">WiFi Icons</string>
     <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">明るさ調節バー</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">透明効果</string>
     <string name="transparent_qs_panel_title">クイック設定パネルを透過する</string>
     <string name="transparent_qs_panel_desc">クイック設定パネルの背景を透過します</string>
-    <string name="transparency_alpha_title">透明度</string>
+    <string name="qs_background_opacity_title">透明度</string>
     <string name="transparent_notif_shade_title">通知シェードのみ透過する</string>
     <string name="transparent_notif_shade_desc">通知シェードのみ透過するようにします</string>
     <string name="keep_lockscreen_shade_title">ロック画面の壁紙を暗くする</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">バッテリーセーバーの色を変更します</string>
     <string name="powersave_indicator_color_title">バッテリーセーバーのインジケーターの色</string>
     <string name="powersave_indicator_color_desc">バッテリーセーバーのインジケーターの色を変更します</string>
-    <string name="custom_dimensions_title">カスタムディメンション</string>
-    <string name="custom_dimensions_desc">バッテリーアイコンにカスタムディメンションを設定します</string>
+    <string name="custom_margins_title">カスタムディメンション</string>
+    <string name="custom_margins_desc">バッテリーアイコンにカスタムディメンションを設定します</string>
     <string name="battery_margin_left_title">バッテリー左マージン</string>
     <string name="battery_margin_right_title">バッテリー右マージン</string>
     <string name="battery_margin_top_title">バッテリー上部マージン</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">クイック設定パネルのヘッダー画像を追加します\n「最近」からファイルを選択しないでください</string>
     <string name="btn_pick_image">画像を選択</string>
     <string name="header_image_height_title">画像の縦幅</string>
-    <string name="header_image_alpha">画像の透明度</string>
+    <string name="header_image_opacity">画像の透明度</string>
     <string name="header_image_bottom_fade">下部のフェード量</string>
     <string name="header_image_zoom_to_fit_title">画面に合わせる</string>
     <string name="header_image_zoom_to_fit_desc">画像はデフォルトで拡大縮小します</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">ステータスバー</string>
     <string name="sb_clock_background_chip_title">ステータスバー時計チップ</string>
     <string name="sb_clock_background_chip_desc">ステータスバー時計の後ろにチップを表示します</string>
-    <string name="statusbar_clock_color_title">ステータスバー時計色</string>
+    <string name="statusbar_clock_text_title">ステータスバー時計色</string>
     <string name="sbclock_color_follow_system">システムに従う</string>
     <string name="sbclock_color_transparent_text">透過テキスト</string>
     <string name="sbclock_color_custom_color">カスタムカラー</string>
-    <string name="clock_color_picker_title">時計カラーピッカー</string>
-    <string name="clock_color_picker_desc">ステータスバー時計の色を設定します</string>
+    <string name="clock_text_color_picker_title">時計カラーピッカー</string>
+    <string name="clock_text_color_picker_desc">ステータスバー時計の色を設定します</string>
     <string name="section_title_status_icons">ステータスアイコン</string>
     <string name="chip_style_title">チップ スタイル</string>
     <string name="status_icons_chip_title">ステータスアイコンチップ</string>

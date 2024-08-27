@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Pacotes de ícones</string>
     <string name="activity_desc_icon_pack">Personalizar ícones de sistema</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_cellular_icons">Signal Icons</string>
+    <string name="activity_desc_cellular_icons">Change system signal icons</string>
     <string name="activity_title_wifi_icons">WiFi Icons</string>
     <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">Barra de brilho</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Transparency</string>
     <string name="transparent_qs_panel_title">Painel das DR transparente</string>
     <string name="transparent_qs_panel_desc">Aplicar transparência no pano de fundo do painel das DR</string>
-    <string name="transparency_alpha_title">Nível de opacidade</string>
+    <string name="qs_background_opacity_title">Nível de opacidade</string>
     <string name="transparent_notif_shade_title">Apenas na área de notificações</string>
     <string name="transparent_notif_shade_desc">Aplicar transparência apenas na ára das notificações</string>
     <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Change color of powersave battery</string>
     <string name="powersave_indicator_color_title">Powersave Indicator Color</string>
     <string name="powersave_indicator_color_desc">Change color of powersave indicator</string>
-    <string name="custom_dimensions_title">Custom Dimensions</string>
-    <string name="custom_dimensions_desc">Set custom dimensions for battery icon</string>
+    <string name="custom_margins_title">Custom Dimensions</string>
+    <string name="custom_margins_desc">Set custom dimensions for battery icon</string>
     <string name="battery_margin_left_title">Battery Margin Left</string>
     <string name="battery_margin_right_title">Battery Margin Right</string>
     <string name="battery_margin_top_title">Battery Margin Top</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">Adicionar imagem de cabeçalho ao painel das DR\nNão escolha um ficheiro da localização \"Recentes\".</string>
     <string name="btn_pick_image">Escolha uma imagem</string>
     <string name="header_image_height_title">Altura da imagem</string>
-    <string name="header_image_alpha">Opacidade da imagem</string>
+    <string name="header_image_opacity">Opacidade da imagem</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Zoom para ajuste</string>
     <string name="header_image_zoom_to_fit_desc">A imagem é esticada para ajuste por defeito</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Status Bar</string>
     <string name="sb_clock_background_chip_title">Chip do relógio na barra de estado</string>
     <string name="sb_clock_background_chip_desc">Mostrar um chip por detrás do relógio na barra de estado</string>
-    <string name="statusbar_clock_color_title">Statusbar Clock Color</string>
+    <string name="statusbar_clock_text_title">Statusbar Clock Color</string>
     <string name="sbclock_color_follow_system">Follow System</string>
     <string name="sbclock_color_transparent_text">Transparent Text</string>
     <string name="sbclock_color_custom_color">Custom Color</string>
-    <string name="clock_color_picker_title">Clock Color Picker</string>
-    <string name="clock_color_picker_desc">Set color of statubsar clock text</string>
+    <string name="clock_text_color_picker_title">Clock Color Picker</string>
+    <string name="clock_text_color_picker_desc">Set color of statubsar clock text</string>
     <string name="section_title_status_icons">Status Icons</string>
     <string name="chip_style_title">Estilo do chip</string>
     <string name="status_icons_chip_title">Chip nos ícones das DR</string>

@@ -22,9 +22,9 @@ import com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_BEHAVIOR_EXT
 import com.drdisagree.iconify.common.Preferences.VER_CODE
 import com.drdisagree.iconify.common.References.DEVICE_BOOT_ID_CMD
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.putString
 import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.getString
+import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector.LOAD_TIME_KEY_KEY
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector.PACKAGE_STRIKE_KEY_KEY
 import com.topjohnwu.superuser.Shell
@@ -68,7 +68,7 @@ object SystemUtil {
     }
 
     fun handleSystemUIRestart() {
-        val selectedBehavior = RPrefs.getInt(RESTART_SYSUI_BEHAVIOR_EXT, 0)
+        val selectedBehavior = getString(RESTART_SYSUI_BEHAVIOR_EXT, "0")!!.toInt()
 
         when (selectedBehavior) {
             0 -> {
@@ -203,15 +203,18 @@ object SystemUtil {
 
     val saveBootId: Unit // Save unique id of each boot
         get() {
-            putString(BOOT_ID, Shell.cmd(DEVICE_BOOT_ID_CMD).exec().out.toString())
+            val bootId = Shell.cmd(DEVICE_BOOT_ID_CMD).exec().out.toString()
+            if (getString(BOOT_ID) != bootId) {
+                putString(BOOT_ID, bootId)
+            }
         }
 
     fun saveVersionCode() {
-        Prefs.putInt(VER_CODE, BuildConfig.VERSION_CODE)
+        RPrefs.putInt(VER_CODE, BuildConfig.VERSION_CODE)
     }
 
     val savedVersionCode: Int
-        get() = Prefs.getInt(VER_CODE, -1)
+        get() = RPrefs.getInt(VER_CODE, -1)
 
     fun hasStoragePermission(): Boolean {
         return Environment.isExternalStorageManager() || Environment.isExternalStorageLegacy()

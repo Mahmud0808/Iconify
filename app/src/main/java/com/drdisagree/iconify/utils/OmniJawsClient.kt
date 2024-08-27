@@ -49,7 +49,7 @@ class OmniJawsClient(private val mContext: Context) {
         var temp: String? = null
         var humidity: String? = null
         var condition: String? = null
-        var timeStamp: Long? = null
+        var timeStamp: Long = 0
         var forecasts: List<DayForecast>? = null
         var tempUnits: String? = null
         var windUnits: String? = null
@@ -58,14 +58,14 @@ class OmniJawsClient(private val mContext: Context) {
         var iconPack: String? = null
 
         override fun toString(): String {
-            return city + ":" + Date(timeStamp!!) + ": " + windSpeed + ":" + windDirection + ":" + conditionCode + ":" + temp + ":" + humidity + ":" + condition + ":" + tempUnits + ":" + windUnits + ": " + forecasts + ": " + iconPack
+            return city + ":" + Date(timeStamp) + ": " + windSpeed + ":" + windDirection + ":" + conditionCode + ":" + temp + ":" + humidity + ":" + condition + ":" + tempUnits + ":" + windUnits + ": " + forecasts + ": " + iconPack
         }
 
         val lastUpdateTime: String
             get() {
                 val hourFormat = if (DateFormat.is24HourFormat(mContext)) "HH" else "hh"
                 val sdf = SimpleDateFormat("$hourFormat:mm:ss", Locale.getDefault())
-                return sdf.format(Date(timeStamp!!))
+                return sdf.format(Date(timeStamp))
             }
     }
 

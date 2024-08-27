@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".ui.fragments.IconShape">
+    tools:context=".ui.fragments.home.IconShape">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/icon_shape_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
         android:layout_gravity="top|center"
+        android:clipToPadding="false"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:paddingVertical="8dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <include
         android:id="@+id/header"

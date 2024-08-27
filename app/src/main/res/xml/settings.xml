@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="generalSettings"
+        android:title="@string/settings_section_title_general"
+        app:iconSpaceReserved="true"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.ListPreference
+            android:defaultValue="en-US"
+            android:dialogTitle="@string/settings_app_language"
+            android:entries="@array/locale_name"
+            android:entryValues="@array/locale_code"
+            android:icon="@drawable/ic_language"
+            android:key="IconifyAppLanguage"
+            android:title="@string/settings_app_language"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <com.drdisagree.iconify.ui.preferences.ListPreference
+            android:defaultValue="SplashActivity"
+            android:dialogTitle="@string/settings_app_icon_default"
+            android:entries="@array/app_icon"
+            android:entryValues="@array/app_icon_identifier"
+            android:icon="@drawable/ic_app_icon"
+            android:key="IconifyAppIcon"
+            android:title="@string/settings_app_icon"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <com.drdisagree.iconify.ui.preferences.ListPreference
+            android:defaultValue="2"
+            android:dialogTitle="@string/settings_app_theme"
+            android:entries="@array/app_theme"
+            android:entryValues="@array/app_theme_identifier"
+            android:icon="@drawable/ic_app_theme"
+            android:key="IconifyAppTheme"
+            android:title="@string/settings_app_theme"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="updateSettings"
+        android:title="@string/settings_section_title_update"
+        app:iconSpaceReserved="true"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+            android:icon="@drawable/ic_check_update"
+            android:key="checkForUpdatePref"
+            android:title="@string/settings_check_for_update"
+            app:fragment="com.drdisagree.iconify.ui.fragments.settings.AppUpdates"
+            app:showArrow="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:icon="@drawable/ic_auto_update"
+            android:key="IconifyAutoUpdate"
+            android:summary="@string/settings_auto_update_desc"
+            android:title="@string/settings_auto_update_title"
+            app:defaultValue="true" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:icon="@drawable/ic_auto_update_wifi_only"
+            android:key="IconifyUpdateOverWifi"
+            android:summary="@string/settings_auto_update_desc_wifi_only"
+            android:title="@string/settings_auto_update_title_wifi_only"
+            app:defaultValue="true" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+
+    <com.drdisagree.iconify.ui.preferences.EasterPreference
+        android:key="miscSettings"
+        android:layout="@layout/view_widget_title_misc"
+        app:iconSpaceReserved="true"
+        search:ignore="true" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:icon="@drawable/ic_restart_systemui_after_boot"
+        android:key="restartSysuiAfterBoot"
+        android:summary="@string/settings_restart_systemui_after_boot_desc"
+        android:title="@string/settings_restart_systemui_after_boot_title" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:icon="@drawable/ic_card"
+        android:key="IconifyShowHomeCard"
+        android:summary="@string/settings_show_home_page_card_desc"
+        android:title="@string/settings_show_home_page_card_title"
+        app:defaultValue="true" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_clear_cache"
+        android:key="clearAppCache"
+        android:summary="@string/settings_clear_app_cache_desc"
+        android:title="@string/settings_clear_app_cache_title"
+        app:showArrow="false" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_experimental"
+        android:key="experimentalFeatures"
+        android:summary="@string/activity_desc_experimental"
+        android:title="@string/experimental_features_title"
+        app:fragment="com.drdisagree.iconify.ui.fragments.settings.Experimental"
+        app:showArrow="false" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_disable_everything"
+        android:key="disableEverything"
+        android:summary="@string/settings_disable_everything_desc"
+        android:title="@string/settings_disable_everything_title"
+        app:showArrow="false" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="aboutSettings"
+        android:title="@string/settings_section_title_about"
+        app:iconSpaceReserved="true"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+            android:icon="@drawable/ic_github"
+            android:key="iconifyGitHub"
+            android:summary="@string/settings_github_repository_desc"
+            android:title="@string/settings_github_repository_title"
+            app:showArrow="false" />
+
+        <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+            android:icon="@drawable/ic_telegram"
+            android:key="iconifyTelegram"
+            android:summary="@string/settings_telegram_group_desc"
+            android:title="@string/settings_telegram_group_title"
+            app:showArrow="false" />
+
+        <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+            android:icon="@drawable/ic_translate"
+            android:key="iconifyTranslate"
+            android:summary="@string/settings_translate_desc"
+            android:title="@string/settings_translate_title"
+            app:showArrow="false" />
+
+        <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+            android:icon="@drawable/ic_credits"
+            android:key="iconifyCredits"
+            android:summary="@string/settings_credits_desc"
+            android:title="@string/settings_credits_title"
+            app:fragment="com.drdisagree.iconify.ui.fragments.settings.Credits"
+            app:showArrow="false" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+</PreferenceScreen>

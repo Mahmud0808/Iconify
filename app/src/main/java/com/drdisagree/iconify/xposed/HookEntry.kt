@@ -12,10 +12,10 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
-import com.drdisagree.iconify.config.XPrefs
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector
 import com.drdisagree.iconify.xposed.utils.SystemUtil
+import com.drdisagree.iconify.xposed.utils.XPrefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -71,33 +71,35 @@ class HookEntry : ServiceConnection {
             }
 
             else -> {
-                findAndHookMethod(
-                    Instrumentation::class.java,
-                    "newApplication",
-                    ClassLoader::class.java,
-                    String::class.java,
-                    Context::class.java,
-                    object : XC_MethodHook() {
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            try {
-                                if (mContext == null) {
-                                    mContext = param.args[2] as Context
+                if (!isChildProcess) {
+                    findAndHookMethod(
+                        Instrumentation::class.java,
+                        "newApplication",
+                        ClassLoader::class.java,
+                        String::class.java,
+                        Context::class.java,
+                        object : XC_MethodHook() {
+                            override fun afterHookedMethod(param: MethodHookParam) {
+                                try {
+                                    if (mContext == null) {
+                                        mContext = param.args[2] as Context
 
-                                    HookRes.modRes = mContext!!.createPackageContext(
-                                        BuildConfig.APPLICATION_ID,
-                                        Context.CONTEXT_IGNORE_SECURITY
-                                    ).resources
+                                        HookRes.modRes = mContext!!.createPackageContext(
+                                            BuildConfig.APPLICATION_ID,
+                                            Context.CONTEXT_IGNORE_SECURITY
+                                        ).resources
 
-                                    XPrefs.init(mContext!!)
+                                        XPrefs.init(mContext!!)
 
-                                    waitForXprefsLoad(loadPackageParam)
+                                        waitForXprefsLoad(loadPackageParam)
+                                    }
+                                } catch (throwable: Throwable) {
+                                    log(throwable)
                                 }
-                            } catch (throwable: Throwable) {
-                                log(throwable)
                             }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }
@@ -143,7 +145,7 @@ class HookEntry : ServiceConnection {
     private fun waitForXprefsLoad(loadPackageParam: LoadPackageParam) {
         while (true) {
             try {
-                Xprefs!!.getBoolean("LoadTestBooleanValue", false)
+                Xprefs.getBoolean("LoadTestBooleanValue", false)
                 break
             } catch (ignored: Throwable) {
                 SystemUtil.sleep(1000);

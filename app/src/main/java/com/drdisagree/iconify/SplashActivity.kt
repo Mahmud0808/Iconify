@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.drdisagree.iconify.common.Preferences.XPOSED_ONLY_MODE
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.activities.OnboardingActivity
 import com.drdisagree.iconify.utils.ModuleUtil
@@ -28,14 +28,14 @@ class SplashActivity : AppCompatActivity() {
             val isRooted = RootUtil.deviceProperlyRooted()
             val isModuleInstalled = ModuleUtil.moduleExists()
             val isOverlayInstalled = OverlayUtil.overlayExists()
-            var isXposedOnlyMode = Prefs.getBoolean(XPOSED_ONLY_MODE, false)
+            var isXposedOnlyMode = RPrefs.getBoolean(XPOSED_ONLY_MODE, false)
             val isVersionCodeCorrect = BuildConfig.VERSION_CODE == SystemUtil.savedVersionCode
 
             if (isRooted) {
                 if (isOverlayInstalled) {
-                    Prefs.putBoolean(XPOSED_ONLY_MODE, false)
+                    RPrefs.putBoolean(XPOSED_ONLY_MODE, false)
                 } else if (isModuleInstalled) {
-                    Prefs.putBoolean(XPOSED_ONLY_MODE, true)
+                    RPrefs.putBoolean(XPOSED_ONLY_MODE, true)
                     isXposedOnlyMode = true
                 }
             }

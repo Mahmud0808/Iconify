@@ -56,4 +56,12 @@
     <dimen name="kg_widget_main_height">88dp</dimen>
     <dimen name="kg_widget_main_width">175dp</dimen>
 
+    <!-- Searchbar dimens -->
+    <dimen name="searchbar_height">56dp</dimen>
+    <dimen name="searchbar_corner_radius">16dp</dimen>
+    <dimen name="preference_padding_start">15dip</dimen>
+    <dimen name="preference_padding_end">6dip</dimen>
+    <dimen name="preference_padding_top">6dip</dimen>
+    <dimen name="preference_padding_bottom">6dip</dimen>
+
 </resources>

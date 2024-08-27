@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".ui.fragments.Statusbar">
+    tools:context=".ui.fragments.tweaks.Statusbar">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
@@ -75,7 +75,7 @@
                 android:clickable="true"
                 android:orientation="vertical"
                 android:paddingHorizontal="24dp"
-                android:paddingVertical="22dp">
+                android:paddingVertical="16dp">
 
                 <TextView
                     style="@style/TextAppearance.Material3.TitleMedium"

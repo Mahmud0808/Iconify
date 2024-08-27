@@ -53,18 +53,18 @@ class ColorPickerWidget : RelativeLayout {
 
     private fun init(context: Context, attrs: AttributeSet?) {
         inflate(context, R.layout.view_widget_colorpicker, this)
-        
+
         initializeId()
-        
+
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerWidget)
-        
+
         setTitle(typedArray.getString(R.styleable.ColorPickerWidget_titleText))
         setSummary(typedArray.getString(R.styleable.ColorPickerWidget_summaryText))
         val colorResId = typedArray.getResourceId(R.styleable.ColorPickerWidget_previewColor, -1)
         selectedColor = typedArray.getColor(R.styleable.ColorPickerWidget_previewColor, Color.WHITE)
-        
+
         typedArray.recycle()
-        
+
         if (colorResId != -1) {
             previewColor = ContextCompat.getColor(getContext(), colorResId)
         }
@@ -80,10 +80,20 @@ class ColorPickerWidget : RelativeLayout {
 
     fun setSummary(summaryResId: Int) {
         summaryTextView.setText(summaryResId)
+        if (summaryResId == 0) {
+            summaryTextView.visibility = View.GONE
+        } else {
+            summaryTextView.visibility = View.VISIBLE
+        }
     }
 
     fun setSummary(summary: String?) {
         summaryTextView.text = summary
+        if (summary.isNullOrEmpty()) {
+            summaryTextView.visibility = View.GONE
+        } else {
+            summaryTextView.visibility = View.VISIBLE
+        }
     }
 
     fun setColorPickerListener(

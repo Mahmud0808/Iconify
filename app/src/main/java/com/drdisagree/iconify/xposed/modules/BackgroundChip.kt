@@ -17,28 +17,66 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.res.ResourcesCompat
-import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.common.Preferences.CHIP_QSSTATUSICONS_STYLE
-import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCKBG_STYLE
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_ACCENT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_END_COLOR
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_GRADIENT_DIRECTION
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_PADDING_BOTTOM
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_PADDING_LEFT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_PADDING_RIGHT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_PADDING_TOP
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_LEFT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_RIGHT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_RADIUS_TOP_LEFT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_RADIUS_TOP_RIGHT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_START_COLOR
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_ACCENT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_COLOR
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_DASH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_DASH_GAP
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_DASH_WIDTH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_SWITCH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_WIDTH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STYLE_CHANGED
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_SWITCH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_TEXT_COLOR_CODE
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_TEXT_COLOR_OPTION
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_ACCENT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_END_COLOR
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_GRADIENT_DIRECTION
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_PADDING_BOTTOM
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_PADDING_LEFT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_PADDING_RIGHT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_PADDING_TOP
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_RADIUS_BOTTOM_LEFT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_RADIUS_BOTTOM_RIGHT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_RADIUS_TOP_LEFT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_RADIUS_TOP_RIGHT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_START_COLOR
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_ACCENT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_COLOR
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_DASH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_DASH_GAP
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_DASH_WIDTH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_SWITCH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_WIDTH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STYLE_CHANGED
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
-import com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH
-import com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCKBG_SWITCH
-import com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_CODE
-import com.drdisagree.iconify.common.Preferences.STATUSBAR_CLOCK_COLOR_OPTION
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.setClockGravity
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.views.ChipDrawable
+import com.drdisagree.iconify.xposed.modules.views.ChipDrawable.GradientDirection.Companion.toIndex
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
@@ -63,8 +101,6 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
     private var showHeaderClock = false
     private var topMarginStatusIcons = 8
     private var sideMarginStatusIcons = 0
-    private var qsStatusIconsChipStyle = 0
-    private var statusBarClockChipStyle = 0
     private var statusBarClockColorOption = 0
     private var statusBarClockColorCode = Color.WHITE
     private var fixedStatusIcons = false
@@ -76,45 +112,145 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
     private var dependencyClass: Class<*>? = null
     private var darkIconDispatcherClass: Class<*>? = null
     private var mLoadPackageParam: LoadPackageParam? = null
+    private var accentFillEnabled: Boolean = true
+    private var startColor: Int = Color.RED
+    private var endColor: Int = Color.BLUE
+    private var gradientDirection: ChipDrawable.GradientDirection =
+        ChipDrawable.GradientDirection.LEFT_RIGHT
+    private var padding: IntArray = intArrayOf(8, 4, 8, 4)
+    private var strokeEnabled: Boolean = false
+    private var strokeWidth: Int = 2
+    private var accentBorderEnabled: Boolean = true
+    private var strokeColor: Int = Color.GREEN
+    private var dashedBorderEnabled: Boolean = false
+    private var strokeDashWidth: Int = 4
+    private var strokeDashGap: Int = 4
+    private var cornerRadii: FloatArray = floatArrayOf(28f, 28f, 28f, 28f, 28f, 28f, 28f, 28f)
+    private var accentFillEnabled2: Boolean = true
+    private var startColor2: Int = Color.RED
+    private var endColor2: Int = Color.BLUE
+    private var gradientDirection2: ChipDrawable.GradientDirection =
+        ChipDrawable.GradientDirection.LEFT_RIGHT
+    private var padding2: IntArray = intArrayOf(8, 4, 8, 4)
+    private var strokeEnabled2: Boolean = false
+    private var strokeWidth2: Int = 2
+    private var accentBorderEnabled2: Boolean = true
+    private var strokeColor2: Int = Color.GREEN
+    private var dashedBorderEnabled2: Boolean = false
+    private var strokeDashWidth2: Int = 4
+    private var strokeDashGap2: Int = 4
+    private var cornerRadii2: FloatArray = floatArrayOf(28f, 28f, 28f, 28f, 28f, 28f, 28f, 28f)
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        mShowSBClockBg = Xprefs!!.getBoolean(STATUSBAR_CLOCKBG_SWITCH, false)
-        mShowQSStatusIconsBg = Xprefs!!.getBoolean(QSPANEL_STATUSICONSBG_SWITCH, false)
-        qsStatusIconsChipStyle = Xprefs!!.getInt(CHIP_QSSTATUSICONS_STYLE, 0)
-        statusBarClockChipStyle = Xprefs!!.getInt(CHIP_STATUSBAR_CLOCKBG_STYLE, 0)
-        statusBarClockColorOption = Xprefs!!.getInt(STATUSBAR_CLOCK_COLOR_OPTION, 0)
-        statusBarClockColorCode = Xprefs!!.getInt(STATUSBAR_CLOCK_COLOR_CODE, Color.WHITE)
-        showHeaderClock = Xprefs!!.getBoolean(HEADER_CLOCK_SWITCH, false)
-        hideStatusIcons = Xprefs!!.getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
-        fixedStatusIcons = Xprefs!!.getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
-        topMarginStatusIcons = Xprefs!!.getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
-        sideMarginStatusIcons = Xprefs!!.getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
+        Xprefs.apply {
+            // Status bar clock chip
+            mShowSBClockBg = getBoolean(CHIP_STATUSBAR_CLOCK_SWITCH, false)
+            statusBarClockColorOption = getInt(CHIP_STATUSBAR_CLOCK_TEXT_COLOR_OPTION, 0)
+            statusBarClockColorCode = getInt(CHIP_STATUSBAR_CLOCK_TEXT_COLOR_CODE, Color.WHITE)
+            accentFillEnabled = getBoolean(CHIP_STATUSBAR_CLOCK_ACCENT, true)
+            startColor = getInt(CHIP_STATUSBAR_CLOCK_START_COLOR, Color.RED)
+            endColor = getInt(CHIP_STATUSBAR_CLOCK_END_COLOR, Color.BLUE)
+            gradientDirection =
+                ChipDrawable.GradientDirection.fromIndex(
+                    getInt(
+                        CHIP_STATUSBAR_CLOCK_GRADIENT_DIRECTION,
+                        ChipDrawable.GradientDirection.LEFT_RIGHT.toIndex()
+                    )
+                )
+            padding = intArrayOf(
+                getInt(CHIP_STATUSBAR_CLOCK_PADDING_LEFT, 8),
+                getInt(CHIP_STATUSBAR_CLOCK_PADDING_TOP, 4),
+                getInt(CHIP_STATUSBAR_CLOCK_PADDING_RIGHT, 8),
+                getInt(CHIP_STATUSBAR_CLOCK_PADDING_BOTTOM, 4)
+            )
+            strokeEnabled = getBoolean(CHIP_STATUSBAR_CLOCK_STROKE_SWITCH)
+            strokeWidth = getInt(CHIP_STATUSBAR_CLOCK_STROKE_WIDTH, 2)
+            accentBorderEnabled = getBoolean(CHIP_STATUSBAR_CLOCK_STROKE_ACCENT, true)
+            strokeColor = getInt(CHIP_STATUSBAR_CLOCK_STROKE_COLOR, Color.GREEN)
+            dashedBorderEnabled = getBoolean(CHIP_STATUSBAR_CLOCK_STROKE_DASH)
+            strokeDashWidth = getInt(CHIP_STATUSBAR_CLOCK_STROKE_DASH_WIDTH, 4)
+            strokeDashGap = getInt(CHIP_STATUSBAR_CLOCK_STROKE_DASH_GAP, 4)
+            cornerRadii = floatArrayOf(
+                getInt(CHIP_STATUSBAR_CLOCK_RADIUS_TOP_LEFT, 28).toFloat(),
+                getInt(CHIP_STATUSBAR_CLOCK_RADIUS_TOP_LEFT, 28).toFloat(),
+                getInt(CHIP_STATUSBAR_CLOCK_RADIUS_TOP_RIGHT, 28).toFloat(),
+                getInt(CHIP_STATUSBAR_CLOCK_RADIUS_TOP_RIGHT, 28).toFloat(),
+                getInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_RIGHT, 28).toFloat(),
+                getInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_RIGHT, 28).toFloat(),
+                getInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_LEFT, 28).toFloat(),
+                getInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_LEFT, 28).toFloat(),
+            )
+
+            // Status icons chip
+            mShowQSStatusIconsBg = getBoolean(CHIP_STATUS_ICONS_SWITCH, false)
+            accentFillEnabled2 = getBoolean(CHIP_STATUS_ICONS_ACCENT, true)
+            startColor2 = getInt(CHIP_STATUS_ICONS_START_COLOR, Color.RED)
+            endColor2 = getInt(CHIP_STATUS_ICONS_END_COLOR, Color.BLUE)
+            gradientDirection2 =
+                ChipDrawable.GradientDirection.fromIndex(
+                    getInt(
+                        CHIP_STATUS_ICONS_GRADIENT_DIRECTION,
+                        ChipDrawable.GradientDirection.LEFT_RIGHT.toIndex()
+                    )
+                )
+            padding2 = intArrayOf(
+                getInt(CHIP_STATUS_ICONS_PADDING_LEFT, 8),
+                getInt(CHIP_STATUS_ICONS_PADDING_TOP, 4),
+                getInt(CHIP_STATUS_ICONS_PADDING_RIGHT, 8),
+                getInt(CHIP_STATUS_ICONS_PADDING_BOTTOM, 4)
+            )
+            strokeEnabled2 = getBoolean(CHIP_STATUS_ICONS_STROKE_SWITCH)
+            strokeWidth2 = getInt(CHIP_STATUS_ICONS_STROKE_WIDTH, 2)
+            accentBorderEnabled2 = getBoolean(CHIP_STATUS_ICONS_STROKE_ACCENT, true)
+            strokeColor2 = getInt(CHIP_STATUS_ICONS_STROKE_COLOR, Color.GREEN)
+            dashedBorderEnabled2 = getBoolean(CHIP_STATUS_ICONS_STROKE_DASH)
+            strokeDashWidth2 = getInt(CHIP_STATUS_ICONS_STROKE_DASH_WIDTH, 4)
+            strokeDashGap2 = getInt(CHIP_STATUS_ICONS_STROKE_DASH_GAP, 4)
+            cornerRadii2 = floatArrayOf(
+                getInt(CHIP_STATUS_ICONS_RADIUS_TOP_LEFT, 28).toFloat(),
+                getInt(CHIP_STATUS_ICONS_RADIUS_TOP_LEFT, 28).toFloat(),
+                getInt(CHIP_STATUS_ICONS_RADIUS_TOP_RIGHT, 28).toFloat(),
+                getInt(CHIP_STATUS_ICONS_RADIUS_TOP_RIGHT, 28).toFloat(),
+                getInt(CHIP_STATUS_ICONS_RADIUS_BOTTOM_RIGHT, 28).toFloat(),
+                getInt(CHIP_STATUS_ICONS_RADIUS_BOTTOM_RIGHT, 28).toFloat(),
+                getInt(CHIP_STATUS_ICONS_RADIUS_BOTTOM_LEFT, 28).toFloat(),
+                getInt(CHIP_STATUS_ICONS_RADIUS_BOTTOM_LEFT, 28).toFloat(),
+            )
+
+            // Others
+            showHeaderClock = getBoolean(HEADER_CLOCK_SWITCH, false)
+            hideStatusIcons = getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
+            fixedStatusIcons = getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
+            topMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
+            sideMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
+        }
 
         if (key.isNotEmpty()) {
-            if (key[0] == STATUSBAR_CLOCKBG_SWITCH ||
-                key[0] == CHIP_STATUSBAR_CLOCKBG_STYLE ||
-                key[0] == STATUSBAR_CLOCK_COLOR_OPTION ||
-                key[0] == STATUSBAR_CLOCK_COLOR_CODE
+            if (key[0] == CHIP_STATUSBAR_CLOCK_SWITCH ||
+                key[0] == CHIP_STATUSBAR_CLOCK_STYLE_CHANGED
             ) {
-                updateStatusBarClock()
+                updateStatusBarClock(true)
             }
 
-            if (key[0] == QSPANEL_STATUSICONSBG_SWITCH ||
-                key[0] == CHIP_STATUSBAR_CLOCKBG_STYLE ||
-                key[0] == HEADER_CLOCK_SWITCH ||
-                key[0] == HIDE_STATUS_ICONS_SWITCH ||
-                key[0] == FIXED_STATUS_ICONS_SWITCH
-            ) {
-                setQSStatusIconsBgA12()
-            }
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                if (key[0] == CHIP_STATUS_ICONS_SWITCH ||
+                    key[0] == CHIP_STATUS_ICONS_STYLE_CHANGED ||
+                    key[0] == HEADER_CLOCK_SWITCH ||
+                    key[0] == HIDE_STATUS_ICONS_SWITCH ||
+                    key[0] == FIXED_STATUS_ICONS_SWITCH
+                ) {
+                    setQSStatusIconsBgA12()
+                }
 
-            if (key[0] == CHIP_QSSTATUSICONS_STYLE ||
-                key[0] == FIXED_STATUS_ICONS_TOPMARGIN ||
-                key[0] == FIXED_STATUS_ICONS_SIDEMARGIN
-            ) {
-                updateStatusIcons()
+                if (key[0] == CHIP_STATUS_ICONS_SWITCH ||
+                    key[0] == CHIP_STATUS_ICONS_STYLE_CHANGED ||
+                    key[0] == FIXED_STATUS_ICONS_TOPMARGIN ||
+                    key[0] == FIXED_STATUS_ICONS_SIDEMARGIN
+                ) {
+                    updateStatusIcons()
+                }
             }
         }
     }
@@ -122,7 +258,10 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         mLoadPackageParam = loadPackageParam
         statusBarClockChip(loadPackageParam)
-        statusIconsChip(loadPackageParam)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            statusIconsChip(loadPackageParam)
+        }
     }
 
     private fun statusBarClockChip(loadPackageParam: LoadPackageParam) {
@@ -156,10 +295,10 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                         param.thisObject,
                         "mStatusBar"
                     ) as ViewGroup).addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
-                        updateStatusBarClock()
+                        updateStatusBarClock(false)
                     }
 
-                    updateStatusBarClock()
+                    updateStatusBarClock(true)
 
                     if (mShowSBClockBg) {
                         try {
@@ -176,9 +315,12 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                                         mContext.packageName
                                     )
                                 )
-                            statusBarStartSideContent.layoutParams.height =
-                                FrameLayout.LayoutParams.MATCH_PARENT
-                            statusBarStartSideContent.requestLayout()
+
+                            statusBarStartSideContent.post {
+                                statusBarStartSideContent.layoutParams.height =
+                                    FrameLayout.LayoutParams.MATCH_PARENT
+                                statusBarStartSideContent.requestLayout()
+                            }
 
                             val statusBarStartSideExceptHeadsUp =
                                 mStatusBar.findViewById<LinearLayout>(
@@ -188,8 +330,12 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                                         mContext.packageName
                                     )
                                 )
-                            (statusBarStartSideExceptHeadsUp.layoutParams as FrameLayout.LayoutParams).gravity =
-                                Gravity.START or Gravity.CENTER
+
+                            statusBarStartSideExceptHeadsUp.post {
+                                (statusBarStartSideExceptHeadsUp.layoutParams as FrameLayout.LayoutParams).gravity =
+                                    Gravity.START or Gravity.CENTER
+                            }
+
                             statusBarStartSideExceptHeadsUp.gravity =
                                 Gravity.START or Gravity.CENTER
                             statusBarStartSideExceptHeadsUp.requestLayout()
@@ -207,72 +353,70 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
     }
 
     @SuppressLint("RtlHardcoded")
-    private fun updateStatusBarClock() {
+    private fun updateStatusBarClock(force: Boolean) {
         if (!mShowSBClockBg) return
 
-        val clockPaddingStartEnd: Int = mContext.toPx(8)
-        val clockPaddingTopBottom: Int = mContext.toPx(2)
+        if (mClockView != null && mClockView!!.background == null || force) {
+            updateClockView(
+                mClockView,
+                Gravity.LEFT or Gravity.CENTER
+            )
+        }
 
-        updateClockView(
-            mClockView,
-            clockPaddingStartEnd,
-            clockPaddingTopBottom,
-            Gravity.LEFT or Gravity.CENTER
-        )
+        if (mCenterClockView != null && mCenterClockView!!.background == null || force) {
+            updateClockView(
+                mCenterClockView,
+                Gravity.CENTER
+            )
+        }
 
-        updateClockView(
-            mCenterClockView,
-            clockPaddingStartEnd,
-            clockPaddingTopBottom,
-            Gravity.CENTER
-        )
-
-        updateClockView(
-            mRightClockView,
-            clockPaddingStartEnd,
-            clockPaddingTopBottom,
-            Gravity.RIGHT or Gravity.CENTER
-        )
+        if (mRightClockView != null && mRightClockView!!.background == null || force) {
+            updateClockView(
+                mRightClockView,
+                Gravity.RIGHT or Gravity.CENTER
+            )
+        }
     }
 
     private fun updateStatusIcons() {
         if (mQsStatusIconsContainer.childCount == 0) return
 
-        val paddingTopBottom: Int = mContext.toPx(4)
-        val paddingStartEnd: Int = mContext.toPx(12)
-
         if (mShowQSStatusIconsBg) {
             setStatusIconsBackgroundChip(mQsStatusIconsContainer)
             mQsStatusIconsContainer.setPadding(
-                paddingStartEnd,
-                paddingTopBottom,
-                paddingStartEnd,
-                paddingTopBottom
+                mContext.toPx(padding2[0]),
+                mContext.toPx(padding2[1]),
+                mContext.toPx(padding2[2]),
+                mContext.toPx(padding2[3])
             )
         }
 
         if (mQsStatusIconsContainer.layoutParams is FrameLayout.LayoutParams) {
-            (mQsStatusIconsContainer.layoutParams as FrameLayout.LayoutParams).setMargins(
-                0,
-                mContext.toPx(topMarginStatusIcons),
-                0,
-                0
-            )
+            mQsStatusIconsContainer.post {
+                (mQsStatusIconsContainer.layoutParams as FrameLayout.LayoutParams).setMargins(
+                    0,
+                    mContext.toPx(topMarginStatusIcons),
+                    0,
+                    0
+                )
 
-            (mQsStatusIconsContainer.layoutParams as FrameLayout.LayoutParams).setMarginEnd(
-                mContext.toPx(sideMarginStatusIcons)
-            )
+                (mQsStatusIconsContainer.layoutParams as FrameLayout.LayoutParams).setMarginEnd(
+                    mContext.toPx(sideMarginStatusIcons)
+                )
+            }
         } else if (mQsStatusIconsContainer.layoutParams is LinearLayout.LayoutParams) {
-            (mQsStatusIconsContainer.layoutParams as LinearLayout.LayoutParams).setMargins(
-                0,
-                mContext.toPx(topMarginStatusIcons),
-                0,
-                0
-            )
+            mQsStatusIconsContainer.post {
+                (mQsStatusIconsContainer.layoutParams as LinearLayout.LayoutParams).setMargins(
+                    0,
+                    mContext.toPx(topMarginStatusIcons),
+                    0,
+                    0
+                )
 
-            (mQsStatusIconsContainer.layoutParams as LinearLayout.LayoutParams).setMarginEnd(
-                mContext.toPx(sideMarginStatusIcons)
-            )
+                (mQsStatusIconsContainer.layoutParams as LinearLayout.LayoutParams).setMarginEnd(
+                    mContext.toPx(sideMarginStatusIcons)
+                )
+            }
         } else if (mLoadPackageParam != null && header != null && constraintLayoutId != -1) {
             try {
                 val constraintSetClass = findClass(
@@ -336,65 +480,60 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
     }
 
     private fun setSBClockBackgroundChip(view: View) {
-        try {
-            val pc = mContext.createPackageContext(
-                BuildConfig.APPLICATION_ID,
-                Context.CONTEXT_IGNORE_SECURITY
+        if (mShowSBClockBg) {
+            view.background = ChipDrawable.createChipDrawable(
+                context = mContext,
+                accentFill = accentFillEnabled,
+                startColor = startColor,
+                endColor = endColor,
+                gradientDirection = gradientDirection,
+                padding = intArrayOf(0, 0, 0, 0),
+                strokeEnabled = strokeEnabled,
+                accentStroke = accentBorderEnabled,
+                strokeWidth = strokeWidth,
+                strokeColor = strokeColor,
+                dashedBorderEnabled = dashedBorderEnabled,
+                dashWidth = strokeDashWidth,
+                dashGap = strokeDashGap,
+                cornerRadii = cornerRadii
             )
-
-            val res = pc.resources
-
-            val bg = when (statusBarClockChipStyle) {
-                0 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_bar_1, pc.theme)
-                1 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_bar_2, pc.theme)
-                2 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_bar_3, pc.theme)
-                3 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_bar_4, pc.theme)
-                4 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_bar_5, pc.theme)
-                5 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_bar_6, pc.theme)
-                6 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_bar_7, pc.theme)
-                else -> null
-            }
-
-            if (bg != null) {
-                view.background = bg
-            }
-        } catch (throwable: Throwable) {
-            log(TAG + throwable)
+        } else {
+            view.background = null
         }
     }
 
     private fun setStatusIconsBackgroundChip(layout: LinearLayout) {
-        try {
-            val pc = mContext.createPackageContext(
-                BuildConfig.APPLICATION_ID,
-                Context.CONTEXT_IGNORE_SECURITY
+        if (mShowQSStatusIconsBg) {
+            layout.background = ChipDrawable.createChipDrawable(
+                context = mContext,
+                accentFill = accentFillEnabled2,
+                startColor = startColor2,
+                endColor = endColor2,
+                gradientDirection = gradientDirection2,
+                padding = intArrayOf(0, 0, 0, 0),
+                strokeEnabled = strokeEnabled2,
+                accentStroke = accentBorderEnabled2,
+                strokeWidth = strokeWidth2,
+                strokeColor = strokeColor2,
+                dashedBorderEnabled = dashedBorderEnabled2,
+                dashWidth = strokeDashWidth2,
+                dashGap = strokeDashGap2,
+                cornerRadii = cornerRadii2
             )
-
-            val res = pc.resources
-
-            val bg = when (qsStatusIconsChipStyle) {
-                0 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_icons_1, pc.theme)
-                1 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_icons_2, pc.theme)
-                2 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_icons_3, pc.theme)
-                3 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_icons_4, pc.theme)
-                4 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_icons_5, pc.theme)
-                5 -> ResourcesCompat.getDrawable(res, R.drawable.chip_status_icons_6, pc.theme)
-                else -> null
-            }
-
-            if (bg != null) {
-                layout.background = bg
-            }
-        } catch (throwable: Throwable) {
-            log(TAG + throwable)
+        } else {
+            layout.background = null
         }
     }
 
-    @SuppressLint("RtlHardcoded")
-    private fun updateClockView(clockView: View?, startEnd: Int, topBottom: Int, gravity: Int) {
+    private fun updateClockView(clockView: View?, gravity: Int) {
         if (clockView == null) return
 
-        clockView.setPadding(startEnd, topBottom, startEnd, topBottom)
+        clockView.setPadding(
+            mContext.toPx(padding[0]),
+            mContext.toPx(padding[1]),
+            mContext.toPx(padding[2]),
+            mContext.toPx(padding[3])
+        )
 
         setSBClockBackgroundChip(clockView)
 
@@ -480,31 +619,22 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                             )
 
                         val statusIconContainer = statusIcons.parent as LinearLayout
-                        (statusIconContainer.layoutParams as FrameLayout.LayoutParams).gravity =
-                            Gravity.CENTER_VERTICAL or Gravity.END
-                        statusIconContainer.layoutParams.height = TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            28f,
-                            mContext.resources.displayMetrics
-                        ).toInt()
-                        statusIconContainer.requestLayout()
-
-                        val paddingTopBottom = TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            2f,
-                            mContext.resources.displayMetrics
-                        ).toInt()
-                        val paddingStartEnd = TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            8f,
-                            mContext.resources.displayMetrics
-                        ).toInt()
+                        statusIconContainer.post {
+                            (statusIconContainer.layoutParams as FrameLayout.LayoutParams).gravity =
+                                Gravity.CENTER_VERTICAL or Gravity.END
+                            statusIconContainer.layoutParams.height = TypedValue.applyDimension(
+                                TypedValue.COMPLEX_UNIT_DIP,
+                                28f,
+                                mContext.resources.displayMetrics
+                            ).toInt()
+                            statusIconContainer.requestLayout()
+                        }
 
                         statusIconContainer.setPadding(
-                            paddingStartEnd,
-                            paddingTopBottom,
-                            paddingStartEnd,
-                            paddingTopBottom
+                            mContext.toPx(padding2[0]),
+                            mContext.toPx(padding2[1]),
+                            mContext.toPx(padding2[2]),
+                            mContext.toPx(padding2[3])
                         )
 
                         setStatusIconsBackgroundChip(statusIconContainer)
@@ -533,22 +663,12 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                             )
                         if (statusIcons != null) {
                             val statusIconContainer = statusIcons.parent as LinearLayout
-                            val paddingTopBottom = TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP,
-                                2f,
-                                mContext.resources.displayMetrics
-                            ).toInt()
-                            val paddingStartEnd = TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP,
-                                8f,
-                                mContext.resources.displayMetrics
-                            ).toInt()
 
                             statusIconContainer.setPadding(
-                                paddingStartEnd,
-                                paddingTopBottom,
-                                paddingStartEnd,
-                                paddingTopBottom
+                                mContext.toPx(padding2[0]),
+                                mContext.toPx(padding2[1]),
+                                mContext.toPx(padding2[2]),
+                                mContext.toPx(padding2[3])
                             )
 
                             setStatusIconsBackgroundChip(statusIconContainer)
@@ -594,7 +714,12 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                         ViewGroup.LayoutParams.WRAP_CONTENT
                     )
 
-                    mQsStatusIconsContainer.setLayoutParams(layoutParams)
+                    mQsStatusIconsContainer.post {
+                        mQsStatusIconsContainer.setLayoutParams(
+                            layoutParams
+                        )
+                    }
+
                     mQsStatusIconsContainer.gravity = Gravity.CENTER
                     mQsStatusIconsContainer.orientation = LinearLayout.HORIZONTAL
 
@@ -614,11 +739,17 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     )
 
                     (mIconContainer.parent as ViewGroup).removeView(mIconContainer)
-                    mIconContainer.setLayoutParams(layoutParams)
-                    mIconContainer.layoutParams.height = mContext.toPx(32)
+
+                    mIconContainer.post {
+                        mIconContainer.setLayoutParams(layoutParams)
+                        mIconContainer.layoutParams.height = mContext.toPx(32)
+                    }
 
                     (mBatteryRemainingIcon.parent as ViewGroup).removeView(mBatteryRemainingIcon)
-                    mBatteryRemainingIcon.layoutParams.height = mContext.toPx(32)
+
+                    mBatteryRemainingIcon.post {
+                        mBatteryRemainingIcon.layoutParams.height = mContext.toPx(32)
+                    }
 
                     mQsStatusIconsContainer.addView(mIconContainer)
                     mQsStatusIconsContainer.addView(mBatteryRemainingIcon)
@@ -628,8 +759,10 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                         mQuickStatusBarHeader.childCount - 1
                     )
 
-                    (mQsStatusIconsContainer.layoutParams as FrameLayout.LayoutParams).gravity =
-                        Gravity.TOP or Gravity.END
+                    mQsStatusIconsContainer.post {
+                        (mQsStatusIconsContainer.layoutParams as FrameLayout.LayoutParams).gravity =
+                            Gravity.TOP or Gravity.END
+                    }
 
                     updateStatusIcons()
                 }
@@ -675,7 +808,13 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     constraintLayoutId = View.generateViewId()
                     constraintLayoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
                     constraintLayoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-                    mQsStatusIconsContainer.setLayoutParams(constraintLayoutParams)
+
+                    mQsStatusIconsContainer.post {
+                        mQsStatusIconsContainer.setLayoutParams(
+                            constraintLayoutParams
+                        )
+                    }
+
                     mQsStatusIconsContainer.gravity = Gravity.CENTER
                     mQsStatusIconsContainer.orientation = LinearLayout.HORIZONTAL
                     mQsStatusIconsContainer.setId(constraintLayoutId)
@@ -696,11 +835,17 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     )
 
                     (iconContainer.parent as ViewGroup).removeView(iconContainer)
-                    iconContainer.setLayoutParams(linearLayoutParams)
-                    iconContainer.layoutParams.height = mContext.toPx(32)
+
+                    iconContainer.post {
+                        iconContainer.setLayoutParams(linearLayoutParams)
+                        iconContainer.layoutParams.height = mContext.toPx(32)
+                    }
 
                     (batteryIcon.parent as ViewGroup).removeView(batteryIcon)
-                    batteryIcon.layoutParams.height = mContext.toPx(32)
+
+                    batteryIcon.post {
+                        batteryIcon.layoutParams.height = mContext.toPx(32)
+                    }
 
                     mQsStatusIconsContainer.addView(iconContainer)
                     mQsStatusIconsContainer.addView(batteryIcon)

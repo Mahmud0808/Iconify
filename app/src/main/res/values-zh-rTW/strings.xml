@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">圖示套件</string>
     <string name="activity_desc_icon_pack">更換系統的圖示套件</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_cellular_icons">Signal Icons</string>
+    <string name="activity_desc_cellular_icons">Change system signal icons</string>
     <string name="activity_title_wifi_icons">WiFi Icons</string>
     <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">亮度調整桿</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">透明度</string>
     <string name="transparent_qs_panel_title">透明快速設定面板</string>
     <string name="transparent_qs_panel_desc">讓快速設定面板透明</string>
-    <string name="transparency_alpha_title">透明度</string>
+    <string name="qs_background_opacity_title">透明度</string>
     <string name="transparent_notif_shade_title">透明通知列</string>
     <string name="transparent_notif_shade_desc">只讓通知列透明</string>
     <string name="keep_lockscreen_shade_title">保持鎖屏遮罩</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">更改省電狀態電池的顏色</string>
     <string name="powersave_indicator_color_title">省電指示燈顏色</string>
     <string name="powersave_indicator_color_desc">更改省電指示燈的顏色</string>
-    <string name="custom_dimensions_title">自訂尺寸</string>
-    <string name="custom_dimensions_desc">設置電池圖示的自訂尺寸</string>
+    <string name="custom_margins_title">自訂尺寸</string>
+    <string name="custom_margins_desc">設置電池圖示的自訂尺寸</string>
     <string name="battery_margin_left_title">電池餘量左側</string>
     <string name="battery_margin_right_title">電池餘量右側</string>
     <string name="battery_margin_top_title">電池餘量頂部</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">在快速設定面板上添加標頭圖像\n不要從“最近”資料夾中選擇檔案</string>
     <string name="btn_pick_image">選取圖像</string>
     <string name="header_image_height_title">圖像高度</string>
-    <string name="header_image_alpha">圖像透明度</string>
+    <string name="header_image_opacity">圖像透明度</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">適當放大</string>
     <string name="header_image_zoom_to_fit_desc">預設情況下，圖像會被拉伸到合適的尺寸</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">狀態列</string>
     <string name="sb_clock_background_chip_title">狀態列時鐘 Chip</string>
     <string name="sb_clock_background_chip_desc">狀態列時鐘後面的 Chip</string>
-    <string name="statusbar_clock_color_title">狀態列時鐘顔色</string>
+    <string name="statusbar_clock_text_title">狀態列時鐘顔色</string>
     <string name="sbclock_color_follow_system">追隨系統</string>
     <string name="sbclock_color_transparent_text">透明文本</string>
     <string name="sbclock_color_custom_color">自訂顔色</string>
-    <string name="clock_color_picker_title">時鐘顔色選取</string>
-    <string name="clock_color_picker_desc">設定狀態列時鐘文本的顔色</string>
+    <string name="clock_text_color_picker_title">時鐘顔色選取</string>
+    <string name="clock_text_color_picker_desc">設定狀態列時鐘文本的顔色</string>
     <string name="section_title_status_icons">狀態圖示</string>
     <string name="chip_style_title">Chip 樣式</string>
     <string name="status_icons_chip_title">狀態圖示 Chip</string>

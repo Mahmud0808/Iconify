@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Paczka ikon</string>
     <string name="activity_desc_icon_pack">Zmień systemową paczkę ikon</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_cellular_icons">Signal Icons</string>
+    <string name="activity_desc_cellular_icons">Change system signal icons</string>
     <string name="activity_title_wifi_icons">WiFi Icons</string>
     <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">Pasek jasności</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Przezroczystość</string>
     <string name="transparent_qs_panel_title">Przezroczyste szybkie ustawienia</string>
     <string name="transparent_qs_panel_desc">Ustaw tło szybkich ustawień jako przezroczyste</string>
-    <string name="transparency_alpha_title">Kanał alfa przezroczystości</string>
+    <string name="qs_background_opacity_title">Kanał alfa przezroczystości</string>
     <string name="transparent_notif_shade_title">Przezroczysty tylko panel powiadomień</string>
     <string name="transparent_notif_shade_desc">Ustaw jako przezroczysty tylko panel powiadomień</string>
     <string name="keep_lockscreen_shade_title">Przyciemniona tapeta ekranu blokady</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Zmień kolor ikony oszczędzania energii</string>
     <string name="powersave_indicator_color_title">Kolor wskaźnika oszczędzania energii</string>
     <string name="powersave_indicator_color_desc">Zmień kolor wskaźnika oszczędzania energii</string>
-    <string name="custom_dimensions_title">Wymiary niestandardowe</string>
-    <string name="custom_dimensions_desc">Ustaw niestandardowe wymiary ikony baterii</string>
+    <string name="custom_margins_title">Wymiary niestandardowe</string>
+    <string name="custom_margins_desc">Ustaw niestandardowe wymiary ikony baterii</string>
     <string name="battery_margin_left_title">Lewy margines baterii</string>
     <string name="battery_margin_right_title">Prawy margines baterii</string>
     <string name="battery_margin_top_title">Górny margines baterii</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">Dodaj obraz w nagłówku szybkich ustawień\nNie wybieraj pliku z Ostatnich</string>
     <string name="btn_pick_image">Wybierz obraz</string>
     <string name="header_image_height_title">Wysokość obrazu</string>
-    <string name="header_image_alpha">Przezroczystość obrazu</string>
+    <string name="header_image_opacity">Przezroczystość obrazu</string>
     <string name="header_image_bottom_fade">Bottom Fade Amount</string>
     <string name="header_image_zoom_to_fit_title">Dopasuj do rozmiaru</string>
     <string name="header_image_zoom_to_fit_desc">Obraz będzie domyślnie rozciągany, aby dopasować się do ustalonego rozmiaru</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Pasek stanu</string>
     <string name="sb_clock_background_chip_title">Tło zegara</string>
     <string name="sb_clock_background_chip_desc">Wyświetl tło za zegarem paska stanu</string>
-    <string name="statusbar_clock_color_title">Kolor zegara</string>
+    <string name="statusbar_clock_text_title">Kolor zegara</string>
     <string name="sbclock_color_follow_system">Systemowy</string>
     <string name="sbclock_color_transparent_text">Przezroczysty tekst</string>
     <string name="sbclock_color_custom_color">Niestandardowy kolor</string>
-    <string name="clock_color_picker_title">Selektor koloru zegara</string>
-    <string name="clock_color_picker_desc">Ustaw kolor tekstu zegara paska stanu</string>
+    <string name="clock_text_color_picker_title">Selektor koloru zegara</string>
+    <string name="clock_text_color_picker_desc">Ustaw kolor tekstu zegara paska stanu</string>
     <string name="section_title_status_icons">Ikony stanu</string>
     <string name="chip_style_title">Styl tła</string>
     <string name="status_icons_chip_title">Tło ikon stanu</string>

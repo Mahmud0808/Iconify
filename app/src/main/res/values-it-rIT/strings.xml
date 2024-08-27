@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Pacchetto Icone</string>
     <string name="activity_desc_icon_pack">Cambia le icone di sistema</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_cellular_icons">Signal Icons</string>
+    <string name="activity_desc_cellular_icons">Change system signal icons</string>
     <string name="activity_title_wifi_icons">WiFi Icons</string>
     <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">Barra Luminosità</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Trasparenza</string>
     <string name="transparent_qs_panel_title">Pannello QS Trasparente</string>
     <string name="transparent_qs_panel_desc">Rendi trasparente lo sfondo del pannello QS</string>
-    <string name="transparency_alpha_title">Trasparenza Alfa</string>
+    <string name="qs_background_opacity_title">Trasparenza Alfa</string>
     <string name="transparent_notif_shade_title">Solo Area Notifica Trasparente</string>
     <string name="transparent_notif_shade_desc">Rendi trasparente solo l\'area notifiche</string>
     <string name="keep_lockscreen_shade_title">Oscura Sfondo Schermata di Blocco</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Cambia il colore della batteria in risparmio energetico</string>
     <string name="powersave_indicator_color_title">Colore Indicatore Risparmio Energetico</string>
     <string name="powersave_indicator_color_desc">Cambia il colore dell\'indicatore in risparmio energetico</string>
-    <string name="custom_dimensions_title">Dimensioni Personalizzate</string>
-    <string name="custom_dimensions_desc">Imposta dimensioni personalizzate per l\'icona della batteria</string>
+    <string name="custom_margins_title">Dimensioni Personalizzate</string>
+    <string name="custom_margins_desc">Imposta dimensioni personalizzate per l\'icona della batteria</string>
     <string name="battery_margin_left_title">Margine Sinistro Batteria</string>
     <string name="battery_margin_right_title">Margine Destro Batteria</string>
     <string name="battery_margin_top_title">Margine Superiore Batteria</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">Aggiungi immagine intestazione nel pannello QS\nNon selezionare il file dai Recenti</string>
     <string name="btn_pick_image">Scegli Immagine</string>
     <string name="header_image_height_title">Altezza Immagine</string>
-    <string name="header_image_alpha">Immagine Alfa</string>
+    <string name="header_image_opacity">Immagine Alfa</string>
     <string name="header_image_bottom_fade">Quantità Dissolvenza Inferiore</string>
     <string name="header_image_zoom_to_fit_title">Zoom Per Adattare</string>
     <string name="header_image_zoom_to_fit_desc">L\'immagine è allungata per adattarsi in modo predefinito</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Barra di Stato</string>
     <string name="sb_clock_background_chip_title">Chip Orologio Barra di Stato</string>
     <string name="sb_clock_background_chip_desc">Visualizza chip dietro l\'orologio della barra di stato</string>
-    <string name="statusbar_clock_color_title">Colore Orologio Barra Di Stato</string>
+    <string name="statusbar_clock_text_title">Colore Orologio Barra Di Stato</string>
     <string name="sbclock_color_follow_system">Segui Sistema</string>
     <string name="sbclock_color_transparent_text">Testo Trasparente</string>
     <string name="sbclock_color_custom_color">Colore Personalizzato</string>
-    <string name="clock_color_picker_title">Selettore Colore Orologio</string>
-    <string name="clock_color_picker_desc">Imposta il colore del testo dell\'orologio nella barra di stato</string>
+    <string name="clock_text_color_picker_title">Selettore Colore Orologio</string>
+    <string name="clock_text_color_picker_desc">Imposta il colore del testo dell\'orologio nella barra di stato</string>
     <string name="section_title_status_icons">Icone di Stato</string>
     <string name="chip_style_title">Stile Chip</string>
     <string name="status_icons_chip_title">Icone di Stato Chip</string>

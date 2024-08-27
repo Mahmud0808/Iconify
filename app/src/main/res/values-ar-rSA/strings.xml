@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">حزمة الأيقونات</string>
     <string name="activity_desc_icon_pack">تغيير حزمة ايقونات النظام</string>
-    <string name="activity_title_signal_icons">أيقونات الإشارة</string>
-    <string name="activity_desc_signal_icons">تغيير أيقونات إشارة النظام</string>
+    <string name="activity_title_cellular_icons">أيقونات الإشارة</string>
+    <string name="activity_desc_cellular_icons">تغيير أيقونات إشارة النظام</string>
     <string name="activity_title_wifi_icons">أيقونات WiFi</string>
     <string name="activity_desc_wifi_icons">تغيير أيقونات WiFi النظام</string>
     <string name="activity_title_brightness_bar">شريط السطوع</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">شفافية</string>
     <string name="transparent_qs_panel_title">لوحة QS الشفافة</string>
     <string name="transparent_qs_panel_desc">جعل خلفية لوحة QS شفافة</string>
-    <string name="transparency_alpha_title">الشفافية ألفا</string>
+    <string name="qs_background_opacity_title">الشفافية ألفا</string>
     <string name="transparent_notif_shade_title">لون Notif الشفاف فقط</string>
     <string name="transparent_notif_shade_desc">اجعل غطاء الإشعارات فقط شفافًا</string>
     <string name="keep_lockscreen_shade_title">تعتيم خلفية شاشة القفل</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">تغيير لون بطارية توفير الطاقة</string>
     <string name="powersave_indicator_color_title">لون مؤشر توفير الطاقة</string>
     <string name="powersave_indicator_color_desc">تغيير لون مؤشر توفير الطاقة</string>
-    <string name="custom_dimensions_title">أبعاد مخصصة</string>
-    <string name="custom_dimensions_desc">قم بتعيين أبعاد مخصصة لرمز البطارية</string>
+    <string name="custom_margins_title">أبعاد مخصصة</string>
+    <string name="custom_margins_desc">قم بتعيين أبعاد مخصصة لرمز البطارية</string>
     <string name="battery_margin_left_title">هامش البطارية الأيسر</string>
     <string name="battery_margin_right_title">هامش البطارية الأيمن</string>
     <string name="battery_margin_top_title">هامش البطارية العلوي</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">أضف صورة العنوان على لوحة QS\nلا تحدد ملفًا من الحالي</string>
     <string name="btn_pick_image">اختر صورة</string>
     <string name="header_image_height_title">ارتفاع الصورة</string>
-    <string name="header_image_alpha">صورة ألفا</string>
+    <string name="header_image_opacity">صورة ألفا</string>
     <string name="header_image_bottom_fade">كمية التلاشي السفلي</string>
     <string name="header_image_zoom_to_fit_title">تكبير للتناسب</string>
     <string name="header_image_zoom_to_fit_desc">يتم تمديد الصورة لتناسب بشكل افتراضي</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">شريط الحالة</string>
     <string name="sb_clock_background_chip_title">رقاقة ساعة شريط الحالة</string>
     <string name="sb_clock_background_chip_desc">عرض رقاقة خلف ساعة شريط الحالة</string>
-    <string name="statusbar_clock_color_title">لون ساعة شريط الحالة</string>
+    <string name="statusbar_clock_text_title">لون ساعة شريط الحالة</string>
     <string name="sbclock_color_follow_system">اتبع النظام</string>
     <string name="sbclock_color_transparent_text">نص شفاف</string>
     <string name="sbclock_color_custom_color">لون مخصص</string>
-    <string name="clock_color_picker_title">منتقي لون الساعة</string>
-    <string name="clock_color_picker_desc">ضبط لون نص ساعة شريط الحالة</string>
+    <string name="clock_text_color_picker_title">منتقي لون الساعة</string>
+    <string name="clock_text_color_picker_desc">ضبط لون نص ساعة شريط الحالة</string>
     <string name="section_title_status_icons">أيقونات الحالة</string>
     <string name="chip_style_title">نمط الرقاقة</string>
     <string name="status_icons_chip_title">رقاقة أيقونات الحالة</string>

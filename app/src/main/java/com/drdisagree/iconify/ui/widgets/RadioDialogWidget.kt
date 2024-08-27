@@ -56,7 +56,14 @@ class RadioDialogWidget : RelativeLayout, RadioDialog.RadioDialogListener {
         showSelectedPrefix =
             typedArray.getBoolean(R.styleable.RadioDialogWidget_showSelectedPrefix, true)
         titleResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_titleText, 0)
-        setTitle(titleResId)
+        if (titleResId != 0) {
+            setTitle(titleResId)
+        } else {
+            val title = typedArray.getString(R.styleable.RadioDialogWidget_titleText)
+            if (title != null) {
+                setTitle(title)
+            }
+        }
         arrayResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_entries, 0)
         if (arrayResId != 0) {
             try {

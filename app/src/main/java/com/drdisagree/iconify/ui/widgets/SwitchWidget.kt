@@ -83,10 +83,20 @@ class SwitchWidget : RelativeLayout {
 
     fun setSummary(summaryResId: Int) {
         summaryTextView.setText(summaryResId)
+        if (summaryResId == 0) {
+            summaryTextView.visibility = GONE
+        } else {
+            summaryTextView.visibility = VISIBLE
+        }
     }
 
     fun setSummary(summary: String?) {
         summaryTextView.text = summary
+        if (summary.isNullOrEmpty()) {
+            summaryTextView.visibility = GONE
+        } else {
+            summaryTextView.visibility = VISIBLE
+        }
     }
 
     fun setIcon(icon: Int) {

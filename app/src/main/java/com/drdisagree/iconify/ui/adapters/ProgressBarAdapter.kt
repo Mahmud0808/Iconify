@@ -21,7 +21,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.ProgressBarModel
 import com.drdisagree.iconify.utils.SystemUtil
@@ -51,7 +51,7 @@ class ProgressBarAdapter(
         holder.progressbar.background =
             ContextCompat.getDrawable(context, itemList[position].progress)
 
-        itemSelected(holder.container, Prefs.getInt(SELECTED_PROGRESSBAR, -1) == position)
+        itemSelected(holder.container, RPrefs.getInt(SELECTED_PROGRESSBAR, -1) == position)
         refreshButton(holder)
         enableOnClickListener(holder)
     }
@@ -65,7 +65,7 @@ class ProgressBarAdapter(
 
         itemSelected(
             holder.container,
-            Prefs.getInt(SELECTED_PROGRESSBAR, -1) == holder.getBindingAdapterPosition()
+            RPrefs.getInt(SELECTED_PROGRESSBAR, -1) == holder.getBindingAdapterPosition()
         )
 
         refreshButton(holder)
@@ -86,7 +86,7 @@ class ProgressBarAdapter(
 
             refreshLayout(holder)
 
-            if (Prefs.getInt(SELECTED_PROGRESSBAR, -1) != holder.getBindingAdapterPosition()) {
+            if (RPrefs.getInt(SELECTED_PROGRESSBAR, -1) != holder.getBindingAdapterPosition()) {
                 holder.btnDisable.visibility = View.GONE
 
                 if (holder.btnEnable.visibility == View.VISIBLE) {
@@ -116,7 +116,7 @@ class ProgressBarAdapter(
                 Thread {
                     val hasErroredOut = AtomicBoolean(false)
 
-                    Prefs.putInt(SELECTED_PROGRESSBAR, holder.getBindingAdapterPosition())
+                    RPrefs.putInt(SELECTED_PROGRESSBAR, holder.getBindingAdapterPosition())
 
                     try {
                         hasErroredOut.set(
@@ -150,7 +150,7 @@ class ProgressBarAdapter(
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
-                                Prefs.putInt(SELECTED_PROGRESSBAR, -1)
+                                RPrefs.putInt(SELECTED_PROGRESSBAR, -1)
 
                                 Toast.makeText(
                                     appContext,
@@ -170,7 +170,7 @@ class ProgressBarAdapter(
             loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
             Thread {
-                Prefs.putInt(SELECTED_PROGRESSBAR, -1)
+                RPrefs.putInt(SELECTED_PROGRESSBAR, -1)
                 OverlayUtil.disableOverlay("IconifyComponentPGB.overlay")
                 (context as Activity).runOnUiThread {
                     Handler(Looper.getMainLooper()).postDelayed({
@@ -229,7 +229,7 @@ class ProgressBarAdapter(
                     itemSelected(
                         child,
                         i == holder.getAbsoluteAdapterPosition() &&
-                                Prefs.getInt(SELECTED_PROGRESSBAR, -1) ==
+                                RPrefs.getInt(SELECTED_PROGRESSBAR, -1) ==
                                 i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())
                     )
                 }
@@ -242,7 +242,7 @@ class ProgressBarAdapter(
             holder.btnEnable.visibility = View.GONE
             holder.btnDisable.visibility = View.GONE
         } else {
-            if (Prefs.getInt(SELECTED_PROGRESSBAR, -1) == selectedItem) {
+            if (RPrefs.getInt(SELECTED_PROGRESSBAR, -1) == selectedItem) {
                 holder.btnEnable.visibility = View.GONE
                 holder.btnDisable.visibility = View.VISIBLE
             } else {

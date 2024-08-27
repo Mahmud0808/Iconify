@@ -21,7 +21,6 @@ import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_CARRIER
 import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
 import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
 import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE_SWITCH
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
@@ -29,6 +28,8 @@ import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getCenterClock
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.getRightClockView
 import com.drdisagree.iconify.xposed.modules.utils.StatusBarClock.setClockGravity
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -60,12 +61,12 @@ class Statusbar(context: Context?) : ModPack(context!!) {
     private var hideLockscreenStatusbar = false
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        Xprefs!!.apply {
+        Xprefs.apply {
             mColoredStatusbarIcon = getBoolean(COLORED_STATUSBAR_ICON, false)
             sbClockSizeSwitch = getBoolean(SB_CLOCK_SIZE_SWITCH, false)
-            sbClockSize = getInt(SB_CLOCK_SIZE, 14)
+            sbClockSize = getSliderInt(SB_CLOCK_SIZE, 14)
             hideLockscreenCarrier = getBoolean(HIDE_LOCKSCREEN_CARRIER, false)
             hideLockscreenStatusbar = getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false)
         }

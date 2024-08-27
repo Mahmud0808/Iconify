@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Набор иконок</string>
     <string name="activity_desc_icon_pack">Изменить набор иконок системы</string>
-    <string name="activity_title_signal_icons">Signal Icons</string>
-    <string name="activity_desc_signal_icons">Change system signal icons</string>
+    <string name="activity_title_cellular_icons">Signal Icons</string>
+    <string name="activity_desc_cellular_icons">Change system signal icons</string>
     <string name="activity_title_wifi_icons">WiFi Icons</string>
     <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">Слайдер яркости</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Прозрачность</string>
     <string name="transparent_qs_panel_title">Прозрачность панели быстрых настроек</string>
     <string name="transparent_qs_panel_desc">Сделать фон панели быстрых настроек прозрачным</string>
-    <string name="transparency_alpha_title">Значение \"Альфа\" прозрачности</string>
+    <string name="qs_background_opacity_title">Значение \"Альфа\" прозрачности</string>
     <string name="transparent_notif_shade_title">Прозрачность только фона уведомлений</string>
     <string name="transparent_notif_shade_desc">Сделать прозрачным только фон уведомлений</string>
     <string name="keep_lockscreen_shade_title">Затемнять обои на экране блокировки</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Поменять цвет батареи при энергосбережении</string>
     <string name="powersave_indicator_color_title">Цвет индикатора энергосбережения</string>
     <string name="powersave_indicator_color_desc">Поменять цвет индикатора энергосбережения</string>
-    <string name="custom_dimensions_title">Особые размеры</string>
-    <string name="custom_dimensions_desc">Задать особые размеры иконке батареи</string>
+    <string name="custom_margins_title">Особые размеры</string>
+    <string name="custom_margins_desc">Задать особые размеры иконке батареи</string>
     <string name="battery_margin_left_title">Батарея слева</string>
     <string name="battery_margin_right_title">Батарея справа</string>
     <string name="battery_margin_top_title">Батарея сверху</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">Добавить изображения на панель быстрых настроек\nНе выбирайте его из вкладки \"Последние\"</string>
     <string name="btn_pick_image">Выбрать изображение</string>
     <string name="header_image_height_title">Высота изображения</string>
-    <string name="header_image_alpha">Прозрачность изображения</string>
+    <string name="header_image_opacity">Прозрачность изображения</string>
     <string name="header_image_bottom_fade">Нижняя величина затухания</string>
     <string name="header_image_zoom_to_fit_title">Увеличить размер</string>
     <string name="header_image_zoom_to_fit_desc">Размер изображение растянут по умолчанию</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Строка состояния</string>
     <string name="sb_clock_background_chip_title">Подложка часов строки состояния</string>
     <string name="sb_clock_background_chip_desc">Показывать подложку позади часов в строке состояния</string>
-    <string name="statusbar_clock_color_title">Цвет часов в строке состояния</string>
+    <string name="statusbar_clock_text_title">Цвет часов в строке состояния</string>
     <string name="sbclock_color_follow_system">Соответствие системе</string>
     <string name="sbclock_color_transparent_text">Прозрачный текст</string>
     <string name="sbclock_color_custom_color">Кастомный цвет</string>
-    <string name="clock_color_picker_title">Выбор цвета часов</string>
-    <string name="clock_color_picker_desc">Установить цвет текста часов статусбара</string>
+    <string name="clock_text_color_picker_title">Выбор цвета часов</string>
+    <string name="clock_text_color_picker_desc">Установить цвет текста часов статусбара</string>
     <string name="section_title_status_icons">Иконки строки состояния</string>
     <string name="chip_style_title">Стиль фишки</string>
     <string name="status_icons_chip_title">Подложка иконок строки состояния</string>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/weather_config_title">
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:defaultValue="false"
+        android:key="weather_switch"
+        android:summary="@string/lockscreen_weather_desc"
+        android:title="@string/lockscreen_weather_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ListPreference
+        android:defaultValue="2"
+        android:dependency="weather_switch"
+        android:entries="@array/update_interval_entries"
+        android:entryValues="@array/update_interval_values"
+        android:key="weather_update_interval"
+        android:title="@string/update_interval_title"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:key="update_status"
+        android:title="@string/last_update_time"
+        app:iconSpaceReserved="false"
+        app:showArrow="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ListPreference
+        android:defaultValue="2"
+        android:entries="@array/weather_provider_entries"
+        android:entryValues="@array/weather_provider_values"
+        android:key="weather_provider"
+        android:title="@string/weather_provider"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+    <com.drdisagree.iconify.ui.preferences.EditTextPreference
+        android:inputType="textNoSuggestions"
+        android:key="owm_key"
+        android:singleLine="true"
+        android:title="@string/weather_api_key"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ListPreference
+        android:defaultValue="0"
+        android:entries="@array/units_entries"
+        android:entryValues="@array/units_values"
+        android:key="weather_units"
+        android:title="@string/units_title"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:defaultValue="true"
+        android:dependency="weather_switch"
+        android:key="weather_show_location"
+        android:summaryOff="@string/general_off"
+        android:summaryOn="@string/general_on"
+        android:title="@string/weather_show_location"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:defaultValue="true"
+        android:dependency="weather_switch"
+        android:key="weather_show_condition"
+        android:summaryOff="@string/general_off"
+        android:summaryOn="@string/general_on"
+        android:title="@string/weather_show_condition"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:defaultValue="true"
+        android:dependency="weather_switch"
+        android:key="weather_show_humidity"
+        android:summaryOff="@string/general_off"
+        android:summaryOn="@string/general_on"
+        android:title="@string/weather_show_humidity"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:defaultValue="true"
+        android:dependency="weather_switch"
+        android:key="weather_show_wind"
+        android:summaryOff="@string/general_off"
+        android:summaryOn="@string/general_on"
+        android:title="@string/weather_show_wind"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="weather_switch"
+        android:key="weather_text_size"
+        android:title="@string/weather_text_size"
+        app:defaultValue="16"
+        app:maxVal="24"
+        app:minVal="13" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="weather_switch"
+        android:key="weather_icon_size"
+        android:title="@string/weather_image_size"
+        app:defaultValue="18"
+        app:maxVal="24"
+        app:minVal="13" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:defaultValue="false"
+        android:dependency="weather_switch"
+        android:key="weather_custom_color_switch"
+        android:summaryOff="@string/general_off"
+        android:summaryOn="@string/general_on"
+        android:title="@string/weather_custom_color_switch_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.ColorPreference
+        android:defaultValue="@color/white"
+        android:dependency="weather_custom_color_switch"
+        android:key="weather_custom_color"
+        android:summary="@string/weather_custom_color_summary"
+        android:title="@string/weather_custom_color_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:defaultValue="false"
+        android:key="weather_custom_location_switch"
+        android:title="@string/custom_location_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:dependency="weather_custom_location_switch"
+        android:key="weather_custom_location_picker"
+        android:title="@string/weather_custom_location_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.BottomSheetListPreference
+        android:dependency="weather_switch"
+        android:key="weather_icon_pack"
+        android:title="@string/weather_icon_pack_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:defaultValue="false"
+        android:dependency="weather_switch"
+        android:key="weather_centered"
+        android:summary="@string/weather_center_view_summary"
+        android:title="@string/weather_center_view_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="weather_switch"
+        android:key="weather_custom_margins_side"
+        android:title="@string/weather_margin_side"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="100"
+        app:minVal="0"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="weather_switch"
+        android:key="weather_custom_margins_top"
+        android:title="@string/weather_margin_top"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="100"
+        app:minVal="0"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="weather_switch"
+        android:key="weather_custom_margins_bottom"
+        android:title="@string/weather_margin_bottom"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="100"
+        app:minVal="0"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.ListPreference
+        android:defaultValue="0"
+        android:dependency="weather_switch"
+        android:entries="@array/lockscreen_weather_bg_entries"
+        android:entryValues="@array/lockscreen_weather_bg_values"
+        android:key="weather_background"
+        android:title="@string/lockscreen_weather_selection_title"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

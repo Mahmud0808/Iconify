@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_background_material"
-    android:clickable="true"
+    android:clickable="false"
     android:orientation="vertical"
     android:paddingHorizontal="24dp"
-    android:paddingTop="22dp"
+    android:paddingTop="16dp"
     android:paddingBottom="4dp">
 
     <LinearLayout
@@ -46,15 +46,32 @@
         android:layout_height="wrap_content"
         android:textColor="@color/text_color_secondary" />
 
-    <com.google.android.material.slider.Slider
-        android:id="@+id/slider_widget"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
-        android:stepSize="1"
-        android:value="50"
-        android:valueFrom="0"
-        android:valueTo="100" />
+        android:orientation="horizontal">
 
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_widget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:stepSize="1"
+            android:value="50"
+            android:valueFrom="0"
+            android:valueTo="100" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reset_button"
+            style="?attr/materialIconButtonFilledTonalStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:visibility="gone"
+            app:icon="@drawable/ic_reset" />
+
+    </LinearLayout>
 </LinearLayout>

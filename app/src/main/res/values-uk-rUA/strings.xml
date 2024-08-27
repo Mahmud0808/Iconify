@@ -35,8 +35,8 @@
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Набір значків</string>
     <string name="activity_desc_icon_pack">Змінити системний набір значків</string>
-    <string name="activity_title_signal_icons">Значки сигналу</string>
-    <string name="activity_desc_signal_icons">Змінити системні значки сигналу</string>
+    <string name="activity_title_cellular_icons">Значки сигналу</string>
+    <string name="activity_desc_cellular_icons">Змінити системні значки сигналу</string>
     <string name="activity_title_wifi_icons">Значки Wi-Fi</string>
     <string name="activity_desc_wifi_icons">Змінити системні значки Wi-Fi</string>
     <string name="activity_title_brightness_bar">Індикатор яскравості</string>
@@ -427,7 +427,7 @@
     <string name="section_title_transparency">Прозорість</string>
     <string name="transparent_qs_panel_title">Прозорість панелі швидких налаштувань</string>
     <string name="transparent_qs_panel_desc">Зробити тло панелі швидких налаштувань прозорим</string>
-    <string name="transparency_alpha_title">Прозорість каналу Альфа</string>
+    <string name="qs_background_opacity_title">Прозорість каналу Альфа</string>
     <string name="transparent_notif_shade_title">Прозорість тільки тла сповіщень</string>
     <string name="transparent_notif_shade_desc">Зробити прозорим тільки тло сповіщень</string>
     <string name="keep_lockscreen_shade_title">Затемнити шпалери екрану блокування</string>
@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Змінює колір енергозбереження</string>
     <string name="powersave_indicator_color_title">Колір індикатора енергозбереження</string>
     <string name="powersave_indicator_color_desc">Змінює колір індикатора енергозбереження</string>
-    <string name="custom_dimensions_title">Власні розміри</string>
-    <string name="custom_dimensions_desc">Задати свої розміри значка батареї</string>
+    <string name="custom_margins_title">Власні розміри</string>
+    <string name="custom_margins_desc">Задати свої розміри значка батареї</string>
     <string name="battery_margin_left_title">Батарея ліворуч</string>
     <string name="battery_margin_right_title">Батарея праворуч</string>
     <string name="battery_margin_top_title">Батарея зверху</string>
@@ -569,7 +569,7 @@
     <string name="header_image_desc">Додати зображення заголовка на панель швидких налаштувань\nНе вибирайте файл з «Нещодавні»</string>
     <string name="btn_pick_image">Обрати зображення</string>
     <string name="header_image_height_title">Висота зображення</string>
-    <string name="header_image_alpha">Прозорість зображення</string>
+    <string name="header_image_opacity">Прозорість зображення</string>
     <string name="header_image_bottom_fade">Нижня величина затухання</string>
     <string name="header_image_zoom_to_fit_title">Масштаб за розміром</string>
     <string name="header_image_zoom_to_fit_desc">По стандарту зображення розтягнуто</string>
@@ -658,12 +658,12 @@
     <string name="section_title_status_bar">Рядок стану</string>
     <string name="sb_clock_background_chip_title">Тло годинника в рядку стану</string>
     <string name="sb_clock_background_chip_desc">Показувати тло за годинником в рядку стану</string>
-    <string name="statusbar_clock_color_title">Колір годинника в рядку стану</string>
+    <string name="statusbar_clock_text_title">Колір годинника в рядку стану</string>
     <string name="sbclock_color_follow_system">Як у системі</string>
     <string name="sbclock_color_transparent_text">Прозорий текст</string>
     <string name="sbclock_color_custom_color">Свій колір</string>
-    <string name="clock_color_picker_title">Палітра кольорів для годинника</string>
-    <string name="clock_color_picker_desc">Змінити колір тексту годинника в рядку стану</string>
+    <string name="clock_text_color_picker_title">Палітра кольорів для годинника</string>
+    <string name="clock_text_color_picker_desc">Змінити колір тексту годинника в рядку стану</string>
     <string name="section_title_status_icons">Значки рядка стану</string>
     <string name="chip_style_title">Стиль тла</string>
     <string name="status_icons_chip_title">Індикатор значків рядка стану</string>

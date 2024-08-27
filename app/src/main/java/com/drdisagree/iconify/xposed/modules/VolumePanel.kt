@@ -13,10 +13,11 @@ import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.VOLUME_COLORED_RINGER_ICON
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_PERCENTAGE
 import com.drdisagree.iconify.common.Preferences.VOLUME_PANEL_SAFETY_WARNING
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedHelpers.callMethod
@@ -38,11 +39,13 @@ class VolumePanel(context: Context?) : ModPack(context!!) {
     private var ringerIconTextColor by Delegates.notNull<Int>();
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        showPercentage = Xprefs!!.getBoolean(VOLUME_PANEL_PERCENTAGE, false)
-        showWarning = Xprefs!!.getBoolean(VOLUME_PANEL_SAFETY_WARNING, true)
-        coloredRingerIcon = Xprefs!!.getBoolean(VOLUME_COLORED_RINGER_ICON, false)
+        Xprefs.apply {
+            showPercentage = getBoolean(VOLUME_PANEL_PERCENTAGE, false)
+            showWarning = getBoolean(VOLUME_PANEL_SAFETY_WARNING, true)
+            coloredRingerIcon = getBoolean(VOLUME_COLORED_RINGER_ICON, false)
+        }
 
         if (key.isNotEmpty()) {
             key[0].let {
