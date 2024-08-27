@@ -37,6 +37,7 @@ import com.drdisagree.iconify.ui.fragments.tweaks.Statusbar
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
 import com.drdisagree.iconify.ui.fragments.tweaks.UiRoundness
 import com.drdisagree.iconify.ui.fragments.tweaks.VolumePanel
+import com.drdisagree.iconify.ui.fragments.xposed.BatteryStyle
 import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderImage
@@ -49,7 +50,6 @@ import com.drdisagree.iconify.ui.fragments.xposed.Themes
 import com.drdisagree.iconify.ui.fragments.xposed.TransparencyBlur
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.fragments.xposed.XposedBackgroundChip
-import com.drdisagree.iconify.ui.fragments.xposed.XposedBatteryStyle
 
 object FragmentHelper {
 
@@ -97,7 +97,7 @@ object FragmentHelper {
                         fragment is TransparencyBlur ||
                         fragment is QuickSettings ||
                         fragment is Themes ||
-                        fragment is XposedBatteryStyle ||
+                        fragment is BatteryStyle ||
                         fragment is com.drdisagree.iconify.ui.fragments.xposed.Statusbar ||
                         fragment is com.drdisagree.iconify.ui.fragments.xposed.VolumePanel ||
                         fragment is HeaderImage ||

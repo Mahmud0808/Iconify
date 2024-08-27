@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Az akkukímélő színének megváltoztatása</string>
     <string name="powersave_indicator_color_title">Az akkukímélő-indikátor színe</string>
     <string name="powersave_indicator_color_desc">Az akkukímélő-indikátor színének módosítása</string>
-    <string name="custom_dimensions_title">Egyéni méretek</string>
-    <string name="custom_dimensions_desc">Egyedi akkumulátor-ikon méreteket is beállíthat</string>
+    <string name="custom_margins_title">Egyéni méretek</string>
+    <string name="custom_margins_desc">Egyedi akkumulátor-ikon méreteket is beállíthat</string>
     <string name="battery_margin_left_title">Akku-margó bal</string>
     <string name="battery_margin_right_title">Akku-margó jobb</string>
     <string name="battery_margin_top_title">Akku-margó felül</string>

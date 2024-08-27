@@ -11,8 +11,8 @@
         android:id="@+id/custom_dimensions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:summaryText="@string/custom_dimensions_desc"
-        app:titleText="@string/custom_dimensions_title" />
+        app:summaryText="@string/custom_margins_desc"
+        app:titleText="@string/custom_margins_title" />
 
     <com.drdisagree.iconify.ui.widgets.SliderWidget
         android:id="@+id/battery_margin_left"

@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">更改盛典状态电池的颜色</string>
     <string name="powersave_indicator_color_title">省电指示灯颜色</string>
     <string name="powersave_indicator_color_desc">更改省电指示灯的颜色</string>
-    <string name="custom_dimensions_title">自定义尺寸</string>
-    <string name="custom_dimensions_desc">设置电池图标的自定义尺寸</string>
+    <string name="custom_margins_title">自定义尺寸</string>
+    <string name="custom_margins_desc">设置电池图标的自定义尺寸</string>
     <string name="battery_margin_left_title">电池余量左侧</string>
     <string name="battery_margin_right_title">电池余量右侧</string>
     <string name="battery_margin_top_title">电池余量顶部</string>

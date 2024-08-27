@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Змінює колір енергозбереження</string>
     <string name="powersave_indicator_color_title">Колір індикатора енергозбереження</string>
     <string name="powersave_indicator_color_desc">Змінює колір індикатора енергозбереження</string>
-    <string name="custom_dimensions_title">Власні розміри</string>
-    <string name="custom_dimensions_desc">Задати свої розміри значка батареї</string>
+    <string name="custom_margins_title">Власні розміри</string>
+    <string name="custom_margins_desc">Задати свої розміри значка батареї</string>
     <string name="battery_margin_left_title">Батарея ліворуч</string>
     <string name="battery_margin_right_title">Батарея праворуч</string>
     <string name="battery_margin_top_title">Батарея зверху</string>

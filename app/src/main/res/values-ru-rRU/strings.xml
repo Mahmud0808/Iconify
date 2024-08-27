@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Поменять цвет батареи при энергосбережении</string>
     <string name="powersave_indicator_color_title">Цвет индикатора энергосбережения</string>
     <string name="powersave_indicator_color_desc">Поменять цвет индикатора энергосбережения</string>
-    <string name="custom_dimensions_title">Особые размеры</string>
-    <string name="custom_dimensions_desc">Задать особые размеры иконке батареи</string>
+    <string name="custom_margins_title">Особые размеры</string>
+    <string name="custom_margins_desc">Задать особые размеры иконке батареи</string>
     <string name="battery_margin_left_title">Батарея слева</string>
     <string name="battery_margin_right_title">Батарея справа</string>
     <string name="battery_margin_top_title">Батарея сверху</string>

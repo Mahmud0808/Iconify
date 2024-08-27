@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Güç tasarruflu pilin rengini değiştir</string>
     <string name="powersave_indicator_color_title">Güç Tasarrufu Göstergesi Rengi</string>
     <string name="powersave_indicator_color_desc">Güç tasarrufu göstergesinin rengini değiştir</string>
-    <string name="custom_dimensions_title">Özel Boyutlar</string>
-    <string name="custom_dimensions_desc">Pil simgesi için özel boyutlar ayarla</string>
+    <string name="custom_margins_title">Özel Boyutlar</string>
+    <string name="custom_margins_desc">Pil simgesi için özel boyutlar ayarla</string>
     <string name="battery_margin_left_title">Pil Sol Kenar Boşluğu</string>
     <string name="battery_margin_right_title">Pil Sağ Kenar Boşluğu</string>
     <string name="battery_margin_top_title">Pil Üst Kenar Boşluğu</string>

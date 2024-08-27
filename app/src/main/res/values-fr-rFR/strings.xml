@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Changer la couleur de la batterie en économiseur de batterie</string>
     <string name="powersave_indicator_color_title">Couleur de l’indicateur d’économie d’énergie</string>
     <string name="powersave_indicator_color_desc">Changer la couleur de l\'indicateur d\'économie d\'énergie</string>
-    <string name="custom_dimensions_title">Dimensions personnalisées</string>
-    <string name="custom_dimensions_desc">Définir des dimensions personnalisées pour l\'icône de la batterie</string>
+    <string name="custom_margins_title">Dimensions personnalisées</string>
+    <string name="custom_margins_desc">Définir des dimensions personnalisées pour l\'icône de la batterie</string>
     <string name="battery_margin_left_title">Marge gauche de la batterie</string>
     <string name="battery_margin_right_title">Marge droite de la batterie</string>
     <string name="battery_margin_top_title">Battery Margin Top</string>

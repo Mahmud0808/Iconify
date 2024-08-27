@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Zmień kolor ikony oszczędzania energii</string>
     <string name="powersave_indicator_color_title">Kolor wskaźnika oszczędzania energii</string>
     <string name="powersave_indicator_color_desc">Zmień kolor wskaźnika oszczędzania energii</string>
-    <string name="custom_dimensions_title">Wymiary niestandardowe</string>
-    <string name="custom_dimensions_desc">Ustaw niestandardowe wymiary ikony baterii</string>
+    <string name="custom_margins_title">Wymiary niestandardowe</string>
+    <string name="custom_margins_desc">Ustaw niestandardowe wymiary ikony baterii</string>
     <string name="battery_margin_left_title">Lewy margines baterii</string>
     <string name="battery_margin_right_title">Prawy margines baterii</string>
     <string name="battery_margin_top_title">Górny margines baterii</string>

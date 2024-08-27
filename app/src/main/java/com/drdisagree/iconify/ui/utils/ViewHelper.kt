@@ -180,6 +180,7 @@ object ViewHelper {
                 batteryDrawables[2] = getRotateDrawable(batteryIcon, -90f)
             }
         }
+
         return batteryDrawables
     }
 

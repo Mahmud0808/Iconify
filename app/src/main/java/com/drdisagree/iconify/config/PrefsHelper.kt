@@ -13,7 +13,47 @@ import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.AGGRESSIVE_QSPANEL_BLUR_SWITCH
 import com.drdisagree.iconify.common.Preferences.APP_LANGUAGE
 import com.drdisagree.iconify.common.Preferences.AUTO_UPDATE
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_CIRCLE
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_LANDSCAPE
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DEFAULT_RLANDSCAPE
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_FILLED_CIRCLE
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYA
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYI
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYJ
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYL
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYM
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYO
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16
 import com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_BLEND_COLOR
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_COLOR
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_STYLE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_SWITCH
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_DIMENSION
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_ALPHA
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_COLOR
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_FILL_GRAD_COLOR
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HEIGHT
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HIDE_BATTERY
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_HIDE_PERCENTAGE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_INSIDE_PERCENTAGE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_LAYOUT_REVERSE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_BOTTOM
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_LEFT
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_RIGHT
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_MARGIN_TOP
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_PERIMETER_ALPHA
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_POWERSAVE_FILL_COLOR
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_RAINBOW_FILL_COLOR
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_STYLE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_SWAP_PERCENTAGE
+import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_WIDTH
 import com.drdisagree.iconify.common.Preferences.CUSTOM_DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Preferences.CUSTOM_QS_MARGIN
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
@@ -222,6 +262,115 @@ object PrefsHelper {
 
             "xposed_lockscreenwidget_weather_settings" -> WeatherConfig.isEnabled(appContext)
 
+            CUSTOM_BATTERY_STYLE,
+            CUSTOM_BATTERY_WIDTH,
+            CUSTOM_BATTERY_HEIGHT,
+            CUSTOM_BATTERY_HIDE_PERCENTAGE,
+            CUSTOM_BATTERY_INSIDE_PERCENTAGE,
+            CUSTOM_BATTERY_HIDE_BATTERY,
+            CUSTOM_BATTERY_SWAP_PERCENTAGE,
+            CUSTOM_BATTERY_LAYOUT_REVERSE,
+            CUSTOM_BATTERY_PERIMETER_ALPHA,
+            CUSTOM_BATTERY_FILL_ALPHA,
+            CUSTOM_BATTERY_RAINBOW_FILL_COLOR,
+            CUSTOM_BATTERY_BLEND_COLOR,
+            CUSTOM_BATTERY_FILL_COLOR,
+            CUSTOM_BATTERY_FILL_GRAD_COLOR,
+            CUSTOM_BATTERY_CHARGING_COLOR,
+            CUSTOM_BATTERY_POWERSAVE_FILL_COLOR,
+            CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR,
+            CUSTOM_BATTERY_DIMENSION,
+            CUSTOM_BATTERY_MARGIN_LEFT,
+            CUSTOM_BATTERY_MARGIN_RIGHT,
+            CUSTOM_BATTERY_MARGIN_TOP,
+            CUSTOM_BATTERY_MARGIN_BOTTOM,
+            CUSTOM_BATTERY_CHARGING_ICON_SWITCH,
+            CUSTOM_BATTERY_CHARGING_ICON_STYLE,
+            CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT,
+            CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT,
+            CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT -> {
+                return isBatteryPrefsVisible(key)
+            }
+
+            else -> true
+        }
+    }
+
+    private fun isBatteryPrefsVisible(key: String): Boolean {
+        val batteryStyle: Int = getString(CUSTOM_BATTERY_STYLE, 0.toString())!!.toInt()
+
+        val showAdvancedCustomizations =
+            batteryStyle in BATTERY_STYLE_LANDSCAPE_BATTERYA..BATTERY_STYLE_LANDSCAPE_BATTERYO
+
+        val showColorPickers: Boolean = getBoolean(CUSTOM_BATTERY_BLEND_COLOR, false)
+
+        val showRainbowBattery = batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYI ||
+                batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYJ
+
+        val showBatteryDimensions = batteryStyle > BATTERY_STYLE_DEFAULT_LANDSCAPE &&
+                getBoolean(CUSTOM_BATTERY_DIMENSION)
+
+        val showPercentage = batteryStyle != BATTERY_STYLE_DEFAULT &&
+                batteryStyle != BATTERY_STYLE_DEFAULT_LANDSCAPE &&
+                batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE &&
+                batteryStyle != BATTERY_STYLE_LANDSCAPE_IOS_16 &&
+                batteryStyle != BATTERY_STYLE_LANDSCAPE_BATTERYL &&
+                batteryStyle != BATTERY_STYLE_LANDSCAPE_BATTERYM
+
+        val showInsidePercentage = showPercentage && !getBoolean(
+            CUSTOM_BATTERY_HIDE_PERCENTAGE,
+            false
+        )
+
+        val showChargingIconCustomization: Boolean =
+            batteryStyle > BATTERY_STYLE_DEFAULT_LANDSCAPE &&
+                    getBoolean(CUSTOM_BATTERY_CHARGING_ICON_SWITCH, false)
+
+        val showSwapLayout: Boolean = showInsidePercentage &&
+                batteryStyle > BATTERY_STYLE_DEFAULT_LANDSCAPE
+
+        val circleBattery = batteryStyle == BATTERY_STYLE_CIRCLE ||
+                batteryStyle == BATTERY_STYLE_DOTTED_CIRCLE ||
+                batteryStyle == BATTERY_STYLE_FILLED_CIRCLE
+
+        return when (key) {
+            CUSTOM_BATTERY_LAYOUT_REVERSE,
+            CUSTOM_BATTERY_PERIMETER_ALPHA,
+            CUSTOM_BATTERY_FILL_ALPHA -> showAdvancedCustomizations
+
+            CUSTOM_BATTERY_BLEND_COLOR -> showAdvancedCustomizations || circleBattery
+
+            CUSTOM_BATTERY_FILL_COLOR,
+            CUSTOM_BATTERY_FILL_GRAD_COLOR,
+            CUSTOM_BATTERY_CHARGING_COLOR,
+            CUSTOM_BATTERY_POWERSAVE_FILL_COLOR,
+            CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR -> (showAdvancedCustomizations || circleBattery) &&
+                    showColorPickers
+
+            CUSTOM_BATTERY_RAINBOW_FILL_COLOR -> (showAdvancedCustomizations || circleBattery) &&
+                    showRainbowBattery
+
+            CUSTOM_BATTERY_DIMENSION -> batteryStyle > BATTERY_STYLE_DEFAULT_LANDSCAPE
+
+            CUSTOM_BATTERY_MARGIN_LEFT,
+            CUSTOM_BATTERY_MARGIN_RIGHT,
+            CUSTOM_BATTERY_MARGIN_TOP,
+            CUSTOM_BATTERY_MARGIN_BOTTOM -> showBatteryDimensions
+
+            CUSTOM_BATTERY_HIDE_PERCENTAGE -> showPercentage
+
+            CUSTOM_BATTERY_INSIDE_PERCENTAGE -> showInsidePercentage
+
+            CUSTOM_BATTERY_SWAP_PERCENTAGE -> showSwapLayout
+
+            CUSTOM_BATTERY_HIDE_BATTERY,
+            CUSTOM_BATTERY_CHARGING_ICON_SWITCH -> batteryStyle > BATTERY_STYLE_DEFAULT_LANDSCAPE
+
+            CUSTOM_BATTERY_CHARGING_ICON_STYLE,
+            CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT,
+            CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT,
+            CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT -> showChargingIconCustomization
+
             else -> true
         }
     }
@@ -239,6 +388,9 @@ object PrefsHelper {
 
             WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1" &&
                     WeatherConfig.isEnabled(appContext)
+
+            CUSTOM_BATTERY_WIDTH,
+            CUSTOM_BATTERY_HEIGHT -> getString(CUSTOM_BATTERY_STYLE, 0.toString())!!.toInt() != 0
 
             else -> true
         }
@@ -339,6 +491,21 @@ object PrefsHelper {
                     appContextLocale.getString(R.string.not_available)
                 }
             }
+
+            CUSTOM_BATTERY_WIDTH,
+            CUSTOM_BATTERY_HEIGHT -> "${getSliderInt(key, 20)}dp"
+
+            CUSTOM_BATTERY_MARGIN_LEFT,
+            CUSTOM_BATTERY_MARGIN_RIGHT -> "${getSliderInt(key, 4)}dp"
+
+            CUSTOM_BATTERY_MARGIN_TOP,
+            CUSTOM_BATTERY_MARGIN_BOTTOM -> "${getSliderInt(key, 0)}dp"
+
+            CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT -> "${getSliderInt(key, 1)}dp"
+
+            CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT -> "${getSliderInt(key, 0)}dp"
+
+            CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT -> "${getSliderInt(key, 14)}dp"
 
             else -> null
         }

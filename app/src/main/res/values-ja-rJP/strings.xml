@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">バッテリーセーバーの色を変更します</string>
     <string name="powersave_indicator_color_title">バッテリーセーバーのインジケーターの色</string>
     <string name="powersave_indicator_color_desc">バッテリーセーバーのインジケーターの色を変更します</string>
-    <string name="custom_dimensions_title">カスタムディメンション</string>
-    <string name="custom_dimensions_desc">バッテリーアイコンにカスタムディメンションを設定します</string>
+    <string name="custom_margins_title">カスタムディメンション</string>
+    <string name="custom_margins_desc">バッテリーアイコンにカスタムディメンションを設定します</string>
     <string name="battery_margin_left_title">バッテリー左マージン</string>
     <string name="battery_margin_right_title">バッテリー右マージン</string>
     <string name="battery_margin_top_title">バッテリー上部マージン</string>

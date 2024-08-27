@@ -10,6 +10,7 @@ import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.fragments.xposed.BatteryStyle
 import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderImage
@@ -129,6 +130,11 @@ object Resources {
             R.xml.xposed_themes,
             R.string.activity_title_themes,
             Themes()
+        ),
+        SearchPreferenceItem(
+            R.xml.xposed_battery_style,
+            R.string.activity_title_battery_style,
+            BatteryStyle()
         ),
         SearchPreferenceItem(
             R.xml.xposed_statusbar,

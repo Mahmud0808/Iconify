@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">تغيير لون بطارية توفير الطاقة</string>
     <string name="powersave_indicator_color_title">لون مؤشر توفير الطاقة</string>
     <string name="powersave_indicator_color_desc">تغيير لون مؤشر توفير الطاقة</string>
-    <string name="custom_dimensions_title">أبعاد مخصصة</string>
-    <string name="custom_dimensions_desc">قم بتعيين أبعاد مخصصة لرمز البطارية</string>
+    <string name="custom_margins_title">أبعاد مخصصة</string>
+    <string name="custom_margins_desc">قم بتعيين أبعاد مخصصة لرمز البطارية</string>
     <string name="battery_margin_left_title">هامش البطارية الأيسر</string>
     <string name="battery_margin_right_title">هامش البطارية الأيمن</string>
     <string name="battery_margin_top_title">هامش البطارية العلوي</string>

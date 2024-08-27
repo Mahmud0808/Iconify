@@ -505,8 +505,8 @@
     <string name="powersave_fill_color_desc">Change color of powersave battery</string>
     <string name="powersave_indicator_color_title">Powersave Indicator Color</string>
     <string name="powersave_indicator_color_desc">Change color of powersave indicator</string>
-    <string name="custom_dimensions_title">Custom Dimensions</string>
-    <string name="custom_dimensions_desc">Set custom dimensions for battery icon</string>
+    <string name="custom_margins_title">Custom Dimensions</string>
+    <string name="custom_margins_desc">Set custom dimensions for battery icon</string>
     <string name="battery_margin_left_title">حاشیه چپ باتری</string>
     <string name="battery_margin_right_title">حاشیه راست باتری</string>
     <string name="battery_margin_top_title">حاشیه بالا باتری</string>

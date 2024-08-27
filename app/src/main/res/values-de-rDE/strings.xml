@@ -506,8 +506,8 @@ transparent machen</string>
     <string name="powersave_fill_color_desc">Ändere Farbe des Energiesparmodus Akkus</string>
     <string name="powersave_indicator_color_title">Energiesparmodus Indikator Farbe</string>
     <string name="powersave_indicator_color_desc">Ändere Farbe des Energiesparmodus Indikators</string>
-    <string name="custom_dimensions_title">Benutzerdefinierte Größe</string>
-    <string name="custom_dimensions_desc">Setze benutzerdefinierte Größe für Akkusymbol</string>
+    <string name="custom_margins_title">Benutzerdefinierte Größe</string>
+    <string name="custom_margins_desc">Setze benutzerdefinierte Größe für Akkusymbol</string>
     <string name="battery_margin_left_title">Akku Abstand links</string>
     <string name="battery_margin_right_title">Akku Abstand rechts</string>
     <string name="battery_margin_top_title">Akku Abstand oben</string>
