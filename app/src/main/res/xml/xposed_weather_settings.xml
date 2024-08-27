@@ -19,7 +19,7 @@
         app:showArrow="false" />
 
     <com.drdisagree.iconify.ui.preferences.ListPreference
-        android:defaultValue="2"
+        android:defaultValue="0"
         android:entries="@array/weather_provider_entries"
         android:entryValues="@array/weather_provider_values"
         android:key="weather_provider"
