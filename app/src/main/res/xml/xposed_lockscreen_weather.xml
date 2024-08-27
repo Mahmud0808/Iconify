@@ -141,7 +141,7 @@
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:defaultValue="false"
         android:dependency="weather_switch"
-        android:key="weather_centered"
+        android:key="weather_center_view"
         android:summary="@string/weather_center_view_summary"
         android:title="@string/weather_center_view_title"
         app:iconSpaceReserved="false" />
