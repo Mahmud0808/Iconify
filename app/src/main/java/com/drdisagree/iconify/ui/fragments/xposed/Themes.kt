@@ -38,7 +38,10 @@ class Themes : ControlledPreferenceFragmentCompat() {
             FIX_QS_TILE_COLOR,
             FIX_NOTIFICATION_COLOR,
             FIX_NOTIFICATION_FOOTER_BUTTON_COLOR -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

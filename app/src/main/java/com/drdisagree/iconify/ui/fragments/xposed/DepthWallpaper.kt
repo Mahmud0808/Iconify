@@ -95,7 +95,10 @@ class DepthWallpaper : ControlledPreferenceFragmentCompat() {
 
         when (key) {
             DEPTH_WALLPAPER_SWITCH -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

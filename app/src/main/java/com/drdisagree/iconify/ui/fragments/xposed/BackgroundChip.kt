@@ -27,12 +27,18 @@ class BackgroundChip : ControlledPreferenceFragmentCompat() {
         when (key) {
             CHIP_STATUSBAR_CLOCK_SWITCH -> {
                 if (!getBoolean(key)) {
-                    MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                    MainActivity.showOrHidePendingActionButton(
+                        activityBinding = (requireActivity() as MainActivity).binding,
+                        requiresSystemUiRestart = true
+                    )
                 }
             }
 
             CHIP_STATUS_ICONS_SWITCH -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

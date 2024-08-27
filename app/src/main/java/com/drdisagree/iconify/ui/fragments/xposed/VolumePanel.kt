@@ -25,7 +25,10 @@ class VolumePanel : ControlledPreferenceFragmentCompat() {
 
         when (key) {
             VOLUME_PANEL_PERCENTAGE -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

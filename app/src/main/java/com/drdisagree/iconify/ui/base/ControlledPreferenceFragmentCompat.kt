@@ -173,8 +173,8 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
                             Dynamic.requiresSystemUiRestart = false
 
                             MainActivity.showOrHidePendingActionButton(
-                                requiresSystemUiRestart = false,
-                                requiresDeviceRestart = Dynamic.requiresDeviceRestart
+                                activityBinding = (requireActivity() as MainActivity).binding,
+                                requiresSystemUiRestart = false
                             )
 
                             Handler(Looper.getMainLooper()).postDelayed({

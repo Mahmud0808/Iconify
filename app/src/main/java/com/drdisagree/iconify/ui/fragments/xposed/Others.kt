@@ -34,7 +34,10 @@ class Others : ControlledPreferenceFragmentCompat() {
             HIDE_STATUS_ICONS_SWITCH,
             HIDE_LOCKSCREEN_LOCK_ICON,
             FIXED_STATUS_ICONS_SWITCH -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

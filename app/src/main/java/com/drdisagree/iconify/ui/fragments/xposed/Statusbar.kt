@@ -28,7 +28,10 @@ class Statusbar : ControlledPreferenceFragmentCompat() {
             COLORED_STATUSBAR_ICON,
             HIDE_LOCKSCREEN_CARRIER,
             HIDE_LOCKSCREEN_STATUSBAR -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

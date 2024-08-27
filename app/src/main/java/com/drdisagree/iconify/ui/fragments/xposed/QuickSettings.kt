@@ -40,21 +40,30 @@ class QuickSettings : ControlledPreferenceFragmentCompat() {
             QS_TOPMARGIN,
             HIDE_QS_ON_LOCKSCREEN,
             HIDE_QS_SILENT_TEXT -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
 
             QS_TEXT_ALWAYS_WHITE -> {
                 if (getBoolean(key)) {
                     putBoolean(QS_TEXT_FOLLOW_ACCENT, false)
                 }
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
 
             QS_TEXT_FOLLOW_ACCENT -> {
                 if (getBoolean(key)) {
                     putBoolean(QS_TEXT_ALWAYS_WHITE, false)
                 }
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

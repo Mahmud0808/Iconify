@@ -80,7 +80,10 @@ class LockscreenClock : ControlledPreferenceFragmentCompat() {
                     ).exec()
                 }
 
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

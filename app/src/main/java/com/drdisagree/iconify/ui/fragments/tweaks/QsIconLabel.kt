@@ -455,7 +455,7 @@ class QsIconLabel : BaseFragment() {
             }
         }
         binding.hideLabel.setBeforeSwitchChangeListener {
-            isHideLabelContainerClicked.set(                true            )
+            isHideLabelContainerClicked.set(true)
         }
 
         // Move Icon

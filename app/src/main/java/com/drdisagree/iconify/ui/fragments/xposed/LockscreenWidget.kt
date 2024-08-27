@@ -94,7 +94,10 @@ class LockscreenWidget : ControlledPreferenceFragmentCompat() {
 
         when (key) {
             LOCKSCREEN_WIDGETS_ENABLED -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

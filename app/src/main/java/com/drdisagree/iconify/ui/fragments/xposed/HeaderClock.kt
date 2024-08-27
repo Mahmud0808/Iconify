@@ -71,7 +71,10 @@ class HeaderClock : ControlledPreferenceFragmentCompat() {
 
         when (key) {
             HEADER_CLOCK_SWITCH -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

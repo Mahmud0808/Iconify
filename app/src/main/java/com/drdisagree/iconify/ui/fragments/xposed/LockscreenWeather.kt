@@ -43,7 +43,10 @@ class LockscreenWeather : WeatherPreferenceFragment() {
 
         when (key) {
             WEATHER_SWITCH -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
 
             WEATHER_PROVIDER -> {

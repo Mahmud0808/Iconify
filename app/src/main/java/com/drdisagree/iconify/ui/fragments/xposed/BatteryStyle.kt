@@ -33,13 +33,19 @@ class BatteryStyle : ControlledPreferenceFragmentCompat() {
 
         when (key) {
             CUSTOM_BATTERY_STYLE -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
 
             CUSTOM_BATTERY_WIDTH,
             CUSTOM_BATTERY_HEIGHT -> {
                 if (RPrefs.getString(CUSTOM_BATTERY_STYLE, "0")!!.toInt() < 3) {
-                    MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                    MainActivity.showOrHidePendingActionButton(
+                        activityBinding = (requireActivity() as MainActivity).binding,
+                        requiresSystemUiRestart = true
+                    )
                 }
             }
         }

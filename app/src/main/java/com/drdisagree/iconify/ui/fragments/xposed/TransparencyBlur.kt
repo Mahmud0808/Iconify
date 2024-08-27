@@ -39,18 +39,27 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
                 if (getBoolean(key)) {
                     putBoolean(NOTIF_TRANSPARENCY_SWITCH, false)
                 }
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
 
             NOTIF_TRANSPARENCY_SWITCH -> {
                 if (getBoolean(key)) {
                     putBoolean(QS_TRANSPARENCY_SWITCH, false)
                 }
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
 
             LOCKSCREEN_SHADE_SWITCH -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
 
             QSPANEL_BLUR_SWITCH -> {
@@ -60,7 +69,10 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
                     putBoolean(AGGRESSIVE_QSPANEL_BLUR_SWITCH, false)
                     disableBlur(force = false)
                 }
-                MainActivity.showOrHidePendingActionButton(requiresDeviceRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresDeviceRestart = true
+                )
             }
 
             AGGRESSIVE_QSPANEL_BLUR_SWITCH -> {
@@ -69,11 +81,17 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
                 } else {
                     disableBlur(force = true)
                 }
-                MainActivity.showOrHidePendingActionButton(requiresDeviceRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresDeviceRestart = true
+                )
             }
 
             BLUR_RADIUS_VALUE -> {
-                MainActivity.showOrHidePendingActionButton(requiresSystemUiRestart = true)
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
             }
         }
     }

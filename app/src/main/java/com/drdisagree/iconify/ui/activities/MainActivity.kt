@@ -18,8 +18,6 @@ import com.airbnb.lottie.LottieCompositionFactory
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Dynamic
 import com.drdisagree.iconify.common.Preferences
-import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_OVERLAY_STATE
-import com.drdisagree.iconify.common.Preferences.FORCE_RELOAD_PACKAGE_NAME
 import com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH
 import com.drdisagree.iconify.common.Preferences.ON_HOME_PAGE
 import com.drdisagree.iconify.common.Resources.searchConfiguration
@@ -51,7 +49,9 @@ import com.drdisagree.iconify.utils.overlay.FabricatedUtil
 import com.drdisagree.iconify.utils.overlay.OverlayUtil
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
-import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import java.util.UUID
 
@@ -59,6 +59,8 @@ class MainActivity : BaseActivity(),
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback,
     SearchPreferenceResultListener,
     ColorPickerDialogListener {
+
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,49 +85,28 @@ class MainActivity : BaseActivity(),
     }
 
     private fun initData() {
-        Thread {
+        CoroutineScope(Dispatchers.IO).launch {
             // Clear lottie cache
-            LottieCompositionFactory.clearCache(this)
+            LottieCompositionFactory.clearCache(this@MainActivity)
 
             // Get list of enabled overlays
             val enabledOverlays = OverlayUtil.enabledOverlayList
-            for (overlay in enabledOverlays) {
-                if (!RPrefs.getBoolean(overlay, false)) {
-                    RPrefs.putBoolean(overlay, true)
-                }
+            enabledOverlays.forEach { overlay ->
+                RPrefs.putBoolean(overlay, true)
             }
 
             val fabricatedEnabledOverlays = FabricatedUtil.enabledOverlayList
-            for (overlay in fabricatedEnabledOverlays) {
+            fabricatedEnabledOverlays.forEach { overlay ->
                 if (!RPrefs.getBoolean("fabricated$overlay", false)) {
                     RPrefs.putBoolean("fabricated$overlay", true)
                 }
             }
 
-            if (enabledOverlays.contains("IconifyComponentME.overlay") &&
-                !RPrefs.getBoolean(MONET_ENGINE_SWITCH, false)
-            ) {
-                RPrefs.putBoolean(
-                    MONET_ENGINE_SWITCH,
-                    true
-                )
-            } else if (!enabledOverlays.contains("IconifyComponentME.overlay") &&
-                RPrefs.getBoolean(MONET_ENGINE_SWITCH, false)
-            ) {
-                RPrefs.putBoolean(
-                    MONET_ENGINE_SWITCH,
-                    false
-                )
-            }
-
-            val state = Shell.cmd(
-                "[[ $(cmd overlay list | grep -o '\\[x\\] $FORCE_RELOAD_PACKAGE_NAME') ]] && echo 1 || echo 0"
-            ).exec().out[0] == "1"
-
-            if (state != RPrefs.getBoolean(FORCE_RELOAD_OVERLAY_STATE, false)) {
-                RPrefs.putBoolean(FORCE_RELOAD_OVERLAY_STATE, state)
-            }
-        }.start()
+            RPrefs.putBoolean(
+                MONET_ENGINE_SWITCH,
+                enabledOverlays.contains("IconifyComponentME.overlay")
+            )
+        }
     }
 
     private fun setupFloatingActionButtons() {
@@ -135,8 +116,9 @@ class MainActivity : BaseActivity(),
         binding.pendingActions.shrink()
 
         showOrHidePendingActionButton(
-            Dynamic.requiresSystemUiRestart,
-            Dynamic.requiresDeviceRestart
+            activityBinding = binding,
+            requiresSystemUiRestart = Dynamic.requiresSystemUiRestart,
+            requiresDeviceRestart = Dynamic.requiresDeviceRestart
         )
 
         binding.pendingActions.setOnClickListener {
@@ -148,6 +130,7 @@ class MainActivity : BaseActivity(),
             Dynamic.requiresDeviceRestart = false
 
             showOrHidePendingActionButton(
+                activityBinding = binding,
                 requiresSystemUiRestart = false,
                 requiresDeviceRestart = false
             )
@@ -157,6 +140,7 @@ class MainActivity : BaseActivity(),
             Dynamic.requiresSystemUiRestart = false
 
             showOrHidePendingActionButton(
+                activityBinding = binding,
                 requiresSystemUiRestart = false,
                 requiresDeviceRestart = Dynamic.requiresDeviceRestart
             )
@@ -170,6 +154,7 @@ class MainActivity : BaseActivity(),
             Dynamic.requiresDeviceRestart = false
 
             showOrHidePendingActionButton(
+                activityBinding = binding,
                 requiresSystemUiRestart = Dynamic.requiresSystemUiRestart,
                 requiresDeviceRestart = false
             )
@@ -268,6 +253,50 @@ class MainActivity : BaseActivity(),
                     return@setOnItemSelectedListener true
                 }
             }
+        }
+    }
+
+    private fun showOrHideFabButtons() {
+        try {
+            val pendingActionsShown = binding.pendingActions.isShown
+            var isAnyButtonShown: Boolean
+
+            if (!binding.hideAll.isShown && pendingActionsShown) {
+                binding.hideAll.show()
+                binding.hideAllText.fadeIn()
+                isAnyButtonShown = true
+            } else {
+                binding.hideAll.hide()
+                binding.hideAllText.fadeOut()
+                isAnyButtonShown = false
+            }
+
+            if (!binding.restartSystemui.isShown && Dynamic.requiresSystemUiRestart && pendingActionsShown) {
+                binding.restartSystemui.show()
+                binding.restartSystemuiText.fadeIn()
+                isAnyButtonShown = true
+            } else {
+                binding.restartSystemui.hide()
+                binding.restartSystemuiText.fadeOut()
+                isAnyButtonShown = isAnyButtonShown || false
+            }
+
+            if (!binding.restartDevice.isShown && Dynamic.requiresDeviceRestart && pendingActionsShown) {
+                binding.restartDevice.show()
+                binding.restartDeviceText.fadeIn()
+                isAnyButtonShown = true
+            } else {
+                binding.restartDevice.hide()
+                binding.restartDeviceText.fadeOut()
+                isAnyButtonShown = isAnyButtonShown || false
+            }
+
+            if (isAnyButtonShown) {
+                binding.pendingActions.extend()
+            } else {
+                binding.pendingActions.shrink()
+            }
+        } catch (_: Exception) {
         }
     }
 
@@ -433,8 +462,6 @@ class MainActivity : BaseActivity(),
     }
 
     companion object {
-        @Suppress("StaticFieldLeak")
-        private lateinit var binding: ActivityMainBinding
         private const val SELECTED_FRAGMENT_KEY = "mSelectedFragmentKey"
         private const val REQUIRE_SYSTEMUI_RESTART_KEY = "mSystemUiRestartKey"
         private const val REQUIRE_DEVICE_RESTART_KEY = "mDeviceRestartKey"
@@ -493,7 +520,7 @@ class MainActivity : BaseActivity(),
                 }
             }
 
-            fragmentTransaction.commit()
+            fragmentTransaction.commitAllowingStateLoss()
         }
 
         private fun clearAndReplaceFragment(fragment: Fragment) {
@@ -520,93 +547,51 @@ class MainActivity : BaseActivity(),
             myFragmentManager.popBackStack()
         }
 
-        @JvmStatic
         fun showOrHidePendingActionButton(
-            requiresSystemUiRestart: Boolean = false,
-            requiresDeviceRestart: Boolean = false,
+            activityBinding: ActivityMainBinding, // Pass the binding as a parameter
+            requiresSystemUiRestart: Boolean = Dynamic.requiresSystemUiRestart,
+            requiresDeviceRestart: Boolean = Dynamic.requiresDeviceRestart,
         ) {
             Dynamic.requiresSystemUiRestart =
                 requiresSystemUiRestart || Dynamic.requiresSystemUiRestart
             Dynamic.requiresDeviceRestart = requiresDeviceRestart || Dynamic.requiresDeviceRestart
 
             try {
-                if (!Dynamic.requiresSystemUiRestart && !Dynamic.requiresDeviceRestart) {
-                    binding.hideAll.hide()
-                    binding.hideAllText.fadeOut()
-                    binding.restartSystemui.hide()
-                    binding.restartSystemuiText.fadeOut()
-                    binding.restartDevice.hide()
-                    binding.restartDeviceText.fadeOut()
-                    binding.pendingActions.hide()
-                    binding.pendingActions.shrink()
-                } else {
-                    if (binding.hideAll.isShown && Dynamic.requiresSystemUiRestart && !binding.restartSystemui.isShown) {
-                        binding.restartSystemui.show()
-                        binding.restartSystemuiText.fadeIn()
-                    } else if (!Dynamic.requiresSystemUiRestart && binding.restartSystemui.isShown) {
-                        binding.restartSystemui.hide()
-                        binding.restartSystemuiText.fadeOut()
-                    }
-
-                    if (binding.hideAll.isShown && Dynamic.requiresDeviceRestart && !binding.restartDevice.isShown) {
-                        binding.restartDevice.show()
-                        binding.restartDeviceText.fadeIn()
-                    } else if (!Dynamic.requiresDeviceRestart && binding.restartDevice.isShown) {
-                        binding.restartDevice.hide()
-                        binding.restartDeviceText.fadeOut()
-                    }
-
-                    if (!binding.hideAll.isShown) {
-                        binding.pendingActions.shrink()
+                with(activityBinding) {
+                    if (!Dynamic.requiresSystemUiRestart && !Dynamic.requiresDeviceRestart) {
+                        hideAll.hide()
+                        hideAllText.fadeOut()
+                        restartSystemui.hide()
+                        restartSystemuiText.fadeOut()
+                        restartDevice.hide()
+                        restartDeviceText.fadeOut()
+                        pendingActions.hide()
+                        pendingActions.shrink()
                     } else {
-                        binding.pendingActions.extend()
+                        if (hideAll.isShown && Dynamic.requiresSystemUiRestart && !restartSystemui.isShown) {
+                            restartSystemui.show()
+                            restartSystemuiText.fadeIn()
+                        } else if (!Dynamic.requiresSystemUiRestart && restartSystemui.isShown) {
+                            restartSystemui.hide()
+                            restartSystemuiText.fadeOut()
+                        }
+
+                        if (hideAll.isShown && Dynamic.requiresDeviceRestart && !restartDevice.isShown) {
+                            restartDevice.show()
+                            restartDeviceText.fadeIn()
+                        } else if (!Dynamic.requiresDeviceRestart && restartDevice.isShown) {
+                            restartDevice.hide()
+                            restartDeviceText.fadeOut()
+                        }
+
+                        if (!hideAll.isShown) {
+                            pendingActions.shrink()
+                        } else {
+                            pendingActions.extend()
+                        }
+
+                        pendingActions.show()
                     }
-
-                    binding.pendingActions.show()
-                }
-            } catch (_: Exception) {
-            }
-        }
-
-        private fun showOrHideFabButtons() {
-            try {
-                val pendingActionsShown = binding.pendingActions.isShown
-                var isAnyButtonShown: Boolean
-
-                if (!binding.hideAll.isShown && pendingActionsShown) {
-                    binding.hideAll.show()
-                    binding.hideAllText.fadeIn()
-                    isAnyButtonShown = true
-                } else {
-                    binding.hideAll.hide()
-                    binding.hideAllText.fadeOut()
-                    isAnyButtonShown = false
-                }
-
-                if (!binding.restartSystemui.isShown && Dynamic.requiresSystemUiRestart && pendingActionsShown) {
-                    binding.restartSystemui.show()
-                    binding.restartSystemuiText.fadeIn()
-                    isAnyButtonShown = true
-                } else {
-                    binding.restartSystemui.hide()
-                    binding.restartSystemuiText.fadeOut()
-                    isAnyButtonShown = isAnyButtonShown || false
-                }
-
-                if (!binding.restartDevice.isShown && Dynamic.requiresDeviceRestart && pendingActionsShown) {
-                    binding.restartDevice.show()
-                    binding.restartDeviceText.fadeIn()
-                    isAnyButtonShown = true
-                } else {
-                    binding.restartDevice.hide()
-                    binding.restartDeviceText.fadeOut()
-                    isAnyButtonShown = isAnyButtonShown || false
-                }
-
-                if (isAnyButtonShown) {
-                    binding.pendingActions.extend()
-                } else {
-                    binding.pendingActions.shrink()
                 }
             } catch (_: Exception) {
             }
