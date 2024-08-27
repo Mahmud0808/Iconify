@@ -27,6 +27,7 @@ import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERY
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYO
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16
 import com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_BLEND_COLOR
 import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_COLOR
 import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT
@@ -290,6 +291,13 @@ object PrefsHelper {
             CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT,
             CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT -> {
                 return isBatteryPrefsVisible(key)
+            }
+
+            // Status icons
+            "xposedStatusIcons",
+            CHIP_STATUS_ICONS_SWITCH,
+            "xposed_chipstatusiconscustomizer" -> {
+                return Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE
             }
 
             else -> true

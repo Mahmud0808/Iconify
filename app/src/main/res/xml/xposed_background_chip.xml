@@ -27,22 +27,23 @@
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
-        android:key="xposedThemesForCustomRoms"
+        android:key="xposedStatusIcons"
         android:title="@string/section_title_status_icons"
         app:iconSpaceReserved="false"
         search:ignore="true">
 
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
-            android:key="xposed_qsstatusiconsbg"
+            android:key="xposed_chipstatusicons"
             android:summary="@string/status_icons_chip_desc"
             android:title="@string/status_icons_chip_title"
             app:iconSpaceReserved="false" />
 
         <com.drdisagree.iconify.ui.preferences.PreferenceMenu
-            android:dependency="xposed_qsstatusiconsbg"
-            android:key="xposed_qsstatusiconsbgcustomizer"
+            android:dependency="xposed_chipstatusicons"
+            android:key="xposed_chipstatusiconscustomizer"
             android:summary="@string/status_icons_customize_chip_desc"
             android:title="@string/status_icons_customize_chip_title"
+            app:fragment="com.drdisagree.iconify.ui.fragments.xposed.StatusIconsChip"
             app:iconSpaceReserved="false"
             app:showArrow="false" />
 

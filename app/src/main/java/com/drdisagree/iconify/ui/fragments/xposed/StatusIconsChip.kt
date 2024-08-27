@@ -1,9 +1,6 @@
 package com.drdisagree.iconify.ui.fragments.xposed
 
-import android.content.res.Configuration
 import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +9,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.CompoundButton
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.drdisagree.iconify.R
@@ -35,13 +31,30 @@ import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_DAS
 import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_DASH_WIDTH
 import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_SWITCH
 import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STROKE_WIDTH
-import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_STYLE_CHANGED
-import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_TEXT_COLOR_CODE
-import com.drdisagree.iconify.common.Preferences.CHIP_STATUSBAR_CLOCK_TEXT_COLOR_OPTION
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_ACCENT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_END_COLOR
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_GRADIENT_DIRECTION
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_PADDING_BOTTOM
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_PADDING_LEFT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_PADDING_RIGHT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_PADDING_TOP
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_RADIUS_BOTTOM_LEFT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_RADIUS_BOTTOM_RIGHT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_RADIUS_TOP_LEFT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_RADIUS_TOP_RIGHT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_START_COLOR
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_ACCENT
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_COLOR
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_DASH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_DASH_GAP
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_DASH_WIDTH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_SWITCH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STROKE_WIDTH
+import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_STYLE_CHANGED
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
-import com.drdisagree.iconify.databinding.FragmentXposedClockChipBinding
+import com.drdisagree.iconify.databinding.FragmentXposedStatusIconsChipBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
@@ -50,12 +63,10 @@ import com.drdisagree.iconify.xposed.modules.views.ChipDrawable.GradientDirectio
 import com.google.android.material.slider.Slider
 import eightbitlab.com.blurview.RenderEffectBlur
 
-class ClockChip : BaseFragment() {
+class StatusIconsChip : BaseFragment() {
 
-    private lateinit var binding: FragmentXposedClockChipBinding
+    private lateinit var binding: FragmentXposedStatusIconsChipBinding
 
-    private var customTextColorIndex: Int = getInt(CHIP_STATUSBAR_CLOCK_TEXT_COLOR_OPTION, 0)
-    private var customTextColor: Int = getInt(CHIP_STATUSBAR_CLOCK_TEXT_COLOR_CODE, Color.WHITE)
     private var accentFillEnabled: Boolean = getBoolean(CHIP_STATUSBAR_CLOCK_ACCENT, true)
     private var startColor: Int = getInt(CHIP_STATUSBAR_CLOCK_START_COLOR, Color.RED)
     private var endColor: Int = getInt(CHIP_STATUSBAR_CLOCK_END_COLOR, Color.BLUE)
@@ -95,7 +106,7 @@ class ClockChip : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentXposedClockChipBinding.inflate(inflater, container, false)
+        binding = FragmentXposedStatusIconsChipBinding.inflate(inflater, container, false)
 
         // Header
         setHeader(
@@ -137,26 +148,6 @@ class ClockChip : BaseFragment() {
         binding.blurView.setupWith(binding.root, RenderEffectBlur())
             .setFrameClearDrawable(windowBackground)
             .setBlurRadius(8f)
-
-        binding.clockTextColor.setSelectedIndex(getInt(CHIP_STATUSBAR_CLOCK_TEXT_COLOR_OPTION, 0))
-        binding.clockTextColor.setOnItemSelectedListener { index: Int ->
-            customTextColorIndex = index
-            updateVisibility()
-        }
-
-        binding.clockTextColorPicker.apply {
-            setColorPickerListener(
-                activity = requireActivity(),
-                defaultColor = customTextColor,
-                showPresets = true,
-                showAlphaSlider = true,
-                showColorShades = true
-            )
-            setOnColorSelectedListener { color: Int ->
-                customTextColor = color
-                updateVisibility()
-            }
-        }
 
         binding.accentFillColor.isSwitchChecked = accentFillEnabled
         binding.accentFillColor.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
@@ -302,35 +293,33 @@ class ClockChip : BaseFragment() {
 
         binding.btnApply.setOnClickListener {
             RPrefs.apply {
-                putInt(CHIP_STATUSBAR_CLOCK_TEXT_COLOR_OPTION, customTextColorIndex)
-                putInt(CHIP_STATUSBAR_CLOCK_TEXT_COLOR_CODE, customTextColor)
-                putBoolean(CHIP_STATUSBAR_CLOCK_ACCENT, accentFillEnabled)
-                putInt(CHIP_STATUSBAR_CLOCK_START_COLOR, startColor)
-                putInt(CHIP_STATUSBAR_CLOCK_END_COLOR, endColor)
-                putInt(CHIP_STATUSBAR_CLOCK_GRADIENT_DIRECTION, gradientDirection.toIndex())
-                putInt(CHIP_STATUSBAR_CLOCK_PADDING_LEFT, padding[0])
-                putInt(CHIP_STATUSBAR_CLOCK_PADDING_TOP, padding[1])
-                putInt(CHIP_STATUSBAR_CLOCK_PADDING_RIGHT, padding[2])
-                putInt(CHIP_STATUSBAR_CLOCK_PADDING_BOTTOM, padding[3])
-                putBoolean(CHIP_STATUSBAR_CLOCK_STROKE_SWITCH, strokeEnabled)
-                putInt(CHIP_STATUSBAR_CLOCK_STROKE_WIDTH, strokeWidth)
-                putBoolean(CHIP_STATUSBAR_CLOCK_STROKE_ACCENT, accentBorderEnabled)
-                putInt(CHIP_STATUSBAR_CLOCK_STROKE_COLOR, strokeColor)
-                putBoolean(CHIP_STATUSBAR_CLOCK_STROKE_DASH, dashedBorderEnabled)
-                putInt(CHIP_STATUSBAR_CLOCK_STROKE_DASH_WIDTH, dashWidth)
-                putInt(CHIP_STATUSBAR_CLOCK_STROKE_DASH_GAP, dashGap)
-                putInt(CHIP_STATUSBAR_CLOCK_RADIUS_TOP_LEFT, cornerRadii[0].toInt())
-                putInt(CHIP_STATUSBAR_CLOCK_RADIUS_TOP_LEFT, cornerRadii[0].toInt())
-                putInt(CHIP_STATUSBAR_CLOCK_RADIUS_TOP_RIGHT, cornerRadii[2].toInt())
-                putInt(CHIP_STATUSBAR_CLOCK_RADIUS_TOP_RIGHT, cornerRadii[2].toInt())
-                putInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_RIGHT, cornerRadii[4].toInt())
-                putInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_RIGHT, cornerRadii[4].toInt())
-                putInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_LEFT, cornerRadii[6].toInt())
-                putInt(CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_LEFT, cornerRadii[6].toInt())
+                putBoolean(CHIP_STATUS_ICONS_ACCENT, accentFillEnabled)
+                putInt(CHIP_STATUS_ICONS_START_COLOR, startColor)
+                putInt(CHIP_STATUS_ICONS_END_COLOR, endColor)
+                putInt(CHIP_STATUS_ICONS_GRADIENT_DIRECTION, gradientDirection.toIndex())
+                putInt(CHIP_STATUS_ICONS_PADDING_LEFT, padding[0])
+                putInt(CHIP_STATUS_ICONS_PADDING_TOP, padding[1])
+                putInt(CHIP_STATUS_ICONS_PADDING_RIGHT, padding[2])
+                putInt(CHIP_STATUS_ICONS_PADDING_BOTTOM, padding[3])
+                putBoolean(CHIP_STATUS_ICONS_STROKE_SWITCH, strokeEnabled)
+                putInt(CHIP_STATUS_ICONS_STROKE_WIDTH, strokeWidth)
+                putBoolean(CHIP_STATUS_ICONS_STROKE_ACCENT, accentBorderEnabled)
+                putInt(CHIP_STATUS_ICONS_STROKE_COLOR, strokeColor)
+                putBoolean(CHIP_STATUS_ICONS_STROKE_DASH, dashedBorderEnabled)
+                putInt(CHIP_STATUS_ICONS_STROKE_DASH_WIDTH, dashWidth)
+                putInt(CHIP_STATUS_ICONS_STROKE_DASH_GAP, dashGap)
+                putInt(CHIP_STATUS_ICONS_RADIUS_TOP_LEFT, cornerRadii[0].toInt())
+                putInt(CHIP_STATUS_ICONS_RADIUS_TOP_LEFT, cornerRadii[0].toInt())
+                putInt(CHIP_STATUS_ICONS_RADIUS_TOP_RIGHT, cornerRadii[2].toInt())
+                putInt(CHIP_STATUS_ICONS_RADIUS_TOP_RIGHT, cornerRadii[2].toInt())
+                putInt(CHIP_STATUS_ICONS_RADIUS_BOTTOM_RIGHT, cornerRadii[4].toInt())
+                putInt(CHIP_STATUS_ICONS_RADIUS_BOTTOM_RIGHT, cornerRadii[4].toInt())
+                putInt(CHIP_STATUS_ICONS_RADIUS_BOTTOM_LEFT, cornerRadii[6].toInt())
+                putInt(CHIP_STATUS_ICONS_RADIUS_BOTTOM_LEFT, cornerRadii[6].toInt())
 
                 putBoolean(
-                    CHIP_STATUSBAR_CLOCK_STYLE_CHANGED,
-                    !getBoolean(CHIP_STATUSBAR_CLOCK_STYLE_CHANGED)
+                    CHIP_STATUS_ICONS_STYLE_CHANGED,
+                    !getBoolean(CHIP_STATUS_ICONS_STYLE_CHANGED)
                 )
             }
         }
@@ -341,10 +330,6 @@ class ClockChip : BaseFragment() {
     }
 
     private fun updateVisibility() {
-        val textColorPicker = if (customTextColorIndex == 2) View.VISIBLE else View.GONE
-
-        binding.clockTextColorPicker.visibility = textColorPicker
-
         val accentFillEnabled =
             if (binding.accentFillColor.isSwitchChecked) View.GONE else View.VISIBLE
 
@@ -369,35 +354,6 @@ class ClockChip : BaseFragment() {
 
         binding.dashWidth.visibility = dashedBorderEnabled
         binding.dashGap.visibility = dashedBorderEnabled
-
-        val isDarkMode =
-            requireContext().resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES ==
-                    Configuration.UI_MODE_NIGHT_YES
-
-        when (customTextColorIndex) {
-            0 -> {
-                binding.previewClock.paint.xfermode = null
-                binding.previewClock.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        if (isDarkMode) {
-                            R.color.white
-                        } else {
-                            R.color.black
-                        }
-                    )
-                )
-            }
-
-            1 -> {
-                binding.previewClock.paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-            }
-
-            2 -> {
-                binding.previewClock.paint.xfermode = null
-                binding.previewClock.setTextColor(customTextColor)
-            }
-        }
 
         binding.previewClock.setPadding(
             requireContext().toPx(padding[0]),

@@ -71,33 +71,35 @@ class HookEntry : ServiceConnection {
             }
 
             else -> {
-                findAndHookMethod(
-                    Instrumentation::class.java,
-                    "newApplication",
-                    ClassLoader::class.java,
-                    String::class.java,
-                    Context::class.java,
-                    object : XC_MethodHook() {
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            try {
-                                if (mContext == null) {
-                                    mContext = param.args[2] as Context
+                if (!isChildProcess) {
+                    findAndHookMethod(
+                        Instrumentation::class.java,
+                        "newApplication",
+                        ClassLoader::class.java,
+                        String::class.java,
+                        Context::class.java,
+                        object : XC_MethodHook() {
+                            override fun afterHookedMethod(param: MethodHookParam) {
+                                try {
+                                    if (mContext == null) {
+                                        mContext = param.args[2] as Context
 
-                                    HookRes.modRes = mContext!!.createPackageContext(
-                                        BuildConfig.APPLICATION_ID,
-                                        Context.CONTEXT_IGNORE_SECURITY
-                                    ).resources
+                                        HookRes.modRes = mContext!!.createPackageContext(
+                                            BuildConfig.APPLICATION_ID,
+                                            Context.CONTEXT_IGNORE_SECURITY
+                                        ).resources
 
-                                    XPrefs.init(mContext!!)
+                                        XPrefs.init(mContext!!)
 
-                                    waitForXprefsLoad(loadPackageParam)
+                                        waitForXprefsLoad(loadPackageParam)
+                                    }
+                                } catch (throwable: Throwable) {
+                                    log(throwable)
                                 }
-                            } catch (throwable: Throwable) {
-                                log(throwable)
                             }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }
