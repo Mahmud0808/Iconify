@@ -165,7 +165,7 @@ class BottomSheetListPreference : ListPreference {
             mHasImages,
             object : ListPreferenceAdapter.OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {
-                    if (callChangeListener(getEntryValues().get(position).toString())) {
+                    if (callChangeListener(entryValues[position].toString())) {
                         setValueIndex(position)
                     }
                 }
