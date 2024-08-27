@@ -179,8 +179,6 @@ class OmniJawsClient(private val mContext: Context) {
                 }
             }
 
-            if (DEBUG) Log.d(TAG, "queryWeather $weatherInfo")
-
             updateSettings()
         } catch (e: Exception) {
             Log.e(TAG, "queryWeather", e)
