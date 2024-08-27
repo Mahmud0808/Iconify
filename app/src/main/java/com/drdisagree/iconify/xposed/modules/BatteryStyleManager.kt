@@ -182,7 +182,7 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
         var batteryStyle: Int
 
         Xprefs.apply {
-            batteryStyle = getInt(CUSTOM_BATTERY_STYLE, 0)
+            batteryStyle = getString(CUSTOM_BATTERY_STYLE, "0")!!.toInt()
             val hidePercentage: Boolean = getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false)
             val defaultInsidePercentage = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
                     batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYL ||
@@ -210,8 +210,8 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
             mHideBattery = getBoolean(CUSTOM_BATTERY_HIDE_BATTERY, false)
             mBatteryLayoutReverse = getBoolean(CUSTOM_BATTERY_LAYOUT_REVERSE, false)
             mBatteryCustomDimension = getBoolean(CUSTOM_BATTERY_DIMENSION, false)
-            mBatteryScaleWidth = getInt(CUSTOM_BATTERY_WIDTH, 20)
-            mBatteryScaleHeight = getInt(CUSTOM_BATTERY_HEIGHT, 20)
+            mBatteryScaleWidth = getSliderInt(CUSTOM_BATTERY_WIDTH, 20)
+            mBatteryScaleHeight = getSliderInt(CUSTOM_BATTERY_HEIGHT, 20)
             mScaledPerimeterAlpha = getBoolean(CUSTOM_BATTERY_PERIMETER_ALPHA, false)
             mScaledFillAlpha = getBoolean(CUSTOM_BATTERY_FILL_ALPHA, false)
             mRainbowFillColor = getBoolean(CUSTOM_BATTERY_RAINBOW_FILL_COLOR, false)
@@ -223,14 +223,14 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
             mCustomPowerSaveFillColor = getInt(CUSTOM_BATTERY_POWERSAVE_FILL_COLOR, Color.BLACK)
             mSwapPercentage = getBoolean(CUSTOM_BATTERY_SWAP_PERCENTAGE, false)
             mChargingIconSwitch = getBoolean(CUSTOM_BATTERY_CHARGING_ICON_SWITCH, false)
-            mChargingIconStyle = getInt(CUSTOM_BATTERY_CHARGING_ICON_STYLE, 0)
-            mChargingIconML = getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, 1)
-            mChargingIconMR = getInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, 0)
-            mChargingIconWH = getInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, 14)
-            mBatteryMarginLeft = mContext.toPx(getInt(CUSTOM_BATTERY_MARGIN_LEFT, 4))
-            mBatteryMarginTop = mContext.toPx(getInt(CUSTOM_BATTERY_MARGIN_TOP, 0))
-            mBatteryMarginRight = mContext.toPx(getInt(CUSTOM_BATTERY_MARGIN_RIGHT, 4))
-            mBatteryMarginBottom = mContext.toPx(getInt(CUSTOM_BATTERY_MARGIN_BOTTOM, 0))
+            mChargingIconStyle = getString(CUSTOM_BATTERY_CHARGING_ICON_STYLE, "0")!!.toInt()
+            mChargingIconML = getSliderInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_LEFT, 1)
+            mChargingIconMR = getSliderInt(CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT, 0)
+            mChargingIconWH = getSliderInt(CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT, 14)
+            mBatteryMarginLeft = mContext.toPx(getSliderInt(CUSTOM_BATTERY_MARGIN_LEFT, 4))
+            mBatteryMarginTop = mContext.toPx(getSliderInt(CUSTOM_BATTERY_MARGIN_TOP, 0))
+            mBatteryMarginRight = mContext.toPx(getSliderInt(CUSTOM_BATTERY_MARGIN_RIGHT, 4))
+            mBatteryMarginBottom = mContext.toPx(getSliderInt(CUSTOM_BATTERY_MARGIN_BOTTOM, 0))
         }
 
         if (mBatteryStyle != batteryStyle) {

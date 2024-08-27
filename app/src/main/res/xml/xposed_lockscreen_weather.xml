@@ -148,8 +148,8 @@
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="weather_switch"
-        android:key="weather_custom_margins_top"
-        android:title="@string/weather_margin_top"
+        android:key="weather_custom_margins_side"
+        android:title="@string/weather_margin_side"
         app:defaultValue="0"
         app:iconSpaceReserved="false"
         app:maxVal="100"
@@ -158,8 +158,8 @@
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="weather_switch"
-        android:key="weather_custom_margins_side"
-        android:title="@string/weather_margin_side"
+        android:key="weather_custom_margins_top"
+        android:title="@string/weather_margin_top"
         app:defaultValue="0"
         app:iconSpaceReserved="false"
         app:maxVal="100"

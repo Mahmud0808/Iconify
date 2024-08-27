@@ -500,10 +500,10 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
 
     private val clockView: View?
         get() {
-            if (appContext == null || Xprefs == null) return null
+            if (appContext == null || !XprefsIsInitialized) return null
 
             val inflater = LayoutInflater.from(appContext)
-            val clockStyle: Int = Xprefs.getInt(HEADER_CLOCK_STYLE, 0)
+            val clockStyle: Int = Xprefs.getString(HEADER_CLOCK_STYLE, "0")!!.toInt()
 
             return inflater.inflate(
                 appContext!!.resources.getIdentifier(
@@ -518,7 +518,7 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
     private fun modifyClockView(clockView: View) {
         if (!XprefsIsInitialized) return
 
-        val clockStyle: Int = Xprefs.getInt(HEADER_CLOCK_STYLE, 0)
+        val clockStyle: Int = Xprefs.getString(HEADER_CLOCK_STYLE, "0")!!.toInt()
         val customFontEnabled: Boolean = Xprefs.getBoolean(HEADER_CLOCK_FONT_SWITCH, false)
         val clockScale: Float =
             (Xprefs.getSliderInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()

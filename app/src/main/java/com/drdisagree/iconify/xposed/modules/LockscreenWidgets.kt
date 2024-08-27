@@ -129,7 +129,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             mBigIconInactiveColor = getInt(LOCKSCREEN_WIDGETS_BIG_ICON_INACTIVE, Color.WHITE)
             mSmallIconActiveColor = getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE, Color.BLACK)
             mSmallIconInactiveColor = getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE, Color.WHITE)
-            mBottomMargin = getInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
+            mBottomMargin = getSliderInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
         }
 
         if (key.isNotEmpty()) {
