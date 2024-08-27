@@ -170,19 +170,16 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
                         }
 
                         R.id.restart_systemui -> {
-                            Handler(Looper.getMainLooper()).postDelayed(
-                                {
-                                    Dynamic.requiresSystemUiRestart = false
+                            Dynamic.requiresSystemUiRestart = false
 
-                                    MainActivity.showOrHidePendingActionButton(
-                                        requiresSystemUiRestart = false,
-                                        requiresDeviceRestart = Dynamic.requiresDeviceRestart
-                                    )
-
-                                    restartSystemUI()
-                                },
-                                300
+                            MainActivity.showOrHidePendingActionButton(
+                                requiresSystemUiRestart = false,
+                                requiresDeviceRestart = Dynamic.requiresDeviceRestart
                             )
+
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                restartSystemUI()
+                            }, 300)
                             true
                         }
 

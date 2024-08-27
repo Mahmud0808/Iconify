@@ -110,14 +110,14 @@ abstract class BaseFragment : Fragment() {
                     }
 
                     R.id.restart_systemui -> {
+                        Dynamic.requiresSystemUiRestart = false
+
+                        MainActivity.showOrHidePendingActionButton(
+                            requiresSystemUiRestart = false,
+                            requiresDeviceRestart = Dynamic.requiresDeviceRestart
+                        )
+
                         Handler(Looper.getMainLooper()).postDelayed({
-                            Dynamic.requiresSystemUiRestart = false
-
-                            MainActivity.showOrHidePendingActionButton(
-                                requiresSystemUiRestart = false,
-                                requiresDeviceRestart = Dynamic.requiresDeviceRestart
-                            )
-
                             restartSystemUI()
                         }, 300)
                         true

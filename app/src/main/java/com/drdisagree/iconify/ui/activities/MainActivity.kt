@@ -159,7 +159,7 @@ class MainActivity : BaseActivity(),
 
             Handler(Looper.getMainLooper()).postDelayed({
                 SystemUtil.restartSystemUI()
-            }, android.R.integer.config_longAnimTime.toLong())
+            }, 500)
         }
 
         binding.restartDevice.setOnClickListener {
