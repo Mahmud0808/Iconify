@@ -46,7 +46,7 @@ object XPrefs {
             try {
                 thisMod.updatePrefs(*key.filterNotNull().toTypedArray())
             } catch (throwable: Throwable) {
-                log(TAG + throwable)
+                log(TAG + "${thisMod.javaClass.simpleName} -> " + throwable)
             }
         }
     }
