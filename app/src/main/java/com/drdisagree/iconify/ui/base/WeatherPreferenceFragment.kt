@@ -54,7 +54,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
 
         var settingHeaderPackage: String = WeatherConfig.getIconPack(requireContext()).toString()
         val entries: MutableList<String?> = ArrayList()
-        val values: MutableList<String> = ArrayList()
+        val values: MutableList<String?> = ArrayList()
         val drawables: MutableList<Drawable?> = ArrayList()
         getAvailableWeatherIconPacks(entries, values, drawables)
         mWeatherIconPack!!.entries = entries.toTypedArray()
@@ -66,13 +66,13 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
                 override fun onItemClick(position: Int) {
                     RPrefs.putString(WEATHER_ICON_PACK, values[position])
                     mWeatherIconPack!!.setSummary(entries[position])
+                    forceRefreshWeatherSettings()
                 }
             })
         var valueIndex: Int = mWeatherIconPack!!.findIndexOfValue(settingHeaderPackage)
         if (valueIndex == -1) {
             // no longer found
-            settingHeaderPackage = Companion.DEFAULT_WEATHER_ICON_PACKAGE
-            //WeatherConfig.setIconPack(getContext(), settingHeaderPackage);
+            settingHeaderPackage = DEFAULT_WEATHER_ICON_PACKAGE
             valueIndex = mWeatherIconPack!!.findIndexOfValue(settingHeaderPackage)
         }
         mWeatherIconPack!!.setValueIndex(if (valueIndex >= 0) valueIndex else 0)
@@ -279,15 +279,15 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
     @Suppress("DiscouragedApi")
     private fun getAvailableWeatherIconPacks(
         entries: MutableList<String?>,
-        values: MutableList<String>,
+        values: MutableList<String?>,
         drawables: MutableList<Drawable?>
     ) {
         val i = Intent()
         val packageManager = requireContext().packageManager
         i.setAction(BuildConfig.APPLICATION_ID + ".WeatherIconPack")
         for (r in packageManager.queryIntentActivities(i, 0)) {
-            val packageName = r.activityInfo.packageName
-            if (packageName == Companion.DEFAULT_WEATHER_ICON_PACKAGE) {
+            val packageName = r.activityInfo.applicationInfo.packageName
+            if (packageName == DEFAULT_WEATHER_ICON_PACKAGE) {
                 values.add(0, r.activityInfo.name)
                 drawables.add(
                     0,
@@ -302,7 +302,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
                     )
                 )
             } else {
-                values.add(r.activityInfo.name)
+                values.add(packageName + "." + r.activityInfo.name.split(".").last())
                 val name = r.activityInfo.name.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }
                     .toTypedArray()
                 drawables.add(
@@ -315,10 +315,8 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
                     )
                 )
             }
-            var label: String? = r.activityInfo?.loadLabel(packageManager)?.toString()
-            if (label == null) {
-                label = r.activityInfo.packageName
-            }
+
+            val label: String = r.activityInfo.loadLabel(packageManager).toString()
             if (packageName == DEFAULT_WEATHER_ICON_PACKAGE) {
                 entries.add(0, label)
             } else {

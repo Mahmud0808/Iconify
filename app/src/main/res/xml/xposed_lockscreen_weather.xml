@@ -181,7 +181,7 @@
         android:dependency="weather_switch"
         android:entries="@array/lockscreen_weather_bg_entries"
         android:entryValues="@array/lockscreen_weather_bg_values"
-        android:key="weather_background"
+        android:key="weather_style"
         android:title="@string/lockscreen_weather_selection_title"
         app:iconSpaceReserved="false"
         app:useSimpleSummaryProvider="true" />
