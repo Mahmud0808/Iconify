@@ -820,7 +820,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     iv,
                     efab,
                     { toggleFlashlight() },
-                    getDrawable(TORCH_RES_INACTIVE, SYSTEMUI_PACKAGE),
+                    getDrawable(TORCH_INACTIVE, SYSTEMUI_PACKAGE),
                     getString(
                         TORCH_LABEL, SYSTEMUI_PACKAGE
                     )
@@ -830,7 +830,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             "timer" -> setUpWidgetResources(iv, efab, {
                 mActivityLauncherUtils.launchTimer()
                 vibrate(1)
-            }, getDrawable("ic_alarm", SYSTEMUI_PACKAGE), modRes.getString(R.string.clock_timer))
+            }, getDrawable(ALARM_ICON, SYSTEMUI_PACKAGE), modRes.getString(R.string.clock_timer))
 
             "camera" -> setUpWidgetResources(
                 iv,
@@ -1295,7 +1295,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             torchButton,
             torchButtonFab,
             isFlashOn,
-            getDrawable(TORCH_RES_ACTIVE, SYSTEMUI_PACKAGE),
+            getDrawable(TORCH_ACTIVE, SYSTEMUI_PACKAGE),
             getString(TORCH_LABEL, SYSTEMUI_PACKAGE)
         )
     }
@@ -1710,14 +1710,23 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             )
         } catch (t: Throwable) {
             // We have a calculator icon, so if SystemUI doesn't just return ours
-            if ((drawableRes == CALCULATOR_ICON)) return ResourcesCompat.getDrawable(
-                modRes,
-                R.drawable.ic_calculator,
-                mContext.theme
-            )
+            return when (drawableRes) {
+                CALCULATOR_ICON -> ResourcesCompat.getDrawable(
+                    modRes,
+                    R.drawable.ic_calculator,
+                    mContext.theme
+                )
+                HOTSPOT_ACTIVE -> getDrawable(HOTSPOT_A12, SYSTEMUI_PACKAGE)
+                HOTSPOT_INACTIVE -> getDrawable(HOTSPOT_A12, SYSTEMUI_PACKAGE)
+                BT_ICON -> getDrawable(BT_A12, FRAMEWORK_PACKAGE)
+                TORCH_ACTIVE -> getDrawable(TORCH_A12, FRAMEWORK_PACKAGE)
+                TORCH_INACTIVE -> getDrawable(TORCH_A12, FRAMEWORK_PACKAGE)
 
-            log("LockscreenWidgets getDrawable $drawableRes from $pkg error $t")
-            return null
+                else -> {
+                    log("LockscreenWidgets getDrawable $drawableRes from $pkg error $t")
+                    return null
+                }
+            }
         }
     }
 
@@ -1744,6 +1753,10 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
                 WALLET_LABEL -> {
                     return modRes.getString(R.string.wallet)
+                }
+
+                MEDIA_PLAY_LABEL -> {
+                    return "Play"
                 }
             }
             log("LockscreenWidgets getString $stringRes from $pkg error $t")
@@ -1797,16 +1810,22 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
         const val BT_ICON: String = "qs_bluetooth_icon_on"
         const val DATA_ICON: String = "perm_group_network"
-        const val TORCH_RES_ACTIVE: String = "qs_flashlight_icon_on"
-        const val TORCH_RES_INACTIVE: String = "qs_flashlight_icon_off"
+        const val TORCH_ACTIVE: String = "qs_flashlight_icon_on"
+        const val TORCH_INACTIVE: String = "qs_flashlight_icon_off"
         const val WIFI_ACTIVE: String = "ic_wifi_signal_4"
         const val WIFI_INACTIVE: String = "ic_wifi_signal_0"
         const val HOME_CONTROLS: String = "controls_icon"
         const val CALCULATOR_ICON: String = "status_bar_qs_calculator_inactive"
         const val CAMERA_ICON: String = "ic_camera" // Use qs camera access icon for camera
+        const val ALARM_ICON: String = "ic_alarm"
         const val WALLET_ICON: String = "ic_wallet_lockscreen"
         const val HOTSPOT_ACTIVE: String = "qs_hotspot_icon_on"
         const val HOTSPOT_INACTIVE: String = "qs_hotspot_icon_off"
+
+        // A12 icons
+        const val HOTSPOT_A12: String = "ic_hotspot"
+        const val BT_A12: String = "ic_qs_bluetooth"
+        const val TORCH_A12: String = "ic_qs_flashlight"
 
         const val GENERAL_INACTIVE: String = "switch_bar_off"
         const val GENERAL_ACTIVE: String = "switch_bar_on"
