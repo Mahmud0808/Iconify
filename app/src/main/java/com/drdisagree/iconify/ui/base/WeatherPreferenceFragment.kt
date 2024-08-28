@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.ui.base
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -11,9 +10,11 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.setFragmentResultListener
 import androidx.preference.Preference
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
@@ -25,10 +26,8 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.services.WeatherScheduler
-import com.drdisagree.iconify.ui.activities.LocationBrowseActivity
-import com.drdisagree.iconify.ui.activities.LocationBrowseActivity.Companion.DATA_LOCATION_LAT
-import com.drdisagree.iconify.ui.activities.LocationBrowseActivity.Companion.DATA_LOCATION_LON
-import com.drdisagree.iconify.ui.activities.LocationBrowseActivity.Companion.DATA_LOCATION_NAME
+import com.drdisagree.iconify.ui.fragments.xposed.LocationBrowse.Companion.DATA_LOCATION_KEY
+import com.drdisagree.iconify.ui.fragments.xposed.LocationBrowse.Companion.DATA_LOCATION_NAME
 import com.drdisagree.iconify.ui.preferences.BottomSheetListPreference
 import com.drdisagree.iconify.ui.preferences.SwitchPreference
 import com.drdisagree.iconify.utils.OmniJawsClient
@@ -45,6 +44,22 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
     private var mWeatherClient: OmniJawsClient? = null
 
     abstract fun getMainSwitchKey(): String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setFragmentResultListener(DATA_LOCATION_KEY) { _, bundle ->
+            val locationName = bundle.getString(DATA_LOCATION_NAME)
+
+            Log.d("WeatherPreferenceFragment", "locationName: $locationName")
+
+            if (WeatherConfig.isEnabled(requireContext())
+                && !getBoolean(WEATHER_CUSTOM_LOCATION, false)
+            ) {
+                checkLocationEnabled(true)
+            }
+        }
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
@@ -79,31 +94,15 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         mWeatherIconPack!!.setSummary(mWeatherIconPack!!.getEntry())
 
         mUpdateStatus = findPreference(PREF_KEY_UPDATE_STATUS)
-        if (mUpdateStatus != null) {
-            mUpdateStatus!!.onPreferenceClickListener =
-                Preference.OnPreferenceClickListener {
-                    forceRefreshWeatherSettings()
-                    true
-                }
+        mUpdateStatus?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            forceRefreshWeatherSettings()
+            true
         }
 
         mCustomLocation = findPreference(WEATHER_CUSTOM_LOCATION)
         mCustomLocation?.setOnPreferenceClickListener {
             forceRefreshWeatherSettings()
             true
-        }
-
-        findPreference<Preference>("weather_custom_location_picker")?.apply {
-            onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                mCustomLocationLauncher.launch(
-                    Intent(
-                        context,
-                        LocationBrowseActivity::class.java
-                    )
-                )
-                true
-            }
-            setSummary(WeatherConfig.getLocationName(requireContext()))
         }
     }
 
@@ -132,38 +131,6 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
                 (requireContext().checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
                         == PackageManager.PERMISSION_GRANTED)
     }
-
-    private var mCustomLocationLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val intent: Intent? = result.data
-
-            if (intent!!.hasExtra(DATA_LOCATION_NAME)) {
-                val locationName = intent.getStringExtra(DATA_LOCATION_NAME)
-                val lat = intent.getDoubleExtra(DATA_LOCATION_LAT, 0.0)
-                val lon = intent.getDoubleExtra(DATA_LOCATION_LON, 0.0)
-
-                WeatherConfig.apply {
-                    setLocationId(requireContext(), lat.toString(), lon.toString())
-                    setLocationName(requireContext(), locationName)
-                }
-
-                if (locationName.isNullOrEmpty()) {
-                    mUpdateStatus!!.setSummary(com.drdisagree.iconify.R.string.not_available)
-                } else {
-                    mUpdateStatus!!.setSummary(locationName)
-                }
-
-                if (WeatherConfig.isEnabled(requireContext())
-                    && !getBoolean(WEATHER_CUSTOM_LOCATION, false)
-                ) {
-                    checkLocationEnabled(true)
-                }
-            }
-        }
-    }
-
 
     private fun isLocationEnabled(): Boolean {
         val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -351,11 +318,9 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
                 resources.getString(R.string.omnijaws_service_error_long)
             }
         }
-        val s: String = errorString
+
         requireActivity().runOnUiThread {
-            if (mUpdateStatus != null) {
-                mUpdateStatus!!.summary = s
-            }
+            mUpdateStatus?.summary = errorString
         }
     }
 
@@ -363,9 +328,7 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         mWeatherClient!!.queryWeather()
         if (mWeatherClient?.weatherInfo != null) {
             requireActivity().runOnUiThread {
-                if (mUpdateStatus != null) {
-                    mUpdateStatus!!.setSummary(mWeatherClient!!.weatherInfo!!.lastUpdateTime)
-                }
+                mUpdateStatus?.setSummary(mWeatherClient!!.weatherInfo!!.lastUpdateTime)
             }
         }
     }

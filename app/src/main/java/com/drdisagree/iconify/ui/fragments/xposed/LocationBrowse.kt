@@ -1,9 +1,7 @@
-package com.drdisagree.iconify.ui.activities
+package com.drdisagree.iconify.ui.fragments.xposed
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -11,7 +9,6 @@ import android.os.Looper
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,19 +18,22 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.ui.base.BaseActivity
+import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.drawables.TintedDrawableSpan
 import com.drdisagree.iconify.utils.NetworkUtils
+import com.drdisagree.iconify.utils.weather.WeatherConfig
 import com.google.android.material.appbar.MaterialToolbar
 import org.json.JSONObject
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-open class LocationBrowseActivity : BaseActivity() {
+open class LocationBrowse : BaseFragment() {
 
     private val mLocationBrowseList: MutableList<LocationBrowseItem> = ArrayList()
     private var mAdapter: LocationListAdapter? = null
@@ -44,9 +44,7 @@ open class LocationBrowseActivity : BaseActivity() {
 
     private val mQueryRunnable = Runnable {
         mExecutorService.submit {
-            getLocations(
-                mQueryString
-            )
+            getLocations(mQueryString)
         }
     }
 
@@ -77,87 +75,98 @@ open class LocationBrowseActivity : BaseActivity() {
     inner class LocationListAdapter : RecyclerView.Adapter<LocationListAdapter.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val inflater = LayoutInflater.from(parent.context)
-            return ViewHolder(inflater.inflate(R.layout.location_browse_item, parent, false))
+            return ViewHolder(
+                inflater.inflate(
+                    R.layout.view_list_item_location_browse,
+                    parent,
+                    false
+                )
+            )
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val city = mLocationBrowseList[position]
 
-            (holder.itemView.findViewById<View>(R.id.location_city) as TextView).text =
-                city.city
-            (holder.itemView.findViewById<View>(R.id.location_city_ext) as TextView).text =
-                city.cityExt
+            holder.itemView.findViewById<TextView>(R.id.location_city).text = city.city
+            holder.itemView.findViewById<TextView>(R.id.location_city_ext).text = city.cityExt
 
             holder.itemView.setOnClickListener {
-                val intent = Intent().apply {
-                    putExtra(DATA_LOCATION_NAME, city.city)
-                    putExtra(DATA_LOCATION_LAT, city.lat)
-                    putExtra(DATA_LOCATION_LON, city.lon)
+                WeatherConfig.apply {
+                    setLocationId(requireContext(), city.lat.toString(), city.lon.toString())
+                    setLocationName(requireContext(), city.city)
                 }
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+                val resultBundle = Bundle().apply {
+                    putString(DATA_LOCATION_NAME, city.city)
+                    putDouble(DATA_LOCATION_LAT, city.lat)
+                    putDouble(DATA_LOCATION_LON, city.lon)
+                }
+                setFragmentResult(DATA_LOCATION_KEY, resultBundle)
+                parentFragmentManager.popBackStack()
             }
         }
 
-        override fun getItemCount(): Int {
-            return mLocationBrowseList.size
-        }
+        override fun getItemCount(): Int = mLocationBrowseList.size
 
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_xposed_location_browse, container, false)
+    }
 
-        setContentView(R.layout.location_browse_activity)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
+        val toolbar: MaterialToolbar = view.findViewById(R.id.toolbar)
         toolbar.setTitle(R.string.custom_location_title)
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        mProgressBar = findViewById(R.id.query_progressbar)
+        mProgressBar = view.findViewById(R.id.query_progressbar)
 
-        val queryPattern: EditText = findViewById(R.id.query_pattern_text)
-        queryPattern.hint = prefixTextWithIcon(this, R.drawable.ic_search, queryPattern.hint)
+        val queryPattern: EditText = view.findViewById(R.id.query_pattern_text)
+        queryPattern.hint =
+            prefixTextWithIcon(requireContext(), R.drawable.ic_search, queryPattern.hint)
         queryPattern.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             @SuppressLint("NotifyDataSetChanged")
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 mHandler.removeCallbacks(mQueryRunnable)
                 mQueryString = s.toString()
-                if (TextUtils.isEmpty(mQueryString)) {
+                if (mQueryString.isNullOrEmpty()) {
                     hideProgress()
                     mLocationBrowseList.clear()
-                    mAdapter!!.notifyDataSetChanged()
+                    mAdapter?.notifyDataSetChanged()
                 } else {
                     showProgress()
                     mHandler.postDelayed(mQueryRunnable, 750)
                 }
             }
 
-            override fun afterTextChanged(s: Editable) {
-            }
+            override fun afterTextChanged(s: Editable) {}
         })
 
         mAdapter = LocationListAdapter()
-        val queryList: RecyclerView = findViewById(R.id.query_result)
+        val queryList: RecyclerView = view.findViewById(R.id.query_result)
         queryList.adapter = mAdapter
-        queryList.layoutManager = LinearLayoutManager(this)
+        queryList.layoutManager = LinearLayoutManager(requireContext())
     }
 
+    @Deprecated("Deprecated in Java")
+    @Suppress("deprecation")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                activity?.finish()
                 return true
             }
 
-            else -> {}
+            else -> return super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -166,84 +175,69 @@ open class LocationBrowseActivity : BaseActivity() {
 
         try {
             val lang = Locale.getDefault().language.replaceFirst("_".toRegex(), "-")
-            val url = String.format(
-                URL_PLACES, Uri.encode(
-                    input!!.trim { it <= ' ' }), lang
-            )
+            val url = String.format(URL_PLACES, Uri.encode(input?.trim { it <= ' ' }), lang)
             val response: String = NetworkUtils.downloadUrlMemoryAsString(url)
             val jsonResults = JSONObject(response).getJSONArray("geonames")
             val count = jsonResults.length()
-            Log.d(
-                TAG,
-                "URL = $url returning a response of count = $count"
-            )
+            Log.d(TAG, "URL = $url returning a response of count = $count")
 
             for (i in 0 until count) {
                 val result = jsonResults.getJSONObject(i)
 
-                val population =
-                    if (result.has("population")) result.getInt("population") else 0
-                if (population == 0) {
-                    continue
-                }
+                val population = if (result.has("population")) result.getInt("population") else 0
+                if (population == 0) continue
 
                 val city = result.getString("name")
                 val country = result.getString("countryName")
                 val countryId = result.getString("countryId")
-                val adminName =
-                    if (result.has("adminName1")) result.getString("adminName1") else ""
-                val cityExt =
-                    (if (TextUtils.isEmpty(adminName)) "" else "$adminName, ") + country
+                val adminName = if (result.has("adminName1")) result.getString("adminName1") else ""
+                val cityExt = (if (adminName.isNullOrEmpty()) "" else "$adminName, ") + country
                 val lat = result.getDouble("lat")
                 val lon = result.getDouble("lng")
 
                 val locationItem = LocationBrowseItem(cityExt, countryId, city, lat, lon)
                 if (!mLocationBrowseList.contains(locationItem)) {
                     mLocationBrowseList.add(locationItem)
-                    if (mLocationBrowseList.size == 5) {
-                        break
-                    }
+                    if (mLocationBrowseList.size == 5) break
                 }
             }
         } catch (e: Exception) {
-            Log.e(
-                TAG,
-                "Received malformed location data input=$input", e
-            )
+            Log.e(TAG, "Received malformed location data input=$input", e)
         } finally {
             mHandler.post {
                 hideProgress()
-                mAdapter!!.notifyDataSetChanged()
+                mAdapter?.notifyDataSetChanged()
             }
         }
     }
 
     private fun showProgress() {
-        mProgressBar!!.visibility = View.VISIBLE
+        mProgressBar?.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-        mProgressBar!!.visibility = View.GONE
+        mProgressBar?.visibility = View.GONE
     }
 
     companion object {
-        private val TAG = LocationBrowseActivity::class.java.simpleName
+        private val TAG = LocationBrowse::class.java.simpleName
 
-        const val DATA_LOCATION_NAME: String = "location_name"
-        const val DATA_LOCATION_LAT: String = "location_lat"
-        const val DATA_LOCATION_LON: String = "location_lon"
+        const val DATA_LOCATION_KEY = "locationRequestKey"
+        const val DATA_LOCATION_NAME = "location_name"
+        const val DATA_LOCATION_LAT = "location_lat"
+        const val DATA_LOCATION_LON = "location_lon"
 
         private const val URL_PLACES =
             "https://secure.geonames.org/searchJSON?name_startsWith=%s&lang=%s&username=omnijaws&maxRows=20"
 
-        fun prefixTextWithIcon(context: Context?, iconRes: Int, msg: CharSequence): CharSequence {
+        fun prefixTextWithIcon(context: Context, iconRes: Int, msg: CharSequence): CharSequence {
             // Update the hint to contain the icon.
             // Prefix the original hint with two spaces. The first space gets replaced by the icon
             // using span. The second space is used for a singe space character between the hint
             // and the icon.
             val spanned = SpannableString("  $msg")
             spanned.setSpan(
-                TintedDrawableSpan(context!!, iconRes),
+                TintedDrawableSpan(context, iconRes),
                 0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE
             )
             return spanned

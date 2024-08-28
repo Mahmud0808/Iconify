@@ -15,6 +15,7 @@
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:key="update_status"
         android:title="@string/last_update_time"
+        android:summary="@string/not_available"
         app:iconSpaceReserved="false"
         app:showArrow="false" />
 
@@ -54,6 +55,7 @@
         android:key="weather_custom_location_picker"
         android:title="@string/weather_custom_location_title"
         app:iconSpaceReserved="false"
+        app:fragment="com.drdisagree.iconify.ui.fragments.xposed.LocationBrowse"
         app:showArrow="false" />
 
     <com.drdisagree.iconify.ui.preferences.BottomSheetListPreference
