@@ -33,8 +33,10 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class SearchPreferenceFragment extends Fragment implements SearchPreferenceAdapter.SearchClickListener {
     /**
@@ -260,9 +262,20 @@ public class SearchPreferenceFragment extends Fragment implements SearchPreferen
         }
 
         results = searcher.searchFor(keyword, searchConfiguration.isFuzzySearchEnabled());
-        adapter.setContent(new ArrayList<>(results));
 
-        setEmptyViewShown(results.isEmpty());
+        Set<String> seen = new HashSet<>();
+        List<PreferenceItem> distinctResults = new ArrayList<>();
+
+        for (PreferenceItem result : results) {
+            String key = result.title + result.summary + result.breadcrumbs;
+            if (seen.add(key)) {
+                distinctResults.add(result);
+            }
+        }
+
+        adapter.setContent(new ArrayList<>(distinctResults));
+
+        setEmptyViewShown(distinctResults.isEmpty());
     }
 
     private void setEmptyViewShown(boolean shown) {
