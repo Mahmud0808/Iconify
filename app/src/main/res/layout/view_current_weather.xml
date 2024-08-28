@@ -20,6 +20,10 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:tag="text"
+            android:shadowColor="#99000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="5"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
@@ -27,6 +31,7 @@
             android:id="@+id/currentImage"
             android:layout_width="18dp"
             android:layout_height="18dp"
+            android:elevation="4dp"
             android:importantForAccessibility="no" />
 
         <TextView
@@ -36,6 +41,10 @@
             android:layout_marginStart="4dp"
             android:singleLine="true"
             android:tag="text"
+            android:shadowColor="#99000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="5"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
@@ -45,8 +54,13 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:tag="text"
+            android:shadowColor="#99000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="5"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
+
     </LinearLayout>
 
     <!-- Humidity Layout -->
@@ -61,6 +75,7 @@
             android:id="@+id/humImage"
             android:layout_width="18dp"
             android:layout_height="18dp"
+            android:elevation="4dp"
             android:importantForAccessibility="no"
             android:scaleType="fitXY" />
 
@@ -70,8 +85,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:tag="text"
+            android:shadowColor="#99000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="5"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
+
     </LinearLayout>
 
     <!-- Wind Layout -->
@@ -86,6 +106,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:importantForAccessibility="no"
+            android:elevation="4dp"
             android:scaleType="fitXY" />
 
         <TextView
@@ -94,7 +115,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:tag="text"
+            android:shadowColor="#99000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="5"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
+
     </LinearLayout>
 </LinearLayout>

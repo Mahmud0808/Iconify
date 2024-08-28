@@ -70,10 +70,10 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             weatherColor = getInt(WEATHER_TEXT_COLOR, Color.WHITE)
             weatherTextSize = getSliderInt(WEATHER_TEXT_SIZE, 16)
             weatherImageSize = getSliderInt(WEATHER_ICON_SIZE, 18)
-            mSideMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_SIDE, 20)
+            mSideMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_SIDE, 32)
             mTopMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
             mBottomMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
-            mWeatherBackground = Integer.parseInt(getString(WEATHER_STYLE, "0"))
+            mWeatherBackground = Integer.parseInt(getString(WEATHER_STYLE, "0")!!)
             mCenterWeather = getBoolean(WEATHER_CENTER_VIEW, false)
         }
 
