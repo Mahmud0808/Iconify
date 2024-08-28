@@ -73,7 +73,7 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             mSideMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_SIDE, 20)
             mTopMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
             mBottomMargin = getSliderInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
-            mWeatherBackground = getInt(WEATHER_STYLE, 0)
+            mWeatherBackground = Integer.parseInt(getString(WEATHER_STYLE, "0"))
             mCenterWeather = getBoolean(WEATHER_CENTER_VIEW, false)
         }
 
