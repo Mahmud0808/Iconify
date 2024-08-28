@@ -2,7 +2,6 @@ package com.drdisagree.iconify.ui.adapters
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +25,6 @@ class ListPreferenceAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private var mValue: String? = null
     var type: Int = DEFAULT_TYPE
     private var prevPos: Int = -1
-
 
     constructor(
         entries: Array<CharSequence>,
@@ -97,7 +95,7 @@ class ListPreferenceAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 )
             } else holder.binding.batteryIcon.setVisibility(View.GONE)
 
-            if (TextUtils.equals(mEntryValues[holder.bindingAdapterPosition].toString(), mValue)) {
+            if (mEntryValues[holder.bindingAdapterPosition].toString().contentEquals(mValue)) {
                 prevPos = holder.bindingAdapterPosition
                 holder.binding.rootLayout.strokeColor = appContext.getColor(R.color.colorAccent)
             } else {
@@ -124,8 +122,7 @@ class ListPreferenceAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 )
             } else holder.binding.image.setVisibility(View.GONE)
 
-
-            if (TextUtils.equals(mEntryValues[holder.bindingAdapterPosition].toString(), mValue)) {
+            if (mEntryValues[holder.bindingAdapterPosition].toString().contentEquals(mValue)) {
                 prevPos = holder.bindingAdapterPosition
                 holder.binding.rootLayout.strokeColor =
                     appContext.getColor(R.color.colorAccent)

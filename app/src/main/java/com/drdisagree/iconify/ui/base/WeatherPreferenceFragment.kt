@@ -77,7 +77,6 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         mWeatherIconPack!!.createDefaultAdapter(
             drawables.filterNotNull().toTypedArray(),
             object : BottomSheetListPreference.OnItemClickListener {
-
                 override fun onItemClick(position: Int) {
                     RPrefs.putString(WEATHER_ICON_PACK, values[position])
                     mWeatherIconPack!!.setSummary(entries[position])
@@ -175,10 +174,10 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
 
     private fun showLocationPermissionDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(com.drdisagree.iconify.R.string.weather_retrieve_location_dialog_title)
-            .setMessage(com.drdisagree.iconify.R.string.weather_retrieve_location_dialog_message)
+            .setTitle(R.string.weather_retrieve_location_dialog_title)
+            .setMessage(R.string.weather_retrieve_location_dialog_message)
             .setCancelable(false)
-            .setPositiveButton(com.drdisagree.iconify.R.string.weather_retrieve_location_dialog_enable_button) { _, _ ->
+            .setPositiveButton(R.string.weather_retrieve_location_dialog_enable_button) { _, _ ->
                 startActivity(
                     Intent(
                         Settings.ACTION_LOCATION_SOURCE_SETTINGS
@@ -194,8 +193,8 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
 
     private fun showApplicationPermissionDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(com.drdisagree.iconify.R.string.weather_permission_dialog_title)
-            .setMessage(com.drdisagree.iconify.R.string.weather_permission_dialog_message)
+            .setTitle(R.string.weather_permission_dialog_title)
+            .setMessage(R.string.weather_permission_dialog_message)
             .setCancelable(false)
             .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
                 startActivity(

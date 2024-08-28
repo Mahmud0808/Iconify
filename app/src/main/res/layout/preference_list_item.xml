@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="85dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
     android:layout_marginBottom="4dp"
     android:orientation="vertical"
     app:cardBackgroundColor="?colorSurfaceContainerHighest"
@@ -20,24 +19,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:importantForAccessibility="no" />
 
         <TextView
             android:id="@+id/text"
-            android:layout_width="match_parent"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_marginStart="12dp"
-            android:textAppearance="?textAppearanceHeadline5" />
+            android:textColor="@color/text_color_primary" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
