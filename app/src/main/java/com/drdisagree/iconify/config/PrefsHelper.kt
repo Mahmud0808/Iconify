@@ -101,6 +101,7 @@ import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_LINEAR_COLOR
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SCALE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE
@@ -151,6 +152,7 @@ import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
 import com.drdisagree.iconify.common.Resources.shouldShowRebootDialog
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
+import com.drdisagree.iconify.config.RPrefs.getSliderFloat
 import com.drdisagree.iconify.config.RPrefs.getSliderInt
 import com.drdisagree.iconify.config.RPrefs.getString
 import com.drdisagree.iconify.config.RPrefs.getStringSet
@@ -482,6 +484,7 @@ object PrefsHelper {
             WEATHER_ICON_SIZE -> "${getSliderInt(key, 18)}dp"
 
             LOCKSCREEN_WIDGETS_BOTTOM_MARGIN -> "${getSliderInt(key, 0)}dp"
+            LOCKSCREEN_WIDGETS_SCALE -> "${String.format("%.2f", getSliderFloat(key, 1f))}%"
 
             WEATHER_CUSTOM_LOCATION_PICKER -> {
                 WeatherConfig.getLocationName(appContext).let {
