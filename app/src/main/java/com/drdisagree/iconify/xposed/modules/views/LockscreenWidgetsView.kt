@@ -25,7 +25,6 @@ import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
 import android.telephony.TelephonyManager
-import android.text.TextUtils
 import android.util.Log
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
@@ -392,7 +391,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         get() {
             val mediaController =
                 activeLocalMediaController
-            return mediaController != null && !TextUtils.isEmpty(mediaController.packageName)
+            return mediaController != null && !mediaController.packageName.isNullOrEmpty()
         }
 
     private val activeLocalMediaController: MediaController?
@@ -409,9 +408,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 }
                 if (pi.playbackType == PlaybackInfo.PLAYBACK_TYPE_REMOTE) {
                     if (localController != null
-                        && TextUtils.equals(
-                            localController.packageName, controller.packageName
-                        )
+                        && localController.packageName!!.contentEquals(controller.packageName)
                     ) {
                         localController = null
                     }
@@ -605,9 +602,9 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     private fun updateContainerVisibility() {
         val isMainWidgetsEmpty = (mMainLockscreenWidgetsList == null
-                || TextUtils.isEmpty(mMainLockscreenWidgetsList))
+                || mMainLockscreenWidgetsList.isNullOrEmpty())
         val isSecondaryWidgetsEmpty = (mSecondaryLockscreenWidgetsList == null
-                || TextUtils.isEmpty(mSecondaryLockscreenWidgetsList))
+                || mSecondaryLockscreenWidgetsList.isNullOrEmpty())
         val isEmpty = isMainWidgetsEmpty && isSecondaryWidgetsEmpty
 
         if (mDeviceWidgetContainer != null) {
@@ -1094,10 +1091,10 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         if (mediaButtonFab != null) {
             val trackTitle =
                 if (mMediaMetadata != null) mMediaMetadata!!.getString(MediaMetadata.METADATA_KEY_TITLE) else ""
-            if (!TextUtils.isEmpty(trackTitle) && mLastTrackTitle !== trackTitle) {
+            if (!trackTitle.isNullOrEmpty() && mLastTrackTitle !== trackTitle) {
                 mLastTrackTitle = trackTitle
             }
-            val canShowTrackTitle = isPlaying || !TextUtils.isEmpty(mLastTrackTitle)
+            val canShowTrackTitle = isPlaying || !mLastTrackTitle.isNullOrEmpty()
             mediaButtonFab!!.icon = icon
             mediaButtonFab!!.text = if (canShowTrackTitle) mLastTrackTitle else "Play"
             setButtonActiveState(null, mediaButtonFab, isPlaying)
@@ -1164,7 +1161,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         vibrate(1)
     }
 
-    /** noinspection deprecation */
+    @Suppress("deprecation")
     private fun toggleWiFi() {
         log("LockscreenWidgets toggleWiFi")
         val enabled: Boolean = mWifiManager!!.isWifiEnabled
@@ -1412,6 +1409,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         }
     }
 
+    @Suppress("deprecation")
     private fun updateWiFiButtonState(enabled: Boolean) {
         log(
             "LockscreenWidgets updateWiFiButtonState $enabled | " + isWidgetEnabled(
@@ -1462,9 +1460,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         if (!isWidgetEnabled("data")) return
         if (dataButton == null && dataButtonFab == null) return
         val inactive = getString(DATA_LABEL, SYSTEMUI_PACKAGE)
-        val networkName = if (!TextUtils.isEmpty(activeMobileDataCarrier)) activeMobileDataCarrier
-        else inactive
-        val hasNetwork = enabled && !TextUtils.isEmpty(networkName)
+        val networkName = activeMobileDataCarrier.ifEmpty { inactive }
+        val hasNetwork = enabled && networkName.isNotEmpty()
         updateTileButtonState(
             dataButton,
             dataButtonFab,
@@ -1527,7 +1524,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         var deviceName: String? = ""
         if (isBluetoothEnabled && bluetoothController != null)
             deviceName = callMethod(bluetoothController, "getConnectedDeviceName") as String?
-        val isConnected = !TextUtils.isEmpty(deviceName)
+        val isConnected = !deviceName.isNullOrEmpty()
         val icon = getDrawable(
             BT_ICON,
             SYSTEMUI_PACKAGE
@@ -1548,7 +1545,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         if (hotspotEnabled) {
             val hotspotSSID: String = getHotspotSSID()
             val devices = "($numDevices)"
-            if (!TextUtils.isEmpty(hotspotSSID)) {
+            if (hotspotSSID.isNotEmpty()) {
                 activeString = if (numDevices > 0) "$hotspotSSID $devices"
                 else hotspotSSID
             }
@@ -1563,6 +1560,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         )
     }
 
+    @Suppress("deprecation")
     private val isBluetoothEnabled: Boolean
         get() {
             val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -1583,6 +1581,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         return false
     }
 
+    @Suppress("deprecation")
     private fun getHotspotSSID(): String {
         try {
             val methods: Array<Method> = WifiManager::class.java.getDeclaredMethods()
@@ -1605,7 +1604,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         if (a == null) {
             return false
         }
-        return a == b
+        return false
     }
 
     private fun getMediaControllerPlaybackState(controller: MediaController?): Int {
@@ -1703,6 +1702,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         instance!!.updateContainerVisibility()
     }
 
+    @Suppress("DiscouragedApi")
     private fun getDrawable(drawableRes: String, pkg: String): Drawable? {
         try {
             return ContextCompat.getDrawable(
@@ -1722,6 +1722,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         }
     }
 
+    @Suppress("DiscouragedApi")
     private fun getString(stringRes: String, pkg: String): String {
         try {
             return mContext.resources.getString(
@@ -1769,10 +1770,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     private val ringerText: String
         get() {
-            val RINGER_NORMAL_TEXT = "volume_footer_ring"
-            val RINGER_VIBRATE_TEXT = "state_button_vibration"
-            val RINGER_SILENT_TEXT = "state_button_silence"
-
             val resName = when (mAudioManager!!.ringerMode) {
                 AudioManager.RINGER_MODE_NORMAL -> RINGER_NORMAL_TEXT
                 AudioManager.RINGER_MODE_VIBRATE -> RINGER_VIBRATE_TEXT
@@ -1807,8 +1804,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         const val WIFI_INACTIVE: String = "ic_wifi_signal_0"
         const val HOME_CONTROLS: String = "controls_icon"
         const val CALCULATOR_ICON: String = "status_bar_qs_calculator_inactive"
-        const val CAMERA_ICON: String =
-            "ic_camera" // Use qs camera access icon for camera
+        const val CAMERA_ICON: String = "ic_camera" // Use qs camera access icon for camera
         const val WALLET_ICON: String = "ic_wallet_lockscreen"
         const val HOTSPOT_ACTIVE: String = "qs_hotspot_icon_on"
         const val HOTSPOT_INACTIVE: String = "qs_hotspot_icon_off"
@@ -1828,17 +1824,19 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         const val WALLET_LABEL: String = "wallet_title"
         const val HOTSPOT_LABEL: String = "quick_settings_hotspot_label"
 
+        const val RINGER_NORMAL_TEXT = "volume_footer_ring"
+        const val RINGER_VIBRATE_TEXT = "state_button_vibration"
+        const val RINGER_SILENT_TEXT = "state_button_silence"
+
         @Volatile
         private var instance: LockscreenWidgetsView? = null
 
-        @JvmStatic
         fun getInstance(context: Context, activityStarter: Any?): LockscreenWidgetsView {
             return instance ?: synchronized(this) {
                 instance ?: LockscreenWidgetsView(context, activityStarter).also { instance = it }
             }
         }
 
-        @JvmStatic
         fun getInstance(): LockscreenWidgetsView? {
             return instance
         }
