@@ -468,7 +468,7 @@ object PrefsHelper {
 
             HEADER_IMAGE_ALPHA -> "${getSliderInt(key, 100)}%"
 
-            HEADER_IMAGE_BOTTOM_FADE_AMOUNT -> "${getSliderInt(key, 40)}%"
+            HEADER_IMAGE_BOTTOM_FADE_AMOUNT -> "${getSliderInt(key, 40)}dp"
 
             WEATHER_CUSTOM_MARGINS_TOP,
             WEATHER_CUSTOM_MARGINS_SIDE,
