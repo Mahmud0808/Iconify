@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments.xposed
 
+import android.os.Bundle
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.CUSTOM_QS_MARGIN
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
@@ -14,8 +15,12 @@ import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
+import com.drdisagree.iconify.ui.preferences.SwitchPreference
 
 class QuickSettings : ControlledPreferenceFragmentCompat() {
+
+    private var alwaysWhitePreference: SwitchPreference? = null
+    private var followAccentPreference: SwitchPreference? = null
 
     override val title: String
         get() = getString(R.string.activity_title_quick_settings)
@@ -49,6 +54,7 @@ class QuickSettings : ControlledPreferenceFragmentCompat() {
             QS_TEXT_ALWAYS_WHITE -> {
                 if (getBoolean(key)) {
                     putBoolean(QS_TEXT_FOLLOW_ACCENT, false)
+                    followAccentPreference?.isChecked = false
                 }
                 MainActivity.showOrHidePendingActionButton(
                     activityBinding = (requireActivity() as MainActivity).binding,
@@ -59,6 +65,7 @@ class QuickSettings : ControlledPreferenceFragmentCompat() {
             QS_TEXT_FOLLOW_ACCENT -> {
                 if (getBoolean(key)) {
                     putBoolean(QS_TEXT_ALWAYS_WHITE, false)
+                    alwaysWhitePreference?.isChecked = false
                 }
                 MainActivity.showOrHidePendingActionButton(
                     activityBinding = (requireActivity() as MainActivity).binding,
@@ -66,5 +73,12 @@ class QuickSettings : ControlledPreferenceFragmentCompat() {
                 )
             }
         }
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        super.onCreatePreferences(savedInstanceState, rootKey)
+
+        alwaysWhitePreference = findPreference(QS_TEXT_ALWAYS_WHITE)
+        followAccentPreference = findPreference(QS_TEXT_FOLLOW_ACCENT)
     }
 }

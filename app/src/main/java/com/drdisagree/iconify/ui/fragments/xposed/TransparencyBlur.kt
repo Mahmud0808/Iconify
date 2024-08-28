@@ -19,6 +19,9 @@ import com.drdisagree.iconify.utils.SystemUtils.isBlurEnabled
 
 class TransparencyBlur : ControlledPreferenceFragmentCompat() {
 
+    private var transparentQsPreference: SwitchPreference? = null
+    private var transparentNotificationPreference: SwitchPreference? = null
+
     override val title: String
         get() = getString(R.string.activity_title_transparency_blur)
 
@@ -38,6 +41,7 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
             QS_TRANSPARENCY_SWITCH -> {
                 if (getBoolean(key)) {
                     putBoolean(NOTIF_TRANSPARENCY_SWITCH, false)
+                    transparentNotificationPreference?.isChecked = false
                 }
                 MainActivity.showOrHidePendingActionButton(
                     activityBinding = (requireActivity() as MainActivity).binding,
@@ -48,6 +52,7 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
             NOTIF_TRANSPARENCY_SWITCH -> {
                 if (getBoolean(key)) {
                     putBoolean(QS_TRANSPARENCY_SWITCH, false)
+                    transparentQsPreference?.isChecked = false
                 }
                 MainActivity.showOrHidePendingActionButton(
                     activityBinding = (requireActivity() as MainActivity).binding,
@@ -98,6 +103,9 @@ class TransparencyBlur : ControlledPreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
+
+        transparentQsPreference = findPreference(QS_TRANSPARENCY_SWITCH)
+        transparentNotificationPreference = findPreference(NOTIF_TRANSPARENCY_SWITCH)
 
         findPreference<SwitchPreference>(QSPANEL_BLUR_SWITCH)?.isChecked =
             isBlurEnabled(force = false)
