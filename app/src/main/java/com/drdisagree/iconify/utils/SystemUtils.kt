@@ -34,7 +34,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-object SystemUtil {
+object SystemUtils {
 
     private var darkSwitching = false
     private const val BLUR_CMD_0 =
@@ -149,9 +149,9 @@ object SystemUtil {
     fun mountRW() {
         Shell.cmd("mount -o remount,rw /").exec()
 
-        if (RootUtil.moduleExists("magisk_overlayfs")) {
+        if (RootUtils.moduleExists("magisk_overlayfs")) {
             Shell.cmd("-mm -c magic_remount_rw").exec()
-        } else if (RootUtil.moduleExists("overlayfs")) {
+        } else if (RootUtils.moduleExists("overlayfs")) {
             Shell.cmd("/data/overlayfs/tmp/overlayrw -rw /system/product/overlay").exec()
         }
     }
@@ -159,9 +159,9 @@ object SystemUtil {
     fun mountRO() {
         Shell.cmd("mount -o remount,ro /").exec()
 
-        if (RootUtil.moduleExists("magisk_overlayfs")) {
+        if (RootUtils.moduleExists("magisk_overlayfs")) {
             Shell.cmd("-mm -c magic_remount_ro").exec()
-        } else if (RootUtil.moduleExists("overlayfs")) {
+        } else if (RootUtils.moduleExists("overlayfs")) {
             Shell.cmd("/data/overlayfs/tmp/overlayrw -ro /system/product/overlay").exec()
         }
     }

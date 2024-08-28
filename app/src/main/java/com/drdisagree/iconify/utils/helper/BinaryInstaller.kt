@@ -10,7 +10,7 @@ import com.drdisagree.iconify.common.Dynamic.ZIPALIGN
 import com.drdisagree.iconify.common.Dynamic.ZIPALIGNLIB
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.common.Resources.BIN_DIR
-import com.drdisagree.iconify.utils.FileUtil
+import com.drdisagree.iconify.utils.FileUtils
 import com.topjohnwu.superuser.Shell
 
 object BinaryInstaller {
@@ -36,12 +36,12 @@ object BinaryInstaller {
         Log.d(TAG, "Extracting tools...")
 
         try {
-            FileUtil.copyAssets("Tools")
+            FileUtils.copyAssets("Tools")
 
             Shell.cmd("for fl in " + Resources.DATA_DIR + "/Tools/*; do cp -f \"\$fl\" \"" + NATIVE_LIBRARY_DIR + "\"; chmod 755 \"" + NATIVE_LIBRARY_DIR + "/$(basename \$fl)\"; ln -sf \"" + NATIVE_LIBRARY_DIR + "/$(basename \$fl)\" \"" + BIN_DIR + "/$(basename \$fl)\"; done")
                 .exec()
 
-            FileUtil.cleanDir("Tools")
+            FileUtils.cleanDir("Tools")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to extract tools.\n$e")
         }

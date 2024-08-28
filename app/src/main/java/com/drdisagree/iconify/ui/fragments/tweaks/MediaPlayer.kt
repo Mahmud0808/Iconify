@@ -10,8 +10,8 @@ import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.databinding.FragmentMediaPlayerBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.changeOverlayState
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.changeOverlayState
 
 class MediaPlayer : BaseFragment() {
 
@@ -50,7 +50,7 @@ class MediaPlayer : BaseFragment() {
                     true
                 )
             } else {
-                OverlayUtil.disableOverlay("IconifyComponentMPA.overlay")
+                OverlayUtils.disableOverlay("IconifyComponentMPA.overlay")
             }
 
             refreshPreview()
@@ -71,7 +71,7 @@ class MediaPlayer : BaseFragment() {
                     true
                 )
             } else {
-                OverlayUtil.disableOverlay("IconifyComponentMPS.overlay")
+                OverlayUtils.disableOverlay("IconifyComponentMPS.overlay")
             }
 
             refreshPreview()
@@ -92,7 +92,7 @@ class MediaPlayer : BaseFragment() {
                     true
                 )
             } else {
-                OverlayUtil.disableOverlay("IconifyComponentMPB.overlay")
+                OverlayUtils.disableOverlay("IconifyComponentMPB.overlay")
             }
 
             refreshPreview()

@@ -4,10 +4,10 @@ import android.os.Build
 import android.util.TypedValue
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.config.RPrefs
-import com.drdisagree.iconify.utils.helper.TypedValueUtil.createComplexDimension
+import com.drdisagree.iconify.utils.helper.TypedValueUtils.createComplexDimension
 import com.topjohnwu.superuser.Shell
 
-object FabricatedUtil {
+object FabricatedUtils {
 
     val overlayList: List<String>
         get() = Shell.cmd(

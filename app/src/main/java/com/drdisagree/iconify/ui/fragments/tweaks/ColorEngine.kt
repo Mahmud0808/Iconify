@@ -17,10 +17,10 @@ import com.drdisagree.iconify.databinding.FragmentColorEngineBinding
 import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.changeOverlayState
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlay
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.isOverlayDisabled
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.changeOverlayState
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.isOverlayDisabled
 
 class ColorEngine : BaseFragment() {
 
@@ -83,7 +83,7 @@ class ColorEngine : BaseFragment() {
                     if (isChecked) {
                         enableOverlay("IconifyComponentDM.overlay")
                     } else {
-                        OverlayUtil.disableOverlay("IconifyComponentDM.overlay")
+                        OverlayUtils.disableOverlay("IconifyComponentDM.overlay")
                     }
                 }, SWITCH_ANIMATION_DELAY
             )
@@ -98,7 +98,7 @@ class ColorEngine : BaseFragment() {
     }
 
     private fun disableMonetAccent() {
-        OverlayUtil.disableOverlays("IconifyComponentAMAC.overlay")
+        OverlayUtils.disableOverlays("IconifyComponentAMAC.overlay")
     }
 
     private fun enableMonetGradient() {
@@ -107,7 +107,7 @@ class ColorEngine : BaseFragment() {
     }
 
     private fun disableMonetGradient() {
-        OverlayUtil.disableOverlay("IconifyComponentAMGC.overlay")
+        OverlayUtils.disableOverlay("IconifyComponentAMGC.overlay")
     }
 
     private fun shouldUseDefaultColors(): Boolean {
@@ -153,7 +153,7 @@ class ColorEngine : BaseFragment() {
                             true
                         )
                     } else {
-                        OverlayUtil.disableOverlay("IconifyComponentQSST.overlay")
+                        OverlayUtils.disableOverlay("IconifyComponentQSST.overlay")
                     }
                 }, SWITCH_ANIMATION_DELAY)
             }
@@ -222,7 +222,7 @@ class ColorEngine : BaseFragment() {
                         true
                     )
                 } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQSPBD.overlay")
+                    OverlayUtils.disableOverlay("IconifyComponentQSPBD.overlay")
                 }
             }, SWITCH_ANIMATION_DELAY)
         }
@@ -253,7 +253,7 @@ class ColorEngine : BaseFragment() {
                         true
                     )
                 } else {
-                    OverlayUtil.disableOverlay("IconifyComponentQSPBA.overlay")
+                    OverlayUtils.disableOverlay("IconifyComponentQSPBA.overlay")
                 }
             }, SWITCH_ANIMATION_DELAY)
         }

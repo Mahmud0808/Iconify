@@ -24,8 +24,8 @@ import com.drdisagree.iconify.databinding.FragmentQsRowColumnBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil.buildAndEnableOverlays
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil.disableOverlays
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils.buildAndEnableOverlays
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils.disableOverlays
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
 

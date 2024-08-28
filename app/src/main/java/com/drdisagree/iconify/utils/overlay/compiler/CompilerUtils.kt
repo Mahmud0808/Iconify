@@ -17,9 +17,9 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
-object CompilerUtil {
+object CompilerUtils {
 
-    private val TAG = CompilerUtil::class.java.simpleName
+    private val TAG = CompilerUtils::class.java.simpleName
 
     fun createManifestContent(
         overlayName: String?,

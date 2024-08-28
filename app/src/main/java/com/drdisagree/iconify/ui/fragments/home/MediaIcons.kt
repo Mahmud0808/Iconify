@@ -17,11 +17,11 @@ import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.databinding.FragmentMediaIconsBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.AppUtil.getAppIcon
-import com.drdisagree.iconify.utils.AppUtil.getAppName
-import com.drdisagree.iconify.utils.AppUtil.isAppInstalledRoot
-import com.drdisagree.iconify.utils.AppUtil.launchApp
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.AppUtils.getAppIcon
+import com.drdisagree.iconify.utils.AppUtils.getAppName
+import com.drdisagree.iconify.utils.AppUtils.isAppInstalledRoot
+import com.drdisagree.iconify.utils.AppUtils.launchApp
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.utils.overlay.manager.MediaPlayerIconManager.enableOverlay
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
@@ -239,7 +239,7 @@ class MediaIcons : BaseFragment() {
                 if (isChecked) {
                     enableOverlay(idx, finalI)
                 } else {
-                    OverlayUtil.disableOverlay("IconifyComponentMPIP$idx$finalI.overlay")
+                    OverlayUtils.disableOverlay("IconifyComponentMPIP$idx$finalI.overlay")
                 }
 
                 refreshBackground()

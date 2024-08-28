@@ -7,7 +7,7 @@ import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Preferences.NOTCH_BAR_KILLER_SWITCH
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.putBoolean
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.SystemUtils
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager
 
@@ -26,7 +26,7 @@ class TileNotchBarKiller : TileService() {
     override fun onClick() {
         super.onClick()
 
-        if (!SystemUtil.hasStoragePermission()) {
+        if (!SystemUtils.hasStoragePermission()) {
             val tile = qsTile
             tile.subtitle = resources.getString(R.string.need_storage_perm_title)
             tile.updateTile()

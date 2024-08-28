@@ -19,7 +19,7 @@ import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.models.ClockModel
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setBitmapWithAnimation
-import com.drdisagree.iconify.utils.WallpaperUtil
+import com.drdisagree.iconify.utils.WallpaperUtils
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -149,7 +149,7 @@ class ClockPreviewAdapter(
     fun loadWallpaper(adapter: ClockPreviewAdapter) {
         CoroutineScope(Dispatchers.Main).launch {
             val bitmap = withContext(Dispatchers.IO) {
-                WallpaperUtil.getCompressedWallpaper(
+                WallpaperUtils.getCompressedWallpaper(
                     adapter.context,
                     80,
                     if (prefSwitch == LSCLOCK_SWITCH) {

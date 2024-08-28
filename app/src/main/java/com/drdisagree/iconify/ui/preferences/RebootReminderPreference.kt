@@ -8,7 +8,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
-import com.drdisagree.iconify.utils.SystemUtil.restartDevice
+import com.drdisagree.iconify.utils.SystemUtils.restartDevice
 
 class RebootReminderPreference(context: Context, attrs: AttributeSet?) :
     Preference(context, attrs) {

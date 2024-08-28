@@ -13,7 +13,7 @@ import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector
-import com.drdisagree.iconify.xposed.utils.SystemUtil
+import com.drdisagree.iconify.xposed.utils.SystemUtils
 import com.drdisagree.iconify.xposed.utils.XPrefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
@@ -110,7 +110,7 @@ class HookEntry : ServiceConnection {
             return
         }
 
-        SystemUtil(mContext!!)
+        SystemUtils(mContext!!)
 
         loadModPacks(loadPackageParam)
     }
@@ -148,7 +148,7 @@ class HookEntry : ServiceConnection {
                 Xprefs.getBoolean("LoadTestBooleanValue", false)
                 break
             } catch (ignored: Throwable) {
-                SystemUtil.sleep(1000);
+                SystemUtils.sleep(1000);
             }
         }
 
@@ -159,16 +159,16 @@ class HookEntry : ServiceConnection {
 
     private fun forceConnectRootService() {
         Thread {
-            while (SystemUtil.UserManager == null || !SystemUtil.UserManager!!.isUserUnlocked) {
+            while (SystemUtils.UserManager == null || !SystemUtils.UserManager!!.isUserUnlocked) {
                 // device is still CE encrypted
-                SystemUtil.sleep(2000)
+                SystemUtils.sleep(2000)
             }
 
-            SystemUtil.sleep(5000) // wait for the unlocked account to settle down a bit
+            SystemUtils.sleep(5000) // wait for the unlocked account to settle down a bit
 
             while (rootProxyIPC == null) {
                 connectRootService()
-                SystemUtil.sleep(5000)
+                SystemUtils.sleep(5000)
             }
         }.start()
     }

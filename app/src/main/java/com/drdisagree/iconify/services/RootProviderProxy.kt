@@ -10,7 +10,7 @@ import android.util.Log
 import com.drdisagree.iconify.IExtractSubjectCallback
 import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.utils.FileUtil
+import com.drdisagree.iconify.utils.FileUtils
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter.SegmentResultListener
 import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse
@@ -115,7 +115,7 @@ class RootProviderProxy : Service() {
                                     outputStream.close()
                                     result.recycle()
 
-                                    val isSuccess = FileUtil.moveToIconifyHiddenDir(
+                                    val isSuccess = FileUtils.moveToIconifyHiddenDir(
                                         tempFile.absolutePath,
                                         resultPath
                                     )

@@ -16,7 +16,7 @@ import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragme
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.fragments.settings.AppUpdates
 import com.drdisagree.iconify.ui.preferences.UpdateCheckerPreference
-import com.drdisagree.iconify.utils.SystemUtil.saveBootId
+import com.drdisagree.iconify.utils.SystemUtils.saveBootId
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

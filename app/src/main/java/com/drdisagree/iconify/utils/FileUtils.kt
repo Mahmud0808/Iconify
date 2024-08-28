@@ -8,8 +8,8 @@ import android.provider.OpenableColumns
 import androidx.activity.result.ActivityResultLauncher
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
 import com.topjohnwu.superuser.Shell
 import java.io.File
 import java.io.FileOutputStream
@@ -20,7 +20,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.math.min
 
-object FileUtil {
+object FileUtils {
 
     val DATA_DIR = appContext.filesDir.toString()
 

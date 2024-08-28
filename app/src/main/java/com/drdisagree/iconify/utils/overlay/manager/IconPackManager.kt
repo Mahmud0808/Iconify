@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.utils.overlay.manager
 
 import com.drdisagree.iconify.config.RPrefs.putBoolean
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlaysExclusiveInCategory
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlaysExclusiveInCategory
 import com.topjohnwu.superuser.Shell
 
 object IconPackManager {

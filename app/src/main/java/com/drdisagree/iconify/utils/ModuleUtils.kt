@@ -17,8 +17,8 @@ import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.utils.helper.BackupRestore.backupFiles
 import com.drdisagree.iconify.utils.helper.BinaryInstaller.symLinkBinaries
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.topjohnwu.superuser.Shell
 import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.model.ZipParameters
@@ -26,9 +26,9 @@ import net.lingala.zip4j.model.enums.CompressionLevel
 import net.lingala.zip4j.model.enums.CompressionMethod
 import java.io.File
 
-object ModuleUtil {
+object ModuleUtils {
 
-    private val TAG = ModuleUtil::class.java.getSimpleName()
+    private val TAG = ModuleUtils::class.java.getSimpleName()
 
     fun handleModule() {
         if (moduleExists()) {
@@ -148,7 +148,7 @@ object ModuleUtil {
         for ((key, value) in map) {
             if (value is Boolean && value && key.startsWith("fabricated")) {
                 val name = key.replace("fabricated", "")
-                val commands = FabricatedUtil.buildCommands(
+                val commands = FabricatedUtils.buildCommands(
                     RPrefs.getString("FOCMDtarget$name")!!,
                     RPrefs.getString("FOCMDname$name")!!,
                     RPrefs.getString("FOCMDtype$name")!!,
@@ -185,13 +185,13 @@ object ModuleUtil {
     }
 
     private fun shouldUseDefaultColors(): Boolean {
-        return OverlayUtil.isOverlayDisabled("IconifyComponentAMAC.overlay") && OverlayUtil.isOverlayDisabled(
+        return OverlayUtils.isOverlayDisabled("IconifyComponentAMAC.overlay") && OverlayUtils.isOverlayDisabled(
             "IconifyComponentAMGC.overlay"
-        ) && OverlayUtil.isOverlayDisabled("IconifyComponentME.overlay")
+        ) && OverlayUtils.isOverlayDisabled("IconifyComponentME.overlay")
     }
 
     fun moduleExists(): Boolean {
-        return RootUtil.folderExists(Resources.OVERLAY_DIR)
+        return RootUtils.folderExists(Resources.OVERLAY_DIR)
     }
 
     @Throws(Exception::class)
@@ -212,11 +212,11 @@ object ModuleUtil {
     @Throws(Exception::class)
     fun flashModule(modulePath: String): Boolean {
         var result: Shell.Result? = null
-        if (RootUtil.isMagiskInstalled) {
+        if (RootUtils.isMagiskInstalled) {
             result = Shell.cmd("magisk --install-module $modulePath").exec()
-        } else if (RootUtil.isKSUInstalled) {
+        } else if (RootUtils.isKSUInstalled) {
             result = Shell.cmd("/data/adb/ksud module install $modulePath").exec()
-        } else if (RootUtil.isApatchInstalled) {
+        } else if (RootUtils.isApatchInstalled) {
             result = Shell.cmd("apd module install $modulePath").exec()
         }
         if (result == null) {

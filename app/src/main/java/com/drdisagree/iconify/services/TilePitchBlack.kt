@@ -4,7 +4,7 @@ import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.config.RPrefs.getBoolean
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 
 class TilePitchBlack : TileService() {
 
@@ -23,7 +23,7 @@ class TilePitchBlack : TileService() {
         super.onClick()
 
         isPitchBlackEnabled = if (getBoolean("IconifyComponentQSPBD.overlay")) {
-            OverlayUtil.changeOverlayState(
+            OverlayUtils.changeOverlayState(
                 "IconifyComponentQSPBD.overlay",
                 false,
                 "IconifyComponentQSPBA.overlay",
@@ -31,10 +31,10 @@ class TilePitchBlack : TileService() {
             )
             true
         } else if (getBoolean("IconifyComponentQSPBA.overlay")) {
-            OverlayUtil.disableOverlay("IconifyComponentQSPBA.overlay")
+            OverlayUtils.disableOverlay("IconifyComponentQSPBA.overlay")
             false
         } else {
-            OverlayUtil.enableOverlay("IconifyComponentQSPBD.overlay")
+            OverlayUtils.enableOverlay("IconifyComponentQSPBD.overlay")
             true
         }
 

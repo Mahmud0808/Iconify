@@ -15,7 +15,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.SystemUtils
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import org.greenrobot.eventbus.EventBus
@@ -127,7 +127,7 @@ class ColorPickerWidget : RelativeLayout {
             selectedColor = colorCode
 
             if (!isEnabled) {
-                colorCode = if (SystemUtil.isDarkMode) {
+                colorCode = if (SystemUtils.isDarkMode) {
                     Color.DKGRAY
                 } else {
                     Color.LTGRAY

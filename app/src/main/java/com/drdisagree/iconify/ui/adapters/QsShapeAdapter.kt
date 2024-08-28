@@ -19,14 +19,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.QsShapeModel
 import com.drdisagree.iconify.ui.utils.ViewBindingHelpers.setDrawable
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.SystemUtils
 import com.drdisagree.iconify.utils.overlay.manager.QsShapeManager
 import com.drdisagree.iconify.utils.overlay.manager.QsShapePixelManager
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
@@ -92,7 +91,7 @@ class QsShapeAdapter(
                 R.color.textColorPrimaryInverse
             }
         } else {
-            if (itemList[position].inverseColor && SystemUtil.isDarkMode) {
+            if (itemList[position].inverseColor && SystemUtils.isDarkMode) {
                 R.color.textColorPrimary
             } else {
                 R.color.textColorPrimaryInverse

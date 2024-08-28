@@ -2,13 +2,13 @@ package com.drdisagree.iconify.utils.overlay.compiler
 
 import android.util.Log
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.utils.FileUtil.copyAssets
-import com.drdisagree.iconify.utils.RootUtil.setPermissions
-import com.drdisagree.iconify.utils.SystemUtil.mountRO
-import com.drdisagree.iconify.utils.SystemUtil.mountRW
+import com.drdisagree.iconify.utils.FileUtils.copyAssets
+import com.drdisagree.iconify.utils.RootUtils.setPermissions
+import com.drdisagree.iconify.utils.SystemUtils.mountRO
+import com.drdisagree.iconify.utils.SystemUtils.mountRW
 import com.drdisagree.iconify.utils.helper.BinaryInstaller.symLinkBinaries
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlay
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlay
 import com.topjohnwu.superuser.Shell
 import java.io.IOException
 

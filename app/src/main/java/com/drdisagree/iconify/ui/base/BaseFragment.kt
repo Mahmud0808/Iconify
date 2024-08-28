@@ -26,7 +26,7 @@ import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragme
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.fragments.settings.Changelog
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
-import com.drdisagree.iconify.utils.SystemUtil.restartSystemUI
+import com.drdisagree.iconify.utils.SystemUtils.restartSystemUI
 import com.drdisagree.iconify.utils.helper.ImportExport.exportSettings
 import com.drdisagree.iconify.utils.helper.ImportExport.handleExportResult
 import com.drdisagree.iconify.utils.helper.ImportExport.handleImportResult

@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.utils.overlay.manager
 
 import com.drdisagree.iconify.config.RPrefs.putBoolean
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlay
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlayExclusiveInCategory
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlayExclusiveInCategory
 
 object MediaPlayerIconManager {
 

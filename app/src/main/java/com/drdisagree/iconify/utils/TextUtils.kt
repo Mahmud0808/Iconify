@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-object TextUtil {
+object TextUtils {
     fun convertTextViewsToTitleCase(view: View?) {
         if (view == null) return
 

@@ -1,10 +1,10 @@
 package com.drdisagree.iconify.utils.overlay.manager
 
 import com.drdisagree.iconify.config.RPrefs.putBoolean
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.checkEnabledOverlay
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlaysExclusiveInCategory
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.checkEnabledOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlaysExclusiveInCategory
 import com.topjohnwu.superuser.Shell
 
 object SignalIconManager {
@@ -17,7 +17,7 @@ object SignalIconManager {
 
         val iconPackPkgName = checkEnabledOverlay("IPAS")
         if (iconPackPkgName.isNotEmpty()) {
-            OverlayUtil.disableOverlay(iconPackPkgName)
+            OverlayUtils.disableOverlay(iconPackPkgName)
         }
 
         enableOverlaysExclusiveInCategory("IconifyComponent$category$n.overlay")
@@ -28,7 +28,7 @@ object SignalIconManager {
         }
 
         if (iconPackPkgName.isNotEmpty()) {
-            OverlayUtil.enableOverlay(iconPackPkgName, "high")
+            OverlayUtils.enableOverlay(iconPackPkgName, "high")
         }
 
         enableOverlaysExclusiveInCategory("IconifyComponent$category$n.overlay")

@@ -14,7 +14,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.topjohnwu.superuser.Shell
 
-object AppUtil {
+object AppUtils {
 
     fun isAppInstalled(packageName: String?): Boolean {
         val pm = appContext.packageManager
@@ -106,7 +106,7 @@ object AppUtil {
     }
 
     val isLsposedInstalled: Boolean
-        get() = RootUtil.fileExists("/data/adb/lspd/manager.apk") || RootUtil.fileExists("/data/adb/modules/*lsposed*/manager.apk")
+        get() = RootUtils.fileExists("/data/adb/lspd/manager.apk") || RootUtils.fileExists("/data/adb/modules/*lsposed*/manager.apk")
 
     fun restartApplication(activity: Activity) {
         Handler(Looper.getMainLooper()).postDelayed({

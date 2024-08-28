@@ -13,7 +13,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.dialogs.EditTextDialog
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.SystemUtils
 
 class EditTextWidget : RelativeLayout {
 
@@ -133,7 +133,7 @@ class EditTextWidget : RelativeLayout {
 
             iconImageView.imageTintList = ColorStateList.valueOf(color)
         } else {
-            if (SystemUtil.isDarkMode) {
+            if (SystemUtils.isDarkMode) {
                 iconImageView.imageTintList = ColorStateList.valueOf(Color.DKGRAY)
             } else {
                 iconImageView.imageTintList = ColorStateList.valueOf(Color.LTGRAY)

@@ -13,8 +13,8 @@ import com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_LAND
 import com.drdisagree.iconify.common.Preferences.DYNAMIC_OVERLAY_RESOURCES_NIGHT
 import com.drdisagree.iconify.config.RPrefs.getString
 import com.drdisagree.iconify.config.RPrefs.putString
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
 import com.drdisagree.iconify.utils.extension.TaskExecutor
 import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler.buildOverlay
 import org.json.JSONObject

@@ -3,7 +3,7 @@ package com.drdisagree.iconify.utils.helper
 import android.util.TypedValue
 import androidx.annotation.IntRange
 
-object TypedValueUtil {
+object TypedValueUtils {
 
     fun createComplexDimension(
         @IntRange(from = -0x800000, to = 0x7FFFFF) value: Int,

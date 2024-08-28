@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.SystemUtils
 
 class MenuWidget : RelativeLayout {
 
@@ -127,7 +127,7 @@ class MenuWidget : RelativeLayout {
                 )
             )
         } else {
-            if (SystemUtil.isDarkMode) {
+            if (SystemUtils.isDarkMode) {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
                 endArrowImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
             } else {

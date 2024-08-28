@@ -2,10 +2,10 @@ package com.drdisagree.iconify.utils.overlay.compiler
 
 import android.util.Log
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.utils.FileUtil.copyAssets
-import com.drdisagree.iconify.utils.ModuleUtil.createModule
+import com.drdisagree.iconify.utils.FileUtils.copyAssets
+import com.drdisagree.iconify.utils.ModuleUtils.createModule
 import com.drdisagree.iconify.utils.helper.BinaryInstaller.symLinkBinaries
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlay
 import com.topjohnwu.superuser.Shell
 import net.lingala.zip4j.ZipFile
 import java.io.File

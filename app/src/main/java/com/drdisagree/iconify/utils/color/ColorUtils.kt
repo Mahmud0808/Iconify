@@ -6,7 +6,7 @@ import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 
-object ColorUtil {
+object ColorUtils {
 
     fun hsl(hue: Float, saturation: Float, lightness: Float): Int {
         return HSLColor.hslToColor(hue, saturation, lightness)

@@ -21,9 +21,9 @@ import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.IconShapeModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler.buildOverlay
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
@@ -210,7 +210,7 @@ class IconShape : BaseFragment() {
 
             if (position == 0) {
                 RPrefs.putInt(SELECTED_ICON_SHAPE, 0)
-                OverlayUtil.disableOverlay("IconifyComponentSIS.overlay")
+                OverlayUtils.disableOverlay("IconifyComponentSIS.overlay")
 
                 Toast.makeText(
                     appContext,

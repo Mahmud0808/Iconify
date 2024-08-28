@@ -57,18 +57,18 @@ import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
-import com.drdisagree.iconify.utils.color.ColorSchemeUtil.generateColorPalette
-import com.drdisagree.iconify.utils.color.ColorUtil.colorNames
-import com.drdisagree.iconify.utils.color.ColorUtil.getSystemColors
-import com.drdisagree.iconify.utils.color.ColorUtil.setLightness
-import com.drdisagree.iconify.utils.color.ColorUtil.setSaturation
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
+import com.drdisagree.iconify.utils.color.ColorSchemeUtils.generateColorPalette
+import com.drdisagree.iconify.utils.color.ColorUtils.colorNames
+import com.drdisagree.iconify.utils.color.ColorUtils.getSystemColors
+import com.drdisagree.iconify.utils.color.ColorUtils.setLightness
+import com.drdisagree.iconify.utils.color.ColorUtils.setSaturation
 import com.drdisagree.iconify.utils.helper.ImportExport.exportSettings
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil.disableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.changeOverlayState
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils.disableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.changeOverlayState
 import com.drdisagree.iconify.utils.overlay.manager.MonetEngineManager.buildOverlay
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
@@ -88,7 +88,7 @@ class MonetEngine : BaseFragment() {
     private lateinit var binding: FragmentMonetEngineBinding
     private lateinit var colorTableRows: Array<LinearLayout>
 
-    private var isDarkMode = SystemUtil.isDarkMode
+    private var isDarkMode = SystemUtils.isDarkMode
     private var showApplyButton = false
     private var showDisableButton = false
 
@@ -204,7 +204,7 @@ class MonetEngine : BaseFragment() {
             binding.monetEngine.systemNeutral2
         )
 
-        isDarkMode = SystemUtil.isDarkMode
+        isDarkMode = SystemUtils.isDarkMode
         selectedStyle = getString(
             MONET_STYLE,
             appContextLocale.resources.getString(R.string.monet_tonalspot)
@@ -510,7 +510,7 @@ class MonetEngine : BaseFragment() {
                 putBoolean(MONET_ENGINE_SWITCH, false)
                 clearPrefs(MONET_PRIMARY_COLOR, MONET_SECONDARY_COLOR)
 
-                OverlayUtil.disableOverlays(
+                OverlayUtils.disableOverlays(
                     "IconifyComponentDM.overlay",
                     "IconifyComponentME.overlay"
                 )

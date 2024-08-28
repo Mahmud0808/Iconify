@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.utils.helper
 
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.utils.RootUtil
+import com.drdisagree.iconify.utils.RootUtils
 import com.topjohnwu.superuser.Shell
 
 object BackupRestore {
@@ -47,11 +47,11 @@ object BackupRestore {
     }
 
     private fun backupExists(fileName: String): Boolean {
-        return RootUtil.fileExists(Resources.BACKUP_DIR + "/" + fileName)
+        return RootUtils.fileExists(Resources.BACKUP_DIR + "/" + fileName)
     }
 
     private fun backupFile(source: String) {
-        if (RootUtil.fileExists(source)) Shell.cmd("cp -rf " + source + " " + Resources.BACKUP_DIR + "/")
+        if (RootUtils.fileExists(source)) Shell.cmd("cp -rf " + source + " " + Resources.BACKUP_DIR + "/")
             .exec()
     }
 

@@ -31,7 +31,7 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.RoundedCornerProgressDrawable
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.utils.SystemUtil
+import com.drdisagree.iconify.xposed.utils.SystemUtils
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
@@ -73,7 +73,7 @@ class QSFluidThemeA13(context: Context?) : ModPack(context!!) {
         )
     )
     val colorInactiveAlpha = intArrayOf(changeAlpha(colorInactive[0], INACTIVE_ALPHA))
-    private var wasDark: Boolean = SystemUtil.isDarkMode
+    private var wasDark: Boolean = SystemUtils.isDarkMode
     private var mSlider: SeekBar? = null
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
@@ -737,7 +737,7 @@ class QSFluidThemeA13(context: Context?) : ModPack(context!!) {
     }
 
     private fun initResources() {
-        val isDark: Boolean = SystemUtil.isDarkMode
+        val isDark: Boolean = SystemUtils.isDarkMode
 
         if (isDark != wasDark) {
             wasDark = isDark

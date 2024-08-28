@@ -20,7 +20,7 @@ import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
-import com.drdisagree.iconify.xposed.utils.SystemUtil
+import com.drdisagree.iconify.xposed.utils.SystemUtils
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
@@ -54,7 +54,7 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
     private var colorInactive: Int? = null
 
     init {
-        isDark = SystemUtil.isDarkMode
+        isDark = SystemUtils.isDarkMode
     }
 
     override fun updatePrefs(vararg key: String) {
@@ -1120,7 +1120,7 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
     }
 
     private fun initColors(force: Boolean) {
-        val isDark: Boolean = SystemUtil.isDarkMode
+        val isDark: Boolean = SystemUtils.isDarkMode
         if (isDark == this.isDark && !force) return
 
         this.isDark = isDark

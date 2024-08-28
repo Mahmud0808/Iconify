@@ -21,7 +21,7 @@ import java.util.concurrent.CountDownLatch
 import javax.annotation.Nullable
 
 
-class SystemUtil(var mContext: Context) {
+class SystemUtils(var mContext: Context) {
 
     init {
         instance = this
@@ -57,7 +57,7 @@ class SystemUtil(var mContext: Context) {
 
     companion object {
         @SuppressLint("StaticFieldLeak")
-        var instance: SystemUtil? = null
+        var instance: SystemUtils? = null
 
         private var darkSwitching = false
         private var mUserManager: UserManager? = null

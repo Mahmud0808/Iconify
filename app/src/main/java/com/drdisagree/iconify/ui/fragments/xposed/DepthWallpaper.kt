@@ -18,9 +18,9 @@ import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.preferences.FilePickerPreference
 import com.drdisagree.iconify.ui.preferences.SwitchPreference
-import com.drdisagree.iconify.utils.FileUtil.getRealPath
-import com.drdisagree.iconify.utils.FileUtil.launchFilePicker
-import com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir
+import com.drdisagree.iconify.utils.FileUtils.getRealPath
+import com.drdisagree.iconify.utils.FileUtils.launchFilePicker
+import com.drdisagree.iconify.utils.FileUtils.moveToIconifyHiddenDir
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter
 import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse
 

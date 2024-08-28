@@ -22,11 +22,11 @@ import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.InfoDialog
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.RootUtil.isApatchInstalled
-import com.drdisagree.iconify.utils.RootUtil.isKSUInstalled
-import com.drdisagree.iconify.utils.RootUtil.isMagiskInstalled
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
+import com.drdisagree.iconify.utils.RootUtils.isApatchInstalled
+import com.drdisagree.iconify.utils.RootUtils.isKSUInstalled
+import com.drdisagree.iconify.utils.RootUtils.isMagiskInstalled
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
 import com.drdisagree.iconify.utils.overlay.compiler.VolumeCompiler.buildModule
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.buildOverlayWithResource

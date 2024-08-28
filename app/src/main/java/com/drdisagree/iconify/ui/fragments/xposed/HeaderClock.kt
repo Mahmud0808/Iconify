@@ -22,9 +22,9 @@ import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.models.ClockModel
 import com.drdisagree.iconify.ui.preferences.FilePickerPreference
 import com.drdisagree.iconify.ui.preferences.RecyclerPreference
-import com.drdisagree.iconify.utils.FileUtil.getRealPath
-import com.drdisagree.iconify.utils.FileUtil.launchFilePicker
-import com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir
+import com.drdisagree.iconify.utils.FileUtils.getRealPath
+import com.drdisagree.iconify.utils.FileUtils.launchFilePicker
+import com.drdisagree.iconify.utils.FileUtils.moveToIconifyHiddenDir
 
 class HeaderClock : ControlledPreferenceFragmentCompat() {
 

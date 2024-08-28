@@ -25,12 +25,12 @@ import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.events.ColorDismissedEvent
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.color.ColorUtil.colorToSpecialHex
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil.buildAndEnableOverlays
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil.disableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlay
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.color.ColorUtils.colorToSpecialHex
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils.buildAndEnableOverlays
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils.disableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlay
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.buildOverlayWithResource
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.removeResourceFromOverlay
@@ -226,7 +226,7 @@ class Statusbar : BaseFragment() {
                         enableOverlay("IconifyComponentSBTint.overlay")
                         putString(FABRICATED_SB_COLOR_SOURCE, "Monet")
                         Handler(Looper.getMainLooper()).postDelayed(
-                            { SystemUtil.restartSystemUI() },
+                            { SystemUtils.restartSystemUI() },
                             SWITCH_ANIMATION_DELAY
                         )
                     }
@@ -258,7 +258,7 @@ class Statusbar : BaseFragment() {
 
             putString(FABRICATED_SB_COLOR_SOURCE, "Custom")
 
-            OverlayUtil.disableOverlay("IconifyComponentSBTint.overlay")
+            OverlayUtils.disableOverlay("IconifyComponentSBTint.overlay")
         }
     }
 
@@ -323,7 +323,7 @@ class Statusbar : BaseFragment() {
         )
 
         Handler(Looper.getMainLooper()).postDelayed(
-            { SystemUtil.restartSystemUI() },
+            { SystemUtils.restartSystemUI() },
             1000
         )
     }
@@ -339,10 +339,10 @@ class Statusbar : BaseFragment() {
             "colorSBTint7"
         )
 
-        OverlayUtil.disableOverlay("IconifyComponentSBTint.overlay")
+        OverlayUtils.disableOverlay("IconifyComponentSBTint.overlay")
 
         Handler(Looper.getMainLooper()).postDelayed(
-            { SystemUtil.restartSystemUI() },
+            { SystemUtils.restartSystemUI() },
             1000
         )
     }

@@ -27,7 +27,7 @@ import com.drdisagree.iconify.ui.fragments.xposed.VolumePanel
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.models.SearchPreferenceItem
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchConfiguration
-import com.drdisagree.iconify.utils.RootUtil.folderExists
+import com.drdisagree.iconify.utils.RootUtils.folderExists
 
 object Resources {
 

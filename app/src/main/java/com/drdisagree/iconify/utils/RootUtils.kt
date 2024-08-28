@@ -2,7 +2,7 @@ package com.drdisagree.iconify.utils
 
 import com.topjohnwu.superuser.Shell
 
-object RootUtil {
+object RootUtils {
 
     val isDeviceRooted: Boolean
         get() = java.lang.Boolean.TRUE == Shell.isAppGrantedRoot()

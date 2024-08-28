@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import java.io.ByteArrayOutputStream
 
-object WallpaperUtil {
+object WallpaperUtils {
 
     fun getCompressedWallpaper(context: Context?, quality: Int, which: Int): Bitmap? {
         return try {

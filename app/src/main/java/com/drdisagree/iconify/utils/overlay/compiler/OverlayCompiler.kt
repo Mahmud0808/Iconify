@@ -8,7 +8,7 @@ import com.drdisagree.iconify.common.Dynamic.ZIPALIGN
 import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.common.Resources.FRAMEWORK_DIR
-import com.drdisagree.iconify.utils.AppUtil.getSplitLocations
+import com.drdisagree.iconify.utils.AppUtils.getSplitLocations
 import com.drdisagree.iconify.utils.apksigner.CryptoUtils
 import com.drdisagree.iconify.utils.apksigner.SignAPK
 import com.drdisagree.iconify.utils.helper.Logger.writeLog
@@ -29,7 +29,7 @@ object OverlayCompiler {
         val module: MutableList<String> = ArrayList()
         module.add(
             "printf '${
-                CompilerUtil.createManifestContent(
+                CompilerUtils.createManifestContent(
                     overlayName,
                     targetPackage
                 )
@@ -58,7 +58,7 @@ object OverlayCompiler {
     }
 
     fun runAapt(source: String, targetPackage: String?): Boolean {
-        val name = CompilerUtil.getOverlayName(source) +
+        val name = CompilerUtils.getOverlayName(source) +
                 if (source.contains("SpecialOverlays")) {
                     ".zip"
                 } else {
@@ -132,7 +132,7 @@ object OverlayCompiler {
     }
 
     fun zipAlign(source: String): Boolean {
-        val fileName = CompilerUtil.getOverlayName(source)
+        val fileName = CompilerUtils.getOverlayName(source)
         val result =
             Shell.cmd(
                 zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + fileName + "-unsigned.apk"
@@ -165,7 +165,7 @@ object OverlayCompiler {
                     CryptoUtils.readCertificate(appContext.assets.open("Keystore/testkey.x509.pem"))
             }
 
-            fileName = CompilerUtil.getOverlayName(source)
+            fileName = CompilerUtils.getOverlayName(source)
 
             SignAPK.sign(
                 cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + fileName + ".apk"

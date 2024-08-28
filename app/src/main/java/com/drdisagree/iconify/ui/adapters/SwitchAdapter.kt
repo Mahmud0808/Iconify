@@ -17,7 +17,6 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
@@ -25,8 +24,8 @@ import com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.SwitchModel
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
@@ -124,8 +123,8 @@ class SwitchAdapter(
     private fun switchAction(holder: ViewHolder, checked: Boolean) {
         Handler(Looper.getMainLooper()).postDelayed({
             if (checked) {
-                if (!SystemUtil.hasStoragePermission()) {
-                    SystemUtil.requestStoragePermission(context)
+                if (!SystemUtils.hasStoragePermission()) {
+                    SystemUtils.requestStoragePermission(context)
                     holder.aSwitch.setChecked(false)
                 } else {
                     // Show loading dialog
@@ -185,7 +184,7 @@ class SwitchAdapter(
                 Thread {
                     RPrefs.putInt(SELECTED_SWITCH, -1)
 
-                    OverlayUtil.disableOverlays(
+                    OverlayUtils.disableOverlays(
                         "IconifyComponentSWITCH1.overlay",
                         "IconifyComponentSWITCH2.overlay"
                     )

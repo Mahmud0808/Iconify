@@ -16,7 +16,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
@@ -24,8 +23,8 @@ import com.drdisagree.iconify.common.Preferences.SELECTED_PROGRESSBAR
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.ProgressBarModel
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
@@ -107,8 +106,8 @@ class ProgressBarAdapter(
 
         // Set onClick operation for Enable button
         holder.btnEnable.setOnClickListener {
-            if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(context)
+            if (!SystemUtils.hasStoragePermission()) {
+                SystemUtils.requestStoragePermission(context)
             } else {
                 // Show loading dialog
                 loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
@@ -171,7 +170,7 @@ class ProgressBarAdapter(
 
             Thread {
                 RPrefs.putInt(SELECTED_PROGRESSBAR, -1)
-                OverlayUtil.disableOverlay("IconifyComponentPGB.overlay")
+                OverlayUtils.disableOverlay("IconifyComponentPGB.overlay")
                 (context as Activity).runOnUiThread {
                     Handler(Looper.getMainLooper()).postDelayed({
                         // Hide loading dialog

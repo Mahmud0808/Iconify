@@ -29,10 +29,10 @@ import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentBasicColorsBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.color.ColorUtil.colorToSpecialHex
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil.buildAndEnableOverlays
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil.disableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.isOverlayDisabled
+import com.drdisagree.iconify.utils.color.ColorUtils.colorToSpecialHex
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils.buildAndEnableOverlays
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils.disableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.isOverlayDisabled
 
 class BasicColors : BaseFragment() {
 

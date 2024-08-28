@@ -56,7 +56,7 @@ import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
-import com.drdisagree.iconify.utils.TextUtil
+import com.drdisagree.iconify.utils.TextUtils
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ArcProgressWidget.generateBitmap
 import com.drdisagree.iconify.xposed.modules.utils.TimeUtils
@@ -482,7 +482,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         applyTextMarginRecursively(mContext, clockView, lineHeight)
 
         if (clockStyle != 10) {
-            TextUtil.convertTextViewsToTitleCase(clockView)
+            TextUtils.convertTextViewsToTitleCase(clockView)
         }
 
         when (clockStyle) {

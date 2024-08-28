@@ -16,7 +16,7 @@ import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.databinding.FragmentExperimentalBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.SystemUtils
 
 class Experimental : BaseFragment() {
 
@@ -44,7 +44,7 @@ class Experimental : BaseFragment() {
             putBoolean(HEADER_IMAGE_OVERLAP, isChecked)
 
             Handler(Looper.getMainLooper()).postDelayed(
-                { SystemUtil.restartSystemUI() },
+                { SystemUtils.restartSystemUI() },
                 SWITCH_ANIMATION_DELAY
             )
         }

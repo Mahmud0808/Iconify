@@ -10,7 +10,7 @@ import com.drdisagree.iconify.config.RPrefs
 import com.topjohnwu.superuser.Shell
 import java.util.Objects
 
-object OverlayUtil {
+object OverlayUtils {
 
     val overlayList: List<String>
         get() = Shell.cmd(

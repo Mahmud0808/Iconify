@@ -30,12 +30,12 @@ import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.databinding.FragmentNavigationBarBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.restartSystemUI
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlay
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.restartSystemUI
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlay
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.buildOverlayWithResource
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.removeResourceFromOverlay
@@ -283,7 +283,7 @@ class NavigationBar : BaseFragment() {
                     handleHidePill(isSwitchChecked)
 
                     Handler(Looper.getMainLooper()).postDelayed(
-                        { SystemUtil.handleSystemUIRestart() },
+                        { SystemUtils.handleSystemUIRestart() },
                         2000
                     )
                 }, SWITCH_ANIMATION_DELAY)
@@ -303,7 +303,7 @@ class NavigationBar : BaseFragment() {
                         enableOverlay("IconifyComponentNBMonetPill.overlay")
                         restartSystemUI()
                     } else {
-                        OverlayUtil.disableOverlay("IconifyComponentNBMonetPill.overlay")
+                        OverlayUtils.disableOverlay("IconifyComponentNBMonetPill.overlay")
                         restartSystemUI()
                     }
                 }, SWITCH_ANIMATION_DELAY
@@ -317,7 +317,7 @@ class NavigationBar : BaseFragment() {
                     if (isSwitchChecked) {
                         enableOverlay("IconifyComponentNBHideKBButton.overlay")
                     } else {
-                        OverlayUtil.disableOverlay("IconifyComponentNBHideKBButton.overlay")
+                        OverlayUtils.disableOverlay("IconifyComponentNBHideKBButton.overlay")
                     }
                 }, SWITCH_ANIMATION_DELAY
             )

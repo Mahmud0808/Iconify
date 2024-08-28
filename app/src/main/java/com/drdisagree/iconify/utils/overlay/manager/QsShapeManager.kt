@@ -4,12 +4,12 @@ import com.drdisagree.iconify.common.Dynamic.TOTAL_QSSHAPES
 import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR
 import com.drdisagree.iconify.config.RPrefs
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.changeOverlayState
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlay
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlayExclusiveInCategory
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.isOverlayEnabled
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.changeOverlayState
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlayExclusiveInCategory
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.isOverlayEnabled
 
 object QsShapeManager {
 
@@ -42,7 +42,7 @@ object QsShapeManager {
 
         if (isAtleastA14 && !RPrefs.getBoolean(FIX_QS_TILE_COLOR, false)) {
             RPrefs.putBoolean(FIX_QS_TILE_COLOR, true)
-            SystemUtil.restartSystemUI()
+            SystemUtils.restartSystemUI()
         }
     }
 
@@ -51,7 +51,7 @@ object QsShapeManager {
 
         if (isAtleastA14 && RPrefs.getBoolean(FIX_QS_TILE_COLOR, false)) {
             RPrefs.putBoolean(FIX_QS_TILE_COLOR, false)
-            SystemUtil.restartSystemUI()
+            SystemUtils.restartSystemUI()
         }
     }
 

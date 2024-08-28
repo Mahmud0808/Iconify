@@ -26,12 +26,12 @@ import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentQsIconLabelBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.changeOverlayState
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlay
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.changeOverlayState
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlay
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.buildOverlayWithResource
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.removeResourceFromOverlay
@@ -259,7 +259,7 @@ class QsIconLabel : BaseFragment() {
 
                     enableOverlay(replaceVariant("IconifyComponentQST1.overlay"))
                 } else {
-                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST1.overlay"))
+                    OverlayUtils.disableOverlay(replaceVariant("IconifyComponentQST1.overlay"))
                 }
 
                 handleCommonOverlay()
@@ -297,7 +297,7 @@ class QsIconLabel : BaseFragment() {
 
                     enableOverlay(replaceVariant("IconifyComponentQST2.overlay"))
                 } else {
-                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST2.overlay"))
+                    OverlayUtils.disableOverlay(replaceVariant("IconifyComponentQST2.overlay"))
                 }
 
                 handleCommonOverlay()
@@ -335,7 +335,7 @@ class QsIconLabel : BaseFragment() {
 
                     enableOverlay(replaceVariant("IconifyComponentQST3.overlay"))
                 } else {
-                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST3.overlay"))
+                    OverlayUtils.disableOverlay(replaceVariant("IconifyComponentQST3.overlay"))
                 }
 
                 handleCommonOverlay()
@@ -372,7 +372,7 @@ class QsIconLabel : BaseFragment() {
 
                     enableOverlay(replaceVariant("IconifyComponentQST4.overlay"))
                 } else {
-                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST4.overlay"))
+                    OverlayUtils.disableOverlay(replaceVariant("IconifyComponentQST4.overlay"))
                 }
 
                 handleCommonOverlay()
@@ -410,7 +410,7 @@ class QsIconLabel : BaseFragment() {
 
                     enableOverlay(replaceVariant("IconifyComponentQST5.overlay"))
                 } else {
-                    OverlayUtil.disableOverlay(replaceVariant("IconifyComponentQST5.overlay"))
+                    OverlayUtils.disableOverlay(replaceVariant("IconifyComponentQST5.overlay"))
                 }
 
                 handleCommonOverlay()

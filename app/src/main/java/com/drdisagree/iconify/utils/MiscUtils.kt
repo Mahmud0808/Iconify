@@ -4,7 +4,7 @@ import android.content.Context
 import com.drdisagree.iconify.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-object MiscUtil {
+object MiscUtils {
 
     @JvmStatic
     fun showAlertDialog(

@@ -13,9 +13,9 @@ import com.drdisagree.iconify.common.Resources.HEADER_IMAGE_DIR
 import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.preferences.FilePickerPreference
-import com.drdisagree.iconify.utils.FileUtil.getRealPath
-import com.drdisagree.iconify.utils.FileUtil.launchFilePicker
-import com.drdisagree.iconify.utils.FileUtil.moveToIconifyHiddenDir
+import com.drdisagree.iconify.utils.FileUtils.getRealPath
+import com.drdisagree.iconify.utils.FileUtils.launchFilePicker
+import com.drdisagree.iconify.utils.FileUtils.moveToIconifyHiddenDir
 
 class HeaderImage : ControlledPreferenceFragmentCompat() {
 

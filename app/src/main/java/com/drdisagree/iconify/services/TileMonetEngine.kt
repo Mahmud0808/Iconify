@@ -6,7 +6,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.MONET_ENGINE_SWITCH
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.putBoolean
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 
 
 class TileMonetEngine : TileService() {
@@ -25,19 +25,19 @@ class TileMonetEngine : TileService() {
         super.onClick()
 
         if (isCustomMonetEnabled) {
-            OverlayUtil.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay")
+            OverlayUtils.disableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay")
         } else {
-            OverlayUtil.enableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay")
+            OverlayUtils.enableOverlays("IconifyComponentDM.overlay", "IconifyComponentME.overlay")
 
             if (getBoolean("IconifyComponentQSPBD.overlay")) {
-                OverlayUtil.changeOverlayState(
+                OverlayUtils.changeOverlayState(
                     "IconifyComponentQSPBD.overlay",
                     false,
                     "IconifyComponentQSPBD.overlay",
                     true
                 )
             } else if (getBoolean("IconifyComponentQSPBA.overlay")) {
-                OverlayUtil.changeOverlayState(
+                OverlayUtils.changeOverlayState(
                     "IconifyComponentQSPBA.overlay",
                     false,
                     "IconifyComponentQSPBA.overlay",

@@ -6,11 +6,11 @@ import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR
 import com.drdisagree.iconify.config.RPrefs
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlay
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlayExclusiveInCategory
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.isOverlayEnabled
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlayExclusiveInCategory
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.isOverlayEnabled
 import com.drdisagree.iconify.xposed.modules.utils.SystemUtils.isSecurityPatchBeforeJune2024
 
 object NotificationManager {
@@ -39,7 +39,7 @@ object NotificationManager {
             }
 
             if (requireReload) {
-                SystemUtil.restartSystemUI()
+                SystemUtils.restartSystemUI()
             }
         }
     }
@@ -63,7 +63,7 @@ object NotificationManager {
             }
 
             if (requireReload) {
-                SystemUtil.restartSystemUI()
+                SystemUtils.restartSystemUI()
             }
         }
     }

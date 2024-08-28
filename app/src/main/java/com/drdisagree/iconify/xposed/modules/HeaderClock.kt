@@ -49,7 +49,7 @@ import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.ICONIFY_HEADER_CLOCK_TAG
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.utils.TextUtil
+import com.drdisagree.iconify.utils.TextUtils
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.getColorResCompat
@@ -481,7 +481,7 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
 
             clockView.tag = ICONIFY_HEADER_CLOCK_TAG
 
-            TextUtil.convertTextViewsToTitleCase(clockView)
+            TextUtils.convertTextViewsToTitleCase(clockView)
 
             mQsClockContainer!!.addView(clockView)
 

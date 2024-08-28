@@ -24,10 +24,10 @@ import com.drdisagree.iconify.config.RPrefs.putString
 import com.drdisagree.iconify.databinding.FragmentColoredBatteryBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.color.ColorUtil.colorToSpecialHex
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil.buildAndEnableOverlay
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.isOverlayEnabled
+import com.drdisagree.iconify.utils.color.ColorUtils.colorToSpecialHex
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils.buildAndEnableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.isOverlayEnabled
 
 class ColoredBattery : BaseFragment() {
 
@@ -72,7 +72,7 @@ class ColoredBattery : BaseFragment() {
                         )
                     } else {
                         putString(COLORED_BATTERY_CHECK, "Off")
-                        FabricatedUtil.disableOverlay(FABRICATED_COLORED_BATTERY)
+                        FabricatedUtils.disableOverlay(FABRICATED_COLORED_BATTERY)
                         buildAndEnableOverlay(
                             FRAMEWORK_PACKAGE,
                             FABRICATED_COLORED_BATTERY,
@@ -81,11 +81,11 @@ class ColoredBattery : BaseFragment() {
                             "0"
                         )
 
-                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_BG) != null) FabricatedUtil.disableOverlay(
+                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_BG) != null) FabricatedUtils.disableOverlay(
                             FABRICATED_BATTERY_COLOR_BG
                         )
 
-                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_FG) != null) FabricatedUtil.disableOverlay(
+                        if (RPrefs.getString(FABRICATED_BATTERY_COLOR_FG) != null) FabricatedUtils.disableOverlay(
                             FABRICATED_BATTERY_COLOR_FG
                         )
                     }

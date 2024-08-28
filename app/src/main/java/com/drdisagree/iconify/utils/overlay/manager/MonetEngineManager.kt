@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.utils.overlay.manager
 
 import com.drdisagree.iconify.config.RPrefs
-import com.drdisagree.iconify.utils.color.ColorUtil.colorNames
-import com.drdisagree.iconify.utils.color.ColorUtil.colorToHex
+import com.drdisagree.iconify.utils.color.ColorUtils.colorNames
+import com.drdisagree.iconify.utils.color.ColorUtils.colorToHex
 import com.drdisagree.iconify.utils.overlay.compiler.MonetCompiler
 import java.io.IOException
 

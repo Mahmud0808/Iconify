@@ -21,13 +21,13 @@ import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.databinding.FragmentMiscellaneousBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.restartSystemUI
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil.buildAndEnableOverlay
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlay
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.restartSystemUI
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils.buildAndEnableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlay
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceEntry
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.buildOverlayWithResource
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.removeResourceFromOverlay
@@ -285,7 +285,7 @@ class Miscellaneous : BaseFragment() {
                             "1"
                         )
                     } else {
-                        FabricatedUtil.disableOverlay(FABRICATED_TABLET_HEADER)
+                        FabricatedUtils.disableOverlay(FABRICATED_TABLET_HEADER)
                     }
                 }, SWITCH_ANIMATION_DELAY
             )
@@ -299,7 +299,7 @@ class Miscellaneous : BaseFragment() {
                     if (isChecked) {
                         enableOverlay("IconifyComponentPCBG.overlay")
                     } else {
-                        OverlayUtil.disableOverlay("IconifyComponentPCBG.overlay")
+                        OverlayUtils.disableOverlay("IconifyComponentPCBG.overlay")
                     }
 
                     restartSystemUI()

@@ -25,10 +25,10 @@ import com.drdisagree.iconify.config.RPrefs.clearPrefs
 import com.drdisagree.iconify.databinding.FragmentSettingsIconsBinding
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlays
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlays
 import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager.buildOverlay
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
@@ -192,7 +192,7 @@ class SettingsIcons : Fragment() {
 
             binding.disableSettingsIcons.visibility = View.GONE
 
-            OverlayUtil.disableOverlays(
+            OverlayUtils.disableOverlays(
                 "IconifyComponentSIP1.overlay",
                 "IconifyComponentSIP2.overlay",
                 "IconifyComponentSIP3.overlay"

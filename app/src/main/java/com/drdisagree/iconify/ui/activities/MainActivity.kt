@@ -44,9 +44,9 @@ import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFr
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResultListener
 import com.drdisagree.iconify.ui.utils.FragmentHelper.isInGroup
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import kotlinx.coroutines.CoroutineScope
@@ -90,12 +90,12 @@ class MainActivity : BaseActivity(),
             LottieCompositionFactory.clearCache(this@MainActivity)
 
             // Get list of enabled overlays
-            val enabledOverlays = OverlayUtil.enabledOverlayList
+            val enabledOverlays = OverlayUtils.enabledOverlayList
             enabledOverlays.forEach { overlay ->
                 RPrefs.putBoolean(overlay, true)
             }
 
-            val fabricatedEnabledOverlays = FabricatedUtil.enabledOverlayList
+            val fabricatedEnabledOverlays = FabricatedUtils.enabledOverlayList
             fabricatedEnabledOverlays.forEach { overlay ->
                 if (!RPrefs.getBoolean("fabricated$overlay", false)) {
                     RPrefs.putBoolean("fabricated$overlay", true)
@@ -146,7 +146,7 @@ class MainActivity : BaseActivity(),
             )
 
             Handler(Looper.getMainLooper()).postDelayed({
-                SystemUtil.restartSystemUI()
+                SystemUtils.restartSystemUI()
             }, 500)
         }
 
@@ -160,7 +160,7 @@ class MainActivity : BaseActivity(),
             )
 
             Handler(Looper.getMainLooper()).postDelayed({
-                SystemUtil.restartDevice()
+                SystemUtils.restartDevice()
             }, android.R.integer.config_longAnimTime.toLong())
         }
     }

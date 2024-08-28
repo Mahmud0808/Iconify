@@ -13,9 +13,9 @@ import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.preferences.SwitchPreference
-import com.drdisagree.iconify.utils.SystemUtil.disableBlur
-import com.drdisagree.iconify.utils.SystemUtil.enableBlur
-import com.drdisagree.iconify.utils.SystemUtil.isBlurEnabled
+import com.drdisagree.iconify.utils.SystemUtils.disableBlur
+import com.drdisagree.iconify.utils.SystemUtils.enableBlur
+import com.drdisagree.iconify.utils.SystemUtils.isBlurEnabled
 
 class TransparencyBlur : ControlledPreferenceFragmentCompat() {
 

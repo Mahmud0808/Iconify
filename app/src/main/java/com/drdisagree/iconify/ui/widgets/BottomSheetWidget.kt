@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.adapters.IconsAdapter
 import com.drdisagree.iconify.ui.adapters.IconsAdapter.Companion.ICONS_ADAPTER
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.SystemUtils
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.parcelize.Parcelize
@@ -230,7 +230,7 @@ class BottomSheetWidget : RelativeLayout, IconsAdapter.OnItemClickListener {
 
             iconImageView.imageTintList = ColorStateList.valueOf(color)
         } else {
-            if (SystemUtil.isDarkMode) {
+            if (SystemUtils.isDarkMode) {
                 iconImageView.imageTintList = ColorStateList.valueOf(Color.DKGRAY)
             } else {
                 iconImageView.imageTintList = ColorStateList.valueOf(Color.LTGRAY)

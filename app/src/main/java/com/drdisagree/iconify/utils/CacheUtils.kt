@@ -3,7 +3,7 @@ package com.drdisagree.iconify.utils
 import android.content.Context
 import java.io.File
 
-object CacheUtil {
+object CacheUtils {
 
     fun clearCache(context: Context) {
         try {

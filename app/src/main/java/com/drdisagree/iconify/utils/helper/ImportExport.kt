@@ -37,11 +37,11 @@ import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
-import com.drdisagree.iconify.utils.color.ColorUtil.colorNames
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
+import com.drdisagree.iconify.utils.color.ColorUtils.colorNames
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils
 import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler
 import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler
 import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler
@@ -268,9 +268,9 @@ object ImportExport {
             val commands: MutableList<String> = ArrayList()
             commands.add("> $MODULE_DIR/system.prop; > $MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable \$ol; done")
 
-            SystemUtil.saveBootId
-            SystemUtil.disableBlur(false)
-            SystemUtil.saveVersionCode()
+            SystemUtils.saveBootId
+            SystemUtils.disableBlur(false)
+            SystemUtils.saveVersionCode()
 
             editor.putBoolean(ON_HOME_PAGE, true)
             editor.putBoolean(FIRST_INSTALL, false)
@@ -516,7 +516,7 @@ object ImportExport {
                                         commands.add(enable)
                                     }
                                 } else {
-                                    val tempCommands = FabricatedUtil.buildCommands(
+                                    val tempCommands = FabricatedUtils.buildCommands(
                                         Objects.requireNonNull(map["FOCMDtarget$overlayName"]) as String,
                                         Objects.requireNonNull(map["FOCMDname$overlayName"]) as String,
                                         Objects.requireNonNull(map["FOCMDtype$overlayName"]) as String,
