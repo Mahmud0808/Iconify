@@ -1553,7 +1553,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             post {
                 callMethod(
                     ControllersProvider.mBluetoothTile,
-                    "handleSecondaryClick",
+                    "handleClick",
                     finalView
                 )
             }
