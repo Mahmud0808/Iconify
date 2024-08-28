@@ -44,6 +44,7 @@ import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFr
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResultListener
 import com.drdisagree.iconify.ui.utils.FragmentHelper.isInGroup
+import com.drdisagree.iconify.utils.HapticUtils.weakVibrate
 import com.drdisagree.iconify.utils.SystemUtils
 import com.drdisagree.iconify.utils.overlay.FabricatedUtils
 import com.drdisagree.iconify.utils.overlay.OverlayUtils
@@ -122,6 +123,7 @@ class MainActivity : BaseActivity(),
         )
 
         binding.pendingActions.setOnClickListener {
+            binding.pendingActions.weakVibrate()
             showOrHideFabButtons()
         }
 
@@ -221,6 +223,7 @@ class MainActivity : BaseActivity(),
                     if (fragmentTag != Home::class.java.simpleName) {
                         selectedFragment = R.id.homePage
                         replaceFragment(Home())
+                        binding.bottomNavigationView.weakVibrate()
                     }
                     return@setOnItemSelectedListener true
                 }
@@ -229,6 +232,7 @@ class MainActivity : BaseActivity(),
                     if (fragmentTag != Tweaks::class.java.simpleName) {
                         selectedFragment = R.id.tweaks
                         replaceFragment(Tweaks())
+                        binding.bottomNavigationView.weakVibrate()
                     }
                     return@setOnItemSelectedListener true
                 }
@@ -237,6 +241,7 @@ class MainActivity : BaseActivity(),
                     if (fragmentTag != Xposed::class.java.simpleName) {
                         selectedFragment = R.id.xposed
                         replaceFragment(Xposed())
+                        binding.bottomNavigationView.weakVibrate()
                     }
                     return@setOnItemSelectedListener true
                 }
@@ -245,6 +250,7 @@ class MainActivity : BaseActivity(),
                     if (fragmentTag != Settings::class.java.simpleName) {
                         selectedFragment = R.id.settings
                         replaceFragment(Settings())
+                        binding.bottomNavigationView.weakVibrate()
                     }
                     return@setOnItemSelectedListener true
                 }
