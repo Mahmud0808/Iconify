@@ -11,10 +11,10 @@ import com.drdisagree.iconify.common.Preferences.XPOSED_ONLY_MODE
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.activities.OnboardingActivity
-import com.drdisagree.iconify.utils.ModuleUtil
-import com.drdisagree.iconify.utils.RootUtil
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.ModuleUtils
+import com.drdisagree.iconify.utils.RootUtils
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.xposed.modules.utils.BitmapSubjectSegmenter
 import com.google.android.material.color.DynamicColors
 import com.topjohnwu.superuser.Shell
@@ -25,11 +25,11 @@ class SplashActivity : AppCompatActivity() {
     private var keepShowing = true
     private val runner = Runnable {
         Shell.getShell { _: Shell? ->
-            val isRooted = RootUtil.deviceProperlyRooted()
-            val isModuleInstalled = ModuleUtil.moduleExists()
-            val isOverlayInstalled = OverlayUtil.overlayExists()
+            val isRooted = RootUtils.deviceProperlyRooted()
+            val isModuleInstalled = ModuleUtils.moduleExists()
+            val isOverlayInstalled = OverlayUtils.overlayExists()
             var isXposedOnlyMode = RPrefs.getBoolean(XPOSED_ONLY_MODE, false)
-            val isVersionCodeCorrect = BuildConfig.VERSION_CODE == SystemUtil.savedVersionCode
+            val isVersionCodeCorrect = BuildConfig.VERSION_CODE == SystemUtils.savedVersionCode
 
             if (isRooted) {
                 if (isOverlayInstalled) {
