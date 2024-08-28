@@ -235,8 +235,8 @@
     <string name="section_title_misc">Misc.</string>
     <string name="minimal_qspanel">Minimal QS Panel</string>
     <string name="remove_top_shade_of_qspanel">Hapus bayangan diatas QS panel</string>
-    <string name="disable_monet_title">Disable System Monet</string>
-    <string name="disable_monet_desc">Membantu mempertahankan warna khusus</string>
+    <string name="system_monet_title">Disable System Monet</string>
+    <string name="system_monet_desc">Membantu mempertahankan warna khusus</string>
     <!-- Basic Colors -->
     <string name="primary_color">Warna Primer</string>
     <string name="primary_color_desc">Pilih warna aksen utama</string>

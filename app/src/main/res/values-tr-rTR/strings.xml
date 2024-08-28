@@ -235,8 +235,8 @@
     <string name="section_title_misc">Çeşitli</string>
     <string name="minimal_qspanel">Minimal QS Paneli</string>
     <string name="remove_top_shade_of_qspanel">QS panelinin üst gölgesini kaldır</string>
-    <string name="disable_monet_title">Sistem Monet\'ini Devre Dışı Bırak</string>
-    <string name="disable_monet_desc">Özel renklerin korunmasına yardımcı olur\nSistem kullanıcı arayüzünün yeniden başlatılması gerekir</string>
+    <string name="system_monet_title">Sistem Monet\'ini Devre Dışı Bırak</string>
+    <string name="system_monet_desc">Özel renklerin korunmasına yardımcı olur\nSistem kullanıcı arayüzünün yeniden başlatılması gerekir</string>
     <!-- Basic Colors -->
     <string name="primary_color">Birincil Renk</string>
     <string name="primary_color_desc">Birincil vurgu rengini seçin</string>

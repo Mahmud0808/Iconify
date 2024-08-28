@@ -235,8 +235,8 @@
     <string name="section_title_misc">Varie.</string>
     <string name="minimal_qspanel">Pannello QS Minimale</string>
     <string name="remove_top_shade_of_qspanel">Rimuovi l\'ombra superiore del pannello QS</string>
-    <string name="disable_monet_title">Disabilita Monet di Sistema</string>
-    <string name="disable_monet_desc">Aiuta a mantenere i colori personalizzati\nRiavvio SystemUI richiesto</string>
+    <string name="system_monet_title">Disabilita Monet di Sistema</string>
+    <string name="system_monet_desc">Aiuta a mantenere i colori personalizzati\nRiavvio SystemUI richiesto</string>
     <!-- Basic Colors -->
     <string name="primary_color">Colore Primario</string>
     <string name="primary_color_desc">Scegli il colore di accento primario</string>

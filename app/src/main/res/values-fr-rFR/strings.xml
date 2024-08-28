@@ -235,8 +235,8 @@
     <string name="section_title_misc">Divers.</string>
     <string name="minimal_qspanel">Panneau QS minimal</string>
     <string name="remove_top_shade_of_qspanel">Retirer le store supérieur du panneau QS</string>
-    <string name="disable_monet_title">Désactiver le système monet</string>
-    <string name="disable_monet_desc">Aide à conserver les couleurs personnalisées \n Redémarrage de l\'interface utilisateur système requis</string>
+    <string name="system_monet_title">Désactiver le système monet</string>
+    <string name="system_monet_desc">Aide à conserver les couleurs personnalisées \n Redémarrage de l\'interface utilisateur système requis</string>
     <!-- Basic Colors -->
     <string name="primary_color">Couleur primaire</string>
     <string name="primary_color_desc">Choisissez la couleur d’accent principale</string>

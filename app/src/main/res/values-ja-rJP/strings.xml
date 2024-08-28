@@ -235,8 +235,8 @@
     <string name="section_title_misc">その他</string>
     <string name="minimal_qspanel">小さいクイック設定パネル</string>
     <string name="remove_top_shade_of_qspanel">クイック設定パネル上部の影を削除します</string>
-    <string name="disable_monet_title">システム Monet を無効化</string>
-    <string name="disable_monet_desc">カスタム色の保持に役立ちます\nシステム UI の再起動が必要</string>
+    <string name="system_monet_title">システム Monet を無効化</string>
+    <string name="system_monet_desc">カスタム色の保持に役立ちます\nシステム UI の再起動が必要</string>
     <!-- Basic Colors -->
     <string name="primary_color">プライマリ カラー</string>
     <string name="primary_color_desc">プライマリのアクセントカラーを選択</string>

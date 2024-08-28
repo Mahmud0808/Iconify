@@ -235,8 +235,8 @@
     <string name="section_title_misc">Misc.</string>
     <string name="minimal_qspanel">Painel das DR mínimo</string>
     <string name="remove_top_shade_of_qspanel">Remover a sombra no topo do painel das DR</string>
-    <string name="disable_monet_title">Desativar o sistema Monet</string>
-    <string name="disable_monet_desc">Ajuda a manter as cores personalizadas</string>
+    <string name="system_monet_title">Desativar o sistema Monet</string>
+    <string name="system_monet_desc">Ajuda a manter as cores personalizadas</string>
     <!-- Basic Colors -->
     <string name="primary_color">Cor primária</string>
     <string name="primary_color_desc">Escolher cor de acentuação primária</string>

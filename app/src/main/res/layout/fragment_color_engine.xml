@@ -89,11 +89,12 @@
                 app:titleText="@string/minimal_qspanel" />
 
             <com.drdisagree.iconify.ui.widgets.SwitchWidget
-                android:id="@+id/disable_monet"
+                android:id="@+id/system_monet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:summaryText="@string/disable_monet_desc"
-                app:titleText="@string/disable_monet_title" />
+                app:isChecked="true"
+                app:summaryText="@string/system_monet_desc"
+                app:titleText="@string/system_monet_title" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

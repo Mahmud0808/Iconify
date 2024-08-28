@@ -235,8 +235,8 @@
     <string name="section_title_misc">Egyéb.</string>
     <string name="minimal_qspanel">Minimális Gyorsbeállítások</string>
     <string name="remove_top_shade_of_qspanel">A Gyorsbeállítások minimalizálása</string>
-    <string name="disable_monet_title">A rendszer-monet kikapcsolása</string>
-    <string name="disable_monet_desc">Segít megőrizni az egyedi színeket\nRendszerfelület-újraindítás kell hozzá</string>
+    <string name="system_monet_title">A rendszer-monet kikapcsolása</string>
+    <string name="system_monet_desc">Segít megőrizni az egyedi színeket\nRendszerfelület-újraindítás kell hozzá</string>
     <!-- Basic Colors -->
     <string name="primary_color">Fő szín</string>
     <string name="primary_color_desc">Válasszon fő kiemelőszínt</string>

@@ -17,8 +17,9 @@ import com.drdisagree.iconify.databinding.FragmentColorEngineBinding
 import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.utils.overlay.OverlayUtils.changeOverlayState
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlays
 import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlay
 import com.drdisagree.iconify.utils.overlay.OverlayUtils.isOverlayDisabled
 
@@ -76,17 +77,15 @@ class ColorEngine : BaseFragment() {
         binding.minimalQspanel.setSwitchChangeListener(minimalQsListener)
 
         // Disable Monet
-        binding.disableMonet.isSwitchChecked = getBoolean("IconifyComponentDM.overlay")
-        binding.disableMonet.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            Handler(Looper.getMainLooper()).postDelayed(
-                {
-                    if (isChecked) {
-                        enableOverlay("IconifyComponentDM.overlay")
-                    } else {
-                        OverlayUtils.disableOverlay("IconifyComponentDM.overlay")
-                    }
-                }, SWITCH_ANIMATION_DELAY
-            )
+        binding.systemMonet.isSwitchChecked = !getBoolean("IconifyComponentDM.overlay")
+        binding.systemMonet.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (!isChecked) {
+                    enableOverlay("IconifyComponentDM.overlay")
+                } else {
+                    disableOverlay("IconifyComponentDM.overlay")
+                }
+            }, SWITCH_ANIMATION_DELAY)
         }
 
         return view
@@ -98,7 +97,7 @@ class ColorEngine : BaseFragment() {
     }
 
     private fun disableMonetAccent() {
-        OverlayUtils.disableOverlays("IconifyComponentAMAC.overlay")
+        disableOverlays("IconifyComponentAMAC.overlay")
     }
 
     private fun enableMonetGradient() {
@@ -107,7 +106,7 @@ class ColorEngine : BaseFragment() {
     }
 
     private fun disableMonetGradient() {
-        OverlayUtils.disableOverlay("IconifyComponentAMGC.overlay")
+        disableOverlay("IconifyComponentAMGC.overlay")
     }
 
     private fun shouldUseDefaultColors(): Boolean {
@@ -153,7 +152,7 @@ class ColorEngine : BaseFragment() {
                             true
                         )
                     } else {
-                        OverlayUtils.disableOverlay("IconifyComponentQSST.overlay")
+                        disableOverlay("IconifyComponentQSST.overlay")
                     }
                 }, SWITCH_ANIMATION_DELAY)
             }
@@ -222,7 +221,7 @@ class ColorEngine : BaseFragment() {
                         true
                     )
                 } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQSPBD.overlay")
+                    disableOverlay("IconifyComponentQSPBD.overlay")
                 }
             }, SWITCH_ANIMATION_DELAY)
         }
@@ -253,7 +252,7 @@ class ColorEngine : BaseFragment() {
                         true
                     )
                 } else {
-                    OverlayUtils.disableOverlay("IconifyComponentQSPBA.overlay")
+                    disableOverlay("IconifyComponentQSPBA.overlay")
                 }
             }, SWITCH_ANIMATION_DELAY)
         }

@@ -235,8 +235,8 @@
     <string name="section_title_misc">杂项。</string>
     <string name="minimal_qspanel">最小化快速设置面板</string>
     <string name="remove_top_shade_of_qspanel">移除快速设置面板的顶部遮盖</string>
-    <string name="disable_monet_title">禁用系统 Monet</string>
-    <string name="disable_monet_desc">有助于保留自定义颜色\n需要重启 SystemUI</string>
+    <string name="system_monet_title">禁用系统 Monet</string>
+    <string name="system_monet_desc">有助于保留自定义颜色\n需要重启 SystemUI</string>
     <!-- Basic Colors -->
     <string name="primary_color">主要颜色</string>
     <string name="primary_color_desc">选择主要强调色</string>

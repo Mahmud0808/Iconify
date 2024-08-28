@@ -230,8 +230,8 @@
     <string name="section_title_misc">Misc.</string>
     <string name="minimal_qspanel">Minimal QS Panel</string>
     <string name="remove_top_shade_of_qspanel">Remove top shade of QS panel</string>
-    <string name="disable_monet_title">Disable System Monet</string>
-    <string name="disable_monet_desc">Helps to retain custom colors\nSystemUI restart required</string>
+    <string name="system_monet_title">Disable System Monet</string>
+    <string name="system_monet_desc">Helps to retain custom colors\nSystemUI restart required</string>
     <!-- Basic Colors -->
     <string name="primary_color">Primary Color</string>
     <string name="primary_color_desc">Pick primary accent color</string>

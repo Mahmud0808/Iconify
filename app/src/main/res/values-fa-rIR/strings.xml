@@ -235,8 +235,8 @@
     <string name="section_title_misc">سایر.</string>
     <string name="minimal_qspanel">مینیمال کردن ظاهر نوارابزار</string>
     <string name="remove_top_shade_of_qspanel">حذف سایه بخش بالایی نوارابزار</string>
-    <string name="disable_monet_title">ناتوان کردن مونت سامانه</string>
-    <string name="disable_monet_desc">کمک می کند به عملکرد رنگ های سفارشی\nSystemUI راه‌اندازی مجدد مورد نیاز است</string>
+    <string name="system_monet_title">ناتوان کردن مونت سامانه</string>
+    <string name="system_monet_desc">کمک می کند به عملکرد رنگ های سفارشی\nSystemUI راه‌اندازی مجدد مورد نیاز است</string>
     <!-- Basic Colors -->
     <string name="primary_color">رنگ اولیه</string>
     <string name="primary_color_desc">انتخاب رنگ آکسان اولیه</string>

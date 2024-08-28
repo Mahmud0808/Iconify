@@ -235,8 +235,8 @@
     <string name="section_title_misc">Різне</string>
     <string name="minimal_qspanel">Мінімалістична панель швидких налаштувань</string>
     <string name="remove_top_shade_of_qspanel">Прибрати верхній відтінок панелі швидких налаштувань</string>
-    <string name="disable_monet_title">Вимкнути системний Monet</string>
-    <string name="disable_monet_desc">Допомагає зберегти користувацькі кольори\nНеобхідне перезавантаження SystemUI</string>
+    <string name="system_monet_title">Вимкнути системний Monet</string>
+    <string name="system_monet_desc">Допомагає зберегти користувацькі кольори\nНеобхідне перезавантаження SystemUI</string>
     <!-- Basic Colors -->
     <string name="primary_color">Основний колір</string>
     <string name="primary_color_desc">Вибрати основний колір акценту</string>
