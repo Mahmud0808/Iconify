@@ -131,6 +131,8 @@
     <string name="settings_restart_systemui_after_boot_desc">Some options like blur intensity doesn\'t take effect until systemui is restarted</string>
     <string name="settings_show_home_page_card_title">Show Home Page Card</string>
     <string name="settings_show_home_page_card_desc">Show a beautiful card on the home page.</string>
+    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
+    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
     <string name="settings_clear_app_cache_title">Clear App Cache</string>
     <string name="settings_clear_app_cache_desc">Clear caches generated due to the usage of custom fonts, images, or gifs.</string>
     <string name="activity_title_experimental">Experimental</string>

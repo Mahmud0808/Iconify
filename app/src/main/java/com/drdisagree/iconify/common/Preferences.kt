@@ -358,8 +358,8 @@ object Preferences {
     const val APP_THEME = "IconifyAppTheme"
     const val AUTO_UPDATE = "IconifyAutoUpdate"
     const val UPDATE_OVER_WIFI = "IconifyUpdateOverWifi"
-    const val SHOW_XPOSED_WARN = "IconifyShowXposedWarn"
     const val SHOW_HOME_CARD = "IconifyShowHomeCard"
+    const val VIBRATE_UI = "IconifyUiVibration"
     const val XPOSED_ONLY_MODE = "IconifyXposedOnlyMode"
     const val NEW_UPDATE_FOUND = "newUpdateFound"
 
@@ -372,8 +372,4 @@ object Preferences {
     const val EASTER_EGG = "iconify_easter_egg"
     const val EXPERIMENTAL_FEATURES = "experimentalFeatures"
     const val ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol"
-    const val SHOW_QS_TILE_NORMAL_WARN = "showQsTileNormalWarn"
-    const val SHOW_QS_TILE_PIXEL_WARN = "showQsTilePixelWarn"
-    const val SHOW_NOTIFICATION_NORMAL_WARN = "showNotificationNormalWarn"
-    const val SHOW_NOTIFICATION_PIXEL_WARN = "showNotificationPixelWarn"
 }

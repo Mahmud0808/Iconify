@@ -92,6 +92,14 @@
         android:title="@string/settings_show_home_page_card_title"
         app:defaultValue="true" />
 
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_vibrate"
+        android:key="IconifyUiVibration"
+        android:summary="@string/settings_vibrate_ui_page_card_desc"
+        android:title="@string/settings_vibrate_ui_card_title"
+        app:defaultValue="true" />
+
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_clear_cache"
         android:key="clearAppCache"
