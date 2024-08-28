@@ -8,7 +8,7 @@ import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
-import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlays
+import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlay
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enableOverlay
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.utils.SystemUtils
@@ -366,7 +366,10 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
 
         isDark = isCurrentlyDark
 
-        disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
+        if (!lightQSHeaderEnabled) {
+            if (isCurrentlyDark) disableOverlay(qsLightThemeOverlay)
+            if (!dualToneQSEnabled) disableOverlay(qsDualToneOverlay)
+        }
 
         try {
             Thread.sleep(50)

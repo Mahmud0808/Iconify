@@ -16,7 +16,7 @@ import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
-import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlays
+import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlay
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enableOverlay
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
@@ -756,7 +756,11 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         isDark = isCurrentlyDark
 
         calculateColors()
-        disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
+
+        if (!lightQSHeaderEnabled) {
+            if (isCurrentlyDark) disableOverlay(qsLightThemeOverlay)
+            if (!dualToneQSEnabled) disableOverlay(qsDualToneOverlay)
+        }
 
         try {
             Thread.sleep(50)
