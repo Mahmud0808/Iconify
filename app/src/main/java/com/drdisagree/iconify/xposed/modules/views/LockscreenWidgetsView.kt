@@ -1217,24 +1217,22 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun showInternetDialog(view: View) {
-        if (Build.VERSION.SDK_INT < 34) {
+        val mCellularTile = ControllersProvider.mCellularTile
+        if (mCellularTile == null || Build.VERSION.SDK_INT < 34) {
             mActivityLauncherUtils.launchInternetSettings()
-            return
-        }
-
-        log("LockscreenWidgets showInternetDialog")
-        if (ControllersProvider.mCellularTile == null) return
-        val finalView: View = if (view is ExtendedFAB) {
-            view.parent as View
         } else {
-            view
-        }
-        post {
-            callMethod(
-                ControllersProvider.mCellularTile,
-                "handleClick",
-                finalView
-            )
+            val finalView: View = if (view is ExtendedFAB) {
+                view.parent as View
+            } else {
+                view
+            }
+            post {
+                callMethod(
+                    ControllersProvider.mCellularTile,
+                    "handleClick",
+                    finalView
+                )
+            }
         }
         vibrate(0)
     }
@@ -1497,21 +1495,22 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun showBluetoothDialog(view: View) {
-        if (Build.VERSION.SDK_INT < 34) {
+        val mBluetoothTile = ControllersProvider.mBluetoothTile
+        if (mBluetoothTile == null || Build.VERSION.SDK_INT < 34) {
             mActivityLauncherUtils.launchBluetoothSettings()
-            return
-        }
-        val finalView: View = if (view is ExtendedFAB) {
-            view.parent as View
         } else {
-            view
-        }
-        post {
-            callMethod(
-                ControllersProvider.mBluetoothTile,
-                "handleSecondaryClick",
-                finalView
-            )
+            val finalView: View = if (view is ExtendedFAB) {
+                view.parent as View
+            } else {
+                view
+            }
+            post {
+                callMethod(
+                    ControllersProvider.mBluetoothTile,
+                    "handleSecondaryClick",
+                    finalView
+                )
+            }
         }
         vibrate(0)
     }
