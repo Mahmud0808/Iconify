@@ -20,7 +20,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/hide_all"
-        style="?attr/floatingActionButtonSmallSurfaceStyle"
+        style="?attr/floatingActionButtonSurfaceStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/restart_device"
@@ -52,7 +52,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/restart_device"
-        style="?attr/floatingActionButtonSmallStyle"
+        style="?attr/floatingActionButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/restart_systemui"
@@ -86,7 +86,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/restart_systemui"
-        style="?attr/floatingActionButtonSmallStyle"
+        style="?attr/floatingActionButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/pending_actions"
