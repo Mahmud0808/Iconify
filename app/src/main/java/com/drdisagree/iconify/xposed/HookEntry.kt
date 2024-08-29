@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.os.RemoteException
+import android.os.UserManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.R
@@ -26,6 +27,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.LinkedList
 import java.util.Queue
 import java.util.concurrent.CompletableFuture
@@ -162,21 +164,24 @@ class HookEntry : ServiceConnection {
     }
 
     private fun forceConnectRootService() {
-        CoroutineScope(Dispatchers.IO).launch {
-            while (SystemUtils.UserManager == null || !SystemUtils.UserManager!!.isUserUnlocked) {
-                // device is still CE encrypted
-                delay(2000)
-            }
+        CoroutineScope(Dispatchers.Main).launch {
+            val mUserManager = mContext!!.getSystemService(Context.USER_SERVICE) as UserManager?
 
-            delay(5000) // wait for the unlocked account to settle down a bit
+            withContext(Dispatchers.IO) {
+                while (mUserManager == null || !mUserManager.isUserUnlocked) {
+                    // device is still CE encrypted
+                    delay(2000)
+                }
 
-            while (rootProxyIPC == null) {
-                connectRootService()
-                delay(5000)
+                delay(5000) // wait for the unlocked account to settle down a bit
+
+                while (rootProxyIPC == null) {
+                    connectRootService()
+                    delay(5000)
+                }
             }
         }
     }
-
     private fun connectRootService() {
         try {
             val intent = Intent().apply {
