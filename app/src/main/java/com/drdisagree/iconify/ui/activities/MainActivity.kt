@@ -445,6 +445,8 @@ class MainActivity : BaseActivity(),
         private lateinit var colorPickerDialog: ColorPickerDialog.Builder
 
         fun replaceFragment(fragment: Fragment) {
+            if (myFragmentManager.isStateSaved) return
+
             val fragmentTag = fragment.javaClass.simpleName
             var currentFragment = myFragmentManager.findFragmentById(R.id.fragmentContainerView)
 
@@ -494,7 +496,7 @@ class MainActivity : BaseActivity(),
                 }
             }
 
-            fragmentTransaction.commitAllowingStateLoss()
+            fragmentTransaction.commit()
         }
 
         private fun clearAndReplaceFragment(fragment: Fragment) {
