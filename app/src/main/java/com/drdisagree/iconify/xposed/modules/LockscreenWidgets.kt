@@ -386,7 +386,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
 
     private fun setActivityStarter() {
         val lsWidgets = LockscreenWidgetsView.getInstance() ?: return
-        lsWidgets.setActivityStarter(mActivityStarter)
+        if (mActivityStarter != null) lsWidgets.setActivityStarter(mActivityStarter)
     }
 
     companion object {
