@@ -520,6 +520,8 @@ class MainActivity : BaseActivity(),
         }
 
         fun popCurrentFragment() {
+            if (myFragmentManager.isStateSaved) return
+
             myFragmentManager.popBackStack()
         }
 
