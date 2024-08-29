@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,73 +10,85 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/query_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:baselineAligned="false"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/header">
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:background="?android:attr/windowBackground"
+        android:clipToPadding="false"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/query_pattern_text"
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="4dp"
-            android:background="@drawable/text_field_corners"
-            android:ellipsize="start"
-            android:gravity="center_vertical"
-            android:hint="@string/location_query_hint"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:paddingHorizontal="16dp"
-            android:singleLine="true"
-            android:textColorHint="@drawable/search_hint_color"
-            android:textSize="16sp" />
+            android:layout_height="@dimen/searchbar_height"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/container_marginSide"
+            android:layout_marginVertical="12dp"
+            android:foregroundGravity="center_vertical"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer"
+            app:cardCornerRadius="@dimen/searchbar_corner_radius"
+            app:cardElevation="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/header">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/searchbar_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/query_header">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/searchpreference_search"
+                    app:srcCompat="@drawable/ic_search"
+                    app:tint="?attr/colorOnSurface" />
+
+                <EditText
+                    android:id="@+id/query_pattern_text"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:autofillHints="preferenceSearch"
+                    android:background="@null"
+                    android:hint="@string/location_query_hint"
+                    android:inputType="textNoSuggestions"
+                    android:textColor="@color/text_color_primary"
+                    android:textColorHint="@color/text_color_secondary" />
+
+                <FrameLayout
+                    android:id="@+id/query_progressbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="center"
+                        android:indeterminateTint="@color/colorAccent" />
+
+                </FrameLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/query_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:divider="@null"
-            android:paddingStart="10dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="10dp" />
+            android:divider="@null" />
 
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/query_progressbar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ProgressBar
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-    </FrameLayout>
+    </LinearLayout>
 
     <include
         android:id="@+id/header"
         layout="@layout/view_header" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

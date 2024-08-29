@@ -128,8 +128,6 @@ open class LocationBrowse : BaseFragment() {
         mProgressBar = view.findViewById(R.id.query_progressbar)
 
         val queryPattern: EditText = view.findViewById(R.id.query_pattern_text)
-        queryPattern.hint =
-            prefixTextWithIcon(requireContext(), R.drawable.ic_search, queryPattern.hint)
         queryPattern.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 

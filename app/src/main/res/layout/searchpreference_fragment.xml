@@ -10,10 +10,6 @@
     android:foreground="@color/transparent"
     tools:context=".ui.preferences.preferencesearch.SearchPreferenceFragment">
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/view_header" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,4 +43,9 @@
             android:scrollbars="vertical" />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
 </RelativeLayout>
