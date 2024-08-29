@@ -90,6 +90,14 @@
         app:cpv_showAlphaSlider="true"
         app:iconSpaceReserved="false" />
 
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_headerclock"
+        android:key="xposed_headerclocklandscape"
+        android:summary="@string/header_clock_hide_landscape_desc"
+        android:title="@string/header_clock_hide_landscape_title"
+        app:defaultValue="true"
+        app:iconSpaceReserved="false" />
+
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="xposed_headerclock"
         android:key="xposed_headerclocktextscaling"
@@ -127,19 +135,15 @@
         app:tickInterval="1"
         app:valueFormat="dp" />
 
-    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="xposed_headerclock"
-        android:key="xposed_headerclockcentered"
-        android:summary="@string/header_clock_center_clock_desc"
-        android:title="@string/header_clock_center_clock_title"
-        app:iconSpaceReserved="false" />
-
-    <com.drdisagree.iconify.ui.preferences.SwitchPreference
-        android:dependency="xposed_headerclock"
-        android:key="xposed_headerclocklandscape"
-        android:summary="@string/header_clock_hide_landscape_desc"
-        android:title="@string/header_clock_hide_landscape_title"
-        app:defaultValue="true"
-        app:iconSpaceReserved="false" />
+        android:key="xposed_headerclockexpansiony"
+        android:title="@string/header_clock_expansion_y_title"
+        app:defaultValue="24"
+        app:iconSpaceReserved="false"
+        app:maxVal="250"
+        app:minVal="0"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
 
 </PreferenceScreen>

@@ -694,9 +694,10 @@
     <string name="custom_header_clock_color_desc">Custom colors instead of system colors</string>
     <string name="header_clock_color_picker_title">Clock Color Picker</string>
     <string name="header_clock_color_picker_desc">Set color of header clock text</string>
+    <string name="header_clock_expansion_y_title">Expansion Amount</string>
     <string name="header_clock_font_text_scaling_title">Text Scaling</string>
-    <string name="header_clock_side_margin_title">Clock Side Margin</string>
-    <string name="header_clock_top_margin_title">Clock Top Margin</string>
+    <string name="header_clock_side_margin_title">Side Margin</string>
+    <string name="header_clock_top_margin_title">Top Margin</string>
     <string name="header_clock_white_text_title">White Text</string>
     <string name="header_clock_white_text_desc">Force text colors to be white</string>
     <string name="header_clock_center_clock_title">Center Clock</string>

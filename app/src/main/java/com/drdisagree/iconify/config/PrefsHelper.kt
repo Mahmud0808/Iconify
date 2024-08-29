@@ -80,7 +80,9 @@ import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_ACCENT3
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_TEXT1
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_CODE_TEXT2
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_COLOR_SWITCH
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_EXPANSION_Y
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_FONT_TEXT_SCALING
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_LANDSCAPE_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ALPHA
@@ -304,6 +306,10 @@ object PrefsHelper {
 
             "mediaPlayerTweaks" -> Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
+            HEADER_CLOCK_LANDSCAPE_SWITCH -> Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+
+            HEADER_CLOCK_EXPANSION_Y -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+
             else -> true
         }
     }
@@ -520,6 +526,8 @@ object PrefsHelper {
             CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT -> "${getSliderInt(key, 0)}dp"
 
             CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT -> "${getSliderInt(key, 14)}dp"
+
+            HEADER_CLOCK_EXPANSION_Y -> "${getSliderInt(key, 24)}dp"
 
             else -> null
         }

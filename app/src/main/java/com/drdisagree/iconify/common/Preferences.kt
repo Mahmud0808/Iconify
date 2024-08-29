@@ -86,6 +86,7 @@ object Preferences {
     const val HEADER_CLOCK_COLOR_CODE_ACCENT3 = "xposed_headerclockcolorcodeaccent3"
     const val HEADER_CLOCK_COLOR_CODE_TEXT1 = "xposed_headerclockcolorcodetext1"
     const val HEADER_CLOCK_COLOR_CODE_TEXT2 = "xposed_headerclockcolorcodetext2"
+    const val HEADER_CLOCK_EXPANSION_Y = "xposed_headerclockexpansiony"
     const val HEADER_CLOCK_FONT_TEXT_SCALING = "xposed_headerclocktextscaling"
     const val QSPANEL_HIDE_CARRIER = "xposed_qspanelhidecarrier"
     const val LSCLOCK_SWITCH = "xposed_lockscreenclock"

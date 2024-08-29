@@ -9,6 +9,7 @@ import com.drdisagree.iconify.xposed.modules.ControllersProvider
 import com.drdisagree.iconify.xposed.modules.DepthWallpaper
 import com.drdisagree.iconify.xposed.modules.DepthWallpaperA14
 import com.drdisagree.iconify.xposed.modules.HeaderClock
+import com.drdisagree.iconify.xposed.modules.HeaderClockA14
 import com.drdisagree.iconify.xposed.modules.HeaderImage
 import com.drdisagree.iconify.xposed.modules.IconUpdater
 import com.drdisagree.iconify.xposed.modules.LockscreenClock
@@ -39,7 +40,6 @@ object EntryList {
     private val systemUICommonModPacks = listOf(
         ControllersProvider::class.java,
         BackgroundChip::class.java,
-        HeaderClock::class.java,
         HeaderImage::class.java,
         LockscreenClock::class.java,
         LockscreenWidgets::class.java,
@@ -56,21 +56,24 @@ object EntryList {
         DepthWallpaper::class.java,
         QSFluidThemeA13::class.java,
         QSBlackThemeA13::class.java,
-        QSLightThemeA12::class.java
+        QSLightThemeA12::class.java,
+        HeaderClock::class.java
     )
 
     private val systemUiAndroid13ModPacks = listOf(
         DepthWallpaper::class.java,
         QSFluidThemeA13::class.java,
         QSBlackThemeA13::class.java,
-        QSLightThemeA13::class.java
+        QSLightThemeA13::class.java,
+        HeaderClock::class.java
     )
 
     private val systemUiAndroid14ModPacks = listOf(
         DepthWallpaperA14::class.java,
         QSFluidThemeA14::class.java,
         QSBlackThemeA14::class.java,
-        QSLightThemeA14::class.java
+        QSLightThemeA14::class.java,
+        HeaderClockA14::class.java
     )
 
     private val pixelLauncherModPacks = listOf(

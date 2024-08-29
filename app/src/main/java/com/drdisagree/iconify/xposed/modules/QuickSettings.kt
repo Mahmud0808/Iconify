@@ -3,6 +3,7 @@ package com.drdisagree.iconify.xposed.modules
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -27,6 +28,7 @@ import com.drdisagree.iconify.common.Preferences.CUSTOM_QS_MARGIN
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.common.Preferences.HIDE_QS_FOOTER_BUTTONS
 import com.drdisagree.iconify.common.Preferences.HIDE_QS_ON_LOCKSCREEN
@@ -83,6 +85,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
     private var customQsMarginsEnabled = false
     private var qsTilePrimaryTextSize: Float? = null
     private var qsTileSecondaryTextSize: Float? = null
+    private var showHeaderClock = false
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
@@ -105,6 +108,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
             hideQsOnLockscreen = getBoolean(HIDE_QS_ON_LOCKSCREEN, false)
             hideSilentText = getBoolean(HIDE_QS_SILENT_TEXT, false)
             hideFooterButtons = getBoolean(HIDE_QS_FOOTER_BUTTONS, false)
+            showHeaderClock = getBoolean(HEADER_CLOCK_SWITCH, false)
         }
 
         triggerQsElementVisibility()
@@ -249,7 +253,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                     "large_screen_shade_header_min_height"
                 )
 
-                for (resName in qqsHeaderResNames) {
+                qqsHeaderResNames.forEach { resName ->
                     try {
                         val resId = mContext.resources.getIdentifier(
                             resName,
@@ -258,8 +262,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                         )
 
                         if (param.args[0] == resId) {
-                            param.result =
-                                (qqsTopMargin * mContext.resources.displayMetrics.density).toInt()
+                            param.result = mContext.toPx(qqsTopMargin)
                         }
                     } catch (ignored: Throwable) {
                     }
@@ -271,7 +274,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                     "qs_header_height"
                 )
 
-                for (resName in qsHeaderResNames) {
+                qsHeaderResNames.forEach { resName ->
                     try {
                         val resId = mContext.resources.getIdentifier(
                             resName,
@@ -280,8 +283,14 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                         )
 
                         if (param.args[0] == resId) {
-                            param.result =
-                                (qsTopMargin * mContext.resources.displayMetrics.density).toInt()
+                            if (showHeaderClock && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                val isLandscape =
+                                    mContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+                                param.result = if (isLandscape) 0 else mContext.toPx(qsTopMargin)
+                            } else {
+                                param.result = mContext.toPx(qsTopMargin)
+                            }
                         }
                     } catch (ignored: Throwable) {
                     }

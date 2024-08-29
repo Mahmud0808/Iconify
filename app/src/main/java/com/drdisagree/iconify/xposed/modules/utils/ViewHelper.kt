@@ -17,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import de.robv.android.xposed.XposedBridge
 
 
@@ -53,8 +54,19 @@ object ViewHelper {
                         )
                     }
 
+                    is ConstraintLayout.LayoutParams -> {
+                        layoutParams.setMargins(
+                            context.toPx(left),
+                            context.toPx(top),
+                            context.toPx(right),
+                            context.toPx(bottom)
+                        )
+                    }
+
                     else -> {
-                        XposedBridge.log("Unsupported type: $layoutParams")
+                        if (layoutParams != null) {
+                            XposedBridge.log("Unsupported type: $layoutParams")
+                        }
                     }
                 }
             }
