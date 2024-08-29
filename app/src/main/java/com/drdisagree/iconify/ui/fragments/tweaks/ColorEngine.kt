@@ -46,12 +46,12 @@ class ColorEngine : BaseFragment() {
 
         // Basic colors
         binding.basicColors.setOnClickListener {
-            replaceFragment(BasicColors())
+            replaceFragment(parentFragmentManager, BasicColors())
         }
 
         // Monet engine
         binding.monetEngine.setOnClickListener {
-            replaceFragment(MonetEngine())
+            replaceFragment(parentFragmentManager, MonetEngine())
         }
 
         // Apply monet accent and gradient

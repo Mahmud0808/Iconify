@@ -73,6 +73,7 @@ class BrightnessBar : BaseFragment() {
         }
 
         return MenuAdapter(
+            parentFragmentManager,
             requireContext(),
             brightnessBarActivityList
         )

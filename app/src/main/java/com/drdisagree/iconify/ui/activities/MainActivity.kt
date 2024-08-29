@@ -8,7 +8,6 @@ import android.os.Looper
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -69,15 +68,16 @@ class MainActivity : BaseActivity(),
         setContentView(binding.getRoot())
 
         colorPickerDialog = ColorPickerDialog.newBuilder()
-        myFragmentManager = supportFragmentManager
-        myActionBar = supportActionBar
 
         setupNavigation()
         setupSearchConfiguration()
         RPrefs.putBoolean(ON_HOME_PAGE, true)
 
         if (savedInstanceState == null) {
-            replaceFragment(if (!Preferences.isXposedOnlyMode) Home() else Xposed())
+            replaceFragment(
+                supportFragmentManager,
+                if (!Preferences.isXposedOnlyMode) Home() else Xposed()
+            )
         }
 
         initData()
@@ -170,8 +170,8 @@ class MainActivity : BaseActivity(),
     private fun setupNavigation() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (myFragmentManager.backStackEntryCount > 1) {
-                    popCurrentFragment()
+                if (supportFragmentManager.backStackEntryCount > 1) {
+                    popCurrentFragment(supportFragmentManager)
                 } else {
                     handleBackPress()
                 }
@@ -217,7 +217,7 @@ class MainActivity : BaseActivity(),
             when (item.itemId) {
                 R.id.homePage -> {
                     if (fragmentTag != Home::class.java.simpleName) {
-                        replaceFragment(Home())
+                        replaceFragment(supportFragmentManager, Home())
                         binding.bottomNavigationView.weakVibrate()
                     }
                     return@setOnItemSelectedListener true
@@ -225,7 +225,7 @@ class MainActivity : BaseActivity(),
 
                 R.id.tweaks -> {
                     if (fragmentTag != Tweaks::class.java.simpleName) {
-                        replaceFragment(Tweaks())
+                        replaceFragment(supportFragmentManager, Tweaks())
                         binding.bottomNavigationView.weakVibrate()
                     }
                     return@setOnItemSelectedListener true
@@ -233,7 +233,7 @@ class MainActivity : BaseActivity(),
 
                 R.id.xposed -> {
                     if (fragmentTag != Xposed::class.java.simpleName) {
-                        replaceFragment(Xposed())
+                        replaceFragment(supportFragmentManager, Xposed())
                         binding.bottomNavigationView.weakVibrate()
                     }
                     return@setOnItemSelectedListener true
@@ -241,7 +241,7 @@ class MainActivity : BaseActivity(),
 
                 R.id.settings -> {
                     if (fragmentTag != Settings::class.java.simpleName) {
-                        replaceFragment(Settings())
+                        replaceFragment(supportFragmentManager, Settings())
                         binding.bottomNavigationView.weakVibrate()
                     }
                     return@setOnItemSelectedListener true
@@ -309,35 +309,35 @@ class MainActivity : BaseActivity(),
 
         when {
             topFragment is BasicColors || topFragment is MonetEngine -> {
-                clearAndReplaceFragment(ColorEngine())
+                clearAndReplaceFragment(supportFragmentManager, ColorEngine())
             }
 
             topFragment is WeatherSettings -> {
-                clearAndReplaceFragment(LockscreenWidget())
+                clearAndReplaceFragment(supportFragmentManager, LockscreenWidget())
             }
 
             topFragment is ClockChip -> {
-                clearAndReplaceFragment(BackgroundChip())
+                clearAndReplaceFragment(supportFragmentManager, BackgroundChip())
             }
 
             isInGroup(topFragment, homeIndex) && topFragment !is Home -> {
-                clearAndReplaceFragment(Home())
+                clearAndReplaceFragment(supportFragmentManager, Home())
             }
 
             isInGroup(topFragment, tweaksIndex) && topFragment !is Tweaks -> {
-                clearAndReplaceFragment(Tweaks())
+                clearAndReplaceFragment(supportFragmentManager, Tweaks())
             }
 
             isInGroup(topFragment, xposedIndex) && topFragment !is Xposed -> {
-                clearAndReplaceFragment(Xposed())
+                clearAndReplaceFragment(supportFragmentManager, Xposed())
             }
 
             isInGroup(topFragment, settingsIndex) && topFragment !is Settings -> {
-                clearAndReplaceFragment(Settings())
+                clearAndReplaceFragment(supportFragmentManager, Settings())
             }
 
             (topFragment is Settings || topFragment is Xposed || topFragment is Tweaks) -> {
-                clearAndReplaceFragment(Home())
+                clearAndReplaceFragment(supportFragmentManager, Home())
             }
 
             else -> {
@@ -408,6 +408,7 @@ class MainActivity : BaseActivity(),
         pref: Preference
     ): Boolean {
         replaceFragment(
+            supportFragmentManager,
             supportFragmentManager.fragmentFactory.instantiate(
                 classLoader, pref.fragment!!
             ).apply {
@@ -420,7 +421,7 @@ class MainActivity : BaseActivity(),
 
     override fun onSearchResultClicked(result: SearchPreferenceResult) {
         Handler(mainLooper).post {
-            val lastFragment = getLastFragment(excludeSearchFragment = true)
+            val lastFragment = getLastFragment(supportFragmentManager, excludeSearchFragment = true)
 
             (lastFragment as? BaseFragment)?.onSearchResultClicked(result)
                 ?: (lastFragment as? ControlledPreferenceFragmentCompat)
@@ -440,38 +441,36 @@ class MainActivity : BaseActivity(),
     }
 
     companion object {
-        private lateinit var myFragmentManager: FragmentManager
-        private var myActionBar: ActionBar? = null
         private lateinit var colorPickerDialog: ColorPickerDialog.Builder
 
-        fun replaceFragment(fragment: Fragment) {
-            if (myFragmentManager.isStateSaved) return
+        fun replaceFragment(fragmentManager: FragmentManager, fragment: Fragment) {
+            if (fragmentManager.isStateSaved) return
 
             val fragmentTag = fragment.javaClass.simpleName
-            var currentFragment = myFragmentManager.findFragmentById(R.id.fragmentContainerView)
+            var currentFragment = fragmentManager.findFragmentById(R.id.fragmentContainerView)
 
             if (currentFragment != null &&
                 currentFragment.javaClass.simpleName == SearchPreferenceFragment::class.java.simpleName
             ) {
-                myFragmentManager.popBackStack()
-                currentFragment = myFragmentManager.findFragmentById(R.id.fragmentContainerView)
+                fragmentManager.popBackStack()
+                currentFragment = fragmentManager.findFragmentById(R.id.fragmentContainerView)
             }
 
             if (currentFragment != null &&
                 currentFragment.javaClass.simpleName == fragmentTag
             ) {
-                popCurrentFragment()
+                popCurrentFragment(fragmentManager)
             }
 
             try {
-                myFragmentManager.popBackStackImmediate(
+                fragmentManager.popBackStackImmediate(
                     fragmentTag,
                     FragmentManager.POP_BACK_STACK_INCLUSIVE
                 )
             } catch (ignored: IllegalStateException) {
             }
 
-            val fragmentTransaction: FragmentTransaction = myFragmentManager.beginTransaction()
+            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
 
             fragmentTransaction.setCustomAnimations(
                 R.anim.fragment_fade_in,
@@ -487,7 +486,7 @@ class MainActivity : BaseActivity(),
                         fragmentTag == Tweaks::class.java.simpleName ||
                         fragmentTag == Xposed::class.java.simpleName ||
                         fragmentTag == Settings::class.java.simpleName -> {
-                    myFragmentManager.popBackStack(Home::class.java.simpleName, 0)
+                    fragmentManager.popBackStack(Home::class.java.simpleName, 0)
                     fragmentTransaction.addToBackStack(fragmentTag)
                 }
 
@@ -499,30 +498,33 @@ class MainActivity : BaseActivity(),
             fragmentTransaction.commit()
         }
 
-        private fun clearAndReplaceFragment(fragment: Fragment) {
-            while (myFragmentManager.backStackEntryCount > 0) {
-                myFragmentManager.popBackStackImmediate()
+        private fun clearAndReplaceFragment(fragmentManager: FragmentManager, fragment: Fragment) {
+            while (fragmentManager.backStackEntryCount > 0) {
+                fragmentManager.popBackStackImmediate()
             }
-            replaceFragment(fragment)
+            replaceFragment(fragmentManager, fragment)
         }
 
-        private fun getLastFragment(excludeSearchFragment: Boolean = false): Fragment? {
-            val index = myFragmentManager.backStackEntryCount - 1
-            var backEntry = myFragmentManager.getBackStackEntryAt(index)
-            var fragment = myFragmentManager.findFragmentByTag(backEntry.name)
+        private fun getLastFragment(
+            fragmentManager: FragmentManager,
+            excludeSearchFragment: Boolean = false
+        ): Fragment? {
+            val index = fragmentManager.backStackEntryCount - 1
+            var backEntry = fragmentManager.getBackStackEntryAt(index)
+            var fragment = fragmentManager.findFragmentByTag(backEntry.name)
 
             if (excludeSearchFragment && fragment is SearchPreferenceFragment) {
-                backEntry = myFragmentManager.getBackStackEntryAt(index - 1)
-                fragment = myFragmentManager.findFragmentByTag(backEntry.name)
+                backEntry = fragmentManager.getBackStackEntryAt(index - 1)
+                fragment = fragmentManager.findFragmentByTag(backEntry.name)
             }
 
             return fragment
         }
 
-        fun popCurrentFragment() {
-            if (myFragmentManager.isStateSaved) return
+        fun popCurrentFragment(fragmentManager: FragmentManager) {
+            if (fragmentManager.isStateSaved) return
 
-            myFragmentManager.popBackStack()
+            fragmentManager.popBackStack()
         }
 
         fun showOrHidePendingActionButton(

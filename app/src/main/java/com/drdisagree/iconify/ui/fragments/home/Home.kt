@@ -49,7 +49,7 @@ class Home : ControlledPreferenceFragmentCompat(), AppBarLayout.OnOffsetChangedL
         if (intent != null && intent.getBooleanExtra(AppUpdates.KEY_NEW_UPDATE, false)) {
             (requireActivity().findViewById<View>(R.id.bottomNavigationView) as BottomNavigationView)
                 .selectedItemId = R.id.settings
-            replaceFragment(AppUpdates())
+            replaceFragment(parentFragmentManager, AppUpdates())
             intent.removeExtra(AppUpdates.KEY_NEW_UPDATE)
         } else {
             scheduleUpdates(appContext)
@@ -74,7 +74,7 @@ class Home : ControlledPreferenceFragmentCompat(), AppBarLayout.OnOffsetChangedL
         findPreference<UpdateCheckerPreference>("newUpdate")?.apply {
             onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
-                    replaceFragment(AppUpdates())
+                    replaceFragment(parentFragmentManager, AppUpdates())
                     true
                 }
 

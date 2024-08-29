@@ -149,7 +149,7 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
                         }
 
                         R.id.menu_changelog -> {
-                            replaceFragment(Changelog())
+                            replaceFragment(parentFragmentManager, Changelog())
                             true
                         }
 
@@ -202,12 +202,12 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
     fun onSearchResultClicked(result: SearchPreferenceResult) {
         if (result.resourceFile == layoutResource) {
-            popCurrentFragment()
+            popCurrentFragment(parentFragmentManager)
             SearchPreferenceResult.highlight(this, result.key)
         } else {
             for (searchableFragment in searchableFragments) {
                 if (searchableFragment.xml == result.resourceFile) {
-                    replaceFragment(searchableFragment.fragment)
+                    replaceFragment(parentFragmentManager, searchableFragment.fragment)
                     SearchPreferenceResult.highlight(searchableFragment.fragment, result.key);
                     break
                 }

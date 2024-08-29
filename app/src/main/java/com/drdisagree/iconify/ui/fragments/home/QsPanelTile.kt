@@ -75,7 +75,11 @@ class QsPanelTile : BaseFragment() {
             )
         }
 
-        return MenuAdapter(requireContext(), qsShapeActivityList)
+        return MenuAdapter(
+            parentFragmentManager,
+            requireContext(),
+            qsShapeActivityList
+        )
     }
 
     private fun initQsShapeItems(): QsShapeAdapter {

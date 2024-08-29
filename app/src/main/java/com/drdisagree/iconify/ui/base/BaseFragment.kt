@@ -95,7 +95,7 @@ abstract class BaseFragment : Fragment() {
                     }
 
                     R.id.menu_changelog -> {
-                        replaceFragment(Changelog())
+                        replaceFragment(parentFragmentManager, Changelog())
                         true
                     }
 
@@ -134,7 +134,7 @@ abstract class BaseFragment : Fragment() {
     fun onSearchResultClicked(result: SearchPreferenceResult) {
         for (searchableFragment in searchableFragments) {
             if (searchableFragment.xml == result.resourceFile) {
-                replaceFragment(searchableFragment.fragment)
+                replaceFragment(parentFragmentManager, searchableFragment.fragment)
                 SearchPreferenceResult.highlight(searchableFragment.fragment, result.key);
                 break
             }

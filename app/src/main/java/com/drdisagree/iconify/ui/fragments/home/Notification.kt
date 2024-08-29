@@ -73,6 +73,7 @@ class Notification : BaseFragment() {
         }
 
         return MenuAdapter(
+            parentFragmentManager,
             requireContext(),
             notificationActivityList
         )
