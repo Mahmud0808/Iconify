@@ -232,28 +232,15 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        mActivityStarter = getObjectField(param.thisObject, "activityStarter")
+                        try {
+                            mActivityStarter = getObjectField(param.thisObject, "activityStarter")
+                        } catch(t: Throwable) {
+                            log(TAG + "Failed to get ActivityStarter")
+                        }
                         setActivityStarter()
                     }
                 })
         } catch (ignored: Throwable) {
-        }
-
-        if (Build.VERSION.SDK_INT == 33) {
-            try {
-                val KeyguardBottomAreaView = findClass(
-                    "com.android.systemui.statusbar.phone.KeyguardBottomAreaView",
-                    loadPackageParam.classLoader
-                )
-                hookAllMethods(KeyguardBottomAreaView, "onFinishInflate", object : XC_MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        mActivityStarter = getObjectField(param.thisObject, "mActivityStarter")
-                        setActivityStarter()
-                    }
-                })
-            } catch (ignored: Throwable) {
-            }
         }
 
         val keyguardStatusViewClass = findClass(
