@@ -502,6 +502,7 @@
     <string name="mini_widget_icon_active">Mini Widget Icon Active Color</string>
     <string name="mini_widget_icon_inactive">Mini Widget Icon Inactive Color</string>
     <string name="weather_settings">Weather Settings</string>
+    <string name="lockscreen_widgets_scale">Widgets Scale</string>
 
     <!-- LS Widgets Actions -->
     <string name="camera">Camera</string>

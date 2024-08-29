@@ -268,5 +268,19 @@
             app:tickInterval="1"
             app:valueFormat="dp" />
 
+        <com.drdisagree.iconify.ui.preferences.SliderPreference
+            android:dependency="lockscreen_widgets_enabled"
+            android:key="lockscreen_widgets_scale"
+            android:title="@string/lockscreen_widgets_scale"
+            app:decimalFormat="#.##"
+            app:defaultValue="1"
+            app:iconSpaceReserved="false"
+            app:isDecimalFormat="true"
+            app:maxVal="1.50"
+            app:minVal="0.50"
+            app:showResetButton="true"
+            app:tickInterval="0.05"
+            app:valueFormat="%" />
+
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 </PreferenceScreen>

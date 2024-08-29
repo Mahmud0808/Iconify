@@ -26,6 +26,7 @@ import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_DEVICE_WIDGET_TEXT_COLOR
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_ENABLED
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_EXTRAS
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SCALE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE
 import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE
@@ -85,6 +86,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     private var mMainWidgets: String = ""
     private var mExtraWidgets: String = ""
     private var mBottomMargin = 0
+    private var mWidgetsScale = 1.0f
 
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -130,6 +132,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             mSmallIconActiveColor = getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_ACTIVE, Color.BLACK)
             mSmallIconInactiveColor = getInt(LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE, Color.WHITE)
             mBottomMargin = getSliderInt(LOCKSCREEN_WIDGETS_BOTTOM_MARGIN, 0)
+            mWidgetsScale = getSliderFloat(LOCKSCREEN_WIDGETS_SCALE, 1.0f)
         }
 
         if (key.isNotEmpty()) {
@@ -162,6 +165,9 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             }
             if (key[0] == LOCKSCREEN_WIDGETS_BOTTOM_MARGIN) {
                 updateMargins()
+            }
+            if (key[0] == LOCKSCREEN_WIDGETS_SCALE) {
+                updateLockscreenWidgetsScale()
             }
         }
 
@@ -197,23 +203,24 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
+        /**
+         * Don't care about LaunchableImageView and LaunchableLinearLayout error
+         * we will handle in {@link LockscreenWidgetsView}
+         */
         try {
             LaunchableImageView = findClass(
                 "com.android.systemui.animation.view.LaunchableImageView",
                 loadPackageParam.classLoader
             )
-        } catch (t: Throwable) {
-            log(TAG + " Error finding LaunchableImageView: " + t.message)
-        }
+        } catch (ignored: Throwable) {}
+
 
         try {
             LaunchableLinearLayout = findClass(
                 "com.android.systemui.animation.view.LaunchableLinearLayout",
                 loadPackageParam.classLoader
             )
-        } catch (t: Throwable) {
-            log(TAG + " Error finding LaunchableLinearLayout: " + t.message)
-        }
+        } catch (ignored: Throwable) {}
 
         try {
             val keyguardQuickAffordanceInteractor = findClass(
@@ -378,6 +385,11 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             0,
             mBottomMargin
         )
+    }
+
+    private fun updateLockscreenWidgetsScale() {
+        val lsWidgets = LockscreenWidgetsView.getInstance() ?: return
+        lsWidgets.setScale(mWidgetsScale)
     }
 
     private fun updateDozingState(isDozing: Boolean) {
