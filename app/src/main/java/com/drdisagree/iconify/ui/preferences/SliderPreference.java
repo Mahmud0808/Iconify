@@ -8,6 +8,7 @@ package com.drdisagree.iconify.ui.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.JsonReader;
 import android.util.JsonWriter;
@@ -52,7 +53,7 @@ public class SliderPreference extends Preference {
     private String valueFormat;
     private final float outputScale;
     private final boolean isDecimalFormat;
-    private final String decimalFormat = "#.#";
+    private String decimalFormat = "#.#";
 
     boolean updateConstantly, showValueLabel;
 
@@ -77,6 +78,8 @@ public class SliderPreference extends Preference {
         showValueLabel = a.getBoolean(R.styleable.SliderPreference_showValueLabel, true);
         valueFormat = a.getString(R.styleable.SliderPreference_valueFormat);
         isDecimalFormat = a.getBoolean(R.styleable.SliderPreference_isDecimalFormat, false);
+        decimalFormat = a.getString(R.styleable.SliderPreference_decimalFormat);
+        if (TextUtils.isEmpty(decimalFormat)) decimalFormat = "#.#";
         outputScale = a.getFloat(R.styleable.SliderPreference_outputScale, 1f);
         String defaultValStr = a.getString(androidx.preference.R.styleable.Preference_defaultValue);
 

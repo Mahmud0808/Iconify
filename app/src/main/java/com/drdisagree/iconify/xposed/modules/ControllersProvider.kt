@@ -2,9 +2,7 @@ package com.drdisagree.iconify.xposed.modules
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_WIDGETS_ENABLED
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
@@ -12,13 +10,12 @@ import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.findClass
+import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.getIntField
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class ControllersProvider(context: Context?) : ModPack(context!!) {
-
-    private var mWidgetsEnabled = false
 
     private var mBluetoothEnabled = false
 
@@ -29,58 +26,54 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
     private val mHotspotChangedListeners = ArrayList<OnHotspotChanged>()
     private val mDozeChangedListeners = ArrayList<OnDozingChanged>()
 
-    override fun updatePrefs(vararg key: String) {
-        if (!XprefsIsInitialized) return
-
-        mWidgetsEnabled = Xprefs.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
-    }
+    override fun updatePrefs(vararg key: String) {}
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-        if (!mWidgetsEnabled) return
 
         instance = this
 
         // Network Callbacks
-        val callbackHandler = findClass(
+        val callbackHandler = findClassIfExists(
             "com.android.systemui.statusbar.connectivity.CallbackHandler",
             loadPackageParam.classLoader
         )
 
-
         // Mobile Data
-        hookAllMethods(
-            callbackHandler,
-            "setMobileDataIndicators",
-            object : XC_MethodHook() {
+        if (callbackHandler != null) {
+            hookAllMethods(
+                callbackHandler,
+                "setMobileDataIndicators",
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        onSetMobileDataIndicators(param.args[0])
+                    }
+                })
+
+            hookAllMethods(callbackHandler, "setIsAirplaneMode", object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    onSetMobileDataIndicators(param.args[0])
+                    //mAirplane = (boolean) param.args[0];
+                    onSetIsAirplaneMode(param.args[0])
                 }
             })
 
-        hookAllMethods(callbackHandler, "setIsAirplaneMode", object : XC_MethodHook() {
-            @Throws(Throwable::class)
-            override fun afterHookedMethod(param: MethodHookParam) {
-                //mAirplane = (boolean) param.args[0];
-                onSetIsAirplaneMode(param.args[0])
-            }
-        })
-
-        hookAllMethods(callbackHandler, "setNoSims", object : XC_MethodHook() {
-            @Throws(Throwable::class)
-            override fun afterHookedMethod(param: MethodHookParam) {
-                onSetNoSims(param.args[0] as Boolean, param.args[1] as Boolean)
-            }
-        })
+            hookAllMethods(callbackHandler, "setNoSims", object : XC_MethodHook() {
+                @Throws(Throwable::class)
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    onSetNoSims(param.args[0] as Boolean, param.args[1] as Boolean)
+                }
+            })
 
 
-        // WiFi
-        hookAllMethods(callbackHandler, "setWifiIndicators", object : XC_MethodHook() {
-            @Throws(Throwable::class)
-            override fun afterHookedMethod(param: MethodHookParam) {
-                onWifiChanged(param.args[0])
-            }
-        })
+            // WiFi
+            hookAllMethods(callbackHandler, "setWifiIndicators", object : XC_MethodHook() {
+                @Throws(Throwable::class)
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    onWifiChanged(param.args[0])
+                }
+            })
+        }
 
         // Network Controller from Internet Tile
         try {
