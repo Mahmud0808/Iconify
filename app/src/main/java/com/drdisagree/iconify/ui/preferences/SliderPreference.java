@@ -80,8 +80,11 @@ public class SliderPreference extends Preference {
         showValueLabel = a.getBoolean(R.styleable.SliderPreference_showValueLabel, true);
         valueFormat = a.getString(R.styleable.SliderPreference_valueFormat);
         isDecimalFormat = a.getBoolean(R.styleable.SliderPreference_isDecimalFormat, false);
-        decimalFormat = a.getString(R.styleable.SliderPreference_decimalFormat);
-        if (TextUtils.isEmpty(decimalFormat)) decimalFormat = "#.#";
+        if (a.hasValue(R.styleable.SliderPreference_decimalFormat)) {
+            decimalFormat = a.getString(R.styleable.SliderPreference_decimalFormat);
+        } else {
+            decimalFormat = "#.#"; // Default decimal format
+        }
         outputScale = a.getFloat(R.styleable.SliderPreference_outputScale, 1f);
         String defaultValStr = a.getString(androidx.preference.R.styleable.Preference_defaultValue);
 
