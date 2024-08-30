@@ -208,7 +208,7 @@ class SliderWidget : RelativeLayout {
     private fun handleResetButton() {
         if (defaultValue != Int.MAX_VALUE) {
             resetButton.visibility = VISIBLE
-            resetButton.isEnabled = materialSlider.value != defaultValue.toFloat()
+            resetButton.isEnabled = isEnabled && materialSlider.value != defaultValue.toFloat()
         } else {
             resetButton.visibility = GONE
         }

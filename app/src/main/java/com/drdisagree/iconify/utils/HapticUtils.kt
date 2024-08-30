@@ -13,17 +13,20 @@ object HapticUtils {
     }
 
     private fun View.vibrate(type: VibrationType) {
-        if (RPrefs.getBoolean(VIBRATE_UI, true))
-        when (type) {
-            VibrationType.Weak -> performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
-            VibrationType.Strong -> performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        if (RPrefs.getBoolean(VIBRATE_UI, true)) {
+            when (type) {
+                VibrationType.Weak -> performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
+                VibrationType.Strong -> performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            }
         }
     }
 
+    @JvmStatic
     fun View.weakVibrate() {
         vibrate(VibrationType.Weak)
     }
 
+    @JvmStatic
     fun View.strongVibrate() {
         vibrate(VibrationType.Strong)
     }

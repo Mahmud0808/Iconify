@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
+import com.drdisagree.iconify.utils.HapticUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.RangeSlider;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Scanner;
 
 import com.drdisagree.iconify.R;
@@ -230,6 +232,9 @@ public class SliderPreference extends Preference {
         if (showResetButton) {
             mResetButton.setVisibility(View.VISIBLE);
             mResetButton.setOnClickListener(v -> {
+                handleResetButton();
+                HapticUtils.weakVibrate(v);
+
                 slider.setValues(defaultValue);
                 savePrefs();
             });
@@ -242,6 +247,8 @@ public class SliderPreference extends Preference {
         slider.setValueFrom(valueFrom);
         slider.setValueTo(valueTo);
         slider.setStepSize(tickInterval);
+
+        handleResetButton();
 
         syncState();
     }
@@ -301,6 +308,15 @@ public class SliderPreference extends Preference {
         }
 
         return values;
+    }
+
+    private void handleResetButton() {
+        if (showResetButton) {
+            mResetButton.setVisibility(View.VISIBLE);
+            mResetButton.setEnabled(isEnabled() && !Objects.equals(slider.getValues().get(0), defaultValue.get(0)));
+        } else {
+            mResetButton.setVisibility(View.GONE);
+        }
     }
 
     public static float getSingleFloatValue(SharedPreferences prefs, String key, float defaultValue) {
