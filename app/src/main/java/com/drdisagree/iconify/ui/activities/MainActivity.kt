@@ -174,16 +174,6 @@ class MainActivity : BaseActivity(),
     }
 
     private fun setupNavigation() {
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (supportFragmentManager.backStackEntryCount > 1) {
-                    popCurrentFragment(supportFragmentManager)
-                } else {
-                    handleBackPress()
-                }
-            }
-        })
-
         if (Preferences.isXposedOnlyMode) {
             binding.bottomNavigationView.menu.clear()
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_xposed_only)
@@ -301,54 +291,6 @@ class MainActivity : BaseActivity(),
                 binding.pendingActions.shrink()
             }
         } catch (_: Exception) {
-        }
-    }
-
-    private fun handleBackPress() {
-        val topFragment = getTopFragment()
-        val xposedOnlyMode = Preferences.isXposedOnlyMode
-
-        val homeIndex = 0
-        val tweaksIndex = 1
-        val xposedIndex = if (!xposedOnlyMode) 2 else 0
-        val settingsIndex = if (!xposedOnlyMode) 3 else 1
-
-        when {
-            topFragment is BasicColors || topFragment is MonetEngine -> {
-                clearAndReplaceFragment(supportFragmentManager, ColorEngine())
-            }
-
-            topFragment is WeatherSettings -> {
-                clearAndReplaceFragment(supportFragmentManager, LockscreenWidget())
-            }
-
-            topFragment is ClockChip -> {
-                clearAndReplaceFragment(supportFragmentManager, BackgroundChip())
-            }
-
-            isInGroup(topFragment, homeIndex) && topFragment !is Home -> {
-                clearAndReplaceFragment(supportFragmentManager, Home())
-            }
-
-            isInGroup(topFragment, tweaksIndex) && topFragment !is Tweaks -> {
-                clearAndReplaceFragment(supportFragmentManager, Tweaks())
-            }
-
-            isInGroup(topFragment, xposedIndex) && topFragment !is Xposed -> {
-                clearAndReplaceFragment(supportFragmentManager, Xposed())
-            }
-
-            isInGroup(topFragment, settingsIndex) && topFragment !is Settings -> {
-                clearAndReplaceFragment(supportFragmentManager, Settings())
-            }
-
-            (topFragment is Settings || topFragment is Xposed || topFragment is Tweaks) -> {
-                clearAndReplaceFragment(supportFragmentManager, Home())
-            }
-
-            else -> {
-                finish()
-            }
         }
     }
 
@@ -502,13 +444,6 @@ class MainActivity : BaseActivity(),
             }
 
             fragmentTransaction.commit()
-        }
-
-        private fun clearAndReplaceFragment(fragmentManager: FragmentManager, fragment: Fragment) {
-            while (fragmentManager.backStackEntryCount > 0) {
-                fragmentManager.popBackStackImmediate()
-            }
-            replaceFragment(fragmentManager, fragment)
         }
 
         private fun getLastFragment(
