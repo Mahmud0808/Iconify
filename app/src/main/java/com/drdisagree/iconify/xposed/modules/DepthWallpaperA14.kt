@@ -21,10 +21,8 @@ import androidx.annotation.RequiresApi
 import com.drdisagree.iconify.IExtractSubjectCallback
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.CUSTOM_DEPTH_WALLPAPER_SWITCH
-import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_ALPHA
-import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_ON_AOD
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
@@ -53,8 +51,6 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
 
     private var showDepthWallpaper = false
     private var showCustomImages = false
-    private var backgroundMovement = 1.0f
-    private var foregroundMovement = 3.0f
     private var foregroundAlpha = 1.0f
     private var mScrimController: Any? = null
     private var mForegroundDimmingOverlay: Drawable? = null
@@ -76,8 +72,6 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
         Xprefs.apply {
             showDepthWallpaper = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
             showCustomImages = getBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH, false)
-            backgroundMovement = getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
-            foregroundMovement = getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
             foregroundAlpha = getSliderInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
             showOnAOD = getBoolean(DEPTH_WALLPAPER_ON_AOD, true)
         }

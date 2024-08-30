@@ -66,8 +66,10 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
             showDepthWallpaper = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
             showFadingAnimation = getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false)
             enableParallaxEffect = getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
-            backgroundMovement = getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
-            foregroundMovement = getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
+            backgroundMovement =
+                getSliderInt(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1).toFloat()
+            foregroundMovement =
+                getSliderInt(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3).toFloat()
             unzoomWallpaper = getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
             foregroundAlpha = getSliderInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
         }
