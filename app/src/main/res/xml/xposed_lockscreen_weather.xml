@@ -107,7 +107,7 @@
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:defaultValue="false"
         android:dependency="weather_switch"
-        android:key="weather_custom_color_switch"
+        android:key="weather_text_color_switch"
         android:summaryOff="@string/general_off"
         android:summaryOn="@string/general_on"
         android:title="@string/weather_custom_color_switch_title"
@@ -115,8 +115,8 @@
 
     <com.drdisagree.iconify.ui.preferences.ColorPreference
         android:defaultValue="@color/white"
-        android:dependency="weather_custom_color_switch"
-        android:key="weather_custom_color"
+        android:dependency="weather_text_color_switch"
+        android:key="weather_text_color"
         android:summary="@string/weather_custom_color_summary"
         android:title="@string/weather_custom_color_title"
         app:iconSpaceReserved="false" />

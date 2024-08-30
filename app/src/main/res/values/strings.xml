@@ -520,6 +520,9 @@
     <string name="home_controls">Home Controls</string>
     <string name="wallet">Wallet</string>
     <string name="hotspot">Hotspot</string>
+    <string name="ringer_normal">Ringer</string>
+    <string name="ringer_vibrate">Vibrate</string>
+    <string name="ringer_silent">Silent</string>
 
     <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Transparency</string>

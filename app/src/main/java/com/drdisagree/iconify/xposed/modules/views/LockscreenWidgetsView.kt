@@ -798,7 +798,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                         R.drawable.ic_ringer_normal,
                         mContext.theme
                     ),
-                    getString(RINGER_LABEL_INACTIVE, SYSTEMUI_PACKAGE)
+                    ringerText
                 )
             }
 
@@ -1836,13 +1836,13 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val ringerText: String
         get() {
             val resName = when (mAudioManager!!.ringerMode) {
-                AudioManager.RINGER_MODE_NORMAL -> RINGER_NORMAL_TEXT
-                AudioManager.RINGER_MODE_VIBRATE -> RINGER_VIBRATE_TEXT
-                AudioManager.RINGER_MODE_SILENT -> RINGER_SILENT_TEXT
+                AudioManager.RINGER_MODE_NORMAL -> R.string.ringer_normal
+                AudioManager.RINGER_MODE_VIBRATE -> R.string.ringer_vibrate
+                AudioManager.RINGER_MODE_SILENT -> R.string.ringer_silent
                 else -> throw IllegalStateException("Unexpected value: " + mAudioManager.ringerMode)
             }
 
-            return getString(resName, SYSTEMUI_PACKAGE)
+            return modRes.getString(resName)
         }
 
     /**
@@ -1886,7 +1886,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         const val BT_LABEL: String = "quick_settings_bluetooth_label"
         const val DATA_LABEL: String = "quick_settings_internet_label"
         const val WIFI_LABEL: String = "quick_settings_wifi_label"
-        const val RINGER_LABEL_INACTIVE: String = "state_button_silence"
         const val TORCH_LABEL: String = "quick_settings_flashlight_label"
         const val HOME_CONTROLS_LABEL: String = "quick_controls_title"
         const val MEDIA_PLAY_LABEL: String = "controls_media_button_play"
@@ -1894,10 +1893,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         const val CAMERA_LABEL: String = "accessibility_camera_button"
         const val WALLET_LABEL: String = "wallet_title"
         const val HOTSPOT_LABEL: String = "quick_settings_hotspot_label"
-
-        const val RINGER_NORMAL_TEXT = "volume_footer_ring"
-        const val RINGER_VIBRATE_TEXT = "state_button_vibration"
-        const val RINGER_SILENT_TEXT = "state_button_silence"
 
         @Volatile
         private var instance: LockscreenWidgetsView? = null
