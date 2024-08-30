@@ -212,7 +212,8 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                 "com.android.systemui.animation.view.LaunchableImageView",
                 loadPackageParam.classLoader
             )
-        } catch (ignored: Throwable) {}
+        } catch (ignored: Throwable) {
+        }
 
 
         try {
@@ -220,7 +221,8 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                 "com.android.systemui.animation.view.LaunchableLinearLayout",
                 loadPackageParam.classLoader
             )
-        } catch (ignored: Throwable) {}
+        } catch (ignored: Throwable) {
+        }
 
         try {
             val keyguardQuickAffordanceInteractor = findClass(
@@ -234,7 +236,7 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         try {
                             mActivityStarter = getObjectField(param.thisObject, "activityStarter")
-                        } catch(t: Throwable) {
+                        } catch (t: Throwable) {
                             log(TAG + "Failed to get ActivityStarter")
                         }
                         setActivityStarter()
@@ -243,61 +245,76 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
         } catch (ignored: Throwable) {
         }
 
-        val keyguardStatusViewClass = findClass(
-            "com.android.keyguard.KeyguardStatusView",
-            loadPackageParam.classLoader
-        )
+        try {
+            val keyguardStatusViewClass = findClass(
+                "com.android.keyguard.KeyguardStatusView",
+                loadPackageParam.classLoader
+            )
+            hookAllMethods(keyguardStatusViewClass, "onFinishInflate", object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (!mWidgetsEnabled) return
+                    try {
+                        mStatusViewContainer = getObjectField(
+                            param.thisObject,
+                            "mStatusViewContainer"
+                        ) as ViewGroup
 
-        hookAllMethods(keyguardStatusViewClass, "onFinishInflate", object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                if (!mWidgetsEnabled) return
+                    } catch (t: Throwable) {
+                        log(TAG + "Failed to get mStatusViewContainer")
+                    }
 
-                mStatusViewContainer = getObjectField(
-                    param.thisObject,
-                    "mStatusViewContainer"
-                ) as ViewGroup
+                }
+            })
+        } catch (t: Throwable) {
+            log(TAG + "Failed to hook KeyguardStatusView")
+        }
 
-                placeWidgets()
+        try {
+            val keyguardClockSwitch = findClass(
+                "com.android.keyguard.KeyguardClockSwitch",
+                loadPackageParam.classLoader
+            )
 
-            }
-        })
+            hookAllMethods(keyguardClockSwitch, "onFinishInflate", object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (!mWidgetsEnabled) return
 
-        val keyguardClockSwitch = findClass(
-            "com.android.keyguard.KeyguardClockSwitch",
-            loadPackageParam.classLoader
-        )
+                    try {
+                        mStatusArea = getObjectField(
+                            param.thisObject,
+                            "mStatusArea"
+                        ) as ViewGroup
 
-        hookAllMethods(keyguardClockSwitch, "onFinishInflate", object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                if (!mWidgetsEnabled) return
+                    } catch (t: Throwable) {
+                        log(TAG + "Failed to get mStatusArea")
+                    }
 
-                mStatusArea = getObjectField(
-                    param.thisObject,
-                    "mStatusArea"
-                ) as ViewGroup
+                }
+            })
 
-                placeWidgets()
+            hookAllMethods(keyguardClockSwitch, "updateClockViews", object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (!mWidgetsEnabled) return
+                    updateLockscreenWidgetsOnClock(param.args[0] as Boolean)
+                }
+            })
+        } catch (t: Throwable) {
+            log(TAG + "Failed to hook KeyguardClockSwitch")
+        }
 
-            }
-        })
-
-        hookAllMethods(keyguardClockSwitch, "updateClockViews", object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                if (!mWidgetsEnabled) return
-                updateLockscreenWidgetsOnClock(param.args[0] as Boolean)
-            }
-        })
-
-        val dozeScrimControllerClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController",
-            loadPackageParam.classLoader
-        )
-
-        hookAllMethods(dozeScrimControllerClass, "onDozingChanged", object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                updateDozingState(param.args[0] as Boolean)
-            }
-        })
+        try {
+            val dozeScrimControllerClass = findClass(
+                "$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController",
+                loadPackageParam.classLoader
+            )
+            hookAllMethods(dozeScrimControllerClass, "onDozingChanged", object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    updateDozingState(param.args[0] as Boolean)
+                }
+            })
+        } catch (t: Throwable) {
+            log(TAG + "Failed to hook DozeScrimController")
+        }
     }
 
     private fun placeWidgets() {
@@ -312,16 +329,17 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             mWidgetsContainer.addView(lsWidgets)
 
             if (customLockscreenClock) {
-                mStatusViewContainer!!.addView(mWidgetsContainer)
+                mStatusViewContainer?.addView(mWidgetsContainer)
             } else {
                 // Put widgets view inside the status area
                 // But before notifications
-                mStatusArea!!.addView(mWidgetsContainer, mStatusArea!!.childCount - 1)
+                mStatusArea?.addView(mWidgetsContainer, mStatusArea!!.childCount - 1)
             }
             updateLockscreenWidgets()
             updateLsDeviceWidget()
             updateLockscreenWidgetsColors()
             updateMargins()
+            updateLockscreenWidgetsScale()
         } catch (ignored: Throwable) {
         }
 
