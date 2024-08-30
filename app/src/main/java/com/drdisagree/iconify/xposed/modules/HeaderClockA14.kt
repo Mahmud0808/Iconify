@@ -313,81 +313,138 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
             }
         })
 
-        hookAllMethods(qsPanelClass, "switchAllContentToParent", object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                if (!showHeaderClock) return
+        val shadeHeaderViewHandlerMethod = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                val newConfig = param.args[0] as Configuration
+                val isLandscape =
+                    newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-                val parent = param.args[0] as ViewGroup
-                val mMovableContentStartIndex = getObjectField(
-                    param.thisObject, "mMovableContentStartIndex"
-                ) as Int
-                val index = if (parent === param.thisObject) mMovableContentStartIndex else 0
-                val targetParentId = mContext.resources.getIdentifier(
-                    "quick_settings_panel",
-                    "id",
-                    mContext.packageName
-                )
+                if (showHeaderClock && isLandscape) {
+                    (mQsHeaderContainer.parent as? ViewGroup)?.removeView(
+                        mQsHeaderContainer
+                    )
+                    mQsHeaderContainerShade.addView(mQsHeaderContainer)
+                    (mQsHeaderContainer.layoutParams as? MarginLayoutParams)
+                        ?.bottomMargin = mContext.toPx(16)
+                    mQsHeaderContainerShade.visibility = View.VISIBLE
+                } else {
+                    mQsHeaderContainerShade.visibility = View.GONE
+                }
+            }
+        }
 
-                if (parent.id == targetParentId) {
-                    callMethod(
-                        param.thisObject,
-                        "switchToParent",
-                        mQsHeaderContainerShade,
-                        parent,
-                        index
+        try {
+            hookAllMethods(qsPanelClass, "switchAllContentToParent", object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    if (!showHeaderClock) return
+
+                    val parent = param.args[0] as ViewGroup
+                    val mMovableContentStartIndex = getObjectField(
+                        param.thisObject, "mMovableContentStartIndex"
+                    ) as Int
+                    val index = if (parent === param.thisObject) mMovableContentStartIndex else 0
+                    val targetParentId = mContext.resources.getIdentifier(
+                        "quick_settings_panel",
+                        "id",
+                        mContext.packageName
+                    )
+
+                    if (parent.id == targetParentId) {
+                        callMethod(
+                            param.thisObject,
+                            "switchToParent",
+                            mQsHeaderContainerShade,
+                            parent,
+                            index
+                        )
+                    }
+
+                    hookAllMethods(
+                        qsPanelClass,
+                        "onConfigurationChanged",
+                        shadeHeaderViewHandlerMethod
                     )
                 }
+            })
 
-                hookAllMethods(qsPanelClass, "onConfigurationChanged", object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        val newConfig = param.args[0] as Configuration
-                        val isLandscape =
-                            newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
+            if (showHeaderClock) {
+                findAndHookMethod(
+                    qsPanelClass,
+                    "switchToParent",
+                    View::class.java,
+                    ViewGroup::class.java,
+                    Int::class.java,
+                    object : XC_MethodReplacement() {
+                        override fun replaceHookedMethod(param: MethodHookParam): Any? {
+                            val view = param.args[0] as View
+                            val parent = param.args[1] as ViewGroup
+                            val index = if (view == mQsHeaderContainerShade) {
+                                param.args[2] as Int
+                            } else {
+                                (param.args[2] as Int) + 1
+                            }
+                            val tag = callMethod(
+                                param.thisObject,
+                                "getDumpableTag"
+                            )
 
-                        if (showHeaderClock && isLandscape) {
-                            (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
-                            mQsHeaderContainerShade.addView(mQsHeaderContainer)
-                            (mQsHeaderContainer.layoutParams as? MarginLayoutParams)
-                                ?.bottomMargin = mContext.toPx(16)
-                            mQsHeaderContainerShade.visibility = View.VISIBLE
-                        } else {
-                            mQsHeaderContainerShade.visibility = View.GONE
+                            callMethod(
+                                param.thisObject,
+                                "switchToParent",
+                                view,
+                                parent,
+                                index,
+                                tag
+                            )
+                            return null
                         }
                     }
-                })
+                )
             }
-        })
-
-        if (showHeaderClock) {
-            findAndHookMethod(
-                qsPanelClass,
+        } catch (ignored: Throwable) { // Some ROMs don't have this method switchAllContentToParent()
+            findAndHookMethod(qsPanelClass,
                 "switchToParent",
                 View::class.java,
                 ViewGroup::class.java,
                 Int::class.java,
-                object : XC_MethodReplacement() {
-                    override fun replaceHookedMethod(param: MethodHookParam): Any? {
-                        val view = param.args[0] as View
+                String::class.java,
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        if (!showHeaderClock || (param.args[1] as? ViewGroup) == null) return
+
                         val parent = param.args[1] as ViewGroup
-                        val index = if (view == mQsHeaderContainerShade) {
-                            param.args[2] as Int
-                        } else {
-                            (param.args[2] as Int) + 1
-                        }
-                        val tag = callMethod(
-                            param.thisObject,
-                            "getDumpableTag"
+                        val mMovableContentStartIndex = getObjectField(
+                            param.thisObject, "mMovableContentStartIndex"
+                        ) as Int
+                        val index =
+                            if (parent === param.thisObject) mMovableContentStartIndex else 0
+                        val targetParentId = mContext.resources.getIdentifier(
+                            "quick_settings_panel",
+                            "id",
+                            mContext.packageName
                         )
 
-                        callMethod(
-                            param.thisObject,
-                            "switchToParent",
-                            view,
-                            parent,
-                            index,
-                            tag
+                        if (parent.id == targetParentId) {
+                            val mQsHeaderContainerShadeParent =
+                                mQsHeaderContainerShade.parent as? ViewGroup
+                            if (mQsHeaderContainerShadeParent != parent ||
+                                mQsHeaderContainerShadeParent.indexOfChild(mQsHeaderContainerShade) != index
+                            ) {
+                                mQsHeaderContainerShadeParent?.removeView(mQsHeaderContainerShade)
+                                parent.addView(
+                                    mQsHeaderContainerShade,
+                                    index
+                                )
+                            }
+                        }
+
+                        param.args[2] = (param.args[2] as Int) + 1
+
+                        hookAllMethods(
+                            qsPanelClass,
+                            "onConfigurationChanged",
+                            shadeHeaderViewHandlerMethod
                         )
-                        return null
                     }
                 }
             )
