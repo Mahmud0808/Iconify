@@ -52,6 +52,7 @@ import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.ICONIFY_HEADER_CLOCK_TAG
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.utils.TextUtils
+import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.getColorResCompat
@@ -75,6 +76,8 @@ import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.getObjectField
+import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
+import de.robv.android.xposed.callbacks.XC_LayoutInflated
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.io.File
 import java.util.Locale
@@ -232,42 +235,36 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                 val mQuickStatusBarHeader = param.thisObject as FrameLayout
 
                 mQsHeaderContainer.apply {
-                    setLayoutParams(
-                        LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        )
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
                     )
                     orientation = LinearLayout.HORIZONTAL
+                    visibility = View.GONE
                 }
 
                 mQsHeaderContainerShade.apply {
-                    setLayoutParams(
-                        LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        )
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
                     )
                     orientation = LinearLayout.VERTICAL
+                    visibility = View.GONE
                 }
 
                 mQsClockContainer.apply {
-                    setLayoutParams(
-                        LinearLayout.LayoutParams(
-                            0,
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            1f
-                        )
+                    layoutParams = LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        1f
                     )
                     orientation = LinearLayout.VERTICAL
                 }
 
                 mQsIconsContainer.apply {
-                    setLayoutParams(
-                        LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.MATCH_PARENT
-                        )
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
                     )
                     orientation = LinearLayout.VERTICAL
                     gravity = Gravity.END or Gravity.CENTER
@@ -282,7 +279,12 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     addView(mQsIconsContainer)
                 }
 
-                mQuickStatusBarHeader.addView(mQsHeaderContainer, mQuickStatusBarHeader.childCount)
+                mQuickStatusBarHeader.addView(
+                    mQsHeaderContainer,
+                    mQuickStatusBarHeader.childCount
+                )
+
+                handleOldHeaderView(param)
 
                 updateClockView()
             }
@@ -290,18 +292,19 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
         hookAllMethods(quickStatusBarHeaderClass, "updateResources", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (!showHeaderClock) return
-
                 val mQuickStatusBarHeader = param.thisObject as FrameLayout
                 val isLandscape =
                     mContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-                if (!isLandscape) {
+                if (!isLandscape && showHeaderClock) {
                     (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
                     mQuickStatusBarHeader.addView(
                         mQsHeaderContainer,
                         mQuickStatusBarHeader.childCount
                     )
+                    mQsHeaderContainer.visibility = View.VISIBLE
+                } else {
+                    mQsHeaderContainer.visibility = View.GONE
                 }
 
                 buildHeaderViewExpansion()
@@ -310,85 +313,142 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
             }
         })
 
-        if (showHeaderClock) {
-            findAndHookMethod(
-                qsPanelClass,
+        val shadeHeaderViewHandlerMethod = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                val newConfig = param.args[0] as Configuration
+                val isLandscape =
+                    newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+                if (showHeaderClock && isLandscape) {
+                    (mQsHeaderContainer.parent as? ViewGroup)?.removeView(
+                        mQsHeaderContainer
+                    )
+                    mQsHeaderContainerShade.addView(mQsHeaderContainer)
+                    (mQsHeaderContainer.layoutParams as? MarginLayoutParams)
+                        ?.bottomMargin = mContext.toPx(16)
+                    mQsHeaderContainerShade.visibility = View.VISIBLE
+                } else {
+                    mQsHeaderContainerShade.visibility = View.GONE
+                }
+            }
+        }
+
+        try {
+            hookAllMethods(qsPanelClass, "switchAllContentToParent", object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    if (!showHeaderClock) return
+
+                    val parent = param.args[0] as ViewGroup
+                    val mMovableContentStartIndex = getObjectField(
+                        param.thisObject, "mMovableContentStartIndex"
+                    ) as Int
+                    val index = if (parent === param.thisObject) mMovableContentStartIndex else 0
+                    val targetParentId = mContext.resources.getIdentifier(
+                        "quick_settings_panel",
+                        "id",
+                        mContext.packageName
+                    )
+
+                    if (parent.id == targetParentId) {
+                        callMethod(
+                            param.thisObject,
+                            "switchToParent",
+                            mQsHeaderContainerShade,
+                            parent,
+                            index
+                        )
+                    }
+
+                    hookAllMethods(
+                        qsPanelClass,
+                        "onConfigurationChanged",
+                        shadeHeaderViewHandlerMethod
+                    )
+                }
+            })
+
+            if (showHeaderClock) {
+                findAndHookMethod(
+                    qsPanelClass,
+                    "switchToParent",
+                    View::class.java,
+                    ViewGroup::class.java,
+                    Int::class.java,
+                    object : XC_MethodReplacement() {
+                        override fun replaceHookedMethod(param: MethodHookParam): Any? {
+                            val view = param.args[0] as View
+                            val parent = param.args[1] as ViewGroup
+                            val index = if (view == mQsHeaderContainerShade) {
+                                param.args[2] as Int
+                            } else {
+                                (param.args[2] as Int) + 1
+                            }
+                            val tag = callMethod(
+                                param.thisObject,
+                                "getDumpableTag"
+                            )
+
+                            callMethod(
+                                param.thisObject,
+                                "switchToParent",
+                                view,
+                                parent,
+                                index,
+                                tag
+                            )
+                            return null
+                        }
+                    }
+                )
+            }
+        } catch (ignored: Throwable) { // Some ROMs don't have this method switchAllContentToParent()
+            findAndHookMethod(qsPanelClass,
                 "switchToParent",
                 View::class.java,
                 ViewGroup::class.java,
                 Int::class.java,
-                object : XC_MethodReplacement() {
-                    override fun replaceHookedMethod(param: MethodHookParam): Any? {
-                        val view = param.args[0] as View
+                String::class.java,
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        if (!showHeaderClock || (param.args[1] as? ViewGroup) == null) return
+
                         val parent = param.args[1] as ViewGroup
-                        val index = if (view == mQsHeaderContainerShade) {
-                            param.args[2] as Int
-                        } else {
-                            (param.args[2] as Int) + 1
-                        }
-                        val tag = callMethod(
-                            param.thisObject,
-                            "getDumpableTag"
+                        val mMovableContentStartIndex = getObjectField(
+                            param.thisObject, "mMovableContentStartIndex"
+                        ) as Int
+                        val index =
+                            if (parent === param.thisObject) mMovableContentStartIndex else 0
+                        val targetParentId = mContext.resources.getIdentifier(
+                            "quick_settings_panel",
+                            "id",
+                            mContext.packageName
                         )
 
-                        callMethod(
-                            param.thisObject,
-                            "switchToParent",
-                            view,
-                            parent,
-                            index,
-                            tag
+                        if (parent.id == targetParentId) {
+                            val mQsHeaderContainerShadeParent =
+                                mQsHeaderContainerShade.parent as? ViewGroup
+                            if (mQsHeaderContainerShadeParent != parent ||
+                                mQsHeaderContainerShadeParent.indexOfChild(mQsHeaderContainerShade) != index
+                            ) {
+                                mQsHeaderContainerShadeParent?.removeView(mQsHeaderContainerShade)
+                                parent.addView(
+                                    mQsHeaderContainerShade,
+                                    index
+                                )
+                            }
+                        }
+
+                        param.args[2] = (param.args[2] as Int) + 1
+
+                        hookAllMethods(
+                            qsPanelClass,
+                            "onConfigurationChanged",
+                            shadeHeaderViewHandlerMethod
                         )
-                        return null
                     }
                 }
             )
         }
-
-        hookAllMethods(qsPanelClass, "switchAllContentToParent", object : XC_MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                if (!showHeaderClock) return
-
-                val parent = param.args[0] as ViewGroup
-                val mMovableContentStartIndex = getObjectField(
-                    param.thisObject, "mMovableContentStartIndex"
-                ) as Int
-                val index = if (parent === param.thisObject) mMovableContentStartIndex else 0
-                val targetParentId = mContext.resources.getIdentifier(
-                    "quick_settings_panel",
-                    "id",
-                    mContext.packageName
-                )
-
-                if (parent.id == targetParentId) {
-                    callMethod(
-                        param.thisObject,
-                        "switchToParent",
-                        mQsHeaderContainerShade,
-                        parent,
-                        index
-                    )
-                }
-
-                hookAllMethods(qsPanelClass, "onConfigurationChanged", object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        val newConfig = param.args[0] as Configuration
-                        val isLandscape =
-                            newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
-
-                        if (showHeaderClock && isLandscape) {
-                            (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
-                            mQsHeaderContainerShade.addView(mQsHeaderContainer)
-                            (mQsHeaderContainer.layoutParams as? MarginLayoutParams)
-                                ?.bottomMargin = mContext.toPx(16)
-                            mQsHeaderContainerShade.visibility = View.VISIBLE
-                        } else {
-                            mQsHeaderContainerShade.visibility = View.GONE
-                        }
-                    }
-                })
-            }
-        })
 
         hookAllMethods(qsImplClass, "setQsExpansion", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
@@ -524,13 +584,15 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
             }
         })
 
+        handleLegacyHeaderView()
+
         try {
             val executor = Executors.newSingleThreadScheduledExecutor()
             executor.scheduleAtFixedRate({
                 val androidDir =
                     File(Environment.getExternalStorageDirectory().toString() + "/Android")
 
-                if (androidDir.isDirectory()) {
+                if (androidDir.isDirectory) {
                     updateClockView()
                     executor.shutdown()
                     executor.shutdownNow()
@@ -579,7 +641,8 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
     private fun updateClockView() {
         if (!showHeaderClock) {
-            mQsClockContainer.visibility = View.GONE
+            mQsHeaderContainer.visibility = View.GONE
+            mQsHeaderContainerShade.visibility = View.GONE
             return
         }
 
@@ -590,7 +653,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
         if (isClockAdded) {
             mQsClockContainer.removeView(
-                mQsClockContainer.findViewWithTag<View>(
+                mQsClockContainer.findViewWithTag(
                     ICONIFY_HEADER_CLOCK_TAG
                 )
             )
@@ -793,6 +856,146 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
         val intent = Intent(Intent.ACTION_VIEW, builder.build())
 
         callMethod(mActivityStarter, "postStartActivityDismissingKeyguard", intent, 0)
+    }
+
+    private fun handleOldHeaderView(param: XC_MethodHook.MethodHookParam) {
+        try {
+            val mDateView =
+                getObjectField(param.thisObject, "mDateView") as View
+            mDateView.layoutParams.height = 0
+            mDateView.layoutParams.width = 0
+            mDateView.visibility = View.INVISIBLE
+        } catch (ignored: Throwable) {
+        }
+
+        try {
+            val mClockView =
+                getObjectField(param.thisObject, "mClockView") as TextView
+            mClockView.visibility = View.INVISIBLE
+            mClockView.setTextAppearance(0)
+            mClockView.setTextColor(0)
+        } catch (ignored: Throwable) {
+        }
+
+        try {
+            val mClockDateView = getObjectField(
+                param.thisObject,
+                "mClockDateView"
+            ) as TextView
+            mClockDateView.visibility = View.INVISIBLE
+            mClockDateView.setTextAppearance(0)
+            mClockDateView.setTextColor(0)
+        } catch (ignored: Throwable) {
+        }
+
+        try {
+            val mQSCarriers =
+                getObjectField(param.thisObject, "mQSCarriers") as View
+            mQSCarriers.visibility = View.INVISIBLE
+        } catch (ignored: Throwable) {
+        }
+    }
+
+    private fun handleLegacyHeaderView() {
+        val resParam: InitPackageResourcesParam = resParams[SYSTEMUI_PACKAGE] ?: return
+
+        try {
+            resParam.res.hookLayout(
+                SYSTEMUI_PACKAGE,
+                "layout",
+                "quick_qs_status_icons",
+                object : XC_LayoutInflated() {
+                    override fun handleLayoutInflated(liparam: LayoutInflatedParam) {
+                        if (!showHeaderClock) return
+
+                        // Ricedroid date
+                        try {
+                            val date =
+                                liparam.view.findViewById<TextView>(
+                                    liparam.res.getIdentifier(
+                                        "date",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                )
+                            date.layoutParams.height = 0
+                            date.layoutParams.width = 0
+                            date.setTextAppearance(0)
+                            date.setTextColor(0)
+                            date.visibility = View.GONE
+                        } catch (ignored: Throwable) {
+                        }
+
+                        // Nusantara clock
+                        try {
+                            val jrClock =
+                                liparam.view.findViewById<TextView>(
+                                    liparam.res.getIdentifier(
+                                        "jr_clock",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                )
+                            jrClock.layoutParams.height = 0
+                            jrClock.layoutParams.width = 0
+                            jrClock.setTextAppearance(0)
+                            jrClock.setTextColor(0)
+                            jrClock.visibility = View.GONE
+                        } catch (ignored: Throwable) {
+                        }
+
+                        // Nusantara date
+                        try {
+                            val jrDateContainer =
+                                liparam.view.findViewById<LinearLayout>(
+                                    liparam.res.getIdentifier(
+                                        "jr_date_container",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                )
+                            val jrDate = jrDateContainer.getChildAt(0) as TextView
+                            jrDate.layoutParams.height = 0
+                            jrDate.layoutParams.width = 0
+                            jrDate.setTextAppearance(0)
+                            jrDate.setTextColor(0)
+                            jrDate.visibility = View.GONE
+                        } catch (ignored: Throwable) {
+                        }
+                    }
+                })
+        } catch (ignored: Throwable) {
+        }
+
+        try {
+            resParam.res.hookLayout(
+                SYSTEMUI_PACKAGE,
+                "layout",
+                "quick_status_bar_header_date_privacy",
+                object : XC_LayoutInflated() {
+                    override fun handleLayoutInflated(liparam: LayoutInflatedParam) {
+                        if (!showHeaderClock) return
+
+                        try {
+                            val date =
+                                liparam.view.findViewById<TextView>(
+                                    liparam.res.getIdentifier(
+                                        "date",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                )
+                            date.layoutParams.height = 0
+                            date.layoutParams.width = 0
+                            date.setTextAppearance(0)
+                            date.setTextColor(0)
+                            date.visibility = View.GONE
+                        } catch (ignored: Throwable) {
+                        }
+                    }
+                })
+        } catch (ignored: Throwable) {
+        }
     }
 
     companion object {

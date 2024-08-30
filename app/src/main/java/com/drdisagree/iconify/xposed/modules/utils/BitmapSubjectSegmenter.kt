@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
-import com.drdisagree.iconify.services.RootProviderProxy.Companion.TAG
 import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse
 import com.google.android.gms.common.moduleinstall.ModuleInstall
 import com.google.android.gms.common.moduleinstall.ModuleInstallClient
@@ -17,10 +16,9 @@ import com.google.mlkit.vision.segmentation.subject.SubjectSegmenter
 import com.google.mlkit.vision.segmentation.subject.SubjectSegmenterOptions
 import java.nio.FloatBuffer
 
-
 class BitmapSubjectSegmenter(context: Context) {
 
-    private val mSegmenter: SubjectSegmenter
+    private var mSegmenter: SubjectSegmenter? = null
     private val mContext: Context = context
 
     init {
@@ -29,28 +27,34 @@ class BitmapSubjectSegmenter(context: Context) {
         } catch (ignored: Throwable) {
         }
 
-        mSegmenter = SubjectSegmentation.getClient(
-            SubjectSegmenterOptions
-                .Builder()
-                .enableForegroundConfidenceMask()
-                .build()
-        )
+        mSegmenter = try {
+            SubjectSegmentation.getClient(
+                SubjectSegmenterOptions
+                    .Builder()
+                    .enableForegroundConfidenceMask()
+                    .build()
+            )
+        } catch (ignored: Throwable) {
+            null
+        }
 
         downloadModelIfNeeded()
     }
 
     private fun downloadModelIfNeeded() {
+        if (mSegmenter == null) return
+
         val moduleInstallClient: ModuleInstallClient = ModuleInstall.getClient(mContext)
 
         moduleInstallClient
-            .areModulesAvailable(mSegmenter)
+            .areModulesAvailable(mSegmenter!!)
             .addOnSuccessListener { response ->
                 if (!response.areModulesAvailable()) {
                     moduleInstallClient
                         .installModules(
                             ModuleInstallRequest
                                 .newBuilder()
-                                .addApi(mSegmenter)
+                                .addApi(mSegmenter!!)
                                 .build()
                         )
                 }
@@ -58,20 +62,28 @@ class BitmapSubjectSegmenter(context: Context) {
     }
 
     fun checkModelAvailability(resultListener: OnSuccessListener<ModuleAvailabilityResponse?>?) {
+        if (mSegmenter == null) {
+            resultListener?.onSuccess(ModuleAvailabilityResponse(false, 0))
+            return
+        }
+
         val moduleInstallClient: ModuleInstallClient = ModuleInstall.getClient(mContext)
 
         if (resultListener != null) {
-            moduleInstallClient.areModulesAvailable(mSegmenter).addOnSuccessListener(resultListener)
+            moduleInstallClient.areModulesAvailable(mSegmenter!!)
+                .addOnSuccessListener(resultListener)
         }
     }
 
     fun segmentSubject(inputBitmap: Bitmap, listener: SegmentResultListener) {
+        if (mSegmenter == null) return
+
         val transparentColor = Color.alpha(Color.TRANSPARENT)
         val resultBitmap = inputBitmap.copy(Bitmap.Config.ARGB_8888, true)
 
         listener.onStart()
 
-        mSegmenter
+        mSegmenter!!
             .process(InputImage.fromBitmap(inputBitmap, 0))
             .addOnSuccessListener { subjectSegmentationResult ->
                 val mSubjectMask: FloatBuffer? = subjectSegmentationResult.foregroundConfidenceMask
@@ -91,7 +103,7 @@ class BitmapSubjectSegmenter(context: Context) {
                 listener.onSuccess(resultBitmap)
             }
             .addOnFailureListener { e ->
-                Log.e(TAG, "BitmapSubjectSegmenter - onFail:", e)
+                Log.e(TAG, "onFail:", e)
 
                 inputBitmap.recycle()
                 listener.onFail()
@@ -102,5 +114,9 @@ class BitmapSubjectSegmenter(context: Context) {
         fun onStart()
         fun onSuccess(result: Bitmap?)
         fun onFail()
+    }
+
+    companion object {
+        private val TAG = "Iconify - ${BitmapSubjectSegmenter::class.java.simpleName}: "
     }
 }

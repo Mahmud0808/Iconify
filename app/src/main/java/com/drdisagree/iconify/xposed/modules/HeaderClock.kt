@@ -85,7 +85,7 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
     private var showHeaderClock = false
     private var centeredClockView = false
     private var hideLandscapeHeaderClock = true
-    private var mQsClockContainer: LinearLayout? = LinearLayout(mContext)
+    private var mQsClockContainer: LinearLayout = LinearLayout(mContext)
     private var mUserManager: UserManager? = null
     private var mActivityStarter: Any? = null
     private val mOnClickListener = View.OnClickListener { v: View ->
@@ -196,16 +196,15 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
                 if (!showHeaderClock) return
 
                 val mQuickStatusBarHeader = param.thisObject as FrameLayout
-                val layoutParams = LinearLayout.LayoutParams(
+
+                mQsClockContainer.layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
+                mQsClockContainer.visibility = View.GONE
 
-                mQsClockContainer!!.setLayoutParams(layoutParams)
-                mQsClockContainer!!.visibility = View.GONE
-
-                if (mQsClockContainer!!.parent != null) {
-                    (mQsClockContainer!!.parent as ViewGroup).removeView(mQsClockContainer)
+                if (mQsClockContainer.parent != null) {
+                    (mQsClockContainer.parent as ViewGroup).removeView(mQsClockContainer)
                 }
 
                 mQuickStatusBarHeader.addView(
@@ -325,7 +324,7 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
                 val androidDir =
                     File(Environment.getExternalStorageDirectory().toString() + "/Android")
 
-                if (androidDir.isDirectory()) {
+                if (androidDir.isDirectory) {
                     updateClockView()
                     executor.shutdown()
                     executor.shutdownNow()
@@ -452,21 +451,19 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateClockView() {
-        if (mQsClockContainer == null) return
-
         if (!showHeaderClock) {
-            mQsClockContainer!!.visibility = View.GONE
+            mQsClockContainer.visibility = View.GONE
             return
         }
 
         val isClockAdded =
-            mQsClockContainer!!.findViewWithTag<View?>(ICONIFY_HEADER_CLOCK_TAG) != null
+            mQsClockContainer.findViewWithTag<View?>(ICONIFY_HEADER_CLOCK_TAG) != null
 
         val clockView = clockView
 
         if (isClockAdded) {
-            mQsClockContainer!!.removeView(
-                mQsClockContainer!!.findViewWithTag<View>(
+            mQsClockContainer.removeView(
+                mQsClockContainer.findViewWithTag<View>(
                     ICONIFY_HEADER_CLOCK_TAG
                 )
             )
@@ -474,16 +471,16 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
 
         if (clockView != null) {
             if (centeredClockView) {
-                mQsClockContainer!!.gravity = Gravity.CENTER
+                mQsClockContainer.gravity = Gravity.CENTER
             } else {
-                mQsClockContainer!!.gravity = Gravity.START
+                mQsClockContainer.gravity = Gravity.START
             }
 
             clockView.tag = ICONIFY_HEADER_CLOCK_TAG
 
             TextUtils.convertTextViewsToTitleCase(clockView)
 
-            mQsClockContainer!!.addView(clockView)
+            mQsClockContainer.addView(clockView)
 
             modifyClockView(clockView)
             setOnClickListener(clockView)
@@ -492,9 +489,9 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
         val config = mContext.resources.configuration
 
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && hideLandscapeHeaderClock) {
-            mQsClockContainer!!.visibility = View.GONE
+            mQsClockContainer.visibility = View.GONE
         } else {
-            mQsClockContainer!!.visibility = View.VISIBLE
+            mQsClockContainer.visibility = View.VISIBLE
         }
     }
 

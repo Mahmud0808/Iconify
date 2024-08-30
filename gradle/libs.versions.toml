@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.2"
+agp = "8.6.0"
 appcompat = "1.7.0"
 bcpkixJdk18on = "1.78.1"
 blurview = "version-2.0.5"

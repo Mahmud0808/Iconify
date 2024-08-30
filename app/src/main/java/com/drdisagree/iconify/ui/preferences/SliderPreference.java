@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
+import com.drdisagree.iconify.utils.HapticUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.RangeSlider;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Scanner;
 
 import com.drdisagree.iconify.R;
@@ -183,6 +185,8 @@ public class SliderPreference extends Preference {
         public void onStopTrackingTouch(@NonNull RangeSlider slider) {
             if (!getKey().equals(slider.getTag())) return;
 
+            handleResetButton();
+
             if (!updateConstantly) {
                 savePrefs();
             }
@@ -230,6 +234,9 @@ public class SliderPreference extends Preference {
         if (showResetButton) {
             mResetButton.setVisibility(View.VISIBLE);
             mResetButton.setOnClickListener(v -> {
+                handleResetButton();
+                HapticUtils.weakVibrate(v);
+
                 slider.setValues(defaultValue);
                 savePrefs();
             });
@@ -244,6 +251,8 @@ public class SliderPreference extends Preference {
         slider.setStepSize(tickInterval);
 
         syncState();
+
+        handleResetButton();
     }
 
     public void setMin(float value) {
@@ -301,6 +310,17 @@ public class SliderPreference extends Preference {
         }
 
         return values;
+    }
+
+    private void handleResetButton() {
+        if (mResetButton == null) return;
+
+        if (showResetButton) {
+            mResetButton.setVisibility(View.VISIBLE);
+            mResetButton.setEnabled(isEnabled() && !Objects.equals(slider.getValues().get(0), defaultValue.get(0)));
+        } else {
+            mResetButton.setVisibility(View.GONE);
+        }
     }
 
     public static float getSingleFloatValue(SharedPreferences prefs, String key, float defaultValue) {
