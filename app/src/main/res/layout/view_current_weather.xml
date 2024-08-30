@@ -38,7 +38,7 @@
             android:id="@+id/rightText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="6dp"
             android:singleLine="true"
             android:tag="text"
             android:shadowColor="#99000000"
