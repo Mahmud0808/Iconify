@@ -185,6 +185,8 @@ public class SliderPreference extends Preference {
         public void onStopTrackingTouch(@NonNull RangeSlider slider) {
             if (!getKey().equals(slider.getTag())) return;
 
+            handleResetButton();
+
             if (!updateConstantly) {
                 savePrefs();
             }
@@ -248,9 +250,9 @@ public class SliderPreference extends Preference {
         slider.setValueTo(valueTo);
         slider.setStepSize(tickInterval);
 
-        handleResetButton();
-
         syncState();
+
+        handleResetButton();
     }
 
     public void setMin(float value) {
@@ -311,6 +313,8 @@ public class SliderPreference extends Preference {
     }
 
     private void handleResetButton() {
+        if (mResetButton == null) return;
+
         if (showResetButton) {
             mResetButton.setVisibility(View.VISIBLE);
             mResetButton.setEnabled(isEnabled() && !Objects.equals(slider.getValues().get(0), defaultValue.get(0)));
