@@ -128,6 +128,8 @@ class MainActivity : BaseActivity(),
         }
 
         binding.hideAll.setOnClickListener {
+            binding.hideAll.weakVibrate()
+
             Dynamic.requiresSystemUiRestart = false
             Dynamic.requiresDeviceRestart = false
 
@@ -139,6 +141,8 @@ class MainActivity : BaseActivity(),
         }
 
         binding.restartSystemui.setOnClickListener {
+            binding.restartSystemui.weakVibrate()
+
             Dynamic.requiresSystemUiRestart = false
 
             showOrHidePendingActionButton(
@@ -153,6 +157,8 @@ class MainActivity : BaseActivity(),
         }
 
         binding.restartDevice.setOnClickListener {
+            binding.restartDevice.weakVibrate()
+
             Dynamic.requiresDeviceRestart = false
 
             showOrHidePendingActionButton(
