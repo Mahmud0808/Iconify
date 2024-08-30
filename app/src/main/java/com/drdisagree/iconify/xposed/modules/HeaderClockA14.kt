@@ -240,6 +240,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     )
                     orientation = LinearLayout.HORIZONTAL
+                    visibility = View.GONE
                 }
 
                 mQsHeaderContainerShade.apply {
@@ -248,6 +249,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     )
                     orientation = LinearLayout.VERTICAL
+                    visibility = View.GONE
                 }
 
                 mQsClockContainer.apply {
@@ -277,9 +279,12 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     addView(mQsIconsContainer)
                 }
 
-                handleOldHeaderView(param)
+                mQuickStatusBarHeader.addView(
+                    mQsHeaderContainer,
+                    mQuickStatusBarHeader.childCount
+                )
 
-                mQuickStatusBarHeader.addView(mQsHeaderContainer, mQuickStatusBarHeader.childCount)
+                handleOldHeaderView(param)
 
                 updateClockView()
             }
@@ -287,18 +292,19 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
         hookAllMethods(quickStatusBarHeaderClass, "updateResources", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                if (!showHeaderClock) return
-
                 val mQuickStatusBarHeader = param.thisObject as FrameLayout
                 val isLandscape =
                     mContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-                if (!isLandscape) {
+                if (!isLandscape && showHeaderClock) {
                     (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
                     mQuickStatusBarHeader.addView(
                         mQsHeaderContainer,
                         mQuickStatusBarHeader.childCount
                     )
+                    mQsHeaderContainer.visibility = View.VISIBLE
+                } else {
+                    mQsHeaderContainer.visibility = View.GONE
                 }
 
                 buildHeaderViewExpansion()
@@ -306,41 +312,6 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                 updateClockView()
             }
         })
-
-        if (showHeaderClock) {
-            findAndHookMethod(
-                qsPanelClass,
-                "switchToParent",
-                View::class.java,
-                ViewGroup::class.java,
-                Int::class.java,
-                object : XC_MethodReplacement() {
-                    override fun replaceHookedMethod(param: MethodHookParam): Any? {
-                        val view = param.args[0] as View
-                        val parent = param.args[1] as ViewGroup
-                        val index = if (view == mQsHeaderContainerShade) {
-                            param.args[2] as Int
-                        } else {
-                            (param.args[2] as Int) + 1
-                        }
-                        val tag = callMethod(
-                            param.thisObject,
-                            "getDumpableTag"
-                        )
-
-                        callMethod(
-                            param.thisObject,
-                            "switchToParent",
-                            view,
-                            parent,
-                            index,
-                            tag
-                        )
-                        return null
-                    }
-                }
-            )
-        }
 
         hookAllMethods(qsPanelClass, "switchAllContentToParent", object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
@@ -386,6 +357,41 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                 })
             }
         })
+
+        if (showHeaderClock) {
+            findAndHookMethod(
+                qsPanelClass,
+                "switchToParent",
+                View::class.java,
+                ViewGroup::class.java,
+                Int::class.java,
+                object : XC_MethodReplacement() {
+                    override fun replaceHookedMethod(param: MethodHookParam): Any? {
+                        val view = param.args[0] as View
+                        val parent = param.args[1] as ViewGroup
+                        val index = if (view == mQsHeaderContainerShade) {
+                            param.args[2] as Int
+                        } else {
+                            (param.args[2] as Int) + 1
+                        }
+                        val tag = callMethod(
+                            param.thisObject,
+                            "getDumpableTag"
+                        )
+
+                        callMethod(
+                            param.thisObject,
+                            "switchToParent",
+                            view,
+                            parent,
+                            index,
+                            tag
+                        )
+                        return null
+                    }
+                }
+            )
+        }
 
         hookAllMethods(qsImplClass, "setQsExpansion", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
@@ -578,7 +584,8 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
     private fun updateClockView() {
         if (!showHeaderClock) {
-            mQsClockContainer.visibility = View.GONE
+            mQsHeaderContainer.visibility = View.GONE
+            mQsHeaderContainerShade.visibility = View.GONE
             return
         }
 
@@ -589,7 +596,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
         if (isClockAdded) {
             mQsClockContainer.removeView(
-                mQsClockContainer.findViewWithTag<View>(
+                mQsClockContainer.findViewWithTag(
                     ICONIFY_HEADER_CLOCK_TAG
                 )
             )
