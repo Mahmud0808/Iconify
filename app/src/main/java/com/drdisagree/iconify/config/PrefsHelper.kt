@@ -127,7 +127,6 @@ import com.drdisagree.iconify.common.Preferences.PREF_KEY_UPDATE_STATUS
 import com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.QSALPHA_LEVEL
 import com.drdisagree.iconify.common.Preferences.QSPANEL_BLUR_SWITCH
-import com.drdisagree.iconify.common.Preferences.QSPANEL_STATUSICONSBG_SWITCH
 import com.drdisagree.iconify.common.Preferences.QS_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.QS_TRANSPARENCY_SWITCH
 import com.drdisagree.iconify.common.Preferences.SB_CLOCK_SIZE
@@ -189,15 +188,6 @@ object PrefsHelper {
             QS_TOPMARGIN -> getBoolean(CUSTOM_QS_MARGIN)
 
             SB_CLOCK_SIZE -> getBoolean(SB_CLOCK_SIZE_SWITCH)
-
-            FIXED_STATUS_ICONS_TOPMARGIN -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                getBoolean(QSPANEL_STATUSICONSBG_SWITCH) ||
-                        getBoolean(FIXED_STATUS_ICONS_SWITCH)
-            } else {
-                getBoolean(FIXED_STATUS_ICONS_SWITCH)
-            }
-
-            FIXED_STATUS_ICONS_SIDEMARGIN -> getBoolean(FIXED_STATUS_ICONS_SWITCH)
 
             LSCLOCK_COLOR_CODE_ACCENT1,
             LSCLOCK_COLOR_CODE_ACCENT2,
@@ -307,6 +297,13 @@ object PrefsHelper {
             HEADER_CLOCK_LANDSCAPE_SWITCH -> Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 
             HEADER_CLOCK_EXPANSION_Y -> Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+
+            "xposedOthersStatusIcons",
+            FIXED_STATUS_ICONS_SWITCH -> Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+
+            FIXED_STATUS_ICONS_SIDEMARGIN,
+            FIXED_STATUS_ICONS_TOPMARGIN -> Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+                    getBoolean(FIXED_STATUS_ICONS_SWITCH)
 
             else -> true
         }
