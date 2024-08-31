@@ -258,11 +258,11 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                             param.thisObject,
                             "mStatusViewContainer"
                         ) as ViewGroup
-
                     } catch (t: Throwable) {
                         log(TAG + "Failed to get mStatusViewContainer")
                     }
 
+                    placeWidgets()
                 }
             })
         } catch (t: Throwable) {
@@ -288,6 +288,8 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
                     } catch (t: Throwable) {
                         log(TAG + "Failed to get mStatusArea")
                     }
+
+                    placeWidgets()
 
                 }
             })
