@@ -49,7 +49,7 @@ import com.drdisagree.iconify.utils.helper.LocaleHelper
 
 abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
-    var loadingDialog: LoadingDialog? = null
+    private var loadingDialog: LoadingDialog? = null
 
     private val changeListener =
         OnSharedPreferenceChangeListener { _: SharedPreferences, key: String? ->
@@ -71,8 +71,6 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
 
     open val menuResource: Int
         get() = R.menu.default_menu
-
-    private var mView: View? = null
 
     private var startExportActivityIntent = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -131,7 +129,12 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mView = view
+        val baseContext = context as AppCompatActivity
+        view.findViewById<Toolbar?>(R.id.toolbar)?.let {
+            baseContext.setSupportActionBar(it)
+            it.title = title
+        }
+        baseContext.supportActionBar?.setDisplayHomeAsUpEnabled(backButtonEnabled)
 
         if (hasMenu) {
             val menuHost: MenuHost = requireActivity()
@@ -212,21 +215,6 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
                     break
                 }
             }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if (context != null) {
-            mView?.findViewById<Toolbar?>(R.id.toolbar)?.let {
-                (context as AppCompatActivity).setSupportActionBar(it)
-                it.title = title
-            }
-
-            ((context as AppCompatActivity).supportActionBar)?.setDisplayHomeAsUpEnabled(
-                backButtonEnabled
-            )
         }
     }
 

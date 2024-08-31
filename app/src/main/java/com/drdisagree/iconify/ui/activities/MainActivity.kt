@@ -394,56 +394,61 @@ class MainActivity : BaseActivity(),
         fun replaceFragment(fragmentManager: FragmentManager, fragment: Fragment) {
             if (fragmentManager.isStateSaved) return
 
-            val fragmentTag = fragment.javaClass.simpleName
-            var currentFragment = fragmentManager.findFragmentById(R.id.fragmentContainerView)
-
-            if (currentFragment != null &&
-                currentFragment.javaClass.simpleName == SearchPreferenceFragment::class.java.simpleName
-            ) {
-                fragmentManager.popBackStack()
-                currentFragment = fragmentManager.findFragmentById(R.id.fragmentContainerView)
-            }
-
-            if (currentFragment != null &&
-                currentFragment.javaClass.simpleName == fragmentTag
-            ) {
-                popCurrentFragment(fragmentManager)
-            }
-
             try {
-                fragmentManager.popBackStackImmediate(
-                    fragmentTag,
-                    FragmentManager.POP_BACK_STACK_INCLUSIVE
+                val fragmentTag = fragment.javaClass.simpleName
+                var currentFragment = fragmentManager.findFragmentById(R.id.fragmentContainerView)
+
+                if (currentFragment != null &&
+                    currentFragment.javaClass.simpleName == SearchPreferenceFragment::class.java.simpleName
+                ) {
+                    fragmentManager.popBackStack()
+                    currentFragment = fragmentManager.findFragmentById(R.id.fragmentContainerView)
+                }
+
+                if (currentFragment != null &&
+                    currentFragment.javaClass.simpleName == fragmentTag
+                ) {
+                    popCurrentFragment(fragmentManager)
+                }
+
+                for (i in 0 until fragmentManager.backStackEntryCount) {
+                    if (fragmentManager.getBackStackEntryAt(i).name == fragmentTag) {
+                        fragmentManager.popBackStack(
+                            fragmentTag,
+                            FragmentManager.POP_BACK_STACK_INCLUSIVE
+                        )
+                        break
+                    }
+                }
+
+                val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+
+                fragmentTransaction.setCustomAnimations(
+                    R.anim.fragment_fade_in,
+                    R.anim.fragment_fade_out,
+                    R.anim.fragment_fade_in,
+                    R.anim.fragment_fade_out
                 )
+
+                fragmentTransaction.replace(R.id.fragmentContainerView, fragment, fragmentTag)
+
+                when {
+                    fragmentTag == Home::class.java.simpleName ||
+                            fragmentTag == Tweaks::class.java.simpleName ||
+                            fragmentTag == Xposed::class.java.simpleName ||
+                            fragmentTag == Settings::class.java.simpleName -> {
+                        fragmentManager.popBackStack(Home::class.java.simpleName, 0)
+                        fragmentTransaction.addToBackStack(fragmentTag)
+                    }
+
+                    else -> {
+                        fragmentTransaction.addToBackStack(fragmentTag)
+                    }
+                }
+
+                fragmentTransaction.commit()
             } catch (ignored: IllegalStateException) {
             }
-
-            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-
-            fragmentTransaction.setCustomAnimations(
-                R.anim.fragment_fade_in,
-                R.anim.fragment_fade_out,
-                R.anim.fragment_fade_in,
-                R.anim.fragment_fade_out
-            )
-
-            fragmentTransaction.replace(R.id.fragmentContainerView, fragment, fragmentTag)
-
-            when {
-                fragmentTag == Home::class.java.simpleName ||
-                        fragmentTag == Tweaks::class.java.simpleName ||
-                        fragmentTag == Xposed::class.java.simpleName ||
-                        fragmentTag == Settings::class.java.simpleName -> {
-                    fragmentManager.popBackStack(Home::class.java.simpleName, 0)
-                    fragmentTransaction.addToBackStack(fragmentTag)
-                }
-
-                else -> {
-                    fragmentTransaction.addToBackStack(fragmentTag)
-                }
-            }
-
-            fragmentTransaction.commit()
         }
 
         private fun getLastFragment(
@@ -465,7 +470,10 @@ class MainActivity : BaseActivity(),
         fun popCurrentFragment(fragmentManager: FragmentManager) {
             if (fragmentManager.isStateSaved) return
 
-            fragmentManager.popBackStack()
+            try {
+                fragmentManager.popBackStack()
+            } catch (ignored: IllegalStateException) {
+            }
         }
 
         fun showOrHidePendingActionButton(

@@ -22,6 +22,7 @@ import com.drdisagree.iconify.common.Preferences.RESTART_SYSUI_AFTER_BOOT
 import com.drdisagree.iconify.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.preferences.PreferenceMenu
 import com.drdisagree.iconify.utils.AppUtils.restartApplication
 import com.drdisagree.iconify.utils.CacheUtils.clearCache
@@ -38,6 +39,8 @@ import java.util.concurrent.Executors
 
 class Settings : ControlledPreferenceFragmentCompat() {
 
+    private var loadingDialog: LoadingDialog? = null
+
     override val title: String
         get() = getString(R.string.settings_title)
 
@@ -49,6 +52,13 @@ class Settings : ControlledPreferenceFragmentCompat() {
 
     override val hasMenu: Boolean
         get() = true
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Initialize loading dialog
+        loadingDialog = LoadingDialog(requireActivity())
+    }
 
     override fun updateScreen(key: String?) {
         super.updateScreen(key)
@@ -124,7 +134,7 @@ class Settings : ControlledPreferenceFragmentCompat() {
         findPreference<PreferenceMenu>("iconifyGitHub")?.setOnPreferenceClickListener {
             startActivity(
                 Intent(Intent.ACTION_VIEW).apply {
-                    setData(Uri.parse(Const.GITHUB_REPO))
+                    data = Uri.parse(Const.GITHUB_REPO)
                 }
             )
             true
@@ -133,7 +143,7 @@ class Settings : ControlledPreferenceFragmentCompat() {
         findPreference<PreferenceMenu>("iconifyTelegram")?.setOnPreferenceClickListener {
             startActivity(
                 Intent(Intent.ACTION_VIEW).apply {
-                    setData(Uri.parse(Const.TELEGRAM_GROUP))
+                    data = Uri.parse(Const.TELEGRAM_GROUP)
                 }
             )
             true
@@ -142,7 +152,7 @@ class Settings : ControlledPreferenceFragmentCompat() {
         findPreference<PreferenceMenu>("iconifyTranslate")?.setOnPreferenceClickListener {
             startActivity(
                 Intent(Intent.ACTION_VIEW).apply {
-                    setData(Uri.parse(Const.ICONIFY_CROWDIN))
+                    data = Uri.parse(Const.ICONIFY_CROWDIN)
                 }
             )
             true
@@ -168,6 +178,12 @@ class Settings : ControlledPreferenceFragmentCompat() {
                 PackageManager.DONT_KILL_APP
             )
         }
+    }
+
+    override fun onDestroy() {
+        loadingDialog?.hide()
+
+        super.onDestroy()
     }
 
     companion object {

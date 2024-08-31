@@ -23,6 +23,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.ui.activities.MainActivity.Companion.popCurrentFragment
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.drawables.TintedDrawableSpan
 import com.drdisagree.iconify.utils.NetworkUtils
@@ -101,7 +102,7 @@ open class LocationBrowse : BaseFragment() {
                     putDouble(DATA_LOCATION_LON, city.lon)
                 }
                 setFragmentResult(DATA_LOCATION_KEY, resultBundle)
-                parentFragmentManager.popBackStack()
+                popCurrentFragment(parentFragmentManager)
             }
         }
 
