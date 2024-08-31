@@ -7,10 +7,9 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.airbnb.lottie.LottieCompositionFactory
@@ -30,14 +29,7 @@ import com.drdisagree.iconify.ui.events.ColorDismissedEvent
 import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
-import com.drdisagree.iconify.ui.fragments.tweaks.BasicColors
-import com.drdisagree.iconify.ui.fragments.tweaks.ColorEngine
-import com.drdisagree.iconify.ui.fragments.tweaks.MonetEngine
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
-import com.drdisagree.iconify.ui.fragments.xposed.BackgroundChip
-import com.drdisagree.iconify.ui.fragments.xposed.ClockChip
-import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWidget
-import com.drdisagree.iconify.ui.fragments.xposed.WeatherSettings
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFragment
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
@@ -421,32 +413,35 @@ class MainActivity : BaseActivity(),
                     }
                 }
 
-                val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+                fragmentManager.beginTransaction().apply {
+                    setCustomAnimations(
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_fade_out,
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_fade_out
+                    )
 
-                fragmentTransaction.setCustomAnimations(
-                    R.anim.fragment_fade_in,
-                    R.anim.fragment_fade_out,
-                    R.anim.fragment_fade_in,
-                    R.anim.fragment_fade_out
-                )
+                    replace(R.id.fragmentContainerView, fragment, fragmentTag)
 
-                fragmentTransaction.replace(R.id.fragmentContainerView, fragment, fragmentTag)
+                    when (fragmentTag) {
+                        Home::class.java.simpleName -> {
+                            fragmentManager.popBackStack(null, POP_BACK_STACK_INCLUSIVE)
+                        }
 
-                when {
-                    fragmentTag == Home::class.java.simpleName ||
-                            fragmentTag == Tweaks::class.java.simpleName ||
-                            fragmentTag == Xposed::class.java.simpleName ||
-                            fragmentTag == Settings::class.java.simpleName -> {
-                        fragmentManager.popBackStack(Home::class.java.simpleName, 0)
-                        fragmentTransaction.addToBackStack(fragmentTag)
+                        Tweaks::class.java.simpleName,
+                        Xposed::class.java.simpleName,
+                        Settings::class.java.simpleName -> {
+                            fragmentManager.popBackStack(null, POP_BACK_STACK_INCLUSIVE)
+                            addToBackStack(fragmentTag)
+                        }
+
+                        else -> {
+                            addToBackStack(fragmentTag)
+                        }
                     }
 
-                    else -> {
-                        fragmentTransaction.addToBackStack(fragmentTag)
-                    }
+                    commit()
                 }
-
-                fragmentTransaction.commit()
             } catch (ignored: IllegalStateException) {
             }
         }
