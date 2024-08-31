@@ -49,7 +49,9 @@ import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_STYLE
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
+import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.ICONIFY_HEADER_CLOCK_TAG
+import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.utils.TextUtils
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
@@ -100,6 +102,8 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
     private var mActivityStarter: Any? = null
     private var mQQSContainerAnimator: TouchAnimator? = null
     private var mQQSExpansionY: Float = 8f
+    private var hideQsCarrierGroup = false
+    private var hideStatusIcons = false
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -126,6 +130,8 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
             showHeaderClock = getBoolean(HEADER_CLOCK_SWITCH, false)
             centeredClockView = getBoolean(HEADER_CLOCK_CENTERED, false)
             mQQSExpansionY = getSliderInt(HEADER_CLOCK_EXPANSION_Y, 24).toFloat()
+            hideQsCarrierGroup = getBoolean(QSPANEL_HIDE_CARRIER, false)
+            hideStatusIcons = getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
         }
 
         if (key.isNotEmpty()) {
@@ -541,6 +547,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     val qsCarrierGroup =
                         getObjectField(param.thisObject, "qsCarrierGroup") as LinearLayout
                     (qsCarrierGroup.parent as? ViewGroup)?.removeView(qsCarrierGroup)
+                    if (hideQsCarrierGroup) qsCarrierGroup.visibility = View.GONE
                     mQsIconsContainer.addView(qsCarrierGroup)
                 } catch (ignored: Throwable) {
                     val mShadeCarrierGroup =
@@ -549,6 +556,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                             "mShadeCarrierGroup"
                         ) as LinearLayout
                     (mShadeCarrierGroup.parent as? ViewGroup)?.removeView(mShadeCarrierGroup)
+                    if (hideQsCarrierGroup) mShadeCarrierGroup.visibility = View.GONE
                     mQsIconsContainer.addView(mShadeCarrierGroup)
                 }
 
@@ -561,27 +569,28 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     (systemIconsHoverContainer.parent as? ViewGroup)?.removeView(
                         systemIconsHoverContainer
                     )
+                    if (hideStatusIcons) systemIconsHoverContainer.visibility = View.GONE
                     mQsIconsContainer.addView(systemIconsHoverContainer)
                 } catch (ignored: Throwable) {
                     val iconsContainer = LinearLayout(mContext).apply {
                         layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
+                            mContext.toPx(32)
                         )
                         orientation = LinearLayout.HORIZONTAL
+                        gravity = Gravity.END or Gravity.CENTER
                     }
 
-                    val statusIcons =
-                        getObjectField(param.thisObject, "iconContainer") as View
+                    val statusIcons = getObjectField(param.thisObject, "iconContainer") as View
                     (statusIcons.parent as? ViewGroup)?.removeView(statusIcons)
 
-                    val batteryIcon =
-                        getObjectField(param.thisObject, "batteryIcon") as View
+                    val batteryIcon = getObjectField(param.thisObject, "batteryIcon") as View
                     (batteryIcon.parent as? ViewGroup)?.removeView(batteryIcon)
 
                     iconsContainer.apply {
                         addView(statusIcons)
                         addView(batteryIcon)
+                        if (hideStatusIcons) visibility = View.GONE
                         mQsIconsContainer.addView(this)
                     }
                 }
@@ -649,7 +658,6 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
         val isClockAdded =
             mQsClockContainer.findViewWithTag<View?>(ICONIFY_HEADER_CLOCK_TAG) != null
 
-
         if (isClockAdded) {
             mQsClockContainer.removeView(
                 mQsClockContainer.findViewWithTag(
@@ -670,6 +678,8 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
             TextUtils.convertTextViewsToTitleCase(it)
 
             mQsClockContainer.addView(it)
+
+            it.layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
 
             modifyClockView(it)
             setOnClickListener(it)

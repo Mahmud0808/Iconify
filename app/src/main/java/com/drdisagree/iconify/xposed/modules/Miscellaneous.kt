@@ -14,6 +14,7 @@ import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN
+import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.HIDE_DATA_DISABLED_ICON
 import com.drdisagree.iconify.common.Preferences.HIDE_LOCKSCREEN_LOCK_ICON
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
@@ -36,7 +37,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 @SuppressLint("DiscouragedApi")
 class Miscellaneous(context: Context?) : ModPack(context!!) {
 
-    private var qsCarrierGroupHidden = false
+    private var hideQsCarrierGroup = false
     private var hideStatusIcons = false
     private var fixedStatusIcons = false
     private var hideLockscreenLockIcon = false
@@ -46,18 +47,21 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
     private var statusIcons: LinearLayout? = null
     private var statusIconContainer: LinearLayout? = null
     private var mobileSignalControllerParam: Any? = null
+    private var showHeaderClockA14 = false
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
         Xprefs.apply {
-            qsCarrierGroupHidden = getBoolean(QSPANEL_HIDE_CARRIER, false)
+            hideQsCarrierGroup = getBoolean(QSPANEL_HIDE_CARRIER, false)
             hideStatusIcons = getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
             fixedStatusIcons = getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
             topMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
             sideMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
             hideLockscreenLockIcon = getBoolean(HIDE_LOCKSCREEN_LOCK_ICON, false)
             hideDataDisabledIcon = getBoolean(HIDE_DATA_DISABLED_ICON, false)
+            showHeaderClockA14 = getBoolean(HEADER_CLOCK_SWITCH, false) &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
         }
 
         if (key.isNotEmpty()) {
@@ -146,7 +150,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                         }
                     }
 
-                    if (hideStatusIcons || qsCarrierGroupHidden) {
+                    if (hideStatusIcons || hideQsCarrierGroup) {
                         try {
                             val mQSCarriers = getObjectField(
                                 param.thisObject,
@@ -197,7 +201,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                         }
                     }
 
-                    if (hideStatusIcons || qsCarrierGroupHidden) {
+                    if (hideStatusIcons || hideQsCarrierGroup) {
                         try {
                             val qsCarrierGroup = getObjectField(
                                 param.thisObject,
@@ -305,7 +309,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                 "quick_qs_status_icons",
                 object : XC_LayoutInflated() {
                     override fun handleLayoutInflated(liparam: LayoutInflatedParam) {
-                        if (!qsCarrierGroupHidden) return
+                        if (!hideQsCarrierGroup || showHeaderClockA14) return
 
                         liparam.view.findViewById<LinearLayout>(
                             liparam.res.getIdentifier(
@@ -316,7 +320,7 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                         ).apply {
                             layoutParams.height = 0
                             layoutParams.width = 0
-                            setMinimumWidth(0)
+                            minimumWidth = 0
                             visibility = View.INVISIBLE
                         }
                     }
@@ -369,48 +373,50 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                         } catch (ignored: Throwable) {
                         }
 
-                        try {
-                            liparam.view.findViewById<LinearLayout>(
-                                liparam.res.getIdentifier(
-                                    "carrier_group",
-                                    "id",
-                                    mContext.packageName
-                                )
-                            ).apply {
-                                layoutParams.height = 0
-                                layoutParams.width = 0
-                                setMinimumWidth(0)
-                                visibility = View.INVISIBLE
+                        if (!showHeaderClockA14) {
+                            try {
+                                liparam.view.findViewById<LinearLayout>(
+                                    liparam.res.getIdentifier(
+                                        "carrier_group",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                ).apply {
+                                    layoutParams.height = 0
+                                    layoutParams.width = 0
+                                    minimumWidth = 0
+                                    visibility = View.INVISIBLE
+                                }
+                            } catch (ignored: Throwable) {
                             }
-                        } catch (ignored: Throwable) {
-                        }
 
-                        try {
-                            liparam.view.findViewById<LinearLayout>(
-                                liparam.res.getIdentifier(
-                                    "statusIcons",
-                                    "id",
-                                    mContext.packageName
-                                )
-                            ).apply {
-                                layoutParams.height = 0
-                                layoutParams.width = 0
+                            try {
+                                liparam.view.findViewById<LinearLayout>(
+                                    liparam.res.getIdentifier(
+                                        "statusIcons",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                ).apply {
+                                    layoutParams.height = 0
+                                    layoutParams.width = 0
+                                }
+                            } catch (ignored: Throwable) {
                             }
-                        } catch (ignored: Throwable) {
-                        }
 
-                        try {
-                            liparam.view.findViewById<LinearLayout>(
-                                liparam.res.getIdentifier(
-                                    "batteryRemainingIcon",
-                                    "id",
-                                    mContext.packageName
-                                )
-                            ).apply {
-                                layoutParams.height = 0
-                                layoutParams.width = 0
+                            try {
+                                liparam.view.findViewById<LinearLayout>(
+                                    liparam.res.getIdentifier(
+                                        "batteryRemainingIcon",
+                                        "id",
+                                        mContext.packageName
+                                    )
+                                ).apply {
+                                    layoutParams.height = 0
+                                    layoutParams.width = 0
+                                }
+                            } catch (ignored: Throwable) {
                             }
-                        } catch (ignored: Throwable) {
                         }
 
                         try {
@@ -630,16 +636,14 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                                     it.requestLayout()
                                 }
 
-                                statusIconContainer!!.setLayoutParams(
-                                    FrameLayout.LayoutParams(
-                                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                                        TypedValue.applyDimension(
-                                            TypedValue.COMPLEX_UNIT_DIP,
-                                            28f,
-                                            mContext.resources.displayMetrics
-                                        ).toInt(),
-                                        Gravity.END
-                                    )
+                                statusIconContainer!!.layoutParams = FrameLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    TypedValue.applyDimension(
+                                        TypedValue.COMPLEX_UNIT_DIP,
+                                        28f,
+                                        mContext.resources.displayMetrics
+                                    ).toInt(),
+                                    Gravity.END
                                 )
                                 statusIconContainer!!.gravity = Gravity.CENTER
                                 (statusIconContainer!!.layoutParams as FrameLayout.LayoutParams).setMargins(
@@ -649,13 +653,12 @@ class Miscellaneous(context: Context?) : ModPack(context!!) {
                                         mContext.resources.displayMetrics
                                     ).toInt(), 0, 0
                                 )
-                                (statusIconContainer!!.layoutParams as FrameLayout.LayoutParams).setMarginEnd(
+                                (statusIconContainer!!.layoutParams as FrameLayout.LayoutParams).marginEnd =
                                     TypedValue.applyDimension(
                                         TypedValue.COMPLEX_UNIT_DIP,
                                         sideMarginStatusIcons.toFloat(),
                                         mContext.resources.displayMetrics
                                     ).toInt()
-                                )
                                 statusIconContainer!!.requestLayout()
 
                                 privacyContainer.addView(statusIconContainer)
