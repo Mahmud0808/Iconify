@@ -245,8 +245,6 @@ object PrefsHelper {
             "xposed_depthwallpaperfgimagepicker" -> getBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH) ||
                     Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
 
-            "mediaIcon" -> Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
-
             LOCKSCREEN_WIDGETS_DEVICE_WIDGET_CUSTOM_COLOR_SWITCH,
             LOCKSCREEN_WIDGETS_DEVICE_WIDGET_DEVICE -> getBoolean(LOCKSCREEN_WIDGETS_DEVICE_WIDGET)
 
