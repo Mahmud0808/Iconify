@@ -195,9 +195,9 @@ object PrefsHelper {
             LSCLOCK_COLOR_CODE_TEXT1,
             LSCLOCK_COLOR_CODE_TEXT2 -> getBoolean(LSCLOCK_COLOR_SWITCH)
 
-            LSCLOCK_DEVICENAME -> getInt(LSCLOCK_STYLE, 0) == 7
+            LSCLOCK_DEVICENAME -> getInt(LSCLOCK_STYLE, 0) == 19
 
-            LSCLOCK_USERNAME -> getInt(LSCLOCK_STYLE, 0) == 19
+            LSCLOCK_USERNAME -> getInt(LSCLOCK_STYLE, 0) == 7
 
             // Weather Common
             WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1"
