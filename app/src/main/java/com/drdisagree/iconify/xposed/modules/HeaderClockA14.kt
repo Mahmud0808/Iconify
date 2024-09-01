@@ -315,13 +315,17 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                 val newConfig = param.args[0] as Configuration
                 val isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-                (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
-
                 if (isLandscape) {
-                    mQsHeaderContainerShade.addView(mQsHeaderContainer)
+                    if (mQsHeaderContainer.parent != mQsHeaderContainerShade) {
+                        (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
+                        mQsHeaderContainerShade.addView(mQsHeaderContainer)
+                    }
                     mQsHeaderContainerShade.visibility = View.VISIBLE
                 } else {
-                    mQuickStatusBarHeader?.addView(mQsHeaderContainer)
+                    if (mQsHeaderContainer.parent != mQuickStatusBarHeader) {
+                        (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
+                        mQuickStatusBarHeader?.addView(mQsHeaderContainer)
+                    }
                     mQsHeaderContainerShade.visibility = View.GONE
                 }
             }
