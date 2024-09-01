@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_moto">退屈な Android の UI をカスタマイズ</string>
     <!-- Onboarding -->
     <string name="init_module_installation">セットアップの初期化中</string>
@@ -31,12 +31,20 @@
     <string name="installation_failed_title">予期しない事態が発生しました</string>
     <string name="installation_failed_desc">ログはドキュメント フォルダに保存されました。</string>
     <string name="logs">ログ</string>
+    <!-- Search Preference -->
+    <string name="search_title">Search</string>
+    <string name="searchpreference_search">Search…</string>
+    <string name="searchpreference_clear">Clear</string>
+    <string name="searchpreference_history_entry">History entry</string>
+    <string name="searchpreference_more">More</string>
+    <string name="searchpreference_clear_history">Clear history</string>
+    <string name="searchpreference_no_result">No result</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">アイコンパック</string>
     <string name="activity_desc_icon_pack">システム アイコンパックを変更</string>
-    <string name="activity_title_cellular_icons">Signal Icons</string>
-    <string name="activity_desc_cellular_icons">Change system signal icons</string>
+    <string name="activity_title_cellular_icons">Cellular Icons</string>
+    <string name="activity_desc_cellular_icons">Change system cellular icons</string>
     <string name="activity_title_wifi_icons">WiFi Icons</string>
     <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">明るさ調節バー</string>
@@ -117,6 +125,8 @@
     <string name="settings_restart_systemui_after_boot_desc">ぼかしの強さなどのいくつかのオプションはシステム UI を再起動するまで効きません</string>
     <string name="settings_show_home_page_card_title">ホームページにカードを表示</string>
     <string name="settings_show_home_page_card_desc">ホームページに素晴らしいカードを表示します。</string>
+    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
+    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
     <string name="settings_clear_app_cache_title">アプリのキャッシュをクリア</string>
     <string name="settings_clear_app_cache_desc">カスタムフォント、画像、GIF の作成に必要なキャッシュをクリアします。</string>
     <string name="activity_title_experimental">実験的</string>
@@ -126,6 +136,8 @@
     <string name="settings_section_title_about">情報</string>
     <string name="settings_github_repository_title">GitHub リポジトリ</string>
     <string name="settings_telegram_group_title">Telegram グループ</string>
+    <string name="settings_translate_title">Translate Iconify</string>
+    <string name="settings_translate_desc">Help translate Iconify to your language.</string>
     <string name="settings_credits_title">クレジット</string>
     <string name="settings_credits_desc">このアプリを実現できた彼らに感謝します。</string>
     <!-- Icon Pack -->
@@ -235,8 +247,8 @@
     <string name="section_title_misc">その他</string>
     <string name="minimal_qspanel">小さいクイック設定パネル</string>
     <string name="remove_top_shade_of_qspanel">クイック設定パネル上部の影を削除します</string>
-    <string name="system_monet_title">システム Monet を無効化</string>
-    <string name="system_monet_desc">カスタム色の保持に役立ちます\nシステム UI の再起動が必要</string>
+    <string name="system_monet_title">System Monet</string>
+    <string name="system_monet_desc">Disable to retain custom colors\nSystemUI restart required</string>
     <!-- Basic Colors -->
     <string name="primary_color">プライマリ カラー</string>
     <string name="primary_color_desc">プライマリのアクセントカラーを選択</string>
@@ -417,18 +429,72 @@
     <string name="activity_desc_lockscreen_clock">ロック画面にカスタム時計を追加します</string>
     <string name="activity_title_lockscreen_weather">Lockscreen Weather</string>
     <string name="activity_desc_lockscreen_weather">Add weather on lockscreen</string>
+    <string name="activity_title_lockscreen_widget">Lockscreen Widgets</string>
+    <string name="activity_desc_lockscreen_widget">Add widgets on lockscreen</string>
     <string name="activity_title_depth_wallpaper">深度のある背景</string>
     <string name="activity_desc_depth_wallpaper">iOS のような深度のある背景を表示します</string>
     <string name="activity_title_background_chip">背景チップ</string>
     <string name="activity_desc_background_chip">時計の後ろに色付きのチップを追加します</string>
+    <string name="activity_title_clock_chip">Clock Chip</string>
     <string name="activity_title_xposed_others">その他</string>
     <string name="activity_desc_xposed_others">その他の Xposed での調整</string>
-    <!-- Transparency & Blur -->
+    <string name="activity_title_xposed_weather_settings">Weather Settings</string>
+    <!-- Lockscreen Widgets -->
+    <string name="lockscreen_widgets_title">Lockscreen Widgets</string>
+    <string name="lockscreen_widgets_enabled_title">Enable Lockscreen Widgets</string>
+    <string name="lockscreen_widgets_enabled_summary">Add widgets to lockscreen</string>
+    <string name="lockscreen_display_widgets_title">Device Info Widget</string>
+    <string name="lockscreen_display_widgets_summary">Show device info widget on lockscreen</string>
+    <string name="linear_progress_color">Linear Progress Color</string>
+    <string name="circular_progress_color">Circular Progress Color</string>
+    <string name="text_color">Text Color</string>
+    <string name="custom_device_name">Custom Device Name</string>
+    <string name="custom_device_name_summary">Set custom device name.\nKeep blank to disable.</string>
+    <string name="large_widgets_category_title">Large Widgets</string>
+    <string name="main_custom_widget_1">Large Widget 1</string>
+    <string name="main_custom_widget_2">Large Widget 2</string>
+    <string name="mini_widgets_category_title">Mini Widgets</string>
+    <string name="custom_widget_1">Mini Widget 1</string>
+    <string name="custom_widget_2">Mini Widget 2</string>
+    <string name="custom_widget_3">Mini Widget 3</string>
+    <string name="custom_widget_4">Mini Widget 4</string>
+    <string name="widgets_custom_color">Custom Colors</string>
+    <string name="widgets_custom_color_title">Customize Widget Colors</string>
+    <string name="big_widget_active">Large Widget Active Color</string>
+    <string name="big_widget_inactive">Large Widget Inactive Color</string>
+    <string name="big_widget_icon_active">Large Widget Icon Active Color</string>
+    <string name="big_widget_icon_inactive">Large Widget Icon Inactive Color</string>
+    <string name="mini_widget_active">Mini Widget Active Color</string>
+    <string name="mini_widget_inactive">Mini Widget Inactive Color</string>
+    <string name="mini_widget_icon_active">Mini Widget Icon Active Color</string>
+    <string name="mini_widget_icon_inactive">Mini Widget Icon Inactive Color</string>
+    <string name="weather_settings">Weather Settings</string>
+    <string name="lockscreen_widgets_scale">Widgets Scale</string>
+    <!-- LS Widgets Actions -->
+    <string name="camera">Camera</string>
+    <string name="clock_timer">Clock/Timer</string>
+    <string name="calculator">Calculator</string>
+    <string name="gallery">Gallery</string>
+    <string name="media">Media Player</string>
+    <string name="torch">Torch</string>
+    <string name="controls_media_button_play">Play</string>
+    <string name="weather">Weather</string>
+    <string name="wifi">Wifi</string>
+    <string name="data">Data</string>
+    <string name="ringer">Ringer</string>
+    <string name="bt">Bluetooth</string>
+    <string name="home_controls">Home Controls</string>
+    <string name="wallet">Wallet</string>
+    <string name="hotspot">Hotspot</string>
+    <string name="ringer_normal">Ringer</string>
+    <string name="ringer_vibrate">Vibrate</string>
+    <string name="ringer_silent">Silent</string>
+    <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">透明効果</string>
     <string name="transparent_qs_panel_title">クイック設定パネルを透過する</string>
     <string name="transparent_qs_panel_desc">クイック設定パネルの背景を透過します</string>
-    <string name="qs_background_opacity_title">透明度</string>
-    <string name="transparent_notif_shade_title">通知シェードのみ透過する</string>
+    <string name="qs_background_opacity_title">Background Opacity</string>
+    <string name="transparent_notif_shade_title">Transparent Notification Shade</string>
     <string name="transparent_notif_shade_desc">通知シェードのみ透過するようにします</string>
     <string name="keep_lockscreen_shade_title">ロック画面の壁紙を暗くする</string>
     <string name="keep_lockscreen_shade_desc">明るい壁紙に適しています</string>
@@ -438,7 +504,7 @@
     <string name="aggressive_blur_title">積極的なぼかしを有効化</string>
     <string name="aggressive_blur_desc">一部の ROM でブートループが発生する可能性があります</string>
     <string name="blur_intensity_title">ぼかしの強さ</string>
-    <!-- Themes -->
+    <!-- Xposed Themes -->
     <string name="section_title_for_pixel_roms">Pixel ROM 向け</string>
     <string name="light_theme_title">ライト テーマ</string>
     <string name="light_theme_desc">ライト モードで明るいクイック設定を使用します\nカスタムクイック設定形状の使用が必要です</string>
@@ -455,11 +521,13 @@
     <string name="power_menu_transparency_title">電源メニューの透過</string>
     <string name="power_menu_transparency_desc">Power menu transparency for Fluid QS\nDo not use custom notification style</string>
     <string name="section_title_others">その他</string>
+    <string name="fix_qs_tile_color_title">Fix QS Tile Color</string>
+    <string name="fix_qs_tile_color_desc">Fix custom QS tile style on android 14</string>
     <string name="fix_notification_color_title">通知の色を修正</string>
     <string name="fix_notification_color_desc">Android 14 でのカスタム通知スタイルを修正します</string>
     <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
     <string name="fix_notification_footer_button_color_desc">Fix custom footer button style on android 14</string>
-    <!-- Quick Settings -->
+    <!-- Xposed Quick Settings -->
     <string name="section_title_qs_tile">クイック設定タイル</string>
     <string name="vertical_qs_tile_title">垂直クイック設定タイル</string>
     <string name="vertical_qs_tile_desc">クイック設定アイコンの下にラベルを表示します</string>
@@ -474,7 +542,7 @@
     <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
     <string name="hide_qs_footer_buttons_title">フッターのボタンを非表示</string>
     <string name="hide_qs_footer_buttons_desc">通知一覧の下に表示されるボタンを非表示にします</string>
-    <!-- Battery Style -->
+    <!-- Xposed Battery Style -->
     <string name="battery_style_title">バッテリースタイル</string>
     <string name="battery_width_title">バッテリー横幅</string>
     <string name="battery_height_title">バッテリー縦幅</string>
@@ -505,8 +573,8 @@
     <string name="powersave_fill_color_desc">バッテリーセーバーの色を変更します</string>
     <string name="powersave_indicator_color_title">バッテリーセーバーのインジケーターの色</string>
     <string name="powersave_indicator_color_desc">バッテリーセーバーのインジケーターの色を変更します</string>
-    <string name="custom_margins_title">カスタムディメンション</string>
-    <string name="custom_margins_desc">バッテリーアイコンにカスタムディメンションを設定します</string>
+    <string name="custom_margins_title">Custom Margins</string>
+    <string name="custom_margins_desc">Set custom margins for battery icon</string>
     <string name="battery_margin_left_title">バッテリー左マージン</string>
     <string name="battery_margin_right_title">バッテリー右マージン</string>
     <string name="battery_margin_top_title">バッテリー上部マージン</string>
@@ -557,19 +625,19 @@
     <string name="battery_circle">サークルバッテリー</string>
     <string name="battery_dotted_circle">ドットサークルバッテリー</string>
     <string name="battery_filled_circle">塗りつぶされたサークルバッテリー</string>
-    <!-- Volume Panel -->
+    <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">音量のパーセンテージ</string>
     <string name="volume_percentage_desc">音量スライダーの上にパーセンテージを表示します</string>
     <string name="safety_warning_title">安全上の警告</string>
     <string name="safety_warning_desc">大音量の場合に警告を表示します</string>
     <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
     <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
-    <!-- Header Image -->
+    <!-- Xposed Header Image -->
     <string name="header_image_title">ヘッダー画像を選択</string>
     <string name="header_image_desc">クイック設定パネルのヘッダー画像を追加します\n「最近」からファイルを選択しないでください</string>
     <string name="btn_pick_image">画像を選択</string>
     <string name="header_image_height_title">画像の縦幅</string>
-    <string name="header_image_opacity">画像の透明度</string>
+    <string name="header_image_opacity">Image Opacity</string>
     <string name="header_image_bottom_fade">下部のフェード量</string>
     <string name="header_image_zoom_to_fit_title">画面に合わせる</string>
     <string name="header_image_zoom_to_fit_desc">画像はデフォルトで拡大縮小します</string>
@@ -577,35 +645,36 @@
     <string name="header_image_hide_in_landscape_desc">横画面モードでは画像を非表示にします</string>
     <string name="header_image_alpha_gradient_title">透明度グラデーション</string>
     <string name="header_image_alpha_gradient_desc">ヘッダー画像にフェード エフェクトを追加します</string>
-    <!-- Header Clock -->
+    <!-- Xposed Header Clock -->
     <string name="custom_header_clock_title">カスタムヘッダー時計</string>
     <string name="custom_header_clock_desc">クイック設定パネルにカスタム時計を追加します</string>
     <string name="header_clock_style_title">時計スタイル</string>
     <string name="header_clock_font_title">時計フォント</string>
-    <string name="header_clock_font_desc">ヘッダー時計にカスタムフォントを使用します\n「最近」からファイルを選択しないでください</string>
+    <string name="header_clock_font_desc">Use custom font for header clock</string>
     <string name="custom_header_clock_color_title">カスタム時計色</string>
-    <string name="custom_header_clock_color_desc">プライマリ色の代わりに色をカスタムします</string>
+    <string name="custom_header_clock_color_desc">Custom colors instead of system colors</string>
     <string name="header_clock_color_picker_title">時計カラーピッカー</string>
     <string name="header_clock_color_picker_desc">ヘッダー時計の色を設定します</string>
+    <string name="header_clock_expansion_y_title">Expansion Amount</string>
     <string name="header_clock_font_text_scaling_title">テキストスケーリング</string>
-    <string name="header_clock_side_margin_title">時計横マージン</string>
-    <string name="header_clock_top_margin_title">時計上部マージン</string>
+    <string name="header_clock_side_margin_title">Side Margin</string>
+    <string name="header_clock_top_margin_title">Top Margin</string>
     <string name="header_clock_white_text_title">ホワイト テキスト</string>
     <string name="header_clock_white_text_desc">テキスト色を白に強制します</string>
     <string name="header_clock_center_clock_title">中央に時計</string>
     <string name="header_clock_center_clock_desc">画面の中央に時計を移動します</string>
     <string name="header_clock_hide_landscape_title">横画面では非表示</string>
     <string name="header_clock_hide_landscape_desc">横画面モードでは時計を非表示にします</string>
-    <!-- Lockscreen Clock -->
+    <!-- Xposed Lockscreen Clock -->
     <string name="custom_lockscreen_clock_title">カスタムロック画面時計</string>
     <string name="custom_lockscreen_clock_desc">カスタムロック画面時計を有効化します</string>
     <string name="lockscreen_clock_auto_hide_clock_title">自動的に時計を非表示</string>
     <string name="lockscreen_clock_auto_hide_clock_desc">通知が来たとき時計を隠します</string>
     <string name="custom_lockscreen_clock_style_title">時計スタイル</string>
     <string name="lockscreen_clock_font_title">時計フォント</string>
-    <string name="lockscreen_clock_font_desc">ロック画面時計にカスタムフォントを使用します\n「最近」からファイルを選択しないでください</string>
+    <string name="lockscreen_clock_font_desc">Use custom font for lockscreen clock</string>
     <string name="lsclock_custom_color_title">カスタム時計色</string>
-    <string name="lsclock_custom_color_desc">プライマリ色の代わりに色をカスタムします</string>
+    <string name="lsclock_custom_color_desc">Custom colors instead of system colors</string>
     <string name="lsclock_color_picker_title">時計カラーピッカー</string>
     <string name="lsclock_color_picker_desc">ロック画面時計の色を設定します</string>
     <string name="lockscreen_font_text_scaling_title">テキストスケーリング</string>
@@ -628,7 +697,7 @@
     <string name="battery_level_percentage">バッテリーレベル</string>
     <string name="welcome_back">おかえりなさい!</string>
     <string name="default_user_name">ユーザー</string>
-    <!-- Depth Wallpaper -->
+    <!-- Xposed Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">奥行きのある壁紙を有効化</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\n%s</string>
     <string name="enable_custom_depth_wallpaper_title">Custom Images</string>
@@ -639,7 +708,7 @@
     <string name="wallpaper_fade_animation_desc">AOD で壁紙をアニメーション化してフェードアウトさせます</string>
     <string name="foreground_image_title">前景の画像</string>
     <string name="foreground_image_desc">深度のある壁紙の前景画像</string>
-    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
+    <string name="foreground_image_alpha_title">Foreground Image Opacity</string>
     <string name="background_image_title">背景の画像</string>
     <string name="background_image_desc">深度のある壁紙の背景画像</string>
     <string name="depth_wallpaper_alert_msg">This feature is currently in beta stage. So bugs are expected.\n\n<b>Known Bug(s):</b>\n• Tapping on lockscreen makes the wallpaper jump.</string>
@@ -654,37 +723,68 @@
     <string name="depth_wallpaper_subject_extraction_failed">Failed to extract wallpaper subject!</string>
     <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
     <string name="use_custom_lockscreen_clock">Must use custom lockscreen clock</string>
-    <!-- Background Chip -->
+    <!-- Xposed Background Chip -->
     <string name="section_title_status_bar">ステータスバー</string>
     <string name="sb_clock_background_chip_title">ステータスバー時計チップ</string>
     <string name="sb_clock_background_chip_desc">ステータスバー時計の後ろにチップを表示します</string>
-    <string name="statusbar_clock_text_title">ステータスバー時計色</string>
+    <string name="sb_clock_customize_chip_title">Customize Clock Chip</string>
+    <string name="sb_clock_customize_chip_desc">Custom colors, roundness, stroke etc.</string>
+    <string name="section_title_text">Text</string>
+    <string name="statusbar_clock_text_title">Clock Text Color</string>
     <string name="sbclock_color_follow_system">システムに従う</string>
     <string name="sbclock_color_transparent_text">透過テキスト</string>
     <string name="sbclock_color_custom_color">カスタムカラー</string>
-    <string name="clock_text_color_picker_title">時計カラーピッカー</string>
-    <string name="clock_text_color_picker_desc">ステータスバー時計の色を設定します</string>
+    <string name="clock_text_color_picker_title">Text Color Picker</string>
+    <string name="clock_text_color_picker_desc">Set color of statubsar clock text</string>
     <string name="section_title_status_icons">ステータスアイコン</string>
     <string name="chip_style_title">チップ スタイル</string>
     <string name="status_icons_chip_title">ステータスアイコンチップ</string>
     <string name="status_icons_chip_desc">ステータスバーアイコンの後ろにチップを表示します</string>
+    <string name="status_icons_customize_chip_title">Customize Status Icons Chip</string>
+    <string name="status_icons_customize_chip_desc">Custom colors, roundness, stroke etc.</string>
     <string name="status_icons_chip_style_title">チップ スタイル</string>
     <string name="fixed_status_icons_top_margin">上部マージン</string>
     <string name="fixed_status_icons_side_margin">横マージン</string>
+    <string name="section_title_background">Background</string>
+    <string name="accent_fill_color">Accent Fill Color</string>
+    <string name="gradient_direction">Gradient Direction</string>
+    <string name="fill_start_color">Fill Start Color</string>
+    <string name="fill_end_color">Fill End Color</string>
+    <string name="section_title_border">Border</string>
+    <string name="enable_border">Enable Border</string>
+    <string name="accent_border_color">Accent Border Color</string>
+    <string name="border_color">Border Color</string>
+    <string name="dashed_border">Dashed Border</string>
+    <string name="dash_width">Dash Width</string>
+    <string name="dash_gap">Dash Gap</string>
+    <string name="border_thickness">Border Thickness</string>
+    <string name="section_title_padding">Padding</string>
+    <string name="padding_left">Padding Left</string>
+    <string name="padding_right">Padding Right</string>
+    <string name="padding_top">Padding Top</string>
+    <string name="padding_bottom">Padding Bottom</string>
+    <string name="section_title_corner_radius">Corner Radius</string>
+    <string name="top_left_radius">Top Left Radius</string>
+    <string name="top_right_radius">Top Right Radius</string>
+    <string name="bottom_left_radius">Bottom Left Radius</string>
+    <string name="bottom_right_radius">Bottom Right Radius</string>
+    <!-- Xposed Statusbar -->
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
+    <string name="colored_statusbar_icon_title">Colored Statusbar Icon</string>
+    <string name="colored_statusbar_icon_desc">Show app icon as notification icon</string>
+    <string name="hide_ls_carrier_title">ロック画面のキャリアを非表示</string>
+    <string name="hide_ls_carrier_desc">ロック画面のキャリア名を非表示にします</string>
+    <string name="hide_ls_statusbar_title">ロック画面のステータスバーを非表示</string>
+    <string name="hide_ls_statusbar_desc">ロック画面のステータスバーを非表示にします</string>
     <!-- Xposed Others -->
     <string name="qs_header">クイック設定ヘッダー</string>
     <string name="hide_carrier_group_title">キャリア名を非表示</string>
     <string name="hide_carrier_group_desc">クイック設定パネルからキャリア名を非表示にします</string>
     <string name="hide_status_icons_title">ステータス アイコンを非表示</string>
     <string name="hide_status_icons_desc">時間、日付、バッテリーアイコンを削除します</string>
-    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
-    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
-    <string name="sb_clock_size">Statusbar Clock Size</string>
     <string name="lock_screen">ロック画面</string>
-    <string name="hide_ls_carrier_title">ロック画面のキャリアを非表示</string>
-    <string name="hide_ls_carrier_desc">ロック画面のキャリア名を非表示にします</string>
-    <string name="hide_ls_statusbar_title">ロック画面のステータスバーを非表示</string>
-    <string name="hide_ls_statusbar_desc">ロック画面のステータスバーを非表示にします</string>
     <string name="hide_ls_lock_icon_title">LS ロックアイコンを非表示</string>
     <string name="hide_ls_lock_icon_desc">ロック画面でロックアイコンの表示を非表示にします</string>
     <string name="fixed_status_icons_title">ステータス アイコンを固定</string>
@@ -771,6 +871,7 @@
     <!-- Bottom Navigation -->
     <string name="navbar_home">ホーム</string>
     <string name="navbar_tweaks">調整</string>
+    <string name="navbar_xposed">Xposed</string>
     <string name="navbar_settings">設定</string>
     <!-- Settings 3 dot menu -->
     <string name="changelog">変更履歴</string>
@@ -793,6 +894,7 @@
     <string name="btn_disable">無効化</string>
     <string name="btn_enable">有効化</string>
     <string name="btn_apply">適用</string>
+    <string name="btn_save">Save</string>
     <string name="btn_disable_custom_colors">カスタム色を無効化</string>
     <string name="btn_enable_custom_colors">色を適用</string>
     <string name="btn_reset">リセット</string>
@@ -861,10 +963,6 @@
     <string name="hey_there">こんにちは！</string>
     <string name="icon">アイコン</string>
     <string name="section_title_media_player_icons">メディアプレーヤーアイコン</string>
-    <string name="opt_selected">選択:</string>
-    <string name="opt_selected1">選択: %s</string>
-    <string name="opt_selected2">選択済み: %1$s%2$s</string>
-    <string name="opt_selected3">選択済み: %1$s%2$s %3$s</string>
     <string name="opt_default">(デフォルト)</string>
     <string name="clock_none">時計なし</string>
     <string name="clock_style_name">時計のスタイル %d</string>
@@ -933,6 +1031,15 @@
     <string name="tap_to_select">プレビューをタップして選択</string>
     <string name="dont_show_again">次回から表示しない</string>
     <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
+    <string name="file_picker_desc">Do not select file from Recent</string>
+    <string name="btn_dismiss">Dismiss</string>
+    <string name="btn_restart_device">Restart Device</string>
+    <string name="btn_pending">Pending</string>
+    <string name="accent_primary">Accent Primary</string>
+    <string name="accent_secondary">Accent Secondary</string>
+    <string name="accent_tertiary">Accent Tertiary</string>
+    <string name="text_color_primary">Text Color Primary</string>
+    <string name="text_color_inverse">Text Color Inverse</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Unit</string>
@@ -1035,4 +1142,13 @@
     <string name="lockscreen_weather_selection_str_gradient">Gradient</string>
     <string name="lockscreen_weather_selection_str_border_accent">Dark with accented borders</string>
     <string name="lockscreen_weather_selection_str_border_gradient">Dark with gradient borders</string>
+    <!-- Alert Dialogs -->
+    <string name="systemui_restart_required_title">SystemUI Restart Needed</string>
+    <string name="systemui_restart_required_desc">A SystemUI restart is needed for this change to take effect.</string>
+    <string name="device_restart_required_title">Device Restart Needed</string>
+    <string name="device_restart_required_desc">A device restart is needed for this change to take effect.</string>
+    <string name="switch_theme_required_title">Switch Device Theme</string>
+    <string name="switch_theme_required_desc">Switch between light and dark themes if unexpected behavior occurs.</string>
+    <string name="device_rotation_required_title">Device Rotation Theme</string>
+    <string name="device_rotation_required_desc">Switch rotation of your device for this change to take effect.</string>
 </resources>
