@@ -248,7 +248,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 val androidDir =
                     File(Environment.getExternalStorageDirectory().toString() + "/Android")
 
-                if (androidDir.isDirectory()) {
+                if (androidDir.isDirectory) {
                     updateClockView()
                     executor.shutdown()
                     executor.shutdownNow()
@@ -353,11 +353,9 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
 
                     if (dummyLayout == null) {
                         dummyLayout = LinearLayout(mContext)
-                        dummyLayout.setLayoutParams(
-                            LinearLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                350
-                            )
+                        dummyLayout.layoutParams = LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            350
                         )
                         dummyLayout.tag = dummyTag
 
@@ -382,7 +380,7 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
 
                 dummyParams.topMargin = clockParams.topMargin
                 dummyParams.bottomMargin = clockParams.bottomMargin
-                dummyLayout.setLayoutParams(dummyParams)
+                dummyLayout.layoutParams = dummyParams
             }
         }
     }
@@ -419,8 +417,8 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
         val lineHeight: Int = Xprefs.getSliderInt(LSCLOCK_FONT_LINEHEIGHT, 0)
         val customFontEnabled: Boolean = Xprefs.getBoolean(LSCLOCK_FONT_SWITCH, false)
         val customColorEnabled: Boolean = Xprefs.getBoolean(LSCLOCK_COLOR_SWITCH, false)
-        val customUserName: String = Xprefs.getString(LSCLOCK_USERNAME, "").toString()
-        val customDeviceName: String = Xprefs.getString(LSCLOCK_DEVICENAME, "").toString()
+        val customUserName: String = Xprefs.getString(LSCLOCK_USERNAME, "")!!
+        val customDeviceName: String = Xprefs.getString(LSCLOCK_DEVICENAME, "")!!
 
         val accent1: Int = Xprefs.getInt(
             LSCLOCK_COLOR_CODE_ACCENT1,
