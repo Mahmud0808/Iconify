@@ -714,44 +714,73 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
         val topMargin: Int = Xprefs.getSliderInt(HEADER_CLOCK_TOPMARGIN, 8)
         val customFont = Environment.getExternalStorageDirectory().toString() +
                 "/.iconify_files/headerclock_font.ttf"
-        val accent1: Int = Xprefs.getInt(
-            HEADER_CLOCK_COLOR_CODE_ACCENT1,
-            mContext.resources.getColor(
-                mContext.resources.getIdentifier(
-                    "android:color/system_accent1_300",
-                    "color",
-                    mContext.packageName
-                ), mContext.theme
+
+        val customColorEnabled = Xprefs.getBoolean(HEADER_CLOCK_COLOR_SWITCH, false)
+        var accent1: Int = mContext.resources.getColor(
+            mContext.resources.getIdentifier(
+                "android:color/system_accent1_300",
+                "color",
+                mContext.packageName
+            ), mContext.theme
+        )
+        var accent2: Int = mContext.resources.getColor(
+            mContext.resources.getIdentifier(
+                "android:color/system_accent2_300",
+                "color",
+                mContext.packageName
+            ), mContext.theme
+        )
+        var accent3: Int = mContext.resources.getColor(
+            mContext.resources.getIdentifier(
+                "android:color/system_accent3_300",
+                "color",
+                mContext.packageName
+            ), mContext.theme
+        )
+        var textPrimary: Int = getColorResCompat(mContext, android.R.attr.textColorPrimary)
+        var textInverse: Int = getColorResCompat(mContext, android.R.attr.textColorPrimaryInverse)
+
+        if (customColorEnabled) {
+            accent1 = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_ACCENT1,
+                mContext.resources.getColor(
+                    mContext.resources.getIdentifier(
+                        "android:color/system_accent1_300",
+                        "color",
+                        mContext.packageName
+                    ), mContext.theme
+                )
             )
-        )
-        val accent2: Int = Xprefs.getInt(
-            HEADER_CLOCK_COLOR_CODE_ACCENT2,
-            mContext.resources.getColor(
-                mContext.resources.getIdentifier(
-                    "android:color/system_accent2_300",
-                    "color",
-                    mContext.packageName
-                ), mContext.theme
+            accent2 = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_ACCENT2,
+                mContext.resources.getColor(
+                    mContext.resources.getIdentifier(
+                        "android:color/system_accent2_300",
+                        "color",
+                        mContext.packageName
+                    ), mContext.theme
+                )
             )
-        )
-        val accent3: Int = Xprefs.getInt(
-            HEADER_CLOCK_COLOR_CODE_ACCENT3,
-            mContext.resources.getColor(
-                mContext.resources.getIdentifier(
-                    "android:color/system_accent3_300",
-                    "color",
-                    mContext.packageName
-                ), mContext.theme
+            accent3 = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_ACCENT3,
+                mContext.resources.getColor(
+                    mContext.resources.getIdentifier(
+                        "android:color/system_accent3_300",
+                        "color",
+                        mContext.packageName
+                    ), mContext.theme
+                )
             )
-        )
-        val textPrimary: Int = Xprefs.getInt(
-            HEADER_CLOCK_COLOR_CODE_TEXT1,
-            getColorResCompat(mContext, android.R.attr.textColorPrimary)
-        )
-        val textInverse: Int = Xprefs.getInt(
-            HEADER_CLOCK_COLOR_CODE_TEXT2,
-            getColorResCompat(mContext, android.R.attr.textColorPrimaryInverse)
-        )
+            textPrimary = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_TEXT1,
+                getColorResCompat(mContext, android.R.attr.textColorPrimary)
+            )
+            textInverse = Xprefs.getInt(
+                HEADER_CLOCK_COLOR_CODE_TEXT2,
+                getColorResCompat(mContext, android.R.attr.textColorPrimaryInverse)
+            )
+        }
+
         var typeface: Typeface? = null
 
         if (customFontEnabled && File(customFont).exists()) typeface =
