@@ -152,6 +152,7 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
 
+                (mQsHeaderImageView.parent as? ViewGroup)?.removeView(mQsHeaderImageView)
                 mQsHeaderLayout.addView(mQsHeaderImageView)
                 mQuickStatusBarHeader.addView(mQsHeaderLayout, 0)
 
