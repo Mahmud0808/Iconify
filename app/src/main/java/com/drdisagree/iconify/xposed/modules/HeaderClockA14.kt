@@ -300,20 +300,14 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
         hookAllMethods(quickStatusBarHeaderClass, "updateResources", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
+                if (!showHeaderClock) return
+
                 mQuickStatusBarHeader = param.thisObject as FrameLayout
 
                 buildHeaderViewExpansion()
 
-                updateClockView()
-            }
-        })
-
-        val shadeHeaderViewHandlerMethod = object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                if (!showHeaderClock) return
-
-                val newConfig = param.args[0] as Configuration
-                val isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
+                val isLandscape =
+                    mContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
                 if (isLandscape) {
                     if (mQsHeaderContainer.parent != mQsHeaderContainerShade) {
@@ -328,8 +322,10 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     }
                     mQsHeaderContainerShade.visibility = View.GONE
                 }
+
+                updateClockView()
             }
-        }
+        })
 
         try {
             hookAllMethods(qsPanelClass, "switchAllContentToParent", object : XC_MethodHook() {
@@ -356,12 +352,6 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                             index
                         )
                     }
-
-                    hookAllMethods(
-                        qsPanelClass,
-                        "onConfigurationChanged",
-                        shadeHeaderViewHandlerMethod
-                    )
                 }
             })
 
@@ -453,12 +443,6 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                         }
 
                         param.args[2] = (param.args[2] as Int) + 1
-
-                        hookAllMethods(
-                            qsPanelClass,
-                            "onConfigurationChanged",
-                            shadeHeaderViewHandlerMethod
-                        )
                     }
                 }
             )
@@ -901,6 +885,8 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
     }
 
     private fun handleOldHeaderView(param: XC_MethodHook.MethodHookParam) {
+        if (!showHeaderClock) return
+
         try {
             val mDateView =
                 getObjectField(param.thisObject, "mDateView") as View
@@ -939,6 +925,8 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
     }
 
     private fun handleLegacyHeaderView() {
+        if (!showHeaderClock) return
+
         val resParam: InitPackageResourcesParam = resParams[SYSTEMUI_PACKAGE] ?: return
 
         try {
