@@ -13,51 +13,48 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/leftText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:tag="text"
             android:shadowColor="#99000000"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="5"
+            android:singleLine="true"
+            android:tag="text|leftText"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/currentImage"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:elevation="4dp"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            android:tag="currentImage" />
 
         <TextView
-            android:id="@+id/rightText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:singleLine="true"
-            android:tag="text"
             android:shadowColor="#99000000"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="5"
+            android:singleLine="true"
+            android:tag="text|rightText"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/weatherText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:tag="text"
             android:shadowColor="#99000000"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="5"
+            android:singleLine="true"
+            android:tag="text|weatherText"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
@@ -65,30 +62,29 @@
 
     <!-- Humidity Layout -->
     <LinearLayout
-        android:id="@+id/humLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:tag="humLayout">
 
         <ImageView
-            android:id="@+id/humImage"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:elevation="4dp"
             android:importantForAccessibility="no"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:tag="humImage" />
 
         <TextView
-            android:id="@+id/humText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:tag="text"
             android:shadowColor="#99000000"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="5"
+            android:tag="text|humText"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
@@ -96,29 +92,28 @@
 
     <!-- Wind Layout -->
     <LinearLayout
-        android:id="@+id/windLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp">
+        android:layout_marginTop="2dp"
+        android:tag="windLayout">
 
         <ImageView
-            android:id="@+id/windImage"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:importantForAccessibility="no"
             android:elevation="4dp"
-            android:scaleType="fitXY" />
+            android:importantForAccessibility="no"
+            android:scaleType="fitXY"
+            android:tag="windImage" />
 
         <TextView
-            android:id="@+id/windText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:tag="text"
             android:shadowColor="#99000000"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="5"
+            android:tag="text|windText"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 

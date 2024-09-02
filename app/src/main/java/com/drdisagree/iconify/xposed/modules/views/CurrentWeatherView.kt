@@ -20,6 +20,7 @@ import com.drdisagree.iconify.ui.utils.ViewHelper.applyTextSizeRecursively
 import com.drdisagree.iconify.ui.utils.ViewHelper.setTextRecursively
 import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
 import de.robv.android.xposed.XposedBridge.log
 import java.util.Locale
@@ -77,16 +78,16 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     }
 
     private fun setupViews() {
-        mLeftText = findViewById(R.id.leftText)
-        mCurrentImage = findViewById(R.id.currentImage)
-        mRightText = findViewById(R.id.rightText)
-        mWeatherText = findViewById(R.id.weatherText)
-        mHumLayout = findViewById(R.id.humLayout)
-        mHumImage = findViewById(R.id.humImage)
-        mHumText = findViewById(R.id.humText)
-        mWindLayout = findViewById(R.id.windLayout)
-        mWindImage = findViewById(R.id.windImage)
-        mWindText = findViewById(R.id.windText)
+        mLeftText = findViewContainsTag("leftText") as TextView
+        mCurrentImage = findViewContainsTag("currentImage") as ImageView
+        mRightText = findViewContainsTag("rightText") as TextView
+        mWeatherText = findViewContainsTag("weatherText") as TextView
+        mHumLayout = findViewContainsTag("humLayout") as LinearLayout
+        mHumImage = findViewContainsTag("humImage") as ImageView
+        mHumText = findViewContainsTag("humText") as TextView
+        mWindLayout = findViewContainsTag("windLayout") as LinearLayout
+        mWindImage = findViewContainsTag("windImage") as ImageView
+        mWindText = findViewContainsTag("windText") as TextView
 
         mWindDrawable = ContextCompat.getDrawable(
             appContext!!,
