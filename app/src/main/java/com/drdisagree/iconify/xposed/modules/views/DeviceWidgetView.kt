@@ -12,7 +12,6 @@ import android.media.AudioManager
 import android.os.BatteryManager
 import android.os.Build
 import android.text.TextUtils
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -21,6 +20,7 @@ import androidx.core.content.ContextCompat
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.xposed.modules.utils.ArcProgressWidget.generateBitmap
+import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
 
 class DeviceWidgetView(private val mContext: Context) : FrameLayout(mContext) {
@@ -89,27 +89,26 @@ class DeviceWidgetView(private val mContext: Context) : FrameLayout(mContext) {
     }
 
     private fun setupViews() {
-        mBatteryLevelView = findViewById(R.id.battery_percentage)
-        mBatteryProgress = findViewById(R.id.battery_progressbar)
-        mVolumeLevelArcProgress = findViewById(R.id.volume_progress)
-        mRamUsageArcProgress = findViewById(R.id.ram_usage_info)
+        mBatteryLevelView = findViewContainsTag("battery_percentage") as TextView
+        mBatteryProgress = findViewContainsTag("battery_progressbar") as ProgressBar
+        mVolumeLevelArcProgress = findViewContainsTag("volume_progress") as ImageView
+        mRamUsageArcProgress = findViewContainsTag("ram_usage_info") as ImageView
 
-        mBatteryProgress!!.setProgressTintList(
-            ColorStateList.valueOf(
-                if (mCustomColor)
-                    if (mLinearProgressColor == 0) mContext.resources.getColor(
+        mBatteryProgress!!.progressTintList = ColorStateList.valueOf(
+            if (mCustomColor)
+                if (mLinearProgressColor == 0) mContext.resources.getColor(
                     mContext.resources.getIdentifier(
                         "android:color/system_accent1_300",
                         "color",
                         mContext.packageName
-                    ), mContext.theme)
-                    else mLinearProgressColor
-                else
-                    mLinearProgressColor
-            )
+                    ), mContext.theme
+                )
+                else mLinearProgressColor
+            else
+                mLinearProgressColor
         )
 
-        (findViewById<View>(R.id.device_name) as TextView).text =
+        (findViewContainsTag("device_name") as TextView).text =
             Build.MODEL
     }
 
@@ -124,7 +123,8 @@ class DeviceWidgetView(private val mContext: Context) : FrameLayout(mContext) {
                                 "android:color/system_accent1_300",
                                 "color",
                                 mContext.packageName
-                            ), mContext.theme)
+                            ), mContext.theme
+                        )
                         else mLinearProgressColor
                     else
                         mLinearProgressColor
@@ -217,7 +217,7 @@ class DeviceWidgetView(private val mContext: Context) : FrameLayout(mContext) {
         }
 
         post {
-            (findViewById<View>(R.id.device_name) as TextView).text =
+            (findViewContainsTag("device_name") as TextView).text =
                 deviceName
         }
     }
