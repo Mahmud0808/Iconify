@@ -400,9 +400,8 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     0
                 )
 
-                (mQsStatusIconsContainer.layoutParams as FrameLayout.LayoutParams).setMarginEnd(
+                (mQsStatusIconsContainer.layoutParams as FrameLayout.LayoutParams).marginEnd =
                     mContext.toPx(sideMarginStatusIcons)
-                )
             }
         } else if (mQsStatusIconsContainer.layoutParams is LinearLayout.LayoutParams) {
             mQsStatusIconsContainer.post {
@@ -413,9 +412,8 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     0
                 )
 
-                (mQsStatusIconsContainer.layoutParams as LinearLayout.LayoutParams).setMarginEnd(
+                (mQsStatusIconsContainer.layoutParams as LinearLayout.LayoutParams).marginEnd =
                     mContext.toPx(sideMarginStatusIcons)
-                )
             }
         } else if (mLoadPackageParam != null && header != null && constraintLayoutId != -1) {
             try {
@@ -690,7 +688,7 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
         var correctClass = false
         val fs = quickStatusBarHeader.declaredFields
         for (f in fs) {
-            if (f.getName() == "mIconContainer") {
+            if (f.name == "mIconContainer") {
                 correctClass = true
             }
         }
@@ -715,9 +713,7 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     )
 
                     mQsStatusIconsContainer.post {
-                        mQsStatusIconsContainer.setLayoutParams(
-                            layoutParams
-                        )
+                        mQsStatusIconsContainer.layoutParams = layoutParams
                     }
 
                     mQsStatusIconsContainer.gravity = Gravity.CENTER
@@ -741,7 +737,7 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     (mIconContainer.parent as ViewGroup).removeView(mIconContainer)
 
                     mIconContainer.post {
-                        mIconContainer.setLayoutParams(layoutParams)
+                        mIconContainer.layoutParams = layoutParams
                         mIconContainer.layoutParams.height = mContext.toPx(32)
                     }
 
@@ -810,14 +806,12 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     constraintLayoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
 
                     mQsStatusIconsContainer.post {
-                        mQsStatusIconsContainer.setLayoutParams(
-                            constraintLayoutParams
-                        )
+                        mQsStatusIconsContainer.layoutParams = constraintLayoutParams
                     }
 
                     mQsStatusIconsContainer.gravity = Gravity.CENTER
                     mQsStatusIconsContainer.orientation = LinearLayout.HORIZONTAL
-                    mQsStatusIconsContainer.setId(constraintLayoutId)
+                    mQsStatusIconsContainer.id = constraintLayoutId
 
                     if (mQsStatusIconsContainer.parent != null) {
                         (mQsStatusIconsContainer.parent as ViewGroup).removeView(
@@ -837,7 +831,7 @@ class BackgroundChip(context: Context?) : ModPack(context!!) {
                     (iconContainer.parent as ViewGroup).removeView(iconContainer)
 
                     iconContainer.post {
-                        iconContainer.setLayoutParams(linearLayoutParams)
+                        iconContainer.layoutParams = linearLayoutParams
                         iconContainer.layoutParams.height = mContext.toPx(32)
                     }
 
