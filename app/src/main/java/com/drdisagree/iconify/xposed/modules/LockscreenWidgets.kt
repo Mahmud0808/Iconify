@@ -43,6 +43,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.findClass
+import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -175,7 +176,6 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-
         // Receiver to handle weather inflated
         if (!mBroadcastRegistered) {
             val intentFilter = IntentFilter()
@@ -203,26 +203,15 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        /**
-         * Don't care about LaunchableImageView and LaunchableLinearLayout error
-         * we will handle in {@link LockscreenWidgetsView}
-         */
-        try {
-            LaunchableImageView = findClass(
-                "com.android.systemui.animation.view.LaunchableImageView",
-                loadPackageParam.classLoader
-            )
-        } catch (ignored: Throwable) {
-        }
+        LaunchableImageView = findClassIfExists(
+            "com.android.systemui.animation.view.LaunchableImageView",
+            loadPackageParam.classLoader
+        )
 
-
-        try {
-            LaunchableLinearLayout = findClass(
-                "com.android.systemui.animation.view.LaunchableLinearLayout",
-                loadPackageParam.classLoader
-            )
-        } catch (ignored: Throwable) {
-        }
+        LaunchableLinearLayout = findClassIfExists(
+            "com.android.systemui.animation.view.LaunchableLinearLayout",
+            loadPackageParam.classLoader
+        )
 
         try {
             val keyguardQuickAffordanceInteractor = findClass(
@@ -344,7 +333,6 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
             updateLockscreenWidgetsScale()
         } catch (ignored: Throwable) {
         }
-
     }
 
     private fun updateLockscreenWidgets() {
@@ -414,7 +402,5 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
 
         var LaunchableImageView: Class<*>? = null
         var LaunchableLinearLayout: Class<*>? = null
-
     }
-
 }

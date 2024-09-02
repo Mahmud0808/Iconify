@@ -177,17 +177,14 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val mMobileDataCallback: ControllersProvider.OnMobileDataChanged =
         object : ControllersProvider.OnMobileDataChanged {
             override fun setMobileDataIndicators(mMobileDataIndicators: Any?) {
-                log("LockscreenWidgets setMobileDataIndicators")
                 updateMobileDataState(isMobileDataEnabled)
             }
 
             override fun setNoSims(show: Boolean, simDetected: Boolean) {
-                log("LockscreenWidgets setNoSims")
                 updateMobileDataState(simDetected && isMobileDataEnabled)
             }
 
             override fun setIsAirplaneMode(mIconState: Any?) {
-                log("LockscreenWidgets setIsAirplaneMode")
                 updateMobileDataState(
                     !getBooleanField(
                         mIconState,
@@ -200,7 +197,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val mWifiCallback: ControllersProvider.OnWifiChanged =
         object : ControllersProvider.OnWifiChanged {
             override fun onWifiChanged(mWifiIndicators: Any?) {
-                log("LockscreenWidgets onWifiChanged")
                 updateWiFiButtonState(isWifiEnabled)
             }
         }
@@ -208,7 +204,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val mBluetoothCallback: ControllersProvider.OnBluetoothChanged =
         object : ControllersProvider.OnBluetoothChanged {
             override fun onBluetoothChanged(enabled: Boolean) {
-                log("LockscreenWidgets onBluetoothChanged $enabled")
                 isBluetoothOn = enabled
                 updateBtState()
             }
@@ -217,7 +212,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val mTorchCallback: ControllersProvider.OnTorchModeChanged =
         object : ControllersProvider.OnTorchModeChanged {
             override fun onTorchModeChanged(enabled: Boolean) {
-                log("LockscreenWidgets onTorchChanged $enabled")
                 isFlashOn = enabled
                 updateTorchButtonState()
             }
@@ -226,7 +220,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val mHotspotCallback: ControllersProvider.OnHotspotChanged =
         object : ControllersProvider.OnHotspotChanged {
             override fun onHotspotChanged(enabled: Boolean, connectedDevices: Int) {
-                log("LockscreenWidgets onHotspotChanged $enabled")
                 updateHotspotButtonState(connectedDevices)
             }
         }
@@ -265,29 +258,20 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun createMainWidgetsContainer(context: Context): LinearLayout {
-        var mainWidgetsContainer: LinearLayout?
-        log("LockscreenWidgets createMainWidgetsContainer LaunchableLinearLayout " + (LaunchableLinearLayout != null))
-        try {
-            mainWidgetsContainer =
-                LaunchableLinearLayout!!.getConstructor(Context::class.java)
-                    .newInstance(context) as LinearLayout?
+        val mainWidgetsContainer: LinearLayout = try {
+            LaunchableLinearLayout!!.getConstructor(Context::class.java)
+                .newInstance(context) as LinearLayout
         } catch (e: Exception) {
-            log("LockscreenWidgets createMainWidgetsContainer LaunchableLinearLayout not found: " + e.message)
-            mainWidgetsContainer = LinearLayout(context)
-        }
-
-        if (mainWidgetsContainer == null) {
-            mainWidgetsContainer = LinearLayout(context) // Ensure the creation on our linear layout
-        }
-
-        mainWidgetsContainer.orientation = HORIZONTAL
-        mainWidgetsContainer.gravity = Gravity.CENTER
-        mainWidgetsContainer.setLayoutParams(
-            LayoutParams(
+            // LaunchableLinearLayout not found or other error, ensure the creation of our ImageView
+            LinearLayout(context)
+        }.apply {
+            orientation = HORIZONTAL
+            gravity = Gravity.CENTER
+            layoutParams = LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-        )
+        }
 
         // Add FABs to the main widgets container
         mMainWidgetViews = arrayOf(
@@ -327,34 +311,24 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun createSecondaryWidgetsContainer(context: Context): LinearLayout {
-        var secondaryWidgetsContainer: LinearLayout?
-        log("LockscreenWidgets createSecondaryWidgetsContainer LaunchableLinearLayout " + (LaunchableLinearLayout != null))
-        try {
-            secondaryWidgetsContainer =
-                LaunchableLinearLayout?.getConstructor(Context::class.java)
-                    ?.newInstance(context) as LinearLayout?
+        val secondaryWidgetsContainer: LinearLayout = try {
+            LaunchableLinearLayout!!.getConstructor(Context::class.java)
+                .newInstance(context) as LinearLayout
         } catch (e: Exception) {
-            log("LockscreenWidgets createMainWidgetsContainer LaunchableLinearLayout not found: " + e.message)
-            secondaryWidgetsContainer = LinearLayout(context)
-        }
-
-        if (secondaryWidgetsContainer == null) {
-            secondaryWidgetsContainer =
-                LinearLayout(context) // Ensure the creation on our linear layout
-        }
-
-        secondaryWidgetsContainer.orientation = HORIZONTAL
-        secondaryWidgetsContainer.gravity = Gravity.CENTER_HORIZONTAL
-        secondaryWidgetsContainer.setLayoutParams(
-            LayoutParams(
+            // LaunchableLinearLayout not found or other error, ensure the creation of our ImageView
+            LinearLayout(context)
+        }.apply {
+            orientation = HORIZONTAL
+            gravity = Gravity.CENTER_HORIZONTAL
+            layoutParams = LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-        )
-        (secondaryWidgetsContainer.layoutParams as MarginLayoutParams).topMargin =
-            modRes.getDimensionPixelSize(R.dimen.kg_widget_margin_vertical)
-        (secondaryWidgetsContainer.layoutParams as MarginLayoutParams).bottomMargin =
-            modRes.getDimensionPixelSize(R.dimen.kg_widget_margin_bottom)
+            (layoutParams as MarginLayoutParams).apply {
+                topMargin = modRes.getDimensionPixelSize(R.dimen.kg_widget_margin_vertical)
+                bottomMargin = modRes.getDimensionPixelSize(R.dimen.kg_widget_margin_bottom)
+            }
+        }
 
         // Add ImageViews to the secondary widgets container
         mSecondaryWidgetViews = arrayOf(
@@ -375,39 +349,38 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         val imageView = try {
             LaunchableImageView!!.getConstructor(Context::class.java)
                 .newInstance(context) as ImageView
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             // LaunchableImageView not found or other error, ensure the creation of our ImageView
             ImageView(context)
+        }.apply {
+            id = generateViewId()
+            layoutParams = LayoutParams(
+                (mWidgetCircleSize * mWidgetsScale).toInt(),
+                (mWidgetCircleSize * mWidgetsScale).toInt()
+            ).apply {
+                setMargins(
+                    (mWidgetMarginHorizontal * mWidgetsScale).toInt(),
+                    0,
+                    (mWidgetMarginHorizontal * mWidgetsScale).toInt(),
+                    0
+                )
+            }
+            setPadding(
+                (mWidgetIconPadding * mWidgetsScale).toInt(),
+                (mWidgetIconPadding * mWidgetsScale).toInt(),
+                (mWidgetIconPadding * mWidgetsScale).toInt(),
+                (mWidgetIconPadding * mWidgetsScale).toInt()
+            )
+            isFocusable = true
+            isClickable = true
         }
-
-        imageView.id = generateViewId()
-        val params = LayoutParams(
-            (mWidgetCircleSize * mWidgetsScale).toInt(),
-            (mWidgetCircleSize * mWidgetsScale).toInt()
-        )
-        params.setMargins(
-            (mWidgetMarginHorizontal * mWidgetsScale).toInt(),
-            0,
-            (mWidgetMarginHorizontal * mWidgetsScale).toInt(),
-            0
-        )
-        imageView.layoutParams = params
-        imageView.setPadding(
-            (mWidgetIconPadding * mWidgetsScale).toInt(),
-            (mWidgetIconPadding * mWidgetsScale).toInt(),
-            (mWidgetIconPadding * mWidgetsScale).toInt(),
-            (mWidgetIconPadding * mWidgetsScale).toInt()
-        )
-        imageView.isFocusable = true
-        imageView.isClickable = true
 
         return imageView
     }
 
     private val isMediaControllerAvailable: Boolean
         get() {
-            val mediaController =
-                activeLocalMediaController
+            val mediaController = activeLocalMediaController
             return mediaController != null && !mediaController.packageName.isNullOrEmpty()
         }
 
@@ -577,8 +550,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun onVisible() {
-        log("LockscreenWidgets onVisible")
-
         // Update the widgets when the view is visible
         if (isWidgetEnabled("weather")) {
             enableWeatherUpdates()
@@ -593,7 +564,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        log("LockscreenWidgets onAttachedToWindow")
         onVisible()
     }
 
@@ -606,13 +576,11 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     public override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        log("LockscreenWidgets onConfigurationChanged")
         updateWidgetViews()
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        log("LockscreenWidgets onFinishInflate")
         mIsInflated = true
         updateWidgetViews()
     }
@@ -643,8 +611,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun updateWidgetViews() {
-        log("LockscreenWidgets updateWidgetViews lockscreenWidgetsEnabled $lockscreenWidgetsEnabled")
-
         if (mMainWidgetViews != null && mMainWidgetsList != null) {
             for (i in mMainWidgetViews!!.indices) {
                 mMainWidgetViews!![i].visibility =
@@ -657,7 +623,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 .toInt()) {
                 val widgetType: String = mMainWidgetsList!![i]
                 if (i < mMainWidgetViews!!.size) {
-                    log("LockscreenWidgets updateWidgetViews mMainWidgetsList $widgetType")
                     setUpWidgetWiews(null, mMainWidgetViews!![i], widgetType)
                     updateMainWidgetResources(mMainWidgetViews!![i], false)
                 }
@@ -675,7 +640,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 .toInt()) {
                 val widgetType: String = mSecondaryWidgetsList!![i]
                 if (i < mSecondaryWidgetViews!!.size) {
-                    log("LockscreenWidgets updateWidgetViews mSecondaryWidgetsList $widgetType")
                     setUpWidgetWiews(mSecondaryWidgetViews!![i], null, widgetType)
                     updateWidgetsResources(mSecondaryWidgetViews!![i])
                 }
@@ -698,7 +662,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 params.width = 0
                 params.weight = 1f
             }
-            efab.setLayoutParams(params)
+            efab.layoutParams = params
         }
     }
 
@@ -919,7 +883,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     weatherButtonFab = efab
                 }
                 //setUpWidgetResources(iv, efab, v -> mActivityLauncherUtils.launchWeatherApp(), "ic_alarm", R.string.weather_data_unavailable);
-//                enableWeatherUpdates()
+                //                enableWeatherUpdates()
             }
 
             "hotspot" -> {
@@ -1130,12 +1094,11 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             updateTorchButtonState()
             vibrate(1)
         } catch (e: Exception) {
-            log("LockscreenWidgets toggleFlashlight error: " + e.message)
+            log(TAG + "toggleFlashlight error: " + e.message)
         }
     }
 
     private fun launchHomeControls(view: View) {
-        log("LockscreenWidgets launchHomeControls")
         val controlsTile: Any = ControllersProvider.mDeviceControlsTile ?: return
         val finalView: View = if (view is ExtendedFAB) {
             view.parent as View
@@ -1180,7 +1143,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     @Suppress("deprecation")
     private fun toggleWiFi() {
-        log("LockscreenWidgets toggleWiFi")
         val enabled: Boolean = mWifiManager!!.isWifiEnabled
         mWifiManager.isWifiEnabled = !enabled
         updateWiFiButtonState(!enabled)
@@ -1212,7 +1174,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 // Safely handle the return value
                 return if (result is Boolean) result else false
             } catch (e: Exception) {
-                log("LockscreenWidgets isMobileDataEnabled error: " + e.message)
+                log(TAG + "isMobileDataEnabled error: " + e.message)
                 return false
             }
         }
@@ -1220,7 +1182,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private val isWifiEnabled: Boolean
         get() {
             val enabled: Boolean = mWifiManager!!.isWifiEnabled
-            log("LockscreenWidgets isWifiEnabled $enabled")
             return enabled
         }
 
@@ -1307,7 +1268,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     fun updateTorchButtonState() {
         if (!isWidgetEnabled("torch")) return
-        log("LockscreenWidgets updateTorchButtonState $isFlashOn")
         updateTileButtonState(
             torchButton,
             torchButtonFab,
@@ -1368,7 +1328,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         try {
             mCameraId = mCameraManager.cameraIdList[0]
         } catch (e: Throwable) {
-            log("LockscreenWidgets mCameraId error: " + e.message)
+            log(TAG + "mCameraId error: " + e.message)
         }
 
         val container = LinearLayout(context)
@@ -1455,11 +1415,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     @Suppress("deprecation")
     private fun updateWiFiButtonState(enabled: Boolean) {
-        log(
-            "LockscreenWidgets updateWiFiButtonState $enabled | " + isWidgetEnabled(
-                "wifi"
-            )
-        )
         if (!isWidgetEnabled("wifi")) return
         if (wifiButton == null && wifiButtonFab == null) return
         val connected: Boolean
@@ -1486,7 +1441,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun updateRingerButtonState() {
-        log("LockscreenWidgets updateRingerButtonState " + (isWidgetEnabled("ringer")) + " | " + (ringerButton == null) + " | " + (ringerButtonFab == null))
         if (!isWidgetEnabled("ringer")) return
         if (ringerButton == null && ringerButtonFab == null) return
         if (mAudioManager != null) {
@@ -1563,7 +1517,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     private fun updateBtState() {
         if (!isWidgetEnabled("bt")) return
-        log("LockscreenWidgets updateBtState $isBluetoothOn")
         if (btButton == null && btButtonFab == null) return
         val bluetoothController: Any? = ControllersProvider.mBluetoothController
         var deviceName: String? = ""
@@ -1621,7 +1574,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 method.invoke(wifiManager) as Int
             return actualState == HOTSPOT_ENABLED
         } catch (t: Throwable) {
-            log("LockscreenWidgetsView isHotspotEnabled error: " + t.message)
+            log(TAG + "isHotspotEnabled error: " + t.message)
         }
         return false
     }
@@ -1629,7 +1582,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     @Suppress("deprecation")
     private fun getHotspotSSID(): String {
         try {
-            val methods: Array<Method> = WifiManager::class.java.getDeclaredMethods()
+            val methods: Array<Method> = WifiManager::class.java.declaredMethods
             for (m in methods) {
                 if (m.name == "getWifiApConfiguration") {
                     val config = m.invoke(mWifiManager) as WifiConfiguration
@@ -1637,7 +1590,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 }
             }
         } catch (t: Throwable) {
-            log("LockscreenWidgetsView getHotspotSSID error: " + t.message)
+            log(TAG + "getHotspotSSID error: " + t.message)
         }
         return ""
     }
@@ -1673,10 +1626,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         lsWidgets: Boolean, deviceWidget: Boolean,
         mainWidgets: String, secondaryWidgets: String
     ) {
-        log(
-            "LockscreenWidgets setOptions " + lsWidgets +
-                    " | " + deviceWidget + " | " + mainWidgets + " | " + secondaryWidgets
-        )
         instance!!.lockscreenWidgetsEnabled = lsWidgets
         instance!!.deviceWidgetsEnabled = deviceWidget
         instance!!.mMainLockscreenWidgetsList = mainWidgets
@@ -1693,7 +1642,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     fun setIsLargeClock(isLargeClock: Boolean) {
-        log("LockscreenWidgets setIsLargeClock $isLargeClock")
         instance!!.mIsLargeClock = isLargeClock
         instance!!.updateContainerVisibility()
     }
@@ -1724,7 +1672,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         bigInactive: Int, bigActive: Int, smallInactive: Int, smallActive: Int,
         bigIconInactive: Int, bigIconActive: Int, smallIconInactive: Int, smallIconActive: Int
     ) {
-        log("LockscreenWidgets setCustomColors $customColorsEnabled")
         instance!!.mCustomColors = customColorsEnabled
         instance!!.mBigInactiveColor = bigInactive
         instance!!.mBigActiveColor = bigActive
@@ -1749,7 +1696,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     fun setDozingState(isDozing: Boolean) {
-        log("LockscreenWidgets setDozingState $isDozing")
         instance!!.mDozing = isDozing
         instance!!.updateContainerVisibility()
     }
@@ -1769,6 +1715,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     R.drawable.ic_calculator,
                     mContext.theme
                 )
+
                 HOTSPOT_ACTIVE -> getDrawable(HOTSPOT_A12, SYSTEMUI_PACKAGE)
                 HOTSPOT_INACTIVE -> getDrawable(HOTSPOT_A12, SYSTEMUI_PACKAGE)
                 BT_ICON -> getDrawable(BT_A12, FRAMEWORK_PACKAGE)
@@ -1776,7 +1723,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 TORCH_INACTIVE -> getDrawable(TORCH_A12, FRAMEWORK_PACKAGE)
 
                 else -> {
-                    log("LockscreenWidgets getDrawable $drawableRes from $pkg error $t")
+                    log(TAG + "getDrawable $drawableRes from $pkg error $t")
                     return null
                 }
             }
@@ -1812,7 +1759,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     return "Play"
                 }
             }
-            log("LockscreenWidgets getString $stringRes from $pkg error $t")
+
+            log(TAG + "getString $stringRes from $pkg error $t")
             return ""
         }
     }
@@ -1858,6 +1806,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     companion object {
+        private val TAG = "Iconify - ${LockscreenWidgetsView::class.java.simpleName}: "
 
         const val HOTSPOT_ENABLED = 13
 
