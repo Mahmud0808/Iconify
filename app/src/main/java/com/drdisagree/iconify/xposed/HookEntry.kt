@@ -100,7 +100,7 @@ class HookEntry : ServiceConnection {
                                         waitForXprefsLoad(loadPackageParam)
                                     }
                                 } catch (throwable: Throwable) {
-                                    log(throwable)
+                                    log(TAG + throwable)
                                 }
                             }
                         }
