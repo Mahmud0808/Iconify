@@ -59,6 +59,7 @@ import com.drdisagree.iconify.common.Preferences.CUSTOM_DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Preferences.CUSTOM_QS_MARGIN
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
+import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_ALPHA
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_ON_AOD
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
@@ -523,6 +524,8 @@ object PrefsHelper {
             CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT -> "${getSliderInt(key, 14)}dp"
 
             HEADER_CLOCK_EXPANSION_Y -> "${getSliderInt(key, 24)}dp"
+
+            DEPTH_WALLPAPER_FOREGROUND_ALPHA -> "${getSliderInt(key, 80)}%"
 
             else -> null
         }
