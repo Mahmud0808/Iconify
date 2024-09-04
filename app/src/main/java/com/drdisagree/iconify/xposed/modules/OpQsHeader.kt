@@ -263,9 +263,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.statusbar.NotificationMediaManager",
             loadPackageParam.classLoader
         )
-        val mediaControlPanelClass = findClass(
+        val mediaControlPanelClass = findClassInArray(
+            loadPackageParam.classLoader,
             "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaControlPanel",
-            loadPackageParam.classLoader
+            "$SYSTEMUI_PACKAGE.media.controls.ui.MediaControlPanel"
         )
         val networkControllerImplClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.connectivity.NetworkControllerImpl",
