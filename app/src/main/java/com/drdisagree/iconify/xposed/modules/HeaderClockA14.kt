@@ -294,10 +294,9 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     addView(mQsIconsContainer)
                 }
 
-                mQuickStatusBarHeader!!.addView(
-                    mQsHeaderContainer,
-                    -1
-                )
+
+                (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
+                mQuickStatusBarHeader!!.addView(mQsHeaderContainer, -1)
 
                 handleOldHeaderView(param)
 
@@ -395,7 +394,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                                 "switchToParent",
                                 view,
                                 parent,
-                                index,
+                                index.coerceAtMost(parent.childCount),
                                 tag
                             )
 
@@ -450,7 +449,10 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                                 mQsHeaderContainerShadeParent.indexOfChild(mQsHeaderContainerShade) != index
                             ) {
                                 mQsHeaderContainerShadeParent?.removeView(mQsHeaderContainerShade)
-                                parent.addView(mQsHeaderContainerShade, index)
+                                parent.addView(
+                                    mQsHeaderContainerShade,
+                                    index.coerceAtMost(parent.childCount)
+                                )
                             }
                         }
 

@@ -408,10 +408,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     orientation = LinearLayout.VERTICAL
                 }
 
-                mQuickStatusBarHeader!!.addView(
-                    mQsHeaderContainer,
-                    -1
-                )
+                (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
+                mQuickStatusBarHeader!!.addView(mQsHeaderContainer, -1)
 
                 val relativeLayout = RelativeLayout(mContext).apply {
                     layoutParams = RelativeLayout.LayoutParams(
@@ -562,7 +560,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                                 "switchToParent",
                                 view,
                                 parent,
-                                index,
+                                index.coerceAtMost(parent.childCount),
                                 tag
                             )
 
@@ -621,7 +619,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                             }
                         }
 
-                        param.args[2] = (param.args[2] as Int) + 1
+                        param.args[2] = ((param.args[2] as Int) + 1).coerceAtMost(parent.childCount)
                     }
                 }
             )
