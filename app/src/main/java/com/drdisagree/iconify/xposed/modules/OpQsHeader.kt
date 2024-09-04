@@ -174,7 +174,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private lateinit var mWifiManager: WifiManager
     private lateinit var mBluetoothManager: BluetoothManager
 
-    private var defaultCornerRadius by Delegates.notNull<Float>()
+    private var qsTileCornerRadius by Delegates.notNull<Float>()
     private lateinit var qsTileBackgroundDrawable: Drawable
     private lateinit var appIconBackgroundDrawable: GradientDrawable
     private lateinit var opMediaForegroundClipDrawable: GradientDrawable
@@ -674,6 +674,26 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         param.result = isLandscape
                     } else if (param.args[0] == resId2) {
                         param.result = false
+                    }
+                }
+            }
+        )
+
+        hookAllMethods(
+            android.content.res.Resources::class.java,
+            "getInteger",
+            object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    if (!showOpQsHeaderView) return
+
+                    val resId1 = mContext.resources.getIdentifier(
+                        "quick_settings_max_rows",
+                        "integer",
+                        SYSTEMUI_PACKAGE
+                    )
+
+                    if (param.args[0] == resId1) {
+                        param.result = 3
                     }
                 }
             }
@@ -1399,11 +1419,16 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
     fun onColorsInitialized() {
         initResources(mContext)
+
         deferredInternetActiveColorAction?.invoke()
         deferredInternetInactiveColorAction?.invoke()
         deferredBluetoothActiveColorAction?.invoke()
         deferredBluetoothInactiveColorAction?.invoke()
         deferredMediaPlayerInactiveColorAction?.invoke()
+
+        updateInternetState()
+        updateBluetoothState()
+        updateMediaPlayer()
     }
 
     private fun updateInternetActiveColors() {
@@ -1559,7 +1584,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         val rect = RectF(0f, 0f, width.toFloat(), height.toFloat())
 
-        Canvas(output).drawRoundRect(rect, defaultCornerRadius, defaultCornerRadius, paint)
+        Canvas(output).drawRoundRect(rect, qsTileCornerRadius, qsTileCornerRadius, paint)
 
         return output
     }
@@ -1757,11 +1782,11 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             ), mContext
         ).defaultColor
 
-        defaultCornerRadius = mContext.resources.getDimensionPixelSize(
+        qsTileCornerRadius = mContext.resources.getDimensionPixelSize(
             mContext.resources.getIdentifier(
-                "config_dialogCornerRadius",
+                "qs_corner_radius",
                 "dimen",
-                FRAMEWORK_PACKAGE
+                SYSTEMUI_PACKAGE
             )
         ).toFloat()
         qsTileBackgroundDrawable = ContextCompat.getDrawable(
@@ -1778,11 +1803,11 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
         opMediaForegroundClipDrawable = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
-            cornerRadius = defaultCornerRadius
+            cornerRadius = qsTileCornerRadius
         }
         opMediaBackgroundDrawable = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
-            cornerRadius = defaultCornerRadius
+            cornerRadius = qsTileCornerRadius
             colorInactive?.let { colors = intArrayOf(it, it) }
         }
         opMediaAppIconDrawable = ContextCompat.getDrawable(
@@ -1846,9 +1871,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 mContext.toPx(128)
-            ).apply {
-                bottomMargin = mContext.toPx(8)
-            }
+            )
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
         }
@@ -1876,7 +1899,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 1F
             )
             setBackgroundColor(Color.TRANSPARENT)
-            radius = defaultCornerRadius
+            radius = qsTileCornerRadius
             cardElevation = 0F
             (layoutParams as MarginLayoutParams).marginStart = mContext.toPx(4)
         }
