@@ -14,10 +14,10 @@ import com.drdisagree.iconify.ui.fragments.xposed.BackgroundChip
 import com.drdisagree.iconify.ui.fragments.xposed.BatteryStyle
 import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
-import com.drdisagree.iconify.ui.fragments.xposed.HeaderImage
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClock
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWeather
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWidget
+import com.drdisagree.iconify.ui.fragments.xposed.OpQsHeader
 import com.drdisagree.iconify.ui.fragments.xposed.Others
 import com.drdisagree.iconify.ui.fragments.xposed.QuickSettings
 import com.drdisagree.iconify.ui.fragments.xposed.Statusbar
@@ -153,9 +153,14 @@ object Resources {
             VolumePanel()
         ),
         SearchPreferenceItem(
-            R.xml.xposed_header_image,
-            R.string.activity_title_header_image,
-            HeaderImage()
+            R.xml.xposed_volume_panel,
+            R.string.activity_title_volume_panel,
+            VolumePanel()
+        ),
+        SearchPreferenceItem(
+            R.xml.xposed_op_qs_header,
+            R.string.activity_title_op_qs_header,
+            OpQsHeader()
         ),
         SearchPreferenceItem(
             R.xml.xposed_header_clock,
