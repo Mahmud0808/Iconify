@@ -1354,10 +1354,19 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
             withContext(Dispatchers.Main) {
                 val appIcon = mNotificationMediaManager?.let {
-                    callMethod(
-                        it,
-                        "getMediaIcon"
-                    ) as Icon?
+                    try {
+                        callMethod(it, "getMediaIcon") as Icon?
+                    } catch (ignored: Throwable) {
+                        try {
+                            mMediaController?.packageName?.let { packageName ->
+                                val drawable =
+                                    mContext.packageManager.getApplicationIcon(packageName)
+                                Icon.createWithBitmap((drawable as BitmapDrawable).bitmap)
+                            }
+                        } catch (ignored: Throwable) {
+                            null
+                        }
+                    }
                 }
                 if (appIcon != null && mMediaTitle != null) {
                     if (mAppIcon.drawable != appIcon.loadDrawable(mContext)) {
