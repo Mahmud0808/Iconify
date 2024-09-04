@@ -1229,42 +1229,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         return false
     }
 
-    private fun getActiveLocalMediaController(): MediaController? {
-        val mediaSessionManager = mContext.getSystemService(MediaSessionManager::class.java)
-        var localController: MediaController? = null
-        val remoteMediaSessionLists: MutableList<String> = ArrayList()
-
-        for (controller in mediaSessionManager.getActiveSessions(null)) {
-            val playbackInfo = controller.playbackInfo ?: continue
-            val playbackState = controller.playbackState ?: continue
-            if (playbackState.state != PlaybackState.STATE_PLAYING) continue
-
-            if (playbackInfo.playbackType == PlaybackInfo.PLAYBACK_TYPE_REMOTE) {
-                if (localController != null
-                    && localController.packageName == controller.packageName
-                ) {
-                    localController = null
-                }
-
-                if (!remoteMediaSessionLists.contains(controller.packageName)) {
-                    remoteMediaSessionLists.add(controller.packageName)
-                }
-
-                continue
-            }
-
-            if (playbackInfo.playbackType == PlaybackInfo.PLAYBACK_TYPE_LOCAL) {
-                if (localController == null
-                    && !remoteMediaSessionLists.contains(controller.packageName)
-                ) {
-                    localController = controller
-                }
-            }
-        }
-
-        return localController
-    }
-
     private enum class MediaAction {
         TOGGLE_PLAYBACK,
         PLAY_PREVIOUS,
