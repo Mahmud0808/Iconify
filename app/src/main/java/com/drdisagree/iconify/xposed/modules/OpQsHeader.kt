@@ -186,7 +186,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private lateinit var opMediaPlayIconDrawable: Drawable
     private lateinit var opMediaPauseIconDrawable: Drawable
     private lateinit var mediaSessionLegacyHelperClass: Class<*>
-    private lateinit var bluetoothControllerClass: Class<*>
 
     private var deferredInternetActiveColorAction: (() -> Unit)? = null
     private var deferredInternetInactiveColorAction: (() -> Unit)? = null
@@ -195,6 +194,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var deferredMediaPlayerInactiveColorAction: (() -> Unit)? = null
 
     private var lastUpdateTime = 0L
+    private var opQsLayoutCreated = false
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
@@ -255,8 +255,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.plugins.ActivityStarter",
             loadPackageParam.classLoader
         )
-        bluetoothControllerClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.policy.BluetoothController",
+        val bluetoothControllerImplClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.policy.BluetoothControllerImpl",
             loadPackageParam.classLoader
         )
         val notificationMediaManagerClass = findClass(
@@ -298,11 +298,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         "get",
                         activityStarterClass
                     )
-                    mBluetoothController = callStaticMethod(
-                        dependencyClass,
-                        "get",
-                        bluetoothControllerClass
-                    )
                 }
             })
         } else {
@@ -312,14 +307,15 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         param.thisObject,
                         "mActivityStarter"
                     )
-                    mBluetoothController = callStaticMethod(
-                        dependencyClass,
-                        "get",
-                        bluetoothControllerClass
-                    )
                 }
             })
         }
+
+        hookAllConstructors(bluetoothControllerImplClass, object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                mBluetoothController = param.thisObject
+            }
+        })
 
         hookAllConstructors(notificationMediaManagerClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
@@ -371,7 +367,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
                 initResources(mContext)
 
-                onColorsInitialized()
+                updateOpHeaderView()
             }
         }
 
@@ -476,6 +472,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
                     mQsHeaderContainerShade.visibility = View.GONE
                 }
+
+                updateOpHeaderView()
             }
         })
 
@@ -721,6 +719,9 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateOpHeaderView() {
+        if (!opQsLayoutCreated) return
+
+        onColorsInitialized()
         updateMediaController()
         setClickListeners()
         startMediaUpdater()
@@ -1368,7 +1369,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         setImageDrawable(artworkDrawable)
                         scaleType = ImageView.ScaleType.CENTER_CROP
                         clipToOutline = true
-                        applyBlur(mediaBlurLevel)
+                        applyBlur(if (processedArtwork != null) mediaBlurLevel else 0f)
                     }
 
                     mPreviousMediaArtwork = mMediaArtwork
@@ -1417,7 +1418,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    fun onColorsInitialized() {
+    private fun onColorsInitialized() {
         initResources(mContext)
 
         deferredInternetActiveColorAction?.invoke()
@@ -1935,6 +1936,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 }
             )
         }
+
+        opQsLayoutCreated = true
     }
 
     private fun createTiles() {
