@@ -34,10 +34,7 @@ class Home : ControlledPreferenceFragmentCompat(), AppBarLayout.OnOffsetChangedL
         get() = R.xml.home
 
     override val hasMenu: Boolean
-        get() = true
-
-    override val menuResource: Int
-        get() = R.menu.home_menu
+        get() = false
 
     override val themeResource: Int
         get() = R.style.PrefsThemeCollapsingToolbar
