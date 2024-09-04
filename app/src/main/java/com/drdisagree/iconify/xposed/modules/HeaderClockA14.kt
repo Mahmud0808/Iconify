@@ -333,7 +333,17 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
             }
         })
 
-        try {
+        val hasSwitchAllContentToParent = qsPanelClass.declaredMethods.any {
+            it.name == "switchAllContentToParent"
+        }
+        val hasSwitchToParentMethod = qsPanelClass.declaredMethods.any { method ->
+            method.name == "switchToParent" &&
+                    method.parameterTypes.contentEquals(
+                        arrayOf(View::class.java, ViewGroup::class.java, Int::class.java)
+                    )
+        }
+
+        if (hasSwitchAllContentToParent && hasSwitchToParentMethod) {
             hookAllMethods(qsPanelClass, "switchAllContentToParent", object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     if (!showHeaderClock) return
@@ -403,7 +413,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     }
                 )
             }
-        } catch (ignored: Throwable) { // Some ROMs don't have this method switchAllContentToParent()
+        } else { // Some ROMs don't have this method switchAllContentToParent()
             hookAllMethods(
                 qsPanelControllerBase,
                 "onInit",
@@ -439,7 +449,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                         val targetParentId = mContext.resources.getIdentifier(
                             "quick_settings_panel",
                             "id",
-                            mContext.packageName
+                            SYSTEMUI_PACKAGE
                         )
 
                         if (parent.id == targetParentId) {

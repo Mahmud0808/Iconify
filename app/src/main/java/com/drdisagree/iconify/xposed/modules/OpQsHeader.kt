@@ -480,7 +480,18 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!showOpQsHeaderView) return
 
-                val mQsPanel = getObjectField(param.thisObject, "mQSPanel") as LinearLayout
+                val mQsPanel = try {
+                    getObjectField(param.thisObject, "mQSPanel")
+                } catch (ignored: Throwable) {
+                    (param.thisObject as FrameLayout).findViewById(
+                        mContext.resources.getIdentifier(
+                            "quick_settings_panel",
+                            "id",
+                            SYSTEMUI_PACKAGE
+                        )
+                    )
+                } as LinearLayout
+
                 val isLandscape =
                     mContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
@@ -499,7 +510,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         })
 
-        try {
+        val hasSwitchAllContentToParent = qsPanelClass.declaredMethods.any {
+            it.name == "switchAllContentToParent"
+        }
+        val hasSwitchToParentMethod = qsPanelClass.declaredMethods.any { method ->
+            method.name == "switchToParent" &&
+                    method.parameterTypes.contentEquals(
+                        arrayOf(View::class.java, ViewGroup::class.java, Int::class.java)
+                    )
+        }
+
+        if (hasSwitchAllContentToParent && hasSwitchToParentMethod) {
             hookAllMethods(qsPanelClass, "switchAllContentToParent", object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     if (!showOpQsHeaderView) return
@@ -512,7 +533,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     val targetParentId = mContext.resources.getIdentifier(
                         "quick_settings_panel",
                         "id",
-                        mContext.packageName
+                        SYSTEMUI_PACKAGE
                     )
 
                     if (parent.id == targetParentId) {
@@ -569,7 +590,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
                 )
             }
-        } catch (ignored: Throwable) { // Some ROMs don't have this method switchAllContentToParent()
+        } else { // Some ROMs don't have this method switchAllContentToParent()
             hookAllMethods(
                 qsPanelControllerBase,
                 "onInit",
@@ -605,7 +626,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         val targetParentId = mContext.resources.getIdentifier(
                             "quick_settings_panel",
                             "id",
-                            mContext.packageName
+                            SYSTEMUI_PACKAGE
                         )
 
                         if (parent.id == targetParentId) {
