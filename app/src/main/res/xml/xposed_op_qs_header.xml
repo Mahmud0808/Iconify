@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_opqsheader"
+        android:summary="@string/oneplus_qs_header_desc"
+        android:title="@string/oneplus_qs_header_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_opqsheader"
+        android:key="xposed_opqsheadervibrate"
+        android:summary="@string/oneplus_qs_header_vibrate_desc"
+        android:title="@string/oneplus_qs_header_vibrate_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_opqsheader"
+        android:key="xposed_opqsheaderblurlevel"
+        android:title="@string/oneplus_qs_header_blur_level"
+        app:defaultValue="10"
+        app:iconSpaceReserved="false"
+        app:maxVal="50"
+        app:minVal="0"
+        app:tickInterval="1"
+        app:valueFormat="px" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_opqsheader"
+        android:key="xposed_opqsheaderfadinglevel"
+        android:title="@string/oneplus_qs_header_fade_level"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="80"
+        app:minVal="0"
+        app:tickInterval="1"
+        app:valueFormat="%" />
+
+</PreferenceScreen>

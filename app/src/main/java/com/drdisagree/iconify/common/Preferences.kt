@@ -209,6 +209,10 @@ object Preferences {
     const val HIDE_QS_FOOTER_BUTTONS = "xposed_hideqsfooterbuttons"
     const val QS_TEXT_ALWAYS_WHITE = "xposed_qstextalwayswhite"
     const val QS_TEXT_FOLLOW_ACCENT = "xposed_qstextfollowaccent"
+    const val OP_QS_HEADER_SWITCH = "xposed_opqsheader"
+    const val OP_QS_HEADER_VIBRATE = "xposed_opqsheadervibrate"
+    const val OP_QS_HEADER_BLUR_LEVEL = "xposed_opqsheaderblurlevel"
+    const val OP_QS_HEADER_FADE_LEVEL = "xposed_opqsheaderfadinglevel"
 
     // Xposed view tags
     const val ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock"

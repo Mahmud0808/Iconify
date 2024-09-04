@@ -113,6 +113,7 @@ dependencies {
 
     // Data Binding
     implementation(libs.library)
+    implementation(libs.androidx.palette.ktx)
 
     // Xposed API
     compileOnly(files("libs/api-82.jar"))

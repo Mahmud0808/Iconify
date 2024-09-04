@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -20,8 +22,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import de.robv.android.xposed.XposedBridge
 
-
 object ViewHelper {
+
+    private val TAG = "Iconify - ${ViewHelper::class.java.simpleName}: "
 
     fun setMargins(viewGroup: Any, context: Context, left: Int, top: Int, right: Int, bottom: Int) {
         when (viewGroup) {
@@ -125,7 +128,13 @@ object ViewHelper {
         }
     }
 
-    fun findViewWithTagAndChangeColor(view: View?, tagContains: String, color1: Int, color2: Int, cornerRadius: Int) {
+    fun findViewWithTagAndChangeColor(
+        view: View?,
+        tagContains: String,
+        color1: Int,
+        color2: Int,
+        cornerRadius: Int
+    ) {
         if (view == null) return
 
         val drawable = GradientDrawable()
@@ -165,7 +174,7 @@ object ViewHelper {
             is TextView -> {
                 view.setTextColor(color)
 
-                val drawablesRelative: Array<Drawable?> = view.getCompoundDrawablesRelative()
+                val drawablesRelative: Array<Drawable?> = view.compoundDrawablesRelative
                 for (drawable in drawablesRelative) {
                     drawable?.let {
                         it.mutate()
@@ -174,7 +183,7 @@ object ViewHelper {
                     }
                 }
 
-                val drawables: Array<Drawable?> = view.getCompoundDrawables()
+                val drawables: Array<Drawable?> = view.compoundDrawables
                 for (drawable in drawables) {
                     drawable?.let {
                         it.mutate()
@@ -193,8 +202,8 @@ object ViewHelper {
             }
 
             is ProgressBar -> {
-                view.setProgressTintList(ColorStateList.valueOf(color))
-                view.setProgressBackgroundTintList(ColorStateList.valueOf(color))
+                view.progressTintList = ColorStateList.valueOf(color)
+                view.progressBackgroundTintList = ColorStateList.valueOf(color)
             }
 
             else -> {
@@ -253,21 +262,21 @@ object ViewHelper {
         when (val params = child.layoutParams) {
             is LinearLayout.LayoutParams -> {
                 params.topMargin += topMarginInDp
-                child.setLayoutParams(params)
+                child.layoutParams = params
             }
 
             is FrameLayout.LayoutParams -> {
                 params.topMargin += topMarginInDp
-                child.setLayoutParams(params)
+                child.layoutParams = params
             }
 
             is RelativeLayout.LayoutParams -> {
                 params.topMargin += topMarginInDp
-                child.setLayoutParams(params)
+                child.layoutParams = params
             }
 
             else -> {
-                XposedBridge.log("Invalid params: $params")
+                XposedBridge.log(TAG + "Invalid params: $params")
             }
         }
     }
@@ -324,5 +333,12 @@ object ViewHelper {
     private fun isTagMatch(tagToCheck: String, targetTag: String): Boolean {
         val parts = targetTag.split("|")
         return parts.any { it.trim() == tagToCheck }
+    }
+
+    fun ImageView.applyBlur(radius: Float = 10f): ImageView {
+        return this.apply {
+            val renderEffect = RenderEffect.createBlurEffect(radius, radius, Shader.TileMode.CLAMP)
+            setRenderEffect(renderEffect)
+        }
     }
 }
