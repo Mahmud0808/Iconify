@@ -182,19 +182,18 @@ class HookEntry : ServiceConnection {
             }
         }
     }
+
     private fun connectRootService() {
         try {
             val intent = Intent().apply {
-                setComponent(
-                    ComponentName(
-                        BuildConfig.APPLICATION_ID,
-                        "${
-                            BuildConfig.APPLICATION_ID.replace(
-                                ".debug",
-                                ""
-                            )
-                        }.services.RootProviderProxy"
-                    )
+                component = ComponentName(
+                    BuildConfig.APPLICATION_ID,
+                    "${
+                        BuildConfig.APPLICATION_ID.replace(
+                            ".debug",
+                            ""
+                        )
+                    }.services.RootProviderProxy"
                 )
             }
 
@@ -253,34 +252,6 @@ class HookEntry : ServiceConnection {
                 }
 
                 instance!!.forceConnectRootService()
-            }
-        }
-
-        fun enableOverlay(packageName: String) {
-            enqueueProxyCommand { proxy ->
-                proxy?.enableOverlay(packageName)
-            }
-        }
-
-        fun enableOverlays(vararg packageNames: String) {
-            enqueueProxyCommand { proxy ->
-                packageNames.forEach { packageName ->
-                    proxy?.enableOverlay(packageName)
-                }
-            }
-        }
-
-        fun disableOverlay(packageName: String) {
-            enqueueProxyCommand { proxy ->
-                proxy?.disableOverlay(packageName)
-            }
-        }
-
-        fun disableOverlays(vararg packageNames: String) {
-            enqueueProxyCommand { proxy ->
-                packageNames.forEach { packageName ->
-                    proxy?.disableOverlay(packageName)
-                }
             }
         }
     }

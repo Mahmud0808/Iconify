@@ -225,7 +225,7 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                             )
                         )
 
-                        icon.setImageTintList(ColorStateList.valueOf(Color.WHITE))
+                        icon.imageTintList = ColorStateList.valueOf(Color.WHITE)
                     } catch (throwable: Throwable) {
                         log(TAG + throwable)
                     }
@@ -272,8 +272,8 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                 if (!blackQSHeaderEnabled) return
 
                 try {
-                    (getObjectField(param.thisObject, "mIcon") as ImageView)
-                        .setImageTintList(ColorStateList.valueOf(colorText!!))
+                    (getObjectField(param.thisObject, "mIcon") as ImageView).imageTintList =
+                        ColorStateList.valueOf(colorText!!)
                 } catch (throwable: Throwable) {
                     log(TAG + throwable)
                 }
@@ -286,12 +286,15 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                     if (!blackQSHeaderEnabled) return
 
                     try {
-                        (getObjectField(param.thisObject, "mIcon") as ImageView)
-                            .setImageTintList(ColorStateList.valueOf(colorText!!))
+                        (getObjectField(param.thisObject, "mIcon") as ImageView).imageTintList =
+                            ColorStateList.valueOf(colorText!!)
                     } catch (throwable: Throwable) {
                         try {
-                            (getObjectField(param.thisObject, "mIconView") as ImageView)
-                                .setImageTintList(ColorStateList.valueOf(colorText!!))
+                            (getObjectField(
+                                param.thisObject,
+                                "mIconView"
+                            ) as ImageView).imageTintList =
+                                ColorStateList.valueOf(colorText!!)
                         } catch (throwable1: Throwable) {
                             log(TAG + throwable1)
                         }
@@ -305,8 +308,8 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                 if (!blackQSHeaderEnabled) return
 
                 try {
-                    (getObjectField(param.thisObject, "mIcon") as ImageView)
-                        .setImageTintList(ColorStateList.valueOf(colorText!!))
+                    (getObjectField(param.thisObject, "mIcon") as ImageView).imageTintList =
+                        ColorStateList.valueOf(colorText!!)
                 } catch (throwable: Throwable) {
                     log(TAG + throwable)
                 }
@@ -319,8 +322,8 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                     try {
                         if (getIntField(param.args[1], "state") == Tile.STATE_ACTIVE
                         ) {
-                            (param.args[0] as ImageView)
-                                .setImageTintList(ColorStateList.valueOf(colorText!!))
+                            (param.args[0] as ImageView).imageTintList =
+                                ColorStateList.valueOf(colorText!!)
                         }
                     } catch (throwable: Throwable) {
                         log(TAG + throwable)
@@ -432,7 +435,7 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                             mContext.packageName
                         )
                     )
-                    customDrawable.setImageTintList(ColorStateList.valueOf(colorText!!))
+                    customDrawable.imageTintList = ColorStateList.valueOf(colorText!!)
 
                     val chevron = sideView.findViewById<ImageView>(
                         mContext.resources.getIdentifier(
@@ -441,7 +444,7 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                             mContext.packageName
                         )
                     )
-                    chevron.setImageTintList(ColorStateList.valueOf(colorText!!))
+                    chevron.imageTintList = ColorStateList.valueOf(colorText!!)
                 } catch (throwable: Throwable) {
                     log(TAG + throwable)
                 }
@@ -477,11 +480,11 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                         val mIcon = param.args[0] as ImageView
 
                         if (isDisabledState) {
-                            mIcon.setImageTintList(ColorStateList.valueOf(-0x7f000001))
+                            mIcon.imageTintList = ColorStateList.valueOf(-0x7f000001)
                         } else if (isActiveState && !qsTextAlwaysWhite && !qsTextFollowAccent) {
-                            mIcon.setImageTintList(ColorStateList.valueOf(colorText!!))
+                            mIcon.imageTintList = ColorStateList.valueOf(colorText!!)
                         } else if (!isActiveState) {
-                            mIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE))
+                            mIcon.imageTintList = ColorStateList.valueOf(Color.WHITE)
                         }
                     }
                 }
@@ -585,7 +588,7 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
         })
 
         try {
-            val constants: Array<out Any>? = scrimStateEnum.getEnumConstants()
+            val constants: Array<out Any>? = scrimStateEnum.enumConstants
             if (constants != null) {
                 for (constant in constants) {
                     when (constant.toString()) {
@@ -830,7 +833,7 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                                 mContext.packageName
                             )
                         ), "mMobileSignal"
-                    ) as ImageView).setImageTintList(ColorStateList.valueOf(textColor))
+                    ) as ImageView).imageTintList = ColorStateList.valueOf(textColor)
 
                     (getObjectField(
                         mView.findViewById(
@@ -840,7 +843,7 @@ class QSBlackThemeA13(context: Context?) : ModPack(context!!) {
                                 mContext.packageName
                             )
                         ), "mMobileRoaming"
-                    ) as ImageView).setImageTintList(ColorStateList.valueOf(textColor))
+                    ) as ImageView).imageTintList = ColorStateList.valueOf(textColor)
                 } catch (ignored: Throwable) {
                 }
             }

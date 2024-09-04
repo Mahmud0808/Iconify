@@ -16,8 +16,6 @@ import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
-import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlay
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enableOverlay
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttrDefaultColor
@@ -66,7 +64,13 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
             qsTextFollowAccent = getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
         }
 
-        applyOverlays(true)
+        if (key.isNotEmpty()) {
+            key[0].let {
+                if (it == LIGHT_QSPANEL || it == DUALTONE_QSPANEL) {
+                    applyOverlays(true)
+                }
+            }
+        }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -150,7 +154,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         } catch (ignored: Throwable) {
         }
 
-        unlockedScrimState = scrimStateEnum.getEnumConstants()?.let {
+        unlockedScrimState = scrimStateEnum.enumConstants?.let {
             Arrays.stream(it)
                 .filter { c: Any -> c.toString() == "UNLOCKED" }
                 .findFirst().get()
@@ -355,7 +359,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                                         mContext.packageName
                                     )
                                 )
-                            settingsIcon.setImageTintList(ColorStateList.valueOf(Color.BLACK))
+                            settingsIcon.imageTintList = ColorStateList.valueOf(Color.BLACK)
 
                             val pmButtonContainer = view.findViewById<View>(
                                 res.getIdentifier(
@@ -372,7 +376,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                                     mContext.packageName
                                 )
                             )
-                            pmIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE))
+                            pmIcon.imageTintList = ColorStateList.valueOf(Color.WHITE)
                         } catch (throwable: Throwable) {
                             log(TAG + throwable)
                         }
@@ -387,8 +391,8 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                     getIntField(param.args[1], "state") == Tile.STATE_ACTIVE
                 ) {
                     try {
-                        (param.args[0] as ImageView)
-                            .setImageTintList(ColorStateList.valueOf(colorInactive!!))
+                        (param.args[0] as ImageView).imageTintList =
+                            ColorStateList.valueOf(colorInactive!!)
                     } catch (throwable: Throwable) {
                         log(TAG + throwable)
                     }
@@ -474,9 +478,9 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                             param.result = -0x80000000
                         } else {
                             if (isActiveState && !qsTextAlwaysWhite && !qsTextFollowAccent) {
-                                mIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE))
+                                mIcon.imageTintList = ColorStateList.valueOf(Color.WHITE)
                             } else if (!isActiveState) {
-                                mIcon.setImageTintList(ColorStateList.valueOf(Color.BLACK))
+                                mIcon.imageTintList = ColorStateList.valueOf(Color.BLACK)
                             }
                         }
                     }
@@ -574,7 +578,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         })
 
         try {
-            val constants: Array<out Any>? = scrimStateEnum.getEnumConstants()
+            val constants: Array<out Any>? = scrimStateEnum.enumConstants
             if (constants != null) {
                 for (constant in constants) {
                     when (constant.toString()) {
@@ -757,19 +761,16 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
 
         calculateColors()
 
-        if (!lightQSHeaderEnabled) {
-            if (isCurrentlyDark) disableOverlay(qsLightThemeOverlay)
-            if (!dualToneQSEnabled) disableOverlay(qsDualToneOverlay)
-        }
+        Utils.disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
 
         try {
             Thread.sleep(50)
         } catch (ignored: Throwable) {
         }
 
-        if (lightQSHeaderEnabled) {
-            if (!isCurrentlyDark) enableOverlay(qsLightThemeOverlay)
-            if (dualToneQSEnabled) enableOverlay(qsDualToneOverlay)
+        if (lightQSHeaderEnabled && !isCurrentlyDark) {
+            Utils.enableOverlay(qsLightThemeOverlay)
+            if (dualToneQSEnabled) Utils.enableOverlay(qsDualToneOverlay)
         }
     }
 
@@ -853,7 +854,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                                 mContext.packageName
                             )
                         ), "mMobileSignal"
-                    ) as ImageView).setImageTintList(ColorStateList.valueOf(textColorPrimary))
+                    ) as ImageView).imageTintList = ColorStateList.valueOf(textColorPrimary)
 
                     (getObjectField(
                         mView.findViewById(
@@ -863,7 +864,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                                 mContext.packageName
                             )
                         ), "mMobileRoaming"
-                    ) as ImageView).setImageTintList(ColorStateList.valueOf(textColorPrimary))
+                    ) as ImageView).imageTintList = ColorStateList.valueOf(textColorPrimary)
                 } catch (ignored: Throwable) {
                 }
             }

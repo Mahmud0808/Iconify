@@ -8,8 +8,6 @@ import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
-import com.drdisagree.iconify.xposed.HookEntry.Companion.disableOverlay
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enableOverlay
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.utils.SystemUtils
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -49,7 +47,13 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
             dualToneQSEnabled = lightQSHeaderEnabled && getBoolean(DUALTONE_QSPANEL, false)
         }
 
-        applyOverlays(true)
+        if (key.isNotEmpty()) {
+            key[0].let {
+                if (it == LIGHT_QSPANEL || it == DUALTONE_QSPANEL) {
+                    applyOverlays(true)
+                }
+            }
+        }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -207,7 +211,7 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
                 "$SYSTEMUI_PACKAGE.statusbar.phone.ScrimState",
                 loadPackageParam.classLoader
             )
-            val constants: Array<out Any>? = scrimStateEnum.getEnumConstants()
+            val constants: Array<out Any>? = scrimStateEnum.enumConstants
 
             if (constants != null) {
                 for (constant in constants) {
@@ -360,25 +364,23 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
         })
     }
 
+    @Suppress("SameParameterValue")
     private fun applyOverlays(force: Boolean) {
         val isCurrentlyDark: Boolean = SystemUtils.isDarkMode
         if (isCurrentlyDark == isDark && !force) return
 
         isDark = isCurrentlyDark
 
-        if (!lightQSHeaderEnabled) {
-            if (isCurrentlyDark) disableOverlay(qsLightThemeOverlay)
-            if (!dualToneQSEnabled) disableOverlay(qsDualToneOverlay)
-        }
+        Utils.disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
 
         try {
             Thread.sleep(50)
         } catch (ignored: Throwable) {
         }
 
-        if (lightQSHeaderEnabled) {
-            if (!isCurrentlyDark) enableOverlay(qsLightThemeOverlay)
-            if (dualToneQSEnabled) enableOverlay(qsDualToneOverlay)
+        if (lightQSHeaderEnabled && !isCurrentlyDark) {
+            Utils.enableOverlay(qsLightThemeOverlay)
+            if (dualToneQSEnabled) Utils.enableOverlay(qsDualToneOverlay)
         }
     }
 

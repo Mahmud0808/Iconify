@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.modules.themes
 
 import android.service.quicksettings.Tile
+import com.topjohnwu.superuser.Shell
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.getObjectField
 
@@ -49,5 +50,44 @@ object Utils {
         }
 
         return Pair(isDisabledState, isActiveState)
+    }
+
+    fun enableOverlay(pkgName: String) {
+        Shell.cmd(
+            "cmd overlay enable --user current $pkgName",
+            "cmd overlay set-priority $pkgName highest"
+        ).submit()
+    }
+
+    fun enableOverlay(pkgName: String, priority: String) {
+        Shell.cmd(
+            "cmd overlay enable --user current $pkgName",
+            "cmd overlay set-priority $pkgName $priority"
+        ).submit()
+    }
+
+    fun enableOverlays(vararg pkgNames: String?) {
+        val command = StringBuilder()
+
+        for (pkgName in pkgNames) {
+            command.append("cmd overlay enable --user current ").append(pkgName)
+                .append("; cmd overlay set-priority ").append(pkgName).append(" highest; ")
+        }
+
+        Shell.cmd(command.toString().trim { it <= ' ' }).submit()
+    }
+
+    fun disableOverlay(pkgName: String) {
+        Shell.cmd("cmd overlay disable --user current $pkgName").submit()
+    }
+
+    fun disableOverlays(vararg pkgNames: String?) {
+        val command = StringBuilder()
+
+        for (pkgName in pkgNames) {
+            command.append("cmd overlay disable --user current ").append(pkgName).append("; ")
+        }
+
+        Shell.cmd(command.toString().trim { it <= ' ' }).submit()
     }
 }
