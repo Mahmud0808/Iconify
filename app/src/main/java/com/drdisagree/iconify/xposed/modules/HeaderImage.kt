@@ -301,7 +301,9 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
             }
         }
 
-        setLayoutParams(layoutParams)
+        if (layoutParams != null) {
+            setLayoutParams(layoutParams)
+        }
     }
 
     companion object {
