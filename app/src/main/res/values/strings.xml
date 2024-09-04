@@ -477,10 +477,12 @@
     <!-- Oneplus QS Header -->
     <string name="oneplus_qs_header_title">Oneplus QS Header</string>
     <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
-    <string name="oneplus_qs_header_blur_level">Blur Level</string>
-    <string name="oneplus_qs_header_fade_level">Fade Level</string>
     <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
     <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
+    <string name="oneplus_qs_header_blur_level">Blur Level</string>
+    <string name="oneplus_qs_header_fade_level">Fade Level</string>
+    <string name="oneplus_qs_header_top_margin">Top Margin</string>
+    <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
 
     <!-- Lockscreen Widgets -->
     <string name="lockscreen_widgets_title">Lockscreen Widgets</string>

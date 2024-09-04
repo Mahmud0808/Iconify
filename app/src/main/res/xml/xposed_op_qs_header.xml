@@ -23,6 +23,7 @@
         app:iconSpaceReserved="false"
         app:maxVal="50"
         app:minVal="0"
+        app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="px" />
 
@@ -34,7 +35,32 @@
         app:iconSpaceReserved="false"
         app:maxVal="80"
         app:minVal="0"
+        app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="%" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_opqsheader"
+        android:key="xposed_opqsheadertopmargin"
+        android:title="@string/oneplus_qs_header_top_margin"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="300"
+        app:minVal="0"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_opqsheader"
+        android:key="xposed_opqsheaderexpansiony"
+        android:title="@string/oneplus_qs_header_expansion_y"
+        app:defaultValue="0"
+        app:iconSpaceReserved="false"
+        app:maxVal="100"
+        app:minVal="-100"
+        app:showResetButton="true"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
 
 </PreferenceScreen>
