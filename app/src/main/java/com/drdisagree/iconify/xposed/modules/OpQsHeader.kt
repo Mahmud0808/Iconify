@@ -168,6 +168,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var mBluetoothController: Any? = null
     private var mBluetoothTileDialogViewModel: Any? = null
     private var mInternetDialogManager: Any? = null
+    private var mInternetDialogFactory: Any? = null
     private var mAccessPointController: Any? = null
     private lateinit var mConnectivityManager: ConnectivityManager
     private lateinit var mTelephonyManager: TelephonyManager
@@ -334,7 +335,16 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         hookAllConstructors(networkControllerImplClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 mAccessPointController = getObjectField(param.thisObject, "mAccessPoints")
-                mInternetDialogManager = getObjectField(param.thisObject, "mInternetDialogManager")
+                try {
+                    mInternetDialogManager =
+                        getObjectField(param.thisObject, "mInternetDialogManager")
+                } catch (ignored: Throwable) {
+                }
+                try {
+                    mInternetDialogFactory =
+                        getObjectField(param.thisObject, "mInternetDialogFactory")
+                } catch (ignored: Throwable) {
+                }
             }
         })
 
@@ -372,8 +382,13 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         }
 
-        hookAllMethods(qsTileViewImplClass, "init", updateColors)
-        hookAllMethods(qsTileViewImplClass, "updateResources", updateColors)
+        val onConfigChanged = object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                updateOpHeaderView()
+            }
+        }
+
+        hookAllMethods(qsTileViewImplClass, "onConfigurationChanged", updateColors)
 
         hookAllMethods(quickStatusBarHeaderClass, "onFinishInflate", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
@@ -887,15 +902,25 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
     private fun toggleInternetState(v: View) {
         mHandler.post {
-            if (mInternetDialogManager != null && mAccessPointController != null) {
-                callMethod(
-                    mInternetDialogManager,
-                    "create",
-                    true,
-                    callMethod(mAccessPointController, "canConfigMobileData"),
-                    callMethod(mAccessPointController, "canConfigWifi"),
-                    v
-                )
+            if (mAccessPointController != null) {
+                if (mInternetDialogManager != null) {
+                    callMethod(
+                        mInternetDialogManager,
+                        "create",
+                        true,
+                        callMethod(mAccessPointController, "canConfigMobileData"),
+                        callMethod(mAccessPointController, "canConfigWifi"),
+                        v
+                    )
+                } else if (mInternetDialogFactory != null) {
+                    callMethod(
+                        mInternetDialogFactory,
+                        "create",
+                        callMethod(mAccessPointController, "canConfigMobileData"),
+                        callMethod(mAccessPointController, "canConfigWifi"),
+                        v
+                    )
+                }
             }
         }
 
@@ -1139,17 +1164,50 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun updateMediaController() {
-        val localController: MediaController? = getActiveLocalMediaController()
+    private val isMediaControllerAvailable: Boolean
+        get() {
+            val mediaController = activeLocalMediaController
+            return mediaController != null && !mediaController.packageName.isNullOrEmpty()
+        }
 
-        if (localController != null &&
-            !(callMethod(
-                mNotificationMediaManager,
-                "sameSessions",
-                mMediaController,
-                localController
-            ) as Boolean)
-        ) {
+    private val activeLocalMediaController: MediaController?
+        get() {
+            val mediaSessionManager =
+                mContext.getSystemService(MediaSessionManager::class.java)
+            var localController: MediaController? = null
+            val remoteMediaSessionLists: MutableList<String> = ArrayList()
+            for (controller: MediaController in mediaSessionManager.getActiveSessions(null)) {
+                val pi = controller.playbackInfo ?: continue
+                val playbackState = controller.playbackState ?: continue
+                if (playbackState.state != PlaybackState.STATE_PLAYING) {
+                    continue
+                }
+                if (pi.playbackType == PlaybackInfo.PLAYBACK_TYPE_REMOTE) {
+                    if (localController != null
+                        && localController.packageName!!.contentEquals(controller.packageName)
+                    ) {
+                        localController = null
+                    }
+                    if (!remoteMediaSessionLists.contains(controller.packageName)) {
+                        remoteMediaSessionLists.add(controller.packageName)
+                    }
+                    continue
+                }
+                if (pi.playbackType == PlaybackInfo.PLAYBACK_TYPE_LOCAL) {
+                    if (localController == null
+                        && !remoteMediaSessionLists.contains(controller.packageName)
+                    ) {
+                        localController = controller
+                    }
+                }
+            }
+            return localController
+        }
+
+    private fun updateMediaController() {
+        val localController =
+            activeLocalMediaController
+        if (localController != null && !sameSessions(mMediaController, localController)) {
             if (mMediaController != null) {
                 mMediaController!!.unregisterCallback(mMediaCallback)
                 mMediaController = null
@@ -1157,17 +1215,19 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             mMediaController = localController
             mMediaController!!.registerCallback(mMediaCallback)
         }
-
-        mMediaMetadata = if (isMediaControllerAvailable) mMediaController?.metadata else null
-
+        mMediaMetadata = if (isMediaControllerAvailable) mMediaController!!.metadata else null
         updateMediaPlayerView()
     }
 
-    private val isMediaControllerAvailable: Boolean
-        get() {
-            val mediaController = getActiveLocalMediaController()
-            return mediaController != null && mediaController.packageName.isNotEmpty()
+    private fun sameSessions(a: MediaController?, b: MediaController): Boolean {
+        if (a == b) {
+            return true
         }
+        if (a == null) {
+            return false
+        }
+        return false
+    }
 
     private fun getActiveLocalMediaController(): MediaController? {
         val mediaSessionManager = mContext.getSystemService(MediaSessionManager::class.java)
