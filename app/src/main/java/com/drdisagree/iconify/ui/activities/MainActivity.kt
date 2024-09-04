@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
@@ -170,6 +171,16 @@ class MainActivity : BaseActivity(),
             binding.bottomNavigationView.menu.clear()
             binding.bottomNavigationView.inflateMenu(R.menu.bottom_nav_menu_xposed_only)
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (supportFragmentManager.backStackEntryCount > 1) {
+                    popCurrentFragment(supportFragmentManager)
+                } else {
+                    finishAffinity()
+                }
+            }
+        })
 
         supportFragmentManager.addOnBackStackChangedListener {
             val fragment = getTopFragment()
@@ -407,7 +418,7 @@ class MainActivity : BaseActivity(),
                     if (fragmentManager.getBackStackEntryAt(i).name == fragmentTag) {
                         fragmentManager.popBackStack(
                             fragmentTag,
-                            FragmentManager.POP_BACK_STACK_INCLUSIVE
+                            POP_BACK_STACK_INCLUSIVE
                         )
                         break
                     }
@@ -424,14 +435,11 @@ class MainActivity : BaseActivity(),
                     replace(R.id.fragmentContainerView, fragment, fragmentTag)
 
                     when (fragmentTag) {
-                        Home::class.java.simpleName -> {
-                            fragmentManager.popBackStack(null, POP_BACK_STACK_INCLUSIVE)
-                        }
-
+                        Home::class.java.simpleName,
                         Tweaks::class.java.simpleName,
                         Xposed::class.java.simpleName,
                         Settings::class.java.simpleName -> {
-                            fragmentManager.popBackStack(null, POP_BACK_STACK_INCLUSIVE)
+                            fragmentManager.popBackStack(Home::class.java.simpleName, 0)
                             addToBackStack(fragmentTag)
                         }
 
@@ -446,6 +454,7 @@ class MainActivity : BaseActivity(),
             }
         }
 
+        @Suppress("SameParameterValue")
         private fun getLastFragment(
             fragmentManager: FragmentManager,
             excludeSearchFragment: Boolean = false
