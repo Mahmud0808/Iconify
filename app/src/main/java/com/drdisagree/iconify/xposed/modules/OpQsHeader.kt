@@ -1264,6 +1264,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateMediaPlayer(force: Boolean = false) {
+        if (!opQsLayoutCreated) return
+
         artworkExtractorScope.launch {
             val requireUpdate = !areBitmapsEqual(mPreviousMediaArtwork, mMediaArtwork) ||
                     mMediaPlayerBackground.drawable == null
@@ -1274,6 +1276,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             var dominantColor: Int? = null
 
             if (requireUpdate || force) {
+                initResources(mContext)
+
                 processedArtwork = processArtwork(mMediaArtwork, mMediaPlayerBackground)
                 dominantColor = extractDominantColor(processedArtwork)
                 filteredArtwork = processedArtwork?.let {
@@ -1375,8 +1379,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
                     mPreviousMediaArtwork = mMediaArtwork
                     mPreviousMediaProcessedArtwork = filteredArtwork
-
-                    initResources(mContext)
 
                     val onDominantColor = getContrastingTextColor(dominantColor)
 
