@@ -51,6 +51,8 @@ import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.ICONIFY_HEADER_CLOCK_TAG
+import com.drdisagree.iconify.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG
+import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.utils.TextUtils
@@ -93,9 +95,11 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
     private var showHeaderClock = false
     private var centeredClockView = false
     private var mQsHeaderContainer: LinearLayout = LinearLayout(mContext)
+    private var mQsHeaderContainerShade: LinearLayout = LinearLayout(mContext).apply {
+        tag = ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG
+    }
     private var mQsClockContainer: LinearLayout = LinearLayout(mContext)
     private var mQsIconsContainer: LinearLayout = LinearLayout(mContext)
-    private var mQsHeaderContainerShade: LinearLayout = LinearLayout(mContext)
     private var mQsPanelView: ViewGroup? = null
     private var mQuickStatusBarHeader: FrameLayout? = null
     private var mUserManager: UserManager? = null
@@ -122,6 +126,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
             onDateClick()
         }
     }
+    private var showOpQsHeaderView = false
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
@@ -132,6 +137,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
             mQQSExpansionY = getSliderInt(HEADER_CLOCK_EXPANSION_Y, 24).toFloat()
             hideQsCarrierGroup = getBoolean(QSPANEL_HIDE_CARRIER, false)
             hideStatusIcons = getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
+            showOpQsHeaderView = getBoolean(OP_QS_HEADER_SWITCH, false)
         }
 
         if (key.isNotEmpty()) {
@@ -259,7 +265,8 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     )
                     orientation = LinearLayout.VERTICAL
-                    (layoutParams as MarginLayoutParams).bottomMargin = mContext.toPx(16)
+                    (layoutParams as MarginLayoutParams).bottomMargin =
+                        mContext.toPx(if (!showOpQsHeaderView) 16 else 8)
                 }
 
                 mQsClockContainer.apply {
@@ -289,7 +296,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
                 mQuickStatusBarHeader!!.addView(
                     mQsHeaderContainer,
-                    mQuickStatusBarHeader!!.childCount
+                    -1
                 )
 
                 handleOldHeaderView(param)
@@ -312,13 +319,13 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                 if (isLandscape) {
                     if (mQsHeaderContainer.parent != mQsHeaderContainerShade) {
                         (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
-                        mQsHeaderContainerShade.addView(mQsHeaderContainer)
+                        mQsHeaderContainerShade.addView(mQsHeaderContainer, 0)
                     }
                     mQsHeaderContainerShade.visibility = View.VISIBLE
                 } else {
                     if (mQsHeaderContainer.parent != mQuickStatusBarHeader) {
                         (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
-                        mQuickStatusBarHeader?.addView(mQsHeaderContainer)
+                        mQuickStatusBarHeader?.addView(mQsHeaderContainer, 0)
                     }
                     mQsHeaderContainerShade.visibility = View.GONE
                 }
@@ -344,6 +351,15 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     )
 
                     if (parent.id == targetParentId) {
+                        val checkExistingView =
+                            parent.findViewWithTag<ViewGroup?>(ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG)
+                        if (checkExistingView != null) {
+                            mQsHeaderContainerShade = checkExistingView as LinearLayout
+                            if (parent.indexOfChild(mQsHeaderContainerShade) == index) {
+                                return
+                            }
+                        }
+
                         callMethod(
                             param.thisObject,
                             "switchToParent",
@@ -366,15 +382,13 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                         override fun replaceHookedMethod(param: MethodHookParam): Any? {
                             val view = param.args[0] as View
                             val parent = param.args[1] as ViewGroup
-                            val index = if (view == mQsHeaderContainerShade) {
-                                param.args[2] as Int
+                            val tempIndex = param.args[2] as Int
+                            val index = if (view.tag == ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG) {
+                                tempIndex
                             } else {
-                                (param.args[2] as Int) + 1
+                                tempIndex + 1
                             }
-                            val tag = callMethod(
-                                param.thisObject,
-                                "getDumpableTag"
-                            )
+                            val tag = callMethod(param.thisObject, "getDumpableTag")
 
                             callMethod(
                                 param.thisObject,
@@ -384,6 +398,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                                 index,
                                 tag
                             )
+
                             return null
                         }
                     }
@@ -435,10 +450,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                                 mQsHeaderContainerShadeParent.indexOfChild(mQsHeaderContainerShade) != index
                             ) {
                                 mQsHeaderContainerShadeParent?.removeView(mQsHeaderContainerShade)
-                                parent.addView(
-                                    mQsHeaderContainerShade,
-                                    index
-                                )
+                                parent.addView(mQsHeaderContainerShade, index)
                             }
                         }
 
@@ -694,12 +706,14 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
     private fun modifyClockView(clockView: View) {
         if (!XprefsIsInitialized) return
 
+        val isLandscape =
+            mContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         val clockStyle: Int = Xprefs.getInt(HEADER_CLOCK_STYLE, 0)
         val customFontEnabled: Boolean = Xprefs.getBoolean(HEADER_CLOCK_FONT_SWITCH, false)
         val clockScale: Float =
             (Xprefs.getSliderInt(HEADER_CLOCK_FONT_TEXT_SCALING, 10) / 10.0).toFloat()
         val sideMargin: Int = Xprefs.getSliderInt(HEADER_CLOCK_SIDEMARGIN, 0)
-        val topMargin: Int = Xprefs.getSliderInt(HEADER_CLOCK_TOPMARGIN, 8)
+        val topMargin: Int = if (isLandscape) 0 else Xprefs.getSliderInt(HEADER_CLOCK_TOPMARGIN, 8)
         val customFont = Environment.getExternalStorageDirectory().toString() +
                 "/.iconify_files/headerclock_font.ttf"
 
@@ -773,6 +787,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
         if (customFontEnabled && File(customFont).exists()) typeface =
             Typeface.createFromFile(File(customFont))
+
 
         setMargins(mQsHeaderContainer, mContext, 0, topMargin, 0, 0)
 

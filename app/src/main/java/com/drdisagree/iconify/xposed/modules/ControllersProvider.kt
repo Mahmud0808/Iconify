@@ -3,7 +3,6 @@ package com.drdisagree.iconify.xposed.modules
 import android.annotation.SuppressLint
 import android.content.Context
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -122,17 +121,26 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
                         onBluetoothChanged(mBluetoothEnabled)
                     }
                 })
+            hookAllMethods(
+                bluetoothControllerImpl,
+                "onAclConnectionStateChanged",
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        onBluetoothChanged(mBluetoothEnabled)
+                    }
+                })
         } catch (t: Throwable) {
             log(TAG + "BluetoothControllerImpl not found " + t.message)
         }
 
         // Get Bluetooth Tile for Dialog
         try {
-            val BluetoothTile = findClass(
+            val bluetoothTile = findClass(
                 "com.android.systemui.qs.tiles.BluetoothTile",
                 loadPackageParam.classLoader
             )
-            hookAllConstructors(BluetoothTile, object : XC_MethodHook() {
+            hookAllConstructors(bluetoothTile, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     mBluetoothTile = param.thisObject

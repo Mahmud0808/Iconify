@@ -16,6 +16,7 @@ import com.drdisagree.iconify.xposed.modules.LockscreenClock
 import com.drdisagree.iconify.xposed.modules.LockscreenWeather
 import com.drdisagree.iconify.xposed.modules.LockscreenWidgets
 import com.drdisagree.iconify.xposed.modules.Miscellaneous
+import com.drdisagree.iconify.xposed.modules.OpQsHeader
 import com.drdisagree.iconify.xposed.modules.QSTransparency
 import com.drdisagree.iconify.xposed.modules.QuickSettings
 import com.drdisagree.iconify.xposed.modules.Statusbar
@@ -73,7 +74,8 @@ object EntryList {
         QSFluidThemeA14::class.java,
         QSBlackThemeA14::class.java,
         QSLightThemeA14::class.java,
-        HeaderClockA14::class.java
+        HeaderClockA14::class.java,
+        OpQsHeader::class.java
     )
 
     private val pixelLauncherModPacks = listOf(
