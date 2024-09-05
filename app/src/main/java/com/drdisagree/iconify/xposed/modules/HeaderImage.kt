@@ -28,6 +28,7 @@ import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_OVERLAP
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_SWITCH
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_ZOOMTOFIT
+import com.drdisagree.iconify.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_TAG
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -126,7 +127,9 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
         hookAllMethods(quickStatusBarHeader, "onFinishInflate", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val mQuickStatusBarHeader = param.thisObject as FrameLayout
-                mQsHeaderLayout = FadingEdgeLayout(mContext)
+                mQsHeaderLayout = FadingEdgeLayout(mContext).apply {
+                    tag = ICONIFY_QS_HEADER_CONTAINER_TAG
+                }
 
                 val layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, TypedValue.applyDimension(

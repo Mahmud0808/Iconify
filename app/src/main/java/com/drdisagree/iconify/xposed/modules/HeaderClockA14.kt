@@ -52,6 +52,7 @@ import com.drdisagree.iconify.common.Preferences.HEADER_CLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.HIDE_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.ICONIFY_HEADER_CLOCK_TAG
 import com.drdisagree.iconify.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG
+import com.drdisagree.iconify.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_TAG
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.common.Resources
@@ -294,9 +295,18 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     addView(mQsIconsContainer)
                 }
 
-
                 (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
-                mQuickStatusBarHeader!!.addView(mQsHeaderContainer, -1)
+                val headerImageAvailable = mQuickStatusBarHeader!!.findViewWithTag<ViewGroup?>(
+                    ICONIFY_QS_HEADER_CONTAINER_TAG
+                )
+                mQuickStatusBarHeader!!.addView(
+                    mQsHeaderContainer,
+                    if (headerImageAvailable == null) {
+                        -1
+                    } else {
+                        mQuickStatusBarHeader!!.indexOfChild(headerImageAvailable) + 1
+                    }
+                )
 
                 handleOldHeaderView(param)
 
@@ -323,8 +333,19 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     mQsHeaderContainerShade.visibility = View.VISIBLE
                 } else {
                     if (mQsHeaderContainer.parent != mQuickStatusBarHeader) {
+                        val headerImageAvailable =
+                            mQuickStatusBarHeader!!.findViewWithTag<ViewGroup?>(
+                                ICONIFY_QS_HEADER_CONTAINER_TAG
+                            )
                         (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
-                        mQuickStatusBarHeader?.addView(mQsHeaderContainer, 0)
+                        mQuickStatusBarHeader?.addView(
+                            mQsHeaderContainer,
+                            if (headerImageAvailable == null) {
+                                0
+                            } else {
+                                mQuickStatusBarHeader!!.indexOfChild(headerImageAvailable) + 1
+                            }
+                        )
                     }
                     mQsHeaderContainerShade.visibility = View.GONE
                 }
