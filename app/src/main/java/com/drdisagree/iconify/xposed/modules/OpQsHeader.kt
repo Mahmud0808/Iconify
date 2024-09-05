@@ -60,6 +60,7 @@ import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_VIBRATE
 import com.drdisagree.iconify.utils.color.monet.quantize.QuantizerCelebi
 import com.drdisagree.iconify.utils.color.monet.score.Score
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.utils.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
@@ -104,6 +105,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var topMarginValue = 0
     private var expansionAmount = 0
 
+    private lateinit var mActivityLauncherUtils: ActivityLauncherUtils
+
     private var mQsHeaderContainer: LinearLayout = LinearLayout(mContext)
     private var mQsHeaderContainerShade: LinearLayout = LinearLayout(mContext).apply {
         tag = ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG
@@ -142,10 +145,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var mMediaOutputDialogFactory: Any? = null
     private var mNotificationMediaManager: Any? = null
     private var mBluetoothController: Any? = null
-    private var mBluetoothTileDialogViewModel: Any? = null
-    private var mInternetDialogManager: Any? = null
-    private var mInternetDialogFactory: Any? = null
-    private var mAccessPointController: Any? = null
     private var qsTileViewImplInstance: Any? = null
     private lateinit var mConnectivityManager: ConnectivityManager
     private lateinit var mTelephonyManager: TelephonyManager
@@ -234,14 +233,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaControlPanel",
             "$SYSTEMUI_PACKAGE.media.controls.ui.MediaControlPanel"
         )
-        val networkControllerImplClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.connectivity.NetworkControllerImpl",
-            loadPackageParam.classLoader
-        )
-        val bluetoothTileClass = findClass(
-            "$SYSTEMUI_PACKAGE.qs.tiles.BluetoothTile",
-            loadPackageParam.classLoader
-        )
         mediaSessionLegacyHelperClass = findClass(
             "$FRAMEWORK_PACKAGE.media.session.MediaSessionLegacyHelper",
             loadPackageParam.classLoader
@@ -265,6 +256,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         "get",
                         activityStarterClass
                     )
+                    mActivityLauncherUtils = ActivityLauncherUtils(mContext, mActivityStarter)
                 }
             })
         } else {
@@ -274,6 +266,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         param.thisObject,
                         "mActivityStarter"
                     )
+                    mActivityLauncherUtils = ActivityLauncherUtils(mContext, mActivityStarter)
                 }
             })
         }
@@ -294,33 +287,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 mMediaOutputDialogFactory =
                     getObjectField(param.thisObject, "mMediaOutputDialogFactory")
-            }
-        })
-
-        hookAllConstructors(networkControllerImplClass, object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                mAccessPointController = getObjectField(param.thisObject, "mAccessPoints")
-                try {
-                    mInternetDialogManager =
-                        getObjectField(param.thisObject, "mInternetDialogManager")
-                } catch (ignored: Throwable) {
-                }
-                try {
-                    mInternetDialogFactory =
-                        getObjectField(param.thisObject, "mInternetDialogFactory")
-                } catch (ignored: Throwable) {
-                }
-            }
-        })
-
-        hookAllConstructors(bluetoothTileClass, object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                try {
-                    mBluetoothTileDialogViewModel =
-                        getObjectField(param.thisObject, "mDialogViewModel")
-                } catch (ignored: Throwable) {
-                    log(TAG + "Bluetooth dialog view model not found")
-                }
             }
         })
 
@@ -934,57 +900,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
     private fun toggleInternetState(v: View) {
         mHandler.post {
-            if (mAccessPointController != null) {
-                if (isMethodAvailable(
-                        mInternetDialogManager,
-                        "create",
-                        Boolean::class.java,
-                        Boolean::class.java,
-                        Boolean::class.java,
-                        View::class.java
-                    )
-                ) {
-                    callMethod(
-                        mInternetDialogManager,
-                        "create",
-                        true,
-                        callMethod(mAccessPointController, "canConfigMobileData"),
-                        callMethod(mAccessPointController, "canConfigWifi"),
-                        v
-                    )
-                } else if (isMethodAvailable(
-                        mInternetDialogManager,
-                        "create",
-                        View::class.java,
-                        Boolean::class.java,
-                        Boolean::class.java
-                    )
-                ) {
-                    callMethod(
-                        mInternetDialogManager,
-                        "create",
-                        v,
-                        callMethod(mAccessPointController, "canConfigMobileData"),
-                        callMethod(mAccessPointController, "canConfigWifi")
-                    )
-                } else if (isMethodAvailable(
-                        mInternetDialogFactory,
-                        "create",
-                        Boolean::class.java,
-                        Boolean::class.java,
-                        View::class.java
-                    )
-                ) {
-                    callMethod(
-                        mInternetDialogFactory,
-                        "create",
-                        callMethod(mAccessPointController, "canConfigMobileData"),
-                        callMethod(mAccessPointController, "canConfigWifi"),
-                        v
-                    )
-                } else {
-                    log(TAG + "No internet dialog available")
-                }
+            if (!ControllersProvider.showInternetDialog(v)) {
+                mActivityLauncherUtils.launchApp(Intent(Settings.ACTION_WIFI_SETTINGS), true)
             }
         }
 
@@ -1183,29 +1100,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
     private fun toggleBluetoothState(v: View) {
         mHandler.post {
-            if (mBluetoothTileDialogViewModel != null) {
-                try {
-                    callMethod(
-                        mBluetoothTileDialogViewModel,
-                        "showDialog",
-                        mContext,
-                        v
-                    )
-                } catch (ignored: Throwable) {
-                    val isAutoOn = Settings.System.getInt(
-                        mContext.contentResolver,
-                        "qs_bt_auto_on", 0
-                    ) == 1
-
-                    callMethod(
-                        mBluetoothTileDialogViewModel,
-                        "showDialog",
-                        mContext,
-                        v,
-                        isAutoOn
-                    )
-                }
-            } else if (mBluetoothController != null) {
+            if (!ControllersProvider.showBluetoothDialog(mContext, v)) {
                 callMethod(mBluetoothController, "setBluetoothEnabled", !isBluetoothEnabled)
             }
         }
@@ -1674,24 +1569,13 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private val mOnLongClickListener = OnLongClickListener { v ->
-        if (mActivityStarter == null) return@OnLongClickListener false
 
         if (v === mQsOpHeaderView?.internetTile) {
-            callMethod(
-                mActivityStarter,
-                "postStartActivityDismissingKeyguard",
-                Intent(Settings.ACTION_WIFI_SETTINGS),
-                0
-            )
+            mActivityLauncherUtils.launchApp(Intent(Settings.ACTION_WIFI_SETTINGS), true)
             vibrate()
             return@OnLongClickListener true
         } else if (v === mQsOpHeaderView?.bluetoothTile) {
-            callMethod(
-                mActivityStarter,
-                "postStartActivityDismissingKeyguard",
-                Intent(Settings.ACTION_BLUETOOTH_SETTINGS),
-                0
-            )
+            mActivityLauncherUtils.launchApp(Intent(Settings.ACTION_BLUETOOTH_SETTINGS), true)
             vibrate()
             return@OnLongClickListener true
         } else {
@@ -1707,7 +1591,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private fun launchMediaPlayer() {
-        if (mActivityStarter == null) return
 
         val packageName: String? = mMediaController?.packageName
         val appIntent = if (packageName != null) Intent(
@@ -1718,7 +1601,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         if (appIntent != null) {
             appIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             appIntent.setPackage(packageName)
-            callMethod(mActivityStarter, "startActivity", appIntent, true)
+            mActivityLauncherUtils.launchApp(appIntent, true)
             return
         }
     }

@@ -24,6 +24,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
+import android.service.controls.Control
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.GestureDetector
@@ -1195,23 +1196,12 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun showInternetDialog(view: View) {
-        val mCellularTile = ControllersProvider.mCellularTile
-        if (mCellularTile == null || Build.VERSION.SDK_INT < 34) {
-            mActivityLauncherUtils.launchInternetSettings()
+        val finalView: View = if (view is ExtendedFAB) {
+            view.parent as View
         } else {
-            val finalView: View = if (view is ExtendedFAB) {
-                view.parent as View
-            } else {
-                view
-            }
-            post {
-                callMethod(
-                    ControllersProvider.mCellularTile,
-                    "handleClick",
-                    finalView
-                )
-            }
+            view
         }
+        ControllersProvider.showInternetDialog(finalView)
         vibrate(0)
     }
 
@@ -1495,22 +1485,13 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun showBluetoothDialog(view: View) {
-        val mBluetoothTile = ControllersProvider.mBluetoothTile
-        if (mBluetoothTile == null || Build.VERSION.SDK_INT < 34) {
-            mActivityLauncherUtils.launchBluetoothSettings()
+        val finalView: View = if (view is ExtendedFAB) {
+            view.parent as View
         } else {
-            val finalView: View = if (view is ExtendedFAB) {
-                view.parent as View
-            } else {
-                view
-            }
-            post {
-                callMethod(
-                    ControllersProvider.mBluetoothTile,
-                    "handleClick",
-                    finalView
-                )
-            }
+            view
+        }
+        if (!ControllersProvider.showBluetoothDialog(mContext, finalView)) {
+            mActivityLauncherUtils.launchBluetoothSettings()
         }
         vibrate(0)
     }

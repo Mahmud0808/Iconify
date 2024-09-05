@@ -32,6 +32,15 @@ class ActivityLauncherUtils(private val mContext: Context, private val mActivity
         }
     }
 
+    fun launchApp(launchIntent: Intent?, fromQs: Boolean = false) {
+        if (launchIntent == null) return
+        if (mActivityStarter == null) {
+            log("ActivityStarter is null")
+            return
+        }
+        callMethod(mActivityStarter, "postStartActivityDismissingKeyguard", launchIntent, /* dismissShade */ 0)
+    }
+
     fun launchCamera() {
         val launchIntent = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA_SECURE)
         launchAppIfAvailable(launchIntent, R.string.camera)
