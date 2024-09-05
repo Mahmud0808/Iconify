@@ -46,6 +46,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.palette.graphics.Palette
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
@@ -327,6 +328,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         })
 
+        // Update colors when device theme changes
         hookAllMethods(shadeHeaderControllerClass, "onInit", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val configurationControllerListener = getObjectField(
@@ -451,6 +453,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         })
 
+        // Move view to different parent when rotation changes
         hookAllMethods(quickStatusBarHeaderClass, "updateResources", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 mQuickStatusBarHeader = param.thisObject as FrameLayout
@@ -504,13 +507,40 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         }
 
+        // Update qs top margin
         hookAllMethods(qsContainerImplClass, "onFinishInflate", updateQsTopMargin)
         hookAllMethods(qsContainerImplClass, "updateResources", updateQsTopMargin)
 
+        // Hide stock media player
         hookAllMethods(qsPanelClass, "reAttachMediaHost", object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): Any? {
                 if (!showOpQsHeaderView) return param.result
                 return null
+            }
+        })
+
+        // Ensure stock media player is hidden
+        hookAllMethods(qsImplClass, "onComponentCreated", object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                if (!showOpQsHeaderView) return
+
+                val mQSPanelController = getObjectField(param.thisObject, "mQSPanelController")
+
+                val listener = Runnable {
+                    val mediaHost = callMethod(mQSPanelController, "getMediaHost")
+                    val hostView = callMethod(mediaHost, "getHostView")
+
+                    callMethod(hostView, "setAlpha", 0.0f)
+
+                    try {
+                        callMethod(mQSPanelController, "requestAnimatorUpdate")
+                    } catch (ignored: Throwable) {
+                        val mQSAnimator = getObjectField(param.thisObject, "mQSAnimator")
+                        callMethod(mQSAnimator, "requestAnimatorUpdate")
+                    }
+                }
+
+                callMethod(mQSPanelController, "setUsingHorizontalLayoutChangeListener", listener)
             }
         })
 
@@ -1331,10 +1361,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             var processedArtwork: Bitmap? = null
             var filteredArtwork: Bitmap? = null
             var dominantColor: Int? = null
+            val transitionDuration = 500
 
             if (requireUpdate || force) {
                 if (!::opMediaBackgroundDrawable.isInitialized) {
                     initResources()
+                }
+
+                val defaultBackground = opMediaBackgroundDrawable.apply {
+                    colorInactive?.let {
+                        DrawableCompat.setTint(this, it)
+                    }
                 }
 
                 processedArtwork = processArtwork(mMediaArtwork, mMediaPlayerBackground)
@@ -1344,15 +1381,14 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 }
                 val newArtworkDrawable = when {
                     filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
-                    else -> opMediaBackgroundDrawable
+                    else -> defaultBackground
                 }
-                val transitionDuration = 500
 
                 when {
                     mPreviousMediaArtwork == null && filteredArtwork != null -> {
                         artworkDrawable = TransitionDrawable(
                             arrayOf(
-                                opMediaBackgroundDrawable,
+                                defaultBackground,
                                 newArtworkDrawable
                             )
                         ).apply {
@@ -1386,7 +1422,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
 
                     else -> {
-                        artworkDrawable = opMediaBackgroundDrawable
+                        artworkDrawable = defaultBackground
                     }
                 }
             }
@@ -1431,7 +1467,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         setImageDrawable(artworkDrawable)
                         scaleType = ImageView.ScaleType.CENTER_CROP
                         clipToOutline = true
-                        applyBlur(if (processedArtwork != null) mediaBlurLevel else 0f)
+
+                        // Blur the background artwork considering the transition
+                        postDelayed(
+                            { applyBlur(if (processedArtwork != null) mediaBlurLevel else 0f) },
+                            if (processedArtwork == null) transitionDuration.toLong() else 0
+                        )
                     }
 
                     mPreviousMediaArtwork = mMediaArtwork
@@ -1446,9 +1487,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
                     if (processedArtwork == null || onDominantColor == null) {
                         mQsOpHeaderView?.setMediaPlayerItemsColor(colorLabelInactive)
-                        colorInactive?.let {
-                            mQsOpHeaderView?.mediaPlayerBackground?.setColorFilter(it)
-                        }
                     } else {
                         val derivedOnDominantColor = if (mediaFadeLevel > 20) {
                             colorLabelInactive ?: onDominantColor
