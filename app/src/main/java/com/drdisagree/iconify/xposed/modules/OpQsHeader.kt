@@ -318,7 +318,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         hookAllConstructors(bluetoothTileClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                mBluetoothTileDialogViewModel = getObjectField(param.thisObject, "mDialogViewModel")
+                try {
+                    mBluetoothTileDialogViewModel =
+                        getObjectField(param.thisObject, "mDialogViewModel")
+                } catch (ignored: Throwable) {
+                    log(TAG + "Bluetooth dialog view model not found")
+                }
             }
         })
 
