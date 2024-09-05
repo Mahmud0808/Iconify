@@ -433,7 +433,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     clipChildren = false
                     clipToPadding = false
 
+                    (mQsOpHeaderView.parent as? ViewGroup)?.removeView(mQsOpHeaderView)
                     mQsHeaderContainer.addView(mQsOpHeaderView)
+
+                    (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
                     addView(mQsHeaderContainer)
 
                     (mHeaderQsPanel.parent as? ViewGroup)?.removeView(mHeaderQsPanel)
