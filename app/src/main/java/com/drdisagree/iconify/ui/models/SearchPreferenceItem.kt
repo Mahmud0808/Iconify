@@ -7,5 +7,6 @@ import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 class SearchPreferenceItem(
     @field:XmlRes val xml: Int,
     @field:StringRes val title: Int,
-    val fragment: ControlledPreferenceFragmentCompat
+    val fragment: ControlledPreferenceFragmentCompat,
+    val shouldAdd: Boolean = true
 )

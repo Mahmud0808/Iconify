@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.common
 
+import android.os.Build
 import android.os.Environment
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
@@ -106,7 +107,19 @@ object Resources {
 
     val searchConfiguration = SearchConfiguration()
 
-    private val commonFragments = arrayOf(
+    val searchableFragments = arrayOf(
+        SearchPreferenceItem(
+            R.xml.home,
+            R.string.navbar_home,
+            Home(),
+            !Preferences.isXposedOnlyMode
+        ),
+        SearchPreferenceItem(
+            R.xml.tweaks,
+            R.string.navbar_tweaks,
+            Tweaks(),
+            !Preferences.isXposedOnlyMode
+        ),
         SearchPreferenceItem(
             R.xml.xposed,
             R.string.navbar_xposed,
@@ -153,14 +166,10 @@ object Resources {
             VolumePanel()
         ),
         SearchPreferenceItem(
-            R.xml.xposed_volume_panel,
-            R.string.activity_title_volume_panel,
-            VolumePanel()
-        ),
-        SearchPreferenceItem(
             R.xml.xposed_op_qs_header,
             R.string.activity_title_op_qs_header,
-            OpQsHeader()
+            OpQsHeader(),
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
         ),
         SearchPreferenceItem(
             R.xml.xposed_header_clock,
@@ -192,22 +201,7 @@ object Resources {
             R.string.activity_title_xposed_others,
             Others()
         )
-    )
-
-    val searchableFragments = if (Preferences.isXposedOnlyMode) {
-        commonFragments
-    } else {
-        arrayOf(
-            SearchPreferenceItem(
-                R.xml.home,
-                R.string.navbar_home,
-                Home()
-            ),
-            SearchPreferenceItem(
-                R.xml.tweaks,
-                R.string.navbar_tweaks,
-                Tweaks()
-            )
-        ) + commonFragments
-    }.distinctBy { it.fragment::class.java }
+    ).filter { it.shouldAdd }
+        .distinctBy { it.fragment::class.java }
+        .toTypedArray()
 }
