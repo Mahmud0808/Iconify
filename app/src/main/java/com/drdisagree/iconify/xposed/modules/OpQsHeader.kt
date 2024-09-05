@@ -126,6 +126,9 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var mMediaArtwork: Bitmap? = null
     private var mPreviousMediaArtwork: Bitmap? = null
     private var mPreviousMediaProcessedArtwork: Bitmap? = null
+
+    private var mInternetEnabled = false
+    private var mBluetoothEnabled = false
     private var mMediaIsPlaying = false
 
     private lateinit var appContext: Context
@@ -152,12 +155,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var qsTileCornerRadius by Delegates.notNull<Float>()
     private lateinit var opMediaBackgroundDrawable: GradientDrawable
     private lateinit var mediaSessionLegacyHelperClass: Class<*>
-
-    private var deferredInternetActiveColorAction: (() -> Unit)? = null
-    private var deferredInternetInactiveColorAction: (() -> Unit)? = null
-    private var deferredBluetoothActiveColorAction: (() -> Unit)? = null
-    private var deferredBluetoothInactiveColorAction: (() -> Unit)? = null
-    private var deferredMediaPlayerInactiveColorAction: (() -> Unit)? = null
 
     private var lastUpdateTime = 0L
     private var cooldownTime = 50 // milliseconds
@@ -205,10 +202,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.qs.QSPanelControllerBase",
             loadPackageParam.classLoader
         )
-        val qsPanelControllerClass = findClass(
-            "$SYSTEMUI_PACKAGE.qs.QSPanelController",
-            loadPackageParam.classLoader
-        )
         val qsSecurityFooterUtilsClass = findClassIfExists(
             "$SYSTEMUI_PACKAGE.qs.QSSecurityFooterUtils",
             loadPackageParam.classLoader
@@ -217,9 +210,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader",
             loadPackageParam.classLoader
         )
-        val scrimControllerClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController",
-            loadPackageParam.classLoader
+        val shadeHeaderControllerClass = findClassInArray(
+            loadPackageParam.classLoader,
+            "$SYSTEMUI_PACKAGE.shade.ShadeHeaderController",
+            "$SYSTEMUI_PACKAGE.shade.LargeScreenShadeHeaderController",
         )
         val dependencyClass = findClass(
             "$SYSTEMUI_PACKAGE.Dependency",
@@ -333,15 +327,41 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         })
 
-        hookAllConstructors(qsPanelControllerClass, object : XC_MethodHook() {
+        hookAllMethods(shadeHeaderControllerClass, "onInit", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
-                onColorsInitialized()
-            }
-        })
+                val configurationControllerListener = getObjectField(
+                    param.thisObject,
+                    "configurationControllerListener"
+                )
 
-        hookAllMethods(scrimControllerClass, "updateThemeColors", object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                onColorsInitialized()
+                val updateColors = object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        if (qsTileViewImplInstance != null) {
+                            initResources()
+
+                            updateInternetTileColors()
+                            updateBluetoothTileColors()
+                        }
+                    }
+                }
+
+                val methods = listOf(
+                    "onConfigChanged",
+                    "onDensityOrFontScaleChanged",
+                    "onUiModeChanged",
+                    "onThemeChanged"
+                )
+
+                for (method in methods) {
+                    try {
+                        hookAllMethods(
+                            configurationControllerListener.javaClass,
+                            method,
+                            updateColors
+                        )
+                    } catch (ignored: Throwable) {
+                    }
+                }
             }
         })
 
@@ -920,6 +940,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private fun updateInternetState() {
         val isWiFiConnected = isWiFiConnected
         val isMobileDataConnected = isMobileDataConnected
+        mInternetEnabled = isWiFiConnected || isMobileDataConnected
 
         val internetLabel: CharSequence = mContext.getString(
             mContext.resources.getIdentifier(
@@ -934,7 +955,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             SYSTEMUI_PACKAGE
         )
 
-        if (isWiFiConnected || isMobileDataConnected) {
+        if (mInternetEnabled) {
             if (isWiFiConnected) {
                 val signalLevel = getWiFiSignalStrengthLevel()
                 val wifiIconResId = when (signalLevel) {
@@ -977,14 +998,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 }
                 mQsOpHeaderView?.setInternetIcon(mobileDataIconResId)
             }
-
-            updateInternetActiveColors()
         } else {
             mQsOpHeaderView?.setInternetText(internetLabel)
             mQsOpHeaderView?.setInternetIcon(noInternetIconResId)
-
-            updateInternetInactiveColors()
         }
+
+        updateInternetTileColors()
     }
 
     private val isWiFiConnected: Boolean
@@ -1141,10 +1160,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateBluetoothState(enabled: Boolean = isBluetoothEnabled) {
+        mBluetoothEnabled = enabled
+
         if (enabled) {
             mQsOpHeaderView?.setBlueToothText(getBluetoothConnectedDevice())
-
-            updateBluetoothActiveColors()
         } else {
             mQsOpHeaderView?.setBlueToothText(
                 mContext.resources.getIdentifier(
@@ -1153,9 +1172,9 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     SYSTEMUI_PACKAGE
                 )
             )
-
-            updateBluetoothInactiveColors()
         }
+
+        updateBluetoothTileColors()
     }
 
     private val isMediaControllerAvailable: Boolean
@@ -1272,13 +1291,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private val isMediaPlaying: Boolean
-        get() {
-            return (isMediaControllerAvailable && PlaybackState.STATE_PLAYING == callMethod(
-                mNotificationMediaManager,
-                "getMediaControllerPlaybackState",
-                mMediaController
-            ))
-        }
+        get() = (isMediaControllerAvailable
+                && PlaybackState.STATE_PLAYING == getMediaControllerPlaybackState(mMediaController))
+
+    private fun getMediaControllerPlaybackState(controller: MediaController?): Int {
+        return controller?.playbackState?.state ?: PlaybackState.STATE_NONE
+    }
 
     private fun updateMediaPlayerView() {
         val currentTime = System.currentTimeMillis()
@@ -1427,7 +1445,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     )
 
                     if (processedArtwork == null || onDominantColor == null) {
-                        updateMediaPlayerInactiveColors()
+                        mQsOpHeaderView?.setMediaPlayerItemsColor(colorLabelInactive)
+                        colorInactive?.let {
+                            mQsOpHeaderView?.mediaPlayerBackground?.setColorFilter(it)
+                        }
                     } else {
                         val derivedOnDominantColor = if (mediaFadeLevel > 20) {
                             colorLabelInactive ?: onDominantColor
@@ -1461,95 +1482,37 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         if (mQsOpHeaderView == null) return
 
-        deferredInternetActiveColorAction?.invoke()
-        deferredInternetInactiveColorAction?.invoke()
-        deferredBluetoothActiveColorAction?.invoke()
-        deferredBluetoothInactiveColorAction?.invoke()
-        deferredMediaPlayerInactiveColorAction?.invoke()
-
         updateInternetState()
         updateBluetoothState()
         updateMediaPlayer(force = true)
     }
 
-    private fun updateInternetActiveColors() {
-        if (colorActive != null && colorLabelActive != null) {
-            applyInternetActiveColors()
+    private fun updateInternetTileColors() {
+        if (mInternetEnabled) {
+            mQsOpHeaderView?.setInternetTileColor(
+                tileColor = colorActive,
+                labelColor = colorLabelActive
+            )
         } else {
-            deferredInternetActiveColorAction = { applyInternetActiveColors() }
+            mQsOpHeaderView?.setInternetTileColor(
+                tileColor = colorInactive,
+                labelColor = colorLabelInactive
+            )
         }
     }
 
-    private fun applyInternetActiveColors() {
-        mQsOpHeaderView?.setInternetTileColor(
-            tileColor = colorActive,
-            labelColor = colorLabelActive
-        )
-        deferredInternetActiveColorAction = null
-    }
-
-    private fun updateInternetInactiveColors() {
-        if (colorInactive != null && colorLabelInactive != null) {
-            applyInternetInactiveColors()
+    private fun updateBluetoothTileColors() {
+        if (mBluetoothEnabled) {
+            mQsOpHeaderView?.setBluetoothTileColor(
+                tileColor = colorActive,
+                labelColor = colorLabelActive
+            )
         } else {
-            deferredInternetInactiveColorAction = { applyInternetInactiveColors() }
+            mQsOpHeaderView?.setBluetoothTileColor(
+                tileColor = colorInactive,
+                labelColor = colorLabelInactive
+            )
         }
-    }
-
-    private fun applyInternetInactiveColors() {
-        mQsOpHeaderView?.setInternetTileColor(
-            tileColor = colorInactive,
-            labelColor = colorLabelInactive
-        )
-        deferredInternetInactiveColorAction = null
-    }
-
-    private fun updateBluetoothActiveColors() {
-        if (colorActive != null && colorLabelActive != null) {
-            applyBluetoothActiveColors()
-        } else {
-            deferredBluetoothActiveColorAction = { applyBluetoothActiveColors() }
-        }
-    }
-
-    private fun applyBluetoothActiveColors() {
-        mQsOpHeaderView?.setBluetoothTileColor(
-            tileColor = colorActive,
-            labelColor = colorLabelActive
-        )
-        deferredBluetoothActiveColorAction = null
-    }
-
-    private fun updateBluetoothInactiveColors() {
-        if (colorInactive != null && colorLabelInactive != null) {
-            applyBluetoothInactiveColors()
-        } else {
-            deferredBluetoothInactiveColorAction = { applyBluetoothInactiveColors() }
-        }
-    }
-
-    private fun applyBluetoothInactiveColors() {
-        mQsOpHeaderView?.setBluetoothTileColor(
-            tileColor = colorInactive,
-            labelColor = colorLabelInactive
-        )
-        deferredBluetoothInactiveColorAction = null
-    }
-
-    private fun updateMediaPlayerInactiveColors() {
-        if (colorLabelInactive != null) {
-            applyInactiveMediaPlayerColors()
-        } else {
-            deferredMediaPlayerInactiveColorAction = { applyInactiveMediaPlayerColors() }
-        }
-    }
-
-    private fun applyInactiveMediaPlayerColors() {
-        mQsOpHeaderView?.setMediaPlayerItemsColor(colorLabelInactive)
-        colorInactive?.let {
-            mQsOpHeaderView?.mediaPlayerBackground?.setColorFilter(it)
-        }
-        deferredMediaPlayerInactiveColorAction = null
     }
 
     private suspend fun processArtwork(
@@ -1844,6 +1807,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             mWifiManager = getSystemService(WifiManager::class.java)
             mBluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         }
+
+        mInternetEnabled = isWiFiConnected || isMobileDataConnected
+        mBluetoothEnabled = isBluetoothEnabled
+        mMediaIsPlaying = isMediaPlaying
     }
 
     private val isLandscape: Boolean

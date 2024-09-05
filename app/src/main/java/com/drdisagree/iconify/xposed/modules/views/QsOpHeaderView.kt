@@ -3,6 +3,7 @@ package com.drdisagree.iconify.xposed.modules.views
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -68,6 +69,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     private lateinit var opMediaPlayIconDrawable: Drawable
     private lateinit var opMediaPauseIconDrawable: Drawable
 
+    private var mOnConfigurationChanged: ((Configuration?) -> Unit)? = null
     private var mOnAttach: (() -> Unit)? = null
     private var mOnDetach: (() -> Unit)? = null
 
@@ -714,6 +716,10 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
         this.mOnDetach = onDetach
     }
 
+    fun setOnConfigurationChangedListener(onConfigurationChanged: (newConfig: Configuration?) -> Unit) {
+        this.mOnConfigurationChanged = onConfigurationChanged
+    }
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         mOnAttach?.invoke()
@@ -722,5 +728,10 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         mOnDetach?.invoke()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        mOnConfigurationChanged?.invoke(newConfig)
     }
 }
