@@ -382,13 +382,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         }
 
-        val onConfigChanged = object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                updateOpHeaderView()
-            }
-        }
-
-        hookAllMethods(qsTileViewImplClass, "onConfigurationChanged", updateColors)
+        hookAllMethods(qsTileViewImplClass, "init", updateColors)
+        hookAllMethods(qsTileViewImplClass, "updateResources", updateColors)
 
         hookAllMethods(quickStatusBarHeaderClass, "onFinishInflate", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
