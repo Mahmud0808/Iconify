@@ -21,23 +21,11 @@
         android:title="@string/oneplus_qs_header_blur_level"
         app:defaultValue="10"
         app:iconSpaceReserved="false"
-        app:maxVal="50"
+        app:maxVal="25"
         app:minVal="0"
         app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="px" />
-
-    <com.drdisagree.iconify.ui.preferences.SliderPreference
-        android:dependency="xposed_opqsheader"
-        android:key="xposed_opqsheaderfadinglevel"
-        android:title="@string/oneplus_qs_header_fade_level"
-        app:defaultValue="0"
-        app:iconSpaceReserved="false"
-        app:maxVal="80"
-        app:minVal="0"
-        app:showResetButton="true"
-        app:tickInterval="1"
-        app:valueFormat="%" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="xposed_opqsheader"

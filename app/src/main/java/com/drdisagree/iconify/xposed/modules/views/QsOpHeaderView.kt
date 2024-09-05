@@ -55,13 +55,10 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     private lateinit var mMediaBtnNext: ImageButton
     private lateinit var mMediaBtnPlayPause: ImageButton
 
-    private var colorAccent by Delegates.notNull<Int>()
-    private var colorPrimary by Delegates.notNull<Int>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
     private lateinit var qsTileBackgroundDrawable: Drawable
     private lateinit var appIconBackgroundDrawable: GradientDrawable
     private lateinit var opMediaForegroundClipDrawable: GradientDrawable
-    private lateinit var opMediaBackgroundDrawable: GradientDrawable
     private lateinit var opMediaAppIconDrawable: Drawable
     private lateinit var mediaOutputSwitcherIconDrawable: Drawable
     private lateinit var opMediaPrevIconDrawable: Drawable
@@ -130,7 +127,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             shape = GradientDrawable.RECTANGLE
             cornerRadius = qsTileCornerRadius
         }
-        opMediaBackgroundDrawable = GradientDrawable().apply {
+        opMediaDefaultBackground = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
             cornerRadius = qsTileCornerRadius
         }
@@ -382,7 +379,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             )
             foreground = opMediaForegroundClipDrawable
             scaleType = ImageView.ScaleType.CENTER_CROP
-            background = opMediaBackgroundDrawable
+            background = opMediaDefaultBackground
         }
     }
 
@@ -733,5 +730,9 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
         mOnConfigurationChanged?.invoke(newConfig)
+    }
+
+    companion object {
+        lateinit var opMediaDefaultBackground: Drawable
     }
 }

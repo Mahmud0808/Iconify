@@ -13,7 +13,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Paint
-import android.graphics.PorterDuff
 import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
@@ -45,8 +44,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.palette.graphics.Palette
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
@@ -54,7 +53,6 @@ import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_BLUR_LEVEL
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_EXPANSION_Y
-import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_FADE_LEVEL
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_TOP_MARGIN
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_VIBRATE
@@ -69,6 +67,7 @@ import com.drdisagree.iconify.xposed.modules.utils.VibrationUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.views.QsOpHeaderView
+import com.drdisagree.iconify.xposed.modules.views.QsOpHeaderView.Companion.opMediaDefaultBackground
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
@@ -101,7 +100,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var showOpQsHeaderView = false
     private var vibrateOnClick = false
     private var mediaBlurLevel = 10f
-    private var mediaFadeLevel = 0
     private var topMarginValue = 0
     private var expansionAmount = 0
 
@@ -154,7 +152,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private lateinit var mBluetoothManager: BluetoothManager
 
     private var qsTileCornerRadius by Delegates.notNull<Float>()
-    private lateinit var opMediaBackgroundDrawable: GradientDrawable
+    private lateinit var opMediaBackgroundDrawable: Drawable
     private lateinit var mediaSessionLegacyHelperClass: Class<*>
 
     private var lastUpdateTime = 0L
@@ -167,15 +165,13 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             showOpQsHeaderView = getBoolean(OP_QS_HEADER_SWITCH, false)
             vibrateOnClick = getBoolean(OP_QS_HEADER_VIBRATE, false)
             mediaBlurLevel = getSliderInt(OP_QS_HEADER_BLUR_LEVEL, 10).toFloat()
-            mediaFadeLevel = getSliderInt(OP_QS_HEADER_FADE_LEVEL, 0)
             topMarginValue = getSliderInt(OP_QS_HEADER_TOP_MARGIN, 0)
             expansionAmount = getSliderInt(OP_QS_HEADER_EXPANSION_Y, 0)
         }
 
         if (key.isNotEmpty() &&
             (key[0] == OP_QS_HEADER_VIBRATE ||
-                    key[0] == OP_QS_HEADER_BLUR_LEVEL ||
-                    key[0] == OP_QS_HEADER_FADE_LEVEL)
+                    key[0] == OP_QS_HEADER_BLUR_LEVEL)
         ) {
             updateMediaPlayer(force = true)
         }
@@ -348,6 +344,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
                             updateInternetTileColors()
                             updateBluetoothTileColors()
+                            updateMediaPlayer(force = true)
                         }
                     }
                 }
@@ -415,6 +412,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     clipChildren = false
                     clipToPadding = false
 
+                    (mQsOpHeaderView?.parent as? ViewGroup)?.removeView(mQsOpHeaderView)
                     mQsOpHeaderView = QsOpHeaderView(mContext).apply {
                         setOnAttachListener {
                             ControllersProvider.getInstance().apply {
@@ -781,11 +779,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private fun updateOpHeaderView() {
         if (mQsOpHeaderView == null) return
 
-        onColorsInitialized()
+        initResources()
         updateMediaController()
         startMediaUpdater()
         updateInternetState()
         updateBluetoothState()
+        updateMediaPlayer(force = true)
     }
 
     private fun buildHeaderViewExpansion() {
@@ -1355,12 +1354,21 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateMediaPlayer(force: Boolean = false) {
-        if (mQsOpHeaderView == null) return
+        if (mQsOpHeaderView == null || !::opMediaBackgroundDrawable.isInitialized) return
+
+        val mMediaPlayerBackground = mQsOpHeaderView!!.mediaPlayerBackground
+        val defaultBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
+
+        mMediaPlayerBackground.apply {
+            if (drawable == opMediaDefaultBackground) {
+                setImageDrawable(defaultBackground)
+                scaleType = ImageView.ScaleType.CENTER_CROP
+                clipToOutline = true
+            }
+        }
 
         artworkExtractorScope.launch {
-            val mMediaPlayerBackground = mQsOpHeaderView!!.mediaPlayerBackground
-            val requireUpdate = !areBitmapsEqual(mPreviousMediaArtwork, mMediaArtwork) ||
-                    mMediaPlayerBackground.drawable == null
+            val requireUpdate = !areBitmapsEqual(mPreviousMediaArtwork, mMediaArtwork)
 
             var artworkDrawable: Drawable? = null
             var processedArtwork: Bitmap? = null
@@ -1369,23 +1377,15 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             val transitionDuration = 500
 
             if (requireUpdate || force) {
-                if (!::opMediaBackgroundDrawable.isInitialized) {
-                    initResources()
-                }
-
-                val defaultBackground = opMediaBackgroundDrawable.apply {
-                    colorInactive?.let {
-                        DrawableCompat.setTint(this, it)
-                    }
-                }
-
                 processedArtwork = processArtwork(mMediaArtwork, mMediaPlayerBackground)
                 dominantColor = extractDominantColor(processedArtwork)
                 filteredArtwork = processedArtwork?.let {
                     applyColorFilterToBitmap(it, dominantColor)
+                    it.applyBlur(mContext, mediaBlurLevel)
                 }
                 val newArtworkDrawable = when {
                     filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
+
                     else -> defaultBackground
                 }
 
@@ -1432,18 +1432,19 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 }
             }
 
-            mQsOpHeaderView?.setMediaTitle(
-                mMediaTitle ?: appContext.getString(
-                    appContext.resources.getIdentifier(
-                        "media_player_not_playing",
-                        "string",
-                        appContext.packageName
+            mQsOpHeaderView?.apply {
+                setMediaTitle(
+                    mMediaTitle ?: appContext.getString(
+                        appContext.resources.getIdentifier(
+                            "media_player_not_playing",
+                            "string",
+                            appContext.packageName
+                        )
                     )
                 )
-            )
-            mQsOpHeaderView?.setMediaArtist(mMediaArtist)
-
-            mQsOpHeaderView?.setMediaPlayingIcon(mMediaIsPlaying)
+                setMediaArtist(mMediaArtist)
+                setMediaPlayingIcon(mMediaIsPlaying)
+            }
 
             withContext(Dispatchers.Main) {
                 val appIcon = mNotificationMediaManager?.let {
@@ -1472,12 +1473,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         setImageDrawable(artworkDrawable)
                         scaleType = ImageView.ScaleType.CENTER_CROP
                         clipToOutline = true
-
-                        // Blur the background artwork considering the transition
-                        postDelayed(
-                            { applyBlur(if (processedArtwork != null) mediaBlurLevel else 0f) },
-                            if (processedArtwork == null) transitionDuration.toLong() else 0
-                        )
                     }
 
                     mPreviousMediaArtwork = mMediaArtwork
@@ -1493,41 +1488,11 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     if (processedArtwork == null || onDominantColor == null) {
                         mQsOpHeaderView?.setMediaPlayerItemsColor(colorLabelInactive)
                     } else {
-                        val derivedOnDominantColor = if (mediaFadeLevel > 20) {
-                            colorLabelInactive ?: onDominantColor
-                        } else {
-                            onDominantColor
-                        }
-
-                        mQsOpHeaderView?.setMediaPlayerItemsColor(derivedOnDominantColor)
-
-                        if (mediaFadeLevel != 0) {
-                            val fadeFilter = ColorUtils.blendARGB(
-                                Color.TRANSPARENT,
-                                Color.BLACK,
-                                mediaFadeLevel / 100f
-                            )
-                            mMediaPlayerBackground.setColorFilter(
-                                fadeFilter,
-                                PorterDuff.Mode.SRC_ATOP
-                            )
-                        } else {
-                            mMediaPlayerBackground.colorFilter = null
-                        }
+                        mQsOpHeaderView?.setMediaPlayerItemsColor(onDominantColor)
                     }
                 }
             }
         }
-    }
-
-    private fun onColorsInitialized() {
-        initResources()
-
-        if (mQsOpHeaderView == null) return
-
-        updateInternetState()
-        updateBluetoothState()
-        updateMediaPlayer(force = true)
     }
 
     private fun updateInternetTileColors() {
@@ -1614,50 +1579,30 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private fun applyColorFilterToBitmap(bitmap: Bitmap, color: Int?): Bitmap {
-        val output = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
-        val canvas = Canvas(output)
+        val colorFilteredBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
 
         val paint = Paint().apply {
             isAntiAlias = true
             shader = LinearGradient(
                 0f, 0f, bitmap.width.toFloat(), 0f, // Horizontal gradient
                 intArrayOf(
-                    ColorUtils.blendARGB(
-                        color ?: Color.BLACK,
-                        Color.TRANSPARENT,
-                        0.4f
-                    ), // Start color (left)
-                    ColorUtils.blendARGB(
-                        color ?: Color.BLACK,
-                        Color.TRANSPARENT,
-                        0.6f
-                    ), // Left to Middle color
-                    ColorUtils.blendARGB(
-                        color ?: Color.BLACK,
-                        Color.TRANSPARENT,
-                        0.8f
-                    ), // Middle color (less intensity)
-                    ColorUtils.blendARGB(
-                        color ?: Color.BLACK,
-                        Color.TRANSPARENT,
-                        0.6f
-                    ), // Right to Middle color
-                    ColorUtils.blendARGB(
-                        color ?: Color.BLACK,
-                        Color.TRANSPARENT,
-                        0.4f
-                    )  // End color (right)
+                    ColorUtils.blendARGB(color ?: Color.BLACK, Color.TRANSPARENT, 0.4f),
+                    ColorUtils.blendARGB(color ?: Color.BLACK, Color.TRANSPARENT, 0.6f),
+                    ColorUtils.blendARGB(color ?: Color.BLACK, Color.TRANSPARENT, 0.8f),
+                    ColorUtils.blendARGB(color ?: Color.BLACK, Color.TRANSPARENT, 0.6f),
+                    ColorUtils.blendARGB(color ?: Color.BLACK, Color.TRANSPARENT, 0.4f)
                 ),
                 floatArrayOf(0f, 0.2f, 0.5f, 0.8f, 1f), // Positions for the colors
                 Shader.TileMode.CLAMP
             )
         }
 
-        canvas.drawBitmap(bitmap, 0f, 0f, null)
+        Canvas(colorFilteredBitmap).apply {
+            drawBitmap(bitmap, 0f, 0f, null)
+            drawRect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat(), paint)
+        }
 
-        canvas.drawRect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat(), paint)
-
-        return output
+        return colorFilteredBitmap
     }
 
     private suspend fun extractDominantColor(bitmap: Bitmap?): Int? =
@@ -1837,10 +1782,21 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             ).toFloat()
         }
 
-        opMediaBackgroundDrawable = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = qsTileCornerRadius
-            colorInactive?.let { colors = intArrayOf(it, it) }
+        opMediaBackgroundDrawable = if (colorInactive != null && colorInactive != 0) {
+            GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = qsTileCornerRadius
+                colors = intArrayOf(colorInactive!!, colorInactive!!)
+            }
+        } else {
+            ContextCompat.getDrawable(
+                mContext,
+                mContext.resources.getIdentifier(
+                    "qs_tile_background_shape",
+                    "drawable",
+                    SYSTEMUI_PACKAGE
+                )
+            )!!
         }
 
         mContext.apply {

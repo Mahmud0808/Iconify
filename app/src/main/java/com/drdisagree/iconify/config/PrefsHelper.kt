@@ -126,7 +126,6 @@ import com.drdisagree.iconify.common.Preferences.NEW_UPDATE_FOUND
 import com.drdisagree.iconify.common.Preferences.NOTIF_TRANSPARENCY_SWITCH
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_BLUR_LEVEL
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_EXPANSION_Y
-import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_FADE_LEVEL
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_TOP_MARGIN
 import com.drdisagree.iconify.common.Preferences.PREF_KEY_UPDATE_STATUS
 import com.drdisagree.iconify.common.Preferences.QQS_TOPMARGIN
@@ -534,8 +533,6 @@ object PrefsHelper {
             DEPTH_WALLPAPER_FOREGROUND_ALPHA -> "${getSliderInt(key, 80)}%"
 
             OP_QS_HEADER_BLUR_LEVEL -> "${getSliderInt(key, 10)}px"
-
-            OP_QS_HEADER_FADE_LEVEL -> "${getSliderInt(key, 0)}%"
 
             OP_QS_HEADER_TOP_MARGIN,
             OP_QS_HEADER_EXPANSION_Y -> "${getSliderInt(key, 0)}dp"
