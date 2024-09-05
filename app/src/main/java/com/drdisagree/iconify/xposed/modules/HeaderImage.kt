@@ -53,8 +53,8 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
     private var zoomToFit = false
     private var headerImageOverlap = false
     private var hideLandscapeHeaderImage = true
-    private val mQsHeaderLayout: FadingEdgeLayout = FadingEdgeLayout(mContext)
-    private val mQsHeaderImageView: ImageView = ImageView(mContext)
+    private var mQsHeaderLayout: FadingEdgeLayout? = null
+    private var mQsHeaderImageView: ImageView? = null
     private var bottomFadeAmount = 0
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -126,36 +126,36 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
         hookAllMethods(quickStatusBarHeader, "onFinishInflate", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val mQuickStatusBarHeader = param.thisObject as FrameLayout
+                mQsHeaderLayout = FadingEdgeLayout(mContext)
 
-                mQsHeaderLayout.layoutParams = LinearLayout.LayoutParams(
+                val layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         imageHeight.toFloat(),
                         mContext.resources.displayMetrics
                     ).toInt()
-                ).apply {
-                    leftMargin = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        -16f,
-                        mContext.resources.displayMetrics
-                    ).toInt()
-                    rightMargin = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        -16f,
-                        mContext.resources.displayMetrics
-                    ).toInt()
-                }
-                mQsHeaderLayout.visibility = View.GONE
+                )
+                layoutParams.leftMargin = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    -16f,
+                    mContext.resources.displayMetrics
+                ).toInt()
+                layoutParams.rightMargin = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    -16f,
+                    mContext.resources.displayMetrics
+                ).toInt()
 
-                mQsHeaderImageView.layoutParams = LinearLayout.LayoutParams(
+                mQsHeaderLayout!!.layoutParams = layoutParams
+                mQsHeaderLayout!!.visibility = View.GONE
+
+                mQsHeaderImageView = ImageView(mContext)
+                mQsHeaderImageView!!.layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
 
-                (mQsHeaderImageView.parent as? ViewGroup)?.removeView(mQsHeaderImageView)
-                mQsHeaderLayout.addView(mQsHeaderImageView)
-
-                (mQsHeaderLayout.parent as? ViewGroup)?.removeView(mQsHeaderLayout)
+                mQsHeaderLayout!!.addView(mQsHeaderImageView)
                 mQuickStatusBarHeader.addView(mQsHeaderLayout, 0)
 
                 updateQSHeaderImage()
@@ -206,78 +206,38 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
                 }
             }
         })
-
-        try {
-            val executor = Executors.newSingleThreadScheduledExecutor()
-            executor.scheduleWithFixedDelay({
-                val androidDir =
-                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
-
-                if (androidDir.isDirectory) {
-                    updateQSHeaderImage()
-                    executor.shutdown()
-                    executor.shutdownNow()
-                }
-            }, 0, 5, TimeUnit.SECONDS)
-        } catch (ignored: Throwable) {
-        }
     }
 
     private fun updateQSHeaderImage() {
-        if (!showHeaderImage) {
-            mQsHeaderLayout.visibility = View.GONE
+        if (mQsHeaderLayout == null || mQsHeaderImageView == null) {
             return
         }
 
-        mQsHeaderImageView.loadImageOrGif()
+        if (!showHeaderImage) {
+            mQsHeaderLayout!!.visibility = View.GONE
+            return
+        }
 
-        mQsHeaderImageView.imageAlpha = (headerImageAlpha / 100.0 * 255.0).toInt()
-        mQsHeaderLayout.layoutParams.height = TypedValue.applyDimension(
+        loadImageOrGif(mQsHeaderImageView!!)
+
+        mQsHeaderImageView!!.imageAlpha = (headerImageAlpha / 100.0 * 255.0).toInt()
+        mQsHeaderLayout!!.layoutParams.height = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             imageHeight.toFloat(),
             mContext.resources.displayMetrics
         ).toInt()
-        mQsHeaderLayout.requestLayout()
+        mQsHeaderLayout!!.requestLayout()
 
         val config = mContext.resources.configuration
 
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && hideLandscapeHeaderImage) {
-            mQsHeaderLayout.visibility = View.GONE
+            mQsHeaderLayout!!.visibility = View.GONE
         } else {
-            mQsHeaderLayout.visibility = View.VISIBLE
+            mQsHeaderLayout!!.visibility = View.VISIBLE
         }
 
-        mQsHeaderLayout.setFadeEdges(false, false, bottomFadeAmount != 0, false)
-        mQsHeaderLayout.setFadeSizes(0, 0, bottomFadeAmount, 0)
-    }
-
-    private fun ImageView.loadImageOrGif() {
-        val headerImageFile = File(
-            Environment.getExternalStorageDirectory()
-                .toString() + "/.iconify_files/header_image.png"
-        )
-
-        if (!headerImageFile.exists()) return
-
-        val source = ImageDecoder.createSource(headerImageFile)
-        val drawable = ImageDecoder.decodeDrawable(source)
-
-        setImageDrawable(drawable)
-        clipToOutline = true
-
-        if (!zoomToFit) {
-            scaleType = ImageView.ScaleType.FIT_XY
-        } else {
-            scaleType = ImageView.ScaleType.CENTER_CROP
-            adjustViewBounds = false
-            cropToPadding = false
-            minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
-            addCenterProperty()
-        }
-
-        if (drawable is AnimatedImageDrawable) {
-            drawable.start()
-        }
+        mQsHeaderLayout!!.setFadeEdges(false, false, bottomFadeAmount != 0, false)
+        mQsHeaderLayout!!.setFadeSizes(0, 0, bottomFadeAmount, 0)
     }
 
     private fun ImageView.addCenterProperty() {
@@ -301,8 +261,50 @@ class HeaderImage(context: Context?) : ModPack(context!!) {
             }
         }
 
-        if (layoutParams != null) {
-            setLayoutParams(layoutParams)
+        setLayoutParams(layoutParams)
+    }
+
+    private fun loadImageOrGif(iv: ImageView) {
+        try {
+            val executor = Executors.newSingleThreadScheduledExecutor()
+            executor.scheduleWithFixedDelay({
+                val androidDir =
+                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
+
+                if (androidDir.isDirectory) {
+                    try {
+                        val source = ImageDecoder.createSource(
+                            File(
+                                Environment.getExternalStorageDirectory()
+                                    .toString() + "/.iconify_files/header_image.png"
+                            )
+                        )
+                        val drawable = ImageDecoder.decodeDrawable(source)
+
+                        iv.setImageDrawable(drawable)
+                        iv.clipToOutline = true
+
+                        if (!zoomToFit) {
+                            iv.scaleType = ImageView.ScaleType.FIT_XY
+                        } else {
+                            iv.scaleType = ImageView.ScaleType.CENTER_CROP
+                            iv.adjustViewBounds = false
+                            iv.cropToPadding = false
+                            iv.minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
+                            iv.addCenterProperty()
+                        }
+
+                        if (drawable is AnimatedImageDrawable) {
+                            drawable.start()
+                        }
+                    } catch (ignored: Throwable) {
+                    }
+
+                    executor.shutdown()
+                    executor.shutdownNow()
+                }
+            }, 0, 5, TimeUnit.SECONDS)
+        } catch (ignored: Throwable) {
         }
     }
 
