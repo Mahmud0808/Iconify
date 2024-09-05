@@ -72,6 +72,7 @@ import com.drdisagree.iconify.utils.color.monet.quantize.QuantizerCelebi
 import com.drdisagree.iconify.utils.color.monet.score.Score
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
 import com.drdisagree.iconify.xposed.modules.utils.TouchAnimator
 import com.drdisagree.iconify.xposed.modules.utils.VibrationUtils
@@ -83,6 +84,7 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
+import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.callStaticMethod
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
@@ -898,7 +900,15 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private fun toggleInternetState(v: View) {
         mHandler.post {
             if (mAccessPointController != null) {
-                if (mInternetDialogManager != null) {
+                if (isMethodAvailable(
+                        mInternetDialogManager,
+                        "create",
+                        Boolean::class.java,
+                        Boolean::class.java,
+                        Boolean::class.java,
+                        View::class.java
+                    )
+                ) {
                     callMethod(
                         mInternetDialogManager,
                         "create",
@@ -907,7 +917,29 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         callMethod(mAccessPointController, "canConfigWifi"),
                         v
                     )
-                } else if (mInternetDialogFactory != null) {
+                } else if (isMethodAvailable(
+                        mInternetDialogManager,
+                        "create",
+                        View::class.java,
+                        Boolean::class.java,
+                        Boolean::class.java
+                    )
+                ) {
+                    callMethod(
+                        mInternetDialogManager,
+                        "create",
+                        v,
+                        callMethod(mAccessPointController, "canConfigMobileData"),
+                        callMethod(mAccessPointController, "canConfigWifi")
+                    )
+                } else if (isMethodAvailable(
+                        mInternetDialogFactory,
+                        "create",
+                        Boolean::class.java,
+                        Boolean::class.java,
+                        View::class.java
+                    )
+                ) {
                     callMethod(
                         mInternetDialogFactory,
                         "create",
@@ -915,6 +947,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         callMethod(mAccessPointController, "canConfigWifi"),
                         v
                     )
+                } else {
+                    log(TAG + "No internet dialog available")
                 }
             }
         }

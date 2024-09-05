@@ -41,37 +41,37 @@ object Helpers {
     }
 
     private fun dumpClass(ourClass: Class<*>) {
-        val ms = ourClass.getDeclaredMethods()
-        log("\n\nClass: ${ourClass.getName()}")
-        log("extends: ${ourClass.superclass.getName()}")
+        val ms = ourClass.declaredMethods
+        log("\n\nClass: ${ourClass.name}")
+        log("extends: ${ourClass.superclass.name}")
 
         log("Subclasses:")
-        val scs = ourClass.getClasses()
+        val scs = ourClass.classes
         for (c in scs) {
-            log(c.getName())
+            log(c.name)
         }
 
         log("Methods:")
         val cons = ourClass.declaredConstructors
         for (m in cons) {
             log(m.name + " - " + " - " + m.parameterCount)
-            val cs = m.getParameterTypes()
+            val cs = m.parameterTypes
             for (c in cs) {
-                log("\t\t" + c.getTypeName())
+                log("\t\t" + c.typeName)
             }
         }
         for (m in ms) {
             log(m.name + " - " + m.returnType + " - " + m.parameterCount)
-            val cs = m.getParameterTypes()
+            val cs = m.parameterTypes
             for (c in cs) {
-                log("\t\t" + c.getTypeName())
+                log("\t\t" + c.typeName)
             }
         }
 
         log("Fields:")
         val fs = ourClass.declaredFields
         for (f in fs) {
-            log("\t\t" + f.getName() + "-" + f.type.getName())
+            log("\t\t" + f.name + "-" + f.type.name)
         }
         log("End dump\n\n")
     }
@@ -181,6 +181,7 @@ object Helpers {
         return null
     }
 
+    @Suppress("SameParameterValue")
     private fun repeatString(str: String, times: Int): String {
         val result = StringBuilder()
         for (i in 0 until times) {
@@ -197,6 +198,21 @@ object Helpers {
         @ColorInt val color = arr.getColor(0, -1)
         arr.recycle()
         return color
+    }
+
+    fun isMethodAvailable(
+        target: Any?,
+        methodName: String,
+        vararg parameterTypes: Class<*>
+    ): Boolean {
+        if (target == null) return false
+
+        return try {
+            target::class.java.getMethod(methodName, *parameterTypes)
+            true
+        } catch (ignored: NoSuchMethodException) {
+            false
+        }
     }
 
     val isPixelVariant: Boolean
