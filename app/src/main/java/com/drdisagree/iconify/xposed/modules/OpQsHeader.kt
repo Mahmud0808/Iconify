@@ -126,8 +126,13 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var mMediaTitle: String? = null
     private var mMediaArtist: String? = null
     private var mMediaArtwork: Bitmap? = null
+    private var mMediaMetadata: MediaMetadata? = null
+    private var mPreviousMediaMetadata: MediaMetadata? = null
+    private var mMediaController: MediaController? = null
     private var mPreviousMediaArtwork: Bitmap? = null
     private var mPreviousMediaProcessedArtwork: Bitmap? = null
+    private val activeMediaControllers = mutableListOf<MediaController>()
+    private val controllerUpdateTimes = mutableMapOf<MediaController, Long>()
 
     private var mInternetEnabled = false
     private var mBluetoothEnabled = false
@@ -138,8 +143,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private val artworkExtractorScope = CoroutineScope(Dispatchers.Main + Job())
     private var mMediaUpdater = CoroutineScope(Dispatchers.Main)
     private var mMediaUpdaterJob: Job? = null
-    private var mMediaController: MediaController? = null
-    private var mMediaMetadata: MediaMetadata? = null
     private var mActivityStarter: Any? = null
     private var mMediaOutputDialogFactory: Any? = null
     private var mNotificationMediaManager: Any? = null
@@ -149,15 +152,13 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private lateinit var mTelephonyManager: TelephonyManager
     private lateinit var mWifiManager: WifiManager
     private lateinit var mBluetoothManager: BluetoothManager
+    private lateinit var mMediaSessionManager: MediaSessionManager
 
     private var qqsTileHeight by Delegates.notNull<Int>()
     private var qsTileMarginVertical by Delegates.notNull<Int>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
     private lateinit var opMediaBackgroundDrawable: Drawable
     private lateinit var mediaSessionLegacyHelperClass: Class<*>
-
-    private var lastUpdateTime = 0L
-    private var cooldownTime = 50 // milliseconds
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
@@ -884,7 +885,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         override fun onMetadataChanged(metadata: MediaMetadata?) {
             super.onMetadataChanged(metadata)
-            mMediaMetadata = metadata
             updateMediaController()
         }
     }
@@ -1188,31 +1188,35 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
 
     private fun updateMediaController() {
-        val localController = activeLocalMediaController
+        val currentControllers = mMediaSessionManager.getActiveSessions(null).toMutableList()
+        val currentTime = System.currentTimeMillis()
 
-        if (localController != null && !sameSessions(mMediaController, localController)) {
-            if (mMediaController != null) {
-                mMediaController!!.unregisterCallback(mMediaCallback)
-                mMediaController = null
+        activeMediaControllers.forEach { controller ->
+            if (!currentControllers.contains(controller)) {
+                controller.unregisterCallback(mMediaCallback)
+                controllerUpdateTimes.remove(controller)
             }
-
-            mMediaController = localController
-            mMediaController!!.registerCallback(mMediaCallback)
         }
 
-        mMediaMetadata = if (isMediaControllerAvailable) mMediaController!!.metadata else null
-
-        updateMediaPlayerView()
-    }
-
-    private fun sameSessions(a: MediaController?, b: MediaController): Boolean {
-        if (a == b) {
-            return true
+        currentControllers.forEach { controller ->
+            if (!activeMediaControllers.contains(controller)) {
+                controller.registerCallback(mMediaCallback)
+                controllerUpdateTimes[controller] = currentTime
+            }
         }
-        if (a == null) {
-            return false
-        }
-        return false
+
+        activeMediaControllers.clear()
+        activeMediaControllers.addAll(currentControllers)
+
+        val playingController = activeMediaControllers
+            .filter { it.playbackState?.state == PlaybackState.STATE_PLAYING }
+            .maxByOrNull { controllerUpdateTimes[it] ?: 0 }
+
+        mMediaController = playingController
+        mMediaMetadata = mMediaController?.metadata
+        mMediaIsPlaying = mMediaController?.playbackState?.state == PlaybackState.STATE_PLAYING
+
+        updateMediaMetaData()
     }
 
     private enum class MediaAction {
@@ -1258,19 +1262,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         callMethod(helper, "sendMediaButtonEvent", event, true)
     }
 
-    private val isMediaPlaying: Boolean
-        get() = (isMediaControllerAvailable
-                && PlaybackState.STATE_PLAYING == getMediaControllerPlaybackState(mMediaController))
-
-    private fun getMediaControllerPlaybackState(controller: MediaController?): Int {
-        return controller?.playbackState?.state ?: PlaybackState.STATE_NONE
-    }
-
-    private fun updateMediaPlayerView() {
-        val currentTime = System.currentTimeMillis()
-        if (currentTime - lastUpdateTime < cooldownTime) return
-        lastUpdateTime = currentTime
-
+    private fun updateMediaMetaData() {
         mMediaMetadata?.apply {
             mMediaTitle = getText(MediaMetadata.METADATA_KEY_TITLE)?.toString()
             mMediaArtist = getText(MediaMetadata.METADATA_KEY_ARTIST)?.toString()
@@ -1281,8 +1273,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             mMediaArtist = null
             mMediaArtwork = null
         }
-
-        mMediaIsPlaying = isMediaPlaying
 
         updateMediaPlayer()
     }
@@ -1302,7 +1292,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
 
         artworkExtractorScope.launch {
-            val requireUpdate = !areBitmapsEqual(mPreviousMediaArtwork, mMediaArtwork)
+            val requireUpdate = !areMetadataEqual(mPreviousMediaMetadata, mMediaMetadata)
 
             var artworkDrawable: Drawable? = null
             var processedArtwork: Bitmap? = null
@@ -1409,6 +1399,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         clipToOutline = true
                     }
 
+                    mPreviousMediaMetadata = mMediaMetadata
                     mPreviousMediaArtwork = mMediaArtwork
                     mPreviousMediaProcessedArtwork = filteredArtwork
 
@@ -1622,6 +1613,19 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
+    private fun areMetadataEqual(metadata1: MediaMetadata?, metadata2: MediaMetadata?): Boolean {
+        val bitmap1 = metadata1?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
+            ?: metadata1?.getBitmap(MediaMetadata.METADATA_KEY_ART)
+        val bitmap2 = metadata2?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
+            ?: metadata2?.getBitmap(MediaMetadata.METADATA_KEY_ART)
+
+        return !(!areBitmapsEqual(bitmap1, bitmap2) ||
+                metadata1?.getString(MediaMetadata.METADATA_KEY_TITLE) !=
+                metadata2?.getString(MediaMetadata.METADATA_KEY_TITLE) ||
+                metadata1?.getString(MediaMetadata.METADATA_KEY_ARTIST) !=
+                metadata2?.getString(MediaMetadata.METADATA_KEY_ARTIST))
+    }
+
     private fun areBitmapsEqual(bitmap1: Bitmap?, bitmap2: Bitmap?): Boolean {
         if (bitmap1 == null && bitmap2 == null) {
             return true
@@ -1735,16 +1739,16 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
 
         mContext.apply {
+            mWifiManager = getSystemService(WifiManager::class.java)
+            mTelephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            mBluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+            mMediaSessionManager = mContext.getSystemService(MediaSessionManager::class.java)
             mConnectivityManager =
                 getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            mTelephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            mWifiManager = getSystemService(WifiManager::class.java)
-            mBluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         }
 
         mInternetEnabled = isWiFiConnected || isMobileDataConnected
         mBluetoothEnabled = isBluetoothEnabled
-        mMediaIsPlaying = isMediaPlaying
     }
 
     private val isLandscape: Boolean
