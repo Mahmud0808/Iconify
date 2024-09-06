@@ -55,7 +55,11 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     private lateinit var mMediaBtnNext: ImageButton
     private lateinit var mMediaBtnPlayPause: ImageButton
 
+    private var qsIconSize by Delegates.notNull<Int>()
+    private var qsTextSize by Delegates.notNull<Int>()
+    private var qsTextFontFamily by Delegates.notNull<String>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
+    private var qsLabelContainerMargin by Delegates.notNull<Int>()
     private lateinit var qsTileBackgroundDrawable: Drawable
     private lateinit var appIconBackgroundDrawable: GradientDrawable
     private lateinit var opMediaForegroundClipDrawable: GradientDrawable
@@ -120,6 +124,34 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
                 SYSTEMUI_PACKAGE
             )
         )!!
+        qsLabelContainerMargin = mContext.resources.getDimensionPixelSize(
+            mContext.resources.getIdentifier(
+                "qs_label_container_margin",
+                "dimen",
+                SYSTEMUI_PACKAGE
+            )
+        )
+        qsIconSize = mContext.resources.getDimensionPixelSize(
+            mContext.resources.getIdentifier(
+                "qs_icon_size",
+                "dimen",
+                SYSTEMUI_PACKAGE
+            )
+        )
+        qsTextSize = mContext.resources.getDimensionPixelSize(
+            mContext.resources.getIdentifier(
+                "qs_icon_size",
+                "dimen",
+                SYSTEMUI_PACKAGE
+            )
+        )
+        qsTextFontFamily = mContext.resources.getString(
+            mContext.resources.getIdentifier(
+                "config_bodyFontFamilyMedium",
+                "string",
+                FRAMEWORK_PACKAGE
+            )
+        )
         appIconBackgroundDrawable = GradientDrawable().apply {
             shape = GradientDrawable.OVAL
         }
@@ -242,6 +274,17 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             )
             if (iconResId != 0) {
                 mInternetIcon.setImageDrawable(ContextCompat.getDrawable(mContext, iconResId))
+            } else {
+                mInternetIcon.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        appContext,
+                        appContext.resources.getIdentifier(
+                            "ic_qs_wifi_disconnected",
+                            "drawable",
+                            appContext.packageName
+                        )
+                    )
+                )
             }
 
             val textResId = mContext.resources.getIdentifier(
@@ -251,6 +294,14 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             )
             if (textResId != 0) {
                 mInternetText.setText(textResId)
+            } else {
+                mInternetText.setText(
+                    appContext.resources.getIdentifier(
+                        "quick_settings_internet_label",
+                        "string",
+                        appContext.packageName
+                    )
+                )
             }
         }
 
@@ -267,6 +318,17 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             )
             if (iconResId != 0) {
                 mBluetoothIcon.setImageDrawable(ContextCompat.getDrawable(mContext, iconResId))
+            } else {
+                mBluetoothIcon.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        appContext,
+                        appContext.resources.getIdentifier(
+                            "ic_bluetooth_connected",
+                            "drawable",
+                            appContext.packageName
+                        )
+                    )
+                )
             }
 
             val textResId = mContext.resources.getIdentifier(
@@ -276,6 +338,14 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             )
             if (textResId != 0) {
                 mBluetoothText.setText(textResId)
+            } else {
+                mBluetoothText.setText(
+                    appContext.resources.getIdentifier(
+                        "quick_settings_bluetooth_label",
+                        "string",
+                        appContext.packageName
+                    )
+                )
             }
         }
     }
@@ -300,8 +370,8 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
 
         val iconView = ImageView(mContext).apply {
             layoutParams = LayoutParams(
-                mContext.toPx(20),
-                mContext.toPx(20)
+                qsIconSize,
+                qsIconSize
             ).apply {
                 gravity = Gravity.START or Gravity.CENTER
             }
@@ -313,13 +383,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
                 LayoutParams.WRAP_CONTENT,
                 1F
             ).apply {
-                marginStart = mContext.resources.getDimensionPixelSize(
-                    resources.getIdentifier(
-                        "qs_label_container_margin",
-                        "dimen",
-                        SYSTEMUI_PACKAGE
-                    )
-                )
+                marginStart = qsLabelContainerMargin
             }
             ellipsize = TextUtils.TruncateAt.END
             marqueeRepeatLimit = -1
@@ -329,21 +393,21 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             isFocusableInTouchMode = true
             freezesText = true
             maxLines = 1
+            textDirection = View.TEXT_DIRECTION_LOCALE
+            textSize = 14f
+            typeface = Typeface.create(qsTextFontFamily, Typeface.NORMAL)
             letterSpacing = 0.01f
             lineHeight = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP,
-                20F,
+                20f,
                 mContext.resources.displayMetrics
             ).toInt()
-            textDirection = View.TEXT_DIRECTION_LOCALE
-            textSize = 14F
-            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
         }
 
         val chevronIcon = ImageView(mContext).apply {
             layoutParams = LayoutParams(
-                mContext.toPx(20),
-                mContext.toPx(20)
+                qsIconSize,
+                qsIconSize
             ).apply {
                 gravity = Gravity.END or Gravity.CENTER
             }
@@ -354,6 +418,17 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             )
             if (iconResId != 0) {
                 setImageDrawable(ContextCompat.getDrawable(mContext, iconResId))
+            } else {
+                setImageDrawable(
+                    ContextCompat.getDrawable(
+                        appContext,
+                        appContext.resources.getIdentifier(
+                            "ic_chevron_end",
+                            "drawable",
+                            appContext.packageName
+                        )
+                    )
+                )
             }
         }
 
