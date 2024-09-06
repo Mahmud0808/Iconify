@@ -62,7 +62,6 @@ import com.drdisagree.iconify.utils.color.monet.score.Score
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
-import com.drdisagree.iconify.xposed.modules.utils.Helpers.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
 import com.drdisagree.iconify.xposed.modules.utils.TouchAnimator
 import com.drdisagree.iconify.xposed.modules.utils.VibrationUtils
@@ -76,7 +75,6 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
-import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.callStaticMethod
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
@@ -151,6 +149,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private lateinit var mWifiManager: WifiManager
     private lateinit var mBluetoothManager: BluetoothManager
 
+    private var qqsTileHeight by Delegates.notNull<Int>()
+    private var qsTileMarginVertical by Delegates.notNull<Int>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
     private lateinit var opMediaBackgroundDrawable: Drawable
     private lateinit var mediaSessionLegacyHelperClass: Class<*>
@@ -494,7 +494,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 } as LinearLayout
 
                 (mQsPanel.layoutParams as MarginLayoutParams).topMargin =
-                    if (isLandscape) 0 else mContext.toPx(136 + topMarginValue + expansionAmount)
+                    if (isLandscape) {
+                        0
+                    } else {
+                        (qqsTileHeight * 2) + (qsTileMarginVertical * 2) +
+                                mContext.toPx(topMarginValue + expansionAmount)
+                    }
             }
         }
 
@@ -806,8 +811,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         params.topMargin = topMargin + mContext.toPx(derivedTopMargin)
         mQsHeaderContainer.layoutParams = params
 
-        (mHeaderQsPanel.layoutParams as MarginLayoutParams).topMargin =
-            topMargin + mContext.toPx(136 + derivedTopMargin)
+        (mHeaderQsPanel.layoutParams as MarginLayoutParams).topMargin = topMargin +
+                (qqsTileHeight * 2) + (qsTileMarginVertical * 2) + mContext.toPx(derivedTopMargin)
 
         val qsHeaderHeight = resources.getDimensionPixelOffset(
             resources.getIdentifier(
@@ -1569,7 +1574,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private val mOnLongClickListener = OnLongClickListener { v ->
-
         if (v === mQsOpHeaderView?.internetTile) {
             mActivityLauncherUtils.launchApp(Intent(Settings.ACTION_WIFI_SETTINGS), true)
             vibrate()
@@ -1591,7 +1595,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private fun launchMediaPlayer() {
-
         val packageName: String? = mMediaController?.packageName
         val appIntent = if (packageName != null) Intent(
             mContext.packageManager.getLaunchIntentForPackage(packageName)
@@ -1602,6 +1605,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             appIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             appIntent.setPackage(packageName)
             mActivityLauncherUtils.launchApp(appIntent, true)
+            vibrate()
             return
         }
     }
@@ -1685,6 +1689,20 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     SYSTEMUI_PACKAGE
                 )
             ).toFloat()
+            qqsTileHeight = resources.getDimensionPixelSize(
+                resources.getIdentifier(
+                    "qs_quick_tile_size",
+                    "dimen",
+                    SYSTEMUI_PACKAGE
+                )
+            )
+            qsTileMarginVertical = resources.getDimensionPixelSize(
+                resources.getIdentifier(
+                    "qs_tile_margin_vertical",
+                    "dimen",
+                    SYSTEMUI_PACKAGE
+                )
+            )
         }
 
         opMediaBackgroundDrawable = if (colorInactive != null && colorInactive != 0) {

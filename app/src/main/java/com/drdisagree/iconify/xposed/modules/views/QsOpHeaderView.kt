@@ -60,6 +60,9 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     private var qsTextFontFamily by Delegates.notNull<String>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
     private var qsLabelContainerMargin by Delegates.notNull<Int>()
+    private var qsTileMarginHorizontal by Delegates.notNull<Int>()
+    private var qsTileMarginVertical by Delegates.notNull<Int>()
+    private var qqsTileHeight by Delegates.notNull<Int>()
     private lateinit var qsTileBackgroundDrawable: Drawable
     private lateinit var appIconBackgroundDrawable: GradientDrawable
     private lateinit var opMediaForegroundClipDrawable: GradientDrawable
@@ -127,6 +130,27 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
         qsLabelContainerMargin = mContext.resources.getDimensionPixelSize(
             mContext.resources.getIdentifier(
                 "qs_label_container_margin",
+                "dimen",
+                SYSTEMUI_PACKAGE
+            )
+        )
+        qsTileMarginHorizontal = mContext.resources.getDimensionPixelSize(
+            mContext.resources.getIdentifier(
+                "qs_tile_margin_horizontal",
+                "dimen",
+                SYSTEMUI_PACKAGE
+            )
+        )
+        qsTileMarginVertical = mContext.resources.getDimensionPixelSize(
+            mContext.resources.getIdentifier(
+                "qs_tile_margin_vertical",
+                "dimen",
+                SYSTEMUI_PACKAGE
+            )
+        )
+        qqsTileHeight = mContext.resources.getDimensionPixelSize(
+            mContext.resources.getIdentifier(
+                "qs_quick_tile_size",
                 "dimen",
                 SYSTEMUI_PACKAGE
             )
@@ -216,7 +240,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     private fun createOpQsHeaderView() {
         layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
-            mContext.toPx(128)
+            (qqsTileHeight * 2) + qsTileMarginVertical
         )
         id = generateViewId()
         orientation = HORIZONTAL
@@ -229,7 +253,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
                 1F
             )
             orientation = VERTICAL
-            (layoutParams as MarginLayoutParams).marginEnd = mContext.toPx(4)
+            (layoutParams as MarginLayoutParams).marginEnd = qsTileMarginHorizontal / 2
         }
 
         leftSection.apply {
@@ -247,7 +271,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             setBackgroundColor(Color.TRANSPARENT)
             radius = qsTileCornerRadius
             cardElevation = 0F
-            (layoutParams as MarginLayoutParams).marginStart = mContext.toPx(4)
+            (layoutParams as MarginLayoutParams).marginStart = qsTileMarginHorizontal / 2
         }
 
         rightSection.apply {
@@ -265,7 +289,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             mInternetIcon = getChildAt(0) as ImageView
             mInternetText = getChildAt(1) as TextView
             mInternetChevron = getChildAt(2) as ImageView
-            (layoutParams as MarginLayoutParams).bottomMargin = mContext.toPx(4)
+            (layoutParams as MarginLayoutParams).bottomMargin = qsTileMarginVertical / 2
 
             val iconResId = mContext.resources.getIdentifier(
                 "ic_qs_wifi_disconnected",
@@ -309,7 +333,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             mBluetoothIcon = getChildAt(0) as ImageView
             mBluetoothText = getChildAt(1) as TextView
             mBluetoothChevron = getChildAt(2) as ImageView
-            (layoutParams as MarginLayoutParams).topMargin = mContext.toPx(4)
+            (layoutParams as MarginLayoutParams).topMargin = qsTileMarginVertical / 2
 
             val iconResId = mContext.resources.getIdentifier(
                 "ic_bluetooth_connected",
