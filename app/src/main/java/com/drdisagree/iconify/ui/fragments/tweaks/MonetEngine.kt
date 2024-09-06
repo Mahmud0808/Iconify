@@ -13,8 +13,6 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -560,19 +558,19 @@ class MonetEngine : BaseFragment() {
             }
         }
 
-        if (!binding.floatingActionMenu.isShown()) {
+        if (!binding.floatingActionMenu.isShown) {
             binding.enableCustomMonet.hide()
             binding.disableCustomMonet.hide()
         }
 
         binding.floatingActionMenu.setOnClickListener {
-            if (showApplyButton && !binding.enableCustomMonet.isShown()) {
+            if (showApplyButton && !binding.enableCustomMonet.isShown) {
                 binding.enableCustomMonet.show()
             } else {
                 binding.enableCustomMonet.hide()
             }
 
-            if (showDisableButton && !binding.disableCustomMonet.isShown()) {
+            if (showDisableButton && !binding.disableCustomMonet.isShown) {
                 binding.disableCustomMonet.show()
             } else {
                 binding.disableCustomMonet.hide()
@@ -609,9 +607,9 @@ class MonetEngine : BaseFragment() {
                 textView.rotation = 270f
                 textView.setTextColor(calculateTextColor(systemColors[i][j]))
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
-                textView.setAlpha(0.8f)
-                textView.setMaxLines(1)
-                textView.setSingleLine(true)
+                textView.alpha = 0.8f
+                textView.maxLines = 1
+                textView.isSingleLine = true
                 textView.setAutoSizeTextTypeUniformWithConfiguration(
                     1,
                     20,
@@ -983,14 +981,6 @@ class MonetEngine : BaseFragment() {
         }
 
         return status
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        inflater.inflate(R.menu.monet_menu, menu)
-
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     @Deprecated("Deprecated in Java")
