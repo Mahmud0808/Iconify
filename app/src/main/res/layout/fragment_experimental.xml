@@ -35,6 +35,13 @@
                 app:summaryText="@string/hide_data_disabled_icon_desc"
                 app:titleText="@string/hide_data_disabled_icon_title" />
 
+            <com.drdisagree.iconify.ui.widgets.MenuWidget
+                android:id="@+id/send_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="Create and send random notification"
+                app:titleText="Send Notification" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
