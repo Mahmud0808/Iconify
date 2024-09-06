@@ -62,6 +62,7 @@ import com.drdisagree.iconify.utils.color.monet.score.Score
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
 import com.drdisagree.iconify.xposed.modules.utils.TouchAnimator
 import com.drdisagree.iconify.xposed.modules.utils.VibrationUtils
@@ -75,6 +76,7 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
+import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.callStaticMethod
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
@@ -521,23 +523,30 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!showOpQsHeaderView) return
 
-                val mQSPanelController = getObjectField(param.thisObject, "mQSPanelController")
+                try {
+                    val mQSPanelController = getObjectField(param.thisObject, "mQSPanelController")
 
-                val listener = Runnable {
-                    val mediaHost = callMethod(mQSPanelController, "getMediaHost")
-                    val hostView = callMethod(mediaHost, "getHostView")
+                    val listener = Runnable {
+                        val mediaHost = callMethod(mQSPanelController, "getMediaHost")
+                        val hostView = callMethod(mediaHost, "getHostView")
 
-                    callMethod(hostView, "setAlpha", 0.0f)
+                        callMethod(hostView, "setAlpha", 0.0f)
 
-                    try {
-                        callMethod(mQSPanelController, "requestAnimatorUpdate")
-                    } catch (ignored: Throwable) {
-                        val mQSAnimator = getObjectField(param.thisObject, "mQSAnimator")
-                        callMethod(mQSAnimator, "requestAnimatorUpdate")
+                        try {
+                            callMethod(mQSPanelController, "requestAnimatorUpdate")
+                        } catch (ignored: Throwable) {
+                            val mQSAnimator = getObjectField(param.thisObject, "mQSAnimator")
+                            callMethod(mQSAnimator, "requestAnimatorUpdate")
+                        }
                     }
-                }
 
-                callMethod(mQSPanelController, "setUsingHorizontalLayoutChangeListener", listener)
+                    callMethod(
+                        mQSPanelController,
+                        "setUsingHorizontalLayoutChangeListener",
+                        listener
+                    )
+                } catch (ignored: Throwable) {
+                }
             }
         })
 
@@ -1570,7 +1579,28 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private fun launchMediaOutputSwitcher(v: View) {
         val packageName: String? = mMediaController?.packageName
         if (packageName != null && mMediaOutputDialogFactory != null) {
-            callMethod(mMediaOutputDialogFactory, "create", packageName, true, v)
+            if (isMethodAvailable(
+                    mMediaOutputDialogFactory,
+                    "create",
+                    String::class.java,
+                    Boolean::class.java,
+                    View::class.java
+                )
+            ) {
+                callMethod(mMediaOutputDialogFactory, "create", packageName, true, v)
+            } else if (isMethodAvailable(
+                    mMediaOutputDialogFactory,
+                    "create",
+                    View::class.java,
+                    String::class.java,
+                    Boolean::class.java,
+                    Boolean::class.java
+                )
+            ) {
+                callMethod(mMediaOutputDialogFactory, "create", v, packageName, true, true)
+            } else {
+                log(TAG + "MediaOutputDialogFactory is not available")
+            }
         }
     }
 
