@@ -22,7 +22,6 @@ import android.graphics.drawable.Icon
 import android.graphics.drawable.TransitionDrawable
 import android.media.MediaMetadata
 import android.media.session.MediaController
-import android.media.session.MediaController.PlaybackInfo
 import android.media.session.MediaSessionManager
 import android.media.session.PlaybackState
 import android.net.ConnectivityManager
@@ -197,7 +196,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.qs.tileimpl.QSTileViewImpl",
             loadPackageParam.classLoader
         )
-        val qsPanelControllerBase = findClassIfExists(
+        val qsPanelControllerBaseClass = findClassIfExists(
             "$SYSTEMUI_PACKAGE.qs.QSPanelControllerBase",
             loadPackageParam.classLoader
         )
@@ -624,7 +623,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         } else { // Some ROMs don't have this method switchAllContentToParent()
             hookAllMethods(
-                qsPanelControllerBase,
+                qsPanelControllerBaseClass,
                 "onInit",
                 object : XC_MethodHook() {
                     override fun beforeHookedMethod(param: MethodHookParam) {
@@ -1145,48 +1144,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         updateBluetoothTileColors()
     }
 
-    private val isMediaControllerAvailable: Boolean
-        get() {
-            val mediaController = activeLocalMediaController
-            return mediaController != null && !mediaController.packageName.isNullOrEmpty()
-        }
-
-    private val activeLocalMediaController: MediaController?
-        get() {
-            val mediaSessionManager = mContext.getSystemService(MediaSessionManager::class.java)
-            var localController: MediaController? = null
-            val remoteMediaSessionLists: MutableList<String> = ArrayList()
-
-            for (controller: MediaController in mediaSessionManager.getActiveSessions(null)) {
-                val pi = controller.playbackInfo ?: continue
-                val playbackState = controller.playbackState ?: continue
-                if (playbackState.state != PlaybackState.STATE_PLAYING) continue
-
-                if (pi.playbackType == PlaybackInfo.PLAYBACK_TYPE_REMOTE) {
-                    if (localController != null
-                        && localController.packageName!!.contentEquals(controller.packageName)
-                    ) {
-                        localController = null
-                    }
-
-                    if (!remoteMediaSessionLists.contains(controller.packageName)) {
-                        remoteMediaSessionLists.add(controller.packageName)
-                    }
-
-                    continue
-                }
-                if (pi.playbackType == PlaybackInfo.PLAYBACK_TYPE_LOCAL) {
-                    if (localController == null
-                        && !remoteMediaSessionLists.contains(controller.packageName)
-                    ) {
-                        localController = controller
-                    }
-                }
-            }
-
-            return localController
-        }
-
     private fun updateMediaController() {
         val currentControllers = mMediaSessionManager.getActiveSessions(null).toMutableList()
         val currentTime = System.currentTimeMillis()
@@ -1371,25 +1328,39 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
 
             withContext(Dispatchers.Main) {
-                val appIcon = mNotificationMediaManager?.let {
-                    try {
-                        callMethod(it, "getMediaIcon") as Icon?
-                    } catch (ignored: Throwable) {
-                        try {
-                            mMediaController?.packageName?.let { packageName ->
-                                val drawable =
-                                    mContext.packageManager.getApplicationIcon(packageName)
-                                Icon.createWithBitmap((drawable as BitmapDrawable).bitmap)
-                            }
-                        } catch (ignored: Throwable) {
-                            null
-                        }
+                val appIcon = runCatching {
+                    callMethod(mNotificationMediaManager, "getMediaIcon") as Icon?
+                }.getOrNull()
+                val appIconBitmap =
+                    mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON)
+                val appIconDrawable = runCatching {
+                    mMediaController?.packageName?.let { packageName ->
+                        mContext.packageManager.getApplicationIcon(packageName)
                     }
-                }
-                if (appIcon != null && mMediaTitle != null) {
-                    mQsOpHeaderView?.setMediaAppIcon(appIcon)
-                } else {
-                    mQsOpHeaderView?.resetMediaAppIcon()
+                }.getOrNull()
+
+                val requireIconTint: Boolean
+
+                when {
+                    appIcon != null && mMediaTitle != null -> {
+                        requireIconTint = true
+                        mQsOpHeaderView?.setMediaAppIcon(appIcon)
+                    }
+
+                    appIconBitmap != null && mMediaMetadata != null -> {
+                        requireIconTint = true
+                        mQsOpHeaderView?.setMediaAppIconBitmap(appIconBitmap)
+                    }
+
+                    appIconDrawable != null && mMediaTitle != null -> {
+                        requireIconTint = false
+                        mQsOpHeaderView?.setMediaAppIconDrawable(appIconDrawable)
+                    }
+
+                    else -> {
+                        requireIconTint = true
+                        mQsOpHeaderView?.resetMediaAppIcon()
+                    }
                 }
 
                 if (requireUpdate || force) {
@@ -1405,10 +1376,16 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
                     val onDominantColor = getContrastingTextColor(dominantColor)
 
-                    mQsOpHeaderView?.setMediaAppIconColor(
-                        backgroundColor = dominantColor ?: colorAccent,
-                        iconColor = onDominantColor ?: colorPrimary
-                    )
+                    if (requireIconTint) {
+                        mQsOpHeaderView?.setMediaAppIconColor(
+                            backgroundColor = dominantColor ?: colorAccent,
+                            iconColor = onDominantColor ?: colorPrimary
+                        )
+                    } else {
+                        mQsOpHeaderView?.resetMediaAppIconColor(
+                            backgroundColor = dominantColor ?: colorAccent
+                        )
+                    }
 
                     if (processedArtwork == null || onDominantColor == null) {
                         mQsOpHeaderView?.setMediaPlayerItemsColor(colorLabelInactive)

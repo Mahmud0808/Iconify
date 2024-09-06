@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -731,9 +732,18 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
         mAppIcon.setImageDrawable(drawable)
     }
 
+    fun setMediaAppIconBitmap(bitmap: Bitmap) {
+        mAppIcon.setImageBitmap(bitmap)
+    }
+
     fun setMediaAppIconColor(backgroundColor: Int, iconColor: Int) {
         mAppIcon.backgroundTintList = ColorStateList.valueOf(backgroundColor)
         mAppIcon.imageTintList = ColorStateList.valueOf(iconColor)
+    }
+
+    fun resetMediaAppIconColor(backgroundColor: Int) {
+        mAppIcon.backgroundTintList = ColorStateList.valueOf(backgroundColor)
+        mAppIcon.imageTintList = null
     }
 
     fun setMediaTitle(title: String) {
