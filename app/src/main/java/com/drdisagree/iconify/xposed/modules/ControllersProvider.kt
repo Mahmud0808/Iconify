@@ -2,12 +2,17 @@ package com.drdisagree.iconify.xposed.modules
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.provider.Settings
+import android.view.View
+import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.isMethodAvailable
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.getIntField
@@ -17,6 +22,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class ControllersProvider(context: Context?) : ModPack(context!!) {
 
     private var mBluetoothEnabled = false
+
+    private var mAccessPointController: Any? = null
+    private var mInternetDialogManager: Any? = null
+    private var mInternetDialogFactory: Any? = null
+    private var mBluetoothTileDialogViewModel: Any? = null
+
+    private var mCellularTile: Any? = null
+    private var mBluetoothTile: Any? = null
 
     private val mMobileDataChangedListeners = ArrayList<OnMobileDataChanged>()
     private val mWifiChangedListeners = ArrayList<OnWifiChanged>()
@@ -33,7 +46,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
 
         // Network Callbacks
         val callbackHandler = findClassIfExists(
-            "com.android.systemui.statusbar.connectivity.CallbackHandler",
+            "$SYSTEMUI_PACKAGE.statusbar.connectivity.CallbackHandler",
             loadPackageParam.classLoader
         )
 
@@ -74,10 +87,10 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
             })
         }
 
-        // Network Controller from Internet Tile
+        // Internet Tile - for opening Internet Dialog
         try {
             val internetTile = findClass(
-                "com.android.systemui.qs.tiles.InternetTile",
+                "$SYSTEMUI_PACKAGE.qs.tiles.InternetTile",
                 loadPackageParam.classLoader
             )
             hookAllConstructors(internetTile, object : XC_MethodHook() {
@@ -90,10 +103,36 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
             log(TAG + "InternetTile error " + t.message)
         }
 
+        // Stole also Internet Dialog Manager
+        // in case no tile is available
+        try {
+            val networkControllerImplClass = findClass(
+                "$SYSTEMUI_PACKAGE.statusbar.connectivity.NetworkControllerImpl",
+                loadPackageParam.classLoader
+            )
+            hookAllConstructors(networkControllerImplClass, object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    try {
+                        mAccessPointController = getObjectField(param.thisObject, "mAccessPoints")
+                    } catch (ignored: Throwable) {}
+                    try {
+                        mInternetDialogManager =
+                            getObjectField(param.thisObject, "mInternetDialogManager")
+                    } catch (ignored: Throwable) {}
+                    try {
+                        mInternetDialogFactory =
+                            getObjectField(param.thisObject, "mInternetDialogFactory")
+                    } catch (ignored: Throwable) {}
+                }
+            })
+        } catch (t: Throwable) {
+            log(TAG + "NetworkControllerImpl not found " + t.message)
+        }
+
         // Bluetooth Controller
         try {
             val bluetoothControllerImpl = findClass(
-                "com.android.systemui.statusbar.policy.BluetoothControllerImpl",
+                "$SYSTEMUI_PACKAGE.statusbar.policy.BluetoothControllerImpl",
                 loadPackageParam.classLoader
             )
             hookAllConstructors(bluetoothControllerImpl, object : XC_MethodHook() {
@@ -137,13 +176,19 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         // Get Bluetooth Tile for Dialog
         try {
             val bluetoothTile = findClass(
-                "com.android.systemui.qs.tiles.BluetoothTile",
+                "$SYSTEMUI_PACKAGE.qs.tiles.BluetoothTile",
                 loadPackageParam.classLoader
             )
             hookAllConstructors(bluetoothTile, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     mBluetoothTile = param.thisObject
+                    try {
+                        mBluetoothTileDialogViewModel =
+                            getObjectField(param.thisObject, "mDialogViewModel")
+                    } catch (ignored: Throwable) {
+                        log(TAG + "Bluetooth dialog view model not found")
+                    }
                 }
             })
         } catch (t: Throwable) {
@@ -153,7 +198,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         // Stole FlashLight Callback
         try {
             val flashlightControllerImpl = findClass(
-                "com.android.systemui.statusbar.policy.FlashlightControllerImpl",
+                "$SYSTEMUI_PACKAGE.statusbar.policy.FlashlightControllerImpl",
                 loadPackageParam.classLoader
             )
             hookAllConstructors(flashlightControllerImpl, object : XC_MethodHook() {
@@ -181,7 +226,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         // Get an Hotspot Callback
         try {
             val hotspotControllerImpl = findClass(
-                "com.android.systemui.statusbar.policy.HotspotControllerImpl",
+                "$SYSTEMUI_PACKAGE.statusbar.policy.HotspotControllerImpl",
                 loadPackageParam.classLoader
             )
             hookAllMethods(
@@ -204,7 +249,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         // Hotspot Tile - for settings Hotspot
         try {
             val hotspotTile =
-                findClass("com.android.systemui.qs.tiles.HotspotTile", loadPackageParam.classLoader)
+                findClass("$SYSTEMUI_PACKAGE.qs.tiles.HotspotTile", loadPackageParam.classLoader)
             hookAllConstructors(hotspotTile, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
@@ -220,7 +265,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         try {
             val deviceControlsTile =
                 findClass(
-                    "com.android.systemui.qs.tiles.DeviceControlsTile",
+                    "$SYSTEMUI_PACKAGE.qs.tiles.DeviceControlsTile",
                     loadPackageParam.classLoader
                 )
             hookAllConstructors(deviceControlsTile, object : XC_MethodHook() {
@@ -237,7 +282,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         // Wallet Tile - for opening wallet
         try {
             val quickAccessWalletTile = findClass(
-                "com.android.systemui.qs.tiles.QuickAccessWalletTile",
+                "$SYSTEMUI_PACKAGE.qs.tiles.QuickAccessWalletTile",
                 loadPackageParam.classLoader
             )
             hookAllConstructors(quickAccessWalletTile, object : XC_MethodHook() {
@@ -253,7 +298,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         // Doze Callback
         try {
             val dozeScrimController = findClass(
-                "com.android.systemui.statusbar.phone.DozeScrimController",
+                "$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController",
                 loadPackageParam.classLoader
             )
             hookAllMethods(dozeScrimController, "onDozingChanged", object : XC_MethodHook() {
@@ -453,16 +498,119 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         var mBluetoothController: Any? = null
         var mHotspotController: Any? = null
 
-        var mBluetoothTile: Any? = null
         var mHotspotTile: Any? = null
-        var mCellularTile: Any? = null
         var mDeviceControlsTile: Any? = null
-        val mCalculatorTile: Any? = null
         var mWalletTile: Any? = null
 
         fun getInstance(): ControllersProvider {
             return instance!!
         }
+
+        fun showInternetDialog(view: View): Boolean {
+            if (instance == null) {
+                log(TAG + "Instance is null")
+                return false
+            }
+            if (instance!!.mCellularTile != null) {
+                if (isMethodAvailable(instance!!.mCellularTile, "handleClick", View::class.java)) {
+                    callMethod(instance!!.mCellularTile, "handleClick", view)
+                    return true
+                }
+            }
+            if (instance!!.mAccessPointController != null) {
+                if (isMethodAvailable(
+                        instance!!.mInternetDialogManager,
+                        "create",
+                        Boolean::class.java,
+                        Boolean::class.java,
+                        Boolean::class.java,
+                        View::class.java
+                    )
+                ) {
+                    callMethod(
+                        instance!!.mInternetDialogManager,
+                        "create",
+                        true,
+                        callMethod(instance!!.mAccessPointController, "canConfigMobileData"),
+                        callMethod(instance!!.mAccessPointController, "canConfigWifi"),
+                        view
+                    )
+                    return true
+                } else if (isMethodAvailable(
+                        instance!!.mInternetDialogManager,
+                        "create",
+                        View::class.java,
+                        Boolean::class.java,
+                        Boolean::class.java
+                    )
+                ) {
+                    callMethod(
+                        instance!!.mInternetDialogManager,
+                        "create",
+                        view,
+                        callMethod(instance!!.mAccessPointController, "canConfigMobileData"),
+                        callMethod(instance!!.mAccessPointController, "canConfigWifi")
+                    )
+                    return true
+                } else if (isMethodAvailable(
+                        instance!!.mInternetDialogFactory,
+                        "create",
+                        Boolean::class.java,
+                        Boolean::class.java,
+                        View::class.java
+                    )
+                ) {
+                    callMethod(
+                        instance!!.mInternetDialogFactory,
+                        "create",
+                        callMethod(instance!!.mAccessPointController, "canConfigMobileData"),
+                        callMethod(instance!!.mAccessPointController, "canConfigWifi"),
+                        view
+                    )
+                    return true
+                } else {
+                    log(TAG + "No internet dialog available")
+                    return false
+                }
+            }
+            return false
+        }
+
+        fun showBluetoothDialog(context: Context, view: View): Boolean {
+            if (instance == null) return false
+            if (instance!!.mBluetoothTile != null) {
+                if (isMethodAvailable(instance!!.mBluetoothTile, "handleClick", View::class.java)) {
+                    callMethod(instance!!.mBluetoothTile, "handleClick", view)
+                    return true
+                }
+            }
+            if (instance!!.mBluetoothTileDialogViewModel != null) {
+                try {
+                    callMethod(
+                        instance!!.mBluetoothTileDialogViewModel,
+                        "showDialog",
+                        context,
+                        view
+                    )
+                    return true
+                } catch (ignored: Throwable) {
+                    val isAutoOn = Settings.System.getInt(
+                        context.contentResolver,
+                        "qs_bt_auto_on", 0
+                    ) == 1
+                    callMethod(
+                        instance!!.mBluetoothTileDialogViewModel,
+                        "showDialog",
+                        context,
+                        view,
+                        isAutoOn
+                    )
+                    return true
+                }
+            }
+            return false
+        }
+
     }
 
 }
