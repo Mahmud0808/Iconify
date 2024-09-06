@@ -114,15 +114,18 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     try {
                         mAccessPointController = getObjectField(param.thisObject, "mAccessPoints")
-                    } catch (ignored: Throwable) {}
+                    } catch (ignored: Throwable) {
+                    }
                     try {
                         mInternetDialogManager =
                             getObjectField(param.thisObject, "mInternetDialogManager")
-                    } catch (ignored: Throwable) {}
+                    } catch (ignored: Throwable) {
+                    }
                     try {
                         mInternetDialogFactory =
                             getObjectField(param.thisObject, "mInternetDialogFactory")
-                    } catch (ignored: Throwable) {}
+                    } catch (ignored: Throwable) {
+                    }
                 }
             })
         } catch (t: Throwable) {
@@ -493,7 +496,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         @Volatile
         private var instance: ControllersProvider? = null
 
-        const val TAG: String = "ControllersProvider"
+        private val TAG: String = "Iconify - ${ControllersProvider::class.java.simpleName}: "
 
         var mBluetoothController: Any? = null
         var mHotspotController: Any? = null
