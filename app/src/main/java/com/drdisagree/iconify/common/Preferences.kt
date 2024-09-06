@@ -378,7 +378,5 @@ object Preferences {
     // Others
     const val BOOT_ID = "boot_id"
     const val VER_CODE = "versionCode"
-    const val EASTER_EGG = "iconify_easter_egg"
-    const val EXPERIMENTAL_FEATURES = "experimentalFeatures"
     const val ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol"
 }

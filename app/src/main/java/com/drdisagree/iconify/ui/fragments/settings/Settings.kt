@@ -53,6 +53,9 @@ class Settings : ControlledPreferenceFragmentCompat() {
     override val hasMenu: Boolean
         get() = true
 
+    override val menuResource: Int
+        get() = R.menu.settings_menu
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

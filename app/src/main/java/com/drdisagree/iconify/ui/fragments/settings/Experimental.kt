@@ -54,6 +54,7 @@ class Experimental : BaseFragment() {
         binding.hideDataDisabledIcon.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(HIDE_DATA_DISABLED_ICON, isChecked)
         }
+
         return root
     }
 }

@@ -64,8 +64,6 @@ import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_MOVE
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_ON_AOD
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_PARALLAX_EFFECT
 import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
-import com.drdisagree.iconify.common.Preferences.EASTER_EGG
-import com.drdisagree.iconify.common.Preferences.EXPERIMENTAL_FEATURES
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN
@@ -169,8 +167,6 @@ object PrefsHelper {
     fun isVisible(key: String?): Boolean {
         return when (key) {
             UPDATE_OVER_WIFI -> getBoolean(AUTO_UPDATE, true)
-
-            EXPERIMENTAL_FEATURES -> getBoolean(EASTER_EGG)
 
             "iconifyHomeCard" -> getBoolean(SHOW_HOME_CARD, true)
 
