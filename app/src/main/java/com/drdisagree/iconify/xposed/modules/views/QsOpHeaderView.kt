@@ -765,7 +765,9 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
 
         mInternetTile.background.mutate().setTint(tileColor)
         mInternetIcon.imageTintList = ColorStateList.valueOf(labelColor)
+        mInternetIcon.drawable.mutate().setTint(labelColor)
         mInternetChevron.imageTintList = ColorStateList.valueOf(labelColor)
+        mInternetChevron.drawable.mutate().setTint(labelColor)
         mInternetText.setTextColor(labelColor)
     }
 
@@ -774,7 +776,9 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
 
         mBluetoothTile.background.mutate().setTint(tileColor)
         mBluetoothIcon.imageTintList = ColorStateList.valueOf(labelColor)
+        mBluetoothIcon.drawable.mutate().setTint(labelColor)
         mBluetoothChevron.imageTintList = ColorStateList.valueOf(labelColor)
+        mBluetoothChevron.drawable.mutate().setTint(labelColor)
         mBluetoothText.setTextColor(labelColor)
     }
 

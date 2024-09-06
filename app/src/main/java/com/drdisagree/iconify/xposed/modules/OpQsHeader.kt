@@ -46,6 +46,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.palette.graphics.Palette
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
@@ -927,11 +928,15 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 SYSTEMUI_PACKAGE
             )
         )
-        val noInternetIconResId = mContext.resources.getIdentifier(
-            "ic_qs_no_internet_available",
-            "drawable",
-            SYSTEMUI_PACKAGE
-        )
+        val noInternetIconDrawable = ContextCompat.getDrawable(
+            mContext,
+            mContext.resources.getIdentifier(
+                "ic_qs_no_internet_available",
+                "drawable",
+                SYSTEMUI_PACKAGE
+            )
+        )!!
+        colorLabelInactive?.let { DrawableCompat.setTint(noInternetIconDrawable, it) }
 
         if (mInternetEnabled) {
             if (isWiFiConnected) {
@@ -943,24 +948,31 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     1 -> "ic_wifi_signal_1"
                     else -> "ic_wifi_signal_0"
                 }
-
-                mQsOpHeaderView?.setInternetText(getWiFiSSID())
-                mQsOpHeaderView?.setInternetIcon(
+                val wifiIconDrawable = ContextCompat.getDrawable(
+                    mContext,
                     mContext.resources.getIdentifier(
                         wifiIconResId,
                         "drawable",
                         FRAMEWORK_PACKAGE
                     )
-                )
+                )!!
+                colorLabelActive?.let { DrawableCompat.setTint(wifiIconDrawable, it) }
+
+                mQsOpHeaderView?.setInternetText(getWiFiSSID())
+                mQsOpHeaderView?.setInternetIcon(wifiIconDrawable)
             } else {
                 val signalLevel = getMobileDataSignalStrengthLevel()
                 val maxBars = 4
 
-                val mobileDataIconResId = mContext.resources.getIdentifier(
-                    "ic_signal_cellular_${signalLevel}_${maxBars}_bar",
-                    "drawable",
-                    FRAMEWORK_PACKAGE
-                )
+                val mobileDataIconDrawable = ContextCompat.getDrawable(
+                    mContext,
+                    mContext.resources.getIdentifier(
+                        "ic_signal_cellular_${signalLevel}_${maxBars}_bar",
+                        "drawable",
+                        FRAMEWORK_PACKAGE
+                    )
+                )!!
+                colorLabelActive?.let { DrawableCompat.setTint(mobileDataIconDrawable, it) }
 
                 val networkType = getNetworkType()
                 if (networkType == null) {
@@ -974,11 +986,11 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         )
                     )
                 }
-                mQsOpHeaderView?.setInternetIcon(mobileDataIconResId)
+                mQsOpHeaderView?.setInternetIcon(mobileDataIconDrawable)
             }
         } else {
             mQsOpHeaderView?.setInternetText(internetLabel)
-            mQsOpHeaderView?.setInternetIcon(noInternetIconResId)
+            mQsOpHeaderView?.setInternetIcon(noInternetIconDrawable)
         }
 
         updateInternetTileColors()
