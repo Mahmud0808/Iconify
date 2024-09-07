@@ -580,14 +580,7 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
         }
 
         fun showBluetoothDialog(context: Context, view: View): Boolean {
-            if (instance == null) return false
-            if (instance!!.mBluetoothTile != null) {
-                if (isMethodAvailable(instance!!.mBluetoothTile, "handleClick", View::class.java)) {
-                    callMethod(instance!!.mBluetoothTile, "handleClick", view)
-                    return true
-                }
-            }
-            if (instance!!.mBluetoothTileDialogViewModel != null) {
+            if (instance?.mBluetoothTileDialogViewModel != null) {
                 try {
                     callMethod(
                         instance!!.mBluetoothTileDialogViewModel,
@@ -609,6 +602,13 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
                         isAutoOn
                     )
                     return true
+                }
+            } else if (instance?.mBluetoothTile != null) {
+                if (isMethodAvailable(instance!!.mBluetoothTile, "handleClick", View::class.java)) {
+                    callMethod(instance!!.mBluetoothTile, "handleClick", view)
+                    return true
+                } else {
+                    log(TAG + "No bluetooth dialog available")
                 }
             }
             return false
