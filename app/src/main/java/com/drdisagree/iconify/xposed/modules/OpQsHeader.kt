@@ -57,12 +57,15 @@ import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_EXPANSION_Y
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_TOP_MARGIN
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_VIBRATE
+import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
+import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
 import com.drdisagree.iconify.utils.color.monet.quantize.QuantizerCelebi
 import com.drdisagree.iconify.utils.color.monet.score.Score
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.isMethodAvailable
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.isQsTileOverlayEnabled
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
 import com.drdisagree.iconify.xposed.modules.utils.TouchAnimator
 import com.drdisagree.iconify.xposed.modules.utils.VibrationUtils
@@ -104,6 +107,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var mediaBlurLevel = 10f
     private var topMarginValue = 0
     private var expansionAmount = 0
+    private var qsTextAlwaysWhite = false
+    private var qsTextFollowAccent = false
 
     private lateinit var mActivityLauncherUtils: ActivityLauncherUtils
 
@@ -170,6 +175,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             mediaBlurLevel = getSliderInt(OP_QS_HEADER_BLUR_LEVEL, 10).toFloat()
             topMarginValue = getSliderInt(OP_QS_HEADER_TOP_MARGIN, 0)
             expansionAmount = getSliderInt(OP_QS_HEADER_EXPANSION_Y, 0)
+            qsTextAlwaysWhite = getBoolean(QS_TEXT_ALWAYS_WHITE, false)
+            qsTextFollowAccent = getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
         }
 
         if (key.isNotEmpty() &&
@@ -196,6 +203,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         )
         val qsTileViewImplClass = findClass(
             "$SYSTEMUI_PACKAGE.qs.tileimpl.QSTileViewImpl",
+            loadPackageParam.classLoader
+        )
+        val tileLayoutClass = findClass(
+            "$SYSTEMUI_PACKAGE.qs.TileLayout",
             loadPackageParam.classLoader
         )
         val qsPanelControllerBaseClass = findClassIfExists(
@@ -299,6 +310,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         })
 
+        hookAllConstructors(tileLayoutClass, object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                if (!showOpQsHeaderView) return
+
+                initResources()
+                updateInternetTileColors()
+                updateBluetoothTileColors()
+                updateMediaPlayer(force = true)
+            }
+        })
+
         // Update colors when device theme changes
         hookAllMethods(shadeHeaderControllerClass, "onInit", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
@@ -311,13 +333,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
                 val updateColors = object : XC_MethodHook() {
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        if (qsTileViewImplInstance != null) {
-                            initResources()
+                        if (!showOpQsHeaderView || qsTileViewImplInstance == null) return
 
-                            updateInternetTileColors()
-                            updateBluetoothTileColors()
-                            updateMediaPlayer(force = true)
-                        }
+                        initResources()
+                        updateInternetTileColors()
+                        updateBluetoothTileColors()
+                        updateMediaPlayer(force = true)
                     }
                 }
 
@@ -1253,12 +1274,22 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         val mMediaPlayerBackground = mQsOpHeaderView!!.mediaPlayerBackground
         val defaultBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
+            ?.apply {
+                if (isQsTileOverlayEnabled) {
+                    setTint(Color.TRANSPARENT)
+                } else {
+                    colorInactive?.let { setTint(it) }
+                }
+            }
 
         mMediaPlayerBackground.apply {
             if (drawable == opMediaDefaultBackground) {
                 setImageDrawable(defaultBackground)
                 scaleType = ImageView.ScaleType.CENTER_CROP
                 clipToOutline = true
+
+                mQsOpHeaderView!!.resetMediaAppIconColor(backgroundColor = colorAccent)
+                colorLabelInactive?.let { mQsOpHeaderView!!.setMediaPlayerItemsColor(it) }
             }
         }
 
@@ -1673,25 +1704,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         } catch (ignored: PackageManager.NameNotFoundException) {
         }
 
-        qsTileViewImplInstance?.let { thisObject ->
-            colorActive = getObjectField(
-                thisObject,
-                "colorActive"
-            ) as Int
-            colorInactive = getObjectField(
-                thisObject,
-                "colorInactive"
-            ) as Int
-            colorLabelActive = getObjectField(
-                thisObject,
-                "colorLabelActive"
-            ) as Int
-            colorLabelInactive = getObjectField(
-                thisObject,
-                "colorLabelInactive"
-            ) as Int
-        }
-
         mContext.apply {
             colorAccent = getColorAttr(
                 this,
@@ -1733,11 +1745,36 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             )
         }
 
+        qsTileViewImplInstance?.let { thisObject ->
+            val qsTileOverlayEnabled = isQsTileOverlayEnabled
+
+            colorActive = if (qsTileOverlayEnabled) Color.WHITE
+            else getObjectField(
+                thisObject,
+                "colorActive"
+            ) as Int
+            colorInactive = if (qsTileOverlayEnabled) Color.TRANSPARENT
+            else getObjectField(
+                thisObject,
+                "colorInactive"
+            ) as Int
+            colorLabelActive = if (qsTextAlwaysWhite) Color.WHITE
+            else if (qsTextFollowAccent) colorAccent
+            else getObjectField(
+                thisObject,
+                "colorLabelActive"
+            ) as Int
+            colorLabelInactive = getObjectField(
+                thisObject,
+                "colorLabelInactive"
+            ) as Int
+        }
+
         opMediaBackgroundDrawable = if (colorInactive != null && colorInactive != 0) {
             GradientDrawable().apply {
+                setColor(colorInactive!!)
                 shape = GradientDrawable.RECTANGLE
                 cornerRadius = qsTileCornerRadius
-                colors = intArrayOf(colorInactive!!, colorInactive!!)
             }
         } else {
             ContextCompat.getDrawable(
