@@ -72,7 +72,8 @@ import com.drdisagree.iconify.xposed.modules.utils.VibrationUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.views.QsOpHeaderView
-import com.drdisagree.iconify.xposed.modules.views.QsOpHeaderView.Companion.opMediaDefaultBackground
+import com.drdisagree.iconify.xposed.modules.views.QsOpMediaPlayerView
+import com.drdisagree.iconify.xposed.modules.views.QsOpMediaPlayerView.Companion.opMediaDefaultBackground
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
@@ -102,6 +103,7 @@ import kotlin.properties.Delegates
 @Suppress("DiscouragedApi")
 class OpQsHeader(context: Context?) : ModPack(context!!) {
 
+    // Preferences
     private var showOpQsHeaderView = false
     private var vibrateOnClick = false
     private var mediaBlurLevel = 10f
@@ -110,8 +112,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var qsTextAlwaysWhite = false
     private var qsTextFollowAccent = false
 
-    private lateinit var mActivityLauncherUtils: ActivityLauncherUtils
-
+    // Views
     private var mQsHeaderContainer: LinearLayout = LinearLayout(mContext)
     private var mQsHeaderContainerShade: LinearLayout = LinearLayout(mContext).apply {
         tag = ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG
@@ -119,9 +120,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var mQsPanelView: ViewGroup? = null
     private var mQuickStatusBarHeader: FrameLayout? = null
     private var mQQSContainerAnimator: TouchAnimator? = null
-    private var mQsOpHeaderView: QsOpHeaderView? = null
     private lateinit var mHeaderQsPanel: LinearLayout
+    private var mQsOpHeaderView: QsOpHeaderView? = null
 
+    // Colors
     private var colorActive: Int? = null
     private var colorInactive: Int? = null
     private var colorLabelActive: Int? = null
@@ -129,21 +131,21 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var colorAccent by Delegates.notNull<Int>()
     private var colorPrimary by Delegates.notNull<Int>()
 
-    private var mMediaTitle: String? = null
-    private var mMediaArtist: String? = null
+    // Media data
     private var mMediaArtwork: Bitmap? = null
-    private var mMediaMetadata: MediaMetadata? = null
-    private var mPreviousMediaMetadata: MediaMetadata? = null
     private var mMediaController: MediaController? = null
-    private var mPreviousMediaArtwork: Bitmap? = null
-    private var mPreviousMediaProcessedArtwork: Bitmap? = null
-    private val activeMediaControllers = mutableListOf<MediaController>()
-    private val controllerUpdateTimes = mutableMapOf<MediaController, Long>()
+    private val activeMediaControllers = mutableListOf<Pair<String, MediaController>>()
+    private val mediaControllerMetadataMap = mutableMapOf<MediaController, MediaMetadata?>()
+    private val previousMediaControllerMetadataMap = mutableMapOf<MediaController, MediaMetadata?>()
+    private val mPreviousMediaArtworkMap = mutableMapOf<MediaController, Bitmap?>()
+    private val mPreviousMediaProcessedArtworkMap = mutableMapOf<MediaController, Bitmap?>()
 
+    // Tile and media state
     private var mInternetEnabled = false
     private var mBluetoothEnabled = false
     private var mMediaIsPlaying = false
 
+    // Misc
     private lateinit var appContext: Context
     private var mHandler: Handler = Handler(Looper.getMainLooper())
     private val artworkExtractorScope = CoroutineScope(Dispatchers.Main + Job())
@@ -159,7 +161,9 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private lateinit var mWifiManager: WifiManager
     private lateinit var mBluetoothManager: BluetoothManager
     private lateinit var mMediaSessionManager: MediaSessionManager
+    private lateinit var mActivityLauncherUtils: ActivityLauncherUtils
 
+    // Resources
     private var qqsTileHeight by Delegates.notNull<Int>()
     private var qsTileMarginVertical by Delegates.notNull<Int>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
@@ -183,7 +187,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             (key[0] == OP_QS_HEADER_VIBRATE ||
                     key[0] == OP_QS_HEADER_BLUR_LEVEL)
         ) {
-            updateMediaPlayer(force = true)
+            updateMediaPlayers(force = true)
         }
     }
 
@@ -317,7 +321,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 initResources()
                 updateInternetTileColors()
                 updateBluetoothTileColors()
-                updateMediaPlayer(force = true)
+                updateMediaPlayers(force = true)
             }
         })
 
@@ -338,7 +342,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         initResources()
                         updateInternetTileColors()
                         updateBluetoothTileColors()
-                        updateMediaPlayer(force = true)
+                        updateMediaPlayers(force = true)
                     }
                 }
 
@@ -436,6 +440,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                             onLongClickListener = mOnLongClickListener
                         )
                     }
+
                     mQsHeaderContainer.addView(mQsOpHeaderView)
                     updateOpHeaderView()
 
@@ -809,11 +814,11 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         if (mQsOpHeaderView == null) return
 
         initResources()
-        updateMediaController()
+        updateMediaControllers()
         startMediaUpdater()
         updateInternetState()
         updateBluetoothState()
-        updateMediaPlayer(force = true)
+        updateMediaPlayers(force = true)
     }
 
     private fun buildHeaderViewExpansion() {
@@ -914,12 +919,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private val mMediaCallback: MediaController.Callback = object : MediaController.Callback() {
         override fun onPlaybackStateChanged(state: PlaybackState?) {
             super.onPlaybackStateChanged(state)
-            updateMediaController()
+            updateMediaControllers()
         }
 
         override fun onMetadataChanged(metadata: MediaMetadata?) {
             super.onMetadataChanged(metadata)
-            updateMediaController()
+            updateMediaControllers()
         }
     }
 
@@ -928,7 +933,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         mMediaUpdaterJob = mMediaUpdater.launch {
             while (isActive) {
-                updateMediaController()
+                updateMediaControllers()
                 delay(1000)
             }
         }
@@ -1179,38 +1184,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         updateBluetoothTileColors()
     }
 
-    private fun updateMediaController() {
-        val currentControllers = mMediaSessionManager.getActiveSessions(null).toMutableList()
-        val currentTime = System.currentTimeMillis()
-
-        activeMediaControllers.forEach { controller ->
-            if (!currentControllers.contains(controller)) {
-                controller.unregisterCallback(mMediaCallback)
-                controllerUpdateTimes.remove(controller)
-            }
-        }
-
-        currentControllers.forEach { controller ->
-            if (!activeMediaControllers.contains(controller)) {
-                controller.registerCallback(mMediaCallback)
-                controllerUpdateTimes[controller] = currentTime
-            }
-        }
-
-        activeMediaControllers.clear()
-        activeMediaControllers.addAll(currentControllers)
-
-        val playingController = activeMediaControllers
-            .filter { it.playbackState?.state == PlaybackState.STATE_PLAYING }
-            .maxByOrNull { controllerUpdateTimes[it] ?: 0 }
-
-        mMediaController = playingController
-        mMediaMetadata = mMediaController?.metadata
-        mMediaIsPlaying = mMediaController?.playbackState?.state == PlaybackState.STATE_PLAYING
-
-        updateMediaMetaData()
-    }
-
     private enum class MediaAction {
         TOGGLE_PLAYBACK,
         PLAY_PREVIOUS,
@@ -1223,7 +1196,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             MediaAction.PLAY_PREVIOUS -> dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_PREVIOUS)
             MediaAction.PLAY_NEXT -> dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_NEXT)
         }
-        updateMediaController()
+        updateMediaControllers()
     }
 
     private fun toggleMediaPlaybackState() {
@@ -1234,8 +1207,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             startMediaUpdater()
             dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_PLAY)
         }
-
-        mQsOpHeaderView?.setMediaPlayingIcon(mMediaIsPlaying)
     }
 
     private fun dispatchMediaKeyWithWakeLockToMediaSession(keycode: Int) {
@@ -1254,26 +1225,100 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         callMethod(helper, "sendMediaButtonEvent", event, true)
     }
 
-    private fun updateMediaMetaData() {
-        mMediaMetadata?.apply {
-            mMediaTitle = getText(MediaMetadata.METADATA_KEY_TITLE)?.toString()
-            mMediaArtist = getText(MediaMetadata.METADATA_KEY_ARTIST)?.toString()
-            mMediaArtwork = getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
-                ?: getBitmap(MediaMetadata.METADATA_KEY_ART)
-        } ?: run {
-            mMediaTitle = null
-            mMediaArtist = null
-            mMediaArtwork = null
+    private fun updateMediaControllers() {
+        val currentControllers = mMediaSessionManager.getActiveSessions(null)
+            .map { controller -> controller.packageName to controller }
+            .toMutableList()
+
+        val currentPackageNames = currentControllers.map { it.first }.toSet()
+
+        activeMediaControllers.removeAll { (packageName, controller) ->
+            if (!currentPackageNames.contains(packageName)) {
+                controller.unregisterCallback(mMediaCallback)
+
+                mediaControllerMetadataMap.remove(controller)
+                previousMediaControllerMetadataMap.remove(controller)
+                mPreviousMediaArtworkMap.remove(controller)
+                mPreviousMediaProcessedArtworkMap.remove(controller)
+                mQsOpHeaderView?.mediaPlayerAdapter?.removeMediaPlayerView(packageName)
+
+                true
+            } else {
+                false
+            }
         }
 
-        updateMediaPlayer()
+        currentControllers.forEach { (packageName, controller) ->
+            val existingController = activeMediaControllers.find { it.first == packageName }
+
+            if (existingController == null) {
+                controller.registerCallback(mMediaCallback)
+                mediaControllerMetadataMap[controller] = controller.metadata
+                activeMediaControllers.add(packageName to controller)
+            } else if (existingController.second != controller) {
+                val oldController = existingController.second
+                oldController.unregisterCallback(mMediaCallback)
+                controller.registerCallback(mMediaCallback)
+
+                mediaControllerMetadataMap.remove(oldController)
+                mediaControllerMetadataMap[controller] = controller.metadata
+
+                if (previousMediaControllerMetadataMap.containsKey(oldController)) {
+                    previousMediaControllerMetadataMap.remove(oldController)
+                    previousMediaControllerMetadataMap[controller] = controller.metadata
+                }
+
+                activeMediaControllers.remove(existingController)
+                activeMediaControllers.add(packageName to controller)
+            }
+        }
+
+        updateMediaPlayers()
     }
 
-    private fun updateMediaPlayer(force: Boolean = false) {
+    private fun updateMediaPlayers(force: Boolean = false) {
+        activeMediaControllers.forEach { (packageName, controller) ->
+            updateMediaPlayer(packageName, controller, force)
+        }
+    }
+
+    private fun createMediaPlayerViewIfRequired(packageName: String) {
+        if (mQsOpHeaderView?.mediaPlayerAdapter?.isMediaPlayerAvailable(packageName) == false) {
+            QsOpMediaPlayerView(mContext).also {
+                it.setOnClickListeners { v ->
+                    if (v === it.mediaPlayerPrevBtn) {
+                        performMediaAction(MediaAction.PLAY_PREVIOUS)
+                    } else if (v === it.mediaPlayerPlayPauseBtn) {
+                        performMediaAction(MediaAction.TOGGLE_PLAYBACK)
+                    } else if (v === it.mediaPlayerNextBtn) {
+                        performMediaAction(MediaAction.PLAY_NEXT)
+                    } else if (v === it.mediaPlayerBackground) {
+                        launchMediaPlayer(packageName)
+                    } else if (v === it.mediaOutputSwitcher) {
+                        launchMediaOutputSwitcher(v)
+                    }
+                }
+
+                mQsOpHeaderView?.mediaPlayerAdapter?.addMediaPlayerView(packageName, it)
+            }
+        }
+    }
+
+    private fun updateMediaPlayer(
+        packageName: String,
+        controller: MediaController,
+        force: Boolean = false
+    ) {
         if (mQsOpHeaderView == null || !::opMediaBackgroundDrawable.isInitialized) return
 
-        val mMediaPlayerBackground = mQsOpHeaderView!!.mediaPlayerBackground
-        val defaultBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
+        createMediaPlayerViewIfRequired(packageName)
+
+        val adapter = mQsOpHeaderView?.mediaPlayerAdapter ?: return
+        val mMediaMetadata: MediaMetadata? = mediaControllerMetadataMap[controller]
+        val mPreviousMediaMetadata: MediaMetadata? = previousMediaControllerMetadataMap[controller]
+        val mMediaPlayerBackground = adapter.getMediaPlayerBackground(packageName) ?: return
+        val mBackgroundDrawable = adapter.getMediaPlayerBackgroundDrawable(packageName)
+        val mInactiveBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
             ?.apply {
                 if (isQsTileOverlayEnabled) {
                     setTint(Color.TRANSPARENT)
@@ -1282,14 +1327,16 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 }
             }
 
-        mMediaPlayerBackground.apply {
-            if (drawable == opMediaDefaultBackground) {
-                setImageDrawable(defaultBackground)
-                scaleType = ImageView.ScaleType.CENTER_CROP
-                clipToOutline = true
+        if (mBackgroundDrawable == null || mBackgroundDrawable == opMediaDefaultBackground) {
+            adapter.setMediaPlayerBackground(packageName, mInactiveBackground)
 
-                mQsOpHeaderView!!.resetMediaAppIconColor(backgroundColor = colorAccent)
-                colorLabelInactive?.let { mQsOpHeaderView!!.setMediaPlayerItemsColor(it) }
+            adapter.resetMediaAppIconColor(
+                packageName = packageName,
+                backgroundColor = colorAccent
+            )
+
+            colorLabelInactive?.let {
+                adapter.setMediaPlayerItemsColor(packageName, it)
             }
         }
 
@@ -1311,15 +1358,14 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 }
                 val newArtworkDrawable = when {
                     filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
-
-                    else -> defaultBackground
+                    else -> mInactiveBackground
                 }
 
                 when {
-                    mPreviousMediaArtwork == null && filteredArtwork != null -> {
+                    mPreviousMediaArtworkMap[controller] == null && filteredArtwork != null -> {
                         artworkDrawable = TransitionDrawable(
                             arrayOf(
-                                defaultBackground,
+                                mInactiveBackground,
                                 newArtworkDrawable
                             )
                         ).apply {
@@ -1328,10 +1374,13 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         }
                     }
 
-                    mPreviousMediaArtwork != null && filteredArtwork != null -> {
+                    mPreviousMediaArtworkMap[controller] != null && filteredArtwork != null -> {
                         artworkDrawable = TransitionDrawable(
                             arrayOf(
-                                BitmapDrawable(mContext.resources, mPreviousMediaProcessedArtwork),
+                                BitmapDrawable(
+                                    mContext.resources,
+                                    mPreviousMediaProcessedArtworkMap[controller]
+                                ),
                                 newArtworkDrawable
                             )
                         ).apply {
@@ -1340,10 +1389,13 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         }
                     }
 
-                    mPreviousMediaArtwork != null && filteredArtwork == null -> {
+                    mPreviousMediaArtworkMap[controller] != null && filteredArtwork == null -> {
                         artworkDrawable = TransitionDrawable(
                             arrayOf(
-                                BitmapDrawable(mContext.resources, mPreviousMediaProcessedArtwork),
+                                BitmapDrawable(
+                                    mContext.resources,
+                                    mPreviousMediaProcessedArtworkMap[controller]
+                                ),
                                 newArtworkDrawable
                             )
                         ).apply {
@@ -1353,33 +1405,39 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
 
                     else -> {
-                        artworkDrawable = defaultBackground
+                        artworkDrawable = mInactiveBackground
                     }
                 }
             }
 
-            mQsOpHeaderView?.apply {
-                setMediaTitle(
-                    mMediaTitle ?: appContext.getString(
-                        appContext.resources.getIdentifier(
-                            "media_player_not_playing",
-                            "string",
-                            appContext.packageName
-                        )
-                    )
-                )
-                setMediaArtist(mMediaArtist)
-                setMediaPlayingIcon(mMediaIsPlaying)
-            }
-
             withContext(Dispatchers.Main) {
+                val mMediaTitle = mMediaMetadata?.getString(MediaMetadata.METADATA_KEY_TITLE)
+                val mMediaArtist = mMediaMetadata?.getString(MediaMetadata.METADATA_KEY_ARTIST)
+                val mIsMediaPlaying = controller.playbackState?.state == PlaybackState.STATE_PLAYING
+
+                adapter.apply {
+                    setMediaTitle(
+                        packageName,
+                        mMediaTitle
+                            ?: appContext.getString(
+                                appContext.resources.getIdentifier(
+                                    "media_player_not_playing",
+                                    "string",
+                                    appContext.packageName
+                                )
+                            )
+                    )
+                    setMediaArtist(packageName, mMediaArtist)
+                    setMediaPlayingIcon(packageName, mIsMediaPlaying)
+                }
+
                 val appIcon = runCatching {
                     callMethod(mNotificationMediaManager, "getMediaIcon") as Icon?
                 }.getOrNull()
                 val appIconBitmap =
                     mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON)
                 val appIconDrawable = runCatching {
-                    mMediaController?.packageName?.let { packageName ->
+                    controller.packageName?.let { packageName ->
                         mContext.packageManager.getApplicationIcon(packageName)
                     }
                 }.getOrNull()
@@ -1389,53 +1447,51 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 when {
                     appIcon != null && mMediaTitle != null -> {
                         requireIconTint = true
-                        mQsOpHeaderView?.setMediaAppIcon(appIcon)
+                        adapter.setMediaAppIcon(packageName, appIcon)
                     }
 
-                    appIconBitmap != null && mMediaMetadata != null -> {
+                    appIconBitmap != null && mMediaTitle != null -> {
                         requireIconTint = true
-                        mQsOpHeaderView?.setMediaAppIconBitmap(appIconBitmap)
+                        adapter.setMediaAppIconBitmap(packageName, appIconBitmap)
                     }
 
                     appIconDrawable != null && mMediaTitle != null -> {
                         requireIconTint = false
-                        mQsOpHeaderView?.setMediaAppIconDrawable(appIconDrawable)
+                        adapter.setMediaAppIconDrawable(packageName, appIconDrawable)
                     }
 
                     else -> {
                         requireIconTint = true
-                        mQsOpHeaderView?.resetMediaAppIcon()
+                        adapter.resetMediaAppIcon(packageName)
                     }
                 }
 
                 if (requireUpdate || force) {
-                    mMediaPlayerBackground.apply {
-                        setImageDrawable(artworkDrawable)
-                        scaleType = ImageView.ScaleType.CENTER_CROP
-                        clipToOutline = true
-                    }
+                    adapter.setMediaPlayerBackground(packageName, artworkDrawable)
 
-                    mPreviousMediaMetadata = mMediaMetadata
-                    mPreviousMediaArtwork = mMediaArtwork
-                    mPreviousMediaProcessedArtwork = filteredArtwork
+                    previousMediaControllerMetadataMap[controller] = mMediaMetadata
+                    mPreviousMediaArtworkMap[controller] = mMediaArtwork
+                    mPreviousMediaProcessedArtworkMap[controller] = filteredArtwork
 
                     val onDominantColor = getContrastingTextColor(dominantColor)
 
                     if (requireIconTint) {
-                        mQsOpHeaderView?.setMediaAppIconColor(
+                        adapter.setMediaAppIconColor(
+                            packageName = packageName,
                             backgroundColor = dominantColor ?: colorAccent,
                             iconColor = onDominantColor ?: colorPrimary
                         )
                     } else {
-                        mQsOpHeaderView?.resetMediaAppIconColor(
+                        adapter.resetMediaAppIconColor(
+                            packageName = packageName,
                             backgroundColor = dominantColor ?: colorAccent
                         )
                     }
 
                     if (processedArtwork == null || onDominantColor == null) {
-                        mQsOpHeaderView?.setMediaPlayerItemsColor(colorLabelInactive)
+                        adapter.setMediaPlayerItemsColor(packageName, colorLabelInactive)
                     } else {
-                        mQsOpHeaderView?.setMediaPlayerItemsColor(onDominantColor)
+                        adapter.setMediaPlayerItemsColor(packageName, onDominantColor)
                     }
                 }
             }
@@ -1585,16 +1641,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         } else if (v === mQsOpHeaderView?.bluetoothTile) {
             toggleBluetoothState(v)
             vibrate()
-        } else if (v === mQsOpHeaderView?.mediaPlayerPrevBtn) {
-            performMediaAction(MediaAction.PLAY_PREVIOUS)
-        } else if (v === mQsOpHeaderView?.mediaPlayerPlayPauseBtn) {
-            performMediaAction(MediaAction.TOGGLE_PLAYBACK)
-        } else if (v === mQsOpHeaderView?.mediaPlayerNextBtn) {
-            performMediaAction(MediaAction.PLAY_NEXT)
-        } else if (v === mQsOpHeaderView?.mediaPlayerBackground) {
-            launchMediaPlayer()
-        } else if (v === mQsOpHeaderView?.mediaOutputSwitcher) {
-            launchMediaOutputSwitcher(v)
         }
     }
 
@@ -1640,8 +1686,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun launchMediaPlayer() {
-        val packageName: String? = mMediaController?.packageName
+    private fun launchMediaPlayer(packageName: String?) {
         val appIntent = if (packageName != null) Intent(
             mContext.packageManager.getLaunchIntentForPackage(packageName)
         )
