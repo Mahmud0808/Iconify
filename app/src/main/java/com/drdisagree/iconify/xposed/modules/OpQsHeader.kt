@@ -302,6 +302,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         // Update colors when device theme changes
         hookAllMethods(shadeHeaderControllerClass, "onInit", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
+                if (!showOpQsHeaderView) return
+
                 val configurationControllerListener = getObjectField(
                     param.thisObject,
                     "configurationControllerListener"
@@ -449,6 +451,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     )
                 )
 
+                if (!showOpQsHeaderView) return
+
                 buildHeaderViewExpansion()
 
                 if (isLandscape) {
@@ -511,12 +515,13 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         hookAllMethods(qsContainerImplClass, "updateResources", updateQsTopMargin)
 
         // Hide stock media player
-        hookAllMethods(qsPanelClass, "reAttachMediaHost", object : XC_MethodReplacement() {
-            override fun replaceHookedMethod(param: MethodHookParam): Any? {
-                if (!showOpQsHeaderView) return param.result
-                return null
-            }
-        })
+        if (showOpQsHeaderView) {
+            hookAllMethods(qsPanelClass, "reAttachMediaHost", object : XC_MethodReplacement() {
+                override fun replaceHookedMethod(param: MethodHookParam): Any? {
+                    return null
+                }
+            })
+        }
 
         // Ensure stock media player is hidden
         hookAllMethods(qsImplClass, "onComponentCreated", object : XC_MethodHook() {
