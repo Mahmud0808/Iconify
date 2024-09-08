@@ -171,7 +171,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var qsTileMarginVertical by Delegates.notNull<Int>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
     private lateinit var opMediaBackgroundDrawable: Drawable
-    private lateinit var mediaSessionLegacyHelperClass: Class<*>
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
@@ -253,10 +252,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             loadPackageParam.classLoader,
             "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaControlPanel",
             "$SYSTEMUI_PACKAGE.media.controls.ui.MediaControlPanel"
-        )
-        mediaSessionLegacyHelperClass = findClass(
-            "$FRAMEWORK_PACKAGE.media.session.MediaSessionLegacyHelper",
-            loadPackageParam.classLoader
         )
         launchableImageView = findClassIfExists(
             "$SYSTEMUI_PACKAGE.animation.view.LaunchableImageView",
@@ -819,7 +814,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         if (mQsOpHeaderView == null) return
 
         initResources()
-        updateMediaControllers()
         startMediaUpdater()
         updateInternetState()
         updateBluetoothState()
@@ -1600,12 +1594,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         val xOffset = (scaledWidth - width) / 2
         val yOffset = (scaledHeight - height) / 2
 
+        val validWidth =
+            if (xOffset + width > scaledBitmap.width) scaledBitmap.width - xOffset else width
+        val validHeight =
+            if (yOffset + height > scaledBitmap.height) scaledBitmap.height - yOffset else height
+
         val croppedBitmap = Bitmap.createBitmap(
             scaledBitmap,
             xOffset,
             yOffset,
-            width,
-            height
+            validWidth,
+            validHeight
         )
 
         val output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
