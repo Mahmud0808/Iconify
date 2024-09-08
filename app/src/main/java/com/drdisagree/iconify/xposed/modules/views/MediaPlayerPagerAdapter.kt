@@ -1,8 +1,10 @@
 package com.drdisagree.iconify.xposed.modules.views
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.view.View
@@ -34,7 +36,10 @@ class MediaPlayerPagerAdapter(
             holder.itemView.setOnClickListener {
                 Toast.makeText(context, packageName, Toast.LENGTH_SHORT).show()
             }
-            holder.mediaPlayerView.setMediaTitle("$packageName")
+            val packageManager: PackageManager = context.packageManager
+            val appInfo = packageManager.getApplicationInfo(packageName, 0)
+            val appName = packageManager.getApplicationLabel(appInfo).toString().trim()
+            holder.mediaPlayerView.setMediaTitle(appName)
         } else {
             holder.mediaPlayerView.resetMediaAppIcon()
         }
@@ -53,10 +58,6 @@ class MediaPlayerPagerAdapter(
 
         mediaPlayerViews.add(0, packageName to view)
         notifyItemInserted(0)
-
-        if (mediaPlayerViews.size > 1) {
-            notifyItemRangeChanged(1, mediaPlayerViews.size - 1)
-        }
     }
 
     fun removeMediaPlayerView(packageName: String) {
@@ -110,8 +111,10 @@ class MediaPlayerPagerAdapter(
         val position = mediaPlayerViews.indexOfFirst { it.first == packageName }
         if (position != -1) {
             val mediaPlayerView = mediaPlayerViews[position].second
-            mediaPlayerView.mediaAppIcon.setImageIcon(icon)
-            notifyItemChanged(position)
+            if (mediaPlayerView.mediaAppIcon.drawable != icon.loadDrawable(context)) {
+                mediaPlayerView.mediaAppIcon.setImageIcon(icon)
+                notifyItemChanged(position)
+            }
         }
     }
 
@@ -130,8 +133,10 @@ class MediaPlayerPagerAdapter(
         val position = mediaPlayerViews.indexOfFirst { it.first == packageName }
         if (position != -1) {
             val mediaPlayerView = mediaPlayerViews[position].second
-            mediaPlayerView.mediaAppIcon.setImageDrawable(drawable)
-            notifyItemChanged(position)
+            if (mediaPlayerView.mediaAppIcon.drawable != drawable) {
+                mediaPlayerView.mediaAppIcon.setImageDrawable(drawable)
+                notifyItemChanged(position)
+            }
         }
     }
 
@@ -139,8 +144,12 @@ class MediaPlayerPagerAdapter(
         val position = mediaPlayerViews.indexOfFirst { it.first == packageName }
         if (position != -1) {
             val mediaPlayerView = mediaPlayerViews[position].second
-            mediaPlayerView.mediaAppIcon.setImageBitmap(bitmap)
-            notifyItemChanged(position)
+            if (mediaPlayerView.mediaAppIcon.drawable !=
+                BitmapDrawable(context.resources, bitmap)
+            ) {
+                mediaPlayerView.mediaAppIcon.setImageBitmap(bitmap)
+                notifyItemChanged(position)
+            }
         }
     }
 

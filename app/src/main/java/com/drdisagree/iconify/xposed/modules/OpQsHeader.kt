@@ -134,11 +134,11 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     // Media data
     private var mMediaArtwork: Bitmap? = null
     private var mMediaController: MediaController? = null
-    private val activeMediaControllers = mutableListOf<Pair<String, MediaController>>()
-    private val mediaControllerMetadataMap = mutableMapOf<MediaController, MediaMetadata?>()
-    private val previousMediaControllerMetadataMap = mutableMapOf<MediaController, MediaMetadata?>()
-    private val mPreviousMediaArtworkMap = mutableMapOf<MediaController, Bitmap?>()
-    private val mPreviousMediaProcessedArtworkMap = mutableMapOf<MediaController, Bitmap?>()
+    private val mActiveMediaControllers = mutableListOf<Pair<String, MediaController>>()
+    private val mMediaControllerMetadataMap = mutableMapOf<MediaController, MediaMetadata?>()
+    private val mPrevMediaControllerMetadataMap = mutableMapOf<MediaController, MediaMetadata?>()
+    private val mPrevMediaArtworkMap = mutableMapOf<MediaController, Bitmap?>()
+    private val mPrevMediaProcessedArtworkMap = mutableMapOf<MediaController, Bitmap?>()
 
     // Tile and media state
     private var mInternetEnabled = false
@@ -1232,14 +1232,14 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         val currentPackageNames = currentControllers.map { it.first }.toSet()
 
-        activeMediaControllers.removeAll { (packageName, controller) ->
+        mActiveMediaControllers.removeAll { (packageName, controller) ->
             if (!currentPackageNames.contains(packageName)) {
                 controller.unregisterCallback(mMediaCallback)
 
-                mediaControllerMetadataMap.remove(controller)
-                previousMediaControllerMetadataMap.remove(controller)
-                mPreviousMediaArtworkMap.remove(controller)
-                mPreviousMediaProcessedArtworkMap.remove(controller)
+                mMediaControllerMetadataMap.remove(controller)
+                mPrevMediaControllerMetadataMap.remove(controller)
+                mPrevMediaArtworkMap.remove(controller)
+                mPrevMediaProcessedArtworkMap.remove(controller)
                 mQsOpHeaderView?.mediaPlayerAdapter?.removeMediaPlayerView(packageName)
 
                 true
@@ -1249,27 +1249,27 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
 
         currentControllers.forEach { (packageName, controller) ->
-            val existingController = activeMediaControllers.find { it.first == packageName }
+            val existingController = mActiveMediaControllers.find { it.first == packageName }
 
             if (existingController == null) {
                 controller.registerCallback(mMediaCallback)
-                mediaControllerMetadataMap[controller] = controller.metadata
-                activeMediaControllers.add(packageName to controller)
+                mMediaControllerMetadataMap[controller] = controller.metadata
+                mActiveMediaControllers.add(packageName to controller)
             } else if (existingController.second != controller) {
                 val oldController = existingController.second
                 oldController.unregisterCallback(mMediaCallback)
                 controller.registerCallback(mMediaCallback)
 
-                mediaControllerMetadataMap.remove(oldController)
-                mediaControllerMetadataMap[controller] = controller.metadata
+                mMediaControllerMetadataMap.remove(oldController)
+                mMediaControllerMetadataMap[controller] = controller.metadata
 
-                if (previousMediaControllerMetadataMap.containsKey(oldController)) {
-                    previousMediaControllerMetadataMap.remove(oldController)
-                    previousMediaControllerMetadataMap[controller] = controller.metadata
+                if (mPrevMediaControllerMetadataMap.containsKey(oldController)) {
+                    mPrevMediaControllerMetadataMap.remove(oldController)
+                    mPrevMediaControllerMetadataMap[controller] = controller.metadata
                 }
 
-                activeMediaControllers.remove(existingController)
-                activeMediaControllers.add(packageName to controller)
+                mActiveMediaControllers.remove(existingController)
+                mActiveMediaControllers.add(packageName to controller)
             }
         }
 
@@ -1277,30 +1277,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateMediaPlayers(force: Boolean = false) {
-        activeMediaControllers.forEach { (packageName, controller) ->
+        mActiveMediaControllers.forEach { (packageName, controller) ->
             updateMediaPlayer(packageName, controller, force)
-        }
-    }
-
-    private fun createMediaPlayerViewIfRequired(packageName: String) {
-        if (mQsOpHeaderView?.mediaPlayerAdapter?.isMediaPlayerAvailable(packageName) == false) {
-            QsOpMediaPlayerView(mContext).also {
-                it.setOnClickListeners { v ->
-                    if (v === it.mediaPlayerPrevBtn) {
-                        performMediaAction(MediaAction.PLAY_PREVIOUS)
-                    } else if (v === it.mediaPlayerPlayPauseBtn) {
-                        performMediaAction(MediaAction.TOGGLE_PLAYBACK)
-                    } else if (v === it.mediaPlayerNextBtn) {
-                        performMediaAction(MediaAction.PLAY_NEXT)
-                    } else if (v === it.mediaPlayerBackground) {
-                        launchMediaPlayer(packageName)
-                    } else if (v === it.mediaOutputSwitcher) {
-                        launchMediaOutputSwitcher(v)
-                    }
-                }
-
-                mQsOpHeaderView?.mediaPlayerAdapter?.addMediaPlayerView(packageName, it)
-            }
         }
     }
 
@@ -1314,8 +1292,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         createMediaPlayerViewIfRequired(packageName)
 
         val adapter = mQsOpHeaderView?.mediaPlayerAdapter ?: return
-        val mMediaMetadata: MediaMetadata? = mediaControllerMetadataMap[controller]
-        val mPreviousMediaMetadata: MediaMetadata? = previousMediaControllerMetadataMap[controller]
+        val mMediaMetadata: MediaMetadata? = mMediaControllerMetadataMap[controller]
+        val mPreviousMediaMetadata: MediaMetadata? = mPrevMediaControllerMetadataMap[controller]
         val mMediaPlayerBackground = adapter.getMediaPlayerBackground(packageName) ?: return
         val mBackgroundDrawable = adapter.getMediaPlayerBackgroundDrawable(packageName)
         val mInactiveBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
@@ -1343,70 +1321,65 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         artworkExtractorScope.launch {
             val requireUpdate = !areMetadataEqual(mPreviousMediaMetadata, mMediaMetadata)
 
-            var artworkDrawable: Drawable? = null
-            var processedArtwork: Bitmap? = null
-            var filteredArtwork: Bitmap? = null
-            var dominantColor: Int? = null
+            if (!requireUpdate && !force) return@launch
+
+            val processedArtwork: Bitmap? = processArtwork(mMediaArtwork, mMediaPlayerBackground)
+            val dominantColor: Int? = extractDominantColor(processedArtwork)
+            val filteredArtwork: Bitmap? = processedArtwork?.let {
+                applyColorFilterToBitmap(it, dominantColor)
+                it.applyBlur(mContext, mediaBlurLevel)
+            }
+            val newArtworkDrawable = when {
+                filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
+                else -> mInactiveBackground
+            }
             val transitionDuration = 500
 
-            if (requireUpdate || force) {
-                processedArtwork = processArtwork(mMediaArtwork, mMediaPlayerBackground)
-                dominantColor = extractDominantColor(processedArtwork)
-                filteredArtwork = processedArtwork?.let {
-                    applyColorFilterToBitmap(it, dominantColor)
-                    it.applyBlur(mContext, mediaBlurLevel)
+            val artworkDrawable: Drawable? = when {
+                mPrevMediaArtworkMap[controller] == null && filteredArtwork != null -> {
+                    TransitionDrawable(
+                        arrayOf(
+                            mInactiveBackground,
+                            newArtworkDrawable
+                        )
+                    ).apply {
+                        isCrossFadeEnabled = true
+                        startTransition(transitionDuration)
+                    }
                 }
-                val newArtworkDrawable = when {
-                    filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
-                    else -> mInactiveBackground
+
+                mPrevMediaArtworkMap[controller] != null && filteredArtwork != null -> {
+                    TransitionDrawable(
+                        arrayOf(
+                            BitmapDrawable(
+                                mContext.resources,
+                                mPrevMediaProcessedArtworkMap[controller]
+                            ),
+                            newArtworkDrawable
+                        )
+                    ).apply {
+                        isCrossFadeEnabled = true
+                        startTransition(transitionDuration)
+                    }
                 }
 
-                when {
-                    mPreviousMediaArtworkMap[controller] == null && filteredArtwork != null -> {
-                        artworkDrawable = TransitionDrawable(
-                            arrayOf(
-                                mInactiveBackground,
-                                newArtworkDrawable
-                            )
-                        ).apply {
-                            isCrossFadeEnabled = true
-                            startTransition(transitionDuration)
-                        }
+                mPrevMediaArtworkMap[controller] != null && filteredArtwork == null -> {
+                    TransitionDrawable(
+                        arrayOf(
+                            BitmapDrawable(
+                                mContext.resources,
+                                mPrevMediaProcessedArtworkMap[controller]
+                            ),
+                            newArtworkDrawable
+                        )
+                    ).apply {
+                        isCrossFadeEnabled = true
+                        startTransition(transitionDuration)
                     }
+                }
 
-                    mPreviousMediaArtworkMap[controller] != null && filteredArtwork != null -> {
-                        artworkDrawable = TransitionDrawable(
-                            arrayOf(
-                                BitmapDrawable(
-                                    mContext.resources,
-                                    mPreviousMediaProcessedArtworkMap[controller]
-                                ),
-                                newArtworkDrawable
-                            )
-                        ).apply {
-                            isCrossFadeEnabled = true
-                            startTransition(transitionDuration)
-                        }
-                    }
-
-                    mPreviousMediaArtworkMap[controller] != null && filteredArtwork == null -> {
-                        artworkDrawable = TransitionDrawable(
-                            arrayOf(
-                                BitmapDrawable(
-                                    mContext.resources,
-                                    mPreviousMediaProcessedArtworkMap[controller]
-                                ),
-                                newArtworkDrawable
-                            )
-                        ).apply {
-                            isCrossFadeEnabled = true
-                            startTransition(transitionDuration)
-                        }
-                    }
-
-                    else -> {
-                        artworkDrawable = mInactiveBackground
-                    }
+                else -> {
+                    mInactiveBackground
                 }
             }
 
@@ -1466,33 +1439,57 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
                 }
 
-                if (requireUpdate || force) {
-                    adapter.setMediaPlayerBackground(packageName, artworkDrawable)
+                adapter.setMediaPlayerBackground(packageName, artworkDrawable)
 
-                    previousMediaControllerMetadataMap[controller] = mMediaMetadata
-                    mPreviousMediaArtworkMap[controller] = mMediaArtwork
-                    mPreviousMediaProcessedArtworkMap[controller] = filteredArtwork
+                mPrevMediaControllerMetadataMap[controller] = mMediaMetadata
+                mPrevMediaArtworkMap[controller] = mMediaArtwork
+                mPrevMediaProcessedArtworkMap[controller] = filteredArtwork
 
-                    val onDominantColor = getContrastingTextColor(dominantColor)
+                val onDominantColor = getContrastingTextColor(dominantColor)
 
-                    if (requireIconTint) {
-                        adapter.setMediaAppIconColor(
-                            packageName = packageName,
-                            backgroundColor = dominantColor ?: colorAccent,
-                            iconColor = onDominantColor ?: colorPrimary
-                        )
-                    } else {
-                        adapter.resetMediaAppIconColor(
-                            packageName = packageName,
-                            backgroundColor = dominantColor ?: colorAccent
-                        )
+                if (requireIconTint) {
+                    adapter.setMediaAppIconColor(
+                        packageName = packageName,
+                        backgroundColor = dominantColor ?: colorAccent,
+                        iconColor = onDominantColor ?: colorPrimary
+                    )
+                } else {
+                    adapter.resetMediaAppIconColor(
+                        packageName = packageName,
+                        backgroundColor = dominantColor ?: colorAccent
+                    )
+                }
+
+                if (processedArtwork == null || onDominantColor == null) {
+                    adapter.setMediaPlayerItemsColor(packageName, colorLabelInactive)
+                } else {
+                    adapter.setMediaPlayerItemsColor(packageName, onDominantColor)
+                }
+            }
+        }
+    }
+
+    private fun createMediaPlayerViewIfRequired(packageName: String) {
+        if (mQsOpHeaderView?.mediaPlayerAdapter?.isMediaPlayerAvailable(packageName) == false) {
+            QsOpMediaPlayerView(mContext).also {
+                it.setOnClickListeners { v ->
+                    if (v === it.mediaPlayerPrevBtn) {
+                        performMediaAction(MediaAction.PLAY_PREVIOUS)
+                    } else if (v === it.mediaPlayerPlayPauseBtn) {
+                        performMediaAction(MediaAction.TOGGLE_PLAYBACK)
+                    } else if (v === it.mediaPlayerNextBtn) {
+                        performMediaAction(MediaAction.PLAY_NEXT)
+                    } else if (v === it.mediaPlayerBackground) {
+                        launchMediaPlayer(packageName)
+                    } else if (v === it.mediaOutputSwitcher) {
+                        launchMediaOutputSwitcher(v)
                     }
+                }
 
-                    if (processedArtwork == null || onDominantColor == null) {
-                        adapter.setMediaPlayerItemsColor(packageName, colorLabelInactive)
-                    } else {
-                        adapter.setMediaPlayerItemsColor(packageName, onDominantColor)
-                    }
+                mQsOpHeaderView?.mediaPlayerAdapter?.addMediaPlayerView(packageName, it)
+                mQsOpHeaderView?.mediaPlayerContainer?.post {
+                    mQsOpHeaderView?.mediaPlayerContainer?.setCurrentItem(0, false)
+                    mQsOpHeaderView?.mediaPlayerContainer?.requestTransform()
                 }
             }
         }
