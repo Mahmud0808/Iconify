@@ -205,9 +205,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.qs.tileimpl.QSTileViewImpl",
             loadPackageParam.classLoader
         )
-        val tileLayoutClass = findClass(
+        val tileLayoutClass = findClassInArray(
+            loadPackageParam.classLoader,
             "$SYSTEMUI_PACKAGE.qs.TileLayout",
-            loadPackageParam.classLoader
+            "$SYSTEMUI_PACKAGE.qs.PagedTileLayout"
         )
         val qsPanelControllerBaseClass = findClassIfExists(
             "$SYSTEMUI_PACKAGE.qs.QSPanelControllerBase",
