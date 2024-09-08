@@ -4,7 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Rozpoczynanie instalacji</string>
     <string name="step">Krok</string>
-    <string name="step_number">Step %1$d/%2$d</string>
+    <string name="step_number">Krok %1$d/%2$d</string>
     <string name="module_installation_step1">Tworzenie powłoki modułu</string>
     <string name="module_installation_step2">Wyodrębnianie niezbędnych plików</string>
     <string name="module_installation_step3">Tworzenie pakietów APK nakładek</string>
@@ -23,7 +23,7 @@
     <string name="need_storage_perm_title">Potrzebne jest uprawnienie do pamięci masowej</string>
     <string name="need_storage_perm_desc">Aby utworzyć niezbędne pliki, aplikacja wymaga dostępu do pamięci masowej</string>
     <string name="compatible_root_not_found_title">Nie znaleziono kompatybilnej metody root</string>
-    <string name="compatible_root_not_found_desc">Use any popular root solutions to proceed.</string>
+    <string name="compatible_root_not_found_desc">Aby kontynuować, użyj dowolnych popularnych rozwiązań roota.</string>
     <string name="root_not_found_title">Root jest niedostępny</string>
     <string name="root_not_found_desc">Wygląda na to, że Twoje urządzenie nie jest zrootowane!</string>
     <string name="need_reboot_title">Wymagany restart urządzenia</string>
@@ -32,21 +32,21 @@
     <string name="installation_failed_desc">Logi zostały zapisane w folderze Dokumenty</string>
     <string name="logs">Logi</string>
     <!-- Search Preference -->
-    <string name="search_title">Search</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear">Clear</string>
-    <string name="searchpreference_history_entry">History entry</string>
-    <string name="searchpreference_more">More</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_result">No result</string>
+    <string name="search_title">Wyszukaj</string>
+    <string name="searchpreference_search">Wyszukaj…</string>
+    <string name="searchpreference_clear">Wymaż</string>
+    <string name="searchpreference_history_entry">Historia wpisu</string>
+    <string name="searchpreference_more">Więcej</string>
+    <string name="searchpreference_clear_history">Wyczyść historię</string>
+    <string name="searchpreference_no_result">Brak wyników</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Paczka ikon</string>
     <string name="activity_desc_icon_pack">Zmień systemową paczkę ikon</string>
-    <string name="activity_title_cellular_icons">Cellular Icons</string>
-    <string name="activity_desc_cellular_icons">Change system cellular icons</string>
-    <string name="activity_title_wifi_icons">WiFi Icons</string>
-    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
+    <string name="activity_title_cellular_icons">Ikony sieci komórkowej</string>
+    <string name="activity_desc_cellular_icons">Zmień systemowe ikony komórkowe</string>
+    <string name="activity_title_wifi_icons">Ikony WiFi</string>
+    <string name="activity_desc_wifi_icons">Zmień ikony WiFi</string>
     <string name="activity_title_brightness_bar">Pasek jasności</string>
     <string name="activity_desc_brightness_bar">Dostosuj wygląd paska jasności</string>
     <string name="activity_title_qs_shape">Kafelki</string>
@@ -125,8 +125,8 @@
     <string name="settings_restart_systemui_after_boot_desc">Zmiany niektórych opcji, takich jak intensywność rozmycia, nie będą widoczne do czasu ponownego uruchomienia SystemUI</string>
     <string name="settings_show_home_page_card_title">Pokazuj kartę na stronie głównej</string>
     <string name="settings_show_home_page_card_desc">Pokazuj piękną kartę na stronie głównej</string>
-    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
-    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
+    <string name="settings_vibrate_ui_card_title">Wibracja przy dotknięciu</string>
+    <string name="settings_vibrate_ui_page_card_desc">Zwiększ skuteczność reakcji haptycznych na dotyk.</string>
     <string name="settings_clear_app_cache_title">Wyczyść pamięć podręczną aplikacji</string>
     <string name="settings_clear_app_cache_desc">Wyczyść pamięć podręczną generowaną w wyniku użycia niestandardowych czcionek, obrazów lub GIF-ów</string>
     <string name="activity_title_experimental">Eksperymentalne</string>
@@ -136,8 +136,8 @@
     <string name="settings_section_title_about">O aplikacji</string>
     <string name="settings_github_repository_title">Repozytorium GitHub</string>
     <string name="settings_telegram_group_title">Grupa Telegram</string>
-    <string name="settings_translate_title">Translate Iconify</string>
-    <string name="settings_translate_desc">Help translate Iconify to your language.</string>
+    <string name="settings_translate_title">Tłumaczenie Iconify</string>
+    <string name="settings_translate_desc">Pomóż tłumaczyć Iconify na Twój język.</string>
     <string name="settings_credits_title">Podziękowania</string>
     <string name="settings_credits_desc">Dziękujemy wszystkim osobom zaangażowanym w ten projekt </string>
     <!-- Icon Pack -->
@@ -184,13 +184,13 @@
     <string name="settings_icons_neumorph">Neumorph</string>
     <string name="settings_icons_shape">Kształt</string>
     <string name="settings_icons_circle">Koło</string>
-    <string name="settings_icons_squircle">Squircle</string>
+    <string name="settings_icons_squircle">Obły kwadrat</string>
     <string name="settings_icons_square">Kwadrat</string>
     <string name="settings_icons_size">Rozmiar ikon</string>
-    <string name="settings_icons_size1">0.5x</string>
-    <string name="settings_icons_size2">0.65x</string>
-    <string name="settings_icons_size3">0.8x</string>
-    <string name="settings_icons_size4">1.0x</string>
+    <string name="settings_icons_size1">0.5 x</string>
+    <string name="settings_icons_size2">0,65 x</string>
+    <string name="settings_icons_size3">0,8x</string>
+    <string name="settings_icons_size4">1,0x</string>
     <string name="settins_icons_icon_color">Kolor ikon</string>
     <string name="settings_icons_follow_system">Systemowy</string>
     <string name="settings_icons_system_inverse">Systemowy odwrócony</string>
@@ -199,7 +199,7 @@
     <string name="settings_iconpack_bubble_v2">Paczka ikon wielokolorowych z wyszczególnionym obrysem</string>
     <!-- Pixel Variant -->
     <string name="activity_title_pixel_variant">Wariant Pixel</string>
-    <string name="activity_desc_pixel_variant">For roms with black QS panel</string>
+    <string name="activity_desc_pixel_variant">Dla romów z czarnym panelem szybkich ustawień</string>
     <!-- Brightness Bar -->
     <string name="brightness_bar_styles">Style paska jasności</string>
     <!-- QS Panel Tiles -->
@@ -248,7 +248,7 @@
     <string name="minimal_qspanel">Minimalne szybkie ustawienia</string>
     <string name="remove_top_shade_of_qspanel">Usuń górny cień szybkich ustawień</string>
     <string name="system_monet_title">System Monet</string>
-    <string name="system_monet_desc">Disable to retain custom colors\nSystemUI restart required</string>
+    <string name="system_monet_desc">Wyłącz, aby zachować niestandardowe kolory\nWymagane ponowne uruchomienie interfejsu użytkownika</string>
     <!-- Basic Colors -->
     <string name="primary_color">Kolor podstawowy</string>
     <string name="primary_color_desc">Wybierz podstawowy kolor akcentu</string>
@@ -306,8 +306,8 @@
     <string name="label_follow_system_v2_desc">Tytuł systemowy, podtytuł akcentowy</string>
     <string name="label_fix_text_color_title">Napraw kolor tekstu</string>
     <string name="label_fix_text_color_desc">Użyj, jeśli powyższe nie działają</string>
-    <string name="label_follow_accent_title">Follow Accent</string>
-    <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
+    <string name="label_follow_accent_title">Śledź Akcent</string>
+    <string name="label_follow_accent_desc">Akcent tytułu, akcent podtytułu</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Tryb pionowy</string>
     <string name="section_title_landscape">Tryb poziomy</string>
@@ -381,7 +381,7 @@
     <string name="btn_create_module">Utwórz moduł</string>
     <string name="toast_module_created">Moduł utworzony pomyślnie</string>
     <string name="read_carefully">Przeczytaj uważnie!</string>
-    <string name="volume_module_installation_guide">This option will create a magisk module inside Download folder in your Internal Storage. Flash the module named IconifyCompanion.zip in Magisk. Always uninstall previous Iconify Companion module (if installed) and reboot before flashing new one.\n\n<b>Note:</b>\n• Uninstall the module before updating rom.\n• Recreate the module if you change or update rom.\n• Do not flash a module which wasn\'t created based on your rom.</string>
+    <string name="volume_module_installation_guide">Ta opcja utworzy moduł Magisk w folderze Pobrane w pamięci wewnętrznej. Zainstaluj moduł o nazwie <b>IconifyCompanion.zip</b> w aplikacji Magisk. Pamiętaj, aby przed instalacją nowej wersji modułu zawsze odinstalować poprzednią, a następnie uruchomić ponownie urządzenie.\n\n<b>Uwaga:</b>\n• Odinstaluj moduł przed aktualizacją Rom-u\n• Utwórz ponownie moduł, jeśli zmienisz lub zaktualizujesz Rom\n• Nie instaluj modułu, który nie został utworzony na podstawie aktualnie zainstalowanego Rom-u.</string>
     <!-- Media Player -->
     <string name="cont_desc_media_player">Podgląd odtwarzacza multimedialnego</string>
     <string name="media_player_preview_music_title">Tytuł utworu</string>
@@ -421,24 +421,35 @@
     <string name="activity_desc_quick_settings">Modyfikacje związane z szybkimi ustawieniami</string>
     <string name="activity_title_battery_style">Ikona baterii</string>
     <string name="activity_desc_battery_style">Dostosuj wygląd ikony baterii</string>
+    <string name="activity_title_op_qs_header">OnePlus QS Header</string>
+    <string name="activity_desc_op_qs_header">OOS style quick settings header</string>
     <string name="activity_title_header_image">Obraz nagłówka</string>
     <string name="activity_desc_header_image">Dodaj niestandardowy obraz do nagłówka szybkich ustawień</string>
     <string name="activity_title_header_clock">Zegar nagłówka</string>
     <string name="activity_desc_header_clock">Dodaj niestandardowy zegar do nagłówka szybkich ustawień</string>
     <string name="activity_title_lockscreen_clock">Zegar na ekranie blokady</string>
     <string name="activity_desc_lockscreen_clock">Dodaj niestandardowy zegar na ekranie blokady</string>
-    <string name="activity_title_lockscreen_weather">Lockscreen Weather</string>
-    <string name="activity_desc_lockscreen_weather">Add weather on lockscreen</string>
-    <string name="activity_title_lockscreen_widget">Lockscreen Widgets</string>
-    <string name="activity_desc_lockscreen_widget">Add widgets on lockscreen</string>
+    <string name="activity_title_lockscreen_weather">Pogoda na ekranie blokady</string>
+    <string name="activity_desc_lockscreen_weather">Dodaj pogodę do ekranu blokady</string>
+    <string name="activity_title_lockscreen_widget">Widżety ekranu blokady</string>
+    <string name="activity_desc_lockscreen_widget">Dodaj widżety na ekranie blokady</string>
     <string name="activity_title_depth_wallpaper">Efekt głębi tapety</string>
     <string name="activity_desc_depth_wallpaper">Włącz efekt głębi tapety w stylu iOS</string>
     <string name="activity_title_background_chip">Tło zegara i ikon</string>
     <string name="activity_desc_background_chip">Dodaj kolorowe tło za zegarem i ikonami paska stanu</string>
-    <string name="activity_title_clock_chip">Clock Chip</string>
+    <string name="activity_title_clock_chip">Zegar</string>
     <string name="activity_title_xposed_others">Pozostałe</string>
     <string name="activity_desc_xposed_others">Pozostałe modyfikacje Xposed</string>
-    <string name="activity_title_xposed_weather_settings">Weather Settings</string>
+    <string name="activity_title_xposed_weather_settings">Ustawienia pogody</string>
+    <!-- Oneplus QS Header -->
+    <string name="oneplus_qs_header_title">OnePlus QS Header</string>
+    <string name="oneplus_qs_header_desc">Włącz odtwarzacze i kafelki w stylu OOS w Szybkich Ustawieniach</string>
+    <string name="oneplus_qs_header_vibrate_title">Wibracja przy naciśnięciu</string>
+    <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
+    <string name="oneplus_qs_header_blur_level">Blur Level</string>
+    <string name="oneplus_qs_header_fade_level">Fade Level</string>
+    <string name="oneplus_qs_header_top_margin">Top Margin</string>
+    <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
     <!-- Lockscreen Widgets -->
     <string name="lockscreen_widgets_title">Lockscreen Widgets</string>
     <string name="lockscreen_widgets_enabled_title">Enable Lockscreen Widgets</string>
@@ -479,22 +490,22 @@
     <string name="torch">Torch</string>
     <string name="controls_media_button_play">Play</string>
     <string name="weather">Weather</string>
-    <string name="wifi">Wifi</string>
-    <string name="data">Data</string>
-    <string name="ringer">Ringer</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="data">Dane</string>
+    <string name="ringer">Dzwonek</string>
     <string name="bt">Bluetooth</string>
     <string name="home_controls">Home Controls</string>
-    <string name="wallet">Wallet</string>
+    <string name="wallet">Portfel</string>
     <string name="hotspot">Hotspot</string>
-    <string name="ringer_normal">Ringer</string>
-    <string name="ringer_vibrate">Vibrate</string>
-    <string name="ringer_silent">Silent</string>
+    <string name="ringer_normal">Dzwonek</string>
+    <string name="ringer_vibrate">Wibracje</string>
+    <string name="ringer_silent">Wyciszony</string>
     <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Przezroczystość</string>
     <string name="transparent_qs_panel_title">Przezroczyste szybkie ustawienia</string>
     <string name="transparent_qs_panel_desc">Ustaw tło szybkich ustawień jako przezroczyste</string>
-    <string name="qs_background_opacity_title">Background Opacity</string>
-    <string name="transparent_notif_shade_title">Transparent Notification Shade</string>
+    <string name="qs_background_opacity_title">Przezroczystość tła</string>
+    <string name="transparent_notif_shade_title">Przezroczyste cienie powiadomień</string>
     <string name="transparent_notif_shade_desc">Ustaw jako przezroczysty tylko panel powiadomień</string>
     <string name="keep_lockscreen_shade_title">Przyciemniona tapeta ekranu blokady</string>
     <string name="keep_lockscreen_shade_desc">Odpowiednie do tapet o jasnych kolorach</string>
@@ -502,15 +513,15 @@
     <string name="window_level_blur_title">Rozmycie poziomu okna</string>
     <string name="window_level_blur_desc">Po włączeniu tej opcji konieczne jest ponowne uruchomienie systemu, aby zauważyć zmiany</string>
     <string name="aggressive_blur_title">Agresywny włącznik rozmycia</string>
-    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
+    <string name="aggressive_blur_desc">Może powodować bootloop w niektórych romach</string>
     <string name="blur_intensity_title">Intensywność rozmycia</string>
     <!-- Xposed Themes -->
-    <string name="section_title_for_pixel_roms">For Pixel Roms</string>
+    <string name="section_title_for_pixel_roms">Dla Pixel Roms</string>
     <string name="light_theme_title">Jasny motyw</string>
     <string name="light_theme_desc">Jasny motyw szybkich ustawień w trybie jasnym\nWymagane użycie niestandardowego kształtu szybkich ustawień</string>
     <string name="dual_tone_title">Podwójny ton</string>
     <string name="dual_tone_desc">Użyj innego koloru dla nagłówka</string>
-    <string name="section_title_for_custom_roms">For Custom Roms</string>
+    <string name="section_title_for_custom_roms">Dla niestandardowych romów</string>
     <string name="black_theme_title">Czarny motyw Pixel</string>
     <string name="black_theme_desc">Czarny motyw szybkich ustawień w trybie jasnym\nWymagane użycie kształtu szybkich ustawień w wariancie Pixel\nPrzełącz ciemny motyw, aby naprawić kolor tekstu</string>
     <string name="section_title_translucent_theme">Motyw przezroczysty</string>
@@ -521,27 +532,27 @@
     <string name="power_menu_transparency_title">Przezroczystość menu zasilania</string>
     <string name="power_menu_transparency_desc">Włącz przezroczystość menu zasilania dla motywu Fluid QS\nNie używaj niestandardowego stylu powiadomień</string>
     <string name="section_title_others">Pozostałe</string>
-    <string name="fix_qs_tile_color_title">Fix QS Tile Color</string>
-    <string name="fix_qs_tile_color_desc">Fix custom QS tile style on android 14</string>
+    <string name="fix_qs_tile_color_title">Napraw kolor kafelków szybkich ustawień</string>
+    <string name="fix_qs_tile_color_desc">Napraw niestandardowy styl kafelków szybkich ustawień na Androidzie 14</string>
     <string name="fix_notification_color_title">Napraw kolor powiadomień</string>
     <string name="fix_notification_color_desc">Napraw niestandardowy styl powiadomień w Android 14</string>
-    <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
-    <string name="fix_notification_footer_button_color_desc">Fix custom footer button style on android 14</string>
+    <string name="fix_notification_footer_button_color_title">Napraw kolor przycisku stopki powiadomień</string>
+    <string name="fix_notification_footer_button_color_desc">Napraw niestandardowy styl przycisku stopki w systemie Android 14</string>
     <!-- Xposed Quick Settings -->
     <string name="section_title_qs_tile">Kafelki szybkich ustawień</string>
     <string name="vertical_qs_tile_title">Pionowe kafelki</string>
     <string name="vertical_qs_tile_desc">Wyświetl etykiety pod ikonami kafelków</string>
     <string name="hide_qs_tile_label_title">Ukryj etykiety kafelków</string>
     <string name="hide_qs_tile_label_desc">Używaj tylko z pionowymi kafelkami</string>
-    <string name="qs_tile_label_scaling_title">Text Size Scaling</string>
+    <string name="qs_tile_label_scaling_title">Skalowanie rozmiaru tekstu</string>
     <string name="section_title_qs_margin">Marginesy szybkich ustawień</string>
-    <string name="section_title_qs_elements">QS Elements</string>
-    <string name="hide_qs_on_lockscreen_title">Hide QS on Lockscreen</string>
-    <string name="hide_qs_on_lockscreen_desc">Disable quick settings panel on secured lockscreen</string>
-    <string name="hide_qs_silent_text_title">Hide Silent Text</string>
-    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
-    <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
-    <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
+    <string name="section_title_qs_elements">Elementy szybkich ustawień</string>
+    <string name="hide_qs_on_lockscreen_title">Ukryj Szybkie ustawienia na ekranie blokady</string>
+    <string name="hide_qs_on_lockscreen_desc">Wyłącz szybkie ustawienia na zabezpieczonym ekranie blokady</string>
+    <string name="hide_qs_silent_text_title">Ukryj ciche powiadomienia</string>
+    <string name="hide_qs_silent_text_desc">Ukryj cichy tekst wyświetlany jako nagłówek cichych powiadomień</string>
+    <string name="hide_qs_footer_buttons_title">Ukryj przyciski stopki</string>
+    <string name="hide_qs_footer_buttons_desc">Ukryj przyciski stopki wyświetlane pod stosem powiadomień</string>
     <!-- Xposed Battery Style -->
     <string name="battery_style_title">Styl ikony baterii</string>
     <string name="battery_width_title">Szerokość ikony baterii</string>
@@ -573,8 +584,8 @@
     <string name="powersave_fill_color_desc">Zmień kolor ikony oszczędzania energii</string>
     <string name="powersave_indicator_color_title">Kolor wskaźnika oszczędzania energii</string>
     <string name="powersave_indicator_color_desc">Zmień kolor wskaźnika oszczędzania energii</string>
-    <string name="custom_margins_title">Custom Margins</string>
-    <string name="custom_margins_desc">Set custom margins for battery icon</string>
+    <string name="custom_margins_title">Niestandardowe marginesy</string>
+    <string name="custom_margins_desc">Ustaw niestandardowe marginesy dla ikony baterii</string>
     <string name="battery_margin_left_title">Lewy margines baterii</string>
     <string name="battery_margin_right_title">Prawy margines baterii</string>
     <string name="battery_margin_top_title">Górny margines baterii</string>
