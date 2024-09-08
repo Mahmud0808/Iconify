@@ -19,7 +19,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager.widget.ViewPager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
@@ -42,7 +42,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     private lateinit var mBluetoothText: TextView
     private lateinit var mBluetoothChevron: ImageView
 
-    private lateinit var mMediaPlayerContainer: ViewPager2
+    private lateinit var mMediaPlayerContainer: ViewPager
     private lateinit var mMediaPlayerAdapter: MediaPlayerPagerAdapter
     private val mMediaControllerViewMap = mutableMapOf<MediaController, QsOpMediaPlayerView>()
 
@@ -79,14 +79,8 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     val bluetoothTile: ViewGroup
         get() = mBluetoothTile
 
-    val mediaPlayerContainer: ViewPager2
+    val mediaPlayerContainer: ViewPager
         get() = mMediaPlayerContainer
-
-    val mediaPlayerAdapter: MediaPlayerPagerAdapter
-        get() = mMediaPlayerAdapter
-
-    val mediaControllerViewMap: MutableMap<MediaController, QsOpMediaPlayerView>
-        get() = mMediaControllerViewMap
 
     private fun initResources() {
         try {
@@ -446,20 +440,12 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     }
 
     private fun createOpMediaLayoutContainer() {
-        mMediaPlayerContainer = ViewPager2(mContext).apply {
+        mMediaPlayerContainer = ViewPager(mContext).apply {
             layoutParams = LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT,
             )
         }
-
-        mMediaPlayerAdapter = MediaPlayerPagerAdapter(
-            mContext,
-            mutableListOf(
-                null to QsOpMediaPlayerView(mContext)
-            )
-        )
-        mMediaPlayerContainer.adapter = mMediaPlayerAdapter
     }
 
     fun setInternetIcon(resId: Int) {
