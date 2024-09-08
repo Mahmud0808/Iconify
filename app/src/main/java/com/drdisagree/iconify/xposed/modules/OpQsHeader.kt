@@ -1280,7 +1280,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     ) {
         if (mQsOpHeaderView == null || !::opMediaBackgroundDrawable.isInitialized) return
 
-        val mMediaPlayer = getOrCreateMediaPlayer(packageName)
+        val mMediaPlayer = getOrCreateMediaPlayer(packageName) ?: return
         val mInactiveBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
             ?.apply {
                 if (isQsTileOverlayEnabled) {
@@ -1464,7 +1464,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun getOrCreateMediaPlayer(packageName: String?): QsOpMediaPlayerView {
+    private fun getOrCreateMediaPlayer(packageName: String?): QsOpMediaPlayerView? {
         if (!mMediaPlayerViews.any { it.first == packageName }) {
             val mediaPlayerView = QsOpMediaPlayerView(mContext)
 
@@ -1497,17 +1497,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             addMediaPlayerView(packageName, mediaPlayerView)
         }
 
-        return mMediaPlayerViews.find { it.first == packageName }!!.second
+        return mMediaPlayerViews.find { it.first == packageName }?.second
     }
 
     private fun addMediaPlayerView(packageName: String?, view: QsOpMediaPlayerView) {
+        if (packageName == null && mMediaPlayerViews.isNotEmpty()) return
+
         val position = mMediaPlayerViews.indexOfFirst { it.first == packageName }
         if (position != -1) return
 
-        if (mMediaPlayerViews.size == 1 && mMediaPlayerViews[0].first == null) {
-            mMediaPlayerViews.removeAt(0)
-            mMediaPlayerAdapter?.notifyDataSetChanged()
-        }
+        mMediaPlayerViews.removeAll { it.first == null }
+        mMediaPlayerAdapter?.notifyDataSetChanged()
 
         mMediaPlayerViews.add(0, packageName to view)
         mMediaPlayerAdapter?.notifyDataSetChanged()
