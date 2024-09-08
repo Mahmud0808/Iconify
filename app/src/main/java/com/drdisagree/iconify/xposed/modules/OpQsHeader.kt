@@ -96,7 +96,10 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.nio.ByteBuffer
 import kotlin.coroutines.resume
+import kotlin.math.pow
+import kotlin.math.sqrt
 import kotlin.properties.Delegates
+import kotlin.random.Random
 
 @Suppress("DiscouragedApi")
 class OpQsHeader(context: Context?) : ModPack(context!!) {
@@ -130,8 +133,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var colorPrimary by Delegates.notNull<Int>()
 
     // Media data
-    private var mMediaArtwork: Bitmap? = null
-    private var mMediaController: MediaController? = null
     private val mActiveMediaControllers = mutableListOf<Pair<String, MediaController>>()
     private val mPrevMediaPlayingState = mutableMapOf<String, Boolean>()
     private val mMediaControllerMetadataMap = mutableMapOf<String, MediaMetadata?>()
@@ -1304,13 +1305,19 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
 
         artworkExtractorScope.launch {
-            val requireUpdate = !areDataEqual(mPreviousMediaMetadata, mMediaMetadata) ||
+            val (areBitmapsEqual, areMetadataEqual) = areDataEqual(
+                mPreviousMediaMetadata,
+                mMediaMetadata
+            )
+            val requireUpdate = !areBitmapsEqual || !areMetadataEqual ||
                     controller.playbackState?.state == PlaybackState.STATE_PLAYING !=
                     mPrevMediaPlayingState[packageName]
-            log("requireUpdate: $requireUpdate")
 
             if (!requireUpdate && !force) return@launch
 
+            val mMediaArtwork: Bitmap? =
+                mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
+                    ?: mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_ART)
             val processedArtwork: Bitmap? =
                 processArtwork(mMediaArtwork, mMediaPlayer.mediaPlayerBackground)
             val dominantColor: Int? = extractDominantColor(processedArtwork)
@@ -1325,6 +1332,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             val transitionDuration = 500
 
             val artworkDrawable: Drawable? = when {
+                areBitmapsEqual && mMediaArtwork != null -> {
+                    null
+                }
+
                 mPrevMediaArtworkMap[packageName] == null && filteredArtwork != null -> {
                     TransitionDrawable(
                         arrayOf(
@@ -1426,7 +1437,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 mPrevMediaArtworkMap[packageName] = mMediaArtwork
                 mPrevMediaProcessedArtworkMap[packageName] = filteredArtwork
 
-                val onDominantColor = getContrastingTextColor(dominantColor)
+                val bitmap = filteredArtwork ?: mMediaArtwork
+                val scaledBitmap = bitmap?.let { scaleBitmap(it, 0.1f) }
+                val mostUsedColor = scaledBitmap?.let { getMostUsedColor(it) } ?: dominantColor
+                val onDominantColor = getContrastingTextColor(mostUsedColor)
 
                 if (requireIconTint) {
                     mMediaPlayer.setMediaAppIconColor(
@@ -1451,19 +1465,31 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private fun getOrCreateMediaPlayer(packageName: String): QsOpMediaPlayerView {
         if (!mMediaPlayerViews.any { it.first == packageName }) {
             val mediaPlayerView = QsOpMediaPlayerView(mContext)
+
             mediaPlayerView.setOnClickListeners { v ->
-                if (v === mediaPlayerView.mediaPlayerPrevBtn) {
-                    performMediaAction(packageName, MediaAction.PLAY_PREVIOUS)
-                } else if (v === mediaPlayerView.mediaPlayerPlayPauseBtn) {
-                    performMediaAction(packageName, MediaAction.TOGGLE_PLAYBACK)
-                } else if (v === mediaPlayerView.mediaPlayerNextBtn) {
-                    performMediaAction(packageName, MediaAction.PLAY_NEXT)
-                } else if (v === mediaPlayerView.mediaPlayerBackground) {
-                    launchMediaPlayer(packageName)
-                } else if (v === mediaPlayerView.mediaOutputSwitcher) {
-                    launchMediaOutputSwitcher(v)
+                when (v) {
+                    mediaPlayerView.mediaPlayerPrevBtn -> {
+                        performMediaAction(packageName, MediaAction.PLAY_PREVIOUS)
+                    }
+
+                    mediaPlayerView.mediaPlayerPlayPauseBtn -> {
+                        performMediaAction(packageName, MediaAction.TOGGLE_PLAYBACK)
+                    }
+
+                    mediaPlayerView.mediaPlayerNextBtn -> {
+                        performMediaAction(packageName, MediaAction.PLAY_NEXT)
+                    }
+
+                    mediaPlayerView.mediaAppIcon -> {
+                        launchMediaPlayer(packageName)
+                    }
+
+                    mediaPlayerView.mediaOutputSwitcher -> {
+                        launchMediaOutputSwitcher(packageName, v)
+                    }
                 }
             }
+
             addMediaPlayerView(packageName, mediaPlayerView)
         }
 
@@ -1625,6 +1651,95 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         }
 
+    fun Drawable.drawableToBitmap(): Bitmap {
+        val width = intrinsicWidth
+        val height = intrinsicHeight
+        val bitmap = Bitmap.createBitmap(
+            width.takeIf { it > 0 } ?: 1,
+            height.takeIf { it > 0 } ?: 1,
+            Bitmap.Config.ARGB_8888
+        )
+
+        val canvas = Canvas(bitmap)
+        setBounds(0, 0, canvas.width, canvas.height)
+        draw(canvas)
+
+        return bitmap
+    }
+
+    @Suppress("SameParameterValue")
+    private fun scaleBitmap(bitmap: Bitmap, scaleFactor: Float): Bitmap {
+        val width = (bitmap.width * scaleFactor).toInt()
+        val height = (bitmap.height * scaleFactor).toInt()
+        return Bitmap.createScaledBitmap(bitmap, width, height, true)
+    }
+
+    private data class ColorRGB(val r: Int, val g: Int, val b: Int) {
+        fun toInt() = (r shl 16) or (g shl 8) or b
+    }
+
+    private fun colorDistance(c1: ColorRGB, c2: ColorRGB): Double {
+        return sqrt(
+            ((c1.r - c2.r).toDouble().pow(2)) +
+                    ((c1.g - c2.g).toDouble().pow(2)) +
+                    ((c1.b - c2.b).toDouble().pow(2))
+        )
+    }
+
+    private fun getMostUsedColor(bitmap: Bitmap, k: Int = 5, iterations: Int = 10): Int {
+        val width = bitmap.width
+        val height = bitmap.height
+        val colors = mutableListOf<ColorRGB>()
+
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                val pixel = bitmap.getPixel(x, y)
+                val color = ColorRGB(
+                    r = (pixel shr 16) and 0xFF,
+                    g = (pixel shr 8) and 0xFF,
+                    b = pixel and 0xFF
+                )
+                colors.add(color)
+            }
+        }
+
+        val centroids = List(k) {
+            ColorRGB(
+                r = Random.nextInt(256),
+                g = Random.nextInt(256),
+                b = Random.nextInt(256)
+            )
+        }.toMutableList()
+
+        repeat(iterations) {
+            val clusters = Array(k) { mutableListOf<ColorRGB>() }
+
+            for (color in colors) {
+                val distances = centroids.map { centroid -> colorDistance(color, centroid) }
+                val closestCentroidIndex = distances.indexOf(distances.minOrNull())
+                clusters[closestCentroidIndex].add(color)
+            }
+
+            for (i in centroids.indices) {
+                val clusterColors = clusters[i]
+                if (clusterColors.isNotEmpty()) {
+                    val r = clusterColors.map { it.r }.average().toInt()
+                    val g = clusterColors.map { it.g }.average().toInt()
+                    val b = clusterColors.map { it.b }.average().toInt()
+                    centroids[i] = ColorRGB(r, g, b)
+                }
+            }
+        }
+
+        val dominantColor = centroids.maxByOrNull { centroid ->
+            colors.count { color ->
+                colorDistance(color, centroid) < 50
+            }
+        } ?: ColorRGB(0, 0, 0)
+
+        return dominantColor.toInt()
+    }
+
     private fun getContrastingTextColor(color: Int?): Int? {
         if (color == null) return null
 
@@ -1659,8 +1774,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun launchMediaOutputSwitcher(v: View) {
-        val packageName: String? = mMediaController?.packageName
+    private fun launchMediaOutputSwitcher(packageName: String?, v: View) {
         if (packageName != null && mMediaOutputDialogFactory != null) {
             if (isMethodAvailable(
                     mMediaOutputDialogFactory,
@@ -1702,17 +1816,20 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun areDataEqual(metadata1: MediaMetadata?, metadata2: MediaMetadata?): Boolean {
+    private fun areDataEqual(
+        metadata1: MediaMetadata?,
+        metadata2: MediaMetadata?
+    ): Pair<Boolean, Boolean> {
         val bitmap1 = metadata1?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
             ?: metadata1?.getBitmap(MediaMetadata.METADATA_KEY_ART)
         val bitmap2 = metadata2?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
             ?: metadata2?.getBitmap(MediaMetadata.METADATA_KEY_ART)
 
-        return !(!areBitmapsEqual(bitmap1, bitmap2) ||
-                metadata1?.getString(MediaMetadata.METADATA_KEY_TITLE) !=
-                metadata2?.getString(MediaMetadata.METADATA_KEY_TITLE) ||
-                metadata1?.getString(MediaMetadata.METADATA_KEY_ARTIST) !=
-                metadata2?.getString(MediaMetadata.METADATA_KEY_ARTIST))
+        return areBitmapsEqual(bitmap1, bitmap2) to
+                (metadata1?.getString(MediaMetadata.METADATA_KEY_TITLE) ==
+                        metadata2?.getString(MediaMetadata.METADATA_KEY_TITLE) &&
+                        metadata1?.getString(MediaMetadata.METADATA_KEY_ARTIST) ==
+                        metadata2?.getString(MediaMetadata.METADATA_KEY_ARTIST))
     }
 
     private fun areBitmapsEqual(bitmap1: Bitmap?, bitmap2: Bitmap?): Boolean {
