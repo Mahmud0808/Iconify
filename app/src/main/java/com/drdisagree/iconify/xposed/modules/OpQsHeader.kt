@@ -442,10 +442,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                             onClickListener = mOnClickListener,
                             onLongClickListener = mOnLongClickListener
                         )
-                        mMediaPlayerAdapter = MediaPlayerPagerAdapter(
-                            mContext,
-                            mMediaPlayerViews
-                        )
+                        mMediaPlayerAdapter = MediaPlayerPagerAdapter(mMediaPlayerViews)
                         mediaPlayerContainer.adapter = mMediaPlayerAdapter
                     }
 
@@ -1269,22 +1266,21 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateMediaPlayers(force: Boolean = false) {
+        updateMediaPlayer(null, null, force)
+
         mActiveMediaControllers.forEach { (packageName, controller) ->
             updateMediaPlayer(packageName, controller, force)
         }
     }
 
     private fun updateMediaPlayer(
-        packageName: String,
-        controller: MediaController,
+        packageName: String?,
+        controller: MediaController?,
         force: Boolean = false
     ) {
         if (mQsOpHeaderView == null || !::opMediaBackgroundDrawable.isInitialized) return
 
-        val mMediaPlayer = getOrCreateMediaPlayer(packageName)
-
-        val mMediaMetadata: MediaMetadata? = mMediaControllerMetadataMap[packageName]
-        val mPreviousMediaMetadata: MediaMetadata? = mPrevMediaControllerMetadataMap[packageName]
+        val mMediaPlayer = getOrCreateMediaPlayer(packageName) ?: return
         val mInactiveBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
             ?.apply {
                 if (isQsTileOverlayEnabled) {
@@ -1304,7 +1300,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         }
 
+        if (packageName == null || controller == null) return
+
         artworkExtractorScope.launch {
+            val mMediaMetadata = mMediaControllerMetadataMap[packageName]
+            val mPreviousMediaMetadata = mPrevMediaControllerMetadataMap[packageName]
+
             val (areBitmapsEqual, areMetadataEqual) = areDataEqual(
                 mPreviousMediaMetadata,
                 mMediaMetadata
@@ -1462,7 +1463,11 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun getOrCreateMediaPlayer(packageName: String): QsOpMediaPlayerView {
+    private fun getOrCreateMediaPlayer(packageName: String?): QsOpMediaPlayerView? {
+        if (packageName == null) {
+            return mMediaPlayerViews.find { it.first == null }?.second
+        }
+
         if (!mMediaPlayerViews.any { it.first == packageName }) {
             val mediaPlayerView = QsOpMediaPlayerView(mContext)
 
@@ -1502,14 +1507,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         if (mMediaPlayerViews.size == 1 && mMediaPlayerViews[0].first == null) {
             mMediaPlayerViews.removeAt(0)
-            mQsOpHeaderView?.mediaPlayerContainer?.adapter?.notifyDataSetChanged()
+            mMediaPlayerAdapter?.notifyDataSetChanged()
         }
 
         mMediaPlayerViews.add(0, packageName to view)
-        mQsOpHeaderView?.mediaPlayerContainer?.adapter?.notifyDataSetChanged()
+        mMediaPlayerAdapter?.notifyDataSetChanged()
+
         mQsOpHeaderView?.mediaPlayerContainer?.post {
             mQsOpHeaderView?.mediaPlayerContainer?.setCurrentItem(0, false)
         }
+
+        updateAdapter()
     }
 
     private fun removeMediaPlayerView(packageName: String) {
@@ -1517,12 +1525,19 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         if (position == -1) return
 
         mMediaPlayerViews.removeAt(position)
-        mQsOpHeaderView?.mediaPlayerContainer?.adapter?.notifyDataSetChanged()
+        mMediaPlayerAdapter?.notifyDataSetChanged()
 
         if (mMediaPlayerViews.isEmpty()) {
             mMediaPlayerViews.add(null to QsOpMediaPlayerView(mContext))
-            mQsOpHeaderView?.mediaPlayerContainer?.adapter?.notifyDataSetChanged()
+            mMediaPlayerAdapter?.notifyDataSetChanged()
         }
+
+        updateAdapter()
+    }
+
+    private fun updateAdapter() {
+        mMediaPlayerAdapter = MediaPlayerPagerAdapter(mMediaPlayerViews)
+        mQsOpHeaderView?.mediaPlayerContainer?.adapter = mMediaPlayerAdapter
     }
 
     private fun updateInternetTileColors() {

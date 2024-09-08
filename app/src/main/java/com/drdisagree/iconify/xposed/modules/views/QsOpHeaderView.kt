@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.media.session.MediaController
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
@@ -43,8 +42,6 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     private lateinit var mBluetoothChevron: ImageView
 
     private lateinit var mMediaPlayerContainer: ViewPager
-    private lateinit var mMediaPlayerAdapter: MediaPlayerPagerAdapter
-    private val mMediaControllerViewMap = mutableMapOf<MediaController, QsOpMediaPlayerView>()
 
     private var qsIconSize by Delegates.notNull<Int>()
     private var qsTextSize by Delegates.notNull<Int>()
