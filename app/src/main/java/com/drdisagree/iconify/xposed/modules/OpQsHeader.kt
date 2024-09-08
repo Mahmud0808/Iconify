@@ -1325,7 +1325,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
                 else -> mInactiveBackground
             }
-            val transitionDuration = 500
+            val transitionDuration = android.R.integer.config_shortAnimTime
 
             val artworkDrawable: Drawable? = when {
                 areBitmapsEqual && mMediaArtwork != null -> {
