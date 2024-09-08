@@ -60,6 +60,8 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
     private var qsTextSize by Delegates.notNull<Int>()
     private var qsTextFontFamily by Delegates.notNull<String>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
+    private var qsTilePadding by Delegates.notNull<Int>()
+    private var qsTileStartPadding by Delegates.notNull<Int>()
     private var qsLabelContainerMargin by Delegates.notNull<Int>()
     private var qsTileMarginHorizontal by Delegates.notNull<Int>()
     private var qsTileMarginVertical by Delegates.notNull<Int>()
@@ -128,6 +130,20 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
                 SYSTEMUI_PACKAGE
             )
         )!!
+        qsTilePadding = mContext.resources.getDimensionPixelSize(
+            mContext.resources.getIdentifier(
+                "qs_tile_padding",
+                "dimen",
+                SYSTEMUI_PACKAGE
+            )
+        )
+        qsTileStartPadding = mContext.resources.getDimensionPixelSize(
+            mContext.resources.getIdentifier(
+                "qs_tile_start_padding",
+                "dimen",
+                SYSTEMUI_PACKAGE
+            )
+        )
         qsLabelContainerMargin = mContext.resources.getDimensionPixelSize(
             mContext.resources.getIdentifier(
                 "qs_label_container_margin",
@@ -390,7 +406,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             background = qsTileBackgroundDrawable.constantState?.newDrawable()?.mutate()
             gravity = Gravity.START or Gravity.CENTER
             orientation = HORIZONTAL
-            setPaddingRelative(mContext.toPx(16), 0, mContext.toPx(16), 0)
+            setPaddingRelative(qsTileStartPadding, qsTilePadding, qsTilePadding, qsTilePadding)
         }
 
         val iconView = ImageView(mContext).apply {
