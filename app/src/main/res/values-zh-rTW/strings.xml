@@ -421,6 +421,8 @@
     <string name="activity_desc_quick_settings">與快速設定面板有關的調整</string>
     <string name="activity_title_battery_style">電池樣式</string>
     <string name="activity_desc_battery_style">自訂電池圖示查看</string>
+    <string name="activity_title_op_qs_header">Oneplus QS Header</string>
+    <string name="activity_desc_op_qs_header">OOS style quick settings header</string>
     <string name="activity_title_header_image">標頭圖像</string>
     <string name="activity_desc_header_image">在快速設定面板上添加自訂圖示</string>
     <string name="activity_title_header_clock">標頭時鐘</string>
@@ -439,6 +441,15 @@
     <string name="activity_title_xposed_others">其他</string>
     <string name="activity_desc_xposed_others">Xposed 雜項調整</string>
     <string name="activity_title_xposed_weather_settings">Weather Settings</string>
+    <!-- Oneplus QS Header -->
+    <string name="oneplus_qs_header_title">Oneplus QS Header</string>
+    <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
+    <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
+    <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
+    <string name="oneplus_qs_header_blur_level">Blur Level</string>
+    <string name="oneplus_qs_header_fade_level">Fade Level</string>
+    <string name="oneplus_qs_header_top_margin">Top Margin</string>
+    <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
     <!-- Lockscreen Widgets -->
     <string name="lockscreen_widgets_title">Lockscreen Widgets</string>
     <string name="lockscreen_widgets_enabled_title">Enable Lockscreen Widgets</string>

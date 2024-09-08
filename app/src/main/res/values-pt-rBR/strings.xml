@@ -421,6 +421,8 @@
     <string name="activity_desc_quick_settings">Ajustes relacionados ao painel QS</string>
     <string name="activity_title_battery_style">Estilo da bateria</string>
     <string name="activity_desc_battery_style">Personalize a visualização do ícone da bateria</string>
+    <string name="activity_title_op_qs_header">Cabeçalho OnePlus QS</string>
+    <string name="activity_desc_op_qs_header">Cabeçalho de configurações rápidas no estilo OOS</string>
     <string name="activity_title_header_image">Imagem de cabeçalho</string>
     <string name="activity_desc_header_image">Adicione alguma imagem personalizada no painel QS</string>
     <string name="activity_title_header_clock">Relógio de cabeçalho</string>
@@ -439,6 +441,15 @@
     <string name="activity_title_xposed_others">Outros</string>
     <string name="activity_desc_xposed_others">Diversos ajustes do Xposed</string>
     <string name="activity_title_xposed_weather_settings">Configurações do clima</string>
+    <!-- Oneplus QS Header -->
+    <string name="oneplus_qs_header_title">Cabeçalho OnePlus QS</string>
+    <string name="oneplus_qs_header_desc">Ative o reprodutor de mídia e blocos estilo OOS no QS</string>
+    <string name="oneplus_qs_header_vibrate_title">Feedback tátil</string>
+    <string name="oneplus_qs_header_vibrate_desc">Adicione feedback tátil nos blocos</string>
+    <string name="oneplus_qs_header_blur_level">Nível do blur</string>
+    <string name="oneplus_qs_header_fade_level">Nível de esmaecimento</string>
+    <string name="oneplus_qs_header_top_margin">Margem superior</string>
+    <string name="oneplus_qs_header_expansion_y">Valor de expansão</string>
     <!-- Lockscreen Widgets -->
     <string name="lockscreen_widgets_title">Widgets na tela de bloqueio</string>
     <string name="lockscreen_widgets_enabled_title">Ativar widgets na tela de bloqueio</string>
