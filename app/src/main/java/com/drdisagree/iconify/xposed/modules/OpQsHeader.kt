@@ -1280,7 +1280,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     ) {
         if (mQsOpHeaderView == null || !::opMediaBackgroundDrawable.isInitialized) return
 
-        val mMediaPlayer = getOrCreateMediaPlayer(packageName) ?: return
+        val mMediaPlayer = getOrCreateMediaPlayer(packageName)
         val mInactiveBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
             ?.apply {
                 if (isQsTileOverlayEnabled) {
@@ -1291,7 +1291,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
 
         mMediaPlayer.apply {
-            if (mediaPlayerBackground.drawable == null ||
+            if (packageName == null ||
+                mediaPlayerBackground.drawable == null ||
                 mediaPlayerBackground.drawable == opMediaDefaultBackground
             ) {
                 setMediaPlayerBackground(mInactiveBackground)
@@ -1463,34 +1464,32 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun getOrCreateMediaPlayer(packageName: String?): QsOpMediaPlayerView? {
-        if (packageName == null) {
-            return mMediaPlayerViews.find { it.first == null }?.second
-        }
-
+    private fun getOrCreateMediaPlayer(packageName: String?): QsOpMediaPlayerView {
         if (!mMediaPlayerViews.any { it.first == packageName }) {
             val mediaPlayerView = QsOpMediaPlayerView(mContext)
 
-            mediaPlayerView.setOnClickListeners { v ->
-                when (v) {
-                    mediaPlayerView.mediaPlayerPrevBtn -> {
-                        performMediaAction(packageName, MediaAction.PLAY_PREVIOUS)
-                    }
+            if (packageName != null) {
+                mediaPlayerView.setOnClickListeners { v ->
+                    when (v) {
+                        mediaPlayerView.mediaPlayerPrevBtn -> {
+                            performMediaAction(packageName, MediaAction.PLAY_PREVIOUS)
+                        }
 
-                    mediaPlayerView.mediaPlayerPlayPauseBtn -> {
-                        performMediaAction(packageName, MediaAction.TOGGLE_PLAYBACK)
-                    }
+                        mediaPlayerView.mediaPlayerPlayPauseBtn -> {
+                            performMediaAction(packageName, MediaAction.TOGGLE_PLAYBACK)
+                        }
 
-                    mediaPlayerView.mediaPlayerNextBtn -> {
-                        performMediaAction(packageName, MediaAction.PLAY_NEXT)
-                    }
+                        mediaPlayerView.mediaPlayerNextBtn -> {
+                            performMediaAction(packageName, MediaAction.PLAY_NEXT)
+                        }
 
-                    mediaPlayerView.mediaAppIcon -> {
-                        launchMediaPlayer(packageName)
-                    }
+                        mediaPlayerView.mediaAppIcon -> {
+                            launchMediaPlayer(packageName)
+                        }
 
-                    mediaPlayerView.mediaOutputSwitcher -> {
-                        launchMediaOutputSwitcher(packageName, v)
+                        mediaPlayerView.mediaOutputSwitcher -> {
+                            launchMediaOutputSwitcher(packageName, v)
+                        }
                     }
                 }
             }
@@ -1501,7 +1500,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         return mMediaPlayerViews.find { it.first == packageName }!!.second
     }
 
-    private fun addMediaPlayerView(packageName: String, view: QsOpMediaPlayerView) {
+    private fun addMediaPlayerView(packageName: String?, view: QsOpMediaPlayerView) {
         val position = mMediaPlayerViews.indexOfFirst { it.first == packageName }
         if (position != -1) return
 
