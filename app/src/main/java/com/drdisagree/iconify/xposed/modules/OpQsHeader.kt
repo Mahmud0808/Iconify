@@ -657,6 +657,25 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
                 )
             }
+
+            findAndHookMethod(
+                qsPanelClass,
+                "switchToParent",
+                View::class.java,
+                ViewGroup::class.java,
+                Int::class.java,
+                String::class.java,
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        if (!showOpQsHeaderView) return
+
+                        val index = param.args[2] as Int
+                        val parent = param.args[1] as ViewGroup
+
+                        param.args[2] = index.coerceAtMost(parent.childCount)
+                    }
+                }
+            )
         } else { // Some ROMs don't have this method switchAllContentToParent()
             hookAllMethods(
                 qsPanelControllerBaseClass,
