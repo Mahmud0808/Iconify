@@ -417,9 +417,13 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
     }
 
     fun setMediaPlayerBackground(drawable: Drawable?) {
-        mMediaPlayerBackground.setImageDrawable(drawable)
-        mMediaPlayerBackground.scaleType = ImageView.ScaleType.CENTER_CROP
-        mMediaPlayerBackground.clipToOutline = true
+        if (drawable == null) return
+
+        if (mMediaPlayerBackground.drawable != drawable) {
+            mMediaPlayerBackground.setImageDrawable(drawable)
+            mMediaPlayerBackground.scaleType = ImageView.ScaleType.CENTER_CROP
+            mMediaPlayerBackground.clipToOutline = true
+        }
     }
 
     fun resetMediaAppIcon() {

@@ -18,7 +18,6 @@ import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.Icon
 import android.graphics.drawable.TransitionDrawable
 import android.media.MediaMetadata
 import android.media.session.MediaController
@@ -30,11 +29,9 @@ import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.view.Gravity
-import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnLongClickListener
 import android.view.ViewGroup
@@ -136,6 +133,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var mMediaArtwork: Bitmap? = null
     private var mMediaController: MediaController? = null
     private val mActiveMediaControllers = mutableListOf<Pair<String, MediaController>>()
+    private val mPrevMediaPlayingState = mutableMapOf<String, Boolean>()
     private val mMediaControllerMetadataMap = mutableMapOf<String, MediaMetadata?>()
     private val mPrevMediaControllerMetadataMap = mutableMapOf<String, MediaMetadata?>()
     private val mPrevMediaArtworkMap = mutableMapOf<String, Bitmap?>()
@@ -148,7 +146,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     // Tile and media state
     private var mInternetEnabled = false
     private var mBluetoothEnabled = false
-    private var mMediaIsPlaying = false
 
     // Misc
     private lateinit var appContext: Context
@@ -1200,39 +1197,28 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         PLAY_NEXT
     }
 
-    private fun performMediaAction(action: MediaAction) {
+    private fun performMediaAction(packageName: String, action: MediaAction) {
+        val controller = mActiveMediaControllers.find { it.first == packageName }?.second ?: return
+
         when (action) {
-            MediaAction.TOGGLE_PLAYBACK -> toggleMediaPlaybackState()
-            MediaAction.PLAY_PREVIOUS -> dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_PREVIOUS)
-            MediaAction.PLAY_NEXT -> dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_NEXT)
+            MediaAction.TOGGLE_PLAYBACK -> {
+                if (controller.playbackState?.state == PlaybackState.STATE_PLAYING) {
+                    controller.transportControls.pause()
+                } else {
+                    controller.transportControls.play()
+                }
+            }
+
+            MediaAction.PLAY_PREVIOUS -> {
+                controller.transportControls.skipToPrevious()
+            }
+
+            MediaAction.PLAY_NEXT -> {
+                controller.transportControls.skipToNext()
+            }
         }
-        updateMediaControllers()
-    }
 
-    private fun toggleMediaPlaybackState() {
-        if (mMediaIsPlaying) {
-            stopMediaUpdater()
-            dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_PAUSE)
-        } else {
-            startMediaUpdater()
-            dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_PLAY)
-        }
-    }
-
-    private fun dispatchMediaKeyWithWakeLockToMediaSession(keycode: Int) {
-        val helper = callStaticMethod(
-            mediaSessionLegacyHelperClass,
-            "getHelper",
-            mContext
-        ) ?: return
-
-        var event: KeyEvent? = KeyEvent(
-            SystemClock.uptimeMillis(),
-            SystemClock.uptimeMillis(), KeyEvent.ACTION_DOWN, keycode, 0
-        )
-        callMethod(helper, "sendMediaButtonEvent", event, true)
-        event = KeyEvent.changeAction(event, KeyEvent.ACTION_UP)
-        callMethod(helper, "sendMediaButtonEvent", event, true)
+        updateMediaPlayers()
     }
 
     private fun updateMediaControllers() {
@@ -1248,6 +1234,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
                 mMediaControllerMetadataMap.remove(packageName)
                 mPrevMediaControllerMetadataMap.remove(packageName)
+                mPrevMediaPlayingState.remove(packageName)
                 mPrevMediaArtworkMap.remove(packageName)
                 mPrevMediaProcessedArtworkMap.remove(packageName)
                 removeMediaPlayerView(packageName)
@@ -1266,19 +1253,11 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 mMediaControllerMetadataMap[packageName] = controller.metadata
                 mActiveMediaControllers.add(packageName to controller)
             } else if (existingController.second != controller) {
-                val oldPackageName = existingController.first
                 val oldController = existingController.second
 
                 oldController.unregisterCallback(mMediaCallback)
                 controller.registerCallback(mMediaCallback)
-
-                mMediaControllerMetadataMap.remove(oldPackageName)
                 mMediaControllerMetadataMap[packageName] = controller.metadata
-
-                if (mPrevMediaControllerMetadataMap.containsKey(packageName)) {
-                    mPrevMediaControllerMetadataMap.remove(packageName)
-                    mPrevMediaControllerMetadataMap[packageName] = controller.metadata
-                }
 
                 mActiveMediaControllers.remove(existingController)
                 mActiveMediaControllers.add(packageName to controller)
@@ -1301,7 +1280,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     ) {
         if (mQsOpHeaderView == null || !::opMediaBackgroundDrawable.isInitialized) return
 
-        val mMediaPlayer = createMediaPlayerViewIfRequired(packageName)
+        val mMediaPlayer = getOrCreateMediaPlayer(packageName)
 
         val mMediaMetadata: MediaMetadata? = mMediaControllerMetadataMap[packageName]
         val mPreviousMediaMetadata: MediaMetadata? = mPrevMediaControllerMetadataMap[packageName]
@@ -1325,7 +1304,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
 
         artworkExtractorScope.launch {
-            val requireUpdate = !areMetadataEqual(mPreviousMediaMetadata, mMediaMetadata)
+            val requireUpdate = !areDataEqual(mPreviousMediaMetadata, mMediaMetadata) ||
+                    controller.playbackState?.state == PlaybackState.STATE_PLAYING !=
+                    mPrevMediaPlayingState[packageName]
+            log("requireUpdate: $requireUpdate")
 
             if (!requireUpdate && !force) return@launch
 
@@ -1410,9 +1392,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     setMediaPlayingIcon(mIsMediaPlaying)
                 }
 
-                val appIcon = runCatching {
-                    callMethod(mNotificationMediaManager, "getMediaIcon") as Icon?
-                }.getOrNull()
                 val appIconBitmap =
                     mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON)
                 val appIconDrawable = runCatching {
@@ -1424,11 +1403,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 val requireIconTint: Boolean
 
                 when {
-                    appIcon != null && mMediaTitle != null -> {
-                        requireIconTint = true
-                        mMediaPlayer.setMediaAppIcon(appIcon)
-                    }
-
                     appIconBitmap != null && mMediaTitle != null -> {
                         requireIconTint = true
                         mMediaPlayer.setMediaAppIconBitmap(appIconBitmap)
@@ -1447,6 +1421,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
                 mMediaPlayer.setMediaPlayerBackground(artworkDrawable)
 
+                mPrevMediaPlayingState[packageName] = mIsMediaPlaying
                 mPrevMediaControllerMetadataMap[packageName] = mMediaMetadata
                 mPrevMediaArtworkMap[packageName] = mMediaArtwork
                 mPrevMediaProcessedArtworkMap[packageName] = filteredArtwork
@@ -1473,16 +1448,16 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun createMediaPlayerViewIfRequired(packageName: String): QsOpMediaPlayerView {
+    private fun getOrCreateMediaPlayer(packageName: String): QsOpMediaPlayerView {
         if (!mMediaPlayerViews.any { it.first == packageName }) {
             val mediaPlayerView = QsOpMediaPlayerView(mContext)
             mediaPlayerView.setOnClickListeners { v ->
                 if (v === mediaPlayerView.mediaPlayerPrevBtn) {
-                    performMediaAction(MediaAction.PLAY_PREVIOUS)
+                    performMediaAction(packageName, MediaAction.PLAY_PREVIOUS)
                 } else if (v === mediaPlayerView.mediaPlayerPlayPauseBtn) {
-                    performMediaAction(MediaAction.TOGGLE_PLAYBACK)
+                    performMediaAction(packageName, MediaAction.TOGGLE_PLAYBACK)
                 } else if (v === mediaPlayerView.mediaPlayerNextBtn) {
-                    performMediaAction(MediaAction.PLAY_NEXT)
+                    performMediaAction(packageName, MediaAction.PLAY_NEXT)
                 } else if (v === mediaPlayerView.mediaPlayerBackground) {
                     launchMediaPlayer(packageName)
                 } else if (v === mediaPlayerView.mediaOutputSwitcher) {
@@ -1520,6 +1495,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         if (mMediaPlayerViews.isEmpty()) {
             mMediaPlayerViews.add(null to QsOpMediaPlayerView(mContext))
+            mQsOpHeaderView?.mediaPlayerContainer?.adapter?.notifyDataSetChanged()
         }
     }
 
@@ -1726,7 +1702,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun areMetadataEqual(metadata1: MediaMetadata?, metadata2: MediaMetadata?): Boolean {
+    private fun areDataEqual(metadata1: MediaMetadata?, metadata2: MediaMetadata?): Boolean {
         val bitmap1 = metadata1?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
             ?: metadata1?.getBitmap(MediaMetadata.METADATA_KEY_ART)
         val bitmap2 = metadata2?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
