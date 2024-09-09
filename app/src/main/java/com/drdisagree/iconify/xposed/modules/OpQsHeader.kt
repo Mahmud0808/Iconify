@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.modules
 
 import android.annotation.SuppressLint
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
@@ -95,6 +96,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import java.lang.reflect.Method
 import java.nio.ByteBuffer
 import kotlin.coroutines.resume
 import kotlin.math.pow
@@ -1181,18 +1183,35 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
     @SuppressLint("MissingPermission")
     private fun getBluetoothConnectedDevice(): String {
-        return if (isBluetoothEnabled && mBluetoothController != null) {
-            callMethod(mBluetoothController, "getConnectedDeviceName") as String? ?: ""
-        } else {
-            ""
-        }.ifEmpty {
-            mContext.resources.getString(
-                mContext.resources.getIdentifier(
-                    "quick_settings_bluetooth_label",
-                    "string",
-                    SYSTEMUI_PACKAGE
-                )
+        val bluetoothLabel = mContext.resources.getString(
+            mContext.resources.getIdentifier(
+                "quick_settings_bluetooth_label",
+                "string",
+                SYSTEMUI_PACKAGE
             )
+        )
+
+        val bluetoothAdapter = mBluetoothManager.adapter
+
+        if (bluetoothAdapter != null) {
+            val bondedDevices = bluetoothAdapter.bondedDevices
+
+            for (device in bondedDevices) {
+                if (isBluetoothDeviceConnected(device)) {
+                    return device.name.ifEmpty { bluetoothLabel }
+                }
+            }
+        }
+
+        return bluetoothLabel
+    }
+
+    private fun isBluetoothDeviceConnected(device: BluetoothDevice): Boolean {
+        return try {
+            val m: Method = device.javaClass.getMethod("isConnected")
+            m.invoke(device) as Boolean
+        } catch (e: Exception) {
+            throw IllegalStateException(e)
         }
     }
 
@@ -1211,8 +1230,57 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private fun updateBluetoothState(enabled: Boolean = isBluetoothEnabled) {
         mBluetoothEnabled = enabled
 
+        val connectedIconResId = mContext.resources.getIdentifier(
+            "ic_bluetooth_connected",
+            "drawable",
+            SYSTEMUI_PACKAGE
+        )
+        val connectedIcon = if (connectedIconResId != 0) {
+            ContextCompat.getDrawable(mContext, connectedIconResId)
+        } else {
+            ContextCompat.getDrawable(
+                appContext,
+                appContext.resources.getIdentifier(
+                    "ic_bluetooth_connected",
+                    "drawable",
+                    appContext.packageName
+                )
+            )
+        }!!
+        colorLabelActive?.let { DrawableCompat.setTint(connectedIcon, it) }
+
+        val disconnectedIconResId = mContext.resources.getIdentifier(
+            "ic_qs_bluetooth",
+            "drawable",
+            FRAMEWORK_PACKAGE
+        )
+        val disconnectedIcon = if (disconnectedIconResId != 0) {
+            ContextCompat.getDrawable(mContext, disconnectedIconResId)
+        } else {
+            ContextCompat.getDrawable(
+                appContext,
+                appContext.resources.getIdentifier(
+                    "ic_bluetooth_disconnected",
+                    "drawable",
+                    appContext.packageName
+                )
+            )
+        }!!
+        colorLabelInactive?.let { DrawableCompat.setTint(disconnectedIcon, it) }
+
         if (enabled) {
-            mQsOpHeaderView?.setBlueToothText(getBluetoothConnectedDevice())
+            val defaultLabel = mContext.resources.getString(
+                mContext.resources.getIdentifier(
+                    "quick_settings_bluetooth_label",
+                    "string",
+                    SYSTEMUI_PACKAGE
+                )
+            )
+            val bluetoothLabel = getBluetoothConnectedDevice()
+            val deviceConnected = bluetoothLabel != defaultLabel
+
+            mQsOpHeaderView?.setBlueToothText(bluetoothLabel)
+            mQsOpHeaderView?.setBlueToothIcon(if (deviceConnected) connectedIcon else disconnectedIcon)
         } else {
             mQsOpHeaderView?.setBlueToothText(
                 mContext.resources.getIdentifier(
@@ -1221,6 +1289,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     SYSTEMUI_PACKAGE
                 )
             )
+            mQsOpHeaderView?.setBlueToothIcon(disconnectedIcon)
         }
 
         updateBluetoothTileColors()

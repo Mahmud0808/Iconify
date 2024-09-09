@@ -322,9 +322,9 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
             (layoutParams as MarginLayoutParams).topMargin = qsTileMarginVertical / 2
 
             val iconResId = mContext.resources.getIdentifier(
-                "ic_bluetooth_connected",
+                "ic_qs_bluetooth",
                 "drawable",
-                SYSTEMUI_PACKAGE
+                FRAMEWORK_PACKAGE
             )
             if (iconResId != 0) {
                 mBluetoothIcon.setImageDrawable(ContextCompat.getDrawable(mContext, iconResId))
@@ -333,7 +333,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
                     ContextCompat.getDrawable(
                         appContext,
                         appContext.resources.getIdentifier(
-                            "ic_bluetooth_connected",
+                            "ic_bluetooth_disconnected",
                             "drawable",
                             appContext.packageName
                         )
