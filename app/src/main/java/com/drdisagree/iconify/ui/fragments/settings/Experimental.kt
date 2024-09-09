@@ -24,14 +24,18 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.HEADER_IMAGE_OVERLAP
 import com.drdisagree.iconify.common.Preferences.HIDE_DATA_DISABLED_ICON
+import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_GAP_EXPANDED
 import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.databinding.FragmentExperimentalBinding
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.dialogs.EditTextDialog
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.SystemUtils
+import com.google.android.material.slider.Slider
 import kotlin.random.Random
 
 class Experimental : BaseFragment() {
@@ -78,6 +82,33 @@ class Experimental : BaseFragment() {
         binding.hideDataDisabledIcon.isSwitchChecked = getBoolean(HIDE_DATA_DISABLED_ICON, false)
         binding.hideDataDisabledIcon.setSwitchChangeListener { _: CompoundButton?, isChecked: Boolean ->
             putBoolean(HIDE_DATA_DISABLED_ICON, isChecked)
+        }
+
+        // OP QS Header Gap Expanded
+        binding.opQsGapExpanded.apply {
+            sliderValue = getInt(OP_QS_HEADER_GAP_EXPANDED, 0)
+            setResetClickListener {
+                putInt(OP_QS_HEADER_GAP_EXPANDED, 0)
+
+                MainActivity.showOrHidePendingActionButton(
+                    activityBinding = (requireActivity() as MainActivity).binding,
+                    requiresSystemUiRestart = true
+                )
+
+                true
+            }
+            setOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+                override fun onStartTrackingTouch(slider: Slider) {}
+
+                override fun onStopTrackingTouch(slider: Slider) {
+                    putInt(OP_QS_HEADER_GAP_EXPANDED, slider.value.toInt())
+
+                    MainActivity.showOrHidePendingActionButton(
+                        activityBinding = (requireActivity() as MainActivity).binding,
+                        requiresSystemUiRestart = true
+                    )
+                }
+            })
         }
 
         // Send notification

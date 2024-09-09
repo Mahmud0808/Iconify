@@ -53,6 +53,7 @@ import com.drdisagree.iconify.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_SHA
 import com.drdisagree.iconify.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_TAG
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_BLUR_LEVEL
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_EXPANSION_Y
+import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_GAP_EXPANDED
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_TOP_MARGIN
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_VIBRATE
@@ -115,6 +116,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var expansionAmount = 0
     private var qsTextAlwaysWhite = false
     private var qsTextFollowAccent = false
+    private var expandedQsGap = 0
 
     // Views
     private var mQsHeaderContainer: LinearLayout = LinearLayout(mContext)
@@ -185,6 +187,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             mediaBlurLevel = getSliderInt(OP_QS_HEADER_BLUR_LEVEL, 10).toFloat()
             topMarginValue = getSliderInt(OP_QS_HEADER_TOP_MARGIN, 0)
             expansionAmount = getSliderInt(OP_QS_HEADER_EXPANSION_Y, 0)
+            expandedQsGap = getInt(OP_QS_HEADER_GAP_EXPANDED, 0)
             qsTextAlwaysWhite = getBoolean(QS_TEXT_ALWAYS_WHITE, false)
             qsTextFollowAccent = getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
         }
@@ -536,7 +539,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         0
                     } else {
                         (qqsTileHeight * 2) + (qsTileMarginVertical * 2) +
-                                mContext.toPx(topMarginValue + expansionAmount)
+                                mContext.toPx(topMarginValue + expansionAmount + expandedQsGap)
                     }
             }
         }

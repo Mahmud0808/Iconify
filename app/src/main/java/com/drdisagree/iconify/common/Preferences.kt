@@ -214,6 +214,7 @@ object Preferences {
     const val OP_QS_HEADER_BLUR_LEVEL = "xposed_opqsheaderblurlevel"
     const val OP_QS_HEADER_TOP_MARGIN = "xposed_opqsheadertopmargin"
     const val OP_QS_HEADER_EXPANSION_Y = "xposed_opqsheaderexpansiony"
+    const val OP_QS_HEADER_GAP_EXPANDED = "xposed_opqsheadergapexpanded"
 
     // Xposed view tags
     const val ICONIFY_HEADER_CLOCK_TAG = "iconify_header_clock"
