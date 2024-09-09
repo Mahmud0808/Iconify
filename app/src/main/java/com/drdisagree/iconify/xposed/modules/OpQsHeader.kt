@@ -30,6 +30,7 @@ import android.net.wifi.WifiManager
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.view.Gravity
 import android.view.View
@@ -164,6 +165,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private lateinit var mWifiManager: WifiManager
     private lateinit var mBluetoothManager: BluetoothManager
     private lateinit var mMediaSessionManager: MediaSessionManager
+    private lateinit var mSubscriptionManager: SubscriptionManager
     private lateinit var mActivityLauncherUtils: ActivityLauncherUtils
 
     // Resources
@@ -978,8 +980,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         if (mInternetEnabled) {
             if (isWiFiConnected) {
-                val signalLevel = getWiFiSignalStrengthLevel()
-                val wifiIconResId = when (signalLevel) {
+                val wifiInfo = getWiFiInfo()
+                val wifiIconResId = when (wifiInfo.signalStrengthLevel) {
                     4 -> "ic_wifi_signal_4"
                     3 -> "ic_wifi_signal_3"
                     2 -> "ic_wifi_signal_2"
@@ -996,31 +998,30 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 )!!
                 colorLabelActive?.let { DrawableCompat.setTint(wifiIconDrawable, it) }
 
-                mQsOpHeaderView?.setInternetText(getWiFiSSID())
+                mQsOpHeaderView?.setInternetText(wifiInfo.ssid)
                 mQsOpHeaderView?.setInternetIcon(wifiIconDrawable)
             } else {
-                val signalLevel = getMobileDataSignalStrengthLevel()
+                val carrierInfo = getConnectedCarrierInfo()
                 val maxBars = 4
 
                 val mobileDataIconDrawable = ContextCompat.getDrawable(
                     mContext,
                     mContext.resources.getIdentifier(
-                        "ic_signal_cellular_${signalLevel}_${maxBars}_bar",
+                        "ic_signal_cellular_${carrierInfo.signalStrengthLevel}_${maxBars}_bar",
                         "drawable",
                         FRAMEWORK_PACKAGE
                     )
                 )!!
                 colorLabelActive?.let { DrawableCompat.setTint(mobileDataIconDrawable, it) }
 
-                val networkType = getNetworkType()
-                if (networkType == null) {
-                    mQsOpHeaderView?.setInternetText(getCarrierName())
+                if (carrierInfo.networkType == null) {
+                    mQsOpHeaderView?.setInternetText(carrierInfo.name)
                 } else {
                     mQsOpHeaderView?.setInternetText(
                         String.format(
                             "%s, %s",
-                            getCarrierName(),
-                            networkType
+                            carrierInfo.name,
+                            carrierInfo.networkType
                         )
                     )
                 }
@@ -1045,90 +1046,112 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         }
 
-    @Suppress("deprecation")
-    private fun getWiFiSignalStrengthLevel(): Int {
-        val wifiInfo = mWifiManager.connectionInfo ?: return 0
-        val level = WifiManager.calculateSignalLevel(wifiInfo.rssi, 5)
-        return level.coerceIn(0, 4)
-    }
+    data class WiFiInfo(
+        val ssid: String,
+        val signalStrengthLevel: Int
+    )
 
     @Suppress("deprecation")
-    private fun getWiFiSSID(): String {
-        val result: CharSequence = mContext.getString(
+    private fun getWiFiInfo(): WiFiInfo {
+        val internetLabel = mContext.getString(
             mContext.resources.getIdentifier(
                 "quick_settings_internet_label",
                 "string",
                 SYSTEMUI_PACKAGE
             )
         )
-        val wifiInfo = mWifiManager.connectionInfo
-        return if (wifiInfo?.hiddenSSID == true || wifiInfo?.ssid === WifiManager.UNKNOWN_SSID) {
-            result.toString()
+        val defaultInfo = WiFiInfo(internetLabel, 0)
+
+        val wifiInfo = mWifiManager.connectionInfo ?: return defaultInfo
+
+        val ssid = if (wifiInfo.hiddenSSID || wifiInfo.ssid == WifiManager.UNKNOWN_SSID) {
+            internetLabel
         } else {
-            wifiInfo?.ssid?.replace("\"", "") ?: result.toString()
+            wifiInfo.ssid?.replace("\"", "") ?: internetLabel
         }
+        val signalStrengthLevel = WifiManager.calculateSignalLevel(wifiInfo.rssi, 5).coerceIn(0, 4)
+
+        return WiFiInfo(ssid, signalStrengthLevel)
     }
 
     private val isMobileDataConnected: Boolean
         get() {
             val network: Network? = mConnectivityManager.activeNetwork
-            return if (network != null) {
+            if (network != null) {
                 val capabilities = mConnectivityManager.getNetworkCapabilities(network)
-                capabilities != null && capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-            } else {
-                false
+                return capabilities != null &&
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) &&
+                        capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             }
+            return false
         }
 
-    private fun getMobileDataSignalStrengthLevel(): Int {
-        val signalStrength = mTelephonyManager.signalStrength
-        return signalStrength?.level?.coerceIn(0, 4) ?: 0
-    }
+    data class CarrierInfo(
+        val name: String,
+        val signalStrengthLevel: Int?,
+        val networkType: String?
+    )
 
-    private fun getCarrierName(): String {
-        val internetLabel: CharSequence = mContext.getString(
+    @Suppress("deprecation")
+    @SuppressLint("MissingPermission")
+    fun getConnectedCarrierInfo(): CarrierInfo {
+        val internetLabel = mContext.getString(
             mContext.resources.getIdentifier(
                 "quick_settings_internet_label",
                 "string",
                 SYSTEMUI_PACKAGE
             )
         )
+        val defaultInfo = CarrierInfo(internetLabel, null, null)
 
-        val activeNetwork = mConnectivityManager.activeNetwork
-        val networkCapabilities = mConnectivityManager.getNetworkCapabilities(activeNetwork)
-
-        if (networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true) {
-            return mTelephonyManager.networkOperatorName.ifEmpty { internetLabel.toString() }
+        val activeSubscriptionInfoList = mSubscriptionManager.activeSubscriptionInfoList
+        if (activeSubscriptionInfoList.isNullOrEmpty()) {
+            return defaultInfo
         }
 
-        return internetLabel.toString()
-    }
+        val network: Network = mConnectivityManager.activeNetwork ?: return defaultInfo
+        val networkCapabilities =
+            mConnectivityManager.getNetworkCapabilities(network) ?: return defaultInfo
 
-    @SuppressLint("MissingPermission")
-    @Suppress("deprecation")
-    private fun getNetworkType(): String? {
-        return when (mTelephonyManager.networkType) {
-            TelephonyManager.NETWORK_TYPE_NR -> "5G"
+        if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+            for (subscriptionInfo in activeSubscriptionInfoList) {
+                val subId = subscriptionInfo.subscriptionId
+                val subTelephonyManager = mTelephonyManager.createForSubscriptionId(subId)
 
-            TelephonyManager.NETWORK_TYPE_LTE -> "LTE"
+                if (subTelephonyManager.simState == TelephonyManager.SIM_STATE_READY &&
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                ) {
+                    val carrierName = subscriptionInfo.carrierName.toString()
+                    val signalStrength = subTelephonyManager.signalStrength
+                    val signalStrengthLevel = signalStrength?.level?.coerceIn(0, 4) ?: 0
 
-            TelephonyManager.NETWORK_TYPE_HSDPA,
-            TelephonyManager.NETWORK_TYPE_HSPA,
-            TelephonyManager.NETWORK_TYPE_HSUPA,
-            TelephonyManager.NETWORK_TYPE_UMTS -> "3G"
+                    val networkType = when (subTelephonyManager.networkType) {
+                        TelephonyManager.NETWORK_TYPE_NR -> "5G"
+                        TelephonyManager.NETWORK_TYPE_LTE -> "LTE"
+                        TelephonyManager.NETWORK_TYPE_HSDPA,
+                        TelephonyManager.NETWORK_TYPE_HSPA,
+                        TelephonyManager.NETWORK_TYPE_HSUPA,
+                        TelephonyManager.NETWORK_TYPE_UMTS -> "3G"
 
-            TelephonyManager.NETWORK_TYPE_EDGE,
-            TelephonyManager.NETWORK_TYPE_GPRS -> "2G"
+                        TelephonyManager.NETWORK_TYPE_EDGE,
+                        TelephonyManager.NETWORK_TYPE_GPRS -> "2G"
 
-            TelephonyManager.NETWORK_TYPE_CDMA,
-            TelephonyManager.NETWORK_TYPE_EVDO_0,
-            TelephonyManager.NETWORK_TYPE_EVDO_A,
-            TelephonyManager.NETWORK_TYPE_EVDO_B,
-            TelephonyManager.NETWORK_TYPE_1xRTT -> "CDMA"
+                        TelephonyManager.NETWORK_TYPE_CDMA,
+                        TelephonyManager.NETWORK_TYPE_EVDO_0,
+                        TelephonyManager.NETWORK_TYPE_EVDO_A,
+                        TelephonyManager.NETWORK_TYPE_EVDO_B,
+                        TelephonyManager.NETWORK_TYPE_1xRTT -> "CDMA"
 
-            TelephonyManager.NETWORK_TYPE_GSM -> "GSM"
-            else -> null
+                        TelephonyManager.NETWORK_TYPE_GSM -> "GSM"
+                        else -> null
+                    }
+
+                    return CarrierInfo(carrierName, signalStrengthLevel, networkType)
+                }
+            }
         }
+
+        return defaultInfo
     }
 
     private val isBluetoothEnabled: Boolean
@@ -1967,6 +1990,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             mMediaSessionManager = mContext.getSystemService(MediaSessionManager::class.java)
             mConnectivityManager =
                 getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            mSubscriptionManager =
+                getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
         }
 
         mInternetEnabled = isWiFiConnected || isMobileDataConnected
