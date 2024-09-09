@@ -10,7 +10,6 @@ import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.Icon
-import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -348,9 +347,6 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             id = generateViewId()
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             textSize = 14F
-            ellipsize = TextUtils.TruncateAt.MARQUEE
-            marqueeRepeatLimit = -1
-            setHorizontallyScrolling(true)
             freezesText = true
             isSingleLine = true
             letterSpacing = 0.01f
@@ -381,15 +377,8 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             id = generateViewId()
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             textSize = 12F
-            ellipsize = TextUtils.TruncateAt.MARQUEE
-            marqueeRepeatLimit = -1
-            setHorizontallyScrolling(true)
-            focusable = View.FOCUSABLE
-            isFocusable = true
-            isFocusableInTouchMode = true
             freezesText = true
             isSingleLine = true
-            isSelected = true
             letterSpacing = 0.01f
             lineHeight = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP,

@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -397,9 +396,6 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
                 marginStart = qsLabelContainerMargin
                 marginEnd = mContext.toPx(10)
             }
-            ellipsize = TextUtils.TruncateAt.MARQUEE
-            marqueeRepeatLimit = -1
-            setHorizontallyScrolling(true)
             freezesText = true
             isSingleLine = true
             textDirection = View.TEXT_DIRECTION_LOCALE
