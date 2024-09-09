@@ -18,7 +18,6 @@ import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.Icon
 import android.graphics.drawable.TransitionDrawable
 import android.media.MediaMetadata
 import android.media.session.MediaController
@@ -30,11 +29,10 @@ import android.net.NetworkCapabilities
 import android.net.wifi.WifiManager
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import android.provider.Settings
+import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.view.Gravity
-import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnLongClickListener
 import android.view.ViewGroup
@@ -71,8 +69,10 @@ import com.drdisagree.iconify.xposed.modules.utils.TouchAnimator
 import com.drdisagree.iconify.xposed.modules.utils.VibrationUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.views.MediaPlayerPagerAdapter
 import com.drdisagree.iconify.xposed.modules.views.QsOpHeaderView
-import com.drdisagree.iconify.xposed.modules.views.QsOpHeaderView.Companion.opMediaDefaultBackground
+import com.drdisagree.iconify.xposed.modules.views.QsOpMediaPlayerView
+import com.drdisagree.iconify.xposed.modules.views.QsOpMediaPlayerView.Companion.opMediaDefaultBackground
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
@@ -97,11 +97,15 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.nio.ByteBuffer
 import kotlin.coroutines.resume
+import kotlin.math.pow
+import kotlin.math.sqrt
 import kotlin.properties.Delegates
+import kotlin.random.Random
 
 @Suppress("DiscouragedApi")
 class OpQsHeader(context: Context?) : ModPack(context!!) {
 
+    // Preferences
     private var showOpQsHeaderView = false
     private var vibrateOnClick = false
     private var mediaBlurLevel = 10f
@@ -110,8 +114,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var qsTextAlwaysWhite = false
     private var qsTextFollowAccent = false
 
-    private lateinit var mActivityLauncherUtils: ActivityLauncherUtils
-
+    // Views
     private var mQsHeaderContainer: LinearLayout = LinearLayout(mContext)
     private var mQsHeaderContainerShade: LinearLayout = LinearLayout(mContext).apply {
         tag = ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG
@@ -119,9 +122,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var mQsPanelView: ViewGroup? = null
     private var mQuickStatusBarHeader: FrameLayout? = null
     private var mQQSContainerAnimator: TouchAnimator? = null
-    private var mQsOpHeaderView: QsOpHeaderView? = null
     private lateinit var mHeaderQsPanel: LinearLayout
+    private var mQsOpHeaderView: QsOpHeaderView? = null
 
+    // Colors
     private var colorActive: Int? = null
     private var colorInactive: Int? = null
     private var colorLabelActive: Int? = null
@@ -129,21 +133,23 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var colorAccent by Delegates.notNull<Int>()
     private var colorPrimary by Delegates.notNull<Int>()
 
-    private var mMediaTitle: String? = null
-    private var mMediaArtist: String? = null
-    private var mMediaArtwork: Bitmap? = null
-    private var mMediaMetadata: MediaMetadata? = null
-    private var mPreviousMediaMetadata: MediaMetadata? = null
-    private var mMediaController: MediaController? = null
-    private var mPreviousMediaArtwork: Bitmap? = null
-    private var mPreviousMediaProcessedArtwork: Bitmap? = null
-    private val activeMediaControllers = mutableListOf<MediaController>()
-    private val controllerUpdateTimes = mutableMapOf<MediaController, Long>()
+    // Media data
+    private val mActiveMediaControllers = mutableListOf<Pair<String, MediaController>>()
+    private val mPrevMediaPlayingState = mutableMapOf<String, Boolean>()
+    private val mMediaControllerMetadataMap = mutableMapOf<String, MediaMetadata?>()
+    private val mPrevMediaControllerMetadataMap = mutableMapOf<String, MediaMetadata?>()
+    private val mPrevMediaArtworkMap = mutableMapOf<String, Bitmap?>()
+    private val mPrevMediaProcessedArtworkMap = mutableMapOf<String, Bitmap?>()
+    private val mMediaPlayerViews = mutableListOf<Pair<String?, QsOpMediaPlayerView>>().also {
+        it.add(null to QsOpMediaPlayerView(mContext))
+    }
+    private var mMediaPlayerAdapter: MediaPlayerPagerAdapter? = null
 
+    // Tile and media state
     private var mInternetEnabled = false
     private var mBluetoothEnabled = false
-    private var mMediaIsPlaying = false
 
+    // Misc
     private lateinit var appContext: Context
     private var mHandler: Handler = Handler(Looper.getMainLooper())
     private val artworkExtractorScope = CoroutineScope(Dispatchers.Main + Job())
@@ -159,12 +165,14 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private lateinit var mWifiManager: WifiManager
     private lateinit var mBluetoothManager: BluetoothManager
     private lateinit var mMediaSessionManager: MediaSessionManager
+    private lateinit var mSubscriptionManager: SubscriptionManager
+    private lateinit var mActivityLauncherUtils: ActivityLauncherUtils
 
+    // Resources
     private var qqsTileHeight by Delegates.notNull<Int>()
     private var qsTileMarginVertical by Delegates.notNull<Int>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
     private lateinit var opMediaBackgroundDrawable: Drawable
-    private lateinit var mediaSessionLegacyHelperClass: Class<*>
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
@@ -183,7 +191,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             (key[0] == OP_QS_HEADER_VIBRATE ||
                     key[0] == OP_QS_HEADER_BLUR_LEVEL)
         ) {
-            updateMediaPlayer(force = true)
+            updateMediaPlayers(force = true)
         }
     }
 
@@ -247,10 +255,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             loadPackageParam.classLoader,
             "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaControlPanel",
             "$SYSTEMUI_PACKAGE.media.controls.ui.MediaControlPanel"
-        )
-        mediaSessionLegacyHelperClass = findClass(
-            "$FRAMEWORK_PACKAGE.media.session.MediaSessionLegacyHelper",
-            loadPackageParam.classLoader
         )
         launchableImageView = findClassIfExists(
             "$SYSTEMUI_PACKAGE.animation.view.LaunchableImageView",
@@ -318,7 +322,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 initResources()
                 updateInternetTileColors()
                 updateBluetoothTileColors()
-                updateMediaPlayer(force = true)
+                updateMediaPlayers(force = true)
             }
         })
 
@@ -339,7 +343,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         initResources()
                         updateInternetTileColors()
                         updateBluetoothTileColors()
-                        updateMediaPlayer(force = true)
+                        updateMediaPlayers(force = true)
                     }
                 }
 
@@ -436,7 +440,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                             onClickListener = mOnClickListener,
                             onLongClickListener = mOnLongClickListener
                         )
+                        mMediaPlayerAdapter = MediaPlayerPagerAdapter(mMediaPlayerViews)
+                        mediaPlayerContainer.adapter = mMediaPlayerAdapter
                     }
+
                     mQsHeaderContainer.addView(mQsOpHeaderView)
                     updateOpHeaderView()
 
@@ -829,11 +836,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         if (mQsOpHeaderView == null) return
 
         initResources()
-        updateMediaController()
         startMediaUpdater()
         updateInternetState()
         updateBluetoothState()
-        updateMediaPlayer(force = true)
+        updateMediaPlayers(force = true)
     }
 
     private fun buildHeaderViewExpansion() {
@@ -934,12 +940,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private val mMediaCallback: MediaController.Callback = object : MediaController.Callback() {
         override fun onPlaybackStateChanged(state: PlaybackState?) {
             super.onPlaybackStateChanged(state)
-            updateMediaController()
+            updateMediaControllers()
         }
 
         override fun onMetadataChanged(metadata: MediaMetadata?) {
             super.onMetadataChanged(metadata)
-            updateMediaController()
+            updateMediaControllers()
         }
     }
 
@@ -948,7 +954,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         mMediaUpdaterJob = mMediaUpdater.launch {
             while (isActive) {
-                updateMediaController()
+                updateMediaControllers()
                 delay(1000)
             }
         }
@@ -994,8 +1000,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
         if (mInternetEnabled) {
             if (isWiFiConnected) {
-                val signalLevel = getWiFiSignalStrengthLevel()
-                val wifiIconResId = when (signalLevel) {
+                val wifiInfo = getWiFiInfo()
+                val wifiIconResId = when (wifiInfo.signalStrengthLevel) {
                     4 -> "ic_wifi_signal_4"
                     3 -> "ic_wifi_signal_3"
                     2 -> "ic_wifi_signal_2"
@@ -1012,31 +1018,30 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 )!!
                 colorLabelActive?.let { DrawableCompat.setTint(wifiIconDrawable, it) }
 
-                mQsOpHeaderView?.setInternetText(getWiFiSSID())
+                mQsOpHeaderView?.setInternetText(wifiInfo.ssid)
                 mQsOpHeaderView?.setInternetIcon(wifiIconDrawable)
             } else {
-                val signalLevel = getMobileDataSignalStrengthLevel()
+                val carrierInfo = getConnectedCarrierInfo()
                 val maxBars = 4
 
                 val mobileDataIconDrawable = ContextCompat.getDrawable(
                     mContext,
                     mContext.resources.getIdentifier(
-                        "ic_signal_cellular_${signalLevel}_${maxBars}_bar",
+                        "ic_signal_cellular_${carrierInfo.signalStrengthLevel}_${maxBars}_bar",
                         "drawable",
                         FRAMEWORK_PACKAGE
                     )
                 )!!
                 colorLabelActive?.let { DrawableCompat.setTint(mobileDataIconDrawable, it) }
 
-                val networkType = getNetworkType()
-                if (networkType == null) {
-                    mQsOpHeaderView?.setInternetText(getCarrierName())
+                if (carrierInfo.networkType == null) {
+                    mQsOpHeaderView?.setInternetText(carrierInfo.name)
                 } else {
                     mQsOpHeaderView?.setInternetText(
                         String.format(
                             "%s, %s",
-                            getCarrierName(),
-                            networkType
+                            carrierInfo.name,
+                            carrierInfo.networkType
                         )
                     )
                 }
@@ -1061,90 +1066,112 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
         }
 
-    @Suppress("deprecation")
-    private fun getWiFiSignalStrengthLevel(): Int {
-        val wifiInfo = mWifiManager.connectionInfo ?: return 0
-        val level = WifiManager.calculateSignalLevel(wifiInfo.rssi, 5)
-        return level.coerceIn(0, 4)
-    }
+    data class WiFiInfo(
+        val ssid: String,
+        val signalStrengthLevel: Int
+    )
 
     @Suppress("deprecation")
-    private fun getWiFiSSID(): String {
-        val result: CharSequence = mContext.getString(
+    private fun getWiFiInfo(): WiFiInfo {
+        val internetLabel = mContext.getString(
             mContext.resources.getIdentifier(
                 "quick_settings_internet_label",
                 "string",
                 SYSTEMUI_PACKAGE
             )
         )
-        val wifiInfo = mWifiManager.connectionInfo
-        return if (wifiInfo?.hiddenSSID == true || wifiInfo?.ssid === WifiManager.UNKNOWN_SSID) {
-            result.toString()
+        val defaultInfo = WiFiInfo(internetLabel, 0)
+
+        val wifiInfo = mWifiManager.connectionInfo ?: return defaultInfo
+
+        val ssid = if (wifiInfo.hiddenSSID || wifiInfo.ssid == WifiManager.UNKNOWN_SSID) {
+            internetLabel
         } else {
-            wifiInfo?.ssid?.replace("\"", "") ?: result.toString()
+            wifiInfo.ssid?.replace("\"", "") ?: internetLabel
         }
+        val signalStrengthLevel = WifiManager.calculateSignalLevel(wifiInfo.rssi, 5).coerceIn(0, 4)
+
+        return WiFiInfo(ssid, signalStrengthLevel)
     }
 
     private val isMobileDataConnected: Boolean
         get() {
             val network: Network? = mConnectivityManager.activeNetwork
-            return if (network != null) {
+            if (network != null) {
                 val capabilities = mConnectivityManager.getNetworkCapabilities(network)
-                capabilities != null && capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-            } else {
-                false
+                return capabilities != null &&
+                        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) &&
+                        capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             }
+            return false
         }
 
-    private fun getMobileDataSignalStrengthLevel(): Int {
-        val signalStrength = mTelephonyManager.signalStrength
-        return signalStrength?.level?.coerceIn(0, 4) ?: 0
-    }
+    data class CarrierInfo(
+        val name: String,
+        val signalStrengthLevel: Int?,
+        val networkType: String?
+    )
 
-    private fun getCarrierName(): String {
-        val internetLabel: CharSequence = mContext.getString(
+    @Suppress("deprecation")
+    @SuppressLint("MissingPermission")
+    fun getConnectedCarrierInfo(): CarrierInfo {
+        val internetLabel = mContext.getString(
             mContext.resources.getIdentifier(
                 "quick_settings_internet_label",
                 "string",
                 SYSTEMUI_PACKAGE
             )
         )
+        val defaultInfo = CarrierInfo(internetLabel, null, null)
 
-        val activeNetwork = mConnectivityManager.activeNetwork
-        val networkCapabilities = mConnectivityManager.getNetworkCapabilities(activeNetwork)
-
-        if (networkCapabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) == true) {
-            return mTelephonyManager.networkOperatorName.ifEmpty { internetLabel.toString() }
+        val activeSubscriptionInfoList = mSubscriptionManager.activeSubscriptionInfoList
+        if (activeSubscriptionInfoList.isNullOrEmpty()) {
+            return defaultInfo
         }
 
-        return internetLabel.toString()
-    }
+        val network: Network = mConnectivityManager.activeNetwork ?: return defaultInfo
+        val networkCapabilities =
+            mConnectivityManager.getNetworkCapabilities(network) ?: return defaultInfo
 
-    @SuppressLint("MissingPermission")
-    @Suppress("deprecation")
-    private fun getNetworkType(): String? {
-        return when (mTelephonyManager.networkType) {
-            TelephonyManager.NETWORK_TYPE_NR -> "5G"
+        if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+            for (subscriptionInfo in activeSubscriptionInfoList) {
+                val subId = subscriptionInfo.subscriptionId
+                val subTelephonyManager = mTelephonyManager.createForSubscriptionId(subId)
 
-            TelephonyManager.NETWORK_TYPE_LTE -> "LTE"
+                if (subTelephonyManager.simState == TelephonyManager.SIM_STATE_READY &&
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                ) {
+                    val carrierName = subscriptionInfo.carrierName.toString()
+                    val signalStrength = subTelephonyManager.signalStrength
+                    val signalStrengthLevel = signalStrength?.level?.coerceIn(0, 4) ?: 0
 
-            TelephonyManager.NETWORK_TYPE_HSDPA,
-            TelephonyManager.NETWORK_TYPE_HSPA,
-            TelephonyManager.NETWORK_TYPE_HSUPA,
-            TelephonyManager.NETWORK_TYPE_UMTS -> "3G"
+                    val networkType = when (subTelephonyManager.networkType) {
+                        TelephonyManager.NETWORK_TYPE_NR -> "5G"
+                        TelephonyManager.NETWORK_TYPE_LTE -> "LTE"
+                        TelephonyManager.NETWORK_TYPE_HSDPA,
+                        TelephonyManager.NETWORK_TYPE_HSPA,
+                        TelephonyManager.NETWORK_TYPE_HSUPA,
+                        TelephonyManager.NETWORK_TYPE_UMTS -> "3G"
 
-            TelephonyManager.NETWORK_TYPE_EDGE,
-            TelephonyManager.NETWORK_TYPE_GPRS -> "2G"
+                        TelephonyManager.NETWORK_TYPE_EDGE,
+                        TelephonyManager.NETWORK_TYPE_GPRS -> "2G"
 
-            TelephonyManager.NETWORK_TYPE_CDMA,
-            TelephonyManager.NETWORK_TYPE_EVDO_0,
-            TelephonyManager.NETWORK_TYPE_EVDO_A,
-            TelephonyManager.NETWORK_TYPE_EVDO_B,
-            TelephonyManager.NETWORK_TYPE_1xRTT -> "CDMA"
+                        TelephonyManager.NETWORK_TYPE_CDMA,
+                        TelephonyManager.NETWORK_TYPE_EVDO_0,
+                        TelephonyManager.NETWORK_TYPE_EVDO_A,
+                        TelephonyManager.NETWORK_TYPE_EVDO_B,
+                        TelephonyManager.NETWORK_TYPE_1xRTT -> "CDMA"
 
-            TelephonyManager.NETWORK_TYPE_GSM -> "GSM"
-            else -> null
+                        TelephonyManager.NETWORK_TYPE_GSM -> "GSM"
+                        else -> null
+                    }
+
+                    return CarrierInfo(carrierName, signalStrengthLevel, networkType)
+                }
+            }
         }
+
+        return defaultInfo
     }
 
     private val isBluetoothEnabled: Boolean
@@ -1199,101 +1226,99 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         updateBluetoothTileColors()
     }
 
-    private fun updateMediaController() {
-        val currentControllers = mMediaSessionManager.getActiveSessions(null).toMutableList()
-        val currentTime = System.currentTimeMillis()
-
-        activeMediaControllers.forEach { controller ->
-            if (!currentControllers.contains(controller)) {
-                controller.unregisterCallback(mMediaCallback)
-                controllerUpdateTimes.remove(controller)
-            }
-        }
-
-        currentControllers.forEach { controller ->
-            if (!activeMediaControllers.contains(controller)) {
-                controller.registerCallback(mMediaCallback)
-                controllerUpdateTimes[controller] = currentTime
-            }
-        }
-
-        activeMediaControllers.clear()
-        activeMediaControllers.addAll(currentControllers)
-
-        val playingController = activeMediaControllers
-            .filter { it.playbackState?.state == PlaybackState.STATE_PLAYING }
-            .maxByOrNull { controllerUpdateTimes[it] ?: 0 }
-
-        mMediaController = playingController
-        mMediaMetadata = mMediaController?.metadata
-        mMediaIsPlaying = mMediaController?.playbackState?.state == PlaybackState.STATE_PLAYING
-
-        updateMediaMetaData()
-    }
-
     private enum class MediaAction {
         TOGGLE_PLAYBACK,
         PLAY_PREVIOUS,
         PLAY_NEXT
     }
 
-    private fun performMediaAction(action: MediaAction) {
+    private fun performMediaAction(packageName: String, action: MediaAction) {
+        val controller = mActiveMediaControllers.find { it.first == packageName }?.second ?: return
+
         when (action) {
-            MediaAction.TOGGLE_PLAYBACK -> toggleMediaPlaybackState()
-            MediaAction.PLAY_PREVIOUS -> dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_PREVIOUS)
-            MediaAction.PLAY_NEXT -> dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_NEXT)
-        }
-        updateMediaController()
-    }
+            MediaAction.TOGGLE_PLAYBACK -> {
+                if (controller.playbackState?.state == PlaybackState.STATE_PLAYING) {
+                    controller.transportControls.pause()
+                } else {
+                    controller.transportControls.play()
+                }
+            }
 
-    private fun toggleMediaPlaybackState() {
-        if (mMediaIsPlaying) {
-            stopMediaUpdater()
-            dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_PAUSE)
-        } else {
-            startMediaUpdater()
-            dispatchMediaKeyWithWakeLockToMediaSession(KeyEvent.KEYCODE_MEDIA_PLAY)
-        }
+            MediaAction.PLAY_PREVIOUS -> {
+                controller.transportControls.skipToPrevious()
+            }
 
-        mQsOpHeaderView?.setMediaPlayingIcon(mMediaIsPlaying)
-    }
-
-    private fun dispatchMediaKeyWithWakeLockToMediaSession(keycode: Int) {
-        val helper = callStaticMethod(
-            mediaSessionLegacyHelperClass,
-            "getHelper",
-            mContext
-        ) ?: return
-
-        var event: KeyEvent? = KeyEvent(
-            SystemClock.uptimeMillis(),
-            SystemClock.uptimeMillis(), KeyEvent.ACTION_DOWN, keycode, 0
-        )
-        callMethod(helper, "sendMediaButtonEvent", event, true)
-        event = KeyEvent.changeAction(event, KeyEvent.ACTION_UP)
-        callMethod(helper, "sendMediaButtonEvent", event, true)
-    }
-
-    private fun updateMediaMetaData() {
-        mMediaMetadata?.apply {
-            mMediaTitle = getText(MediaMetadata.METADATA_KEY_TITLE)?.toString()
-            mMediaArtist = getText(MediaMetadata.METADATA_KEY_ARTIST)?.toString()
-            mMediaArtwork = getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
-                ?: getBitmap(MediaMetadata.METADATA_KEY_ART)
-        } ?: run {
-            mMediaTitle = null
-            mMediaArtist = null
-            mMediaArtwork = null
+            MediaAction.PLAY_NEXT -> {
+                controller.transportControls.skipToNext()
+            }
         }
 
-        updateMediaPlayer()
+        updateMediaPlayers()
     }
 
-    private fun updateMediaPlayer(force: Boolean = false) {
+    private fun updateMediaControllers() {
+        val currentControllers = mMediaSessionManager.getActiveSessions(null)
+            .map { controller -> controller.packageName to controller }
+            .toMutableList()
+
+        val currentPackageNames = currentControllers.map { it.first }.toSet()
+
+        mActiveMediaControllers.removeAll { (packageName, controller) ->
+            if (!currentPackageNames.contains(packageName)) {
+                controller.unregisterCallback(mMediaCallback)
+
+                mMediaControllerMetadataMap.remove(packageName)
+                mPrevMediaControllerMetadataMap.remove(packageName)
+                mPrevMediaPlayingState.remove(packageName)
+                mPrevMediaArtworkMap.remove(packageName)
+                mPrevMediaProcessedArtworkMap.remove(packageName)
+                removeMediaPlayerView(packageName)
+
+                true
+            } else {
+                false
+            }
+        }
+
+        currentControllers.forEach { (packageName, controller) ->
+            val existingController = mActiveMediaControllers.find { it.first == packageName }
+
+            if (existingController == null) {
+                controller.registerCallback(mMediaCallback)
+                mMediaControllerMetadataMap[packageName] = controller.metadata
+                mActiveMediaControllers.add(packageName to controller)
+            } else if (existingController.second != controller) {
+                val oldController = existingController.second
+
+                oldController.unregisterCallback(mMediaCallback)
+                controller.registerCallback(mMediaCallback)
+                mMediaControllerMetadataMap[packageName] = controller.metadata
+
+                mActiveMediaControllers.remove(existingController)
+                mActiveMediaControllers.add(packageName to controller)
+            }
+        }
+
+        updateMediaPlayers()
+    }
+
+    private fun updateMediaPlayers(force: Boolean = false) {
+        updateMediaPlayer(null, null, force)
+
+        mActiveMediaControllers.forEach { (packageName, controller) ->
+            updateMediaPlayer(packageName, controller, force)
+        }
+    }
+
+    private fun updateMediaPlayer(
+        packageName: String?,
+        controller: MediaController?,
+        force: Boolean = false
+    ) {
         if (mQsOpHeaderView == null || !::opMediaBackgroundDrawable.isInitialized) return
 
-        val mMediaPlayerBackground = mQsOpHeaderView!!.mediaPlayerBackground
-        val defaultBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
+        val mMediaPlayer = getOrCreateMediaPlayer(packageName) ?: return
+        val mInactiveBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
             ?.apply {
                 if (isQsTileOverlayEnabled) {
                     setTint(Color.TRANSPARENT)
@@ -1302,104 +1327,115 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 }
             }
 
-        mMediaPlayerBackground.apply {
-            if (drawable == opMediaDefaultBackground) {
-                setImageDrawable(defaultBackground)
-                scaleType = ImageView.ScaleType.CENTER_CROP
-                clipToOutline = true
-
-                mQsOpHeaderView!!.resetMediaAppIconColor(backgroundColor = colorAccent)
-                colorLabelInactive?.let { mQsOpHeaderView!!.setMediaPlayerItemsColor(it) }
+        mMediaPlayer.apply {
+            if (packageName == null ||
+                mediaPlayerBackground.drawable == null ||
+                mediaPlayerBackground.drawable == opMediaDefaultBackground
+            ) {
+                setMediaPlayerBackground(mInactiveBackground)
+                resetMediaAppIconColor(backgroundColor = colorAccent)
+                colorLabelInactive?.let { setMediaPlayerItemsColor(it) }
             }
         }
 
+        if (packageName == null || controller == null) return
+
         artworkExtractorScope.launch {
-            val requireUpdate = !areMetadataEqual(mPreviousMediaMetadata, mMediaMetadata)
+            val mMediaMetadata = controller.metadata
+            val mPreviousMediaMetadata = mPrevMediaControllerMetadataMap[packageName]
 
-            var artworkDrawable: Drawable? = null
-            var processedArtwork: Bitmap? = null
-            var filteredArtwork: Bitmap? = null
-            var dominantColor: Int? = null
-            val transitionDuration = 500
+            val (areBitmapsEqual, areMetadataEqual) = areDataEqual(
+                mPreviousMediaMetadata,
+                mMediaMetadata
+            )
+            val isSamePlayingState =
+                controller.playbackState?.state == PlaybackState.STATE_PLAYING ==
+                        mPrevMediaPlayingState[packageName]
 
-            if (requireUpdate || force) {
-                processedArtwork = processArtwork(mMediaArtwork, mMediaPlayerBackground)
-                dominantColor = extractDominantColor(processedArtwork)
-                filteredArtwork = processedArtwork?.let {
-                    applyColorFilterToBitmap(it, dominantColor)
-                    it.applyBlur(mContext, mediaBlurLevel)
-                }
-                val newArtworkDrawable = when {
-                    filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
+            val requireUpdate = !areBitmapsEqual || !areMetadataEqual || !isSamePlayingState
 
-                    else -> defaultBackground
-                }
+            if (!requireUpdate && !force) return@launch
 
-                when {
-                    mPreviousMediaArtwork == null && filteredArtwork != null -> {
-                        artworkDrawable = TransitionDrawable(
-                            arrayOf(
-                                defaultBackground,
-                                newArtworkDrawable
-                            )
-                        ).apply {
-                            isCrossFadeEnabled = true
-                            startTransition(transitionDuration)
-                        }
-                    }
-
-                    mPreviousMediaArtwork != null && filteredArtwork != null -> {
-                        artworkDrawable = TransitionDrawable(
-                            arrayOf(
-                                BitmapDrawable(mContext.resources, mPreviousMediaProcessedArtwork),
-                                newArtworkDrawable
-                            )
-                        ).apply {
-                            isCrossFadeEnabled = true
-                            startTransition(transitionDuration)
-                        }
-                    }
-
-                    mPreviousMediaArtwork != null && filteredArtwork == null -> {
-                        artworkDrawable = TransitionDrawable(
-                            arrayOf(
-                                BitmapDrawable(mContext.resources, mPreviousMediaProcessedArtwork),
-                                newArtworkDrawable
-                            )
-                        ).apply {
-                            isCrossFadeEnabled = true
-                            startTransition(transitionDuration)
-                        }
-                    }
-
-                    else -> {
-                        artworkDrawable = defaultBackground
-                    }
-                }
+            val mMediaArtwork = mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
+                ?: mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_ART)
+            val processedArtwork = processArtwork(mMediaArtwork, mMediaPlayer.mediaPlayerBackground)
+            val dominantColor: Int? = extractDominantColor(processedArtwork)
+            val filteredArtwork: Bitmap? = processedArtwork?.let {
+                applyColorFilterToBitmap(it, dominantColor)
+                it.applyBlur(mContext, mediaBlurLevel)
+            }
+            val newArtworkDrawable = when {
+                filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
+                else -> mInactiveBackground
             }
 
-            mQsOpHeaderView?.apply {
-                setMediaTitle(
-                    mMediaTitle ?: appContext.getString(
-                        appContext.resources.getIdentifier(
-                            "media_player_not_playing",
-                            "string",
-                            appContext.packageName
+            val finalArtworkDrawable: Drawable? = when {
+                areBitmapsEqual && mMediaArtwork != null -> {
+                    null
+                }
+
+                mPrevMediaArtworkMap[packageName] == null && filteredArtwork != null -> {
+                    TransitionDrawable(
+                        arrayOf(
+                            mInactiveBackground,
+                            newArtworkDrawable
                         )
                     )
-                )
-                setMediaArtist(mMediaArtist)
-                setMediaPlayingIcon(mMediaIsPlaying)
+                }
+
+                mPrevMediaArtworkMap[packageName] != null && filteredArtwork != null -> {
+                    TransitionDrawable(
+                        arrayOf(
+                            BitmapDrawable(
+                                mContext.resources,
+                                mPrevMediaProcessedArtworkMap[packageName]
+                            ),
+                            newArtworkDrawable
+                        )
+                    )
+                }
+
+                mPrevMediaArtworkMap[packageName] != null && filteredArtwork == null -> {
+                    TransitionDrawable(
+                        arrayOf(
+                            BitmapDrawable(
+                                mContext.resources,
+                                mPrevMediaProcessedArtworkMap[packageName]
+                            ),
+                            newArtworkDrawable
+                        )
+                    )
+                }
+
+                else -> {
+                    mInactiveBackground
+                }
             }
 
             withContext(Dispatchers.Main) {
-                val appIcon = runCatching {
-                    callMethod(mNotificationMediaManager, "getMediaIcon") as Icon?
-                }.getOrNull()
+                val mMediaTitle = mMediaMetadata?.getString(MediaMetadata.METADATA_KEY_TITLE)
+                val mMediaArtist = mMediaMetadata?.getString(MediaMetadata.METADATA_KEY_ARTIST)
+                val mIsMediaPlaying = controller.playbackState?.state == PlaybackState.STATE_PLAYING
+
+                mMediaPlayer.apply {
+                    setMediaTitle(
+                        mMediaTitle
+                            ?: appContext.getString(
+                                appContext.resources.getIdentifier(
+                                    "media_player_not_playing",
+                                    "string",
+                                    appContext.packageName
+                                )
+                            )
+                    )
+                    setMediaArtist(mMediaArtist)
+                    setMediaPlayingIcon(mIsMediaPlaying)
+                }
+
                 val appIconBitmap =
                     mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON)
                 val appIconDrawable = runCatching {
-                    mMediaController?.packageName?.let { packageName ->
+                    controller.packageName?.let { packageName ->
                         mContext.packageManager.getApplicationIcon(packageName)
                     }
                 }.getOrNull()
@@ -1407,59 +1443,134 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 val requireIconTint: Boolean
 
                 when {
-                    appIcon != null && mMediaTitle != null -> {
+                    appIconBitmap != null && mMediaTitle != null -> {
                         requireIconTint = true
-                        mQsOpHeaderView?.setMediaAppIcon(appIcon)
-                    }
-
-                    appIconBitmap != null && mMediaMetadata != null -> {
-                        requireIconTint = true
-                        mQsOpHeaderView?.setMediaAppIconBitmap(appIconBitmap)
+                        mMediaPlayer.setMediaAppIconBitmap(appIconBitmap)
                     }
 
                     appIconDrawable != null && mMediaTitle != null -> {
                         requireIconTint = false
-                        mQsOpHeaderView?.setMediaAppIconDrawable(appIconDrawable)
+                        mMediaPlayer.setMediaAppIconDrawable(appIconDrawable)
                     }
 
                     else -> {
                         requireIconTint = true
-                        mQsOpHeaderView?.resetMediaAppIcon()
+                        mMediaPlayer.resetMediaAppIcon()
                     }
                 }
 
-                if (requireUpdate || force) {
-                    mMediaPlayerBackground.apply {
-                        setImageDrawable(artworkDrawable)
-                        scaleType = ImageView.ScaleType.CENTER_CROP
-                        clipToOutline = true
+                mHandler.post {
+                    mMediaPlayer.setMediaPlayerBackground(finalArtworkDrawable)
+
+                    if (finalArtworkDrawable is TransitionDrawable) {
+                        finalArtworkDrawable.isCrossFadeEnabled = true
+                        finalArtworkDrawable.startTransition(250)
                     }
+                }
 
-                    mPreviousMediaMetadata = mMediaMetadata
-                    mPreviousMediaArtwork = mMediaArtwork
-                    mPreviousMediaProcessedArtwork = filteredArtwork
+                mPrevMediaPlayingState[packageName] = mIsMediaPlaying
+                mPrevMediaControllerMetadataMap[packageName] = mMediaMetadata
+                mPrevMediaArtworkMap[packageName] = mMediaArtwork
+                mPrevMediaProcessedArtworkMap[packageName] = filteredArtwork
 
-                    val onDominantColor = getContrastingTextColor(dominantColor)
+                val bitmap = filteredArtwork ?: mMediaArtwork
+                val scaledBitmap = bitmap?.let { scaleBitmap(it, 0.1f) }
+                val mostUsedColor = scaledBitmap?.let { getMostUsedColor(it) } ?: dominantColor
+                val onDominantColor = getContrastingTextColor(mostUsedColor)
 
-                    if (requireIconTint) {
-                        mQsOpHeaderView?.setMediaAppIconColor(
-                            backgroundColor = dominantColor ?: colorAccent,
-                            iconColor = onDominantColor ?: colorPrimary
-                        )
-                    } else {
-                        mQsOpHeaderView?.resetMediaAppIconColor(
-                            backgroundColor = dominantColor ?: colorAccent
-                        )
-                    }
+                if (requireIconTint) {
+                    mMediaPlayer.setMediaAppIconColor(
+                        backgroundColor = dominantColor ?: colorAccent,
+                        iconColor = onDominantColor ?: colorPrimary
+                    )
+                } else {
+                    mMediaPlayer.resetMediaAppIconColor(
+                        backgroundColor = dominantColor ?: colorAccent
+                    )
+                }
 
-                    if (processedArtwork == null || onDominantColor == null) {
-                        mQsOpHeaderView?.setMediaPlayerItemsColor(colorLabelInactive)
-                    } else {
-                        mQsOpHeaderView?.setMediaPlayerItemsColor(onDominantColor)
-                    }
+                if (processedArtwork == null || onDominantColor == null) {
+                    mMediaPlayer.setMediaPlayerItemsColor(colorLabelInactive)
+                } else {
+                    mMediaPlayer.setMediaPlayerItemsColor(onDominantColor)
                 }
             }
         }
+    }
+
+    private fun getOrCreateMediaPlayer(packageName: String?): QsOpMediaPlayerView? {
+        if (!mMediaPlayerViews.any { it.first == packageName }) {
+            val mediaPlayerView = QsOpMediaPlayerView(mContext)
+
+            if (packageName != null) {
+                mediaPlayerView.setOnClickListeners { v ->
+                    when (v) {
+                        mediaPlayerView.mediaPlayerPrevBtn -> {
+                            performMediaAction(packageName, MediaAction.PLAY_PREVIOUS)
+                        }
+
+                        mediaPlayerView.mediaPlayerPlayPauseBtn -> {
+                            performMediaAction(packageName, MediaAction.TOGGLE_PLAYBACK)
+                        }
+
+                        mediaPlayerView.mediaPlayerNextBtn -> {
+                            performMediaAction(packageName, MediaAction.PLAY_NEXT)
+                        }
+
+                        mediaPlayerView.mediaAppIcon -> {
+                            launchMediaPlayer(packageName)
+                        }
+
+                        mediaPlayerView.mediaOutputSwitcher -> {
+                            launchMediaOutputSwitcher(packageName, v)
+                        }
+                    }
+                }
+            }
+
+            addMediaPlayerView(packageName, mediaPlayerView)
+        }
+
+        return mMediaPlayerViews.find { it.first == packageName }?.second
+    }
+
+    private fun addMediaPlayerView(packageName: String?, view: QsOpMediaPlayerView) {
+        if (packageName == null && mMediaPlayerViews.isNotEmpty()) return
+
+        val position = mMediaPlayerViews.indexOfFirst { it.first == packageName }
+        if (position != -1) return
+
+        mMediaPlayerViews.removeAll { it.first == null }
+        mMediaPlayerAdapter?.notifyDataSetChanged()
+
+        mMediaPlayerViews.add(0, packageName to view)
+        mMediaPlayerAdapter?.notifyDataSetChanged()
+
+        mQsOpHeaderView?.mediaPlayerContainer?.post {
+            mQsOpHeaderView?.mediaPlayerContainer?.setCurrentItem(0, false)
+        }
+
+        updateAdapter()
+    }
+
+    private fun removeMediaPlayerView(packageName: String) {
+        val position = mMediaPlayerViews.indexOfFirst { it.first == packageName }
+        if (position == -1) return
+
+        mMediaPlayerViews.removeAt(position)
+        mMediaPlayerAdapter?.notifyDataSetChanged()
+
+        if (mMediaPlayerViews.isEmpty()) {
+            mMediaPlayerViews.add(null to QsOpMediaPlayerView(mContext))
+            mMediaPlayerAdapter?.notifyDataSetChanged()
+        }
+
+        updateAdapter()
+    }
+
+    private fun updateAdapter() {
+        mMediaPlayerAdapter = MediaPlayerPagerAdapter(mMediaPlayerViews)
+        mQsOpHeaderView?.mediaPlayerContainer?.adapter = mMediaPlayerAdapter
     }
 
     private fun updateInternetTileColors() {
@@ -1523,12 +1634,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         val xOffset = (scaledWidth - width) / 2
         val yOffset = (scaledHeight - height) / 2
 
+        val validWidth =
+            if (xOffset + width > scaledBitmap.width) scaledBitmap.width - xOffset else width
+        val validHeight =
+            if (yOffset + height > scaledBitmap.height) scaledBitmap.height - yOffset else height
+
         val croppedBitmap = Bitmap.createBitmap(
             scaledBitmap,
             xOffset,
             yOffset,
-            width,
-            height
+            validWidth,
+            validHeight
         )
 
         val output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -1582,11 +1698,100 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             Palette.from(bitmap).generate { palette ->
                 val pixels = IntArray(bitmap.width * bitmap.height)
                 bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
-                val fallbackColor = Score.score(QuantizerCelebi.quantize(pixels, 25)).firstOrNull()
+                val fallbackColor = Score.score(QuantizerCelebi.quantize(pixels, 128)).firstOrNull()
                 val dominantColor = palette?.getDominantColor(fallbackColor ?: Color.BLACK)
                 cont.resume(dominantColor)
             }
         }
+
+    fun Drawable.drawableToBitmap(): Bitmap {
+        val width = intrinsicWidth
+        val height = intrinsicHeight
+        val bitmap = Bitmap.createBitmap(
+            width.takeIf { it > 0 } ?: 1,
+            height.takeIf { it > 0 } ?: 1,
+            Bitmap.Config.ARGB_8888
+        )
+
+        val canvas = Canvas(bitmap)
+        setBounds(0, 0, canvas.width, canvas.height)
+        draw(canvas)
+
+        return bitmap
+    }
+
+    @Suppress("SameParameterValue")
+    private fun scaleBitmap(bitmap: Bitmap, scaleFactor: Float): Bitmap {
+        val width = (bitmap.width * scaleFactor).toInt()
+        val height = (bitmap.height * scaleFactor).toInt()
+        return Bitmap.createScaledBitmap(bitmap, width, height, true)
+    }
+
+    private data class ColorRGB(val r: Int, val g: Int, val b: Int) {
+        fun toInt() = (r shl 16) or (g shl 8) or b
+    }
+
+    private fun colorDistance(c1: ColorRGB, c2: ColorRGB): Double {
+        return sqrt(
+            ((c1.r - c2.r).toDouble().pow(2)) +
+                    ((c1.g - c2.g).toDouble().pow(2)) +
+                    ((c1.b - c2.b).toDouble().pow(2))
+        )
+    }
+
+    private fun getMostUsedColor(bitmap: Bitmap, k: Int = 5, iterations: Int = 10): Int {
+        val width = bitmap.width
+        val height = bitmap.height
+        val colors = mutableListOf<ColorRGB>()
+
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                val pixel = bitmap.getPixel(x, y)
+                val color = ColorRGB(
+                    r = (pixel shr 16) and 0xFF,
+                    g = (pixel shr 8) and 0xFF,
+                    b = pixel and 0xFF
+                )
+                colors.add(color)
+            }
+        }
+
+        val centroids = List(k) {
+            ColorRGB(
+                r = Random.nextInt(256),
+                g = Random.nextInt(256),
+                b = Random.nextInt(256)
+            )
+        }.toMutableList()
+
+        repeat(iterations) {
+            val clusters = Array(k) { mutableListOf<ColorRGB>() }
+
+            for (color in colors) {
+                val distances = centroids.map { centroid -> colorDistance(color, centroid) }
+                val closestCentroidIndex = distances.indexOf(distances.minOrNull())
+                clusters[closestCentroidIndex].add(color)
+            }
+
+            for (i in centroids.indices) {
+                val clusterColors = clusters[i]
+                if (clusterColors.isNotEmpty()) {
+                    val r = clusterColors.map { it.r }.average().toInt()
+                    val g = clusterColors.map { it.g }.average().toInt()
+                    val b = clusterColors.map { it.b }.average().toInt()
+                    centroids[i] = ColorRGB(r, g, b)
+                }
+            }
+        }
+
+        val dominantColor = centroids.maxByOrNull { centroid ->
+            colors.count { color ->
+                colorDistance(color, centroid) < 50
+            }
+        } ?: ColorRGB(0, 0, 0)
+
+        return dominantColor.toInt()
+    }
 
     private fun getContrastingTextColor(color: Int?): Int? {
         if (color == null) return null
@@ -1605,16 +1810,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         } else if (v === mQsOpHeaderView?.bluetoothTile) {
             toggleBluetoothState(v)
             vibrate()
-        } else if (v === mQsOpHeaderView?.mediaPlayerPrevBtn) {
-            performMediaAction(MediaAction.PLAY_PREVIOUS)
-        } else if (v === mQsOpHeaderView?.mediaPlayerPlayPauseBtn) {
-            performMediaAction(MediaAction.TOGGLE_PLAYBACK)
-        } else if (v === mQsOpHeaderView?.mediaPlayerNextBtn) {
-            performMediaAction(MediaAction.PLAY_NEXT)
-        } else if (v === mQsOpHeaderView?.mediaPlayerBackground) {
-            launchMediaPlayer()
-        } else if (v === mQsOpHeaderView?.mediaOutputSwitcher) {
-            launchMediaOutputSwitcher(v)
         }
     }
 
@@ -1632,8 +1827,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun launchMediaOutputSwitcher(v: View) {
-        val packageName: String? = mMediaController?.packageName
+    private fun launchMediaOutputSwitcher(packageName: String?, v: View) {
         if (packageName != null && mMediaOutputDialogFactory != null) {
             if (isMethodAvailable(
                     mMediaOutputDialogFactory,
@@ -1660,8 +1854,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun launchMediaPlayer() {
-        val packageName: String? = mMediaController?.packageName
+    private fun launchMediaPlayer(packageName: String?) {
         val appIntent = if (packageName != null) Intent(
             mContext.packageManager.getLaunchIntentForPackage(packageName)
         )
@@ -1676,17 +1869,20 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         }
     }
 
-    private fun areMetadataEqual(metadata1: MediaMetadata?, metadata2: MediaMetadata?): Boolean {
+    private fun areDataEqual(
+        metadata1: MediaMetadata?,
+        metadata2: MediaMetadata?
+    ): Pair<Boolean, Boolean> {
         val bitmap1 = metadata1?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
             ?: metadata1?.getBitmap(MediaMetadata.METADATA_KEY_ART)
         val bitmap2 = metadata2?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
             ?: metadata2?.getBitmap(MediaMetadata.METADATA_KEY_ART)
 
-        return !(!areBitmapsEqual(bitmap1, bitmap2) ||
-                metadata1?.getString(MediaMetadata.METADATA_KEY_TITLE) !=
-                metadata2?.getString(MediaMetadata.METADATA_KEY_TITLE) ||
-                metadata1?.getString(MediaMetadata.METADATA_KEY_ARTIST) !=
-                metadata2?.getString(MediaMetadata.METADATA_KEY_ARTIST))
+        return areBitmapsEqual(bitmap1, bitmap2) to
+                (metadata1?.getString(MediaMetadata.METADATA_KEY_TITLE) ==
+                        metadata2?.getString(MediaMetadata.METADATA_KEY_TITLE) &&
+                        metadata1?.getString(MediaMetadata.METADATA_KEY_ARTIST) ==
+                        metadata2?.getString(MediaMetadata.METADATA_KEY_ARTIST))
     }
 
     private fun areBitmapsEqual(bitmap1: Bitmap?, bitmap2: Bitmap?): Boolean {
@@ -1814,6 +2010,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             mMediaSessionManager = mContext.getSystemService(MediaSessionManager::class.java)
             mConnectivityManager =
                 getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            mSubscriptionManager =
+                getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
         }
 
         mInternetEnabled = isWiFiConnected || isMobileDataConnected
