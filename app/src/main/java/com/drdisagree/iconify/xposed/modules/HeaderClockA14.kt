@@ -23,7 +23,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -95,7 +94,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
     private var appContext: Context? = null
     private var showHeaderClock = false
     private var centeredClockView = false
-    private var mQsHeaderContainer: LinearLayout = LinearLayout(mContext)
+    private var mQsHeaderClockContainer: LinearLayout = LinearLayout(mContext)
     private var mQsHeaderContainerShade: LinearLayout = LinearLayout(mContext).apply {
         tag = ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG
     }
@@ -252,11 +251,13 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
                 mQuickStatusBarHeader = param.thisObject as FrameLayout
 
-                mQsHeaderContainer.apply {
+                mQsHeaderClockContainer.apply {
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
+                    ).apply {
+                        bottomMargin = mContext.toPx(16)
+                    }
                     orientation = LinearLayout.HORIZONTAL
                 }
 
@@ -266,8 +267,6 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     )
                     orientation = LinearLayout.VERTICAL
-                    (layoutParams as MarginLayoutParams).bottomMargin =
-                        mContext.toPx(if (!showOpQsHeaderView) 16 else 8)
                 }
 
                 mQsClockContainer.apply {
@@ -288,19 +287,19 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     gravity = Gravity.END or Gravity.CENTER
                 }
 
-                mQsHeaderContainer.apply {
+                mQsHeaderClockContainer.apply {
                     (this.parent as? ViewGroup)?.removeView(this)
                     removeAllViews()
                     addView(mQsClockContainer)
                     addView(mQsIconsContainer)
                 }
 
-                (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
+                (mQsHeaderClockContainer.parent as? ViewGroup)?.removeView(mQsHeaderClockContainer)
                 val headerImageAvailable = mQuickStatusBarHeader!!.findViewWithTag<ViewGroup?>(
                     ICONIFY_QS_HEADER_CONTAINER_TAG
                 )
                 mQuickStatusBarHeader!!.addView(
-                    mQsHeaderContainer,
+                    mQsHeaderClockContainer,
                     if (headerImageAvailable == null) {
                         -1
                     } else {
@@ -326,20 +325,24 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                     mContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
                 if (isLandscape) {
-                    if (mQsHeaderContainer.parent != mQsHeaderContainerShade) {
-                        (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
-                        mQsHeaderContainerShade.addView(mQsHeaderContainer, 0)
+                    if (mQsHeaderClockContainer.parent != mQsHeaderContainerShade) {
+                        (mQsHeaderClockContainer.parent as? ViewGroup)?.removeView(
+                            mQsHeaderClockContainer
+                        )
+                        mQsHeaderContainerShade.addView(mQsHeaderClockContainer, 0)
                     }
                     mQsHeaderContainerShade.visibility = View.VISIBLE
                 } else {
-                    if (mQsHeaderContainer.parent != mQuickStatusBarHeader) {
+                    if (mQsHeaderClockContainer.parent != mQuickStatusBarHeader) {
                         val headerImageAvailable =
                             mQuickStatusBarHeader!!.findViewWithTag<ViewGroup?>(
                                 ICONIFY_QS_HEADER_CONTAINER_TAG
                             )
-                        (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
+                        (mQsHeaderClockContainer.parent as? ViewGroup)?.removeView(
+                            mQsHeaderClockContainer
+                        )
                         mQuickStatusBarHeader?.addView(
-                            mQsHeaderContainer,
+                            mQsHeaderClockContainer,
                             if (headerImageAvailable == null) {
                                 0
                             } else {
@@ -435,24 +438,47 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
                 )
             }
 
-            findAndHookMethod(
-                qsPanelClass,
-                "switchToParent",
-                View::class.java,
-                ViewGroup::class.java,
-                Int::class.java,
-                String::class.java,
-                object : XC_MethodHook() {
-                    override fun beforeHookedMethod(param: MethodHookParam) {
-                        if (!showHeaderClock) return
+            if (showHeaderClock) {
+                findAndHookMethod(
+                    qsPanelClass,
+                    "switchToParent",
+                    View::class.java,
+                    ViewGroup::class.java,
+                    Int::class.java,
+                    String::class.java,
+                    object : XC_MethodReplacement() {
+                        override fun replaceHookedMethod(param: MethodHookParam): Any? {
+                            val view = param.args[0] as View
+                            val newParent = param.args[1] as? ViewGroup
+                            val tempIndex = param.args[2] as Int
 
-                        val index = param.args[2] as Int
-                        val parent = param.args[1] as ViewGroup
+                            if (newParent == null) {
+                                return null
+                            }
 
-                        param.args[2] = index.coerceAtMost(parent.childCount)
+                            val index = if (view.tag == ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG) {
+                                tempIndex
+                            } else {
+                                tempIndex + 1
+                            }.coerceAtMost(newParent.childCount)
+
+                            val currentParent = view.parent as? ViewGroup
+
+                            if (currentParent != newParent) {
+                                currentParent?.removeView(view)
+                                newParent.addView(view, index.coerceAtMost(newParent.childCount))
+                            } else if (newParent.indexOfChild(view) == index) {
+                                return null
+                            } else {
+                                newParent.removeView(view)
+                                newParent.addView(view, index.coerceAtMost(newParent.childCount))
+                            }
+
+                            return null
+                        }
                     }
-                }
-            )
+                )
+            }
         } else { // Some ROMs don't have this method switchAllContentToParent()
             hookAllMethods(
                 qsPanelControllerBase,
@@ -674,7 +700,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
 
         val builderP: TouchAnimator.Builder = TouchAnimator.Builder()
             .addFloat(
-                mQsHeaderContainer,
+                mQsHeaderClockContainer,
                 "translationY",
                 0F,
                 mContext.toPx(mQQSExpansionY.toInt()).toFloat()
@@ -687,7 +713,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
         val keyguardExpansionFraction = if (forceExpanded) 1f else expansionFraction
         mQQSContainerAnimator?.setPosition(keyguardExpansionFraction)
 
-        mQsHeaderContainer.alpha = if (forceExpanded) expansionFraction else 1f
+        mQsHeaderClockContainer.alpha = if (forceExpanded) expansionFraction else 1f
     }
 
     private fun initResources(context: Context) {
@@ -841,7 +867,7 @@ class HeaderClockA14(context: Context?) : ModPack(context!!) {
             Typeface.createFromFile(File(customFont))
 
 
-        setMargins(mQsHeaderContainer, mContext, 0, topMargin, 0, 0)
+        setMargins(mQsHeaderClockContainer, mContext, 0, topMargin, 0, 0)
 
         if (TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL) {
             setMargins(clockView, mContext, 0, 0, sideMargin, 0)

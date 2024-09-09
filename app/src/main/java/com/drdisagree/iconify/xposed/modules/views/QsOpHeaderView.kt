@@ -228,7 +228,9 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
         layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
             (qqsTileHeight * 2) + qsTileMarginVertical
-        )
+        ).apply {
+            bottomMargin = qsTileMarginVertical
+        }
         id = generateViewId()
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL

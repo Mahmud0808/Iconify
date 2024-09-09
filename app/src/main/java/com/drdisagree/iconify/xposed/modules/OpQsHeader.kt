@@ -640,51 +640,40 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     View::class.java,
                     ViewGroup::class.java,
                     Int::class.java,
+                    String::class.java,
                     object : XC_MethodReplacement() {
                         override fun replaceHookedMethod(param: MethodHookParam): Any? {
                             val view = param.args[0] as View
-                            val parent = param.args[1] as ViewGroup
+                            val newParent = param.args[1] as? ViewGroup
                             val tempIndex = param.args[2] as Int
+
+                            if (newParent == null) {
+                                return null
+                            }
+
                             val index = if (view.tag == ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG) {
                                 tempIndex
                             } else {
                                 tempIndex + 1
                             }
-                            val tag = callMethod(param.thisObject, "getDumpableTag")
 
-                            callMethod(
-                                param.thisObject,
-                                "switchToParent",
-                                view,
-                                parent,
-                                index.coerceAtMost(parent.childCount),
-                                tag
-                            )
+                            val currentParent = view.parent as? ViewGroup
+
+                            if (currentParent != newParent) {
+                                currentParent?.removeView(view)
+                                newParent.addView(view, index.coerceAtMost(newParent.childCount))
+                            } else if (newParent.indexOfChild(view) == index) {
+                                return null
+                            } else {
+                                newParent.removeView(view)
+                                newParent.addView(view, index.coerceAtMost(newParent.childCount))
+                            }
 
                             return null
                         }
                     }
                 )
             }
-
-            findAndHookMethod(
-                qsPanelClass,
-                "switchToParent",
-                View::class.java,
-                ViewGroup::class.java,
-                Int::class.java,
-                String::class.java,
-                object : XC_MethodHook() {
-                    override fun beforeHookedMethod(param: MethodHookParam) {
-                        if (!showOpQsHeaderView) return
-
-                        val index = param.args[2] as Int
-                        val parent = param.args[1] as ViewGroup
-
-                        param.args[2] = index.coerceAtMost(parent.childCount)
-                    }
-                }
-            )
         } else { // Some ROMs don't have this method switchAllContentToParent()
             hookAllMethods(
                 qsPanelControllerBaseClass,
