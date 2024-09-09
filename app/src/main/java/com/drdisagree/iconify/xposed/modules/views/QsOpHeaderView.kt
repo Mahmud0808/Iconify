@@ -395,15 +395,13 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
                 1F
             ).apply {
                 marginStart = qsLabelContainerMargin
+                marginEnd = mContext.toPx(10)
             }
-            ellipsize = TextUtils.TruncateAt.END
+            ellipsize = TextUtils.TruncateAt.MARQUEE
             marqueeRepeatLimit = -1
             setHorizontallyScrolling(true)
-            focusable = View.FOCUSABLE
-            isFocusable = true
-            isFocusableInTouchMode = true
             freezesText = true
-            maxLines = 1
+            isSingleLine = true
             textDirection = View.TEXT_DIRECTION_LOCALE
             textSize = 14f
             typeface = Typeface.create(qsTextFontFamily, Typeface.NORMAL)
@@ -413,6 +411,9 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
                 20f,
                 mContext.resources.displayMetrics
             ).toInt()
+            isVerticalFadingEdgeEnabled = false
+            isHorizontalFadingEdgeEnabled = true
+            setFadingEdgeLength(mContext.toPx(8))
         }
 
         val chevronIcon = ImageView(mContext).apply {

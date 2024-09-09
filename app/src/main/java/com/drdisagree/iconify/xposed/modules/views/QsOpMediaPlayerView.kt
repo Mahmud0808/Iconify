@@ -348,14 +348,11 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             id = generateViewId()
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             textSize = 14F
-            ellipsize = TextUtils.TruncateAt.END
+            ellipsize = TextUtils.TruncateAt.MARQUEE
             marqueeRepeatLimit = -1
             setHorizontallyScrolling(true)
-            focusable = View.FOCUSABLE
-            isFocusable = true
-            isFocusableInTouchMode = true
             freezesText = true
-            maxLines = 1
+            isSingleLine = true
             letterSpacing = 0.01f
             lineHeight = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP,
@@ -371,6 +368,9 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
                     appContext.packageName
                 )
             )
+            isVerticalFadingEdgeEnabled = false
+            isHorizontalFadingEdgeEnabled = true
+            setFadingEdgeLength(mContext.toPx(8))
         }
 
         mMediaPlayerSubtitle = TextView(mContext).apply {
@@ -381,14 +381,15 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             id = generateViewId()
             typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
             textSize = 12F
-            ellipsize = TextUtils.TruncateAt.END
+            ellipsize = TextUtils.TruncateAt.MARQUEE
             marqueeRepeatLimit = -1
             setHorizontallyScrolling(true)
             focusable = View.FOCUSABLE
             isFocusable = true
             isFocusableInTouchMode = true
             freezesText = true
-            maxLines = 1
+            isSingleLine = true
+            isSelected = true
             letterSpacing = 0.01f
             lineHeight = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP,
@@ -399,6 +400,9 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             textAlignment = View.TEXT_ALIGNMENT_CENTER
             alpha = 0.8F
             visibility = View.GONE
+            isVerticalFadingEdgeEnabled = false
+            isHorizontalFadingEdgeEnabled = true
+            setFadingEdgeLength(mContext.toPx(8))
         }
 
         textContainer.apply {
