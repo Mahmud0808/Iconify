@@ -216,10 +216,18 @@ object Helpers {
     }
 
     val isQsTileOverlayEnabled: Boolean
-        get() = Shell.cmd("[[ $(cmd overlay list | grep -oE '\\[x\\] IconifyComponentQSS[N|P][0-9]+.overlay') ]] && echo 1 || echo 0")
-            .exec().out[0] == "1"
+        get() {
+            val output = Shell.cmd(
+                "[[ $(cmd overlay list | grep -oE '\\[x\\] IconifyComponentQSS[N|P][0-9]+.overlay') ]] && echo 1 || echo 0"
+            ).exec().out
+            return output.isNotEmpty() && output[0] == "1"
+        }
 
     val isPixelVariant: Boolean
-        get() = Shell.cmd("[[ $(cmd overlay list | grep -oE '\\[x\\] IconifyComponentQSSP[0-9]+.overlay') ]] && echo 1 || echo 0")
-            .exec().out[0] == "1"
+        get() {
+            val output = Shell.cmd(
+                "[[ $(cmd overlay list | grep -oE '\\[x\\] IconifyComponentQSSP[0-9]+.overlay') ]] && echo 1 || echo 0"
+            ).exec().out
+            return output.isNotEmpty() && output[0] == "1"
+        }
 }
