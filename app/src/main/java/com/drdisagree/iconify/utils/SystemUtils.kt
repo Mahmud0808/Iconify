@@ -6,8 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.Settings
+import android.util.Log
 import android.view.WindowInsets
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -32,7 +34,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 object SystemUtils {
 
@@ -249,16 +253,33 @@ object SystemUtils {
         ).submit()
     }
 
+    fun isSecurityPatchBeforeJune2024(): Boolean {
+        val securityPatch = Build.VERSION.SECURITY_PATCH
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+
+        return try {
+            val securityPatchDate = dateFormat.parse(securityPatch)
+
+            val june2024 = Calendar.getInstance()
+            june2024.set(2024, Calendar.JUNE, 1)
+
+            (securityPatchDate != null && (securityPatchDate < june2024.time))
+        } catch (e: Exception) {
+            Log.e("SECURITY_PATCH_CHECK", "Error parsing security patch date", e)
+            false
+        }
+    }
+
     fun getScreenWidth(activity: Activity): Int {
         val windowMetrics = activity.windowManager.currentWindowMetrics
-        val insets = windowMetrics.getWindowInsets()
+        val insets = windowMetrics.windowInsets
             .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
         return windowMetrics.bounds.width() - (insets.left + insets.right)
     }
 
     fun getScreenHeight(activity: Activity): Int {
         val windowMetrics = activity.windowManager.currentWindowMetrics
-        val insets = windowMetrics.getWindowInsets()
+        val insets = windowMetrics.windowInsets
             .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
         return windowMetrics.bounds.height() - (insets.top + insets.bottom)
     }

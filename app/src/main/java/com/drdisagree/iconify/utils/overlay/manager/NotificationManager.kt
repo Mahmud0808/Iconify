@@ -7,11 +7,11 @@ import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_COLOR
 import com.drdisagree.iconify.common.Preferences.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.SystemUtils.isSecurityPatchBeforeJune2024
 import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlay
 import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlayExclusiveInCategory
 import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlays
 import com.drdisagree.iconify.utils.overlay.OverlayUtils.isOverlayEnabled
-import com.drdisagree.iconify.xposed.modules.utils.SystemUtils.isSecurityPatchBeforeJune2024
 
 object NotificationManager {
 

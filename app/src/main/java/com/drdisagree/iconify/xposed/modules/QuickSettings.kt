@@ -42,7 +42,6 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.hookAllMethodsMatchPattern
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.isPixelVariant
-import com.drdisagree.iconify.xposed.modules.utils.SystemUtils.isSecurityPatchBeforeJune2024
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
@@ -99,8 +98,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
             fixQsTileColor = isAtLeastAndroid14 &&
                     getBoolean(FIX_QS_TILE_COLOR, false)
             fixNotificationColor = isAtLeastAndroid14 &&
-                    getBoolean(FIX_NOTIFICATION_COLOR, false) &&
-                    isSecurityPatchBeforeJune2024()
+                    getBoolean(FIX_NOTIFICATION_COLOR, false)
             fixNotificationFooterButtonsColor = isAtLeastAndroid14 &&
                     getBoolean(FIX_NOTIFICATION_FOOTER_BUTTON_COLOR, false)
             qsTextAlwaysWhite = getBoolean(QS_TEXT_ALWAYS_WHITE, false)
@@ -146,20 +144,18 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                     (getObjectField(
                         mParam,
                         "label"
-                    ) as TextView).setGravity(Gravity.CENTER_HORIZONTAL)
+                    ) as TextView).gravity = Gravity.CENTER_HORIZONTAL
 
                     (getObjectField(
                         mParam,
                         "secondaryLabel"
-                    ) as TextView).setGravity(Gravity.CENTER_HORIZONTAL)
+                    ) as TextView).gravity = Gravity.CENTER_HORIZONTAL
 
                     (getObjectField(
                         mParam,
                         "labelContainer"
-                    ) as LinearLayout).setLayoutParams(
-                        MarginLayoutParams(
-                            MarginLayoutParams.MATCH_PARENT, MarginLayoutParams.WRAP_CONTENT
-                        )
+                    ) as LinearLayout).layoutParams = MarginLayoutParams(
+                        MarginLayoutParams.MATCH_PARENT, MarginLayoutParams.WRAP_CONTENT
                     )
 
                     (getObjectField(
@@ -475,7 +471,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         if (isQsIconLabelStateActive(param, 1)) {
                             val mIcon = param.args[0] as ImageView
-                            mIcon.setImageTintList(ColorStateList.valueOf(qsIconLabelColor))
+                            mIcon.imageTintList = ColorStateList.valueOf(qsIconLabelColor)
                         }
                     }
                 })
@@ -527,7 +523,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                                     mContext.packageName
                                 )
                             )
-                            pmButton.setImageTintList(ColorStateList.valueOf(color))
+                            pmButton.imageTintList = ColorStateList.valueOf(color)
                         }
                     } catch (ignored: Throwable) {
                     }
@@ -576,8 +572,8 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
 
                 @ColorInt val color: Int = qsIconLabelColor
                 try {
-                    (getObjectField(param.thisObject, "mIcon") as ImageView)
-                        .setImageTintList(ColorStateList.valueOf(color))
+                    (getObjectField(param.thisObject, "mIcon") as ImageView).imageTintList =
+                        ColorStateList.valueOf(color)
                 } catch (throwable: Throwable) {
                     log(TAG + throwable)
                 }
@@ -592,12 +588,15 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                     @ColorInt val color: Int = qsIconLabelColor
 
                     try {
-                        (getObjectField(param.thisObject, "mIcon") as ImageView)
-                            .setImageTintList(ColorStateList.valueOf(color))
+                        (getObjectField(param.thisObject, "mIcon") as ImageView).imageTintList =
+                            ColorStateList.valueOf(color)
                     } catch (throwable: Throwable) {
                         try {
-                            (getObjectField(param.thisObject, "mIconView") as ImageView)
-                                .setImageTintList(ColorStateList.valueOf(color))
+                            (getObjectField(
+                                param.thisObject,
+                                "mIconView"
+                            ) as ImageView).imageTintList =
+                                ColorStateList.valueOf(color)
                         } catch (ignored: Throwable) {
                         }
                     }
@@ -612,8 +611,8 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 @ColorInt val color: Int = qsIconLabelColor
 
                 try {
-                    (getObjectField(param.thisObject, "mIcon") as ImageView)
-                        .setImageTintList(ColorStateList.valueOf(color))
+                    (getObjectField(param.thisObject, "mIcon") as ImageView).imageTintList =
+                        ColorStateList.valueOf(color)
                 } catch (throwable: Throwable) {
                     log(TAG + throwable)
                 }
@@ -942,10 +941,10 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
             try {
                 if (hideFooterButtons) {
                     mFooterButtonsContainer!!.visibility = View.INVISIBLE
-                    mFooterButtonsContainer!!.getViewTreeObserver()
+                    mFooterButtonsContainer!!.viewTreeObserver
                         .addOnDrawListener(mFooterButtonsOnDrawListener)
                 } else {
-                    mFooterButtonsContainer!!.getViewTreeObserver()
+                    mFooterButtonsContainer!!.viewTreeObserver
                         .removeOnDrawListener(mFooterButtonsOnDrawListener)
                     mFooterButtonsContainer!!.visibility = View.VISIBLE
                 }
@@ -962,10 +961,10 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
             try {
                 if (hideSilentText) {
                     mSilentTextContainer!!.visibility = View.GONE
-                    mSilentTextContainer!!.getViewTreeObserver()
+                    mSilentTextContainer!!.viewTreeObserver
                         .addOnDrawListener(mSilentTextOnDrawListener)
                 } else {
-                    mSilentTextContainer!!.getViewTreeObserver()
+                    mSilentTextContainer!!.viewTreeObserver
                         .removeOnDrawListener(mSilentTextOnDrawListener)
                     mSilentTextContainer!!.visibility = View.VISIBLE
                 }
@@ -993,7 +992,7 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
                 ((getObjectField(
                     tile,
                     "labelContainer"
-                ) as LinearLayout).layoutParams as MarginLayoutParams).setMarginStart(0)
+                ) as LinearLayout).layoutParams as MarginLayoutParams).marginStart = 0
 
                 ((getObjectField(
                     tile,
@@ -1005,11 +1004,10 @@ class QuickSettings(context: Context?) : ModPack(context!!) {
         }
 
         if (param != null) {
-            (getObjectField(param, "label") as TextView)
-                .setGravity(Gravity.CENTER_HORIZONTAL)
+            (getObjectField(param, "label") as TextView).gravity = Gravity.CENTER_HORIZONTAL
 
-            (getObjectField(param, "secondaryLabel") as TextView)
-                .setGravity(Gravity.CENTER_HORIZONTAL)
+            (getObjectField(param, "secondaryLabel") as TextView).gravity =
+                Gravity.CENTER_HORIZONTAL
         }
     }
 
