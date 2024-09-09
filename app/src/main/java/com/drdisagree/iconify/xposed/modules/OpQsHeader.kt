@@ -1298,24 +1298,24 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         if (packageName == null || controller == null) return
 
         artworkExtractorScope.launch {
-            val mMediaMetadata = mMediaControllerMetadataMap[packageName]
+            val mMediaMetadata = controller.metadata
             val mPreviousMediaMetadata = mPrevMediaControllerMetadataMap[packageName]
 
             val (areBitmapsEqual, areMetadataEqual) = areDataEqual(
                 mPreviousMediaMetadata,
                 mMediaMetadata
             )
-            val requireUpdate = !areBitmapsEqual || !areMetadataEqual ||
-                    controller.playbackState?.state == PlaybackState.STATE_PLAYING !=
-                    mPrevMediaPlayingState[packageName]
+            val isSamePlayingState =
+                controller.playbackState?.state == PlaybackState.STATE_PLAYING ==
+                        mPrevMediaPlayingState[packageName]
+
+            val requireUpdate = !areBitmapsEqual || !areMetadataEqual || !isSamePlayingState
 
             if (!requireUpdate && !force) return@launch
 
-            val mMediaArtwork: Bitmap? =
-                mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
-                    ?: mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_ART)
-            val processedArtwork: Bitmap? =
-                processArtwork(mMediaArtwork, mMediaPlayer.mediaPlayerBackground)
+            val mMediaArtwork = mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART)
+                ?: mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_ART)
+            val processedArtwork = processArtwork(mMediaArtwork, mMediaPlayer.mediaPlayerBackground)
             val dominantColor: Int? = extractDominantColor(processedArtwork)
             val filteredArtwork: Bitmap? = processedArtwork?.let {
                 applyColorFilterToBitmap(it, dominantColor)
@@ -1325,9 +1325,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 filteredArtwork != null -> BitmapDrawable(mContext.resources, filteredArtwork)
                 else -> mInactiveBackground
             }
-            val transitionDuration = android.R.integer.config_shortAnimTime
 
-            val artworkDrawable: Drawable? = when {
+            val finalArtworkDrawable: Drawable? = when {
                 areBitmapsEqual && mMediaArtwork != null -> {
                     null
                 }
@@ -1338,10 +1337,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                             mInactiveBackground,
                             newArtworkDrawable
                         )
-                    ).apply {
-                        isCrossFadeEnabled = true
-                        startTransition(transitionDuration)
-                    }
+                    )
                 }
 
                 mPrevMediaArtworkMap[packageName] != null && filteredArtwork != null -> {
@@ -1353,10 +1349,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                             ),
                             newArtworkDrawable
                         )
-                    ).apply {
-                        isCrossFadeEnabled = true
-                        startTransition(transitionDuration)
-                    }
+                    )
                 }
 
                 mPrevMediaArtworkMap[packageName] != null && filteredArtwork == null -> {
@@ -1368,10 +1361,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                             ),
                             newArtworkDrawable
                         )
-                    ).apply {
-                        isCrossFadeEnabled = true
-                        startTransition(transitionDuration)
-                    }
+                    )
                 }
 
                 else -> {
@@ -1426,7 +1416,14 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
                 }
 
-                mMediaPlayer.setMediaPlayerBackground(artworkDrawable)
+                mHandler.post {
+                    mMediaPlayer.setMediaPlayerBackground(finalArtworkDrawable)
+
+                    if (finalArtworkDrawable is TransitionDrawable) {
+                        finalArtworkDrawable.isCrossFadeEnabled = true
+                        finalArtworkDrawable.startTransition(250)
+                    }
+                }
 
                 mPrevMediaPlayingState[packageName] = mIsMediaPlaying
                 mPrevMediaControllerMetadataMap[packageName] = mMediaMetadata
@@ -1658,7 +1655,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             Palette.from(bitmap).generate { palette ->
                 val pixels = IntArray(bitmap.width * bitmap.height)
                 bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
-                val fallbackColor = Score.score(QuantizerCelebi.quantize(pixels, 25)).firstOrNull()
+                val fallbackColor = Score.score(QuantizerCelebi.quantize(pixels, 128)).firstOrNull()
                 val dominantColor = palette?.getDominantColor(fallbackColor ?: Color.BLACK)
                 cont.resume(dominantColor)
             }
