@@ -34,7 +34,7 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
     private lateinit var appContext: Context
 
     private lateinit var mMediaPlayerBackground: ImageView
-    private lateinit var mAppIcon: ImageView
+    private lateinit var mAppIcon: ImageButton
     private lateinit var mMediaOutputSwitcher: ImageView
     private lateinit var mMediaPlayerTitle: TextView
     private lateinit var mMediaPlayerSubtitle: TextView
@@ -66,7 +66,7 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
     val mediaPlayerBackground: ImageView
         get() = mMediaPlayerBackground
 
-    val mediaAppIcon: ImageView
+    val mediaAppIcon: ImageButton
         get() = mAppIcon
 
     val mediaOutputSwitcher: ImageView
@@ -228,7 +228,7 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             )
         }
 
-        mAppIcon = ImageView(mContext).apply {
+        mAppIcon = ImageButton(mContext).apply {
             layoutParams = ConstraintLayout.LayoutParams(
                 mContext.toPx(24),
                 mContext.toPx(24)
@@ -240,12 +240,7 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             id = generateViewId()
             background = appIconBackgroundDrawable
             scaleType = ImageView.ScaleType.CENTER_INSIDE
-            setPaddingRelative(
-                mContext.toPx(4),
-                mContext.toPx(4),
-                mContext.toPx(4),
-                mContext.toPx(4)
-            )
+            setPadding(mContext.toPx(4))
             setImageDrawable(opMediaAppIconDrawable)
         }
 
@@ -271,10 +266,10 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
 
         mMediaBtnPrev = ImageButton(mContext).apply {
             layoutParams = ConstraintLayout.LayoutParams(
-                mContext.toPx(24),
-                mContext.toPx(24)
+                mContext.toPx(32),
+                mContext.toPx(32)
             ).apply {
-                setMargins(mContext.toPx(16), 0, 0, mContext.toPx(16))
+                setMargins(mContext.toPx(12), 0, 0, mContext.toPx(12))
                 startToStart = ConstraintSet.PARENT_ID
                 bottomToBottom = ConstraintSet.PARENT_ID
             }
@@ -282,16 +277,16 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             background = null
             scaleType = ImageView.ScaleType.CENTER_INSIDE
             layoutDirection = View.LAYOUT_DIRECTION_LTR
-            setPadding(0)
+            setPadding(mContext.toPx(4))
             setImageDrawable(opMediaPrevIconDrawable)
         }
 
         mMediaBtnNext = ImageButton(mContext).apply {
             layoutParams = ConstraintLayout.LayoutParams(
-                mContext.toPx(24),
-                mContext.toPx(24)
+                mContext.toPx(32),
+                mContext.toPx(32)
             ).apply {
-                setMargins(0, 0, mContext.toPx(16), mContext.toPx(16))
+                setMargins(0, 0, mContext.toPx(12), mContext.toPx(12))
                 endToEnd = ConstraintSet.PARENT_ID
                 bottomToBottom = ConstraintSet.PARENT_ID
             }
@@ -299,16 +294,16 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             background = null
             scaleType = ImageView.ScaleType.CENTER_INSIDE
             layoutDirection = View.LAYOUT_DIRECTION_LTR
-            setPadding(0)
+            setPadding(mContext.toPx(4))
             setImageDrawable(opMediaNextIconDrawable)
         }
 
         mMediaBtnPlayPause = ImageButton(mContext).apply {
             layoutParams = ConstraintLayout.LayoutParams(
-                mContext.toPx(24),
-                mContext.toPx(24)
+                mContext.toPx(32),
+                mContext.toPx(32)
             ).apply {
-                setMargins(0, 0, 0, mContext.toPx(16))
+                setMargins(0, 0, 0, mContext.toPx(12))
                 startToStart = ConstraintSet.PARENT_ID
                 endToEnd = ConstraintSet.PARENT_ID
                 bottomToBottom = ConstraintSet.PARENT_ID
@@ -317,13 +312,13 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             background = null
             scaleType = ImageView.ScaleType.CENTER_INSIDE
             layoutDirection = View.LAYOUT_DIRECTION_LTR
-            setPadding(0)
+            setPadding(mContext.toPx(4))
             setImageDrawable(opMediaPlayIconDrawable)
         }
 
         val textContainer = LinearLayout(mContext).apply {
             layoutParams = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                0,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 gravity = Gravity.CENTER
@@ -341,7 +336,7 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
 
         mMediaPlayerTitle = TextView(mContext).apply {
             layoutParams = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
             )
             id = generateViewId()
@@ -366,12 +361,12 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             )
             isVerticalFadingEdgeEnabled = false
             isHorizontalFadingEdgeEnabled = true
-            setFadingEdgeLength(mContext.toPx(8))
+            setFadingEdgeLength(mContext.toPx(16))
         }
 
         mMediaPlayerSubtitle = TextView(mContext).apply {
             layoutParams = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
             )
             id = generateViewId()
@@ -391,7 +386,7 @@ class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
             visibility = View.GONE
             isVerticalFadingEdgeEnabled = false
             isHorizontalFadingEdgeEnabled = true
-            setFadingEdgeLength(mContext.toPx(8))
+            setFadingEdgeLength(mContext.toPx(16))
         }
 
         textContainer.apply {
