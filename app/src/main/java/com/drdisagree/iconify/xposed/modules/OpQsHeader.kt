@@ -1583,7 +1583,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                             performMediaAction(packageName, MediaAction.PLAY_NEXT)
                         }
 
-                        mediaPlayerView.mediaAppIcon -> {
+                        mediaPlayerView.mediaPlayerBackground -> {
                             launchMediaPlayer(packageName)
                         }
 
