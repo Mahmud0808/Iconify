@@ -181,6 +181,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var qsTileMarginVertical by Delegates.notNull<Int>()
     private var qsTileCornerRadius by Delegates.notNull<Float>()
     private lateinit var opMediaBackgroundDrawable: Drawable
+    private var previousBlurLevel = 10f
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
@@ -1435,7 +1436,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
 
             val finalArtworkDrawable: Drawable? = when {
-                areBitmapsEqual && mMediaArtwork != null -> {
+                areBitmapsEqual && mMediaArtwork != null && previousBlurLevel == mediaBlurLevel -> {
                     null
                 }
 
@@ -1534,6 +1535,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
                 }
 
+                previousBlurLevel = mediaBlurLevel
                 mPrevMediaPlayingState[packageName] = mIsMediaPlaying
                 mPrevMediaControllerMetadataMap[packageName] = mMediaMetadata
                 mPrevMediaArtworkMap[packageName] = mMediaArtwork
