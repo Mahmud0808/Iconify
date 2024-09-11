@@ -190,7 +190,6 @@ class ControllersProvider(context: Context?) : ModPack(context!!) {
                         mBluetoothTileDialogViewModel =
                             getObjectField(param.thisObject, "mDialogViewModel")
                     } catch (ignored: Throwable) {
-                        log(TAG + "Bluetooth dialog view model not found")
                     }
                 }
             })
