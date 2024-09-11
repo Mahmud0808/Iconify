@@ -92,6 +92,7 @@ import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.getObjectField
+import de.robv.android.xposed.XposedHelpers.setObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -208,6 +209,10 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         val qsPanelClass = findClass(
             "$SYSTEMUI_PACKAGE.qs.QSPanel",
+            loadPackageParam.classLoader
+        )
+        val quickQsPanelClass = findClass(
+            "$SYSTEMUI_PACKAGE.qs.QuickQSPanel",
             loadPackageParam.classLoader
         )
         val qsImplClass = findClassInArray(
@@ -455,7 +460,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
 
                     mQsHeaderContainer.addView(mQsOpHeaderView)
-                    updateOpHeaderView()
+                    updateOpHeaderView(force = false)
 
                     (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
                     addView(mQsHeaderContainer)
@@ -554,12 +559,158 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         hookAllMethods(qsContainerImplClass, "updateResources", updateQsTopMargin)
 
         // Hide stock media player
-        if (showOpQsHeaderView) {
+        val reAttachMediaHostAvailable = qsPanelClass.declaredMethods.any {
+            it.name == "reAttachMediaHost"
+        }
+
+        if (showOpQsHeaderView && reAttachMediaHostAvailable) {
             hookAllMethods(qsPanelClass, "reAttachMediaHost", object : XC_MethodReplacement() {
                 override fun replaceHookedMethod(param: MethodHookParam): Any? {
                     return null
                 }
             })
+        } else { // If reAttachMediaHost is not available, we need to hook switchTileLayout()
+            hookAllMethods(
+                qsPanelControllerBaseClass,
+                "switchTileLayout",
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        if (!showOpQsHeaderView) return
+
+                        val force = param.args[0] as Boolean
+                        val horizontal = callMethod(
+                            param.thisObject,
+                            "shouldUseHorizontalLayout"
+                        ) as Boolean
+                        val mUsingHorizontalLayout = getObjectField(
+                            param.thisObject,
+                            "mUsingHorizontalLayout"
+                        ) as Boolean
+
+                        if (horizontal != mUsingHorizontalLayout || force) {
+                            val mQSLogger = getObjectField(param.thisObject, "mQSLogger")
+                            val qsPanel = getObjectField(param.thisObject, "mView")
+                            val qsPanelTag = callMethod(qsPanel, "getDumpableTag")
+
+                            callMethod(
+                                mQSLogger,
+                                "logSwitchTileLayout",
+                                horizontal,
+                                mUsingHorizontalLayout,
+                                force,
+                                qsPanelTag
+                            )
+
+                            setObjectField(
+                                param.thisObject,
+                                "mUsingHorizontalLayout",
+                                horizontal
+                            )
+
+                            val mUsingHorizontalLayout2 = getObjectField(
+                                qsPanel,
+                                "mUsingHorizontalLayout"
+                            ) as Boolean
+
+                            if (horizontal != mUsingHorizontalLayout2 || force) {
+                                setObjectField(
+                                    qsPanel,
+                                    "mUsingHorizontalLayout",
+                                    horizontal
+                                )
+
+                                val mHorizontalContentContainer = getObjectField(
+                                    qsPanel,
+                                    "mHorizontalContentContainer"
+                                ) as LinearLayout
+
+                                val newParent: ViewGroup = if (horizontal) {
+                                    mHorizontalContentContainer
+                                } else {
+                                    qsPanel as ViewGroup
+                                }
+                                val mTileLayout = getObjectField(qsPanel, "mTileLayout")
+                                val index = if (!horizontal) {
+                                    getObjectField(qsPanel, "mMovableContentStartIndex")
+                                } else {
+                                    0
+                                } as Int
+
+                                callStaticMethod(
+                                    qsPanelClass,
+                                    "switchToParent",
+                                    mTileLayout,
+                                    newParent,
+                                    index,
+                                    qsPanelTag
+                                )
+
+                                val mFooter = getObjectField(qsPanel, "mFooter") as? View
+
+                                if (mFooter != null) {
+                                    callStaticMethod(
+                                        qsPanelClass,
+                                        "switchToParent",
+                                        mFooter,
+                                        newParent,
+                                        index + 1,
+                                        qsPanelTag
+                                    )
+                                }
+
+                                callMethod(
+                                    mTileLayout,
+                                    "setMinRows",
+                                    if (horizontal) 2 else 1
+                                )
+                                callMethod(
+                                    mTileLayout,
+                                    "setMaxColumns",
+                                    if (horizontal) 2 else 4
+                                )
+
+                                val mHorizontalLinearLayout = getObjectField(
+                                    qsPanel,
+                                    "mHorizontalLinearLayout"
+                                ) as? LinearLayout
+
+                                if (mHorizontalLinearLayout != null &&
+                                    quickQsPanelClass.isInstance(qsPanel)
+                                ) {
+                                    val mMediaTotalBottomMargin = getObjectField(
+                                        qsPanel,
+                                        "mMediaTotalBottomMargin"
+                                    ) as Int
+                                    val mQsPanelBottomPadding =
+                                        (qsPanel as LinearLayout).paddingBottom
+
+                                    val layoutParams =
+                                        mHorizontalLinearLayout.layoutParams as LinearLayout.LayoutParams
+                                    layoutParams.bottomMargin =
+                                        (mMediaTotalBottomMargin - mQsPanelBottomPadding)
+                                            .coerceAtLeast(0)
+                                    mHorizontalLinearLayout.layoutParams = layoutParams
+                                }
+
+                                callMethod(qsPanel, "updatePadding")
+
+                                mHorizontalLinearLayout?.visibility = if (!horizontal) {
+                                    View.GONE
+                                } else {
+                                    View.VISIBLE
+                                }
+                            }
+
+                            (getObjectField(
+                                param.thisObject,
+                                "mUsingHorizontalLayoutChangedListener"
+                            ) as? Runnable)?.run()
+                        }
+
+                        param.result = true
+                    }
+                }
+            )
         }
 
         // Ensure stock media player is hidden
@@ -831,14 +982,14 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         )
     }
 
-    private fun updateOpHeaderView() {
+    private fun updateOpHeaderView(force: Boolean = false) {
         if (mQsOpHeaderView == null) return
 
         initResources()
         startMediaUpdater()
         updateInternetState()
         updateBluetoothState()
-        updateMediaPlayers(force = true)
+        updateMediaPlayers(force = force)
     }
 
     private fun buildHeaderViewExpansion() {

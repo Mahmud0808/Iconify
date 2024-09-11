@@ -31,6 +31,14 @@ object Helpers {
         return findClassIfExists(className, classLoader)
     }
 
+    fun dumpClassObj(classObj: Class<*>?) {
+        if (classObj == null) {
+            log("Class: null not found")
+            return
+        }
+        dumpClass(classObj)
+    }
+
     private fun dumpClass(className: String, classLoader: ClassLoader?) {
         val ourClass = findClassIfExists(className, classLoader)
         if (ourClass == null) {
