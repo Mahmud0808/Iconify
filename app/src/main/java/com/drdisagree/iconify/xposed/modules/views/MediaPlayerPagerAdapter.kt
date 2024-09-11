@@ -18,7 +18,9 @@ class MediaPlayerPagerAdapter(
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = mediaPlayerViews[position].second
-        container.addView(view)
+        val index = (view.parent as? ViewGroup)?.indexOfChild(view) ?: 0
+        (view.parent as? ViewGroup)?.removeView(view)
+        container.addView(view, index)
         return view
     }
 
