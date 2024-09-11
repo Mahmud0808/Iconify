@@ -479,6 +479,8 @@
     <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
     <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
     <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
     <string name="oneplus_qs_header_blur_level">Blur Level</string>
     <string name="oneplus_qs_header_fade_level">Fade Level</string>
     <string name="oneplus_qs_header_top_margin">Top Margin</string>

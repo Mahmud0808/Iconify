@@ -2,6 +2,7 @@ package com.drdisagree.iconify.ui.fragments.xposed
 
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_EXPANSION_Y
+import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_HIDE_STOCK_MEDIA
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_TOP_MARGIN
 import com.drdisagree.iconify.ui.activities.MainActivity
@@ -26,6 +27,7 @@ class OpQsHeader : ControlledPreferenceFragmentCompat() {
 
         when (key) {
             OP_QS_HEADER_SWITCH,
+            OP_QS_HEADER_HIDE_STOCK_MEDIA,
             OP_QS_HEADER_TOP_MARGIN,
             OP_QS_HEADER_EXPANSION_Y -> {
                 MainActivity.showOrHidePendingActionButton(

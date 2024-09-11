@@ -58,6 +58,7 @@ import com.drdisagree.iconify.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_TAG
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_BLUR_LEVEL
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_EXPANSION_Y
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_GAP_EXPANDED
+import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_HIDE_STOCK_MEDIA
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_TOP_MARGIN
 import com.drdisagree.iconify.common.Preferences.OP_QS_HEADER_VIBRATE
@@ -116,6 +117,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     // Preferences
     private var showOpQsHeaderView = false
     private var vibrateOnClick = false
+    private var hideStockMediaPlayer = false
     private var mediaBlurLevel = 10f
     private var topMarginValue = 0
     private var expansionAmount = 0
@@ -190,6 +192,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         Xprefs.apply {
             showOpQsHeaderView = getBoolean(OP_QS_HEADER_SWITCH, false)
             vibrateOnClick = getBoolean(OP_QS_HEADER_VIBRATE, false)
+            hideStockMediaPlayer = getBoolean(OP_QS_HEADER_HIDE_STOCK_MEDIA, false)
             mediaBlurLevel = getSliderInt(OP_QS_HEADER_BLUR_LEVEL, 10).toFloat()
             topMarginValue = getSliderInt(OP_QS_HEADER_TOP_MARGIN, 0)
             expansionAmount = getSliderInt(OP_QS_HEADER_EXPANSION_Y, 0)
@@ -563,13 +566,46 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             it.name == "reAttachMediaHost"
         }
 
-        if (showOpQsHeaderView && reAttachMediaHostAvailable) {
+        if (showOpQsHeaderView && hideStockMediaPlayer && reAttachMediaHostAvailable) {
             hookAllMethods(qsPanelClass, "reAttachMediaHost", object : XC_MethodReplacement() {
                 override fun replaceHookedMethod(param: MethodHookParam): Any? {
                     return null
                 }
             })
-        } else { // If reAttachMediaHost is not available, we need to hook switchTileLayout()
+
+            // Ensure stock media player is hidden
+            hookAllMethods(qsImplClass, "onComponentCreated", object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (!showOpQsHeaderView) return
+
+                    try {
+                        val mQSPanelController =
+                            getObjectField(param.thisObject, "mQSPanelController")
+
+                        val listener = Runnable {
+                            val mediaHost = callMethod(mQSPanelController, "getMediaHost")
+                            val hostView = callMethod(mediaHost, "getHostView")
+
+                            callMethod(hostView, "setAlpha", 0.0f)
+
+                            try {
+                                callMethod(mQSPanelController, "requestAnimatorUpdate")
+                            } catch (ignored: Throwable) {
+                                val mQSAnimator = getObjectField(param.thisObject, "mQSAnimator")
+                                callMethod(mQSAnimator, "requestAnimatorUpdate")
+                            }
+                        }
+
+                        callMethod(
+                            mQSPanelController,
+                            "setUsingHorizontalLayoutChangeListener",
+                            listener
+                        )
+                    } catch (ignored: Throwable) {
+                    }
+                }
+            })
+        } else if (hideStockMediaPlayer) { // If reAttachMediaHost is not available, we need to hook switchTileLayout()
             hookAllMethods(
                 qsPanelControllerBaseClass,
                 "switchTileLayout",
@@ -712,38 +748,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 }
             )
         }
-
-        // Ensure stock media player is hidden
-        hookAllMethods(qsImplClass, "onComponentCreated", object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                if (!showOpQsHeaderView) return
-
-                try {
-                    val mQSPanelController = getObjectField(param.thisObject, "mQSPanelController")
-
-                    val listener = Runnable {
-                        val mediaHost = callMethod(mQSPanelController, "getMediaHost")
-                        val hostView = callMethod(mediaHost, "getHostView")
-
-                        callMethod(hostView, "setAlpha", 0.0f)
-
-                        try {
-                            callMethod(mQSPanelController, "requestAnimatorUpdate")
-                        } catch (ignored: Throwable) {
-                            val mQSAnimator = getObjectField(param.thisObject, "mQSAnimator")
-                            callMethod(mQSAnimator, "requestAnimatorUpdate")
-                        }
-                    }
-
-                    callMethod(
-                        mQSPanelController,
-                        "setUsingHorizontalLayoutChangeListener",
-                        listener
-                    )
-                } catch (ignored: Throwable) {
-                }
-            }
-        })
 
         val hasSwitchAllContentToParent = qsPanelClass.declaredMethods.any {
             it.name == "switchAllContentToParent"

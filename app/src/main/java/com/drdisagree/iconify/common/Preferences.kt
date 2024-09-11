@@ -211,6 +211,7 @@ object Preferences {
     const val QS_TEXT_FOLLOW_ACCENT = "xposed_qstextfollowaccent"
     const val OP_QS_HEADER_SWITCH = "xposed_opqsheader"
     const val OP_QS_HEADER_VIBRATE = "xposed_opqsheadervibrate"
+    const val OP_QS_HEADER_HIDE_STOCK_MEDIA = "xposed_opqsheaderhidestockmedia"
     const val OP_QS_HEADER_BLUR_LEVEL = "xposed_opqsheaderblurlevel"
     const val OP_QS_HEADER_TOP_MARGIN = "xposed_opqsheadertopmargin"
     const val OP_QS_HEADER_EXPANSION_Y = "xposed_opqsheaderexpansiony"

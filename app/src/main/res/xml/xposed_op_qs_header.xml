@@ -15,6 +15,13 @@
         android:title="@string/oneplus_qs_header_vibrate_title"
         app:iconSpaceReserved="false" />
 
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_opqsheader"
+        android:key="xposed_opqsheaderhidestockmedia"
+        android:summary="@string/oneplus_qs_header_hide_stock_media_player_desc"
+        android:title="@string/oneplus_qs_header_hide_stock_media_player_title"
+        app:iconSpaceReserved="false" />
+
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="xposed_opqsheader"
         android:key="xposed_opqsheaderblurlevel"
