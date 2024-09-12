@@ -219,6 +219,26 @@
         </activity>
 
         <activity
+            android:name=".google_new_dark"
+            android:exported="false"
+            android:label="Google Material Dark">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".google_new_light"
+            android:exported="false"
+            android:label="Google Material Light">
+            <intent-filter>
+                <action android:name="${applicationId}.WeatherIconPack" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".outline"
             android:exported="false"
             android:label="Outline">
