@@ -1653,9 +1653,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     setMediaPlayingIcon(mIsMediaPlaying)
                 }
 
-                val appIconBitmap =
-                    mMediaMetadata?.getBitmap(MediaMetadata.METADATA_KEY_DISPLAY_ICON)
-                        ?.toCircularBitmap()
                 val appIconDrawable = runCatching {
                     controller.packageName?.let { packageName ->
                         mContext.packageManager.getApplicationIcon(packageName)
@@ -1665,11 +1662,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 val requireIconTint: Boolean
 
                 when {
-                    appIconBitmap != null && mMediaTitle != null -> {
-                        requireIconTint = true
-                        mMediaPlayer.setMediaAppIconBitmap(appIconBitmap)
-                    }
-
                     appIconDrawable != null && mMediaTitle != null -> {
                         requireIconTint = false
                         mMediaPlayer.setMediaAppIconDrawable(appIconDrawable)
