@@ -163,8 +163,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     // Misc
     private lateinit var appContext: Context
     private var mHandler: Handler = Handler(Looper.getMainLooper())
-    private val artworkExtractorScope = CoroutineScope(Dispatchers.Main + Job())
-    private var mMediaUpdater = CoroutineScope(Dispatchers.Main)
+    private val artworkExtractorScope = CoroutineScope(Dispatchers.IO + Job())
+    private var mMediaUpdater = CoroutineScope(Dispatchers.IO)
     private var mMediaUpdaterJob: Job? = null
     private var mActivityStarter: Any? = null
     private var mMediaOutputDialogFactory: Any? = null
