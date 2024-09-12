@@ -1695,8 +1695,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
                 if (requireIconTint) {
                     mMediaPlayer.setMediaAppIconColor(
-                        backgroundColor = dominantColor ?: colorAccent,
-                        iconColor = onDominantColor ?: colorPrimary
+                        backgroundColor = dominantColor ?: colorActive ?: colorAccent,
+                        iconColor = onDominantColor ?: colorLabelActive ?: colorPrimary
                     )
                 } else {
                     mMediaPlayer.resetMediaAppIconColor(
