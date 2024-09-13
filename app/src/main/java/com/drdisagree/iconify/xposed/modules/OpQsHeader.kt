@@ -164,7 +164,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private lateinit var appContext: Context
     private var mHandler: Handler = Handler(Looper.getMainLooper())
     private val artworkExtractorScope = CoroutineScope(Dispatchers.IO + Job())
-    private var mMediaUpdater = CoroutineScope(Dispatchers.IO)
+    private var mMediaUpdater = CoroutineScope(Dispatchers.Main)
     private var mMediaUpdaterJob: Job? = null
     private var mActivityStarter: Any? = null
     private var mMediaOutputDialogFactory: Any? = null
@@ -1633,11 +1633,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 }
             }
 
-            withContext(Dispatchers.Main) {
-                val mMediaTitle = mMediaMetadata?.getString(MediaMetadata.METADATA_KEY_TITLE)
-                val mMediaArtist = mMediaMetadata?.getString(MediaMetadata.METADATA_KEY_ARTIST)
-                val mIsMediaPlaying = controller.playbackState?.state == PlaybackState.STATE_PLAYING
+            val mMediaTitle = mMediaMetadata?.getString(MediaMetadata.METADATA_KEY_TITLE)
+            val mMediaArtist = mMediaMetadata?.getString(MediaMetadata.METADATA_KEY_ARTIST)
+            val mIsMediaPlaying = controller.playbackState?.state == PlaybackState.STATE_PLAYING
 
+            val appIconDrawable = runCatching {
+                controller.packageName?.let { packageName ->
+                    mContext.packageManager.getApplicationIcon(packageName)
+                }?.toCircularDrawable()
+            }.getOrNull()
+
+            withContext(Dispatchers.Main) {
                 mMediaPlayer.apply {
                     setMediaTitle(
                         mMediaTitle
@@ -1652,12 +1658,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     setMediaArtist(mMediaArtist)
                     setMediaPlayingIcon(mIsMediaPlaying)
                 }
-
-                val appIconDrawable = runCatching {
-                    controller.packageName?.let { packageName ->
-                        mContext.packageManager.getApplicationIcon(packageName)
-                    }?.toCircularDrawable()
-                }.getOrNull()
 
                 val requireIconTint: Boolean
 
@@ -1682,16 +1682,22 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
                 }
 
-                previousBlurLevel = mediaBlurLevel
-                mPrevMediaPlayingState[packageName] = mIsMediaPlaying
-                mPrevMediaControllerMetadataMap[packageName] = mMediaMetadata
-                mPrevMediaArtworkMap[packageName] = mMediaArtwork
-                mPrevMediaProcessedArtworkMap[packageName] = filteredArtwork
+                withContext(Dispatchers.IO) {
+                    previousBlurLevel = mediaBlurLevel
+                    mPrevMediaPlayingState[packageName] = mIsMediaPlaying
+                    mPrevMediaControllerMetadataMap[packageName] = mMediaMetadata
+                    mPrevMediaArtworkMap[packageName] = mMediaArtwork
+                    mPrevMediaProcessedArtworkMap[packageName] = filteredArtwork
+                }
 
-                val bitmap = filteredArtwork ?: mMediaArtwork
-                val scaledBitmap = bitmap?.let { scaleBitmap(it, 0.1f) }
-                val mostUsedColor = scaledBitmap?.let { getMostUsedColor(it) } ?: dominantColor
-                val onDominantColor = getContrastingTextColor(mostUsedColor)
+                val onDominantColor: Int?
+
+                withContext(Dispatchers.IO) {
+                    val bitmap = filteredArtwork ?: mMediaArtwork
+                    val scaledBitmap = bitmap?.let { scaleBitmap(it, 0.1f) }
+                    val mostUsedColor = scaledBitmap?.let { getMostUsedColor(it) } ?: dominantColor
+                    onDominantColor = getContrastingTextColor(mostUsedColor)
+                }
 
                 if (requireIconTint) {
                     mMediaPlayer.setMediaAppIconColor(
