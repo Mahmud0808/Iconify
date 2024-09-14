@@ -83,7 +83,7 @@ class DeviceWidgetView(private val mContext: Context) : FrameLayout(mContext) {
     }
 
     private fun inflateView() {
-        inflate(appContext, R.layout.device_widget, this)
+        inflate(appContext, R.layout.view_device_widget, this)
         setupViews()
         initSoundManager()
     }
