@@ -29,6 +29,7 @@ import com.drdisagree.iconify.utils.weather.WeatherConfig.setWeatherData
 import com.google.common.util.concurrent.ListenableFuture
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicReference
@@ -68,18 +69,16 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
             }
 
             executor.execute {
-                val location = currentLocation
-                if (location != null) {
-                    Log.d(TAG, "Location retrieved")
-                    updateWeather(location, completer)
-                } else if (isCustomLocation(mContext)) {
-                    Log.d(
-                        TAG,
-                        "Using custom location configuration"
-                    )
-                    updateWeather(null, completer)
-                } else {
-                    handleError(completer, EXTRA_ERROR_LOCATION, "Failed to retrieve location")
+                getCurrentLocation().thenAccept { location: Location? ->
+                    if (location != null) {
+                        Log.d(TAG, "Location retrieved")
+                        updateWeather(location, completer)
+                    } else if (isCustomLocation(mContext)) {
+                        Log.d(TAG, "Using custom location configuration")
+                        updateWeather(null, completer)
+                    } else {
+                        handleError(completer, EXTRA_ERROR_LOCATION, "Failed to retrieve location")
+                    }
                 }
             }
             completer
@@ -123,74 +122,76 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
         return gpsEnabled || networkEnabled
     }
 
-    @get:Suppress("deprecation")
-    @get:SuppressLint("MissingPermission")
-    private val currentLocation: Location?
-        get() {
-            if (isCustomLocation(mContext)) return null
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation(): CompletableFuture<Location?> {
+        val locationFuture = CompletableFuture<Location?>()
 
-            val lm = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (isCustomLocation(mContext)) {
+            locationFuture.complete(null)
+            return locationFuture
+        }
 
-            if (!doCheckLocationEnabled()) {
-                Log.w(TAG, "locations disabled")
-                return null
-            }
+        val lm = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-            val location =
-                AtomicReference(lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER))
-            Log.d(TAG, "Current location is $location")
+        if (!doCheckLocationEnabled()) {
+            Log.w(TAG, "locations disabled")
+            locationFuture.complete(null)
+            return locationFuture
+        }
 
-            if (location.get() != null && location.get()!!.accuracy > LOCATION_ACCURACY_THRESHOLD_METERS) {
-                Log.w(TAG, "Ignoring inaccurate location")
+        val location = AtomicReference(lm.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER))
+        Log.d(TAG, "Current location is $location")
+
+        if (location.get() != null && location.get()!!.accuracy > LOCATION_ACCURACY_THRESHOLD_METERS) {
+            Log.w(TAG, "Ignoring inaccurate location")
+            location.set(null)
+        }
+
+        var needsUpdate = location.get() == null
+        if (location.get() != null) {
+            val delta = System.currentTimeMillis() - location.get()!!.time
+            needsUpdate = delta > OUTDATED_LOCATION_THRESHOLD_MILLIS
+            Log.d(TAG, "Location is " + delta + "ms old")
+            if (needsUpdate) {
+                Log.w(
+                    TAG, "Ignoring too old location from " + dayFormat.format(
+                        location.get()!!.time
+                    )
+                )
                 location.set(null)
             }
+        }
 
-            var needsUpdate = location.get() == null
-            if (location.get() != null) {
-                val delta = System.currentTimeMillis() - location.get()!!.time
-                needsUpdate = delta > OUTDATED_LOCATION_THRESHOLD_MILLIS
-                Log.d(TAG, "Location is " + delta + "ms old")
-                if (needsUpdate) {
-                    Log.w(
-                        TAG, "Ignoring too old location from " + dayFormat.format(
-                            location.get()!!.time
-                        )
-                    )
-                    location.set(null)
-                }
-            }
-
-            if (needsUpdate) {
-                Log.d(TAG, "Requesting current location")
-                val locationProvider = lm.getBestProvider(sLocationCriteria, true)
-                if (TextUtils.isEmpty(locationProvider)) {
-                    Log.e(TAG, "No available location providers matching criteria.")
-                } else {
-                    Log.d(
-                        TAG,
-                        "Getting current location with provider $locationProvider"
-                    )
-                    lm.getCurrentLocation(
-                        locationProvider!!, null, mContext.mainExecutor
-                    ) { location1: Location? ->
-                        if (location1 != null) {
-                            Log.d(
-                                TAG,
-                                "Got valid location now update"
-                            )
-                            location.set(location1)
-                        } else {
-                            Log.w(
-                                TAG,
-                                "Failed to retrieve location"
-                            )
-                        }
+        if (needsUpdate) {
+            Log.d(TAG, "Requesting current location")
+            val locationProvider = lm.getBestProvider(sLocationCriteria, true)
+            if (TextUtils.isEmpty(locationProvider)) {
+                Log.e(TAG, "No available location providers matching criteria.")
+                locationFuture.complete(null)
+            } else {
+                Log.d(
+                    TAG,
+                    "Getting current location with provider $locationProvider"
+                )
+                lm.getCurrentLocation(
+                    locationProvider!!, null, mContext.mainExecutor
+                ) { location1: Location? ->
+                    if (location1 != null) {
+                        Log.d(TAG, "Got valid location now update")
+                        location.set(location1)
+                        locationFuture.complete(location1)
+                    } else {
+                        Log.e(TAG, "Failed to retrieve location")
+                        locationFuture.complete(null)
                     }
                 }
             }
-
-            return location.get()
+        } else {
+            locationFuture.complete(location.get())
         }
+
+        return locationFuture
+    }
 
     private fun updateWeather(
         location: Location?,
