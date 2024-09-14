@@ -1554,7 +1554,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 mediaPlayerBackground.drawable == opMediaDefaultBackground
             ) {
                 setMediaPlayerBackground(mInactiveBackground)
-                resetMediaAppIconColor(backgroundColor = colorAccent)
+                colorLabelActive?.let {
+                    setMediaAppIconColor(
+                        backgroundColor = colorAccent,
+                        iconColor = it
+                    )
+                }
                 colorLabelInactive?.let { setMediaPlayerItemsColor(it) }
             }
         }
