@@ -185,28 +185,47 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             mWeatherClient.queryWeather()
             mWeatherInfo = mWeatherClient.weatherInfo
             if (mWeatherInfo != null) {
-                var formattedCondition: String = mWeatherInfo!!.condition.toString()
+                val formattedConditionLowercase =
+                    mWeatherInfo!!.condition.toString().lowercase(Locale.getDefault())
 
-                if (formattedCondition.lowercase(Locale.getDefault()).contains("clouds")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_clouds)
-                } else if (formattedCondition.lowercase(Locale.getDefault()).contains("rain")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_rain)
-                } else if (formattedCondition.lowercase(Locale.getDefault()).contains("clear")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_clear)
-                } else if (formattedCondition.lowercase(Locale.getDefault()).contains("storm")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_storm)
-                } else if (formattedCondition.lowercase(Locale.getDefault()).contains("snow")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_snow)
-                } else if (formattedCondition.lowercase(Locale.getDefault()).contains("wind")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_wind)
-                } else if (formattedCondition.lowercase(Locale.getDefault()).contains("mist")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_mist)
+                val formattedCondition = when {
+                    formattedConditionLowercase.contains("clouds") -> {
+                        modRes.getString(R.string.weather_condition_clouds)
+                    }
+
+                    formattedConditionLowercase.contains("rain") -> {
+                        modRes.getString(R.string.weather_condition_rain)
+                    }
+
+                    formattedConditionLowercase.contains("clear") -> {
+                        modRes.getString(R.string.weather_condition_clear)
+                    }
+
+                    formattedConditionLowercase.contains("storm") -> {
+                        modRes.getString(R.string.weather_condition_storm)
+                    }
+
+                    formattedConditionLowercase.contains("snow") -> {
+                        modRes.getString(R.string.weather_condition_snow)
+                    }
+
+                    formattedConditionLowercase.contains("wind") -> {
+                        modRes.getString(R.string.weather_condition_wind)
+                    }
+
+                    formattedConditionLowercase.contains("mist") -> {
+                        modRes.getString(R.string.weather_condition_mist)
+                    }
+
+                    else -> {
+                        mWeatherInfo!!.condition.toString()
+                    }
                 }
 
                 val d: Drawable =
                     mWeatherClient.getWeatherConditionImage(mWeatherInfo!!.conditionCode)
                 mCurrentImage!!.setImageDrawable(d)
-                mRightText!!.text = mWeatherInfo!!.temp + " " + mWeatherInfo!!.tempUnits
+                mRightText!!.text = mWeatherInfo!!.temp + mWeatherInfo!!.tempUnits
                 mLeftText!!.text = mWeatherInfo!!.city
                 mLeftText!!.visibility = if (mShowWeatherLocation) VISIBLE else GONE
                 mWeatherText!!.text = " · $formattedCondition"

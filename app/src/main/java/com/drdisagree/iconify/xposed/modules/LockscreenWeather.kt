@@ -163,7 +163,6 @@ class LockscreenWeather(context: Context?) : ModPack(context!!) {
             }
 
             refreshWeatherView(currentWeatherView)
-            updateMargins()
 
             // Weather placed, now inflate widgets
             val broadcast = Intent(ACTION_WEATHER_INFLATED)
