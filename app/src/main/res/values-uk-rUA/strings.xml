@@ -32,19 +32,19 @@
     <string name="installation_failed_desc">Журнали були збережені в теці «Documents».</string>
     <string name="logs">Журнали</string>
     <!-- Search Preference -->
-    <string name="search_title">Search</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear">Clear</string>
+    <string name="search_title">Пошук</string>
+    <string name="searchpreference_search">Пошук…</string>
+    <string name="searchpreference_clear">Очистити</string>
     <string name="searchpreference_history_entry">History entry</string>
-    <string name="searchpreference_more">More</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_result">No result</string>
+    <string name="searchpreference_more">Більше</string>
+    <string name="searchpreference_clear_history">Очистити історію</string>
+    <string name="searchpreference_no_result">Нічого не знайдено</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Набір значків</string>
     <string name="activity_desc_icon_pack">Змінити системний набір значків</string>
-    <string name="activity_title_cellular_icons">Cellular Icons</string>
-    <string name="activity_desc_cellular_icons">Change system cellular icons</string>
+    <string name="activity_title_cellular_icons">Стільникові іконки</string>
+    <string name="activity_desc_cellular_icons">Змінити системні значки сигналу</string>
     <string name="activity_title_wifi_icons">Значки Wi-Fi</string>
     <string name="activity_desc_wifi_icons">Змінити системні значки Wi-Fi</string>
     <string name="activity_title_brightness_bar">Індикатор яскравості</string>
@@ -125,7 +125,7 @@
     <string name="settings_restart_systemui_after_boot_desc">Деякі параметри, як-от інтенсивність розмиття, не набувають чинності, доки систему не буде перезапущено</string>
     <string name="settings_show_home_page_card_title">Показувати картку на головній</string>
     <string name="settings_show_home_page_card_desc">Показувати красиву картку на головній.</string>
-    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
+    <string name="settings_vibrate_ui_card_title">Вібровідгук</string>
     <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
     <string name="settings_clear_app_cache_title">Очистити кеш застосунку</string>
     <string name="settings_clear_app_cache_desc">Очищення кешу, створеного через використання власних шрифтів, зображень або gif-файлів.</string>
@@ -446,6 +446,8 @@
     <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
     <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
     <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
     <string name="oneplus_qs_header_blur_level">Blur Level</string>
     <string name="oneplus_qs_header_fade_level">Fade Level</string>
     <string name="oneplus_qs_header_top_margin">Top Margin</string>

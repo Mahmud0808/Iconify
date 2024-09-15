@@ -446,6 +446,8 @@
     <string name="oneplus_qs_header_desc">Ative o reprodutor de mídia e blocos estilo OOS no QS</string>
     <string name="oneplus_qs_header_vibrate_title">Feedback tátil</string>
     <string name="oneplus_qs_header_vibrate_desc">Adicione feedback tátil nos blocos</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Ocultar reprodutor de mídia padrão</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_desc">Remova o reprodutor de mídia padrão do painel QS</string>
     <string name="oneplus_qs_header_blur_level">Nível do blur</string>
     <string name="oneplus_qs_header_fade_level">Nível de esmaecimento</string>
     <string name="oneplus_qs_header_top_margin">Margem superior</string>
