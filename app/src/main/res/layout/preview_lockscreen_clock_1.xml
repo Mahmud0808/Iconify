@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@*android:string/config_clockFontFamily"
                 android:format12Hour="hh"
-                android:format24Hour="hh"
+                android:format24Hour="HH"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:tag="accent1|nolineheight"
