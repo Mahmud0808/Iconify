@@ -16,8 +16,8 @@ android {
         applicationId = "com.drdisagree.iconify"
         minSdk = 31
         targetSdk = 34
-        versionCode = 20
-        versionName = "6.8.0"
+        versionCode = 21
+        versionName = "6.9.0"
         setProperty("archivesBaseName", "Iconify v$versionName")
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
     }
