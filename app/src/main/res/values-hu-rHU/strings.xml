@@ -446,6 +446,8 @@
     <string name="oneplus_qs_header_desc">Bekapcsolhatja az Oxygen-stílusú médialejátszót és csempéket</string>
     <string name="oneplus_qs_header_vibrate_title">Rezgő visszajelzés</string>
     <string name="oneplus_qs_header_vibrate_desc">A csempék rezgésének hozzáadása</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Rejtett Médialejátszó</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_desc">Eltávolítja a gyári médialejátszót a gyorsbeállítások paneljéről</string>
     <string name="oneplus_qs_header_blur_level">Az elmosás erőssége</string>
     <string name="oneplus_qs_header_fade_level">A halványítás erőssége</string>
     <string name="oneplus_qs_header_top_margin">Felső margó</string>
