@@ -1688,7 +1688,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     )
                 } else {
                     mMediaPlayer.resetMediaAppIconColor(
-                        backgroundColor = dominantColor ?: colorAccent
+                        backgroundColor = dominantColor ?: colorActive ?: colorAccent
                     )
                 }
 
