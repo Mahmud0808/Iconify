@@ -24,7 +24,6 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import android.service.controls.Control
 import android.telephony.TelephonyManager
 import android.util.Log
 import android.view.GestureDetector
@@ -307,7 +306,13 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             (mFabPadding * mWidgetsScale).toInt(),
             (mFabPadding * mWidgetsScale).toInt()
         )
-        fab.gravity = Gravity.CENTER
+        fab.gravity = Gravity.CENTER_VERTICAL
+        fab.setPadding(
+            mContext.toPx(24),
+            mContext.toPx(8),
+            mContext.toPx(24),
+            mContext.toPx(8)
+        )
         return fab
     }
 
@@ -587,10 +592,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     }
 
     private fun updateContainerVisibility() {
-        val isMainWidgetsEmpty = (mMainLockscreenWidgetsList == null
-                || mMainLockscreenWidgetsList.isNullOrEmpty())
-        val isSecondaryWidgetsEmpty = (mSecondaryLockscreenWidgetsList == null
-                || mSecondaryLockscreenWidgetsList.isNullOrEmpty())
+        val isMainWidgetsEmpty = mMainLockscreenWidgetsList.isNullOrEmpty()
+        val isSecondaryWidgetsEmpty = mSecondaryLockscreenWidgetsList.isNullOrEmpty()
         val isEmpty = isMainWidgetsEmpty && isSecondaryWidgetsEmpty
 
         if (mDeviceWidgetContainer != null) {
@@ -620,11 +623,10 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             for (i in 0 until min(
                 mMainWidgetsList!!.size.toDouble(),
                 mMainWidgetViews!!.size.toDouble()
-            )
-                .toInt()) {
+            ).toInt()) {
                 val widgetType: String = mMainWidgetsList!![i]
                 if (i < mMainWidgetViews!!.size) {
-                    setUpWidgetWiews(null, mMainWidgetViews!![i], widgetType)
+                    setUpWidgetViews(efab = mMainWidgetViews!![i], type = widgetType)
                     updateMainWidgetResources(mMainWidgetViews!![i], false)
                 }
             }
@@ -637,11 +639,10 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
             for (i in 0 until min(
                 mSecondaryWidgetsList!!.size.toDouble(),
                 mSecondaryWidgetViews!!.size.toDouble()
-            )
-                .toInt()) {
+            ).toInt()) {
                 val widgetType: String = mSecondaryWidgetsList!![i]
                 if (i < mSecondaryWidgetViews!!.size) {
-                    setUpWidgetWiews(mSecondaryWidgetViews!![i], null, widgetType)
+                    setUpWidgetViews(iv = mSecondaryWidgetViews!![i], type = widgetType)
                     updateWidgetsResources(mSecondaryWidgetViews!![i])
                 }
             }
@@ -650,6 +651,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         updateMediaController()
     }
 
+    @Suppress("SameParameterValue")
     private fun updateMainWidgetResources(efab: ExtendedFAB?, active: Boolean) {
         if (efab == null) return
         efab.setElevation(0F)
@@ -685,7 +687,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     == Configuration.UI_MODE_NIGHT_YES)
         }
 
-    private fun setUpWidgetWiews(iv: ImageView?, efab: ExtendedFAB?, type: String) {
+    private fun setUpWidgetViews(iv: ImageView? = null, efab: ExtendedFAB? = null, type: String) {
         when (type) {
             "none" -> {
                 if (iv != null) {
@@ -1711,7 +1713,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         }
     }
 
-    @Suppress("DiscouragedApi")
+    @Suppress("DiscouragedApi", "SameParameterValue")
     private fun getString(stringRes: String, pkg: String): String {
         try {
             return mContext.resources.getString(
