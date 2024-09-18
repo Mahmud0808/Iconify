@@ -73,7 +73,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val SKIP_INSTALLATION = true
+        private const val SKIP_INSTALLATION = false
         val SKIP_TO_HOMEPAGE_FOR_TESTING = SKIP_INSTALLATION && BuildConfig.DEBUG
 
         init {
