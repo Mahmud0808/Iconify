@@ -33,6 +33,7 @@ import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
+import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.getFloatField
@@ -42,6 +43,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.IOException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
@@ -54,10 +56,10 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
     private var foregroundAlpha = 1.0f
     private var mScrimController: Any? = null
     private var mForegroundDimmingOverlay: Drawable? = null
-    private var mWallpaperForeground: FrameLayout = FrameLayout(mContext)
-    private var mWallpaperBackground: FrameLayout = FrameLayout(mContext)
-    private var mWallpaperBitmapContainer: FrameLayout = FrameLayout(mContext)
-    private var mWallpaperDimmingOverlay: FrameLayout = FrameLayout(mContext)
+    private lateinit var mWallpaperForeground: FrameLayout
+    private lateinit var mWallpaperBackground: FrameLayout
+    private lateinit var mWallpaperBitmapContainer: FrameLayout
+    private lateinit var mWallpaperDimmingOverlay: FrameLayout
     private var mWallpaperForegroundCacheValid = false
     private var mLayersCreated = false
     private var showOnAOD = true
@@ -270,6 +272,17 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                     )
                     val finalScaledWallpaperBitmap = scaledWallpaperBitmap
 
+                    try {
+                        val file = File(backgroundPath)
+                        file.parentFile?.mkdirs()
+                        val out = FileOutputStream(file)
+                        finalScaledWallpaperBitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                        out.flush()
+                        out.close()
+                    } catch (throwable: IOException) {
+                        log(TAG + throwable)
+                    }
+
                     if (!mLayersCreated) {
                         createLayers()
                     }
@@ -391,6 +404,11 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
     }
 
     private fun createLayers() {
+        mWallpaperForeground = FrameLayout(mContext)
+        mWallpaperBackground = FrameLayout(mContext)
+        mWallpaperDimmingOverlay = FrameLayout(mContext)
+        mWallpaperBitmapContainer = FrameLayout(mContext)
+
         val layoutParams = FrameLayout.LayoutParams(-1, -1)
 
         mWallpaperDimmingOverlay.setBackgroundColor(
@@ -401,14 +419,15 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
             }
         )
         mWallpaperDimmingOverlay.alpha = 0F
+
         mWallpaperDimmingOverlay.layoutParams = layoutParams
         mWallpaperBitmapContainer.layoutParams = layoutParams
 
         mWallpaperBackground.addView(mWallpaperBitmapContainer)
         mWallpaperBackground.addView(mWallpaperDimmingOverlay)
-        mWallpaperBackground.layoutParams = layoutParams
 
         mWallpaperForeground.layoutParams = layoutParams
+        mWallpaperBackground.layoutParams = layoutParams
 
         mLayersCreated = true
     }
