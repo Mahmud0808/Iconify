@@ -29,7 +29,7 @@ import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import kotlin.properties.Delegates
 
 @Suppress("DiscouragedApi")
-class QsOpMediaPlayerView(private val mContext: Context) : CardView(mContext) {
+class OpQsMediaPlayerView(private val mContext: Context) : CardView(mContext) {
 
     private lateinit var appContext: Context
 

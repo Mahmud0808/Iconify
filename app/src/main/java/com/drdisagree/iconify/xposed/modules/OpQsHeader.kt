@@ -77,9 +77,9 @@ import com.drdisagree.iconify.xposed.modules.utils.VibrationUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.views.MediaPlayerPagerAdapter
-import com.drdisagree.iconify.xposed.modules.views.QsOpHeaderView
-import com.drdisagree.iconify.xposed.modules.views.QsOpMediaPlayerView
-import com.drdisagree.iconify.xposed.modules.views.QsOpMediaPlayerView.Companion.opMediaDefaultBackground
+import com.drdisagree.iconify.xposed.modules.views.OpQsHeaderView
+import com.drdisagree.iconify.xposed.modules.views.OpQsMediaPlayerView
+import com.drdisagree.iconify.xposed.modules.views.OpQsMediaPlayerView.Companion.opMediaDefaultBackground
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
@@ -134,7 +134,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private var mQuickStatusBarHeader: FrameLayout? = null
     private var mQQSContainerAnimator: TouchAnimator? = null
     private lateinit var mHeaderQsPanel: LinearLayout
-    private var mQsOpHeaderView: QsOpHeaderView? = null
+    private var mOpQsHeaderView: OpQsHeaderView? = null
 
     // Colors
     private var colorActive: Int? = null
@@ -151,8 +151,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     private val mPrevMediaControllerMetadataMap = mutableMapOf<String, MediaMetadata?>()
     private val mPrevMediaArtworkMap = mutableMapOf<String, Bitmap?>()
     private val mPrevMediaProcessedArtworkMap = mutableMapOf<String, Bitmap?>()
-    private val mMediaPlayerViews = mutableListOf<Pair<String?, QsOpMediaPlayerView>>().also {
-        it.add(null to QsOpMediaPlayerView(mContext))
+    private val mMediaPlayerViews = mutableListOf<Pair<String?, OpQsMediaPlayerView>>().also {
+        it.add(null to OpQsMediaPlayerView(mContext))
     }
     private var mMediaPlayerAdapter: MediaPlayerPagerAdapter? = null
 
@@ -337,10 +337,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (!showOpQsHeaderView) return
 
-                initResources()
-                updateInternetTileColors()
-                updateBluetoothTileColors()
-                updateMediaPlayers(force = true)
+                updateOpHeaderView()
             }
         })
 
@@ -358,10 +355,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     override fun afterHookedMethod(param: MethodHookParam) {
                         if (!showOpQsHeaderView || qsTileViewImplInstance == null) return
 
-                        initResources()
-                        updateInternetTileColors()
-                        updateBluetoothTileColors()
-                        updateMediaPlayers(force = true)
+                        updateOpHeaderView()
                     }
                 }
 
@@ -438,8 +432,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     clipChildren = false
                     clipToPadding = false
 
-                    (mQsOpHeaderView?.parent as? ViewGroup)?.removeView(mQsOpHeaderView)
-                    mQsOpHeaderView = QsOpHeaderView(mContext).apply {
+                    (mOpQsHeaderView?.parent as? ViewGroup)?.removeView(mOpQsHeaderView)
+                    mOpQsHeaderView = OpQsHeaderView(mContext).apply {
                         setOnAttachListener {
                             ControllersProvider.getInstance().apply {
                                 registerWifiCallback(mWifiCallback)
@@ -462,8 +456,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         mediaPlayerContainer.adapter = mMediaPlayerAdapter
                     }
 
-                    mQsHeaderContainer.addView(mQsOpHeaderView)
-                    updateOpHeaderView(force = false)
+                    mQsHeaderContainer.addView(mOpQsHeaderView)
+                    updateOpHeaderView()
 
                     (mQsHeaderContainer.parent as? ViewGroup)?.removeView(mQsHeaderContainer)
                     addView(mQsHeaderContainer)
@@ -472,7 +466,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     addView(mHeaderQsPanel)
 
                     (mHeaderQsPanel.layoutParams as RelativeLayout.LayoutParams).apply {
-                        addRule(RelativeLayout.BELOW, mQsOpHeaderView!!.id)
+                        addRule(RelativeLayout.BELOW, mOpQsHeaderView!!.id)
                     }
                 }
 
@@ -526,8 +520,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     }
                     mQsHeaderContainerShade.visibility = View.GONE
                 }
-
-                updateOpHeaderView()
             }
         })
 
@@ -986,19 +978,19 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         )
     }
 
-    private fun updateOpHeaderView(force: Boolean = false) {
-        if (mQsOpHeaderView == null) return
+    private fun updateOpHeaderView() {
+        if (mOpQsHeaderView == null) return
 
         initResources()
         startMediaUpdater()
         updateInternetState()
         updateBluetoothState()
-        updateMediaPlayers(force = force)
+        updateMediaPlayers(force = true)
     }
 
     private fun buildHeaderViewExpansion() {
         if (!showOpQsHeaderView ||
-            mQsOpHeaderView == null ||
+            mOpQsHeaderView == null ||
             !::mHeaderQsPanel.isInitialized
         ) return
 
@@ -1172,8 +1164,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 )!!
                 colorLabelActive?.let { DrawableCompat.setTint(wifiIconDrawable, it) }
 
-                mQsOpHeaderView?.setInternetText(wifiInfo.ssid)
-                mQsOpHeaderView?.setInternetIcon(wifiIconDrawable)
+                mOpQsHeaderView?.setInternetText(wifiInfo.ssid)
+                mOpQsHeaderView?.setInternetIcon(wifiIconDrawable)
             } else {
                 val carrierInfo = getConnectedCarrierInfo()
                 val maxBars = 4
@@ -1189,9 +1181,9 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 colorLabelActive?.let { DrawableCompat.setTint(mobileDataIconDrawable, it) }
 
                 if (carrierInfo.networkType == null) {
-                    mQsOpHeaderView?.setInternetText(carrierInfo.name)
+                    mOpQsHeaderView?.setInternetText(carrierInfo.name)
                 } else {
-                    mQsOpHeaderView?.setInternetText(
+                    mOpQsHeaderView?.setInternetText(
                         String.format(
                             "%s, %s",
                             carrierInfo.name,
@@ -1199,11 +1191,11 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                         )
                     )
                 }
-                mQsOpHeaderView?.setInternetIcon(mobileDataIconDrawable)
+                mOpQsHeaderView?.setInternetIcon(mobileDataIconDrawable)
             }
         } else {
-            mQsOpHeaderView?.setInternetText(internetLabel)
-            mQsOpHeaderView?.setInternetIcon(noInternetIconDrawable)
+            mOpQsHeaderView?.setInternetText(internetLabel)
+            mOpQsHeaderView?.setInternetIcon(noInternetIconDrawable)
         }
 
         updateInternetTileColors()
@@ -1431,17 +1423,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             val bluetoothLabel = getBluetoothConnectedDevice()
             val deviceConnected = bluetoothLabel != defaultLabel
 
-            mQsOpHeaderView?.setBlueToothText(bluetoothLabel)
-            mQsOpHeaderView?.setBlueToothIcon(if (deviceConnected) connectedIcon else disconnectedIcon)
+            mOpQsHeaderView?.setBlueToothText(bluetoothLabel)
+            mOpQsHeaderView?.setBlueToothIcon(if (deviceConnected) connectedIcon else disconnectedIcon)
         } else {
-            mQsOpHeaderView?.setBlueToothText(
+            mOpQsHeaderView?.setBlueToothText(
                 mContext.resources.getIdentifier(
                     "quick_settings_bluetooth_label",
                     "string",
                     SYSTEMUI_PACKAGE
                 )
             )
-            mQsOpHeaderView?.setBlueToothIcon(disconnectedIcon)
+            mOpQsHeaderView?.setBlueToothIcon(disconnectedIcon)
         }
 
         updateBluetoothTileColors()
@@ -1536,7 +1528,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         controller: MediaController?,
         force: Boolean = false
     ) {
-        if (mQsOpHeaderView == null || !::opMediaBackgroundDrawable.isInitialized) return
+        if (mOpQsHeaderView == null || !::opMediaBackgroundDrawable.isInitialized) return
 
         val mMediaPlayer = getOrCreateMediaPlayer(packageName) ?: return
         val mInactiveBackground = opMediaBackgroundDrawable.constantState?.newDrawable()?.mutate()
@@ -1596,10 +1588,6 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
             }
 
             val finalArtworkDrawable: Drawable? = when {
-                areBitmapsEqual && mMediaArtwork != null && previousBlurLevel == mediaBlurLevel -> {
-                    null
-                }
-
                 mPrevMediaArtworkMap[packageName] == null && filteredArtwork != null -> {
                     TransitionDrawable(
                         arrayOf(
@@ -1664,26 +1652,15 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                     setMediaPlayingIcon(mIsMediaPlaying)
                 }
 
-                val requireIconTint: Boolean
-
-                when {
+                val requireIconTint = when {
                     appIconDrawable != null && mMediaTitle != null -> {
-                        requireIconTint = false
                         mMediaPlayer.setMediaAppIconDrawable(appIconDrawable)
+                        false
                     }
 
                     else -> {
-                        requireIconTint = true
                         mMediaPlayer.resetMediaAppIcon()
-                    }
-                }
-
-                mHandler.post {
-                    mMediaPlayer.setMediaPlayerBackground(finalArtworkDrawable)
-
-                    if (finalArtworkDrawable is TransitionDrawable) {
-                        finalArtworkDrawable.isCrossFadeEnabled = true
-                        finalArtworkDrawable.startTransition(250)
+                        true
                     }
                 }
 
@@ -1720,13 +1697,21 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
                 } else {
                     mMediaPlayer.setMediaPlayerItemsColor(onDominantColor)
                 }
+
+                mMediaPlayer.post {
+                    mMediaPlayer.setMediaPlayerBackground(finalArtworkDrawable)
+                    if (finalArtworkDrawable is TransitionDrawable) {
+                        finalArtworkDrawable.isCrossFadeEnabled = true
+                        finalArtworkDrawable.startTransition(250)
+                    }
+                }
             }
         }
     }
 
-    private fun getOrCreateMediaPlayer(packageName: String?): QsOpMediaPlayerView? {
+    private fun getOrCreateMediaPlayer(packageName: String?): OpQsMediaPlayerView? {
         if (!mMediaPlayerViews.any { it.first == packageName }) {
-            val mediaPlayerView = QsOpMediaPlayerView(mContext)
+            val mediaPlayerView = OpQsMediaPlayerView(mContext)
 
             if (packageName != null) {
                 mediaPlayerView.setOnClickListeners { v ->
@@ -1760,7 +1745,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         return mMediaPlayerViews.find { it.first == packageName }?.second
     }
 
-    private fun addMediaPlayerView(packageName: String?, view: QsOpMediaPlayerView) {
+    private fun addMediaPlayerView(packageName: String?, view: OpQsMediaPlayerView) {
         if (packageName == null && mMediaPlayerViews.isNotEmpty()) return
 
         val position = mMediaPlayerViews.indexOfFirst { it.first == packageName }
@@ -1772,8 +1757,8 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         mMediaPlayerViews.add(0, packageName to view)
         mMediaPlayerAdapter?.notifyDataSetChanged()
 
-        mQsOpHeaderView?.mediaPlayerContainer?.post {
-            mQsOpHeaderView?.mediaPlayerContainer?.setCurrentItem(0, false)
+        mOpQsHeaderView?.mediaPlayerContainer?.post {
+            mOpQsHeaderView?.mediaPlayerContainer?.setCurrentItem(0, false)
         }
 
         updateAdapter()
@@ -1787,7 +1772,7 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
         mMediaPlayerAdapter?.notifyDataSetChanged()
 
         if (mMediaPlayerViews.isEmpty()) {
-            mMediaPlayerViews.add(null to QsOpMediaPlayerView(mContext))
+            mMediaPlayerViews.add(null to OpQsMediaPlayerView(mContext))
             mMediaPlayerAdapter?.notifyDataSetChanged()
         }
 
@@ -1796,17 +1781,17 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
     private fun updateAdapter() {
         mMediaPlayerAdapter = MediaPlayerPagerAdapter(mMediaPlayerViews)
-        mQsOpHeaderView?.mediaPlayerContainer?.adapter = mMediaPlayerAdapter
+        mOpQsHeaderView?.mediaPlayerContainer?.adapter = mMediaPlayerAdapter
     }
 
     private fun updateInternetTileColors() {
         if (mInternetEnabled) {
-            mQsOpHeaderView?.setInternetTileColor(
+            mOpQsHeaderView?.setInternetTileColor(
                 tileColor = colorActive,
                 labelColor = colorLabelActive
             )
         } else {
-            mQsOpHeaderView?.setInternetTileColor(
+            mOpQsHeaderView?.setInternetTileColor(
                 tileColor = colorInactive,
                 labelColor = colorLabelInactive
             )
@@ -1815,12 +1800,12 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
 
     private fun updateBluetoothTileColors() {
         if (mBluetoothEnabled) {
-            mQsOpHeaderView?.setBluetoothTileColor(
+            mOpQsHeaderView?.setBluetoothTileColor(
                 tileColor = colorActive,
                 labelColor = colorLabelActive
             )
         } else {
-            mQsOpHeaderView?.setBluetoothTileColor(
+            mOpQsHeaderView?.setBluetoothTileColor(
                 tileColor = colorInactive,
                 labelColor = colorLabelInactive
             )
@@ -2044,21 +2029,21 @@ class OpQsHeader(context: Context?) : ModPack(context!!) {
     }
 
     private val mOnClickListener = View.OnClickListener { v ->
-        if (v === mQsOpHeaderView?.internetTile) {
+        if (v === mOpQsHeaderView?.internetTile) {
             toggleInternetState(v)
             vibrate()
-        } else if (v === mQsOpHeaderView?.bluetoothTile) {
+        } else if (v === mOpQsHeaderView?.bluetoothTile) {
             toggleBluetoothState(v)
             vibrate()
         }
     }
 
     private val mOnLongClickListener = OnLongClickListener { v ->
-        if (v === mQsOpHeaderView?.internetTile) {
+        if (v === mOpQsHeaderView?.internetTile) {
             mActivityLauncherUtils.launchApp(Intent(Settings.ACTION_WIFI_SETTINGS), true)
             vibrate()
             return@OnLongClickListener true
-        } else if (v === mQsOpHeaderView?.bluetoothTile) {
+        } else if (v === mOpQsHeaderView?.bluetoothTile) {
             mActivityLauncherUtils.launchApp(Intent(Settings.ACTION_BLUETOOTH_SETTINGS), true)
             vibrate()
             return@OnLongClickListener true

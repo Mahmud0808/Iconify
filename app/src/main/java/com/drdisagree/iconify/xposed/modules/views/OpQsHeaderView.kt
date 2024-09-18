@@ -26,7 +26,7 @@ import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import kotlin.properties.Delegates
 
 @Suppress("DiscouragedApi")
-class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
+class OpQsHeaderView(private val mContext: Context) : LinearLayout(mContext) {
 
     private lateinit var appContext: Context
 
@@ -242,7 +242,7 @@ class QsOpHeaderView(private val mContext: Context) : LinearLayout(mContext) {
                 1F
             )
             orientation = VERTICAL
-            (layoutParams as MarginLayoutParams).marginEnd = qsTileMarginHorizontal
+            (layoutParams as MarginLayoutParams).marginEnd = qsTileMarginHorizontal / 2
         }
 
         leftSection.apply {

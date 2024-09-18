@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 
 class MediaPlayerPagerAdapter(
-    private val mediaPlayerViews: MutableList<Pair<String?, QsOpMediaPlayerView>>
+    private val mediaPlayerViews: MutableList<Pair<String?, OpQsMediaPlayerView>>
 ) : PagerAdapter() {
 
     override fun getCount(): Int {
@@ -25,6 +25,6 @@ class MediaPlayerPagerAdapter(
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        container.removeView(`object` as QsOpMediaPlayerView)
+        container.removeView(`object` as OpQsMediaPlayerView)
     }
 }
