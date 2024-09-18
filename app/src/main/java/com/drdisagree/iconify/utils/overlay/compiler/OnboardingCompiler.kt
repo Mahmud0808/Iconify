@@ -26,7 +26,6 @@ object OnboardingCompiler {
     private var key: PrivateKey? = null
     private var cert: X509Certificate? = null
 
-    @JvmStatic
     fun createManifest(name: String?, target: String?, source: String): Boolean {
         var hasErroredOut = false
         var attempt = 3
@@ -46,7 +45,6 @@ object OnboardingCompiler {
         return !hasErroredOut
     }
 
-    @JvmStatic
     fun runAapt(source: String, name: String): Boolean {
         var result: Shell.Result? = null
         var attempt = 3
@@ -66,16 +64,25 @@ object OnboardingCompiler {
         while (attempt-- != 0) {
             result = Shell.cmd(command).exec()
 
-            if (!result.isSuccess && OverlayCompiler.listContains(
-                    result.out,
+            if (!result.isSuccess) {
+                val keywords = listOf(
                     "colorSurfaceHeader"
                 )
-            ) {
-                Shell.cmd(
-                    "find $source/res -type f -name \"*.xml\" -exec sed -i '/colorSurfaceHeader/d' {} +"
-                ).exec()
-                result = Shell.cmd(command).exec()
+
+                val foundKeywords = keywords.filter { keyword ->
+                    result!!.out.any { it.contains(keyword, ignoreCase = true) }
+                }
+
+                if (foundKeywords.isNotEmpty()) {
+                    foundKeywords.forEach { keyword ->
+                        Shell.cmd(
+                            "find $source/res -type f -name \"*.xml\" -exec sed -i '/$keyword/d' {} +"
+                        ).exec()
+                    }
+                    result = Shell.cmd(command).exec()
+                }
             }
+
             if (result.isSuccess) {
                 Log.i("$TAG - AAPT", "Successfully built APK for $name")
                 break
@@ -111,7 +118,6 @@ object OnboardingCompiler {
         return folderCommand + compileCommand + linkCommand
     }
 
-    @JvmStatic
     fun zipAlign(source: String, name: String): Boolean {
         var result: Shell.Result? = null
         var attempt = 3
@@ -154,7 +160,6 @@ object OnboardingCompiler {
         return !result.isSuccess
     }
 
-    @JvmStatic
     fun apkSigner(source: String?, name: String): Boolean {
         try {
             if (key == null) {

@@ -8,14 +8,13 @@ import com.drdisagree.iconify.common.Dynamic.ZIPALIGN
 import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.common.Resources.FRAMEWORK_DIR
-import com.drdisagree.iconify.utils.AppUtil.getSplitLocations
+import com.drdisagree.iconify.utils.AppUtils.getSplitLocations
 import com.drdisagree.iconify.utils.apksigner.CryptoUtils
 import com.drdisagree.iconify.utils.apksigner.SignAPK
 import com.drdisagree.iconify.utils.helper.Logger.writeLog
 import com.topjohnwu.superuser.Shell
 import java.security.PrivateKey
 import java.security.cert.X509Certificate
-import java.util.Locale
 
 object OverlayCompiler {
 
@@ -30,7 +29,7 @@ object OverlayCompiler {
         val module: MutableList<String> = ArrayList()
         module.add(
             "printf '${
-                CompilerUtil.createManifestContent(
+                CompilerUtils.createManifestContent(
                     overlayName,
                     targetPackage
                 )
@@ -59,7 +58,7 @@ object OverlayCompiler {
     }
 
     fun runAapt(source: String, targetPackage: String?): Boolean {
-        val name = CompilerUtil.getOverlayName(source) +
+        val name = CompilerUtils.getOverlayName(source) +
                 if (source.contains("SpecialOverlays")) {
                     ".zip"
                 } else {
@@ -75,10 +74,23 @@ object OverlayCompiler {
         val command = aaptCommand.toString()
         var result = Shell.cmd(command).exec()
 
-        if (!result.isSuccess && listContains(result.out, "colorSurfaceHeader")) {
-            Shell.cmd("find $source/res -type f -name \"*.xml\" -exec sed -i '/colorSurfaceHeader/d' {} +")
-                .exec()
-            result = Shell.cmd(command).exec()
+        if (!result.isSuccess) {
+            val keywords = listOf(
+                "colorSurfaceHeader"
+            )
+
+            val foundKeywords = keywords.filter { keyword ->
+                result.out.any { it.contains(keyword, ignoreCase = true) }
+            }
+
+            if (foundKeywords.isNotEmpty()) {
+                foundKeywords.forEach { keyword ->
+                    Shell.cmd(
+                        "find $source/res -type f -name \"*.xml\" -exec sed -i '/$keyword/d' {} +"
+                    ).exec()
+                }
+                result = Shell.cmd(command).exec()
+            }
         }
 
         if (result.isSuccess) {
@@ -120,7 +132,7 @@ object OverlayCompiler {
     }
 
     fun zipAlign(source: String): Boolean {
-        val fileName = CompilerUtil.getOverlayName(source)
+        val fileName = CompilerUtils.getOverlayName(source)
         val result =
             Shell.cmd(
                 zipalign + " 4 " + source + ' ' + Resources.UNSIGNED_DIR + "/" + fileName + "-unsigned.apk"
@@ -153,7 +165,7 @@ object OverlayCompiler {
                     CryptoUtils.readCertificate(appContext.assets.open("Keystore/testkey.x509.pem"))
             }
 
-            fileName = CompilerUtil.getOverlayName(source)
+            fileName = CompilerUtils.getOverlayName(source)
 
             SignAPK.sign(
                 cert, key, source, Resources.SIGNED_DIR + "/IconifyComponent" + fileName + ".apk"
@@ -164,18 +176,6 @@ object OverlayCompiler {
             Log.e(TAG, e.toString())
             writeLog("$TAG - APKSigner", "Failed to sign $fileName", e)
             return true
-        }
-
-        return false
-    }
-
-    fun listContains(list: List<String>, target: String): Boolean {
-        for (item in list) {
-            if (item.lowercase(Locale.getDefault())
-                    .contains(target.lowercase(Locale.getDefault()))
-            ) {
-                return true
-            }
         }
 
         return false

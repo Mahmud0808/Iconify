@@ -8,11 +8,10 @@ import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.utils.Helpers.disableOverlays
-import com.drdisagree.iconify.xposed.modules.utils.Helpers.enableOverlay
-import com.drdisagree.iconify.xposed.utils.SystemUtil
+import com.drdisagree.iconify.xposed.utils.SystemUtils
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -37,17 +36,24 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
     private val qsDualToneOverlay = "IconifyComponentQSDT.overlay"
 
     init {
-        isDark = SystemUtil.isDarkMode
+        isDark = SystemUtils.isDarkMode
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        lightQSHeaderEnabled = Xprefs!!.getBoolean(LIGHT_QSPANEL, false)
-        dualToneQSEnabled = lightQSHeaderEnabled &&
-                Xprefs!!.getBoolean(DUALTONE_QSPANEL, false)
+        Xprefs.apply {
+            lightQSHeaderEnabled = getBoolean(LIGHT_QSPANEL, false)
+            dualToneQSEnabled = lightQSHeaderEnabled && getBoolean(DUALTONE_QSPANEL, false)
+        }
 
-        applyOverlays(true)
+        if (key.isNotEmpty()) {
+            key[0].let {
+                if (it == LIGHT_QSPANEL || it == DUALTONE_QSPANEL) {
+                    applyOverlays(true)
+                }
+            }
+        }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -205,7 +211,7 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
                 "$SYSTEMUI_PACKAGE.statusbar.phone.ScrimState",
                 loadPackageParam.classLoader
             )
-            val constants: Array<out Any>? = scrimStateEnum.getEnumConstants()
+            val constants: Array<out Any>? = scrimStateEnum.enumConstants
 
             if (constants != null) {
                 for (constant in constants) {
@@ -358,27 +364,27 @@ class QSLightThemeA12(context: Context?) : ModPack(context!!) {
         })
     }
 
+    @Suppress("SameParameterValue")
     private fun applyOverlays(force: Boolean) {
-        val isCurrentlyDark: Boolean = SystemUtil.isDarkMode
+        val isCurrentlyDark: Boolean = SystemUtils.isDarkMode
         if (isCurrentlyDark == isDark && !force) return
 
         isDark = isCurrentlyDark
 
-        disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
+        Utils.disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
 
         try {
             Thread.sleep(50)
         } catch (ignored: Throwable) {
         }
 
-        if (lightQSHeaderEnabled) {
-            if (!isCurrentlyDark) enableOverlay(qsLightThemeOverlay)
-            if (dualToneQSEnabled) enableOverlay(qsDualToneOverlay)
+        if (lightQSHeaderEnabled && !isCurrentlyDark) {
+            Utils.enableOverlay(qsLightThemeOverlay)
+            if (dualToneQSEnabled) Utils.enableOverlay(qsDualToneOverlay)
         }
     }
 
     companion object {
-        const val STATE_ACTIVE = 2
         private val TAG = "Iconify - ${QSLightThemeA12::class.java.simpleName}: "
         private var lightQSHeaderEnabled = false
         private var dualToneQSEnabled = false

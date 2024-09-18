@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_sbclocksizeswitch"
+        android:summary="@string/sb_clock_size_switch_desc"
+        android:title="@string/sb_clock_size_switch_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_sbclocksizeswitch"
+        android:key="xposed_sbclocksize"
+        android:title="@string/sb_clock_size"
+        app:defaultValue="14"
+        app:iconSpaceReserved="false"
+        app:maxVal="24"
+        app:minVal="10"
+        app:tickInterval="1"
+        app:updatesContinuously="true"
+        app:valueFormat="px" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_coloredstatusbaricon"
+        android:summary="@string/colored_statusbar_icon_desc"
+        android:title="@string/colored_statusbar_icon_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="transparencyXposedSettings"
+        android:title="@string/lock_screen"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_hidelockscreencarrier"
+            android:summary="@string/hide_ls_carrier_desc"
+            android:title="@string/hide_ls_carrier_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_hidelockscreenstatusbar"
+            android:summary="@string/hide_ls_statusbar_desc"
+            android:title="@string/hide_ls_statusbar_title"
+            app:iconSpaceReserved="false" />
+
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+</PreferenceScreen>

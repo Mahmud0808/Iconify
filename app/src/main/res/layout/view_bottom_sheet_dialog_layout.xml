@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/drag_handle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_preference"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_dialog_toolbar_height"
+        android:layout_marginTop="-20dp" />
+
+    <View
+        android:id="@+id/divider"
+        style="@style/HorizontalDivider" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/select_dialog_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/list_dialog_list_margin_bottom"
+        android:background="@android:color/transparent"
+        android:layout_gravity="center_horizontal"
+        android:divider="@null"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbars="vertical" />
+</LinearLayout>

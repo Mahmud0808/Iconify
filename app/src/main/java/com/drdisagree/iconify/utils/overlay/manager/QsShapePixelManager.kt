@@ -3,14 +3,13 @@ package com.drdisagree.iconify.utils.overlay.manager
 import com.drdisagree.iconify.common.Dynamic.TOTAL_QSSHAPESPIXEL
 import com.drdisagree.iconify.common.Dynamic.isAtleastA14
 import com.drdisagree.iconify.common.Preferences.FIX_QS_TILE_COLOR
-import com.drdisagree.iconify.config.Prefs
 import com.drdisagree.iconify.config.RPrefs
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.changeOverlayState
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlay
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlayExclusiveInCategory
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.isOverlayEnabled
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.changeOverlayState
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlay
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlayExclusiveInCategory
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.isOverlayEnabled
 
 object QsShapePixelManager {
     fun enableOverlay(n: Int) {
@@ -42,7 +41,7 @@ object QsShapePixelManager {
 
         if (isAtleastA14 && !RPrefs.getBoolean(FIX_QS_TILE_COLOR, false)) {
             RPrefs.putBoolean(FIX_QS_TILE_COLOR, true)
-            SystemUtil.restartSystemUI()
+            SystemUtils.restartSystemUI()
         }
     }
 
@@ -51,14 +50,14 @@ object QsShapePixelManager {
 
         if (isAtleastA14 && RPrefs.getBoolean(FIX_QS_TILE_COLOR, false)) {
             RPrefs.putBoolean(FIX_QS_TILE_COLOR, false)
-            SystemUtil.restartSystemUI()
+            SystemUtils.restartSystemUI()
         }
     }
 
     private fun disableOthers(n: Int) {
         for (i in 1..TOTAL_QSSHAPESPIXEL) {
-            Prefs.putBoolean("IconifyComponentQSSP$i.overlay", i == n)
-            Prefs.putBoolean("IconifyComponentQSSN$i.overlay", false)
+            RPrefs.putBoolean("IconifyComponentQSSP$i.overlay", i == n)
+            RPrefs.putBoolean("IconifyComponentQSSN$i.overlay", false)
         }
     }
 }

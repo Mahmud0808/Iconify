@@ -62,7 +62,7 @@
                     android:includeFontPadding="false"
                     android:layout_gravity="end"
                     android:format12Hour="h:mm"
-                    android:format24Hour="h:mm"
+                    android:format24Hour="HH:mm"
                     android:singleLine="true"
                     android:tag="text1"
                     android:textAlignment="viewEnd"

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context=".ui.fragments.xposed.ClockChip">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_background" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/accent_fill_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isChecked="true"
+                app:titleText="@string/accent_fill_color" />
+
+            <com.drdisagree.iconify.ui.widgets.RadioDialogWidget
+                android:id="@+id/gradient_direction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:entries="@array/gradient_direction"
+                app:showSelectedPrefix="false"
+                app:titleText="@string/gradient_direction" />
+
+            <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                android:id="@+id/fill_start_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/fill_start_color" />
+
+            <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                android:id="@+id/fill_end_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/fill_end_color" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_border" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/enable_border"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/enable_border" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/accent_border_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isChecked="true"
+                app:titleText="@string/accent_border_color" />
+
+            <com.drdisagree.iconify.ui.widgets.ColorPickerWidget
+                android:id="@+id/border_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/border_color" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/dashed_border"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/dashed_border" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/dash_width"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="4"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="12"
+                app:titleText="@string/dash_width"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/dash_gap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="4"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="12"
+                app:titleText="@string/dash_gap"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/border_thickness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="3"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="12"
+                app:titleText="@string/border_thickness"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_padding" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/padding_left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="6"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="12"
+                app:titleText="@string/padding_left"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/padding_right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="6"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="12"
+                app:titleText="@string/padding_right"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/padding_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="4"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="12"
+                app:titleText="@string/padding_top"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/padding_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="4"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="12"
+                app:titleText="@string/padding_bottom"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_corner_radius" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/corner_radius_top_left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="28"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="40"
+                app:titleText="@string/top_left_radius"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/corner_radius_top_right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="28"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="40"
+                app:titleText="@string/top_right_radius"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/corner_radius_bottom_left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="28"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="40"
+                app:titleText="@string/bottom_left_radius"
+                app:valueFormat="dp" />
+
+            <com.drdisagree.iconify.ui.widgets.SliderWidget
+                android:id="@+id/corner_radius_bottom_right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:sliderStepSize="1"
+                app:sliderValue="28"
+                app:sliderValueFrom="0"
+                app:sliderValueTo="40"
+                app:titleText="@string/bottom_right_radius"
+                app:valueFormat="dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp">
+
+            <LinearLayout
+                android:id="@+id/preview_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="3dp"
+                    android:background="@drawable/preview_plumpy_vibrate"
+                    android:backgroundTint="@color/textColorPrimary"
+                    android:contentDescription="@string/icon" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="1dp"
+                    android:background="@drawable/preview_plumpy_wifi"
+                    android:backgroundTint="@color/textColorPrimary"
+                    android:contentDescription="@string/icon" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/preview_plumpy_signal"
+                    android:backgroundTint="@color/textColorPrimary"
+                    android:contentDescription="@string/icon" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/preview_plumpy_battery"
+                    android:backgroundTint="@color/textColorPrimary"
+                    android:contentDescription="@string/icon" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/btn_save" />
+
+        </LinearLayout>
+    </eightbitlab.com.blurview.BlurView>
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/view_header" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

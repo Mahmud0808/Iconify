@@ -21,14 +21,22 @@
     public static int d(...);
 }
 
+# Activity and Fragment names
+-keep class com.drdisagree.iconify.ui.activities.**
+-keep class com.drdisagree.iconify.ui.fragments.**
+
 # Xposed
 -keep class de.robv.android.xposed.**
 -keep class com.drdisagree.iconify.xposed.InitHook
 -keepnames class com.drdisagree.iconify.xposed.**
--keepnames class com.drdisagree.iconify.config.XPrefs
+-keepnames class com.drdisagree.iconify.xposed.utils.XPrefs
 -keep class com.drdisagree.iconify.xposed.** {
     <init>(android.content.Context);
 }
+
+# Weather
+-keepnames class com.drdisagree.iconify.utils.weather.**
+-keep class com.drdisagree.iconify.utils.weather.** { *; }
 
 # EventBus
 -keepattributes *Annotation*
@@ -60,3 +68,12 @@
 # Obfuscation
 -repackageclasses
 -allowaccessmodification
+
+# Root Service
+-keep class com.drdisagree.iconify.services.RootProviderProxy { *; }
+-keep class com.drdisagree.iconify.IRootProviderProxy { *; }
+
+# AIDL Classes
+-keep interface **.I* { *; }
+-keep class **.I*$Stub { *; }
+-keep class **.I*$Stub$Proxy { *; }

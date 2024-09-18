@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_moto">Az unalmas Android testreszabása</string>
     <!-- Onboarding -->
     <string name="init_module_installation">A beállítások előkészítése</string>
@@ -31,10 +31,22 @@
     <string name="installation_failed_title">Hoppá, itt valami meghiúsult</string>
     <string name="installation_failed_desc">A Dokumentumok mappában találhatja az elmentett hibajegyeket.</string>
     <string name="logs">Hibajegyek</string>
+    <!-- Search Preference -->
+    <string name="search_title">Keresés</string>
+    <string name="searchpreference_search">Keresem…</string>
+    <string name="searchpreference_clear">Törlés</string>
+    <string name="searchpreference_history_entry">Előzmény-bejegyzések</string>
+    <string name="searchpreference_more">Továbbiak</string>
+    <string name="searchpreference_clear_history">Az Előzmények törlése</string>
+    <string name="searchpreference_no_result">Nincs eredmény</string>
     <!-- Home -->
     <string name="activity_title_home_page">Ikonizáló (Iconify)</string>
     <string name="activity_title_icon_pack">Ikoncsomag</string>
     <string name="activity_desc_icon_pack">Lecserélheti a rendszerikonokat</string>
+    <string name="activity_title_cellular_icons">Mobiladatt-ikonok</string>
+    <string name="activity_desc_cellular_icons">Itt változtathatja meg a rendszer térerő-kijelzését</string>
+    <string name="activity_title_wifi_icons">Wi-Fi ikonok</string>
+    <string name="activity_desc_wifi_icons">Itt változtathatja meg a rendszer Wi-Fi kijelzését</string>
     <string name="activity_title_brightness_bar">Fényerőszabályozó-sáv</string>
     <string name="activity_desc_brightness_bar">Testre szabhatja a csúszkát</string>
     <string name="activity_title_qs_shape">A Gyorsbeállítások csempéi</string>
@@ -113,6 +125,8 @@
     <string name="settings_restart_systemui_after_boot_desc">Néhány beállítás (például az elmosódás intenzitása) a rendszerfelület újraindításáig nem lép életbe</string>
     <string name="settings_show_home_page_card_title">A Kezdőlap-kártya megjelenítése</string>
     <string name="settings_show_home_page_card_desc">Megjelenít egy gyönyörű kártyát a kezdőlapon.</string>
+    <string name="settings_vibrate_ui_card_title">Rezgő visszajelzés</string>
+    <string name="settings_vibrate_ui_page_card_desc">Fejlesztett visszajelzés a képernyő érintésekor.</string>
     <string name="settings_clear_app_cache_title">Az alkalmazás-gyorsítótár törlése</string>
     <string name="settings_clear_app_cache_desc">Törölje az egyedi betűtípusok, képek vagy GIF-ek használatakor generált gyorsítótárakat.</string>
     <string name="activity_title_experimental">Kisérleti szakasz</string>
@@ -122,6 +136,8 @@
     <string name="settings_section_title_about">Rólunk</string>
     <string name="settings_github_repository_title">Github adattár</string>
     <string name="settings_telegram_group_title">Telegram-csoport</string>
+    <string name="settings_translate_title">Fordítson Ön is</string>
+    <string name="settings_translate_desc">Segíthetr a saját nyelvére lefordítani az Iconify-t.</string>
     <string name="settings_credits_title">Stáblista</string>
     <string name="settings_credits_desc">Köszönet azoknak, akik ezt lehetővé tették.</string>
     <!-- Icon Pack -->
@@ -231,8 +247,8 @@
     <string name="section_title_misc">Egyéb.</string>
     <string name="minimal_qspanel">Minimális Gyorsbeállítások</string>
     <string name="remove_top_shade_of_qspanel">A Gyorsbeállítások minimalizálása</string>
-    <string name="disable_monet_title">A rendszer-monet kikapcsolása</string>
-    <string name="disable_monet_desc">Segít megőrizni az egyedi színeket\nRendszerfelület-újraindítás kell hozzá</string>
+    <string name="system_monet_title">A rendszer Monet-motorja</string>
+    <string name="system_monet_desc">Az egyéni színek megőrzéséhez tiltsa le.\nA rendszerfelület újraindítása szükséges</string>
     <!-- Basic Colors -->
     <string name="primary_color">Fő szín</string>
     <string name="primary_color_desc">Válasszon fő kiemelőszínt</string>
@@ -405,24 +421,93 @@
     <string name="activity_desc_quick_settings">A Gyorsbeállítások-panelhez kapcsolódó trükkök</string>
     <string name="activity_title_battery_style">Akkustílus</string>
     <string name="activity_desc_battery_style">Szabja személyre az Akku-ikon megjelenését</string>
+    <string name="activity_title_op_qs_header">One+ Gyorsbeállítások</string>
+    <string name="activity_desc_op_qs_header">OxygenOS stílusú gyorsbeállításfejléc</string>
     <string name="activity_title_header_image">Fejléckép</string>
     <string name="activity_desc_header_image">Hozzáadhat egyéni képet is</string>
     <string name="activity_title_header_clock">Fejléc-óra</string>
     <string name="activity_desc_header_clock">Hozzáadhat egyéni órát is a panelhez</string>
     <string name="activity_title_lockscreen_clock">A Képernyőzár órája</string>
     <string name="activity_desc_lockscreen_clock">Hozzáadhat egyéni órát is a záróképernyőhöz</string>
+    <string name="activity_title_lockscreen_weather">Időjárás a záróképernyőn</string>
+    <string name="activity_desc_lockscreen_weather">Adja hozzá az időjárást a záróképernyőhöz</string>
+    <string name="activity_title_lockscreen_widget">A záróképernyő kisalkalmazásai</string>
+    <string name="activity_desc_lockscreen_widget">Kisalkalmazásokat adhat hozzá a záróképernyőhöz</string>
     <string name="activity_title_depth_wallpaper">Mélységi háttérkép</string>
     <string name="activity_desc_depth_wallpaper">Az iOS-ban megimert funkciót is használhatja</string>
     <string name="activity_title_background_chip">Háttérlap</string>
     <string name="activity_desc_background_chip">Színezett hátteret rakhat az óra mögé</string>
+    <string name="activity_title_clock_chip">Óraháttér</string>
     <string name="activity_title_xposed_others">Egyebek</string>
     <string name="activity_desc_xposed_others">További Xposed trükkök</string>
-    <!-- Transparency & Blur -->
+    <string name="activity_title_xposed_weather_settings">Időjárás-beállítások</string>
+    <!-- Oneplus QS Header -->
+    <string name="oneplus_qs_header_title">One+ Gyorsbeállítások</string>
+    <string name="oneplus_qs_header_desc">Bekapcsolhatja az Oxygen-stílusú médialejátszót és csempéket</string>
+    <string name="oneplus_qs_header_vibrate_title">Rezgő visszajelzés</string>
+    <string name="oneplus_qs_header_vibrate_desc">A csempék rezgésének hozzáadása</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Rejtett Médialejátszó</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_desc">Eltávolítja a gyári médialejátszót a gyorsbeállítások paneljéről</string>
+    <string name="oneplus_qs_header_blur_level">Az elmosás erőssége</string>
+    <string name="oneplus_qs_header_fade_level">A halványítás erőssége</string>
+    <string name="oneplus_qs_header_top_margin">Felső margó</string>
+    <string name="oneplus_qs_header_expansion_y">A bővítés mértéke</string>
+    <!-- Lockscreen Widgets -->
+    <string name="lockscreen_widgets_title">A záróképernyő kisalkalmazásai</string>
+    <string name="lockscreen_widgets_enabled_title">Engedélyezi a kisalkalmazásokat a záróképernyőn</string>
+    <string name="lockscreen_widgets_enabled_summary">Új kisalkalmazás hozzáadása</string>
+    <string name="lockscreen_display_widgets_title">Készülékinfó-kisalkalmazás</string>
+    <string name="lockscreen_display_widgets_summary">Megjeleníti a készülékinfót a záróképernyőn</string>
+    <string name="linear_progress_color">A lineáris haladás színe</string>
+    <string name="circular_progress_color">A körkörös haladás színe</string>
+    <string name="text_color">Betűszín</string>
+    <string name="custom_device_name">Egyéni Készüléknév</string>
+    <string name="custom_device_name_summary">Beállíthat egyedi nevet.\nHagyja üresen a kikapcsoláshoz.</string>
+    <string name="large_widgets_category_title">Nagyok</string>
+    <string name="main_custom_widget_1">Kisalkalmazás 1</string>
+    <string name="main_custom_widget_2">Kisalkalmazás 2</string>
+    <string name="mini_widgets_category_title">Minik</string>
+    <string name="custom_widget_1">Kisalkalmazás 1</string>
+    <string name="custom_widget_2">Kisalkalmazás 2</string>
+    <string name="custom_widget_3">Kisalkalmazás 3</string>
+    <string name="custom_widget_4">Kisalkalmazás 4</string>
+    <string name="widgets_custom_color">Egyedi színek</string>
+    <string name="widgets_custom_color_title">A kisalkalmazás színeinek testreszabása</string>
+    <string name="big_widget_active">A nagy színe, mikor aktív</string>
+    <string name="big_widget_inactive">A nagy színe, mikor inaktív</string>
+    <string name="big_widget_icon_active">A nagy ikon színe, mikor aktív</string>
+    <string name="big_widget_icon_inactive">A nagy ikon színe, mikor inaktív</string>
+    <string name="mini_widget_active">A mini színe, mikor aktív</string>
+    <string name="mini_widget_inactive">A mini színe, mikor inaktív</string>
+    <string name="mini_widget_icon_active">A mini ikon színe, mikor aktív</string>
+    <string name="mini_widget_icon_inactive">A mini ikon színe, mikor inaktív</string>
+    <string name="weather_settings">Időjárás-beállítások</string>
+    <string name="lockscreen_widgets_scale">Kisalkalmazások méretskálázása</string>
+    <!-- LS Widgets Actions -->
+    <string name="camera">Kamera</string>
+    <string name="clock_timer">Óra/Időzítő</string>
+    <string name="calculator">Számológép</string>
+    <string name="gallery">Galéria</string>
+    <string name="media">Médialejátszó</string>
+    <string name="torch">Zseblámpa</string>
+    <string name="controls_media_button_play">Lejátszás</string>
+    <string name="weather">Időjárás</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="data">Mobiladat</string>
+    <string name="ringer">Csengés</string>
+    <string name="bt">Bluetooth</string>
+    <string name="home_controls">Főképernyő-vezérlők</string>
+    <string name="wallet">Pénztárca</string>
+    <string name="hotspot">Hotspot</string>
+    <string name="ringer_normal">Csengés</string>
+    <string name="ringer_vibrate">Rezgés</string>
+    <string name="ringer_silent">Néma</string>
+    <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Átlátszóság</string>
     <string name="transparent_qs_panel_title">Átlátszó Gyorsbeállítások-panel</string>
     <string name="transparent_qs_panel_desc">A panel hátterét átlátszóvá teheti</string>
-    <string name="transparency_alpha_title">Átlátszósági érték</string>
-    <string name="transparent_notif_shade_title">Csak az értesítés árnyéka</string>
+    <string name="qs_background_opacity_title">Háttér áttetszőség</string>
+    <string name="transparent_notif_shade_title">Átlátszó értesítési árnyék</string>
     <string name="transparent_notif_shade_desc">Kizárólag az értesítési árnyék lesz átlátszó</string>
     <string name="keep_lockscreen_shade_title">Homályos Záróképernyő-háttér</string>
     <string name="keep_lockscreen_shade_desc">Világos színű háttérképeken alkalmazható</string>
@@ -432,7 +517,7 @@
     <string name="aggressive_blur_title">Agresszív elmosás</string>
     <string name="aggressive_blur_desc">Sajnos néhány ROM-on bootloopot okoz</string>
     <string name="blur_intensity_title">Az elmosás intenzitása</string>
-    <!-- Themes -->
+    <!-- Xposed Themes -->
     <string name="section_title_for_pixel_roms">Pixel ROM-okhoz</string>
     <string name="light_theme_title">Világos téma</string>
     <string name="light_theme_desc">Világos Gyorsbeállítások-téma világos módban\nEgyedi Gyorsbeállítások alakzatot kell használni</string>
@@ -449,21 +534,28 @@
     <string name="power_menu_transparency_title">A Kikapcsolási menü átlátszósága</string>
     <string name="power_menu_transparency_desc">Az áramvonalas Gyorsbeállítások kikapcsolási átláthatósága\nNe használjon egyéni értesítési stílust</string>
     <string name="section_title_others">Egyebek</string>
+    <string name="fix_qs_tile_color_title">Csempeszín-javítás</string>
+    <string name="fix_qs_tile_color_desc">Egyéni gyorsbeállítási stílus javítása Android 14 rendszeren</string>
     <string name="fix_notification_color_title">Értesítési színek rögzítése</string>
     <string name="fix_notification_color_desc">Egyéni értesítési stílus javítása Android 14 rendszeren</string>
-    <!-- Quick Settings -->
+    <string name="fix_notification_footer_button_color_title">Az értesítési lábléc gombjának színe</string>
+    <string name="fix_notification_footer_button_color_desc">Android 14 rendszeren fixálja az egyéni láblécgomb stílusát</string>
+    <!-- Xposed Quick Settings -->
     <string name="section_title_qs_tile">Gyorsbeállítások-csempe</string>
     <string name="vertical_qs_tile_title">Függőleges csempe</string>
     <string name="vertical_qs_tile_desc">Címke megjelenítése az ikon alatt</string>
     <string name="hide_qs_tile_label_title">Csempefelirat elrejtése</string>
     <string name="hide_qs_tile_label_desc">Csak függőleges csempék esetében</string>
+    <string name="qs_tile_label_scaling_title">Szövegméretezés</string>
     <string name="section_title_qs_margin">Csempemargók</string>
     <string name="section_title_qs_elements">Gyorsbeállítások elemei</string>
+    <string name="hide_qs_on_lockscreen_title">Nincs gyorsbeállítás a záróképernyőn</string>
+    <string name="hide_qs_on_lockscreen_desc">Letiltja a gyorbeállítások panelét a biztonságos záróképernyőn</string>
     <string name="hide_qs_silent_text_title">Szövegelrejtés</string>
-    <string name="hide_qs_silent_text_desc">A néma értesítések fejléceként megjelenő szöveg elrejtése (A Rendszerfelület újraindítása szükséges)</string>
+    <string name="hide_qs_silent_text_desc">Elrejti a néma értesítések fejléceként megjelenő szöveget</string>
     <string name="hide_qs_footer_buttons_title">Láblécgombok rejtése</string>
     <string name="hide_qs_footer_buttons_desc">Az értesítések alatt látható láblécgombok elrejtése</string>
-    <!-- Battery Style -->
+    <!-- Xposed Battery Style -->
     <string name="battery_style_title">Akkustílus</string>
     <string name="battery_width_title">Akku-szélesség</string>
     <string name="battery_height_title">Akku-magasság</string>
@@ -494,8 +586,8 @@
     <string name="powersave_fill_color_desc">Az akkukímélő színének megváltoztatása</string>
     <string name="powersave_indicator_color_title">Az akkukímélő-indikátor színe</string>
     <string name="powersave_indicator_color_desc">Az akkukímélő-indikátor színének módosítása</string>
-    <string name="custom_dimensions_title">Egyéni méretek</string>
-    <string name="custom_dimensions_desc">Egyedi akkumulátor-ikon méreteket is beállíthat</string>
+    <string name="custom_margins_title">Egyéni margók</string>
+    <string name="custom_margins_desc">Egyedi akkumulátor-ikon méreteket is beállíthat</string>
     <string name="battery_margin_left_title">Akku-margó bal</string>
     <string name="battery_margin_right_title">Akku-margó jobb</string>
     <string name="battery_margin_top_title">Akku-margó felül</string>
@@ -545,18 +637,20 @@
     <string name="battery_landscape_battery_o">Fekvő akkumulátor O</string>
     <string name="battery_circle">Kör akkumulátor</string>
     <string name="battery_dotted_circle">Pontozott kör akkumulátor</string>
-    <string name="battery_filled_circle">Filled Circle Battery</string>
-    <!-- Volume Panel -->
+    <string name="battery_filled_circle">Kitöltött kör akkumulátor</string>
+    <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Százalékos hangerő</string>
     <string name="volume_percentage_desc">Megjeleníti a százalékértéket a hangerőcsúszka felett</string>
     <string name="safety_warning_title">Biztonsági figyelmeztetés</string>
     <string name="safety_warning_desc">Figyelmeztetés, ha túl hangos</string>
-    <!-- Header Image -->
+    <string name="colored_ringer_icon_title">Színes csengőikon</string>
+    <string name="colored_ringer_icon_desc">Engedélyezze, ha a kiválasztott csengőikon láthatatlan</string>
+    <!-- Xposed Header Image -->
     <string name="header_image_title">Fejléckép-választó</string>
     <string name="header_image_desc">Adjon hozzá fejlécképet a panelen\nNe válasszon fájlt az Előzményekből</string>
     <string name="btn_pick_image">Képválasztó</string>
     <string name="header_image_height_title">Képmagasság</string>
-    <string name="header_image_alpha">A kép alfája</string>
+    <string name="header_image_opacity">Kép-áttetszőség</string>
     <string name="header_image_bottom_fade">Az alsó halványítás erőssége</string>
     <string name="header_image_zoom_to_fit_title">Nagyítás kitöltéssel</string>
     <string name="header_image_zoom_to_fit_desc">A kép alapértelmezés szerinti illesztése</string>
@@ -564,35 +658,36 @@
     <string name="header_image_hide_in_landscape_desc">A kép elrejtése tájkép-módban</string>
     <string name="header_image_alpha_gradient_title">Halványuló színátmenet</string>
     <string name="header_image_alpha_gradient_desc">Halványuló effekt hozzáadása a fejlécképhez</string>
-    <!-- Header Clock -->
+    <!-- Xposed Header Clock -->
     <string name="custom_header_clock_title">Egyéni fejléc-óra</string>
     <string name="custom_header_clock_desc">Hozzáadhat egyéni órát is a panelhez</string>
     <string name="header_clock_style_title">Órastílus</string>
     <string name="header_clock_font_title">Az óra betűtipusa</string>
-    <string name="header_clock_font_desc">Használjon egyéni betűtípust a fejléc-órához\nNe válasszon fájlt az Előzményekből</string>
+    <string name="header_clock_font_desc">Használjon egyéni betűtípust a fejléc-órához</string>
     <string name="custom_header_clock_color_title">Egyéni óraszín</string>
-    <string name="custom_header_clock_color_desc">Egyedi szín az eddigi fő szín helyett</string>
+    <string name="custom_header_clock_color_desc">Egyedi szín az eddigi rendszer-színek helyett</string>
     <string name="header_clock_color_picker_title">Óraszín-választó</string>
     <string name="header_clock_color_picker_desc">Állítsa be a fejléc-óra szövegének színét</string>
+    <string name="header_clock_expansion_y_title">A bővítés mértéke</string>
     <string name="header_clock_font_text_scaling_title">Szövegméretezés</string>
-    <string name="header_clock_side_margin_title">Az óra oldalmargója</string>
-    <string name="header_clock_top_margin_title">Az óra felső margója</string>
+    <string name="header_clock_side_margin_title">Oldalsó margó</string>
+    <string name="header_clock_top_margin_title">Felső margó</string>
     <string name="header_clock_white_text_title">Fehér szöveg</string>
     <string name="header_clock_white_text_desc">Kényszeríti a minél fehérebb szövegszínt</string>
     <string name="header_clock_center_clock_title">Középre helyezett óra</string>
     <string name="header_clock_center_clock_desc">Mozgassa az órát közepére</string>
     <string name="header_clock_hide_landscape_title">Fekvőmódban ne látszódjon</string>
     <string name="header_clock_hide_landscape_desc">Az óra elrejtése tájkép-módban</string>
-    <!-- Lockscreen Clock -->
+    <!-- Xposed Lockscreen Clock -->
     <string name="custom_lockscreen_clock_title">Egyéni záróképernyő-óra</string>
     <string name="custom_lockscreen_clock_desc">Engedélyezi a képernyőzár-óra testreszabását</string>
     <string name="lockscreen_clock_auto_hide_clock_title">Az óra automatikus elrejtése</string>
     <string name="lockscreen_clock_auto_hide_clock_desc">Bejövő üzeneteknél nem látszik az óra</string>
     <string name="custom_lockscreen_clock_style_title">Órastílus</string>
     <string name="lockscreen_clock_font_title">Az óra betűtipusa</string>
-    <string name="lockscreen_clock_font_desc">Használjon egyéni betűtípust a záróképernyő-órához\nNe válasszon fájlt az Előzményekből</string>
+    <string name="lockscreen_clock_font_desc">Saját betűtípust használhat a záróképernyő órájához</string>
     <string name="lsclock_custom_color_title">Egyéni óraszín</string>
-    <string name="lsclock_custom_color_desc">Egyedi szín az eddigi fő szín helyett</string>
+    <string name="lsclock_custom_color_desc">Egyedi szín az eddigi rendszer-színek helyett</string>
     <string name="lsclock_color_picker_title">Óraszín-választó</string>
     <string name="lsclock_color_picker_desc">Állítsa be a záróképernyő-óra szövegének színét</string>
     <string name="lockscreen_font_text_scaling_title">Szövegméretezés</string>
@@ -601,6 +696,13 @@
     <string name="lockscreen_clock_bottom_margin_title">Alsó margó</string>
     <string name="lockscreen_clock_white_text_title">Fehér szöveg</string>
     <string name="lockscreen_clock_white_text_desc">Az összes színt a fehér felé kényszeríti</string>
+    <string name="lsclock_custom_image_title">Egyéni kép használata</string>
+    <string name="lsclock_custom_image_desc">Saját képet használhat a záróképernyő órájához.</string>
+    <string name="lsclock_custom_image_picker_title">Egyéni kép-kijelölés</string>
+    <string name="lockscreen_clock_custom_devicename">Egyéni Készüléknév</string>
+    <string name="lockscreen_clock_custom_devicename_desc">Állítson be egyéni nevet a zárolási képernyő órájához.\nHagyja üresen, ha a rendszer nevezze el.</string>
+    <string name="lockscreen_clock_custom_username">Egyéni Felhasználónév</string>
+    <string name="lockscreen_clock_custom_username_desc">Állítson be egyéni nevet a zárolási képernyő órájához.\nHagyja üresen, ha a rendszer nevezze el.</string>
     <string name="btn_select">Választás</string>
     <string name="battery_charging">Az akku töltödik</string>
     <string name="battery_discharging">Az akku nem töltödik</string>
@@ -608,9 +710,13 @@
     <string name="battery_level_percentage">Akkumulátorszint</string>
     <string name="welcome_back">Üdv újra itt!</string>
     <string name="default_user_name">Felhasználó</string>
-    <!-- Depth Wallpaper -->
+    <!-- Xposed Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">A mélységi háttérkép engedélyezése</string>
-    <string name="enable_depth_wallpaper_desc">Az iOS-hez hasonló mélységi háttérképet jelenít meg\nEgyéni zárképernyő-órát kell használni</string>
+    <string name="enable_depth_wallpaper_desc">iOS-ban megismert mélységi háttérkép\n%s</string>
+    <string name="enable_custom_depth_wallpaper_title">Egyedi képek</string>
+    <string name="enable_custom_depth_wallpaper_desc">Az egyedi kép beállítása mint mélységi háttérkép</string>
+    <string name="depth_wallpaper_on_aod_title">\'Mindig bekapcsolva\' (AOD) esetén is</string>
+    <string name="depth_wallpaper_on_aod_desc">Téma megjelenítése mindig a kijelzőn</string>
     <string name="wallpaper_fade_animation_title">Átúszás \'Mindig bekapcsolvá\'-ra</string>
     <string name="wallpaper_fade_animation_desc">Animálja a háttérképet, és áttűnik az AOD-ba</string>
     <string name="foreground_image_title">Előtérkép</string>
@@ -623,23 +729,68 @@
     <string name="wallpaper_parallax_effect_summary">A háttér és az előtér rétegeit különböző sebességgel mozgatja</string>
     <string name="wallpaper_foreground_sensitivity_title">Az előtér érzékenysége</string>
     <string name="wallpaper_background_sensitivity_title">A háttér érzékenysége</string>
-    <!-- Background Chip -->
+    <string name="depth_wallpaper_model_ready">Az AI-modell letöltődik a készülékére</string>
+    <string name="depth_wallpaper_model_not_available">Az AI-modell (még) nem elérhető erre a készülékre</string>
+    <string name="depth_wallpaper_subject_extraction_started">A háttérkép-téma kibontása…</string>
+    <string name="depth_wallpaper_subject_extraction_success">A háttérkép-téma kibontásra került!</string>
+    <string name="depth_wallpaper_subject_extraction_failed">Nem sikerült kibontani a háttérkép-témát!</string>
+    <string name="depth_wallpaper_missing_ai_model">Nem érhető el AI-modell!</string>
+    <string name="use_custom_lockscreen_clock">Egyéni képernyőzár-órát kell használni</string>
+    <!-- Xposed Background Chip -->
     <string name="section_title_status_bar">Állapotsor</string>
     <string name="sb_clock_background_chip_title">Állapotsori óralap</string>
     <string name="sb_clock_background_chip_desc">Óralap kijelzése az állapotikonok mögött</string>
-    <string name="statusbar_clock_color_title">Az állapotsori óra színe</string>
+    <string name="sb_clock_customize_chip_title">Óraháttér személyre szabása</string>
+    <string name="sb_clock_customize_chip_desc">Egyedi színek, kerekítés, körvonal stb.</string>
+    <string name="section_title_text">Szöveg</string>
+    <string name="statusbar_clock_text_title">Az Óra betűszíne</string>
     <string name="sbclock_color_follow_system">Rendszerkövetés</string>
     <string name="sbclock_color_transparent_text">Áttetsző szöveg</string>
     <string name="sbclock_color_custom_color">Egyéni szín</string>
-    <string name="clock_color_picker_title">Óraszín-választó</string>
-    <string name="clock_color_picker_desc">Állítsa be az állapotsor-óra szövegének színét</string>
+    <string name="clock_text_color_picker_title">Betűszín-választó</string>
+    <string name="clock_text_color_picker_desc">Állítsa be az állapotsor-óra szövegének színét</string>
     <string name="section_title_status_icons">Állapotikonok</string>
     <string name="chip_style_title">A háttér-lap stílusa</string>
     <string name="status_icons_chip_title">Állapotikonok háttérlapja</string>
     <string name="status_icons_chip_desc">Óralap kijelzése az állapotikonok mögött</string>
+    <string name="status_icons_customize_chip_title">Az Állapot-ikonok háttere</string>
+    <string name="status_icons_customize_chip_desc">Egyedi színek, kerekítés, körvonal stb.</string>
     <string name="status_icons_chip_style_title">Az óralap stílusa</string>
     <string name="fixed_status_icons_top_margin">Felső margó</string>
     <string name="fixed_status_icons_side_margin">Oldal margó</string>
+    <string name="section_title_background">Háttér</string>
+    <string name="accent_fill_color">Kiemelőszínes kitöltés</string>
+    <string name="gradient_direction">Színátmeneti irány</string>
+    <string name="fill_start_color">A kitöltés kezdőszíne</string>
+    <string name="fill_end_color">A kitöltés zárószíne</string>
+    <string name="section_title_border">Szegély</string>
+    <string name="enable_border">A szegélyezés bekapcsolása</string>
+    <string name="accent_border_color">Kiemelő szegélyszín</string>
+    <string name="border_color">Szegélyszín</string>
+    <string name="dashed_border">Szaggatott szegély</string>
+    <string name="dash_width">A szegély szélessége</string>
+    <string name="dash_gap">A szegély térköze</string>
+    <string name="border_thickness">Szegélyvastagság</string>
+    <string name="section_title_padding">Helykitöltés</string>
+    <string name="padding_left">Balra</string>
+    <string name="padding_right">Jobbra</string>
+    <string name="padding_top">Felül</string>
+    <string name="padding_bottom">Alul</string>
+    <string name="section_title_corner_radius">Sarok-lekerekítés</string>
+    <string name="top_left_radius">Bal felső sugár</string>
+    <string name="top_right_radius">Jobb felső sugár</string>
+    <string name="bottom_left_radius">Bal alsó sugár</string>
+    <string name="bottom_right_radius">Jobb alsó sugár</string>
+    <!-- Xposed Statusbar -->
+    <string name="sb_clock_size_switch_title">Az egyedi állapotsori Óra mérete</string>
+    <string name="sb_clock_size_switch_desc">Állítson be egyéni méretet az állapotsor órájához</string>
+    <string name="sb_clock_size">Az állapotsori Óra mérete</string>
+    <string name="colored_statusbar_icon_title">Színezett állapotsor-ikon</string>
+    <string name="colored_statusbar_icon_desc">Alkalmazásikon megjelenítése értesítési ikonként</string>
+    <string name="hide_ls_carrier_title">Nincs Szolgáltató a képernyőzáron</string>
+    <string name="hide_ls_carrier_desc">A záróképernyőről eltűnik a Szolgáltató neve</string>
+    <string name="hide_ls_statusbar_title">Nincs Állapotsor a képernyőzáron</string>
+    <string name="hide_ls_statusbar_desc">A záróképernyőről eltűnik az Állapotsor</string>
     <!-- Xposed Others -->
     <string name="qs_header">Gyorsbeállítások-fejléc</string>
     <string name="hide_carrier_group_title">Szolgáltatói csoport elrejtése</string>
@@ -647,12 +798,8 @@
     <string name="hide_status_icons_title">Az Állapotikonok elrejtése</string>
     <string name="hide_status_icons_desc">Az Idő, a Dátum és az Akkujelzés sem látható</string>
     <string name="lock_screen">Záróképernyő</string>
-    <string name="hide_ls_carrier_title">Nincs Szolgáltató a képernyőzáron</string>
-    <string name="hide_ls_carrier_desc">A záróképernyőről eltűnik a Szolgáltató neve</string>
-    <string name="hide_ls_statusbar_title">Nincs Állapotsor a képernyőzáron</string>
-    <string name="hide_ls_statusbar_desc">A záróképernyőről eltűnik az Állapotsor</string>
-    <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
-    <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
+    <string name="hide_ls_lock_icon_title">Zárolásikon elrejtése</string>
+    <string name="hide_ls_lock_icon_desc">A zárikon elrejtése a záróképernyőn</string>
     <string name="fixed_status_icons_title">Rögzített Állapotikonok</string>
     <string name="fixed_status_icons_desc">Az állapotikonok rögzített pozícióba kerülnek\nJónéhány ROM-on buggolást okoz</string>
     <!-- Changelog -->
@@ -737,6 +884,7 @@
     <!-- Bottom Navigation -->
     <string name="navbar_home">Kezdőlap</string>
     <string name="navbar_tweaks">Trükkök</string>
+    <string name="navbar_xposed">Xposed</string>
     <string name="navbar_settings">Beállítások</string>
     <!-- Settings 3 dot menu -->
     <string name="changelog">Változáslista</string>
@@ -752,37 +900,14 @@
     <string name="exported_settings">A beállítások mentése sikeres volt</string>
     <!-- Style List -->
     <string name="style_0">Nincs</string>
-    <string name="style_1">1.stílus</string>
-    <string name="style_2">2.stílus</string>
-    <string name="style_3">3.stílus</string>
-    <string name="style_4">4.stílus</string>
-    <string name="style_5">5.stílus</string>
-    <string name="style_6">6.stílus</string>
-    <string name="style_7">7.stílus</string>
-    <string name="style_8">8.stílus</string>
-    <string name="style_9">9.stílus</string>
-    <string name="style_10">10.stílus</string>
-    <string name="style_11">11.stílus</string>
-    <string name="style_12">12.stílus</string>
-    <string name="style_13">13.stílus</string>
-    <string name="style_14">14.stílus</string>
-    <string name="style_15">15.stílus</string>
-    <string name="style_16">16.stílus</string>
-    <string name="style_17">17.stílus</string>
-    <string name="style_18">18.stílus</string>
-    <string name="style_19">19.stílus</string>
-    <string name="style_20">20.stílus</string>
-    <string name="style_21">21.stílus</string>
-    <string name="style_22">22.stílus</string>
-    <string name="style_23">23.stílus</string>
-    <string name="style_24">24.stílus</string>
-    <string name="style_25">25.stílus</string>
+    <string name="style">%d stílus</string>
     <!-- Buttons -->
     <string name="btn_continue">Folytatás</string>
     <string name="btn_restart">Újraindítás</string>
     <string name="btn_disable">Letiltás</string>
     <string name="btn_enable">Engedélyezés</string>
     <string name="btn_apply">Alkalmazás</string>
+    <string name="btn_save">Mentés</string>
     <string name="btn_disable_custom_colors">Az egyéni színek letiltása</string>
     <string name="btn_enable_custom_colors">A színek alkalmazása</string>
     <string name="btn_reset">Visszaállítás</string>
@@ -851,10 +976,6 @@
     <string name="hey_there">Hé mindenki!</string>
     <string name="icon">Ikon</string>
     <string name="section_title_media_player_icons">Médialejátszó-ikonok</string>
-    <string name="opt_selected">Kiválasztva:</string>
-    <string name="opt_selected1">Kiválasztva: %s</string>
-    <string name="opt_selected2">Kiválasztva: %1$s%2$s</string>
-    <string name="opt_selected3">Kiválasztva: %1$s%2$s %3$s</string>
     <string name="opt_default">(Alapértelmezett)</string>
     <string name="clock_none">Nincs óra</string>
     <string name="clock_style_name">Órastílus %d</string>
@@ -923,4 +1044,124 @@
     <string name="tap_to_select">A kiválasztáshoz érintse meg az előképet</string>
     <string name="dont_show_again">Ez ne jelenjen meg újra</string>
     <string name="requires_lsposed_for_a14">A megfelelő működés érdekében az Iconify modul engedélyezése kötelező az LSPosedben Android 14 és újabb verziók esetén.\n\nEzt követően engedélyezze a javításokat innen: Trükkök &gt; Xposed-menü &gt; Témák &gt; Egyebek</string>
+    <string name="file_picker_desc">Ne válasszon fájlt az Előzményekből</string>
+    <string name="btn_dismiss">Elvetés</string>
+    <string name="btn_restart_device">A készülék újraindítása</string>
+    <string name="btn_pending">Folyamatban</string>
+    <string name="accent_primary">Elsődleges kiemelés</string>
+    <string name="accent_secondary">Másodlagos kiemelés</string>
+    <string name="accent_tertiary">Harmadfokú kiemelés</string>
+    <string name="text_color_primary">A szöveg elsődleges színe</string>
+    <string name="text_color_inverse">A szöveg fordított színe</string>
+    <!-- Weather -->
+    <!-- Omni Jaws Strings -->
+    <string name="units_title">Egység</string>
+    <string name="weather_progress_title">Tartózkodásihely-ellenőrzés</string>
+    <string name="weather_select_location">Válasszon tartózkodási helyet</string>
+    <string name="weather_custom_location_dialog_title">Adja meg a tartózkodás helyet</string>
+    <string name="weather_custom_location_title">Tartózkodási hely</string>
+    <string name="weather_custom_location_missing">Egyéni hely beállítása</string>
+    <string name="weather_retrieve_location_dialog_title">Hely meghatározása sikertelen!</string>
+    <string name="weather_retrieve_location_dialog_message">Hálózati helymeghatározás letiltva.\n\nÁllítson be egyéni helyet, vagy engedélyezze a hálózati helymeghatározást</string>
+    <string name="weather_retrieve_location_dialog_enable_button">Engedélyezés</string>
+    <string name="settings_title">Beállítások</string>
+    <string name="auto_update_title">Automatikus frissítések</string>
+    <string name="auto_update_summary">Időközönként ellenőrizze az új verziókat</string>
+    <string name="update_over_wifi_title">Csak Wi-Fi-n ellenőrizze a frissítéseket</string>
+    <string name="update_over_wifi_summary">Ha Wi-Fi-hez csatlakozik, a háttérben ellenőrzi a frissítéseket</string>
+    <string name="unit_metric">Metrikus (\u00b0C)</string>
+    <string name="unit_imperial">Angolszász (\u00b0F)</string>
+    <string name="update">Frissítés</string>
+    <string name="enable_title">Engedélyezés</string>
+    <string name="update_interval_title">Frissítési gyakoriság</string>
+    <string name="interval_1_hour">1 óra</string>
+    <string name="interval_2_hour">2 óra</string>
+    <string name="interval_4_hour">4 óra</string>
+    <string name="interval_6_hour">6 óra</string>
+    <string name="interval_12_hour">12 óra</string>
+    <string name="weather_tile_title">Időjárás</string>
+    <string name="weather_icon_pack_title">Állapot ikoncsomag</string>
+    <string name="weather_icon_pack_playstore">Találjon további ikoncsomagokat</string>
+    <string name="service_disabled">Letiltva</string>
+    <string name="service_error">Hiba</string>
+    <string name="omnijaws_service_waiting">Várjon egy kicsit \u2026</string>
+    <string name="omnijaws_service_unkown">Nincsenek időjárási adatok</string>
+    <string name="omnijaws_service_error">Hiba az időjárásadatok betöltésekor</string>
+    <string name="omnijaws_service_init">Számoljunk el ezerig \u2026</string>
+    <string name="omnijaws_service_progress">Frissítés \u2026</string>
+    <string name="omnijaws_service_disabled">A szolgáltatás letiltva</string>
+    <string name="omnijaws_current_text">Most</string>
+    <string name="show_background_title">Háttér-árnyék</string>
+    <string name="weather_config_title">Szolgáltatás-beállítások</string>
+    <string name="omnijaws_city_unkown">Ismeretlen</string>
+    <string name="omnijaws_service_error_long">Hiba az időjárásadatok betöltésekor</string>
+    <string name="omnijaws_label_default">Időjárás</string>
+    <string name="omnijaws_service_last_update">Utolsó frissítés:</string>
+    <string name="omnijaws_service_error_location">Nincs helymeghatározás</string>
+    <string name="omnijaws_service_error_network">Nincs hálózat</string>
+    <string name="omnijaws_service_error_permissions">Nincs engedélyezve a helymeghatározás</string>
+    <string name="location_browse_activity_title">Válasszon tartózkodási helyet</string>
+    <string name="location_query_hint">Tartózkodási hely keresése</string>
+    <string name="weather_permission_dialog_title">Helymeghatározási jogosultságok megadása</string>
+    <string name="weather_permission_dialog_message">Az időjárási adatok lekéréséhez tartózkodási helymeghatározásra van szükség. Kattintson az OK gombra a Beállítások megnyitásához.</string>
+    <!-- Weather Conditions -->
+    <string name="weather_condition_clouds">Felhős</string>
+    <string name="weather_condition_rain">Esős</string>
+    <string name="weather_condition_clear">Napos</string>
+    <string name="weather_condition_storm">Viharos</string>
+    <string name="weather_condition_snow">Havas</string>
+    <string name="weather_condition_wind">Szeles</string>
+    <string name="weather_condition_mist">Ködös</string>
+    <!-- Lockscreen Weather -->
+    <string name="lockscreen_weather_title">Időjárás a Záróképernyőn</string>
+    <string name="lockscreen_weather_desc">Az Időjárás megjelenítése a Záróképernyőn</string>
+    <string name="last_update_time">Az utolsó frissítés időpontja</string>
+    <string name="weather_provider">Időjárás-szolgáltató</string>
+    <string name="weather_api_key">OpenWeatherMap API-kulcs</string>
+    <string name="weather_provider_owm_key_title">OpenWeatherMap API-kulcs szükséges</string>
+    <string name="weather_provider_owm_key_message">Kérjük, adja meg az OpenWeatherMap API-kulcsot az időjárási adatok lekéréséhez.</string>
+    <string name="weather_show_location">Tartózkodási hely kijelzése</string>
+    <string name="weather_show_location_summary">Az ikon elé írja ki a tartózkodási helyet</string>
+    <string name="weather_show_condition">Időjárási viszonyok kijelzése</string>
+    <string name="weather_show_condition_summary">A hőmérséklet után írja ki a viszonyokat</string>
+    <string name="weather_show_humidity">Páratartalom kijelzése</string>
+    <string name="weather_show_humidity_summary">Új sorban jeleníti meg a páratartalmat</string>
+    <string name="weather_show_wind">Széljárás kijelzése</string>
+    <string name="weather_show_wind_summary">Új sorban jeleníti meg a széljárást</string>
+    <string name="weather_text_size">Szövegméret</string>
+    <string name="weather_image_size">Képméret</string>
+    <string name="weather_custom_color_title">Betűszín</string>
+    <string name="weather_custom_color_summary">Új színt adhat meg a szöveghez</string>
+    <string name="weather_custom_color_switch_title">Egyéni szín</string>
+    <string name="weather_custom_color_switch_summary">Egyedi szín minden szöveghez az időjárás-nézetben</string>
+    <string name="custom_location_title">Egyéni tartózkodási hely</string>
+    <string name="custom_location_summary">Egyedi hely megadása az időjáráshoz</string>
+    <string name="weather_custom_margins">Egyéni margók</string>
+    <string name="weather_custom_margins_summary">Egyedi margók beállítása az időjáráshoz</string>
+    <string name="weather_margin_top">Felső margó</string>
+    <string name="weather_centered">Középre rendezett</string>
+    <string name="weather_margin_side">Oldalsó margó</string>
+    <string name="weather_margin_bottom">Alsó margó</string>
+    <string name="weather_center_view_title">Az időjárás középen</string>
+    <string name="weather_center_view_summary">A nézet mozgatása vízszintesen középre</string>
+    <!-- Lockscreen Weather styles -->
+    <string name="lockscreen_weather_selection_title">Az Időjárás háttérstílusa</string>
+    <string name="lockscreen_weather_selection_default">Alapértelmezett</string>
+    <string name="lockscreen_weather_selection_str_box">Félig átlátszó doboz</string>
+    <string name="lockscreen_weather_selection_str_round">Félig átlátszó doboz (lekerekített)</string>
+    <string name="lockscreen_weather_selection_qbeta_style">Q-ßeta kapszula</string>
+    <string name="lockscreen_weather_selection_str_accent">Lekerekített, egyszerű és kiemelőszínű</string>
+    <string name="lockscreen_weather_selection_str_accent_transparent">Lekerekített, átlátszó és kiemelőszínű</string>
+    <string name="lockscreen_weather_selection_str_gradient">Színátmenetes</string>
+    <string name="lockscreen_weather_selection_str_border_accent">Sötét, kiemelt szegéllyel</string>
+    <string name="lockscreen_weather_selection_str_border_gradient">Sötét, színátmenetes szegéllyel</string>
+    <!-- Alert Dialogs -->
+    <string name="systemui_restart_required_title">Rendszerfelület-újraindítás szükséges</string>
+    <string name="systemui_restart_required_desc">A változtatás életbe lépéséhez rendszerfelület-újraindítás szükséges.</string>
+    <string name="device_restart_required_title">Készülék-újraindítás szükséges</string>
+    <string name="device_restart_required_desc">A változtatás életbe lépéséhez újra kell indítani a készüléket.</string>
+    <string name="switch_theme_required_title">A készülék témakapcsolója</string>
+    <string name="switch_theme_required_desc">Nem várt viselkedés esetén váltson a világos és sötét témák között.</string>
+    <string name="device_rotation_required_title">Forgatás szükséges</string>
+    <string name="device_rotation_required_desc">Kapcsolja a készülék forgását, hogy ez a változás érvénybe lépjen.</string>
 </resources>

@@ -5,14 +5,14 @@ import com.drdisagree.iconify.common.Const.GMS_PACKAGE
 import com.drdisagree.iconify.common.Const.SETTINGS_PACKAGE
 import com.drdisagree.iconify.common.Const.WELLBEING_PACKAGE
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.utils.FileUtil.copyAssets
-import com.drdisagree.iconify.utils.RootUtil.setPermissions
-import com.drdisagree.iconify.utils.SystemUtil.mountRO
-import com.drdisagree.iconify.utils.SystemUtil.mountRW
+import com.drdisagree.iconify.utils.FileUtils.copyAssets
+import com.drdisagree.iconify.utils.RootUtils.setPermissions
+import com.drdisagree.iconify.utils.SystemUtils.mountRO
+import com.drdisagree.iconify.utils.SystemUtils.mountRW
 import com.drdisagree.iconify.utils.helper.BinaryInstaller.symLinkBinaries
 import com.drdisagree.iconify.utils.helper.Logger.writeLog
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.disableOverlays
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.enableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.disableOverlays
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlays
 import com.topjohnwu.superuser.Shell
 import java.io.IOException
 
@@ -23,7 +23,6 @@ object SettingsIconsCompiler {
     private var mIconBg = 1
     private var mForce = false
 
-    @JvmStatic
     @Throws(IOException::class)
     fun buildOverlay(iconSet: Int, iconBg: Int, resources: String, force: Boolean): Boolean {
         mIconSet = iconSet

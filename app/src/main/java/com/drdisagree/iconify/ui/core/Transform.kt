@@ -23,7 +23,6 @@ object Transform {
             return pageTransformer
         }
 
-    @JvmStatic
     fun setParallaxTransformation(page: View, position: Float) {
         val parallaxView = page.findViewById<ImageView>(R.id.img)
         val isLandscape =

@@ -2,10 +2,18 @@ package com.drdisagree.iconify.xposed.modules.utils
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +24,13 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import de.robv.android.xposed.XposedBridge
 
 
 object ViewHelper {
+
+    private val TAG = "Iconify - ${ViewHelper::class.java.simpleName}: "
 
     fun setMargins(viewGroup: Any, context: Context, left: Int, top: Int, right: Int, bottom: Int) {
         when (viewGroup) {
@@ -52,8 +63,19 @@ object ViewHelper {
                         )
                     }
 
+                    is ConstraintLayout.LayoutParams -> {
+                        layoutParams.setMargins(
+                            context.toPx(left),
+                            context.toPx(top),
+                            context.toPx(right),
+                            context.toPx(bottom)
+                        )
+                    }
+
                     else -> {
-                        XposedBridge.log("Unsupported type: $layoutParams")
+                        if (layoutParams != null) {
+                            XposedBridge.log("Unsupported type: $layoutParams")
+                        }
                     }
                 }
             }
@@ -112,9 +134,44 @@ object ViewHelper {
         }
     }
 
+    fun findViewWithTagAndChangeColor(
+        view: View?,
+        tagContains: String,
+        color1: Int,
+        color2: Int,
+        cornerRadius: Int
+    ) {
+        if (view == null) return
+
+        val drawable = GradientDrawable()
+        drawable.colors = intArrayOf(color1, color2)
+        drawable.orientation = GradientDrawable.Orientation.LEFT_RIGHT
+        drawable.cornerRadius = view.context.toPx(cornerRadius).toFloat()
+
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val child: View = view.getChildAt(i)
+                checkTagAndChangeBackgroundColor(child, tagContains, drawable)
+
+                if (child is ViewGroup) {
+                    checkTagAndChangeBackgroundColor(child, tagContains, drawable)
+                }
+            }
+        } else {
+            checkTagAndChangeBackgroundColor(view, tagContains, drawable)
+        }
+
+    }
+
     private fun checkTagAndChangeColor(view: View, tag: String, color: Int) {
         if (view.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
             changeViewColor(view, color)
+        }
+    }
+
+    private fun checkTagAndChangeBackgroundColor(view: View, tag: String, bkg: Drawable) {
+        if (view.tag?.toString()?.let { isTagMatch(tag, it) } == true) {
+            changeViewBackgroundColor(view, bkg)
         }
     }
 
@@ -123,7 +180,7 @@ object ViewHelper {
             is TextView -> {
                 view.setTextColor(color)
 
-                val drawablesRelative: Array<Drawable?> = view.getCompoundDrawablesRelative()
+                val drawablesRelative: Array<Drawable?> = view.compoundDrawablesRelative
                 for (drawable in drawablesRelative) {
                     drawable?.let {
                         it.mutate()
@@ -132,7 +189,7 @@ object ViewHelper {
                     }
                 }
 
-                val drawables: Array<Drawable?> = view.getCompoundDrawables()
+                val drawables: Array<Drawable?> = view.compoundDrawables
                 for (drawable in drawables) {
                     drawable?.let {
                         it.mutate()
@@ -151,14 +208,18 @@ object ViewHelper {
             }
 
             is ProgressBar -> {
-                view.setProgressTintList(ColorStateList.valueOf(color))
-                view.setProgressBackgroundTintList(ColorStateList.valueOf(color))
+                view.progressTintList = ColorStateList.valueOf(color)
+                view.progressBackgroundTintList = ColorStateList.valueOf(color)
             }
 
             else -> {
                 view.background.mutate().setTint(color)
             }
         }
+    }
+
+    private fun changeViewBackgroundColor(view: View, bkg: Drawable) {
+        view.background = bkg
     }
 
     fun applyFontRecursively(view: View?, typeface: Typeface?) {
@@ -207,21 +268,21 @@ object ViewHelper {
         when (val params = child.layoutParams) {
             is LinearLayout.LayoutParams -> {
                 params.topMargin += topMarginInDp
-                child.setLayoutParams(params)
+                child.layoutParams = params
             }
 
             is FrameLayout.LayoutParams -> {
                 params.topMargin += topMarginInDp
-                child.setLayoutParams(params)
+                child.layoutParams = params
             }
 
             is RelativeLayout.LayoutParams -> {
                 params.topMargin += topMarginInDp
-                child.setLayoutParams(params)
+                child.layoutParams = params
             }
 
             else -> {
-                XposedBridge.log("Invalid params: $params")
+                XposedBridge.log(TAG + "Invalid params: $params")
             }
         }
     }
@@ -278,5 +339,88 @@ object ViewHelper {
     private fun isTagMatch(tagToCheck: String, targetTag: String): Boolean {
         val parts = targetTag.split("|")
         return parts.any { it.trim() == tagToCheck }
+    }
+
+    fun Drawable.applyBlur(context: Context, radius: Float): Drawable {
+        if (radius == 0f) {
+            return this
+        }
+
+        val bitmap = drawableToBitmap(this)
+
+        val blurredBitmap = bitmap.applyBlur(context, radius.coerceIn(1f, 25f))
+
+        return BitmapDrawable(context.resources, blurredBitmap)
+    }
+
+    private fun drawableToBitmap(drawable: Drawable): Bitmap {
+        if (drawable is BitmapDrawable) {
+            return drawable.bitmap
+        }
+
+        val bitmap = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+
+        return bitmap
+    }
+
+    @Suppress("deprecation")
+    fun Bitmap.applyBlur(context: Context?, radius: Float): Bitmap {
+        if (radius == 0f) {
+            return this
+        }
+
+        var tempImage = this
+
+        try {
+            tempImage = rgb565toArgb888()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        val bitmap = Bitmap.createBitmap(
+            tempImage.width, tempImage.height,
+            Bitmap.Config.ARGB_8888
+        )
+        val renderScript = RenderScript.create(context)
+        val blurInput = Allocation.createFromBitmap(renderScript, tempImage)
+        val blurOutput = Allocation.createFromBitmap(renderScript, bitmap)
+
+        ScriptIntrinsicBlur.create(
+            renderScript,
+            Element.U8_4(renderScript)
+        ).apply {
+            setInput(blurInput)
+            setRadius(radius) // radius must be 0 < r <= 25
+            forEach(blurOutput)
+        }
+
+        blurOutput.copyTo(bitmap)
+        renderScript.destroy()
+
+        return bitmap
+    }
+
+    private fun Bitmap.rgb565toArgb888(): Bitmap {
+        val numPixels = width * height
+        val pixels = IntArray(numPixels)
+
+        // Get JPEG pixels. Each int is the color values for one pixel.
+        getPixels(pixels, 0, width, 0, 0, width, height)
+
+        // Create a Bitmap of the appropriate format.
+        val result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+        // Set RGB pixels.
+        result.setPixels(pixels, 0, result.width, 0, 0, result.width, result.height)
+
+        return result
     }
 }

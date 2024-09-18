@@ -53,7 +53,7 @@
             android:orientation="vertical"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:minWidth="170dp"
+            android:minWidth="180dp"
             android:paddingTop="80dp"
             android:rotation="90"
             tools:ignore="RtlHardcoded">

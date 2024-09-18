@@ -13,7 +13,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.dialogs.RadioDialog
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.SystemUtils
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
@@ -56,7 +56,14 @@ class RadioDialogWidget : RelativeLayout, RadioDialog.RadioDialogListener {
         showSelectedPrefix =
             typedArray.getBoolean(R.styleable.RadioDialogWidget_showSelectedPrefix, true)
         titleResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_titleText, 0)
-        setTitle(titleResId)
+        if (titleResId != 0) {
+            setTitle(titleResId)
+        } else {
+            val title = typedArray.getString(R.styleable.RadioDialogWidget_titleText)
+            if (title != null) {
+                setTitle(title)
+            }
+        }
         arrayResId = typedArray.getResourceId(R.styleable.RadioDialogWidget_entries, 0)
         if (arrayResId != 0) {
             try {
@@ -168,7 +175,7 @@ class RadioDialogWidget : RelativeLayout, RadioDialog.RadioDialogListener {
 
             iconImageView.setImageTintList(ColorStateList.valueOf(color))
         } else {
-            if (SystemUtil.isDarkMode) {
+            if (SystemUtils.isDarkMode) {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
             } else {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY))

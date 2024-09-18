@@ -16,13 +16,12 @@ import com.drdisagree.iconify.common.Preferences.DUALTONE_QSPANEL
 import com.drdisagree.iconify.common.Preferences.LIGHT_QSPANEL
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_ALWAYS_WHITE
 import com.drdisagree.iconify.common.Preferences.QS_TEXT_FOLLOW_ACCENT
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.utils.Helpers.disableOverlays
-import com.drdisagree.iconify.xposed.modules.utils.Helpers.enableOverlay
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttr
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils.Companion.getColorAttrDefaultColor
-import com.drdisagree.iconify.xposed.utils.SystemUtil
+import com.drdisagree.iconify.xposed.utils.SystemUtils
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
@@ -52,19 +51,26 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
     private val qsDualToneOverlay = "IconifyComponentQSDT.overlay"
 
     init {
-        isDark = SystemUtil.isDarkMode
+        isDark = SystemUtils.isDarkMode
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        lightQSHeaderEnabled = Xprefs!!.getBoolean(LIGHT_QSPANEL, false)
-        dualToneQSEnabled = lightQSHeaderEnabled &&
-                Xprefs!!.getBoolean(DUALTONE_QSPANEL, false)
-        qsTextAlwaysWhite = Xprefs!!.getBoolean(QS_TEXT_ALWAYS_WHITE, false)
-        qsTextFollowAccent = Xprefs!!.getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
+        Xprefs.apply {
+            lightQSHeaderEnabled = getBoolean(LIGHT_QSPANEL, false)
+            dualToneQSEnabled = lightQSHeaderEnabled && getBoolean(DUALTONE_QSPANEL, false)
+            qsTextAlwaysWhite = getBoolean(QS_TEXT_ALWAYS_WHITE, false)
+            qsTextFollowAccent = getBoolean(QS_TEXT_FOLLOW_ACCENT, false)
+        }
 
-        applyOverlays(true)
+        if (key.isNotEmpty()) {
+            key[0].let {
+                if (it == LIGHT_QSPANEL || it == DUALTONE_QSPANEL) {
+                    applyOverlays(true)
+                }
+            }
+        }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -148,7 +154,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         } catch (ignored: Throwable) {
         }
 
-        unlockedScrimState = scrimStateEnum.getEnumConstants()?.let {
+        unlockedScrimState = scrimStateEnum.enumConstants?.let {
             Arrays.stream(it)
                 .filter { c: Any -> c.toString() == "UNLOCKED" }
                 .findFirst().get()
@@ -298,14 +304,29 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                             "configurationControllerListener"
                         )
 
-                        hookAllMethods(
-                            configurationControllerListener.javaClass,
+                        val applyComponentColors = object : XC_MethodHook() {
+                            override fun afterHookedMethod(param: MethodHookParam) {
+                                setHeaderComponentsColor(mView, iconManager, batteryIcon)
+                            }
+                        }
+
+                        val methods = listOf(
                             "onConfigChanged",
-                            object : XC_MethodHook() {
-                                override fun afterHookedMethod(param: MethodHookParam) {
-                                    setHeaderComponentsColor(mView, iconManager, batteryIcon)
-                                }
-                            })
+                            "onDensityOrFontScaleChanged",
+                            "onUiModeChanged",
+                            "onThemeChanged"
+                        )
+
+                        for (method in methods) {
+                            try {
+                                hookAllMethods(
+                                    configurationControllerListener.javaClass,
+                                    method,
+                                    applyComponentColors
+                                )
+                            } catch (ignored: Throwable) {
+                            }
+                        }
 
                         setHeaderComponentsColor(mView, iconManager, batteryIcon)
                     } catch (throwable: Throwable) {
@@ -338,7 +359,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                                         mContext.packageName
                                     )
                                 )
-                            settingsIcon.setImageTintList(ColorStateList.valueOf(Color.BLACK))
+                            settingsIcon.imageTintList = ColorStateList.valueOf(Color.BLACK)
 
                             val pmButtonContainer = view.findViewById<View>(
                                 res.getIdentifier(
@@ -355,7 +376,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                                     mContext.packageName
                                 )
                             )
-                            pmIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE))
+                            pmIcon.imageTintList = ColorStateList.valueOf(Color.WHITE)
                         } catch (throwable: Throwable) {
                             log(TAG + throwable)
                         }
@@ -367,11 +388,11 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         hookAllMethods(qsIconViewImplClass, "updateIcon", object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 if (lightQSHeaderEnabled && !isDark &&
-                    getIntField(param.args[1], "state") == STATE_ACTIVE
+                    getIntField(param.args[1], "state") == Tile.STATE_ACTIVE
                 ) {
                     try {
-                        (param.args[0] as ImageView)
-                            .setImageTintList(ColorStateList.valueOf(colorInactive!!))
+                        (param.args[0] as ImageView).imageTintList =
+                            ColorStateList.valueOf(colorInactive!!)
                     } catch (throwable: Throwable) {
                         log(TAG + throwable)
                     }
@@ -384,7 +405,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                 if (lightQSHeaderEnabled && !isDark) {
                     try {
                         if (param.args[0] is ImageView &&
-                            getIntField(param.args[1], "state") == STATE_ACTIVE
+                            getIntField(param.args[1], "state") == Tile.STATE_ACTIVE
                         ) {
                             setObjectField(param.thisObject, "mTint", colorInactive)
                         }
@@ -428,7 +449,8 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         })
         hookAllMethods(qsIconViewImplClass, "getIconColorForState", object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
-                val (isDisabledState: Boolean, isActiveState: Boolean) = getTileState(param)
+                val (isDisabledState: Boolean,
+                    isActiveState: Boolean) = Utils.getTileState(param)
 
                 if (!isDark && lightQSHeaderEnabled) {
                     if (isDisabledState) {
@@ -446,7 +468,8 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         try {
             hookAllMethods(qsIconViewImplClass, "updateIcon", object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
-                    val (isDisabledState: Boolean, isActiveState: Boolean) = getTileState(param)
+                    val (isDisabledState: Boolean,
+                        isActiveState: Boolean) = Utils.getTileState(param)
 
                     if (!isDark && lightQSHeaderEnabled) {
                         val mIcon = param.args[0] as ImageView
@@ -455,9 +478,9 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                             param.result = -0x80000000
                         } else {
                             if (isActiveState && !qsTextAlwaysWhite && !qsTextFollowAccent) {
-                                mIcon.setImageTintList(ColorStateList.valueOf(Color.WHITE))
+                                mIcon.imageTintList = ColorStateList.valueOf(Color.WHITE)
                             } else if (!isActiveState) {
-                                mIcon.setImageTintList(ColorStateList.valueOf(Color.BLACK))
+                                mIcon.imageTintList = ColorStateList.valueOf(Color.BLACK)
                             }
                         }
                     }
@@ -555,7 +578,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         })
 
         try {
-            val constants: Array<out Any>? = scrimStateEnum.getEnumConstants()
+            val constants: Array<out Any>? = scrimStateEnum.enumConstants
             if (constants != null) {
                 for (constant in constants) {
                     when (constant.toString()) {
@@ -730,60 +753,24 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
         })
     }
 
-    private fun getTileState(param: XC_MethodHook.MethodHookParam): Pair<Boolean, Boolean> {
-        val isDisabledState: Boolean = try {
-            getObjectField(
-                param.args[1],
-                "disabledByPolicy"
-            ) as Boolean ||
-                    getObjectField(
-                        param.args[1],
-                        "state"
-                    ) as Int == Tile.STATE_UNAVAILABLE
-        } catch (throwable: Throwable) {
-            getObjectField(
-                param.args[1],
-                "state"
-            ) as Int == Tile.STATE_UNAVAILABLE
-        }
-
-        val isActiveState: Boolean = try {
-            getObjectField(
-                param.args[1],
-                "state"
-            ) as Int == STATE_ACTIVE
-        } catch (throwable: Throwable) {
-            try {
-                param.args[1] as Int == STATE_ACTIVE
-            } catch (throwable1: Throwable) {
-                try {
-                    param.args[1] as Boolean
-                } catch (throwable2: Throwable) {
-                    false
-                }
-            }
-        }
-
-        return Pair(isDisabledState, isActiveState)
-    }
-
     private fun applyOverlays(force: Boolean) {
-        val isCurrentlyDark: Boolean = SystemUtil.isDarkMode
+        val isCurrentlyDark: Boolean = SystemUtils.isDarkMode
         if (isCurrentlyDark == isDark && !force) return
 
         isDark = isCurrentlyDark
 
         calculateColors()
-        disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
+
+        Utils.disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
 
         try {
             Thread.sleep(50)
         } catch (ignored: Throwable) {
         }
 
-        if (lightQSHeaderEnabled) {
-            if (!isCurrentlyDark) enableOverlay(qsLightThemeOverlay)
-            if (dualToneQSEnabled) enableOverlay(qsDualToneOverlay)
+        if (lightQSHeaderEnabled && !isCurrentlyDark) {
+            Utils.enableOverlay(qsLightThemeOverlay)
+            if (dualToneQSEnabled) Utils.enableOverlay(qsDualToneOverlay)
         }
     }
 
@@ -867,7 +854,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                                 mContext.packageName
                             )
                         ), "mMobileSignal"
-                    ) as ImageView).setImageTintList(ColorStateList.valueOf(textColorPrimary))
+                    ) as ImageView).imageTintList = ColorStateList.valueOf(textColorPrimary)
 
                     (getObjectField(
                         mView.findViewById(
@@ -877,7 +864,7 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
                                 mContext.packageName
                             )
                         ), "mMobileRoaming"
-                    ) as ImageView).setImageTintList(ColorStateList.valueOf(textColorPrimary))
+                    ) as ImageView).imageTintList = ColorStateList.valueOf(textColorPrimary)
                 } catch (ignored: Throwable) {
                 }
             }
@@ -895,7 +882,6 @@ class QSLightThemeA13(context: Context?) : ModPack(context!!) {
     }
 
     companion object {
-        const val STATE_ACTIVE = 2
         private val TAG = "Iconify - ${QSLightThemeA13::class.java.simpleName}: "
         private var lightQSHeaderEnabled = false
         private var dualToneQSEnabled = false

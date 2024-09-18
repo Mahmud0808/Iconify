@@ -10,8 +10,8 @@ import kotlin.concurrent.Volatile
 
 abstract class TaskExecutor<Params, Progress, Result> {
 
-    private val mHandler: Handler
-    private val mExecutor: Executor
+    private val mHandler: Handler = Handler(Looper.getMainLooper())
+    private val mExecutor: Executor = Executors.newSingleThreadExecutor()
     private val mCancelled: AtomicBoolean
     private val preExecuteLatch: CountDownLatch
     private val isCancelled: Boolean
@@ -22,8 +22,6 @@ abstract class TaskExecutor<Params, Progress, Result> {
         private set
 
     init {
-        mExecutor = Executors.newSingleThreadExecutor()
-        mHandler = Handler(Looper.getMainLooper())
         status = Status.PENDING
         mCancelled = AtomicBoolean(false)
         preExecuteLatch = CountDownLatch(1)

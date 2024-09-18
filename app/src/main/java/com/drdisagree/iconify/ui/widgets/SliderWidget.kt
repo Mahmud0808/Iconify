@@ -4,11 +4,12 @@ import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.utils.HapticUtils.weakVibrate
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.slider.Slider
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
@@ -21,7 +22,7 @@ class SliderWidget : RelativeLayout {
     private lateinit var titleTextView: TextView
     private lateinit var summaryTextView: TextView
     private lateinit var materialSlider: Slider
-    private lateinit var resetIcon: ImageView
+    private lateinit var resetButton: MaterialButton
     private var valueFormat: String? = ""
     private var defaultValue = 0
     private var outputScale = 1f
@@ -78,7 +79,7 @@ class SliderWidget : RelativeLayout {
         }
 
         setSelectedText()
-        handleResetVisibility()
+        handleResetButton()
         setOnSliderTouchListener(null)
         setResetClickListener(null)
     }
@@ -117,7 +118,7 @@ class SliderWidget : RelativeLayout {
         set(value) {
             materialSlider.value = value.toFloat()
             setSelectedText()
-            handleResetVisibility()
+            handleResetButton()
         }
 
     fun setSliderValueFrom(value: Int) {
@@ -153,7 +154,7 @@ class SliderWidget : RelativeLayout {
 
             override fun onStopTrackingTouch(slider: Slider) {
                 setSelectedText()
-                handleResetVisibility()
+                handleResetButton()
                 notifyOnSliderTouchStopped(slider)
             }
         })
@@ -175,21 +176,20 @@ class SliderWidget : RelativeLayout {
     fun setResetClickListener(listener: OnLongClickListener?) {
         resetClickListener = listener
 
-        resetIcon.setOnLongClickListener { v: View ->
+        resetButton.setOnClickListener { v: View ->
             if (defaultValue == Int.MAX_VALUE) {
-                return@setOnLongClickListener false
+                return@setOnClickListener
             }
 
             sliderValue = defaultValue
 
-            handleResetVisibility()
+            handleResetButton()
             notifyOnResetClicked(v)
-            true
         }
     }
 
     fun resetSlider() {
-        resetIcon.performLongClick()
+        resetButton.performLongClick()
     }
 
     private fun notifyOnSliderTouchStarted(slider: Slider) {
@@ -201,24 +201,26 @@ class SliderWidget : RelativeLayout {
     }
 
     private fun notifyOnResetClicked(v: View) {
+        v.weakVibrate()
         resetClickListener?.onLongClick(v)
     }
 
-    private fun handleResetVisibility() {
-        if (defaultValue != Int.MAX_VALUE && materialSlider.value != defaultValue.toFloat()) {
-            resetIcon.setVisibility(VISIBLE)
+    private fun handleResetButton() {
+        if (defaultValue != Int.MAX_VALUE) {
+            resetButton.visibility = VISIBLE
+            resetButton.isEnabled = isEnabled && materialSlider.value != defaultValue.toFloat()
         } else {
-            resetIcon.setVisibility(GONE)
+            resetButton.visibility = GONE
         }
     }
 
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
 
-        container.setEnabled(enabled)
-        titleTextView.setEnabled(enabled)
-        summaryTextView.setEnabled(enabled)
-        resetIcon.setEnabled(enabled)
+        container.isEnabled = enabled
+        titleTextView.isEnabled = enabled
+        summaryTextView.isEnabled = enabled
+        resetButton.isEnabled = enabled
         materialSlider.isEnabled = enabled
     }
 
@@ -228,12 +230,12 @@ class SliderWidget : RelativeLayout {
         titleTextView = findViewById(R.id.title)
         summaryTextView = findViewById(R.id.summary)
         materialSlider = findViewById(R.id.slider_widget)
-        resetIcon = findViewById(R.id.reset)
-        container.setId(generateViewId())
-        titleTextView.setId(generateViewId())
-        summaryTextView.setId(generateViewId())
-        materialSlider.setId(generateViewId())
-        resetIcon.setId(generateViewId())
+        resetButton = findViewById(R.id.reset_button)
+        container.id = generateViewId()
+        titleTextView.id = generateViewId()
+        summaryTextView.id = generateViewId()
+        materialSlider.id = generateViewId()
+        resetButton.id = generateViewId()
     }
 
     override fun onSaveInstanceState(): Parcelable {
@@ -249,7 +251,7 @@ class SliderWidget : RelativeLayout {
         super.onRestoreInstanceState(state.superState)
         materialSlider.value = state.sliderValue
         setSelectedText()
-        handleResetVisibility()
+        handleResetButton()
     }
 
     @Parcelize

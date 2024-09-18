@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.xposed.modules.utils
 
 import android.content.Context
+import android.util.ArraySet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -10,50 +11,36 @@ import com.topjohnwu.superuser.Shell
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
+import de.robv.android.xposed.XposedBridge.hookMethod
 import de.robv.android.xposed.XposedBridge.log
-import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedHelpers.findClass
+import de.robv.android.xposed.XposedHelpers.findClassIfExists
+import java.lang.reflect.Method
+import java.util.regex.Pattern
 
 @Suppress("unused")
 object Helpers {
-    fun enableOverlay(pkgName: String) {
-        Shell.cmd(
-            "cmd overlay enable --user current $pkgName",
-            "cmd overlay set-priority $pkgName highest"
-        ).exec()
-    }
-
-    fun disableOverlay(pkgName: String) {
-        Shell.cmd("cmd overlay disable --user current $pkgName").exec()
-    }
-
-    fun enableOverlays(vararg pkgNames: String?) {
-        val command = StringBuilder()
-        for (pkgName in pkgNames) {
-            command.append("cmd overlay enable --user current $pkgName; cmd overlay set-priority $pkgName highest; ")
-        }
-        Shell.cmd(command.toString().trim()).submit()
-    }
-
-    fun disableOverlays(vararg pkgNames: String?) {
-        val command = StringBuilder()
-        for (pkgName in pkgNames) {
-            command.append("cmd overlay disable --user current $pkgName; ")
-        }
-        Shell.cmd(command.toString().trim()).submit()
-    }
 
     fun findAndDumpClass(className: String, classLoader: ClassLoader?): Class<*> {
         dumpClass(className, classLoader)
-        return XposedHelpers.findClass(className, classLoader)
+        return findClass(className, classLoader)
     }
 
     fun findAndDumpClassIfExists(className: String, classLoader: ClassLoader?): Class<*> {
         dumpClass(className, classLoader)
-        return XposedHelpers.findClassIfExists(className, classLoader)
+        return findClassIfExists(className, classLoader)
     }
 
-    fun dumpClass(className: String, classLoader: ClassLoader?) {
-        val ourClass = XposedHelpers.findClassIfExists(className, classLoader)
+    fun dumpClassObj(classObj: Class<*>?) {
+        if (classObj == null) {
+            log("Class: null not found")
+            return
+        }
+        dumpClass(classObj)
+    }
+
+    private fun dumpClass(className: String, classLoader: ClassLoader?) {
+        val ourClass = findClassIfExists(className, classLoader)
         if (ourClass == null) {
             log("Class: $className not found")
             return
@@ -61,38 +48,38 @@ object Helpers {
         dumpClass(ourClass)
     }
 
-    fun dumpClass(ourClass: Class<*>) {
-        val ms = ourClass.getDeclaredMethods()
-        log("\n\nClass: ${ourClass.getName()}")
-        log("extends: ${ourClass.superclass.getName()}")
+    private fun dumpClass(ourClass: Class<*>) {
+        val ms = ourClass.declaredMethods
+        log("\n\nClass: ${ourClass.name}")
+        log("extends: ${ourClass.superclass.name}")
 
         log("Subclasses:")
-        val scs = ourClass.getClasses()
+        val scs = ourClass.classes
         for (c in scs) {
-            log(c.getName())
+            log(c.name)
         }
 
         log("Methods:")
         val cons = ourClass.declaredConstructors
         for (m in cons) {
             log(m.name + " - " + " - " + m.parameterCount)
-            val cs = m.getParameterTypes()
+            val cs = m.parameterTypes
             for (c in cs) {
-                log("\t\t" + c.getTypeName())
+                log("\t\t" + c.typeName)
             }
         }
         for (m in ms) {
             log(m.name + " - " + m.returnType + " - " + m.parameterCount)
-            val cs = m.getParameterTypes()
+            val cs = m.parameterTypes
             for (c in cs) {
-                log("\t\t" + c.getTypeName())
+                log("\t\t" + c.typeName)
             }
         }
 
         log("Fields:")
         val fs = ourClass.declaredFields
         for (f in fs) {
-            log("\t\t" + f.getName() + "-" + f.type.getName())
+            log("\t\t" + f.name + "-" + f.type.name)
         }
         log("End dump\n\n")
     }
@@ -109,6 +96,45 @@ object Helpers {
             hookAllConstructors(clazz, hook)
         } catch (ignored: Throwable) {
         }
+    }
+
+    fun hookAllMethodsMatchPattern(
+        clazz: Class<*>,
+        namePattern: String,
+        callback: XC_MethodHook
+    ): Set<XC_MethodHook.Unhook> {
+        val result: MutableSet<XC_MethodHook.Unhook> = ArraySet()
+
+        for (method in findMethods(clazz, namePattern)) {
+            result.add(hookMethod(method, callback))
+        }
+
+        return result
+    }
+
+    private fun findMethods(clazz: Class<*>, namePattern: String): Set<Method> {
+        val result: MutableSet<Method> = ArraySet()
+        val methods: Array<Method> = clazz.methods
+
+        for (method in methods) {
+            if (Pattern.matches(namePattern, method.name)) {
+                result.add(method)
+            }
+        }
+
+        return result
+    }
+
+    fun findMethod(clazz: Class<*>, namePattern: String): Method? {
+        val methods: Array<Method> = clazz.methods
+
+        for (method in methods) {
+            if (Pattern.matches(namePattern, method.name)) {
+                return method
+            }
+        }
+
+        return null
     }
 
     fun dumpChildViews(context: Context, view: View) {
@@ -155,6 +181,15 @@ object Helpers {
         }
     }
 
+    fun findClassInArray(classLoader: ClassLoader, vararg classNames: String): Class<*>? {
+        for (className in classNames) {
+            val clazz = findClassIfExists(className, classLoader)
+            if (clazz != null) return clazz
+        }
+        return null
+    }
+
+    @Suppress("SameParameterValue")
     private fun repeatString(str: String, times: Int): String {
         val result = StringBuilder()
         for (i in 0 until times) {
@@ -173,7 +208,34 @@ object Helpers {
         return color
     }
 
+    fun isMethodAvailable(
+        target: Any?,
+        methodName: String,
+        vararg parameterTypes: Class<*>
+    ): Boolean {
+        if (target == null) return false
+
+        return try {
+            target::class.java.getMethod(methodName, *parameterTypes)
+            true
+        } catch (ignored: NoSuchMethodException) {
+            false
+        }
+    }
+
+    val isQsTileOverlayEnabled: Boolean
+        get() {
+            val output = Shell.cmd(
+                "[[ $(cmd overlay list | grep -oE '\\[x\\] IconifyComponentQSS[N|P][0-9]+.overlay') ]] && echo 1 || echo 0"
+            ).exec().out
+            return output.isNotEmpty() && output[0] == "1"
+        }
+
     val isPixelVariant: Boolean
-        get() = Shell.cmd("[[ $(cmd overlay list | grep -oE '\\[x\\] IconifyComponentQSSP[0-9]+.overlay') ]] && echo 1 || echo 0")
-            .exec().out[0] == "1"
+        get() {
+            val output = Shell.cmd(
+                "[[ $(cmd overlay list | grep -oE '\\[x\\] IconifyComponentQSSP[0-9]+.overlay') ]] && echo 1 || echo 0"
+            ).exec().out
+            return output.isNotEmpty() && output[0] == "1"
+        }
 }

@@ -1,0 +1,12 @@
+Iconify v6.9.0 has arrived! It has the following new changes:
+
+Feature Changes:
+• Added AI depth wallpaper (thanks to @siavash79)
+• Added oneplus style QS panel (thanks to @DHD2280)
+• Added lockscreen weather and widgets (thanks to @DHD2280)
+• Updated translations (thanks to all the contributors on Crowdin)
+• Numerous other improvements and bug fixes
+
+Note: Clean install mandatory. Do not restore old backups.
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v6.9.0

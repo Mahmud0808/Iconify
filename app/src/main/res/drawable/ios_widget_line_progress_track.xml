@@ -4,8 +4,8 @@
     <item
         android:id="@android:id/background"
         android:gravity="fill_horizontal|center">
-        <shape android:tint="#4DFFFFFF">
-            <solid android:color="#ffffffff" />
+        <shape android:tint="#FFFFFFFF">
+            <solid android:color="#4dffffff" />
             <size android:height="8dp" />
             <corners android:radius="12dp" />
         </shape>

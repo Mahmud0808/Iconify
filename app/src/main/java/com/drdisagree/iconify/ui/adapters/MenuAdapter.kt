@@ -3,12 +3,14 @@ package com.drdisagree.iconify.ui.adapters
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation.findNavController
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
 import com.drdisagree.iconify.ui.models.MenuModel
 import com.drdisagree.iconify.ui.widgets.MenuWidget
 
 class MenuAdapter(
+    private var fragmentManager: FragmentManager,
     var context: Context,
     private var itemList: ArrayList<MenuModel>
 ) : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
@@ -25,8 +27,8 @@ class MenuAdapter(
         menu.setIcon(itemList[position].icon)
         menu.setEndArrowVisibility(View.VISIBLE)
 
-        menu.setOnClickListener { v: View? ->
-            findNavController(v!!).navigate(itemList[position].id)
+        menu.setOnClickListener {
+            replaceFragment(fragmentManager, itemList[position].fragment)
         }
     }
 

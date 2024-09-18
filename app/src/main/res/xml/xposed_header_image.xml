@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_headerimage"
+        android:summary="@string/activity_desc_header_image"
+        android:title="@string/activity_title_header_image"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.FilePickerPreference
+        android:dependency="xposed_headerimage"
+        android:key="xposed_headerimagepicker"
+        android:summary="@string/file_picker_desc"
+        android:title="@string/header_image_title"
+        app:buttonText="@string/btn_pick_image"
+        app:iconSpaceReserved="false"
+        search:ignore="true" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_headerimage"
+        android:key="xposed_headerimageheight"
+        android:title="@string/header_image_height_title"
+        app:defaultValue="140"
+        app:iconSpaceReserved="false"
+        app:maxVal="400"
+        app:minVal="40"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_headerimage"
+        android:key="xposed_headerimagealpha"
+        android:title="@string/header_image_opacity"
+        app:defaultValue="100"
+        app:iconSpaceReserved="false"
+        app:maxVal="100"
+        app:minVal="0"
+        app:tickInterval="1"
+        app:valueFormat="%" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_headerimage"
+        android:key="xposed_headerimagebottomfadeamount"
+        android:title="@string/header_image_bottom_fade"
+        app:defaultValue="40"
+        app:iconSpaceReserved="false"
+        app:maxVal="120"
+        app:minVal="0"
+        app:tickInterval="1"
+        app:valueFormat="dp" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_headerimage"
+        android:key="xposed_headerimagezoomtofit"
+        android:summary="@string/header_image_zoom_to_fit_desc"
+        android:title="@string/header_image_zoom_to_fit_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_headerimage"
+        android:key="xposed_headerimagelandscape"
+        android:summary="@string/header_image_hide_in_landscape_desc"
+        android:title="@string/header_image_hide_in_landscape_title"
+        app:defaultValue="true"
+        app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

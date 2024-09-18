@@ -8,8 +8,8 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.utils.FileUtil
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.FileUtils
+import com.drdisagree.iconify.utils.SystemUtils
 import com.google.android.material.button.MaterialButton
 
 class FilePickerWidget : RelativeLayout {
@@ -102,11 +102,11 @@ class FilePickerWidget : RelativeLayout {
         activityResultLauncher = launcher
 
         buttonPicker.setOnClickListener {
-            if (!SystemUtil.hasStoragePermission()) {
-                SystemUtil.requestStoragePermission(context)
+            if (!SystemUtils.hasStoragePermission()) {
+                SystemUtils.requestStoragePermission(context)
             } else {
                 if (::activityResultLauncher.isInitialized) {
-                    FileUtil.launchFilePicker(activityResultLauncher, fileType)
+                    FileUtils.launchFilePicker(activityResultLauncher, fileType)
                 }
             }
         }
@@ -151,10 +151,10 @@ class FilePickerWidget : RelativeLayout {
 
         if (::activityResultLauncher.isInitialized) {
             buttonPicker.setOnClickListener {
-                if (!SystemUtil.hasStoragePermission()) {
-                    SystemUtil.requestStoragePermission(context)
+                if (!SystemUtils.hasStoragePermission()) {
+                    SystemUtils.requestStoragePermission(context)
                 } else {
-                    FileUtil.launchFilePicker(activityResultLauncher, fileType)
+                    FileUtils.launchFilePicker(activityResultLauncher, fileType)
                 }
             }
         }

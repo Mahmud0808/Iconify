@@ -16,8 +16,8 @@ android {
         applicationId = "com.drdisagree.iconify"
         minSdk = 31
         targetSdk = 34
-        versionCode = 20
-        versionName = "6.8.0"
+        versionCode = 21
+        versionName = "6.9.0"
         setProperty("archivesBaseName", "Iconify v$versionName")
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
     }
@@ -65,6 +65,7 @@ android {
         viewBinding = true
         dataBinding = true
         buildConfig = true
+        aidl = true
     }
 
     compileOptions {
@@ -112,6 +113,7 @@ dependencies {
 
     // Data Binding
     implementation(libs.library)
+    implementation(libs.androidx.palette.ktx)
 
     // Xposed API
     compileOnly(files("libs/api-82.jar"))
@@ -128,7 +130,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     // Color Picker
-    implementation(libs.colorpicker)
+    implementation(libs.jaredrummler.colorpicker)
 
     // Splash Screen
     implementation(libs.androidx.core.splashscreen)
@@ -141,6 +143,9 @@ dependencies {
 
     // Zip Util
     implementation(libs.zip4j)
+
+    // Preference
+    implementation(libs.androidx.preference.ktx)
 
     // Remote Preference
     implementation(libs.remotepreferences)
@@ -190,12 +195,20 @@ dependencies {
     // Fading Edge Layout
     implementation(libs.fadingedgelayout)
 
+    // Google Subject Segmentation - MLKit
+    implementation(libs.com.google.android.gms.play.services.mlkit.subject.segmentation)
+    implementation(libs.play.services.base)
+
+    // Blur View
+    implementation(libs.blurview)
+
     // Misc
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.slf4j.api)
+    implementation(libs.commons.text)
 }
 
 tasks.register("printVersionName") {

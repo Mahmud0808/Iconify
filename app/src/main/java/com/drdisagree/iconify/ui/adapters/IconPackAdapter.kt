@@ -15,43 +15,77 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.config.Prefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.IconPackModel
-import com.drdisagree.iconify.utils.overlay.manager.IconPackManager
 
 class IconPackAdapter(
     var context: Context,
     private var itemList: ArrayList<IconPackModel>,
-    var loadingDialog: LoadingDialog
+    var loadingDialog: LoadingDialog,
+    private var componentName: String,
+    private var onButtonClick: OnButtonClick? = null
 ) : RecyclerView.Adapter<IconPackAdapter.ViewHolder>() {
 
     private var iconPackKeys = ArrayList<String>()
     private var linearLayoutManager: LinearLayoutManager? = null
     private var selectedItem = -1
+    private var mComponentName = componentName
+
+    constructor(
+        context: Context,
+        itemList: ArrayList<IconPackModel>,
+        loadingDialog: LoadingDialog,
+        compName: String
+    ) : this(context, itemList, loadingDialog, compName, null)
 
     init {
         // Preference key
-        for (i in 1..itemList.size) iconPackKeys.add("IconifyComponentIPAS$i.overlay")
+        for (i in 1..itemList.size) iconPackKeys.add(
+            itemList[i - 1].packageName.takeIf { !it.isNullOrEmpty() }
+                ?: "IconifyComponent${mComponentName}${i}.overlay"
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.view_list_option_iconpack, parent, false)
+        val view = LayoutInflater.from(context).inflate(
+            R.layout.view_list_option_iconpack,
+            parent,
+            false
+        )
         return ViewHolder(view)
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.styleName.text = itemList[position].name
-        holder.desc.text = context.resources.getString(itemList[position].desc)
-        holder.icon1.setImageResource(itemList[position].icon1)
-        holder.icon2.setImageResource(itemList[position].icon2)
-        holder.icon3.setImageResource(itemList[position].icon3)
-        holder.icon4.setImageResource(itemList[position].icon4)
+        if (itemList[position].desc != 0x0) {
+            holder.desc.visibility = View.VISIBLE
+            holder.desc.text = context.resources.getString(itemList[position].desc)
+        } else
+            holder.desc.visibility = View.GONE
+
+        if (itemList[position].icon1 != 0x0) {
+            holder.icon1.setImageResource(itemList[position].icon1)
+        } else if (itemList[position].drawableIcon1 != null) {
+            holder.icon1.setImageDrawable(itemList[position].drawableIcon1)
+        }
+        if (itemList[position].icon2 != 0x0) {
+            holder.icon2.setImageResource(itemList[position].icon2)
+        } else if (itemList[position].drawableIcon2 != null) {
+            holder.icon2.setImageDrawable(itemList[position].drawableIcon2)
+        }
+        if (itemList[position].icon1 != 0x0) {
+            holder.icon3.setImageResource(itemList[position].icon3)
+        } else if (itemList[position].drawableIcon3 != null) {
+            holder.icon3.setImageDrawable(itemList[position].drawableIcon3)
+        }
+        if (itemList[position].icon4 != 0x0) {
+            holder.icon4.setImageResource(itemList[position].icon4)
+        } else if (itemList[position].drawableIcon4 != null) {
+            holder.icon4.setImageDrawable(itemList[position].drawableIcon4)
+        }
 
         refreshButton(holder)
         enableOnClickListener(holder)
@@ -110,7 +144,12 @@ class IconPackAdapter(
             loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
             Thread {
-                IconPackManager.enableOverlay(holder.getBindingAdapterPosition() + 1)
+                if (onButtonClick != null) {
+                    onButtonClick!!.onEnableClick(
+                        holder.bindingAdapterPosition,
+                        itemList[holder.bindingAdapterPosition]
+                    )
+                }
 
                 (context as Activity).runOnUiThread {
                     Handler(Looper.getMainLooper()).postDelayed({
@@ -139,7 +178,12 @@ class IconPackAdapter(
             loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
             Thread {
-                IconPackManager.disableOverlay(holder.getBindingAdapterPosition() + 1)
+                if (onButtonClick != null) {
+                    onButtonClick!!.onDisableClick(
+                        holder.bindingAdapterPosition,
+                        itemList[holder.bindingAdapterPosition]
+                    )
+                }
 
                 (context as Activity).runOnUiThread {
                     Handler(Looper.getMainLooper()).postDelayed({
@@ -254,26 +298,23 @@ class IconPackAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var container: LinearLayout
-        var styleName: TextView
-        var desc: TextView
-        var icon1: ImageView
-        var icon2: ImageView
-        var icon3: ImageView
-        var icon4: ImageView
-        var btnEnable: Button
-        var btnDisable: Button
-
-        init {
-            container = itemView.findViewById(R.id.icon_pack_child)
-            styleName = itemView.findViewById(R.id.iconpack_title)
-            desc = itemView.findViewById(R.id.iconpack_desc)
-            icon1 = itemView.findViewById(R.id.iconpack_preview1)
-            icon2 = itemView.findViewById(R.id.iconpack_preview2)
-            icon3 = itemView.findViewById(R.id.iconpack_preview3)
-            icon4 = itemView.findViewById(R.id.iconpack_preview4)
-            btnEnable = itemView.findViewById(R.id.enable_iconpack)
-            btnDisable = itemView.findViewById(R.id.disable_iconpack)
-        }
+        var container: LinearLayout = itemView.findViewById(R.id.icon_pack_child)
+        var styleName: TextView = itemView.findViewById(R.id.iconpack_title)
+        var desc: TextView = itemView.findViewById(R.id.iconpack_desc)
+        var icon1: ImageView = itemView.findViewById(R.id.iconpack_preview1)
+        var icon2: ImageView = itemView.findViewById(R.id.iconpack_preview2)
+        var icon3: ImageView = itemView.findViewById(R.id.iconpack_preview3)
+        var icon4: ImageView = itemView.findViewById(R.id.iconpack_preview4)
+        var btnEnable: Button = itemView.findViewById(R.id.enable_iconpack)
+        var btnDisable: Button = itemView.findViewById(R.id.disable_iconpack)
     }
+
+    /**
+     * Interface for the click on the item
+     */
+    interface OnButtonClick {
+        fun onEnableClick(position: Int, item: IconPackModel)
+        fun onDisableClick(position: Int, item: IconPackModel)
+    }
+
 }

@@ -18,7 +18,7 @@ class HookRes : IXposedHookInitPackageResources, IXposedHookZygoteInit {
     }
 
     companion object {
-        var modRes: Resources? = null
+        lateinit var modRes: Resources
         val resParams = HashMap<String, XC_InitPackageResources.InitPackageResourcesParam>()
     }
 }

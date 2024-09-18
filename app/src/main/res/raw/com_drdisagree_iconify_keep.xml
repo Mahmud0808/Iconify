@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="
+    @drawable/google_*,
+    @drawable/icons8_color_hand_*,
+    @drawable/marshmallow_*,
+    @drawable/stickers_*,
+    @drawable/weather_color_*,
+    @drawable/weather_faded_*,
+    @drawable/weather_gs6_*,
+    @drawable/weather_magical_*,
+    @drawable/weather_miui_*,
+    @drawable/weather_sthul_*,
+    @drawable/weather_tapas_*,
+    @drawable/weather_vclouds_*,
+    @drawable/weather_weezle_*,
+    @drawable/outline_*,
+    @drawable/weatherclient_*" />

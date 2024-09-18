@@ -5,14 +5,21 @@ import com.drdisagree.iconify.common.Const.PIXEL_LAUNCHER_PACKAGE
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.modules.BackgroundChip
 import com.drdisagree.iconify.xposed.modules.BatteryStyleManager
+import com.drdisagree.iconify.xposed.modules.ControllersProvider
 import com.drdisagree.iconify.xposed.modules.DepthWallpaper
+import com.drdisagree.iconify.xposed.modules.DepthWallpaperA14
 import com.drdisagree.iconify.xposed.modules.HeaderClock
+import com.drdisagree.iconify.xposed.modules.HeaderClockA14
 import com.drdisagree.iconify.xposed.modules.HeaderImage
 import com.drdisagree.iconify.xposed.modules.IconUpdater
 import com.drdisagree.iconify.xposed.modules.LockscreenClock
+import com.drdisagree.iconify.xposed.modules.LockscreenWeather
+import com.drdisagree.iconify.xposed.modules.LockscreenWidgets
 import com.drdisagree.iconify.xposed.modules.Miscellaneous
+import com.drdisagree.iconify.xposed.modules.OpQsHeader
 import com.drdisagree.iconify.xposed.modules.QSTransparency
 import com.drdisagree.iconify.xposed.modules.QuickSettings
+import com.drdisagree.iconify.xposed.modules.Statusbar
 import com.drdisagree.iconify.xposed.modules.VolumePanel
 import com.drdisagree.iconify.xposed.modules.themes.QSBlackThemeA13
 import com.drdisagree.iconify.xposed.modules.themes.QSBlackThemeA14
@@ -32,34 +39,43 @@ object EntryList {
     )
 
     private val systemUICommonModPacks = listOf(
+        ControllersProvider::class.java,
         BackgroundChip::class.java,
-        HeaderClock::class.java,
         HeaderImage::class.java,
-        DepthWallpaper::class.java,
         LockscreenClock::class.java,
+        LockscreenWidgets::class.java,
+        LockscreenWeather::class.java,
         Miscellaneous::class.java,
         QSTransparency::class.java,
         QuickSettings::class.java,
+        Statusbar::class.java,
         BatteryStyleManager::class.java,
         VolumePanel::class.java
     )
 
     private val systemUiAndroid12ModPacks = listOf(
+        DepthWallpaper::class.java,
         QSFluidThemeA13::class.java,
         QSBlackThemeA13::class.java,
-        QSLightThemeA12::class.java
+        QSLightThemeA12::class.java,
+        HeaderClock::class.java
     )
 
     private val systemUiAndroid13ModPacks = listOf(
+        DepthWallpaper::class.java,
         QSFluidThemeA13::class.java,
         QSBlackThemeA13::class.java,
-        QSLightThemeA13::class.java
+        QSLightThemeA13::class.java,
+        HeaderClock::class.java
     )
 
     private val systemUiAndroid14ModPacks = listOf(
+        DepthWallpaperA14::class.java,
         QSFluidThemeA14::class.java,
         QSBlackThemeA14::class.java,
-        QSLightThemeA14::class.java
+        QSLightThemeA14::class.java,
+        HeaderClockA14::class.java,
+        OpQsHeader::class.java
     )
 
     private val pixelLauncherModPacks = listOf(

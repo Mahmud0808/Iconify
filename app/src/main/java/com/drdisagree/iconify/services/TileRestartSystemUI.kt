@@ -4,8 +4,8 @@ import android.graphics.drawable.Icon
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 
 class TileRestartSystemUI : TileService() {
 
@@ -30,7 +30,7 @@ class TileRestartSystemUI : TileService() {
     override fun onClick() {
         super.onClick()
 
-        SystemUtil.restartSystemUI()
+        SystemUtils.restartSystemUI()
         val tile = qsTile
         tile.state = Tile.STATE_INACTIVE
         tile.label = resources.getString(R.string.restart_sysui_title)
@@ -44,13 +44,13 @@ class TileRestartSystemUI : TileService() {
     private fun updateTileIcon(tile: Tile) {
         var iconResId = R.drawable.ic_tile_restart_systemui
 
-        if (OverlayUtil.isOverlayEnabled("IconifyComponentIPAS1.overlay")) {
+        if (OverlayUtils.isOverlayEnabled("IconifyComponentIPAS1.overlay")) {
             iconResId = R.drawable.ic_tile_restart_systemui_aurora
-        } else if (OverlayUtil.isOverlayEnabled("IconifyComponentIPAS2.overlay")) {
+        } else if (OverlayUtils.isOverlayEnabled("IconifyComponentIPAS2.overlay")) {
             iconResId = R.drawable.ic_tile_restart_systemui_gradicon
-        } else if (OverlayUtil.isOverlayEnabled("IconifyComponentIPAS3.overlay")) {
+        } else if (OverlayUtils.isOverlayEnabled("IconifyComponentIPAS3.overlay")) {
             iconResId = R.drawable.ic_tile_restart_systemui_lorn
-        } else if (OverlayUtil.isOverlayEnabled("IconifyComponentIPAS4.overlay")) {
+        } else if (OverlayUtils.isOverlayEnabled("IconifyComponentIPAS4.overlay")) {
             iconResId = R.drawable.ic_tile_restart_systemui_plumpy
         }
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_depthwallpaper"
+        android:summary="@string/enable_depth_wallpaper_desc"
+        android:title="@string/enable_depth_wallpaper_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_depthwallpaper"
+        android:key="xposed_customdepthwallpaper"
+        android:summary="@string/enable_custom_depth_wallpaper_desc"
+        android:title="@string/enable_custom_depth_wallpaper_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.FilePickerPreference
+        android:dependency="xposed_depthwallpaper"
+        android:key="xposed_depthwallpaperbgimagepicker"
+        android:summary="@string/background_image_desc"
+        android:title="@string/background_image_title"
+        app:buttonText="@string/btn_pick_image"
+        app:iconSpaceReserved="false"
+        search:ignore="true" />
+
+    <com.drdisagree.iconify.ui.preferences.FilePickerPreference
+        android:dependency="xposed_depthwallpaper"
+        android:key="xposed_depthwallpaperfgimagepicker"
+        android:summary="@string/foreground_image_desc"
+        android:title="@string/foreground_image_title"
+        app:buttonText="@string/btn_pick_image"
+        app:iconSpaceReserved="false"
+        search:ignore="true" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_depthwallpaper"
+        android:key="xposed_depthwallpaperforegroundalpha"
+        android:title="@string/foreground_image_alpha_title"
+        app:defaultValue="80"
+        app:iconSpaceReserved="false"
+        app:maxVal="100"
+        app:minVal="0"
+        app:tickInterval="1"
+        app:valueFormat="%" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_depthwallpaper"
+        android:key="xposed_depthwallpaperaonaod"
+        android:summary="@string/depth_wallpaper_on_aod_desc"
+        android:title="@string/depth_wallpaper_on_aod_title"
+        app:defaultValue="true"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_depthwallpaper"
+        android:key="xposed_depthwallpaperfadeanimation"
+        android:summary="@string/wallpaper_fade_animation_desc"
+        android:title="@string/wallpaper_fade_animation_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_depthwallpaper"
+        android:key="xposed_depthwallpaperparallaxeffect"
+        android:summary="@string/wallpaper_parallax_effect_summary"
+        android:title="@string/wallpaper_parallax_effect_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_depthwallpaperparallaxeffect"
+        android:key="xposed_depthwallpaperbackgroundmovementmultiplier"
+        android:title="@string/wallpaper_background_sensitivity_title"
+        app:defaultValue="1"
+        app:iconSpaceReserved="false"
+        app:maxVal="5"
+        app:minVal="1"
+        app:tickInterval="1"
+        app:valueFormat="x" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_depthwallpaperparallaxeffect"
+        android:key="xposed_depthwallpaperforegroundmovementmultiplier"
+        android:title="@string/wallpaper_foreground_sensitivity_title"
+        app:defaultValue="3"
+        app:iconSpaceReserved="false"
+        app:maxVal="5"
+        app:minVal="1"
+        app:tickInterval="1"
+        app:valueFormat="x" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_depthwallpaper"
+        android:key="xposed_unzoomdepthwallpaper"
+        android:summary="@string/unzoom_depth_wallpaper_desc"
+        android:title="@string/unzoom_depth_wallpaper_title"
+        app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

@@ -83,7 +83,8 @@ file_paths="/system/system_ext/priv-app/SystemUI/SystemUI.apk
 /system/system_ext/priv-app/sysuia/sysuia.apk
 /system/system_ext/priv-app/TranSystemUI/TranSystemUI.apk
 /system/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk
-/system/product/priv-app/MiuiSystemUI/MiuiSystemUI.apk"
+/system/product/priv-app/MiuiSystemUI/MiuiSystemUI.apk
+/system/system_ext/priv-app/LMOSystemUI/LMOSystemUI.apk"
 
 found=0
 

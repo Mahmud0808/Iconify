@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <declare-styleable name="PreferenceMenu">
+        <attr name="showArrow" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="FilePickerPreference">
+        <attr name="buttonText" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SearchPreference">
+        <attr name="textHint" format="string" />
+        <attr name="textNoResults" format="string" />
+        <attr name="textClearHistory" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="SliderPreference">
+        <attr name="valueCount" format="integer" />
+        <attr name="updatesContinuously" format="boolean" />
+        <attr name="tickInterval" format="float" />
+        <attr name="minVal" format="float" />
+        <attr name="maxVal" format="float" />
+        <attr name="showResetButton" format="boolean" />
+        <attr name="showValueLabel" format="boolean" />
+        <attr name="units" format="string" />
+        <attr name="isDecimalFormat" format="boolean" />
+        <attr name="decimalFormat" format="string" />
+        <attr name="valueFormat" format="string" />
+        <attr name="outputScale" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="footerPreferenceStyle">
+        <attr name="footerPreferenceStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="BackgroundChipPreference">
+        <attr name="backgroundChipStyle" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="MaterialTimePickerPreference">
+        <attr name="presetValue" format="string" />
+    </declare-styleable>
+
     <declare-styleable name="FadeTransition">
         <attr name="startAlpha" format="float" />
         <attr name="endAlpha" format="float" />
@@ -50,11 +92,12 @@
         <attr name="sliderValue" format="integer" />
         <attr name="sliderValueFrom" format="integer" />
         <attr name="sliderValueTo" format="integer" />
-        <attr name="valueFormat" format="string" />
+        <attr name="valueFormat" />
         <attr name="sliderDefaultValue" format="integer" />
-        <attr name="isDecimalFormat" format="boolean" />
-        <attr name="decimalFormat" format="string" />
-        <attr name="outputScale" format="float" />
+        <attr name="isDecimalFormat" />
+        <attr name="decimalFormat" />
+        <attr name="outputScale" />
+        <attr name="hasResetButton" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="ColorPickerWidget">
@@ -72,7 +115,7 @@
     <declare-styleable name="FilePickerWidget">
         <attr name="titleText" />
         <attr name="summaryText" />
-        <attr name="buttonText" format="string" />
+        <attr name="buttonText" />
         <attr name="filePickerType" format="string" />
     </declare-styleable>
 
@@ -91,6 +134,29 @@
         <attr name="icon" />
         <attr name="iconSpaceReserved" />
         <attr name="showSelectedPrefix" />
-        <attr name="entries"/>
+        <attr name="entries" />
     </declare-styleable>
+
+    <declare-styleable name="EditTextWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="dialogTitleText" format="string" />
+        <attr name="dialogSubtitleText" format="string" />
+        <attr name="dialogHintText" format="string" />
+        <attr name="dialogText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="CategoryWidget">
+        <attr name="titleText" />
+    </declare-styleable>
+
+    <declare-styleable name="ListWidget">
+        <attr name="titleText" />
+        <attr name="summaryText" />
+        <attr name="icon" />
+        <attr name="iconSpaceReserved" />
+        <attr name="entries" />
+        <attr name="entryValues" format="reference" />
+    </declare-styleable>
+
 </resources>

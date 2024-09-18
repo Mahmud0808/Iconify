@@ -1,12 +1,11 @@
 package com.drdisagree.iconify.utils.helper
 
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.utils.RootUtil
+import com.drdisagree.iconify.utils.RootUtils
 import com.topjohnwu.superuser.Shell
 
 object BackupRestore {
 
-    @JvmStatic
     fun backupFiles() {
         // Create backup directory
         Shell.cmd("rm -rf " + Resources.BACKUP_DIR, "mkdir -p " + Resources.BACKUP_DIR).exec()
@@ -26,7 +25,6 @@ object BackupRestore {
         backupFile(Resources.OVERLAY_DIR + "/IconifyComponentDynamic2.apk")
     }
 
-    @JvmStatic
     fun restoreFiles() {
         restoreFile("system.prop", Resources.TEMP_MODULE_DIR)
         restoreFile("IconifyComponentME.apk", Resources.TEMP_MODULE_OVERLAY_DIR)
@@ -49,11 +47,11 @@ object BackupRestore {
     }
 
     private fun backupExists(fileName: String): Boolean {
-        return RootUtil.fileExists(Resources.BACKUP_DIR + "/" + fileName)
+        return RootUtils.fileExists(Resources.BACKUP_DIR + "/" + fileName)
     }
 
     private fun backupFile(source: String) {
-        if (RootUtil.fileExists(source)) Shell.cmd("cp -rf " + source + " " + Resources.BACKUP_DIR + "/")
+        if (RootUtils.fileExists(source)) Shell.cmd("cp -rf " + source + " " + Resources.BACKUP_DIR + "/")
             .exec()
     }
 

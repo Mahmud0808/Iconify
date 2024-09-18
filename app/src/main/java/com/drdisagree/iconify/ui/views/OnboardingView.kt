@@ -30,13 +30,12 @@ import com.drdisagree.iconify.common.Preferences.UPDATE_DETECTED
 import com.drdisagree.iconify.common.Preferences.VER_CODE
 import com.drdisagree.iconify.common.Preferences.XPOSED_ONLY_MODE
 import com.drdisagree.iconify.common.Resources
-import com.drdisagree.iconify.config.Prefs
-import com.drdisagree.iconify.config.Prefs.clearPref
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.getInt
-import com.drdisagree.iconify.config.Prefs.putBoolean
-import com.drdisagree.iconify.config.Prefs.putInt
 import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.config.RPrefs.clearPref
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getInt
+import com.drdisagree.iconify.config.RPrefs.putBoolean
+import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.databinding.ViewOnboardingPageBinding
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.adapters.OnboardingAdapter
@@ -45,20 +44,20 @@ import com.drdisagree.iconify.ui.dialogs.ErrorDialog
 import com.drdisagree.iconify.ui.dialogs.InstallationDialog
 import com.drdisagree.iconify.ui.entity.OnboardingPage
 import com.drdisagree.iconify.ui.utils.Animatoo.animateSlideLeft
-import com.drdisagree.iconify.utils.FileUtil.copyAssets
-import com.drdisagree.iconify.utils.ModuleUtil.createModule
-import com.drdisagree.iconify.utils.ModuleUtil.flashModule
-import com.drdisagree.iconify.utils.ModuleUtil.handleModule
-import com.drdisagree.iconify.utils.ModuleUtil.moduleExists
-import com.drdisagree.iconify.utils.RootUtil.deviceProperlyRooted
-import com.drdisagree.iconify.utils.RootUtil.isDeviceRooted
-import com.drdisagree.iconify.utils.SystemUtil.hasStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.requestStoragePermission
-import com.drdisagree.iconify.utils.SystemUtil.restartDevice
-import com.drdisagree.iconify.utils.SystemUtil.savedVersionCode
+import com.drdisagree.iconify.utils.FileUtils.copyAssets
+import com.drdisagree.iconify.utils.ModuleUtils.createModule
+import com.drdisagree.iconify.utils.ModuleUtils.flashModule
+import com.drdisagree.iconify.utils.ModuleUtils.handleModule
+import com.drdisagree.iconify.utils.ModuleUtils.moduleExists
+import com.drdisagree.iconify.utils.RootUtils.deviceProperlyRooted
+import com.drdisagree.iconify.utils.RootUtils.isDeviceRooted
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.restartDevice
+import com.drdisagree.iconify.utils.SystemUtils.savedVersionCode
 import com.drdisagree.iconify.utils.helper.BackupRestore.restoreFiles
 import com.drdisagree.iconify.utils.helper.Logger.writeLog
-import com.drdisagree.iconify.utils.overlay.OverlayUtil.overlayExists
+import com.drdisagree.iconify.utils.overlay.OverlayUtils.overlayExists
 import com.drdisagree.iconify.utils.overlay.compiler.OnboardingCompiler.apkSigner
 import com.drdisagree.iconify.utils.overlay.compiler.OnboardingCompiler.createManifest
 import com.drdisagree.iconify.utils.overlay.compiler.OnboardingCompiler.runAapt
@@ -213,7 +212,6 @@ class OnboardingView : FrameLayout {
 
                 if (getInt(VER_CODE) != BuildConfig.VERSION_CODE || !moduleExists || !overlayExists) {
                     if (!moduleExists || !overlayExists) {
-                        Prefs.clearAllPrefs()
                         RPrefs.clearAllPrefs()
                     }
 
@@ -271,12 +269,11 @@ class OnboardingView : FrameLayout {
                 }, (if (clickedButton) 10 else 1000).toLong())
             } else {
                 if (!moduleExists()) {
-                    Prefs.clearAllPrefs()
                     RPrefs.clearAllPrefs()
 
                     handleInstallation()
                 } else {
-                    putBoolean(XPOSED_ONLY_MODE, true)
+                    putBoolean(XPOSED_ONLY_MODE, !overlayExists())
 
                     val intent = Intent(context, MainActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

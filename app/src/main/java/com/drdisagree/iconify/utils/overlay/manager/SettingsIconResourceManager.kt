@@ -5,7 +5,6 @@ import java.io.IOException
 
 object SettingsIconResourceManager {
 
-    @JvmStatic
     @Throws(IOException::class)
     fun buildOverlay(
         iconSet: Int,

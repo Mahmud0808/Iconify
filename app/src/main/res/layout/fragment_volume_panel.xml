@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    tools:context=".ui.fragments.VolumePanel">
+    tools:context=".ui.fragments.tweaks.VolumePanel">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
@@ -26,7 +26,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="24dp"
-                android:paddingVertical="22dp">
+                android:paddingVertical="16dp">
 
                 <View
                     android:layout_width="0dp"

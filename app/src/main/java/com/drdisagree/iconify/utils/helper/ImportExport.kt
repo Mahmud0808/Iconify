@@ -1,7 +1,18 @@
 package com.drdisagree.iconify.utils.helper
 
+import android.app.Activity
+import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.fragment.app.Fragment
+import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT
@@ -24,15 +35,20 @@ import com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.common.References.ICONIFY_COLOR_ACCENT_SECONDARY
 import com.drdisagree.iconify.common.Resources
 import com.drdisagree.iconify.common.Resources.MODULE_DIR
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.color.ColorUtil.colorNames
-import com.drdisagree.iconify.utils.overlay.FabricatedUtil
+import com.drdisagree.iconify.config.RPrefs
+import com.drdisagree.iconify.ui.dialogs.LoadingDialog
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
+import com.drdisagree.iconify.utils.color.ColorUtils.colorNames
+import com.drdisagree.iconify.utils.overlay.FabricatedUtils
 import com.drdisagree.iconify.utils.overlay.compiler.DynamicCompiler
 import com.drdisagree.iconify.utils.overlay.compiler.OnDemandCompiler
 import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler
 import com.drdisagree.iconify.utils.overlay.manager.MonetEngineManager
 import com.drdisagree.iconify.utils.overlay.manager.RoundnessManager
 import com.drdisagree.iconify.utils.overlay.manager.SettingsIconResourceManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.topjohnwu.superuser.Shell
 import java.io.IOException
 import java.io.InputStream
@@ -40,10 +56,142 @@ import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.io.OutputStream
 import java.util.Objects
+import java.util.concurrent.Executors
 
 object ImportExport {
 
-    @JvmStatic
+    fun importSettings(
+        fragment: Fragment,
+        activityIntent: ActivityResultLauncher<Intent>
+    ) {
+        importExportSettings(
+            fragment = fragment,
+            export = false,
+            startExportActivityIntent = null,
+            startImportActivityIntent = activityIntent
+        )
+    }
+
+    fun exportSettings(
+        fragment: Fragment,
+        activityIntent: ActivityResultLauncher<Intent>
+    ) {
+        importExportSettings(
+            fragment = fragment,
+            export = true,
+            startExportActivityIntent = activityIntent,
+            startImportActivityIntent = null
+        )
+    }
+
+    private fun importExportSettings(
+        fragment: Fragment,
+        export: Boolean,
+        startExportActivityIntent: ActivityResultLauncher<Intent>? = null,
+        startImportActivityIntent: ActivityResultLauncher<Intent>? = null
+    ) {
+        if (!hasStoragePermission()) {
+            requestStoragePermission(fragment.requireContext())
+        } else {
+            val fileIntent = Intent().apply {
+                action = if (export) Intent.ACTION_CREATE_DOCUMENT else Intent.ACTION_GET_CONTENT
+                type = "*/*"
+                putExtra(Intent.EXTRA_TITLE, "configs.iconify")
+            }
+
+            if (export) {
+                startExportActivityIntent!!.launch(fileIntent)
+            } else {
+                startImportActivityIntent!!.launch(fileIntent)
+            }
+        }
+    }
+
+    fun handleExportResult(
+        result: ActivityResult,
+        context: Context,
+        contentResolver: ContentResolver
+    ) {
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data ?: return
+
+            Executors.newSingleThreadExecutor().execute {
+                try {
+                    exportSettings(
+                        RPrefs.getPrefs,
+                        contentResolver.openOutputStream(data.data!!)!!
+                    )
+
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.toast_export_settings_successfull),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } catch (exception: Exception) {
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.toast_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("Settings", "Error exporting settings", exception)
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleImportResult(
+        result: ActivityResult,
+        fragment: Fragment,
+        loadingDialog: LoadingDialog
+    ) {
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data ?: return
+            MaterialAlertDialogBuilder(fragment.requireContext())
+                .setTitle(fragment.getString(R.string.import_settings_confirmation_title))
+                .setMessage(fragment.getString(R.string.import_settings_confirmation_desc))
+                .setPositiveButton(fragment.getString(R.string.btn_positive)) { dialog, _ ->
+                    dialog.dismiss()
+                    loadingDialog.show(fragment.getString(R.string.loading_dialog_wait))
+                    Executors.newSingleThreadExecutor().execute {
+                        try {
+                            val success = importSettings(
+                                RPrefs.getPrefs,
+                                fragment.requireContext().contentResolver.openInputStream(data.data!!)!!,
+                                true
+                            )
+                            Handler(Looper.getMainLooper()).post {
+                                loadingDialog.hide()
+                                Toast.makeText(
+                                    fragment.requireContext(),
+                                    if (success) fragment.getString(R.string.toast_import_settings_successfull)
+                                    else fragment.getString(R.string.toast_error),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        } catch (exception: Exception) {
+                            Handler(Looper.getMainLooper()).post {
+                                loadingDialog.hide()
+                                Toast.makeText(
+                                    fragment.requireContext(),
+                                    fragment.getString(R.string.toast_error),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Log.e("Settings", "Error importing settings", exception)
+                            }
+                        }
+                    }
+                }
+                .setNegativeButton(fragment.getString(R.string.btn_negative)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+    }
+
     fun exportSettings(preferences: SharedPreferences, outputStream: OutputStream) {
         try {
             outputStream.use {
@@ -58,7 +206,6 @@ object ImportExport {
         }
     }
 
-    @JvmStatic
     @Suppress("UNCHECKED_CAST")
     @Throws(IOException::class)
     fun importSettings(
@@ -121,9 +268,9 @@ object ImportExport {
             val commands: MutableList<String> = ArrayList()
             commands.add("> $MODULE_DIR/system.prop; > $MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable \$ol; done")
 
-            SystemUtil.saveBootId
-            SystemUtil.disableBlur(false)
-            SystemUtil.saveVersionCode()
+            SystemUtils.saveBootId
+            SystemUtils.disableBlur(false)
+            SystemUtils.saveVersionCode()
 
             editor.putBoolean(ON_HOME_PAGE, true)
             editor.putBoolean(FIRST_INSTALL, false)
@@ -266,10 +413,9 @@ object ImportExport {
                                 key.contains("IconifyComponentCR") && !cornerRadius -> { // UI Roundness
                                     cornerRadius = true
                                     try {
-                                        val radius =
-                                            Objects.requireNonNull<Any?>(map[UI_CORNER_RADIUS]) as Int
+                                        val radius = map[UI_CORNER_RADIUS] as Int?
 
-                                        RoundnessManager.buildOverlay(radius, false)
+                                        radius?.let { RoundnessManager.buildOverlay(it, false) }
                                     } catch (exception: Exception) {
                                         Log.e(
                                             "ImportSettings",
@@ -370,7 +516,7 @@ object ImportExport {
                                         commands.add(enable)
                                     }
                                 } else {
-                                    val tempCommands = FabricatedUtil.buildCommands(
+                                    val tempCommands = FabricatedUtils.buildCommands(
                                         Objects.requireNonNull(map["FOCMDtarget$overlayName"]) as String,
                                         Objects.requireNonNull(map["FOCMDname$overlayName"]) as String,
                                         Objects.requireNonNull(map["FOCMDtype$overlayName"]) as String,

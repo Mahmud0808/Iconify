@@ -17,16 +17,15 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.drdisagree.iconify.Iconify
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.common.Preferences.SELECTED_SWITCH
-import com.drdisagree.iconify.config.Prefs
+import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
 import com.drdisagree.iconify.ui.models.SwitchModel
-import com.drdisagree.iconify.utils.SystemUtil
-import com.drdisagree.iconify.utils.overlay.OverlayUtil
+import com.drdisagree.iconify.utils.SystemUtils
+import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.utils.overlay.compiler.SwitchCompiler
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
@@ -61,7 +60,7 @@ class SwitchAdapter(
                 null
             )
         )
-        holder.aSwitch.setChecked(Prefs.getInt(SELECTED_SWITCH, -1) == position)
+        holder.aSwitch.setChecked(RPrefs.getInt(SELECTED_SWITCH, -1) == position)
 
         enableOnCheckedChangeListener(holder)
     }
@@ -74,7 +73,7 @@ class SwitchAdapter(
         super.onViewAttachedToWindow(holder)
 
         holder.aSwitch.setChecked(
-            Prefs.getInt(
+            RPrefs.getInt(
                 SELECTED_SWITCH,
                 -1
             ) == holder.getBindingAdapterPosition()
@@ -100,7 +99,7 @@ class SwitchAdapter(
                 val aSwitch = view.findViewById<Switch>(R.id.switch_view)
 
                 aSwitch?.setChecked(
-                    i == holder.getAbsoluteAdapterPosition() && Prefs.getInt(
+                    i == holder.getAbsoluteAdapterPosition() && RPrefs.getInt(
                         SELECTED_SWITCH,
                         -1
                     ) == i - (holder.getAbsoluteAdapterPosition() - holder.getBindingAdapterPosition())
@@ -124,8 +123,8 @@ class SwitchAdapter(
     private fun switchAction(holder: ViewHolder, checked: Boolean) {
         Handler(Looper.getMainLooper()).postDelayed({
             if (checked) {
-                if (!SystemUtil.hasStoragePermission()) {
-                    SystemUtil.requestStoragePermission(context)
+                if (!SystemUtils.hasStoragePermission()) {
+                    SystemUtils.requestStoragePermission(context)
                     holder.aSwitch.setChecked(false)
                 } else {
                     // Show loading dialog
@@ -134,7 +133,7 @@ class SwitchAdapter(
                     Thread {
                         val hasErroredOut = AtomicBoolean(false)
 
-                        Prefs.putInt(SELECTED_SWITCH, holder.getBindingAdapterPosition())
+                        RPrefs.putInt(SELECTED_SWITCH, holder.getBindingAdapterPosition())
 
                         try {
                             hasErroredOut.set(
@@ -164,7 +163,7 @@ class SwitchAdapter(
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else {
-                                    Prefs.putInt(SELECTED_SWITCH, -1)
+                                    RPrefs.putInt(SELECTED_SWITCH, -1)
 
                                     holder.aSwitch.setChecked(false)
 
@@ -183,9 +182,9 @@ class SwitchAdapter(
                 loadingDialog.show(context.resources.getString(R.string.loading_dialog_wait))
 
                 Thread {
-                    Prefs.putInt(SELECTED_SWITCH, -1)
+                    RPrefs.putInt(SELECTED_SWITCH, -1)
 
-                    OverlayUtil.disableOverlays(
+                    OverlayUtils.disableOverlays(
                         "IconifyComponentSWITCH1.overlay",
                         "IconifyComponentSWITCH2.overlay"
                     )

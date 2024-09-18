@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="120dp"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
@@ -37,5 +36,4 @@
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="@color/text_color_secondary" />
-
 </LinearLayout>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_moto">Personalisiere das langweilige Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Starte Einrichtung</string>
@@ -31,10 +31,22 @@
     <string name="installation_failed_title">Oops Das War Unerwartet</string>
     <string name="installation_failed_desc">Logs wurden im Dokumente Ordner gespeichert.</string>
     <string name="logs">Logs</string>
+    <!-- Search Preference -->
+    <string name="search_title">Search</string>
+    <string name="searchpreference_search">Search…</string>
+    <string name="searchpreference_clear">Clear</string>
+    <string name="searchpreference_history_entry">History entry</string>
+    <string name="searchpreference_more">More</string>
+    <string name="searchpreference_clear_history">Clear history</string>
+    <string name="searchpreference_no_result">No result</string>
     <!-- Home -->
     <string name="activity_title_home_page"></string>
     <string name="activity_title_icon_pack">Symbolpaket</string>
     <string name="activity_desc_icon_pack">System Icons verändern</string>
+    <string name="activity_title_cellular_icons">Cellular Icons</string>
+    <string name="activity_desc_cellular_icons">Change system cellular icons</string>
+    <string name="activity_title_wifi_icons">WiFi Symbole</string>
+    <string name="activity_desc_wifi_icons">Ändere System WiFi Symbole</string>
     <string name="activity_title_brightness_bar">Helligkeitsregler</string>
     <string name="activity_desc_brightness_bar">Verändere Fortschrittsbalken</string>
     <string name="activity_title_qs_shape">QS Kacheln</string>
@@ -113,6 +125,8 @@
     <string name="settings_restart_systemui_after_boot_desc">Mache Einstellungen wie Blur-Intensität werden nicht übernommen bis SystemUI neu gestartet ist</string>
     <string name="settings_show_home_page_card_title">Zeige Home Page Karte</string>
     <string name="settings_show_home_page_card_desc">Zeige eine schöne Karte auf der Hauptseite.</string>
+    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
+    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
     <string name="settings_clear_app_cache_title">Lösche App Cache</string>
     <string name="settings_clear_app_cache_desc">Leere Caches welche erstellt wurden aufgrund von eigenen Schriftarten, Bildern oder GIFs.</string>
     <string name="activity_title_experimental">Experimentell</string>
@@ -122,6 +136,8 @@
     <string name="settings_section_title_about">Über</string>
     <string name="settings_github_repository_title">Github Repository</string>
     <string name="settings_telegram_group_title">Telegram Gruppe</string>
+    <string name="settings_translate_title">Translate Iconify</string>
+    <string name="settings_translate_desc">Help translate Iconify to your language.</string>
     <string name="settings_credits_title">Credits</string>
     <string name="settings_credits_desc">Danke an alle, die dieses Projekt ermöglicht haben.</string>
     <!-- Icon Pack -->
@@ -231,8 +247,8 @@
     <string name="section_title_misc">Verschiedenes</string>
     <string name="minimal_qspanel">Minimales QS-Panel</string>
     <string name="remove_top_shade_of_qspanel">Obere Schattierung des QS-Panels entfernen</string>
-    <string name="disable_monet_title">Deaktiviere System Monet</string>
-    <string name="disable_monet_desc">Hilft benutzerdefinierte Farben beizubehalten\nSystemUI Neustart erforderlich</string>
+    <string name="system_monet_title">System Monet</string>
+    <string name="system_monet_desc">Disable to retain custom colors\nSystemUI restart required</string>
     <!-- Basic Colors -->
     <string name="primary_color">Primärfarbe</string>
     <string name="primary_color_desc">Wähle primäre Akzentfarbe</string>
@@ -405,24 +421,93 @@
     <string name="activity_desc_quick_settings">Optimierungen für das QS-Panel</string>
     <string name="activity_title_battery_style">Batteriestil</string>
     <string name="activity_desc_battery_style">Passe das Batteriesymbol an</string>
+    <string name="activity_title_op_qs_header">Oneplus QS Header</string>
+    <string name="activity_desc_op_qs_header">OOS style quick settings header</string>
     <string name="activity_title_header_image">Headerbild</string>
     <string name="activity_desc_header_image">Füge eigenes Bild zum QS-Panel hinzu</string>
     <string name="activity_title_header_clock">Headeruhr</string>
     <string name="activity_desc_header_clock">Füge eigene Headeruhr zum QS-Panel hinzu</string>
     <string name="activity_title_lockscreen_clock">Sperrbildschirmuhr</string>
     <string name="activity_desc_lockscreen_clock">Füge eigne Uhr auf den Sperrbildschirm hinzu</string>
+    <string name="activity_title_lockscreen_weather">Lockscreen Weather</string>
+    <string name="activity_desc_lockscreen_weather">Add weather on lockscreen</string>
+    <string name="activity_title_lockscreen_widget">Lockscreen Widgets</string>
+    <string name="activity_desc_lockscreen_widget">Add widgets on lockscreen</string>
     <string name="activity_title_depth_wallpaper">Tiefes Hintergrundbild</string>
     <string name="activity_desc_depth_wallpaper">Verwende iOS-mäßiges Tiefenhintergrundbild</string>
     <string name="activity_title_background_chip">Hintergrund-Chip</string>
     <string name="activity_desc_background_chip">Füge einen farbigen Chip hinter der Uhr hinzu</string>
+    <string name="activity_title_clock_chip">Clock Chip</string>
     <string name="activity_title_xposed_others">Anderes</string>
     <string name="activity_desc_xposed_others">Sonstige Xposed Anpassungen</string>
-    <!-- Transparency & Blur -->
+    <string name="activity_title_xposed_weather_settings">Weather Settings</string>
+    <!-- Oneplus QS Header -->
+    <string name="oneplus_qs_header_title">Oneplus QS Header</string>
+    <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
+    <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
+    <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
+    <string name="oneplus_qs_header_blur_level">Blur Level</string>
+    <string name="oneplus_qs_header_fade_level">Fade Level</string>
+    <string name="oneplus_qs_header_top_margin">Top Margin</string>
+    <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
+    <!-- Lockscreen Widgets -->
+    <string name="lockscreen_widgets_title">Lockscreen Widgets</string>
+    <string name="lockscreen_widgets_enabled_title">Enable Lockscreen Widgets</string>
+    <string name="lockscreen_widgets_enabled_summary">Add widgets to lockscreen</string>
+    <string name="lockscreen_display_widgets_title">Device Info Widget</string>
+    <string name="lockscreen_display_widgets_summary">Show device info widget on lockscreen</string>
+    <string name="linear_progress_color">Linear Progress Color</string>
+    <string name="circular_progress_color">Circular Progress Color</string>
+    <string name="text_color">Text Color</string>
+    <string name="custom_device_name">Custom Device Name</string>
+    <string name="custom_device_name_summary">Set custom device name.\nKeep blank to disable.</string>
+    <string name="large_widgets_category_title">Large Widgets</string>
+    <string name="main_custom_widget_1">Large Widget 1</string>
+    <string name="main_custom_widget_2">Large Widget 2</string>
+    <string name="mini_widgets_category_title">Mini Widgets</string>
+    <string name="custom_widget_1">Mini Widget 1</string>
+    <string name="custom_widget_2">Mini Widget 2</string>
+    <string name="custom_widget_3">Mini Widget 3</string>
+    <string name="custom_widget_4">Mini Widget 4</string>
+    <string name="widgets_custom_color">Custom Colors</string>
+    <string name="widgets_custom_color_title">Customize Widget Colors</string>
+    <string name="big_widget_active">Large Widget Active Color</string>
+    <string name="big_widget_inactive">Large Widget Inactive Color</string>
+    <string name="big_widget_icon_active">Large Widget Icon Active Color</string>
+    <string name="big_widget_icon_inactive">Large Widget Icon Inactive Color</string>
+    <string name="mini_widget_active">Mini Widget Active Color</string>
+    <string name="mini_widget_inactive">Mini Widget Inactive Color</string>
+    <string name="mini_widget_icon_active">Mini Widget Icon Active Color</string>
+    <string name="mini_widget_icon_inactive">Mini Widget Icon Inactive Color</string>
+    <string name="weather_settings">Weather Settings</string>
+    <string name="lockscreen_widgets_scale">Widgets Scale</string>
+    <!-- LS Widgets Actions -->
+    <string name="camera">Camera</string>
+    <string name="clock_timer">Clock/Timer</string>
+    <string name="calculator">Calculator</string>
+    <string name="gallery">Gallery</string>
+    <string name="media">Media Player</string>
+    <string name="torch">Torch</string>
+    <string name="controls_media_button_play">Play</string>
+    <string name="weather">Weather</string>
+    <string name="wifi">Wifi</string>
+    <string name="data">Data</string>
+    <string name="ringer">Ringer</string>
+    <string name="bt">Bluetooth</string>
+    <string name="home_controls">Home Controls</string>
+    <string name="wallet">Wallet</string>
+    <string name="hotspot">Hotspot</string>
+    <string name="ringer_normal">Ringer</string>
+    <string name="ringer_vibrate">Vibrate</string>
+    <string name="ringer_silent">Silent</string>
+    <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Transparenz</string>
     <string name="transparent_qs_panel_title">Transparentes QS-Panel</string>
     <string name="transparent_qs_panel_desc">Macht den QS-Panel-Hintergrund transparent</string>
-    <string name="transparency_alpha_title">Transparenz Alpha</string>
-    <string name="transparent_notif_shade_title">Nur transparentes Benachrichtigungsfeld</string>
+    <string name="qs_background_opacity_title">Background Opacity</string>
+    <string name="transparent_notif_shade_title">Transparent Notification Shade</string>
     <string name="transparent_notif_shade_desc">Nur das Feld hinter den Benachrichtigungen
 transparent machen</string>
     <string name="keep_lockscreen_shade_title">Sperrbildschirmhintergrund abdunkeln</string>
@@ -433,7 +518,7 @@ transparent machen</string>
     <string name="aggressive_blur_title">Aggressiver Blur-Aktivierer</string>
     <string name="aggressive_blur_desc">Kann in manchen ROMs zu Bootlooping führen</string>
     <string name="blur_intensity_title">Blurintensität</string>
-    <!-- Themes -->
+    <!-- Xposed Themes -->
     <string name="section_title_for_pixel_roms">Für Pixel ROMs</string>
     <string name="light_theme_title">Helles Design</string>
     <string name="light_theme_desc">Helles QS im Light-Mode\nEs müssen eigene QS Formen benutzt werden</string>
@@ -450,21 +535,28 @@ transparent machen</string>
     <string name="power_menu_transparency_title">Power-Menü Transparenz</string>
     <string name="power_menu_transparency_desc">Power-Menü für flüssiges QS\nBenutze keinen angepassten Benachrichtigungsstil</string>
     <string name="section_title_others">Anderes</string>
+    <string name="fix_qs_tile_color_title">Fix QS Tile Color</string>
+    <string name="fix_qs_tile_color_desc">Fix custom QS tile style on android 14</string>
     <string name="fix_notification_color_title">Repariere Benachrichtungsfarbe</string>
     <string name="fix_notification_color_desc">Repariere benutzerdefinierten Benachrichtungsstil auf Android 14</string>
-    <!-- Quick Settings -->
+    <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
+    <string name="fix_notification_footer_button_color_desc">Fix custom footer button style on android 14</string>
+    <!-- Xposed Quick Settings -->
     <string name="section_title_qs_tile">QS Kachel</string>
     <string name="vertical_qs_tile_title">Vertikale QS Kacheln</string>
     <string name="vertical_qs_tile_desc">Zeige Text unter QS Symbol</string>
     <string name="hide_qs_tile_label_title">Verstecke QS Beschreibung</string>
     <string name="hide_qs_tile_label_desc">Nur mit vertikalen Kachen benutzen</string>
+    <string name="qs_tile_label_scaling_title">Text Größe Skalierung</string>
     <string name="section_title_qs_margin">QS Abstand</string>
     <string name="section_title_qs_elements">QS Elemente</string>
+    <string name="hide_qs_on_lockscreen_title">Hide QS on Lockscreen</string>
+    <string name="hide_qs_on_lockscreen_desc">Disable quick settings panel on secured lockscreen</string>
     <string name="hide_qs_silent_text_title">Lautloser Text ausblenden</string>
-    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications (Requires SystemUI restart)</string>
+    <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
     <string name="hide_qs_footer_buttons_title">Fußzeilentasten verbergen</string>
     <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
-    <!-- Battery Style -->
+    <!-- Xposed Battery Style -->
     <string name="battery_style_title">Akku Stil</string>
     <string name="battery_width_title">Akku Breite</string>
     <string name="battery_height_title">Akku Höhe</string>
@@ -495,8 +587,8 @@ transparent machen</string>
     <string name="powersave_fill_color_desc">Ändere Farbe des Energiesparmodus Akkus</string>
     <string name="powersave_indicator_color_title">Energiesparmodus Indikator Farbe</string>
     <string name="powersave_indicator_color_desc">Ändere Farbe des Energiesparmodus Indikators</string>
-    <string name="custom_dimensions_title">Benutzerdefinierte Größe</string>
-    <string name="custom_dimensions_desc">Setze benutzerdefinierte Größe für Akkusymbol</string>
+    <string name="custom_margins_title">Custom Margins</string>
+    <string name="custom_margins_desc">Set custom margins for battery icon</string>
     <string name="battery_margin_left_title">Akku Abstand links</string>
     <string name="battery_margin_right_title">Akku Abstand rechts</string>
     <string name="battery_margin_top_title">Akku Abstand oben</string>
@@ -547,17 +639,19 @@ transparent machen</string>
     <string name="battery_circle">Kreissymbol</string>
     <string name="battery_dotted_circle">Gepunktetes Kreissymbol</string>
     <string name="battery_filled_circle">Filled Circle Battery</string>
-    <!-- Volume Panel -->
-    <string name="volume_percentage_title">Volume Percentage</string>
-    <string name="volume_percentage_desc">Show percentage above volume slider</string>
+    <!-- Xposed Volume Panel -->
+    <string name="volume_percentage_title">Lautstärke Prozentsatz</string>
+    <string name="volume_percentage_desc">Zeige Prozentsatz über dem Lautstärkeregler</string>
     <string name="safety_warning_title">Sicherheitswarnung</string>
     <string name="safety_warning_desc">Warnung bei hoher Lautstärke anzeigen</string>
-    <!-- Header Image -->
+    <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
+    <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
+    <!-- Xposed Header Image -->
     <string name="header_image_title">Header-Bild auswählen</string>
     <string name="header_image_desc">Headerbild aufs QS-Panel hinzufügen\nNicht \"Zuletzt benutzt\" verwenden</string>
     <string name="btn_pick_image">Bild auswählen</string>
     <string name="header_image_height_title">Bildhöhe</string>
-    <string name="header_image_alpha">Bildtransparenz</string>
+    <string name="header_image_opacity">Image Opacity</string>
     <string name="header_image_bottom_fade">Höhe des unteren Ausblendens</string>
     <string name="header_image_zoom_to_fit_title">Passend vergrößern</string>
     <string name="header_image_zoom_to_fit_desc">Bild ist standardmäßig gestreckt um zu passen</string>
@@ -565,35 +659,36 @@ transparent machen</string>
     <string name="header_image_hide_in_landscape_desc">Bild im Querformat verbergen</string>
     <string name="header_image_alpha_gradient_title">Transparenzverlauf</string>
     <string name="header_image_alpha_gradient_desc">\"Verblassen\"-Effekt zum Header-Bild hinzufügen</string>
-    <!-- Header Clock -->
+    <!-- Xposed Header Clock -->
     <string name="custom_header_clock_title">Benutzerdefinierte Kopfzeilen Uhr</string>
     <string name="custom_header_clock_desc">Füge eine angepasste Uhr zum QS-Panel hinzu</string>
     <string name="header_clock_style_title">Uhren Stil</string>
     <string name="header_clock_font_title">Uhren Schriftart</string>
-    <string name="header_clock_font_desc">Benutze eigene Schriftart für die Uhr\n Nicht von den zuletzt benutzten Dateien auswählen</string>
+    <string name="header_clock_font_desc">Use custom font for header clock</string>
     <string name="custom_header_clock_color_title">Benutzerdefinierte Uhren Farbe</string>
-    <string name="custom_header_clock_color_desc">Benutzerdefinierte Farbe anstelle der Primärfarbe</string>
+    <string name="custom_header_clock_color_desc">Custom colors instead of system colors</string>
     <string name="header_clock_color_picker_title">Uhrfarbwähler</string>
     <string name="header_clock_color_picker_desc">Setze Farbe für den Text der Header-Uhr</string>
+    <string name="header_clock_expansion_y_title">Expansion Amount</string>
     <string name="header_clock_font_text_scaling_title">Text Skalierung</string>
-    <string name="header_clock_side_margin_title">Seitlicher Abstand der Uhr</string>
-    <string name="header_clock_top_margin_title">Oberer Abstand der Uhr</string>
+    <string name="header_clock_side_margin_title">Side Margin</string>
+    <string name="header_clock_top_margin_title">Top Margin</string>
     <string name="header_clock_white_text_title">Weißer Text</string>
     <string name="header_clock_white_text_desc">Zwinge Textfarbe weiß zu sein</string>
     <string name="header_clock_center_clock_title">Zentrierte Uhr</string>
     <string name="header_clock_center_clock_desc">Bewege die Uhr zur Mitte</string>
     <string name="header_clock_hide_landscape_title">Verstecke im Querformat</string>
     <string name="header_clock_hide_landscape_desc">Uhr im Querformat verbergen</string>
-    <!-- Lockscreen Clock -->
+    <!-- Xposed Lockscreen Clock -->
     <string name="custom_lockscreen_clock_title">Benutzerdefinierte Sperrbildschirm Uhr</string>
     <string name="custom_lockscreen_clock_desc">Aktiviere benutzerdefinierte Sperrbildschirm Uhr</string>
     <string name="lockscreen_clock_auto_hide_clock_title">Verstecke Uhr automatisch</string>
     <string name="lockscreen_clock_auto_hide_clock_desc">Verstecke Uhr bei eingehenden Benachrichtigungen</string>
     <string name="custom_lockscreen_clock_style_title">Uhren Stil</string>
     <string name="lockscreen_clock_font_title">Uhren Schriftart</string>
-    <string name="lockscreen_clock_font_desc">Nutze benutzerdefinierte Schriftart für die Sperrbildschirm Uhr\nWähle keine Datei von den Kürzlich verwendeten</string>
+    <string name="lockscreen_clock_font_desc">Use custom font for lockscreen clock</string>
     <string name="lsclock_custom_color_title">Benutzerdefinierte Uhren Farbe</string>
-    <string name="lsclock_custom_color_desc">Benutzerdefinierte Farbe anstelle der Primärfarbe</string>
+    <string name="lsclock_custom_color_desc">Custom colors instead of system colors</string>
     <string name="lsclock_color_picker_title">Uhrfarbwähler</string>
     <string name="lsclock_color_picker_desc">Wähle Farbe des Textes der Sperrbildschirmuhr</string>
     <string name="lockscreen_font_text_scaling_title">Text Skalierung</string>
@@ -602,6 +697,13 @@ transparent machen</string>
     <string name="lockscreen_clock_bottom_margin_title">Unterer Abstand</string>
     <string name="lockscreen_clock_white_text_title">Weißer Text</string>
     <string name="lockscreen_clock_white_text_desc">Zwinge alle Farben weiß zu sein</string>
+    <string name="lsclock_custom_image_title">Nutze benutzerdefiniertes Bild</string>
+    <string name="lsclock_custom_image_desc">Nutze benutzerdefiniertes Bild für Sperrbildschirm Uhr.</string>
+    <string name="lsclock_custom_image_picker_title">Benutzerdefinierte Bildauswahlmenü</string>
+    <string name="lockscreen_clock_custom_devicename">Benutzerdefinierter Gerätename</string>
+    <string name="lockscreen_clock_custom_devicename_desc">Legen Sie einen benutzerdefinierten Gerätenamen für die Sperrbildschirm Uhr fest.\nLeer lassen, um den Gerätenamen des Systems zu verwenden.</string>
+    <string name="lockscreen_clock_custom_username">Benutzerdefinierter Benutzername</string>
+    <string name="lockscreen_clock_custom_username_desc">Legen Sie einen benutzerdefinierten Gerätenamen für die Sperrbildschirm Uhr fest.\nLeer lassen, um den Gerätenamen des Systems zu verwenden.</string>
     <string name="btn_select">Auswählen</string>
     <string name="battery_charging">Akku ladend</string>
     <string name="battery_discharging">Akku entladend</string>
@@ -609,14 +711,18 @@ transparent machen</string>
     <string name="battery_level_percentage">Akkustand</string>
     <string name="welcome_back">Wilkommen zurück!</string>
     <string name="default_user_name">Benutzer</string>
-    <!-- Depth Wallpaper -->
+    <!-- Xposed Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Aktiviere Tiefenwallpaper</string>
-    <string name="enable_depth_wallpaper_desc">Zeige ein Wallpaper mit iOS ähnlichem Tiefeneffekt\nEs muss eine angepasste Uhr für den Sperrbildschirm verwendet werden</string>
+    <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\n%s</string>
+    <string name="enable_custom_depth_wallpaper_title">Custom Images</string>
+    <string name="enable_custom_depth_wallpaper_desc">Set custom images as depth wallpaper</string>
+    <string name="depth_wallpaper_on_aod_title">Show on AOD</string>
+    <string name="depth_wallpaper_on_aod_desc">Show subject on always on display</string>
     <string name="wallpaper_fade_animation_title">Einblenden AOD</string>
     <string name="wallpaper_fade_animation_desc">Animiere Hintergrundbild und verblassen im AOD</string>
     <string name="foreground_image_title">Vordergrund Bild</string>
     <string name="foreground_image_desc">Vordergrundbild für Tiefeneffekt</string>
-    <string name="foreground_image_alpha_title">Foreground Image Alpha</string>
+    <string name="foreground_image_alpha_title">Foreground Image Opacity</string>
     <string name="background_image_title">Hintergrund Bild</string>
     <string name="background_image_desc">Hintergrundbild für Tiefeneffekt</string>
     <string name="depth_wallpaper_alert_msg">Diese Funktion befindet sich derzeit in der Beta-Phase. Daher werden Fehler erwartet.\n\n<b>Bekannte Bug(s):</b>\n• Tippen auf den Sperrbildschirm lässt das Hintergrundbild springen.</string>
@@ -624,23 +730,68 @@ transparent machen</string>
     <string name="wallpaper_parallax_effect_summary">Move background and foreground layers at different speeds</string>
     <string name="wallpaper_foreground_sensitivity_title">Foreground Sensitivity</string>
     <string name="wallpaper_background_sensitivity_title">Background Sensitivity</string>
-    <!-- Background Chip -->
+    <string name="depth_wallpaper_model_ready">AI model is downloaded on the device</string>
+    <string name="depth_wallpaper_model_not_available">AI model isn\'t available on the device (yet)</string>
+    <string name="depth_wallpaper_subject_extraction_started">Extracting wallpaper subject…</string>
+    <string name="depth_wallpaper_subject_extraction_success">Extracted wallpaper subject!</string>
+    <string name="depth_wallpaper_subject_extraction_failed">Failed to extract wallpaper subject!</string>
+    <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
+    <string name="use_custom_lockscreen_clock">Must use custom lockscreen clock</string>
+    <!-- Xposed Background Chip -->
     <string name="section_title_status_bar">Statusleiste</string>
     <string name="sb_clock_background_chip_title">Statusleiste Uhr-Chip</string>
     <string name="sb_clock_background_chip_desc">Chip hinter der Statusleisten-Uhr anzeigen</string>
-    <string name="statusbar_clock_color_title">Statusleisten Uhr Farbe</string>
+    <string name="sb_clock_customize_chip_title">Customize Clock Chip</string>
+    <string name="sb_clock_customize_chip_desc">Custom colors, roundness, stroke etc.</string>
+    <string name="section_title_text">Text</string>
+    <string name="statusbar_clock_text_title">Clock Text Color</string>
     <string name="sbclock_color_follow_system">Folge System</string>
     <string name="sbclock_color_transparent_text">Transparenter Text</string>
     <string name="sbclock_color_custom_color">Benutzerdefinierte Farbe</string>
-    <string name="clock_color_picker_title">Uhrfarbwähler</string>
-    <string name="clock_color_picker_desc">Farbe der Statusbar Uhr setzen</string>
+    <string name="clock_text_color_picker_title">Text Color Picker</string>
+    <string name="clock_text_color_picker_desc">Set color of statubsar clock text</string>
     <string name="section_title_status_icons">Statussymbole</string>
     <string name="chip_style_title">Chip-Stil</string>
     <string name="status_icons_chip_title">Statussymbole Chip</string>
     <string name="status_icons_chip_desc">Zeige einen Chip hinter den Statussymbolen</string>
+    <string name="status_icons_customize_chip_title">Customize Status Icons Chip</string>
+    <string name="status_icons_customize_chip_desc">Custom colors, roundness, stroke etc.</string>
     <string name="status_icons_chip_style_title">Chip Stil</string>
     <string name="fixed_status_icons_top_margin">Oberer Rand</string>
     <string name="fixed_status_icons_side_margin">Seitlicher Rand</string>
+    <string name="section_title_background">Background</string>
+    <string name="accent_fill_color">Accent Fill Color</string>
+    <string name="gradient_direction">Gradient Direction</string>
+    <string name="fill_start_color">Fill Start Color</string>
+    <string name="fill_end_color">Fill End Color</string>
+    <string name="section_title_border">Border</string>
+    <string name="enable_border">Enable Border</string>
+    <string name="accent_border_color">Accent Border Color</string>
+    <string name="border_color">Border Color</string>
+    <string name="dashed_border">Dashed Border</string>
+    <string name="dash_width">Dash Width</string>
+    <string name="dash_gap">Dash Gap</string>
+    <string name="border_thickness">Border Thickness</string>
+    <string name="section_title_padding">Padding</string>
+    <string name="padding_left">Padding Left</string>
+    <string name="padding_right">Padding Right</string>
+    <string name="padding_top">Padding Top</string>
+    <string name="padding_bottom">Padding Bottom</string>
+    <string name="section_title_corner_radius">Corner Radius</string>
+    <string name="top_left_radius">Top Left Radius</string>
+    <string name="top_right_radius">Top Right Radius</string>
+    <string name="bottom_left_radius">Bottom Left Radius</string>
+    <string name="bottom_right_radius">Bottom Right Radius</string>
+    <!-- Xposed Statusbar -->
+    <string name="sb_clock_size_switch_title">Custom Statusbar Clock Size</string>
+    <string name="sb_clock_size_switch_desc">Set a custom size for Statusbar Clock</string>
+    <string name="sb_clock_size">Statusbar Clock Size</string>
+    <string name="colored_statusbar_icon_title">Colored Statusbar Icon</string>
+    <string name="colored_statusbar_icon_desc">Show app icon as notification icon</string>
+    <string name="hide_ls_carrier_title">Verstecke Netzanbieter</string>
+    <string name="hide_ls_carrier_desc">Netzanbieter auf Sperrbildschirm verbergen</string>
+    <string name="hide_ls_statusbar_title">Verstecke Statusleiste</string>
+    <string name="hide_ls_statusbar_desc">Statusleiste auf Sperrbildschirm ausblenden</string>
     <!-- Xposed Others -->
     <string name="qs_header">SE-Header</string>
     <string name="hide_carrier_group_title">Mobilfunkanbieter verbergen</string>
@@ -648,10 +799,6 @@ transparent machen</string>
     <string name="hide_status_icons_title">Statussymbole verbergen</string>
     <string name="hide_status_icons_desc">Zeit, Datum und Batteriesymbole verbergen</string>
     <string name="lock_screen">Sperrbildschirm</string>
-    <string name="hide_ls_carrier_title">Verstecke Netzanbieter</string>
-    <string name="hide_ls_carrier_desc">Netzanbieter auf Sperrbildschirm verbergen</string>
-    <string name="hide_ls_statusbar_title">Verstecke Statusleiste</string>
-    <string name="hide_ls_statusbar_desc">Statusleiste auf Sperrbildschirm ausblenden</string>
     <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
     <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">Fixierte Statussymbole</string>
@@ -738,6 +885,7 @@ transparent machen</string>
     <!-- Bottom Navigation -->
     <string name="navbar_home">Start</string>
     <string name="navbar_tweaks">Optimierungen</string>
+    <string name="navbar_xposed">Xposed</string>
     <string name="navbar_settings">Einstellungen</string>
     <!-- Settings 3 dot menu -->
     <string name="changelog">Änderungsprotokoll</string>
@@ -753,37 +901,14 @@ transparent machen</string>
     <string name="exported_settings">Einstellungen Speichern erfolgreich</string>
     <!-- Style List -->
     <string name="style_0">Nichts</string>
-    <string name="style_1">Stil 1</string>
-    <string name="style_2">Stil 2</string>
-    <string name="style_3">Stil 3</string>
-    <string name="style_4">Stil 4</string>
-    <string name="style_5">Stil 5</string>
-    <string name="style_6">Stil 6</string>
-    <string name="style_7">Stil 7</string>
-    <string name="style_8">Stil 8</string>
-    <string name="style_9">Stil 9</string>
-    <string name="style_10">Stil 10</string>
-    <string name="style_11">Stil 11</string>
-    <string name="style_12">Stil 12</string>
-    <string name="style_13">Stil 13</string>
-    <string name="style_14">Stil 14</string>
-    <string name="style_15">Stil 15</string>
-    <string name="style_16">Stil 16</string>
-    <string name="style_17">Stil 17</string>
-    <string name="style_18">Stil 18</string>
-    <string name="style_19">Stil 19</string>
-    <string name="style_20">Stil 20</string>
-    <string name="style_21">Stil 21</string>
-    <string name="style_22">Stil 22</string>
-    <string name="style_23">Stil 23</string>
-    <string name="style_24">Stil 24</string>
-    <string name="style_25">Stil 25</string>
+    <string name="style">Stil %d</string>
     <!-- Buttons -->
     <string name="btn_continue">Weiter</string>
     <string name="btn_restart">Neustart</string>
     <string name="btn_disable">Deaktivieren</string>
     <string name="btn_enable">Aktivieren</string>
     <string name="btn_apply">Anwenden</string>
+    <string name="btn_save">Save</string>
     <string name="btn_disable_custom_colors">Benutzerdefinierte Farbe deaktivieren</string>
     <string name="btn_enable_custom_colors">Farben anpassen</string>
     <string name="btn_reset">Reset</string>
@@ -852,10 +977,6 @@ transparent machen</string>
     <string name="hey_there">Hallo da!</string>
     <string name="icon">Symbol</string>
     <string name="section_title_media_player_icons">Medienspieler Symbol</string>
-    <string name="opt_selected">Ausgewählt:</string>
-    <string name="opt_selected1">Ausgewählt: %s</string>
-    <string name="opt_selected2">Ausgewählt: %1$s%2$s</string>
-    <string name="opt_selected3">Ausgewählt: %1$s%2$s %3$s</string>
     <string name="opt_default">(Standard)</string>
     <string name="clock_none">Keine Uhr</string>
     <string name="clock_style_name">Uhrenstil %d</string>
@@ -924,4 +1045,124 @@ transparent machen</string>
     <string name="tap_to_select">Tippe auf Vorschau um auszuwählen</string>
     <string name="dont_show_again">Nicht erneut zeigen</string>
     <string name="requires_lsposed_for_a14">Um eine korrekte Funktionalität zu gewährleisten, ist die Aktivierung des Iconify Moduls in LSPosed für Android 14 und höher zwingend.\n\nDanach aktivieren Sie die Anpassungen von: Tweaks &gt; Xposed-Menü &gt; Themen &gt; Andere.</string>
+    <string name="file_picker_desc">Do not select file from Recent</string>
+    <string name="btn_dismiss">Dismiss</string>
+    <string name="btn_restart_device">Restart Device</string>
+    <string name="btn_pending">Pending</string>
+    <string name="accent_primary">Accent Primary</string>
+    <string name="accent_secondary">Accent Secondary</string>
+    <string name="accent_tertiary">Accent Tertiary</string>
+    <string name="text_color_primary">Text Color Primary</string>
+    <string name="text_color_inverse">Text Color Inverse</string>
+    <!-- Weather -->
+    <!-- Omni Jaws Strings -->
+    <string name="units_title">Unit</string>
+    <string name="weather_progress_title">Verifying location</string>
+    <string name="weather_select_location">Select location</string>
+    <string name="weather_custom_location_dialog_title">Enter location</string>
+    <string name="weather_custom_location_title">Location</string>
+    <string name="weather_custom_location_missing">Set custom location</string>
+    <string name="weather_retrieve_location_dialog_title">Cannot retrieve location!</string>
+    <string name="weather_retrieve_location_dialog_message">Network geolocation is disabled.\n\nSet a custom location or enable network location.</string>
+    <string name="weather_retrieve_location_dialog_enable_button">Enable</string>
+    <string name="settings_title">Settings</string>
+    <string name="auto_update_title">Automatic updates</string>
+    <string name="auto_update_summary">Check for new versions once in a while</string>
+    <string name="update_over_wifi_title">Check updates over WiFi only</string>
+    <string name="update_over_wifi_summary">Check for updates in background only when connected to wifi</string>
+    <string name="unit_metric">Metric (\u00b0C)</string>
+    <string name="unit_imperial">Imperial (\u00b0F)</string>
+    <string name="update">Update</string>
+    <string name="enable_title">Enable</string>
+    <string name="update_interval_title">Update interval</string>
+    <string name="interval_1_hour">1 hour</string>
+    <string name="interval_2_hour">2 hours</string>
+    <string name="interval_4_hour">4 hours</string>
+    <string name="interval_6_hour">6 hours</string>
+    <string name="interval_12_hour">12 hours</string>
+    <string name="weather_tile_title">Weather</string>
+    <string name="weather_icon_pack_title">Condition Icon Pack</string>
+    <string name="weather_icon_pack_playstore">Find more icon packs</string>
+    <string name="service_disabled">Disabled</string>
+    <string name="service_error">Error</string>
+    <string name="omnijaws_service_waiting">Waiting \u2026</string>
+    <string name="omnijaws_service_unkown">No weather data</string>
+    <string name="omnijaws_service_error">Error loading weather data</string>
+    <string name="omnijaws_service_init">Waiting\u2026</string>
+    <string name="omnijaws_service_progress">Updating\u2026</string>
+    <string name="omnijaws_service_disabled">Service disabled</string>
+    <string name="omnijaws_current_text">Now</string>
+    <string name="show_background_title">Background shadow</string>
+    <string name="weather_config_title">Service settings</string>
+    <string name="omnijaws_city_unkown">Unknown</string>
+    <string name="omnijaws_service_error_long">Error loading weather data</string>
+    <string name="omnijaws_label_default">Weather</string>
+    <string name="omnijaws_service_last_update">Last update:</string>
+    <string name="omnijaws_service_error_location">No location available</string>
+    <string name="omnijaws_service_error_network">No network found</string>
+    <string name="omnijaws_service_error_permissions">Location permissions not granted</string>
+    <string name="location_browse_activity_title">Select location</string>
+    <string name="location_query_hint">Search for a location</string>
+    <string name="weather_permission_dialog_title">Enable Location Permissions</string>
+    <string name="weather_permission_dialog_message">Location permissions are required to fetch weather data. Click OK to open Settings.</string>
+    <!-- Weather Conditions -->
+    <string name="weather_condition_clouds">Cloudy</string>
+    <string name="weather_condition_rain">Rainy</string>
+    <string name="weather_condition_clear">Sunny</string>
+    <string name="weather_condition_storm">Stormy</string>
+    <string name="weather_condition_snow">Snowy</string>
+    <string name="weather_condition_wind">Windy</string>
+    <string name="weather_condition_mist">Misty</string>
+    <!-- Lockscreen Weather -->
+    <string name="lockscreen_weather_title">Weather on Lockscreen</string>
+    <string name="lockscreen_weather_desc">Show weather on lockscreen</string>
+    <string name="last_update_time">Last Update Time</string>
+    <string name="weather_provider">Weather Provider</string>
+    <string name="weather_api_key">OpenWeatherMap API Key</string>
+    <string name="weather_provider_owm_key_title">OpenWeatherMap API Key required</string>
+    <string name="weather_provider_owm_key_message">Please enter your OpenWeatherMap API key to fetch weather data.</string>
+    <string name="weather_show_location">Show Location</string>
+    <string name="weather_show_location_summary">Show Location before icon</string>
+    <string name="weather_show_condition">Show Condition</string>
+    <string name="weather_show_condition_summary">Show Condition after temperature</string>
+    <string name="weather_show_humidity">Show Humidity</string>
+    <string name="weather_show_humidity_summary">Show Humidity in a new row</string>
+    <string name="weather_show_wind">Show Wind</string>
+    <string name="weather_show_wind_summary">Show Wind in a new row</string>
+    <string name="weather_text_size">Text Size</string>
+    <string name="weather_image_size">Image Size</string>
+    <string name="weather_custom_color_title">Text Color</string>
+    <string name="weather_custom_color_summary">Set custom color for text</string>
+    <string name="weather_custom_color_switch_title">Custom Color</string>
+    <string name="weather_custom_color_switch_summary">Custom color for all text in weather view</string>
+    <string name="custom_location_title">Custom location</string>
+    <string name="custom_location_summary">Set custom location for weather</string>
+    <string name="weather_custom_margins">Custom Margins</string>
+    <string name="weather_custom_margins_summary">Set custom margins for weather</string>
+    <string name="weather_margin_top">Top margin</string>
+    <string name="weather_centered">Center Layout</string>
+    <string name="weather_margin_side">Side Margin</string>
+    <string name="weather_margin_bottom">Bottom Margin</string>
+    <string name="weather_center_view_title">Center Weather View</string>
+    <string name="weather_center_view_summary">Move weather view to center horizontally</string>
+    <!-- Lockscreen Weather styles -->
+    <string name="lockscreen_weather_selection_title">Weather Background Style</string>
+    <string name="lockscreen_weather_selection_default">Default</string>
+    <string name="lockscreen_weather_selection_str_box">Semi-transparent box</string>
+    <string name="lockscreen_weather_selection_str_round">Semi-transparent box (round)</string>
+    <string name="lockscreen_weather_selection_qbeta_style">Q-Beta pill</string>
+    <string name="lockscreen_weather_selection_str_accent">Rounded, simple and with accent</string>
+    <string name="lockscreen_weather_selection_str_accent_transparent">Rounded, transparent and with accent</string>
+    <string name="lockscreen_weather_selection_str_gradient">Gradient</string>
+    <string name="lockscreen_weather_selection_str_border_accent">Dark with accented borders</string>
+    <string name="lockscreen_weather_selection_str_border_gradient">Dark with gradient borders</string>
+    <!-- Alert Dialogs -->
+    <string name="systemui_restart_required_title">SystemUI Restart Needed</string>
+    <string name="systemui_restart_required_desc">A SystemUI restart is needed for this change to take effect.</string>
+    <string name="device_restart_required_title">Device Restart Needed</string>
+    <string name="device_restart_required_desc">A device restart is needed for this change to take effect.</string>
+    <string name="switch_theme_required_title">Switch Device Theme</string>
+    <string name="switch_theme_required_desc">Switch between light and dark themes if unexpected behavior occurs.</string>
+    <string name="device_rotation_required_title">Device Rotation Theme</string>
+    <string name="device_rotation_required_desc">Switch rotation of your device for this change to take effect.</string>
 </resources>

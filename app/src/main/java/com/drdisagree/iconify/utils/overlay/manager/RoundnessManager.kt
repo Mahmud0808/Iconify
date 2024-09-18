@@ -6,7 +6,6 @@ import kotlin.math.max
 
 object RoundnessManager {
 
-    @JvmStatic
     @Throws(IOException::class)
     fun buildOverlay(cornerRadius: Int, force: Boolean): Boolean {
         val frameworkResources = """

@@ -13,7 +13,6 @@ object Const {
     const val WELLBEING_PACKAGE = "com.google.android.apps.wellbeing"
     const val GMS_PACKAGE = "com.google.android.gms"
 
-    @JvmField
     val SYSTEM_PACKAGES = listOf(
         SYSTEMUI_PACKAGE,
         FRAMEWORK_PACKAGE,
@@ -25,6 +24,9 @@ object Const {
 
     // Telegram group
     const val TELEGRAM_GROUP = "https://t.me/IconifyDiscussion"
+
+    // Crowdin
+    const val ICONIFY_CROWDIN = "https://crowdin.com/project/iconify"
 
     // Parse new update
     const val LATEST_VERSION_URL =
@@ -45,9 +47,10 @@ object Const {
     )
     const val ACTION_HOOK_CHECK_REQUEST = "${BuildConfig.APPLICATION_ID}.ACTION_HOOK_CHECK_REQUEST"
     const val ACTION_HOOK_CHECK_RESULT = "${BuildConfig.APPLICATION_ID}.ACTION_HOOK_CHECK_RESULT"
+    const val ACTION_BOOT_COMPLETED = "${BuildConfig.APPLICATION_ID}.ACTION_BOOT_COMPLETED"
+    const val ACTION_WEATHER_INFLATED = "${BuildConfig.APPLICATION_ID}.ACTION_WEATHER_INFLATED"
 
     // Module script
-    @JvmField
     val MAGISK_UPDATE_BINARY = """
             #!/sbin/sh
             

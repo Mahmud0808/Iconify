@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_changelog"
+        android:title="@string/changelog" />
+
+    <item android:title="@string/import_export">
+        <menu>
+            <item
+                android:id="@+id/menu_export_settings"
+                android:title="@string/export_settings" />
+            <item
+                android:id="@+id/menu_import_settings"
+                android:title="@string/import_settings" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/restart_systemui"
+        android:title="@string/restart_sysui_title" />
+</menu>

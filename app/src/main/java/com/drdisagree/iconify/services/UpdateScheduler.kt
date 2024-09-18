@@ -10,8 +10,8 @@ import androidx.work.WorkManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.common.Preferences.AUTO_UPDATE
 import com.drdisagree.iconify.common.Preferences.UPDATE_CHECK_TIME
-import com.drdisagree.iconify.config.Prefs.getBoolean
-import com.drdisagree.iconify.config.Prefs.getLong
+import com.drdisagree.iconify.config.RPrefs.getBoolean
+import com.drdisagree.iconify.config.RPrefs.getLong
 import java.util.concurrent.TimeUnit
 
 object UpdateScheduler {
@@ -20,7 +20,6 @@ object UpdateScheduler {
     private val UPDATE_WORK_NAME = BuildConfig.APPLICATION_ID
         .replace(".debug", "") + ".services.UpdateScheduler"
 
-    @JvmStatic
     fun scheduleUpdates(context: Context?) {
         Log.i(TAG, "Updating update schedule...")
 

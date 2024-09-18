@@ -1,146 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="start|top"
-    android:gravity="start|top">
+    android:gravity="start|top"
+    android:orientation="vertical">
 
-    <!-- Time Section -->
     <LinearLayout
-        android:id="@+id/timeSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:orientation="vertical">
+        android:gravity="start|center"
+        android:orientation="horizontal">
 
         <!-- Vertical Color Bars -->
         <View
             android:layout_width="8dp"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:background="#FFA2ECBB" />
 
+        <!-- Time Section -->
+        <LinearLayout
+            android:id="@+id/timeTextSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical"
+            android:paddingVertical="6dp">
+
+            <TextView
+                android:id="@+id/timeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/future"
+                android:includeFontPadding="false"
+                android:tag="text1|nolineheight"
+                android:text="Time is"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <TextClock
+                android:id="@+id/timeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futurist_fixed_width_bold"
+                android:format12Hour="h:mm a"
+                android:format24Hour="HH:mm"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:gravity="start|center"
+        android:orientation="horizontal">
+
+        <!-- Vertical Color Bars -->
         <View
             android:layout_width="8dp"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:background="#FF89D8F6" />
 
+        <!-- Calendar Section -->
+        <LinearLayout
+            android:id="@+id/calendarSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical"
+            android:paddingVertical="6dp">
+
+            <TextView
+                android:id="@+id/calendarLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/future"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:text="Calendar"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <TextClock
+                android:id="@+id/calendarValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futurist_fixed_width_bold"
+                android:format12Hour="MMMM dd"
+                android:format24Hour="dd MMMM"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:gravity="start|center"
+        android:orientation="horizontal">
+
+        <!-- Vertical Color Bars -->
         <View
             android:layout_width="8dp"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:background="#FFF68989" />
+
+        <!-- Today Section -->
+        <LinearLayout
+            android:id="@+id/todaySection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:orientation="vertical"
+            android:paddingVertical="6dp">
+
+            <TextView
+                android:id="@+id/todayLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/future"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:text="Today is"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <TextClock
+                android:id="@+id/todayValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/futurist_fixed_width_bold"
+                android:format12Hour="EEEE"
+                android:format24Hour="EEEE"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
+        </LinearLayout>
     </LinearLayout>
-
-    <!-- Time Text Section -->
-    <LinearLayout
-        android:id="@+id/timeTextSection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/timeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="-20dp"
-            android:fontFamily="@font/future"
-            android:includeFontPadding="false"
-            android:tag="text1|nolineheight"
-            android:text="Time is"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp" />
-
-        <TextClock
-            android:id="@+id/timeValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/futurist_fixed_width_bold"
-            android:tag="text1"
-            android:includeFontPadding="false"
-            android:format12Hour="h:mm a"
-            android:format24Hour="HH:mm"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp" />
-    </LinearLayout>
-
-    <!-- Calendar Section -->
-    <LinearLayout
-        android:id="@+id/calendarSection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="78dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/calendarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="-20dp"
-            android:fontFamily="@font/future"
-            android:tag="text1"
-            android:text="Calendar"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp" />
-
-        <TextClock
-            android:id="@+id/calendarValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/futurist_fixed_width_bold"
-            android:includeFontPadding="false"
-            android:format12Hour="MMMM dd"
-            android:format24Hour="dd MMMM"
-            android:tag="text1"
-            android:textAllCaps="true"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp" />
-    </LinearLayout>
-
-    <!-- Today Section -->
-    <LinearLayout
-        android:id="@+id/todaySection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="148dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/todayLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:layout_marginStart="5dp"
-            android:layout_marginBottom="-20dp"
-            android:fontFamily="@font/future"
-            android:tag="text1"
-            android:text="Today is"
-            android:textColor="#FFFFFF"
-            android:textSize="12sp" />
-
-        <TextClock
-            android:id="@+id/todayValue"
-            android:includeFontPadding="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/futurist_fixed_width_bold"
-            android:format12Hour="EEEE"
-            android:format24Hour="EEEE"
-            android:tag="text1"
-            android:textAllCaps="true"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp" />
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

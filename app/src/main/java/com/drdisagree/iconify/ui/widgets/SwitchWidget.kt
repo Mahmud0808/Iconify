@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.utils.SystemUtil
+import com.drdisagree.iconify.utils.SystemUtils
 import com.google.android.material.materialswitch.MaterialSwitch
 
 class SwitchWidget : RelativeLayout {
@@ -83,10 +83,20 @@ class SwitchWidget : RelativeLayout {
 
     fun setSummary(summaryResId: Int) {
         summaryTextView.setText(summaryResId)
+        if (summaryResId == 0) {
+            summaryTextView.visibility = GONE
+        } else {
+            summaryTextView.visibility = VISIBLE
+        }
     }
 
     fun setSummary(summary: String?) {
         summaryTextView.text = summary
+        if (summary.isNullOrEmpty()) {
+            summaryTextView.visibility = GONE
+        } else {
+            summaryTextView.visibility = VISIBLE
+        }
     }
 
     fun setIcon(icon: Int) {
@@ -130,7 +140,7 @@ class SwitchWidget : RelativeLayout {
 
             iconImageView.setImageTintList(ColorStateList.valueOf(color))
         } else {
-            if (SystemUtil.isDarkMode) {
+            if (SystemUtils.isDarkMode) {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.DKGRAY))
             } else {
                 iconImageView.setImageTintList(ColorStateList.valueOf(Color.LTGRAY))

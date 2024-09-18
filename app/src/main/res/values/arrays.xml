@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="module_scope" translatable="false">
         <item>android</item>
         <item>com.android.systemui</item>
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
+
+    <string-array name="root_requirement" translatable="false">
+        <item>com.android.systemui</item>
+    </string-array>
+
     <string-array name="locale_name">
         <item>Afrikaans</item>
         <item>Arabic</item>
@@ -38,6 +44,7 @@
         <item>Ukrainian</item>
         <item>Vietnamese</item>
     </string-array>
+
     <string-array name="locale_code" translatable="false">
         <item>af-ZA</item>
         <item>ar-SA</item>
@@ -71,53 +78,69 @@
         <item>uk-UA</item>
         <item>vi-VN</item>
     </string-array>
+
     <string-array name="app_icon">
         <item>@string/settings_app_icon_default</item>
         <item>@string/settings_app_icon_themed</item>
         <item>@string/settings_app_icon_retro</item>
     </string-array>
+
     <string-array name="app_icon_identifier" translatable="false">
         <item>SplashActivity</item>
         <item>SplashActivityThemed</item>
         <item>SplashActivityRetro</item>
     </string-array>
+
     <string-array name="app_theme">
         <item>@string/settings_app_theme_light</item>
         <item>@string/settings_app_theme_dark</item>
         <item>@string/settings_app_theme_system</item>
     </string-array>
+
+    <string-array name="app_theme_identifier" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="settings_icon_bg">
         <item>@string/settings_icons_minimal</item>
         <item>@string/settings_icons_filled</item>
         <item>@string/settings_icons_outline</item>
         <item>@string/settings_icons_neumorph</item>
     </string-array>
+
     <string-array name="settings_icon_shape">
         <item>@string/settings_icons_circle</item>
         <item>@string/settings_icons_squircle</item>
         <item>@string/settings_icons_square</item>
     </string-array>
+
     <string-array name="settings_icon_size">
         <item>@string/settings_icons_size1</item>
         <item>@string/settings_icons_size2</item>
         <item>@string/settings_icons_size3</item>
         <item>@string/settings_icons_size4</item>
     </string-array>
+
     <string-array name="settings_icon_color">
         <item>@string/settings_icons_follow_system</item>
         <item>@string/settings_icons_system_inverse</item>
         <item>@string/settings_icons_monet_accent</item>
     </string-array>
+
     <string-array name="xposed_force_apply_method">
         <item>@string/method_toggle_dark_mode</item>
         <item>@string/method_restart_systemui</item>
         <item>@string/method_do_nothing</item>
     </string-array>
+
     <string-array name="statusbar_clock_color">
         <item>@string/sbclock_color_follow_system</item>
         <item>@string/sbclock_color_transparent_text</item>
         <item>@string/sbclock_color_custom_color</item>
     </string-array>
+
     <string-array name="monet_style">
         <item>@string/monet_neutral</item>
         <item>@string/monet_monochrome</item>
@@ -129,15 +152,134 @@
         <item>@string/monet_content</item>
         <item>@string/monet_fruitsalad</item>
     </string-array>
+
     <string-array name="update_schedule">
         <item>@string/update_schedule1</item>
         <item>@string/update_schedule2</item>
         <item>@string/update_schedule3</item>
         <item>@string/update_schedule4</item>
     </string-array>
+
     <string-array name="xposed_mod_apply_method">
         <item>@string/settings_auto_restart_systemui</item>
         <item>@string/settings_auto_force_reload_ui</item>
         <item>@string/settings_manual_restart_systemui</item>
     </string-array>
+
+    <string-array name="xposed_mod_apply_method_identifier" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- Lockscreen Weather Units -->
+    <string-array name="units_entries" translatable="false">
+        <item>@string/unit_metric</item>
+        <item>@string/unit_imperial</item>
+    </string-array>
+
+    <string-array name="units_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <!-- Lockscreen Weather Update Interval -->
+    <string-array name="update_interval_entries" translatable="false">
+        <item>@string/interval_1_hour</item>
+        <item>@string/interval_2_hour</item>
+        <item>@string/interval_4_hour</item>
+        <item>@string/interval_6_hour</item>
+        <item>@string/interval_12_hour</item>
+    </string-array>
+
+    <string-array name="update_interval_values">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+        <item>12</item>
+    </string-array>
+
+    <!-- Lockscreen Weather Provider -->
+    <string-array name="weather_provider_entries">
+        <item>@string/openmeteo</item>
+        <item>@string/openweathermap</item>
+    </string-array>
+
+    <string-array name="weather_provider_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <!-- Lockscreen Weather styles -->
+    <string-array name="lockscreen_weather_bg_entries">
+        <item>@string/lockscreen_weather_selection_default</item>
+        <item>@string/lockscreen_weather_selection_str_box</item>
+        <item>@string/lockscreen_weather_selection_str_round</item>
+        <item>@string/lockscreen_weather_selection_qbeta_style</item>
+        <item>@string/lockscreen_weather_selection_str_accent</item>
+        <item>@string/lockscreen_weather_selection_str_accent_transparent</item>
+        <item>@string/lockscreen_weather_selection_str_gradient</item>
+        <item>@string/lockscreen_weather_selection_str_border_accent</item>
+        <item>@string/lockscreen_weather_selection_str_border_gradient</item>
+    </string-array>
+
+    <string-array name="lockscreen_weather_bg_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+    <!-- Lockscreen Widgets -->
+    <string-array name="lockscreen_widgets_entries" translatable="false">
+        <item>none</item>
+        <item>@string/calculator</item>
+        <item>@string/media</item>
+        <item>@string/clock_timer</item>
+        <item>@string/torch</item>
+        <item>@string/weather</item>
+        <item>@string/wifi</item>
+        <item>@string/data</item>
+        <item>@string/ringer</item>
+        <item>@string/bt</item>
+        <item>@string/home_controls</item>
+        <item>@string/camera</item>
+        <item>@string/wallet</item>
+        <item>@string/hotspot</item>
+    </string-array>
+
+    <string-array name="lockscreen_widgets_values" translatable="false">
+        <item>none</item>
+        <item>calculator</item>
+        <item>media</item>
+        <item>timer</item>
+        <item>torch</item>
+        <item>weather</item>
+        <item>wifi</item>
+        <item>data</item>
+        <item>ringer</item>
+        <item>bt</item>
+        <item>homecontrols</item>
+        <item>camera</item>
+        <item>wallet</item>
+        <item>hotspot</item>
+    </string-array>
+
+    <string-array name="gradient_direction">
+        <item>Left to Right</item>
+        <item>Right to Left</item>
+        <item>Top to Bottom</item>
+        <item>Bottom to Top</item>
+        <item>Top Left to Bottom Right</item>
+        <item>Top Right to Bottom Left</item>
+        <item>Bottom Left to Top Right</item>
+        <item>Bottom Right to Top Left</item>
+    </string-array>
+
 </resources>

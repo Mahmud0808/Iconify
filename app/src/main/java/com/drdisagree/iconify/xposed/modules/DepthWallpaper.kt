@@ -29,10 +29,11 @@ import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG
 import com.drdisagree.iconify.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.common.Preferences.UNZOOM_DEPTH_WALLPAPER
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ParallaxImageView
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedHelpers.findClass
@@ -59,15 +60,19 @@ class DepthWallpaper(context: Context?) : ModPack(context!!) {
     private var foregroundAlpha = 1.0f
 
     override fun updatePrefs(vararg key: String) {
-        if (Xprefs == null) return
+        if (!XprefsIsInitialized) return
 
-        showDepthWallpaper = Xprefs!!.getBoolean(DEPTH_WALLPAPER_SWITCH, false)
-        showFadingAnimation = Xprefs!!.getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false)
-        enableParallaxEffect = Xprefs!!.getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
-        backgroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1.0f)
-        foregroundMovement = Xprefs!!.getFloat(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3.0f)
-        unzoomWallpaper = Xprefs!!.getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
-        foregroundAlpha = Xprefs!!.getInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
+        Xprefs.apply {
+            showDepthWallpaper = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
+            showFadingAnimation = getBoolean(DEPTH_WALLPAPER_FADE_ANIMATION, false)
+            enableParallaxEffect = getBoolean(DEPTH_WALLPAPER_PARALLAX_EFFECT, false)
+            backgroundMovement =
+                getSliderInt(DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER, 1).toFloat()
+            foregroundMovement =
+                getSliderInt(DEPTH_WALLPAPER_FOREGROUND_MOVEMENT_MULTIPLIER, 3).toFloat()
+            unzoomWallpaper = getBoolean(UNZOOM_DEPTH_WALLPAPER, false)
+            foregroundAlpha = getSliderInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
+        }
 
         if (key.isNotEmpty() &&
             (key[0] == DEPTH_WALLPAPER_SWITCH ||

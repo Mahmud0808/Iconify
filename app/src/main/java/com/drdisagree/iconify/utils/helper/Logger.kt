@@ -20,7 +20,6 @@ object Logger {
 
     private val TAG = Logger::class.java.getSimpleName()
 
-    @JvmStatic
     fun writeLog(tag: String?, header: String?, details: List<String?>) {
         val log = deviceInfo
 
@@ -35,7 +34,6 @@ object Logger {
         writeLogToFile(log)
     }
 
-    @JvmStatic
     fun writeLog(tag: String?, header: String?, details: String?) {
         val log = deviceInfo
 
@@ -47,7 +45,6 @@ object Logger {
         writeLogToFile(log)
     }
 
-    @JvmStatic
     fun writeLog(tag: String?, header: String?, exception: Exception) {
         val log = deviceInfo
         log.append("error: ").append(header).append('\n')

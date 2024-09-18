@@ -22,8 +22,8 @@ import androidx.core.graphics.PathParser
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.drdisagree.iconify.common.Preferences
 import com.drdisagree.iconify.config.RPrefs.getBoolean
-import com.drdisagree.iconify.config.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.modules.utils.AlphaRefreshedPaint
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 
 @Suppress("UNUSED_PARAMETER")
 open class CircleBattery(private val mContext: Context, frameColor: Int) : BatteryDrawable() {
@@ -91,7 +91,7 @@ open class CircleBattery(private val mContext: Context, frameColor: Int) : Batte
 
     private fun initColors() {
         customBlendColor = try {
-            Xprefs?.getBoolean(Preferences.CUSTOM_BATTERY_BLEND_COLOR, false) ?: false
+            Xprefs.getBoolean(Preferences.CUSTOM_BATTERY_BLEND_COLOR, false) ?: false
         } catch (ignored: Throwable) {
             getBoolean(Preferences.CUSTOM_BATTERY_BLEND_COLOR, false)
         }
@@ -319,7 +319,7 @@ open class CircleBattery(private val mContext: Context, frameColor: Int) : Batte
         mBatteryPaint.style = Paint.Style.STROKE
 
         try {
-            Xprefs?.let { setMeterStyle(it.getInt(Preferences.CUSTOM_BATTERY_STYLE, 0)) }
+            setMeterStyle(Xprefs.getInt(Preferences.CUSTOM_BATTERY_STYLE, 0))
         } catch (ignored: Throwable) {
             setMeterStyle(Preferences.BATTERY_STYLE_CIRCLE)
         }
