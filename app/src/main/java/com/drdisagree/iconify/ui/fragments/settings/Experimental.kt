@@ -86,6 +86,11 @@ class Experimental : BaseFragment() {
 
         // OP QS Header Gap Expanded
         binding.opQsGapExpanded.apply {
+            visibility = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
             sliderValue = getInt(OP_QS_HEADER_GAP_EXPANDED, 0)
             setResetClickListener {
                 putInt(OP_QS_HEADER_GAP_EXPANDED, 0)
