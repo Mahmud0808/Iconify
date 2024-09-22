@@ -1075,6 +1075,8 @@ transparent machen</string>
     <string name="update">Update</string>
     <string name="enable_title">Enable</string>
     <string name="update_interval_title">Update interval</string>
+    <string name="interval_15_minutes">15 minutes</string>
+    <string name="interval_30_minutes">30 minutes</string>
     <string name="interval_1_hour">1 hour</string>
     <string name="interval_2_hour">2 hours</string>
     <string name="interval_4_hour">4 hours</string>

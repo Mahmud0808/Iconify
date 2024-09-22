@@ -185,6 +185,8 @@
 
     <!-- Lockscreen Weather Update Interval -->
     <string-array name="update_interval_entries" translatable="false">
+        <item>@string/interval_15_minutes</item>
+        <item>@string/interval_30_minutes</item>
         <item>@string/interval_1_hour</item>
         <item>@string/interval_2_hour</item>
         <item>@string/interval_4_hour</item>
@@ -193,11 +195,13 @@
     </string-array>
 
     <string-array name="update_interval_values">
-        <item>1</item>
-        <item>2</item>
-        <item>4</item>
-        <item>6</item>
-        <item>12</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>240</item>
+        <item>360</item>
+        <item>720</item>
     </string-array>
 
     <!-- Lockscreen Weather Provider -->

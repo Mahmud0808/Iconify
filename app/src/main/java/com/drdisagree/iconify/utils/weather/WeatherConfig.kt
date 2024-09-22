@@ -145,7 +145,7 @@ object WeatherConfig {
     fun getUpdateInterval(context: Context): Int {
         var updateValue = 2
         try {
-            updateValue = getPrefs(context).getString(WEATHER_UPDATE_INTERVAL, "2")!!.toInt()
+            updateValue = getPrefs(context).getString(WEATHER_UPDATE_INTERVAL, "120")!!.toInt()
         } catch (ignored: Throwable) {
         }
 
