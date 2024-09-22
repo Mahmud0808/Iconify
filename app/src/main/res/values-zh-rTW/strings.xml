@@ -32,20 +32,20 @@
     <string name="installation_failed_desc">記錄檔已經儲存在「文件」資料夾中。</string>
     <string name="logs">記錄檔</string>
     <!-- Search Preference -->
-    <string name="search_title">Search</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear">Clear</string>
-    <string name="searchpreference_history_entry">History entry</string>
-    <string name="searchpreference_more">More</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_result">No result</string>
+    <string name="search_title">搜尋</string>
+    <string name="searchpreference_search">搜尋...</string>
+    <string name="searchpreference_clear">清除</string>
+    <string name="searchpreference_history_entry">歷史記錄</string>
+    <string name="searchpreference_more">更多</string>
+    <string name="searchpreference_clear_history">清除歷史紀錄</string>
+    <string name="searchpreference_no_result">沒有結果</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">圖示套件</string>
     <string name="activity_desc_icon_pack">更換系統的圖示套件</string>
     <string name="activity_title_cellular_icons">Cellular Icons</string>
     <string name="activity_desc_cellular_icons">Change system cellular icons</string>
-    <string name="activity_title_wifi_icons">WiFi Icons</string>
+    <string name="activity_title_wifi_icons">WiFi 圖示</string>
     <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
     <string name="activity_title_brightness_bar">亮度調整桿</string>
     <string name="activity_desc_brightness_bar">自訂亮度調整桿</string>
@@ -125,7 +125,7 @@
     <string name="settings_restart_systemui_after_boot_desc">某些選項（如模糊強度）在重新啟動 SystemUI之前不會生效</string>
     <string name="settings_show_home_page_card_title">顯示主頁卡</string>
     <string name="settings_show_home_page_card_desc">在主頁上展示一張精美的卡片。</string>
-    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
+    <string name="settings_vibrate_ui_card_title">觸覺回饋</string>
     <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
     <string name="settings_clear_app_cache_title">清理應用程式緩存</string>
     <string name="settings_clear_app_cache_desc">清理因使用自訂字形、圖像或GIF動圖而產生的緩存</string>
