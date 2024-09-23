@@ -421,8 +421,8 @@
     <string name="activity_desc_quick_settings">Твики панели быстрых настроек</string>
     <string name="activity_title_battery_style">Стиль батареи</string>
     <string name="activity_desc_battery_style">Изменить внешний вид иконки батареи</string>
-    <string name="activity_title_op_qs_header">Oneplus QS Header</string>
-    <string name="activity_desc_op_qs_header">OOS style quick settings header</string>
+    <string name="activity_title_op_qs_header">QS в стиле Oneplus</string>
+    <string name="activity_desc_op_qs_header">Заголовок быстрых настроек в стиле OOS</string>
     <string name="activity_title_header_image">Изображение в заголовке</string>
     <string name="activity_desc_header_image">Добавить своё изображение на панель быстрых настроек</string>
     <string name="activity_title_header_clock">Часы в заголовке</string>
@@ -442,15 +442,15 @@
     <string name="activity_desc_xposed_others">Другие LSposed настройки и кастомизации</string>
     <string name="activity_title_xposed_weather_settings">Настройки погоды</string>
     <!-- Oneplus QS Header -->
-    <string name="oneplus_qs_header_title">Oneplus QS Header</string>
-    <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
-    <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
-    <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
-    <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
-    <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
-    <string name="oneplus_qs_header_blur_level">Blur Level</string>
-    <string name="oneplus_qs_header_fade_level">Fade Level</string>
-    <string name="oneplus_qs_header_top_margin">Top Margin</string>
+    <string name="oneplus_qs_header_title">QS в стиле Oneplus</string>
+    <string name="oneplus_qs_header_desc">Включить медиаплеер и плитки в стиле OOS в QS</string>
+    <string name="oneplus_qs_header_vibrate_title">Виброотклик</string>
+    <string name="oneplus_qs_header_vibrate_desc">Добавить виброотклик на плитки</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Скрыть стандартный медиаплеер</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_desc">Удалить медиаплеер из панели быстрых настроек</string>
+    <string name="oneplus_qs_header_blur_level">Уровень размытия</string>
+    <string name="oneplus_qs_header_fade_level">Уровень затемнения</string>
+    <string name="oneplus_qs_header_top_margin">Верхнее поле</string>
     <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
     <!-- Lockscreen Widgets -->
     <string name="lockscreen_widgets_title">Виджеты на экране блокировки</string>
