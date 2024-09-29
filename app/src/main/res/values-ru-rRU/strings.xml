@@ -445,18 +445,18 @@
     <string name="oneplus_qs_header_title">QS в стиле Oneplus</string>
     <string name="oneplus_qs_header_desc">Включить медиаплеер и плитки в стиле OOS в QS</string>
     <string name="oneplus_qs_header_vibrate_title">Виброотклик</string>
-    <string name="oneplus_qs_header_vibrate_desc">Добавить виброотклик на плитки</string>
-    <string name="oneplus_qs_header_hide_stock_media_player_title">Скрыть стандартный медиаплеер</string>
-    <string name="oneplus_qs_header_hide_stock_media_player_desc">Удалить медиаплеер из панели быстрых настроек</string>
+    <string name="oneplus_qs_header_vibrate_desc">Добавить вибро отклик на плитки</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Скрыть стандартный медиа плеер</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_desc">Удалить медиа плеер из панели быстрых настроек</string>
     <string name="oneplus_qs_header_blur_level">Уровень размытия</string>
     <string name="oneplus_qs_header_fade_level">Уровень затемнения</string>
     <string name="oneplus_qs_header_top_margin">Верхнее поле</string>
-    <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
+    <string name="oneplus_qs_header_expansion_y">Высота</string>
     <!-- Lockscreen Widgets -->
     <string name="lockscreen_widgets_title">Виджеты на экране блокировки</string>
     <string name="lockscreen_widgets_enabled_title">Включить виджеты на экране блокировки</string>
     <string name="lockscreen_widgets_enabled_summary">Добавить виджеты на экран блокировки</string>
-    <string name="lockscreen_display_widgets_title">Информация об устройстве</string>
+    <string name="lockscreen_display_widgets_title">Виджет информации об устройстве</string>
     <string name="lockscreen_display_widgets_summary">Показывать виджет информации об устройстве на экране блокировки</string>
     <string name="linear_progress_color">Цвет линейного прогресса</string>
     <string name="circular_progress_color">Цвет кругового прогресса</string>

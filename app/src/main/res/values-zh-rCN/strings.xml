@@ -768,14 +768,14 @@
     <string name="accent_border_color">突出边框颜色</string>
     <string name="border_color">边框颜色</string>
     <string name="dashed_border">虚线边框</string>
-    <string name="dash_width">Dash Width</string>
-    <string name="dash_gap">Dash Gap</string>
+    <string name="dash_width">虚线宽度</string>
+    <string name="dash_gap">虚线间距</string>
     <string name="border_thickness">边框宽度</string>
-    <string name="section_title_padding">Padding</string>
-    <string name="padding_left">Padding Left</string>
-    <string name="padding_right">Padding Right</string>
-    <string name="padding_top">Padding Top</string>
-    <string name="padding_bottom">Padding Bottom</string>
+    <string name="section_title_padding">填充</string>
+    <string name="padding_left">左填充</string>
+    <string name="padding_right">右填充</string>
+    <string name="padding_top">顶部填充</string>
+    <string name="padding_bottom">底部填充</string>
     <string name="section_title_corner_radius">圆角半径</string>
     <string name="top_left_radius">左上半径</string>
     <string name="top_right_radius">右上半径</string>
@@ -1055,7 +1055,7 @@
     <string name="text_color_inverse">文本颜色反转</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
-    <string name="units_title">Unit</string>
+    <string name="units_title">单位</string>
     <string name="weather_progress_title">验证位置</string>
     <string name="weather_select_location">选择位置</string>
     <string name="weather_custom_location_dialog_title">输入位置：</string>
