@@ -64,4 +64,16 @@
     <dimen name="preference_padding_top">6dip</dimen>
     <dimen name="preference_padding_bottom">6dip</dimen>
 
+    <!-- Weather Activity -->
+    <dimen name="activity_forecast_image_size">38dp</dimen>
+    <dimen name="activity_actions_image_size">36dp</dimen>
+    <dimen name="activity_city_side_margin">64dp</dimen>
+    <dimen name="current_height">150dp</dimen>
+    <dimen name="text_line_height">60dp</dimen>
+    <dimen name="forecast_text_size">16sp</dimen>
+    <dimen name="forecast_text_size_small">14sp</dimen>
+    <dimen name="header_text_size">28sp</dimen>
+    <dimen name="medium_text_size">20sp</dimen>
+    <dimen name="big_text_size">60sp</dimen>
+
 </resources>
