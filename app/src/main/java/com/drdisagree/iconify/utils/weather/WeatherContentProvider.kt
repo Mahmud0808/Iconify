@@ -69,6 +69,15 @@ class WeatherContentProvider : ContentProvider() {
                     .add(COLUMN_CURRENT_PIN_WHEEL, weather.pinWheel)
                     .add(COLUMN_CURRENT_CONDITION_CODE, weather.conditionCode)
 
+                for (day in weather.forecasts) {
+                    result.newRow()
+                        .add(COLUMN_FORECAST_CONDITION, day.getCondition(mContext!!))
+                        .add(COLUMN_FORECAST_LOW, day.low)
+                        .add(COLUMN_FORECAST_HIGH, day.high)
+                        .add(COLUMN_FORECAST_CONDITION_CODE, day.conditionCode)
+                        .add(COLUMN_FORECAST_DATE, day.date)
+                }
+
                 // forecast
                 for (day in weather.forecasts) {
                     result.newRow()
@@ -77,6 +86,14 @@ class WeatherContentProvider : ContentProvider() {
                         .add(COLUMN_FORECAST_HIGH, day.high)
                         .add(COLUMN_FORECAST_CONDITION_CODE, day.conditionCode)
                         .add(COLUMN_FORECAST_DATE, day.date)
+                }
+
+                for (hour in weather.hourlyForecasts) {
+                    result.newRow()
+                        .add(COLUMN_FORECAST_HOUR, hour.date)
+                        .add(COLUMN_FORECAST_HOUR_TEMP, hour.temp)
+                        .add(COLUMN_FORECAST_HOUR_CONDITION, hour.getCondition(mContext!!))
+                        .add(COLUMN_FORECAST_HOUR_CONDITION_CODE, hour.conditionCode)
                 }
 
                 return result
@@ -148,11 +165,18 @@ class WeatherContentProvider : ContentProvider() {
         private const val COLUMN_CURRENT_CONDITION_CODE = "condition_code"
         private const val COLUMN_CURRENT_PIN_WHEEL = "pin_wheel"
 
+        // Daily forecast
         private const val COLUMN_FORECAST_LOW = "forecast_low"
         private const val COLUMN_FORECAST_HIGH = "forecast_high"
         private const val COLUMN_FORECAST_CONDITION = "forecast_condition"
         private const val COLUMN_FORECAST_CONDITION_CODE = "forecast_condition_code"
         private const val COLUMN_FORECAST_DATE = "forecast_date"
+
+        // Hourly forecast
+        private const val COLUMN_FORECAST_HOUR: String = "forecast_hour"
+        private const val COLUMN_FORECAST_HOUR_TEMP: String = "forecast_hour_temp"
+        private const val COLUMN_FORECAST_HOUR_CONDITION: String = "forecast_hour_condition"
+        private const val COLUMN_FORECAST_HOUR_CONDITION_CODE: String = "forecast_hour_condition_code"
 
         private const val COLUMN_ENABLED = "enabled"
         private const val COLUMN_PROVIDER = "provider"
@@ -179,7 +203,11 @@ class WeatherContentProvider : ContentProvider() {
             COLUMN_FORECAST_HIGH,
             COLUMN_FORECAST_CONDITION,
             COLUMN_FORECAST_CONDITION_CODE,
-            COLUMN_FORECAST_DATE
+            COLUMN_FORECAST_DATE,
+            COLUMN_FORECAST_HOUR,
+            COLUMN_FORECAST_HOUR_TEMP,
+            COLUMN_FORECAST_HOUR_CONDITION,
+            COLUMN_FORECAST_HOUR_CONDITION_CODE
         )
 
         private val PROJECTION_DEFAULT_SETTINGS = arrayOf(
