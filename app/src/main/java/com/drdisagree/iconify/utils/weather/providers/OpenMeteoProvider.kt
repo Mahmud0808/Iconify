@@ -65,6 +65,7 @@ class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) 
                 weather.getDouble("windspeed").toFloat(),  /* windDir */
                 weather.getInt("winddirection"),
                 metric,
+                parseHourlyForecasts(JSONObject(conditionResponse).getJSONObject("hourly"), metric),
                 parseForecasts(JSONObject(conditionResponse).getJSONObject("daily"), metric),
                 System.currentTimeMillis()
             )
@@ -140,6 +141,72 @@ class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) 
                 )
                 val item: WeatherInfo.DayForecast = WeatherInfo.DayForecast( /* low */
                     0F,  /* high */
+                    0F,  /* condition */
+                    "",  /* conditionCode */
+                    -1,
+                    "NaN",
+                    metric
+                )
+                result.add(item)
+            }
+        }
+
+        return result
+    }
+
+    @Throws(JSONException::class)
+    private fun parseHourlyForecasts(
+        forecasts: JSONObject,
+        metric: Boolean
+    ): java.util.ArrayList<WeatherInfo.HourForecast> {
+        val result: ArrayList<WeatherInfo.HourForecast> = ArrayList()
+
+        val timeJson = forecasts.getJSONArray("time")
+        val temperature = forecasts.getJSONArray("temperature_2m_best_match")
+        val weatherCodeJson = forecasts.getJSONArray("weather_code_best_match")
+        val altWeatherCodeJson = forecasts.getJSONArray("weather_code_gfs_seamless")
+        val currentDay =
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US).format(Calendar.getInstance().time)
+
+        var startIndex = 1
+        if (currentDay == timeJson.getString(0)) startIndex = 0
+        else if (currentDay == timeJson.getString(2)) startIndex = 2
+
+        var i = startIndex
+        while (i < timeJson.length() && result.size < 10) {
+            var item: WeatherInfo.HourForecast
+            var weatherCode = weatherCodeJson.getInt(i)
+            if (weatherCode == 45 || weatherCode == 48) weatherCode = altWeatherCodeJson.getInt(i)
+
+            try {
+                item = WeatherInfo.HourForecast( /* temp */
+                    temperature.getDouble(i).toFloat(),  /* condition */
+                    getWeatherDescription(weatherCode),  /* conditionCode */
+                    mapConditionIconToCode(weatherCode, true),
+                    timeJson.getString(i),
+                    metric
+                )
+            } catch (e: JSONException) {
+                Log.w(
+                    TAG,
+                    "Invalid forecast for day $i creating dummy", e
+                )
+                item = WeatherInfo.HourForecast( /* temp */
+                    0F,  /* condition */
+                    "",  /* conditionCode */
+                    -1,
+                    "NaN",
+                    metric
+                )
+            }
+            result.add(item)
+            i++
+        }
+        // clients assume there are 5  entries - so fill with dummy if needed
+        if (result.size < 10) {
+            for (i in result.size..9) {
+                Log.w(TAG, "Missing forecast for hour $i creating dummy")
+                val item: WeatherInfo.HourForecast = WeatherInfo.HourForecast( /* temp */
                     0F,  /* condition */
                     "",  /* conditionCode */
                     -1,
