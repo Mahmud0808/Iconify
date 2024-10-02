@@ -9,16 +9,15 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.databinding.ActivityWeatherBinding
 import com.drdisagree.iconify.ui.adapters.ForecastDayAdapter
 import com.drdisagree.iconify.ui.adapters.ForecastHourAdapter
 import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.utils.weather.WeatherContentProvider
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 
 class WeatherActivity : AppCompatActivity(), OmniJawsClient.OmniJawsObserver {
 
@@ -106,31 +105,31 @@ class WeatherActivity : AppCompatActivity(), OmniJawsClient.OmniJawsObserver {
 
         val formattedCondition = when {
             formattedConditionLowercase.contains("clouds") -> {
-                modRes.getString(R.string.weather_condition_clouds)
+                appContextLocale.getString(R.string.weather_condition_clouds)
             }
 
             formattedConditionLowercase.contains("rain") -> {
-                modRes.getString(R.string.weather_condition_rain)
+                appContextLocale.getString(R.string.weather_condition_rain)
             }
 
             formattedConditionLowercase.contains("clear") -> {
-                modRes.getString(R.string.weather_condition_clear)
+                appContextLocale.getString(R.string.weather_condition_clear)
             }
 
             formattedConditionLowercase.contains("storm") -> {
-                modRes.getString(R.string.weather_condition_storm)
+                appContextLocale.getString(R.string.weather_condition_storm)
             }
 
             formattedConditionLowercase.contains("snow") -> {
-                modRes.getString(R.string.weather_condition_snow)
+                appContextLocale.getString(R.string.weather_condition_snow)
             }
 
             formattedConditionLowercase.contains("wind") -> {
-                modRes.getString(R.string.weather_condition_wind)
+                appContextLocale.getString(R.string.weather_condition_wind)
             }
 
             formattedConditionLowercase.contains("mist") -> {
-                modRes.getString(R.string.weather_condition_mist)
+                appContextLocale.getString(R.string.weather_condition_mist)
             }
 
             else -> {
