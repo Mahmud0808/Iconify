@@ -413,7 +413,11 @@ class OmniJawsClient(private val mContext: Context) {
             "forecast_condition_code",
             "time_stamp",
             "forecast_date",
-            "pin_wheel"
+            "pin_wheel",
+            "forecast_hour",
+            "forecast_hour_temp",
+            "forecast_hour_condition",
+            "forecast_hour_condition_code"
         )
 
         val SETTINGS_PROJECTION: Array<String> = arrayOf(
