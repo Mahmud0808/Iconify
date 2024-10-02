@@ -1171,6 +1171,8 @@
     <string name="location_query_hint">Search for a location</string>
     <string name="weather_permission_dialog_title">Enable Location Permissions</string>
     <string name="weather_permission_dialog_message">Location permissions are required to fetch weather data. Click OK to open Settings.</string>
+    <string name="omnijaws_today">Today</string>
+    <string name="omnijaws_tomorrow">Tomorrow</string>
 
     <!-- Weather Conditions -->
     <string name="weather_condition_clouds">Cloudy</string>
@@ -1188,6 +1190,8 @@
     <string name="weather_provider">Weather Provider</string>
     <string name="openmeteo" translatable="false">OpenMeteo</string>
     <string name="openweathermap" translatable="false">OpenWeatherMap</string>
+    <string name="yandex" translatable="false">Yandex</string>
+    <string name="metweather" translatable="false">MET Norway</string>
     <string name="weather_api_key">OpenWeatherMap API Key</string>
     <string name="weather_provider_owm_key_title">OpenWeatherMap API Key required</string>
     <string name="weather_provider_owm_key_message">Please enter your OpenWeatherMap API key to fetch weather data.</string>
