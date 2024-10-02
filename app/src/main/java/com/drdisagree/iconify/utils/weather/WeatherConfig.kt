@@ -15,10 +15,13 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
 import com.drdisagree.iconify.common.Preferences.WEATHER_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
 import com.drdisagree.iconify.common.Preferences.WEATHER_UPDATE_INTERVAL
+import com.drdisagree.iconify.common.Preferences.WEATHER_YANDEX_KEY
 import com.drdisagree.iconify.common.Resources.SHARED_XPREFERENCES
+import com.drdisagree.iconify.utils.weather.providers.METNorwayProvider
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.utils.weather.providers.OpenMeteoProvider
 import com.drdisagree.iconify.utils.weather.providers.OpenWeatherMapProvider
+import com.drdisagree.iconify.utils.weather.providers.YandexProvider
 
 object WeatherConfig {
 
@@ -66,6 +69,8 @@ object WeatherConfig {
         val provider = getPrefs(context).getString(WEATHER_PROVIDER, "0")
         return when (provider) {
             "1" -> return OpenWeatherMapProvider(context)
+            "2" -> return YandexProvider(context)
+            "3" -> return METNorwayProvider(context)
             else -> return OpenMeteoProvider(context)
         }
     }
@@ -74,6 +79,8 @@ object WeatherConfig {
         val provider = getPrefs(context).getString(WEATHER_PROVIDER, "0")
         return when (provider) {
             "1" -> "OpenWeatherMap"
+            "2" -> "Yandex"
+            "3" -> "MET Norway"
             else -> "OpenMeteo"
         }
     }
@@ -168,4 +175,9 @@ object WeatherConfig {
     fun getOwmKey(context: Context): String {
         return getPrefs(context).getString(WEATHER_OWM_KEY, "") ?: ""
     }
+
+    fun getYandexKey(context: Context): String {
+        return getPrefs(context).getString(WEATHER_YANDEX_KEY, "") ?: ""
+    }
+
 }
