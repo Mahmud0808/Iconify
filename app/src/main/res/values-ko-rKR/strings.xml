@@ -4,7 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">설치 초기화 중</string>
     <string name="step">과정</string>
-    <string name="step_number">Step %1$d/%2$d</string>
+    <string name="step_number">단계</string>
     <string name="module_installation_step1">모듈 셸 생성 중</string>
     <string name="module_installation_step2">필수 파일의 압축 해제 중</string>
     <string name="module_installation_step3">오버레이 APK 생성 중</string>
@@ -23,7 +23,7 @@
     <string name="need_storage_perm_title">저장공간 권한 필요</string>
     <string name="need_storage_perm_desc">필수 파일을 구성하기 위해 저장공간 권한이 필요해요.</string>
     <string name="compatible_root_not_found_title">호환되는 루트 방식을 찾을 수 없음</string>
-    <string name="compatible_root_not_found_desc">Use any popular root solutions to proceed.</string>
+    <string name="compatible_root_not_found_desc">진행하려면 기기를 루트 하세요.</string>
     <string name="root_not_found_title">루트 접근 불가</string>
     <string name="root_not_found_desc">기기를 루팅하시지 않은 것 같아요!</string>
     <string name="need_reboot_title">기기 재시작 필요</string>
@@ -32,21 +32,21 @@
     <string name="installation_failed_desc">문서 폴더에 로그 파일이 저장되었어요.</string>
     <string name="logs">로그</string>
     <!-- Search Preference -->
-    <string name="search_title">Search</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear">Clear</string>
-    <string name="searchpreference_history_entry">History entry</string>
-    <string name="searchpreference_more">More</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_result">No result</string>
+    <string name="search_title">검색</string>
+    <string name="searchpreference_search">검색...</string>
+    <string name="searchpreference_clear">삭제</string>
+    <string name="searchpreference_history_entry">기록</string>
+    <string name="searchpreference_more">더 보기</string>
+    <string name="searchpreference_clear_history">기록 삭제</string>
+    <string name="searchpreference_no_result">결과 없음</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">아이콘 팩</string>
     <string name="activity_desc_icon_pack">시스템 아이콘 팩 변경</string>
-    <string name="activity_title_cellular_icons">Cellular Icons</string>
-    <string name="activity_desc_cellular_icons">Change system cellular icons</string>
-    <string name="activity_title_wifi_icons">WiFi Icons</string>
-    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
+    <string name="activity_title_cellular_icons">데이터 아이콘</string>
+    <string name="activity_desc_cellular_icons">시스템 데이터 아이콘 변경</string>
+    <string name="activity_title_wifi_icons">Wi-Fi 아이콘</string>
+    <string name="activity_desc_wifi_icons">시스템 Wi-Fi 아이콘 변경</string>
     <string name="activity_title_brightness_bar">밝기 막대</string>
     <string name="activity_desc_brightness_bar">진행 슬라이더 맞춤 설정</string>
     <string name="activity_title_qs_shape">빠른 설정창 타일</string>
@@ -125,8 +125,8 @@
     <string name="settings_restart_systemui_after_boot_desc">흐림 세기와 같은 일부 설정은 시스템 UI를 다시 시작할 때까지 적용되지 않아요</string>
     <string name="settings_show_home_page_card_title">홈페이지 카드 표시</string>
     <string name="settings_show_home_page_card_desc">홈페이지에 멋진 카드를 표시해요.</string>
-    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
-    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
+    <string name="settings_vibrate_ui_card_title">진동 피드백</string>
+    <string name="settings_vibrate_ui_page_card_desc">진동으로 터치 피드백 개선</string>
     <string name="settings_clear_app_cache_title">앱 캐시 지우기</string>
     <string name="settings_clear_app_cache_desc">사용자 지정 글꼴, 이미지 또는 GIF를 쓸 때 생성된 캐시를 지워요.</string>
     <string name="activity_title_experimental">실험</string>
@@ -136,8 +136,8 @@
     <string name="settings_section_title_about">정보</string>
     <string name="settings_github_repository_title">Github 저장소</string>
     <string name="settings_telegram_group_title">텔레그램 그룹</string>
-    <string name="settings_translate_title">Translate Iconify</string>
-    <string name="settings_translate_desc">Help translate Iconify to your language.</string>
+    <string name="settings_translate_title">Iconify 번역하기</string>
+    <string name="settings_translate_desc">Iconify를 자신의 언어로 번역하기</string>
     <string name="settings_credits_title">크레딧</string>
     <string name="settings_credits_desc">앱을 구현할 수 있게 도와주신 분들께 감사드려요.</string>
     <!-- Icon Pack -->
@@ -234,15 +234,15 @@
     <string name="activity_desc_basic_colors">주 색상 및 보조 색상 변경</string>
     <string name="activity_title_monet_engine">Monet 엔진</string>
     <string name="activity_desc_monet_engine">Monet 색상 팔레트 덮어쓰기</string>
-    <string name="section_title_stock_colors">Stock Colors</string>
-    <string name="apply_monet_accent_title">Monet Accent</string>
-    <string name="apply_monet_accent_desc">Use system monet as accent</string>
-    <string name="apply_monet_gradient_title">Monet Gradient</string>
-    <string name="apply_monet_gradient_desc">Use system monet as gradient</string>
-    <string name="section_title_dark_theme">Dark Theme</string>
+    <string name="section_title_stock_colors">기본 색상</string>
+    <string name="apply_monet_accent_title">Monet 강조 색상</string>
+    <string name="apply_monet_accent_desc">시스템 Monet 색상을 강조 색상으로 사용</string>
+    <string name="apply_monet_gradient_title">Monet Gradient 색상</string>
+    <string name="apply_monet_gradient_desc">시스템 Monet 색상을 Gradient 색상으로 사용</string>
+    <string name="section_title_dark_theme">야간 모드</string>
     <string name="pitch_black_dark_title">Pitch Black (Dark)</string>
     <string name="pitch_black_dark_desc">Enable pitch black dark theme</string>
-    <string name="pitch_black_amoled_title">Pitch Black (Amoled)</string>
+    <string name="pitch_black_amoled_title">야간 모드 (Amoled)</string>
     <string name="pitch_black_amoled_desc">Enable pitch black amoled theme</string>
     <string name="section_title_misc">Misc.</string>
     <string name="minimal_qspanel">Minimal QS Panel</string>

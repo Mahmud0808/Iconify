@@ -445,15 +445,15 @@
     <string name="oneplus_qs_header_title">OnePlus QS Header</string>
     <string name="oneplus_qs_header_desc">Włącz odtwarzacze i kafelki w stylu OOS w Szybkich Ustawieniach</string>
     <string name="oneplus_qs_header_vibrate_title">Wibracja przy naciśnięciu</string>
-    <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
+    <string name="oneplus_qs_header_vibrate_desc"></string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
-    <string name="oneplus_qs_header_blur_level">Blur Level</string>
+    <string name="oneplus_qs_header_blur_level">Blur level</string>
     <string name="oneplus_qs_header_fade_level">Fade Level</string>
     <string name="oneplus_qs_header_top_margin">Top Margin</string>
     <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
     <!-- Lockscreen Widgets -->
-    <string name="lockscreen_widgets_title">Lockscreen Widgets</string>
+    <string name="lockscreen_widgets_title">Blur level</string>
     <string name="lockscreen_widgets_enabled_title">Enable Lockscreen Widgets</string>
     <string name="lockscreen_widgets_enabled_summary">Add widgets to lockscreen</string>
     <string name="lockscreen_display_widgets_title">Device Info Widget</string>
