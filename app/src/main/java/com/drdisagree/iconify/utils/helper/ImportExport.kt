@@ -375,7 +375,7 @@ object ImportExport {
 
                                         OnDemandCompiler.buildOverlay(
                                             "TSTFRM",
-                                            selectedStyle + 1,
+                                            selectedStyle,
                                             FRAMEWORK_PACKAGE,
                                             false
                                         )
