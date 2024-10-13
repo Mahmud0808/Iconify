@@ -397,7 +397,7 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
 
             hookAllMethods(
                 batteryControllerImplClass,
-                "setPowerSave",
+                "onReceive",
                 batteryDataRefreshHook
             )
         } catch (throwable: Throwable) {

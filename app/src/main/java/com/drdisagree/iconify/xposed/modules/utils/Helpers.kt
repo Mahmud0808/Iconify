@@ -106,7 +106,10 @@ object Helpers {
         val result: MutableSet<XC_MethodHook.Unhook> = ArraySet()
 
         for (method in findMethods(clazz, namePattern)) {
-            result.add(hookMethod(method, callback))
+            try {
+                result.add(hookMethod(method, callback))
+            } catch (ignored: Throwable) {
+            }
         }
 
         return result
