@@ -678,6 +678,7 @@
     <string name="battery_circle">Circle Battery</string>
     <string name="battery_dotted_circle">Dotted Circle Battery</string>
     <string name="battery_filled_circle">Filled Circle Battery</string>
+    <string name="battery_landscape_kim">Landscape Kim</string>
 
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Volume Percentage</string>

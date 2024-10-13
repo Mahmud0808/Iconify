@@ -26,6 +26,7 @@ import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERY
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYM
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYO
 import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16
+import com.drdisagree.iconify.common.Preferences.BATTERY_STYLE_LANDSCAPE_KIM
 import com.drdisagree.iconify.common.Preferences.BLUR_RADIUS_VALUE
 import com.drdisagree.iconify.common.Preferences.CHIP_STATUS_ICONS_SWITCH
 import com.drdisagree.iconify.common.Preferences.CUSTOM_BATTERY_BLEND_COLOR
@@ -332,10 +333,10 @@ object PrefsHelper {
                 batteryStyle != BATTERY_STYLE_LANDSCAPE_BATTERYL &&
                 batteryStyle != BATTERY_STYLE_LANDSCAPE_BATTERYM
 
-        val showInsidePercentage = showPercentage && !getBoolean(
-            CUSTOM_BATTERY_HIDE_PERCENTAGE,
-            false
-        )
+        val kimBattery = batteryStyle == BATTERY_STYLE_LANDSCAPE_KIM
+
+        val showInsidePercentage = showPercentage && !kimBattery &&
+                !getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false)
 
         val showChargingIconCustomization: Boolean =
             batteryStyle > BATTERY_STYLE_DEFAULT_LANDSCAPE &&
@@ -349,9 +350,10 @@ object PrefsHelper {
                 batteryStyle == BATTERY_STYLE_FILLED_CIRCLE
 
         return when (key) {
-            CUSTOM_BATTERY_LAYOUT_REVERSE,
             CUSTOM_BATTERY_PERIMETER_ALPHA,
             CUSTOM_BATTERY_FILL_ALPHA -> showAdvancedCustomizations
+
+            CUSTOM_BATTERY_LAYOUT_REVERSE -> showAdvancedCustomizations || kimBattery
 
             CUSTOM_BATTERY_BLEND_COLOR -> showAdvancedCustomizations || circleBattery
 

@@ -39,6 +39,7 @@ import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryH
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryI
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryJ
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryK
+import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryKim
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryL
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryM
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryMIUIPill
@@ -172,7 +173,8 @@ object ViewHelper {
             LandscapeBatteryO(context, batteryColor),
             CircleBattery(context, batteryColor),
             CircleBattery(context, batteryColor),
-            CircleFilledBattery(context, batteryColor)
+            CircleFilledBattery(context, batteryColor),
+            LandscapeBatteryKim(context, batteryColor)
         )
 
         val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
