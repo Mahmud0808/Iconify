@@ -124,6 +124,7 @@ import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBattery
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryColorOS
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyleA
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyleB
+import com.drdisagree.iconify.xposed.modules.utils.Helpers.hookAllMethodsMatchPattern
 import com.drdisagree.iconify.xposed.modules.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -380,15 +381,21 @@ class BatteryStyleManager(context: Context?) : ModPack(context!!) {
                 }
             }
 
-            hookAllMethods(
+            hookAllMethodsMatchPattern(
                 batteryControllerImplClass,
-                "fireBatteryLevelChanged",
+                ".*fireBatteryLevelChanged.*",
+                batteryDataRefreshHook
+            )
+
+            hookAllMethodsMatchPattern(
+                batteryControllerImplClass,
+                ".*firePowerSaveChanged.*",
                 batteryDataRefreshHook
             )
 
             hookAllMethods(
                 batteryControllerImplClass,
-                "firePowerSaveChanged",
+                "setPowerSave",
                 batteryDataRefreshHook
             )
         } catch (throwable: Throwable) {
