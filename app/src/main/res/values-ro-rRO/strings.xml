@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Customize Boring Android UI</string>
+    <string name="app_moto">Modifica Ui-ul plictisitor al androidului</string>
     <!-- Onboarding -->
-    <string name="init_module_installation">Initializing setup</string>
-    <string name="step">Step</string>
-    <string name="step_number">Step %1$d/%2$d</string>
-    <string name="module_installation_step1">Creating module shell</string>
-    <string name="module_installation_step2">Extracting necessary files</string>
-    <string name="module_installation_step3">Creating overlay APKs</string>
-    <string name="module_installation_step4">Aligning overlay APKs</string>
-    <string name="module_installation_step5">Signing overlay APKs</string>
-    <string name="module_installation_step6">Cleaning directories</string>
-    <string name="onboarding_title_1">Got Bored of Stock UI ?</string>
+    <string name="init_module_installation">Inițializăm configurarea</string>
+    <string name="step">Pas</string>
+    <string name="step_number">Pas</string>
+    <string name="module_installation_step1">Creez modul pentru shell</string>
+    <string name="module_installation_step2">Extrag fișierele necesare</string>
+    <string name="module_installation_step3">Crearea suprapunerii ale APK-urilor</string>
+    <string name="module_installation_step4">Alinam suprapunerea APK-ului</string>
+    <string name="module_installation_step5">Semnam suprapunerea APK-ului</string>
+    <string name="module_installation_step6">Curățăm fișierele</string>
+    <string name="onboarding_title_1">Te-ai plictisit de Stoc UI?</string>
     <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
     <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
     <string name="onboarding_title_2">Is My Device Supported ?</string>
