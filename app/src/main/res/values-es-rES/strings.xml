@@ -35,7 +35,7 @@
     <string name="search_title">Buscar</string>
     <string name="searchpreference_search">Buscar…</string>
     <string name="searchpreference_clear">Borrar</string>
-    <string name="searchpreference_history_entry">History entry</string>
+    <string name="searchpreference_history_entry">Historial</string>
     <string name="searchpreference_more">Más</string>
     <string name="searchpreference_clear_history">Borrar historial</string>
     <string name="searchpreference_no_result">Sin resultados</string>
@@ -456,7 +456,7 @@
     <string name="lockscreen_widgets_title">Widgets de la pantalla de bloqueo</string>
     <string name="lockscreen_widgets_enabled_title">Habilitar widgets de pantalla de bloqueo</string>
     <string name="lockscreen_widgets_enabled_summary">Añadir widgets a la pantalla de bloqueo</string>
-    <string name="lockscreen_display_widgets_title">Device Info Widget</string>
+    <string name="lockscreen_display_widgets_title">Widget de información del dispositivo</string>
     <string name="lockscreen_display_widgets_summary">Show device info widget on lockscreen</string>
     <string name="linear_progress_color">Color de progreso lineal</string>
     <string name="circular_progress_color">Color de progreso circular</string>
@@ -1157,9 +1157,9 @@
     <string name="lockscreen_weather_selection_str_border_gradient">Oscuro con bordes degradados</string>
     <!-- Alert Dialogs -->
     <string name="systemui_restart_required_title">Se requiere un reinicio de la IU del sistema</string>
-    <string name="systemui_restart_required_desc">A SystemUI restart is needed for this change to take effect.</string>
+    <string name="systemui_restart_required_desc">Es necesario reiniciar la IU del sistema para que este cambio surta efecto.</string>
     <string name="device_restart_required_title">Se requiere reiniciar el dispositivo</string>
-    <string name="device_restart_required_desc">A device restart is needed for this change to take effect.</string>
+    <string name="device_restart_required_desc">Es necesario reiniciar el dispositivo para que este cambio surta efecto.</string>
     <string name="switch_theme_required_title">Switch Device Theme</string>
     <string name="switch_theme_required_desc">Switch between light and dark themes if unexpected behavior occurs.</string>
     <string name="device_rotation_required_title">Device Rotation Theme</string>

@@ -32,19 +32,19 @@
     <string name="installation_failed_desc">Log telah disimpan di folder dokumen.</string>
     <string name="logs">Logs</string>
     <!-- Search Preference -->
-    <string name="search_title">Search</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear">Clear</string>
+    <string name="search_title">Pencarian</string>
+    <string name="searchpreference_search">Cari…</string>
+    <string name="searchpreference_clear">Hapus</string>
     <string name="searchpreference_history_entry">History entry</string>
-    <string name="searchpreference_more">More</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_result">No result</string>
+    <string name="searchpreference_more">Lainnya</string>
+    <string name="searchpreference_clear_history">Bersihkan riwayat</string>
+    <string name="searchpreference_no_result">Hasil tidak ditemukan</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Icon Pack</string>
     <string name="activity_desc_icon_pack">Mengubah sistem ikon pack</string>
-    <string name="activity_title_cellular_icons">Cellular Icons</string>
-    <string name="activity_desc_cellular_icons">Change system cellular icons</string>
+    <string name="activity_title_cellular_icons">Ikon Seluler</string>
+    <string name="activity_desc_cellular_icons">Mengubah ikon seluler sistem</string>
     <string name="activity_title_wifi_icons">Ikon WiFi</string>
     <string name="activity_desc_wifi_icons">Mengubah ikon WiFi sistem</string>
     <string name="activity_title_brightness_bar"></string>
@@ -57,16 +57,16 @@
     <string name="activity_desc_progress_bar">Mengubah gaya progress bar</string>
     <string name="activity_title_switch">Tombol ganti</string>
     <string name="activity_desc_switch">Mengubah tampilan switch</string>
-    <string name="activity_title_toast_frame">Toast Frame</string>
+    <string name="activity_title_toast_frame">Frame toast</string>
     <string name="activity_desc_toast_frame">Mengubah gaya notifikasi toast</string>
-    <string name="activity_title_icon_shape">Icon Shape</string>
+    <string name="activity_title_icon_shape">Bentuk Ikon</string>
     <string name="activity_desc_icon_shape">Mengubah sistem ikon shape</string>
     <string name="iconify_updated_title">Iconify Diperbarui!</string>
     <string name="iconify_updated_desc">Nyalakan ulang ponsel Anda untuk menggunakan fitur dan opsi tambahan terbaru.</string>
     <!-- Home Card View -->
     <string name="home_card_title">Design It Your Way</string>
     <string name="home_card_subtitle">Unleash Your Imagination, Make It Yours</string>
-    <string name="home_card_hide">Hide</string>
+    <string name="home_card_hide">Sembunyikan</string>
     <!-- Tweaks -->
     <string name="activity_title_color_engine">Color Engine</string>
     <string name="activity_desc_color_engine">Mengatur warna</string>
@@ -76,7 +76,7 @@
     <string name="activity_desc_qs_row_column">Ubah QS tile baris dan kolom</string>
     <string name="activity_title_qs_icon_label">Icon dan Label</string>
     <string name="activity_desc_qs_icon_label">Ubah opsi ikon dan label</string>
-    <string name="activity_title_qs_tile_size">QS Tile Size</string>
+    <string name="activity_title_qs_tile_size">Ukuran Bilah Cepat</string>
     <string name="activity_desc_qs_tile_size">Ubah ketinggian QS panel tile</string>
     <string name="activity_title_qs_panel_margin">QS Panel Margin</string>
     <string name="activity_desc_qs_panel_margin">Modify quick settings margins</string>

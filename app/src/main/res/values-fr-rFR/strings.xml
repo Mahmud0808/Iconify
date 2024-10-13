@@ -125,8 +125,8 @@
     <string name="settings_restart_systemui_after_boot_desc">Certaines options, comme l\'intensité du flou, ne prennent effet qu\'au redémarrage du système</string>
     <string name="settings_show_home_page_card_title">Afficher l\'image de la page d\'accueil</string>
     <string name="settings_show_home_page_card_desc">Montrez une belle carte sur la page d\'accueil.</string>
-    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
-    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
+    <string name="settings_vibrate_ui_card_title">Vibration</string>
+    <string name="settings_vibrate_ui_page_card_desc">Améliore les interactions à l\'écran avec des vibrations.</string>
     <string name="settings_clear_app_cache_title">Vider le cache de l\'application</string>
     <string name="settings_clear_app_cache_desc">Effacez le cache généré en raison de l\'utilisation de polices, d\'images ou de gifs personnalisés.</string>
     <string name="activity_title_experimental">Expérimental</string>
@@ -247,8 +247,8 @@
     <string name="section_title_misc">Divers.</string>
     <string name="minimal_qspanel">Panneau QS minimal</string>
     <string name="remove_top_shade_of_qspanel">Retirer le store supérieur du panneau QS</string>
-    <string name="system_monet_title">System Monet</string>
-    <string name="system_monet_desc">Disable to retain custom colors\nSystemUI restart required</string>
+    <string name="system_monet_title">Système Monet</string>
+    <string name="system_monet_desc">Désactiver pour garder les couleurs personnalisées\nRequiert un redémarrage de l\'Interface Utilisateur</string>
     <!-- Basic Colors -->
     <string name="primary_color">Couleur primaire</string>
     <string name="primary_color_desc">Choisissez la couleur d’accent principale</string>
@@ -421,8 +421,8 @@
     <string name="activity_desc_quick_settings">Ajustements liés au panneau QS</string>
     <string name="activity_title_battery_style">Style de la batterie</string>
     <string name="activity_desc_battery_style">Personnaliser la vue de l\'icône de la batterie</string>
-    <string name="activity_title_op_qs_header">Oneplus QS Header</string>
-    <string name="activity_desc_op_qs_header">OOS style quick settings header</string>
+    <string name="activity_title_op_qs_header">En-tête OnePlus des Paramètres Rapides</string>
+    <string name="activity_desc_op_qs_header">Style OxygenOS de l\'en-tête des Paramètres Rapides</string>
     <string name="activity_title_header_image">Image d\'en-tête</string>
     <string name="activity_desc_header_image">Ajouter une image personnalisée sur le panneau QS</string>
     <string name="activity_title_header_clock">Horloge d\'en-tête</string>
@@ -442,8 +442,8 @@
     <string name="activity_desc_xposed_others">Autres modifications et personnalisation xposed</string>
     <string name="activity_title_xposed_weather_settings">Paramètres de la météo</string>
     <!-- Oneplus QS Header -->
-    <string name="oneplus_qs_header_title">Oneplus QS Header</string>
-    <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
+    <string name="oneplus_qs_header_title">En-tête OnePlus des Paramètres Rapides</string>
+    <string name="oneplus_qs_header_desc">Active le style du lecteur de musique de OxygenOS</string>
     <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
     <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
