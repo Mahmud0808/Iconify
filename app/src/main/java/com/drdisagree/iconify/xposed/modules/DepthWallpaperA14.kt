@@ -25,6 +25,7 @@ import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_ALPHA
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_ON_AOD
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
+import com.drdisagree.iconify.common.Preferences.LOCKSCREEN_SHADE_SWITCH
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.Helpers.findClassInArray
@@ -63,6 +64,7 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
     private var mWallpaperForegroundCacheValid = false
     private var mLayersCreated = false
     private var showOnAOD = true
+    private var keepLockScreenShade = true
     private var foregroundPath = Environment.getExternalStorageDirectory()
         .toString() + "/.iconify_files/depth_wallpaper_fg.png"
     private var backgroundPath = Environment.getExternalStorageDirectory()
@@ -76,6 +78,7 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
             showCustomImages = getBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH, false)
             foregroundAlpha = getSliderInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
             showOnAOD = getBoolean(DEPTH_WALLPAPER_ON_AOD, true)
+            keepLockScreenShade = getBoolean(LOCKSCREEN_SHADE_SWITCH, true)
         }
 
         if (key.isNotEmpty()) {
@@ -478,12 +481,12 @@ class DepthWallpaperA14(context: Context?) : ModPack(context!!) {
                     mForegroundDimmingOverlay!!.alpha = 192
                 } else {
                     // this is the dimmed wallpaper coverage
-                    mForegroundDimmingOverlay!!.alpha = Math.round(
+                    mForegroundDimmingOverlay!!.alpha = if (keepLockScreenShade) Math.round(
                         getFloatField(
                             mScrimController,
                             "mScrimBehindAlphaKeyguard"
-                        ) * 240
-                    ) // A tad bit lower than max. show it a bit lighter than other stuff
+                        ) * 240 // A tad bit lower than max. show it a bit lighter than other stuff
+                    ) else 0
 
                     mWallpaperDimmingOverlay.alpha = getFloatField(
                         mScrimController,
