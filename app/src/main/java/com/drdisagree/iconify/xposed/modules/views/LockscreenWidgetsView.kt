@@ -896,12 +896,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 if (efab != null) {
                     weatherButtonFab = efab
                 }
-                setUpWidgetResources(
-                    iv, efab,
-                    { toggleMediaPlaybackState() },
-                    ResourcesCompat.getDrawable(modRes, R.drawable.ic_play, mContext.theme),
-                    getString(MEDIA_PLAY_LABEL, SYSTEMUI_PACKAGE)
-                )
                 // Set a null on click listener to weather button to avoid running previous button action
                 setUpWidgetResources(iv, efab,
                     {
@@ -916,7 +910,6 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                     ),
                     appContext!!.getString(R.string.weather_settings)
                 )
-                enableWeatherUpdates()
             }
 
             "hotspot" -> {
