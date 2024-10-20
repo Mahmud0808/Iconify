@@ -35,6 +35,13 @@
         android:title="@string/weather_api_key"
         app:iconSpaceReserved="false" />
 
+    <com.drdisagree.iconify.ui.preferences.EditTextPreference
+        android:inputType="textNoSuggestions"
+        android:key="yandex_key"
+        android:singleLine="true"
+        android:title="@string/yandex_api_key"
+        app:iconSpaceReserved="false" />
+
     <com.drdisagree.iconify.ui.preferences.ListPreference
         android:defaultValue="0"
         android:entries="@array/units_entries"
