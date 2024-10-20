@@ -20,6 +20,7 @@ import com.drdisagree.iconify.xposed.modules.OpQsHeader
 import com.drdisagree.iconify.xposed.modules.QSTransparency
 import com.drdisagree.iconify.xposed.modules.QuickSettings
 import com.drdisagree.iconify.xposed.modules.Statusbar
+import com.drdisagree.iconify.xposed.modules.ThemeChange
 import com.drdisagree.iconify.xposed.modules.VolumePanel
 import com.drdisagree.iconify.xposed.modules.themes.QSBlackThemeA13
 import com.drdisagree.iconify.xposed.modules.themes.QSBlackThemeA14
@@ -40,6 +41,7 @@ object EntryList {
 
     private val systemUICommonModPacks = listOf(
         ControllersProvider::class.java,
+        ThemeChange::class.java,
         BackgroundChip::class.java,
         HeaderImage::class.java,
         LockscreenClock::class.java,
