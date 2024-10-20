@@ -3,7 +3,6 @@ package com.drdisagree.iconify.xposed.modules
 import android.annotation.SuppressLint
 import android.content.Context
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.ControllersProvider.Companion
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -16,6 +15,8 @@ class ThemeChange(context: Context?) : ModPack(context!!) {
     override fun updatePrefs(vararg key: String) {}
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+
+        instance = this
 
         // Get monet change so we can apply theme
         try {
@@ -32,8 +33,7 @@ class ThemeChange(context: Context?) : ModPack(context!!) {
                         onThemeChanged()
                     }
                 })
-        } catch (ignored: Throwable) {
-        }
+        } catch (ignored: Throwable) {}
 
         try {
             val NotificationPanelViewController = XposedHelpers.findClass(
@@ -49,8 +49,7 @@ class ThemeChange(context: Context?) : ModPack(context!!) {
                         onThemeChanged()
                     }
                 })
-        } catch (ignored: Throwable) {
-        }
+        } catch (ignored: Throwable) {}
     }
 
     interface OnThemeChangedListener {
@@ -81,7 +80,7 @@ class ThemeChange(context: Context?) : ModPack(context!!) {
         private var instance: ThemeChange? = null
 
         fun getInstance(): ThemeChange {
-            return ThemeChange.instance!!
+            return instance!!
         }
 
     }
