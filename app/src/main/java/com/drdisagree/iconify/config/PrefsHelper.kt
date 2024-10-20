@@ -151,6 +151,7 @@ import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
 import com.drdisagree.iconify.common.Preferences.WEATHER_TEXT_SIZE
 import com.drdisagree.iconify.common.Preferences.WEATHER_UNITS
 import com.drdisagree.iconify.common.Preferences.WEATHER_UPDATE_INTERVAL
+import com.drdisagree.iconify.common.Preferences.WEATHER_YANDEX_KEY
 import com.drdisagree.iconify.common.Preferences.XPOSED_HOOK_CHECK
 import com.drdisagree.iconify.common.Resources.shouldShowRebootDialog
 import com.drdisagree.iconify.config.RPrefs.getBoolean
@@ -402,6 +403,9 @@ object PrefsHelper {
             WEATHER_ICON_PACK -> WeatherConfig.isEnabled(appContext)
 
             WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1" &&
+                    WeatherConfig.isEnabled(appContext)
+
+            WEATHER_YANDEX_KEY -> getString(WEATHER_PROVIDER, "0") == "2" &&
                     WeatherConfig.isEnabled(appContext)
 
             CUSTOM_BATTERY_WIDTH,
