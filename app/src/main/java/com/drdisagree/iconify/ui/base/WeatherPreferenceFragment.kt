@@ -18,11 +18,14 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.preference.Preference
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.Iconify.Companion.appContext
+import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.PREF_KEY_UPDATE_STATUS
 import com.drdisagree.iconify.common.Preferences.WEATHER_CUSTOM_LOCATION
 import com.drdisagree.iconify.common.Preferences.WEATHER_ICON_PACK
+import com.drdisagree.iconify.common.Preferences.WEATHER_OWM_KEY
 import com.drdisagree.iconify.common.Preferences.WEATHER_PROVIDER
+import com.drdisagree.iconify.common.Preferences.WEATHER_YANDEX_KEY
 import com.drdisagree.iconify.config.RPrefs
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.services.WeatherScheduler
@@ -223,6 +226,26 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
         mWeatherClient!!.removeObserver(this)
     }
 
+    private fun showOwnKeyDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(appContextLocale.getString(R.string.weather_provider_owm_key_title))
+            .setMessage(appContextLocale.getString(R.string.weather_provider_owm_key_message))
+            .setCancelable(false)
+            .setPositiveButton(appContextLocale.getString(R.string.understood), null)
+            .create()
+            .show()
+    }
+
+    private fun showYandexKeyDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(appContextLocale.getString(R.string.weather_provider_yandex_key_title))
+            .setMessage(appContextLocale.getString(R.string.weather_provider_yandex_key_message))
+            .setCancelable(false)
+            .setPositiveButton(appContextLocale.getString(R.string.understood), null)
+            .create()
+            .show()
+    }
+
     override fun updateScreen(key: String?) {
         super.updateScreen(key)
 
@@ -239,6 +262,16 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
             }
         } else if (key == WEATHER_PROVIDER) {
             forceRefreshWeatherSettings()
+            if (RPrefs.getString(WEATHER_PROVIDER) == "1" && RPrefs.getString(WEATHER_OWM_KEY)
+                    .isNullOrEmpty()
+            ) {
+                showOwnKeyDialog()
+            } else if (RPrefs.getString(WEATHER_PROVIDER) == "2" && RPrefs.getString(
+                    WEATHER_YANDEX_KEY
+                )
+                    .isNullOrEmpty()) {
+                showYandexKeyDialog()
+            }
         }
     }
 
