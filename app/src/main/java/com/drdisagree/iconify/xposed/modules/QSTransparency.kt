@@ -16,13 +16,16 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge.hookAllConstructors
 import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.log
 import de.robv.android.xposed.XposedHelpers.findClass
 import de.robv.android.xposed.XposedHelpers.findClassIfExists
 import de.robv.android.xposed.XposedHelpers.findField
 import de.robv.android.xposed.XposedHelpers.getObjectField
+import de.robv.android.xposed.XposedHelpers.setObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+
 
 class QSTransparency(context: Context?) : ModPack(context!!) {
 
@@ -130,6 +133,49 @@ class QSTransparency(context: Context?) : ModPack(context!!) {
                     val view = param.args[0] as LinearLayout
                     view.setBackgroundColor(Color.TRANSPARENT)
                     view.elevation = 0f
+                }
+            })
+        }
+
+        val footerActionsViewModelClass = findClassIfExists(
+            "$SYSTEMUI_PACKAGE.qs.footer.ui.viewmodel.FooterActionsViewModel",
+            loadPackageParam.classLoader
+        )
+
+        if (footerActionsViewModelClass != null) {
+            hookAllConstructors(footerActionsViewModelClass, object : XC_MethodHook() {
+                @Throws(Throwable::class)
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (!qsTransparencyActive && !onlyNotifTransparencyActive) return
+
+                    val stateFlowImplClass = findClass(
+                        "kotlinx.coroutines.flow.StateFlowImpl",
+                        loadPackageParam.classLoader
+                    )
+                    val readonlyStateFlowClass = findClass(
+                        "kotlinx.coroutines.flow.ReadonlyStateFlow",
+                        loadPackageParam.classLoader
+                    )
+
+                    try {
+                        val zeroAlphaFlow = stateFlowImplClass
+                            .getConstructor(Any::class.java)
+                            .newInstance(0f)
+
+                        val readonlyStateFlowInstance = try {
+                            readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow)
+                        } catch (ignored: Throwable) {
+                            readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow, null)
+                        }
+
+                        setObjectField(
+                            param.thisObject,
+                            "backgroundAlpha",
+                            readonlyStateFlowInstance
+                        )
+                    } catch (throwable: Throwable) {
+                        log(TAG + throwable)
+                    }
                 }
             })
         }
