@@ -46,7 +46,7 @@ class WeatherActivity : AppCompatActivity(), OmniJawsClient.OmniJawsObserver {
             }
         })
 
-        //binding.settings.setOnClickListener { startActivity(mWeatherClient.getSettingsIntent()) }
+        binding.settings.setOnClickListener { startActivity(mWeatherClient.getSettingsIntent()) }
         binding.settings.visibility = View.GONE
         binding.refresh.setOnClickListener { forceRefresh() }
 

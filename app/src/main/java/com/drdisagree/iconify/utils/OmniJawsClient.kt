@@ -2,6 +2,7 @@ package com.drdisagree.iconify.utils
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -91,6 +92,18 @@ class OmniJawsClient(private val mContext: Context) {
         override fun toString(): String {
             return "[$temperature:$conditionCode:$condition:$time]"
         }
+    }
+
+    fun getSettingsIntent(): Intent {
+        val launchIntent = Intent()
+        launchIntent.setComponent(
+            ComponentName(
+                BuildConfig.APPLICATION_ID,
+                BuildConfig.APPLICATION_ID.replace(".debug", "") + ".ui.activities.MainActivity"
+            )
+        )
+        launchIntent.putExtra("openWeatherSettings", true)
+        return launchIntent
     }
 
     interface OmniJawsObserver {
