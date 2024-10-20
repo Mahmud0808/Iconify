@@ -35,7 +35,7 @@
     <string name="search_title">بحث</string>
     <string name="searchpreference_search">بحث…</string>
     <string name="searchpreference_clear">مسح</string>
-    <string name="searchpreference_history_entry">History entry</string>
+    <string name="searchpreference_history_entry"></string>
     <string name="searchpreference_more">More</string>
     <string name="searchpreference_clear_history">Clear history</string>
     <string name="searchpreference_no_result">No result</string>
@@ -638,6 +638,7 @@
     <string name="battery_circle">بطارية دائرة</string>
     <string name="battery_dotted_circle">بطارية دائرة منقطة</string>
     <string name="battery_filled_circle">بطارية دائرية منقطة</string>
+    <string name="battery_landscape_kim">Landscape Kim</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">حجم الصوت</string>
     <string name="volume_percentage_desc">إظهار النسبة المئوية فوق شريط تمرير الصوت</string>

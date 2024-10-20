@@ -638,6 +638,7 @@
     <string name="battery_circle">圓圈電池</string>
     <string name="battery_dotted_circle">點狀圓圈電池</string>
     <string name="battery_filled_circle">Filled Circle Battery</string>
+    <string name="battery_landscape_kim">Landscape Kim</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Volume Percentage</string>
     <string name="volume_percentage_desc">Show percentage above volume slider</string>
