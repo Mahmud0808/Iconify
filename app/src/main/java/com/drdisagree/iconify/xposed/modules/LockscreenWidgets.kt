@@ -336,19 +336,16 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateLockscreenWidgets() {
-        log(TAG + "Updating Lockscreen Widgets")
         val lsWidgets = LockscreenWidgetsView.getInstance() ?: return
         lsWidgets.setOptions(mWidgetsEnabled, mDeviceWidgetEnabled, mMainWidgets, mExtraWidgets)
     }
 
     private fun updateLockscreenWidgetsOnClock(isLargeClock: Boolean) {
-        log(TAG + "Updating Lockscreen Widgets on Clock")
         val lsWidgets = LockscreenWidgetsView.getInstance() ?: return
         lsWidgets.setIsLargeClock(if (customLockscreenClock) false else isLargeClock)
     }
 
     private fun updateLsDeviceWidget() {
-        log(TAG + "Updating Lockscreen Device Widget")
         val lsWidgets = LockscreenWidgetsView.getInstance() ?: return
         lsWidgets.setDeviceWidgetOptions(
             mDeviceCustomColor,
@@ -360,7 +357,6 @@ class LockscreenWidgets(context: Context?) : ModPack(context!!) {
     }
 
     private fun updateLockscreenWidgetsColors() {
-        log(TAG + "Updating Lockscreen Widgets Colors")
         val lsWidgets = LockscreenWidgetsView.getInstance() ?: return
         lsWidgets.setCustomColors(
             mWidgetsCustomColor,
