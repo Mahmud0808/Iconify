@@ -638,6 +638,7 @@
     <string name="battery_circle">Кругла батарея</string>
     <string name="battery_dotted_circle">Пунктирне коло батареї</string>
     <string name="battery_filled_circle">Заповнене коло батареї</string>
+    <string name="battery_landscape_kim">Landscape Kim</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Відсотки гучності</string>
     <string name="volume_percentage_desc">Показати відсотки над повзунком гучності</string>

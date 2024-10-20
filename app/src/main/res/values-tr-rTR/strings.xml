@@ -32,19 +32,19 @@
     <string name="installation_failed_desc">Günlükler belgeler klasörüne kaydedildi.</string>
     <string name="logs">Günlükler</string>
     <!-- Search Preference -->
-    <string name="search_title">Search</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear">Clear</string>
+    <string name="search_title">Arama Yap</string>
+    <string name="searchpreference_search">Ara…</string>
+    <string name="searchpreference_clear">Temizle</string>
     <string name="searchpreference_history_entry">History entry</string>
-    <string name="searchpreference_more">More</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_result">No result</string>
+    <string name="searchpreference_more">Daha Fazla</string>
+    <string name="searchpreference_clear_history">Geçmişi Temizle</string>
+    <string name="searchpreference_no_result">Sonuç yok</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Simge Paketi</string>
     <string name="activity_desc_icon_pack">Sistem simge paketini özelleştir</string>
-    <string name="activity_title_cellular_icons">Cellular Icons</string>
-    <string name="activity_desc_cellular_icons">Change system cellular icons</string>
+    <string name="activity_title_cellular_icons">Mobil Veri Simgeleri</string>
+    <string name="activity_desc_cellular_icons">Sistem veri simgelerini özelleştir</string>
     <string name="activity_title_wifi_icons">WiFi Simgesi</string>
     <string name="activity_desc_wifi_icons">Sistem WiFi simgelerini değiştir</string>
     <string name="activity_title_brightness_bar">Parlaklık Çubuğu</string>
@@ -125,8 +125,8 @@
     <string name="settings_restart_systemui_after_boot_desc">Bulanıklık yoğunluğu gibi bazı ayarlar systemui yeniden başlatılana kadar etkili olmaz</string>
     <string name="settings_show_home_page_card_title">Ana Sayfa Kartını Göster</string>
     <string name="settings_show_home_page_card_desc">Ana sayfada güzel bir kart göster.</string>
-    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
-    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
+    <string name="settings_vibrate_ui_card_title">Haptik Geri Bildirim</string>
+    <string name="settings_vibrate_ui_page_card_desc">Dokunma hissiyatını, gelişmiş titreşimlerle arttır.</string>
     <string name="settings_clear_app_cache_title">Uygulama Önbelleğini Temizle</string>
     <string name="settings_clear_app_cache_desc">Özel yazı tipleri, resimler veya giflerin kullanımı nedeniyle oluşan önbellekleri temizle.</string>
     <string name="activity_title_experimental">Deneysel</string>
@@ -136,8 +136,8 @@
     <string name="settings_section_title_about">Hakkında</string>
     <string name="settings_github_repository_title">Github Deposu</string>
     <string name="settings_telegram_group_title">Telegram Grubu</string>
-    <string name="settings_translate_title">Translate Iconify</string>
-    <string name="settings_translate_desc">Help translate Iconify to your language.</string>
+    <string name="settings_translate_title">İconify\'ı Tercüme et</string>
+    <string name="settings_translate_desc">.</string>
     <string name="settings_credits_title">Teşekkürler</string>
     <string name="settings_credits_desc">Bunu mümkün kılanlara teşekkür ederim.</string>
     <!-- Icon Pack -->
@@ -247,7 +247,7 @@
     <string name="section_title_misc">Çeşitli</string>
     <string name="minimal_qspanel">Minimal QS Paneli</string>
     <string name="remove_top_shade_of_qspanel">QS panelinin üst gölgesini kaldır</string>
-    <string name="system_monet_title">System Monet</string>
+    <string name="system_monet_title">Sistem Monet Teması</string>
     <string name="system_monet_desc">Disable to retain custom colors\nSystemUI restart required</string>
     <!-- Basic Colors -->
     <string name="primary_color">Birincil Renk</string>
@@ -431,24 +431,24 @@
     <string name="activity_desc_lockscreen_clock">Kilit ekranına özel saat ekle</string>
     <string name="activity_title_lockscreen_weather">Kilit Ekranı Hava Durumu</string>
     <string name="activity_desc_lockscreen_weather">Kilit ekranına hava durumu ekleyin</string>
-    <string name="activity_title_lockscreen_widget">Lockscreen Widgets</string>
-    <string name="activity_desc_lockscreen_widget">Add widgets on lockscreen</string>
+    <string name="activity_title_lockscreen_widget">Kilit Ekranı Widgetları</string>
+    <string name="activity_desc_lockscreen_widget">Kilit Ekranına Widgetlar Ekle</string>
     <string name="activity_title_depth_wallpaper">Derinlikli Duvar Kağıdı</string>
     <string name="activity_desc_depth_wallpaper">İOS\'a benzer derinlikli duvar kağıdını göster</string>
     <string name="activity_title_background_chip">Arka Plan Butonu</string>
     <string name="activity_desc_background_chip">Saatin arkasına renkli buton ekle</string>
-    <string name="activity_title_clock_chip">Clock Chip</string>
+    <string name="activity_title_clock_chip">Saat Butonu</string>
     <string name="activity_title_xposed_others">Diğer</string>
     <string name="activity_desc_xposed_others">Çeşitli xposed ince ayarları</string>
-    <string name="activity_title_xposed_weather_settings">Weather Settings</string>
+    <string name="activity_title_xposed_weather_settings">Hava Durumu Ayarları</string>
     <!-- Oneplus QS Header -->
-    <string name="oneplus_qs_header_title">Oneplus QS Header</string>
-    <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
-    <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
-    <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
-    <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
-    <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
-    <string name="oneplus_qs_header_blur_level">Blur Level</string>
+    <string name="oneplus_qs_header_title">Oneplus Hızlı Ayarlar Başlığı</string>
+    <string name="oneplus_qs_header_desc">OxygenOS Medya Oynatıcısını Etkinleştir</string>
+    <string name="oneplus_qs_header_vibrate_title">Haptik Geri Bildirim</string>
+    <string name="oneplus_qs_header_vibrate_desc">Hızlı ayar butonlarına titreşim ekle</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Stok medya oynatıcıyı gizle</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_desc">Stok medya oynatıcıyı Hızlı ayarlar panelinden gizle</string>
+    <string name="oneplus_qs_header_blur_level">Blur seviyesi</string>
     <string name="oneplus_qs_header_fade_level">Fade Level</string>
     <string name="oneplus_qs_header_top_margin">Top Margin</string>
     <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
@@ -482,7 +482,7 @@
     <string name="mini_widget_icon_active">Mini Widget Icon Active Color</string>
     <string name="mini_widget_icon_inactive">Mini Widget Icon Inactive Color</string>
     <string name="weather_settings">Hava Durumu Ayarları</string>
-    <string name="lockscreen_widgets_scale">Widgets Scale</string>
+    <string name="lockscreen_widgets_scale">Widget boyutu</string>
     <!-- LS Widgets Actions -->
     <string name="camera">Kamera</string>
     <string name="clock_timer">Saat/Zamanlayıcı</string>
@@ -500,8 +500,8 @@
     <string name="wallet">Cüzdan</string>
     <string name="hotspot">Hotspot</string>
     <string name="ringer_normal">Ringer</string>
-    <string name="ringer_vibrate">Vibrate</string>
-    <string name="ringer_silent">Silent</string>
+    <string name="ringer_vibrate">Titreşim</string>
+    <string name="ringer_silent">Sessiz</string>
     <!-- Xposed Transparency & Blur -->
     <string name="section_title_transparency">Şeffaflık</string>
     <string name="transparent_qs_panel_title">Şeffaf QS Paneli</string>
@@ -534,7 +534,7 @@
     <string name="power_menu_transparency_title">Güç Menüsü Şeffaflığı</string>
     <string name="power_menu_transparency_desc">Akışkan QS için güç menüsü şeffaflığı\nÖzel bildirim stilini kullanmayın</string>
     <string name="section_title_others">Diğer</string>
-    <string name="fix_qs_tile_color_title">Fix QS Tile Color</string>
+    <string name="fix_qs_tile_color_title">Hızlı Ayarlar Buton Rengini Düzelt</string>
     <string name="fix_qs_tile_color_desc">Fix custom QS tile style on android 14</string>
     <string name="fix_notification_color_title">Bildirim Rengini Düzelt</string>
     <string name="fix_notification_color_desc">Android 14\'te özel bildirim stilini düzelt</string>
@@ -638,6 +638,7 @@
     <string name="battery_circle">Daire Pil</string>
     <string name="battery_dotted_circle">Noktalı Daire Pil</string>
     <string name="battery_filled_circle">Dolu Daire Pil</string>
+    <string name="battery_landscape_kim">Landscape Kim</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Ses yüzdesi</string>
     <string name="volume_percentage_desc">Ses kaydırıcısının üzerinde yüzdeyi göster</string>
