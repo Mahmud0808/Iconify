@@ -8,11 +8,10 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.widget.Toast
 import androidx.annotation.StringRes
+import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
-import com.drdisagree.iconify.xposed.modules.ControllersProvider
 import de.robv.android.xposed.XposedBridge.log
-import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.callMethod
 
 class ActivityLauncherUtils(private val mContext: Context, private val mActivityStarter: Any?) {
@@ -95,5 +94,20 @@ class ActivityLauncherUtils(private val mContext: Context, private val mActivity
     private fun showNoDefaultAppFoundToast(@StringRes appTypeResId: Int) {
         Toast.makeText(mContext, modRes.getString(appTypeResId) + " not found", Toast.LENGTH_SHORT)
             .show()
+    }
+
+    fun launchWeatherActivity(fromQs: Boolean) {
+        val launchIntent = Intent()
+        launchIntent.setComponent(
+            ComponentName(
+                BuildConfig.APPLICATION_ID,
+                BuildConfig.APPLICATION_ID.replace(".debug", "") + ".ui.activities.WeatherActivity"
+            )
+        )
+        if (mActivityStarter == null) {
+            log("ActivityStarter is null")
+            return
+        }
+        callMethod(mActivityStarter, "postStartActivityDismissingKeyguard", launchIntent, /* dismissShade */ 0)
     }
 }
