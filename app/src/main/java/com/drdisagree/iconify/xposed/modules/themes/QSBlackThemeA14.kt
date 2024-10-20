@@ -122,11 +122,11 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.statusbar.BatteryStatusChip",
             loadPackageParam.classLoader
         )
-        val textButtonViewHolderClass = findClass(
+        val textButtonViewHolderClass = findClassIfExists(
             "$SYSTEMUI_PACKAGE.qs.footer.ui.binder.TextButtonViewHolder",
             loadPackageParam.classLoader
         )
-        val numberButtonViewHolderClass = findClass(
+        val numberButtonViewHolderClass = findClassIfExists(
             "$SYSTEMUI_PACKAGE.qs.footer.ui.binder.NumberButtonViewHolder",
             loadPackageParam.classLoader
         )
@@ -356,19 +356,18 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
             })
 
         // Mobile signal icons - this is the legacy model. new model uses viewmodels
-        hookAllMethods(shadeCarrierClass, "updateState",
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    if (!blackQSHeaderEnabled) return
+        hookAllMethods(shadeCarrierClass, "updateState", object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                if (!blackQSHeaderEnabled) return
 
-                    (getObjectField(param.thisObject, "mMobileSignal") as ImageView).imageTintList =
-                        ColorStateList.valueOf(Color.WHITE)
-                }
-            })
+                (getObjectField(param.thisObject, "mMobileSignal") as ImageView).imageTintList =
+                    ColorStateList.valueOf(Color.WHITE)
+            }
+        })
 
         // QS security footer count circle
-        hookAllConstructors(numberButtonViewHolderClass,
-            object : XC_MethodHook() {
+        if (numberButtonViewHolderClass != null) {
+            hookAllConstructors(numberButtonViewHolderClass, object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     if (blackQSHeaderEnabled) {
                         (getObjectField(param.thisObject, "newDot") as ImageView)
@@ -379,26 +378,29 @@ class QSBlackThemeA14(context: Context?) : ModPack(context!!) {
                     }
                 }
             })
+        }
 
         // QS security footer
-        hookAllConstructors(textButtonViewHolderClass,
-            object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    if (!blackQSHeaderEnabled) return
+        if (textButtonViewHolderClass != null) {
+            hookAllConstructors(textButtonViewHolderClass,
+                object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        if (!blackQSHeaderEnabled) return
 
-                    (getObjectField(param.thisObject, "chevron") as ImageView)
-                        .setColorFilter(Color.WHITE)
+                        (getObjectField(param.thisObject, "chevron") as ImageView)
+                            .setColorFilter(Color.WHITE)
 
-                    (getObjectField(param.thisObject, "icon") as ImageView)
-                        .setColorFilter(Color.WHITE)
+                        (getObjectField(param.thisObject, "icon") as ImageView)
+                            .setColorFilter(Color.WHITE)
 
-                    (getObjectField(param.thisObject, "newDot") as ImageView)
-                        .setColorFilter(Color.WHITE)
+                        (getObjectField(param.thisObject, "newDot") as ImageView)
+                            .setColorFilter(Color.WHITE)
 
-                    (getObjectField(param.thisObject, "text") as TextView)
-                        .setTextColor(Color.WHITE)
-                }
-            })
+                        (getObjectField(param.thisObject, "text") as TextView)
+                            .setTextColor(Color.WHITE)
+                    }
+                })
+        }
 
         try {
             //QS Footer built text row

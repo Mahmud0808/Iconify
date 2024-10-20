@@ -125,11 +125,11 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
             "$SYSTEMUI_PACKAGE.statusbar.BatteryStatusChip",
             loadPackageParam.classLoader
         )
-        val textButtonViewHolderClass = findClass(
+        val textButtonViewHolderClass = findClassIfExists(
             "$SYSTEMUI_PACKAGE.qs.footer.ui.binder.TextButtonViewHolder",
             loadPackageParam.classLoader
         )
-        val numberButtonViewHolderClass = findClass(
+        val numberButtonViewHolderClass = findClassIfExists(
             "$SYSTEMUI_PACKAGE.qs.footer.ui.binder.NumberButtonViewHolder",
             loadPackageParam.classLoader
         )
@@ -391,36 +391,40 @@ class QSLightThemeA14(context: Context?) : ModPack(context!!) {
         })
 
         // QS security footer count circle
-        hookAllConstructors(numberButtonViewHolderClass, object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                if (isDark || !lightQSHeaderEnabled) return
+        if (numberButtonViewHolderClass != null) {
+            hookAllConstructors(numberButtonViewHolderClass, object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (isDark || !lightQSHeaderEnabled) return
 
-                (getObjectField(param.thisObject, "newDot") as ImageView)
-                    .setColorFilter(Color.BLACK)
+                    (getObjectField(param.thisObject, "newDot") as ImageView)
+                        .setColorFilter(Color.BLACK)
 
-                (getObjectField(param.thisObject, "number") as TextView)
-                    .setTextColor(Color.BLACK)
-            }
-        })
+                    (getObjectField(param.thisObject, "number") as TextView)
+                        .setTextColor(Color.BLACK)
+                }
+            })
+        }
 
         // QS security footer
-        hookAllConstructors(textButtonViewHolderClass, object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                if (isDark || !lightQSHeaderEnabled) return
+        if (textButtonViewHolderClass != null) {
+            hookAllConstructors(textButtonViewHolderClass, object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (isDark || !lightQSHeaderEnabled) return
 
-                (getObjectField(param.thisObject, "chevron") as ImageView)
-                    .setColorFilter(Color.BLACK)
+                    (getObjectField(param.thisObject, "chevron") as ImageView)
+                        .setColorFilter(Color.BLACK)
 
-                (getObjectField(param.thisObject, "icon") as ImageView)
-                    .setColorFilter(Color.BLACK)
+                    (getObjectField(param.thisObject, "icon") as ImageView)
+                        .setColorFilter(Color.BLACK)
 
-                (getObjectField(param.thisObject, "newDot") as ImageView)
-                    .setColorFilter(Color.BLACK)
+                    (getObjectField(param.thisObject, "newDot") as ImageView)
+                        .setColorFilter(Color.BLACK)
 
-                (getObjectField(param.thisObject, "text") as TextView)
-                    .setTextColor(Color.BLACK)
-            }
-        })
+                    (getObjectField(param.thisObject, "text") as TextView)
+                        .setTextColor(Color.BLACK)
+                }
+            })
+        }
 
         try {
             hookAllMethods(qsFooterViewClass, "onFinishInflate", object : XC_MethodHook() {
