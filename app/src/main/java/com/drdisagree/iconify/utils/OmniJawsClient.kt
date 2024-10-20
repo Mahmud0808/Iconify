@@ -2,6 +2,7 @@ package com.drdisagree.iconify.utils
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -50,7 +51,8 @@ class OmniJawsClient(private val mContext: Context) {
         var humidity: String? = null
         var condition: String? = null
         var timeStamp: Long = 0
-        var forecasts: List<DayForecast>? = null
+        var dailyForecasts: List<DayForecast>? = null
+        var hourlyForecasts: List<HourForecast>? = null
         var tempUnits: String? = null
         var windUnits: String? = null
         var provider: String? = null
@@ -58,7 +60,7 @@ class OmniJawsClient(private val mContext: Context) {
         var iconPack: String? = null
 
         override fun toString(): String {
-            return city + ":" + Date(timeStamp) + ": " + windSpeed + ":" + windDirection + ":" + conditionCode + ":" + temp + ":" + humidity + ":" + condition + ":" + tempUnits + ":" + windUnits + ": " + forecasts + ": " + iconPack
+            return city + ":" + Date(timeStamp) + ": " + windSpeed + ":" + windDirection + ":" + conditionCode + ":" + temp + ":" + humidity + ":" + condition + ":" + tempUnits + ":" + windUnits + ": " + hourlyForecasts + ": " + dailyForecasts + ": " + iconPack
         }
 
         val lastUpdateTime: String
@@ -79,6 +81,29 @@ class OmniJawsClient(private val mContext: Context) {
         override fun toString(): String {
             return "[$low:$high:$conditionCode:$condition:$date]"
         }
+    }
+
+    class HourForecast {
+        var condition: String? = null
+        var time: String? = null
+        var conditionCode: Int = 0
+        var temperature: String? = null
+
+        override fun toString(): String {
+            return "[$temperature:$conditionCode:$condition:$time]"
+        }
+    }
+
+    fun getSettingsIntent(): Intent {
+        val launchIntent = Intent()
+        launchIntent.setComponent(
+            ComponentName(
+                BuildConfig.APPLICATION_ID,
+                BuildConfig.APPLICATION_ID.replace(".debug", "") + ".ui.activities.MainActivity"
+            )
+        )
+        launchIntent.putExtra("openWeatherSettings", true)
+        return launchIntent
     }
 
     interface OmniJawsObserver {
@@ -126,10 +151,16 @@ class OmniJawsClient(private val mContext: Context) {
                 if (count > 0) {
                     weatherInfo = WeatherInfo(mContext)
                     val forecastList: MutableList<DayForecast> = ArrayList()
+                    val hourlyForecastList: MutableList<HourForecast> = ArrayList()
                     var i = 0
 
                     while (i < count) {
                         it.moveToPosition(i)
+
+                        val isDailyForecast =
+                            it.getString(12) != null && !TextUtils.isEmpty(it.getString(12))
+                        val isHourlyForecast =
+                            it.getString(14) != null && !TextUtils.isEmpty(it.getString(14))
 
                         if (i == 0) {
                             weatherInfo?.apply {
@@ -143,7 +174,15 @@ class OmniJawsClient(private val mContext: Context) {
                                 weatherInfo!!.timeStamp = it.getString(11).toLong()
                                 weatherInfo!!.pinWheel = it.getString(13)
                             }
-                        } else {
+                        } else if (isHourlyForecast) {
+                            val hour = HourForecast()
+                            hour.temperature = getFormattedValue(it.getFloat(4))
+                            hour.time = it.getString(14)
+                            hour.temperature = getFormattedValue(it.getFloat(15))
+                            hour.condition = it.getString(16)
+                            hour.conditionCode = it.getInt(17)
+                            hourlyForecastList.add(hour)
+                        } else if (isDailyForecast){
                             val day = DayForecast()
                             day.low = getFormattedValue(it.getFloat(7))
                             day.high = getFormattedValue(it.getFloat(8))
@@ -154,7 +193,8 @@ class OmniJawsClient(private val mContext: Context) {
                         }
                         i++
                     }
-                    weatherInfo!!.forecasts = forecastList
+                    weatherInfo!!.dailyForecasts = forecastList
+                    weatherInfo!!.hourlyForecasts = hourlyForecastList
                 }
             }
 
@@ -386,7 +426,11 @@ class OmniJawsClient(private val mContext: Context) {
             "forecast_condition_code",
             "time_stamp",
             "forecast_date",
-            "pin_wheel"
+            "pin_wheel",
+            "forecast_hour",
+            "forecast_hour_temp",
+            "forecast_hour_condition",
+            "forecast_hour_condition_code"
         )
 
         val SETTINGS_PROJECTION: Array<String> = arrayOf(

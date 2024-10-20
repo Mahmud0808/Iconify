@@ -82,6 +82,7 @@ service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsuV
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jApi" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 androidx-palette-ktx = { group = "androidx.palette", name = "palette-ktx", version.ref = "paletteKtx" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version = "4.12.0" }
 
 [plugins]
 agp-app = { id = "com.android.application", version.ref = "agp" }

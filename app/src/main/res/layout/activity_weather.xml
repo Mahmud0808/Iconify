@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/weather_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp">
+
+            <LinearLayout
+                android:id="@+id/title_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/settings"
+                    android:layout_width="@dimen/activity_actions_image_size"
+                    android:layout_height="@dimen/activity_actions_image_size"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_navbar_settings_unchecked"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/current_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:singleLine="true"
+                    android:textAppearance="@style/HeaderWeatherText" />
+
+                <ImageView
+                    android:id="@+id/refresh"
+                    android:layout_width="@dimen/activity_actions_image_size"
+                    android:layout_height="@dimen/activity_actions_image_size"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_refresh"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+
+            <!-- Current Temp -->
+            <LinearLayout
+                android:id="@+id/current_temperature_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_view">
+
+                <TextView
+                    android:id="@+id/current_temperature"
+                    style="@style/CurrentWeatherText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/current_temperature_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="15dp"
+                    android:includeFontPadding="false"
+                    android:textColor="@android:color/white"
+                    android:textFontWeight="400"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <!-- Current Condition -->
+            <LinearLayout
+                android:id="@+id/current_condition_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/current_temperature_layout">
+
+                <ImageView
+                    android:id="@+id/current_condition_icon"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp" />
+
+                <TextView
+                    android:id="@+id/current_condition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="22dp"
+                    android:textAppearance="@style/DetailedWeatherText"
+                    android:textSize="23sp" />
+
+            </LinearLayout>
+
+            <!-- Wind info -->
+            <LinearLayout
+                android:id="@+id/wind_humidity_info"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_line_height"
+                android:layout_margin="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/current_condition_layout">
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/current_wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textAppearance="@style/DetailedWeatherText"
+                    app:drawableStartCompat="@drawable/ic_wind_symbol" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/current_wind_direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textAppearance="@style/DetailedWeatherText"
+                    app:drawableStartCompat="@drawable/ic_wind_symbol" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/current_humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textAppearance="@style/DetailedWeatherText"
+                    app:drawableStartCompat="@drawable/ic_humidity_symbol" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <!-- Hourly Forecasts -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/hourly_forecast_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/wind_humidity_info">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/hourly_forecast_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="horizontal" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Daily Forecasts -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/daily_forecast_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/hourly_forecast_card">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/daily_forecast_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="horizontal" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/daily_forecast_card">
+
+                <TextView
+                    android:id="@+id/current_provider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/DetailedWeatherText" />
+
+                <TextView
+                    android:id="@+id/last_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/DetailedWeatherText" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

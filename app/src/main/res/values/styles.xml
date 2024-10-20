@@ -254,4 +254,42 @@
         <item name="fontFamily">@font/consolas</item>
         <item name="android:fontFamily">@font/consolas</item>
     </style>
+
+    <!-- Weather -->
+    <style name="WeatherBaseText" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ForecastWeatherText" parent="@style/WeatherBaseText">
+        <item name="android:textSize">@dimen/forecast_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="ForecastWeatherTextSmall" parent="@style/WeatherBaseText">
+        <item name="android:textSize">@dimen/forecast_text_size_small</item>
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+    </style>
+
+    <style name="DetailedWeatherText" parent="@style/WeatherBaseText">
+        <item name="android:textSize">@dimen/medium_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="HeaderWeatherText" parent="@style/WeatherBaseText">
+        <item name="android:textSize">@dimen/header_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CurrentWeatherText" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">96sp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textFontWeight">200</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="CurrentWeatherTemperature" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">96sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

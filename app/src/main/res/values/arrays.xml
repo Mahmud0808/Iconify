@@ -204,11 +204,15 @@
     <string-array name="weather_provider_entries">
         <item>@string/openmeteo</item>
         <item>@string/openweathermap</item>
+        <item>@string/yandex</item>
+        <item>@string/metweather</item>
     </string-array>
 
     <string-array name="weather_provider_values" translatable="false">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <!-- Lockscreen Weather styles -->

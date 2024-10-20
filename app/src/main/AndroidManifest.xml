@@ -55,8 +55,10 @@
             android:name=".ui.activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.LocationBrowseActivity"
-            android:exported="false" />
+            android:name=".ui.activities.WeatherActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.Iconify" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"

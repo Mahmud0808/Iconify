@@ -209,6 +209,9 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.slf4j.api)
     implementation(libs.commons.text)
+
+    // OkHttp
+    implementation(libs.okhttp)
 }
 
 tasks.register("printVersionName") {

@@ -38,6 +38,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
@@ -47,6 +48,7 @@ import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.ControllersProvider
 import com.drdisagree.iconify.xposed.modules.LockscreenWidgets.Companion.LaunchableImageView
 import com.drdisagree.iconify.xposed.modules.LockscreenWidgets.Companion.LaunchableLinearLayout
+import com.drdisagree.iconify.xposed.modules.ThemeChange
 import com.drdisagree.iconify.xposed.modules.utils.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.utils.ExtendedFAB
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.toPx
@@ -63,6 +65,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     LinearLayout(context), OmniJawsClient.OmniJawsObserver {
 
     private val mContext: Context
+    private var appContext: Context? = null
 
     private var mWeatherClient: OmniJawsClient? = null
     private var mWeatherInfo: OmniJawsClient.WeatherInfo? = null
@@ -89,10 +92,10 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
     private var dataButton: ImageView? = null
     private var ringerButton: ImageView? = null
     private var btButton: ImageView? = null
-    private val mDarkColor: Int
-    private val mDarkColorActive: Int
-    private val mLightColor: Int
-    private val mLightColorActive: Int
+    private var mDarkColor: Int = 0
+    private var mDarkColorActive: Int = 0
+    private var mLightColor: Int = 0
+    private var mLightColorActive: Int = 0
 
     // Custom Widgets Colors
     private var mCustomColors = false
@@ -232,6 +235,14 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 }
                 mDozing = dozing
                 updateContainerVisibility()
+            }
+        }
+
+    private val mThemeChangeCallback: ThemeChange.OnThemeChangedListener =
+        object : ThemeChange.OnThemeChangedListener {
+            override fun onThemeChanged() {
+                loadColors()
+                updateWidgetViews()
             }
         }
 
@@ -885,8 +896,20 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 if (efab != null) {
                     weatherButtonFab = efab
                 }
-                //setUpWidgetResources(iv, efab, v -> mActivityLauncherUtils.launchWeatherApp(), "ic_alarm", R.string.weather_data_unavailable);
-                //                enableWeatherUpdates()
+                // Set a null on click listener to weather button to avoid running previous button action
+                setUpWidgetResources(iv, efab,
+                    {
+                        mActivityLauncherUtils.launchWeatherActivity(
+                            false
+                        )
+                    },
+                    ResourcesCompat.getDrawable(
+                        appContext!!.getResources(),
+                        R.drawable.google_30,
+                        appContext!!.getTheme()
+                    ),
+                    appContext!!.getString(R.string.weather_settings)
+                )
             }
 
             "hotspot" -> {
@@ -1289,26 +1312,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         mTelephonyManager = mContext.getSystemService(TelephonyManager::class.java)
         mConnectivityManager = mContext.getSystemService(ConnectivityManager::class.java)
         mCameraManager = mContext.getSystemService(CameraManager::class.java)
-        mDarkColor = ResourcesCompat.getColor(
-            modRes,
-            R.color.lockscreen_widget_background_color_dark,
-            mContext.theme
-        )
-        mLightColor = ResourcesCompat.getColor(
-            modRes,
-            R.color.lockscreen_widget_background_color_light,
-            mContext.theme
-        )
-        mDarkColorActive = ResourcesCompat.getColor(
-            modRes,
-            R.color.lockscreen_widget_active_color_dark,
-            mContext.theme
-        )
-        mLightColorActive = ResourcesCompat.getColor(
-            modRes,
-            R.color.lockscreen_widget_active_color_light,
-            mContext.theme
-        )
+
+        loadColors()
 
         mActivityLauncherUtils = ActivityLauncherUtils(mContext, activityStarter)
 
@@ -1352,6 +1357,8 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
         ControllersProvider.getInstance().registerHotspotCallback(mHotspotCallback)
         ControllersProvider.getInstance().registerDozingCallback(mDozeCallback)
 
+        ThemeChange.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
+
         // Add a Screen On Receiver so we can update the widgets state when the screen is turned on
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             mContext.registerReceiver(
@@ -1365,6 +1372,36 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
                 IntentFilter(Intent.ACTION_SCREEN_ON)
             )
         }
+    }
+
+    private fun loadColors() {
+        try {
+            appContext = mContext.createPackageContext(
+                BuildConfig.APPLICATION_ID,
+                Context.CONTEXT_IGNORE_SECURITY
+            )
+        } catch (ignored: java.lang.Exception) {
+        }
+        mDarkColor = ResourcesCompat.getColor(
+            appContext!!.resources,
+            R.color.lockscreen_widget_background_color_dark,
+            appContext!!.theme
+        )
+        mLightColor = ResourcesCompat.getColor(
+            appContext!!.resources,
+            R.color.lockscreen_widget_background_color_light,
+            appContext!!.theme
+        )
+        mDarkColorActive = ResourcesCompat.getColor(
+            appContext!!.resources,
+            R.color.lockscreen_widget_active_color_dark,
+            appContext!!.theme
+        )
+        mLightColorActive = ResourcesCompat.getColor(
+            appContext!!.resources,
+            R.color.lockscreen_widget_active_color_light,
+            appContext!!.theme
+        )
     }
 
     private fun setupDimens() {

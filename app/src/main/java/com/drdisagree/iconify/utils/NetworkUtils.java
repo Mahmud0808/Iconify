@@ -20,9 +20,12 @@ package com.drdisagree.iconify.utils;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -30,6 +33,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class NetworkUtils {
     private static final boolean DEBUG = false;
@@ -45,6 +54,46 @@ public class NetworkUtils {
             String result = downloadUrlMemoryAsString(url);
             if (callback != null) {
                 callback.onDownloadComplete(result);
+            }
+        });
+    }
+
+    public static void asynchronousGetRequest(String url, String[] header, DownloadCallback callback) {
+
+        if (DEBUG) Log.d(TAG, "download: " + url);
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request apiRequest = new Request.Builder()
+                .url(url)
+                .build();
+
+        Request apiHeaderRequest = null;
+        
+        if (header != null && header.length == 2) {
+            apiHeaderRequest = new Request.Builder()
+                    .url(url)
+                    .header(header[0], header[1])
+                    .build();
+        }
+        
+        client.newCall(header != null ? apiHeaderRequest : apiRequest).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                // Handle failure
+                if (callback != null) {
+                    callback.onDownloadComplete("");
+                }
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                // Handle success
+                String result = response.body() != null ? response.body().string() : "";
+                // Process the response data
+                if (callback != null) {
+                    callback.onDownloadComplete(result);
+                }
             }
         });
     }

@@ -20,6 +20,7 @@ import com.drdisagree.iconify.ui.utils.ViewHelper.applyTextSizeRecursively
 import com.drdisagree.iconify.ui.utils.ViewHelper.setTextRecursively
 import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.modules.ThemeChange
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.utils.ViewHelper.findViewWithTagAndChangeColor
 import de.robv.android.xposed.XposedBridge.log
@@ -55,6 +56,13 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     private val mContext: Context
     private var appContext: Context? = null
 
+    private val mThemeChangeCallback: ThemeChange.OnThemeChangedListener =
+        object : ThemeChange.OnThemeChangedListener {
+            override fun onThemeChanged() {
+                reloadWeatherBg()
+            }
+        }
+
     init {
         instances.add(arrayOf(this, name))
         mContext = context
@@ -70,6 +78,8 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
         inflateView()
 
         enableUpdates()
+
+        ThemeChange.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
     }
 
     private fun inflateView() {

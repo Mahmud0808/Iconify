@@ -47,6 +47,7 @@ class OpenWeatherMapProvider(context: Context?) : AbstractWeatherProvider(contex
             val conditionData = conditions.getJSONObject("main")
             val weather = conditions.getJSONArray("weather").getJSONObject(0)
             var forecasts: ArrayList<WeatherInfo.DayForecast> = ArrayList()
+            val hourlyForecasts: ArrayList<WeatherInfo.HourForecast> = ArrayList()
             if (conditions.has("daily")) {
                 forecasts =
                     parseForecasts(conditions.getJSONArray("daily"), metric)
@@ -71,6 +72,7 @@ class OpenWeatherMapProvider(context: Context?) : AbstractWeatherProvider(contex
                 windSpeed,  /* windDir */
                 if (wind.has("deg")) wind.getInt("deg") else 0,
                 metric,
+                hourlyForecasts,
                 forecasts,
                 System.currentTimeMillis()
             )

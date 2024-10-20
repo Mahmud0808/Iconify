@@ -30,6 +30,7 @@ import com.drdisagree.iconify.ui.events.ColorSelectedEvent
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.fragments.xposed.WeatherSettings
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceFragment
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
@@ -70,6 +71,11 @@ class MainActivity : BaseActivity(),
                 supportFragmentManager,
                 if (!Preferences.isXposedOnlyMode) Home() else Xposed()
             )
+        }
+
+        if (intent != null && intent.getBooleanExtra("openWeatherSettings", false)) {
+            replaceFragment(supportFragmentManager, Xposed())
+            replaceFragment(supportFragmentManager, WeatherSettings())
         }
 
         initData()

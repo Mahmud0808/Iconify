@@ -354,6 +354,7 @@ object Preferences {
     const val WEATHER_TEXT_COLOR_SWITCH: String = "weather_text_color_switch"
     const val WEATHER_TEXT_COLOR: String = "weather_text_color"
     const val WEATHER_OWM_KEY: String = "owm_key"
+    const val WEATHER_YANDEX_KEY: String = "yandex_key"
     const val WEATHER_UNITS: String = "weather_units"
     const val WEATHER_PROVIDER: String = "weather_provider"
     const val WEATHER_CUSTOM_LOCATION: String = "weather_custom_location_switch"

@@ -45,26 +45,25 @@ class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) 
         )
 
         try {
-            val weather = JSONObject(conditionResponse).getJSONObject("current_weather")
+            val weather = JSONObject(conditionResponse).getJSONObject("current")
 
             val city = getWeatherDataLocality(selection!!)
 
-            val weathercode = weather.getInt("weathercode")
+            val weathercode = weather.getInt("weather_code")
             val isDay = weather.getInt("is_day") == 1
 
-            val w: WeatherInfo = WeatherInfo(
-                mContext,  /* id */
-                selection,  /* cityId */
-                city!!,  /* condition */
-                getWeatherDescription(weathercode),  /* conditionCode */
-                mapConditionIconToCode(weathercode, isDay),  /* temperature */
-                weather.getDouble("temperature")
-                    .toFloat(),  // Api: Possibly future inclusion humidity in current weather; may eliminate need for hourly forecast request.
-                /* humidity */
-                getCurrentHumidity(JSONObject(conditionResponse).getJSONObject("hourly")),  /* wind */
-                weather.getDouble("windspeed").toFloat(),  /* windDir */
-                weather.getInt("winddirection"),
+            val w = WeatherInfo(
+                mContext,
+                /* id */ selection,
+                /* cityId */ city!!,
+                /* condition */ getWeatherDescription(weathercode),
+                /* conditionCode */ mapConditionIconToCode(weathercode, isDay),
+                /* temperature */ weather.getDouble("temperature_2m").toFloat(),  // Api: Humidity included in current
+                /* humidity */ weather.getDouble("relative_humidity_2m").toFloat(),
+                /* wind */ weather.getDouble("wind_speed_10m").toFloat(),
+                /* windDir */weather.getInt("wind_direction_10m"),
                 metric,
+                parseHourlyForecasts(JSONObject(conditionResponse).getJSONObject("hourly"), metric),
                 parseForecasts(JSONObject(conditionResponse).getJSONObject("daily"), metric),
                 System.currentTimeMillis()
             )
@@ -82,16 +81,16 @@ class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) 
 
     @Throws(JSONException::class)
     private fun parseForecasts(
-        dailyForecasts: JSONObject,
+        forecasts: JSONObject,
         metric: Boolean
     ): ArrayList<WeatherInfo.DayForecast> {
-        val result: ArrayList<WeatherInfo.DayForecast> = ArrayList<WeatherInfo.DayForecast>(5)
+        val result = java.util.ArrayList<WeatherInfo.DayForecast>(5)
 
-        val timeJson = dailyForecasts.getJSONArray("time")
-        val temperatureMinJson = dailyForecasts.getJSONArray("temperature_2m_min_best_match")
-        val temperatureMaxJson = dailyForecasts.getJSONArray("temperature_2m_max_best_match")
-        val weatherCodeJson = dailyForecasts.getJSONArray("weathercode_best_match")
-        val altWeatherCodeJson = dailyForecasts.getJSONArray("weathercode_gfs_seamless")
+        val timeJson = forecasts.getJSONArray("time")
+        val temperatureMinJson = forecasts.getJSONArray("temperature_2m_min_best_match")
+        val temperatureMaxJson = forecasts.getJSONArray("temperature_2m_max_best_match")
+        val weatherCodeJson = forecasts.getJSONArray("weather_code_best_match")
+        val altWeatherCodeJson = forecasts.getJSONArray("weather_code_gfs_seamless")
         val currentDay =
             SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Calendar.getInstance().time)
 
@@ -134,12 +133,75 @@ class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) 
         // clients assume there are 5  entries - so fill with dummy if needed
         if (result.size < 5) {
             for (i in result.size..4) {
-                Log.w(
-                    TAG,
-                    "Missing forecast for day $i creating dummy"
-                )
+                Log.w(TAG, "Missing forecast for day $i creating dummy")
                 val item: WeatherInfo.DayForecast = WeatherInfo.DayForecast( /* low */
                     0F,  /* high */
+                    0F,  /* condition */
+                    "",  /* conditionCode */
+                    -1,
+                    "NaN",
+                    metric
+                )
+                result.add(item)
+            }
+        }
+
+        return result
+    }
+
+    @Throws(JSONException::class)
+    private fun parseHourlyForecasts(
+        forecasts: JSONObject,
+        metric: Boolean
+    ): java.util.ArrayList<WeatherInfo.HourForecast> {
+        val result: ArrayList<WeatherInfo.HourForecast> = ArrayList()
+
+        val timeJson = forecasts.getJSONArray("time")
+        val temperature = forecasts.getJSONArray("temperature_2m_best_match")
+        val weatherCodeJson = forecasts.getJSONArray("weather_code_best_match")
+        val altWeatherCodeJson = forecasts.getJSONArray("weather_code_gfs_seamless")
+        val currentDay =
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US).format(Calendar.getInstance().time)
+
+        var startIndex = 1
+        if (currentDay == timeJson.getString(0)) startIndex = 0
+        else if (currentDay == timeJson.getString(2)) startIndex = 2
+
+        var i = startIndex
+        while (i < timeJson.length() && result.size < 10) {
+            var item: WeatherInfo.HourForecast
+            var weatherCode = weatherCodeJson.getInt(i)
+            if (weatherCode == 45 || weatherCode == 48) weatherCode = altWeatherCodeJson.getInt(i)
+
+            try {
+                item = WeatherInfo.HourForecast( /* temp */
+                    temperature.getDouble(i).toFloat(),  /* condition */
+                    getWeatherDescription(weatherCode),  /* conditionCode */
+                    mapConditionIconToCode(weatherCode, true),
+                    timeJson.getString(i),
+                    metric
+                )
+            } catch (e: JSONException) {
+                Log.w(
+                    TAG,
+                    "Invalid forecast for day $i creating dummy", e
+                )
+                item = WeatherInfo.HourForecast( /* temp */
+                    0F,  /* condition */
+                    "",  /* conditionCode */
+                    -1,
+                    "NaN",
+                    metric
+                )
+            }
+            result.add(item)
+            i++
+        }
+        // clients assume there are 5  entries - so fill with dummy if needed
+        if (result.size < 10) {
+            for (i in result.size..9) {
+                Log.w(TAG, "Missing forecast for hour $i creating dummy")
+                val item: WeatherInfo.HourForecast = WeatherInfo.HourForecast( /* temp */
                     0F,  /* condition */
                     "",  /* conditionCode */
                     -1,
@@ -263,7 +325,7 @@ class OpenMeteoProvider(context: Context?) : AbstractWeatherProvider(context!!) 
         private const val URL_WEATHER = "https://api.open-meteo.com/v1/forecast?"
         private const val PART_COORDINATES = "latitude=%f&longitude=%f"
         private const val PART_PARAMETERS =
-            "%s&hourly=relativehumidity_2m&daily=weathercode,temperature_2m_max,temperature_2m_min&current_weather=true&temperature_unit=%s&windspeed_unit=%s&timezone=%s&past_days=1&models=best_match,gfs_seamless"
+            "%s&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,is_day&hourly=weather_code,temperature_2m&forecast_hours=24&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=%s&windspeed_unit=%s&timezone=%s&past_days=1&models=best_match,gfs_seamless"
 
 
         /* OpenMeteo WMO Weather interpretation codes (WW)
