@@ -38,7 +38,9 @@
                     android:layout_width="@dimen/activity_actions_image_size"
                     android:layout_height="@dimen/activity_actions_image_size"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_settings" />
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_navbar_settings_unchecked"
+                    app:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/current_location"
@@ -60,7 +62,9 @@
                     android:layout_width="@dimen/activity_actions_image_size"
                     android:layout_height="@dimen/activity_actions_image_size"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_refresh" />
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_refresh"
+                    app:tint="@color/white" />
 
             </LinearLayout>
 
@@ -143,11 +147,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:drawableStart="@drawable/ic_wind_symbol"
                     android:drawablePadding="8dp"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:textAppearance="@style/DetailedWeatherText" />
+                    android:textAppearance="@style/DetailedWeatherText"
+                    app:drawableStartCompat="@drawable/ic_wind_symbol" />
 
                 <Space
                     android:layout_width="20dp"
