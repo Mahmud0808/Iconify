@@ -47,7 +47,6 @@ class WeatherActivity : AppCompatActivity(), OmniJawsClient.OmniJawsObserver {
         })
 
         binding.settings.setOnClickListener { startActivity(mWeatherClient.getSettingsIntent()) }
-        binding.settings.visibility = View.GONE
         binding.refresh.setOnClickListener { forceRefresh() }
 
         binding.hourlyForecastRecycler.setAdapter(mForecastHourAdapter)
@@ -89,7 +88,8 @@ class WeatherActivity : AppCompatActivity(), OmniJawsClient.OmniJawsObserver {
         )
 
         // Wind and Humidity
-        binding.currentWind.text = mWeatherClient.weatherInfo!!.windSpeed + " " + mWeatherClient.weatherInfo!!.windUnits
+        binding.currentWind.text =
+            mWeatherClient.weatherInfo!!.windSpeed + " " + mWeatherClient.weatherInfo!!.windUnits
         binding.currentWindDirection.text = mWeatherClient.weatherInfo!!.pinWheel
         binding.currentHumidity.text = mWeatherClient.weatherInfo!!.humidity
 
