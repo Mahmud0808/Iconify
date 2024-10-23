@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/FullContentPreviewCard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="true">
+
+    <FrameLayout
+        android:id="@+id/lock_screen_preview_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="noHideDescendants" >
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/wallpaper_preview_spinner"
+            style="?android:progressBarStyleLarge"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/wallpaper_fadein_scrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?colorSurface"
+            android:forceHasOverlappingRendering="false"
+            android:importantForAccessibility="no"
+            android:visibility="gone" />
+
+        <!-- A 30% opacity black scrim that can be shown to "dim" the wallpaper. -->
+        <View
+            android:id="@+id/wallpaper_dimming_scrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/wallpaper_preview_scrim_color"
+            android:visibility="invisible"
+            android:importantForAccessibility="noHideDescendants" />
+
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>

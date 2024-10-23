@@ -292,4 +292,16 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Preview cards -->
+    <style name="PreviewCard" parent="CardView">
+        <item name="cardCornerRadius">26dp</item>
+        <item name="android:clipChildren">true</item>
+        <item name="contentPadding">@dimen/preview_card_padding</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="FullContentPreviewCard" parent="PreviewCard">
+        <item name="contentPadding">0dp</item>
+    </style>
+
 </resources>

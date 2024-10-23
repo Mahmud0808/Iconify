@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/motion_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/carousel_scene">
+
+    <FrameLayout
+        android:id="@+id/item_view_0"
+        android:layout_width="@dimen/screen_preview_width"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/clock_carousel_item_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/item_view_1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/item_card_0"
+            android:layout_width="@dimen/clock_carousel_item_card_width"
+            android:layout_height="@dimen/clock_carousel_item_card_height"
+            android:layout_gravity="center"
+            android:background="@drawable/container_no_ripple"/>
+
+        <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
+            android:id="@+id/clock_scale_view_0"
+            android:layout_width="@dimen/screen_preview_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:importantForAccessibility="noHideDescendants">
+            <com.drdisagree.iconify.ui.widgets.ClockHostView
+                android:id="@+id/clock_host_view_0"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:clipChildren="false" />
+        </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/item_view_1"
+        android:layout_width="@dimen/screen_preview_width"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/clock_carousel_item_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/item_view_2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/item_card_1"
+            android:layout_width="@dimen/clock_carousel_item_card_width"
+            android:layout_height="@dimen/clock_carousel_item_card_height"
+            android:layout_gravity="center"
+            android:background="@drawable/container_no_ripple"/>
+
+        <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
+            android:id="@+id/clock_scale_view_1"
+            android:layout_width="@dimen/screen_preview_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:importantForAccessibility="noHideDescendants">
+            <com.drdisagree.iconify.ui.widgets.ClockHostView
+                android:id="@+id/clock_host_view_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:clipChildren="false"/>
+        </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/item_view_2"
+        android:layout_width="@dimen/screen_preview_width"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/item_card_2"
+            android:layout_width="@dimen/clock_carousel_item_card_width"
+            android:layout_height="@dimen/clock_carousel_item_card_height"
+            android:alpha="0.0"
+            android:layout_gravity="center"
+            android:background="@drawable/container_no_ripple"/>
+
+        <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
+            android:id="@+id/clock_scale_view_2"
+            android:layout_width="@dimen/screen_preview_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:importantForAccessibility="noHideDescendants">
+
+            <com.drdisagree.iconify.ui.widgets.ClockHostView
+                android:id="@+id/clock_host_view_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:clipChildren="false" />
+        </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/item_view_3"
+        android:layout_width="@dimen/screen_preview_width"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/clock_carousel_item_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_view_2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/item_card_3"
+            android:layout_width="@dimen/clock_carousel_item_card_width"
+            android:layout_height="@dimen/clock_carousel_item_card_height"
+            android:layout_gravity="center"
+            android:background="@drawable/container_no_ripple"/>
+
+        <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
+            android:id="@+id/clock_scale_view_3"
+            android:layout_width="@dimen/screen_preview_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:importantForAccessibility="noHideDescendants">
+            <com.drdisagree.iconify.ui.widgets.ClockHostView
+                android:id="@+id/clock_host_view_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:clipChildren="false"/>
+        </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/item_view_4"
+        android:layout_width="@dimen/screen_preview_width"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/clock_carousel_item_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_view_3"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/item_card_4"
+            android:layout_width="@dimen/clock_carousel_item_card_width"
+            android:layout_height="@dimen/clock_carousel_item_card_height"
+            android:layout_gravity="center"
+            android:background="@drawable/container_no_ripple"/>
+
+        <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
+            android:id="@+id/clock_scale_view_4"
+            android:layout_width="@dimen/screen_preview_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:importantForAccessibility="noHideDescendants">
+            <com.drdisagree.iconify.ui.widgets.ClockHostView
+                android:id="@+id/clock_host_view_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:clipChildren="false" />
+        </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+    </FrameLayout>
+
+    <androidx.constraintlayout.helper.widget.Carousel
+        android:id="@+id/carousel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:carousel_backwardTransition="@+id/backward"
+        app:carousel_firstView="@+id/item_view_2"
+        app:carousel_forwardTransition="@+id/forward"
+        app:carousel_infinite="true"
+        app:carousel_nextState="@+id/next"
+        app:carousel_previousState="@+id/previous"
+        app:constraint_referenced_ids="item_view_0,item_view_1,item_view_2,item_view_3,item_view_4" />
+
+    <!-- The guidelines make sure that only the view in the middle show between the lines  -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/clock_carousel_guideline_margin" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/clock_carousel_guideline_margin" />
+</androidx.constraintlayout.motion.widget.MotionLayout>
