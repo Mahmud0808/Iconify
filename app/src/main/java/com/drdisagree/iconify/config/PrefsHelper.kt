@@ -117,8 +117,10 @@ import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_CODE_TEXT2
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_COLOR_SWITCH
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_DEVICENAME
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_LINEHEIGHT
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_SWITCH
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_FONT_TEXT_SCALING
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_STYLE
+import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.common.Preferences.NEW_UPDATE_FOUND
@@ -413,6 +415,22 @@ object PrefsHelper {
             CUSTOM_BATTERY_WIDTH,
             CUSTOM_BATTERY_HEIGHT -> getString(CUSTOM_BATTERY_STYLE, 0.toString())!!.toInt() != 0
 
+            LSCLOCK_FONT_SWITCH,
+            "xposed_lockscreenclockfontpicker",
+            LSCLOCK_STYLE,
+            LSCLOCK_TOPMARGIN,
+            LSCLOCK_BOTTOMMARGIN,
+            LSCLOCK_COLOR_SWITCH,
+            LSCLOCK_COLOR_CODE_ACCENT1,
+            LSCLOCK_COLOR_CODE_ACCENT2,
+            LSCLOCK_COLOR_CODE_ACCENT3,
+            LSCLOCK_COLOR_CODE_TEXT1,
+            LSCLOCK_COLOR_CODE_TEXT2,
+            LSCLOCK_FONT_LINEHEIGHT,
+            LSCLOCK_FONT_TEXT_SCALING,
+            LSCLOCK_USERNAME,
+            LSCLOCK_DEVICENAME -> getBoolean(LSCLOCK_SWITCH)
+
             else -> true
         }
     }
@@ -420,7 +438,7 @@ object PrefsHelper {
     @SuppressLint("DefaultLocale")
     fun getSummary(fragmentCompat: Context, key: String): String? {
         if (key.endsWith("Slider")) {
-            return String.format("%.2f", RPrefs.getSliderFloat(key, 0f))
+            return String.format("%.2f", getSliderFloat(key, 0f))
         }
         if (key.endsWith("List")) {
             return getString(key, "")

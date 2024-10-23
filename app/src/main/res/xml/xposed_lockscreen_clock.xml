@@ -4,21 +4,6 @@
     xmlns:search="http://schemas.android.com/apk/com.drdisagree.iconify.ui.preferences.preferencesearch">
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
-        android:key="xposed_lockscreenclock"
-        android:summary="@string/custom_lockscreen_clock_desc"
-        android:title="@string/custom_lockscreen_clock_title"
-        app:iconSpaceReserved="false" />
-
-    <com.drdisagree.iconify.ui.preferences.RecyclerPreference
-        android:dependency="xposed_lockscreenclock"
-        android:key="xposed_lockscreenclockstyle"
-        android:summary="@string/pick_style"
-        android:title="@string/custom_lockscreen_clock_style_title"
-        app:iconSpaceReserved="false"
-        search:ignore="true" />
-
-    <com.drdisagree.iconify.ui.preferences.SwitchPreference
-        android:dependency="xposed_lockscreenclock"
         android:key="xposed_lockscreenclockfont"
         android:summary="@string/lockscreen_clock_font_desc"
         android:title="@string/lockscreen_clock_font_title"
@@ -34,7 +19,6 @@
         search:ignore="true" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
-        android:dependency="xposed_lockscreenclock"
         android:key="xposed_lockscreenclockcolor"
         android:summary="@string/lsclock_custom_color_desc"
         android:title="@string/lsclock_custom_color_title"
@@ -91,7 +75,6 @@
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
-        android:dependency="xposed_lockscreenclock"
         android:key="xposed_lockscreenclockfontlineheight"
         android:title="@string/lockscreen_font_line_height_title"
         app:defaultValue="0"
@@ -103,7 +86,6 @@
         app:valueFormat="dp" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
-        android:dependency="xposed_lockscreenclock"
         android:key="xposed_lockscreenclocktextscaling"
         android:title="@string/lockscreen_font_text_scaling_title"
         app:decimalFormat="#.#"
@@ -118,7 +100,6 @@
         app:valueFormat="x" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
-        android:dependency="xposed_lockscreenclock"
         android:key="xposed_lockscreenclocktopmargin"
         android:title="@string/lockscreen_clock_top_margin_title"
         app:defaultValue="100"
@@ -129,7 +110,6 @@
         app:valueFormat="dp" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
-        android:dependency="xposed_lockscreenclock"
         android:key="xposed_lockscreenclockbottommargin"
         android:title="@string/lockscreen_clock_bottom_margin_title"
         app:defaultValue="40"
@@ -140,14 +120,12 @@
         app:valueFormat="dp" />
 
     <com.drdisagree.iconify.ui.preferences.EditTextPreference
-        android:dependency="xposed_lockscreenclock"
         android:key="xposed_lockscreenclockcustomdevicename"
         android:summary="@string/lockscreen_clock_custom_devicename_desc"
         android:title="@string/lockscreen_clock_custom_devicename"
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.EditTextPreference
-        android:dependency="xposed_lockscreenclock"
         android:key="xposed_lockscreenclockcustomusername"
         android:summary="@string/lockscreen_clock_custom_username_desc"
         android:title="@string/lockscreen_clock_custom_username"

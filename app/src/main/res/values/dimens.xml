@@ -81,7 +81,7 @@
     <dimen name="clock_carousel_item_card_width">100dp</dimen>
     <dimen name="clock_carousel_item_card_height">108dp</dimen>
     <dimen name="clock_carousel_guideline_margin">100dp</dimen>
-    <dimen name="screen_preview_section_vertical_space">12dp</dimen>
+    <dimen name="screen_preview_section_vertical_space">16dp</dimen>
     <dimen name="preview_card_padding">20dp</dimen>
 
 </resources>

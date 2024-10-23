@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.drdisagree.iconify.ui.views.ScreenPreviewView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/screen_preview_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/screen_preview_section_vertical_space">
+    android:paddingVertical="@dimen/screen_preview_section_vertical_space">
 
     <com.drdisagree.iconify.ui.views.ScreenPreviewClickView
         android:id="@+id/screen_preview_click_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/screen_preview_section_vertical_space">
+        android:layout_height="wrap_content">
 
         <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
             android:id="@+id/preview_host"
@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center" />
+
         </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
 
         <ViewStub
@@ -30,6 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center" />
-    </com.drdisagree.iconify.ui.views.ScreenPreviewClickView>
 
+    </com.drdisagree.iconify.ui.views.ScreenPreviewClickView>
 </com.drdisagree.iconify.ui.views.ScreenPreviewView>

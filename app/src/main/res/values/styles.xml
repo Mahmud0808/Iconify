@@ -14,6 +14,10 @@
         <item name="android:layout">@layout/fragment_preference_container_home</item>
     </style>
 
+    <style name="PrefsThemeNoToolbar" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:layout">@layout/fragment_preference_container_no_toolbar</item>
+    </style>
+
     <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>

@@ -358,8 +358,7 @@ class ClockCarouselView(
         }
     }
 
-    interface OnClockSelected {
+    fun interface OnClockSelected {
         fun onClockSelected(clock: ClockCarouselItemViewModel)
     }
-
 }
