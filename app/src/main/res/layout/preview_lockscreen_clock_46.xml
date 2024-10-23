@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="125dp"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="-28dp"
+            android:importantForAccessibility="no"
+            android:scaleType="centerInside"
+            android:src="@drawable/lockscreen_clock_46_logo"
+            android:tag="text1"
+            app:tint="#FFFFFF" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:background="@drawable/lockscreen_clock_46_bg"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="10dp"
+            android:tag="text1">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:format12Hour="EEEE"
+                android:format24Hour="EEEE"
+                android:includeFontPadding="false"
+                android:letterSpacing="0.2"
+                android:tag="text1|nolineheight"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="4dp"
+            android:format12Hour="hh • mm | MMM dd"
+            android:format24Hour="HH • mm | dd MMM"
+            android:includeFontPadding="false"
+            android:tag="text1"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</LinearLayout>
