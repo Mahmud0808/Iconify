@@ -1213,7 +1213,7 @@ class LockscreenWidgetsView(context: Context, activityStarter: Any?) :
 
     private fun toggleMobileData() {
         enqueueProxyCommand { proxy ->
-            proxy?.runCommand("svc data " + if (isMobileDataEnabled) "disable" else "enable")
+            proxy.runCommand("svc data " + if (isMobileDataEnabled) "disable" else "enable")
         }
         updateMobileDataState(!isMobileDataEnabled)
         mHandler.postDelayed({ updateMobileDataState(isMobileDataEnabled) }, 250L)

@@ -213,7 +213,7 @@ class HookEntry : ServiceConnection {
         synchronized(proxyQueue) {
             while (!proxyQueue.isEmpty()) {
                 try {
-                    proxyQueue.poll()!!.run(rootProxyIPC)
+                    proxyQueue.poll()!!.run(rootProxyIPC!!)
                 } catch (ignored: Throwable) {
                 }
             }
@@ -227,7 +227,7 @@ class HookEntry : ServiceConnection {
 
     fun interface ProxyRunnable {
         @Throws(RemoteException::class)
-        fun run(proxy: IRootProviderProxy?)
+        fun run(proxy: IRootProviderProxy)
     }
 
     companion object {

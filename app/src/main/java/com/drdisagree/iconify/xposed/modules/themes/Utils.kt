@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.xposed.modules.themes
 
 import android.service.quicksettings.Tile
-import com.topjohnwu.superuser.Shell
+import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.getObjectField
 
@@ -53,17 +53,17 @@ object Utils {
     }
 
     fun enableOverlay(pkgName: String) {
-        Shell.cmd(
-            "cmd overlay enable --user current $pkgName",
-            "cmd overlay set-priority $pkgName highest"
-        ).submit()
+        enqueueProxyCommand { proxy ->
+            proxy.runCommand("cmd overlay enable --user current $pkgName")
+            proxy.runCommand("cmd overlay set-priority $pkgName highest")
+        }
     }
 
     fun enableOverlay(pkgName: String, priority: String) {
-        Shell.cmd(
-            "cmd overlay enable --user current $pkgName",
-            "cmd overlay set-priority $pkgName $priority"
-        ).submit()
+        enqueueProxyCommand { proxy ->
+            proxy.runCommand("cmd overlay enable --user current $pkgName")
+            proxy.runCommand("cmd overlay set-priority $pkgName $priority")
+        }
     }
 
     fun enableOverlays(vararg pkgNames: String?) {
@@ -74,11 +74,15 @@ object Utils {
                 .append("; cmd overlay set-priority ").append(pkgName).append(" highest; ")
         }
 
-        Shell.cmd(command.toString().trim { it <= ' ' }).submit()
+        enqueueProxyCommand { proxy ->
+            proxy.runCommand(command.toString().trim { it <= ' ' })
+        }
     }
 
     fun disableOverlay(pkgName: String) {
-        Shell.cmd("cmd overlay disable --user current $pkgName").submit()
+        enqueueProxyCommand { proxy ->
+            proxy.runCommand("cmd overlay disable --user current $pkgName")
+        }
     }
 
     fun disableOverlays(vararg pkgNames: String?) {
@@ -88,6 +92,8 @@ object Utils {
             command.append("cmd overlay disable --user current ").append(pkgName).append("; ")
         }
 
-        Shell.cmd(command.toString().trim { it <= ' ' }).submit()
+        enqueueProxyCommand { proxy ->
+            proxy.runCommand(command.toString().trim { it <= ' ' })
+        }
     }
 }

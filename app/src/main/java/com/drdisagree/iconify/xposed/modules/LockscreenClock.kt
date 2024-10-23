@@ -57,6 +57,7 @@ import com.drdisagree.iconify.common.Preferences.LSCLOCK_TOPMARGIN
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
 import com.drdisagree.iconify.utils.TextUtils
+import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.utils.ArcProgressWidget.generateBitmap
 import com.drdisagree.iconify.xposed.modules.utils.TimeUtils
@@ -126,6 +127,8 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
             showLockscreenClock = getBoolean(LSCLOCK_SWITCH, false)
             showDepthWallpaper = isAndroid13OrBelow && getBoolean(DEPTH_WALLPAPER_SWITCH, false)
         }
+
+        resetStockClock()
 
         if (key.isNotEmpty() &&
             (key[0] == LSCLOCK_SWITCH ||
@@ -681,6 +684,16 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 appContext!!.theme
             )
         }
+
+    private fun resetStockClock() {
+        val isAndroid13OrBelow = Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU
+
+        if (!isAndroid13OrBelow && showLockscreenClock) {
+            enqueueProxyCommand { proxy ->
+                proxy.runCommand("settings put secure lock_screen_custom_clock_face default")
+            }
+        }
+    }
 
     companion object {
         private val TAG = "Iconify - ${LockscreenClock::class.java.simpleName}: "
