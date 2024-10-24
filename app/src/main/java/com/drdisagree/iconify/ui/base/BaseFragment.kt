@@ -138,15 +138,11 @@ abstract class BaseFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    fun onSearchResultClicked(result: SearchPreferenceResult) {
+    open fun onSearchResultClicked(result: SearchPreferenceResult) {
         for (searchableFragment in searchableFragments) {
             if (searchableFragment.xml == result.resourceFile) {
                 replaceFragment(parentFragmentManager, searchableFragment.fragment)
-                var finalFragment: ControlledPreferenceFragmentCompat? = null
-                if (searchableFragment.fragment is LockscreenClockParent) {
-                    finalFragment = LockscreenClockParent.getPreferenceFragment()
-                }
-                SearchPreferenceResult.highlight(finalFragment, result.key);
+                SearchPreferenceResult.highlight(parentFragmentManager as ControlledPreferenceFragmentCompat, result.key);
                 break
             }
         }

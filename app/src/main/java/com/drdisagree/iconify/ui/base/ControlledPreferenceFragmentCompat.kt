@@ -222,6 +222,7 @@ abstract class ControlledPreferenceFragmentCompat : PreferenceFragmentCompat() {
                     var resultFragment: ControlledPreferenceFragmentCompat? = null
                     if (fragment is LockscreenClockParent) {
                         resultFragment = LockscreenClockParent.getPreferenceFragment()
+                        fragment.scrollToPreference()
                     }
                     SearchPreferenceResult.highlight(resultFragment, result.key);
                     break
