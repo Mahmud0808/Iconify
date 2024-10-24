@@ -38,6 +38,14 @@
                 android:layout_gravity="center"
                 android:clipChildren="false" />
         </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+
+        <TextView
+            android:id="@+id/clock_style_0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:gravity="center_horizontal"/>
+
     </FrameLayout>
 
     <FrameLayout
@@ -72,6 +80,14 @@
                 android:layout_gravity="center"
                 android:clipChildren="false" />
         </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+
+        <TextView
+            android:id="@+id/clock_style_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:gravity="center_horizontal"/>
+
     </FrameLayout>
 
     <FrameLayout
@@ -108,6 +124,14 @@
                 android:layout_gravity="center"
                 android:clipChildren="false" />
         </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+
+        <TextView
+            android:id="@+id/clock_style_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:gravity="center_horizontal"/>
+
     </FrameLayout>
 
     <FrameLayout
@@ -141,7 +165,16 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:clipChildren="false" />
+
         </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+
+        <TextView
+            android:id="@+id/clock_style_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:gravity="center_horizontal"/>
+
     </FrameLayout>
 
     <FrameLayout
@@ -176,6 +209,14 @@
                 android:layout_gravity="center"
                 android:clipChildren="false" />
         </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
+
+        <TextView
+            android:id="@+id/clock_style_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:gravity="center_horizontal" />
+
     </FrameLayout>
 
     <androidx.constraintlayout.helper.widget.Carousel

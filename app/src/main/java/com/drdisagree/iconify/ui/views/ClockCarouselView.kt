@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.constraintlayout.helper.widget.Carousel
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.doOnPreDraw
@@ -33,6 +34,8 @@ class ClockCarouselView(
     private var offCenterClockScaleView: View? = null
     private var toCenterCardView: View? = null
     private var offCenterCardView: View? = null
+    private var toCenterTextView: View? = null
+    private var offCenterTextView: View? = null
 
     init {
         val clockCarousel = LayoutInflater.from(context).inflate(R.layout.clock_carousel, this)
@@ -143,6 +146,12 @@ class ClockCarouselView(
                             if (endId == R.id.next) R.id.clock_scale_view_3
                             else R.id.clock_scale_view_1
                         )
+                    offCenterTextView = motionLayout.findViewById(R.id.clock_style_2)
+                    toCenterTextView =
+                        motionLayout.findViewById(
+                            if (endId == R.id.next) R.id.clock_style_3
+                            else R.id.clock_style_1
+                        )
                 }
 
                 private fun prepareCardView(motionLayout: MotionLayout, endId: Int) {
@@ -151,11 +160,19 @@ class ClockCarouselView(
                         motionLayout.findViewById(
                             if (endId == R.id.next) R.id.item_card_3 else R.id.item_card_1
                         )
+                    offCenterTextView = motionLayout.findViewById(R.id.clock_style_2)
+                    toCenterTextView =
+                        motionLayout.findViewById(
+                            if (endId == R.id.next) R.id.clock_style_3
+                            else R.id.clock_style_1
+                        )
                 }
 
                 private fun onCardViewTransition(progress: Float) {
                     offCenterCardView?.alpha = getShowingAlpha(progress)
                     toCenterCardView?.alpha = getHidingAlpha(progress)
+                    toCenterTextView?.alpha = getShowingAlphaText(progress)
+                    offCenterTextView?.alpha = getHidingAlphaText(progress)
                 }
 
                 private fun onDynamicClockViewTransition(progress: Float) {
@@ -232,6 +249,9 @@ class ClockCarouselView(
             val clockHostView =
                 getClockHostViewId(viewRoot.id)?.let { viewRoot.findViewById(it) as? ClockHostView }
                     ?: return
+            val clockTextView =
+                getClockTextId(viewRoot.id)?.let { viewRoot.findViewById(it) as? View }
+                    ?: return
 
             // Add the clock view to the clock host view
             clockHostView.removeAllViews()
@@ -247,19 +267,23 @@ class ClockCarouselView(
             // Accessibility
             viewRoot.contentDescription = getContentDescription(index)
             viewRoot.isSelected = isMiddleView
+            (clockTextView as TextView).text = clocks[index].clockName
 
             initializeDynamicClockView(
                 isMiddleView,
                 clockScaleView,
-                clockHostView
+                clockHostView,
+                clockTextView
             )
             cardView.alpha = if (isMiddleView) 0f else 1f
+            clockTextView.alpha = if (isMiddleView) 1f else 0f
         }
 
         private fun initializeDynamicClockView(
             isMiddleView: Boolean,
             clockScaleView: View,
             clockHostView: ClockHostView,
+            clockTextView: View
         ) {
             clockHostView.doOnPreDraw {
                 it.pivotX = it.width / 2F
@@ -269,9 +293,11 @@ class ClockCarouselView(
             if (isMiddleView) {
                 clockScaleView.scaleX = 1f
                 clockScaleView.scaleY = 1f
+                clockTextView.alpha = 1f
             } else {
                 clockScaleView.scaleX = CLOCK_CAROUSEL_VIEW_SCALE
                 clockScaleView.scaleY = CLOCK_CAROUSEL_VIEW_SCALE
+                clockTextView.alpha = 0f
             }
         }
 
@@ -308,6 +334,14 @@ class ClockCarouselView(
         // card won't overlap the preview.
         fun getHidingAlpha(progress: Float) = max(1f - progress * 4, 0f)
 
+        // This makes the card only starts to reveal in the last quarter of the trip so
+        // the card won't overlap the preview.
+        fun getShowingAlphaText(progress: Float) = max(progress - 0.75f, 0f) * 4
+
+        // This makes the card starts to hide in the first quarter of the trip so the
+        // card won't overlap the preview.
+        fun getHidingAlphaText(progress: Float) = max(1f - progress * 4, 0f)
+
         fun getClockHostViewId(rootViewId: Int): Int? {
             return when (rootViewId) {
                 R.id.item_view_0 -> R.id.clock_host_view_0
@@ -337,6 +371,17 @@ class ClockCarouselView(
                 R.id.item_view_2 -> R.id.item_card_2
                 R.id.item_view_3 -> R.id.item_card_3
                 R.id.item_view_4 -> R.id.item_card_4
+                else -> null
+            }
+        }
+
+        fun getClockTextId(rootViewId: Int): Int? {
+            return when (rootViewId) {
+                R.id.item_view_0 -> R.id.clock_style_0
+                R.id.item_view_1 -> R.id.clock_style_1
+                R.id.item_view_2 -> R.id.clock_style_2
+                R.id.item_view_3 -> R.id.clock_style_3
+                R.id.item_view_4 -> R.id.clock_style_4
                 else -> null
             }
         }
