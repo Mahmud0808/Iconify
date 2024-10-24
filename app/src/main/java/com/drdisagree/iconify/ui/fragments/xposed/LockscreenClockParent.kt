@@ -17,14 +17,17 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_STYLE
 import com.drdisagree.iconify.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
+import com.drdisagree.iconify.common.Resources.searchableFragments
 import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.config.RPrefs.getInt
 import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.databinding.FragmentXposedLockscreenClockBinding
+import com.drdisagree.iconify.ui.activities.MainActivity.Companion.replaceFragment
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.models.ClockCarouselItemViewModel
+import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceResult
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.ui.views.ClockCarouselView
 import com.drdisagree.iconify.utils.SystemUtils
@@ -147,6 +150,17 @@ class LockscreenClockParent : BaseFragment() {
         }, 50)
     }
 
+    override fun onSearchResultClicked(result: SearchPreferenceResult) {
+        for (searchableFragment in searchableFragments) {
+            if (searchableFragment.xml == result.resourceFile) {
+                replaceFragment(parentFragmentManager, searchableFragment.fragment)
+                scrollToPreference()
+                SearchPreferenceResult.highlight(lockscreenClockFragment, result.key);
+                break
+            }
+        }
+    }
+
     private fun loadAndSetWallpaper() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             val bitmap = loadWallpaper(requireContext(), isLockscreen = true).await()
@@ -170,6 +184,12 @@ class LockscreenClockParent : BaseFragment() {
     override fun onPause() {
         super.onPause()
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    }
+
+    fun scrollToPreference() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding?.scrollView!!.smoothScrollTo(0, binding.fragmentContainer.top)
+        }, 180)
     }
 
     companion object {
