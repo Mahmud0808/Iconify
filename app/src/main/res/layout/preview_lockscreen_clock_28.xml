@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            app:cardBackgroundColor="@android:color/system_accent1_300"
+            app:cardCornerRadius="18dp"
+            app:strokeColor="@android:color/system_accent3_900"
+            app:strokeWidth="6dp">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="48dp"
+                android:layout_marginVertical="16dp"
+                android:format12Hour="EEEE"
+                android:format24Hour="EEEE"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:tag="text2|nolineheight"
+                android:textColor="#000000"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:format12Hour="hh • mm a"
+                android:format24Hour="HH • mm a"
+                android:includeFontPadding="false"
+                android:tag="text1|nolineheight"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:format12Hour="dd MMMM yyyy"
+                android:format24Hour="dd MMMM yyyy"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

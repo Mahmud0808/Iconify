@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="290dp"
+        android:layout_height="190dp"
+        android:layout_gravity="center"
+        android:background="@drawable/lockscreen_clock_29_bg"
+        tools:ignore="UselessParent">
+
+        <View
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/lockscreen_clock_27_logo" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="22dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-2dp"
+                android:includeFontPadding="false"
+                android:tag="accent1|nolineheight"
+                android:text="Oni Chan!!"
+                android:textColor="@android:color/system_accent1_300"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:text="Now It's"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="hh • mm a"
+                android:format24Hour="kk • mm a"
+                android:includeFontPadding="false"
+                android:tag="accent1"
+                android:textColor="@android:color/system_accent1_200"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:text="Today is"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="EEEE dd MMMM"
+                android:format24Hour="EEEE dd MMMM"
+                android:includeFontPadding="false"
+                android:tag="accent1"
+                android:textColor="@android:color/system_accent1_200"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
