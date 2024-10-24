@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_gravity="top|center"
+            android:background="@drawable/lockscreen_clock_40_bg"
+            android:orientation="horizontal">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/japanese"
+                android:format12Hour="hh : mm"
+                android:format24Hour="HH : mm"
+                android:includeFontPadding="false"
+                android:letterSpacing="0.05"
+                android:tag="text|nolineheight"
+                android:textColor="#FFFFFF"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginTop="64dp"
+            android:fontFamily="@font/cattyabrown"
+            android:format12Hour=" EEEE "
+            android:format24Hour=" EEEE "
+            android:includeFontPadding="false"
+            android:shadowColor="#000000"
+            android:shadowRadius="7"
+            android:singleLine="true"
+            android:tag="text|nolineheight"
+            android:textColor="#FFFFFF"
+            android:textSize="38sp"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+</LinearLayout>

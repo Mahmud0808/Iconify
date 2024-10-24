@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/concert_one"
+            android:format12Hour="dd, MMM yyyy"
+            android:format24Hour="dd, MMM yyyy"
+            android:tag="text1|nolineheight"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="-12dp"
+            android:fontFamily="@font/oduda_bold"
+            android:format12Hour="hh:mm"
+            android:format24Hour="hh:mm"
+            android:includeFontPadding="false"
+            android:tag="text1"
+            android:textColor="#FFFFFF"
+            android:textSize="100sp"
+            android:textStyle="normal" />
+
+        <View
+            android:layout_width="88dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:alpha="0.8"
+            android:background="@drawable/lockscreen_clock_42_divider"
+            android:orientation="horizontal"
+            android:tag="text1" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:layout_marginBottom="10dp"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end|center"
+                android:importantForAccessibility="no"
+                android:orientation="horizontal"
+                android:scaleType="fitXY"
+                android:src="@drawable/lockscreen_clock_42_logo" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/concert_one"
+                    android:tag="text1|nolineheight|username"
+                    android:text="Username"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/concert_one"
+                        android:tag="text1"
+                        android:text="It's "
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+
+                    <TextClock
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/concert_one"
+                        android:format12Hour="EEEE"
+                        android:format24Hour="EEEE"
+                        android:tag="text1"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

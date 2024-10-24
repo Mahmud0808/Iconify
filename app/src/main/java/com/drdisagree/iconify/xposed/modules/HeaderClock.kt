@@ -618,7 +618,7 @@ class HeaderClock(context: Context?) : ModPack(context!!) {
 
         when (clockStyle) {
             6 -> {
-                val imageView = clockView.findViewContainsTag("user_profile_image") as ImageView?
+                val imageView = clockView.findViewContainsTag("profile_picture") as ImageView?
                 userImage?.let { imageView?.setImageDrawable(it) }
             }
         }

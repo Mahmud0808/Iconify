@@ -31,17 +31,17 @@
             android:layout_gravity="start">
 
             <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layoutDirection="ltr">
-    
+
                 <TextClock
-                    android:includeFontPadding="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:format12Hour="hh:mm"
                     android:format24Hour="HH:mm"
+                    android:includeFontPadding="false"
                     android:singleLine="true"
                     android:tag="text1"
                     android:textColor="@android:color/white"
@@ -52,9 +52,9 @@
                     android:layout_height="wrap_content"
                     android:format12Hour="hh:mm"
                     android:format24Hour="HH:mm"
+                    android:includeFontPadding="false"
                     android:maxLength="1"
                     android:singleLine="true"
-                    android:includeFontPadding="false"
                     android:tag="accent1"
                     android:textColor="@android:color/system_accent1_300"
                     android:textSize="40dp" />
@@ -65,8 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:format12Hour="MMMM dd "
-            android:includeFontPadding="false"
             android:format24Hour="dd MMMM "
+            android:includeFontPadding="false"
             android:singleLine="true"
             android:tag="text1"
             android:textAlignment="viewStart"

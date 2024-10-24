@@ -169,6 +169,8 @@ import com.drdisagree.iconify.utils.weather.WeatherConfig
 object PrefsHelper {
 
     fun isVisible(key: String?): Boolean {
+        val lockscreenClockStyle = getInt(LSCLOCK_STYLE, 0)
+
         return when (key) {
             UPDATE_OVER_WIFI -> getBoolean(AUTO_UPDATE, true)
 
@@ -199,9 +201,9 @@ object PrefsHelper {
             LSCLOCK_COLOR_CODE_TEXT1,
             LSCLOCK_COLOR_CODE_TEXT2 -> getBoolean(LSCLOCK_COLOR_SWITCH)
 
-            LSCLOCK_DEVICENAME -> getInt(LSCLOCK_STYLE, 0) == 19
+            LSCLOCK_DEVICENAME -> lockscreenClockStyle in setOf(19, 32, 47)
 
-            LSCLOCK_USERNAME -> getInt(LSCLOCK_STYLE, 0) == 7
+            LSCLOCK_USERNAME -> lockscreenClockStyle in setOf(7, 32, 35, 36, 42, 48, 50, 53)
 
             // Weather Common
             WEATHER_OWM_KEY -> getString(WEATHER_PROVIDER, "0") == "1"

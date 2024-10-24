@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|top"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/lockscreen_clock_48_bg"
+            android:paddingHorizontal="28dp"
+            android:paddingVertical="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat"
+                android:includeFontPadding="false"
+                android:tag="text1|nolineheight|username"
+                android:text="Username"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/lockscreen_clock_48_bg"
+            android:orientation="vertical">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="48dp"
+                android:alpha="0.4"
+                android:fontFamily="@font/montserrat"
+                android:format12Hour="hh mm"
+                android:format24Hour="HH mm"
+                android:includeFontPadding="false"
+                android:tag="text1|nolineheight"
+                android:textColor="#FFFFFF"
+                android:textSize="65sp"
+                android:textStyle="bold" />
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="48dp"
+                android:layout_marginTop="-18dp"
+                android:fontFamily="@font/montserrat"
+                android:format12Hour="EEEE"
+                android:format24Hour="EEEE"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:textColor="#FFFFFF"
+                android:textSize="40sp"
+                android:textStyle="bold" />
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="48dp"
+                android:layout_marginBottom="18dp"
+                android:alpha="0.6"
+                android:fontFamily="@font/montserrat"
+                android:format12Hour="dd MMMM yyyy"
+                android:format24Hour="dd MMMM yyyy"
+                android:includeFontPadding="false"
+                android:tag="text1"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -497,13 +497,6 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                     clockView.findViewContainsTag("volume_progressbar") as ProgressBar?
             }
 
-            7 -> {
-                val usernameView = clockView.findViewContainsTag("summary") as TextView?
-                usernameView?.text = customUserName.ifEmpty { userName }
-                val imageView = clockView.findViewContainsTag("user_profile_image") as ImageView?
-                userImage?.let { imageView?.setImageDrawable(it) }
-            }
-
             19 -> {
                 mBatteryLevelView = clockView.findViewContainsTag("battery_percentage") as TextView?
                 mBatteryProgress =
@@ -511,8 +504,6 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 mVolumeLevelArcProgress =
                     clockView.findViewContainsTag("volume_progress") as ImageView?
                 mRamUsageArcProgress = clockView.findViewContainsTag("ram_usage_info") as ImageView?
-                val devName = clockView.findViewContainsTag("device_name") as TextView?
-                devName!!.text = customDeviceName.ifEmpty { Build.MODEL }
             }
 
             22 -> {
@@ -531,6 +522,15 @@ class LockscreenClock(context: Context?) : ModPack(context!!) {
                 mVolumeProgress = null
             }
         }
+
+        val deviceName = clockView.findViewContainsTag("device_name") as TextView?
+        deviceName?.text = customDeviceName.ifEmpty { Build.MODEL }
+
+        val usernameView = clockView.findViewContainsTag("username") as TextView?
+        usernameView?.text = customUserName.ifEmpty { userName }
+
+        val imageView = clockView.findViewContainsTag("profile_picture") as ImageView?
+        userImage?.let { imageView?.setImageDrawable(it) }
 
         if (textScaleFactor != 1f) {
             applyTextScalingRecursively(clockView, textScaleFactor)
