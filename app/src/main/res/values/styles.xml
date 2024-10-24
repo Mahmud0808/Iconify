@@ -14,6 +14,10 @@
         <item name="android:layout">@layout/fragment_preference_container_home</item>
     </style>
 
+    <style name="PrefsThemeNoToolbar" parent="PreferenceThemeOverlay.v14.Material">
+        <item name="android:layout">@layout/fragment_preference_container_no_toolbar</item>
+    </style>
+
     <style name="ColorPicker" parent="Theme.Material3.Light.Dialog">
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:windowTitleStyle">@style/LightPickerDialogTitleStyle</item>
@@ -290,6 +294,18 @@
     <style name="CurrentWeatherTemperature" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textSize">96sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Preview cards -->
+    <style name="PreviewCard" parent="CardView">
+        <item name="cardCornerRadius">26dp</item>
+        <item name="android:clipChildren">true</item>
+        <item name="contentPadding">@dimen/preview_card_padding</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="FullContentPreviewCard" parent="PreviewCard">
+        <item name="contentPadding">0dp</item>
     </style>
 
 </resources>

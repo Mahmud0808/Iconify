@@ -40,6 +40,9 @@ class LockscreenClock : ControlledPreferenceFragmentCompat() {
     override val layoutResource: Int
         get() = R.xml.xposed_lockscreen_clock
 
+    override val themeResource: Int
+        get() = R.style.PrefsThemeNoToolbar
+
     override val hasMenu: Boolean
         get() = true
 

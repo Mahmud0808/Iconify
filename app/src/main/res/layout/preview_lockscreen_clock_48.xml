@@ -27,7 +27,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/montserrat"
                 android:includeFontPadding="false"
-                android:tag="text1|nolineheight"
+                android:tag="text1|nolineheight|username"
                 android:text="Username"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />

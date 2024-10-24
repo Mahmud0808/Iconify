@@ -76,9 +76,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/astthillabeltaden"
-                    android:includeFontPadding="false"
-                    android:tag="text1|nolineheight"
+                    android:fontFamily="@font/concert_one"
+                    android:tag="text1|nolineheight|username"
                     android:text="Username"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp" />
@@ -93,7 +92,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/concert_one"
-                        android:includeFontPadding="false"
                         android:tag="text1"
                         android:text="It's "
                         android:textColor="#FFFFFF"
@@ -105,7 +103,6 @@
                         android:fontFamily="@font/concert_one"
                         android:format12Hour="EEEE"
                         android:format24Hour="EEEE"
-                        android:includeFontPadding="false"
                         android:tag="text1"
                         android:textColor="#FFFFFF"
                         android:textSize="15sp" />

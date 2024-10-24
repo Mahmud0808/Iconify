@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/FullContentPreviewCard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="true"
+    app:cardBackgroundColor="?android:colorBackground"
+    app:cardCornerRadius="28dp"
+    app:strokeColor="?attr/colorOnSurfaceVariant"
+    app:strokeWidth="3dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="23dp"
+        app:strokeWidth="0dp">
+
+        <FrameLayout
+            android:id="@+id/lock_screen_preview_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:importantForAccessibility="noHideDescendants">
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/wallpaper_preview_spinner"
+                style="?android:progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:indeterminateTint="@color/colorAccent"
+                android:progressTint="@color/colorAccent"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/wallpaper_fadein_scrim"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?colorSurface"
+                android:forceHasOverlappingRendering="false"
+                android:importantForAccessibility="no"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+            <!-- A 30% opacity black scrim that can be shown to "dim" the wallpaper. -->
+            <View
+                android:id="@+id/wallpaper_dimming_scrim"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/wallpaper_preview_scrim_color"
+                android:importantForAccessibility="noHideDescendants"
+                android:visibility="invisible" />
+
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+</com.google.android.material.card.MaterialCardView>

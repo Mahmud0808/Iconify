@@ -53,7 +53,8 @@
                             android:layout_gravity="center"
                             android:importantForAccessibility="no"
                             android:scaleType="fitXY"
-                            android:src="@drawable/lockscreen_clock_37_logo" />
+                            android:src="@drawable/lockscreen_clock_37_logo"
+                            android:tag="profile_picture" />
 
                     </FrameLayout>
 

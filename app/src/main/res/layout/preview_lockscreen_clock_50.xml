@@ -16,7 +16,7 @@
         <View
             android:layout_width="7dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/lockscreen_clock_50_bg"
             android:orientation="horizontal" />
@@ -465,7 +465,7 @@
                     android:layout_height="wrap_content"
                     android:alpha="0.6"
                     android:includeFontPadding="false"
-                    android:tag="text1"
+                    android:tag="text1|username"
                     android:text="Username"
                     android:textColor="#FFFFFF"
                     android:textSize="12sp" />

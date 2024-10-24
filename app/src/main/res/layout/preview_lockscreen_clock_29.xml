@@ -14,13 +14,15 @@
         android:background="@drawable/lockscreen_clock_29_bg"
         tools:ignore="UselessParent">
 
-        <View
+        <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="end"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="40dp"
-            android:background="@drawable/lockscreen_clock_27_logo" />
+            android:importantForAccessibility="no"
+            android:src="@drawable/lockscreen_clock_27_logo"
+            android:tag="profile_picture" />
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -144,14 +144,14 @@
                         android:layout_height="wrap_content"
                         android:includeFontPadding="false"
                         android:fontFamily="@font/dot57"
-                        android:tag="accent1|summary"
+                        android:tag="accent1|username"
                         android:text="@string/default_user_name"
                         android:textColor="@android:color/system_accent1_100"
                         android:textSize="16dp" />
             </LinearLayout>
 
             <ImageView
-                android:tag="user_profile_image"
+                android:tag="profile_picture"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:adjustViewBounds="true"

@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:includeFontPadding="false"
-                    android:tag="text1|nolineheight"
+                    android:tag="text1|nolineheight|username"
                     android:text="Username"
                     android:textAlignment="viewEnd"
                     android:textColor="#FFFFFF" />
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:includeFontPadding="false"
-                    android:tag="text1"
+                    android:tag="text1|device_name"
                     android:text="Device Name"
                     android:textAlignment="viewEnd"
                     android:textColor="#A0FFFFFF" />
@@ -145,7 +145,8 @@
                 android:layout_gravity="end|center"
                 android:importantForAccessibility="no"
                 android:scaleType="fitXY"
-                android:src="@drawable/lockscreen_clock_32_logo" />
+                android:src="@drawable/lockscreen_clock_32_logo"
+                android:tag="profile_picture" />
 
         </LinearLayout>
     </LinearLayout>

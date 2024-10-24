@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center"
                     android:includeFontPadding="false"
-                    android:tag="text2|nolineheight"
+                    android:tag="text2|nolineheight|username"
                     android:text="Username"
                     android:textColor="#000000"
                     android:textSize="16sp"

@@ -27,7 +27,8 @@
                 android:layout_gravity="center"
                 android:importantForAccessibility="no"
                 android:scaleType="fitXY"
-                android:src="@drawable/lockscreen_clock_35_logo" />
+                android:src="@drawable/lockscreen_clock_35_logo"
+                android:tag="profile_picture" />
 
         </FrameLayout>
 
@@ -55,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:includeFontPadding="false"
-                        android:tag="text1|nolineheight"
+                        android:tag="text1|nolineheight|username"
                         android:text="Username"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"

@@ -15,7 +15,7 @@ import com.drdisagree.iconify.ui.fragments.xposed.BackgroundChip
 import com.drdisagree.iconify.ui.fragments.xposed.BatteryStyle
 import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
-import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClock
+import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClockParent
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWeather
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWidget
 import com.drdisagree.iconify.ui.fragments.xposed.OpQsHeader
@@ -179,7 +179,7 @@ object Resources {
         SearchPreferenceItem(
             R.xml.xposed_lockscreen_clock,
             R.string.activity_title_lockscreen_clock,
-            LockscreenClock()
+            LockscreenClockParent()
         ),
         SearchPreferenceItem(
             R.xml.xposed_lockscreen_weather,

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:orientation="vertical"
         tools:ignore="UselessParent">
 
@@ -22,7 +22,7 @@
             android:tag="text1|nolineheight"
             android:text="Have a great"
             android:textColor="#FFFFFF"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextClock
@@ -33,7 +33,7 @@
             android:includeFontPadding="false"
             android:tag="text1"
             android:textColor="#FFFFFF"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -47,8 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/lockscreen_clock_41_time_bg"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
+                android:minWidth="44dp"
+                android:minHeight="44dp"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp">
 
@@ -61,7 +61,7 @@
                     android:includeFontPadding="false"
                     android:tag="text2|nolineheight"
                     android:textColor="#000000"
-                    android:textSize="28sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
             </FrameLayout>
@@ -97,8 +97,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/lockscreen_clock_41_time_bg"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
+                android:minWidth="44dp"
+                android:minHeight="44dp"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp">
 
@@ -111,7 +111,7 @@
                     android:includeFontPadding="false"
                     android:tag="text2|nolineheight"
                     android:textColor="#000000"
-                    android:textSize="28sp"
+                    android:textSize="22sp"
                     android:textStyle="bold" />
 
             </FrameLayout>
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/lockscreen_clock_41_day_bg"
-                android:minHeight="48dp"
+                android:minHeight="44dp"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp">
 
@@ -134,7 +134,7 @@
                     android:includeFontPadding="false"
                     android:tag="text1|nolineheight"
                     android:textColor="#ffffff"
-                    android:textSize="28sp"
+                    android:textSize="22sp"
                     android:textStyle="normal" />
 
             </FrameLayout>

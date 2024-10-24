@@ -5,9 +5,30 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
 object WallpaperUtils {
+
+    fun loadWallpaper(context: Context, isLockscreen: Boolean): Deferred<Bitmap?> {
+        return CoroutineScope(Dispatchers.Main).async {
+            withContext(Dispatchers.IO) {
+                getCompressedWallpaper(
+                    context,
+                    80,
+                    if (isLockscreen) {
+                        WallpaperManager.FLAG_LOCK
+                    } else {
+                        WallpaperManager.FLAG_SYSTEM
+                    }
+                )
+            }
+        }
+    }
 
     fun getCompressedWallpaper(context: Context?, quality: Int, which: Int): Bitmap? {
         return try {
@@ -29,7 +50,7 @@ object WallpaperUtils {
                 compressBitmap(bitmap, quality)
             }
         } catch (e: Exception) {
-//            return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+            //            return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
             null
         }
     }

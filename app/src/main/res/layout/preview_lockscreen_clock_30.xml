@@ -69,12 +69,14 @@
 
             </LinearLayout>
 
-            <View
+            <ImageView
                 android:layout_width="73dp"
                 android:layout_height="73dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="12dp"
-                android:background="@drawable/lockscreen_clock_30_logo" />
+                android:importantForAccessibility="no"
+                android:src="@drawable/lockscreen_clock_30_logo"
+                android:tag="profile_picture" />
 
         </LinearLayout>
 

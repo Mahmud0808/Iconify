@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/lockscreen_clock_47_bg2"
+                android:minHeight="44dp"
                 android:paddingHorizontal="24dp"
                 android:paddingVertical="8dp">
 
@@ -50,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/lockscreen_clock_47_bg3"
+                android:minHeight="44dp"
                 android:paddingHorizontal="24dp"
                 android:paddingVertical="8dp">
 
@@ -105,9 +107,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center"
                     android:includeFontPadding="false"
-                    android:tag="text1|nolineheight"
+                    android:tag="text1|nolineheight|device_name"
                     android:text="Device Name"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
@@ -116,7 +117,6 @@
                 <TextClock
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|left"
                     android:layout_marginTop="4dp"
                     android:format12Hour="dd MMM yyyy"
                     android:format24Hour="dd MMM yyyy"

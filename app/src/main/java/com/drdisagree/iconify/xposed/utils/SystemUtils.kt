@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Process
+import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector.resetCounter
-import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -50,9 +50,13 @@ class SystemUtils(var mContext: Context) {
 
                     darkSwitching = true
 
-                    Shell.cmd("cmd uimode night ${if (isDark) "no" else "yes"}").exec()
+                    enqueueProxyCommand { proxy ->
+                        proxy.runCommand("cmd uimode night ${if (isDark) "no" else "yes"}")
+                    }
                     delay(1000)
-                    Shell.cmd("cmd uimode night ${if (isDark) "yes" else "no"}").exec()
+                    enqueueProxyCommand { proxy ->
+                        proxy.runCommand("cmd uimode night ${if (isDark) "yes" else "no"}")
+                    }
                     delay(500)
 
                     darkSwitching = false

@@ -146,4 +146,7 @@
     <color name="lockscreen_widget_active_color_dark">@android:color/system_accent1_100</color>
     <color name="lockscreen_widget_active_color_light">@android:color/system_accent1_600</color>
     <color name="card_surface_color">@android:color/system_neutral1_100</color>
+
+    <color name="wallpaper_preview_scrim_color">#99000000</color>
+
 </resources>

@@ -22,10 +22,12 @@
             android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
-            <View
+            <ImageView
                 android:layout_width="78dp"
                 android:layout_height="78dp"
-                android:background="@drawable/lockscreen_clock_27_logo" />
+                android:importantForAccessibility="no"
+                android:src="@drawable/lockscreen_clock_27_logo"
+                android:tag="profile_picture" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -38,8 +40,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:tag="text1|nolineheight"
-                    android:text="Sen Pai !!"
+                    android:tag="text1|nolineheight|username"
+                    android:text="Username"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold" />

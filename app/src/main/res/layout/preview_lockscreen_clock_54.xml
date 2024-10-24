@@ -28,7 +28,7 @@
                 android:format24Hour=" EEEE "
                 android:includeFontPadding="false"
                 android:tag="accent1|nolineheight"
-                android:textColor="@android:color/system_accent1_600"
+                android:textColor="@android:color/system_accent1_400"
                 android:textSize="50sp" />
 
 
@@ -42,7 +42,7 @@
                 android:format24Hour=" EEEE "
                 android:includeFontPadding="false"
                 android:tag="accent1|nolineheight"
-                android:textColor="@android:color/system_accent1_600"
+                android:textColor="@android:color/system_accent1_400"
                 android:textSize="50sp" />
 
             <TextClock
@@ -55,7 +55,7 @@
                 android:format24Hour=" EEEE "
                 android:includeFontPadding="false"
                 android:tag="accent1|nolineheight"
-                android:textColor="@android:color/system_accent1_600"
+                android:textColor="@android:color/system_accent1_400"
                 android:textSize="50sp" />
 
             <TextClock
@@ -67,7 +67,7 @@
                 android:format24Hour=" EEEE "
                 android:includeFontPadding="false"
                 android:tag="accent1|nolineheight"
-                android:textColor="@android:color/system_accent1_600"
+                android:textColor="@android:color/system_accent1_400"
                 android:textSize="50sp" />
 
         </FrameLayout>
@@ -166,7 +166,7 @@
                 <View
                     android:layout_width="2dp"
                     android:layout_height="15dp"
-                    android:background="@android:color/system_accent1_600"
+                    android:background="@android:color/system_accent1_400"
                     android:orientation="horizontal"
                     android:tag="accent1" />
 
@@ -174,7 +174,7 @@
                     android:layout_width="2dp"
                     android:layout_height="15dp"
                     android:layout_marginStart="4dp"
-                    android:background="@android:color/system_accent1_600"
+                    android:background="@android:color/system_accent1_400"
                     android:orientation="horizontal"
                     android:tag="accent1" />
 
