@@ -892,6 +892,7 @@
     <string name="info_tester_desc">For testing the app.</string>
     <string name="info_betterqs_desc">For permission to use better QS.</string>
     <string name="info_binaries_desc">For android executable binaries.</string>
+    <string name="info_buttercup_desc">For some lockscreen clock styles.</string>
     <string name="section_title_contributors">Contributors</string>
     <string name="info_contributor_desc">For contributing on github.</string>
     <string name="info_contributor_desc_2">For assisting me on telegram.</string>

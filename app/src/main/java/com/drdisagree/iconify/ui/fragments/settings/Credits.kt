@@ -143,6 +143,15 @@ class Credits : BaseFragment() {
                     R.drawable.ic_user
                 )
             )
+            add(
+                InfoModel(
+                    requireContext(),
+                    "Buttercup Theme",
+                    appContextLocale.resources.getString(R.string.info_buttercup_desc),
+                    "https://t.me/buttercup_theme",
+                    R.drawable.ic_link
+                )
+            )
         }
 
         return InfoAdapter(
