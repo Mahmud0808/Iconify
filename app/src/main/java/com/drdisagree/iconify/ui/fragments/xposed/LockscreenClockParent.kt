@@ -23,6 +23,7 @@ import com.drdisagree.iconify.config.RPrefs.putBoolean
 import com.drdisagree.iconify.config.RPrefs.putInt
 import com.drdisagree.iconify.databinding.FragmentXposedLockscreenClockBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
+import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.models.ClockCarouselItemViewModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.ui.views.ClockCarouselView
@@ -60,7 +61,6 @@ class LockscreenClockParent : BaseFragment() {
             R.string.activity_title_lockscreen_clock
         )
 
-        val lockscreenClockFragment = LockscreenClock()
         childFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, lockscreenClockFragment)
@@ -170,5 +170,14 @@ class LockscreenClockParent : BaseFragment() {
     override fun onPause() {
         super.onPause()
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    }
+
+    companion object {
+
+        private val lockscreenClockFragment = LockscreenClock()
+
+        fun getPreferenceFragment(): ControlledPreferenceFragmentCompat {
+            return lockscreenClockFragment
+        }
     }
 }
