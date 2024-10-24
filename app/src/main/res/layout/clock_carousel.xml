@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/motion_container"
     android:layout_width="match_parent"
@@ -21,7 +20,8 @@
             android:layout_width="@dimen/clock_carousel_item_card_width"
             android:layout_height="@dimen/clock_carousel_item_card_height"
             android:layout_gravity="center"
-            android:background="@drawable/container_no_ripple"/>
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/container_no_ripple" />
 
         <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
             android:id="@+id/clock_scale_view_0"
@@ -30,6 +30,7 @@
             android:layout_gravity="center"
             android:clipChildren="false"
             android:importantForAccessibility="noHideDescendants">
+
             <com.drdisagree.iconify.ui.widgets.ClockHostView
                 android:id="@+id/clock_host_view_0"
                 android:layout_width="match_parent"
@@ -53,7 +54,8 @@
             android:layout_width="@dimen/clock_carousel_item_card_width"
             android:layout_height="@dimen/clock_carousel_item_card_height"
             android:layout_gravity="center"
-            android:background="@drawable/container_no_ripple"/>
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/container_no_ripple" />
 
         <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
             android:id="@+id/clock_scale_view_1"
@@ -62,12 +64,13 @@
             android:layout_gravity="center"
             android:clipChildren="false"
             android:importantForAccessibility="noHideDescendants">
+
             <com.drdisagree.iconify.ui.widgets.ClockHostView
                 android:id="@+id/clock_host_view_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:clipChildren="false"/>
+                android:clipChildren="false" />
         </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
     </FrameLayout>
 
@@ -85,9 +88,10 @@
             android:id="@+id/item_card_2"
             android:layout_width="@dimen/clock_carousel_item_card_width"
             android:layout_height="@dimen/clock_carousel_item_card_height"
-            android:alpha="0.0"
             android:layout_gravity="center"
-            android:background="@drawable/container_no_ripple"/>
+            android:layout_marginBottom="24dp"
+            android:alpha="0.0"
+            android:background="@drawable/container_no_ripple" />
 
         <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
             android:id="@+id/clock_scale_view_2"
@@ -120,7 +124,8 @@
             android:layout_width="@dimen/clock_carousel_item_card_width"
             android:layout_height="@dimen/clock_carousel_item_card_height"
             android:layout_gravity="center"
-            android:background="@drawable/container_no_ripple"/>
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/container_no_ripple" />
 
         <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
             android:id="@+id/clock_scale_view_3"
@@ -129,12 +134,13 @@
             android:layout_gravity="center"
             android:clipChildren="false"
             android:importantForAccessibility="noHideDescendants">
+
             <com.drdisagree.iconify.ui.widgets.ClockHostView
                 android:id="@+id/clock_host_view_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:clipChildren="false"/>
+                android:clipChildren="false" />
         </com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout>
     </FrameLayout>
 
@@ -152,7 +158,8 @@
             android:layout_width="@dimen/clock_carousel_item_card_width"
             android:layout_height="@dimen/clock_carousel_item_card_height"
             android:layout_gravity="center"
-            android:background="@drawable/container_no_ripple"/>
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/container_no_ripple" />
 
         <com.drdisagree.iconify.ui.widgets.FixedWidthDisplayRatioFrameLayout
             android:id="@+id/clock_scale_view_4"
@@ -161,6 +168,7 @@
             android:layout_gravity="center"
             android:clipChildren="false"
             android:importantForAccessibility="noHideDescendants">
+
             <com.drdisagree.iconify.ui.widgets.ClockHostView
                 android:id="@+id/clock_host_view_4"
                 android:layout_width="match_parent"
