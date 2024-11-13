@@ -194,7 +194,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - [AOSPMods](https://github.com/siavash79/AOSPMods), [@siavash79](https://t.me/siavash7999) for helping me with Xposed mods.
 - [@Sanely_insane](https://t.me/sanely_insane), [@Jaguar](https://t.me/Jaguar0066) for support and motivation.
 - [HideNavBar](https://github.com/Magisk-Modules-Repo/HideNavBar) for the navbar tweaks.
-- And everyone who [contributed](https://github.com/Mahmud0808/Iconify/graphs/contributors) and [translated](https://github.com/Mahmud0808/Iconify/blob/beta/docs/translators.md)... :)
+- And everyone who [contributed](https://github.com/Mahmud0808/Iconify/blob/beta/docs/contributors.md) and [translated](https://github.com/Mahmud0808/Iconify/blob/beta/docs/translators.md)... :)
 
 # 📝 Disclaimer
 
