@@ -1,11 +1,11 @@
 ### Special Thanks
 
-<!-- readme: substratum,siavash79 -start -->
-<!-- readme: substratum,siavash79 -end -->
+<!-- readme: substratum,siavash79,jairaj08,DanGLES3 -start -->
+<!-- readme: substratum,siavash79,jairaj08,DanGLES3 -end -->
 
 ### Contributors
 
-Thanks to those contributors, this project exists:
+This project exists thanks to the following contributors:
 
 <!-- readme: contributors -start -->
 <!-- readme: contributors -end -->

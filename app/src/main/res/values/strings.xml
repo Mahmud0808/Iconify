@@ -902,6 +902,7 @@
     <string name="section_title_contributors">Contributors</string>
     <string name="info_contributor_desc">For contributing on github.</string>
     <string name="info_contributor_desc_2">For assisting me on telegram.</string>
+    <string name="total_contributions">Total Contributions: %d</string>
     <string name="section_title_translators">Translators</string>
     <string name="af_translation">Afrikaans translation.</string>
     <string name="ar_translation">Arabic translation.</string>

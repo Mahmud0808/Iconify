@@ -13,7 +13,9 @@ fun parseTranslators(): ArrayList<InfoModel> {
         val jsonObject = jsonArray.getJSONObject(i)
         val name = jsonObject.getString("name").replace(Regex("\\s*\\(.*\\)"), "")
         val username = jsonObject.getString("username")
+
         if (username == "DrDisagree") continue // Skip the main developer
+
         val picture = jsonObject.getString("picture")
         val languagesArray = jsonObject.getJSONArray("languages")
         val languagesList = ArrayList<String>()

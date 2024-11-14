@@ -13,7 +13,7 @@ import com.drdisagree.iconify.ui.adapters.InfoAdapter
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.models.InfoModel
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.ContributorParser
+import com.drdisagree.iconify.utils.parseContributors
 import com.drdisagree.iconify.utils.parseTranslators
 
 class Credits : BaseFragment() {
@@ -152,14 +152,11 @@ class Credits : BaseFragment() {
     }
 
     private fun initContributorsList(): InfoAdapter {
-        val contributorsList = ArrayList<InfoModel>().apply {
-            add(InfoModel(resources.getString(R.string.section_title_contributors)))
-            addAll(ContributorParser().parseContributors())
-        }
-
         return InfoAdapter(
             requireContext(),
-            contributorsList
+            parseContributors().also {
+                it.add(0, InfoModel(resources.getString(R.string.section_title_contributors)))
+            }
         )
     }
 
