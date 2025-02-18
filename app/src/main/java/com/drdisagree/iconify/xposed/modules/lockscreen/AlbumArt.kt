@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Icon
 import android.media.MediaMetadata
 import android.media.session.PlaybackState
-import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -16,13 +15,14 @@ import com.drdisagree.iconify.common.Preferences.ALBUM_ART_ON_LOCKSCREEN
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
@@ -41,11 +41,9 @@ class AlbumArt(context: Context) : ModPack(context) {
     private var mPlaybackState: Int = PlaybackState.STATE_NONE
 
     private var mLayersCreated = false
-    private var mScrimController: Any? = null
+    private var mScrimControllerObj: Any? = null
 
     override fun updatePrefs(vararg key: String) {
-        if (!XprefsIsInitialized) return
-
         Xprefs.apply {
             mDepthEnabled = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
             mAlbumArtEnabled = getBoolean(ALBUM_ART_ON_LOCKSCREEN, true)
@@ -63,8 +61,6 @@ class AlbumArt(context: Context) : ModPack(context) {
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return
-
         val qsImplClass = findClass(
             "$SYSTEMUI_PACKAGE.qs.QSImpl",
             "$SYSTEMUI_PACKAGE.qs.QSFragment"
@@ -82,23 +78,21 @@ class AlbumArt(context: Context) : ModPack(context) {
         // Get media metadata change
         scrimControllerClass
             .hookConstructor()
-            .runAfter { param ->
-                mScrimController = param.thisObject
-            }
+            .runAfter { param -> mScrimControllerObj = param.thisObject }
 
         centralSurfacesImplClass
             .hookMethod("start")
             .runAfter {
-                if (!mAlbumArtEnabled || mScrimController == null) return@runAfter
+                if (!mAlbumArtEnabled || mScrimControllerObj == null) return@runAfter
 
-                val scrimBehind = getObjectField(mScrimController, "mScrimBehind") as View
+                val scrimBehind = getObjectField(mScrimControllerObj, "mScrimBehind") as View
                 val rootView = scrimBehind.parent as ViewGroup
 
                 if (!mLayersCreated) {
                     createLayers()
                 }
 
-                rootView.addView(mAlbumArtContainer, if (mDepthEnabled) 1 else 0)
+                rootView.reAddView(mAlbumArtContainer, if (mDepthEnabled) 1 else 0)
             }
 
         centralSurfacesImplClass
@@ -115,8 +109,10 @@ class AlbumArt(context: Context) : ModPack(context) {
 
         qsImplClass
             .hookMethod("setQsExpansion")
-            .runAfter { _ ->
-                updateAlbumArtVisibility()
+            .runAfter { param ->
+                if (param.thisObject.callMethod("isKeyguardState") as Boolean) {
+                    updateAlbumArtVisibility()
+                }
             }
 
         mediaDataManager
@@ -131,25 +127,25 @@ class AlbumArt(context: Context) : ModPack(context) {
     }
 
     private fun updateAlbumArtVisibility() {
-        if (mScrimController == null || !mAlbumArtEnabled) {
+        if (mScrimControllerObj == null || !mAlbumArtEnabled) {
             if (mLayersCreated) {
                 mAlbumArtContainer.post { mAlbumArtContainer.visibility = View.GONE }
             }
             return
         }
 
-        val state = getObjectField(mScrimController, "mState").toString()
-        shouldShowAlbumArt = (mAlbumArtEnabled &&
+        shouldShowAlbumArt =
                 /*(mPlaybackState == PlaybackState.STATE_PLAYING || mPlaybackState == PlaybackState.STATE_BUFFERING) &&*/
-                (state == "KEYGUARD"))
+            mScrimControllerObj.getField("mState").toString() == "KEYGUARD"
 
-        if (shouldShowAlbumArt) {
-            mAlbumArtContainer.post { mAlbumArtContainer.visibility = View.VISIBLE }
-        } else {
-            mAlbumArtContainer.post { mAlbumArtContainer.visibility = View.GONE }
+        mAlbumArtContainer.post {
+            val newVisibility = if (shouldShowAlbumArt) View.VISIBLE else View.GONE
+
+            if (mAlbumArtContainer.visibility != newVisibility) {
+                mAlbumArtContainer.visibility = newVisibility
+            }
         }
     }
-
 
     private fun createLayers() {
         if (mLayersCreated) return
@@ -161,14 +157,14 @@ class AlbumArt(context: Context) : ModPack(context) {
 
         mAlbumArtContainer = FrameLayout(mContext).apply {
             layoutParams = lp
+            visibility = View.GONE
         }
         mAlbumArtView = ImageView(mContext).apply {
             layoutParams = lp
             scaleType = ImageView.ScaleType.CENTER_CROP
-            visibility = View.GONE
         }
 
-        mAlbumArtContainer.addView(mAlbumArtView)
+        mAlbumArtContainer.reAddView(mAlbumArtView)
 
         mLayersCreated = true
     }
@@ -177,5 +173,4 @@ class AlbumArt(context: Context) : ModPack(context) {
         private val TAG = "Iconify - ${AlbumArt::class.java.simpleName}: "
         var shouldShowAlbumArt: Boolean = false
     }
-
 }
