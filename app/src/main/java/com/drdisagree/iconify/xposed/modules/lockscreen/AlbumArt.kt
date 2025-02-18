@@ -17,7 +17,8 @@ import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -52,12 +53,13 @@ class AlbumArt(context: Context) : ModPack(context) {
             mAlbumArtBlurLevel = (Xprefs.getSliderInt(ALBUM_ART_LOCKSCREEN_BLUR, 30) / 100f) * 25f
         }
 
-        if (key.isNotEmpty() &&
-            (key[0] == ALBUM_ART_LOCKSCREEN_FILTER ||
-                    key[0] == ALBUM_ART_LOCKSCREEN_BLUR)
-        ) {
-//            if (mAlbumArtEnabled) updateAlbumArt()
-        }
+        //        when (key.firstOrNull()) {
+        //            in setOf(
+        //                ALBUM_ART_ON_LOCKSCREEN,
+        //                ALBUM_ART_LOCKSCREEN_FILTER,
+        //                ALBUM_ART_LOCKSCREEN_BLUR
+        //            ) -> updateAlbumArtVisibility()
+        //        }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -80,13 +82,13 @@ class AlbumArt(context: Context) : ModPack(context) {
         // Get media metadata change
         scrimControllerClass
             .hookConstructor()
-            .runAfter { param ->{
+            .runAfter { param ->
                 mScrimController = param.thisObject
-            } }
+            }
 
         centralSurfacesImplClass
             .hookMethod("start")
-            .runAfter { param -> {
+            .runAfter {
                 if (!mAlbumArtEnabled || mScrimController == null) return@runAfter
 
                 val scrimBehind = getObjectField(mScrimController, "mScrimBehind") as View
@@ -97,35 +99,35 @@ class AlbumArt(context: Context) : ModPack(context) {
                 }
 
                 rootView.addView(mAlbumArtContainer, if (mDepthEnabled) 1 else 0)
-            } }
+            }
 
         centralSurfacesImplClass
             .hookMethod("onStartedWakingUp")
-            .runAfter { _ -> {
+            .runAfter { _ ->
                 updateAlbumArtVisibility()
-            } }
+            }
 
         scrimControllerClass
             .hookMethod("applyAndDispatchState")
-            .runAfter { _ -> {
+            .runAfter { _ ->
                 updateAlbumArtVisibility()
-            } }
+            }
 
         qsImplClass
             .hookMethod("setQsExpansion")
-            .runAfter { _ -> {
+            .runAfter { _ ->
                 updateAlbumArtVisibility()
-            } }
+            }
 
         mediaDataManager
             .hookMethod("onMediaDataLoaded")
-            .runAfter { param -> {
-                val mediaData = param.args[0]
-                var artWork = mediaData.callMethod("getArtwork") as Icon
-                var drawab = artWork.loadDrawable(mContext)
-                mAlbumArtView.setImageDrawable(drawab!!.applyBlur(mContext, mAlbumArtBlurLevel))
-            } }
-
+            .runAfter { param ->
+                val mediaData = param.args[2]
+                val artWork = mediaData.callMethodSilently("getArtwork") as? Icon
+                    ?: mediaData.getField("artwork") as Icon
+                val drawable = artWork.loadDrawable(mContext)
+                mAlbumArtView.setImageDrawable(drawable!!.applyBlur(mContext, mAlbumArtBlurLevel))
+            }
     }
 
     private fun updateAlbumArtVisibility() {
