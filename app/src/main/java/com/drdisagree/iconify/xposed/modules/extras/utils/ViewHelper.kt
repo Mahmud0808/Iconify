@@ -4,12 +4,22 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Matrix
+import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +31,7 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG
@@ -597,4 +608,129 @@ object ViewHelper {
             expandableCompanionFromViewClass!!.getConstructor(View::class.java).newInstance(this)
         }
     }
+
+    private fun Drawable.drawableToBitmap(): Bitmap {
+        if (this is BitmapDrawable) return bitmap
+
+        val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        setBounds(0, 0, canvas.width, canvas.height)
+        draw(canvas)
+
+        return bitmap
+    }
+
+    fun Drawable?.getColoredBitmap(color: Int): Bitmap? {
+        if (this == null) return null
+
+        val colorBitmap = (this as BitmapDrawable).bitmap
+        val grayscaleBitmap = colorBitmap.toGrayscale()
+        val paint = Paint().apply {
+            isAntiAlias = true
+            colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY)
+        }
+        val canvas = Canvas(grayscaleBitmap)
+        val rect = Rect(0, 0, grayscaleBitmap.width, grayscaleBitmap.height)
+        canvas.drawBitmap(grayscaleBitmap, rect, rect, paint)
+
+        return grayscaleBitmap
+    }
+
+    fun Drawable?.getColoredBitmap(color: Int, intensity: Int): Bitmap? {
+        if (this == null) return null
+
+        val colorBitmap = (this as BitmapDrawable).bitmap
+        val filteredBitmap = Bitmap.createBitmap(
+            colorBitmap.width,
+            colorBitmap.height,
+            colorBitmap.config ?: Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(filteredBitmap)
+        val paint = Paint()
+        val fadeFilter = ColorUtils.blendARGB(Color.TRANSPARENT, color, intensity / 100f)
+        paint.colorFilter = PorterDuffColorFilter(fadeFilter, PorterDuff.Mode.SRC_ATOP)
+        canvas.drawBitmap(colorBitmap, 0f, 0f, paint)
+
+        return filteredBitmap
+    }
+
+    fun Bitmap.toGrayscale(): Bitmap {
+        val grayscaleBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(grayscaleBitmap)
+        val paint = Paint().apply {
+            isAntiAlias = true
+            colorFilter = ColorMatrixColorFilter(ColorMatrix().apply { setSaturation(0f) })
+        }
+        val rect = Rect(0, 0, width, height)
+        canvas.drawBitmap(this, rect, rect, paint)
+        return grayscaleBitmap
+    }
+
+    fun Bitmap.getGrayscaleBlurredImage(context: Context, radius: Float): Bitmap {
+        return applyBlur(context, radius).toGrayscale()
+    }
+
+    @Suppress("deprecation")
+    fun Bitmap.applyBlur(context: Context?, radius: Float): Bitmap {
+        if (radius == 0f) return this
+
+        val tempImage = try {
+            rgb565toArgb888()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            this
+        }
+
+        val bitmap = Bitmap.createBitmap(tempImage.width, tempImage.height, Bitmap.Config.ARGB_8888)
+        val renderScript = RenderScript.create(context)
+        val blurInput = Allocation.createFromBitmap(renderScript, tempImage)
+        val blurOutput = Allocation.createFromBitmap(renderScript, bitmap)
+
+        ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript)).apply {
+            setInput(blurInput)
+            setRadius(radius.coerceIn(0.01f, 25f)) // radius must be 0 < r <= 25
+            forEach(blurOutput)
+        }
+
+        blurOutput.copyTo(bitmap)
+        renderScript.destroy()
+
+        return bitmap
+    }
+
+    fun Bitmap?.centerCropBitmap(targetWidth: Int, targetHeight: Int): Bitmap? {
+        if (this == null) return null
+
+        val srcAspectRatio = width.toFloat() / height.toFloat()
+        val targetAspectRatio = targetWidth.toFloat() / targetHeight.toFloat()
+
+        val scale: Float
+        val dx: Float
+        val dy: Float
+
+        if (srcAspectRatio > targetAspectRatio) {
+            scale = targetHeight.toFloat() / height.toFloat()
+            dx = (targetWidth - width * scale) / 2
+            dy = 0f
+        } else {
+            scale = targetWidth.toFloat() / width.toFloat()
+            dx = 0f
+            dy = (targetHeight - height * scale) / 2
+        }
+
+        val matrix = Matrix()
+        matrix.setScale(scale, scale)
+        matrix.postTranslate(dx, dy)
+
+        val resultBitmap = Bitmap.createBitmap(
+            targetWidth,
+            targetHeight,
+            config ?: Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(resultBitmap)
+        canvas.drawBitmap(this, matrix, Paint(Paint.FILTER_BITMAP_FLAG))
+
+        return resultBitmap
+    }
+
 }

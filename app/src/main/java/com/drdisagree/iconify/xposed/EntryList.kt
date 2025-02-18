@@ -16,6 +16,7 @@ import com.drdisagree.iconify.xposed.modules.launcher.IconLabels
 import com.drdisagree.iconify.xposed.modules.launcher.IconUpdater
 import com.drdisagree.iconify.xposed.modules.launcher.OpacityModifier
 import com.drdisagree.iconify.xposed.modules.launcher.ThemedIcons
+import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
 import com.drdisagree.iconify.xposed.modules.lockscreen.clock.LockscreenClock
 import com.drdisagree.iconify.xposed.modules.lockscreen.clock.LockscreenClockA15
@@ -69,6 +70,7 @@ object EntryList {
         LockscreenClock::class.java,
         LockscreenWidgets::class.java,
         LockscreenWeather::class.java,
+        AlbumArt::class.java,
         Miscellaneous::class.java,
         QSTransparency::class.java,
         QuickSettings::class.java,
