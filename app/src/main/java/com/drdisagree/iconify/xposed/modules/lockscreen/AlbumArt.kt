@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.xposed.modules.lockscreen
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
-import android.media.MediaMetadata
 import android.media.session.PlaybackState
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +28,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class AlbumArt(context: Context) : ModPack(context) {
 
-    // NotificationUtils
+    private var shouldShowAlbumArt: Boolean = false
     private var mDepthEnabled: Boolean = false
     private var mAlbumArtEnabled: Boolean = true
     private var mAlbumArtFilter: Int = 0
@@ -37,7 +37,7 @@ class AlbumArt(context: Context) : ModPack(context) {
     private lateinit var mAlbumArtContainer: FrameLayout
     private lateinit var mAlbumArtView: ImageView
 
-    private var mMediaMetadata: MediaMetadata? = null
+    private var mArtworkDrawable: Drawable? = null
     private var mPlaybackState: Int = PlaybackState.STATE_NONE
 
     private var mLayersCreated = false
@@ -51,13 +51,13 @@ class AlbumArt(context: Context) : ModPack(context) {
             mAlbumArtBlurLevel = (Xprefs.getSliderInt(ALBUM_ART_LOCKSCREEN_BLUR, 30) / 100f) * 25f
         }
 
-        //        when (key.firstOrNull()) {
-        //            in setOf(
-        //                ALBUM_ART_ON_LOCKSCREEN,
-        //                ALBUM_ART_LOCKSCREEN_FILTER,
-        //                ALBUM_ART_LOCKSCREEN_BLUR
-        //            ) -> updateAlbumArtVisibility()
-        //        }
+        when (key.firstOrNull()) {
+            in setOf(
+                ALBUM_ART_ON_LOCKSCREEN,
+                ALBUM_ART_LOCKSCREEN_FILTER,
+                ALBUM_ART_LOCKSCREEN_BLUR
+            ) -> updateAlbumArtState()
+        }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -73,6 +73,9 @@ class AlbumArt(context: Context) : ModPack(context) {
         )
         val mediaDataManager = findClass(
             "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDataManager"
+        )
+        val keyguardSliceProviderClass = findClass(
+            "$SYSTEMUI_PACKAGE.keyguard.KeyguardSliceProvider"
         )
 
         // Get media metadata change
@@ -98,20 +101,20 @@ class AlbumArt(context: Context) : ModPack(context) {
         centralSurfacesImplClass
             .hookMethod("onStartedWakingUp")
             .runAfter { _ ->
-                updateAlbumArtVisibility()
+                updateAlbumArtState()
             }
 
         scrimControllerClass
             .hookMethod("applyAndDispatchState")
             .runAfter { _ ->
-                updateAlbumArtVisibility()
+                updateAlbumArtState()
             }
 
         qsImplClass
             .hookMethod("setQsExpansion")
             .runAfter { param ->
                 if (param.thisObject.callMethod("isKeyguardState") as Boolean) {
-                    updateAlbumArtVisibility()
+                    updateAlbumArtState()
                 }
             }
 
@@ -122,11 +125,28 @@ class AlbumArt(context: Context) : ModPack(context) {
                 val artWork = mediaData.callMethodSilently("getArtwork") as? Icon
                     ?: mediaData.getField("artwork") as Icon
                 val drawable = artWork.loadDrawable(mContext)
-                mAlbumArtView.setImageDrawable(drawable!!.applyBlur(mContext, mAlbumArtBlurLevel))
+
+                if (drawable != mArtworkDrawable) {
+                    mArtworkDrawable = drawable
+                    mAlbumArtView.setImageDrawable(
+                        mArtworkDrawable?.applyBlur(
+                            mContext,
+                            mAlbumArtBlurLevel
+                        )
+                    )
+                }
+            }
+
+        keyguardSliceProviderClass
+            .hookMethod("onPrimaryMetadataOrStateChanged")
+            .runAfter { param ->
+                mPlaybackState = param.args[1] as Int
+
+                updateAlbumArtState()
             }
     }
 
-    private fun updateAlbumArtVisibility() {
+    private fun updateAlbumArtState() {
         if (mScrimControllerObj == null || !mAlbumArtEnabled) {
             if (mLayersCreated) {
                 mAlbumArtContainer.post { mAlbumArtContainer.visibility = View.GONE }
@@ -135,7 +155,7 @@ class AlbumArt(context: Context) : ModPack(context) {
         }
 
         shouldShowAlbumArt =
-                /*(mPlaybackState == PlaybackState.STATE_PLAYING || mPlaybackState == PlaybackState.STATE_BUFFERING) &&*/
+            (mPlaybackState == PlaybackState.STATE_PLAYING || mPlaybackState == PlaybackState.STATE_BUFFERING) &&
             mScrimControllerObj.getField("mState").toString() == "KEYGUARD"
 
         mAlbumArtContainer.post {
@@ -167,10 +187,5 @@ class AlbumArt(context: Context) : ModPack(context) {
         mAlbumArtContainer.reAddView(mAlbumArtView)
 
         mLayersCreated = true
-    }
-
-    companion object {
-        private val TAG = "Iconify - ${AlbumArt::class.java.simpleName}: "
-        var shouldShowAlbumArt: Boolean = false
     }
 }
