@@ -323,4 +323,21 @@
         <item>3</item>
     </string-array>
 
+    <!-- Lockscreen Album Art Filters -->
+    <string-array name="lockscreen_albumart_filter_entries" translatable="false">
+        <item>@string/albumart_filter_none</item>
+        <item>@string/albumart_filter_grayscale</item>
+        <item>@string/albumart_filter_tint</item>
+        <item>@string/albumart_filter_blur</item>
+        <item>@string/albumart_filter_grayblur</item>
+    </string-array>
+
+    <string-array name="lockscreen_albumart_filter_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
 </resources>

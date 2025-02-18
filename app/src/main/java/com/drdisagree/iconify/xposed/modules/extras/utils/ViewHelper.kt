@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.modules.extras.utils
 
+import android.R
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
@@ -609,6 +610,13 @@ object ViewHelper {
         }
     }
 
+    fun Drawable.getColored(context: Context, color: Int): Drawable {
+
+        val colorDrawable = this.getColoredBitmap(color)
+
+        return BitmapDrawable(context.resources, colorDrawable)
+    }
+
     fun Drawable?.getColoredBitmap(color: Int): Bitmap? {
         if (this == null) return null
 
@@ -653,6 +661,18 @@ object ViewHelper {
         val rect = Rect(0, 0, width, height)
         canvas.drawBitmap(this, rect, rect, paint)
         return grayscaleBitmap
+    }
+
+    fun Drawable.toGrayscale(context: Context): Drawable {
+        val grayscaleBitmap = drawableToBitmap(this)
+        grayscaleBitmap.toGrayscale()
+        return return BitmapDrawable(context.resources, grayscaleBitmap)
+    }
+
+    fun Drawable.getGrayscaleBlurredImage(context: Context, radius: Float): Drawable {
+        val grayscaleBitmap = drawableToBitmap(this)
+        grayscaleBitmap.getGrayscaleBlurredImage(context, radius)
+        return BitmapDrawable(context.resources, grayscaleBitmap)
     }
 
     fun Bitmap.getGrayscaleBlurredImage(context: Context, radius: Float): Bitmap {

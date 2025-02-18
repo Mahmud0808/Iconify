@@ -15,7 +15,10 @@ import com.drdisagree.iconify.common.Preferences.ALBUM_ART_ON_LOCKSCREEN
 import com.drdisagree.iconify.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getColored
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getGrayscaleBlurredImage
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toGrayscale
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
@@ -129,10 +132,7 @@ class AlbumArt(context: Context) : ModPack(context) {
                 if (drawable != mArtworkDrawable) {
                     mArtworkDrawable = drawable
                     mAlbumArtView.setImageDrawable(
-                        mArtworkDrawable?.applyBlur(
-                            mContext,
-                            mAlbumArtBlurLevel
-                        )
+                        getFilteredArtWork(mArtworkDrawable!!)
                     )
                 }
             }
@@ -188,4 +188,24 @@ class AlbumArt(context: Context) : ModPack(context) {
 
         mLayersCreated = true
     }
+
+    private fun getFilteredArtWork(art: Drawable): Drawable? {
+        var finalArt = art
+        val mSystemAccent = mContext.resources.getColor(
+            mContext.resources.getIdentifier(
+                "android:color/system_accent1_300",
+                "color",
+                mContext.packageName
+            ), mContext.theme
+        )
+        finalArt = when (mAlbumArtFilter) {
+            1 -> art.toGrayscale(mContext)
+            2 -> art.getColored(mContext, mSystemAccent)
+            3 -> art.applyBlur(mContext, mAlbumArtBlurLevel)
+            4 -> art.getGrayscaleBlurredImage(mContext, mAlbumArtBlurLevel)
+            else -> art
+        }
+        return finalArt
+    }
+
 }

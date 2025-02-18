@@ -1290,6 +1290,18 @@
     <string name="lockscreen_weather_font_title">Weather Font</string>
     <string name="lockscreen_weather_font_desc">Use custom font for weather text</string>
 
+    <!-- Media art -->
+    <string name="media_art_title">Media cover art</string>
+    <string name="media_art_summary">Display media cover art when available</string>
+
+    <!-- Album art filter -->
+    <string name="albumart_filter_title">Media cover art filter</string>
+    <string name="albumart_filter_none">None</string>
+    <string name="albumart_filter_grayscale">Grayscale</string>
+    <string name="albumart_filter_tint">Accent tinted</string>
+    <string name="albumart_filter_blur">Blur</string>
+    <string name="albumart_filter_grayblur">Grayscale and blurred</string>
+
     <!-- Launcher mods -->
     <string name="section_title_icons">Icons</string>
     <string name="section_title_home_screen">Home Screen</string>
