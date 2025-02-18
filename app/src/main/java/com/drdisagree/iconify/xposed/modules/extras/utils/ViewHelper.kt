@@ -609,17 +609,6 @@ object ViewHelper {
         }
     }
 
-    private fun Drawable.drawableToBitmap(): Bitmap {
-        if (this is BitmapDrawable) return bitmap
-
-        val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        setBounds(0, 0, canvas.width, canvas.height)
-        draw(canvas)
-
-        return bitmap
-    }
-
     fun Drawable?.getColoredBitmap(color: Int): Bitmap? {
         if (this == null) return null
 
@@ -668,34 +657,6 @@ object ViewHelper {
 
     fun Bitmap.getGrayscaleBlurredImage(context: Context, radius: Float): Bitmap {
         return applyBlur(context, radius).toGrayscale()
-    }
-
-    @Suppress("deprecation")
-    fun Bitmap.applyBlur(context: Context?, radius: Float): Bitmap {
-        if (radius == 0f) return this
-
-        val tempImage = try {
-            rgb565toArgb888()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            this
-        }
-
-        val bitmap = Bitmap.createBitmap(tempImage.width, tempImage.height, Bitmap.Config.ARGB_8888)
-        val renderScript = RenderScript.create(context)
-        val blurInput = Allocation.createFromBitmap(renderScript, tempImage)
-        val blurOutput = Allocation.createFromBitmap(renderScript, bitmap)
-
-        ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript)).apply {
-            setInput(blurInput)
-            setRadius(radius.coerceIn(0.01f, 25f)) // radius must be 0 < r <= 25
-            forEach(blurOutput)
-        }
-
-        blurOutput.copyTo(bitmap)
-        renderScript.destroy()
-
-        return bitmap
     }
 
     fun Bitmap?.centerCropBitmap(targetWidth: Int, targetHeight: Int): Bitmap? {
