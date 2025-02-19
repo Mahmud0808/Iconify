@@ -485,6 +485,7 @@
     <string name="activity_title_xposed_weather_settings">Weather Settings</string>
     <string name="activity_title_xposed_launcher">Launcher</string>
     <string name="activity_desc_xposed_launcher">Launcher related modifications</string>
+    <string name="activity_title_lockscreen_album_art">Media Album Art</string>
 
     <!-- Oneplus QS Header -->
     <string name="oneplus_qs_header_title">Oneplus QS Header</string>
@@ -1291,16 +1292,17 @@
     <string name="lockscreen_weather_font_desc">Use custom font for weather text</string>
 
     <!-- Media art -->
-    <string name="media_art_title">Media cover art</string>
-    <string name="media_art_summary">Display media cover art when available</string>
+    <string name="media_art_title">Show Media Album Art</string>
+    <string name="media_art_summary">Display media album art when available</string>
+    <string name="media_art_blur_level_title">Blur Level</string>
 
     <!-- Album art filter -->
-    <string name="albumart_filter_title">Media cover art filter</string>
+    <string name="albumart_filter_title">Media Album Art Filter</string>
     <string name="albumart_filter_none">None</string>
     <string name="albumart_filter_grayscale">Grayscale</string>
-    <string name="albumart_filter_tint">Accent tinted</string>
+    <string name="albumart_filter_tint">Accent Tinted</string>
     <string name="albumart_filter_blur">Blur</string>
-    <string name="albumart_filter_grayblur">Grayscale and blurred</string>
+    <string name="albumart_filter_grayblur">Grayscale and Blurred</string>
 
     <!-- Launcher mods -->
     <string name="section_title_icons">Icons</string>

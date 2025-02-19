@@ -1,6 +1,5 @@
 package com.drdisagree.iconify.xposed.modules.extras.utils
 
-import android.R
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
@@ -17,10 +16,6 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -395,27 +390,25 @@ object ViewHelper {
             return this
         }
 
-        val bitmap = drawableToBitmap(this)
-
-        val blurredBitmap = bitmap.applyBlur(context, radius.coerceIn(1f, 25f))
+        val blurredBitmap = drawableToBitmap().applyBlur(context, radius.coerceIn(1f, 25f))
 
         return BitmapDrawable(context.resources, blurredBitmap)
     }
 
-    private fun drawableToBitmap(drawable: Drawable): Bitmap {
-        if (drawable is BitmapDrawable) {
-            return drawable.bitmap
+    private fun Drawable.drawableToBitmap(): Bitmap {
+        if (this is BitmapDrawable) {
+            return bitmap
         }
 
         val bitmap = Bitmap.createBitmap(
-            drawable.intrinsicWidth,
-            drawable.intrinsicHeight,
+            intrinsicWidth,
+            intrinsicHeight,
             Bitmap.Config.ARGB_8888
         )
 
         val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
+        setBounds(0, 0, canvas.width, canvas.height)
+        draw(canvas)
 
         return bitmap
     }
@@ -617,7 +610,7 @@ object ViewHelper {
         return BitmapDrawable(context.resources, colorDrawable)
     }
 
-    fun Drawable?.getColoredBitmap(color: Int): Bitmap? {
+    private fun Drawable?.getColoredBitmap(color: Int): Bitmap? {
         if (this == null) return null
 
         val colorBitmap = (this as BitmapDrawable).bitmap
@@ -664,14 +657,12 @@ object ViewHelper {
     }
 
     fun Drawable.toGrayscale(context: Context): Drawable {
-        val grayscaleBitmap = drawableToBitmap(this)
-        grayscaleBitmap.toGrayscale()
-        return return BitmapDrawable(context.resources, grayscaleBitmap)
+        val grayscaleBitmap = drawableToBitmap().toGrayscale()
+        return BitmapDrawable(context.resources, grayscaleBitmap)
     }
 
     fun Drawable.getGrayscaleBlurredImage(context: Context, radius: Float): Drawable {
-        val grayscaleBitmap = drawableToBitmap(this)
-        grayscaleBitmap.getGrayscaleBlurredImage(context, radius)
+        val grayscaleBitmap = drawableToBitmap().getGrayscaleBlurredImage(context, radius)
         return BitmapDrawable(context.resources, grayscaleBitmap)
     }
 

@@ -28,6 +28,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.common.Const.ACTION_EXTRACT_FAILURE
 import com.drdisagree.iconify.common.Const.ACTION_EXTRACT_SUBJECT
 import com.drdisagree.iconify.common.Const.ACTION_EXTRACT_SUCCESS
+import com.drdisagree.iconify.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
 import com.drdisagree.iconify.common.Const.AI_PLUGIN_PACKAGE
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.CUSTOM_DEPTH_WALLPAPER_SWITCH
@@ -55,6 +56,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilent
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.shouldShowAlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen.Companion.isComposeLockscreen
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
@@ -100,6 +102,16 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
         ICONIFY_LOCKSCREEN_WIDGET_TAG
     )
 
+    private var shouldShowForeground = true
+    private var mBroadcastRegistered = false
+    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY) {
+                updateForegroundVisibility()
+            }
+        }
+    }
+
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             showDepthWallpaper = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
@@ -133,6 +145,28 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag", "NewApi")
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+        // Receiver to handle foreground visibility
+        if (!mBroadcastRegistered) {
+            val intentFilter = IntentFilter().apply {
+                addAction(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                mContext.registerReceiver(
+                    mReceiver,
+                    intentFilter,
+                    Context.RECEIVER_EXPORTED
+                )
+            } else {
+                mContext.registerReceiver(
+                    mReceiver,
+                    intentFilter
+                )
+            }
+
+            mBroadcastRegistered = true
+        }
+
         mPluginReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (intent.action != null) {
@@ -515,6 +549,17 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
         setCustomDepthWallpaper()
     }
 
+    private fun updateForegroundVisibility() {
+        if (::mWallpaperForeground.isInitialized) {
+            // Hide foreground when album art is showing
+            if (showDepthWallpaper && shouldShowForeground && !shouldShowAlbumArt) {
+                mWallpaperForeground.visibility = View.VISIBLE
+            } else {
+                mWallpaperForeground.visibility = View.GONE
+            }
+        }
+    }
+
     private fun sendPluginIntent() {
         try {
             Handler(Looper.getMainLooper()).post {
@@ -679,10 +724,12 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
                 }
 
                 mWallpaperBackground.visibility = View.VISIBLE
-                mWallpaperForeground.visibility = View.VISIBLE
+                shouldShowForeground = true
+                updateForegroundVisibility()
             }
         } else if (mLayersCreated) {
-            mWallpaperForeground.visibility = View.GONE
+            shouldShowForeground = false
+            updateForegroundVisibility()
 
             if (state == "UNLOCKED") {
                 mWallpaperBackground.visibility = View.GONE
@@ -699,10 +746,11 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
 
         if (mLayersCreated) {
             mWallpaperForeground.post {
-                mWallpaperForeground.visibility = View.GONE
+                shouldShowForeground = false
                 mWallpaperForeground.background = null
                 mWallpaperBackground.visibility = View.GONE
                 mWallpaperBitmapContainer.background = null
+                updateForegroundVisibility()
             }
         }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.drdisagree.iconify.ui.preferences.MasterSwitchPreference
+        android:key="xposed_albumartlockscreen"
+        android:title="@string/media_art_title" />
+
+    <com.drdisagree.iconify.ui.preferences.ListPreference
+        android:defaultValue="0"
+        android:dependency="xposed_albumartlockscreen"
+        android:entries="@array/lockscreen_albumart_filter_entries"
+        android:entryValues="@array/lockscreen_albumart_filter_values"
+        android:key="xposed_albumartlockscreenfilter"
+        android:title="@string/albumart_filter_title"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
+    <com.drdisagree.iconify.ui.preferences.SliderPreference
+        android:dependency="xposed_albumartlockscreen"
+        android:key="xposed_albumartlockscreenblur"
+        android:title="@string/media_art_blur_level_title"
+        app:defaultValue="30"
+        app:iconSpaceReserved="false"
+        app:maxVal="100"
+        app:minVal="0"
+        app:tickInterval="1"
+        app:valueFormat="%" />
+
+</PreferenceScreen>

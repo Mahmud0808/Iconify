@@ -11,6 +11,7 @@ import com.drdisagree.iconify.config.RPrefs.getBoolean
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
 import com.drdisagree.iconify.ui.fragments.tweaks.Tweaks
+import com.drdisagree.iconify.ui.fragments.xposed.AlbumArt
 import com.drdisagree.iconify.ui.fragments.xposed.BackgroundChip
 import com.drdisagree.iconify.ui.fragments.xposed.BatteryStyle
 import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
@@ -204,6 +205,11 @@ object Resources {
             R.xml.xposed_depth_wallpaper,
             R.string.activity_title_depth_wallpaper,
             DepthWallpaper()
+        ),
+        SearchPreferenceItem(
+            R.xml.xposed_lockscreen_album_art,
+            R.string.activity_title_lockscreen_album_art,
+            AlbumArt()
         ),
         SearchPreferenceItem(
             R.xml.xposed_launcher,

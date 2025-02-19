@@ -31,6 +31,13 @@
         android:title="@string/activity_title_depth_wallpaper"
         app:fragment="com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper" />
 
+    <com.drdisagree.iconify.ui.preferences.PreferenceMenu
+        android:icon="@drawable/ic_xposed_album_art"
+        android:key="xposedAlbumArt"
+        android:summary="@string/media_art_summary"
+        android:title="@string/activity_title_lockscreen_album_art"
+        app:fragment="com.drdisagree.iconify.ui.fragments.xposed.AlbumArt" />
+
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
         android:key="transparencyXposedSettings"
         android:title="@string/lock_screen"

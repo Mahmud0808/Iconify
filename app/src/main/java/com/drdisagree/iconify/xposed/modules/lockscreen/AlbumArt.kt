@@ -2,6 +2,7 @@ package com.drdisagree.iconify.xposed.modules.lockscreen
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.media.session.PlaybackState
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.drdisagree.iconify.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
 import com.drdisagree.iconify.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.common.Preferences.ALBUM_ART_LOCKSCREEN_BLUR
 import com.drdisagree.iconify.common.Preferences.ALBUM_ART_LOCKSCREEN_FILTER
@@ -31,14 +33,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class AlbumArt(context: Context) : ModPack(context) {
 
-    private var shouldShowAlbumArt: Boolean = false
-    private var mDepthEnabled: Boolean = false
-    private var mAlbumArtEnabled: Boolean = true
+    private var mAlbumArtEnabled: Boolean = false
     private var mAlbumArtFilter: Int = 0
     private var mAlbumArtBlurLevel: Float = 7.5f
+    private var mDepthEnabled: Boolean = false
 
-    private lateinit var mAlbumArtContainer: FrameLayout
-    private lateinit var mAlbumArtView: ImageView
+    private var mAlbumArtContainer: FrameLayout? = null
+    private var mAlbumArtView: ImageView? = null
 
     private var mArtworkDrawable: Drawable? = null
     private var mPlaybackState: Int = PlaybackState.STATE_NONE
@@ -48,18 +49,22 @@ class AlbumArt(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            mDepthEnabled = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
-            mAlbumArtEnabled = getBoolean(ALBUM_ART_ON_LOCKSCREEN, true)
+            mAlbumArtEnabled = getBoolean(ALBUM_ART_ON_LOCKSCREEN, false)
             mAlbumArtFilter = getString(ALBUM_ART_LOCKSCREEN_FILTER, "0")!!.toInt()
-            mAlbumArtBlurLevel = (Xprefs.getSliderInt(ALBUM_ART_LOCKSCREEN_BLUR, 30) / 100f) * 25f
+            mAlbumArtBlurLevel = getSliderInt(ALBUM_ART_LOCKSCREEN_BLUR, 30) / 100f * 25f
+            mDepthEnabled = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
         }
 
         when (key.firstOrNull()) {
+            ALBUM_ART_ON_LOCKSCREEN -> {
+                updateAlbumArtState()
+                broadcastAlbumArtUpdate()
+            }
+
             in setOf(
-                ALBUM_ART_ON_LOCKSCREEN,
                 ALBUM_ART_LOCKSCREEN_FILTER,
                 ALBUM_ART_LOCKSCREEN_BLUR
-            ) -> updateAlbumArtState()
+            ) -> updateAlbumArtFilter()
         }
     }
 
@@ -89,7 +94,7 @@ class AlbumArt(context: Context) : ModPack(context) {
         centralSurfacesImplClass
             .hookMethod("start")
             .runAfter {
-                if (!mAlbumArtEnabled || mScrimControllerObj == null) return@runAfter
+                if (mScrimControllerObj == null) return@runAfter
 
                 val scrimBehind = mScrimControllerObj.getField("mScrimBehind") as View
                 val rootView = scrimBehind.parent as ViewGroup
@@ -105,6 +110,7 @@ class AlbumArt(context: Context) : ModPack(context) {
             .hookMethod("applyAndDispatchState")
             .runAfter { _ ->
                 updateAlbumArtState()
+                broadcastAlbumArtUpdate()
             }
 
         qsImplClass
@@ -112,6 +118,7 @@ class AlbumArt(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (param.thisObject.callMethod("isKeyguardState") as Boolean) {
                     updateAlbumArtState()
+                    broadcastAlbumArtUpdate()
                 }
             }
 
@@ -125,8 +132,8 @@ class AlbumArt(context: Context) : ModPack(context) {
 
                 if (drawable != mArtworkDrawable) {
                     mArtworkDrawable = drawable
-                    mAlbumArtView.setImageDrawable(
-                        getFilteredArtWork(mArtworkDrawable!!)
+                    mAlbumArtView?.setImageDrawable(
+                        mArtworkDrawable!!.getFilteredArtWork()
                     )
                 }
             }
@@ -137,28 +144,48 @@ class AlbumArt(context: Context) : ModPack(context) {
                 mPlaybackState = param.args[1] as Int
 
                 updateAlbumArtState()
+                broadcastAlbumArtUpdate()
             }
+    }
+
+    private fun broadcastAlbumArtUpdate() {
+        Thread {
+            mContext.sendBroadcast(
+                Intent(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY).apply {
+                    setFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+                }
+            )
+        }.start()
     }
 
     private fun updateAlbumArtState() {
         if (mScrimControllerObj == null || !mAlbumArtEnabled) {
+            showAlbumArt = false
             if (mLayersCreated) {
-                mAlbumArtContainer.post { mAlbumArtContainer.visibility = View.GONE }
+                mAlbumArtContainer?.post { mAlbumArtContainer?.visibility = View.GONE }
             }
             return
         }
 
-        shouldShowAlbumArt =
+        showAlbumArt =
             (mPlaybackState == PlaybackState.STATE_PLAYING || mPlaybackState == PlaybackState.STATE_BUFFERING) &&
             mScrimControllerObj.getField("mState").toString() == "KEYGUARD"
 
-        mAlbumArtContainer.post {
-            val newVisibility = if (shouldShowAlbumArt) View.VISIBLE else View.GONE
+        mAlbumArtContainer?.post {
+            val newVisibility = if (showAlbumArt) View.VISIBLE else View.GONE
 
-            if (mAlbumArtContainer.visibility != newVisibility) {
-                mAlbumArtContainer.visibility = newVisibility
+            if (mAlbumArtContainer?.visibility != newVisibility) {
+                mAlbumArtContainer?.visibility = newVisibility
             }
         }
+    }
+
+    private fun updateAlbumArtFilter() {
+        if (!mAlbumArtEnabled) return
+
+        mAlbumArtView?.setImageDrawable(
+            mArtworkDrawable!!.getFilteredArtWork()
+        )
     }
 
     private fun createLayers() {
@@ -178,13 +205,13 @@ class AlbumArt(context: Context) : ModPack(context) {
             scaleType = ImageView.ScaleType.CENTER_CROP
         }
 
-        mAlbumArtContainer.reAddView(mAlbumArtView)
+        mAlbumArtContainer?.reAddView(mAlbumArtView)
 
         mLayersCreated = true
     }
 
     @SuppressLint("DiscouragedApi")
-    private fun getFilteredArtWork(artwork: Drawable): Drawable {
+    private fun Drawable.getFilteredArtWork(): Drawable {
         val mSystemAccent = mContext.resources.getColor(
             mContext.resources.getIdentifier(
                 "android:color/system_accent1_300",
@@ -194,11 +221,16 @@ class AlbumArt(context: Context) : ModPack(context) {
         )
 
         return when (mAlbumArtFilter) {
-            1 -> artwork.toGrayscale(mContext)
-            2 -> artwork.getColored(mContext, mSystemAccent)
-            3 -> artwork.applyBlur(mContext, mAlbumArtBlurLevel)
-            4 -> artwork.getGrayscaleBlurredImage(mContext, mAlbumArtBlurLevel)
-            else -> artwork
+            1 -> toGrayscale(mContext)
+            2 -> getColored(mContext, mSystemAccent)
+            3 -> applyBlur(mContext, mAlbumArtBlurLevel)
+            4 -> getGrayscaleBlurredImage(mContext, mAlbumArtBlurLevel)
+            else -> this
         }
+    }
+
+    companion object {
+        private var showAlbumArt: Boolean = false
+        val shouldShowAlbumArt: Boolean get() = showAlbumArt
     }
 }
