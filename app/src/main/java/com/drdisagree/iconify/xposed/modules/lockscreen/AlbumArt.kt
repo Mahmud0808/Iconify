@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.modules.lockscreen
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
@@ -26,7 +27,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XposedHelpers.getObjectField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class AlbumArt(context: Context) : ModPack(context) {
@@ -91,7 +91,7 @@ class AlbumArt(context: Context) : ModPack(context) {
             .runAfter {
                 if (!mAlbumArtEnabled || mScrimControllerObj == null) return@runAfter
 
-                val scrimBehind = getObjectField(mScrimControllerObj, "mScrimBehind") as View
+                val scrimBehind = mScrimControllerObj.getField("mScrimBehind") as View
                 val rootView = scrimBehind.parent as ViewGroup
 
                 if (!mLayersCreated) {
@@ -99,12 +99,6 @@ class AlbumArt(context: Context) : ModPack(context) {
                 }
 
                 rootView.reAddView(mAlbumArtContainer, if (mDepthEnabled) 1 else 0)
-            }
-
-        centralSurfacesImplClass
-            .hookMethod("onStartedWakingUp")
-            .runAfter { _ ->
-                updateAlbumArtState()
             }
 
         scrimControllerClass
@@ -189,8 +183,8 @@ class AlbumArt(context: Context) : ModPack(context) {
         mLayersCreated = true
     }
 
-    private fun getFilteredArtWork(art: Drawable): Drawable? {
-        var finalArt = art
+    @SuppressLint("DiscouragedApi")
+    private fun getFilteredArtWork(artwork: Drawable): Drawable {
         val mSystemAccent = mContext.resources.getColor(
             mContext.resources.getIdentifier(
                 "android:color/system_accent1_300",
@@ -198,14 +192,13 @@ class AlbumArt(context: Context) : ModPack(context) {
                 mContext.packageName
             ), mContext.theme
         )
-        finalArt = when (mAlbumArtFilter) {
-            1 -> art.toGrayscale(mContext)
-            2 -> art.getColored(mContext, mSystemAccent)
-            3 -> art.applyBlur(mContext, mAlbumArtBlurLevel)
-            4 -> art.getGrayscaleBlurredImage(mContext, mAlbumArtBlurLevel)
-            else -> art
-        }
-        return finalArt
-    }
 
+        return when (mAlbumArtFilter) {
+            1 -> artwork.toGrayscale(mContext)
+            2 -> artwork.getColored(mContext, mSystemAccent)
+            3 -> artwork.applyBlur(mContext, mAlbumArtBlurLevel)
+            4 -> artwork.getGrayscaleBlurredImage(mContext, mAlbumArtBlurLevel)
+            else -> artwork
+        }
+    }
 }
