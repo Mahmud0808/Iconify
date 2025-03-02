@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">Kaydırma çubuğu dalga animasyonunu devre dışı bırak</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">LSPosed modüllerinden Iconify\'yi etkinleştirmeden önce, Iconify\'ye uzun basın ve Yeniden Optimize et seçeneğine tıklayın. Daha sonra Iconify\'yi etkinleştirin ve SystemUI\'nizi yeniden başlatın. Bu, daha sorunsuz bir deneyim için gereklidir.</string>
+    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
     <string name="xposed_only_desc">Şu anda Yalnızca Xposed modunda bulunmaktasınız. Bu, iconify\'nin LSPosed uygulamasında etkinleştirilmesini gerektirir. Ayrıca, Iconify modülünün Magisk yöneticisinde göründüğünden emin olun. Tüm özelliklere erişim elde etmek için iconify uygulamasının verilerini temizleyin ve kurulum sürecini tekrarlayın!</string>
     <string name="xposed_module_disabled_title">Modül Etkin Değil</string>
     <string name="xposed_module_disabled_desc">Sistem hizmeti çalışmıyor</string>
+    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">Şeffaflık &amp; Bulanıklık</string>
     <string name="activity_desc_transparency_blur">QS bulanıklığını ve şeffaflığını etkinleştirin</string>
     <string name="activity_title_themes">Temalar</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">Hızlı ayar butonlarına titreşim ekle</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Stok medya oynatıcıyı gizle</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Stok medya oynatıcıyı Hızlı ayarlar panelinden gizle</string>
+    <string name="oneplus_qs_header_show_artwork_title">Show Artwork</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Show album art of the playing media</string>
     <string name="oneplus_qs_header_blur_level">Blur seviyesi</string>
     <string name="oneplus_qs_header_fade_level">Kararma seviyesi</string>
     <string name="oneplus_qs_header_top_margin">Üst Kenar Boşluğu</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">Evet</string>
     <string name="btn_negative">Hayır</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">White Background</string>
+    <string name="toast_frame_always_white_desc">Keep toast background white even in dark mode</string>
     <string name="toast_applied">Uygulandı</string>
     <string name="toast_disabled">Devre dışı bırakıldı</string>
     <string name="toast_reset">Sıfırla</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your system UI to crash.</string>
+    <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Birim</string>

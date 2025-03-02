@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">禁用進度指示器波形動畫</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">在從 LSPosed 模組啟用 Iconify 之前，長按 Iconify 並按一下重新優化。之後，啟用 Iconify 並重新啟動 SystemUI。這對於更流暢的體驗是必要的。</string>
+    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
     <string name="xposed_only_desc">您當前處於「僅 Xposed」 模式。這需要在 LSPosed 應用中啟用 iconify。還要確保 Iconify 模組顯示在 Magisk 管理器中。要訪問所有功能，請清除iconify應用程式的數據並完成安裝過程！</string>
     <string name="xposed_module_disabled_title">模組未激活</string>
     <string name="xposed_module_disabled_desc">系統服務未運行</string>
+    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">透明度 &amp; 模糊</string>
     <string name="activity_desc_transparency_blur">啓用快速設定模糊和透明度</string>
     <string name="activity_title_themes">主題</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
+    <string name="oneplus_qs_header_show_artwork_title">Show Artwork</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Show album art of the playing media</string>
     <string name="oneplus_qs_header_blur_level">Blur Level</string>
     <string name="oneplus_qs_header_fade_level">Fade Level</string>
     <string name="oneplus_qs_header_top_margin">Top Margin</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">好</string>
     <string name="btn_negative">不</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">White Background</string>
+    <string name="toast_frame_always_white_desc">Keep toast background white even in dark mode</string>
     <string name="toast_applied">已應用</string>
     <string name="toast_disabled">已關閉</string>
     <string name="toast_reset">重置</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your system UI to crash.</string>
+    <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Unit</string>

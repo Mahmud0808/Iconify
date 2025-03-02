@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">تعطيل حركة موجة شريط التقدم</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">قبل تفعيل Iconify في اضافات LSposed, اضغط لفترة طويلة على Iconify وانقر على إعادة التحسين. بعد ذلك، قم بتمكين Iconify وأعد تشغيل واجهتك. هذا ضروري لتجربة أكثر سلاسة..</string>
+    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
     <string name="xposed_only_desc">أنت حالياً في وضع Xposed فقط. وهذا يتطلب تمكين Iconify في تطبيق LSPosed. تأكد أيضا من أن إضافة Iconify تظهر في مدير Magisk. للحصول على الوصول إلى جميع الميزات، قم بمسح البيانات من تطبيق Iconify والذهاب من خلال عملية التثبيت!</string>
     <string name="xposed_module_disabled_title">لم يتم تنشيط الإضافة</string>
     <string name="xposed_module_disabled_desc">خدمة النظام غير مشغلة</string>
+    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">الشفافية &amp; التعتيم</string>
     <string name="activity_desc_transparency_blur">تمكين الطمس والشفافية للـQS</string>
     <string name="activity_title_themes">سمات</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">إضافة الاهتزاز التفاعلي في التحكم</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">إخفاء مشغل الوسائط التقليدي</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">إزالة مشغل الوسائط التقليدي من التحكم</string>
+    <string name="oneplus_qs_header_show_artwork_title">Show Artwork</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Show album art of the playing media</string>
     <string name="oneplus_qs_header_blur_level">مستوى التشويش</string>
     <string name="oneplus_qs_header_fade_level">مستوى التلاشي</string>
     <string name="oneplus_qs_header_top_margin">الهامش العلوي</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">نعم</string>
     <string name="btn_negative">لا</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">White Background</string>
+    <string name="toast_frame_always_white_desc">Keep toast background white even in dark mode</string>
     <string name="toast_applied">تم التطبيق</string>
     <string name="toast_disabled">معطل</string>
     <string name="toast_reset">اعادة ضبط</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your system UI to crash.</string>
+    <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Unit</string>

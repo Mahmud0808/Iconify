@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">Letiltja a haladási hullám animációját</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Mielőtt engedélyezné az Iconify-t az LSPosed modulban, nyomjon hosszan az Iconify-ra és klikkeljen az Újra-Optimalizálás-ra. Ezután engedélyezze az Iconify-t, majd indítsa újra a rendszerfelületet. Ez elengedhetetlen a gördülékeny működéshez.</string>
+    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
     <string name="xposed_only_desc">Ön jelenleg \'Csak Xposed\' módban van. Ehhez az Iconify engedélyezése szükséges az LSPosed alkalmazásban. Győződjön meg arról is, hogy az Iconify modul megjelenik a Magisk managerben. Az összes funkcióhoz való hozzáféréshez törölje az Iconify alkalmazás adatait, és haladjon végig a telepítési folyamaton!</string>
     <string name="xposed_module_disabled_title">A modul nincs aktiválva.</string>
     <string name="xposed_module_disabled_desc">A rendszer-szolgáltatás nem fut</string>
+    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">Átlátszóság és elmosás</string>
     <string name="activity_desc_transparency_blur">Itt kapcsolhatja be az átlátszóságot és az elmosást</string>
     <string name="activity_title_themes">Témák</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">A csempék rezgésének hozzáadása</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Rejtett Médialejátszó</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Eltávolítja a gyári médialejátszót a gyorsbeállítások paneljéről</string>
+    <string name="oneplus_qs_header_show_artwork_title">Lemezborító-megjelenítés</string>
+    <string name="oneplus_qs_header_show_artwork_desc">A lejátszott média lemezborítójának megjelenítése</string>
     <string name="oneplus_qs_header_blur_level">Az elmosás erőssége</string>
     <string name="oneplus_qs_header_fade_level">A halványítás erőssége</string>
     <string name="oneplus_qs_header_top_margin">Felső margó</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">Igen</string>
     <string name="btn_negative">Nem</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">Fehér háttér</string>
+    <string name="toast_frame_always_white_desc">A háttér fehér marad még sötét módban is</string>
     <string name="toast_applied">Alkalmazva</string>
     <string name="toast_disabled">Letiltva</string>
     <string name="toast_reset">Visszaállítás</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Tudjon meg többet</string>
     <string name="custom_tiles_footer_info">Az egyéni csempék megfelelő működésének biztosítása érdekében mielőtt egyéni csepéket használna az Internet és Bluetooth csempék helyett, használja az alapértelmezettet.</string>
     <string name="hig_res_image_footer_info">Kerülje a nagy felbontású képek használatát, mert ezek a rendszerfelület összeomlását okozhatják.</string>
+    <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Egység</string>

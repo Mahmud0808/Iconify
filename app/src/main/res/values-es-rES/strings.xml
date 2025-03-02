@@ -381,7 +381,7 @@
     <string name="read_carefully">¡Lee con atención!</string>
     <!-- Volume Panel Style -->
     <string name="volume_style">Estilo de volumen</string>
-    <string name="volume_style_default">Default</string>
+    <string name="volume_style_default">Predeterminado</string>
     <string name="volume_style_gradient">Degradado</string>
     <string name="volume_style_doublelayer">Doble capa</string>
     <string name="volume_style_shadedlayer">Capa sombreada</string>
@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">Deshabilitar animación de onda de barra de progreso</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Antes de habilitar Iconify desde los módulos de LSPosed, mantén presionado Iconify y haz clic en Reoptimizar. Luego habilita Iconify y reinicia tu SystemUI. Esto es necesario para una experiencia más fluida.</string>
+    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
     <string name="xposed_only_desc">Actualmente solo estás en el modo Xposed. Esto requiere que Iconify esté habilitado en la aplicación LSPosed. También asegúrate de que el módulo Iconify se muestre en el administrador de Magisk. Para acceder a todas las funciones, ¡limpia los datos de la aplicación Iconify y sigue el proceso de instalación!</string>
     <string name="xposed_module_disabled_title">Módulo deshabilitado</string>
     <string name="xposed_module_disabled_desc">El servicio del sistema no se está ejecutando</string>
+    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">Transparencia &amp; Desenfoque</string>
     <string name="activity_desc_transparency_blur">Habilitar la transparencia y desenfoque en el panel</string>
     <string name="activity_title_themes">Temas</string>
@@ -450,7 +453,7 @@
     <string name="activity_title_xposed_weather_settings">Configuración del clima</string>
     <string name="activity_title_xposed_launcher">Lanzador</string>
     <string name="activity_desc_xposed_launcher">Modificaciones relacionadas con el lanzador</string>
-    <string name="activity_title_lockscreen_album_art">Media Album Art</string>
+    <string name="activity_title_lockscreen_album_art">Carátula del álbum multimedia</string>
     <!-- Oneplus QS Header -->
     <string name="oneplus_qs_header_title">Enzabezado de AR de OnePlus</string>
     <string name="oneplus_qs_header_desc">Habilitar reproductor multimedia de estilo OOS y azulejos en QS</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">Añadir respuesta háptica en azulejos</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Ocultar reproductor de media nativo</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Quitar reproductor de media nativo del panel de AR</string>
+    <string name="oneplus_qs_header_show_artwork_title">Mostrar ilustración</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Mostrar carátula del álbum del multimedia en reproducción</string>
     <string name="oneplus_qs_header_blur_level">Nivel de desenfoque</string>
     <string name="oneplus_qs_header_fade_level">Nivel de desvanecimiento</string>
     <string name="oneplus_qs_header_top_margin">Margen superior</string>
@@ -824,8 +829,8 @@
     <string name="sb_swap_wifi_cellular_desc">Intercambiar iconos Wifi y móvil</string>
     <string name="sb_swap_cellular_network_type_title">Intercambiar red móvil y tipo de red</string>
     <string name="sb_swap_cellular_network_type_desc">Intercambiar los iconos de red móvil y de tipo de red (3G 4G LTE etc.)</string>
-    <string name="sb_clock_on_right_side_title">Clock on End Side</string>
-    <string name="sb_clock_on_right_side_desc">Show clock on end side of statusbar</string>
+    <string name="sb_clock_on_right_side_title">Reloj en lado final</string>
+    <string name="sb_clock_on_right_side_desc">Mostrar reloj en el lado final de la barra de estado</string>
     <string name="sb_show_4g_icon_title">Icono 4G</string>
     <string name="sb_show_4g_icon_desc">Mostrar icono 4G en la barra de estado en lugar de LTE</string>
     <string name="sb_max_notification_icons_title">Límite de iconos de notificación</string>
@@ -835,21 +840,21 @@
     <string name="dsb_title">Barra de estado de doble fila</string>
     <string name="dsb_portrait_only_title">Sólo vertical</string>
     <string name="dsb_single_line_start_side_title">Fila simple al principio</string>
-    <string name="dsb_single_line_start_side_desc">Show one row on start side of statusbar</string>
+    <string name="dsb_single_line_start_side_desc">Mostrar una fila en el lado inicial de la barra de estado</string>
     <string name="dsb_single_line_end_side_title">Fila simple al final</string>
     <string name="dsb_single_line_end_side_desc">Mostrar sólo una fila al final de la barra de estado</string>
-    <string name="dsb_swap_start_side_title">Swap Start Side</string>
-    <string name="dsb_swap_start_side_desc">Swap the position of clock and notification icons</string>
-    <string name="dsb_swap_end_side_title">Swap End Side</string>
-    <string name="dsb_swap_end_side_desc">Swap the position of battery and status icons</string>
+    <string name="dsb_swap_start_side_title">Intercambiar lado inicial</string>
+    <string name="dsb_swap_start_side_desc">Intercambiar la posición de los iconos de reloj y notificación</string>
+    <string name="dsb_swap_end_side_title">Intercambiar lado final</string>
+    <string name="dsb_swap_end_side_desc">Intercambiar la posición de los iconos de batería y estado</string>
     <string name="dsb_statusbar_height_title">Altura de la Barra de Estado</string>
     <string name="dsb_start_padding_title">Margen inicial</string>
     <string name="dsb_end_padding_title">Margen final</string>
     <string name="dsb_top_padding_title">Margen Superior</string>
-    <string name="dsb_start_top_margin_title">Start Top Margin</string>
-    <string name="dsb_start_bottom_margin_title">Start Bottom Margin</string>
-    <string name="dsb_end_top_margin_title">End Top Margin</string>
-    <string name="dsb_end_bottom_margin_title">End Bottom Margin</string>
+    <string name="dsb_start_top_margin_title">Margen superior inicial</string>
+    <string name="dsb_start_bottom_margin_title">Margen inferior inicial</string>
+    <string name="dsb_end_top_margin_title">Margen superior final</string>
+    <string name="dsb_end_bottom_margin_title">Margen inferior final</string>
     <!-- Xposed Others -->
     <string name="qs_header">Encabezado de AR</string>
     <string name="hide_carrier_group_title">Ocultar grupo del operador</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">Sí</string>
     <string name="btn_negative">No</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">Fondo blanco</string>
+    <string name="toast_frame_always_white_desc">Mantener fondo de toasts en blanco incluso en modo oscuro</string>
     <string name="toast_applied">Aplicado</string>
     <string name="toast_disabled">Deshabilitado</string>
     <string name="toast_reset">Restablecido</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Saber más</string>
     <string name="custom_tiles_footer_info">Para asegurar que los botones personalizados funcionen correctamente, primero usa los botones de Internet y Bluetooth por defecto una vez, antes de usar los personalizados.</string>
     <string name="hig_res_image_footer_info">Evite el uso de imágenes de alta resolución, ya que pueden bloquear de la interfaz de usuario.</string>
+    <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Unidad</string>
@@ -1235,16 +1243,16 @@
     <string name="lockscreen_weather_font_title">Fuente del clima</string>
     <string name="lockscreen_weather_font_desc">Usar fuente personalizada para el texto del clima</string>
     <!-- Media art -->
-    <string name="media_art_title">Show Media Album Art</string>
-    <string name="media_art_summary">Display media album art when available</string>
-    <string name="media_art_blur_level_title">Blur Level</string>
+    <string name="media_art_title">Mostrar carátula del álbum multimedia</string>
+    <string name="media_art_summary">Mostrar la carátula del álbum multimedia cuando esté disponible</string>
+    <string name="media_art_blur_level_title">Nivel de desenfoque</string>
     <!-- Album art filter -->
-    <string name="albumart_filter_title">Media Album Art Filter</string>
-    <string name="albumart_filter_none">None</string>
-    <string name="albumart_filter_grayscale">Grayscale</string>
-    <string name="albumart_filter_tint">Accent Tinted</string>
-    <string name="albumart_filter_blur">Blur</string>
-    <string name="albumart_filter_grayblur">Grayscale and Blurred</string>
+    <string name="albumart_filter_title">Filtro de carátula del álbum multimedia</string>
+    <string name="albumart_filter_none">Ninguno</string>
+    <string name="albumart_filter_grayscale">Escala de grises</string>
+    <string name="albumart_filter_tint">Teñido con acento</string>
+    <string name="albumart_filter_blur">Desenfoque</string>
+    <string name="albumart_filter_grayblur">En escala de grises y desenfocado</string>
     <!-- Launcher mods -->
     <string name="section_title_icons">Iconos</string>
     <string name="section_title_home_screen">Pantalla de Inicio</string>

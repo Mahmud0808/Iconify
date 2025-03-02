@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">プログレスバーの波アニメーションを無効化します</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">LSPosed から Iconify モジュールを有効化する前に、Iconify を長押しして最適化をクリックしてください。その後 Iconify を有効にしてシステム UI を再起動してください。これは滑らかな動作に必要なことです。</string>
+    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
     <string name="xposed_only_desc">現在 Xposed 限定モードです。これには LSPosed アプリで Iconify を有効にする必要があります。また、Magisk マネージャーで Iconify モジュールが表示されていることを確認してください。すべての機能にアクセスするには、Iconify アプリのデータを削除した後、インストールプロセスを実行してください。</string>
     <string name="xposed_module_disabled_title">モジュールが有効化されていません</string>
     <string name="xposed_module_disabled_desc">システムサービスが実行されていません</string>
+    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">透過とぼかし</string>
     <string name="activity_desc_transparency_blur">クイック設定のぼかしと透過を有効化します</string>
     <string name="activity_title_themes">テーマ</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">タイルに触覚フィードバックを追加</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">標準のメディアプレーヤーを隠す</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">クイック設定パネルから標準のメディアプレーヤーを削除する</string>
+    <string name="oneplus_qs_header_show_artwork_title">Show Artwork</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Show album art of the playing media</string>
     <string name="oneplus_qs_header_blur_level">ぼかしのレベル</string>
     <string name="oneplus_qs_header_fade_level">Fade Level</string>
     <string name="oneplus_qs_header_top_margin">上部マージン</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">はい</string>
     <string name="btn_negative">いいえ</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">White Background</string>
+    <string name="toast_frame_always_white_desc">Keep toast background white even in dark mode</string>
     <string name="toast_applied">適用されました</string>
     <string name="toast_disabled">無効化されました</string>
     <string name="toast_reset">リセット</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your system UI to crash.</string>
+    <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">単位</string>

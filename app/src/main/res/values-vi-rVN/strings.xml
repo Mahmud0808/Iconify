@@ -32,7 +32,7 @@
     <string name="installation_failed_desc">Nhật ký đã được lưu trong thư mục tài liệu.</string>
     <string name="logs">Nhật ký</string>
     <!-- Search Preference -->
-    <string name="search_title">Search</string>
+    <string name="search_title"></string>
     <string name="searchpreference_search">Search…</string>
     <string name="searchpreference_clear">Clear</string>
     <string name="searchpreference_history_entry">History entry</string>
@@ -402,7 +402,7 @@
     <string name="mp_pb_background_desc">Make background pitch black</string>
     <!-- Miscellaneous -->
     <string name="section_title_tablet_mode">Tablet Mode</string>
-    <string name="tablet_landscape_title">Tablet Landscape</string>
+    <string name="tablet_landscape_title">Hiển thị theo chiều ngang</string>
     <string name="tablet_landscape_desc">Also known as Better QS</string>
     <string name="notch_bar_killer_title">Notch Bar Killer</string>
     <string name="notch_bar_killer_desc">Kill empty space of notch bar</string>
@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">Disable progress bar wave animation</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Trước khi bật Iconify từ các mô-đun LSPosed, hãy nhấn và giữ Iconify và nhấp vào Tối ưu hóa lại. Sau đó kích hoạt Iconify và khởi động lại SystemUI của bạn. Điều này là cần thiết để có trải nghiệm mượt mà hơn.</string>
+    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
     <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. Also make sure that Iconify module is shown in Magisk manager. To get access to all features, clear data of iconify app and go through the installation process!</string>
     <string name="xposed_module_disabled_title">Module Not Activated</string>
     <string name="xposed_module_disabled_desc">System service not running</string>
+    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">Độ trong suốt &amp; Độ mờ</string>
     <string name="activity_desc_transparency_blur">Kích hoạt độ mờ và độ trong suốt của QS</string>
     <string name="activity_title_themes">Themes</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
+    <string name="oneplus_qs_header_show_artwork_title">Show Artwork</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Show album art of the playing media</string>
     <string name="oneplus_qs_header_blur_level">Blur Level</string>
     <string name="oneplus_qs_header_fade_level">Fade Level</string>
     <string name="oneplus_qs_header_top_margin">Top Margin</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">Yes</string>
     <string name="btn_negative">No</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">White Background</string>
+    <string name="toast_frame_always_white_desc">Keep toast background white even in dark mode</string>
     <string name="toast_applied">Áp dụng</string>
     <string name="toast_disabled">Không cho phép</string>
     <string name="toast_reset">Cài lại</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your system UI to crash.</string>
+    <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Unit</string>

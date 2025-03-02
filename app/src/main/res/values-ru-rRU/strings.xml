@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">Отключить анимацию волны на прогресс-баре медиаплеера</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Перед включением Iconify в LSPosed, сделайте долгий клик по приложению и нажмите Re-optimize. После этого включите Iconify и перезапустите System UI. Это необходимо для лучшей работы.</string>
+    <string name="lsposed_bootloop_warn">Одна из функций, которую вы включили, не совместима с вашей прошивкой. Пожалуйста, отключите её и перезапустите SystemUI.</string>
     <string name="xposed_only_desc">Включен режим \"Только XPosed\". Это требует включения Iconify в LSPosed. Также необходимо убедиться, что модуль Iconify отображается в Magisk Manager. Чтобы получить доступ ко всем функциям, достаточно очистить данные Iconify в настройках приложения и повторить процесс установки!</string>
     <string name="xposed_module_disabled_title">Модуль не активирован</string>
     <string name="xposed_module_disabled_desc">Системная служба не работает</string>
+    <string name="xposed_module_bootlooped_title">Обнаружен Bootloop</string>
+    <string name="xposed_module_bootlooped_desc">Модуль был выключен</string>
     <string name="activity_title_transparency_blur">Прозрачность &amp; Размытие</string>
     <string name="activity_desc_transparency_blur">Включить размытие и прозрачность панели быстрых настроек</string>
     <string name="activity_title_themes">Темы</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">Добавить виброотклик на плитки</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Скрыть стандартный медиаплеер</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Удалить медиаплеер из панели быстрых настроек</string>
+    <string name="oneplus_qs_header_show_artwork_title">Показать картинку</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Показывать обложку проигрываемого медиа</string>
     <string name="oneplus_qs_header_blur_level">Уровень размытия</string>
     <string name="oneplus_qs_header_fade_level">Уровень затемнения</string>
     <string name="oneplus_qs_header_top_margin">Верхнее поле</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">Да</string>
     <string name="btn_negative">Нет</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">Белый фон</string>
+    <string name="toast_frame_always_white_desc">Сохранять фон тоста белым даже в темном режиме</string>
     <string name="toast_applied">Применено</string>
     <string name="toast_disabled">Отключено</string>
     <string name="toast_reset">Сброс</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Узнать больше</string>
     <string name="custom_tiles_footer_info">Чтобы обеспечить правильную работу пользовательских плиток, сначала используйте плитки Интернета и Bluetooth по умолчанию, прежде чем использовать пользовательские.</string>
     <string name="hig_res_image_footer_info">Избегайте использования изображений с высоким разрешением, так как они могут привести к сбою пользовательского интерфейса вашей системы.</string>
+    <string name="more">Подробнее</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Единица измерения</string>

@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">Desative a animação de onda da barra de progresso</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Antes de ativar o Iconify no LSPosed, mantenha pressionado o Iconify e clique em Re-otimizar. Depois disso, ative o Iconify e reinicie sua Interface do sistema. Isso é necessário para uma experiência mais tranquila.</string>
+    <string name="lsposed_bootloop_warn">Um dos recursos que você ativou não é compatível com sua ROM. Desative-o e reinicie sua Interface do sistema.</string>
     <string name="xposed_only_desc">Você está atualmente no modo somente Xposed. Isso requer que o Iconify esteja ativado no LSPosed. Certifique-se também de que o módulo Iconify seja mostrado no Magisk. Para ter acesso a todos os recursos, limpe os dados do app Iconify e siga o processo de instalação!</string>
     <string name="xposed_module_disabled_title">Módulo não ativado</string>
     <string name="xposed_module_disabled_desc">Serviço do sistema não está em execução</string>
+    <string name="xposed_module_bootlooped_title">Bootloop detectado</string>
+    <string name="xposed_module_bootlooped_desc">O módulo foi desativado</string>
     <string name="activity_title_transparency_blur">Transparência e blur</string>
     <string name="activity_desc_transparency_blur">Ative o blur e a transparência do painel QS</string>
     <string name="activity_title_themes">Temas</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">Adicione feedback tátil nos blocos</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Ocultar reprodutor de mídia padrão</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Remova o reprodutor de mídia padrão do painel QS</string>
+    <string name="oneplus_qs_header_show_artwork_title">Mostrar arte</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Mostre a arte do álbum da mídia reproduzida</string>
     <string name="oneplus_qs_header_blur_level">Nível do blur</string>
     <string name="oneplus_qs_header_fade_level">Nível de esmaecimento</string>
     <string name="oneplus_qs_header_top_margin">Margem superior</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">Sim</string>
     <string name="btn_negative">Não</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">Fundo branco</string>
+    <string name="toast_frame_always_white_desc">Mantenha o fundo da dica branco mesmo no modo escuro</string>
     <string name="toast_applied">Aplicado</string>
     <string name="toast_disabled">Desabilitado</string>
     <string name="toast_reset">Redefinir</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Saiba mais</string>
     <string name="custom_tiles_footer_info">Para garantir que os blocos personalizados funcionem corretamente, primeiro use os blocos padrão de Internet e Bluetooth uma vez antes de usar os personalizados.</string>
     <string name="hig_res_image_footer_info">Evite usar imagens de alta resolução, pois elas podem causar falha na Interface do sistema.</string>
+    <string name="more">Mais</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Unidade</string>

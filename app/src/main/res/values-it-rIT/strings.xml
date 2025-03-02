@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">Disabilita l\'animazione dell\'onda nella barra di avanzamento</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Prima di abilitare Iconify dai moduli LSPosed, premi a lungo su Iconify e fai clic su Ri-ottimizza. Successivamente abilita Iconify e riavvia SystemUI. Ciò è necessario per un\'esperienza più fluida.</string>
+    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
     <string name="xposed_only_desc">Attualmente sei in modalità Solo Xposed. Ciò richiede che iconify sia abilitato nell\'app LSPosed. Assicurati inoltre che il modulo Iconify sia mostrato nel gestore Magisk. Per accedere a tutte le funzionalità, cancella i dati dell\'app iconify e segui il processo di installazione!</string>
     <string name="xposed_module_disabled_title">Modulo non attivato</string>
     <string name="xposed_module_disabled_desc">Servizio di sistema non in esecuzione</string>
+    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">Trasparenza &amp; Sfocatura</string>
     <string name="activity_desc_transparency_blur">Abilita sfocatura e trasparenza QS</string>
     <string name="activity_title_themes">Temi</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">Aggiungi vibrazione tattile sulle caselle</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Nascondi Riproduttore Multimediale Nativo</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Rimuovi riproduttore multimediale nativo dal pannello impostazioni rapide</string>
+    <string name="oneplus_qs_header_show_artwork_title">Show Artwork</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Show album art of the playing media</string>
     <string name="oneplus_qs_header_blur_level">Livello sfocatura</string>
     <string name="oneplus_qs_header_fade_level">Livello Dissolvenza</string>
     <string name="oneplus_qs_header_top_margin">Margine Superiore</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">Si</string>
     <string name="btn_negative">No</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">White Background</string>
+    <string name="toast_frame_always_white_desc">Keep toast background white even in dark mode</string>
     <string name="toast_applied">Applicato</string>
     <string name="toast_disabled">Disabilitato</string>
     <string name="toast_reset">Reimposta</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your system UI to crash.</string>
+    <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Unità</string>

@@ -4,7 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">A inicializar</string>
     <string name="step">Passo</string>
-    <string name="step_number">Step %1$d/%2$d</string>
+    <string name="step_number">Etapa %1$d/%2$d</string>
     <string name="module_installation_step1">A criar módulo</string>
     <string name="module_installation_step2">A extrair ficheiros necessários</string>
     <string name="module_installation_step3">A criar APKs dos <i>Overlays</i></string>
@@ -13,17 +13,17 @@
     <string name="module_installation_step6">A limpar diretorias temporárias</string>
     <string name="onboarding_title_1">Fartou-se da interace chata do sistema?</string>
     <string name="onboarding_subtitle_1">Vamos personalizar tudo conforme os seus gostos.</string>
-    <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
+    <string name="onboarding_desc_1">Livre-se da monotonia da interface padrão — personalize todos os detalhes para corresponder ao seu estilo e preferências.</string>
     <string name="onboarding_title_2">O meu dispositivo é compatível?</string>
     <string name="onboarding_subtitle_2">O Iconify é compatível com todos os modelos Pixel e AOSP ROMs. </string>
     <string name="onboarding_desc_2">Compatível com todas as versões do Pixal e ROMs baseadas em AOSP, garantindo o suporte em todos os dispositivos Android.</string>
     <string name="onboarding_title_3">Podemos começar?</string>
-    <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
-    <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
+    <string name="onboarding_subtitle_3">A Iconify vai começar a trabalhar.</string>
+    <string name="onboarding_desc_3">A iniciar tarefas internas e marcar o início do trabalho essencial. Pronto para começar?</string>
     <string name="need_storage_perm_title">Necessária permissão para aceder ao armazenamento</string>
     <string name="need_storage_perm_desc">Preciso da permissão para criar os ficheiros necessários</string>
     <string name="compatible_root_not_found_title">Não foi possível encontrar um método Root compatível.</string>
-    <string name="compatible_root_not_found_desc">Use any popular root solutions to proceed.</string>
+    <string name="compatible_root_not_found_desc">Use qualquer solução de \'root\' para prosseguir.</string>
     <string name="root_not_found_title">O acesso Root não está disponível</string>
     <string name="root_not_found_desc">Parece que o seu dispositivo não tem <i>root</i>!</string>
     <string name="need_reboot_title">É necessário reiniciar</string>
@@ -32,21 +32,21 @@
     <string name="installation_failed_desc">Algo de errado aconteceu.\nVerifique os logs na pasta Documentos.</string>
     <string name="logs">Registos</string>
     <!-- Search Preference -->
-    <string name="search_title">Search</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear">Clear</string>
-    <string name="searchpreference_history_entry">History entry</string>
-    <string name="searchpreference_more">More</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_result">No result</string>
+    <string name="search_title">Pesquisar</string>
+    <string name="searchpreference_search">Pesquisar…</string>
+    <string name="searchpreference_clear">Limpar</string>
+    <string name="searchpreference_history_entry">Registo do histórico</string>
+    <string name="searchpreference_more">Ver Mais</string>
+    <string name="searchpreference_clear_history">Limpar histórico</string>
+    <string name="searchpreference_no_result">Sem resultados</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Pacotes de ícones</string>
     <string name="activity_desc_icon_pack">Personalizar ícones de sistema</string>
-    <string name="activity_title_cellular_icons">Cellular Icons</string>
-    <string name="activity_desc_cellular_icons">Change system cellular icons</string>
-    <string name="activity_title_wifi_icons">WiFi Icons</string>
-    <string name="activity_desc_wifi_icons">Change system WiFi icons</string>
+    <string name="activity_title_cellular_icons">Ícones de celular</string>
+    <string name="activity_desc_cellular_icons">Alterar ícones de celular do sistema</string>
+    <string name="activity_title_wifi_icons">Ícones Wi-Fi</string>
+    <string name="activity_desc_wifi_icons">Alterar ícones Wi-Fi do sistema</string>
     <string name="activity_title_brightness_bar">Barra de brilho</string>
     <string name="activity_desc_brightness_bar">Personalizar a barra de brilho</string>
     <string name="activity_title_qs_shape">Atalhos do painel das DR</string>
@@ -64,8 +64,8 @@
     <string name="iconify_updated_title">Iconify acabou de ser atualizada!</string>
     <string name="iconify_updated_desc">Reinicie o seu dispositivo de modo a usar as novas funcionalidades.</string>
     <!-- Home Card View -->
-    <string name="home_card_title">Design It Your Way</string>
-    <string name="home_card_subtitle">Unleash Your Imagination, Make It Yours</string>
+    <string name="home_card_title">Personalize a seu gosto</string>
+    <string name="home_card_subtitle">Liberte a sua imaginação, torne-o seu</string>
     <string name="home_card_hide">Ocultar</string>
     <!-- Tweaks -->
     <string name="activity_title_color_engine">Sistema de Cores</string>
@@ -78,8 +78,8 @@
     <string name="activity_desc_qs_icon_label">Personalizar ícones e rótulos dos atalhos</string>
     <string name="activity_title_qs_tile_size">Tamanho dos atalhos das DR</string>
     <string name="activity_desc_qs_tile_size">Personalizar altura dos atalhos</string>
-    <string name="activity_title_qs_panel_margin">QS Panel Margin</string>
-    <string name="activity_desc_qs_panel_margin">Modify quick settings margins</string>
+    <string name="activity_title_qs_panel_margin">Margem do Painel QS</string>
+    <string name="activity_desc_qs_panel_margin">Modificar as margens das QS</string>
     <string name="activity_title_statusbar">Barra de estado</string>
     <string name="activity_desc_statusbar">Persoanlizar a barra de estado</string>
     <string name="activity_title_navigation_bar">Barra de navegação</string>
@@ -94,14 +94,14 @@
     <string name="activity_desc_xposed_menu">Requer LSposed para estas opções funcionarem</string>
     <string name="activity_title_extras">Extras</string>
     <string name="activity_desc_extras">Opções e <i>tweaks</i> adicionais</string>
-    <string name="activity_title_dual_statusbar">Dual Statusbar</string>
+    <string name="activity_title_dual_statusbar">Barra de estado dupla</string>
     <!-- Settings -->
     <string name="settings_section_title_general">Geral</string>
     <string name="settings_app_language">Idioma</string>
     <string name="settings_app_icon">Ícone da aplicação</string>
     <string name="settings_app_icon_default">Ícone padrão</string>
     <string name="settings_app_icon_themed">Ícones temáticos</string>
-    <string name="settings_app_icon_retro">Retro Icon</string>
+    <string name="settings_app_icon_retro">Ícone retro</string>
     <string name="settings_app_theme">Tema da app</string>
     <string name="settings_app_theme_light">Tema claro</string>
     <string name="settings_app_theme_dark">Tema escuro</string>
@@ -116,20 +116,20 @@
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Mostrar aviso</string>
     <string name="settings_show_warning_desc">Mostrar o aviso sobre como re-optimizar o módulo na app LSPosed</string>
-    <string name="settings_restart_systemui_behavior">Mod Applying Method</string>
+    <string name="settings_restart_systemui_behavior">Método de aplicação do Mod</string>
     <string name="settings_auto_restart_systemui">Reiniciar automaticamente o UI do sistema.</string>
     <string name="settings_auto_force_reload_ui">Forçar o recarregamento automático do UI</string>
-    <string name="settings_manual_restart_systemui">Notify for manual SystemUI restart</string>
-    <string name="settings_systemui_restart_required">SystemUI restart required</string>
-    <string name="settings_section_title_miscellaneous">Miscellaneous</string>
+    <string name="settings_manual_restart_systemui">Notificar para reiniciar a IU manualmente</string>
+    <string name="settings_systemui_restart_required">É necessário reiniciar a IU do Sistema</string>
+    <string name="settings_section_title_miscellaneous">Diversos</string>
     <string name="settings_restart_systemui_after_boot_title">Reiniciar a IU do sistema no arranque</string>
     <string name="settings_restart_systemui_after_boot_desc">Algumas funcionalidades, como o nível de desfocagem, não funcionam até que a IU do sistema seja reiniciada</string>
     <string name="settings_show_home_page_card_title">Mostrar cartão da página inicial</string>
-    <string name="settings_show_home_page_card_desc">Show a beautiful card on the home page.</string>
-    <string name="settings_vibrate_ui_card_title">Haptic Feedback</string>
-    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
-    <string name="settings_slider_controller_title">Slider Controller</string>
-    <string name="settings_slider_controller_desc">Enable to display plus and minus buttons with sliders.</string>
+    <string name="settings_show_home_page_card_desc">Exibir um belo cartão na página inicial.</string>
+    <string name="settings_vibrate_ui_card_title">Resposta tátil</string>
+    <string name="settings_vibrate_ui_page_card_desc">Melhore a resposta tátil com modelos interativos.</string>
+    <string name="settings_slider_controller_title">Controle deslizante</string>
+    <string name="settings_slider_controller_desc">Ativar para exibir botões mais e menos no controle deslizante.</string>
     <string name="settings_clear_app_cache_title">Limpar cache da aplicação </string>
     <string name="settings_clear_app_cache_desc">Limpar os caches de imagens, fonts customizadas e gifs. </string>
     <string name="activity_title_experimental">Funcionalidades experimentais</string>
@@ -137,10 +137,10 @@
     <string name="settings_disable_everything_title">Desativar tudo</string>
     <string name="settings_disable_everything_desc">Desativa todos os <i>overlays</i>, cores e outras alterações aplicadas pela Iconify.</string>
     <string name="settings_section_title_about">Sobre</string>
-    <string name="settings_github_repository_title">Github Repository</string>
+    <string name="settings_github_repository_title">Repositório do GitHub</string>
     <string name="settings_telegram_group_title">Grupo do Telegram</string>
-    <string name="settings_translate_title">Translate Iconify</string>
-    <string name="settings_translate_desc">Help translate Iconify to your language.</string>
+    <string name="settings_translate_title">Traduzir Iconify</string>
+    <string name="settings_translate_desc">Ajude a traduzir Iconify para o seu idioma.</string>
     <string name="settings_credits_title">Créditos</string>
     <string name="settings_credits_desc">Agradeça àqueles que tornaram isto possível. </string>
     <!-- Icon Pack -->
@@ -150,21 +150,21 @@
     <string name="activity_desc_media_icons">Personalizar os ícones do leitor de multimédia</string>
     <string name="activity_title_settings_icons">Ícones nas definições</string>
     <string name="activity_desc_settings_icons">Personalizar os ícones no ecrã das definições</string>
-    <string name="icon_pack_styles">Icon Pack Styles</string>
-    <string name="iconpack_aurora_desc">Dual tone linear icon pack</string>
-    <string name="iconpack_gradicon_desc">Gradient shaded filled icon pack</string>
-    <string name="iconpack_lorn_desc">Thick linear icon pack</string>
-    <string name="iconpack_plumpy_desc">Dual tone filled icon pack</string>
-    <string name="iconpack_acherus_desc">Acherus sub icon pack</string>
-    <string name="iconpack_circular_desc">Thin line icon pack</string>
-    <string name="iconpack_filled_desc">Dual tone filled icon pack</string>
-    <string name="iconpack_kai_desc">Thin line icon pack</string>
-    <string name="iconpack_oos_desc">Oxygen OS icon pack</string>
-    <string name="iconpack_outline_desc">Thin outline icon pack</string>
-    <string name="iconpack_pui_desc">Thick dualtone icon pack</string>
-    <string name="iconpack_rounded_desc">Rounded corner icon pack</string>
-    <string name="iconpack_sam_desc">Filled icon pack</string>
-    <string name="iconpack_victor_desc">Edgy icon pack</string>
+    <string name="icon_pack_styles">Estilos de Pacote de Ícones</string>
+    <string name="iconpack_aurora_desc">Pacote de ícones lineares de duplo tom</string>
+    <string name="iconpack_gradicon_desc">Pacote de ícones sombreados preenchidos</string>
+    <string name="iconpack_lorn_desc">Pacote de ícones lineares grossos</string>
+    <string name="iconpack_plumpy_desc">Pacote de ícones preenchidos de duplo tom</string>
+    <string name="iconpack_acherus_desc">Pacote de ícones \'Acherus sub\'</string>
+    <string name="iconpack_circular_desc">Pacote de ícones lineares finos</string>
+    <string name="iconpack_filled_desc">Pacote de ícones preenchidos de duplo tom</string>
+    <string name="iconpack_kai_desc">Pacote de ícones lineares finos</string>
+    <string name="iconpack_oos_desc">Pacote de ícones do \'Oxygen OS\'</string>
+    <string name="iconpack_outline_desc">Pacote de ícones de contorno fino</string>
+    <string name="iconpack_pui_desc">Pacote de ícones lineares grossos de duplo tom</string>
+    <string name="iconpack_rounded_desc">Pacote de ícones com canto arredondado</string>
+    <string name="iconpack_sam_desc">Pacote de ícones preenchido</string>
+    <string name="iconpack_victor_desc">Pacote de ícones \'Edgy\'</string>
     <!-- Colored Battery -->
     <string name="enable_colored_battery_title">Ativar bateria colorida</string>
     <string name="enable_colored_battery_desc">Aplicar uma cor personalizada ao ícone da bateria</string>
@@ -176,7 +176,7 @@
     <string name="no_supported_music_player">Não foi encontrado um leitor multimédia compatível</string>
     <string name="a13_default_media_player">Leitor padrão do Android 13</string>
     <string name="app_not_found">Aplicação não encontrada!</string>
-    <string name="iconpack_aurora">Aurora</string>
+    <string name="iconpack_aurora">Pacote de ícones \'Aurora\'</string>
     <string name="iconpack_gradicon">Gradicon</string>
     <string name="iconpack_plumpy">Plumpy</string>
     <!-- Settings Icons -->
@@ -371,17 +371,17 @@
     <string name="section_title_volume_slider_track">Volume Slider Track</string>
     <string name="vp_track_thin">Thin</string>
     <string name="vp_track_thick">Thick</string>
-    <string name="vp_track_none">None</string>
+    <string name="vp_track_none">Nenhuma</string>
     <string name="vp_thin_background_title">Pano de fundo fino</string>
-    <string name="vp_thin_background_desc">Make track of volume slider thin</string>
+    <string name="vp_thin_background_desc">Tornar a barra de volume fina</string>
     <string name="vp_thick_background_title">Pano de fundo espesso</string>
-    <string name="vp_thick_background_desc">Make track of volume slider thick</string>
+    <string name="vp_thick_background_desc">Tornar a barra de volume espessa</string>
     <string name="vp_no_background_title">Sem pano de fundo</string>
-    <string name="vp_no_background_desc">Remove track of volume slider</string>
+    <string name="vp_no_background_desc">Remover a barra de volume</string>
     <string name="read_carefully">Ler com atenção!</string>
     <!-- Volume Panel Style -->
     <string name="volume_style">Estilo do volume</string>
-    <string name="volume_style_default">Default</string>
+    <string name="volume_style_default">Padrão</string>
     <string name="volume_style_gradient">Gradiente</string>
     <string name="volume_style_doublelayer">Camada dupla</string>
     <string name="volume_style_shadedlayer">Camada sombreada</string>
@@ -393,7 +393,7 @@
     <string name="media_player_preview_music_title">Título da música</string>
     <string name="media_player_preview_artist_name">Nome do artista</string>
     <string name="media_player_preview_playing_on">Coluna do dispositivo</string>
-    <string name="section_title_background_color">Background Color</string>
+    <string name="section_title_background_color">Cor de fundo</string>
     <string name="mp_accent_background_title">Pano de fundo</string>
     <string name="mp_accent_background_desc">Make background follow accent</string>
     <string name="mp_system_background_title">Pano de fundo do sistema</string>
@@ -415,9 +415,12 @@
     <string name="disable_progress_wave_desc">Disable progress bar wave animation</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Antes de ativar a Iconify nos módulos da LSPosed, mantenha premido o módulo Iconify e depois escolha Re-otimizar. Depois disso, ative o módulo Iconify e reinicie a IU do Sistema. Isto é necessário para uma experiência mais otimizada.</string>
+    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
     <string name="xposed_only_desc">You are currently in Xposed Only mode. This requires iconify to be enabled in LSPosed app. Also make sure that Iconify module is shown in Magisk manager. To get access to all features, clear data of iconify app and go through the installation process!</string>
     <string name="xposed_module_disabled_title">Module Not Activated</string>
     <string name="xposed_module_disabled_desc">System service not running</string>
+    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">Transparência &amp; Blur</string>
     <string name="activity_desc_transparency_blur">Ativar transparência e blur no painel das DR</string>
     <string name="activity_title_themes">Themes</string>
@@ -458,6 +461,8 @@
     <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
+    <string name="oneplus_qs_header_show_artwork_title">Show Artwork</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Show album art of the playing media</string>
     <string name="oneplus_qs_header_blur_level">Blur Level</string>
     <string name="oneplus_qs_header_fade_level">Fade Level</string>
     <string name="oneplus_qs_header_top_margin">Top Margin</string>
@@ -994,6 +999,8 @@
     <string name="btn_positive">Yes</string>
     <string name="btn_negative">No</string>
     <!-- Toast -->
+    <string name="toast_frame_always_white_title">White Background</string>
+    <string name="toast_frame_always_white_desc">Keep toast background white even in dark mode</string>
     <string name="toast_applied">Aplicado</string>
     <string name="toast_disabled">Desativado</string>
     <string name="toast_reset">Reset</string>
@@ -1125,6 +1132,7 @@
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your system UI to crash.</string>
+    <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Unit</string>
