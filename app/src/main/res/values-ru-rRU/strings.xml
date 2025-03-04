@@ -498,6 +498,7 @@
     <string name="mini_widget_icon_active">Иконка мини-виджета активный цвет</string>
     <string name="mini_widget_icon_inactive">Иконка мини-виджета неактивный цвет</string>
     <string name="weather_settings">Настройки погоды</string>
+    <string name="lockscreen_widgets_roundness">Widgets Roundness</string>
     <string name="lockscreen_widgets_scale">Масштаб виджетов</string>
     <string name="lockscreen_device_widget_style_title">Стиль виджета устройства</string>
     <string name="lockscreen_device_widget_style_classic">Бар с двумя дугами</string>

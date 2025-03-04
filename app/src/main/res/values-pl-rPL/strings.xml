@@ -498,6 +498,7 @@
     <string name="mini_widget_icon_active">Kolor ikony aktywnego mini widżetu</string>
     <string name="mini_widget_icon_inactive">Kolor ikony nieaktywnego mini widżetu</string>
     <string name="weather_settings">Ustawienia pogody</string>
+    <string name="lockscreen_widgets_roundness">Widgets Roundness</string>
     <string name="lockscreen_widgets_scale">Skala widżetów</string>
     <string name="lockscreen_device_widget_style_title">Styl widżetów urządzenia</string>
     <string name="lockscreen_device_widget_style_classic">Pasek z dwoma łukami</string>
@@ -1131,7 +1132,7 @@
     <string name="text_color_inverse">Odwrotny kolor tekstu</string>
     <string name="learn_more">Learn more</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
-    <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your system UI to crash.</string>
+    <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your SystemUI to crash.</string>
     <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->

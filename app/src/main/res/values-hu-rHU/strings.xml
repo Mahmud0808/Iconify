@@ -415,12 +415,12 @@
     <string name="disable_progress_wave_desc">Letiltja a haladási hullám animációját</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Mielőtt engedélyezné az Iconify-t az LSPosed modulban, nyomjon hosszan az Iconify-ra és klikkeljen az Újra-Optimalizálás-ra. Ezután engedélyezze az Iconify-t, majd indítsa újra a rendszerfelületet. Ez elengedhetetlen a gördülékeny működéshez.</string>
-    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
+    <string name="lsposed_bootloop_warn">Az egyik engedélyezett szolgáltatás nem kompatibilis a ROM-mal. Kérjük, tiltsa le, és indítsa újra a rendszerfelületet.</string>
     <string name="xposed_only_desc">Ön jelenleg \'Csak Xposed\' módban van. Ehhez az Iconify engedélyezése szükséges az LSPosed alkalmazásban. Győződjön meg arról is, hogy az Iconify modul megjelenik a Magisk managerben. Az összes funkcióhoz való hozzáféréshez törölje az Iconify alkalmazás adatait, és haladjon végig a telepítési folyamaton!</string>
     <string name="xposed_module_disabled_title">A modul nincs aktiválva.</string>
     <string name="xposed_module_disabled_desc">A rendszer-szolgáltatás nem fut</string>
-    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
-    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
+    <string name="xposed_module_bootlooped_title">Ez Bootloop-nak tűnik</string>
+    <string name="xposed_module_bootlooped_desc">A modul le van tiltva</string>
     <string name="activity_title_transparency_blur">Átlátszóság és elmosás</string>
     <string name="activity_desc_transparency_blur">Itt kapcsolhatja be az átlátszóságot és az elmosást</string>
     <string name="activity_title_themes">Témák</string>
@@ -498,6 +498,7 @@
     <string name="mini_widget_icon_active">A mini ikon színe, mikor aktív</string>
     <string name="mini_widget_icon_inactive">A mini ikon színe, mikor inaktív</string>
     <string name="weather_settings">Időjárás-beállítások</string>
+    <string name="lockscreen_widgets_roundness">A kisalkalmazás (widget) kereksége</string>
     <string name="lockscreen_widgets_scale">Kisalkalmazások méretskálázása</string>
     <string name="lockscreen_device_widget_style_title">Kisalkalmazás (widget) stílus</string>
     <string name="lockscreen_device_widget_style_classic">Kétívű sáv</string>
@@ -1132,7 +1133,7 @@
     <string name="learn_more">Tudjon meg többet</string>
     <string name="custom_tiles_footer_info">Az egyéni csempék megfelelő működésének biztosítása érdekében mielőtt egyéni csepéket használna az Internet és Bluetooth csempék helyett, használja az alapértelmezettet.</string>
     <string name="hig_res_image_footer_info">Kerülje a nagy felbontású képek használatát, mert ezek a rendszerfelület összeomlását okozhatják.</string>
-    <string name="more">More</string>
+    <string name="more">Egyebek</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Egység</string>
@@ -1266,8 +1267,8 @@
     <string name="double_tap_to_sleep_desc">Koppintson duplán a kezdőképernyő üres területére a képernyő kikapcsolásához</string>
     <string name="desktop_icon_labels_title">Asztali ikonfeliratok</string>
     <string name="app_drawer_icon_labels_title">Alkalmazásfióki ikonfeliratok</string>
-    <string name="disable_recents_live_tile_title">Disable Recents Live Tile</string>
-    <string name="disable_recents_live_tile_desc">Disable live tile if recents screen is buggy</string>
+    <string name="disable_recents_live_tile_title">Az Előzmények élő csempéjének letiltása</string>
+    <string name="disable_recents_live_tile_desc">Az élő csempe letiltása, ha az Előzmények-képernyő bugos</string>
     <string name="hide_desktop_search_bar_title">Az asztali keresősáv eltüntetése</string>
     <string name="hide_desktop_search_bar_desc">A keresősáv elrejtése az asztali dokkolóból</string>
     <string name="dock_spacing_title">Dokkpanel-távolság</string>

@@ -498,6 +498,7 @@
     <string name="mini_widget_icon_active">رنگ فعال ابزارک کوچک</string>
     <string name="mini_widget_icon_inactive">رنگ غیر‌فعال ابزارک کوچک</string>
     <string name="weather_settings">تنظیمات آب و هوا</string>
+    <string name="lockscreen_widgets_roundness">Widgets Roundness</string>
     <string name="lockscreen_widgets_scale">مقیاس ابزارک ها</string>
     <string name="lockscreen_device_widget_style_title">سبک ابزارک دستگاه</string>
     <string name="lockscreen_device_widget_style_classic">نوار با دو قوس</string>

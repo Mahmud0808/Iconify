@@ -498,6 +498,7 @@
     <string name="mini_widget_icon_active">Color activo del icono del mini widget</string>
     <string name="mini_widget_icon_inactive">Color inactivo del icono del mini widget</string>
     <string name="weather_settings">Configuración del clima</string>
+    <string name="lockscreen_widgets_roundness">Widgets Roundness</string>
     <string name="lockscreen_widgets_scale">Escala de widgets</string>
     <string name="lockscreen_device_widget_style_title">Estilo de widget del dispositivo</string>
     <string name="lockscreen_device_widget_style_classic">Barra con dos arcos</string>

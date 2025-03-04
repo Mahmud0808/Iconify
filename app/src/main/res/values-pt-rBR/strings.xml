@@ -498,6 +498,7 @@
     <string name="mini_widget_icon_active">Cor ativa do ícone do mini widget</string>
     <string name="mini_widget_icon_inactive">Cor inativa do ícone do mini widget</string>
     <string name="weather_settings">Configurações do clima</string>
+    <string name="lockscreen_widgets_roundness">Widgets Roundness</string>
     <string name="lockscreen_widgets_scale">Escala de widgets</string>
     <string name="lockscreen_device_widget_style_title">Estilo do widget do dispositivo</string>
     <string name="lockscreen_device_widget_style_classic">Barra com dois arcos</string>
@@ -1266,8 +1267,8 @@
     <string name="double_tap_to_sleep_desc">Toque duas vezes no espaço vazio da tela inicial para desligar a tela</string>
     <string name="desktop_icon_labels_title">Nome dos ícones na tela inicial</string>
     <string name="app_drawer_icon_labels_title">Nome dos ícones na gaveta de apps</string>
-    <string name="disable_recents_live_tile_title">Disable Recents Live Tile</string>
-    <string name="disable_recents_live_tile_desc">Disable live tile if recents screen is buggy</string>
+    <string name="disable_recents_live_tile_title">Desativar bloco dinâmico</string>
+    <string name="disable_recents_live_tile_desc">Desative o bloco dinâmico se a tela recente estiver com bugs</string>
     <string name="hide_desktop_search_bar_title">Ocultar barra de pesquisa na tela inicial</string>
     <string name="hide_desktop_search_bar_desc">Oculte a barra de pesquisa da dock da tela inicial</string>
     <string name="dock_spacing_title">Espaçamento da dock</string>

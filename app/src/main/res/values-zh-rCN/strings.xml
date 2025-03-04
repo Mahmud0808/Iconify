@@ -94,7 +94,7 @@
     <string name="activity_desc_xposed_menu">这些选项需要 LSPosed</string>
     <string name="activity_title_extras">额外</string>
     <string name="activity_desc_extras">额外的调整和选项</string>
-    <string name="activity_title_dual_statusbar">Dual Statusbar</string>
+    <string name="activity_title_dual_statusbar">双状态栏</string>
     <!-- Settings -->
     <string name="settings_section_title_general">通用</string>
     <string name="settings_app_language">语言</string>
@@ -129,7 +129,7 @@
     <string name="settings_vibrate_ui_card_title">触觉反馈</string>
     <string name="settings_vibrate_ui_page_card_desc">通过交互式触觉反馈增强触觉反馈。</string>
     <string name="settings_slider_controller_title">滑块控制器</string>
-    <string name="settings_slider_controller_desc">Enable to display plus and minus buttons with sliders.</string>
+    <string name="settings_slider_controller_desc">启用亮度滑块加减按钮。</string>
     <string name="settings_clear_app_cache_title">清理应用程序缓存</string>
     <string name="settings_clear_app_cache_desc">清除因使用自定义字体、图像或 gif 而产生的缓存。</string>
     <string name="activity_title_experimental">实验性</string>
@@ -300,7 +300,7 @@
     <string name="qs_text_color_normal">正常</string>
     <string name="qs_text_color_pixel">像素</string>
     <string name="custom_qs_tile_text_color_title">自定义文本颜色</string>
-    <string name="custom_qs_tile_text_color_desc">Enable custom QS tile text color</string>
+    <string name="custom_qs_tile_text_color_desc">启用自定义 QS 图块文本颜色</string>
     <string name="custom_qs_tile_text_color_list_title">文本颜色选项</string>
     <string name="label_always_white_title">总是白色</string>
     <string name="label_always_white_desc">标题为白色，副标题为白色</string>
@@ -324,7 +324,7 @@
     <!-- QS Panel Margin -->
     <string name="qqs_panel_top_margin_title">通知页面下设置面板快捷开关顶部边距</string>
     <string name="qs_panel_top_margin_title">快速设置面板上边距</string>
-    <string name="qs_panel_top_margin_info">Rotate device to see changes. If that doesn\'t work, restart SystemUI.</string>
+    <string name="qs_panel_top_margin_info">旋转设备以查看变化；如果不起作用，请重新启动。</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">间距</string>
     <string name="sb_left_padding">左内边距</string>
@@ -415,12 +415,12 @@
     <string name="disable_progress_wave_desc">禁用进度条波形动画</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">在启用 Iconify LSPosed 模块之前，长按 Iconify 并点击重新优化。之后，启用 Iconify 并重启你的 SystemUI。为了获得更流畅的体验，这是必要的。</string>
-    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
+    <string name="lsposed_bootloop_warn">您启用的某个功能与您的 ROM 不兼容。请禁用它并重新启动 SystemUI。</string>
     <string name="xposed_only_desc">你目前处于 Xposed Only 模式。这需要在 LSPosed 应用程序中启用 iconify。还要确保 Iconify 模块显示在 Magisk 管理器中。要访问所有功能，只需重新打开应用程序并完成安装过程即可！</string>
     <string name="xposed_module_disabled_title">模块未激活</string>
     <string name="xposed_module_disabled_desc">系统服务未运行</string>
-    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
-    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
+    <string name="xposed_module_bootlooped_title">检测到引导循环</string>
+    <string name="xposed_module_bootlooped_desc">模块已被禁用</string>
     <string name="activity_title_transparency_blur">透明度&amp;模糊</string>
     <string name="activity_desc_transparency_blur">启用快速设置模糊及透明度</string>
     <string name="activity_title_themes">主题</string>
@@ -452,7 +452,7 @@
     <string name="activity_desc_xposed_others">Xposed 杂项调整</string>
     <string name="activity_title_xposed_weather_settings">天气设置</string>
     <string name="activity_title_xposed_launcher">启动器</string>
-    <string name="activity_desc_xposed_launcher">Launcher related modifications</string>
+    <string name="activity_desc_xposed_launcher">启动器相关修改</string>
     <string name="activity_title_lockscreen_album_art">Media Album Art</string>
     <!-- Oneplus QS Header -->
     <string name="oneplus_qs_header_title">一加快速设置面板</string>
@@ -498,8 +498,9 @@
     <string name="mini_widget_icon_active">小部件图标活动颜色</string>
     <string name="mini_widget_icon_inactive">小部件图标非活动颜色</string>
     <string name="weather_settings">天气设置</string>
+    <string name="lockscreen_widgets_roundness">Widgets Roundness</string>
     <string name="lockscreen_widgets_scale">部件比例</string>
-    <string name="lockscreen_device_widget_style_title">Device Widget Style</string>
+    <string name="lockscreen_device_widget_style_title">设备小部件样式</string>
     <string name="lockscreen_device_widget_style_classic">Bar with Two Arcs</string>
     <string name="lockscreen_device_widget_style_arcs">Four Arcs</string>
     <!-- LS Widgets Actions -->
@@ -571,7 +572,7 @@
     <string name="colored_qs_notification_desc">显示应用图标作为通知图标</string>
     <string name="section_title_qs_margin">快速设置边距</string>
     <string name="section_title_media_player">媒体播放器</string>
-    <string name="compact_media_player_title">Compact Media Player</string>
+    <string name="compact_media_player_title">紧凑型媒体播放器</string>
     <string name="compact_media_player_desc">Make media player compact</string>
     <string name="section_title_qs_elements">快速设置元素</string>
     <string name="hide_qs_on_lockscreen_title">在锁屏界面隐藏快速设置</string>
@@ -1131,7 +1132,7 @@
     <string name="text_color_inverse">文本颜色反转</string>
     <string name="learn_more">了解更多</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
-    <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your system UI to crash.</string>
+    <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your SystemUI to crash.</string>
     <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
@@ -1251,29 +1252,29 @@
     <string name="albumart_filter_none">None</string>
     <string name="albumart_filter_grayscale">Grayscale</string>
     <string name="albumart_filter_tint">Accent Tinted</string>
-    <string name="albumart_filter_blur">Blur</string>
+    <string name="albumart_filter_blur">模糊</string>
     <string name="albumart_filter_grayblur">Grayscale and Blurred</string>
     <!-- Launcher mods -->
-    <string name="section_title_icons">Icons</string>
-    <string name="section_title_home_screen">Home Screen</string>
-    <string name="section_title_app_drawer">App Drawer</string>
-    <string name="section_title_recents">Recents</string>
-    <string name="force_themed_icons_title">Force Themed Icons</string>
-    <string name="force_themed_icons_desc">Generate monochromatic icons if not provided by the app</string>
-    <string name="app_drawer_themed_icons_title">App Drawer Themed Icons</string>
-    <string name="app_drawer_themed_icons_desc">Enable themed icons on app drawer</string>
-    <string name="double_tap_to_sleep_title">Double Tap to Sleep</string>
+    <string name="section_title_icons">图标</string>
+    <string name="section_title_home_screen">主屏幕</string>
+    <string name="section_title_app_drawer">应用程序抽屉</string>
+    <string name="section_title_recents">后台</string>
+    <string name="force_themed_icons_title">强制启用主题图标</string>
+    <string name="force_themed_icons_desc">如果应用程序未提供单色图标，则生成单色图标</string>
+    <string name="app_drawer_themed_icons_title">应用程序抽屉主题图标</string>
+    <string name="app_drawer_themed_icons_desc">应用程序抽屉主题图标</string>
+    <string name="double_tap_to_sleep_title">双击熄屏</string>
     <string name="double_tap_to_sleep_desc">Double tap on home screen empty space to turn off the screen</string>
     <string name="desktop_icon_labels_title">Icon Labels on Desktop</string>
     <string name="app_drawer_icon_labels_title">Icon Labels in App Drawer</string>
     <string name="disable_recents_live_tile_title">Disable Recents Live Tile</string>
     <string name="disable_recents_live_tile_desc">Disable live tile if recents screen is buggy</string>
     <string name="hide_desktop_search_bar_title">Hide Desktop Search Bar</string>
-    <string name="hide_desktop_search_bar_desc">Hide search bar from desktop dock</string>
-    <string name="dock_spacing_title">Dock Spacing</string>
-    <string name="app_drawer_background_opacity_title">App Drawer Background Opacity</string>
-    <string name="recents_background_opacity_title">Recents Background Opacity</string>
-    <string name="launcher_mod_footer_info">Currently, only Pixel Launcher and Launcher3 are supported.</string>
+    <string name="hide_desktop_search_bar_desc">隐藏桌面搜索栏</string>
+    <string name="dock_spacing_title">Dock栏空间</string>
+    <string name="app_drawer_background_opacity_title">应用程序抽屉背景不透明度</string>
+    <string name="recents_background_opacity_title">后台界面不透明度</string>
+    <string name="launcher_mod_footer_info">目前只支持Pixel启动器和launcher3。</string>
     <!-- Alert Dialogs -->
     <string name="systemui_restart_required_title">系统界面需要重启</string>
     <string name="systemui_restart_required_desc">需要重启系统界面才能使此更改生效。</string>
