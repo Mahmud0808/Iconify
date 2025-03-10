@@ -570,11 +570,25 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
         setCustomDepthWallpaper()
     }
 
-    private fun updateForegroundVisibility() {
+    private fun updateForegroundVisibility(targetAlpha: Float = 1f, duration: Long = 0L) {
         if (::mWallpaperForeground.isInitialized) {
             // Hide foreground when album art is showing
             if (showDepthWallpaper && shouldShowForeground && !shouldShowAlbumArt) {
-                mWallpaperForeground.visibility = View.VISIBLE
+                // Smooth appearance
+                if (duration == 0L) {
+                    mWallpaperForeground.visibility = View.VISIBLE
+                } else {
+                    mWallpaperForeground.apply {
+                        if (visibility != View.VISIBLE) {
+                            visibility = View.VISIBLE
+                            alpha = 0f
+                        }
+                        animate()
+                            .alpha(targetAlpha)
+                            .setDuration(duration)
+                            .start()
+                    }
+                }
             } else {
                 mWallpaperForeground.visibility = View.GONE
             }
@@ -737,35 +751,9 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
 
                 mWallpaperDimmingOverlay.alpha = mScrimController.getField("mScrimBehindAlphaKeyguard") as Float
 
-                val duration = if (requiresAnimation) 300L else 0L
-
-                // Smooth appearance
-                mWallpaperForeground.apply {
-                    if (visibility != View.VISIBLE) {
-                        visibility = View.VISIBLE
-                        alpha = 0f
-                        animate()
-                            .alpha(targetAlpha)
-                            .setDuration(duration)
-                            .start()
-                    } else {
-                        animate().alpha(targetAlpha).setDuration(duration).start()
-                    }
-                }
-
-                mWallpaperBackground.apply {
-                    if (visibility != View.VISIBLE) {
-                        visibility = View.VISIBLE
-                        alpha = 0f
-                        animate()
-                            .alpha(1f)
-                            .setDuration(duration)
-                            .start()
-                    }
-                }
-
+                mWallpaperBackground.visibility = View.VISIBLE
                 shouldShowForeground = true
-                updateForegroundVisibility()
+                updateForegroundVisibility(targetAlpha, if (requiresAnimation) 300L else 0L)
             }
         } else if (mLayersCreated) {
             shouldShowForeground = false
