@@ -708,21 +708,14 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
             ) {
                 try {
                     FileInputStream(foregroundPath).use { inputStream ->
-                        val bitmapDrawable = BitmapDrawable.createFromStream(
-                            inputStream,
-                            ""
-                        )
+                        val bitmapDrawable = BitmapDrawable.createFromStream(inputStream, "")
                         bitmapDrawable!!.alpha = 255
 
-                        mForegroundDimmingOverlay = bitmapDrawable.constantState!!
-                            .newDrawable().mutate()
+                        mForegroundDimmingOverlay = bitmapDrawable.constantState!!.newDrawable().mutate()
                         mForegroundDimmingOverlay!!.setTint(Color.BLACK)
 
                         mWallpaperForeground.background = LayerDrawable(
-                            arrayOf(
-                                bitmapDrawable,
-                                mForegroundDimmingOverlay
-                            )
+                            arrayOf(bitmapDrawable, mForegroundDimmingOverlay)
                         )
                         mWallpaperForegroundCacheValid = true
                     }
@@ -733,21 +726,43 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
             if (mWallpaperForegroundCacheValid && mWallpaperForeground.background != null) {
                 mWallpaperForeground.background.alpha = (foregroundAlpha * 255).toInt()
 
-                if (state != "KEYGUARD") { // AOD
+                val targetAlpha = if (state != "KEYGUARD") { // AOD
                     mForegroundDimmingOverlay!!.alpha = 192
+                    foregroundAlpha
                 } else {
-                    // this is the dimmed wallpaper coverage
                     mForegroundDimmingOverlay!!.alpha = if (keepLockScreenShade) Math.round(
-                        mScrimController.getField(
-                            "mScrimBehindAlphaKeyguard"
-                        ) as Float * 240 // A tad bit lower than max. show it a bit lighter than other stuff
+                        mScrimController.getField("mScrimBehindAlphaKeyguard") as Float * 240
                     ) else 0
-
-                    mWallpaperDimmingOverlay.alpha =
-                        mScrimController.getField("mScrimBehindAlphaKeyguard") as Float
+                    foregroundAlpha
                 }
 
-                mWallpaperBackground.visibility = View.VISIBLE
+                mWallpaperDimmingOverlay.alpha = mScrimController.getField("mScrimBehindAlphaKeyguard") as Float
+
+                // Smooth appearance
+                mWallpaperForeground.apply {
+                    if (visibility != View.VISIBLE) {
+                        visibility = View.VISIBLE
+                        alpha = 0f
+                        animate()
+                            .alpha(targetAlpha)
+                            .setDuration(400)
+                            .start()
+                    } else {
+                        animate().alpha(targetAlpha).setDuration(400).start()
+                    }
+                }
+
+                mWallpaperBackground.apply {
+                    if (visibility != View.VISIBLE) {
+                        visibility = View.VISIBLE
+                        alpha = 0f
+                        animate()
+                            .alpha(1f)
+                            .setDuration(400)
+                            .start()
+                    }
+                }
+
                 shouldShowForeground = true
                 updateForegroundVisibility()
             }
