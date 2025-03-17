@@ -425,7 +425,5 @@ object Preferences {
     const val BOOT_ID = "boot_id"
     const val VER_CODE = "versionCode"
     const val ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol"
-
-    // New constant
     const val SB_CLOCK_CLICKABLE_SWITCH = "xposed_sbclockclickableswitch"
 }
