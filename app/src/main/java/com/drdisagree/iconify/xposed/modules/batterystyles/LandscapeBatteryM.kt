@@ -223,19 +223,19 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
        private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.BLACK
+         p.color = Color.RED
      }
  
      private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.BLACK
+         p.color = Color.RED
      }
  
      private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.BLACK
+         p.color = Color.RED
      }
 
     private fun percentTypeface(): Typeface {
@@ -642,8 +642,8 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
 
     companion object {
         private val TAG = LandscapeBatteryL::class.java.simpleName
-        private const val WIDTH = 24f
-        private const val HEIGHT = 12f
+        private const val WIDTH = 30f
+        private const val HEIGHT = 18f
         private const val CRITICAL_LEVEL = 15
 
         // On a 24x12 grid, how wide to make the fill protection stroke.
