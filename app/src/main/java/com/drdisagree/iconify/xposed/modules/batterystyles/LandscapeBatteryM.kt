@@ -223,19 +223,19 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
        private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.RED
+         p.color = Color.WHITE
      }
  
      private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.RED
+         p.color = Color.WHITE
      }
  
      private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.RED
+         p.color = Color.WHITE
      }
 
     private fun percentTypeface(): Typeface {
@@ -431,7 +431,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
             textPaint.textSize = bounds.width() * 0.40f
             textQsPaint.textSize = textPaint.textSize
             val textHeight = +textPaint.fontMetrics.ascent
-            val pctX = (bounds.width() + textHeight) * 0.72f
+            val pctX = (bounds.width() + textHeight) * 0.76f
             val pctY = bounds.height() * 0.79f
 
             textPaint.color = fillColor
