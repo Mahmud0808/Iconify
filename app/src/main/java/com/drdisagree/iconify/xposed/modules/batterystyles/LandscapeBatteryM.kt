@@ -25,6 +25,8 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PixelFormat
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
@@ -134,6 +136,12 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         postInvalidate()
     }
 
+    private var isQsPercent = false
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
         p.alpha = 255
@@ -169,6 +177,10 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         p.strokeWidth = 0f
         p.style = Paint.Style.FILL_AND_STROKE
         p.blendMode = BlendMode.SRC
+    }
+
+    private val boltPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = Color.WHITE
     }
 
     private val chargingAlphaPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
@@ -208,10 +220,23 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         p.style = Paint.Style.FILL_AND_STROKE
     }
 
-    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = percentTypeface()
-        p.textAlign = Paint.Align.CENTER
-    }
+       private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+         p.typeface = percentTypeface()
+         p.textAlign = Paint.Align.CENTER
+         p.color = Color.BLACK
+     }
+ 
+     private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+         p.typeface = percentTypeface()
+         p.textAlign = Paint.Align.CENTER
+         p.color = Color.BLACK
+     }
+ 
+     private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+         p.typeface = percentTypeface()
+         p.textAlign = Paint.Align.CENTER
+         p.color = Color.BLACK
+     }
 
     private fun percentTypeface(): Typeface {
         val typefaceBuilder: Typeface.Builder?
@@ -271,10 +296,8 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
                 fillRect.right + 1f
             else
                 fillRect.right - (fillRect.width() * (1 - fillFraction))
-        val fillBottom = fillRect.bottom + 1f
 
         levelRect.right = floor(fillRight.toDouble()).toFloat()
-        levelRect.bottom = floor(fillBottom.toDouble()).toFloat()
         levelPath.addRect(levelRect, Path.Direction.CCW)
 
         // If drawing dual tone, the level is used only to clip the whole drawable path
@@ -325,7 +348,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
             // Clip out the bolt shape
             unifiedPath.op(scaledBolt, Path.Op.DIFFERENCE)
             if (!invertFillIcon) {
-                c.drawPath(scaledBolt, fillPaint)
+                c.drawPath(scaledBolt, boltPaint)
             }
         }
 
@@ -387,23 +410,59 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         }
         c.restore()
 
-        textPaint.textSize = bounds.width() * 0.26f
-        val textHeight = +textPaint.fontMetrics.ascent
-        val pctXcharging = if (customChargingIcon) 0.58f else 0.49f
-        val pctX100 = if (customChargingIcon) 0.58f else 0.46f
-        val pctX = (bounds.width() + textHeight) *
-                (if (!charging && !powerSaveEnabled) 0.58f /* discharging */
-                else if (batteryLevel < 100) pctXcharging /* charging / powerSaveEnabled*/
-                else pctX100) /* level == 100 */ /* charging / powerSaveEnabled*/
-        val pctY = bounds.height() * 0.67f
+        if (charging || batteryLevel <= CRITICAL_LEVEL) {
+            textChargingPaint.textSize = bounds.width() * if (customChargingIcon) 0.42f else 0.38f
+            val textHeight = +textChargingPaint.fontMetrics.ascent
+            val pctXcharging = if (customChargingIcon) 0.76f else 0.59f
+            val pctX100 = if (customChargingIcon) 0.76f else 0.54f
+            val pctX = (bounds.width() + textHeight) *
+                    (if (!charging) 0.72f /* discharging */
+                    else if (batteryLevel < 100) pctXcharging /* charging */
+                    else pctX100) /* level == 100 */ /* charging */
+            val pctY = bounds.height() * if (customChargingIcon) 0.79f else 0.76f
 
-        textPaint.color = fillColor
-        if (isRotation) {
-            c.rotate(180f, pctX, pctY * 0.74f)
+            if (isRotation) {
+                c.rotate(180f, pctX, pctY * if (customChargingIcon) 0.63f else 0.66f)
+            }
+            c.save()
+            c.drawText(batteryLevel.toString(), pctX, pctY, textChargingPaint)
+            c.restore()
+        } else {
+            textPaint.textSize = bounds.width() * 0.40f
+            textQsPaint.textSize = textPaint.textSize
+            val textHeight = +textPaint.fontMetrics.ascent
+            val pctX = (bounds.width() + textHeight) * 0.70f
+            val pctY = bounds.height() * 0.79f
+
+            textPaint.color = fillColor
+            textQsPaint.color = getColorAttrDefaultColor(
+                                context,
+                                android.R.attr.textColorPrimaryInverse
+                            )
+            if (isRotation) {
+                c.rotate(180f, pctX, pctY * 0.63f)
+            }
+            c.drawText(
+                batteryLevel.toString(),
+                pctX,
+                pctY,
+                if (isQsPercent) textQsPaint else textPaint
+            )
+
+            textPaint.color = fillColor.toInt().inv()
+            textQsPaint.color = getColorAttrDefaultColor(
+                                context,
+                                android.R.attr.textColorPrimaryInverse
+                            )
+            c.save()
+            c.drawText(
+                batteryLevel.toString(),
+                pctX,
+                pctY,
+                if (isQsPercent) textQsPaint else textPaint
+            )
+            c.restore()
         }
-        c.save()
-        c.drawText(batteryLevel.toString(), pctX, pctY, textPaint)
-        c.restore()
     }
 
     private fun batteryColorForLevel(level: Int): Int {
@@ -550,39 +609,39 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
-            getResources(context).getString(R.string.config_landscapeBatteryPerimeterPathM)
+            getResources(context).getString(R.string.config_landscapeBatteryPerimeterPathL)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryErrorPerimeterPathM)
+            getResources(context).getString(R.string.config_landscapeBatteryErrorPerimeterPathL)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            getResources(context).getString(R.string.config_landscapeBatteryFillMaskM)
+            getResources(context).getString(R.string.config_landscapeBatteryFillMaskL)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
         val fillOutlinePathString =
-            getResources(context).getString(R.string.config_landscapeBatteryFillOutlineM)
+            getResources(context).getString(R.string.config_landscapeBatteryFillOutlineL)
         fillOutlinePath.set(PathParser.createPathFromPathData(fillOutlinePathString))
         fillOutlinePath.computeBounds(RectF(), true)
 
         val boltPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryBoltPathM)
+            getResources(context).getString(R.string.config_landscapeBatteryBoltPathL)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryPowersavePathM)
+            getResources(context).getString(R.string.config_landscapeBatteryPowersavePathL)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = false
     }
 
     companion object {
-        private val TAG = LandscapeBatteryM::class.java.simpleName
+        private val TAG = LandscapeBatteryL::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 15
