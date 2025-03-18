@@ -1,18 +1,28 @@
 package com.drdisagree.iconify.xposed.modules
 
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.animation.StateListAnimator
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
+import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.content.res.XResources
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.RippleDrawable
 import android.os.Build
 import android.os.Bundle
+import android.provider.AlarmClock
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -20,6 +30,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_ACCENT
+import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_END_COLOR
 import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_GRADIENT_DIRECTION
 import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_PADDING_BOTTOM
@@ -138,6 +149,7 @@ class BackgroundChip(context: Context) : ModPack(context) {
     private var strokeDashWidth2: Int = 4
     private var strokeDashGap2: Int = 4
     private var cornerRadii2: FloatArray = floatArrayOf(28f, 28f, 28f, 28f, 28f, 28f, 28f, 28f)
+    private var mClockClickable = true
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -148,13 +160,12 @@ class BackgroundChip(context: Context) : ModPack(context) {
             accentFillEnabled = getBoolean(CHIP_STATUSBAR_CLOCK_ACCENT, true)
             startColor = getInt(CHIP_STATUSBAR_CLOCK_START_COLOR, Color.RED)
             endColor = getInt(CHIP_STATUSBAR_CLOCK_END_COLOR, Color.BLUE)
-            gradientDirection =
-                ChipDrawable.GradientDirection.fromIndex(
-                    getInt(
-                        CHIP_STATUSBAR_CLOCK_GRADIENT_DIRECTION,
-                        ChipDrawable.GradientDirection.LEFT_RIGHT.toIndex()
-                    )
+            gradientDirection = ChipDrawable.GradientDirection.fromIndex(
+                getInt(
+                    CHIP_STATUSBAR_CLOCK_GRADIENT_DIRECTION,
+                    ChipDrawable.GradientDirection.LEFT_RIGHT.toIndex()
                 )
+            )
             padding = intArrayOf(
                 getInt(CHIP_STATUSBAR_CLOCK_PADDING_LEFT, 8),
                 getInt(CHIP_STATUSBAR_CLOCK_PADDING_TOP, 4),
@@ -221,30 +232,35 @@ class BackgroundChip(context: Context) : ModPack(context) {
             fixedStatusIcons = getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
             topMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
             sideMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
+            mClockClickable = getBoolean(CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH, false)
         }
 
-        if (key.isNotEmpty()) {
-            if (key[0] == CHIP_STATUSBAR_CLOCK_SWITCH ||
-                key[0] == CHIP_STATUSBAR_CLOCK_STYLE_CHANGED
-            ) {
-                updateStatusBarClock(true)
-            }
+        when (key.firstOrNull()) {
+            in setOf(
+                CHIP_STATUSBAR_CLOCK_SWITCH,
+                CHIP_STATUSBAR_CLOCK_STYLE_CHANGED,
+                CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH
+            ) -> updateStatusBarClock(true)
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                if (key[0] == CHIP_STATUS_ICONS_SWITCH ||
-                    key[0] == CHIP_STATUS_ICONS_STYLE_CHANGED ||
-                    key[0] == HEADER_CLOCK_SWITCH ||
-                    key[0] == HIDE_STATUS_ICONS_SWITCH ||
-                    key[0] == FIXED_STATUS_ICONS_SWITCH
-                ) {
+            in setOf(
+                CHIP_STATUS_ICONS_SWITCH,
+                CHIP_STATUS_ICONS_STYLE_CHANGED,
+                HEADER_CLOCK_SWITCH,
+                HIDE_STATUS_ICONS_SWITCH,
+                FIXED_STATUS_ICONS_SWITCH
+            ) -> {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                     setQSStatusIconsBgA12()
                 }
+            }
 
-                if (key[0] == CHIP_STATUS_ICONS_SWITCH ||
-                    key[0] == CHIP_STATUS_ICONS_STYLE_CHANGED ||
-                    key[0] == FIXED_STATUS_ICONS_TOPMARGIN ||
-                    key[0] == FIXED_STATUS_ICONS_SIDEMARGIN
-                ) {
+            in setOf(
+                CHIP_STATUS_ICONS_SWITCH,
+                CHIP_STATUS_ICONS_STYLE_CHANGED,
+                FIXED_STATUS_ICONS_TOPMARGIN,
+                FIXED_STATUS_ICONS_SIDEMARGIN
+            ) -> {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                     updateStatusIcons()
                 }
             }
@@ -520,12 +536,12 @@ class BackgroundChip(context: Context) : ModPack(context) {
 
         when (statusBarClockColorOption) {
             0 -> {
-                (clockView as TextView).paint.setXfermode(null)
+                (clockView as TextView).paint.xfermode = null
                 try {
                     dependencyClass
                         .callStaticMethod("get", darkIconDispatcherClass)
                         .callMethod("addDarkReceiver", clockView)
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     dependencyClass
                         .getStaticField("sDependency")
                         .callMethod("getDependencyInner", darkIconDispatcherClass)
@@ -534,16 +550,16 @@ class BackgroundChip(context: Context) : ModPack(context) {
             }
 
             1 -> {
-                (clockView as TextView).paint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.DST_OUT))
+                (clockView as TextView).paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
             }
 
             2 -> {
-                (clockView as TextView).paint.setXfermode(null)
+                (clockView as TextView).paint.xfermode = null
                 try {
                     dependencyClass
                         .callStaticMethod("get", darkIconDispatcherClass)
                         .callMethod("removeDarkReceiver", clockView)
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     dependencyClass
                         .getStaticField("sDependency")
                         .callMethod("getDependencyInner", darkIconDispatcherClass)
@@ -554,6 +570,112 @@ class BackgroundChip(context: Context) : ModPack(context) {
         }
 
         setClockGravity(clockView, gravity)
+
+        if (mClockClickable) {
+            // Add click animation for Clock Chip
+            if (clockView.background != null) {
+                clockView.isClickable = true
+                clockView.isFocusable = true
+
+                // Add a ripple effect
+                val rippleColor = ColorStateList.valueOf(
+                    if (accentFillEnabled) {
+                        mContext.getColor(
+                            android.R.color.system_accent1_300
+                        )
+                    } else {
+                        startColor
+                    }
+                )
+
+                val pixelCornerRadii = cornerRadii.map {
+                    mContext.toPx(it.toInt()).toFloat()
+                }.toFloatArray()
+                val mask = GradientDrawable().apply {
+                    shape = GradientDrawable.RECTANGLE
+                    cornerRadii = pixelCornerRadii
+                    setColor(Color.WHITE)
+                }
+
+                val rippleDrawable = RippleDrawable(rippleColor, clockView.background, mask)
+                clockView.background = rippleDrawable
+
+                // Add a StateListAnimator for scaling animation
+                val stateListAnimator = StateListAnimator()
+
+                // Animation for pressed state: Scale to 90%
+                val pressedAnim = ObjectAnimator.ofPropertyValuesHolder(
+                    clockView,
+                    PropertyValuesHolder.ofFloat("scaleX", 0.9f),
+                    PropertyValuesHolder.ofFloat("scaleY", 0.9f)
+                ).apply {
+                    duration = 100
+                    interpolator = AccelerateDecelerateInterpolator()
+                }
+
+                // Animation for normal state: Scale back to 100%
+                val defaultAnim = ObjectAnimator.ofPropertyValuesHolder(
+                    clockView,
+                    PropertyValuesHolder.ofFloat("scaleX", 1.0f),
+                    PropertyValuesHolder.ofFloat("scaleY", 1.0f)
+                ).apply {
+                    duration = 200
+                    interpolator = AccelerateDecelerateInterpolator()
+                }
+
+                // Add the animations to the StateListAnimator
+                stateListAnimator.addState(intArrayOf(android.R.attr.state_pressed), pressedAnim)
+                stateListAnimator.addState(intArrayOf(android.R.attr.state_focused), pressedAnim)
+                stateListAnimator.addState(intArrayOf(), defaultAnim)
+
+                // Set the StateListAnimator for the ClockView
+                clockView.stateListAnimator = stateListAnimator
+            }
+
+            // First try to open the clock app via ACTION_SHOW_ALARMS
+            clockView.setOnClickListener {
+                try {
+                    mContext.startActivity(
+                        Intent(AlarmClock.ACTION_SHOW_ALARMS).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                    )
+                } catch (_: Throwable) {
+                    try {
+                        // Fallback: Open the Google Clock app directly
+                        mContext.startActivity(
+                            Intent(Intent.ACTION_MAIN).apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                component = ComponentName(
+                                    "com.google.android.deskclock",
+                                    "com.android.deskclock.DeskClock"
+                                )
+                            }
+                        )
+                    } catch (_: Throwable) {
+                        try {
+                            // Second fallback: Try AOSP Clock app
+                            mContext.startActivity(
+                                Intent(Intent.ACTION_MAIN).apply {
+                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                    component = ComponentName(
+                                        "com.android.deskclock",
+                                        "com.android.deskclock.DeskClock"
+                                    )
+                                }
+                            )
+                        } catch (throwable: Throwable) {
+                            log(this@BackgroundChip, "Could not open any clock app: $throwable")
+                        }
+                    }
+                }
+            }
+        } else {
+            clockView.isClickable = false
+            clockView.isFocusable = false
+            clockView.stateListAnimator = null
+            clockView.setOnClickListener(null)
+        }
     }
 
     private fun setQSStatusIconsBgA12() {

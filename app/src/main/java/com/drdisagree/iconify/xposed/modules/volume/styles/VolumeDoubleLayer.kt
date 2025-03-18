@@ -14,7 +14,9 @@ import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
 import androidx.core.content.ContextCompat
+import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isNightMode
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 
@@ -117,6 +119,8 @@ class VolumeDoubleLayer(
         }
     }
 
+    @Suppress("deprecation")
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun createVolumeRowSeekbarProgressDrawable(): Drawable {
         val sliderWidth = getSysUiDimen("volume_dialog_slider_width")
         val sliderCornerRadius = getSysUiDimen("volume_dialog_slider_corner_radius").toFloat()
@@ -161,29 +165,27 @@ class VolumeDoubleLayer(
             setLayerGravity(2, Gravity.FILL_HORIZONTAL or Gravity.CENTER)
         }
 
-        val iconDrawable = RotateDrawable().apply {
-            fromDegrees = -270f
-            toDegrees = -270f
-            drawable = alphaTintDrawableWrapper
-                .getConstructor(Drawable::class.java, IntArray::class.java)
-                .newInstance(
-                    ContextCompat.getDrawable(
-                        mContext,
-                        mContext.resources.getIdentifier(
-                            "ic_volume_media",
-                            "drawable",
-                            SYSTEMUI_PACKAGE
-                        )
-                    ),
-                    intArrayOf(android.R.attr.textColorPrimaryInverse)
-                ) as InsetDrawable
-        }
+        val rotateDrawable = (modRes.getDrawable(R.drawable.volume_row_seekbar_progress_icon)
+                as LayerDrawable).getDrawable(0) as RotateDrawable
+        rotateDrawable.drawable = alphaTintDrawableWrapper
+            .getConstructor(Drawable::class.java, IntArray::class.java)
+            .newInstance(
+                ContextCompat.getDrawable(
+                    mContext,
+                    mContext.resources.getIdentifier(
+                        "ic_volume_media",
+                        "drawable",
+                        SYSTEMUI_PACKAGE
+                    )
+                ),
+                intArrayOf(android.R.attr.textColorPrimaryInverse)
+            ) as InsetDrawable
 
         return LayerDrawable(
             arrayOf(
                 transparentShape,
                 middleLayerDrawable,
-                iconDrawable
+                rotateDrawable
             )
         ).apply {
             isAutoMirrored = true

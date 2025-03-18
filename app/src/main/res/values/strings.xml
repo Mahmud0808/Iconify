@@ -834,6 +834,7 @@
     <string name="sb_clock_background_chip_desc">Display chip behind statusbar clock</string>
     <string name="sb_clock_customize_chip_title">Customize Clock Chip</string>
     <string name="sb_clock_customize_chip_desc">Custom colors, roundness, stroke etc.</string>
+    <string name="statusbar_clock_clickable_title">Click to Open Clock App</string>
     <string name="section_title_text">Text</string>
     <string name="statusbar_clock_text_title">Clock Text Color</string>
     <string name="sbclock_color_follow_system">Follow System</string>

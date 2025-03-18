@@ -22,6 +22,13 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/clock_clickable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:isChecked="false"
+                app:titleText="@string/statusbar_clock_clickable_title" />
+
             <com.drdisagree.iconify.ui.widgets.TitleWidget
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
