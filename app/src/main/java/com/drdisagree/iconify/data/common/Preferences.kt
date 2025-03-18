@@ -36,6 +36,7 @@ object Preferences {
     const val CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_RIGHT =
         "xposed_chipstatusbarclockradiusbottomright"
     const val CHIP_STATUSBAR_CLOCK_RADIUS_BOTTOM_LEFT = "xposed_chipstatusbarclockradiusbottomleft"
+    const val CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH = "xposed_chipstatusbarclockclickable"
     const val CHIP_STATUS_ICONS_SWITCH = "xposed_chipstatusicons"
     const val CHIP_STATUS_ICONS_STYLE_CHANGED = "xposed_chipstatusiconsstylechanged"
     const val CHIP_STATUS_ICONS_ACCENT = "xposed_chipstatusiconsaccent"
@@ -425,5 +426,4 @@ object Preferences {
     const val BOOT_ID = "boot_id"
     const val VER_CODE = "versionCode"
     const val ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol"
-    const val SB_CLOCK_CLICKABLE_SWITCH = "xposed_sbclockclickableswitch"
 }
