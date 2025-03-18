@@ -431,7 +431,7 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
             textPaint.textSize = bounds.width() * 0.40f
             textQsPaint.textSize = textPaint.textSize
             val textHeight = +textPaint.fontMetrics.ascent
-            val pctX = (bounds.width() + textHeight) * 0.72f
+            val pctX = (bounds.width() + textHeight) * 0.76f
             val pctY = bounds.height() * 0.79f
 
             textPaint.color = fillColor
