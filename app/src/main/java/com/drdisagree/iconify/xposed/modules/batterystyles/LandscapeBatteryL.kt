@@ -220,22 +220,23 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
         p.style = Paint.Style.FILL_AND_STROKE
     }
 
-    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = percentTypeface()
-        p.textAlign = Paint.Align.CENTER
-        p.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-    }
-
-    private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = percentTypeface()
-        p.textAlign = Paint.Align.CENTER
-        p.color = Color.WHITE
-    }
-
-    private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = percentTypeface()
-        p.textAlign = Paint.Align.CENTER
-    }
+       private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+         p.typeface = percentTypeface()
+         p.textAlign = Paint.Align.CENTER
+         p.color = Color.WHITE
+     }
+ 
+     private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+         p.typeface = percentTypeface()
+         p.textAlign = Paint.Align.CENTER
+         p.color = Color.WHITE
+     }
+ 
+     private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+         p.typeface = percentTypeface()
+         p.textAlign = Paint.Align.CENTER
+         p.color = Color.WHITE
+     }
 
     private fun percentTypeface(): Typeface {
         val typefaceBuilder: Typeface.Builder?
@@ -427,10 +428,10 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
             c.drawText(batteryLevel.toString(), pctX, pctY, textChargingPaint)
             c.restore()
         } else {
-            textPaint.textSize = bounds.width() * 0.42f
+            textPaint.textSize = bounds.width() * 0.37f
             textQsPaint.textSize = textPaint.textSize
             val textHeight = +textPaint.fontMetrics.ascent
-            val pctX = (bounds.width() + textHeight) * 0.76f
+            val pctX = (bounds.width() + textHeight) * 0.70f
             val pctY = bounds.height() * 0.79f
 
             textPaint.color = fillColor
