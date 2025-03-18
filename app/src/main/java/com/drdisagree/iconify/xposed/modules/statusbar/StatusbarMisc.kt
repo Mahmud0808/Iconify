@@ -2,10 +2,8 @@ package com.drdisagree.iconify.xposed.modules.statusbar
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.res.XResources
 import android.os.Bundle
-import android.provider.AlarmClock
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
@@ -15,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR
 import com.drdisagree.iconify.data.common.Preferences.HIDE_LOCKSCREEN_CARRIER
 import com.drdisagree.iconify.data.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
@@ -32,8 +29,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getRigh
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.setClockGravity
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
@@ -45,20 +40,18 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
     private var sbClockSizeSwitch = false
     private var sbClockSize = 14
-    private var hideLockscreenCarrier = false
-    private var hideLockscreenStatusbar = false
-    private var clockOnRightSide = false
-    private var show4GInsteadOfLTE = false
-    private var notifIconsLimit = -1
-    private var dualStatusbarEnabled = false
-    private var mStatusBar: ViewGroup? = null
-    private var mActivityStarter: Any? = null
     private var mClockView: TextView? = null
     private var mCenterClockView: TextView? = null
     private var mRightClockView: TextView? = null
     private var mLeftClockSize = 14
     private var mCenterClockSize = 14
     private var mRightClockSize = 14
+    private var hideLockscreenCarrier = false
+    private var hideLockscreenStatusbar = false
+    private var clockOnRightSide = false
+    private var show4GInsteadOfLTE = false
+    private var notifIconsLimit = -1
+    private var dualStatusbarEnabled = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -90,7 +83,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         applyClockSize()
         clockOnRightSide()
         show4GInsteadOfLTE()
-        limitNotifIcons()
+        notificationIconsLimit()
     }
 
     private fun hideLockscreenCarrierOrStatusbar() {
@@ -201,22 +194,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 mClockView?.addTextChangedListener(textChangeListener)
                 mCenterClockView?.addTextChangedListener(textChangeListener)
                 mRightClockView?.addTextChangedListener(textChangeListener)
-                
-                // Get ActivityStarter for clock click
-                try {
-                    mActivityStarter = param.thisObject
-                        .getField("mStatusBarStateController")
-                        ?.getField("mCommandQueue")
-                        ?.getField("mHandler")
-                        ?.getField("mActivityStarter")
-                } catch (ignored: Throwable) {
-                    try {
-                        mActivityStarter = param.thisObject
-                            .getField("mStatusBar")
-                            ?.getField("mActivityStarter")
-                    } catch (ignored: Throwable) {
-                    }
-                }
             }
     }
 
@@ -324,7 +301,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             }
     }
 
-    private fun limitNotifIcons() {
+    private fun notificationIconsLimit() {
         ResourceHookManager
             .hookInteger()
             .forPackageName(SYSTEMUI_PACKAGE)
