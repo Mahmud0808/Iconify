@@ -87,7 +87,7 @@ open class PortraitBatteryLorn(private val context: Context, frameColor: Int) :
     private var levelColor: Int = Color.WHITE
 
     // Dual tone implies that battery level is a clipped overlay over top of the whole shape
-    private var dualTone = false
+    private var dualTone = true
 
     private var batteryLevel = 0
 
