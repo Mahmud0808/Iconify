@@ -86,7 +86,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
     // Colors can be configured based on battery level (see res/values/arrays.xml)
     private var colorLevels: IntArray
 
-    private var fillColor: Int = Color.BLACK
+    private var fillColor: Int = Color.WHITE
     private var backgroundColor: Int = Color.WHITE
 
     // updated whenever level changes
@@ -223,7 +223,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
        private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.BLACK
+         p.color = Color.black
      }
  
      private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
@@ -235,7 +235,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
      private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.BLACK
+         p.color = Color.black
      }
 
     private fun percentTypeface(): Typeface {
