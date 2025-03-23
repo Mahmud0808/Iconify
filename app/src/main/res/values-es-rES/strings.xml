@@ -786,6 +786,8 @@
     <string name="sb_clock_background_chip_desc">Mostrar ficha detrás del reloj de la barra de estado</string>
     <string name="sb_clock_customize_chip_title">Personalizar chip de reloj</string>
     <string name="sb_clock_customize_chip_desc">Colores, redondez, trazos, etc. personalizados</string>
+    <string name="statusbar_clock_clickable_title">Clickable Clock</string>
+    <string name="statusbar_clock_clickable_desc">Click to open clock app</string>
     <string name="section_title_text">Texto</string>
     <string name="statusbar_clock_text_title">Color de texto del reloj</string>
     <string name="sbclock_color_follow_system">Seguir el Sistema</string>
@@ -841,6 +843,8 @@
     <string name="sb_swap_cellular_network_type_desc">Intercambiar los iconos de red móvil y de tipo de red (3G 4G LTE etc.)</string>
     <string name="sb_clock_on_right_side_title">Reloj en lado final</string>
     <string name="sb_clock_on_right_side_desc">Mostrar reloj en el lado final de la barra de estado</string>
+    <string name="ongoing_action_chip_title">Ongoing Action Chip</string>
+    <string name="ongoing_action_chip_desc">Show progress indicator in status bar for ongoing actions like downloads</string>
     <string name="sb_show_4g_icon_title">Icono 4G</string>
     <string name="sb_show_4g_icon_desc">Mostrar icono 4G en la barra de estado en lugar de LTE</string>
     <string name="sb_max_notification_icons_title">Límite de iconos de notificación</string>
@@ -1278,6 +1282,8 @@
     <string name="app_drawer_icon_labels_title">Etiquetas de icono en el cajón de aplicaciones</string>
     <string name="disable_recents_live_tile_title">Disable Recents Live Tile</string>
     <string name="disable_recents_live_tile_desc">Disable live tile if recents screen is buggy</string>
+    <string name="hide_at_a_glance_title">Hide At A Glance</string>
+    <string name="hide_at_a_glance_desc">Hide at a glance from home screen</string>
     <string name="hide_desktop_search_bar_title">Ocultar barra de búsqueda de escritorio</string>
     <string name="hide_desktop_search_bar_desc">Ocultar la barra de búsqueda del dock</string>
     <string name="dock_spacing_title">Espaciado del dock</string>

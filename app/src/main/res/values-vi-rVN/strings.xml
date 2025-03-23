@@ -786,6 +786,8 @@
     <string name="sb_clock_background_chip_desc">Chip hiển thị phía sau đồng hồ trên thanh trạng thái</string>
     <string name="sb_clock_customize_chip_title">Customize Clock Chip</string>
     <string name="sb_clock_customize_chip_desc">Custom colors, roundness, stroke etc.</string>
+    <string name="statusbar_clock_clickable_title">Clickable Clock</string>
+    <string name="statusbar_clock_clickable_desc">Click to open clock app</string>
     <string name="section_title_text">Text</string>
     <string name="statusbar_clock_text_title">Clock Text Color</string>
     <string name="sbclock_color_follow_system">Follow System</string>
@@ -841,6 +843,8 @@
     <string name="sb_swap_cellular_network_type_desc">Swap cellular and network type (3G 4G LTE etc.) icons</string>
     <string name="sb_clock_on_right_side_title">Clock on End Side</string>
     <string name="sb_clock_on_right_side_desc">Show clock on end side of statusbar</string>
+    <string name="ongoing_action_chip_title">Ongoing Action Chip</string>
+    <string name="ongoing_action_chip_desc">Show progress indicator in status bar for ongoing actions like downloads</string>
     <string name="sb_show_4g_icon_title">4G Icon</string>
     <string name="sb_show_4g_icon_desc">Display 4G icon in statusbar instead of LTE</string>
     <string name="sb_max_notification_icons_title">Notification Icons Limit</string>
@@ -1278,6 +1282,8 @@
     <string name="app_drawer_icon_labels_title">Icon Labels in App Drawer</string>
     <string name="disable_recents_live_tile_title">Disable Recents Live Tile</string>
     <string name="disable_recents_live_tile_desc">Disable live tile if recents screen is buggy</string>
+    <string name="hide_at_a_glance_title">Hide At A Glance</string>
+    <string name="hide_at_a_glance_desc">Hide at a glance from home screen</string>
     <string name="hide_desktop_search_bar_title">Hide Desktop Search Bar</string>
     <string name="hide_desktop_search_bar_desc">Hide search bar from desktop dock</string>
     <string name="dock_spacing_title">Dock Spacing</string>

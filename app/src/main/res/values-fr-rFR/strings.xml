@@ -786,6 +786,8 @@
     <string name="sb_clock_background_chip_desc">Afficher une puce derrière l\'horloge de la barre d\'état</string>
     <string name="sb_clock_customize_chip_title">Personnaliser la puce de l\'horloge</string>
     <string name="sb_clock_customize_chip_desc">Couleurs personnalisées, rondeur, tracé etc.</string>
+    <string name="statusbar_clock_clickable_title">Clickable Clock</string>
+    <string name="statusbar_clock_clickable_desc">Click to open clock app</string>
     <string name="section_title_text">Texte</string>
     <string name="statusbar_clock_text_title">Couleur du texte de l\'horloge</string>
     <string name="sbclock_color_follow_system">Suivre le système</string>
@@ -841,6 +843,8 @@
     <string name="sb_swap_cellular_network_type_desc">Permuter les icônes de type cellulaire et réseau (3G 4G LTE etc.)</string>
     <string name="sb_clock_on_right_side_title">Horloge sur le côté final</string>
     <string name="sb_clock_on_right_side_desc">Afficher l\'horloge à la fin de la barre d\'état</string>
+    <string name="ongoing_action_chip_title">Ongoing Action Chip</string>
+    <string name="ongoing_action_chip_desc">Show progress indicator in status bar for ongoing actions like downloads</string>
     <string name="sb_show_4g_icon_title">Icône 4G</string>
     <string name="sb_show_4g_icon_desc">Afficher l\'icône 4G dans la barre d\'état au lieu de LTE</string>
     <string name="sb_max_notification_icons_title">Limite d\'icônes de notification</string>
@@ -1278,6 +1282,8 @@
     <string name="app_drawer_icon_labels_title">Étiquettes d\'icônes dans le tiroir d\'applications</string>
     <string name="disable_recents_live_tile_title">Disable Recents Live Tile</string>
     <string name="disable_recents_live_tile_desc">Disable live tile if recents screen is buggy</string>
+    <string name="hide_at_a_glance_title">Hide At A Glance</string>
+    <string name="hide_at_a_glance_desc">Hide at a glance from home screen</string>
     <string name="hide_desktop_search_bar_title">Masquer la barre de recherche du bureau</string>
     <string name="hide_desktop_search_bar_desc">Masquer la barre de recherche dans le dock du bureau</string>
     <string name="dock_spacing_title">Espacement du dock</string>

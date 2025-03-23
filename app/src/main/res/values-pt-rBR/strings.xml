@@ -786,6 +786,8 @@
     <string name="sb_clock_background_chip_desc">Chip de exibição atrás do relógio da barra de status</string>
     <string name="sb_clock_customize_chip_title">Personalizar chip do relógio</string>
     <string name="sb_clock_customize_chip_desc">Cores personalizadas, redondeza, traço etc.</string>
+    <string name="statusbar_clock_clickable_title">Relógio clicável</string>
+    <string name="statusbar_clock_clickable_desc">Clique para abrir o app de relógio</string>
     <string name="section_title_text">Texto</string>
     <string name="statusbar_clock_text_title">Cor do texto do relógio</string>
     <string name="sbclock_color_follow_system">Seguir sistema</string>
@@ -841,6 +843,8 @@
     <string name="sb_swap_cellular_network_type_desc">Troque os ícones de celular e tipo de rede (3G, 4G, LTE, etc.)</string>
     <string name="sb_clock_on_right_side_title">Relógio no lado final</string>
     <string name="sb_clock_on_right_side_desc">Mostre o relógio no final da barra de status</string>
+    <string name="ongoing_action_chip_title">Chip de ação em andamento</string>
+    <string name="ongoing_action_chip_desc">Mostre o indicador de progresso na barra de status para ações em andamento, como downloads.</string>
     <string name="sb_show_4g_icon_title">Ícone 4G</string>
     <string name="sb_show_4g_icon_desc">Exibe o ícone 4G na barra de status em vez de LTE</string>
     <string name="sb_max_notification_icons_title">Limite de ícones de notificação</string>
@@ -1278,6 +1282,8 @@
     <string name="app_drawer_icon_labels_title">Nome dos ícones na gaveta de apps</string>
     <string name="disable_recents_live_tile_title">Desativar bloco dinâmico</string>
     <string name="disable_recents_live_tile_desc">Desative o bloco dinâmico se a tela recente estiver com bugs</string>
+    <string name="hide_at_a_glance_title">Ocultar At a Glance</string>
+    <string name="hide_at_a_glance_desc">Oculte o At a Glance da tela inicial</string>
     <string name="hide_desktop_search_bar_title">Ocultar barra de pesquisa na tela inicial</string>
     <string name="hide_desktop_search_bar_desc">Oculte a barra de pesquisa da dock da tela inicial</string>
     <string name="dock_spacing_title">Espaçamento da dock</string>

@@ -576,9 +576,9 @@
     <string name="section_title_media_player">Medya Oynatıcı</string>
     <string name="compact_media_player_title">Kompakt Medya Oynatıcı</string>
     <string name="compact_media_player_desc">Medya oynatıcıyı kompakt yap</string>
-    <string name="media_player_artwork_blur_title">Blur Artwork</string>
-    <string name="media_player_artwork_blur_desc">Blur media player album art</string>
-    <string name="media_player_artwork_blur_radius_title">Artwork Blur Intensity</string>
+    <string name="media_player_artwork_blur_title">Bulanıklaştırma Çalışması</string>
+    <string name="media_player_artwork_blur_desc">Medya oynatıcı albüm kapağını bulanıklaştır</string>
+    <string name="media_player_artwork_blur_radius_title">Albüm Kapağı Bulanıklaştırma Yoğunluğu</string>
     <string name="section_title_qs_elements">Hızlı Ayar Elemanları</string>
     <string name="hide_qs_on_lockscreen_title">Kilit Ekranında Hızlı Ayar\'ı Gizle</string>
     <string name="hide_qs_on_lockscreen_desc">Güvenli kilit ekranında hızlı ayarlar panelini devre dışı bırak</string>
@@ -786,6 +786,8 @@
     <string name="sb_clock_background_chip_desc">Durum çubuğu saatinin arkasına çip göster</string>
     <string name="sb_clock_customize_chip_title">Saat Çipini Özelleştir</string>
     <string name="sb_clock_customize_chip_desc">Özel renkler, yuvarlaklık, kenarlık vb.</string>
+    <string name="statusbar_clock_clickable_title">Tıklanabilir Saat</string>
+    <string name="statusbar_clock_clickable_desc">Saat uygulamasını açmak için tıklayın</string>
     <string name="section_title_text">Metin</string>
     <string name="statusbar_clock_text_title">Saat Metin Rengi</string>
     <string name="sbclock_color_follow_system">Sistemi Takip Et</string>
@@ -841,6 +843,8 @@
     <string name="sb_swap_cellular_network_type_desc">Hücresel ve ağ türü (3G, 4G, LTE vb.) simgelerinin yerini değiştir</string>
     <string name="sb_clock_on_right_side_title">Saati Sağ Tarafta Göster</string>
     <string name="sb_clock_on_right_side_desc">Saati durum çubuğunun sağ tarafında göster</string>
+    <string name="ongoing_action_chip_title">Devam Eden İşlem Çipi</string>
+    <string name="ongoing_action_chip_desc">Devam eden işlemler için durum çubuğunda bir ilerleme göstergesi göster</string>
     <string name="sb_show_4g_icon_title">4G Simgesi</string>
     <string name="sb_show_4g_icon_desc">Durum çubuğunda LTE yerine 4G simgesi göster</string>
     <string name="sb_max_notification_icons_title">Bildirim Simgeleri Limiti</string>
@@ -1278,6 +1282,8 @@
     <string name="app_drawer_icon_labels_title">Uygulama Çekmecesinde Simge Etiketleri</string>
     <string name="disable_recents_live_tile_title">Son Kullanılanlar Canlı Döşemesini Devre Dışı Bırak</string>
     <string name="disable_recents_live_tile_desc">Son kullanılanlar ekranı hatalıysa canlı döşemeyi devre dışı bırak</string>
+    <string name="hide_at_a_glance_title">\"Bir Bakışta\"yı Gizle</string>
+    <string name="hide_at_a_glance_desc">Ana ekrandan \"Bir Bakışta\"yı gizle</string>
     <string name="hide_desktop_search_bar_title">Masaüstü Arama Çubuğunu Gizle</string>
     <string name="hide_desktop_search_bar_desc">Masaüstü dock\'tan arama çubuğunu gizle</string>
     <string name="dock_spacing_title">Dock Boşluğu</string>

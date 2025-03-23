@@ -576,9 +576,9 @@
     <string name="section_title_media_player">媒体播放器</string>
     <string name="compact_media_player_title">更紧凑的媒体播放器</string>
     <string name="compact_media_player_desc">使媒体播放器更紧凑</string>
-    <string name="media_player_artwork_blur_title">Blur Artwork</string>
-    <string name="media_player_artwork_blur_desc">Blur media player album art</string>
-    <string name="media_player_artwork_blur_radius_title">Artwork Blur Intensity</string>
+    <string name="media_player_artwork_blur_title">封面模糊</string>
+    <string name="media_player_artwork_blur_desc">使媒体播放器的专辑封面模糊</string>
+    <string name="media_player_artwork_blur_radius_title">模糊强度</string>
     <string name="section_title_qs_elements">快速设置元素</string>
     <string name="hide_qs_on_lockscreen_title">在锁屏界面隐藏快速设置</string>
     <string name="hide_qs_on_lockscreen_desc">在安全锁屏界面禁用快速设置面板</string>
@@ -786,6 +786,8 @@
     <string name="sb_clock_background_chip_desc">状态栏时钟后面的 Chip</string>
     <string name="sb_clock_customize_chip_title">自定义时钟Chip</string>
     <string name="sb_clock_customize_chip_desc">自定义颜色、圆角、笔划等。</string>
+    <string name="statusbar_clock_clickable_title">点击时钟</string>
+    <string name="statusbar_clock_clickable_desc">点击时钟打开时钟应用程序</string>
     <string name="section_title_text">文本</string>
     <string name="statusbar_clock_text_title">时钟文本颜色</string>
     <string name="sbclock_color_follow_system">跟随系统</string>
@@ -841,6 +843,8 @@
     <string name="sb_swap_cellular_network_type_desc">交换网络类型(3G 4G LTE等)的图标</string>
     <string name="sb_clock_on_right_side_title">在末端显示时钟</string>
     <string name="sb_clock_on_right_side_desc">在状态栏的末端显示时钟</string>
+    <string name="ongoing_action_chip_title">正在进行的操作</string>
+    <string name="ongoing_action_chip_desc">在状态栏显示正在进行的操作如下载进度指示器</string>
     <string name="sb_show_4g_icon_title">4G图标</string>
     <string name="sb_show_4g_icon_desc">在状态栏中显示4G图标，而不是LTE</string>
     <string name="sb_max_notification_icons_title">通知图标数量限制</string>
@@ -1278,6 +1282,8 @@
     <string name="app_drawer_icon_labels_title">应用程序抽屉中的图标标签</string>
     <string name="disable_recents_live_tile_title">禁用动态磁贴</string>
     <string name="disable_recents_live_tile_desc">如果最近任务显示有问题则禁用动态磁贴</string>
+    <string name="hide_at_a_glance_title">隐藏一瞥</string>
+    <string name="hide_at_a_glance_desc">从首页隐藏资讯一瞥</string>
     <string name="hide_desktop_search_bar_title">隐藏桌面搜索栏</string>
     <string name="hide_desktop_search_bar_desc">隐藏桌面搜索栏</string>
     <string name="dock_spacing_title">除Dock栏固定的图标外桌面上的图标距离底部的距离</string>

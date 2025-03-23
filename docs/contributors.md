@@ -139,6 +139,13 @@ This project exists thanks to the following contributors:
 		</tr>
 		<tr>
             <td align="center">
+                <a href="https://github.com/FlazeIGuess">
+                    <img src="https://avatars.githubusercontent.com/u/61559082?v=4" width="100;" alt="FlazeIGuess"/>
+                    <br />
+                    <sub><b>Flaze</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/HiFiiDev">
                     <img src="https://avatars.githubusercontent.com/u/46557883?v=4" width="100;" alt="HiFiiDev"/>
                     <br />

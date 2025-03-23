@@ -786,6 +786,8 @@
     <string name="sb_clock_background_chip_desc">Показывать подложку позади часов в строке состояния</string>
     <string name="sb_clock_customize_chip_title">Настроить фишку часов</string>
     <string name="sb_clock_customize_chip_desc">Пользовательские цвета, округлость, штрихи и т.д.</string>
+    <string name="statusbar_clock_clickable_title">Кликабельные часы</string>
+    <string name="statusbar_clock_clickable_desc">Нажмите, чтобы открыть часы</string>
     <string name="section_title_text">Текст</string>
     <string name="statusbar_clock_text_title">Цвет текста часов</string>
     <string name="sbclock_color_follow_system">Соответствие системе</string>
@@ -841,6 +843,8 @@
     <string name="sb_swap_cellular_network_type_desc">Поменять значок сети и тип сотовой связи (3G, 4G LTE и т. д.)</string>
     <string name="sb_clock_on_right_side_title">Часы в конце строки</string>
     <string name="sb_clock_on_right_side_desc">Показывать часы в конце строки состояния</string>
+    <string name="ongoing_action_chip_title">Фишка текущего действия</string>
+    <string name="ongoing_action_chip_desc">Показывать индикатор прогресса в строке состояния для текущих действий, таких как загрузка</string>
     <string name="sb_show_4g_icon_title">4G значок</string>
     <string name="sb_show_4g_icon_desc">Показывать значок 4G вместо LTE в строке состояния</string>
     <string name="sb_max_notification_icons_title">Лимит значков уведомлений</string>
@@ -1278,6 +1282,8 @@
     <string name="app_drawer_icon_labels_title">Наименование приложений в меню приложений</string>
     <string name="disable_recents_live_tile_title">Отключить живую плитку «Недавние»</string>
     <string name="disable_recents_live_tile_desc">Отключить живую плитку, если экран недавних посещений глючит</string>
+    <string name="hide_at_a_glance_title">Скрыть At A Glance</string>
+    <string name="hide_at_a_glance_desc">Скрыть at a glance с домашнего экрана</string>
     <string name="hide_desktop_search_bar_title">Убрать панель поиска</string>
     <string name="hide_desktop_search_bar_desc">Скрывает панель поиска с рабочего стола</string>
     <string name="dock_spacing_title">Расстояние между док-панелью</string>

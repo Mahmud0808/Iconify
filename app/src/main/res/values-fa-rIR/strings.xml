@@ -578,7 +578,7 @@
     <string name="compact_media_player_desc">پخش‌کننده رسانه را فشرده کن</string>
     <string name="media_player_artwork_blur_title">تار کردن اثر هنری</string>
     <string name="media_player_artwork_blur_desc">تار کردن عکس آلبوم پخش کننده رسانه</string>
-    <string name="media_player_artwork_blur_radius_title">Artwork Blur Intensity</string>
+    <string name="media_player_artwork_blur_radius_title">شدت تاری اثر هنری</string>
     <string name="section_title_qs_elements">عناصر تنظیم‌سریع</string>
     <string name="hide_qs_on_lockscreen_title">تنظیم‌سریع را در صفحه قفل مخفی کنید</string>
     <string name="hide_qs_on_lockscreen_desc">پانل تنظیمات سریع را در صفحه قفل ایمن غیرفعال کنید</string>
@@ -786,6 +786,8 @@
     <string name="sb_clock_background_chip_desc">نمایش دادن پیش‌زمینه رنگی پشت ساعت نوار اعلان</string>
     <string name="sb_clock_customize_chip_title">سفارشی کردن پیش‌زمینه ساعت</string>
     <string name="sb_clock_customize_chip_desc">رنگ های سفارشی، گردی، حرکتدار و غیره.</string>
+    <string name="statusbar_clock_clickable_title">Clickable Clock</string>
+    <string name="statusbar_clock_clickable_desc">Click to open clock app</string>
     <string name="section_title_text">متن</string>
     <string name="statusbar_clock_text_title">رنگ متن ساعت</string>
     <string name="sbclock_color_follow_system">پیروی از سیستم</string>
@@ -841,6 +843,8 @@
     <string name="sb_swap_cellular_network_type_desc">تغییر آیکون‌های نوع شبکه تلفن همراه (3G, 4G, LTE و غیره)</string>
     <string name="sb_clock_on_right_side_title">ساعت در سمت انتها</string>
     <string name="sb_clock_on_right_side_desc">نمایش ساعت در انتهای نوار وضعیت</string>
+    <string name="ongoing_action_chip_title">Ongoing Action Chip</string>
+    <string name="ongoing_action_chip_desc">Show progress indicator in status bar for ongoing actions like downloads</string>
     <string name="sb_show_4g_icon_title">نماد 4G</string>
     <string name="sb_show_4g_icon_desc">نمایش آیکون 4G در نواراعلان به جای LTE</string>
     <string name="sb_max_notification_icons_title">محدودیت آیکون‌های اعلان</string>
@@ -1278,6 +1282,8 @@
     <string name="app_drawer_icon_labels_title">عنوان نماد روی کشوی برنامه</string>
     <string name="disable_recents_live_tile_title">غیرفعال کردن کاشی زنده صفحه اخیراً</string>
     <string name="disable_recents_live_tile_desc">غیرفعال کردن کاشی زنده در صورتی که صفحه اخیراً دچار اشکال است</string>
+    <string name="hide_at_a_glance_title">Hide At A Glance</string>
+    <string name="hide_at_a_glance_desc">Hide at a glance from home screen</string>
     <string name="hide_desktop_search_bar_title">پنهان کردن نوار جستجوی صفحه‌اصلی</string>
     <string name="hide_desktop_search_bar_desc">پنهان کردن نوار جستجو در صفحه‌اصلی</string>
     <string name="dock_spacing_title">فاصله اسکله</string>
