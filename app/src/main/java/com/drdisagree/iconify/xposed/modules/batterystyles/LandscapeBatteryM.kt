@@ -143,12 +143,11 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         }
 
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = frameColor
-        p.alpha = 255
+        
         p.isDither = true
         p.strokeWidth = 5f
         p.style = Paint.Style.STROKE
-        p.blendMode = BlendMode.SRC
+        p.blendMode = BlendMode.CLEAR
         p.strokeMiter = 5f
         p.strokeJoin = Paint.Join.ROUND
     }
@@ -229,7 +228,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
      private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.BLACK
+         p.color = Color.WHITE
      }
  
      private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
