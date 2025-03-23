@@ -36,6 +36,12 @@
             app:iconSpaceReserved="false" />
 
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_hideataglance"
+            android:summary="@string/hide_at_a_glance_desc"
+            android:title="@string/hide_at_a_glance_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
             android:key="xposed_desktopsearchbar"
             android:summary="@string/hide_desktop_search_bar_desc"
             android:title="@string/hide_desktop_search_bar_title"

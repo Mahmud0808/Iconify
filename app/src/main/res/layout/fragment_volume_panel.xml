@@ -25,8 +25,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="16dp">
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/container_main"
+                android:padding="16dp">
 
                 <View
                     android:layout_width="0dp"

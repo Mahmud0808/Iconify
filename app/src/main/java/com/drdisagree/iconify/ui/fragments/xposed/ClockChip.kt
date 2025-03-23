@@ -15,7 +15,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_ACCENT
-import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_END_COLOR
 import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_GRADIENT_DIRECTION
 import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_PADDING_BOTTOM
@@ -40,7 +39,6 @@ import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_TEXT_
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.config.RPrefs.getBoolean
 import com.drdisagree.iconify.data.config.RPrefs.getInt
-import com.drdisagree.iconify.data.config.RPrefs.putBoolean
 import com.drdisagree.iconify.databinding.FragmentXposedClockChipBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
@@ -72,7 +70,6 @@ class ClockChip : BaseFragment() {
         getInt(CHIP_STATUSBAR_CLOCK_PADDING_RIGHT, 8),
         getInt(CHIP_STATUSBAR_CLOCK_PADDING_BOTTOM, 4)
     )
-    private var clickableEnabled: Boolean = getBoolean(CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH)
     private var strokeEnabled: Boolean = getBoolean(CHIP_STATUSBAR_CLOCK_STROKE_SWITCH)
     private var strokeWidth: Int = getInt(CHIP_STATUSBAR_CLOCK_STROKE_WIDTH, 2)
     private var accentBorderEnabled: Boolean = getBoolean(CHIP_STATUSBAR_CLOCK_STROKE_ACCENT, true)
@@ -128,12 +125,6 @@ class ClockChip : BaseFragment() {
         binding.blurView.setupWith(binding.root, RenderEffectBlur())
             .setFrameClearDrawable(windowBackground)
             .setBlurRadius(8f)
-
-        binding.clockClickable.isSwitchChecked = clickableEnabled
-        binding.clockClickable.setSwitchChangeListener { _: CompoundButton?, enabled: Boolean ->
-            clickableEnabled = enabled
-            putBoolean(CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH, enabled)
-        }
 
         binding.clockTextColor.setSelectedIndex(getInt(CHIP_STATUSBAR_CLOCK_TEXT_COLOR_OPTION, 0))
         binding.clockTextColor.setOnItemSelectedListener { index: Int ->

@@ -17,6 +17,7 @@ import com.drdisagree.iconify.xposed.modules.launcher.IconLabels
 import com.drdisagree.iconify.xposed.modules.launcher.IconUpdater
 import com.drdisagree.iconify.xposed.modules.launcher.LauncherUtils
 import com.drdisagree.iconify.xposed.modules.launcher.OpacityModifier
+import com.drdisagree.iconify.xposed.modules.launcher.SmartSpace
 import com.drdisagree.iconify.xposed.modules.launcher.ThemedIcons
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
@@ -53,6 +54,7 @@ import com.drdisagree.iconify.xposed.modules.settings.GoogleIcon
 import com.drdisagree.iconify.xposed.modules.settings.ZenPriorityModeIcon
 import com.drdisagree.iconify.xposed.modules.statusbar.AppIconsInStatusbar
 import com.drdisagree.iconify.xposed.modules.statusbar.DualStatusbar
+import com.drdisagree.iconify.xposed.modules.statusbar.OnGoingActionChip
 import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarMisc
 import com.drdisagree.iconify.xposed.modules.statusbar.SwapSignalNetworkType
 import com.drdisagree.iconify.xposed.modules.statusbar.SwapWiFiCellular
@@ -91,7 +93,8 @@ object EntryList {
         VolumePanelStyle::class.java,
         ColorizeNotificationView::class.java,
         AppIconInNotification::class.java,
-        HeadsUpBlur::class.java
+        HeadsUpBlur::class.java,
+        OnGoingActionChip::class.java
     )
 
     private val systemUiAndroid12ModPacks: List<Class<out ModPack>> = listOf(
@@ -131,23 +134,15 @@ object EntryList {
         OpQsHeader::class.java
     )
 
-    private val pixelLauncherModPacks: List<Class<out ModPack>> = listOf(
+    private val launcherModPacks: List<Class<out ModPack>> = listOf(
         LauncherUtils::class.java,
         IconUpdater::class.java,
         ThemedIcons::class.java,
         OpacityModifier::class.java,
         GestureMod::class.java,
         IconLabels::class.java,
-        HotseatMod::class.java
-    )
-
-    private val launcher3ModPacks: List<Class<out ModPack>> = listOf(
-        LauncherUtils::class.java,
-        ThemedIcons::class.java,
-        OpacityModifier::class.java,
-        GestureMod::class.java,
-        IconLabels::class.java,
-        HotseatMod::class.java
+        HotseatMod::class.java,
+        SmartSpace::class.java
     )
 
     private val settingsCommonModPacks: List<Class<out ModPack>> = listOf(
@@ -188,12 +183,9 @@ object EntryList {
                 }
             }
 
-            PIXEL_LAUNCHER_PACKAGE -> {
-                modPacks.addAll(pixelLauncherModPacks)
-            }
-
+            PIXEL_LAUNCHER_PACKAGE,
             LAUNCHER3_PACKAGE -> {
-                modPacks.addAll(launcher3ModPacks)
+                modPacks.addAll(launcherModPacks)
             }
 
             SETTINGS_PACKAGE -> {

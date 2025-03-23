@@ -15,6 +15,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class IconLabels(context: Context) : ModPack(context) {
@@ -48,43 +49,56 @@ class IconLabels(context: Context) : ModPack(context) {
                 invariantDeviceProfileInstance = param.thisObject
             }
 
-        bubbleTextViewClass
-            .hookMethod("applyLabel")
-            .runBefore { param ->
-                val mDisplay = param.thisObject.getField("mDisplay") as Int
-                val itemInfo = param.args[0]
+        fun XC_MethodHook.MethodHookParam.beforeHookedLabel() {
+            val mDisplay = thisObject.getField("mDisplay") as Int
+            val itemInfo = args[0]
 
-                fun removeLabel() {
-                    val title = itemInfo.getFieldSilently("title")
-                    if (title != null) {
-                        itemInfo.setExtraField("titleText", title)
-                    }
-                    itemInfo.setField("title", null)
+            fun removeLabel() {
+                val title = itemInfo.getFieldSilently("title")
+                if (title != null) {
+                    itemInfo.setExtraField("titleText", title)
                 }
+                itemInfo.setField("title", null)
+            }
 
-                if (mDisplay.isDesktop() && !showDesktopLabels) {
-                    removeLabel()
-                } else if (mDisplay.isDrawer() && !showDrawerLabels) {
-                    removeLabel()
+            if (mDisplay.isDesktop() && !showDesktopLabels) {
+                removeLabel()
+            } else if (mDisplay.isDrawer() && !showDrawerLabels) {
+                removeLabel()
+            }
+        }
+
+        fun XC_MethodHook.MethodHookParam.afterHookedLabel() {
+            val mDisplay = thisObject.getField("mDisplay") as Int
+            val itemInfo = args[0]
+
+            fun reAddLabel() {
+                val title = itemInfo.getExtraFieldSilently("titleText")
+                if (title != null) {
+                    itemInfo.setField("title", title)
                 }
             }
-            .runAfter { param ->
-                val mDisplay = param.thisObject.getField("mDisplay") as Int
-                val itemInfo = param.args[0]
 
-                fun reAddLabel() {
-                    val title = itemInfo.getExtraFieldSilently("titleText")
-                    if (title != null) {
-                        itemInfo.setField("title", title)
-                    }
-                }
-
-                if (mDisplay.isDesktop() && !showDesktopLabels) {
-                    reAddLabel()
-                } else if (mDisplay.isDrawer() && !showDrawerLabels) {
-                    reAddLabel()
-                }
+            if (mDisplay.isDesktop() && !showDesktopLabels) {
+                reAddLabel()
+            } else if (mDisplay.isDrawer() && !showDrawerLabels) {
+                reAddLabel()
             }
+        }
+
+        try {
+            bubbleTextViewClass
+                .hookMethod("applyLabel")
+                .throwError()
+                .runBefore { param -> param.beforeHookedLabel() }
+                .runAfter { param -> param.afterHookedLabel() }
+        } catch (_: Throwable) {
+            bubbleTextViewClass
+                .hookMethod("applyIconAndLabel")
+                .parameters("com.android.launcher3.model.data.ItemInfoWithIcon")
+                .runBefore { param -> param.beforeHookedLabel() }
+                .runAfter { param -> param.afterHookedLabel() }
+        }
 
         deviceProfileClass
             .hookMethod(

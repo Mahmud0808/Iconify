@@ -1,28 +1,18 @@
 package com.drdisagree.iconify.xposed.modules
 
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
-import android.animation.StateListAnimator
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
-import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.content.res.XResources
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.RippleDrawable
 import android.os.Build
 import android.os.Bundle
-import android.provider.AlarmClock
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -98,6 +88,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.views.ChipDrawable
 import com.drdisagree.iconify.xposed.modules.extras.views.ChipDrawable.GradientDirection.Companion.toIndex
+import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarMisc.Companion.setClockChipClickable
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
@@ -134,7 +125,6 @@ class BackgroundChip(context: Context) : ModPack(context) {
     private var dashedBorderEnabled: Boolean = false
     private var strokeDashWidth: Int = 4
     private var strokeDashGap: Int = 4
-    private var cornerRadii: FloatArray = floatArrayOf(28f, 28f, 28f, 28f, 28f, 28f, 28f, 28f)
     private var accentFillEnabled2: Boolean = true
     private var startColor2: Int = Color.RED
     private var endColor2: Int = Color.BLUE
@@ -149,7 +139,6 @@ class BackgroundChip(context: Context) : ModPack(context) {
     private var strokeDashWidth2: Int = 4
     private var strokeDashGap2: Int = 4
     private var cornerRadii2: FloatArray = floatArrayOf(28f, 28f, 28f, 28f, 28f, 28f, 28f, 28f)
-    private var mClockClickable = true
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -232,7 +221,6 @@ class BackgroundChip(context: Context) : ModPack(context) {
             fixedStatusIcons = getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
             topMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
             sideMarginStatusIcons = getSliderInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
-            mClockClickable = getBoolean(CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH, false)
         }
 
         when (key.firstOrNull()) {
@@ -570,112 +558,7 @@ class BackgroundChip(context: Context) : ModPack(context) {
         }
 
         setClockGravity(clockView, gravity)
-
-        if (mClockClickable) {
-            // Add click animation for Clock Chip
-            if (clockView.background != null) {
-                clockView.isClickable = true
-                clockView.isFocusable = true
-
-                // Add a ripple effect
-                val rippleColor = ColorStateList.valueOf(
-                    if (accentFillEnabled) {
-                        mContext.getColor(
-                            android.R.color.system_accent1_300
-                        )
-                    } else {
-                        startColor
-                    }
-                )
-
-                val pixelCornerRadii = cornerRadii.map {
-                    mContext.toPx(it.toInt()).toFloat()
-                }.toFloatArray()
-                val mask = GradientDrawable().apply {
-                    shape = GradientDrawable.RECTANGLE
-                    cornerRadii = pixelCornerRadii
-                    setColor(Color.WHITE)
-                }
-
-                val rippleDrawable = RippleDrawable(rippleColor, clockView.background, mask)
-                clockView.background = rippleDrawable
-
-                // Add a StateListAnimator for scaling animation
-                val stateListAnimator = StateListAnimator()
-
-                // Animation for pressed state: Scale to 90%
-                val pressedAnim = ObjectAnimator.ofPropertyValuesHolder(
-                    clockView,
-                    PropertyValuesHolder.ofFloat("scaleX", 0.9f),
-                    PropertyValuesHolder.ofFloat("scaleY", 0.9f)
-                ).apply {
-                    duration = 100
-                    interpolator = AccelerateDecelerateInterpolator()
-                }
-
-                // Animation for normal state: Scale back to 100%
-                val defaultAnim = ObjectAnimator.ofPropertyValuesHolder(
-                    clockView,
-                    PropertyValuesHolder.ofFloat("scaleX", 1.0f),
-                    PropertyValuesHolder.ofFloat("scaleY", 1.0f)
-                ).apply {
-                    duration = 200
-                    interpolator = AccelerateDecelerateInterpolator()
-                }
-
-                // Add the animations to the StateListAnimator
-                stateListAnimator.addState(intArrayOf(android.R.attr.state_pressed), pressedAnim)
-                stateListAnimator.addState(intArrayOf(android.R.attr.state_focused), pressedAnim)
-                stateListAnimator.addState(intArrayOf(), defaultAnim)
-
-                // Set the StateListAnimator for the ClockView
-                clockView.stateListAnimator = stateListAnimator
-            }
-
-            // First try to open the clock app via ACTION_SHOW_ALARMS
-            clockView.setOnClickListener {
-                try {
-                    mContext.startActivity(
-                        Intent(AlarmClock.ACTION_SHOW_ALARMS).apply {
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        }
-                    )
-                } catch (_: Throwable) {
-                    try {
-                        // Fallback: Open the Google Clock app directly
-                        mContext.startActivity(
-                            Intent(Intent.ACTION_MAIN).apply {
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                component = ComponentName(
-                                    "com.google.android.deskclock",
-                                    "com.android.deskclock.DeskClock"
-                                )
-                            }
-                        )
-                    } catch (_: Throwable) {
-                        try {
-                            // Second fallback: Try AOSP Clock app
-                            mContext.startActivity(
-                                Intent(Intent.ACTION_MAIN).apply {
-                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    component = ComponentName(
-                                        "com.android.deskclock",
-                                        "com.android.deskclock.DeskClock"
-                                    )
-                                }
-                            )
-                        } catch (throwable: Throwable) {
-                            log(this@BackgroundChip, "Could not open any clock app: $throwable")
-                        }
-                    }
-                }
-            }
-        } else {
-            clockView.isClickable = false
-            clockView.isFocusable = false
-            clockView.stateListAnimator = null
-            clockView.setOnClickListener(null)
-        }
+        setClockChipClickable(mContext, clockView, cornerRadii)
     }
 
     private fun setQSStatusIconsBgA12() {
@@ -919,5 +802,9 @@ class BackgroundChip(context: Context) : ModPack(context) {
                     updateStatusIcons()
                 }
         }
+    }
+
+    companion object {
+        var cornerRadii: FloatArray = floatArrayOf(28f, 28f, 28f, 28f, 28f, 28f, 28f, 28f)
     }
 }

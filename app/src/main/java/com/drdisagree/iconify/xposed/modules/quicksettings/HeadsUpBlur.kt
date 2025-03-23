@@ -3,7 +3,9 @@ package com.drdisagree.iconify.xposed.modules.quicksettings
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.RippleDrawable
 import android.os.Handler
@@ -48,6 +50,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         }
     }
 
+    @SuppressLint("DiscouragedApi")
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         val headsUpManagerClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.policy.BaseHeadsUpManager",
@@ -137,6 +140,54 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
         val notificationBackgroundViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationBackgroundView")
+
+        // Replace the method with ours otherwise we get ClassCastException
+        notificationBackgroundViewClass
+            .hookMethod("updateBackgroundRadii")
+            .runBefore { param ->
+                if (!headsUpBlurEnabled) return@runBefore
+
+                if (param.thisObject.getField("mDontModifyCorners") as Boolean) {
+                    param.result = null
+                    return@runBefore
+                }
+
+                val drawable = param.thisObject.getField("mBackground") as Drawable
+
+                if (drawable is LayerDrawable) {
+                    val numberOfLayers = drawable.numberOfLayers
+                    val mCornerRadii = param.thisObject.getField("mCornerRadii") as FloatArray
+                    val mFocusOverlayCornerRadii =
+                        param.thisObject.getField("mFocusOverlayCornerRadii") as FloatArray
+                    val mFocusOverlayStroke =
+                        param.thisObject.getField("mFocusOverlayStroke") as Float
+
+                    for (i in 0 until numberOfLayers) {
+                        val drawableItem = drawable.getDrawable(i)
+                        if (drawableItem is GradientDrawable) {
+                            drawableItem.cornerRadii = mCornerRadii
+                        }
+                    }
+
+                    val gradientDrawable = drawable.findDrawableByLayerId(
+                        mContext.resources.getIdentifier(
+                            "notification_focus_overlay",
+                            "id",
+                            SYSTEMUI_PACKAGE
+                        )
+                    )
+
+                    mCornerRadii.forEachIndexed { index, value ->
+                        mFocusOverlayCornerRadii[index] = maxOf(0.0f, value - mFocusOverlayStroke)
+                    }
+
+                    if (gradientDrawable is GradientDrawable) {
+                        gradientDrawable.cornerRadii = mFocusOverlayCornerRadii
+                    }
+                }
+
+                param.result = null
+            }
 
         // Replace original notification background drawable with out blur drawable
         notificationBackgroundViewClass
@@ -243,8 +294,12 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
             )
 
             val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable
-            val baseLayer = mutatedDrawable.getDrawable(0)
-            val statefulLayer = mutatedDrawable.getDrawable(1)
+            val baseLayer = mutatedDrawable.getDrawable(0).apply {
+                setTint(Color.TRANSPARENT)
+            }
+            val statefulLayer = mutatedDrawable.getDrawable(1).apply {
+                setTint(Color.TRANSPARENT)
+            }
 
             val layerDrawable = LayerDrawable(
                 arrayOf(

@@ -2,8 +2,6 @@ package com.drdisagree.iconify.xposed.modules.launcher
 
 import android.content.Context
 import android.graphics.Rect
-import android.os.Handler
-import android.os.Looper
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
@@ -20,12 +18,17 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructo
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class HotseatMod(context: Context) : ModPack(context) {
 
     private var hideDesktopSearchBar = false
     private var desktopDockSpacing = -1
     private var mQuickSearchBar: View? = null
+    private var lastRestartTime = 0L
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -96,12 +99,18 @@ class HotseatMod(context: Context) : ModPack(context) {
     }
 
     private fun restartLauncher() {
-        Toast.makeText(mContext, "Restarting Launcher...", Toast.LENGTH_SHORT).show()
+        val currentTime = System.currentTimeMillis()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            enqueueProxyCommand { proxy ->
-                proxy.runCommand("killall ${mContext.packageName}")
+        if (currentTime - lastRestartTime >= 1000) {
+            lastRestartTime = currentTime
+            Toast.makeText(mContext, "Restarting Launcher...", Toast.LENGTH_SHORT).show()
+
+            CoroutineScope(Dispatchers.IO).launch {
+                delay(1000)
+                enqueueProxyCommand { proxy ->
+                    proxy.runCommand("killall ${mContext.packageName}")
+                }
             }
-        }, 1000)
+        }
     }
 }

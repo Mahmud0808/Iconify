@@ -40,6 +40,10 @@ object FileUtils {
     private fun createDir(dirName: String) {
         val newFolder = File("$DATA_DIR/$dirName/")
         newFolder.mkdirs()
+
+        if (!newFolder.exists()) {
+            Shell.cmd("mkdir -p $DATA_DIR/$dirName").exec()
+        }
     }
 
     @Throws(IOException::class)
@@ -57,7 +61,7 @@ object FileUtils {
             try {
                 val inputStream = context.assets.open(inFileName)
                 copyAndClose(inputStream, Files.newOutputStream(Paths.get(outFileName)))
-            } catch (e: IOException) {
+            } catch (_: IOException) {
                 File(outFileName).mkdir()
                 copyFileOrDirectory(context, inFileName, outFileName)
             }
@@ -67,7 +71,7 @@ object FileUtils {
     private fun closeQuietly(autoCloseable: AutoCloseable?) {
         try {
             autoCloseable?.close()
-        } catch (ignored: Exception) {
+        } catch (_: Exception) {
         }
     }
 
@@ -104,7 +108,7 @@ object FileUtils {
         }
     }
 
-    @SuppressLint("Recycle")
+    @SuppressLint("Recycle", "UnsanitizedFilenameFromContentProvider")
     private fun getRealPathFromURI(uri: Uri?): String? {
         val file: File
         try {

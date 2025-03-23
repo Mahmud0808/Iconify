@@ -10,6 +10,12 @@
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_chipstatusbarclockclickable"
+        android:summary="@string/statusbar_clock_clickable_desc"
+        android:title="@string/statusbar_clock_clickable_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:key="xposed_sbclocksizeswitch"
         android:summary="@string/sb_clock_size_switch_desc"
         android:title="@string/sb_clock_size_switch_title"
@@ -49,6 +55,12 @@
         android:key="xposed_showclockonrightside"
         android:summary="@string/sb_clock_on_right_side_desc"
         android:title="@string/sb_clock_on_right_side_title"
+        app:iconSpaceReserved="false" />
+
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:key="xposed_ongoingactionchip"
+        android:summary="@string/ongoing_action_chip_desc"
+        android:title="@string/ongoing_action_chip_title"
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference

@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.ui.fragments.xposed
 
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.COLORED_STATUSBAR_ICON
 import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR
 import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_ICONS_LIMIT
@@ -35,7 +36,8 @@ class Statusbar : ControlledPreferenceFragmentCompat() {
             STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE,
             SHOW_CLOCK_ON_RIGHT_SIDE,
             SHOW_4G_INSTEAD_OF_LTE,
-            NOTIFICATION_ICONS_LIMIT -> {
+            NOTIFICATION_ICONS_LIMIT,
+            CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH -> {
                 MainActivity.showOrHidePendingActionButton(
                     activityBinding = (requireActivity() as MainActivity).binding,
                     requiresSystemUiRestart = true

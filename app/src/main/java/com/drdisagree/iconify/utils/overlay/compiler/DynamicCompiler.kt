@@ -26,6 +26,8 @@ import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlays
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.ResourceType
 import com.drdisagree.iconify.utils.overlay.manager.resource.ResourceManager.generateXmlStructureForAllResources
 import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.IOException
 
 object DynamicCompiler {
@@ -154,7 +156,7 @@ object DynamicCompiler {
     }
 
     @Throws(IOException::class)
-    private fun preExecute() {
+    private suspend fun preExecute() = withContext(Dispatchers.IO) {
         // Create symbolic link
         symLinkBinaries()
 

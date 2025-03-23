@@ -14,7 +14,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import de.robv.android.xposed.XposedHelpers.callStaticMethod
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-
 class IconUpdater(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}

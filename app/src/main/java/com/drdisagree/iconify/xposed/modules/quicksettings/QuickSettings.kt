@@ -65,6 +65,7 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.XposedHelpers.callStaticMethod
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import kotlin.math.roundToInt
 
 @SuppressLint("DiscouragedApi")
 class QuickSettings(context: Context) : ModPack(context) {
@@ -128,7 +129,6 @@ class QuickSettings(context: Context) : ModPack(context) {
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        initQsAccentColor()
         setVerticalTiles()
         setQsMargin()
         fixQsTileAndLabelColorA14()
@@ -208,7 +208,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                                 ),
                                 mParam.getField("secondaryLabel")
                             )
-                        } catch (ignored: Throwable) {
+                        } catch (_: Throwable) {
                         }
 
                         qsTilePrimaryTextSize = (mParam.getField(
@@ -288,6 +288,8 @@ class QuickSettings(context: Context) : ModPack(context) {
     }
 
     private fun fixQsTileAndLabelColorA14() {
+        initQsAccentColor()
+
         if (!isAtLeastAndroid14) return
 
         val qsTileViewImplClass = findClass("$SYSTEMUI_PACKAGE.qs.tileimpl.QSTileViewImpl")!!
@@ -344,6 +346,26 @@ class QuickSettings(context: Context) : ModPack(context) {
             .suppressError()
             .run(removeQsTileTint)
 
+        // Sliding tiles e.g: flashlight
+        val sliderQSTileViewImplClass = findClass(
+            "$SYSTEMUI_PACKAGE.qs.tileimpl.SliderQSTileViewImpl",
+            suppressError = true
+        )
+
+        sliderQSTileViewImplClass
+            .hookConstructor()
+            .runAfter { param ->
+                if (!fixQsTileColor) return@runAfter
+
+                val mSlideableQSTile = param.thisObject.getFieldSilently("mSlideableQSTile")
+                val isSlideable = mSlideableQSTile.callMethod("isSlideable") as? Boolean == true
+
+                if (!isSlideable) {
+                    param.thisObject.setField("mWarnColor", Color.WHITE)
+                }
+            }
+
+        // Custom QS text color
         qsTileViewImplClass
             .hookConstructor()
             .runAfter { param ->
@@ -353,7 +375,7 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 @ColorInt val color: Int = qsIconLabelColor
                 @ColorInt val colorAlpha =
-                    color and 0xFFFFFF or (Math.round(Color.alpha(color) * 0.8f) shl 24)
+                    color and 0xFFFFFF or ((Color.alpha(color) * 0.8f).roundToInt() shl 24)
 
                 param.thisObject.setField("colorLabelActive", color)
                 param.thisObject.setField("colorSecondaryLabelActive", colorAlpha)
@@ -373,7 +395,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                 if (isQsIconLabelStateActive(param, 0)) {
                     @ColorInt val color: Int = qsIconLabelColor
                     @ColorInt val colorAlpha =
-                        color and 0xFFFFFF or (Math.round(Color.alpha(color) * 0.8f) shl 24)
+                        color and 0xFFFFFF or ((Color.alpha(color) * 0.8f).roundToInt() shl 24)
                     param.result = colorAlpha
                 }
             }
@@ -433,7 +455,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                             color,
                             PorterDuff.Mode.SRC_IN
                         )
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                         val pmButton = view.findViewById<ImageView>(
                             res.getIdentifier(
                                 "pm_lite",
@@ -443,7 +465,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                         )
                         pmButton.imageTintList = ColorStateList.valueOf(color)
                     }
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
             }
 
@@ -505,11 +527,11 @@ class QuickSettings(context: Context) : ModPack(context) {
                 try {
                     (param.thisObject.getField("mIcon") as ImageView).imageTintList =
                         ColorStateList.valueOf(color)
-                } catch (throwable: Throwable) {
+                } catch (_: Throwable) {
                     try {
                         (param.thisObject.getField("mIconView") as ImageView).imageTintList =
                             ColorStateList.valueOf(color)
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                     }
                 }
             }
@@ -556,12 +578,12 @@ class QuickSettings(context: Context) : ModPack(context) {
                         "mCurrentBackgroundTint",
                         param.args[0] as Int
                     )
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
 
                 try {
                     notificationBackgroundView.setField("mTintColor", 0)
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
             }
 
@@ -603,7 +625,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                     param.result = param.thisObject.getField(
                         "mCurrentBackgroundTint"
                     )
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
             }
 
@@ -623,12 +645,12 @@ class QuickSettings(context: Context) : ModPack(context) {
                 try {
                     val mManageButton = try {
                         param.thisObject.getField("mManageButton")
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                         param.thisObject.getField("mManageOrHistoryButton")
                     } as Button
                     val mClearAllButton = try {
                         param.thisObject.getField("mClearAllButton")
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                         param.thisObject.getField("mDismissButton")
                     } as Button
 
@@ -639,7 +661,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                         mManageButton.invalidate()
                         mClearAllButton.invalidate()
                     }
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
             }
     }
@@ -754,10 +776,10 @@ class QuickSettings(context: Context) : ModPack(context) {
             param.args[stateIndex].getField(
                 "state"
             ) as Int == Tile.STATE_ACTIVE
-        } catch (throwable: Throwable) {
+        } catch (_: Throwable) {
             try {
                 param.args[stateIndex] as Int == Tile.STATE_ACTIVE
-            } catch (throwable1: Throwable) {
+            } catch (_: Throwable) {
                 try {
                     param.args[stateIndex] as Boolean
                 } catch (throwable2: Throwable) {
@@ -813,7 +835,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                         .removeOnDrawListener(mFooterButtonsOnDrawListener)
                     mFooterButtonsContainer!!.visibility = View.VISIBLE
                 }
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
 
@@ -833,7 +855,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                         .removeOnDrawListener(mSilentTextOnDrawListener)
                     mSilentTextContainer!!.visibility = View.VISIBLE
                 }
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
     }

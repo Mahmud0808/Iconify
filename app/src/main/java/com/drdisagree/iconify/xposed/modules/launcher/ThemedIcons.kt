@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.text.TextUtils
 import com.drdisagree.iconify.data.common.Const.LAUNCHER3_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.APP_DRAWER_THEMED_ICONS
 import com.drdisagree.iconify.data.common.Preferences.FORCE_THEMED_ICONS
@@ -18,6 +19,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMeth
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getStaticField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
@@ -86,7 +88,7 @@ class ThemedIcons(context: Context) : ModPack(context) {
                             .wrap(mContext, param.args[0] as Drawable)
                     }
                 }
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
             val baseIconFactoryClass = findClass("com.android.launcher3.icons.BaseIconFactory")
 
             baseIconFactoryClass
@@ -135,6 +137,10 @@ class ThemedIcons(context: Context) : ModPack(context) {
             "com.android.launcher3.graphics.ThemeManager",
             suppressError = true
         )
+        val intArrayClass = findClass(
+            "com.android.launcher3.util.IntArray",
+            suppressError = true
+        )
 
         bubbleTextViewClass
             .hookMethod("shouldUseTheme")
@@ -179,7 +185,7 @@ class ThemedIcons(context: Context) : ModPack(context) {
 
                     val iconDrawable = try {
                         info.callMethod("newIcon", context, flags)
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                         info.callMethod("newIcon", flags, context)
                     }
                     val mDotParams = param.thisObject.getField("mDotParams")
@@ -201,7 +207,84 @@ class ThemedIcons(context: Context) : ModPack(context) {
                     )
 
                     param.thisObject.callMethod("setIcon", iconDrawable)
-                    param.thisObject.callMethod("applyLabel", info)
+
+                    try {
+                        param.thisObject.callMethod("applyLabel", info)
+                    } catch (_: Throwable) { // method is nuked by R8 :)
+                        val label = info.getFieldSilently("title") as? CharSequence
+
+                        if (label != null) {
+                            param.thisObject.setField("mLastOriginalText", label)
+                            param.thisObject.setField("mLastModifiedText", label)
+
+                            val stringMatcher = bubbleTextViewClass.getStaticField("MATCHER")
+                            val inputLength = label.length
+                            val listOfBreakPoints = intArrayClass!!
+                                .getDeclaredConstructor()
+                                .newInstance()
+
+                            val mBreakPointsIntArray = if (inputLength > 2 &&
+                                TextUtils.indexOf(label, ' ') == -1
+                            ) {
+                                var prevType =
+                                    Character.getType(Character.codePointAt(label, 0))
+                                var thisType =
+                                    Character.getType(Character.codePointAt(label, 1))
+
+                                for (i in 1 until inputLength) {
+                                    val nextType = if (i < inputLength - 1) {
+                                        Character.getType(Character.codePointAt(label, i + 1))
+                                    } else {
+                                        0
+                                    }
+
+                                    if (stringMatcher.callMethod(
+                                            "isBreak",
+                                            thisType,
+                                            prevType,
+                                            nextType
+                                        ) as Boolean
+                                    ) {
+                                        listOfBreakPoints.callMethod("add", i - 1)
+                                    }
+
+                                    prevType = thisType
+                                    thisType = nextType
+                                }
+
+                                listOfBreakPoints
+                            } else {
+                                val spaceIndices = IntArray(inputLength) { it }
+                                    .filter { label[it] == ' ' }
+
+                                for (index in spaceIndices) {
+                                    listOfBreakPoints.callMethod("add", index)
+                                }
+
+                                listOfBreakPoints
+                            }
+
+                            param.thisObject.setField("mBreakPointsIntArray", mBreakPointsIntArray)
+                            param.thisObject.callMethod("setText", label)
+                        }
+
+                        if (info.getFieldSilently("contentDescription") != null) {
+                            val charSequence = if (info.callMethod("isDisabled") as Boolean) {
+                                context.getString(
+                                    context.resources.getIdentifier(
+                                        "disabled_app_label",
+                                        "string",
+                                        mContext.packageName
+                                    ),
+                                    info.getField("contentDescription")
+                                )
+                            } else {
+                                info.getField("contentDescription")
+                            }
+
+                            param.thisObject.callMethod("setContentDescription", charSequence)
+                        }
+                    }
 
                     param.result = null
                 }
@@ -223,7 +306,7 @@ class ThemedIcons(context: Context) : ModPack(context) {
         DISPLAY_SEARCH_RESULT_APP_ROW
     ) && try {
         themesClass.callStaticMethod("isThemedIconEnabled", context)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         themeManagerClass
             .getStaticField("INSTANCE")
             .callMethod("get", context)
