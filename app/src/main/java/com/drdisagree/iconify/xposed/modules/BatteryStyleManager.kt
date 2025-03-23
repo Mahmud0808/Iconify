@@ -194,7 +194,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
                     90
                 } else {
-                    270
+                    180
                 }
             } else {
                 0
