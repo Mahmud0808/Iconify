@@ -133,8 +133,8 @@
     </string-array>
 
     <array name="batterymeter_color_levels">
-        <item>20</item>
         <item>100</item>
+        <item>20</item>
     </array>
     <array name="batterymeter_color_values">
         <item>?android:attr/colorError</item>
