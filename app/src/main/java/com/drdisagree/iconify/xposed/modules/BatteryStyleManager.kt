@@ -192,9 +192,9 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
             mBatteryRotation = if (defaultLandscapeBatteryEnabled) {
                 if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
-                    90
-                } else {
                     180
+                } else {
+                    270
                 }
             } else {
                 0
