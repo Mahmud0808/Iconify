@@ -180,7 +180,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             batteryStyle = getString(CUSTOM_BATTERY_STYLE, "0")!!.toInt()
             val hidePercentage: Boolean = getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false)
             val defaultInsidePercentage = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
-                    batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYL ||
+                    
                     batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYM
             val insidePercentage = defaultInsidePercentage ||
                     getBoolean(CUSTOM_BATTERY_INSIDE_PERCENTAGE, false)
@@ -192,7 +192,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
             mBatteryRotation = if (defaultLandscapeBatteryEnabled) {
                 if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
-                    180
+                    90
                 } else {
                     270
                 }
