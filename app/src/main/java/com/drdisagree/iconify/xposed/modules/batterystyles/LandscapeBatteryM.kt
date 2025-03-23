@@ -427,7 +427,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
             c.drawText(batteryLevel.toString(), pctX, pctY, textChargingPaint)
             c.restore()
         } else {
-            textPaint.textSize = bounds.width() * 0.40f
+            textPaint.textSize = bounds.width() * 0.00f
             textQsPaint.textSize = textPaint.textSize
             val textHeight = +textPaint.fontMetrics.ascent
             val pctX = (bounds.width() + textHeight) * 0.76f
