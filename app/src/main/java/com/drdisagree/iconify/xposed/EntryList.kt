@@ -14,6 +14,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.launcher.GestureMod
 import com.drdisagree.iconify.xposed.modules.launcher.HotseatMod
 import com.drdisagree.iconify.xposed.modules.launcher.IconLabels
+import com.drdisagree.iconify.xposed.modules.launcher.IconTextSize
 import com.drdisagree.iconify.xposed.modules.launcher.IconUpdater
 import com.drdisagree.iconify.xposed.modules.launcher.LauncherUtils
 import com.drdisagree.iconify.xposed.modules.launcher.OpacityModifier
@@ -142,6 +143,7 @@ object EntryList {
         GestureMod::class.java,
         IconLabels::class.java,
         HotseatMod::class.java,
+        IconTextSize::class.java,
         SmartSpace::class.java
     )
 

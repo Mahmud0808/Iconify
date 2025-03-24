@@ -15,6 +15,30 @@
             android:title="@string/force_themed_icons_title"
             app:iconSpaceReserved="false" />
 
+        <com.drdisagree.iconify.ui.preferences.SliderPreference
+            android:key="xposed_launchericonsize"
+            android:title="@string/launcher_icon_size_title"
+            app:defaultValue="100"
+            app:iconSpaceReserved="false"
+            app:maxVal="150"
+            app:minVal="50"
+            app:showDefaultIndicator="true"
+            app:showResetButton="true"
+            app:tickInterval="1"
+            app:valueFormat="%" />
+
+        <com.drdisagree.iconify.ui.preferences.SliderPreference
+            android:key="xposed_launchertextsize"
+            android:title="@string/launcher_text_size_title"
+            app:defaultValue="100"
+            app:iconSpaceReserved="false"
+            app:maxVal="150"
+            app:minVal="50"
+            app:showDefaultIndicator="true"
+            app:showResetButton="true"
+            app:tickInterval="1"
+            app:valueFormat="%" />
+
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory

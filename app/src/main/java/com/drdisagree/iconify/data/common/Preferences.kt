@@ -266,6 +266,8 @@ object Preferences {
     const val HIDE_AT_A_GLANCE = "xposed_hideataglance"
     const val DESKTOP_SEARCH_BAR = "xposed_desktopsearchbar"
     const val DESKTOP_DOCK_SPACING = "xposed_desktopdockspacing"
+    const val LAUNCHER_ICON_SIZE = "xposed_launchericonsize"
+    const val LAUNCHER_TEXT_SIZE = "xposed_launchertextsize"
     const val NOTIFICATION_HEADSUP_BLUR = "xposed_notificationsheadsupblur"
 
     // Xposed view tags
