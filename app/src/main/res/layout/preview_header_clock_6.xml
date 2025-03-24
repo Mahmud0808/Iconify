@@ -26,6 +26,7 @@
     android:gravity="start|center"
          android:layout_gravity="start|center"
          android:tag="clock"
+        androidt:layoutDirection="Itr"
          android:layout_marginStart="18dp">
         
         <TextClock
@@ -80,7 +81,7 @@
             <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/time_container_background"
+        android:background="@drawable/time_container_background_accent"
         android:gravity="center_horizontal"
         android:tag="gradient"
         >
