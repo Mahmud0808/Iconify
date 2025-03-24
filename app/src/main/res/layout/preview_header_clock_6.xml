@@ -26,7 +26,7 @@
     android:gravity="start|center"
          android:layout_gravity="start|center"
          android:tag="clock"
-        androidt:layoutDirection="Itr"
+        android:layoutDirection="Itr"
          android:layout_marginStart="18dp">
         
         <TextClock
