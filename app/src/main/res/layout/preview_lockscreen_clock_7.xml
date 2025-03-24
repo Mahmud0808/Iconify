@@ -19,7 +19,7 @@
                 android:clipToOutline="true"
               android:layout_marginStart="9dp"
               android:layout_marginEnd="2dp"
-                android:scaleType="3"
+                
                 />
 
         <LinearLayout
