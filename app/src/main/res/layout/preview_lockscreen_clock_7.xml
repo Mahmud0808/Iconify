@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="220dp"
-    android:layout_gravity="center_horizontal|top"
-    android:gravity="center_horizontal|top"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="10dp"
-        android:layout_gravity="center_horizontal|top"
-        android:gravity="center_horizontal|top"
-        android:orientation="vertical">
+    android:layout_width="-2"
+    android:layout_height="-2"
+    android:layout_gravity="0x00800013"
+    android:orientation="0">
+         <ImageView
+                android:tag="profile_picture"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+              android:src="@drawable/default_avatar"
+             android:layout_marginTop="7dp"
+                android:adjustViewBounds="true"
+                android:clickable="false"
+                android:clipToOutline="true"
+              android:layout_marginStart="9dp"
+              android:layout_marginEnd="2dp"
+                android:scaleType="3"
+                />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="-1"
+    android:layout_height="-2"
+    android:layout_gravity="0x00800003"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="1"
+           android:layout_marginEnd="10dp"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -150,15 +155,7 @@
                         android:textSize="16dp" />
             </LinearLayout>
 
-            <ImageView
-                android:tag="profile_picture"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:adjustViewBounds="true"
-                android:clickable="false"
-                android:clipToOutline="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/default_avatar" />
+           
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
