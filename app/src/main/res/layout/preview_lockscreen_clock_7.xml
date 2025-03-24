@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
             android:layout_height="wrap_content"
-      android:layout_gravity="center|top"
-    android:gravity="center|top"
-    android:orientation="vertical">
+    android:gravity="start|center"
+    android:orientation="horizontal">
     
     >
          <ImageView
@@ -19,12 +18,11 @@
              android:scaleType="fitCenter"
                 android:clipToOutline="true"
               android:layout_marginStart="9dp"
-              android:layout_marginEnd="2dp"
-                
+              android:layout_marginEnd="2dp" 
                 />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
              android:orientation="vertical"
@@ -43,7 +41,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_marginTop="8dp"
@@ -52,7 +50,7 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/lockscreen_clock_41_time_bg"
+                android:background="@drawable/lockscreen_clock_41_day_bg"
                 android:minWidth="44dp"
                 android:minHeight="44dp"
                 android:paddingHorizontal="8dp"
@@ -69,12 +67,11 @@
                     android:textColor="#FFFFFFFF"
                     android:textSize="22sp"
                     android:textStyle="bold" />
-
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="fill_parent"
                 android:layout_marginHorizontal="8dp"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -102,7 +99,7 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-               android:background="@drawable/lockscreen_clock_41_day_bg"
+               android:background="@drawable/lockscreen_clock_41_time_bg"
                 android:minWidth="44dp"
                 android:minHeight="44dp"
                 android:paddingHorizontal="8dp"
@@ -126,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/lockscreen_clock_41_time_bg"
+                android:background="@drawable/lockscreen_clock_41_day_bg"
                 android:minHeight="44dp"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp">
