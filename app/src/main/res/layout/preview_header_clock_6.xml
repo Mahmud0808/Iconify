@@ -82,7 +82,7 @@
         android:background="@drawable/time_container_background"
         android:gravity="center_horizontal"
         android:tag="gradient"
-        tools:ignore="UselessParent">
+        >
 
         <TextClock
             android:layout_width="wrap_content"
