@@ -76,7 +76,7 @@
             <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/time_container_background"
+         android:background="@drawable/container_background_accent"
         android:gravity="center_horizontal"
         android:tag="gradient"
         >
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_margin="2dp"
-            android:background="@drawable/container_background_accent"
+            android:background="@drawable/time_container_background"
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
             android:paddingHorizontal="8dp"
@@ -114,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_margin="2dp"
-             android:background="@drawable/container_background_accent"
+             android:background="@drawable/time_container_background"
             android:format12Hour="yyy"
             android:format24Hour="yyy"
             android:paddingHorizontal="8dp"
