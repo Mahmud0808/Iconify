@@ -7,9 +7,9 @@
 
     <ImageView
         android:tag="profile_picture"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="4dp"
         android:adjustViewBounds="true"
         android:clickable="false"
         android:clipToOutline="true"
@@ -19,62 +19,114 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:tag="accent1"
-            android:includeFontPadding="false"
-            android:text="Hello there! "
-            android:textColor="@android:color/system_accent1_300"
-            android:textSize="14dp"
-            android:textStyle="italic" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
+    <FrameLayout
+         android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="start|center"
+         android:layout_gravity="start|center"
+    android:layoutDirection="horizontal"
+         android:tag="clock"
+         android:layout_marginStart="18dp"
+        
+        <TextClock
+           
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:singleLine="true"
                 android:tag="text1"
-                android:text="It's"
+              android:layout_gravity="start|center"
+            android:format12Hour="hh:mm"
+            android:format24Hour="HH:mm"
                 android:includeFontPadding="false"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="14dp"
+                android:textSize="38dp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            
+ <TextClock
+           
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tag="clock"
-                android:orientation="vertical">
+                android:layout_marginEnd="60dp"
+                android:singleLine="true"
+            android:format12Hour="hh:mm"
+            android:format24Hour="HH:mm"
+                android:includeFontPadding="false"
+       android:layout_gravity="start|center"
+                android:textColor="#FFCD2D31"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
-                <TextClock
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:format12Hour="hh:mm"
-                    android:includeFontPadding="false"
-                    android:format24Hour="hh:mm"
-                    android:singleLine="true"
-                    android:tag="text1"
-                    android:textAlignment="viewStart"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="14dp" />
+         <TextClock
+           
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+              android:layout_marginTop="3dp"
+                android:singleLine="true"
+            android:format12Hour="aa"
+             android:textAllCaps="true"
+            android:format24Hour="aa"
+                android:includeFontPadding="false"
+               android:layout_gravity="start|end"
+                android:textColor="#FFCD2D31"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+    </FrameLayout>
+            <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/time_container_background"
+        android:gravity="center_horizontal"
+        android:tag="gradient"
+        tools:ignore="UselessParent">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="@drawable/color_table_square"
-                    android:backgroundTint="?android:textColorPrimary"
-                    android:tag="text1" />
-            </LinearLayout>
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_margin="2dp"
+             android:background="@drawable/container_background_accent"
+            android:format12Hour="EEEE"
+            android:format24Hour="EEEE"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:singleLine="true"
+            android:tag="clock"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:format12Hour="dd, MMM"
+            android:format24Hour="dd, MMM"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="8dp"
+            android:singleLine="true"
+            android:tag="date"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+ <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_margin="2dp"
+             android:background="@drawable/container_background_accent"
+            android:format12Hour="yyy"
+            android:format24Hour="yyy"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:singleLine="true"
+            android:tag="clock"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:textStyle="bold" />
+    </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
