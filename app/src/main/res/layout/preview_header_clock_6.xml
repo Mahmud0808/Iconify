@@ -56,7 +56,6 @@
             android:format24Hour="HH:mm" 
                 />
          <TextClock
-           android:textAppearance="@style/Widget.Material3.BottomAppBar.ButtonNavigation"
               android:textSize="18dp"
                 android:textStyle="bold"
                android:textColor="#FFCD2D31"
