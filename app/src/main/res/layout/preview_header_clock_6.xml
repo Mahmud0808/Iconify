@@ -81,7 +81,7 @@
             <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/time_container_background_accent"
+        android:background="@drawable/time_container_background"
         android:gravity="center_horizontal"
         android:tag="gradient"
         >
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_margin="2dp"
-             android:background="@drawable/container_background_accent"
+            android:background="@drawable/container_background_accent"
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
             android:paddingHorizontal="8dp"
