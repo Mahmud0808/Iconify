@@ -13,6 +13,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Com
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.OnGoingActionChipView
 import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.OnGoingActionProgressController
@@ -111,7 +112,7 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
                     newEntry = try {
                         mHeadsUpManager.callMethod("getTopEntry")
                     } catch (_: Throwable) {
-                        mHeadsUpManager.callMethod("getTopHeadsUpEntry")?.getField("mEntry")
+                        mHeadsUpManager.callMethod("getTopHeadsUpEntry")?.getFieldSilently("mEntry")
                     }
                 }
 
@@ -119,7 +120,7 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
                 val previousEntry = try {
                     headsUpStatusBarView.callMethod("getShowingEntry")
                 } catch (_: Throwable) {
-                    headsUpStatusBarView.getField("mShowingEntry")
+                    headsUpStatusBarView.getFieldSilently("mShowingEntry")
                 }
 
                 if (previousEntry != newEntry) {
