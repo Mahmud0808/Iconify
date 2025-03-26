@@ -62,7 +62,7 @@ import com.drdisagree.iconify.data.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
 import com.drdisagree.iconify.utils.TextUtils
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChange
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.TimeUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyTextMarginRecursively
@@ -132,8 +132,8 @@ class LockscreenClock(context: Context) : ModPack(context) {
             initSoundManager()
         }
     }
-    private val mThemeChangeCallback: ThemeChange.OnThemeChangedListener =
-        object : ThemeChange.OnThemeChangedListener {
+    private val mThemeChangeCallback: ThemeChangeCallback.OnThemeChangedListener =
+        object : ThemeChangeCallback.OnThemeChangedListener {
             override fun onThemeChanged() {
                 loadColors()
                 updateClockView()
@@ -150,7 +150,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
         "${Environment.getExternalStorageDirectory()}/.iconify_files/lsclock_image2.png"
 
     init {
-        ThemeChange.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
+        ThemeChangeCallback.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
     }
 
     override fun updatePrefs(vararg key: String) {

@@ -26,14 +26,13 @@ import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_SWAP_START_
 import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_TOP_PADDING
 import com.drdisagree.iconify.data.common.Preferences.SHOW_CLOCK_ON_RIGHT_SIDE
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -121,10 +120,6 @@ class DualStatusbar(context: Context) : ModPack(context) {
         val phoneStatusBarViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarView")
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
-        val qsImplClass = findClass(
-            "$SYSTEMUI_PACKAGE.qs.QSImpl",
-            "$SYSTEMUI_PACKAGE.qs.QSFragment"
-        )
 
         scrimControllerClass
             .hookConstructor()
@@ -298,17 +293,17 @@ class DualStatusbar(context: Context) : ModPack(context) {
             .apply()
 
         // Handle a bug where statusbar battery is shown on lockscreen too
-        scrimControllerClass
-            .hookMethod("applyAndDispatchState")
-            .runAfter { updateBatteryIconVisibility() }
+        KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
+            object : KeyguardShowingCallback.KeyguardShowingListener {
+                override fun onKeyguardShown() {
+                    batteryIconView?.visibility = View.INVISIBLE
+                }
 
-        qsImplClass
-            .hookMethod("setQsExpansion")
-            .runAfter { param ->
-                if (param.thisObject.callMethod("isKeyguardState") as Boolean) {
-                    updateBatteryIconVisibility()
+                override fun onKeyguardDismissed() {
+                    batteryIconView?.visibility = View.VISIBLE
                 }
             }
+        )
     }
 
     private fun updateRowsIfNeeded() {
@@ -483,14 +478,6 @@ class DualStatusbar(context: Context) : ModPack(context) {
         (statusbarContents?.parent as? ViewGroup)?.layoutParams?.height = statusbarHeight
 
         mPhoneStatusBarViewObj.callMethodSilently("updateWindowHeight")
-    }
-
-    private fun updateBatteryIconVisibility() {
-        if (!dualStatusbarEnabled || mScrimControllerObj == null) return
-
-        val hideBatteryIcon = mScrimControllerObj.getField("mState").toString() == "KEYGUARD"
-
-        batteryIconView?.visibility = if (hideBatteryIcon) View.INVISIBLE else View.VISIBLE
     }
 
     private fun handleClockOnRightSide() {

@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.modules.extras.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
@@ -11,7 +12,9 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -29,6 +32,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
@@ -725,4 +729,40 @@ object ViewHelper {
         return resultBitmap
     }
 
+    @SuppressLint("UseKtx")
+    fun Drawable.toCircularDrawable(context: Context): Drawable {
+        val bitmap = this.toBitmap()
+        val circularBitmap = bitmap.toCircularBitmap()
+        return BitmapDrawable(context.resources, circularBitmap)
+    }
+
+    fun Bitmap.toCircularBitmap(): Bitmap {
+        var tempImage = this
+
+        if (config == Bitmap.Config.HARDWARE) {
+            tempImage = copy(Bitmap.Config.ARGB_8888, true)
+        }
+
+        val width = tempImage.width
+        val height = tempImage.height
+        val diameter = width.coerceAtMost(height)
+        val output = createBitmap(diameter, diameter)
+
+        val paint = Paint()
+        paint.isAntiAlias = true
+
+        val canvas = Canvas(output)
+        val rect = Rect(0, 0, diameter, diameter)
+        val rectF = RectF(rect)
+
+        canvas.drawARGB(0, 0, 0, 0)
+        canvas.drawOval(rectF, paint)
+
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        val left = (width - diameter) / 2
+        val top = (height - diameter) / 2
+        canvas.drawBitmap(tempImage, Rect(left, top, left + diameter, top + diameter), rect, paint)
+
+        return output
+    }
 }

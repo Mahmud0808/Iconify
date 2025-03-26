@@ -11,9 +11,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
-import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
 import android.graphics.drawable.BitmapDrawable
@@ -49,7 +46,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.get
 import androidx.core.graphics.scale
 import androidx.palette.graphics.Palette
@@ -79,6 +75,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.VibrationUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findChildIndexContainsTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toCircularDrawable
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -1299,7 +1296,7 @@ class OpQsHeader(context: Context) : ModPack(context) {
             val appIconDrawable = runCatching {
                 controller.packageName?.let { packageName ->
                     mContext.packageManager.getApplicationIcon(packageName)
-                }?.toCircularDrawable()
+                }?.toCircularDrawable(mContext)
             }.getOrNull()
 
             withContext(Dispatchers.Main) {
@@ -1581,37 +1578,6 @@ class OpQsHeader(context: Context) : ModPack(context) {
                 cont.resume(dominantColor)
             }
         }
-
-    private fun Bitmap.toCircularBitmap(): Bitmap {
-        val width = this.width
-        val height = this.height
-        val diameter = width.coerceAtMost(height)
-        val output = createBitmap(diameter, diameter)
-
-        val paint = Paint()
-        paint.isAntiAlias = true
-
-        val canvas = Canvas(output)
-        val rect = Rect(0, 0, diameter, diameter)
-        val rectF = RectF(rect)
-
-        canvas.drawARGB(0, 0, 0, 0)
-        canvas.drawOval(rectF, paint)
-
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        val left = (width - diameter) / 2
-        val top = (height - diameter) / 2
-        canvas.drawBitmap(this, Rect(left, top, left + diameter, top + diameter), rect, paint)
-
-        return output
-    }
-
-    @SuppressLint("UseKtx")
-    private fun Drawable.toCircularDrawable(): Drawable {
-        val bitmap = this.toBitmap()
-        val circularBitmap = bitmap.toCircularBitmap()
-        return BitmapDrawable(mContext.resources, circularBitmap)
-    }
 
     @Suppress("SameParameterValue")
     private fun scaleBitmap(bitmap: Bitmap, scaleFactor: Float): Bitmap {

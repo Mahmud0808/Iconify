@@ -58,7 +58,8 @@ import com.drdisagree.iconify.data.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
 import com.drdisagree.iconify.utils.TextUtils
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChange
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.applyTo
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.clear
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.clone
@@ -167,8 +168,8 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
             initSoundManager()
         }
     }
-    private val mThemeChangeCallback: ThemeChange.OnThemeChangedListener =
-        object : ThemeChange.OnThemeChangedListener {
+    private val mThemeChangeCallback: ThemeChangeCallback.OnThemeChangedListener =
+        object : ThemeChangeCallback.OnThemeChangedListener {
             override fun onThemeChanged() {
                 loadColors()
                 updateClockView()
@@ -181,7 +182,7 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
     }
 
     init {
-        ThemeChange.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
+        ThemeChangeCallback.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
     }
 
     override fun updatePrefs(vararg key: String) {
@@ -544,25 +545,17 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
                 Handler(Looper.getMainLooper()).post { updateClockView() }
             }
 
-        fun onDozingChanged(isDozing: Boolean) {
-            aodBurnInProtection?.setMovementEnabled(isDozing)
-        }
+        DozeCallback.getInstance().registerDozeChangeListener(
+            object : DozeCallback.DozeListener {
+                override fun onDozingStarted() {
+                    aodBurnInProtection?.setMovementEnabled(true)
+                }
 
-        val collapsedStatusBarFragment = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
-            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
+                override fun onDozingStopped() {
+                    aodBurnInProtection?.setMovementEnabled(false)
+                }
+            }
         )
-
-        collapsedStatusBarFragment
-            .hookMethod("onDozingChanged")
-            .runAfter { param -> onDozingChanged(param.args[0] as Boolean) }
-
-        val dozeScrimControllerClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController")
-
-        dozeScrimControllerClass
-            .hookMethod("onDozingChanged")
-            .runAfter { param -> onDozingChanged(param.args[0] as Boolean) }
 
         // For unknown reason, rotating device makes the height of view to 0
         // This is a workaround to make sure the view is visible

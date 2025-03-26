@@ -50,7 +50,7 @@ import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ControllersProvider
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChange
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isNightMode
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getExpandableView
@@ -240,8 +240,8 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
             }
         }
 
-    private val mThemeChangeCallback: ThemeChange.OnThemeChangedListener =
-        object : ThemeChange.OnThemeChangedListener {
+    private val mThemeChangeCallback: ThemeChangeCallback.OnThemeChangedListener =
+        object : ThemeChangeCallback.OnThemeChangedListener {
             override fun onThemeChanged() {
                 loadColors()
                 updateWidgetViews()
@@ -1389,7 +1389,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
         ControllersProvider.getInstance().registerHotspotCallback(mHotspotCallback)
         ControllersProvider.getInstance().registerDozingCallback(mDozeCallback)
 
-        ThemeChange.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
+        ThemeChangeCallback.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
 
         // Add a Screen On Receiver so we can update the widgets state when the screen is turned on
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

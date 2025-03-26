@@ -18,6 +18,7 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_VIEW_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_BLUR
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isNightMode
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -25,7 +26,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
@@ -114,29 +114,27 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                 }
             }
 
-        val visualStabilityCoordinatorClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.notification.collection.coordinator.VisualStabilityCoordinator")
+        fun updateAllNotificationBackgrounds(isQsExpanded: Boolean) {
+            if (!headsUpBlurEnabled) return
 
-        visualStabilityCoordinatorClass
-            .hookConstructor()
-            .runAfter { param ->
-                if (!headsUpBlurEnabled) return@runAfter
+            this.isQsExpanded = isQsExpanded
 
-                val mStatusBarStateControllerListener =
-                    param.thisObject.getField("mStatusBarStateControllerListener")
-
-                mStatusBarStateControllerListener::class.java
-                    .hookMethod("onExpandedChanged")
-                    .runAfter runAfter2@{ param2 ->
-                        if (!headsUpBlurEnabled) return@runAfter2
-
-                        isQsExpanded = param2.args[0] as Boolean
-
-                        notificationViews.forEach { view ->
-                            view.updateNotificationBackground(!isQsExpanded)
-                        }
-                    }
+            notificationViews.forEach { view ->
+                view.updateNotificationBackground(!isQsExpanded)
             }
+        }
+
+        QsShowingCallback.getInstance().registerQsShowingListener(
+            object : QsShowingCallback.QsShowingListener {
+                override fun onQuickSettingsExpanded() {
+                    updateAllNotificationBackgrounds(isQsExpanded = true)
+                }
+
+                override fun onQuickSettingsCollapsed() {
+                    updateAllNotificationBackgrounds(isQsExpanded = false)
+                }
+            }
+        )
 
         val notificationBackgroundViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationBackgroundView")

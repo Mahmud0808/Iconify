@@ -9,6 +9,13 @@
         android:title="@string/dual_status_bar_title"
         app:iconSpaceReserved="false" />
 
+    <com.drdisagree.iconify.ui.preferences.TwoTargetSwitchPreference
+        android:fragment="com.drdisagree.iconify.ui.fragments.xposed.StatusbarLogo"
+        android:key="xposed_statusbarlogo"
+        android:summary="@string/status_bar_logo_desc"
+        android:title="@string/status_bar_logo_title"
+        app:iconSpaceReserved="false" />
+
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:key="xposed_chipstatusbarclockclickable"
         android:summary="@string/statusbar_clock_clickable_desc"

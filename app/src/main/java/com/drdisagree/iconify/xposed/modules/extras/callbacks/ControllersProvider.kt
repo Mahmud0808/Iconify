@@ -15,6 +15,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import java.util.concurrent.CopyOnWriteArrayList
 
 class ControllersProvider(context: Context) : ModPack(context) {
 
@@ -27,19 +28,18 @@ class ControllersProvider(context: Context) : ModPack(context) {
 
     private var mCellularTile: Any? = null
 
-    private val mMobileDataChangedListeners = ArrayList<OnMobileDataChanged>()
-    private val mWifiChangedListeners = ArrayList<OnWifiChanged>()
-    private val mBluetoothChangedListeners = ArrayList<OnBluetoothChanged>()
-    private val mTorchModeChangedListeners = ArrayList<OnTorchModeChanged>()
-    private val mHotspotChangedListeners = ArrayList<OnHotspotChanged>()
-    private val mDozeChangedListeners = ArrayList<OnDozingChanged>()
+    private val mMobileDataChangedListeners = CopyOnWriteArrayList<OnMobileDataChanged>()
+    private val mWifiChangedListeners = CopyOnWriteArrayList<OnWifiChanged>()
+    private val mBluetoothChangedListeners = CopyOnWriteArrayList<OnBluetoothChanged>()
+    private val mTorchModeChangedListeners = CopyOnWriteArrayList<OnTorchModeChanged>()
+    private val mHotspotChangedListeners = CopyOnWriteArrayList<OnHotspotChanged>()
+    private val mDozeChangedListeners = CopyOnWriteArrayList<OnDozingChanged>()
 
     private var mExpandableClass: Class<*>? = null
 
     override fun updatePrefs(vararg key: String) {}
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-
         instance = this
 
         // Network Callbacks
@@ -233,68 +233,60 @@ class ControllersProvider(context: Context) : ModPack(context) {
     }
 
     fun registerMobileDataCallback(callback: OnMobileDataChanged) {
-        instance.mMobileDataChangedListeners.add(callback)
+        mMobileDataChangedListeners.add(callback)
     }
 
-    /** @noinspection unused
-     */
     fun unRegisterMobileDataCallback(callback: OnMobileDataChanged?) {
-        instance.mMobileDataChangedListeners.remove(callback)
+        mMobileDataChangedListeners.remove(callback)
     }
 
     fun registerWifiCallback(callback: OnWifiChanged) {
-        instance.mWifiChangedListeners.add(callback)
+        mWifiChangedListeners.add(callback)
     }
 
-    /** @noinspection unused
-     */
     fun unRegisterWifiCallback(callback: OnWifiChanged?) {
-        instance.mWifiChangedListeners.remove(callback)
+        mWifiChangedListeners.remove(callback)
     }
 
     fun registerBluetoothCallback(callback: OnBluetoothChanged) {
-        instance.mBluetoothChangedListeners.add(callback)
+        mBluetoothChangedListeners.add(callback)
     }
 
-    /** @noinspection unused
-     */
     fun unRegisterBluetoothCallback(callback: OnBluetoothChanged?) {
-        instance.mBluetoothChangedListeners.remove(callback)
+        mBluetoothChangedListeners.remove(callback)
     }
 
     fun registerTorchModeCallback(callback: OnTorchModeChanged) {
-        instance.mTorchModeChangedListeners.add(callback)
+        mTorchModeChangedListeners.add(callback)
     }
 
-    /** @noinspection unused
-     */
     fun unRegisterTorchModeCallback(callback: OnTorchModeChanged?) {
-        instance.mTorchModeChangedListeners.remove(callback)
+        mTorchModeChangedListeners.remove(callback)
     }
 
     fun registerDozingCallback(callback: OnDozingChanged) {
-        instance.mDozeChangedListeners.add(callback)
+        mDozeChangedListeners.add(callback)
     }
 
     /** @noinspection unused */
     fun unRegisterDozingCallback(callback: OnDozingChanged?) {
-        instance.mDozeChangedListeners.remove(callback)
+        mDozeChangedListeners.remove(callback)
     }
 
     fun registerHotspotCallback(callback: OnHotspotChanged) {
-        instance.mHotspotChangedListeners.add(callback)
+        mHotspotChangedListeners.add(callback)
     }
 
     /** @noinspection unused */
     fun unRegisterHotspotCallback(callback: OnHotspotChanged?) {
-        instance.mHotspotChangedListeners.remove(callback)
+        mHotspotChangedListeners.remove(callback)
     }
 
     private fun onSetMobileDataIndicators(mMobileDataIndicators: Any) {
         for (callback in mMobileDataChangedListeners) {
             try {
                 callback.setMobileDataIndicators(mMobileDataIndicators)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
     }
@@ -303,7 +295,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
         for (callback in mMobileDataChangedListeners) {
             try {
                 callback.setIsAirplaneMode(mMobileDataIndicators)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
     }
@@ -312,7 +304,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
         for (callback in mMobileDataChangedListeners) {
             try {
                 callback.setNoSims(show, simDetected)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
     }
@@ -321,7 +313,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
         for (callback in mWifiChangedListeners) {
             try {
                 callback.onWifiChanged(wifiIndicators)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
     }
@@ -330,7 +322,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
         for (callback in mBluetoothChangedListeners) {
             try {
                 callback.onBluetoothChanged(enabled)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
     }
@@ -339,7 +331,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
         for (callback in mTorchModeChangedListeners) {
             try {
                 callback.onTorchModeChanged(enabled)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
     }
@@ -348,7 +340,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
         for (callback in mHotspotChangedListeners) {
             try {
                 callback.onHotspotChanged(enabled, connectedDevices)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
     }
@@ -357,7 +349,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
         for (callback in mDozeChangedListeners) {
             try {
                 callback.onDozingChanged(isDozing)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
     }

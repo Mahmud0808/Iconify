@@ -4,10 +4,8 @@ import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Toast
 import com.drdisagree.iconify.data.common.Preferences.DESKTOP_DOCK_SPACING
 import com.drdisagree.iconify.data.common.Preferences.DESKTOP_SEARCH_BAR
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
@@ -16,19 +14,15 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.launcher.LauncherUtils.Companion.restartLauncher
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class HotseatMod(context: Context) : ModPack(context) {
 
     private var hideDesktopSearchBar = false
     private var desktopDockSpacing = -1
     private var mQuickSearchBar: View? = null
-    private var lastRestartTime = 0L
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -39,10 +33,10 @@ class HotseatMod(context: Context) : ModPack(context) {
         when (key.firstOrNull()) {
             DESKTOP_SEARCH_BAR -> {
                 triggerSearchBarVisibility()
-                restartLauncher()
+                restartLauncher(mContext)
             }
 
-            DESKTOP_DOCK_SPACING -> restartLauncher()
+            DESKTOP_DOCK_SPACING -> restartLauncher(mContext)
         }
     }
 
@@ -96,21 +90,5 @@ class HotseatMod(context: Context) : ModPack(context) {
 
     private fun triggerSearchBarVisibility() {
         mQuickSearchBar?.visibility = if (hideDesktopSearchBar) View.GONE else View.VISIBLE
-    }
-
-    private fun restartLauncher() {
-        val currentTime = System.currentTimeMillis()
-
-        if (currentTime - lastRestartTime >= 1000) {
-            lastRestartTime = currentTime
-            Toast.makeText(mContext, "Restarting Launcher...", Toast.LENGTH_SHORT).show()
-
-            CoroutineScope(Dispatchers.IO).launch {
-                delay(1000)
-                enqueueProxyCommand { proxy ->
-                    proxy.runCommand("killall ${mContext.packageName}")
-                }
-            }
-        }
     }
 }

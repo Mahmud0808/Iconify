@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Point
-import android.widget.Toast
 import com.drdisagree.iconify.data.common.Preferences.HIDE_AT_A_GLANCE
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -16,18 +14,14 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilent
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
+import com.drdisagree.iconify.xposed.modules.launcher.LauncherUtils.Companion.restartLauncher
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.lang.reflect.Modifier
 
 class SmartSpace(context: Context) : ModPack(context) {
 
     private var hideQuickspace = false
-    private var lastRestartTime = 0L
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -35,7 +29,7 @@ class SmartSpace(context: Context) : ModPack(context) {
         }
 
         when (key.firstOrNull()) {
-            HIDE_AT_A_GLANCE -> restartLauncher()
+            HIDE_AT_A_GLANCE -> restartLauncher(mContext)
         }
     }
 
@@ -431,22 +425,6 @@ class SmartSpace(context: Context) : ModPack(context) {
                 val mBgDataModel = param.thisObject.getField("mBgDataModel")
                 mBgDataModel.setField("isFirstPagePinnedItemEnabled", false)
             }
-    }
-
-    private fun restartLauncher() {
-        val currentTime = System.currentTimeMillis()
-
-        if (currentTime - lastRestartTime >= 1000) {
-            lastRestartTime = currentTime
-            Toast.makeText(mContext, "Restarting Launcher...", Toast.LENGTH_SHORT).show()
-
-            CoroutineScope(Dispatchers.IO).launch {
-                delay(1000)
-                enqueueProxyCommand { proxy ->
-                    proxy.runCommand("killall ${mContext.packageName}")
-                }
-            }
-        }
     }
 
     companion object {

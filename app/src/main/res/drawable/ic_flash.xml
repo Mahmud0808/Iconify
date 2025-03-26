@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) 2023 crDroid Android Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="16dp"
+    android:height="16dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12 2C7.898438 2 5 5.300781 5 10L4 10L4 5L2 5L2 10C2 11.101563 2.898438 12 4 12L5.09375 12C5.59375 16.5 7.601563 22 12 22C16.398438 22 18.40625 16.5 18.90625 12L20 12C21.101563 12 22 11.101563 22 10L22 5L20 5L20 10L19 10C19 5.300781 16.101563 2 12 2ZM7.09375 9L11 10L11 11.3125L7.6875 12.59375L7.1875 12.09375C7.085938 11.394531 6.992188 9.300781 7.09375 9ZM16.90625 9C17.007813 9.300781 16.914063 11.386719 16.8125 12.1875L16.3125 12.6875L13 11.3125L13 10ZM12.09375 13.09375L16.40625 14.8125C15.605469 17.613281 14.199219 20 12 20C9.800781 20 8.386719 17.613281 7.6875 14.8125ZM10 16L10 17L14 17L14 16Z" />
+</vector>

@@ -8,10 +8,15 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.modules.BackgroundChip
 import com.drdisagree.iconify.xposed.modules.BatteryStyleManager
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ControllersProvider
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChange
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet
 import com.drdisagree.iconify.xposed.modules.extras.utils.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.launcher.GestureMod
+import com.drdisagree.iconify.xposed.modules.launcher.HideStatusbar
 import com.drdisagree.iconify.xposed.modules.launcher.HotseatMod
 import com.drdisagree.iconify.xposed.modules.launcher.IconLabels
 import com.drdisagree.iconify.xposed.modules.launcher.IconTextSize
@@ -20,6 +25,7 @@ import com.drdisagree.iconify.xposed.modules.launcher.LauncherUtils
 import com.drdisagree.iconify.xposed.modules.launcher.OpacityModifier
 import com.drdisagree.iconify.xposed.modules.launcher.SmartSpace
 import com.drdisagree.iconify.xposed.modules.launcher.ThemedIcons
+import com.drdisagree.iconify.xposed.modules.launcher.TopShadow
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
 import com.drdisagree.iconify.xposed.modules.lockscreen.clock.LockscreenClock
@@ -56,6 +62,7 @@ import com.drdisagree.iconify.xposed.modules.settings.ZenPriorityModeIcon
 import com.drdisagree.iconify.xposed.modules.statusbar.AppIconsInStatusbar
 import com.drdisagree.iconify.xposed.modules.statusbar.DualStatusbar
 import com.drdisagree.iconify.xposed.modules.statusbar.OnGoingActionChip
+import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarLogo
 import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarMisc
 import com.drdisagree.iconify.xposed.modules.statusbar.SwapSignalNetworkType
 import com.drdisagree.iconify.xposed.modules.statusbar.SwapWiFiCellular
@@ -73,7 +80,11 @@ object EntryList {
     private val systemUICommonModPacks: List<Class<out ModPack>> = listOf(
         MyConstraintSet::class.java,
         ControllersProvider::class.java,
-        ThemeChange::class.java,
+        ThemeChangeCallback::class.java,
+        HeadsUpCallback::class.java,
+        QsShowingCallback::class.java,
+        KeyguardShowingCallback::class.java,
+        DozeCallback::class.java,
         BackgroundChip::class.java,
         HeaderImage::class.java,
         Lockscreen::class.java,
@@ -95,7 +106,8 @@ object EntryList {
         ColorizeNotificationView::class.java,
         AppIconInNotification::class.java,
         HeadsUpBlur::class.java,
-        OnGoingActionChip::class.java
+        OnGoingActionChip::class.java,
+        StatusbarLogo::class.java
     )
 
     private val systemUiAndroid12ModPacks: List<Class<out ModPack>> = listOf(
@@ -144,7 +156,9 @@ object EntryList {
         IconLabels::class.java,
         HotseatMod::class.java,
         IconTextSize::class.java,
-        SmartSpace::class.java
+        SmartSpace::class.java,
+        HideStatusbar::class.java,
+        TopShadow::class.java
     )
 
     private val settingsCommonModPacks: List<Class<out ModPack>> = listOf(

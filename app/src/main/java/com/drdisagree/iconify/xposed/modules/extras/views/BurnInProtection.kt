@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.xposed.modules.extras.views
 
 import android.view.View
-import android.view.animation.TranslateAnimation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -35,9 +34,6 @@ class AodBurnInProtection(private val view: View) {
     private fun startMovement() {
         if (movementJob?.isActive == true) return
 
-        originalX = view.x
-        originalY = view.y
-
         movementJob = CoroutineScope(Dispatchers.Main).launch {
             while (isMovementEnabled) {
                 moveViewSlightly()
@@ -55,15 +51,19 @@ class AodBurnInProtection(private val view: View) {
         val offsetX = (6..10).random().toFloat() * if (Math.random() > 0.5) 1 else -1
         val offsetY = (6..10).random().toFloat() * if (Math.random() > 0.5) 1 else -1
 
-        val animation = TranslateAnimation(view.x, offsetX, view.y, offsetY)
-        animation.duration = 1000 // 1 second duration for the movement
-        animation.fillAfter = true // Keep the final position after the animation finishes
-
-        view.startAnimation(animation)
+        view.animate()
+            .x(view.x + offsetX)
+            .y(view.y + offsetY)
+            .setDuration(1000)
+            .start()
     }
 
     private fun resetViewPosition() {
-        view.animate().x(originalX).y(originalY).setDuration(300).start()
+        view.animate()
+            .x(originalX)
+            .y(originalY)
+            .setDuration(300)
+            .start()
     }
 
     companion object {

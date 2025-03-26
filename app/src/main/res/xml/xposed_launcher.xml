@@ -54,6 +54,20 @@
             app:iconSpaceReserved="false" />
 
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:defaultValue="false"
+            android:key="xposed_launcherhidestatusbar"
+            android:summary="@string/hide_launcher_statusbar_desc"
+            android:title="@string/hide_launcher_statusbar_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:defaultValue="false"
+            android:key="xposed_launcherhidetopshadow"
+            android:summary="@string/hide_launcher_top_shadow_desc"
+            android:title="@string/hide_launcher_top_shadow_title"
+            app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
             android:defaultValue="true"
             android:key="xposed_desktopiconlabels"
             android:title="@string/desktop_icon_labels_title"

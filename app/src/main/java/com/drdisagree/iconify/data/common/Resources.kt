@@ -80,20 +80,14 @@ object Resources {
     val XPOSED_RESOURCE_TEMP_DIR = "${Environment.getExternalStorageDirectory()}/.iconify_files"
 
     val LSCLOCK_FONT_DIR = "$XPOSED_RESOURCE_TEMP_DIR/lsclock_font.ttf"
-
     val LSCLOCK_IMAGE1_DIR = "$XPOSED_RESOURCE_TEMP_DIR/lsclock_image1.png"
-
     val LSCLOCK_IMAGE2_DIR = "$XPOSED_RESOURCE_TEMP_DIR/lsclock_image2.png"
-
     val HEADER_CLOCK_FONT_DIR = "$XPOSED_RESOURCE_TEMP_DIR/headerclock_font.ttf"
-
     val HEADER_IMAGE_DIR = "$XPOSED_RESOURCE_TEMP_DIR/header_image.png"
-
     val DEPTH_WALL_FG_DIR = "$XPOSED_RESOURCE_TEMP_DIR/depth_wallpaper_fg.png"
-
     val DEPTH_WALL_BG_DIR = "$XPOSED_RESOURCE_TEMP_DIR/depth_wallpaper_bg.png"
-
     val LOCKSCREEN_WEATHER_FONT_DIR = "$XPOSED_RESOURCE_TEMP_DIR/lockscreen_weather_font.ttf"
+    val STATUSBAR_LOGO_DIR = "$XPOSED_RESOURCE_TEMP_DIR/statusbar_logo.png"
 
     // Resource names
     const val HEADER_CLOCK_LAYOUT = "preview_header_clock_"

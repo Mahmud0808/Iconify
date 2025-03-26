@@ -6,11 +6,14 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import java.util.concurrent.CopyOnWriteArrayList
 
-class ThemeChange(context: Context) : ModPack(context) {
+class ThemeChangeCallback(context: Context) : ModPack(context) {
 
-    private val mThemeChangedListeners = ArrayList<OnThemeChangedListener>()
+    private var lastCallbackTime = 0L
+    private val mThemeChangedListeners = CopyOnWriteArrayList<OnThemeChangedListener>()
 
     override fun updatePrefs(vararg key: String) {}
 
@@ -18,27 +21,24 @@ class ThemeChange(context: Context) : ModPack(context) {
 
         instance = this
 
-        // Get monet change so we can apply theme
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
-
-        scrimControllerClass
-            .hookMethod("updateThemeColors")
-            .runAfter { onThemeChanged() }
-
         val notificationPanelViewControllerClass = findClass(
             "$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController",
             "$SYSTEMUI_PACKAGE.statusbar.phone.NotificationPanelViewController"
         )
-
-        notificationPanelViewControllerClass
-            .hookMethod("onThemeChanged")
-            .runAfter { onThemeChanged() }
-
         val configurationListenerClass = findClass(
             "$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController\$ConfigurationListener",
             "$SYSTEMUI_PACKAGE.statusbar.phone.NotificationPanelViewController\$ConfigurationListener",
             suppressError = true
         )
+
+        scrimControllerClass
+            .hookMethod("updateThemeColors")
+            .runAfter { onThemeChanged() }
+
+        notificationPanelViewControllerClass
+            .hookMethod("onThemeChanged")
+            .runAfter { onThemeChanged() }
 
         configurationListenerClass
             .hookMethod("onThemeChanged")
@@ -51,30 +51,35 @@ class ThemeChange(context: Context) : ModPack(context) {
     }
 
     private fun onThemeChanged() {
-        for (callback in mThemeChangedListeners) {
-            try {
-                callback.onThemeChanged()
-            } catch (ignored: Throwable) {
+        val currentTime = System.currentTimeMillis()
+
+        if (currentTime - lastCallbackTime >= 200) {
+            mThemeChangedListeners.forEach {
+                try {
+                    it.onThemeChanged()
+                } catch (throwable: Throwable) {
+                    log(this@ThemeChangeCallback, "onThemeChanged: $throwable")
+                }
             }
+            lastCallbackTime = currentTime
         }
     }
 
     fun registerThemeChangedCallback(callback: OnThemeChangedListener) {
-        instance!!.mThemeChangedListeners.add(callback)
+        mThemeChangedListeners.add(callback)
     }
 
-    /** @noinspection unused */
     fun unRegisterThemeChangedCallback(callback: OnThemeChangedListener?) {
-        instance!!.mThemeChangedListeners.remove(callback)
+        mThemeChangedListeners.remove(callback)
     }
 
     companion object {
         @SuppressLint("StaticFieldLeak")
         @Volatile
-        private var instance: ThemeChange? = null
+        private var instance: ThemeChangeCallback? = null
 
-        fun getInstance(): ThemeChange {
-            return instance!!
+        fun getInstance(): ThemeChangeCallback {
+            return checkNotNull(instance) { "ThemeChangeCallback is not initialized yet!" }
         }
     }
 }
