@@ -87,7 +87,7 @@ open class PortraitBatteryLorn(private val context: Context, frameColor: Int) :
     private var levelColor: Int = Color.WHITE
 
     // Dual tone implies that battery level is a clipped overlay over top of the whole shape
-    private var dualTone = true
+    private var dualTone = false
 
     private var batteryLevel = 0
 
@@ -488,7 +488,7 @@ open class PortraitBatteryLorn(private val context: Context, frameColor: Int) :
         private val TAG = PortraitBatteryLorn::class.java.simpleName
         private const val WIDTH = 12f
         private const val HEIGHT = 20f
-        private const val CRITICAL_LEVEL = 20
+        private const val CRITICAL_LEVEL = 100
 
         // On a 12x20 grid, how wide to make the fill protection stroke.
         // Scales when our size changes
