@@ -6,6 +6,7 @@ import android.service.notification.StatusBarNotification
 import android.view.View
 import android.view.ViewGroup
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.data.common.Preferences.COLORED_STATUSBAR_ICON
 import com.drdisagree.iconify.data.common.Preferences.ONGOING_ACTION_CHIP_SWITCH
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
@@ -23,10 +24,12 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
     private var onGoingActionChipEnabled = false
     private var mOnGoingActionChipView: OnGoingActionChipView? = null
     private var mOnGoingActionProgressController: OnGoingActionProgressController? = null
+    private var mColoredStatusbarIcon = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             onGoingActionChipEnabled = getBoolean(ONGOING_ACTION_CHIP_SWITCH, false)
+            mColoredStatusbarIcon = getBoolean(COLORED_STATUSBAR_ICON, false)
         }
 
         when (key.firstOrNull()) {
@@ -59,7 +62,8 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
                 if (mOnGoingActionProgressController == null) {
                     mOnGoingActionProgressController = OnGoingActionProgressController(
                         mContext,
-                        mOnGoingActionChipView!!
+                        mOnGoingActionChipView!!,
+                        !mColoredStatusbarIcon
                     ) { onGoingActionChipEnabled }
                 }
 

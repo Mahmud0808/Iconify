@@ -17,9 +17,6 @@ package com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.Drawable
 import android.service.notification.StatusBarNotification
@@ -30,8 +27,8 @@ class IconFetcher(private val mContext: Context) {
 
     /** A class which stores whether icon is adaptive and icon itself.  */
     class AdaptiveDrawableResult(
-        @JvmField var isAdaptive: Boolean,
-        @JvmField var drawable: Drawable?
+        var isAdaptive: Boolean,
+        var drawable: Drawable?
     )
 
     /**
@@ -40,8 +37,9 @@ class IconFetcher(private val mContext: Context) {
      *
      * @param sbn notification for which small icon would be fetched
      */
-    fun resolveSmallIcon(sbn: StatusBarNotification): AdaptiveDrawableResult {
+    fun resolveAppIcon(sbn: StatusBarNotification, smallIcon: Boolean): AdaptiveDrawableResult {
         return try {
+            if (!smallIcon) throw Exception()
             val icon = sbn.notification.smallIcon
             return AdaptiveDrawableResult(false, icon.loadDrawable(mContext))
         } catch (_: Exception) {
@@ -73,14 +71,6 @@ class IconFetcher(private val mContext: Context) {
     private fun getMonotonicPackageIcon(packageName: String): AdaptiveDrawableResult {
         val icon = getPackageIcon(packageName)
 
-        if (icon is AdaptiveIconDrawable) {
-            icon.foreground.colorFilter = PorterDuffColorFilter(
-                Color.WHITE,
-                PorterDuff.Mode.SRC_IN
-            )
-            return AdaptiveDrawableResult(true, icon)
-        } else {
-            return AdaptiveDrawableResult(false, icon)
-        }
+        return AdaptiveDrawableResult(icon is AdaptiveIconDrawable, icon)
     }
 }

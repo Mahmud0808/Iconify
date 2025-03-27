@@ -18,15 +18,17 @@
  */
 package com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.Drawable
 import android.service.notification.StatusBarNotification
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import com.drdisagree.iconify.xposed.modules.extras.utils.getColorResCompat
+import com.drdisagree.iconify.utils.color.ColorUtils.getColorResCompat
 import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.IconFetcher.AdaptiveDrawableResult
 
 /**
@@ -35,6 +37,7 @@ import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.Icon
 class OnGoingActionProgressController(
     private val mContext: Context,
     private val chipView: OnGoingActionChipView,
+    private val useSmallIcon: Boolean,
     private val isEnabledCondition: () -> Boolean
 ) {
 
@@ -64,7 +67,7 @@ class OnGoingActionProgressController(
         val notification = sbn.notification
         mCurrentProgressMax = notification.extras.getInt(Notification.EXTRA_PROGRESS_MAX, 100)
         mCurrentProgress = notification.extras.getInt(Notification.EXTRA_PROGRESS, 0)
-        val drawable = mIconFetcher.resolveSmallIcon(sbn)
+        val drawable = mIconFetcher.resolveAppIcon(sbn, useSmallIcon)
         mCurrentDrawable = drawable.drawable
         updateIconImageView(drawable)
         updateViews()
@@ -73,16 +76,51 @@ class OnGoingActionProgressController(
     /**
      * Updates icon based on result from IconFetcher @AsyncUnsafe
      */
+    @SuppressLint("DiscouragedApi")
     private fun updateIconImageView(drawable: AdaptiveDrawableResult) {
         if (drawable.isAdaptive) {
-            mIconView.setImageTintList(
-                ColorStateList.valueOf(
-                    getColorResCompat(mContext, android.R.attr.colorForeground)
+            (drawable.drawable as? AdaptiveIconDrawable)?.apply {
+                foreground.setTint(
+                    mContext.resources.getColor(
+                        mContext.resources.getIdentifier(
+                            "android:color/system_neutral1_800",
+                            "color",
+                            mContext.packageName
+                        ), mContext.theme
+                    )
                 )
-            )
+                background.setTint(
+                    mContext.resources.getColor(
+                        mContext.resources.getIdentifier(
+                            "android:color/system_neutral1_50",
+                            "color",
+                            mContext.packageName
+                        ), mContext.theme
+                    )
+                )
+
+                mIconView.colorFilter = null
+                mIconView.setImageTintList(null)
+            } ?: run {
+                if (useSmallIcon) {
+                    mIconView.setColorFilter(
+                        getColorResCompat(mContext, android.R.attr.colorForeground)
+                    )
+                    mIconView.setImageTintList(
+                        ColorStateList.valueOf(
+                            getColorResCompat(mContext, android.R.attr.colorForeground)
+                        )
+                    )
+                } else {
+                    mIconView.colorFilter = null
+                    mIconView.setImageTintList(null)
+                }
+            }
         } else {
+            mIconView.colorFilter = null
             mIconView.setImageTintList(null)
         }
+
         mIconView.setImageDrawable(drawable.drawable)
     }
 
