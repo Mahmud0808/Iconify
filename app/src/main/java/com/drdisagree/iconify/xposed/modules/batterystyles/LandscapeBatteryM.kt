@@ -410,12 +410,12 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         c.restore()
 
         if (charging || batteryLevel <= CRITICAL_LEVEL) {
-            textChargingPaint.textSize = bounds.width() * if (customChargingIcon) 0.42f else 0.38f
+            textChargingPaint.textSize = bounds.width() * if (customChargingIcon) 0.00f else 0.00f
             val textHeight = +textChargingPaint.fontMetrics.ascent
-            val pctXcharging = if (customChargingIcon) 0.76f else 0.59f
-            val pctX100 = if (customChargingIcon) 0.76f else 0.54f
+            val pctXcharging = if (customChargingIcon) 0.00f else 0.00f
+            val pctX100 = if (customChargingIcon) 0.00f else 0.00f
             val pctX = (bounds.width() + textHeight) *
-                    (if (!charging) 0.72f /* discharging */
+                    (if (!charging) 0.00f /* discharging */
                     else if (batteryLevel < 100) pctXcharging /* charging */
                     else pctX100) /* level == 100 */ /* charging */
             val pctY = bounds.height() * if (customChargingIcon) 0.79f else 0.76f
