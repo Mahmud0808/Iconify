@@ -87,7 +87,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                     break
                 }
             }
-        } catch (ignore: Throwable) {
+        } catch (_: Throwable) {
             // A16B1 doesn't have the enum constants, but CONTENT exists
             schemeStyle = "CONTENT"
         }
@@ -115,7 +115,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             val packageManager = packageContext.packageManager
             val notifyIcon = try {
                 packageManager.getApplicationIcon(pkgName)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
                 fallbackColor.toDrawable()
             }
 
@@ -235,7 +235,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 "mTertiaryFixedDimAccentColor" to mTertiaryFixedDimAccentColor,
                 "mOnTertiaryFixedAccentTextColor" to mOnTertiaryFixedAccentTextColor
             ).forEach { (fieldName, value) ->
-                mColors.setField(fieldName, value)
+                mColors.setFieldSilently(fieldName, value)
 
                 if (fieldName == "mBackgroundColor") {
                     setExtraField("mNotifyBackgroundColor", value)
@@ -348,7 +348,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                     var bgColor = mNotifyBackgroundColor as Int
                     val mCurrentBackgroundTint = try {
                         param.thisObject.callMethod("getCurrentBackgroundTint")
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                         param.thisObject.getField("mCurrentBackgroundTint")
                     } as Int
 
@@ -457,7 +457,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
 
                     val notification = builder.getField("mN") as Notification
 
-                    notification.initializeColors(builder!!, mContext!!)
+                    notification.initializeColors(builder, mContext)
                 }
                 .runAfter { param ->
                     if (!coloredNotificationView) return@runAfter
@@ -474,10 +474,10 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
 
                     if (builder == null || mContext == null) return@runAfter
 
-                    val notification: Notification = builder!!.notification
+                    val notification: Notification = builder.notification
                     val inflationProgress: Any = param.result
 
-                    notification.setTextColor(inflationProgress, mContext!!)
+                    notification.setTextColor(inflationProgress, mContext)
                 }
         }
     }

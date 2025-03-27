@@ -609,7 +609,10 @@
     <string name="section_title_notifications">Notification</string>
     <string name="colored_qs_notification_title">Colored Notification Icon</string>
     <string name="colored_qs_notification_desc">Show app icon as notification icon</string>
+    <string name="section_headsup_title">Heads Up</string>
     <string name="notification_headsup_blur_title">Heads Up Blur</string>
+    <string name="notification_headsup_blur_intensity_title">Heads Up Blur Intensity</string>
+    <string name="notification_headsup_blur_transparency_title">Heads Up Transparency</string>
     <string name="notification_headsup_blur_desc">Show blur on heads up notification</string>
     <string name="section_title_qs_margin">QS Margin</string>
     <string name="section_title_media_player">Media Player</string>

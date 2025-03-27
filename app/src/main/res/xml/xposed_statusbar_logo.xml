@@ -33,7 +33,7 @@
         android:title="@string/status_bar_logo_size_title"
         app:defaultValue="18"
         app:iconSpaceReserved="false"
-        app:maxVal="24"
+        app:maxVal="40"
         app:minVal="12"
         app:showResetButton="true"
         app:tickInterval="1"

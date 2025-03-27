@@ -238,8 +238,10 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
         )
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
         val scrimViewClass = findClass("$SYSTEMUI_PACKAGE.scrim.ScrimView")
-        val keyguardBottomAreaViewClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.KeyguardBottomAreaView")
+        val keyguardBottomAreaViewClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.phone.KeyguardBottomAreaView",
+            suppressError = Build.VERSION.SDK_INT >= 36
+        )
         val statusBarKeyguardViewManagerClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.StatusBarKeyguardViewManager")
         val aodBurnInLayerClass =
@@ -248,7 +250,10 @@ abstract class BaseDepthWallpaperA15(context: Context) : ModPack(context) {
 
         // Apparently ROMs like CrDroid doesn't even use AodBurnInLayer class
         // So we hook which ever is available
-        val keyguardStatusViewClass = findClass("com.android.keyguard.KeyguardStatusView")
+        val keyguardStatusViewClass = findClass(
+            "com.android.keyguard.KeyguardStatusView",
+            suppressError = Build.VERSION.SDK_INT >= 36
+        )
         var keyguardStatusViewHooked = false
 
         fun initializeDepthWallpaperLayout(param: XC_MethodHook.MethodHookParam) {

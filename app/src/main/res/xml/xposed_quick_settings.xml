@@ -123,11 +123,41 @@
             android:title="@string/colorize_notification_alternative_color_generation_title"
             app:iconSpaceReserved="false" />
 
+    </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
+
+    <com.drdisagree.iconify.ui.preferences.PreferenceCategory
+        android:key="xposedQuickSettingsHeadsUp"
+        android:title="@string/section_headsup_title"
+        app:iconSpaceReserved="false"
+        search:ignore="true">
+
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
             android:key="xposed_notificationsheadsupblur"
             android:summary="@string/notification_headsup_blur_desc"
             android:title="@string/notification_headsup_blur_title"
             app:iconSpaceReserved="false" />
+
+        <com.drdisagree.iconify.ui.preferences.SliderPreference
+            android:dependency="xposed_notificationsheadsupblur"
+            android:key="xposed_notificationsheadsupblurradius"
+            android:title="@string/notification_headsup_blur_intensity_title"
+            app:defaultValue="48"
+            app:iconSpaceReserved="false"
+            app:maxVal="100"
+            app:minVal="0"
+            app:tickInterval="1"
+            app:valueFormat="%" />
+
+        <com.drdisagree.iconify.ui.preferences.SliderPreference
+            android:dependency="xposed_notificationsheadsupblur"
+            android:key="xposed_notificationsheadsuptransparency"
+            android:title="@string/notification_headsup_blur_transparency_title"
+            app:defaultValue="70"
+            app:iconSpaceReserved="false"
+            app:maxVal="100"
+            app:minVal="0"
+            app:tickInterval="1"
+            app:valueFormat="%" />
 
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 

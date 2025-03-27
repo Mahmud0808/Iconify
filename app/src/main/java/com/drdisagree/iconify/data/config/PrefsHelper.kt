@@ -134,6 +134,9 @@ import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_TOPMARGIN
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.data.common.Preferences.NEW_UPDATE_FOUND
+import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_BLUR
+import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_BLUR_RADIUS
+import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_TRANSPARENCY
 import com.drdisagree.iconify.data.common.Preferences.NOTIF_TRANSPARENCY_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_BLUR_LEVEL
 import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_SHOW_ARTWORK
@@ -357,6 +360,9 @@ object PrefsHelper {
             LSCLOCK_IMAGE_PICKER2 -> getBoolean(LSCLOCK_IMAGE_SWITCH) && lockscreenClockWithImage2
 
             BLUR_MEDIA_PLAYER_ARTWORK_RADIUS -> getBoolean(BLUR_MEDIA_PLAYER_ARTWORK)
+
+            NOTIFICATION_HEADSUP_BLUR_RADIUS,
+            NOTIFICATION_HEADSUP_TRANSPARENCY -> getBoolean(NOTIFICATION_HEADSUP_BLUR)
 
             else -> true
         }

@@ -17,6 +17,8 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_VIEW_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_BLUR
+import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_BLUR_RADIUS
+import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_TRANSPARENCY
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isNightMode
@@ -35,10 +37,13 @@ import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.Collections
 import java.util.WeakHashMap
+import kotlin.math.roundToInt
 
 class HeadsUpBlur(context: Context) : ModPack(context) {
 
     private var headsUpBlurEnabled = false
+    private var headsUpBlurRadius = 12f
+    private var headsUpTransparency = 17.5f
     private val notificationViews: MutableSet<View> = Collections.newSetFromMap(WeakHashMap())
     private var isQsExpanded = false
     private var coloredNotificationView = false
@@ -46,6 +51,8 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             headsUpBlurEnabled = getBoolean(NOTIFICATION_HEADSUP_BLUR, false)
+            headsUpBlurRadius = getSliderInt(NOTIFICATION_HEADSUP_BLUR_RADIUS, 48) / 100f * 25f
+            headsUpTransparency = getSliderInt(NOTIFICATION_HEADSUP_TRANSPARENCY, 70) / 100f * 255f
             coloredNotificationView = getBoolean(COLORED_NOTIFICATION_VIEW_SWITCH, false)
         }
     }
@@ -269,7 +276,6 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         }
 
         if (shouldApplyBlur) {
-            val alpha = (255 * 0.7f).toInt()
             val blurDrawable = mBackgroundNormal
                 .callMethod("getViewRootImpl")
                 .callMethod("createBackgroundBlurDrawable") as? Drawable
@@ -285,10 +291,10 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                     )
                 ).toFloat()
             )
-            blurDrawable.callMethod("setBlurRadius", context.toPx(12))
+            blurDrawable.callMethod("setBlurRadius", context.toPx(headsUpBlurRadius.roundToInt()))
             blurDrawable.callMethod(
                 "setColor",
-                ColorUtils.setAlphaComponent(notificationColor, alpha)
+                ColorUtils.setAlphaComponent(notificationColor, headsUpTransparency.toInt())
             )
 
             val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable

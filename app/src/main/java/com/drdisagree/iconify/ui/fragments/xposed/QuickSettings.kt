@@ -11,6 +11,9 @@ import com.drdisagree.iconify.data.common.Preferences.FIX_QS_TILE_COLOR
 import com.drdisagree.iconify.data.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.HIDE_QS_SILENT_TEXT
 import com.drdisagree.iconify.data.common.Preferences.HIDE_STATUS_ICONS_SWITCH
+import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_BLUR
+import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_BLUR_RADIUS
+import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_TRANSPARENCY
 import com.drdisagree.iconify.data.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.data.common.Preferences.SELECTED_QS_TEXT_COLOR
 import com.drdisagree.iconify.data.common.Preferences.VERTICAL_QSTILE_SWITCH
@@ -42,6 +45,9 @@ class QuickSettings : ControlledPreferenceFragmentCompat() {
             COLORED_NOTIFICATION_ICON_SWITCH,
             COLORED_NOTIFICATION_VIEW_SWITCH,
             COLORED_NOTIFICATION_ALTERNATIVE_SWITCH,
+            NOTIFICATION_HEADSUP_BLUR,
+            NOTIFICATION_HEADSUP_BLUR_RADIUS,
+            NOTIFICATION_HEADSUP_TRANSPARENCY,
             HIDE_QS_SILENT_TEXT,
             QSPANEL_HIDE_CARRIER,
             HIDE_STATUS_ICONS_SWITCH,

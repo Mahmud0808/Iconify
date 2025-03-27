@@ -27,7 +27,7 @@ class HeadsUpCallback(context: Context) : ModPack(context) {
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.HeadsUpAppearanceController")
 
         headsUpAppearanceControllerClass
-            .hookMethod("updateTopEntry")
+            .hookMethod("updateTopEntry", "updatePinnedStatus")
             .runBefore { param ->
                 var newEntry: Any? = null
                 val shouldBeVisible = (param.thisObject.callMethodSilently("shouldBeVisible")

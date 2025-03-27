@@ -30,6 +30,7 @@ import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImage
 import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImageView
 import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImageViewRight
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.io.File
 import java.util.concurrent.Executors
@@ -89,15 +90,21 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             .runAfter { param ->
                 val phoneStatusBarView = param.thisObject as ViewGroup
 
-                val operatorName = phoneStatusBarView.findViewById<View>(
+                val startSideExceptHeadsUp = phoneStatusBarView.findViewById<ViewGroup>(
                     mContext.resources.getIdentifier(
-                        "operator_name_stub",
+                        "status_bar_start_side_except_heads_up",
                         "id",
                         mContext.packageName
                     )
                 )
-                val startSideExceptHeadsUp = operatorName.parent as ViewGroup
-                val logoIndex = startSideExceptHeadsUp.indexOfChild(operatorName) + 1
+                val clockView = startSideExceptHeadsUp.findViewById<View>(
+                    mContext.resources.getIdentifier(
+                        "clock",
+                        "id",
+                        mContext.packageName
+                    )
+                )
+                val logoIndex = startSideExceptHeadsUp.indexOfChild(clockView)
 
                 val systemIcons = phoneStatusBarView.findViewById<ViewGroup>(
                     mContext.resources.getIdentifier(
@@ -159,6 +166,40 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             }
         )
 
+        fun updateLogoColor(
+            param: XC_MethodHook.MethodHookParam,
+            logoImageView: LogoImageView,
+            logoImageViewRight: LogoImageViewRight
+        ) {
+            val areas = param.args[0]
+            val tint = param.args[2]
+
+            val mTintColor = darkIconDispatcherClass.callStaticMethod(
+                "getTint",
+                areas,
+                logoImageView,
+                tint
+            ) as Int
+
+            if (mTintColor == logoImageView.mTintColor &&
+                mTintColor == logoImageViewRight.mTintColor
+            ) return
+
+            logoImageView.mTintColor = mTintColor
+            logoImageViewRight.mTintColor = mTintColor
+
+            if (!showLogo) return
+
+            if (!customLogo) {
+                if (logoImageView.isLogoVisible) {
+                    logoImageView.updateLogo()
+                }
+                if (logoImageViewRight.isLogoVisible) {
+                    logoImageViewRight.updateLogo()
+                }
+            }
+        }
+
         val clockClass = findClass("$SYSTEMUI_PACKAGE.statusbar.policy.Clock")
 
         clockClass
@@ -166,29 +207,18 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (logoImageView == null || logoImageViewRight == null) return@runAfter
 
-                val areas = param.args[0]
-                val tint = param.args[2]
+                updateLogoColor(param, logoImageView!!, logoImageViewRight!!)
+            }
 
-                val mTintColor = darkIconDispatcherClass.callStaticMethod(
-                    "getTint",
-                    areas,
-                    logoImageView,
-                    tint
-                ) as Int
+        val headsUpAppearanceControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.HeadsUpAppearanceController")
 
-                logoImageView!!.mTintColor = mTintColor
-                logoImageViewRight!!.mTintColor = mTintColor
+        headsUpAppearanceControllerClass
+            .hookMethod("onDarkChanged")
+            .runAfter { param ->
+                if (logoImageView == null || logoImageViewRight == null) return@runAfter
 
-                if (!showLogo) return@runAfter
-
-                if (!customLogo) {
-                    if (logoImageView!!.isLogoVisible) {
-                        logoImageView!!.updateLogo()
-                    }
-                    if (logoImageViewRight!!.isLogoVisible) {
-                        logoImageViewRight!!.updateLogo()
-                    }
-                }
+                updateLogoColor(param, logoImageView!!, logoImageViewRight!!)
             }
     }
 
