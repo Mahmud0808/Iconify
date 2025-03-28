@@ -16,6 +16,16 @@
         android:title="@string/status_bar_logo_title"
         app:iconSpaceReserved="false" />
 
+    <com.drdisagree.iconify.ui.preferences.ListPreference
+        android:defaultValue="0"
+        android:dialogTitle="@string/sb_clock_position_title"
+        android:entries="@array/status_bar_clock_position_entries"
+        android:entryValues="@array/status_bar_clock_position_values"
+        android:key="xposed_statusbarclockposition"
+        android:title="@string/sb_clock_position_title"
+        app:iconSpaceReserved="false"
+        app:useSimpleSummaryProvider="true" />
+
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:key="xposed_chipstatusbarclockclickable"
         android:summary="@string/statusbar_clock_clickable_desc"
@@ -56,12 +66,6 @@
         android:key="xposed_statusbarswapcellularnetworktype"
         android:summary="@string/sb_swap_cellular_network_type_desc"
         android:title="@string/sb_swap_cellular_network_type_title"
-        app:iconSpaceReserved="false" />
-
-    <com.drdisagree.iconify.ui.preferences.SwitchPreference
-        android:key="xposed_showclockonrightside"
-        android:summary="@string/sb_clock_on_right_side_desc"
-        android:title="@string/sb_clock_on_right_side_title"
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference

@@ -27,6 +27,7 @@ import com.drdisagree.iconify.ui.fragments.xposed.OpQsHeader
 import com.drdisagree.iconify.ui.fragments.xposed.Others
 import com.drdisagree.iconify.ui.fragments.xposed.QuickSettings
 import com.drdisagree.iconify.ui.fragments.xposed.Statusbar
+import com.drdisagree.iconify.ui.fragments.xposed.StatusbarLogo
 import com.drdisagree.iconify.ui.fragments.xposed.Themes
 import com.drdisagree.iconify.ui.fragments.xposed.TransparencyBlur
 import com.drdisagree.iconify.ui.fragments.xposed.VolumePanelParent
@@ -164,6 +165,11 @@ object Resources {
             R.xml.xposed_dual_statusbar,
             R.string.activity_title_dual_statusbar,
             DualStatusbar()
+        ),
+        SearchPreferenceItem(
+            R.xml.xposed_statusbar_logo,
+            R.string.status_bar_logo_title,
+            StatusbarLogo()
         ),
         SearchPreferenceItem(
             R.xml.xposed_volume_panel,

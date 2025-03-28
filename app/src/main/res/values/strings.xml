@@ -893,8 +893,10 @@
     <string name="sb_swap_wifi_cellular_desc">Swap wifi and cellular icons</string>
     <string name="sb_swap_cellular_network_type_title">Swap Cellular and Network Type</string>
     <string name="sb_swap_cellular_network_type_desc">Swap cellular and network type (3G 4G LTE etc.) icons</string>
-    <string name="sb_clock_on_right_side_title">Clock on End Side</string>
-    <string name="sb_clock_on_right_side_desc">Show clock on end side of statusbar</string>
+    <string name="sb_clock_position_title">Clock Position</string>
+    <string name="sb_clock_position_left">Left (Default)</string>
+    <string name="sb_clock_position_center">Center</string>
+    <string name="sb_clock_position_right">Right</string>
     <string name="ongoing_action_chip_title">Ongoing Action Chip</string>
     <string name="ongoing_action_chip_desc">Show progress indicator in status bar for ongoing actions like downloads</string>
     <string name="sb_show_4g_icon_title">4G Icon</string>

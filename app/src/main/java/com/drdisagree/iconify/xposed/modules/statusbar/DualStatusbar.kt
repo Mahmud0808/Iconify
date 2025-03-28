@@ -24,17 +24,20 @@ import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_START_TOP_M
 import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_SWAP_END_SIDE
 import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_SWAP_START_SIDE
 import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_TOP_PADDING
-import com.drdisagree.iconify.data.common.Preferences.SHOW_CLOCK_ON_RIGHT_SIDE
+import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
+import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_CLOCK_POSITION
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
@@ -67,7 +70,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
     private var cutoutSpaceView: View? = null
     private var mPhoneStatusBarViewObj: Any? = null
     private var mScrimControllerObj: Any? = null
-    private var clockOnRightSide = false
+    private var clockPosition = 0
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -85,7 +88,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
             startBottomMargin = getSliderInt(DUAL_STATUSBAR_START_BOTTOM_MARGIN, 0)
             endTopMargin = getSliderInt(DUAL_STATUSBAR_END_TOP_MARGIN, 0)
             endBottomMargin = getSliderInt(DUAL_STATUSBAR_END_BOTTOM_MARGIN, 0)
-            clockOnRightSide = getBoolean(SHOW_CLOCK_ON_RIGHT_SIDE, false)
+            clockPosition = getString(STATUSBAR_CLOCK_POSITION, "0")!!.toInt()
         }
 
         when (key.firstOrNull()) {
@@ -112,7 +115,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
 
             DUAL_STATUSBAR_HEIGHT -> updateWindowHeight()
 
-            SHOW_CLOCK_ON_RIGHT_SIDE -> handleClockOnRightSide()
+            STATUSBAR_CLOCK_POSITION -> handleClockPosition()
         }
     }
 
@@ -268,7 +271,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
                 }
 
                 updateRowsIfNeeded()
-                handleClockOnRightSide()
+                handleClockPosition()
             }
 
         ResourceHookManager
@@ -480,17 +483,54 @@ class DualStatusbar(context: Context) : ModPack(context) {
         mPhoneStatusBarViewObj.callMethodSilently("updateWindowHeight")
     }
 
-    private fun handleClockOnRightSide() {
+    private fun handleClockPosition() {
         if (!dualStatusbarEnabled) return
 
-        if (clockOnRightSide) {
-            endTopSideContainer?.reAddView(mClockView)
-            startTopSideContainer?.visibility = View.GONE
-            (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(6)
-        } else {
+        val centerClockContainer = (statusbarContents?.parent as? ViewGroup)
+            ?.findViewWithTag<LinearLayout>(ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG)
+
+        if (clockPosition == 0) { // Left
+            centerClockContainer.removeViewFromParent()
             startTopSideContainer?.reAddView(mClockView)
             startTopSideContainer?.visibility = View.VISIBLE
             (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)
+            (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
+                Gravity.CENTER_VERTICAL or Gravity.START
+        } else if (clockPosition == 1) { // Center
+            val container = centerClockContainer ?: AlphaOptimizedLinearLayout(mContext).apply {
+                tag = ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
+                gravity = Gravity.CENTER
+                orientation = LinearLayout.HORIZONTAL
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+                setPadding(
+                    0,
+                    mContext.resources.getDimensionPixelSize(
+                        mContext.resources.getIdentifier(
+                            "status_bar_padding_top",
+                            "dimen",
+                            mContext.packageName
+                        )
+                    ),
+                    0,
+                    0
+                )
+                reAddView(mClockView)
+            }
+
+            (statusbarContents?.parent as? ViewGroup)?.reAddView(container)
+            startTopSideContainer?.visibility = View.GONE
+            (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)
+            (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.CENTER
+        } else if (clockPosition == 2) { // Right
+            centerClockContainer.removeViewFromParent()
+            endTopSideContainer?.reAddView(mClockView)
+            startTopSideContainer?.visibility = View.GONE
+            (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(6)
+            (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
+                Gravity.CENTER_VERTICAL or Gravity.END
         }
     }
 

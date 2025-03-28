@@ -162,7 +162,7 @@ object Preferences {
     const val STATUSBAR_LOGO_STYLE = "xposed_statusbarlogostyle"
     const val STATUSBAR_LOGO_SIZE = "xposed_statusbarlogosize"
     const val STATUSBAR_LOGO_CUSTOM = "xposed_statusbarlogocustom"
-    const val SHOW_CLOCK_ON_RIGHT_SIDE = "xposed_showclockonrightside"
+    const val STATUSBAR_CLOCK_POSITION = "xposed_statusbarclockposition"
     const val SHOW_4G_INSTEAD_OF_LTE = "xposed_show4ginsteadoflte"
     const val NOTIFICATION_ICONS_LIMIT = "xposed_notificationiconslimit"
     const val DUAL_STATUSBAR = "xposed_dualstatusbar"
@@ -291,6 +291,7 @@ object Preferences {
     const val ICONIFY_CHARGING_ICON_TAG = "iconify_charging_icon"
     const val ICONIFY_QS_HEADER_CONTAINER_TAG = "iconify_qs_header_container"
     const val ICONIFY_QS_HEADER_CONTAINER_SHADE_TAG = "iconify_qs_header_container_shade"
+    const val ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG = "iconify_sb_center_clock_container"
 
     // Battery styles
     const val BATTERY_STYLE_DEFAULT = 0

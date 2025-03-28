@@ -30,11 +30,12 @@ import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_CLICK
 import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR
 import com.drdisagree.iconify.data.common.Preferences.HIDE_LOCKSCREEN_CARRIER
 import com.drdisagree.iconify.data.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
+import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
 import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_ICONS_LIMIT
 import com.drdisagree.iconify.data.common.Preferences.SB_CLOCK_SIZE
 import com.drdisagree.iconify.data.common.Preferences.SB_CLOCK_SIZE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.SHOW_4G_INSTEAD_OF_LTE
-import com.drdisagree.iconify.data.common.Preferences.SHOW_CLOCK_ON_RIGHT_SIDE
+import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_CLOCK_POSITION
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.BackgroundChip
@@ -42,6 +43,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getCent
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getRightClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.setClockGravity
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -49,6 +51,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
+import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
@@ -65,7 +68,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     private var mRightClockSize = 14
     private var hideLockscreenCarrier = false
     private var hideLockscreenStatusbar = false
-    private var clockOnRightSide = false
+    private var clockPosition = 0
     private var show4GInsteadOfLTE = false
     private var notifIconsLimit = -1
     private var dualStatusbarEnabled = false
@@ -76,7 +79,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             sbClockSize = getSliderInt(SB_CLOCK_SIZE, 14)
             hideLockscreenCarrier = getBoolean(HIDE_LOCKSCREEN_CARRIER, false)
             hideLockscreenStatusbar = getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false)
-            clockOnRightSide = getBoolean(SHOW_CLOCK_ON_RIGHT_SIDE, false)
+            clockPosition = getString(STATUSBAR_CLOCK_POSITION, "0")!!.toInt()
             show4GInsteadOfLTE = getBoolean(SHOW_4G_INSTEAD_OF_LTE, false)
             notifIconsLimit = getSliderInt(NOTIFICATION_ICONS_LIMIT, -1)
             dualStatusbarEnabled = getBoolean(DUAL_STATUSBAR, false)
@@ -99,7 +102,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         hideLockscreenCarrierOrStatusbar()
         applyClockSize()
-        clockOnRightSide()
+        setClockPosition()
         show4GInsteadOfLTE()
         notificationIconsLimit()
         clickableClockView()
@@ -248,7 +251,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         }
     }
 
-    private fun clockOnRightSide() {
+    private fun setClockPosition() {
         val phoneStatusBarViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarView")
         val shadeHeaderControllerClass =
@@ -288,10 +291,54 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 )
             )
 
-            if (clockOnRightSide && !dualStatusbarEnabled) {
-                (statusBarClock?.parent as? ViewGroup)?.removeView(statusBarClock)
-                statusBarContents?.addView(statusBarClock)
-                statusBarClock?.setPaddingRelative(endPadding, 0, startPadding, 0)
+            if (!dualStatusbarEnabled) {
+                when (clockPosition) {
+                    0 -> { // Left
+                        // do nothing, clock is on the left by default
+                    }
+
+                    1 -> { // Center
+                        val container =
+                            findViewWithTag<LinearLayout>(ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG)
+                                ?: AlphaOptimizedLinearLayout(mContext).apply {
+                                    tag = ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
+                                    gravity = Gravity.CENTER
+                                    orientation = LinearLayout.HORIZONTAL
+                                    layoutParams = LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.MATCH_PARENT
+                                    )
+                                    setPadding(
+                                        0,
+                                        mContext.resources.getDimensionPixelSize(
+                                            mContext.resources.getIdentifier(
+                                                "status_bar_padding_top",
+                                                "dimen",
+                                                mContext.packageName
+                                            )
+                                        ),
+                                        0,
+                                        0
+                                    )
+                                    reAddView(statusBarClock)
+                                }
+                        reAddView(container)
+                        statusBarClock?.setPaddingRelative(0, 0, 0, 0)
+                        (statusBarClock?.layoutParams as? ViewGroup.MarginLayoutParams)
+                            ?.setMargins(0, 0, 0, 0)
+                        (statusBarClock?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
+                            Gravity.CENTER
+                    }
+
+                    2 -> { // Right
+                        statusBarContents?.reAddView(statusBarClock)
+                        statusBarClock?.setPaddingRelative(0, 0, 0, 0)
+                        (statusBarClock?.layoutParams as? ViewGroup.MarginLayoutParams)
+                            ?.setMargins(endPadding, 0, startPadding, 0)
+                        (statusBarClock?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
+                            Gravity.CENTER_VERTICAL or Gravity.END
+                    }
+                }
             }
         }
 
