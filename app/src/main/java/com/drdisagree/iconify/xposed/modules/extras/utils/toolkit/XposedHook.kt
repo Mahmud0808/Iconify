@@ -127,6 +127,8 @@ class MethodHookHelper(
         } else if (methodNames.isNullOrEmpty()) { // hooking constructor
             hookConstructor(callback)
         } else { // hooking method
+            var foundAnyMethod = false
+
             methodNames.forEach { methodName ->
                 if (isPattern) {
                     val pattern = Pattern.compile(methodName)
@@ -134,24 +136,26 @@ class MethodHookHelper(
                         ?.forEach { method ->
                         if (pattern.matcher(method.name).matches()) {
                             hookMethod(method, callback)
+                            foundAnyMethod = true
                         }
                     }
                 } else {
                     clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
                         ?.find { it.name == methodName }?.let { method ->
-                        hookMethod(method, callback)
-                    } ?: run {
-                        if (printError) {
-                            if (clazz != null && methodNames!!.size == 1) {
-                                log(
-                                    XposedHook,
-                                    "Method not found: $methodName in ${clazz.simpleName}"
-                                )
-                            }
-                        } else if (throwError) {
-                            throw Throwable("Method not found: $methodName in ${clazz?.simpleName}")
+                            hookMethod(method, callback)
+                            foundAnyMethod = true
                         }
-                    }
+                }
+            }
+
+            if (!foundAnyMethod) {
+                val errorMessage =
+                    "Method(s) not found: ${methodNames.joinToString()} in Class ${clazz?.simpleName}"
+
+                if (printError && clazz != null) {
+                    log(XposedHook, errorMessage)
+                } else if (throwError) {
+                    throw Throwable(errorMessage)
                 }
             }
         }
@@ -165,6 +169,8 @@ class MethodHookHelper(
         } else if (methodNames.isNullOrEmpty()) { // hooking constructor
             hookConstructorBefore(callback)
         } else { // hooking method
+            var foundAnyMethod = false
+
             methodNames.forEach { methodName ->
                 if (isPattern) {
                     val pattern = Pattern.compile(methodName)
@@ -172,24 +178,26 @@ class MethodHookHelper(
                         ?.forEach { method ->
                         if (pattern.matcher(method.name).matches()) {
                             hookMethodBefore(method, callback)
+                            foundAnyMethod = true
                         }
                     }
                 } else {
                     clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
                         ?.find { it.name == methodName }?.let { method ->
-                        hookMethodBefore(method, callback)
-                    } ?: run {
-                        if (printError) {
-                            if (clazz != null && methodNames!!.size == 1) {
-                                log(
-                                    XposedHook,
-                                    "Method not found: $methodName in ${clazz.simpleName}"
-                                )
-                            }
-                        } else if (throwError) {
-                            throw Throwable("Method not found: $methodName in ${clazz?.simpleName}")
+                            hookMethodBefore(method, callback)
+                            foundAnyMethod = true
                         }
-                    }
+                }
+            }
+
+            if (!foundAnyMethod) {
+                val errorMessage =
+                    "Method(s) not found: ${methodNames.joinToString()} in Class ${clazz?.simpleName}"
+
+                if (printError && clazz != null) {
+                    log(XposedHook, errorMessage)
+                } else if (throwError) {
+                    throw Throwable(errorMessage)
                 }
             }
         }
@@ -203,6 +211,8 @@ class MethodHookHelper(
         } else if (methodNames.isNullOrEmpty()) { // hooking constructor
             hookConstructorAfter(callback)
         } else { // hooking method
+            var foundAnyMethod = false
+
             methodNames.forEach { methodName ->
                 if (isPattern) {
                     val pattern = Pattern.compile(methodName)
@@ -210,24 +220,26 @@ class MethodHookHelper(
                         ?.forEach { method ->
                         if (pattern.matcher(method.name).matches()) {
                             hookMethodAfter(method, callback)
+                            foundAnyMethod = true
                         }
                     }
                 } else {
                     clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
                         ?.find { it.name == methodName }?.let { method ->
-                        hookMethodAfter(method, callback)
-                    } ?: run {
-                        if (printError) {
-                            if (clazz != null && methodNames!!.size == 1) {
-                                log(
-                                    XposedHook,
-                                    "Method not found: $methodName in ${clazz.simpleName}"
-                                )
-                            }
-                        } else if (throwError) {
-                            throw Throwable("Method not found: $methodName in ${clazz?.simpleName}")
+                            hookMethodAfter(method, callback)
+                            foundAnyMethod = true
                         }
-                    }
+                }
+            }
+
+            if (!foundAnyMethod) {
+                val errorMessage =
+                    "Method(s) not found: ${methodNames.joinToString()} in Class ${clazz?.simpleName}"
+
+                if (printError && clazz != null) {
+                    log(XposedHook, errorMessage)
+                } else if (throwError) {
+                    throw Throwable(errorMessage)
                 }
             }
         }
@@ -672,7 +684,7 @@ fun Any?.callMethodSilently(methodName: String): Any? {
 
     return try {
         XposedHelpers.callMethod(this, methodName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
@@ -682,7 +694,7 @@ fun Any?.callMethodSilently(methodName: String, vararg args: Any?): Any? {
 
     return try {
         XposedHelpers.callMethod(this, methodName, *args)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
@@ -704,7 +716,7 @@ fun Class<*>?.callStaticMethodSilently(methodName: String): Any? {
 
     return try {
         XposedHelpers.callStaticMethod(this, methodName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
@@ -714,7 +726,7 @@ fun Class<*>?.callStaticMethodSilently(methodName: String, vararg args: Any?): A
 
     return try {
         XposedHelpers.callStaticMethod(this, methodName, *args)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
@@ -730,7 +742,7 @@ fun Any?.getFieldSilently(fieldName: String): Any? {
 
     return try {
         XposedHelpers.getObjectField(this, fieldName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
@@ -742,7 +754,7 @@ fun Any?.setField(fieldName: String, value: Any?) {
 fun Any?.setFieldSilently(fieldName: String, value: Any?) {
     try {
         XposedHelpers.setObjectField(this, fieldName, value)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
     }
 }
 
@@ -757,7 +769,7 @@ fun Class<*>?.getStaticFieldSilently(fieldName: String): Any? {
 
     return try {
         getStaticObjectField(this, fieldName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
@@ -769,7 +781,7 @@ fun Class<*>?.setStaticField(fieldName: String, value: Any?) {
 fun Class<*>?.setStaticFieldSilently(fieldName: String, value: Any?) {
     try {
         XposedHelpers.setStaticObjectField(this, fieldName, value)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
     }
 }
 
@@ -777,7 +789,7 @@ fun Any?.getAnyField(vararg fieldNames: String): Any? {
     fieldNames.forEach { fieldName ->
         try {
             return XposedHelpers.getObjectField(this, fieldName)
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
     }
 
@@ -788,7 +800,7 @@ fun Any?.setAnyField(value: Any?, vararg fieldNames: String) {
     fieldNames.forEach { fieldName ->
         try {
             return XposedHelpers.setObjectField(this, fieldName, value)
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
     }
 
@@ -799,7 +811,7 @@ fun Class<*>?.getAnyStaticField(vararg fieldNames: String): Any? {
     fieldNames.forEach { fieldName ->
         try {
             return getStaticObjectField(this, fieldName)
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
     }
 
@@ -813,7 +825,7 @@ fun Any?.getExtraField(fieldName: String): Any {
 fun Any?.getExtraFieldSilently(fieldName: String): Any? {
     return try {
         XposedHelpers.getAdditionalInstanceField(this, fieldName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }

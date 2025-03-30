@@ -16,6 +16,7 @@ import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_POSITION
 import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_SIZE
 import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_STYLE
 import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_SWITCH
+import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_TINT
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
@@ -44,6 +45,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
     private var logoStyle = 0
     private var logoSize = 12
     private var customLogo = false
+    private var tintCustomLogo = false
     private var logoImageView: LogoImageView? = null
     private var logoImageViewRight: LogoImageViewRight? = null
     private var darkIconDispatcherClass: Class<*>? = null
@@ -54,17 +56,31 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             logoPosition = getString(STATUSBAR_LOGO_POSITION, "0")!!.toInt()
             logoStyle = getString(STATUSBAR_LOGO_STYLE, "0")!!.toInt()
             logoSize = getSliderInt(STATUSBAR_LOGO_SIZE, 12)
-            customLogo = logoStyle == 33
+            customLogo = listOf<String>(
+                *modRes.getStringArray(R.array.status_bar_logo_style_entries)
+            )[logoStyle] == modRes.getString(R.string.status_bar_logo_style_custom)
+            tintCustomLogo = customLogo && getBoolean(STATUSBAR_LOGO_TINT, false)
         }
 
         when (key.firstOrNull()) {
             in setOf(
                 STATUSBAR_LOGO_SWITCH,
                 STATUSBAR_LOGO_POSITION,
-                STATUSBAR_LOGO_STYLE
+                STATUSBAR_LOGO_STYLE,
+                STATUSBAR_LOGO_TINT
             ) -> {
-                logoImageView?.updateSettings(showLogo, logoPosition, logoStyle)
-                logoImageViewRight?.updateSettings(showLogo, logoPosition, logoStyle)
+                logoImageView?.updateSettings(
+                    showLogo,
+                    logoPosition,
+                    logoStyle,
+                    tintCustomLogo
+                )
+                logoImageViewRight?.updateSettings(
+                    showLogo,
+                    logoPosition,
+                    logoStyle,
+                    tintCustomLogo
+                )
             }
 
             STATUSBAR_LOGO_CUSTOM -> {
@@ -132,8 +148,18 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                     }
                 }
 
-                logoImageView!!.updateSettings(showLogo, logoPosition, logoStyle)
-                logoImageViewRight!!.updateSettings(showLogo, logoPosition, logoStyle)
+                logoImageView!!.updateSettings(
+                    showLogo,
+                    logoPosition,
+                    logoStyle,
+                    tintCustomLogo
+                )
+                logoImageViewRight!!.updateSettings(
+                    showLogo,
+                    logoPosition,
+                    logoStyle,
+                    tintCustomLogo
+                )
 
                 logoImageView!!.loadCustomLogo()
                 logoImageViewRight!!.loadCustomLogo()
@@ -190,7 +216,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
 
             if (!showLogo) return
 
-            if (!customLogo) {
+            if (!customLogo || tintCustomLogo) {
                 if (logoImageView.isLogoVisible) {
                     logoImageView.updateLogo()
                 }
@@ -227,7 +253,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             "status_bar_left_clock_starting_padding",
             "status_bar_left_clock_end_padding"
         )
-        updateSettings(showLogo, logoPosition, logoStyle)
+        updateSettings(showLogo, logoPosition, logoStyle, tintCustomLogo)
     }
 
     private fun LogoImage.updateRightLogo() {
@@ -235,7 +261,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             "status_bar_clock_starting_padding",
             "status_bar_clock_end_padding"
         )
-        updateSettings(showLogo, logoPosition, logoStyle)
+        updateSettings(showLogo, logoPosition, logoStyle, tintCustomLogo)
     }
 
     private fun LogoImage.setupLogo(startPaddingRes: String, endPaddingRes: String) {

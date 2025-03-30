@@ -31,7 +31,8 @@ class HeadsUpCallback(context: Context) : ModPack(context) {
             .runBefore { param ->
                 var newEntry: Any? = null
                 val shouldBeVisible = (param.thisObject.callMethodSilently("shouldBeVisible")
-                    ?: param.thisObject.callMethod("shouldBeVisible$1")) as Boolean
+                    ?: param.thisObject.callMethodSilently("shouldBeVisible$1")) as? Boolean
+                    ?: param.thisObject.callMethod("shouldHeadsUpStatusBarBeVisible") as Boolean
 
                 if (shouldBeVisible) {
                     val mHeadsUpManager = param.thisObject.getField("mHeadsUpManager")

@@ -162,6 +162,7 @@ object Preferences {
     const val STATUSBAR_LOGO_STYLE = "xposed_statusbarlogostyle"
     const val STATUSBAR_LOGO_SIZE = "xposed_statusbarlogosize"
     const val STATUSBAR_LOGO_CUSTOM = "xposed_statusbarlogocustom"
+    const val STATUSBAR_LOGO_TINT = "xposed_statusbarlogotint"
     const val STATUSBAR_CLOCK_POSITION = "xposed_statusbarclockposition"
     const val SHOW_4G_INSTEAD_OF_LTE = "xposed_show4ginsteadoflte"
     const val NOTIFICATION_ICONS_LIMIT = "xposed_notificationiconslimit"

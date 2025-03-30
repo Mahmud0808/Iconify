@@ -44,6 +44,7 @@ abstract class LogoImage @JvmOverloads constructor(
     private var mShowLogo = false
     var mLogoPosition: Int = 0
     private var mLogoStyle = 0
+    private var forceApplyTint = false
     var mTintColor = Color.WHITE
 
     protected abstract val isLogoVisible: Boolean
@@ -122,7 +123,7 @@ abstract class LogoImage @JvmOverloads constructor(
             else -> modRes.getDrawable(R.drawable.ic_android_logo)
         }
 
-        if (requiresTint) {
+        if (requiresTint || forceApplyTint) {
             drawable.setTint(mTintColor)
         } else {
             drawable.clearColorFilter()
@@ -134,13 +135,15 @@ abstract class LogoImage @JvmOverloads constructor(
     fun updateSettings(
         showLogo: Boolean = mShowLogo,
         logoPosition: Int = mLogoPosition,
-        logoStyle: Int = mLogoStyle
+        logoStyle: Int = mLogoStyle,
+        applyTint: Boolean = forceApplyTint
     ) {
         mShowLogo = showLogo
         mLogoPosition = logoPosition
         mLogoStyle = logoStyle
+        forceApplyTint = applyTint
 
-        if (!mShowLogo || !this.isLogoVisible) {
+        if (!mShowLogo || !isLogoVisible) {
             setImageDrawable(null)
             setVisibility(GONE)
             return

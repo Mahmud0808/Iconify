@@ -894,6 +894,7 @@
     <string name="sb_swap_cellular_network_type_title">Swap Cellular and Network Type</string>
     <string name="sb_swap_cellular_network_type_desc">Swap cellular and network type (3G 4G LTE etc.) icons</string>
     <string name="sb_clock_position_title">Clock Position</string>
+    <string name="section_title_clock">Clock</string>
     <string name="sb_clock_position_left">Left (Default)</string>
     <string name="sb_clock_position_center">Center</string>
     <string name="sb_clock_position_right">Right</string>
@@ -946,6 +947,8 @@
     <string name="status_bar_logo_style_mint">Linux Mint</string>
     <string name="status_bar_logo_style_amogus">Amogus</string>
     <string name="status_bar_logo_style_custom">Custom Image</string>
+    <string name="status_bar_logo_tint_title">Follow Statusbar Tint</string>
+    <string name="status_bar_logo_tint_desc">Switch to a light/dark background to update tint</string>
 
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Dual Row Statusbar</string>

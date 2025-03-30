@@ -6,7 +6,7 @@
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
         android:key="generalSettings"
         android:title="@string/settings_section_title_general"
-        app:iconSpaceReserved="true"
+        app:iconSpaceReserved="false"
         search:ignore="true">
 
         <com.drdisagree.iconify.ui.preferences.ListPreference
@@ -47,7 +47,7 @@
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
         android:key="updateSettings"
         android:title="@string/settings_section_title_update"
-        app:iconSpaceReserved="true"
+        app:iconSpaceReserved="false"
         search:ignore="true">
 
         <com.drdisagree.iconify.ui.preferences.PreferenceMenu
@@ -76,7 +76,7 @@
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
         android:key="miscSettings"
         android:title="@string/settings_section_title_miscellaneous"
-        app:iconSpaceReserved="true"
+        app:iconSpaceReserved="false"
         search:ignore="true">
 
         <com.drdisagree.iconify.ui.preferences.SwitchPreference
@@ -119,7 +119,7 @@
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory
         android:key="aboutSettings"
         android:title="@string/settings_section_title_about"
-        app:iconSpaceReserved="true"
+        app:iconSpaceReserved="false"
         search:ignore="true">
 
         <com.drdisagree.iconify.ui.preferences.PreferenceMenu

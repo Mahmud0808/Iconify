@@ -39,4 +39,11 @@
         app:tickInterval="1"
         app:valueFormat="dp" />
 
+    <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="xposed_statusbarlogo"
+        android:key="xposed_statusbarlogotint"
+        android:summary="@string/status_bar_logo_tint_desc"
+        android:title="@string/status_bar_logo_tint_title"
+        app:iconSpaceReserved="false" />
+
 </PreferenceScreen>
