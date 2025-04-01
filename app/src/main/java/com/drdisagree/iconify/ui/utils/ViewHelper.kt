@@ -6,7 +6,6 @@ import android.graphics.ImageDecoder
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.BatteryManager
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
@@ -24,6 +23,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.FRAGMENT_BACK_BUTTON_DELAY
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_DOTTED_CIRCLE
+import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.xposed.modules.batterystyles.BatteryDrawable
 import com.drdisagree.iconify.xposed.modules.batterystyles.CircleBattery
 import com.drdisagree.iconify.xposed.modules.batterystyles.CircleFilledBattery
@@ -62,7 +62,6 @@ import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryColo
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyleA
 import com.drdisagree.iconify.xposed.modules.batterystyles.RLandscapeBatteryStyleB
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toCircularDrawable
-import java.io.File
 
 object ViewHelper {
 
@@ -282,15 +281,9 @@ object ViewHelper {
         )
 
         val logoDrawables = predefinedLogos.map { getDrawable(context, it)!! }.toMutableList()
-
         val customDrawable = try {
             ImageDecoder.decodeDrawable(
-                ImageDecoder.createSource(
-                    File(
-                        Environment.getExternalStorageDirectory(),
-                        "/.iconify_files/statusbar_logo.png"
-                    )
-                )
+                ImageDecoder.createSource(STATUSBAR_LOGO_FILE)
             ).toCircularDrawable(context)
         } catch (_: Throwable) {
             @Suppress("DEPRECATION")

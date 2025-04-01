@@ -27,6 +27,7 @@
         app:showArrow="false" />
 
     <com.drdisagree.iconify.ui.preferences.ListPreference
+        android:dependency="weather_switch"
         android:defaultValue="0"
         android:entries="@array/weather_provider_entries"
         android:entryValues="@array/weather_provider_values"
@@ -36,6 +37,7 @@
         app:useSimpleSummaryProvider="true" />
 
     <com.drdisagree.iconify.ui.preferences.EditTextPreference
+        android:dependency="weather_switch"
         android:inputType="textNoSuggestions"
         android:key="owm_key"
         android:singleLine="true"
@@ -43,6 +45,7 @@
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.EditTextPreference
+        android:dependency="weather_switch"
         android:inputType="textNoSuggestions"
         android:key="yandex_key"
         android:singleLine="true"
@@ -50,6 +53,7 @@
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.ListPreference
+        android:dependency="weather_switch"
         android:defaultValue="0"
         android:entries="@array/units_entries"
         android:entryValues="@array/units_values"
@@ -128,6 +132,7 @@
         app:iconSpaceReserved="false" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
+        android:dependency="weather_switch"
         android:defaultValue="false"
         android:key="weather_custom_location_switch"
         android:title="@string/custom_location_title"

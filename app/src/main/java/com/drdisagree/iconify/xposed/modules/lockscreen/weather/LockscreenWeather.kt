@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
-import android.os.Environment
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,9 @@ import com.drdisagree.iconify.data.common.Preferences.WEATHER_TEXT_COLOR
 import com.drdisagree.iconify.data.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.WEATHER_TEXT_SIZE
 import com.drdisagree.iconify.data.common.Preferences.WEATHER_TRIGGER_UPDATE
+import com.drdisagree.iconify.data.common.XposedConst.LOCKSCREEN_WEATHER_FONT_FILE
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -41,7 +42,6 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen.Companion.isC
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import java.io.File
 
 class LockscreenWeather(context: Context) : ModPack(context) {
 
@@ -64,8 +64,6 @@ class LockscreenWeather(context: Context) : ModPack(context) {
     private var mStatusViewContainer: ViewGroup? = null
     private var mStatusArea: ViewGroup? = null
     private var mCustomFontEnabled = false
-    private val mCustomFontLocation = Environment.getExternalStorageDirectory().toString() +
-            "/.iconify_files/lockscreen_weather_font.ttf"
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized || isComposeLockscreen) return
@@ -151,6 +149,14 @@ class LockscreenWeather(context: Context) : ModPack(context) {
 
                 placeWeatherView()
             }
+
+        BootCallback.registerBootListener(
+            object : BootCallback.BootListener {
+                override fun onDeviceBooted() {
+                    updateWeatherView()
+                }
+            }
+        )
     }
 
     private fun placeWeatherView() {
@@ -181,7 +187,7 @@ class LockscreenWeather(context: Context) : ModPack(context) {
             val broadcast = Intent(ACTION_WEATHER_INFLATED)
             broadcast.setFlags(Intent.FLAG_RECEIVER_FOREGROUND)
             Thread { mContext.sendBroadcast(broadcast) }.start()
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
     }
 
@@ -241,8 +247,8 @@ class LockscreenWeather(context: Context) : ModPack(context) {
     }
 
     private fun updateFont() {
-        if (mCustomFontEnabled && File(mCustomFontLocation).exists()) {
-            Typeface.createFromFile(File(mCustomFontLocation))
+        if (mCustomFontEnabled && LOCKSCREEN_WEATHER_FONT_FILE.exists()) {
+            Typeface.createFromFile(LOCKSCREEN_WEATHER_FONT_FILE)
         } else {
             Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
         }.also { typeface ->

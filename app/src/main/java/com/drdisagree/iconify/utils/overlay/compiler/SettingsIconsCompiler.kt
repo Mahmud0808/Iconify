@@ -4,8 +4,8 @@ import android.util.Log
 import com.drdisagree.iconify.data.common.Const.GMS_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SETTINGS_PACKAGE
 import com.drdisagree.iconify.data.common.Const.WELLBEING_PACKAGE
+import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
 import com.drdisagree.iconify.data.common.Resources.BACKUP_DIR
-import com.drdisagree.iconify.data.common.Resources.DATA_DIR
 import com.drdisagree.iconify.data.common.Resources.OVERLAY_DIR
 import com.drdisagree.iconify.data.common.Resources.SIGNED_DIR
 import com.drdisagree.iconify.data.common.Resources.SYSTEM_OVERLAY_DIR

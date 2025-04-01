@@ -6,8 +6,8 @@ import com.drdisagree.iconify.data.common.Const.LAUNCHER3_PACKAGE
 import com.drdisagree.iconify.data.common.Const.PIXEL_LAUNCHER_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SETTINGS_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
 import com.drdisagree.iconify.data.common.Resources.BACKUP_DIR
-import com.drdisagree.iconify.data.common.Resources.DATA_DIR
 import com.drdisagree.iconify.data.common.Resources.OVERLAY_DIR
 import com.drdisagree.iconify.data.common.Resources.SIGNED_DIR
 import com.drdisagree.iconify.data.common.Resources.SYSTEM_OVERLAY_DIR

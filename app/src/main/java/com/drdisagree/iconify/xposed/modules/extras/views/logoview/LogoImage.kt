@@ -21,13 +21,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.ImageDecoder
-import android.os.Environment
 import android.util.AttributeSet
 import android.widget.ImageView
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toCircularDrawable
-import java.io.File
 
 @SuppressLint("AppCompatCustomView")
 abstract class LogoImage @JvmOverloads constructor(
@@ -106,12 +105,7 @@ abstract class LogoImage @JvmOverloads constructor(
             33 -> {
                 try {
                     val drawable = ImageDecoder.decodeDrawable(
-                        ImageDecoder.createSource(
-                            File(
-                                Environment.getExternalStorageDirectory(),
-                                "/.iconify_files/statusbar_logo.png"
-                            )
-                        )
+                        ImageDecoder.createSource(STATUSBAR_LOGO_FILE)
                     ).toCircularDrawable(mContext)
 
                     requiresTint = false

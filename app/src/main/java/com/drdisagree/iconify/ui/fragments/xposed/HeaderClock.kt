@@ -17,8 +17,8 @@ import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_FONT_PICKER
 import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_FONT_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_STYLE
 import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_SWITCH
-import com.drdisagree.iconify.data.common.Resources.HEADER_CLOCK_FONT_DIR
 import com.drdisagree.iconify.data.common.Resources.HEADER_CLOCK_LAYOUT
+import com.drdisagree.iconify.data.common.XposedConst.HEADER_CLOCK_FONT_FILE
 import com.drdisagree.iconify.data.config.RPrefs.putBoolean
 import com.drdisagree.iconify.data.models.ClockModel
 import com.drdisagree.iconify.ui.activities.MainActivity
@@ -56,7 +56,9 @@ class HeaderClock : ControlledPreferenceFragmentCompat() {
                 val data = result.data
                 val path = getRealPath(data)
 
-                if (path != null && moveToIconifyHiddenDir(path, HEADER_CLOCK_FONT_DIR)) {
+                if (path != null &&
+                    moveToIconifyHiddenDir(path, HEADER_CLOCK_FONT_FILE.absolutePath)
+                ) {
                     putBoolean(HEADER_CLOCK_FONT_SWITCH, false)
                     putBoolean(HEADER_CLOCK_FONT_SWITCH, true)
 

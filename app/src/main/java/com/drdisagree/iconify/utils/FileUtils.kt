@@ -7,7 +7,8 @@ import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.activity.result.ActivityResultLauncher
 import com.drdisagree.iconify.Iconify.Companion.appContext
-import com.drdisagree.iconify.data.common.Resources
+import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
+import com.drdisagree.iconify.data.common.XposedConst.XPOSED_RESOURCE_TEMP_DIR
 import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
 import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
 import com.topjohnwu.superuser.Shell
@@ -23,8 +24,6 @@ import java.nio.file.Paths
 import kotlin.math.min
 
 object FileUtils {
-
-    val DATA_DIR = appContext.filesDir.toString()
 
     @Throws(IOException::class)
     fun copyAssets(assetFolder: String) {
@@ -152,7 +151,7 @@ object FileUtils {
 
     fun moveToIconifyHiddenDir(source: String, destination: String): Boolean {
         return Shell.cmd(
-            "mkdir -p " + Resources.XPOSED_RESOURCE_TEMP_DIR,
+            "mkdir -p " + XPOSED_RESOURCE_TEMP_DIR.absolutePath,
             "rm -f \"$destination\"",
             "mv -f \"$source\" \"$destination\""
         ).exec().isSuccess

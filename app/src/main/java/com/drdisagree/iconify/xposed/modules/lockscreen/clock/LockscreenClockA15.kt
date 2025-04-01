@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable
 import android.media.AudioManager
 import android.os.BatteryManager
 import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.os.UserHandle
@@ -55,9 +54,13 @@ import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_TOPMARGIN
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.data.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_FONT_FILE
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
 import com.drdisagree.iconify.utils.TextUtils
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.applyTo
@@ -98,8 +101,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 @SuppressLint("DiscouragedApi")
 class LockscreenClockA15(context: Context) : ModPack(context) {
@@ -137,14 +138,7 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
     private var customUserName = ""
     private var customDeviceName = ""
     private var customFontEnabled = false
-    private var customTypeface: Typeface? = null
-    private val customFontDirectory =
-        "${Environment.getExternalStorageDirectory()}/.iconify_files/lsclock_font.ttf"
     private var customImageEnabled = false
-    private val customImage1Directory =
-        "${Environment.getExternalStorageDirectory()}/.iconify_files/lsclock_image1.png"
-    private val customImage2Directory =
-        "${Environment.getExternalStorageDirectory()}/.iconify_files/lsclock_image2.png"
     private var currentClockView: View? = null
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
@@ -201,11 +195,6 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
             customDeviceName = getString(LSCLOCK_DEVICENAME, "")!!
             customImageEnabled = getBoolean(LSCLOCK_IMAGE_SWITCH, false)
             customFontEnabled = getBoolean(LSCLOCK_FONT_SWITCH, false)
-            customTypeface = if (customFontEnabled && File(customFontDirectory).exists()) {
-                Typeface.createFromFile(File(customFontDirectory))
-            } else {
-                null
-            }
         }
 
         resetStockClock()
@@ -617,20 +606,13 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
                 }
             }
 
-        try {
-            val executor = Executors.newSingleThreadScheduledExecutor()
-            executor.scheduleAtFixedRate({
-                val androidDir =
-                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
-
-                if (androidDir.isDirectory) {
+        BootCallback.registerBootListener(
+            object : BootCallback.BootListener {
+                override fun onDeviceBooted() {
                     updateClockView(true)
-                    executor.shutdown()
-                    executor.shutdownNow()
                 }
-            }, 0, 5, TimeUnit.SECONDS)
-        } catch (_: Throwable) {
-        }
+            }
+        )
     }
 
     private fun initResources(context: Context) {
@@ -749,6 +731,12 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
     private fun modifyClockView(clockView: View?) {
         if (!XprefsIsInitialized || mLsItemsContainer == null || clockView == null) return
 
+        var customTypeface = if (customFontEnabled && LSCLOCK_FONT_FILE.exists()) {
+            Typeface.createFromFile(LSCLOCK_FONT_FILE)
+        } else {
+            null
+        }
+
         clockView.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
 
         setMargins(clockView, mContext, 0, topMargin, 0, bottomMargin)
@@ -767,8 +755,8 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
 
         if (customImageEnabled) {
             listOf(
-                "custom_image1" to customImage1Directory,
-                "custom_image2" to customImage2Directory
+                "custom_image1" to LSCLOCK_IMAGE1_FILE.absolutePath,
+                "custom_image2" to LSCLOCK_IMAGE2_FILE.absolutePath
             ).forEach { (tag, path) ->
                 if (File(path).exists()) {
                     clockView.findViewContainsTag(tag)?.let { view ->

@@ -9,7 +9,6 @@ import android.content.res.Configuration
 import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
 import android.os.Build
-import android.os.Environment
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -29,7 +28,9 @@ import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_OVERLAP
 import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_ZOOMTOFIT
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_TAG
+import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -40,9 +41,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XposedHelpers.callMethod
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import java.io.File
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 class HeaderImage(context: Context) : ModPack(context) {
 
@@ -254,20 +252,11 @@ class HeaderImage(context: Context) : ModPack(context) {
     }
 
     private fun ImageView.loadImageOrGif() {
-        try {
-            val executor = Executors.newSingleThreadScheduledExecutor()
-            executor.scheduleWithFixedDelay({
-                val androidDir =
-                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
-
-                if (androidDir.isDirectory) {
-                    try {
-                        val source = ImageDecoder.createSource(
-                            File(
-                                Environment.getExternalStorageDirectory()
-                                    .toString() + "/.iconify_files/header_image.png"
-                            )
-                        )
+        BootCallback.registerBootListener(
+            object : BootCallback.BootListener {
+                override fun onDeviceBooted() {
+                    if (HEADER_IMAGE_FILE.exists()) {
+                        val source = ImageDecoder.createSource(HEADER_IMAGE_FILE)
                         val drawable = ImageDecoder.decodeDrawable(source)
 
                         setImageDrawable(drawable)
@@ -286,14 +275,9 @@ class HeaderImage(context: Context) : ModPack(context) {
                         if (drawable is AnimatedImageDrawable) {
                             drawable.start()
                         }
-                    } catch (ignored: Throwable) {
                     }
-
-                    executor.shutdown()
-                    executor.shutdownNow()
                 }
-            }, 0, 5, TimeUnit.SECONDS)
-        } catch (ignored: Throwable) {
-        }
+            }
+        )
     }
 }

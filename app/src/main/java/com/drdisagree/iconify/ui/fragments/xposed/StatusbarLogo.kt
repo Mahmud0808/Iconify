@@ -13,7 +13,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_CUSTOM
 import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_STYLE
-import com.drdisagree.iconify.data.common.Resources.STATUSBAR_LOGO_DIR
+import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.config.RPrefs.getBoolean
 import com.drdisagree.iconify.data.config.RPrefs.putBoolean
@@ -50,7 +50,9 @@ class StatusbarLogo : ControlledPreferenceFragmentCompat() {
                 val data = result.data
                 val path = getRealPath(data)
 
-                if (path != null && moveToIconifyHiddenDir(path, STATUSBAR_LOGO_DIR)) {
+                if (path != null &&
+                    moveToIconifyHiddenDir(path, STATUSBAR_LOGO_FILE.absolutePath)
+                ) {
                     putBoolean(STATUSBAR_LOGO_CUSTOM, !getBoolean(STATUSBAR_LOGO_CUSTOM))
 
                     Toast.makeText(
@@ -60,7 +62,12 @@ class StatusbarLogo : ControlledPreferenceFragmentCompat() {
                     ).show()
 
                     findPreference<BottomSheetListPreference>(STATUSBAR_LOGO_STYLE)?.apply {
-                        createDefaultAdapter(getStatusbarLogoDrawables(requireContext()))
+                        setDrawables(getStatusbarLogoDrawables(requireContext()))
+                        getAdapter()!!.notifyItemChanged(
+                            listOf<String>(
+                                *resources.getStringArray(R.array.status_bar_logo_style_entries)
+                            ).indexOf(resources.getString(R.string.status_bar_logo_style_custom))
+                        )
                     }
                 } else {
                     Toast.makeText(
@@ -73,23 +80,24 @@ class StatusbarLogo : ControlledPreferenceFragmentCompat() {
         }
     }
 
-    override fun updateScreen(key: String?) {
-        super.updateScreen(key)
-
-        when (key) {
-            STATUSBAR_LOGO_STYLE -> {
-                if (RPrefs.getString(key, "0")!!.toInt() == 33) {
-                    launchFilePicker(appContext, "image", startActivityIntent)
-                }
-            }
-        }
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
         findPreference<BottomSheetListPreference>(STATUSBAR_LOGO_STYLE)?.apply {
-            createDefaultAdapter(getStatusbarLogoDrawables(requireContext()))
+            createDefaultAdapter(
+                getStatusbarLogoDrawables(requireContext()),
+                object : BottomSheetListPreference.OnItemClickListener {
+                    override fun onItemClick(position: Int) {
+                        if (listOf<String>(
+                                *resources.getStringArray(R.array.status_bar_logo_style_entries)
+                            )[RPrefs.getString(key, "0")!!.toInt()]
+                            == resources.getString(R.string.status_bar_logo_style_custom)
+                        ) {
+                            launchFilePicker(appContext, "image", startActivityIntent)
+                        }
+                    }
+                }
+            )
         }
     }
 }

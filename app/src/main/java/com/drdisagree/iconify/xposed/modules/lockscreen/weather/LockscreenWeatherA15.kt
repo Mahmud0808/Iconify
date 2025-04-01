@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
@@ -41,7 +40,9 @@ import com.drdisagree.iconify.data.common.Preferences.WEATHER_TEXT_COLOR
 import com.drdisagree.iconify.data.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.WEATHER_TEXT_SIZE
 import com.drdisagree.iconify.data.common.Preferences.WEATHER_TRIGGER_UPDATE
+import com.drdisagree.iconify.data.common.XposedConst.LOCKSCREEN_WEATHER_FONT_FILE
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.applyTo
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Companion.clear
@@ -51,6 +52,8 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Compan
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.assignIdsToViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getLsItemsContainer
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
@@ -68,7 +71,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.File
 
 class LockscreenWeatherA15(context: Context) : ModPack(context) {
 
@@ -96,8 +98,6 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
     private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
     private var aodBurnInProtection: AodBurnInProtection? = null
     private var mCustomFontEnabled = false
-    private val mCustomFontLocation = Environment.getExternalStorageDirectory().toString() +
-            "/.iconify_files/lockscreen_weather_font.ttf"
 
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -240,7 +240,7 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
 
                         mLockscreenRootView = rootView
 
-                        (mWeatherContainer.parent as? ViewGroup)?.removeView(mWeatherContainer)
+                        mWeatherContainer.removeViewFromParent()
 
                         if (mLockscreenClockEnabled || mWidgetsEnabled) {
                             mLsItemsContainer = rootView.getLsItemsContainer()
@@ -401,7 +401,7 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
             if (!mWeatherEnabled) return
 
             if (::mWeatherContainer.isInitialized) {
-                (mLsItemsContainer ?: mWeatherContainer).layoutParams.apply {
+                mLsItemsContainer?.layoutParams?.apply {
                     width = ViewGroup.LayoutParams.MATCH_PARENT
                     height = ViewGroup.LayoutParams.WRAP_CONTENT
                 }
@@ -450,6 +450,14 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
                     }
                 }
             }
+
+        BootCallback.registerBootListener(
+            object : BootCallback.BootListener {
+                override fun onDeviceBooted() {
+                    updateWeatherView()
+                }
+            }
+        )
     }
 
     @SuppressLint("DiscouragedApi")
@@ -464,8 +472,7 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
         )
 
         if (currentWeatherView.parent != mWeatherContainer) {
-            (currentWeatherView.parent as? ViewGroup)?.removeView(currentWeatherView)
-            mWeatherContainer.addView(currentWeatherView)
+            mWeatherContainer.reAddView(currentWeatherView)
 
             refreshWeatherView(currentWeatherView)
             applyLayoutConstraints(mLsItemsContainer ?: mWeatherContainer)
@@ -483,7 +490,7 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
 
         mLockscreenRootView.assignIdsToViews()
 
-        weatherView.getChildAt(0)?.layoutParams?.width = LinearLayout.LayoutParams.MATCH_PARENT
+        mLsItemsContainer?.layoutParams?.width = LinearLayout.LayoutParams.MATCH_PARENT
 
         val notificationContainerId = mContext.resources.getIdentifier(
             "nssl_placeholder",
@@ -589,23 +596,23 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
             updateSizes(
                 weatherTextSize,
                 weatherImageSize,
-                LOCKSCREEN_WEATHER
+                getName()
             )
             updateColors(
                 if (weatherCustomColor) weatherColor else Color.WHITE,
-                LOCKSCREEN_WEATHER
+                getName()
             )
             updateWeatherSettings(
                 weatherShowLocation,
                 weatherShowCondition,
                 weatherShowHumidity,
                 weatherShowWind,
-                LOCKSCREEN_WEATHER
+                getName()
             )
             visibility = if (mWeatherEnabled) View.VISIBLE else View.GONE
             updateWeatherBg(
                 mWeatherBackground,
-                LOCKSCREEN_WEATHER
+                getName()
             )
         }
 
@@ -643,8 +650,8 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
     }
 
     private fun updateFont() {
-        if (mCustomFontEnabled && File(mCustomFontLocation).exists()) {
-            Typeface.createFromFile(File(mCustomFontLocation))
+        if (mCustomFontEnabled && LOCKSCREEN_WEATHER_FONT_FILE.exists()) {
+            Typeface.createFromFile(LOCKSCREEN_WEATHER_FONT_FILE)
         } else {
             Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
         }.also { typeface ->

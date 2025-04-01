@@ -17,6 +17,7 @@ import android.text.format.DateFormat
 import android.util.Log
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.utils.weather.WeatherConfig
+import com.drdisagree.iconify.utils.weather.WeatherContentProvider.Companion.WEATHER_AUTHORITY
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -65,8 +66,10 @@ class OmniJawsClient(private val mContext: Context) {
 
         val lastUpdateTime: String
             get() {
-                val hourFormat = if (DateFormat.is24HourFormat(mContext)) "HH" else "hh"
-                val sdf = SimpleDateFormat("$hourFormat:mm:ss", Locale.getDefault())
+                val is24HourFormat = DateFormat.is24HourFormat(mContext)
+                val hourFormat = if (is24HourFormat) "HH" else "hh"
+                val periodFormat = if (is24HourFormat) "" else " a"
+                val sdf = SimpleDateFormat("$hourFormat:mm:ss$periodFormat", Locale.getDefault())
                 return sdf.format(Date(timeStamp))
             }
     }
@@ -129,7 +132,7 @@ class OmniJawsClient(private val mContext: Context) {
         }
     }
 
-    var weatherInfo: WeatherInfo? = null
+    var mCachedInfo: WeatherInfo? = null
     private var mRes: Resources? = null
     private var mPackageName: String? = null
     private var mIconPrefix: String? = null
@@ -140,18 +143,19 @@ class OmniJawsClient(private val mContext: Context) {
 
     fun queryWeather() {
         try {
-            weatherInfo = null
+            mCachedInfo = null
 
-            var cursor = mContext.contentResolver.query(
-                WEATHER_URI, WEATHER_PROJECTION,
-                null, null, null
-            )
-
-            cursor?.use {
+            mContext.contentResolver.query(
+                WEATHER_URI,
+                WEATHER_PROJECTION,
+                null,
+                null,
+                null
+            )?.use {
                 val count = it.count
 
                 if (count > 0) {
-                    weatherInfo = WeatherInfo(mContext)
+                    mCachedInfo = WeatherInfo(mContext)
                     val forecastList: MutableList<DayForecast> = ArrayList()
                     val hourlyForecastList: MutableList<HourForecast> = ArrayList()
                     var i = 0
@@ -165,16 +169,16 @@ class OmniJawsClient(private val mContext: Context) {
                             it.getString(14) != null && !TextUtils.isEmpty(it.getString(14))
 
                         if (i == 0) {
-                            weatherInfo?.apply {
+                            mCachedInfo!!.apply {
                                 city = it.getString(0)
                                 windSpeed = getFormattedValue(it.getFloat(1))
-                                weatherInfo!!.windDirection = it.getInt(2).toString() + "\u00b0"
-                                weatherInfo!!.conditionCode = it.getInt(3)
-                                weatherInfo!!.temp = getFormattedValue(it.getFloat(4))
-                                weatherInfo!!.humidity = it.getString(5)
-                                weatherInfo!!.condition = it.getString(6)
-                                weatherInfo!!.timeStamp = it.getString(11).toLong()
-                                weatherInfo!!.pinWheel = it.getString(13)
+                                windDirection = it.getInt(2).toString() + "\u00b0"
+                                conditionCode = it.getInt(3)
+                                temp = getFormattedValue(it.getFloat(4))
+                                humidity = it.getString(5)
+                                condition = it.getString(6)
+                                timeStamp = it.getString(11).toLong()
+                                pinWheel = it.getString(13)
                             }
                         } else if (isHourlyForecast) {
                             val hour = HourForecast()
@@ -195,24 +199,25 @@ class OmniJawsClient(private val mContext: Context) {
                         }
                         i++
                     }
-                    weatherInfo!!.dailyForecasts = forecastList
-                    weatherInfo!!.hourlyForecasts = hourlyForecastList
+                    mCachedInfo!!.dailyForecasts = forecastList
+                    mCachedInfo!!.hourlyForecasts = hourlyForecastList
                 }
             }
 
-            cursor = mContext.contentResolver.query(
-                SETTINGS_URI, SETTINGS_PROJECTION,
-                null, null, null
-            )
-
-            cursor?.use {
+            mContext.contentResolver.query(
+                SETTINGS_URI,
+                SETTINGS_PROJECTION,
+                null,
+                null,
+                null
+            )?.use {
                 val count = it.count
 
                 if (count == 1) {
                     it.moveToPosition(0)
                     mMetric = it.getInt(1) == 0
 
-                    weatherInfo?.apply {
+                    mCachedInfo?.apply {
                         tempUnits = temperatureUnit
                         windUnits = windUnit
                         provider = it.getString(2)
@@ -277,24 +282,18 @@ class OmniJawsClient(private val mContext: Context) {
         }
 
     private fun loadCustomIconPackage() {
-        if (DEBUG) Log.d(
-            TAG,
-            "Load custom icon pack $mSettingIconPackage"
-        )
+        if (DEBUG) Log.d(TAG, "Load custom icon pack $mSettingIconPackage")
 
         val idx = mSettingIconPackage!!.lastIndexOf(".")
         mPackageName = mSettingIconPackage!!.substring(0, idx)
         mIconPrefix = mSettingIconPackage!!.substring(idx + 1)
 
-        if (DEBUG) Log.d(
-            TAG,
-            "Load custom icon pack $mPackageName $mIconPrefix"
-        )
+        if (DEBUG) Log.d(TAG, "Load custom icon pack $mPackageName $mIconPrefix")
 
         try {
             val packageManager = mContext.packageManager
             mRes = packageManager.getResourcesForApplication(mPackageName!!)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Log.w(TAG, "Icon pack loading failed - loading default")
             loadDefaultIconsPackage()
         }
@@ -345,15 +344,12 @@ class OmniJawsClient(private val mContext: Context) {
         get() = if (mMetric) "km/h" else "mph"
 
     private fun updateSettings() {
-        val iconPack = if (weatherInfo != null) weatherInfo!!.iconPack else null
+        val iconPack = mCachedInfo?.iconPack
         if (TextUtils.isEmpty(iconPack)) {
             Log.d(TAG, "updateSettings No icon pack set, using default")
             loadDefaultIconsPackage()
         } else if (iconPack != mSettingIconPackage) {
-            Log.d(
-                TAG,
-                "updateSettings New icon pack set, loading $iconPack"
-            )
+            Log.d(TAG, "updateSettings New icon pack set, loading $iconPack")
             mSettingIconPackage = iconPack
             loadCustomIconPackage()
         }
@@ -365,7 +361,7 @@ class OmniJawsClient(private val mContext: Context) {
             if (mReceiver != null) {
                 try {
                     mContext.unregisterReceiver(mReceiver)
-                } catch (ignored: Exception) {
+                } catch (_: Exception) {
                 }
             }
             mReceiver = WeatherUpdateReceiver()
@@ -388,7 +384,7 @@ class OmniJawsClient(private val mContext: Context) {
             try {
                 if (DEBUG) Log.d(TAG, "unregisterReceiver")
                 mContext.unregisterReceiver(mReceiver)
-            } catch (ignored: Exception) {
+            } catch (_: Exception) {
             }
             mReceiver = null
         }
@@ -398,12 +394,9 @@ class OmniJawsClient(private val mContext: Context) {
         private const val TAG = "OmniJawsClient"
         private val DEBUG = BuildConfig.DEBUG
         private const val SERVICE_PACKAGE: String = BuildConfig.APPLICATION_ID
-        val WEATHER_URI
-                : Uri = Uri.parse("content://com.drdisagree.iconify.weatherprovider/weather")
-        val SETTINGS_URI
-                : Uri = Uri.parse("content://com.drdisagree.iconify.weatherprovider/settings")
-        val CONTROL_URI
-                : Uri = Uri.parse("content://com.drdisagree.iconify.weatherprovider/control")
+        val WEATHER_URI: Uri = Uri.parse("content://$WEATHER_AUTHORITY/weather")
+        val SETTINGS_URI: Uri = Uri.parse("content://$WEATHER_AUTHORITY/settings")
+        val CONTROL_URI: Uri = Uri.parse("content://$WEATHER_AUTHORITY/control")
 
         private const val ICON_PACKAGE_DEFAULT = BuildConfig.APPLICATION_ID
         private const val ICON_PREFIX_DEFAULT = "google"

@@ -9,7 +9,6 @@ import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
@@ -32,7 +31,10 @@ import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.data.common.Preferences.UNZOOM_DEPTH_WALLPAPER
+import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_BG_FILE
+import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -43,9 +45,6 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.shoul
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import java.io.File
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 @SuppressLint("DiscouragedApi")
 class DepthWallpaperA13(context: Context) : ModPack(context) {
@@ -310,7 +309,7 @@ class DepthWallpaperA13(context: Context) : ModPack(context) {
                             if (startButton.visibility != View.GONE) offset else 0
                         )
                     }
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
 
                 try {
@@ -326,7 +325,7 @@ class DepthWallpaperA13(context: Context) : ModPack(context) {
                             if (endButton.visibility != View.GONE) offset else 0
                         )
                     }
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
 
                 if (Build.VERSION.SDK_INT >= 34) {
@@ -364,7 +363,7 @@ class DepthWallpaperA13(context: Context) : ModPack(context) {
                                 if (keyguardSettingsButton.visibility != View.GONE) marginEnd else 0
                             )
                         }
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                     }
                 }
 
@@ -436,30 +435,17 @@ class DepthWallpaperA13(context: Context) : ModPack(context) {
             return
         }
 
-        try {
-            val executor = Executors.newSingleThreadScheduledExecutor()
-            executor.scheduleAtFixedRate({
-                val androidDir =
-                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
-                if (androidDir.isDirectory()) {
-                    Handler(Looper.getMainLooper()).post {
-                        try {
-                            val backgroundImg = ImageDecoder.createSource(
-                                File(
-                                    Environment.getExternalStorageDirectory()
-                                        .toString() + "/.iconify_files/depth_wallpaper_bg.png"
-                                )
-                            )
-                            val foregroundImg = ImageDecoder.createSource(
-                                File(
-                                    Environment.getExternalStorageDirectory()
-                                        .toString() + "/.iconify_files/depth_wallpaper_fg.png"
-                                )
-                            )
+        BootCallback.registerBootListener(
+            object : BootCallback.BootListener {
+                override fun onDeviceBooted() {
+                    if (DEPTH_WALL_BG_FILE.exists() && DEPTH_WALL_FG_FILE.exists()) {
+                        val backgroundImg = ImageDecoder.createSource(DEPTH_WALL_BG_FILE)
+                        val foregroundImg = ImageDecoder.createSource(DEPTH_WALL_FG_FILE)
 
-                            val backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg)
-                            val foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg)
+                        val backgroundDrawable = ImageDecoder.decodeDrawable(backgroundImg)
+                        val foregroundDrawable = ImageDecoder.decodeDrawable(foregroundImg)
 
+                        Handler(Looper.getMainLooper()).post {
                             mDepthWallpaperBackground!!.loadImageOrGif(backgroundDrawable)
                             mDepthWallpaperBackground!!.setMovementMultiplier(backgroundMovement)
 
@@ -476,16 +462,11 @@ class DepthWallpaperA13(context: Context) : ModPack(context) {
                                 mDepthWallpaperBackground!!.unregisterSensorListener()
                                 mDepthWallpaperForeground!!.unregisterSensorListener()
                             }
-                        } catch (ignored: Throwable) {
                         }
                     }
-
-                    executor.shutdown()
-                    executor.shutdownNow()
                 }
-            }, 0, 5, TimeUnit.SECONDS)
-        } catch (ignored: Throwable) {
-        }
+            }
+        )
     }
 
     private fun updateFadeAnimation(isDozing: Boolean) {

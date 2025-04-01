@@ -358,9 +358,9 @@ abstract class WeatherPreferenceFragment : ControlledPreferenceFragmentCompat(),
 
     private fun queryAndUpdateWeather() {
         mWeatherClient!!.queryWeather()
-        if (mWeatherClient?.weatherInfo != null) {
+        mWeatherClient?.mCachedInfo?.let {
             requireActivity().runOnUiThread {
-                mUpdateStatus?.setSummary(mWeatherClient!!.weatherInfo!!.lastUpdateTime)
+                mUpdateStatus?.setSummary(it.lastUpdateTime)
             }
         }
     }

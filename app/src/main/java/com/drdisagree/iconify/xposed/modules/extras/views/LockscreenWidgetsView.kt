@@ -498,7 +498,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
             if (mWeatherClient == null || !mWeatherClient!!.isOmniJawsEnabled) return
 
             mWeatherClient!!.queryWeather()
-            mWeatherInfo = mWeatherClient!!.weatherInfo
+            mWeatherInfo = mWeatherClient!!.mCachedInfo
 
             if (mWeatherInfo != null) {
                 // OpenWeatherMap

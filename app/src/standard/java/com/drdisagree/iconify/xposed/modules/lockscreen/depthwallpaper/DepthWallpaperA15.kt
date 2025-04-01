@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import com.drdisagree.iconify.IExtractSubjectCallback
+import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 
 class DepthWallpaperA15(context: Context) : BaseDepthWallpaperA15(context) {
@@ -29,7 +30,7 @@ class DepthWallpaperA15(context: Context) : BaseDepthWallpaperA15(context) {
             enqueueProxyCommand { proxy ->
                 proxy.extractSubject(
                     scaledWallpaper,
-                    foregroundPath,
+                    DEPTH_WALL_FG_FILE.absolutePath,
                     callback
                 )
             }

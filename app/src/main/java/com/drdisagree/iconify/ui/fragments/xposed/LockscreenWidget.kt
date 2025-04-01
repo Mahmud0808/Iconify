@@ -83,8 +83,8 @@ class LockscreenWidget : ControlledPreferenceFragmentCompat() {
         val weatherEnabled =
             mainWidgets.contains("weather") || extraWidgets.contains("weather")
 
-        if (weatherEnabled && wasWeatherEnabled && mWeatherClient.weatherInfo != null) {
-            if (System.currentTimeMillis() - mWeatherClient.weatherInfo!!.timeStamp > 3600000) {
+        if (weatherEnabled && wasWeatherEnabled && mWeatherClient.mCachedInfo != null) {
+            if (System.currentTimeMillis() - mWeatherClient.mCachedInfo!!.timeStamp > 3600000) {
                 WeatherScheduler.scheduleUpdateNow(requireContext())
             }
         } else if (weatherEnabled) {

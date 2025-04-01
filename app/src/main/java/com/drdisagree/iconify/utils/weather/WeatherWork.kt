@@ -38,8 +38,6 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
     ListenableWorker(mContext, workerParams) {
 
     override fun startWork(): ListenableFuture<Result> {
-        if (DEBUG) Log.d(TAG, "startWork")
-
         return CallbackToFutureAdapter.getFuture { completer: CallbackToFutureAdapter.Completer<Result> ->
             if (!isEnabled(mContext)) {
                 handleError(
@@ -113,11 +111,6 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
         } catch (ex: Exception) {
             Log.d(TAG, "doCheckLocationEnabled: " + ex.message)
         }
-
-        if (DEBUG) Log.d(
-            TAG,
-            "gpsEnabled: $gpsEnabled networkEnabled: $networkEnabled"
-        )
 
         return gpsEnabled || networkEnabled
     }
@@ -203,6 +196,8 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
             val isMetric = isMetric(mContext)
             var i = 0
             while (i < RETRY_MAX_NUM) {
+                Log.i(TAG, "location: $location, isCustomLocation: ${isCustomLocation(mContext)}")
+                Log.i(TAG, "getLocationLat: ${getLocationLat(mContext)}, getLocationLon: ${getLocationLon(mContext)}")
                 w = if (location != null && !isCustomLocation(mContext)) {
                     provider.getLocationWeather(location, isMetric)
                 } else if (!TextUtils.isEmpty(getLocationLat(mContext)) && !TextUtils.isEmpty(
@@ -218,6 +213,7 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
                     Log.w(TAG, "No valid custom location and location is null")
                     break
                 }
+                Log.i(TAG, "w: $w")
 
                 if (w != null) {
                     setWeatherData(w, mContext)
@@ -232,7 +228,7 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
                         Log.w(TAG, "retry count = $i")
                         try {
                             Thread.sleep(RETRY_DELAY_MS.toLong())
-                        } catch (ignored: InterruptedException) {
+                        } catch (_: InterruptedException) {
                         }
                     }
                 }
@@ -257,7 +253,6 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
     @Suppress("deprecation")
     companion object {
         private const val TAG = "WeatherWork"
-        private const val DEBUG = false
         private const val ACTION_BROADCAST = "${BuildConfig.APPLICATION_ID}.WEATHER_UPDATE"
         private const val ACTION_ERROR = "${BuildConfig.APPLICATION_ID}.WEATHER_ERROR"
 

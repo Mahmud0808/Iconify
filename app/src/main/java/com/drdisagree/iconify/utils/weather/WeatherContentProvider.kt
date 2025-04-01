@@ -8,14 +8,16 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
+import android.util.Log
 import com.drdisagree.iconify.services.WeatherScheduler.scheduleUpdateNow
 
 class WeatherContentProvider : ContentProvider() {
-    private var mContext: Context? = null
+
+    private lateinit var mContext: Context
 
     override fun onCreate(): Boolean {
-        mContext = context
-        sCachedWeatherInfo = mContext?.let { WeatherConfig.getWeatherData(it) }
+        mContext = requireContext()
+        sCachedWeatherInfo = WeatherConfig.getWeatherData(mContext)
         return true
     }
 
@@ -26,29 +28,30 @@ class WeatherContentProvider : ContentProvider() {
         selectionArgs: Array<String>?,
         sortOrder: String?
     ): Cursor? {
+        Log.e("WeatherContentProvider", "query: $uri")
         val projectionType = sUriMatcher.match(uri)
         val result = MatrixCursor(resolveProjection(projection, projectionType))
 
         if (projectionType == URI_TYPE_SETTINGS) {
             result.newRow()
-                .add(COLUMN_ENABLED, if (WeatherConfig.isEnabled(mContext!!)) 1 else 0)
-                .add(COLUMN_PROVIDER, WeatherConfig.getProviderId(mContext!!))
-                .add(COLUMN_INTERVAL, WeatherConfig.getUpdateInterval(mContext!!))
-                .add(COLUMN_UNITS, if (WeatherConfig.isMetric(mContext!!)) 0 else 1)
+                .add(COLUMN_ENABLED, if (WeatherConfig.isEnabled(mContext)) 1 else 0)
+                .add(COLUMN_PROVIDER, WeatherConfig.getProviderId(mContext))
+                .add(COLUMN_INTERVAL, WeatherConfig.getUpdateInterval(mContext))
+                .add(COLUMN_UNITS, if (WeatherConfig.isMetric(mContext)) 0 else 1)
                 .add(
                     COLUMN_LOCATION,
-                    if (WeatherConfig.isCustomLocation(mContext!!)) WeatherConfig.getLocationName(
-                        mContext!!
+                    if (WeatherConfig.isCustomLocation(mContext)) WeatherConfig.getLocationName(
+                        mContext
                     ) else ""
                 )
                 .add(
                     COLUMN_SETUP,
-                    if (!WeatherConfig.isSetupDone(mContext!!) && sCachedWeatherInfo == null) 0 else 1
+                    if (!WeatherConfig.isSetupDone(mContext) && sCachedWeatherInfo == null) 0 else 1
                 )
                 .add(
                     COLUMN_ICON_PACK,
-                    if (WeatherConfig.getIconPack(mContext!!) != null) WeatherConfig.getIconPack(
-                        mContext!!
+                    if (WeatherConfig.getIconPack(mContext) != null) WeatherConfig.getIconPack(
+                        mContext
                     ) else ""
                 )
 
@@ -71,7 +74,7 @@ class WeatherContentProvider : ContentProvider() {
 
                 for (day in weather.forecasts) {
                     result.newRow()
-                        .add(COLUMN_FORECAST_CONDITION, day.getCondition(mContext!!))
+                        .add(COLUMN_FORECAST_CONDITION, day.getCondition(mContext))
                         .add(COLUMN_FORECAST_LOW, day.low)
                         .add(COLUMN_FORECAST_HIGH, day.high)
                         .add(COLUMN_FORECAST_CONDITION_CODE, day.conditionCode)
@@ -81,7 +84,7 @@ class WeatherContentProvider : ContentProvider() {
                 // forecast
                 for (day in weather.forecasts) {
                     result.newRow()
-                        .add(COLUMN_FORECAST_CONDITION, day.getCondition(mContext!!))
+                        .add(COLUMN_FORECAST_CONDITION, day.getCondition(mContext))
                         .add(COLUMN_FORECAST_LOW, day.low)
                         .add(COLUMN_FORECAST_HIGH, day.high)
                         .add(COLUMN_FORECAST_CONDITION_CODE, day.conditionCode)
@@ -92,7 +95,7 @@ class WeatherContentProvider : ContentProvider() {
                     result.newRow()
                         .add(COLUMN_FORECAST_HOUR, hour.date)
                         .add(COLUMN_FORECAST_HOUR_TEMP, hour.temp)
-                        .add(COLUMN_FORECAST_HOUR_CONDITION, hour.getCondition(mContext!!))
+                        .add(COLUMN_FORECAST_HOUR_CONDITION, hour.getCondition(mContext))
                         .add(COLUMN_FORECAST_HOUR_CONDITION_CODE, hour.conditionCode)
                 }
 
@@ -137,16 +140,13 @@ class WeatherContentProvider : ContentProvider() {
                     COLUMN_FORCE_REFRESH
                 )
             ) {
-                scheduleUpdateNow(mContext!!)
+                scheduleUpdateNow(mContext)
             }
         }
         return 0
     }
 
     companion object {
-        private const val TAG = "WeatherService:WeatherContentProvider"
-        private const val DEBUG = true
-
         @SuppressLint("StaticFieldLeak")
         var sCachedWeatherInfo: WeatherInfo? = null
 
@@ -220,20 +220,18 @@ class WeatherContentProvider : ContentProvider() {
             COLUMN_ICON_PACK
         )
 
-        private const val AUTHORITY: String = "com.drdisagree.iconify.weatherprovider"
+        const val WEATHER_AUTHORITY: String = "com.drdisagree.iconify.weatherprovider"
 
-        private val sUriMatcher = UriMatcher(URI_TYPE_WEATHER)
-
-        init {
-            sUriMatcher.addURI(AUTHORITY, "weather", URI_TYPE_WEATHER)
-            sUriMatcher.addURI(AUTHORITY, "settings", URI_TYPE_SETTINGS)
-            sUriMatcher.addURI(AUTHORITY, "control", URI_TYPE_CONTROL)
+        private val sUriMatcher = UriMatcher(URI_TYPE_WEATHER).apply {
+            addURI(WEATHER_AUTHORITY, "weather", URI_TYPE_WEATHER)
+            addURI(WEATHER_AUTHORITY, "settings", URI_TYPE_SETTINGS)
+            addURI(WEATHER_AUTHORITY, "control", URI_TYPE_CONTROL)
         }
 
         fun updateCachedWeatherInfo(context: Context) {
             sCachedWeatherInfo = WeatherConfig.getWeatherData(context)
             context.contentResolver.notifyChange(
-                Uri.parse("content://$AUTHORITY/weather"), null
+                Uri.parse("content://$WEATHER_AUTHORITY/weather"), null
             )
         }
     }

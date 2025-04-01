@@ -21,9 +21,9 @@ import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_IMAGE_PICKER2
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_IMAGE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_MOVE_NOTIFICATION_ICONS
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_SWITCH
-import com.drdisagree.iconify.data.common.Resources.LSCLOCK_FONT_DIR
-import com.drdisagree.iconify.data.common.Resources.LSCLOCK_IMAGE1_DIR
-import com.drdisagree.iconify.data.common.Resources.LSCLOCK_IMAGE2_DIR
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_FONT_FILE
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
 import com.drdisagree.iconify.data.config.RPrefs.getBoolean
 import com.drdisagree.iconify.data.config.RPrefs.putBoolean
 import com.drdisagree.iconify.ui.activities.MainActivity
@@ -67,10 +67,12 @@ class LockscreenClock : ControlledPreferenceFragmentCompat() {
                 Log.d("LockscreenClock", "Directory: $directory")
 
                 if (path != null && moveToIconifyHiddenDir(path, directory)) {
-                    if (directory == LSCLOCK_FONT_DIR) {
+                    if (directory == LSCLOCK_FONT_FILE.absolutePath) {
                         putBoolean(LSCLOCK_FONT_SWITCH, false)
                         putBoolean(LSCLOCK_FONT_SWITCH, true)
-                    } else if (directory == LSCLOCK_IMAGE1_DIR || directory == LSCLOCK_IMAGE2_DIR) {
+                    } else if (directory == LSCLOCK_IMAGE1_FILE.absolutePath ||
+                        directory == LSCLOCK_IMAGE2_FILE.absolutePath
+                    ) {
                         putBoolean(LSCLOCK_IMAGE_SWITCH, false)
                         putBoolean(LSCLOCK_IMAGE_SWITCH, true)
                     }
@@ -120,21 +122,21 @@ class LockscreenClock : ControlledPreferenceFragmentCompat() {
 
         findPreference<FilePickerPreference>(LSCLOCK_FONT_PICKER)?.apply {
             setOnButtonClick {
-                copyToDirectory = LSCLOCK_FONT_DIR
+                copyToDirectory = LSCLOCK_FONT_FILE.absolutePath
                 launchFilePicker(context, "font", startActivityIntent)
             }
         }
 
         findPreference<FilePickerPreference>(LSCLOCK_IMAGE_PICKER1)?.apply {
             setOnButtonClick {
-                copyToDirectory = LSCLOCK_IMAGE1_DIR
+                copyToDirectory = LSCLOCK_IMAGE1_FILE.absolutePath
                 launchFilePicker(context, "image", startActivityIntent)
             }
         }
 
         findPreference<FilePickerPreference>(LSCLOCK_IMAGE_PICKER2)?.apply {
             setOnButtonClick {
-                copyToDirectory = LSCLOCK_IMAGE2_DIR
+                copyToDirectory = LSCLOCK_IMAGE2_FILE.absolutePath
                 launchFilePicker(context, "image", startActivityIntent)
             }
         }

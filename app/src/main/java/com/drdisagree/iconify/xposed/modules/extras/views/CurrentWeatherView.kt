@@ -26,6 +26,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findViewWit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import java.util.Locale
 import java.util.function.Consumer
+import kotlin.math.roundToInt
 
 @SuppressLint("ViewConstructor")
 class CurrentWeatherView(context: Context, name: String) : LinearLayout(context),
@@ -34,14 +35,13 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     private var mCurrentImage: ImageView? = null
     private var mHumImage: ImageView? = null
     private var mWindImage: ImageView? = null
-    private val mWeatherClient: OmniJawsClient?
+    private var mWeatherClient: OmniJawsClient?
     private var mWeatherInfo: OmniJawsClient.WeatherInfo? = null
     private var mLeftText: TextView? = null
     private var mRightText: TextView? = null
     private var mWeatherText: TextView? = null // Weather Layout
     private var mHumText: TextView? = null
     private var mWindText: TextView? = null
-    private val mWeatherLayout: LinearLayout? = null
     private var mHumLayout: LinearLayout? = null
     private var mWindLayout: LinearLayout? = null
     private var mHumDrawable: Drawable? = null
@@ -71,9 +71,13 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 BuildConfig.APPLICATION_ID,
                 Context.CONTEXT_IGNORE_SECURITY
             )
-        } catch (ignored: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
         }
         mWeatherClient = OmniJawsClient(mContext)
+        layoutParams = LayoutParams(
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
+        )
 
         inflateView()
 
@@ -110,9 +114,27 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
         )
     }
 
+    fun getName(): String {
+        if (instances.isEmpty()) throw IllegalStateException("No instances found")
+
+        val instance = instances.stream()
+            .filter { obj: Array<Any> ->
+                obj[0] == this
+            }
+            .findFirst()
+            .map { obj: Array<Any> ->
+                obj[1] as String
+            }
+            .orElse("")
+
+        return if (instance.isEmpty()) throw IllegalStateException("No instance name found") else instance
+    }
+
     fun updateSizes(weatherTextSize: Int, weatherImageSize: Int, name: String) {
         if (instances.isEmpty()) return
+
         updateIconsSize(weatherImageSize, name)
+
         instances
             .stream()
             .filter { obj: Array<Any> ->
@@ -141,11 +163,12 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
 
     private fun enableUpdates() {
         if (mWeatherClient != null) {
-            mWeatherClient.addObserver(this)
+            mWeatherClient!!.addObserver(this)
             queryAndUpdateWeather()
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setErrorView(errorReason: Int) {
         var reQuery = false
         val errorText = when (errorReason) {
@@ -153,11 +176,13 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             OmniJawsClient.EXTRA_ERROR_NO_PERMISSIONS -> modRes.getString(R.string.omnijaws_service_error_permissions)
             else -> ""
         }
+
         if (!TextUtils.isEmpty(errorText)) {
             mLeftText!!.text = errorText
         } else {
             reQuery = true
         }
+
         if (reQuery) {
             queryAndUpdateWeather()
         } else {
@@ -188,12 +213,14 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     @SuppressLint("SetTextI18n")
     private fun queryAndUpdateWeather() {
         try {
-            if (mWeatherClient == null || !mWeatherClient.isOmniJawsEnabled) {
-                setErrorView(2)
+            if (mWeatherClient == null || !mWeatherClient!!.isOmniJawsEnabled) {
+                setErrorView(OmniJawsClient.EXTRA_ERROR_DISABLED)
                 return
             }
-            mWeatherClient.queryWeather()
-            mWeatherInfo = mWeatherClient.weatherInfo
+
+            mWeatherClient!!.queryWeather()
+            mWeatherInfo = mWeatherClient!!.mCachedInfo
+
             if (mWeatherInfo != null) {
                 val formattedConditionLowercase =
                     mWeatherInfo!!.condition.toString().lowercase(Locale.getDefault())
@@ -232,9 +259,9 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                     }
                 }
 
-                val d: Drawable =
-                    mWeatherClient.getWeatherConditionImage(mWeatherInfo!!.conditionCode)
-                mCurrentImage!!.setImageDrawable(d)
+                val drawable =
+                    mWeatherClient!!.getWeatherConditionImage(mWeatherInfo!!.conditionCode)
+                mCurrentImage!!.setImageDrawable(drawable)
                 mRightText!!.text = mWeatherInfo!!.temp + mWeatherInfo!!.tempUnits
                 mLeftText!!.text = mWeatherInfo!!.city
                 mLeftText!!.visibility = if (mShowWeatherLocation) VISIBLE else GONE
@@ -285,7 +312,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 BuildConfig.APPLICATION_ID,
                 Context.CONTEXT_IGNORE_SECURITY
             )
-        } catch (ignored: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
         }
         when (mWeatherBgSelection) {
             0 -> {
@@ -300,20 +327,16 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                     R.drawable.date_box_str_border,
                     appContext!!.theme
                 )
-                mWeatherHorPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_hor).toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
-                mWeatherVerPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_ver).toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
+                mWeatherHorPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_hor).toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
+                mWeatherVerPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_ver).toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
             }
 
             2 -> {
@@ -322,20 +345,16 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                     R.drawable.date_str_border,
                     appContext!!.theme
                 )
-                mWeatherHorPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_hor).toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
-                mWeatherVerPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_ver).toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
+                mWeatherHorPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_hor).toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
+                mWeatherVerPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_ver).toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
             }
 
             3 -> {
@@ -344,20 +363,16 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                     R.drawable.ambient_indication_pill_background,
                     appContext!!.theme
                 )
-                mWeatherHorPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_hor).toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
-                mWeatherVerPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_ver).toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
+                mWeatherHorPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_hor).toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
+                mWeatherVerPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_ver).toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
             }
 
             4, 5 -> {
@@ -366,22 +381,18 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                     R.drawable.date_str_accent,
                     appContext!!.theme
                 )
-                mWeatherHorPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
-                            .toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
-                mWeatherVerPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
-                            .toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
+                mWeatherHorPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                        .toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
+                mWeatherVerPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                        .toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
             }
 
             6 -> {
@@ -390,22 +401,18 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                     R.drawable.date_str_gradient,
                     appContext!!.theme
                 )
-                mWeatherHorPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
-                            .toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
-                mWeatherVerPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
-                            .toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
+                mWeatherHorPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                        .toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
+                mWeatherVerPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                        .toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
             }
 
             7 -> {
@@ -414,22 +421,18 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                     R.drawable.date_str_borderacc,
                     appContext!!.theme
                 )
-                mWeatherHorPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
-                            .toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
-                mWeatherVerPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
-                            .toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
+                mWeatherHorPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                        .toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
+                mWeatherVerPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                        .toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
             }
 
             8 -> {
@@ -438,22 +441,18 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                     R.drawable.date_str_bordergrad,
                     appContext!!.theme
                 )
-                mWeatherHorPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
-                            .toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
-                mWeatherVerPadding = Math.round(
-                    TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_PX,
-                        modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
-                            .toFloat(),
-                        mContext.resources.displayMetrics
-                    )
-                )
+                mWeatherHorPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                        .toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
+                mWeatherVerPadding = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                        .toFloat(),
+                    mContext.resources.displayMetrics
+                ).roundToInt()
             }
 
             else -> {}
@@ -469,8 +468,11 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     }
 
     fun updateWeatherSettings(
-        showLocation: Boolean, showText: Boolean,
-        showHumidity: Boolean, showWind: Boolean, name: String
+        showLocation: Boolean,
+        showText: Boolean,
+        showHumidity: Boolean,
+        showWind: Boolean,
+        name: String
     ) {
         instances.stream()
             .filter { obj: Array<Any> ->
@@ -519,12 +521,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
         }
 
         fun getInstance(c: Context, name: String): CurrentWeatherView {
-            for (obj in instances) {
-                if (obj[1] == name) {
-                    return obj[0] as CurrentWeatherView
-                }
-            }
-            return CurrentWeatherView(c, name)
+            return getInstance(name) ?: CurrentWeatherView(c, name)
         }
 
         fun getInstance(name: String): CurrentWeatherView? {

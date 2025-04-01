@@ -36,6 +36,7 @@ import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.HIDE_QS_FOOTER_BUTTONS
 import com.drdisagree.iconify.data.common.Preferences.HIDE_QS_SILENT_TEXT
+import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.QQS_TOPMARGIN_LANDSCAPE
 import com.drdisagree.iconify.data.common.Preferences.QQS_TOPMARGIN_PORTRAIT
 import com.drdisagree.iconify.data.common.Preferences.QS_TOPMARGIN_LANDSCAPE
@@ -97,6 +98,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var blurMediaPlayerArtwork = false
     private var blurMediaPlayerArtworkRadius = 15f
     private var showHeaderClock = false
+    private var showOpQsHeaderView = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -123,6 +125,7 @@ class QuickSettings(context: Context) : ModPack(context) {
             blurMediaPlayerArtworkRadius =
                 getSliderInt(BLUR_MEDIA_PLAYER_ARTWORK_RADIUS, 60) / 100f * 25f
             isPixelVariant = getIsPixelVariant()
+            showOpQsHeaderView = getBoolean(OP_QS_HEADER_SWITCH, false)
         }
 
         triggerQsElementVisibility()
@@ -239,7 +242,7 @@ class QuickSettings(context: Context) : ModPack(context) {
 
         ResourceHookManager
             .hookDimen()
-            .whenCondition { customQsMarginsEnabled }
+            .whenCondition { customQsMarginsEnabled && !showOpQsHeaderView }
             .forPackageName(SYSTEMUI_PACKAGE)
             .addResource("qs_header_system_icons_area_height") { getQqsMargin() }
             .addResource("qqs_layout_margin_top") { getQqsMargin() }
@@ -252,14 +255,14 @@ class QuickSettings(context: Context) : ModPack(context) {
             .addResource("quick_qs_total_height") { getQsMargin() }
             .apply()
 
-        val quickStatusBarHeader = findClass("$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val quickStatusBarHeader = findClass("$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader")
 
-        quickStatusBarHeader
-            .hookMethod("updateResources")
-            .runAfter { param ->
-                if (!customQsMarginsEnabled) return@runAfter
+            quickStatusBarHeader
+                .hookMethod("updateResources")
+                .runAfter { param ->
+                    if (!customQsMarginsEnabled || showOpQsHeaderView) return@runAfter
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     try {
                         val res = mContext.resources
 
@@ -284,7 +287,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                         log(this@QuickSettings, throwable)
                     }
                 }
-            }
+        }
     }
 
     private fun fixQsTileAndLabelColorA14() {

@@ -76,33 +76,33 @@ class WeatherActivity : BaseActivity(), OmniJawsClient.OmniJawsObserver {
     private fun updateViews() {
         // Title
 
-        binding.currentLocation.text = mWeatherClient.weatherInfo!!.city
+        binding.currentLocation.text = mWeatherClient.mCachedInfo!!.city
 
         // Current Condition
-        binding.currentTemperature.text = mWeatherClient.weatherInfo!!.temp
-        binding.currentTemperatureUnit.text = mWeatherClient.weatherInfo!!.tempUnits
+        binding.currentTemperature.text = mWeatherClient.mCachedInfo!!.temp
+        binding.currentTemperatureUnit.text = mWeatherClient.mCachedInfo!!.tempUnits
         binding.currentCondition.text = getWeatherCondition()
         binding.currentConditionIcon.setImageDrawable(
             mWeatherClient.getWeatherConditionImage(
-                mWeatherClient.weatherInfo!!.conditionCode
+                mWeatherClient.mCachedInfo!!.conditionCode
             )
         )
 
         // Wind and Humidity
         binding.currentWind.text =
-            mWeatherClient.weatherInfo!!.windSpeed + " " + mWeatherClient.weatherInfo!!.windUnits
-        binding.currentWindDirection.text = mWeatherClient.weatherInfo!!.pinWheel
-        binding.currentHumidity.text = mWeatherClient.weatherInfo!!.humidity
+            mWeatherClient.mCachedInfo!!.windSpeed + " " + mWeatherClient.mCachedInfo!!.windUnits
+        binding.currentWindDirection.text = mWeatherClient.mCachedInfo!!.pinWheel
+        binding.currentHumidity.text = mWeatherClient.mCachedInfo!!.humidity
 
         // Provider Info
-        binding.currentProvider.text = mWeatherClient.weatherInfo!!.provider
+        binding.currentProvider.text = mWeatherClient.mCachedInfo!!.provider
         val format = if (DateFormat.is24HourFormat(this)) "HH:mm" else "hh:mm a"
         val sdf = SimpleDateFormat(format, Locale.getDefault())
-        binding.lastUpdate.text = sdf.format(mWeatherClient.weatherInfo!!.timeStamp)
+        binding.lastUpdate.text = sdf.format(mWeatherClient.mCachedInfo!!.timeStamp)
     }
 
     private fun getWeatherCondition(): String {
-        val formattedConditionLowercase = mWeatherClient.weatherInfo!!.condition!!.lowercase()
+        val formattedConditionLowercase = mWeatherClient.mCachedInfo!!.condition!!.lowercase()
 
         val formattedCondition = when {
             formattedConditionLowercase.contains("clouds") -> {
@@ -134,7 +134,7 @@ class WeatherActivity : BaseActivity(), OmniJawsClient.OmniJawsObserver {
             }
 
             else -> {
-                mWeatherClient.weatherInfo!!.condition.toString()
+                mWeatherClient.mCachedInfo!!.condition.toString()
             }
         }
         return formattedCondition
@@ -161,15 +161,15 @@ class WeatherActivity : BaseActivity(), OmniJawsClient.OmniJawsObserver {
     private fun queryAndUpdateWeather() {
         stopProgress()
         mWeatherClient.queryWeather()
-        if (mWeatherClient.weatherInfo!!.hourlyForecasts!!.size >= 2) {
-            mForecastHourAdapter!!.updateList(mWeatherClient.weatherInfo!!.hourlyForecasts)
+        if (mWeatherClient.mCachedInfo!!.hourlyForecasts!!.size >= 2) {
+            mForecastHourAdapter!!.updateList(mWeatherClient.mCachedInfo!!.hourlyForecasts)
             binding.hourlyForecastCard.visibility = View.VISIBLE
             binding.hourlyForecastRecycler.scrollToPosition(0)
         } else {
             binding.hourlyForecastCard.visibility = View.GONE
         }
-        if (mWeatherClient.weatherInfo!!.dailyForecasts!!.isNotEmpty()) {
-            mForecastDayAdapter!!.updateList(mWeatherClient.weatherInfo!!.dailyForecasts)
+        if (mWeatherClient.mCachedInfo!!.dailyForecasts!!.isNotEmpty()) {
+            mForecastDayAdapter!!.updateList(mWeatherClient.mCachedInfo!!.dailyForecasts)
             binding.dailyForecastCard.visibility = View.VISIBLE
         } else {
             binding.dailyForecastCard.visibility = View.GONE

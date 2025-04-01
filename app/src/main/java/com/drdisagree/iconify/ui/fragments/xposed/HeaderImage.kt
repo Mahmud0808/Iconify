@@ -12,7 +12,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_SWITCH
-import com.drdisagree.iconify.data.common.Resources.HEADER_IMAGE_DIR
+import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
 import com.drdisagree.iconify.data.config.RPrefs.putBoolean
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.preferences.FilePickerPreference
@@ -46,7 +46,9 @@ class HeaderImage : ControlledPreferenceFragmentCompat() {
                 val data = result.data
                 val path = getRealPath(data)
 
-                if (path != null && moveToIconifyHiddenDir(path, HEADER_IMAGE_DIR)) {
+                if (path != null &&
+                    moveToIconifyHiddenDir(path, HEADER_IMAGE_FILE.absolutePath)
+                ) {
                     putBoolean(HEADER_IMAGE_SWITCH, false)
                     putBoolean(HEADER_IMAGE_SWITCH, true)
 

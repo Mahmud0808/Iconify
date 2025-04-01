@@ -5,11 +5,11 @@ import com.drdisagree.iconify.data.common.Dynamic.AAPT
 import com.drdisagree.iconify.data.common.Dynamic.AAPT2
 import com.drdisagree.iconify.data.common.Dynamic.AAPT2LIB
 import com.drdisagree.iconify.data.common.Dynamic.AAPTLIB
+import com.drdisagree.iconify.data.common.Dynamic.BIN_DIR
+import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
 import com.drdisagree.iconify.data.common.Dynamic.NATIVE_LIBRARY_DIR
 import com.drdisagree.iconify.data.common.Dynamic.ZIPALIGN
 import com.drdisagree.iconify.data.common.Dynamic.ZIPALIGNLIB
-import com.drdisagree.iconify.data.common.Resources
-import com.drdisagree.iconify.data.common.Resources.BIN_DIR
 import com.drdisagree.iconify.utils.FileUtils
 import com.topjohnwu.superuser.Shell
 
@@ -38,8 +38,9 @@ object BinaryInstaller {
         try {
             FileUtils.copyAssets("Tools")
 
-            Shell.cmd("for fl in " + Resources.DATA_DIR + "/Tools/*; do cp -f \"\$fl\" \"" + NATIVE_LIBRARY_DIR + "\"; chmod 755 \"" + NATIVE_LIBRARY_DIR + "/$(basename \$fl)\"; ln -sf \"" + NATIVE_LIBRARY_DIR + "/$(basename \$fl)\" \"" + BIN_DIR + "/$(basename \$fl)\"; done")
-                .exec()
+            Shell.cmd(
+                "for fl in $DATA_DIR/Tools/*; do cp -f \"\$fl\" \"$NATIVE_LIBRARY_DIR\"; chmod 755 \"$NATIVE_LIBRARY_DIR/$(basename \$fl)\"; ln -sf \"$NATIVE_LIBRARY_DIR/$(basename \$fl)\" \"$BIN_DIR/$(basename \$fl)\"; done"
+            ).exec()
 
             FileUtils.cleanDir("Tools")
         } catch (e: Exception) {

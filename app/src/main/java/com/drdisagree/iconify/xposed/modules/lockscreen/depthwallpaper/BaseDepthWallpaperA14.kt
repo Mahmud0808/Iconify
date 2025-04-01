@@ -13,7 +13,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -42,8 +41,11 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_BA
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG
 import com.drdisagree.iconify.data.common.Preferences.LOCKSCREEN_SHADE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_SWITCH
+import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_BG_FILE
+import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -56,12 +58,9 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.shoul
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -84,10 +83,6 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
     private var showOnAOD = true
     private var keepLockScreenShade = true
     protected var mAiMode = 0
-    protected var foregroundPath = Environment.getExternalStorageDirectory()
-        .toString() + "/.iconify_files/depth_wallpaper_fg.png"
-    private var backgroundPath = Environment.getExternalStorageDirectory()
-        .toString() + "/.iconify_files/depth_wallpaper_bg.png"
     private var mPluginReceiverRegistered = false
     private lateinit var mPluginReceiver: BroadcastReceiver
     private var wallpaperProcessorThread: Thread? = null
@@ -367,9 +362,8 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
                             }
 
                         try {
-                            val file = File(backgroundPath)
-                            file.parentFile?.mkdirs()
-                            val out = FileOutputStream(file)
+                            DEPTH_WALL_BG_FILE.parentFile?.mkdirs()
+                            val out = FileOutputStream(DEPTH_WALL_BG_FILE)
                             scaledWallpaperBitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
                             out.flush()
                             out.close()
@@ -472,8 +466,8 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
                             "$AI_PLUGIN_PACKAGE.receivers.SubjectExtractionReceiver"
                         )
                     )
-                    putExtra("sourcePath", backgroundPath)
-                    putExtra("destinationPath", foregroundPath)
+                    putExtra("sourcePath", DEPTH_WALL_BG_FILE.absolutePath)
+                    putExtra("destinationPath", DEPTH_WALL_FG_FILE.absolutePath)
                     setPackage(mContext.packageName)
                     addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
                 }
@@ -487,17 +481,15 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
         var cacheIsValid = false
 
         try {
-            val wallpaperCacheFile = File(backgroundPath)
-
             val compressedBitmap = ByteArrayOutputStream()
             wallpaperBitmap.compress(Bitmap.CompressFormat.JPEG, 100, compressedBitmap)
-            if (wallpaperCacheFile.exists()) {
-                val cacheStream = FileInputStream(wallpaperCacheFile)
+            if (DEPTH_WALL_BG_FILE.exists()) {
+                val cacheStream = FileInputStream(DEPTH_WALL_BG_FILE)
 
                 if (cacheStream.readAllBytes().contentEquals(compressedBitmap.toByteArray())) {
                     cacheIsValid = true
                 } else {
-                    val newCacheStream = FileOutputStream(wallpaperCacheFile)
+                    val newCacheStream = FileOutputStream(DEPTH_WALL_BG_FILE)
                     compressedBitmap.writeTo(newCacheStream)
                     newCacheStream.close()
                 }
@@ -530,7 +522,7 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
         )
 
         mWallpaperDimmingOverlay.setBackgroundColor(
-            if (File(backgroundPath).exists()) {
+            if (DEPTH_WALL_BG_FILE.exists()) {
                 Color.BLACK
             } else {
                 Color.TRANSPARENT
@@ -565,10 +557,10 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
 
         if (showForeground) {
             if ((!mWallpaperForegroundCacheValid || mWallpaperForeground.background == null) &&
-                File(foregroundPath).exists()
+                DEPTH_WALL_FG_FILE.exists()
             ) {
                 try {
-                    FileInputStream(foregroundPath).use { inputStream ->
+                    FileInputStream(DEPTH_WALL_FG_FILE).use { inputStream ->
                         val bitmapDrawable = BitmapDrawable.createFromStream(
                             inputStream,
                             ""
@@ -642,8 +634,8 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
         }
 
         try {
-            if (File(foregroundPath).exists()) {
-                File(foregroundPath).delete()
+            if (DEPTH_WALL_FG_FILE.exists()) {
+                DEPTH_WALL_FG_FILE.delete()
             }
         } catch (_: Throwable) {
         }
@@ -659,19 +651,13 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
             createLayers()
         }
 
-        try {
-            val mainHandler = Handler(Looper.getMainLooper())
-            val executor = Executors.newSingleThreadScheduledExecutor()
-
-            executor.scheduleAtFixedRate({
-                val androidDir =
-                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
-
-                if (androidDir.isDirectory) {
-                    mainHandler.post {
+        BootCallback.registerBootListener(
+            object : BootCallback.BootListener {
+                override fun onDeviceBooted() {
+                    Handler(Looper.getMainLooper()).post {
                         try {
-                            if (File(backgroundPath).exists()) {
-                                FileInputStream(backgroundPath).use { inputStream ->
+                            if (DEPTH_WALL_BG_FILE.exists()) {
+                                FileInputStream(DEPTH_WALL_BG_FILE).use { inputStream ->
                                     val bitmapDrawable = BitmapDrawable.createFromStream(
                                         inputStream,
                                         ""
@@ -698,12 +684,8 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
                         // this sets the dimmed foreground wallpaper
                         setDepthWallpaper()
                     }
-
-                    executor.shutdown()
-                    executor.shutdownNow()
                 }
-            }, 0, 5, TimeUnit.SECONDS)
-        } catch (_: Throwable) {
-        }
+            }
+        )
     }
 }

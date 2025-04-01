@@ -3,7 +3,17 @@ package com.drdisagree.iconify.utils.overlay.compiler
 import android.util.Log
 import com.drdisagree.iconify.data.common.Const.SETTINGS_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
 import com.drdisagree.iconify.data.common.Resources
+import com.drdisagree.iconify.data.common.Resources.BACKUP_DIR
+import com.drdisagree.iconify.data.common.Resources.OVERLAY_DIR
+import com.drdisagree.iconify.data.common.Resources.SIGNED_DIR
+import com.drdisagree.iconify.data.common.Resources.SYSTEM_OVERLAY_DIR
+import com.drdisagree.iconify.data.common.Resources.TEMP_CACHE_DIR
+import com.drdisagree.iconify.data.common.Resources.TEMP_DIR
+import com.drdisagree.iconify.data.common.Resources.TEMP_OVERLAY_DIR
+import com.drdisagree.iconify.data.common.Resources.UNSIGNED_DIR
+import com.drdisagree.iconify.data.common.Resources.UNSIGNED_UNALIGNED_DIR
 import com.drdisagree.iconify.utils.FileUtils.copyAssets
 import com.drdisagree.iconify.utils.RootUtils.setPermissions
 import com.drdisagree.iconify.utils.SystemUtils.mountRO
@@ -35,7 +45,7 @@ object SwitchCompiler {
             if (OverlayCompiler.createManifest(
                     mOverlayName[i],
                     mPackages[i],
-                    Resources.TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + mOverlayName[i]
+                    TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + mOverlayName[i]
                 )
             ) {
                 Log.e(TAG, "Failed to create Manifest for " + mOverlayName[i] + "! Exiting...")
@@ -45,7 +55,7 @@ object SwitchCompiler {
 
             // Build APK using AAPT
             if (OverlayCompiler.runAapt(
-                    Resources.TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + mOverlayName[i],
+                    TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + mOverlayName[i],
                     mPackages[i]
                 )
             ) {
@@ -82,8 +92,8 @@ object SwitchCompiler {
         symLinkBinaries()
 
         // Clean data directory
-        Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec()
-        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec()
+        Shell.cmd("rm -rf $TEMP_DIR").exec()
+        Shell.cmd("rm -rf $DATA_DIR/CompileOnDemand").exec()
 
         // Extract overlay from assets
         for (packageName in mPackages) {
@@ -91,19 +101,19 @@ object SwitchCompiler {
         }
 
         // Create temp directory
-        Shell.cmd("rm -rf " + Resources.TEMP_DIR + "; mkdir -p " + Resources.TEMP_DIR).exec()
-        Shell.cmd("mkdir -p " + Resources.TEMP_OVERLAY_DIR).exec()
-        Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR).exec()
-        Shell.cmd("mkdir -p " + Resources.UNSIGNED_UNALIGNED_DIR).exec()
-        Shell.cmd("mkdir -p " + Resources.UNSIGNED_DIR).exec()
-        Shell.cmd("mkdir -p " + Resources.SIGNED_DIR).exec()
+        Shell.cmd("rm -rf $TEMP_DIR; mkdir -p $TEMP_DIR").exec()
+        Shell.cmd("mkdir -p $TEMP_OVERLAY_DIR").exec()
+        Shell.cmd("mkdir -p $TEMP_CACHE_DIR").exec()
+        Shell.cmd("mkdir -p $UNSIGNED_UNALIGNED_DIR").exec()
+        Shell.cmd("mkdir -p $UNSIGNED_DIR").exec()
+        Shell.cmd("mkdir -p $SIGNED_DIR").exec()
 
         for (packageName in mPackages) {
-            Shell.cmd("mkdir -p " + Resources.TEMP_CACHE_DIR + "/" + packageName + "/").exec()
+            Shell.cmd("mkdir -p $TEMP_CACHE_DIR/$packageName/").exec()
         }
 
         if (!mForce) {
-            Shell.cmd("mkdir -p " + Resources.BACKUP_DIR).exec()
+            Shell.cmd("mkdir -p $BACKUP_DIR").exec()
         } else {
             // Disable the overlay in case it is already enabled
             val overlayNames = arrayOfNulls<String>(mOverlayName.size)
@@ -121,27 +131,27 @@ object SwitchCompiler {
         if (!hasErroredOut) {
             for (overlayName in mOverlayName) {
                 Shell.cmd(
-                    "cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk"
+                    "cp -rf $SIGNED_DIR/IconifyComponent$overlayName.apk $OVERLAY_DIR/IconifyComponent$overlayName.apk"
                 ).exec()
                 setPermissions(
                     644,
-                    Resources.OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk"
+                    "$OVERLAY_DIR/IconifyComponent$overlayName.apk"
                 )
 
                 if (mForce) {
                     // Move to files dir and install
                     Shell.cmd(
-                        "cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk"
+                        "cp -rf $SIGNED_DIR/IconifyComponent$overlayName.apk $DATA_DIR/IconifyComponent$overlayName.apk"
                     ).exec()
                     setPermissions(
                         644,
-                        Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk"
+                        "$DATA_DIR/IconifyComponent$overlayName.apk"
                     )
                     Shell.cmd(
-                        "pm install -r " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk"
+                        "pm install -r $DATA_DIR/IconifyComponent$overlayName.apk"
                     ).exec()
                     Shell.cmd(
-                        "rm -rf " + Resources.DATA_DIR + "/IconifyComponent" + overlayName + ".apk"
+                        "rm -rf $DATA_DIR/IconifyComponent$overlayName.apk"
                     ).exec()
                 }
             }
@@ -151,7 +161,7 @@ object SwitchCompiler {
                 mountRW()
                 for (overlayName in mOverlayName) {
                     Shell.cmd(
-                        "cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.SYSTEM_OVERLAY_DIR + "/IconifyComponent" + overlayName + ".apk"
+                        "cp -rf $SIGNED_DIR/IconifyComponent$overlayName.apk $SYSTEM_OVERLAY_DIR/IconifyComponent$overlayName.apk"
                     ).exec()
                     setPermissions(644, "/system/product/overlay/IconifyComponent$overlayName.apk")
                 }
@@ -168,21 +178,21 @@ object SwitchCompiler {
             } else {
                 for (overlayName in mOverlayName) {
                     Shell.cmd(
-                        "cp -rf " + Resources.SIGNED_DIR + "/IconifyComponent" + overlayName + ".apk " + Resources.BACKUP_DIR + "/IconifyComponent" + overlayName + ".apk"
+                        "cp -rf $SIGNED_DIR/IconifyComponent$overlayName.apk $BACKUP_DIR/IconifyComponent$overlayName.apk"
                     ).exec()
                 }
             }
         }
 
         // Clean temp directory
-        Shell.cmd("rm -rf " + Resources.TEMP_DIR).exec()
-        Shell.cmd("rm -rf " + Resources.DATA_DIR + "/CompileOnDemand").exec()
+        Shell.cmd("rm -rf $TEMP_DIR").exec()
+        Shell.cmd("rm -rf $DATA_DIR/CompileOnDemand").exec()
     }
 
     private fun moveOverlaysToCache() {
         for (i in mOverlayName.indices) {
             Shell.cmd(
-                "mv -f \"" + Resources.DATA_DIR + "/CompileOnDemand/" + mPackages[i] + "/" + "SWITCH" + mStyle + "\" \"" + Resources.TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + mOverlayName[i] + "\""
+                "mv -f \"" + DATA_DIR + "/CompileOnDemand/" + mPackages[i] + "/" + "SWITCH" + mStyle + "\" \"" + TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + mOverlayName[i] + "\""
             ).exec().isSuccess
         }
     }

@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
+import androidx.preference.ListPreference
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.preference.ListPreference
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.ui.adapters.ListPreferenceAdapter
 import com.google.android.material.appbar.MaterialToolbar
@@ -57,11 +57,13 @@ class BottomSheetListPreference : ListPreference {
     fun setDrawables(@DrawableRes drawables: IntArray) {
         mHasImages = true
         mEntryIcons = drawables
+        mAdapter?.updateIcons(drawables)
     }
 
     fun setDrawables(drawables: Array<Drawable>) {
         mHasImages = true
         mEntryDrawables = drawables
+        mAdapter?.updateDrawables(drawables)
     }
 
     fun setHasImages(hasImages: Boolean) {
@@ -72,24 +74,26 @@ class BottomSheetListPreference : ListPreference {
         mAdapter = adapter
     }
 
+    fun getAdapter(): ListPreferenceAdapter? {
+        return mAdapter
+    }
+
     fun setAdapterType(type: Int) {
-        if (mAdapter != null) mAdapter!!.type = type
+        mAdapter?.type = type
     }
 
     fun setImages(images: List<String>) {
-        if (mAdapter != null) {
-            mAdapter!!.setImages(images)
-        }
+        mAdapter?.setImages(images)
     }
 
     fun setDefaultAdapterListener() {
-        mAdapter!!.setListener(object : ListPreferenceAdapter.OnItemClickListener {
+        mAdapter?.setListener(object : ListPreferenceAdapter.OnItemClickListener {
 
             override fun onItemClick(view: View?, position: Int) {
                 if (callChangeListener(entryValues[position].toString())) {
                     setValueIndex(position)
                 }
-                if (bottomSheetDialog != null) bottomSheetDialog!!.dismiss()
+                bottomSheetDialog?.dismiss()
             }
         })
     }
@@ -155,12 +159,11 @@ class BottomSheetListPreference : ListPreference {
     }
 
     fun createDefaultAdapter(drawables: Array<Drawable>) {
-        mHasImages = true
-        mEntryDrawables = drawables
+        setDrawables(drawables)
         mAdapter = ListPreferenceAdapter(
             entries,
             entryValues,
-            drawables,
+            mEntryDrawables!!,
             key,
             mHasImages,
             object : ListPreferenceAdapter.OnItemClickListener {
@@ -174,12 +177,11 @@ class BottomSheetListPreference : ListPreference {
     }
 
     fun createDefaultAdapter(drawables: Array<Drawable>, listener: OnItemClickListener?) {
-        mHasImages = true
-        mEntryDrawables = drawables
+        setDrawables(drawables)
         mAdapter = ListPreferenceAdapter(
             entries,
             entryValues,
-            drawables,
+            mEntryDrawables!!,
             key,
             mHasImages,
             object : ListPreferenceAdapter.OnItemClickListener {

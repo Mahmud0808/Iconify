@@ -13,7 +13,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Preferences.WEATHER_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.WEATHER_TRIGGER_UPDATE
-import com.drdisagree.iconify.data.common.Resources.LOCKSCREEN_WEATHER_FONT_DIR
+import com.drdisagree.iconify.data.common.XposedConst.LOCKSCREEN_WEATHER_FONT_FILE
 import com.drdisagree.iconify.data.config.RPrefs.getBoolean
 import com.drdisagree.iconify.data.config.RPrefs.putBoolean
 import com.drdisagree.iconify.ui.activities.MainActivity
@@ -53,7 +53,9 @@ class LockscreenWeather : WeatherPreferenceFragment() {
                 val data = result.data
                 val path = getRealPath(data)
 
-                if (path != null && moveToIconifyHiddenDir(path, LOCKSCREEN_WEATHER_FONT_DIR)) {
+                if (path != null &&
+                    moveToIconifyHiddenDir(path, LOCKSCREEN_WEATHER_FONT_FILE.absolutePath)
+                ) {
                     putBoolean(WEATHER_TRIGGER_UPDATE, !getBoolean(WEATHER_TRIGGER_UPDATE))
 
                     Toast.makeText(

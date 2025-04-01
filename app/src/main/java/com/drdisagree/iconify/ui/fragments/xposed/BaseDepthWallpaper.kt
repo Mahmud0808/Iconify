@@ -18,8 +18,8 @@ import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_AI_MODE
 import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_AI_STATUS
 import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_SWITCH
-import com.drdisagree.iconify.data.common.Resources.DEPTH_WALL_BG_DIR
-import com.drdisagree.iconify.data.common.Resources.DEPTH_WALL_FG_DIR
+import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_BG_FILE
+import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.config.RPrefs.putBoolean
 import com.drdisagree.iconify.ui.activities.MainActivity
@@ -60,7 +60,9 @@ abstract class BaseDepthWallpaper : ControlledPreferenceFragmentCompat() {
                 val data = result.data
                 val path = getRealPath(data)
 
-                if (path != null && moveToIconifyHiddenDir(path, DEPTH_WALL_BG_DIR)) {
+                if (path != null &&
+                    moveToIconifyHiddenDir(path, DEPTH_WALL_BG_FILE.absolutePath)
+                ) {
                     putBoolean(DEPTH_WALLPAPER_CHANGED, false)
                     putBoolean(DEPTH_WALLPAPER_CHANGED, true)
 
@@ -86,7 +88,9 @@ abstract class BaseDepthWallpaper : ControlledPreferenceFragmentCompat() {
                 val data = result.data
                 val path = getRealPath(data)
 
-                if (path != null && moveToIconifyHiddenDir(path, DEPTH_WALL_FG_DIR)) {
+                if (path != null &&
+                    moveToIconifyHiddenDir(path, DEPTH_WALL_FG_FILE.absolutePath)
+                ) {
                     putBoolean(DEPTH_WALLPAPER_CHANGED, false)
                     putBoolean(DEPTH_WALLPAPER_CHANGED, true)
 

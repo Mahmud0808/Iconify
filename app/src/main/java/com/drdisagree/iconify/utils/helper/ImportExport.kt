@@ -13,6 +13,7 @@ import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.Iconify.Companion.appContextLocale
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
+import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
 import com.drdisagree.iconify.data.common.Preferences.COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.data.common.Preferences.COLOR_ACCENT_PRIMARY_LIGHT
 import com.drdisagree.iconify.data.common.Preferences.COLOR_ACCENT_SECONDARY
@@ -32,10 +33,11 @@ import com.drdisagree.iconify.data.common.Preferences.SELECTED_TOAST_FRAME
 import com.drdisagree.iconify.data.common.Preferences.UI_CORNER_RADIUS
 import com.drdisagree.iconify.data.common.References.ICONIFY_COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.data.common.References.ICONIFY_COLOR_ACCENT_SECONDARY
-import com.drdisagree.iconify.data.common.Resources
+import com.drdisagree.iconify.data.common.Resources.BACKUP_DIR
 import com.drdisagree.iconify.data.common.Resources.DYNAMIC_RESOURCE_DATABASE_NAME
 import com.drdisagree.iconify.data.common.Resources.MODULE_DIR
-import com.drdisagree.iconify.data.common.Resources.XPOSED_RESOURCE_TEMP_DIR
+import com.drdisagree.iconify.data.common.Resources.SYSTEM_OVERLAY_DIR
+import com.drdisagree.iconify.data.common.XposedConst.XPOSED_RESOURCE_TEMP_DIR
 import com.drdisagree.iconify.data.config.RPrefs.getPrefs
 import com.drdisagree.iconify.data.database.DynamicResourceDatabase
 import com.drdisagree.iconify.ui.dialogs.LoadingDialog
@@ -236,9 +238,8 @@ object ImportExport {
                     }
                 }
 
-                val iconifyFilesDir = File(XPOSED_RESOURCE_TEMP_DIR)
-                if (iconifyFilesDir.exists() && iconifyFilesDir.isDirectory) {
-                    zipFile.addFolder(iconifyFilesDir)
+                if (XPOSED_RESOURCE_TEMP_DIR.exists() && XPOSED_RESOURCE_TEMP_DIR.isDirectory) {
+                    zipFile.addFolder(XPOSED_RESOURCE_TEMP_DIR)
                 }
 
                 tempZipFile.inputStream().use { it.copyTo(outputStream) }
@@ -325,13 +326,12 @@ object ImportExport {
                 }
 
                 try {
-                    val iconifyFilesDir = File(XPOSED_RESOURCE_TEMP_DIR)
-                    if (iconifyFilesDir.exists()) {
-                        iconifyFilesDir.deleteRecursively()
+                    if (XPOSED_RESOURCE_TEMP_DIR.exists()) {
+                        XPOSED_RESOURCE_TEMP_DIR.deleteRecursively()
                     }
-                    val extractedIconifyDir = File(tempDir, iconifyFilesDir.name)
-                    zipFile.extractFile(iconifyFilesDir.name + "/", tempDir.absolutePath)
-                    extractedIconifyDir.copyRecursively(iconifyFilesDir, overwrite = true)
+                    val extractedIconifyDir = File(tempDir, XPOSED_RESOURCE_TEMP_DIR.name)
+                    zipFile.extractFile(XPOSED_RESOURCE_TEMP_DIR.name + "/", tempDir.absolutePath)
+                    extractedIconifyDir.copyRecursively(XPOSED_RESOURCE_TEMP_DIR, overwrite = true)
                 } catch (_: Exception) {
                 }
 
@@ -636,31 +636,31 @@ object ImportExport {
             }
 
             // Copy overlay APK files
-            commands.add("find " + Resources.BACKUP_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.DATA_DIR + " \\; ")
+            commands.add("find $BACKUP_DIR -name \"IconifyComponent*.apk\" -exec cp {} $DATA_DIR \\; ")
 
             // Change permissions for copied overlay APKs
-            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ")
+            commands.add("find $DATA_DIR -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ")
 
             // Install overlay APKs
-            commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do pm install -r \"\$file\"; done")
+            commands.add("for file in $DATA_DIR/IconifyComponent*.apk; do pm install -r \"\$file\"; done")
 
             // Remove copied overlay APKs
-            commands.add("for file in " + Resources.DATA_DIR + "/IconifyComponent*.apk; do rm -f \"\$file\"; done")
+            commands.add("for file in $DATA_DIR/IconifyComponent*.apk; do rm -f \"\$file\"; done")
 
             // Remount the filesystem as read-write
             commands.add("mount -o remount,rw /")
 
             // Copy overlay APKs to system overlay
-            commands.add("find " + Resources.DATA_DIR + " -name \"IconifyComponent*.apk\" -exec cp {} " + Resources.SYSTEM_OVERLAY_DIR + " \\; ")
+            commands.add("find $DATA_DIR -name \"IconifyComponent*.apk\" -exec cp {} $SYSTEM_OVERLAY_DIR \\; ")
 
             // Change permissions for copied overlay APKs in system overlay
-            commands.add("find " + Resources.SYSTEM_OVERLAY_DIR + " -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ")
+            commands.add("find $SYSTEM_OVERLAY_DIR -name \"IconifyComponent*.apk\" -exec chmod 644 {} \\; ")
 
             // Remount the filesystem as read-only
             commands.add("mount -o remount,ro /")
 
             // Clear temp backup directory
-            commands.add("rm -rf " + Resources.BACKUP_DIR)
+            commands.add("rm -rf $BACKUP_DIR")
 
             // Wait and restart SystemUI
             commands.add("sleep 3")

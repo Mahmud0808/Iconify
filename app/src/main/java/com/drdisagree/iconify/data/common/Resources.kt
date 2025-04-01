@@ -3,11 +3,7 @@ package com.drdisagree.iconify.data.common
 import android.os.Build
 import android.os.Environment
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.data.common.Preferences.FIRST_INSTALL
-import com.drdisagree.iconify.data.common.Preferences.UPDATE_DETECTED
-import com.drdisagree.iconify.data.config.RPrefs.getBoolean
 import com.drdisagree.iconify.data.models.SearchPreferenceItem
 import com.drdisagree.iconify.ui.fragments.home.Home
 import com.drdisagree.iconify.ui.fragments.settings.Settings
@@ -33,7 +29,6 @@ import com.drdisagree.iconify.ui.fragments.xposed.TransparencyBlur
 import com.drdisagree.iconify.ui.fragments.xposed.VolumePanelParent
 import com.drdisagree.iconify.ui.fragments.xposed.Xposed
 import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchConfiguration
-import com.drdisagree.iconify.utils.RootUtils.folderExists
 
 object Resources {
 
@@ -43,52 +38,25 @@ object Resources {
     // Storage location
     val DOCUMENTS_DIR: String =
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).absolutePath
-
     val DOWNLOADS_DIR: String =
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath
 
     val LOG_DIR = "$DOCUMENTS_DIR/Iconify"
     const val MODULE_DIR = "/data/adb/modules/Iconify"
     const val SYSTEM_OVERLAY_DIR = "/system/product/overlay"
-
-    val DATA_DIR: String = appContext.filesDir.absolutePath
     const val OVERLAY_DIR = "$MODULE_DIR/system/product/overlay"
-
-    val BIN_DIR = appContext.dataDir.toString() + "/bin"
-
     val BACKUP_DIR = Environment.getExternalStorageDirectory().absolutePath + "/.iconify_backup"
-
     val TEMP_DIR = Environment.getExternalStorageDirectory().absolutePath + "/.iconify"
-
     val TEMP_MODULE_DIR = "$TEMP_DIR/Iconify"
-
     val TEMP_MODULE_OVERLAY_DIR = "$TEMP_MODULE_DIR/system/product/overlay"
-
     val TEMP_OVERLAY_DIR = "$TEMP_DIR/overlays"
-
     val TEMP_CACHE_DIR = "$TEMP_OVERLAY_DIR/cache"
-
     val UNSIGNED_UNALIGNED_DIR = "$TEMP_OVERLAY_DIR/unsigned_unaligned"
-
     val UNSIGNED_DIR = "$TEMP_OVERLAY_DIR/unsigned"
-
     val SIGNED_DIR = "$TEMP_OVERLAY_DIR/signed"
 
     // File resources
     const val FRAMEWORK_DIR = "/system/framework/framework-res.apk"
-
-    // Xposed resource dir
-    val XPOSED_RESOURCE_TEMP_DIR = "${Environment.getExternalStorageDirectory()}/.iconify_files"
-
-    val LSCLOCK_FONT_DIR = "$XPOSED_RESOURCE_TEMP_DIR/lsclock_font.ttf"
-    val LSCLOCK_IMAGE1_DIR = "$XPOSED_RESOURCE_TEMP_DIR/lsclock_image1.png"
-    val LSCLOCK_IMAGE2_DIR = "$XPOSED_RESOURCE_TEMP_DIR/lsclock_image2.png"
-    val HEADER_CLOCK_FONT_DIR = "$XPOSED_RESOURCE_TEMP_DIR/headerclock_font.ttf"
-    val HEADER_IMAGE_DIR = "$XPOSED_RESOURCE_TEMP_DIR/header_image.png"
-    val DEPTH_WALL_FG_DIR = "$XPOSED_RESOURCE_TEMP_DIR/depth_wallpaper_fg.png"
-    val DEPTH_WALL_BG_DIR = "$XPOSED_RESOURCE_TEMP_DIR/depth_wallpaper_bg.png"
-    val LOCKSCREEN_WEATHER_FONT_DIR = "$XPOSED_RESOURCE_TEMP_DIR/lockscreen_weather_font.ttf"
-    val STATUSBAR_LOGO_DIR = "$XPOSED_RESOURCE_TEMP_DIR/statusbar_logo.png"
 
     // Resource names
     const val HEADER_CLOCK_LAYOUT = "preview_header_clock_"
@@ -97,9 +65,6 @@ object Resources {
     // Database
     const val DYNAMIC_RESOURCE_DATABASE_NAME = "dynamic_resource_database"
     const val DYNAMIC_RESOURCE_TABLE = "dynamic_resource_table"
-
-    fun shouldShowRebootDialog() = (!getBoolean(FIRST_INSTALL) && getBoolean(UPDATE_DETECTED)) ||
-            folderExists("/data/adb/modules_update/Iconify")
 
     val searchConfiguration = SearchConfiguration()
 

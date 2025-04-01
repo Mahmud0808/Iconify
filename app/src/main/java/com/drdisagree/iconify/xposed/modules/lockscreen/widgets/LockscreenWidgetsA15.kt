@@ -493,7 +493,7 @@ class LockscreenWidgetsA15(context: Context) : ModPack(context) {
             if (!mWidgetsEnabled) return
 
             if (::mWidgetsContainer.isInitialized) {
-                (mLsItemsContainer ?: mWidgetsContainer).layoutParams?.apply {
+                mLsItemsContainer?.layoutParams?.apply {
                     width = ViewGroup.LayoutParams.MATCH_PARENT
                     height = ViewGroup.LayoutParams.WRAP_CONTENT
                 }
@@ -572,7 +572,7 @@ class LockscreenWidgetsA15(context: Context) : ModPack(context) {
 
         mLockscreenRootView.assignIdsToViews()
 
-        widgetView.getChildAt(0)?.layoutParams?.width = LinearLayout.LayoutParams.MATCH_PARENT
+        mLsItemsContainer?.layoutParams?.width = LinearLayout.LayoutParams.MATCH_PARENT
 
         val notificationContainerId = mContext.resources.getIdentifier(
             "nssl_placeholder",

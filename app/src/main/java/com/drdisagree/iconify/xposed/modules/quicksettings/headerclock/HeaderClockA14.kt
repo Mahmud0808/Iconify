@@ -11,7 +11,6 @@ import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.os.UserHandle
@@ -54,9 +53,11 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_QS_HEADER_CONTAINE
 import com.drdisagree.iconify.data.common.Preferences.OP_QS_HEADER_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.data.common.Resources.HEADER_CLOCK_LAYOUT
+import com.drdisagree.iconify.data.common.XposedConst.HEADER_CLOCK_FONT_FILE
 import com.drdisagree.iconify.utils.TextUtils
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.TouchAnimator
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyFontRecursively
@@ -83,10 +84,7 @@ import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import java.io.File
 import java.util.Locale
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 @SuppressLint("DiscouragedApi")
 class HeaderClockA14(context: Context) : ModPack(context) {
@@ -420,7 +418,7 @@ class HeaderClockA14(context: Context) : ModPack(context) {
                     (qsCarrierGroup.parent as? ViewGroup)?.removeView(qsCarrierGroup)
                     if (hideQsCarrierGroup) qsCarrierGroup.visibility = View.GONE
                     mQsIconsContainer.addView(qsCarrierGroup)
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     val mShadeCarrierGroup =
                         param.thisObject.getField("mShadeCarrierGroup") as LinearLayout
                     (mShadeCarrierGroup.parent as? ViewGroup)?.removeView(mShadeCarrierGroup)
@@ -437,7 +435,7 @@ class HeaderClockA14(context: Context) : ModPack(context) {
                     )
                     if (hideStatusIcons) systemIconsHoverContainer.visibility = View.GONE
                     mQsIconsContainer.addView(systemIconsHoverContainer)
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     val iconsContainer = LinearLayout(mContext).apply {
                         layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -464,20 +462,13 @@ class HeaderClockA14(context: Context) : ModPack(context) {
 
         handleLegacyHeaderView()
 
-        try {
-            val executor = Executors.newSingleThreadScheduledExecutor()
-            executor.scheduleAtFixedRate({
-                val androidDir =
-                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
-
-                if (androidDir.isDirectory) {
+        BootCallback.registerBootListener(
+            object : BootCallback.BootListener {
+                override fun onDeviceBooted() {
                     updateClockView()
-                    executor.shutdown()
-                    executor.shutdownNow()
                 }
-            }, 0, 5, TimeUnit.SECONDS)
-        } catch (ignored: Throwable) {
-        }
+            }
+        )
     }
 
     private fun buildHeaderViewExpansion() {
@@ -566,8 +557,6 @@ class HeaderClockA14(context: Context) : ModPack(context) {
         val sideMargin: Int = Xprefs.getSliderInt(HEADER_CLOCK_SIDEMARGIN, 0)
         val topMargin: Int =
             if (mContext.isLandscape) 0 else Xprefs.getSliderInt(HEADER_CLOCK_TOPMARGIN, 8)
-        val customFont = Environment.getExternalStorageDirectory().toString() +
-                "/.iconify_files/headerclock_font.ttf"
 
         val customColorEnabled = Xprefs.getBoolean(HEADER_CLOCK_COLOR_SWITCH, false)
         var accent1: Int = mContext.resources.getColor(
@@ -635,10 +624,11 @@ class HeaderClockA14(context: Context) : ModPack(context) {
             )
         }
 
-        var typeface: Typeface? = null
-
-        if (customFontEnabled && File(customFont).exists()) typeface =
-            Typeface.createFromFile(File(customFont))
+        var typeface: Typeface? = if (customFontEnabled && HEADER_CLOCK_FONT_FILE.exists()) {
+            Typeface.createFromFile(HEADER_CLOCK_FONT_FILE)
+        } else {
+            null
+        }
 
         setMargins(mQsHeaderClockContainer, mContext, 0, topMargin, 0, 0)
 
@@ -764,7 +754,7 @@ class HeaderClockA14(context: Context) : ModPack(context) {
             mDateView.layoutParams.height = 0
             mDateView.layoutParams.width = 0
             mDateView.visibility = View.INVISIBLE
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
 
         try {
@@ -772,7 +762,7 @@ class HeaderClockA14(context: Context) : ModPack(context) {
             mClockView.visibility = View.INVISIBLE
             mClockView.setTextAppearance(0)
             mClockView.setTextColor(0)
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
 
         try {
@@ -780,13 +770,13 @@ class HeaderClockA14(context: Context) : ModPack(context) {
             mClockDateView.visibility = View.INVISIBLE
             mClockDateView.setTextAppearance(0)
             mClockDateView.setTextColor(0)
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
 
         try {
             val mQSCarriers = param.thisObject.getField("mQSCarriers") as View
             mQSCarriers.visibility = View.INVISIBLE
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
     }
 
@@ -818,7 +808,7 @@ class HeaderClockA14(context: Context) : ModPack(context) {
                     date.setTextAppearance(0)
                     date.setTextColor(0)
                     date.visibility = View.GONE
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
 
                 // Nusantara clock
@@ -836,7 +826,7 @@ class HeaderClockA14(context: Context) : ModPack(context) {
                     jrClock.setTextAppearance(0)
                     jrClock.setTextColor(0)
                     jrClock.visibility = View.GONE
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
 
                 // Nusantara date
@@ -855,7 +845,7 @@ class HeaderClockA14(context: Context) : ModPack(context) {
                     jrDate.setTextAppearance(0)
                     jrDate.setTextColor(0)
                     jrDate.visibility = View.GONE
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
             }
 
@@ -888,7 +878,7 @@ class HeaderClockA14(context: Context) : ModPack(context) {
                         date.setTextAppearance(0)
                         date.setTextColor(0)
                         date.visibility = View.GONE
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                     }
                 }
             }

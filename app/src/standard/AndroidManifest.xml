@@ -104,22 +104,13 @@
         </activity-alias> <!-- Custom App Icon -->
 
         <receiver
-            android:name=".receiver.BootReceiver"
-            android:enabled="true"
+            android:name=".receivers.BootReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver> <!-- Boot Receiver -->
-        <!--
-        @Deprecated
-        <service
-            android:name=".services.BackgroundService"
-            android:enabled="true"
-            android:exported="true"
-            tools:ignore="ExportedService" />
-        -->
+
         <service
             android:name=".services.RootProviderProxy"
             android:exported="true"

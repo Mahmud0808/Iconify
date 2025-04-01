@@ -77,7 +77,7 @@ class TwoTargetSwitchPreference : TwoTargetPreference {
 
             contentDescription = title
             isChecked = mChecked
-            isEnabled = mEnableSwitch
+            isEnabled = isPreferenceEnabled
         }
 
         holder.itemView.findViewById<View?>(R.id.two_target_container)?.setOnClickListener {
@@ -99,6 +99,9 @@ class TwoTargetSwitchPreference : TwoTargetPreference {
             }
         }
     }
+
+    val isPreferenceEnabled: Boolean
+        get() = isEnabled && mEnableSwitch
 
     var isChecked: Boolean
         get() = mChecked

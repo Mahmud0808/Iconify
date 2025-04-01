@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable
 import android.media.AudioManager
 import android.os.BatteryManager
 import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.os.UserHandle
@@ -59,9 +58,13 @@ import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_TOPMARGIN
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.data.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_FONT_FILE
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
 import com.drdisagree.iconify.utils.TextUtils
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.TimeUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyFontRecursively
@@ -140,14 +143,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
             }
         }
     private var customFontEnabled: Boolean = false
-    private var customTypeface: Typeface? = null
-    private val customFontDirectory = Environment.getExternalStorageDirectory().toString() +
-            "/.iconify_files/lsclock_font.ttf"
     private var customImageEnabled = false
-    private val customImage1Directory =
-        "${Environment.getExternalStorageDirectory()}/.iconify_files/lsclock_image1.png"
-    private val customImage2Directory =
-        "${Environment.getExternalStorageDirectory()}/.iconify_files/lsclock_image2.png"
 
     init {
         ThemeChangeCallback.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
@@ -162,11 +158,6 @@ class LockscreenClock(context: Context) : ModPack(context) {
             moveNotificationIcons = getBoolean(LSCLOCK_MOVE_NOTIFICATION_ICONS, !isAndroid13OrBelow)
             customImageEnabled = getBoolean(LSCLOCK_IMAGE_SWITCH, false)
             customFontEnabled = getBoolean(LSCLOCK_FONT_SWITCH, false)
-            customTypeface = if (customFontEnabled && File(customFontDirectory).exists()) {
-                Typeface.createFromFile(File(customFontDirectory))
-            } else {
-                null
-            }
         }
 
         resetStockClock()
@@ -393,20 +384,13 @@ class LockscreenClock(context: Context) : ModPack(context) {
                 param.result = null
             }
 
-        try {
-            val executor = Executors.newSingleThreadScheduledExecutor()
-            executor.scheduleAtFixedRate({
-                val androidDir =
-                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
-
-                if (androidDir.isDirectory) {
+        BootCallback.registerBootListener(
+            object : BootCallback.BootListener {
+                override fun onDeviceBooted() {
                     updateClockView()
-                    executor.shutdown()
-                    executor.shutdownNow()
                 }
-            }, 0, 5, TimeUnit.SECONDS)
-        } catch (_: Throwable) {
-        }
+            }
+        )
     }
 
     private fun initResources(context: Context) {
@@ -568,6 +552,11 @@ class LockscreenClock(context: Context) : ModPack(context) {
         val customColorEnabled: Boolean = Xprefs.getBoolean(LSCLOCK_COLOR_SWITCH, false)
         val customUserName: String = Xprefs.getString(LSCLOCK_USERNAME, "")!!
         val customDeviceName: String = Xprefs.getString(LSCLOCK_DEVICENAME, "")!!
+        var customTypeface = if (customFontEnabled && LSCLOCK_FONT_FILE.exists()) {
+            Typeface.createFromFile(LSCLOCK_FONT_FILE)
+        } else {
+            null
+        }
 
         setMargins(clockView, mContext, 0, topMargin, 0, bottomMargin)
 
@@ -591,8 +580,8 @@ class LockscreenClock(context: Context) : ModPack(context) {
 
         if (customImageEnabled) {
             listOf(
-                "custom_image1" to customImage1Directory,
-                "custom_image2" to customImage2Directory
+                "custom_image1" to LSCLOCK_IMAGE1_FILE.absolutePath,
+                "custom_image2" to LSCLOCK_IMAGE2_FILE.absolutePath
             ).forEach { (tag, path) ->
                 if (File(path).exists()) {
                     clockView.findViewContainsTag(tag)?.let { view ->

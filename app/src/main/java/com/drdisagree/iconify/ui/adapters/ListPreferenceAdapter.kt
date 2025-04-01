@@ -17,8 +17,8 @@ class ListPreferenceAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private var mResImages: List<String> = ArrayList()
     private val mEntries: Array<CharSequence>
     private val mEntryValues: Array<CharSequence>
-    private val mEntryIcons: IntArray?
-    private val mEntryDrawables: Array<Drawable>?
+    private var mEntryIcons: IntArray?
+    private var mEntryDrawables: Array<Drawable>?
     private val mKey: String
     private val mHasImage: Boolean
     private var onItemClickListener: OnItemClickListener
@@ -68,10 +68,16 @@ class ListPreferenceAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         mValue = RPrefs.getString(mKey, "")
-        val binding: PreferenceListItemBinding =
-            PreferenceListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val batteryIconOptionsBinding: ViewListIconItemBinding =
-            ViewListIconItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = PreferenceListItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        val batteryIconOptionsBinding = ViewListIconItemBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return if (type == TYPE_BATTERY_ICONS) {
             BatteryIconsViewHolder(batteryIconOptionsBinding)
         } else {
@@ -84,15 +90,11 @@ class ListPreferenceAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
             (holder as BatteryIconsViewHolder).binding.typeTitle.text = mEntries[holder.bindingAdapterPosition]
 
             if (mHasImage) {
-                if (mEntryDrawables != null) holder.binding.batteryIcon.setImageDrawable(
-                    mEntryDrawables[holder.bindingAdapterPosition]
-                )
-                else holder.binding.batteryIcon.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        holder.binding.getRoot().context,
-                        mEntryIcons!![holder.bindingAdapterPosition]
+                mEntryDrawables?.let {
+                    holder.binding.batteryIcon.setImageDrawable(
+                        it[holder.bindingAdapterPosition]
                     )
-                )
+                }
             } else holder.binding.batteryIcon.setVisibility(View.GONE)
 
             if (mEntryValues[holder.bindingAdapterPosition].toString().contentEquals(mValue)) {
@@ -111,14 +113,14 @@ class ListPreferenceAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             (holder as ViewHolder).binding.text.text = mEntries[holder.bindingAdapterPosition]
             if (mHasImage) {
-                if (mEntryIcons != null && mEntryIcons.isNotEmpty()) holder.binding.image.setImageDrawable(
+                if (mEntryIcons != null && mEntryIcons!!.isNotEmpty()) holder.binding.image.setImageDrawable(
                     ContextCompat.getDrawable(
                         holder.binding.getRoot().context,
-                        mEntryIcons[holder.bindingAdapterPosition]
+                        mEntryIcons!![holder.bindingAdapterPosition]
                     )
                 )
                 else if (!mEntryDrawables.isNullOrEmpty()) holder.binding.image.setImageDrawable(
-                    mEntryDrawables[holder.bindingAdapterPosition]
+                    mEntryDrawables!![holder.bindingAdapterPosition]
                 )
             } else holder.binding.image.setVisibility(View.GONE)
 
@@ -145,6 +147,14 @@ class ListPreferenceAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     fun setImages(images: List<String>) {
         mResImages = images
+    }
+
+    fun updateDrawables(newDrawables: Array<Drawable>) {
+        mEntryDrawables = newDrawables
+    }
+
+    fun updateIcons(newIcons: IntArray) {
+        mEntryIcons = newIcons
     }
 
     class ViewHolder internal constructor(val binding: PreferenceListItemBinding) :

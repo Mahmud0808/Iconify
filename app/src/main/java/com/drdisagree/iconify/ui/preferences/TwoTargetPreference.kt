@@ -59,6 +59,7 @@ open class TwoTargetPreference : Preference {
 
         divider?.visibility = if (shouldHideSecondTarget) View.GONE else View.VISIBLE
         widgetFrame?.visibility = if (shouldHideSecondTarget) View.GONE else View.VISIBLE
+        widgetFrame?.isEnabled = isEnabled
     }
 
     protected open fun shouldHideSecondTarget(): Boolean {
