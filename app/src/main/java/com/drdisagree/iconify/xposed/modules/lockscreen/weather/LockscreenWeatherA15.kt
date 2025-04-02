@@ -56,7 +56,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
@@ -69,8 +68,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class LockscreenWeatherA15(context: Context) : ModPack(context) {
 
@@ -383,73 +380,38 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
                 }
             }
 
+        // For unknown reason, rotating device makes the height of view to 0
+        // This is a workaround to make sure the view is visible
         DozeCallback.getInstance().registerDozeChangeListener(
             object : DozeCallback.DozeListener {
+                fun updateLayoutParams() {
+                    if (!mWeatherEnabled || !::mWeatherContainer.isInitialized) return
+
+                    if (mLsItemsContainer?.width == 0 || mLsItemsContainer?.height == 0) {
+                        mLsItemsContainer?.layoutParams?.apply {
+                            width = ViewGroup.LayoutParams.MATCH_PARENT
+                            height = ViewGroup.LayoutParams.WRAP_CONTENT
+                        }
+                    }
+                    if (mWeatherContainer.width == 0 || mWeatherContainer.height == 0) {
+                        mWeatherContainer.layoutParams.apply {
+                            width = ViewGroup.LayoutParams.MATCH_PARENT
+                            height = ViewGroup.LayoutParams.WRAP_CONTENT
+                        }
+                    }
+                }
+
                 override fun onDozingStarted() {
                     aodBurnInProtection?.setMovementEnabled(true)
+                    updateLayoutParams()
                 }
 
                 override fun onDozingStopped() {
                     aodBurnInProtection?.setMovementEnabled(false)
+                    updateLayoutParams()
                 }
             }
         )
-
-        // For unknown reason, rotating device makes the height of view to 0
-        // This is a workaround to make sure the view is visible
-        fun updateLayoutParams() {
-            if (!mWeatherEnabled) return
-
-            if (::mWeatherContainer.isInitialized) {
-                mLsItemsContainer?.layoutParams?.apply {
-                    width = ViewGroup.LayoutParams.MATCH_PARENT
-                    height = ViewGroup.LayoutParams.WRAP_CONTENT
-                }
-            }
-        }
-
-        val statusBarKeyguardViewManagerClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.StatusBarKeyguardViewManager")
-
-        statusBarKeyguardViewManagerClass
-            .hookMethod("onStartedWakingUp")
-            .suppressError()
-            .runAfter { updateLayoutParams() }
-
-        val centralSurfacesImplClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.CentralSurfacesImpl",
-            suppressError = true
-        )
-
-        centralSurfacesImplClass
-            .hookMethod("onStartedWakingUp")
-            .suppressError()
-            .runAfter { updateLayoutParams() }
-
-        centralSurfacesImplClass
-            .hookConstructor()
-            .runAfter { param ->
-                if (!mWeatherEnabled) return@runAfter
-
-                val mWakefulnessObserver = param.thisObject.getFieldSilently("mWakefulnessObserver")
-
-                mWakefulnessObserver?.javaClass
-                    .hookMethod("onStartedWakingUp")
-                    .runAfter { updateLayoutParams() }
-            }
-
-        val dozeServiceClass = findClass("$SYSTEMUI_PACKAGE.doze.DozeService")
-
-        dozeServiceClass
-            .hookMethod("onDreamingStarted")
-            .runAfter {
-                coroutineScope.launch {
-                    repeat(5) {
-                        updateLayoutParams()
-                        delay(500L)
-                    }
-                }
-            }
 
         BootCallback.registerBootListener(
             object : BootCallback.BootListener {
@@ -523,7 +485,7 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
             if ((weatherView == mWeatherContainer && !mLockscreenClockEnabled && !mWidgetsEnabled) ||
                 (weatherView == mLsItemsContainer && !mLockscreenClockEnabled && mWidgetsEnabled)
             ) {
-                val dateSmartspaceViewId = if (dateSmartSpaceViewAvailable) {
+                val smartspaceViewId = if (dateSmartSpaceViewAvailable) {
                     mContext.resources.getIdentifier(
                         "date_smartspace_view",
                         "id",
@@ -542,7 +504,7 @@ class LockscreenWeatherA15(context: Context) : ModPack(context) {
                 constraintSet.connect(
                     weatherView.id,
                     ConstraintSet.TOP,
-                    dateSmartspaceViewId,
+                    smartspaceViewId,
                     ConstraintSet.BOTTOM
                 )
             } else if (weatherView == mLsItemsContainer && mLockscreenClockEnabled) {

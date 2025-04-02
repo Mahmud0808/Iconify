@@ -303,7 +303,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                 (mFabHeight * mWidgetsScale).toInt(),
                 1f
             ).apply {
-                maxWidth = (mFabWidth * mWidgetsScale).toInt()
+                minWidth = (mFabWidth * mWidgetsScale).toInt()
                 setMargins(
                     (mFabMarginStart * mWidgetsScale).toInt(),
                     0,
@@ -654,9 +654,11 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
 
         val params: ViewGroup.LayoutParams = efab.layoutParams
         if (params is LayoutParams) {
-            if (efab.visibility == VISIBLE && mMainWidgetsList!!.size == 1) {
-                params.width = modRes.getDimensionPixelSize(R.dimen.kg_widget_main_width)
-                params.height = modRes.getDimensionPixelSize(R.dimen.kg_widget_main_height)
+            if (efab.visibility == VISIBLE &&
+                (mMainWidgetsList!!.size == 1 || mMainWidgetsList!!.contains("none"))
+            ) {
+                params.width = (mFabWidth * mWidgetsScale).toInt()
+                params.height = (mFabHeight * mWidgetsScale).toInt()
             } else {
                 params.width = 0
                 params.weight = 1f

@@ -24,6 +24,8 @@ class AodBurnInProtection(private val view: View) {
             isMovementEnabled = enabled
 
             if (isMovementEnabled) {
+                originalX = view.x
+                originalY = view.y
                 startMovement()
             } else {
                 stopMovement()

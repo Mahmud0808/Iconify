@@ -73,8 +73,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class LockscreenWidgetsA15(context: Context) : ModPack(context) {
 
@@ -473,75 +471,42 @@ class LockscreenWidgetsA15(context: Context) : ModPack(context) {
                 updateLockscreenWidgetsOnClock(param.args[0] as Boolean)
             }
 
+        // For unknown reason, rotating device makes the height of view to 0
+        // This is a workaround to make sure the view is visible
         DozeCallback.getInstance().registerDozeChangeListener(
             object : DozeCallback.DozeListener {
+                fun updateLayoutParams() {
+                    if (!mWidgetsEnabled || !::mWidgetsContainer.isInitialized) return
+
+                    if (::mWidgetsContainer.isInitialized) {
+                        if (mLsItemsContainer?.width == 0 || mLsItemsContainer?.height == 0) {
+                            mLsItemsContainer?.layoutParams?.apply {
+                                width = ViewGroup.LayoutParams.MATCH_PARENT
+                                height = ViewGroup.LayoutParams.WRAP_CONTENT
+                            }
+                        }
+                        if (mWidgetsContainer.width == 0 || mWidgetsContainer.height == 0) {
+                            mWidgetsContainer.layoutParams.apply {
+                                width = ViewGroup.LayoutParams.MATCH_PARENT
+                                height = ViewGroup.LayoutParams.WRAP_CONTENT
+                            }
+                        }
+                    }
+                }
+
                 override fun onDozingStarted() {
                     updateDozingState(true)
                     aodBurnInProtection?.setMovementEnabled(true)
+                    updateLayoutParams()
                 }
 
                 override fun onDozingStopped() {
                     updateDozingState(false)
                     aodBurnInProtection?.setMovementEnabled(false)
+                    updateLayoutParams()
                 }
             }
         )
-
-        // For unknown reason, rotating device makes the height of view to 0
-        // This is a workaround to make sure the view is visible
-        fun updateLayoutParams() {
-            if (!mWidgetsEnabled) return
-
-            if (::mWidgetsContainer.isInitialized) {
-                mLsItemsContainer?.layoutParams?.apply {
-                    width = ViewGroup.LayoutParams.MATCH_PARENT
-                    height = ViewGroup.LayoutParams.WRAP_CONTENT
-                }
-            }
-        }
-
-        val statusBarKeyguardViewManagerClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.StatusBarKeyguardViewManager")
-
-        statusBarKeyguardViewManagerClass
-            .hookMethod("onStartedWakingUp")
-            .suppressError()
-            .runAfter { updateLayoutParams() }
-
-        val centralSurfacesImplClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.phone.CentralSurfacesImpl",
-            suppressError = true
-        )
-
-        centralSurfacesImplClass
-            .hookMethod("onStartedWakingUp")
-            .suppressError()
-            .runAfter { updateLayoutParams() }
-
-        centralSurfacesImplClass
-            .hookConstructor()
-            .runAfter { param ->
-                if (!mWidgetsEnabled) return@runAfter
-
-                val mWakefulnessObserver = param.thisObject.getFieldSilently("mWakefulnessObserver")
-
-                mWakefulnessObserver?.javaClass
-                    .hookMethod("onStartedWakingUp")
-                    .runAfter { updateLayoutParams() }
-            }
-
-        val dozeServiceClass = findClass("$SYSTEMUI_PACKAGE.doze.DozeService")
-
-        dozeServiceClass
-            .hookMethod("onDreamingStarted")
-            .runAfter {
-                coroutineScope.launch {
-                    repeat(5) {
-                        updateLayoutParams()
-                        delay(500L)
-                    }
-                }
-            }
     }
 
     private fun placeWidgetsView() {

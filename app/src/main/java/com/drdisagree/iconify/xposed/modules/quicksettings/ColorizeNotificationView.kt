@@ -40,7 +40,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XposedHelpers.newInstance
@@ -319,7 +318,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                         "mTertiaryFixedDimAccentColor",
                         "mOnTertiaryFixedAccentTextColor"
                     ).forEach { fieldName ->
-                        mColors.setField(
+                        mColors.setFieldSilently(
                             fieldName,
                             notification.getExtraField(fieldName)
                         )

@@ -154,20 +154,25 @@ class DualStatusbar(context: Context) : ModPack(context) {
                             mContext.packageName
                         )
                     )
-                    val statusbarStartSideContainer = phoneStatusBarView.findViewById<FrameLayout>(
-                        mContext.resources.getIdentifier(
-                            "status_bar_start_side_container",
-                            "id",
-                            mContext.packageName
+                    val statusbarStartSideContainer = runCatching {
+                        phoneStatusBarView.findViewById<FrameLayout>(
+                            mContext.resources.getIdentifier(
+                                "status_bar_start_side_container",
+                                "id",
+                                mContext.packageName
+                            )
                         )
-                    )
-                    val statusbarEndSideContainer = phoneStatusBarView.findViewById<FrameLayout>(
-                        mContext.resources.getIdentifier(
-                            "status_bar_end_side_container",
-                            "id",
-                            mContext.packageName
+                    }.getOrNull() ?: statusbarContents!!.getChildAt(0)
+                    val statusbarEndSideContainer = runCatching {
+                        phoneStatusBarView.findViewById<FrameLayout>(
+                            mContext.resources.getIdentifier(
+                                "status_bar_end_side_container",
+                                "id",
+                                mContext.packageName
+                            )
                         )
-                    )
+                    }.getOrNull() ?: statusbarContents!!
+                        .getChildAt(statusbarContents!!.childCount - 1)
 
                     newStartSideContainer = LinearLayout(mContext).apply {
                         orientation = LinearLayout.VERTICAL

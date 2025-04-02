@@ -54,7 +54,7 @@
     <dimen name="kg_widgets_icon_padding">18dp</dimen>
     <dimen name="kg_main_widgets_icon_padding">20dp</dimen>
     <dimen name="kg_widget_main_height">88dp</dimen>
-    <dimen name="kg_widget_main_width">175dp</dimen>
+    <dimen name="kg_widget_main_width">160dp</dimen>
 
     <!-- Searchbar dimens -->
     <dimen name="searchbar_height">56dp</dimen>

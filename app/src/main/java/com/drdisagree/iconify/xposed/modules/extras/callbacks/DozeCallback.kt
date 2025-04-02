@@ -2,11 +2,11 @@ package com.drdisagree.iconify.xposed.modules.extras.callbacks
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.util.concurrent.CopyOnWriteArrayList
@@ -36,60 +36,81 @@ class DozeCallback(context: Context) : ModPack(context) {
             }
         }
 
-        if (Build.VERSION.SDK_INT < 36) { // below android 16
-            val statusBarStateControllerImplClass =
-                findClass("$SYSTEMUI_PACKAGE.statusbar.StatusBarStateControllerImpl")
-            val dozeScrimControllerClass =
-                findClass("$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController")
-            val collapsedStatusBarFragment = findClass(
-                "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
-                "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
-            )
+        val statusBarStateControllerImplClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.StatusBarStateControllerImpl")
+        val dozeScrimControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController")
+        val collapsedStatusBarFragment = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
+            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
+        )
+        val notificationPanelViewControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
 
-            statusBarStateControllerImplClass
-                .hookMethod("setIsDozing")
-                .runAfter { param ->
-                    val isDozing = param.args[0] as Boolean
-                    updateState(isDozing, mIsPulsing)
-                }
+        statusBarStateControllerImplClass
+            .hookMethod("setIsDozing")
+            .suppressError()
+            .runAfter { param ->
+                val isDozing = param.args[0] as Boolean
+                updateState(isDozing, mIsPulsing)
+            }
 
-            statusBarStateControllerImplClass
-                .hookMethod("setPulsing")
-                .runAfter { param ->
-                    val isPulsing = param.args[0] as Boolean
-                    updateState(mIsDozing, isPulsing)
-                }
+        statusBarStateControllerImplClass
+            .hookMethod("setPulsing")
+            .suppressError()
+            .runAfter { param ->
+                val isPulsing = param.args[0] as Boolean
+                updateState(mIsDozing, isPulsing)
+            }
 
-            dozeScrimControllerClass
-                .hookMethod("onDozingChanged")
-                .runAfter { param ->
-                    val isDozing = param.args[0] as Boolean
-                    updateState(isDozing, mIsPulsing)
-                }
+        dozeScrimControllerClass
+            .hookMethod("onDozingChanged")
+            .suppressError()
+            .runAfter { param ->
+                val isDozing = param.args[0] as Boolean
+                updateState(isDozing, mIsPulsing)
+            }
 
-            collapsedStatusBarFragment
-                .hookMethod("onDozingChanged")
-                .runAfter { param ->
-                    val isDozing = param.args[0] as Boolean
-                    updateState(isDozing, mIsPulsing)
-                }
-        } else { // android 16+
-            val notificationPanelViewControllerClass =
-                findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
+        collapsedStatusBarFragment
+            .hookMethod("onDozingChanged")
+            .suppressError()
+            .runAfter { param ->
+                val isDozing = param.args[0] as Boolean
+                updateState(isDozing, mIsPulsing)
+            }
 
-            notificationPanelViewControllerClass
-                .hookMethod("setDozing")
-                .runAfter { param ->
-                    val isDozing = param.args[0] as Boolean
-                    updateState(isDozing, mIsPulsing)
-                }
+        notificationPanelViewControllerClass
+            .hookMethod("setDozing")
+            .suppressError()
+            .runAfter { param ->
+                val isDozing = param.args[0] as Boolean
+                updateState(isDozing, mIsPulsing)
+            }
 
-            notificationPanelViewControllerClass
-                .hookMethod("setPulsing")
-                .runAfter { param ->
-                    val isPulsing = param.args[0] as Boolean
-                    updateState(mIsDozing, isPulsing)
-                }
+        notificationPanelViewControllerClass
+            .hookMethod("setPulsing")
+            .suppressError()
+            .runAfter { param ->
+                val isPulsing = param.args[0] as Boolean
+                updateState(mIsDozing, isPulsing)
+            }
+
+        if (mapOf(
+                statusBarStateControllerImplClass to "setIsDozing",
+                dozeScrimControllerClass to "onDozingChanged",
+                collapsedStatusBarFragment to "onDozingChanged",
+                notificationPanelViewControllerClass to "setDozing"
+            ).none { (clazz, method) -> clazz.isMethodAvailable(method) }
+        ) {
+            log(this@DozeCallback, "Doze method hook is not available")
+        }
+
+        if (mapOf(
+                statusBarStateControllerImplClass to "setPulsing",
+                notificationPanelViewControllerClass to "setPulsing"
+            ).none { (clazz, method) -> clazz.isMethodAvailable(method) }
+        ) {
+            log(this@DozeCallback, "Pulse method hook is not available")
         }
     }
 
