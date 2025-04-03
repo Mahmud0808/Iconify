@@ -25,6 +25,7 @@ object Const {
 
     // 3rd party packages
     const val COLORBLENDR_PACKAGE = "com.drdisagree.colorblendr"
+    const val PL_ENHANCED_PACKAGE = "com.drdisagree.pixellauncherenhanced"
 
     // Github repo
     const val GITHUB_REPO = "https://github.com/Mahmud0808/Iconify"
@@ -44,6 +45,7 @@ object Const {
 
     // ColorBlender URL
     const val COLORBLENDR_URL = "https://github.com/Mahmud0808/ColorBlendr"
+    const val PL_ENHANCED_URL = "https://github.com/Mahmud0808/PixelLauncherEnhanced"
 
     // Fragment variables
     const val TRANSITION_DELAY = 120

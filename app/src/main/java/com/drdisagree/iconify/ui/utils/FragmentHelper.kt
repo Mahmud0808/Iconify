@@ -43,7 +43,6 @@ import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.DualStatusbar
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderImage
-import com.drdisagree.iconify.ui.fragments.xposed.Launcher
 import com.drdisagree.iconify.ui.fragments.xposed.Lockscreen
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClock
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWeather
@@ -120,7 +119,6 @@ fun isInGroup(fragment: Fragment, group: FragmentGroup): Boolean {
                     fragment is LockscreenWidget ||
                     fragment is DepthWallpaper ||
                     fragment is AlbumArt ||
-                    fragment is Launcher ||
                     fragment is Others
         }
 

@@ -1,8 +1,6 @@
 package com.drdisagree.iconify.xposed
 
 import android.os.Build
-import com.drdisagree.iconify.data.common.Const.LAUNCHER3_PACKAGE
-import com.drdisagree.iconify.data.common.Const.PIXEL_LAUNCHER_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SETTINGS_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.modules.BackgroundChip
@@ -16,17 +14,6 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet
 import com.drdisagree.iconify.xposed.modules.extras.utils.SettingsLibUtils
-import com.drdisagree.iconify.xposed.modules.launcher.GestureMod
-import com.drdisagree.iconify.xposed.modules.launcher.HideStatusbar
-import com.drdisagree.iconify.xposed.modules.launcher.HotseatMod
-import com.drdisagree.iconify.xposed.modules.launcher.IconLabels
-import com.drdisagree.iconify.xposed.modules.launcher.IconTextSize
-import com.drdisagree.iconify.xposed.modules.launcher.IconUpdater
-import com.drdisagree.iconify.xposed.modules.launcher.LauncherUtils
-import com.drdisagree.iconify.xposed.modules.launcher.OpacityModifier
-import com.drdisagree.iconify.xposed.modules.launcher.SmartSpace
-import com.drdisagree.iconify.xposed.modules.launcher.ThemedIcons
-import com.drdisagree.iconify.xposed.modules.launcher.TopShadow
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
 import com.drdisagree.iconify.xposed.modules.lockscreen.clock.LockscreenClock
@@ -149,20 +136,6 @@ object EntryList {
         OpQsHeader::class.java
     )
 
-    private val launcherModPacks: List<Class<out ModPack>> = listOf(
-        LauncherUtils::class.java,
-        IconUpdater::class.java,
-        ThemedIcons::class.java,
-        OpacityModifier::class.java,
-        GestureMod::class.java,
-        IconLabels::class.java,
-        HotseatMod::class.java,
-        IconTextSize::class.java,
-        SmartSpace::class.java,
-        HideStatusbar::class.java,
-        TopShadow::class.java
-    )
-
     private val settingsCommonModPacks: List<Class<out ModPack>> = listOf(
         GoogleIcon::class.java
     )
@@ -199,11 +172,6 @@ object EntryList {
                         }
                     }
                 }
-            }
-
-            PIXEL_LAUNCHER_PACKAGE,
-            LAUNCHER3_PACKAGE -> {
-                modPacks.addAll(launcherModPacks)
             }
 
             SETTINGS_PACKAGE -> {

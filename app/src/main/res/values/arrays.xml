@@ -5,14 +5,10 @@
         <item>android</item>
         <item>com.android.systemui</item>
         <item>com.android.settings</item>
-        <item>com.google.android.apps.nexuslauncher</item>
-        <item>com.android.launcher3</item>
     </string-array>
 
     <string-array name="root_requirement" translatable="false">
         <item>com.android.systemui</item>
-        <item>com.google.android.apps.nexuslauncher</item>
-        <item>com.android.launcher3</item>
     </string-array>
 
     <string-array name="locale_name">

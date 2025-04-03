@@ -56,8 +56,7 @@
         android:icon="@drawable/ic_launcher"
         android:key="xposedLauncher"
         android:summary="@string/activity_desc_xposed_launcher"
-        android:title="@string/activity_title_xposed_launcher"
-        app:fragment="com.drdisagree.iconify.ui.fragments.xposed.Launcher" />
+        android:title="@string/activity_title_xposed_launcher" />
 
     <com.drdisagree.iconify.ui.preferences.PreferenceMenu
         android:icon="@drawable/ic_xposed_misc"

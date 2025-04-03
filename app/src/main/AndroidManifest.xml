@@ -25,6 +25,7 @@
 
         <!-- Other Apps -->
         <package android:name="com.drdisagree.colorblendr" />
+        <package android:name="com.drdisagree.pixellauncherenhanced" />
         <package android:name="it.dhd.oxygencustomizer.aiplugin" />
         <package android:name="org.lsposed.manager" />
     </queries>

@@ -14,7 +14,6 @@ import com.drdisagree.iconify.ui.fragments.xposed.BatteryStyle
 import com.drdisagree.iconify.ui.fragments.xposed.DepthWallpaper
 import com.drdisagree.iconify.ui.fragments.xposed.DualStatusbar
 import com.drdisagree.iconify.ui.fragments.xposed.HeaderClock
-import com.drdisagree.iconify.ui.fragments.xposed.Launcher
 import com.drdisagree.iconify.ui.fragments.xposed.Lockscreen
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenClockParent
 import com.drdisagree.iconify.ui.fragments.xposed.LockscreenWeather
@@ -176,11 +175,6 @@ object Resources {
             R.xml.xposed_lockscreen_album_art,
             R.string.activity_title_lockscreen_album_art,
             AlbumArt()
-        ),
-        SearchPreferenceItem(
-            R.xml.xposed_launcher,
-            R.string.activity_title_xposed_launcher,
-            Launcher()
         ),
         SearchPreferenceItem(
             R.xml.xposed_others,

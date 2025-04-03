@@ -6,6 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.data.common.Const.PL_ENHANCED_PACKAGE
+import com.drdisagree.iconify.data.common.Const.PL_ENHANCED_URL
 import com.drdisagree.iconify.data.common.Preferences
 import com.drdisagree.iconify.data.common.Preferences.FIRST_INSTALL
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_MOVE_NOTIFICATION_ICONS
@@ -15,6 +17,9 @@ import com.drdisagree.iconify.data.config.RPrefs.getBoolean
 import com.drdisagree.iconify.data.config.RPrefs.putBoolean
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
 import com.drdisagree.iconify.ui.preferences.HookCheckPreference
+import com.drdisagree.iconify.ui.preferences.PreferenceMenu
+import com.drdisagree.iconify.utils.AppUtils.launchAppThrowError
+import com.drdisagree.iconify.utils.AppUtils.openUrl
 import com.drdisagree.iconify.utils.SystemUtils.saveVersionCode
 
 class Xposed : ControlledPreferenceFragmentCompat() {
@@ -67,12 +72,27 @@ class Xposed : ControlledPreferenceFragmentCompat() {
                     )
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
-                } catch (ignored: Exception) {
+                } catch (_: Exception) {
                 }
                 true
             }
 
             initializeHookCheck()
+        }
+
+        findPreference<PreferenceMenu>("xposedLauncher")?.setOnPreferenceClickListener {
+            try {
+                launchAppThrowError(
+                    requireActivity(),
+                    PL_ENHANCED_PACKAGE
+                )
+            } catch (_: Exception) {
+                openUrl(
+                    requireActivity(),
+                    PL_ENHANCED_URL
+                )
+            }
+            true
         }
     }
 
