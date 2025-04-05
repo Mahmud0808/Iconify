@@ -641,8 +641,8 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
 
     companion object {
         private val TAG = LandscapeBatteryL::class.java.simpleName
-        private const val WIDTH = 24f
-        private const val HEIGHT = 12f
+        private const val WIDTH = 26f
+        private const val HEIGHT = 15f
         private const val CRITICAL_LEVEL = 15
 
         // On a 24x12 grid, how wide to make the fill protection stroke.
