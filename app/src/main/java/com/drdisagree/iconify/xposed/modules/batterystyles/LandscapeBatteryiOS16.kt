@@ -222,7 +222,7 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
        private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.BLACK
+         p.color = Color.GREY
      }
  
      private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
@@ -234,7 +234,7 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
      private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
          p.typeface = percentTypeface()
          p.textAlign = Paint.Align.CENTER
-         p.color = Color.BLACK
+         p.color = Color.GREY
      }
 
     private fun percentTypeface(): Typeface {
