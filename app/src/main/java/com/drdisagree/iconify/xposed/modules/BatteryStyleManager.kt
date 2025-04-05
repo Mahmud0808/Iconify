@@ -179,7 +179,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         Xprefs.apply {
             batteryStyle = getString(CUSTOM_BATTERY_STYLE, "0")!!.toInt()
             val hidePercentage: Boolean = getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false)
-            val defaultInsidePercentage = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
+            val defaultInsidePercentage = batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYM||
                     
                     batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYL
             val insidePercentage = defaultInsidePercentage ||
