@@ -37,7 +37,7 @@ import com.drdisagree.iconify.R
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
+open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -86,11 +86,11 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
     // Colors can be configured based on battery level (see res/values/arrays.xml)
     private var colorLevels: IntArray
 
-    private var fillColor: Int = Color.BLACK
-    private var backgroundColor: Int = Color.BLACK
+    private var fillColor: Int = Color.WHITE
+    private var backgroundColor: Int = Color.WHITE
 
     // updated whenever level changes
-    private var levelColor: Int = Color.BLACK
+    private var levelColor: Int = Color.WHITE
 
     // Dual tone implies that battery level is a clipped overlay over top of the whole shape
     private var dualTone = false
@@ -143,11 +143,12 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         }
 
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        
+        p.color = frameColor
+        p.alpha = 255
         p.isDither = true
         p.strokeWidth = 5f
         p.style = Paint.Style.STROKE
-        p.blendMode = BlendMode.CLEAR
+        p.blendMode = BlendMode.SRC
         p.strokeMiter = 5f
         p.strokeJoin = Paint.Join.ROUND
     }
@@ -410,12 +411,12 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         c.restore()
 
         if (charging || batteryLevel <= CRITICAL_LEVEL) {
-            textChargingPaint.textSize = bounds.width() * if (customChargingIcon) 0.00f else 0.00f
+            textChargingPaint.textSize = bounds.width() * if (customChargingIcon) 0.42f else 0.38f
             val textHeight = +textChargingPaint.fontMetrics.ascent
-            val pctXcharging = if (customChargingIcon) 0.00f else 0.00f
-            val pctX100 = if (customChargingIcon) 0.00f else 0.00f
+            val pctXcharging = if (customChargingIcon) 0.76f else 0.59f
+            val pctX100 = if (customChargingIcon) 0.76f else 0.54f
             val pctX = (bounds.width() + textHeight) *
-                    (if (!charging) 0.00f /* discharging */
+                    (if (!charging) 0.72f /* discharging */
                     else if (batteryLevel < 100) pctXcharging /* charging */
                     else pctX100) /* level == 100 */ /* charging */
             val pctY = bounds.height() * if (customChargingIcon) 0.79f else 0.76f
@@ -427,7 +428,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
             c.drawText(batteryLevel.toString(), pctX, pctY, textChargingPaint)
             c.restore()
         } else {
-            textPaint.textSize = bounds.width() * 0.00f
+            textPaint.textSize = bounds.width() * 0.40f
             textQsPaint.textSize = textPaint.textSize
             val textHeight = +textPaint.fontMetrics.ascent
             val pctX = (bounds.width() + textHeight) * 0.76f
@@ -641,8 +642,8 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
 
     companion object {
         private val TAG = LandscapeBatteryL::class.java.simpleName
-        private const val WIDTH = 26f
-        private const val HEIGHT = 15f
+        private const val WIDTH = 28f
+        private const val HEIGHT = 16f
         private const val CRITICAL_LEVEL = 15
 
         // On a 24x12 grid, how wide to make the fill protection stroke.
