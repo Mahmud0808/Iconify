@@ -37,7 +37,7 @@ import com.drdisagree.iconify.R
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
+open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
