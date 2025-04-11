@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="0dp"
@@ -11,7 +12,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal|top"
         android:gravity="center_horizontal|top"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -26,10 +28,10 @@
                 android:format12Hour="hh"
                 android:format24Hour="HH"
                 android:gravity="center"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:includeFontPadding="false"
                 android:singleLine="true"
-                android:tag="text1|nolineheight"
+                android:tag="accent1|nolineheight"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="200sp"
                 android:textStyle="bold" />
@@ -51,6 +53,7 @@
                     android:format12Hour="yyyy"
                     android:format24Hour="yyyy"
                     android:gravity="center"
+                    android:tag="text1|nolineheight"
                     android:includeFontPadding="false"
                     android:letterSpacing="0.3"
                     android:singleLine="true"
@@ -84,9 +87,11 @@
                     android:singleLine="true"
                     android:textAlignment="center"
                     android:textAllCaps="true"
+                    android:tag="text1|nolineheight"
                     android:textColor="@android:color/white"
                     android:fontFamily="@font/bebasneue"
                     android:textSize="15sp" />
+
                 <TextClock
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -97,6 +102,7 @@
                     android:singleLine="true"
                     android:textAlignment="center"
                     android:textAllCaps="true"
+                    android:tag="text1"
                     android:textColor="@android:color/white"
                     android:fontFamily="@font/bebasneue"
                     android:textSize="15sp" />
@@ -113,7 +119,7 @@
                 android:gravity="center_horizontal"
                 android:includeFontPadding="false"
                 android:singleLine="true"
-                android:tag="text1"
+                android:tag="accent2"
                 android:textColor="@color/colorSecondaryContainerDark"
                 android:textSize="250sp"
                 android:textStyle="bold" />
