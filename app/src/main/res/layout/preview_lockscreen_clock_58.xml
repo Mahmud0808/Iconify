@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/lockscreen_clock_58_stroke"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="50dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/lockscreen_clock_58_bg1"
+            android:gravity="center">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/general_sans"
+                android:format12Hour="hh"
+                android:textColor="@color/colorOnPrimaryContainerLight"
+                android:format24Hour="HH"
+                android:textSize="111sp"
+                android:textStyle="bold" />
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:format12Hour="mm"
+                android:format24Hour="MM"
+                android:fontFamily="@font/general_sans"
+                android:textSize="47sp"
+                android:textColor="@color/colorOnTertiaryDark"
+                android:textStyle="bold"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="23dp"/>
+
+        </LinearLayout>
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textColor="@color/colorOnSecondaryContainerDark"
+            android:gravity="center"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="270dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/general_sans"
+            android:background="@drawable/lockscreen_clock_58_bg3"
+            android:format12Hour="dd MMM"/>
+
+        <TextClock
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:textAllCaps="true"
+            android:textColor="@color/colorOnSecondaryContainerDark"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_marginStart="270dp"
+            android:layout_marginTop="121dp"
+            android:fontFamily="@font/general_sans"
+            android:background="@drawable/lockscreen_clock_58_bg3"
+            android:format12Hour="ss"/>
+
+    </FrameLayout>
+</LinearLayout>
