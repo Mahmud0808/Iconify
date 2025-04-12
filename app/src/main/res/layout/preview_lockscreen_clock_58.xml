@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center">
 
     <FrameLayout
@@ -11,6 +11,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="accent1"
             android:src="@drawable/lockscreen_clock_58_stroke"
             android:layout_marginTop="60dp"
             android:layout_marginStart="50dp"/>
@@ -18,6 +19,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tag="accent1"
             android:background="@drawable/lockscreen_clock_58_bg1"
             android:gravity="center">
 
@@ -26,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/general_sans"
                 android:format12Hour="hh"
+                android:tag="text1|nolineheight"
                 android:textColor="@color/colorOnPrimaryContainerLight"
                 android:format24Hour="HH"
                 android:textSize="111sp"
@@ -38,6 +41,7 @@
                 android:format24Hour="MM"
                 android:fontFamily="@font/general_sans"
                 android:textSize="47sp"
+                android:tag="text1|nolineheight"
                 android:textColor="@color/colorOnTertiaryDark"
                 android:textStyle="bold"
                 android:layout_marginStart="5dp"
@@ -45,31 +49,48 @@
 
         </LinearLayout>
 
-        <TextClock
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAllCaps="true"
-            android:textColor="@color/colorOnSecondaryContainerDark"
-            android:gravity="center"
             android:layout_marginStart="140dp"
             android:layout_marginTop="270dp"
-            android:textSize="15sp"
-            android:fontFamily="@font/general_sans"
+            android:gravity="center"
             android:background="@drawable/lockscreen_clock_58_bg3"
-            android:format12Hour="dd MMM"/>
+            android:tag="accent2">
 
-        <TextClock
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/general_sans"
+                android:format12Hour="dd MMM"
+                android:gravity="center"
+                android:tag="text1|nolineheight"
+                android:textAllCaps="true"
+                android:textColor="@color/colorOnSecondaryContainerDark"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:textAllCaps="true"
-            android:textColor="@color/colorOnSecondaryContainerDark"
-            android:gravity="center"
-            android:textSize="20sp"
             android:layout_marginStart="270dp"
             android:layout_marginTop="121dp"
-            android:fontFamily="@font/general_sans"
             android:background="@drawable/lockscreen_clock_58_bg3"
-            android:format12Hour="ss"/>
+            android:gravity="center"
+            android:tag="accent2">
 
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/general_sans"
+                android:format12Hour="ss"
+                android:gravity="center"
+                android:tag="text1|nolineheight"
+                android:textAllCaps="true"
+                android:textColor="@color/colorOnSecondaryContainerDark"
+                android:textSize="20sp" />
+
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>
