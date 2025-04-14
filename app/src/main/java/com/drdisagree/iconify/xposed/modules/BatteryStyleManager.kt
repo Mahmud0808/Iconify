@@ -760,7 +760,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             BATTERY_STYLE_CUSTOM_RLANDSCAPE -> RLandscapeBattery(context, frameColor)
             BATTERY_STYLE_CUSTOM_LANDSCAPE -> LandscapeBattery(context, frameColor)
             BATTERY_STYLE_PORTRAIT_CAPSULE -> PortraitBatteryCapsule(context, frameColor)
-            BATTERY_STYLE_PORTRAIT_LORN -> PortraitBatteryLorn(context, frameColor)
+            
             BATTERY_STYLE_PORTRAIT_MX -> PortraitBatteryMx(context, frameColor)
             BATTERY_STYLE_PORTRAIT_AIROO -> PortraitBatteryAiroo(context, frameColor)
             BATTERY_STYLE_RLANDSCAPE_STYLE_A -> RLandscapeBatteryStyleA(context, frameColor)
@@ -797,6 +797,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             }
             BATTERY_STYLE_FILLED_CIRCLE -> CircleFilledBattery(context, frameColor)
             BATTERY_STYLE_LANDSCAPE_KIM -> LandscapeBatteryKim(context, frameColor)
+            BATTERY_STYLE_PORTRAIT_LORN -> PortraitBatteryLorn(context, frameColor)
             else -> null
         }
 
