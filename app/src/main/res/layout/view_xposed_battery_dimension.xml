@@ -21,7 +21,7 @@
         android:visibility="gone"
         app:sliderStepSize="1"
         app:sliderValue="4"
-        app:sliderValueFrom="0"
+        app:sliderValueFrom="-4"
         app:sliderValueTo="8"
         app:titleText="@string/battery_margin_left_title"
         app:valueFormat="dp" />
@@ -33,7 +33,7 @@
         android:visibility="gone"
         app:sliderStepSize="1"
         app:sliderValue="4"
-        app:sliderValueFrom="0"
+        app:sliderValueFrom="-4
         app:sliderValueTo="8"
         app:titleText="@string/battery_margin_right_title"
         app:valueFormat="dp" />
