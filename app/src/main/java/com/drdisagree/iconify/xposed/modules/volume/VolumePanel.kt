@@ -22,6 +22,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 @SuppressLint("DiscouragedApi", "DefaultLocale")
 class VolumePanel(context: Context) : ModPack(context) {
@@ -138,7 +139,7 @@ class VolumePanel(context: Context) : ModPack(context) {
                     .getField("_endInclusive") as Float
                 val percentage = 100 * currentValue / maxValue
                 var label = param.thisObject.getField("label") as String
-                label = String.format("$label - ${Math.round(percentage)}%%")
+                label = String.format("$label - ${percentage.roundToInt()}%%")
 
                 param.thisObject.setField("label", label)
             }
@@ -147,16 +148,35 @@ class VolumePanel(context: Context) : ModPack(context) {
     private fun showSafetyWarning() {
         val volumeDialogImplClass = findClass("$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl")
 
-        volumeDialogImplClass
-            .hookMethod(
-                "onShowSafetyWarning",
-                "showSafetyWarningH"
-            )
-            .runBefore { param ->
-                if (!showWarning) {
-                    param.result = null
+        try {
+            volumeDialogImplClass
+                .hookMethod(
+                    "onShowSafetyWarning",
+                    "showSafetyWarningH"
+                )
+                .throwError()
+                .runBefore { param ->
+                    if (!showWarning) {
+                        param.result = null
+                    }
                 }
-            }
+        } catch (_: Throwable) {
+            volumeDialogImplClass
+                .hookConstructor()
+                .runAfter { param ->
+                    if (showWarning) return@runAfter
+
+                    val mControllerCallbackH = param.thisObject.getField("mControllerCallbackH")
+
+                    mControllerCallbackH.javaClass
+                        .hookMethod("onShowSafetyWarning")
+                        .runBefore { param ->
+                            if (!showWarning) {
+                                param.result = null
+                            }
+                        }
+                }
+        }
     }
 
     private fun createVolumeTextView(): TextView {

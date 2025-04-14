@@ -48,10 +48,6 @@ class ConfigurationCallback(context: Context) : ModPack(context) {
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ConfigurationControllerImpl")
 
         configurationControllerImplClass
-            .hookMethod("notifyThemeChanged")
-            .runAfter { mConfigListeners.forEach { it.onThemeChanged() } }
-
-        configurationControllerImplClass
             .hookMethod("onConfigurationChanged")
             .runAfter { param ->
                 val newConfig = param.args[0] as Configuration

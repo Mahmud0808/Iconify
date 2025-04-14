@@ -204,12 +204,12 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
                 LSCLOCK_SWITCH,
                 LSCLOCK_STYLE,
                 LSCLOCK_FONT_SWITCH,
+                LSCLOCK_COLOR_SWITCH,
                 LSCLOCK_FONT_LINEHEIGHT,
                 LSCLOCK_FONT_TEXT_SCALING
             ) -> updateClockView(true)
 
             in setOf(
-                LSCLOCK_COLOR_SWITCH,
                 LSCLOCK_IMAGE_SWITCH,
                 LSCLOCK_USERNAME,
                 LSCLOCK_DEVICENAME
