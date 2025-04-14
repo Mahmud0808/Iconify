@@ -15,7 +15,7 @@
         app:sliderStepSize="1"
         app:sliderValue="20"
         app:sliderValueFrom="10"
-        app:sliderValueTo="40"
+        app:sliderValueTo="50"
         app:titleText="@string/battery_width_title"
         app:valueFormat="dp" />
 
@@ -27,7 +27,7 @@
         app:sliderStepSize="1"
         app:sliderValue="20"
         app:sliderValueFrom="10"
-        app:sliderValueTo="40"
+        app:sliderValueTo="50"
         app:titleText="@string/battery_height_title"
         app:valueFormat="dp" />
 
