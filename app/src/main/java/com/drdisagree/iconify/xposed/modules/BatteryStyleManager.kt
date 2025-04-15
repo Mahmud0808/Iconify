@@ -1121,7 +1121,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
     private fun updateBatteryRotation(mBatteryIconView: View) {
         mBatteryIconView.rotation = if (!defaultLandscapeBatteryEnabled && mBatteryLayoutReverse) {
-            180
+            270
         } else {
             mBatteryRotation
         }.toFloat()
