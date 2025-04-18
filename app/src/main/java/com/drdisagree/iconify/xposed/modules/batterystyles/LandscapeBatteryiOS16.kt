@@ -641,15 +641,15 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
 
     companion object {
         private val TAG = LandscapeBatteryL::class.java.simpleName
-        private const val WIDTH = 50f
-        private const val HEIGHT = 50f
+        private const val WIDTH = 24f
+        private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 20
 
         // On a 24x12 grid, how wide to make the fill protection stroke.
         // Scales when our size changes
-        private const val PROTECTION_STROKE_WIDTH = 3f
+        private const val PROTECTION_STROKE_WIDTH = 2f
 
         // Arbitrarily chosen for visibility at small sizes
-        private const val PROTECTION_MIN_STROKE_WIDTH = 3f
+        private const val PROTECTION_MIN_STROKE_WIDTH = 5f
     }
 }
