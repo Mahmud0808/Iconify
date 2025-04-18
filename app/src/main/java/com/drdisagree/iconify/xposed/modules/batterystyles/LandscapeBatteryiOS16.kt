@@ -641,7 +641,7 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
 
     companion object {
         private val TAG = LandscapeBatteryL::class.java.simpleName
-        private const val WIDTH = 12f
+        private const val WIDTH = 16f
         private const val HEIGHT = 20f
         private const val CRITICAL_LEVEL = 20
 
