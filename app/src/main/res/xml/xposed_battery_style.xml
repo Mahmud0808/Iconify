@@ -16,8 +16,8 @@
         android:title="@string/battery_width_title"
         app:defaultValue="20"
         app:iconSpaceReserved="false"
-        app:maxVal="50"
-        app:minVal="10"
+        app:maxVal="100"
+        app:minVal="5"
         app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="dp" />
@@ -27,8 +27,8 @@
         android:title="@string/battery_height_title"
         app:defaultValue="20"
         app:iconSpaceReserved="false"
-        app:maxVal="50"
-        app:minVal="10"
+        app:maxVal="100"
+        app:minVal="5"
         app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="dp" />
@@ -155,7 +155,7 @@
         app:defaultValue="4"
         app:iconSpaceReserved="false"
         app:maxVal="8"
-        app:minVal="0"
+        app:minVal="-4"
         app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="dp" />
@@ -167,7 +167,7 @@
         app:defaultValue="4"
         app:iconSpaceReserved="false"
         app:maxVal="8"
-        app:minVal="0"
+        app:minVal="-4"
         app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="dp" />
