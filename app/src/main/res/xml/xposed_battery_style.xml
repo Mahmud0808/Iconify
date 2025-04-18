@@ -154,8 +154,8 @@
         android:title="@string/battery_margin_left_title"
         app:defaultValue="4"
         app:iconSpaceReserved="false"
-        app:maxVal="10"
-        app:minVal="-10"
+        app:maxVal="50"
+        app:minVal="-50"
         app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="dp" />
@@ -166,8 +166,8 @@
         android:title="@string/battery_margin_right_title"
         app:defaultValue="4"
         app:iconSpaceReserved="false"
-        app:maxVal="10"
-        app:minVal="-10"
+        app:maxVal="50"
+        app:minVal="-50"
         app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="dp" />
@@ -178,8 +178,8 @@
         android:title="@string/battery_margin_top_title"
         app:defaultValue="0"
         app:iconSpaceReserved="false"
-        app:maxVal="10"
-        app:minVal="-10"
+        app:maxVal="50"
+        app:minVal="-50"
         app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="dp" />
@@ -190,8 +190,8 @@
         android:title="@string/battery_margin_bottom_title"
         app:defaultValue="0"
         app:iconSpaceReserved="false"
-        app:maxVal="10"
-        app:minVal="-10"
+        app:maxVal="50"
+        app:minVal="-50"
         app:showResetButton="true"
         app:tickInterval="1"
         app:valueFormat="dp" />
