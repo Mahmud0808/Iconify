@@ -845,7 +845,7 @@
     <string name="sb_swap_cellular_network_type_title">Trocar tipo de celular e rede</string>
     <string name="sb_swap_cellular_network_type_desc">Troque os ícones de celular e tipo de rede (3G, 4G, LTE, etc.)</string>
     <string name="sb_clock_position_title">Posição do relógio</string>
-    <string name="section_title_clock">Clock</string>
+    <string name="section_title_clock">Relógio</string>
     <string name="sb_clock_position_left">Esquerdo (Padrão)</string>
     <string name="sb_clock_position_center">Centro</string>
     <string name="sb_clock_position_right">Direito</string>
@@ -898,6 +898,8 @@
     <string name="status_bar_logo_style_mint">Linux Mint</string>
     <string name="status_bar_logo_style_amogus">Amogus</string>
     <string name="status_bar_logo_style_custom">Imagem personalizada</string>
+    <string name="status_bar_logo_tint_title">Seguir tonalidade da barra de status</string>
+    <string name="status_bar_logo_tint_desc">Alterne para um fundo claro/escuro para atualizar a tonalidade</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Barra de status de linha dupla</string>
     <string name="dsb_portrait_only_title">Somente retrato</string>

@@ -268,7 +268,7 @@
     <string name="monet_rainbow">Rainbow</string>
     <string name="monet_expressive">Expressivo</string>
     <string name="monet_fidelity">Fidelidade</string>
-    <string name="monet_fruitsalad">Fruit Salad</string>
+    <string name="monet_fruitsalad">Salada de frutas</string>
     <string name="monet_content">Conteúdo</string>
     <string name="monet_primary_accent_saturation_title">Saturação da acentuação</string>
     <string name="monet_secondary_accent_saturation_title">Secondary Accent Saturation</string>
@@ -301,7 +301,7 @@
     <string name="qs_text_color_pixel">Pixel</string>
     <string name="custom_qs_tile_text_color_title">Custom Text Color</string>
     <string name="custom_qs_tile_text_color_desc">Enable custom QS tile text color</string>
-    <string name="custom_qs_tile_text_color_list_title">Text Color Options</string>
+    <string name="custom_qs_tile_text_color_list_title">Opções de Cor do Texto</string>
     <string name="label_always_white_title">Sempre branco</string>
     <string name="label_always_white_desc">Título branco, subtítulo branco</string>
     <string name="label_always_white_v2_title">Sempre branco v2</string>
@@ -326,11 +326,11 @@
     <string name="qs_panel_top_margin_title">Margem superior</string>
     <string name="qs_panel_top_margin_info">Rotate device to see changes. If that doesn\'t work, restart SystemUI.</string>
     <!-- Statusbar -->
-    <string name="section_title_spacing">Spacing</string>
+    <string name="section_title_spacing">Espaçamento</string>
     <string name="sb_left_padding">Margem esquerda</string>
     <string name="sb_right_padding">Margem direita</string>
     <string name="sb_height">Height</string>
-    <string name="section_title_color">Color</string>
+    <string name="section_title_color">Cor</string>
     <string name="sb_color_tint_title">Colorir</string>
     <string name="sb_color_tint_desc">Colorir ícones e texto na barra de estado</string>
     <string name="sb_tint_system">Cor padrão do sistema</string>
@@ -348,10 +348,10 @@
     <string name="navbar_immersive_v3_desc">Espaço do teclado o mais reduzido possível</string>
     <string name="navbar_gcam_lag_fix_title">Gcam Lag Fix</string>
     <string name="navbar_gcam_lag_fix_desc">Fix lag in gcam with gesture navigation</string>
-    <string name="section_title_buttons">Buttons</string>
+    <string name="section_title_buttons">Botões</string>
     <string name="navbar_hide_kb_buttons_title">Esconder botões do teclado</string>
     <string name="navbar_hide_kb_buttons_desc">Esconder os botões voltar/alternar do teclado</string>
-    <string name="section_title_gesture">Gesture</string>
+    <string name="section_title_gesture">Gestos</string>
     <string name="navbar_lower_sensitivity_title">Diminuir sensividade</string>
     <string name="navbar_lower_sensitivity_desc">Diminuir a sensividade dos gestos</string>
     <string name="navbar_disable_left_gesture_title">Desativar gesto esquerdo</string>
@@ -898,6 +898,8 @@
     <string name="status_bar_logo_style_mint">Linux Mint</string>
     <string name="status_bar_logo_style_amogus">Amogus</string>
     <string name="status_bar_logo_style_custom">Custom Image</string>
+    <string name="status_bar_logo_tint_title">Follow Statusbar Tint</string>
+    <string name="status_bar_logo_tint_desc">Switch to a light/dark background to update tint</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Dual Row Statusbar</string>
     <string name="dsb_portrait_only_title">Portrait Only</string>

@@ -94,7 +94,7 @@
     <string name="activity_desc_xposed_menu">これらのオプションには LSPosed が必要です</string>
     <string name="activity_title_extras">エクストラ</string>
     <string name="activity_desc_extras">追加のカスタマイズやオプション</string>
-    <string name="activity_title_dual_statusbar">Dual Statusbar</string>
+    <string name="activity_title_dual_statusbar">デュアルステータスバー</string>
     <!-- Settings -->
     <string name="settings_section_title_general">一般</string>
     <string name="settings_app_language">言語</string>
@@ -250,7 +250,7 @@
     <string name="section_title_misc">その他</string>
     <string name="minimal_qspanel">小さいクイック設定パネル</string>
     <string name="remove_top_shade_of_qspanel">クイック設定パネル上部の影を削除します</string>
-    <string name="system_monet_title">System Monet</string>
+    <string name="system_monet_title">システム Monet</string>
     <string name="system_monet_desc">Disable to retain custom colors\nSystemUI restart required</string>
     <!-- Basic Colors -->
     <string name="primary_color">プライマリ カラー</string>
@@ -299,9 +299,9 @@
     <string name="section_title_qs_text_color">クイック設定 文字色</string>
     <string name="qs_text_color_normal">ノーマル</string>
     <string name="qs_text_color_pixel">Pixel</string>
-    <string name="custom_qs_tile_text_color_title">Custom Text Color</string>
+    <string name="custom_qs_tile_text_color_title">カスタムテキストカラー</string>
     <string name="custom_qs_tile_text_color_desc">Enable custom QS tile text color</string>
-    <string name="custom_qs_tile_text_color_list_title">Text Color Options</string>
+    <string name="custom_qs_tile_text_color_list_title">テキストカラーオプション</string>
     <string name="label_always_white_title">常に白</string>
     <string name="label_always_white_desc">タイトルホワイト、サブタイトルホワイト</string>
     <string name="label_always_white_v2_title">常に白 v2</string>
@@ -381,7 +381,7 @@
     <string name="read_carefully">よく読んでください！</string>
     <!-- Volume Panel Style -->
     <string name="volume_style">音量のスタイル</string>
-    <string name="volume_style_default">Default</string>
+    <string name="volume_style_default">デフォルト</string>
     <string name="volume_style_gradient">グラデーション</string>
     <string name="volume_style_doublelayer">二重レイヤー</string>
     <string name="volume_style_shadedlayer">影付きレイヤー</string>
@@ -419,7 +419,7 @@
     <string name="xposed_only_desc">現在 Xposed 限定モードです。これには LSPosed アプリで Iconify を有効にする必要があります。また、Magisk マネージャーで Iconify モジュールが表示されていることを確認してください。すべての機能にアクセスするには、Iconify アプリのデータを削除した後、インストールプロセスを実行してください。</string>
     <string name="xposed_module_disabled_title">モジュールが有効化されていません</string>
     <string name="xposed_module_disabled_desc">システムサービスが実行されていません</string>
-    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
+    <string name="xposed_module_bootlooped_title">ブートループが検出されました</string>
     <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
     <string name="activity_title_transparency_blur">透過とぼかし</string>
     <string name="activity_desc_transparency_blur">クイック設定のぼかしと透過を有効化します</string>
@@ -427,7 +427,7 @@
     <string name="activity_desc_themes">テーマでパーソナライズします</string>
     <string name="activity_title_quick_settings">クイック設定</string>
     <string name="activity_desc_quick_settings">クイック設定に関する調整</string>
-    <string name="activity_title_lockscreen">Lockscreen</string>
+    <string name="activity_title_lockscreen">ロック画面</string>
     <string name="activity_desc_lockscreen">Customize lockscreen appearance</string>
     <string name="activity_title_battery_style">バッテリースタイル</string>
     <string name="activity_desc_battery_style">バッテリーアイコンの表示をカスタマイズします</string>
@@ -451,9 +451,9 @@
     <string name="activity_title_xposed_others">その他</string>
     <string name="activity_desc_xposed_others">その他の Xposed での調整</string>
     <string name="activity_title_xposed_weather_settings">Weather Settings</string>
-    <string name="activity_title_xposed_launcher">Launcher</string>
+    <string name="activity_title_xposed_launcher">ランチャー</string>
     <string name="activity_desc_xposed_launcher">Launcher related modifications</string>
-    <string name="activity_title_lockscreen_album_art">Media Album Art</string>
+    <string name="activity_title_lockscreen_album_art">メディアアルバムアート</string>
     <!-- Oneplus QS Header -->
     <string name="oneplus_qs_header_title">OnePlus クイック設定ヘッダー</string>
     <string name="oneplus_qs_header_desc">クイック設定で OOS スタイルのメディアプレーヤーとタイルを有効にする</string>
@@ -469,14 +469,14 @@
     <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
     <string name="oneplus_qs_header_gap">Expanded Gap</string>
     <!-- Lockscreen Widgets -->
-    <string name="lockscreen_widgets_title">Lockscreen Widgets</string>
-    <string name="lockscreen_widgets_enabled_title">Enable Lockscreen Widgets</string>
-    <string name="lockscreen_widgets_enabled_summary">Add widgets to lockscreen</string>
-    <string name="lockscreen_display_widgets_title">Device Info Widget</string>
-    <string name="lockscreen_display_widgets_summary">Show device info widget on lockscreen</string>
+    <string name="lockscreen_widgets_title">ロック画面ウィジェット</string>
+    <string name="lockscreen_widgets_enabled_title">ロック画面ウィジェットの有効化</string>
+    <string name="lockscreen_widgets_enabled_summary">ロック画面にウィジェットを追加します</string>
+    <string name="lockscreen_display_widgets_title">デバイス情報ウィジェット</string>
+    <string name="lockscreen_display_widgets_summary">ロック画面にデバイス情報ウィジェットを表示します</string>
     <string name="linear_progress_color">Linear Progress Color</string>
     <string name="circular_progress_color">Circular Progress Color</string>
-    <string name="text_color">Text Color</string>
+    <string name="text_color">テキストカラー</string>
     <string name="custom_device_name">Custom Device Name</string>
     <string name="custom_device_name_summary">Set custom device name.\nKeep blank to disable.</string>
     <string name="large_widgets_category_title">Large Widgets</string>
@@ -497,10 +497,10 @@
     <string name="mini_widget_inactive">Mini Widget Inactive Color</string>
     <string name="mini_widget_icon_active">Mini Widget Icon Active Color</string>
     <string name="mini_widget_icon_inactive">Mini Widget Icon Inactive Color</string>
-    <string name="weather_settings">Weather Settings</string>
+    <string name="weather_settings">天気情報の設定</string>
     <string name="lockscreen_widgets_roundness">Widgets Roundness</string>
-    <string name="lockscreen_widgets_scale">Widgets Scale</string>
-    <string name="lockscreen_device_widget_style_title">Device Widget Style</string>
+    <string name="lockscreen_widgets_scale">ウィジェットのサイズ</string>
+    <string name="lockscreen_device_widget_style_title">デバイスウィジェットのスタイル</string>
     <string name="lockscreen_device_widget_style_classic">Bar with Two Arcs</string>
     <string name="lockscreen_device_widget_style_arcs">Four Arcs</string>
     <!-- LS Widgets Actions -->
@@ -554,8 +554,8 @@
     <string name="power_menu_transparency_title">電源メニューの透過</string>
     <string name="power_menu_transparency_desc">Power menu transparency for Fluid QS\nDo not use custom notification style</string>
     <string name="section_title_others">その他</string>
-    <string name="fix_qs_tile_color_title">Fix QS Tile Color</string>
-    <string name="fix_qs_tile_color_desc">Fix custom QS tile style on android 14</string>
+    <string name="fix_qs_tile_color_title">QS タイルの色を修正する</string>
+    <string name="fix_qs_tile_color_desc">Android 14 でカスタムQSタイルを修正する</string>
     <string name="fix_notification_color_title">通知の色を修正</string>
     <string name="fix_notification_color_desc">Android 14 でのカスタム通知スタイルを修正します</string>
     <string name="fix_notification_footer_button_color_title">Fix Notification Footer Button Color</string>
@@ -898,6 +898,8 @@
     <string name="status_bar_logo_style_mint">Linux Mint</string>
     <string name="status_bar_logo_style_amogus">Amogus</string>
     <string name="status_bar_logo_style_custom">Custom Image</string>
+    <string name="status_bar_logo_tint_title">Follow Statusbar Tint</string>
+    <string name="status_bar_logo_tint_desc">Switch to a light/dark background to update tint</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Dual Row Statusbar</string>
     <string name="dsb_portrait_only_title">Portrait Only</string>

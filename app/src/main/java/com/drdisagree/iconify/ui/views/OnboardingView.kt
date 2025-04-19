@@ -568,6 +568,16 @@ class OnboardingView : FrameLayout {
                 hasErroredOut = true
                 writeLog(TAG, "Failed to create/flash module zip", e)
                 Log.e(TAG, "Failed to create/flash module zip\n$e")
+
+                if (e.toString().contains("Function not implemented", ignoreCase = true)) {
+                    Handler(Looper.getMainLooper()).post {
+                        Toast.makeText(
+                            context,
+                            "Downgrade KernelSU app and try again",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         }
 

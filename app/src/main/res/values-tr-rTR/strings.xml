@@ -898,6 +898,8 @@
     <string name="status_bar_logo_style_mint">Linux Mint</string>
     <string name="status_bar_logo_style_amogus">Amogus</string>
     <string name="status_bar_logo_style_custom">Özel Resim</string>
+    <string name="status_bar_logo_tint_title">Durum Çubuğu Rengini Takip Et</string>
+    <string name="status_bar_logo_tint_desc">Renk tonunu güncellemek için açık/koyu arka plana geç</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Çift Satırlı Durum Çubuğu</string>
     <string name="dsb_portrait_only_title">Yalnızca Dikey</string>

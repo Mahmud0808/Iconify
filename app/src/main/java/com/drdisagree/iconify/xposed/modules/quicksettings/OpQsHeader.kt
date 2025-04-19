@@ -235,8 +235,10 @@ class OpQsHeader(context: Context) : ModPack(context) {
         val bluetoothTileClass = findClass("$SYSTEMUI_PACKAGE.qs.tiles.BluetoothTile")
         val bluetoothControllerImplClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.policy.BluetoothControllerImpl")
-        val notificationMediaManagerClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.NotificationMediaManager")
+        val notificationMediaManagerClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.NotificationMediaManager",
+            "$SYSTEMUI_PACKAGE.media.NotificationMediaManager"
+        )
         val mediaControlPanelClass = findClass(
             "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaControlPanel",
             "$SYSTEMUI_PACKAGE.media.controls.ui.MediaControlPanel",

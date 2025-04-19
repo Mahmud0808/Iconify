@@ -844,11 +844,11 @@
     <string name="sb_swap_wifi_cellular_desc">Scambia icone wifi e cellulare</string>
     <string name="sb_swap_cellular_network_type_title">Scambia Tipo di Rete e Cellulare</string>
     <string name="sb_swap_cellular_network_type_desc">Scambia il tipo di icone per rete e cellulare (3G 4G LTE ecc.)</string>
-    <string name="sb_clock_position_title">Clock Position</string>
-    <string name="section_title_clock">Clock</string>
-    <string name="sb_clock_position_left">Left (Default)</string>
-    <string name="sb_clock_position_center">Center</string>
-    <string name="sb_clock_position_right">Right</string>
+    <string name="sb_clock_position_title">Posizione Orologio</string>
+    <string name="section_title_clock">Orologio</string>
+    <string name="sb_clock_position_left">Sinistra (Predefinito)</string>
+    <string name="sb_clock_position_center">Centrato</string>
+    <string name="sb_clock_position_right">Destra</string>
     <string name="ongoing_action_chip_title">Chip Azione In Corso</string>
     <string name="ongoing_action_chip_desc">Mostra l\'indicatore di avanzamento nella barra di stato per le azioni in corso come i download</string>
     <string name="sb_show_4g_icon_title">Icona 4G</string>
@@ -898,6 +898,8 @@
     <string name="status_bar_logo_style_mint">Linux Mint</string>
     <string name="status_bar_logo_style_amogus">Amogus</string>
     <string name="status_bar_logo_style_custom">Immagine Personalizzata</string>
+    <string name="status_bar_logo_tint_title">Segui Tinta Barra di Stato</string>
+    <string name="status_bar_logo_tint_desc">Passa a uno sfondo chiaro/scuro per aggiornare la tinta</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Barra Di Stato A Doppia Riga</string>
     <string name="dsb_portrait_only_title">Solo Verticale</string>

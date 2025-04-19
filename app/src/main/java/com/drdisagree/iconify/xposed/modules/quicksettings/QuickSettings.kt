@@ -757,17 +757,38 @@ class QuickSettings(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.media.MediaControlPanel"
         )
 
-        mediaControlPanelClass
-            .hookMethod("getScaledBackground", "scaleDrawable")
-            .runAfter { param ->
-                if (!blurMediaPlayerArtwork) return@runAfter
+        try {
+            mediaControlPanelClass
+                .hookMethod("getScaledBackground", "scaleDrawable")
+                .throwError()
+                .runAfter { param ->
+                    if (!blurMediaPlayerArtwork) return@runAfter
 
-                val artwork = param.result as? Drawable
+                    val artwork = param.result as? Drawable
 
-                if (artwork != null) {
-                    param.result = artwork.applyBlur(mContext, blurMediaPlayerArtworkRadius)
+                    if (artwork != null) {
+                        param.result = artwork.applyBlur(mContext, blurMediaPlayerArtworkRadius)
+                    }
                 }
-            }
+        } catch (_: Throwable) {
+            mediaControlPanelClass
+                .hookMethod("addGradientToPlayerAlbum")
+                .runAfter { param ->
+                    if (!blurMediaPlayerArtwork) return@runAfter
+
+                    val playerAlbumDrawable = param.result as? LayerDrawable
+                    val artwork = playerAlbumDrawable?.getDrawable(0)
+
+                    if (artwork != null) {
+                        val blurredArtwork = artwork.applyBlur(
+                            mContext,
+                            blurMediaPlayerArtworkRadius
+                        )
+                        playerAlbumDrawable.setDrawable(0, blurredArtwork)
+                        param.result = playerAlbumDrawable
+                    }
+                }
+        }
     }
 
     private fun isQsIconLabelStateActive(param: MethodHookParam?, stateIndex: Int): Boolean {

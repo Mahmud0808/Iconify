@@ -898,6 +898,8 @@
     <string name="status_bar_logo_style_mint">Linux Mint</string>
     <string name="status_bar_logo_style_amogus">Amogus</string>
     <string name="status_bar_logo_style_custom">Custom Image</string>
+    <string name="status_bar_logo_tint_title">Follow Statusbar Tint</string>
+    <string name="status_bar_logo_tint_desc">Switch to a light/dark background to update tint</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Barra de estado de doble fila</string>
     <string name="dsb_portrait_only_title">Sólo vertical</string>

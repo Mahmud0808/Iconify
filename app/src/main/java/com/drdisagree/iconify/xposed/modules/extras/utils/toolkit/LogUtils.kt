@@ -83,7 +83,7 @@ fun Class<*>?.dumpClass() {
     XposedBridge.log("extends: ${superclass.name}")
 
     XposedBridge.log("Subclasses:")
-    val scs = classes
+    val scs = classes.toList().union(declaredClasses.toList())
     for (c in scs) {
         XposedBridge.log("\t" + c.name)
     }

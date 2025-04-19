@@ -844,11 +844,11 @@
     <string name="sb_swap_wifi_cellular_desc">交换 Wifi 和移动网络图标</string>
     <string name="sb_swap_cellular_network_type_title">交换网络类型</string>
     <string name="sb_swap_cellular_network_type_desc">交换网络类型(3G 4G LTE等)的图标</string>
-    <string name="sb_clock_position_title">Clock Position</string>
-    <string name="section_title_clock">Clock</string>
-    <string name="sb_clock_position_left">Left (Default)</string>
-    <string name="sb_clock_position_center">Center</string>
-    <string name="sb_clock_position_right">Right</string>
+    <string name="sb_clock_position_title">时钟位置</string>
+    <string name="section_title_clock">时钟选项</string>
+    <string name="sb_clock_position_left">左侧 (默认)</string>
+    <string name="sb_clock_position_center">居中</string>
+    <string name="sb_clock_position_right">右侧</string>
     <string name="ongoing_action_chip_title">正在进行的操作</string>
     <string name="ongoing_action_chip_desc">在状态栏显示正在进行的操作如下载进度指示器</string>
     <string name="sb_show_4g_icon_title">4G图标</string>
@@ -898,6 +898,8 @@
     <string name="status_bar_logo_style_mint">Linux Mint</string>
     <string name="status_bar_logo_style_amogus">Amogus</string>
     <string name="status_bar_logo_style_custom">自定义图片</string>
+    <string name="status_bar_logo_tint_title">跟随状态栏色调</string>
+    <string name="status_bar_logo_tint_desc">切换到浅色/深色背景以更新色调</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">双列状态栏</string>
     <string name="dsb_portrait_only_title">仅图标</string>
