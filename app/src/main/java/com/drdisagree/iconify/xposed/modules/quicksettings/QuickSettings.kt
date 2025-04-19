@@ -823,7 +823,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                 0 -> Color.WHITE
                 1 -> qsTextAccentColor
                 2 -> if (mContext.isNightMode) Color.WHITE else Color.WHITE
-                3 -> if (mContext.isNightMode) Color.BLACK else Color.WHITE
+                3 -> if (mContext.isNightMode) Color.BLACK else Color.BLACK
                 else -> Color.WHITE
             }
         }
