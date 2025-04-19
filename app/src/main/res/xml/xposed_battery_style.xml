@@ -181,7 +181,7 @@
         app:maxVal="30"
         app:minVal="-30"
         app:showResetButton="true"
-        app:tickInterval="1"
+        app:tickInterval="0.5"
         app:valueFormat="dp" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
@@ -193,7 +193,7 @@
         app:maxVal="30"
         app:minVal="-30"
         app:showResetButton="true"
-        app:tickInterval="1"
+        app:tickInterval="0.5"
         app:valueFormat="dp" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
