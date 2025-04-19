@@ -39,9 +39,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:sliderDefaultValue="14"
-                app:sliderStepSize="1"
+                app:sliderStepSize="0.5"
                 app:sliderValue="14"
-                app:sliderValueFrom="10"
+                app:sliderValueFrom="0"
                 app:sliderValueTo="18"
                 app:titleText="@string/text_size_title"
                 app:valueFormat="sp" />
