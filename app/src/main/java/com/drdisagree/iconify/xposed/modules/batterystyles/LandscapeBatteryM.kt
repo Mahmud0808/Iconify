@@ -434,7 +434,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
             val pctX = (bounds.width() + textHeight) * 0.76f
             val pctY = bounds.height() * 0.79f
 
-            textPaint.color = fillColor
+            textPaint.color = Color.BLACK
             textQsPaint.color = Color.BLACK
             if (isRotation) {
                 c.rotate(180f, pctX, pctY * 0.63f)
@@ -446,7 +446,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
                 if (isQsPercent) textQsPaint else textPaint
             )
 
-            textPaint.color = fillColor.toInt().inv()
+            textPaint.color = Color.BLACK
             textQsPaint.color = Color.BLACK
             c.save()
             c.drawText(
