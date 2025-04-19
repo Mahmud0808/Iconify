@@ -119,7 +119,16 @@ class VolumeOutline(
     @Suppress("deprecation")
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun createVolumeRowSeekbarProgressDrawable(): Drawable {
-        val sliderWidth = getSysUiDimen("volume_dialog_slider_width")
+        val sliderWidth = if (mContext.resources.getIdentifier(
+                "volume_dialog_slider_width_legacy",
+                "dimen",
+                SYSTEMUI_PACKAGE
+            ) != 0
+        ) {
+            getSysUiDimen("volume_dialog_slider_width_legacy")
+        } else {
+            getSysUiDimen("volume_dialog_slider_width")
+        }
         val sliderCornerRadius = getSysUiDimen("volume_dialog_slider_corner_radius").toFloat()
         val iconSize = getSysUiDimen("rounded_slider_icon_size")
         val iconInset = getSysUiDimen("volume_slider_icon_inset")
