@@ -434,11 +434,8 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
             val pctX = (bounds.width() + textHeight) * 0.76f
             val pctY = bounds.height() * 0.79f
 
-            textPaint.color = fillColor
-            textQsPaint.color = getColorAttrDefaultColor(
-                                context,
-                                android.R.attr.textColorPrimaryInverse
-                            )
+            textPaint.color = Color.WHITE
+            textQsPaint.color = Color.WHITE
             if (isRotation) {
                 c.rotate(180f, pctX, pctY * 0.63f)
             }
@@ -449,11 +446,8 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
                 if (isQsPercent) textQsPaint else textPaint
             )
 
-            textPaint.color = fillColor.toInt().inv()
-            textQsPaint.color = getColorAttrDefaultColor(
-                                context,
-                                android.R.attr.textColorPrimaryInverse
-                            )
+            textPaint.color = Color.WHITE
+            textQsPaint.color = Color.WHITE
             c.save()
             c.drawText(
                 batteryLevel.toString(),
