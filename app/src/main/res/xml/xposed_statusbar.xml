@@ -39,7 +39,7 @@
             app:iconSpaceReserved="false"
             app:maxVal="24"
             app:minVal="10"
-            app:tickInterval="1"
+            app:tickInterval="0.5"
             app:updatesContinuously="true"
             app:valueFormat="px" />
 
