@@ -378,7 +378,7 @@ open class LandscapeBatteryiOS15(private val context: Context, frameColor: Int) 
         if (b.isEmpty) {
             scaleMatrix.setScale(1f, 1f)
         } else {
-            scaleMatrix.setScale((b.right / WIDTH), (b.bottom / HEIGHT))
+            scaleMatrix.setScale((b.right.toFloat() / WIDTH), (b.bottom.toFloat() / HEIGHT))
         }
 
         perimeterPath.transform(scaleMatrix, scaledPerimeter)
