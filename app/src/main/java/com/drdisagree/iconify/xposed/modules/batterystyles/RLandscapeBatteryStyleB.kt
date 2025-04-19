@@ -252,8 +252,8 @@ open class RLandscapeBatteryStyleB(private val context: Context, frameColor: Int
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (HEIGHT * 1.22f * density).toInt()
-        intrinsicWidth = (WIDTH * 0.84* density).toInt()
+        intrinsicHeight = (HEIGHT * 1.18f * density).toInt()
+        intrinsicWidth = (WIDTH * 0.85* density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
@@ -577,7 +577,6 @@ open class RLandscapeBatteryStyleB(private val context: Context, frameColor: Int
         unscheduleSelf(invalidateRunnable)
         scheduleSelf(invalidateRunnable, 0)
     }
-
     @Suppress("DEPRECATION")
     private fun updateSize() {
         val b = bounds
@@ -589,4 +588,67 @@ open class RLandscapeBatteryStyleB(private val context: Context, frameColor: Int
 
         perimeterPath.transform(scaleMatrix, scaledPerimeter)
         errorPerimeterPath.transform(scaleMatrix, scaledErrorPerimeter)
-        fillMask.transform(scaleMatrix, sc
+        fillMask.transform(scaleMatrix, scaledFill)
+        scaledFill.computeBounds(fillRect, true)
+        fillOutlinePath.transform(scaleMatrix, scaledfillOutline)
+        boltPath.transform(scaleMatrix, scaledBolt)
+        plusPath.transform(scaleMatrix, scaledPlus)
+
+        // It is expected that this view only ever scale by the same factor in each dimension, so
+        // just pick one to scale the strokeWidths
+        val scaledStrokeWidth =
+            (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
+
+        fillColorStrokePaint.strokeWidth = scaledStrokeWidth
+        fillColorStrokeProtection.strokeWidth = scaledStrokeWidth
+    }
+
+    @Suppress("DEPRECATION")
+    @SuppressLint("RestrictedApi")
+    private fun loadPaths() {
+        val pathString =
+            getResources(context).getString(R.string.config_landscapeBatteryPerimeterPathL)
+        perimeterPath.set(PathParser.createPathFromPathData(pathString))
+        perimeterPath.computeBounds(RectF(), true)
+
+        val errorPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryErrorPerimeterPathL)
+        errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
+        errorPerimeterPath.computeBounds(RectF(), true)
+
+        val fillMaskString =
+            getResources(context).getString(R.string.config_landscapeBatteryFillMaskL)
+        fillMask.set(PathParser.createPathFromPathData(fillMaskString))
+        // Set the fill rect so we can calculate the fill properly
+        fillMask.computeBounds(fillRect, true)
+
+        val fillOutlinePathString =
+            getResources(context).getString(R.string.config_landscapeBatteryFillOutlineL)
+        fillOutlinePath.set(PathParser.createPathFromPathData(fillOutlinePathString))
+        fillOutlinePath.computeBounds(RectF(), true)
+
+        val boltPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryBoltPathL)
+        boltPath.set(PathParser.createPathFromPathData(boltPathString))
+
+        val plusPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryPowersavePathL)
+        plusPath.set(PathParser.createPathFromPathData(plusPathString))
+
+        dualTone = false
+    }
+
+    companion object {
+        private val TAG = LandscapeBatteryL::class.java.simpleName
+        private const val WIDTH = 24f
+        private const val HEIGHT = 12f
+        private const val CRITICAL_LEVEL = 20
+
+        // On a 24x12 grid, how wide to make the fill protection stroke.
+        // Scales when our size changes
+        private const val PROTECTION_STROKE_WIDTH = 2f
+
+        // Arbitrarily chosen for visibility at small sizes
+        private const val PROTECTION_MIN_STROKE_WIDTH = 5f
+    }
+    }
