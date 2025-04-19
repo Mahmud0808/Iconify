@@ -436,6 +436,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
 
             textPaint.color = fillColor
             textQsPaint.color = Color.BLACK
+            if (isRotation) {
                 c.rotate(180f, pctX, pctY * 0.63f)
             }
             c.drawText(
