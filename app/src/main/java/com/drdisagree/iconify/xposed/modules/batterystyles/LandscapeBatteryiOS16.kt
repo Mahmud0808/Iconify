@@ -252,8 +252,8 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (HEIGHT * density).toInt()
-        intrinsicWidth = (WIDTH * density).toInt()
+        intrinsicHeight = (HEIGHT * 1.75f * density).toInt()
+        intrinsicWidth = (WIDTH * 0.75* density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
@@ -584,7 +584,7 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
         if (b.isEmpty) {
             scaleMatrix.setScale(3f, 3f)
         } else {
-            scaleMatrix.setScale((b.right / WIDTH), (b.bottom / HEIGHT))
+            scaleMatrix.setScale((b.right.toFloat() / WIDTH), (b.bottom.toFloat() / HEIGHT))
         }
 
         perimeterPath.transform(scaleMatrix, scaledPerimeter)
