@@ -172,8 +172,8 @@ open class LandscapeBatteryiOS15(private val context: Context, frameColor: Int) 
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (HEIGHT * density).toInt()
-        intrinsicWidth = (WIDTH * density).toInt()
+        intrinsicHeight = (HEIGHT * 1.25 * density).toInt()
+        intrinsicWidth = (WIDTH *0.85* density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
