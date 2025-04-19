@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:sliderDefaultValue="14"
-                app:sliderStepSize="0.5"
+                app:sliderStepSize="1"
                 app:sliderValue="14"
                 app:sliderValueFrom="0"
                 app:sliderValueTo="18"
