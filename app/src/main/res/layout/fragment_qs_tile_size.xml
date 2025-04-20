@@ -32,9 +32,9 @@
                 android:layout_height="wrap_content"
                 app:sliderDefaultValue="60"
                 app:sliderStepSize="1"
-                app:sliderValue="60"
-                app:sliderValueFrom="50"
-                app:sliderValueTo="80"
+                app:sliderValue="160"
+                app:sliderValueFrom="10"
+                app:sliderValueTo="160"
                 app:titleText="@string/qs_tile_non_expanded_height"
                 app:valueFormat="dp" />
 
@@ -42,11 +42,11 @@
                 android:id="@+id/port_expanded_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:sliderDefaultValue="80"
+                app:sliderDefaultValue="60"
                 app:sliderStepSize="1"
-                app:sliderValue="80"
-                app:sliderValueFrom="50"
-                app:sliderValueTo="80"
+                app:sliderValue="160"
+                app:sliderValueFrom="10"
+                app:sliderValueTo="160"
                 app:titleText="@string/qs_tile_expanded_height"
                 app:valueFormat="dp" />
 
@@ -61,9 +61,9 @@
                 android:layout_height="wrap_content"
                 app:sliderDefaultValue="60"
                 app:sliderStepSize="1"
-                app:sliderValue="60"
-                app:sliderValueFrom="50"
-                app:sliderValueTo="80"
+                app:sliderValue="160"
+                app:sliderValueFrom="10"
+                app:sliderValueTo="160"
                 app:titleText="@string/qs_tile_non_expanded_height"
                 app:valueFormat="dp" />
 
@@ -73,9 +73,9 @@
                 android:layout_height="wrap_content"
                 app:sliderDefaultValue="80"
                 app:sliderStepSize="1"
-                app:sliderValue="80"
-                app:sliderValueFrom="50"
-                app:sliderValueTo="80"
+                app:sliderValue="160"
+                app:sliderValueFrom="10"
+                app:sliderValueTo="160"
                 app:titleText="@string/qs_tile_expanded_height"
                 app:valueFormat="dp" />
 
