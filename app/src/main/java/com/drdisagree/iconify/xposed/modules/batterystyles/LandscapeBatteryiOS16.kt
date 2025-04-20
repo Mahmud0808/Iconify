@@ -393,7 +393,7 @@ open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) 
             }
 
             // Show colorError below this level
-            if (batteryLevel <= CRITICAL_LEVEL && !charging) {
+            if (batteryLevel <= CRITICAL_LEVEL && !charging && customBlendColor) {
                 c.save()
                 c.clipPath(scaledFill)
                 c.drawPath(levelPath, fillPaint)
