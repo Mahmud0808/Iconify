@@ -149,7 +149,7 @@
                 app:sliderStepSize="1"
                 app:sliderValue="6"
                 app:sliderValueFrom="0"
-                app:sliderValueTo="12"
+                app:sliderValueTo="25"
                 app:titleText="@string/padding_left"
                 app:valueFormat="dp" />
 
@@ -160,7 +160,7 @@
                 app:sliderStepSize="1"
                 app:sliderValue="6"
                 app:sliderValueFrom="0"
-                app:sliderValueTo="12"
+                app:sliderValueTo="25"
                 app:titleText="@string/padding_right"
                 app:valueFormat="dp" />
 
@@ -171,7 +171,7 @@
                 app:sliderStepSize="1"
                 app:sliderValue="4"
                 app:sliderValueFrom="0"
-                app:sliderValueTo="12"
+                app:sliderValueTo="20"
                 app:titleText="@string/padding_top"
                 app:valueFormat="dp" />
 
@@ -182,7 +182,7 @@
                 app:sliderStepSize="1"
                 app:sliderValue="4"
                 app:sliderValueFrom="0"
-                app:sliderValueTo="12"
+                app:sliderValueTo="20"
                 app:titleText="@string/padding_bottom"
                 app:valueFormat="dp" />
 
