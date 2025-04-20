@@ -394,7 +394,7 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
             }
 
             // Show colorError below this level
-            if (batteryLevel <= CRITICAL_LEVEL && !charging) {
+            if (batteryLevel <= CRITICAL_LEVEL && !charging && customBlendColor ) {
                 c.save()
                 c.clipPath(scaledFill)
                 c.drawPath(levelPath, fillPaint)
@@ -638,7 +638,7 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
         private val TAG = LandscapeBatteryL::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
-        private const val CRITICAL_LEVEL = 15
+        private const val CRITICAL_LEVEL = 25
 
         // On a 24x12 grid, how wide to make the fill protection stroke.
         // Scales when our size changes
