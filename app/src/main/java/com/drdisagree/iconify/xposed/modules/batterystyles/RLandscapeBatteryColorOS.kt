@@ -172,8 +172,8 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (HEIGHT * density).toInt()
-        intrinsicWidth = (WIDTH * density).toInt()
+        intrinsicHeight = (HEIGHT * 1.25f * density).toInt()
+        intrinsicWidth = (WIDTH *0.86f* density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
