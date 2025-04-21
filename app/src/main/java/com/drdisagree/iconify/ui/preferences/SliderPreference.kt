@@ -53,7 +53,7 @@ class SliderPreference(
 
     @Suppress("unused")
     private var sliderValue: TextView? = null
-    private var valueCount: Float
+    private var valueCount: Int
     private var valueFormat: String? = null
     private val outputScale: Float
     private val isDecimalFormat: Boolean
@@ -72,7 +72,7 @@ class SliderPreference(
 
         context.obtainStyledAttributes(attrs, R.styleable.SliderPreference).apply {
             updateConstantly = getBoolean(R.styleable.SliderPreference_updatesContinuously, false)
-            valueCount = getFloat(R.styleable.SliderPreference_valueCount, 0.5)
+            valueCount = getInt(R.styleable.SliderPreference_valueCount, 1)
             valueFrom = getFloat(R.styleable.SliderPreference_minVal, 0.0f)
             valueTo = getFloat(R.styleable.SliderPreference_maxVal, 100.0f)
             tickInterval = getFloat(R.styleable.SliderPreference_tickInterval, 0.5f)
