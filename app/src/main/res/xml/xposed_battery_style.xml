@@ -20,7 +20,7 @@
         app:minVal="0.5"
         app:showResetButton="true"
         app:tickInterval="0.5"
-        app:valueFormat="%.1fdp"/>
+        app:valueFormat="%%.1fdp"/>
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:key="xposed_custombatteryheight"
@@ -31,7 +31,7 @@
         app:minVal="5.0"
         app:showResetButton="true"
         app:tickInterval="0.5"
-        app:valueFormat="%.1fdp" />
+        app:valueFormat="%%.1fdp" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:key="xposed_custombatteryhidepercentage"
@@ -158,7 +158,7 @@
         app:minVal="-20.0"
         app:showResetButton="true"
         app:tickInterval="0.5"
-        app:valueFormat="%.1fdp" />
+        app:valueFormat="%%.1fdp" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="xposed_custombatterydimension"
@@ -170,7 +170,7 @@
         app:minVal="-20.0"
         app:showResetButton="true"
         app:tickInterval="0.5"
-        app:valueFormat="%.1fdp"/>
+        app:valueFormat="%%.1fdp" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="xposed_custombatterydimension"
@@ -182,7 +182,7 @@
         app:minVal="-20.0"
         app:showResetButton="true"
         app:tickInterval="0.5"
-        app:valueFormat="%.1fdp"/>
+        app:valueFormat="%%.1fdp" />
 
     <com.drdisagree.iconify.ui.preferences.SliderPreference
         android:dependency="xposed_custombatterydimension"
@@ -194,7 +194,7 @@
         app:minVal="-20.0"
         app:showResetButton="true"
         app:tickInterval="0.5"
-        app:valueFormat="%.1fdp"/>
+        app:valueFormat="%%.1fdp" />
 
     <com.drdisagree.iconify.ui.preferences.SwitchPreference
         android:key="xposed_custombatterychargingiconswitch"
