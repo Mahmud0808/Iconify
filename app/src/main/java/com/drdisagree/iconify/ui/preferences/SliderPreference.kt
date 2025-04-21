@@ -73,9 +73,9 @@ class SliderPreference(
         context.obtainStyledAttributes(attrs, R.styleable.SliderPreference).apply {
             updateConstantly = getBoolean(R.styleable.SliderPreference_updatesContinuously, false)
             valueCount = getInteger(R.styleable.SliderPreference_valueCount, 1)
-            valueFrom = getFloat(R.styleable.SliderPreference_minVal, 0f)
-            valueTo = getFloat(R.styleable.SliderPreference_maxVal, 100f)
-            tickInterval = getFloat(R.styleable.SliderPreference_tickInterval, 1f)
+            valueFrom = getFloat(R.styleable.SliderPreference_minVal, 0.0f)
+            valueTo = getFloat(R.styleable.SliderPreference_maxVal, 100.0f)
+            tickInterval = getFloat(R.styleable.SliderPreference_tickInterval, 0.5f)
             showResetButton = getBoolean(R.styleable.SliderPreference_showResetButton, false)
             showValueLabel = getBoolean(R.styleable.SliderPreference_showValueLabel, true)
             valueFormat = getString(R.styleable.SliderPreference_valueFormat)
