@@ -431,7 +431,7 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
             getResources(context).getString(R.string.config_landscapeBatteryPowersavePathL)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        dualTone = true
+        dualTone = false
     }
 
     companion object {
