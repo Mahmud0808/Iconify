@@ -361,7 +361,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                 if (!fixQsTileColor) return@runAfter
 
                 val mSlideableQSTile = param.thisObject.getFieldSilently("mSlideableQSTile")
-                val isSlideable = mSlideableQSTile.callMethod("isSlideable") as? Boolean == true
+                val isSlideable = mSlideableQSTile.callMethodSilently("isSlideable") as? Boolean == true
 
                 if (!isSlideable) {
                     param.thisObject.setField("mWarnColor", Color.WHITE)

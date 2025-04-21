@@ -177,12 +177,21 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                                 6 // CONTENT style is converted to 6 in A16B1
                             )
                         }.getOrElse {
-                            // Android 13
-                            newInstance(
-                                colorSchemeClass,
-                                wallpaperColors,
-                                schemeStyle
-                            )
+                            runCatching {
+                                // Android 13
+                                newInstance(
+                                    colorSchemeClass,
+                                    wallpaperColors,
+                                    schemeStyle
+                                )
+                            }.getOrElse {
+                                // Android 13
+                                newInstance(
+                                    colorSchemeClass,
+                                    wallpaperColors,
+                                    6
+                                )
+                            }
                         }
                     }
                 }
@@ -309,6 +318,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                     val mColors = builder.getField("mColors")
 
                     listOf(
+                        "mBackgroundColor",
                         "mProtectionColor",
                         "mPrimaryTextColor",
                         "mSecondaryTextColor",
@@ -319,10 +329,17 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                         "mTertiaryFixedDimAccentColor",
                         "mOnTertiaryFixedAccentTextColor"
                     ).forEach { fieldName ->
-                        mColors.setFieldSilently(
-                            fieldName,
-                            notification.getExtraField(fieldName)
-                        )
+                        if (fieldName == "mBackgroundColor") {
+                            mColors.setFieldSilently(
+                                fieldName,
+                                notification.getExtraField("mNotifyBackgroundColor")
+                            )
+                        } else {
+                            mColors.setFieldSilently(
+                                fieldName,
+                                notification.getExtraField(fieldName)
+                            )
+                        }
                     }
                 }
             }
