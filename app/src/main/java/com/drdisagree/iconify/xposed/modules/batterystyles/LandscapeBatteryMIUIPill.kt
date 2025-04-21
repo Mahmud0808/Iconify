@@ -406,28 +406,29 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
     @Suppress("DEPRECATION")
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString =
-            getResources(context).getString(R.string.config_landscapeBatteryPerimeterMiuiPill)
+      
+         val pathString =
+            getResources(context).getString(R.string.config_landscapeBatteryPerimeterPathL)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
-
-        val errorPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryErrorMiuiPill)
+        
+         val errorPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryErrorPerimeterPathL)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            getResources(context).getString(R.string.config_landscapeBatteryFillMaskMiuiPill)
+            getResources(context).getString(R.string.config_landscapeBatteryFillMaskL)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-        val boltPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryBoltMiuiPill)
+         val boltPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryBoltPathL)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryPlusMiuiPill)
+            getResources(context).getString(R.string.config_landscapeBatteryPowersavePathL)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = true
