@@ -394,13 +394,6 @@ open class RLandscapeBatteryStyleA(private val context: Context, frameColor: Int
                 fillPaint.color = levelColor
             }
 
-            // Show colorError below this level
-            if (batteryLevel <= CRITICAL_LEVEL && !charging && customBlendColor) {
-                c.save()
-                c.clipPath(scaledFill)
-                c.drawPath(levelPath, fillPaint)
-                c.restore()
-            }
         }
 
         if (charging) {
@@ -468,7 +461,10 @@ open class RLandscapeBatteryStyleA(private val context: Context, frameColor: Int
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging || powerSaveEnabled -> fillColor
+            charging -> 0xFF34C759.toInt()
+            powerSaveEnabled -> 0xFFFFCC0A.toInt()
+            level > 20 -> fillColor
+            level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
         }
     }
