@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.modules.batterystyles
 
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.BlendMode
@@ -21,7 +22,7 @@ import com.drdisagree.iconify.R
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
-open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: Int) :
+open class LandscapeBatteryiOS16(private val context: Context, frameColor: Int) :
     BatteryDrawable() {
 
     // Need to load:
@@ -69,14 +70,14 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
     private var colorLevels: IntArray
 
     private var fillColor: Int = Color.WHITE
-    private var boltColor: Int = Color.WHITE
     private var backgroundColor: Int = Color.WHITE
+    private var boltColor: Int = Color.WHITE
 
     // updated whenever level changes
     private var levelColor: Int = Color.WHITE
 
     // Dual tone implies that battery level is a clipped overlay over top of the whole shape
-    private var dualTone = false
+    private var dualTone = true
 
     private var batteryLevel = 0
 
@@ -108,14 +109,14 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         postInvalidate()
     }
 
-    var showPercent = false
+    var showPercent = true
         set(value) {
             field = value
             postInvalidate()
         }
 
     override fun setShowPercentEnabled(showPercent: Boolean) {
-        this.showPercent = showPercent
+        this.showPercent = true
         postInvalidate()
     }
 
@@ -123,7 +124,7 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         p.color = frameColor
         p.alpha = 255
         p.isDither = true
-        p.strokeWidth = 1f
+        p.strokeWidth = 5f
         p.style = Paint.Style.STROKE
         p.blendMode = BlendMode.SRC
         p.strokeMiter = 5f
@@ -147,6 +148,14 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         p.style = Paint.Style.FILL_AND_STROKE
     }
 
+    private val boltPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = boltColor
+        p.alpha = 255
+        p.isDither = true
+        p.strokeWidth = 0f
+        p.style = Paint.Style.FILL_AND_STROKE
+    }
+
     private val errorPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = getColorAttrDefaultColor(context, android.R.attr.colorError)
         p.alpha = 255
@@ -159,21 +168,23 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
     // Only used if dualTone is set to true
     private val dualToneBackgroundFill = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
-        p.alpha = 255
+        p.alpha = 85 // ~0.3 alpha by default
         p.isDither = true
         p.strokeWidth = 0f
         p.style = Paint.Style.FILL_AND_STROKE
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
+        p.typeface = Typeface.createFromAsset(
+            getResources(context).assets,
+            "Fonts/SFUITextCondensed-Bold.otf")
         p.textAlign = Paint.Align.CENTER
     }
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (HEIGHT *1.25f* density).toInt()
-        intrinsicWidth = (WIDTH *0.85* density).toInt()
+        intrinsicHeight = (HEIGHT *1.22f* density).toInt()
+        intrinsicWidth = (WIDTH *0.85f* density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
@@ -192,8 +203,8 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
             colorLevels[2 * i] = levels.getInt(i, 0)
             if (colors.getType(i) == TypedValue.TYPE_ATTRIBUTE) {
                 colorLevels[2 * i + 1] = getColorAttrDefaultColor(
-                                    colors.getResourceId(i, 0), context
-                                )
+                            colors.getResourceId(i, 0), context
+                        )
             } else {
                 colorLevels[2 * i + 1] = colors.getColor(i, 0)
             }
@@ -210,57 +221,88 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         levelPath.reset()
         levelRect.set(fillRect)
         val fillFraction = batteryLevel / 100f
-        val fillTop = if (batteryLevel >= 95) fillRect.left
-        else fillRect.left + (fillRect.width() * (1 - fillFraction))
+        val fillTop = if (batteryLevel >= 95) fillRect.right
+        else fillRect.right - (fillRect.width() * (1 - fillFraction))
 
-        levelRect.left = floor(fillTop.toDouble()).toFloat()
+        levelRect.right = floor(fillTop.toDouble()).toFloat()
         //levelPath.addRect(levelRect, Path.Direction.CCW)
         levelPath.addRoundRect(
             levelRect, floatArrayOf(
-                12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f, 12.0f
+                3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f
             ), Path.Direction.CCW
         )
 
         // The perimeter should never change
         unifiedPath.addPath(scaledPerimeter)
+        // If drawing dual tone, the level is used only to clip the whole drawable path
+        if (!dualTone) {
+            unifiedPath.op(levelPath, Path.Op.UNION)
+        }
 
         fillPaint.color = levelColor
 
+        val mergedPath = Path()
+        mergedPath.reset()
+
+        textPaint.textSize = bounds.width() * 0.00f
+        val textHeight = +textPaint.fontMetrics.ascent
+        var pctX = (bounds.width() + textHeight) * 0.75f
+        val pctY = bounds.height() * 0.8f
+
+        if (charging && batteryLevel < 100) {
+            pctX = (bounds.width() + textHeight) * 0.7f
+            pctX -= (pctX * 0.2f)
+        }
+
+        val textPath = Path()
+        textPath.reset()
+        textPaint.getTextPath(
+            batteryLevel.toString(), 0, batteryLevel.toString().length, pctX, pctY, textPath
+        )
+
+        mergedPath.addPath(textPath)
+        mergedPath.addPath(scaledBolt)
+
+        val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+        textPaint.xfermode = xfermode
+
+        if (!shouldChangePercentageColor()) {
+            // Clip out the text path
+            unifiedPath.op(textPath, Path.Op.DIFFERENCE)
+            c.drawPath(textPath, textPaint)
+        }
+
+        c.drawPath(unifiedPath, dualToneBackgroundFill)
+        c.save()
+        c.clipRect(
+            bounds.left.toFloat(),
+            bounds.top.toFloat(),
+            bounds.left + bounds.width() * fillFraction,
+            bounds.bottom.toFloat()
+        )
+        c.drawPath(unifiedPath, fillPaint)
+        c.restore()
+
         // Deal with unifiedPath clipping before it draws
-        if (charging) {
+        if (shouldChangePercentageColor()) {
             // Clip out the bolt shape
-            unifiedPath.op(scaledBolt, Path.Op.DIFFERENCE)
-            levelPath.op(scaledBolt, Path.Op.DIFFERENCE)
-            if (!invertFillIcon) {
-                c.drawPath(scaledBolt, fillPaint)
+            if (charging && batteryLevel < 100) {
+                c.drawPath(mergedPath, boltPaint)
+            } else {
+                c.drawPath(textPath, boltPaint)
             }
         }
 
-        // Dual tone means we draw the shape again, clipped to the charge level
-        fillPaint.color = boltColor
-        c.drawPath(unifiedPath, fillPaint)
-        fillPaint.color = levelColor
-        c.save()
-        c.clipRect(
-            bounds.left + (fillRect.width() * (1 - fillFraction + 0.15f)),
-            bounds.top.toFloat(),
-            bounds.left.toFloat() + bounds.width(),
-            bounds.bottom.toFloat()
-        )
-        c.drawPath(scaledFill, fillPaint)
         c.restore()
+    }
 
-        if (charging) {
-            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-            fillColorStrokePaint.xfermode = xfermode
-
-            c.drawPath(scaledBolt, fillColorStrokePaint)
-
-            fillPaint.color = boltColor
-            c.drawPath(scaledBolt, fillPaint)
-            fillPaint.color = levelColor
-        }
-        c.restore()
+    /**
+     * Returns true if the battery percentage text should be colored.
+     * Battery percentage color should be fillColor when in charging state or in low battery state,
+     * otherwise it should be transparent.
+     */
+    private fun shouldChangePercentageColor(): Boolean {
+        return charging || (!powerSaveEnabled && batteryLevel <= CRITICAL_LEVEL)
     }
 
     private fun batteryColorForLevel(level: Int): Int {
@@ -268,7 +310,7 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
             charging -> 0xFF34C759.toInt()
             powerSaveEnabled -> 0xFFFFCC0A.toInt()
             level > 20 -> fillColor
-            level >= 0 -> 0xFFFF3B30.toInt()
+            level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
         }
     }
@@ -359,16 +401,18 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
 
     override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
         fillColor = fgColor
-        boltColor = singleToneColor
 
-        fillPaint.color = singleToneColor
-        fillColorStrokePaint.color = singleToneColor
+        fillPaint.color = fillColor
+        fillColorStrokePaint.color = fillColor
 
         backgroundColor = bgColor
         dualToneBackgroundFill.color = bgColor
 
         // Also update the level color, since fillColor may have changed
         levelColor = batteryColorForLevel(batteryLevel)
+
+        boltColor = singleToneColor
+        boltPaint.color = boltColor
 
         invalidateSelf()
     }
@@ -397,6 +441,7 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         // It is expected that this view only ever scale by the same factor in each dimension, so
         // just pick one to scale the strokeWidths
         val scaledStrokeWidth =
+
             (b.right / WIDTH * PROTECTION_STROKE_WIDTH).coerceAtLeast(PROTECTION_MIN_STROKE_WIDTH)
 
         fillColorStrokePaint.strokeWidth = scaledStrokeWidth
@@ -406,36 +451,35 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
     @Suppress("DEPRECATION")
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-      
-         val pathString =
-            getResources(context).getString(R.string.config_landscapeBatteryPerimeterPathL)
+        val pathString =
+            getResources(context).getString(R.string.config_landscapeBatteryPerimeteriOS16)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
-        
-         val errorPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryErrorPerimeterPathL)
+
+        val errorPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryErroriOS16)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            getResources(context).getString(R.string.config_landscapeBatteryFillMaskL)
+            getResources(context).getString(R.string.config_landscapeBatteryFillMaskiOS16)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
-         val boltPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryBoltPathL)
+        val boltPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryBoltiOS16)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryPowersavePathL)
+            getResources(context).getString(R.string.config_landscapeBatteryPlusiOS16)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        dualTone = false
+        dualTone = true
     }
 
     companion object {
-        private val TAG = LandscapeBatteryMIUIPill::class.java.simpleName
+        private val TAG = LandscapeBatteryiOS16::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 20
