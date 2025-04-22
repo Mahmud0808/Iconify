@@ -608,9 +608,10 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryErrorPerimeterPathL)
+            getResources(context).getString(R.string.config_landscapeBatteryErroriOS16)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
+
 
         val fillMaskString =
             getResources(context).getString(R.string.config_landscapeBatteryFillMaskL)
