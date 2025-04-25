@@ -181,6 +181,10 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         p.textAlign = Paint.Align.CENTER
     }
 
+    private val scaledPerimeterPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
     init {
         val density = context.resources.displayMetrics.density
         intrinsicHeight = (HEIGHT *1.22f* density).toInt()
