@@ -398,12 +398,14 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
 
         updateSize()
     }
-
-    override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
-        fillColor = fgColor
+override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
+        fillColor = if (dualTone) fgColor else singleToneColor
 
         fillPaint.color = fillColor
         fillColorStrokePaint.color = fillColor
+
+        scaledPerimeterPaint.color = fillColor
+        scaledPerimeterPaint.alpha = 85
 
         backgroundColor = bgColor
         dualToneBackgroundFill.color = bgColor
@@ -411,11 +413,9 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         // Also update the level color, since fillColor may have changed
         levelColor = batteryColorForLevel(batteryLevel)
 
-        boltColor = singleToneColor
-        boltPaint.color = boltColor
-
         invalidateSelf()
     }
+   
 
     private fun postInvalidate() {
         unscheduleSelf(invalidateRunnable)
