@@ -244,14 +244,21 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         }
 
         fillPaint.color = levelColor
+        val black = Color.BLACK
+        val chargingParseColor = 0xFF3AB74E.toInt()
+        val powerSaveParseColor = 0xFFFDD015.toInt()
+        chargingAlphaPaint.color =
+            if (customBlendColor && chargingColor != black) chargingColor else chargingParseColor
+        chargingPaint.color =
+            if (customBlendColor && chargingColor != black) chargingColor else chargingParseColor
+        powerSavePaint.color =
+            if (customBlendColor && powerSaveColor != black) powerSaveColor else powerSaveParseColor
+        powerSaveFillPaint.color =
+            if (customBlendColor && powerSaveFillColor != black) powerSaveFillColor else powerSaveParseColor
 
-        val mergedPath = Path()
-        mergedPath.reset()
-
-        textPaint.textSize = bounds.width() * 0.00f
-        val textHeight = +textPaint.fontMetrics.ascent
-        var pctX = (bounds.width() + textHeight) * 0.75f
-        val pctY = bounds.height() * 0.8f
+        customFillAlphaPaint.alpha = 85
+        chargingAlphaPaint.alpha = 85
+        powerSavePaint.alpha = 85
 
         if (charging && batteryLevel < 100) {
             pctX = (bounds.width() + textHeight) * 0.7f
