@@ -237,7 +237,7 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
         p.textAlign = Paint.Align.CENTER
         p.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
     }
-    }
+    
 
     private fun percentTypeface(): Typeface {
         val typefaceBuilder: Typeface.Builder?
