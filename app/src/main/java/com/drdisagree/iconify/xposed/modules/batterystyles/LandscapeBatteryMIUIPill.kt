@@ -167,8 +167,8 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
 
     // Only used if dualTone is set to true
     private val dualToneBackgroundFill = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-         p.color = frameColor
-        p.alpha = 255
+        p.color = frameColor
+        p.alpha = 85 // ~0.3 alpha by default
         p.isDither = true
         p.strokeWidth = 0f
         p.style = Paint.Style.FILL_AND_STROKE
@@ -179,10 +179,6 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
             getResources(context).assets,
             "Fonts/SFUITextCondensed-Bold.otf")
         p.textAlign = Paint.Align.CENTER
-    }
-
-    private val scaledPerimeterPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = frameColor
     }
 
     init {
@@ -244,21 +240,14 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         }
 
         fillPaint.color = levelColor
-        val black = Color.BLACK
-        val chargingParseColor = 0xFF3AB74E.toInt()
-        val powerSaveParseColor = 0xFFFDD015.toInt()
-        chargingAlphaPaint.color =
-            if (customBlendColor && chargingColor != black) chargingColor else chargingParseColor
-        chargingPaint.color =
-            if (customBlendColor && chargingColor != black) chargingColor else chargingParseColor
-        powerSavePaint.color =
-            if (customBlendColor && powerSaveColor != black) powerSaveColor else powerSaveParseColor
-        powerSaveFillPaint.color =
-            if (customBlendColor && powerSaveFillColor != black) powerSaveFillColor else powerSaveParseColor
 
-        customFillAlphaPaint.alpha = 85
-        chargingAlphaPaint.alpha = 85
-        powerSavePaint.alpha = 85
+        val mergedPath = Path()
+        mergedPath.reset()
+
+        textPaint.textSize = bounds.width() * 0.00f
+        val textHeight = +textPaint.fontMetrics.ascent
+        var pctX = (bounds.width() + textHeight) * 0.75f
+        val pctY = bounds.height() * 0.8f
 
         if (charging && batteryLevel < 100) {
             pctX = (bounds.width() + textHeight) * 0.7f
@@ -409,14 +398,12 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
 
         updateSize()
     }
-override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
-        fillColor = if (dualTone) fgColor else singleToneColor
+
+    override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
+        fillColor = fgColor
 
         fillPaint.color = fillColor
         fillColorStrokePaint.color = fillColor
-
-        scaledPerimeterPaint.color = fillColor
-        scaledPerimeterPaint.alpha = 85
 
         backgroundColor = bgColor
         dualToneBackgroundFill.color = bgColor
@@ -424,9 +411,11 @@ override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
         // Also update the level color, since fillColor may have changed
         levelColor = batteryColorForLevel(batteryLevel)
 
+        boltColor = singleToneColor
+        boltPaint.color = boltColor
+
         invalidateSelf()
     }
-   
 
     private fun postInvalidate() {
         unscheduleSelf(invalidateRunnable)
