@@ -157,7 +157,7 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
         p.isDither = true
         p.strokeWidth = 5f
         p.style = Paint.Style.STROKE
-        p.blendMode = BlendMode.CLEAR
+        p.blendMode = BlendMode.SRC
         p.strokeMiter = 5f
         p.strokeJoin = Paint.Join.ROUND
     }
