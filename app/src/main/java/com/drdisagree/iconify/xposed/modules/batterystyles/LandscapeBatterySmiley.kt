@@ -235,6 +235,8 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
     private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.typeface = percentTypeface()
         p.textAlign = Paint.Align.CENTER
+        p.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+    }
     }
 
     private fun percentTypeface(): Typeface {
