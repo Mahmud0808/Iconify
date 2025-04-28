@@ -146,23 +146,23 @@
                 android:id="@+id/padding_left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:sliderStepSize="1"
-                app:sliderValue="6"
-                app:sliderValueFrom="0"
-                app:sliderValueTo="25"
+                app:sliderStepSize="-1"
+                app:sliderValue="1"
+                app:sliderValueFrom="-8"
+                app:sliderValueTo="20"
                 app:titleText="@string/padding_left"
-                app:valueFormat="dp" />
+                app:valueFormat="px" />
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget
                 android:id="@+id/padding_right"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:sliderStepSize="1"
-                app:sliderValue="6"
-                app:sliderValueFrom="0"
-                app:sliderValueTo="25"
+                app:sliderStepSize="-1"
+                app:sliderValue="2"
+                app:sliderValueFrom="-8"
+                app:sliderValueTo="20"
                 app:titleText="@string/padding_right"
-                app:valueFormat="dp" />
+                app:valueFormat="px" />
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget
                 android:id="@+id/padding_top"
