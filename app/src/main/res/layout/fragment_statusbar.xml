@@ -30,25 +30,25 @@
                 android:id="@+id/sb_left_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:sliderDefaultValue="8"
-                app:sliderStepSize="1"
+                app:sliderDefaultValue="2"
+                app:sliderStepSize="-1"
                 app:sliderValue="8"
-                app:sliderValueFrom="0"
-                app:sliderValueTo="120"
+                app:sliderValueFrom="-8"
+                app:sliderValueTo="12"
                 app:titleText="@string/sb_left_padding"
-                app:valueFormat="dp" />
+                app:valueFormat="px" />
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget
                 android:id="@+id/sb_right_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:sliderDefaultValue="8"
-                app:sliderStepSize="1"
+                app:sliderDefaultValue="2"
+                app:sliderStepSize="-1"
                 app:sliderValue="8"
-                app:sliderValueFrom="0"
-                app:sliderValueTo="120"
+                app:sliderValueFrom="-8"
+                app:sliderValueTo="12"
                 app:titleText="@string/sb_right_padding"
-                app:valueFormat="dp" />
+                app:valueFormat="px" />
 
             <com.drdisagree.iconify.ui.widgets.SliderWidget
                 android:id="@+id/sb_height"
