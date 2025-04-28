@@ -221,9 +221,11 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = percentTypeface()
+         p.typeface = Typeface.createFromAsset(
+            getResources(context).assets,
+            "Fonts/SFUITextCondensed-Bold.otf")
         p.textAlign = Paint.Align.CENTER
-        p.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+    
     }
 
     private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
@@ -233,9 +235,10 @@ open class LandscapeBatterySmiley(private val context: Context, frameColor: Int)
     }
 
     private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = percentTypeface()
+        p.typeface = Typeface.createFromAsset(
+            getResources(context).assets,
+            "Fonts/SFUITextCondensed-Bold.otf")
         p.textAlign = Paint.Align.CENTER
-        p.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
     }
     
 
