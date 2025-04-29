@@ -183,8 +183,9 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (HEIGHT *1.22f* density).toInt()
-        intrinsicWidth = (WIDTH *0.85f* density).toInt()
+        intrinsicHeight = (HEIGHT *1.23f* density).toInt()
+        intrinsicWidth = (WIDTH *0.84f* density).toInt()
+
 
         val res = context.resources
         val levels = res.obtainTypedArray(
