@@ -309,7 +309,7 @@ open class LandscapeBatteryMIUIPill(private val context: Context, frameColor: In
         return when {
             charging -> 0xFF34C759.toInt()
             powerSaveEnabled -> 0xFFFFCC0A.toInt()
-            level > 20 -> fillColor
+            level > 20 -> 0xFFFF0000.toInt()
             level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
         }
