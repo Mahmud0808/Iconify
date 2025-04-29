@@ -252,7 +252,7 @@ open class RLandscapeBatteryStyleB(private val context: Context, frameColor: Int
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (HEIGHT * 1.16f * density).toInt()
+        intrinsicHeight = (HEIGHT * 1.20f * density).toInt()
         intrinsicWidth = (WIDTH * 0.86* density).toInt()
 
         val res = context.resources
