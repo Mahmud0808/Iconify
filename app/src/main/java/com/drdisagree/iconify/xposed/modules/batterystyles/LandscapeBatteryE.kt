@@ -122,7 +122,7 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
 
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
-        p.alpha = 255
+        p.alpha = 86
         p.isDither = true
         p.strokeWidth = 5f
         p.style = Paint.Style.STROKE
