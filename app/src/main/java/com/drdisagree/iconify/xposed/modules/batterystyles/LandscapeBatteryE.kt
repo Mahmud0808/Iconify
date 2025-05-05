@@ -452,27 +452,27 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
         val pathString =
-            getResources(context).getString(R.string.config_landscapeBatteryPerimeteriOS16)
+            getResources(context).getString(R.string.config_batterymeterLandPerimeterPathE)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
         val errorPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryErroriOS16)
+            getResources(context).getString(R.string.config_landscapeBatteryErrorPerimeterPathE)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            getResources(context).getString(R.string.config_landscapeBatteryFillMaskiOS16)
+            getResources(context).getString(R.string.onfig_landscapeBatteryFillMaskE)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
         val boltPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryBoltiOS16)
+            getResources(context).getString(R.string.config_landscapeBatteryBoltPathE)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
         val plusPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryPlusiOS16)
+            getResources(context).getString(R.string.config_landscapeBatteryPowersavePathE)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
         dualTone = true
