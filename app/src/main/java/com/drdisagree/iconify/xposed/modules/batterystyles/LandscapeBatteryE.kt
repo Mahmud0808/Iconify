@@ -122,7 +122,7 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
 
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
-        p.alpha = 86
+        p.alpha = 255
         p.isDither = true
         p.strokeWidth = 5f
         p.style = Paint.Style.STROKE
@@ -309,7 +309,7 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
         return when {
             charging -> 0xFF34C759.toInt()
             powerSaveEnabled -> 0xFFFFCC0A.toInt()
-            level > 30 -> 0xEFF1F1F1.toInt()
+            level > 20 -> fillColor
             level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
         }
