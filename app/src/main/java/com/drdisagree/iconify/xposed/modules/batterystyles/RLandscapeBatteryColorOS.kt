@@ -618,6 +618,7 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
             getResources(context).getString(R.string.config_landscapeBatteryFillOutlineL)
         fillOutlinePath.set(PathParser.createPathFromPathData(fillOutlinePathString))
         fillOutlinePath.computeBounds(RectF(), true)
+        
 
          val fillMaskString =
             getResources(context).getString(R.string.config_landscapeBatteryFillMaskRColorOS)
