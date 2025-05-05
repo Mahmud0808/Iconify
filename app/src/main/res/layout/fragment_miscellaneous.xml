@@ -72,6 +72,19 @@
                 app:summaryText="@string/disable_progress_wave_desc"
                 app:titleText="@string/disable_progress_wave_title" />
 
+            <com.drdisagree.iconify.ui.widgets.TitleWidget
+                android:id="@+id/section_settings_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleText="@string/section_title_settings_theme" />
+
+            <com.drdisagree.iconify.ui.widgets.SwitchWidget
+                android:id="@+id/enable_expressive_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:summaryText="@string/enable_expressive_theme_desc"
+                app:titleText="@string/enable_expressive_theme_title" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -150,6 +150,30 @@ object SystemUtils {
         ).submit()
     }
 
+    private fun clearExpressiveThemeFromServiceSh() {
+        Shell.cmd(
+            "grep -v -e \"setprop is_expressive_design_enabled true\" " +
+                    "-e \"setprop is_expressive_design_enabled false\" " +
+                    MODULE_DIR + "/service.sh > " +
+                    MODULE_DIR + "/service.sh.tmp && mv " +
+                    MODULE_DIR + "/service.sh.tmp " +
+                    MODULE_DIR + "/service.sh"
+        ).exec()
+    }
+
+    fun switchExpressiveTheme(enable: Boolean) {
+        clearExpressiveThemeFromServiceSh()
+
+        Shell.cmd("setprop is_expressive_design_enabled ${if (enable) "true" else "false"}").exec()
+        Shell.cmd(
+            "sed '/sleep 6/a setprop is_expressive_design_enabled ${if (enable) "true" else "false"}' " +
+                    MODULE_DIR + "/service.sh > " +
+                    MODULE_DIR + "/service.sh.tmp && mv " +
+                    MODULE_DIR + "/service.sh.tmp " +
+                    MODULE_DIR + "/service.sh"
+        ).submit()
+    }
+
     fun mountRW() {
         Shell.cmd("mount -o remount,rw /").exec()
 
@@ -201,6 +225,14 @@ object SystemUtils {
             "if grep -q \"ro.surface_flinger.supports_background_blur\" " +
                     MODULE_DIR +
                     (if (force) "/service.sh;" else "/system.prop;") +
+                    " then echo yes; else echo no; fi"
+        ).exec().out[0] == "yes"
+    }
+
+    fun isExpressiveThemeEnabled(): Boolean {
+        return Shell.cmd(
+            "if grep -q \"setprop is_expressive_design_enabled true\" " +
+                    "$MODULE_DIR/service.sh;" +
                     " then echo yes; else echo no; fi"
         ).exec().out[0] == "yes"
     }

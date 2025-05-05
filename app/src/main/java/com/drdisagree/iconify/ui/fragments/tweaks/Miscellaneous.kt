@@ -22,8 +22,10 @@ import com.drdisagree.iconify.databinding.FragmentMiscellaneousBinding
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
 import com.drdisagree.iconify.utils.SystemUtils.hasStoragePermission
+import com.drdisagree.iconify.utils.SystemUtils.isExpressiveThemeEnabled
 import com.drdisagree.iconify.utils.SystemUtils.requestStoragePermission
 import com.drdisagree.iconify.utils.SystemUtils.restartSystemUI
+import com.drdisagree.iconify.utils.SystemUtils.switchExpressiveTheme
 import com.drdisagree.iconify.utils.overlay.FabricatedUtils
 import com.drdisagree.iconify.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.utils.overlay.OverlayUtils.enableOverlay
@@ -327,6 +329,16 @@ class Miscellaneous : BaseFragment() {
         }
         binding.disableProgressWave.setBeforeSwitchChangeListener {
             isProgressWaveContainerClicked.set(true)
+        }
+
+        // Settings expressive theme
+        val visibility = if (Build.VERSION.SDK_INT >= 35) View.VISIBLE else View.GONE
+        binding.sectionSettingsTheme.visibility = visibility
+        binding.enableExpressiveTheme.visibility = visibility
+
+        binding.enableExpressiveTheme.isSwitchChecked = isExpressiveThemeEnabled()
+        binding.enableExpressiveTheme.setSwitchChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
+            switchExpressiveTheme(isChecked)
         }
 
         return view
