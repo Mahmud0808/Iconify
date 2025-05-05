@@ -462,7 +462,7 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
         errorPerimeterPath.computeBounds(RectF(), true)
 
         val fillMaskString =
-            getResources(context).getString(R.string.onfig_landscapeBatteryFillMaskE)
+            getResources(context).getString(R.string.config_landscapeBatteryFillMaskE)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
