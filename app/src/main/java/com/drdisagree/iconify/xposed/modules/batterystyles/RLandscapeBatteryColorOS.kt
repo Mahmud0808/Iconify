@@ -1,3 +1,18 @@
+
+/*
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+ * except in compliance with the License. You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package com.drdisagree.iconify.xposed.modules.batterystyles
 
 import android.annotation.SuppressLint
@@ -6,6 +21,7 @@ import android.graphics.BlendMode
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.ColorFilter
+import android.graphics.LinearGradient
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
@@ -14,6 +30,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Shader
 import android.graphics.Typeface
 import android.util.TypedValue
 import androidx.core.graphics.PathParser
@@ -36,6 +53,8 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
     // Fill will cover the whole bounding rect of the fillMask, and be masked by the path
     private val fillMask = Path()
     private val scaledFill = Path()
+    private val fillOutlinePath = Path()
+    private val scaledfillOutline = Path()
 
     // Based off of the mask, the fill will interpolate across this space
     private val fillRect = RectF()
@@ -69,7 +88,6 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
     private var colorLevels: IntArray
 
     private var fillColor: Int = Color.WHITE
-    private var boltColor: Int = Color.WHITE
     private var backgroundColor: Int = Color.WHITE
 
     // updated whenever level changes
@@ -119,13 +137,18 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
         postInvalidate()
     }
 
+    private var isQsPercent = false
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = frameColor
-        p.alpha = 255
+        
         p.isDither = true
-        p.strokeWidth = 1f
+        p.strokeWidth = 5f
         p.style = Paint.Style.STROKE
-        p.blendMode = BlendMode.SRC
+        p.blendMode = BlendMode.CLEAR
         p.strokeMiter = 5f
         p.strokeJoin = Paint.Join.ROUND
     }
@@ -156,24 +179,83 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
         p.blendMode = BlendMode.SRC
     }
 
+    private val boltPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = Color.WHITE
+    }
+
+    private val chargingAlphaPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val chargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val customFillAlphaPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val customFillPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val powerSavePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val powerSaveFillPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val scaledPerimeterPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
     // Only used if dualTone is set to true
     private val dualToneBackgroundFill = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
-        p.alpha = 255
+        p.alpha = 85 // ~0.3 alpha by default
         p.isDither = true
         p.strokeWidth = 0f
         p.style = Paint.Style.FILL_AND_STROKE
     }
 
-    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD)
-        p.textAlign = Paint.Align.CENTER
+       private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+         p.typeface = percentTypeface()
+         p.textAlign = Paint.Align.CENTER
+         p.color = Color.BLACK
+     }
+ 
+     private val textChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+         p.typeface = percentTypeface()
+         p.textAlign = Paint.Align.CENTER
+         p.color = Color.WHITE
+     }
+ 
+     private val textQsPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+         p.typeface = percentTypeface()
+         p.textAlign = Paint.Align.CENTER
+         p.color = Color.BLACK
+     }
+
+    private fun percentTypeface(): Typeface {
+        val typefaceBuilder: Typeface.Builder?
+        return try {
+            typefaceBuilder = Typeface.Builder(
+                getResources(context).assets,
+                "Fonts/SanFranciscoText-Semibold.otf"
+            )
+            typefaceBuilder.build() ?: Typeface.create("sans-serif-condensed", Typeface.BOLD)
+        } catch (e: Exception) {
+            Typeface.DEFAULT
+        }
     }
 
     init {
         val density = context.resources.displayMetrics.density
-        intrinsicHeight = (HEIGHT * 1.25f * density).toInt()
-        intrinsicWidth = (WIDTH *0.86f* density).toInt()
+      
+         intrinsicHeight = (HEIGHT * 1.22f * density).toInt()
+        intrinsicWidth = (WIDTH * 0.84* density).toInt()
 
         val res = context.resources
         val levels = res.obtainTypedArray(
@@ -210,57 +292,179 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
         levelPath.reset()
         levelRect.set(fillRect)
         val fillFraction = batteryLevel / 100f
-        val fillTop = if (batteryLevel >= 95) fillRect.right
-        else fillRect.right - (fillRect.width() * (1 - fillFraction))
+        val fillRight =
+            if (batteryLevel == 100)
+                fillRect.right + 1f
+            else
+                fillRect.right - (fillRect.width() * (1 - fillFraction))
 
-        levelRect.right = floor(fillTop.toDouble()).toFloat()
-        //levelPath.addRect(levelRect, Path.Direction.CCW)
-        levelPath.addRoundRect(
-            levelRect, floatArrayOf(
-                6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f, 6.0f
-            ), Path.Direction.CCW
-        )
+        levelRect.right = floor(fillRight.toDouble()).toFloat()
+        levelPath.addRect(levelRect, Path.Direction.CCW)
 
-        // The perimeter should never change
-        unifiedPath.addPath(scaledPerimeter)
+        // If drawing dual tone, the level is used only to clip the whole drawable path
+        if (!dualTone) {
+            unifiedPath.op(levelPath, Path.Op.UNION)
+        }
 
         fillPaint.color = levelColor
+        val black = Color.BLACK
+        val chargingParseColor = 0xFF3AB74E.toInt()
+        val powerSaveParseColor = 0xFFFDD015.toInt()
+        chargingAlphaPaint.color =
+            if (customBlendColor && chargingColor != black) chargingColor else chargingParseColor
+        chargingPaint.color =
+            if (customBlendColor && chargingColor != black) chargingColor else chargingParseColor
+        powerSavePaint.color =
+            if (customBlendColor && powerSaveColor != black) powerSaveColor else powerSaveParseColor
+        powerSaveFillPaint.color =
+            if (customBlendColor && powerSaveFillColor != black) powerSaveFillColor else powerSaveParseColor
+
+        customFillAlphaPaint.alpha = 85
+        chargingAlphaPaint.alpha = 85
+        powerSavePaint.alpha = 85
+
+        // The perimeter should never change
+        if (charging) {
+            c.drawPath(scaledPerimeter, chargingAlphaPaint)
+        } else if (powerSaveEnabled) {
+            c.drawPath(scaledPerimeter, powerSavePaint)
+            c.drawPath(scaledPlus, powerSaveFillPaint)
+        } else {
+            customFillAlphaPaint.color = customFillColor
+            customFillAlphaPaint.shader =
+                if (customFillColor != black && customFillGradColor != black) LinearGradient(
+                    levelRect.right, 0f, 0f, levelRect.bottom,
+                    customFillColor, customFillGradColor,
+                    Shader.TileMode.CLAMP
+                ) else null
+            customFillAlphaPaint.alpha = 85
+            c.drawPath(
+                scaledPerimeter,
+                if (customBlendColor && customFillColor != black) customFillAlphaPaint else scaledPerimeterPaint
+            )
+        }
 
         // Deal with unifiedPath clipping before it draws
-        if (charging) {
+        if (charging && !customChargingIcon) {
             // Clip out the bolt shape
             unifiedPath.op(scaledBolt, Path.Op.DIFFERENCE)
-            levelPath.op(scaledBolt, Path.Op.DIFFERENCE)
             if (!invertFillIcon) {
-                c.drawPath(scaledBolt, fillPaint)
+                c.drawPath(scaledBolt, boltPaint)
             }
         }
 
-        // Dual tone means we draw the shape again, clipped to the charge level
-        fillPaint.color = boltColor
-        c.drawPath(unifiedPath, fillPaint)
-        fillPaint.color = levelColor
-        c.drawPath(levelPath, fillPaint)
+        if (dualTone) {
+            // Dual tone means we draw the shape again, clipped to the charge level
+            c.drawPath(unifiedPath, dualToneBackgroundFill)
+            c.save()
+            c.clipRect(
+                bounds.left.toFloat(),
+                0f,
+                bounds.right + bounds.width() * fillFraction,
+                bounds.left.toFloat()
+            )
+            c.drawPath(unifiedPath, fillPaint)
+            c.restore()
+        } else {
+            // Non dual-tone means we draw the perimeter (with the level fill), and potentially
+            // draw the fill again with a critical color
+            if (charging) {
+                fillPaint.color = fillColor
+                c.clipOutPath(scaledfillOutline)
+                c.drawPath(unifiedPath, chargingPaint)
+                fillPaint.color = levelColor
+            } else if (powerSaveEnabled) {
+                c.drawPath(scaledErrorPerimeter, errorPaint)
+                c.clipOutPath(scaledfillOutline)
+                c.drawPath(levelPath, powerSaveFillPaint)
+            } else {
+                fillPaint.color = fillColor
+                customFillPaint.color = customFillColor
+                customFillPaint.shader =
+                    if (customFillColor != black && customFillGradColor != black) LinearGradient(
+                        levelRect.right, 0f, 0f, levelRect.bottom,
+                        customFillColor, customFillGradColor,
+                        Shader.TileMode.CLAMP
+                    ) else null
+                c.clipOutPath(scaledfillOutline)
+                c.drawPath(
+                    unifiedPath,
+                    if (customBlendColor && customFillColor != black) customFillPaint else fillPaint
+                )
+                fillPaint.color = levelColor
+            }
+
+        }
 
         if (charging) {
-            val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
-            fillColorStrokePaint.xfermode = xfermode
-
-            c.drawPath(scaledBolt, fillColorStrokePaint)
-
-            fillPaint.color = boltColor
-            c.drawPath(scaledBolt, fillPaint)
-            fillPaint.color = levelColor
+            c.clipOutPath(scaledBolt)
+        } else if (powerSaveEnabled) {
+            // If power save is enabled draw the perimeter path with colorError
+            c.drawPath(scaledErrorPerimeter, errorPaint)
         }
         c.restore()
+
+        if (charging || batteryLevel <= CRITICAL_LEVEL) {
+            textChargingPaint.textSize = bounds.width() * if (customChargingIcon) 0.00f else 0.00f
+            val textHeight = +textChargingPaint.fontMetrics.ascent
+            val pctXcharging = if (customChargingIcon) 0.00f else 0.00f
+            val pctX100 = if (customChargingIcon) 0.00f else 0.00f
+            val pctX = (bounds.width() + textHeight) *
+                    (if (!charging) 0.00f /* discharging */
+                    else if (batteryLevel < 100) pctXcharging /* charging */
+                    else pctX100) /* level == 100 */ /* charging */
+            val pctY = bounds.height() * if (customChargingIcon) 0.79f else 0.76f
+
+            if (isRotation) {
+                c.rotate(180f, pctX, pctY * if (customChargingIcon) 0.63f else 0.66f)
+            }
+            c.save()
+            c.drawText(batteryLevel.toString(), pctX, pctY, textChargingPaint)
+            c.restore()
+        } else {
+            textPaint.textSize = bounds.width() * 0.00f
+            textQsPaint.textSize = textPaint.textSize
+            val textHeight = +textPaint.fontMetrics.ascent
+            val pctX = (bounds.width() + textHeight) * 0.76f
+            val pctY = bounds.height() * 0.79f
+
+            textPaint.color = fillColor
+            textQsPaint.color = getColorAttrDefaultColor(
+                                context,
+                                android.R.attr.textColorPrimaryInverse
+                            )
+            if (isRotation) {
+                c.rotate(180f, pctX, pctY * 0.63f)
+            }
+            c.drawText(
+                batteryLevel.toString(),
+                pctX,
+                pctY,
+                if (isQsPercent) textQsPaint else textPaint
+            )
+
+            textPaint.color = fillColor.toInt().inv()
+            textQsPaint.color = getColorAttrDefaultColor(
+                                context,
+                                android.R.attr.textColorPrimaryInverse
+                            )
+            c.save()
+            c.drawText(
+                batteryLevel.toString(),
+                pctX,
+                pctY,
+                if (isQsPercent) textQsPaint else textPaint
+            )
+            c.restore()
+        }
     }
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging -> 0xFF20D013.toInt()
-            powerSaveEnabled -> 0xFFFFBE26.toInt()
+            charging -> 0xFF34C759.toInt()
+            powerSaveEnabled -> 0xFFFFCC0A.toInt()
             level > 20 -> fillColor
-            level >= 0 -> 0xFFF6400F.toInt()
+            level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
         }
     }
@@ -325,7 +529,7 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
      */
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun setBatteryLevel(l: Int) {
-        invertFillIcon = if (l >= 67) true else if (l <= 33) false else invertFillIcon
+        // invertFillIcon = if (l >= 67) true else if (l <= 33) false else invertFillIcon
         batteryLevel = l
         levelColor = batteryColorForLevel(batteryLevel)
         invalidateSelf()
@@ -350,11 +554,13 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
     }
 
     override fun setColors(fgColor: Int, bgColor: Int, singleToneColor: Int) {
-        fillColor = fgColor
-        boltColor = singleToneColor
+        fillColor = if (dualTone) fgColor else singleToneColor
 
-        fillPaint.color = singleToneColor
-        fillColorStrokePaint.color = singleToneColor
+        fillPaint.color = fillColor
+        fillColorStrokePaint.color = fillColor
+
+        scaledPerimeterPaint.color = fillColor
+        scaledPerimeterPaint.alpha = 85
 
         backgroundColor = bgColor
         dualToneBackgroundFill.color = bgColor
@@ -374,15 +580,16 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
     private fun updateSize() {
         val b = bounds
         if (b.isEmpty) {
-            scaleMatrix.setScale(1f, 1f)
+            scaleMatrix.setScale(3f, 3f)
         } else {
-            scaleMatrix.setScale((b.right / WIDTH), (b.bottom / HEIGHT))
+            scaleMatrix.setScale((b.right.toFloat() / WIDTH), (b.bottom.toFloat() / HEIGHT))
         }
 
         perimeterPath.transform(scaleMatrix, scaledPerimeter)
         errorPerimeterPath.transform(scaleMatrix, scaledErrorPerimeter)
         fillMask.transform(scaleMatrix, scaledFill)
         scaledFill.computeBounds(fillRect, true)
+        fillOutlinePath.transform(scaleMatrix, scaledfillOutline)
         boltPath.transform(scaleMatrix, scaledBolt)
         plusPath.transform(scaleMatrix, scaledPlus)
 
@@ -398,17 +605,21 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
     @Suppress("DEPRECATION")
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-        val pathString =
+         val pathString =
             getResources(context).getString(R.string.config_landscapeBatteryPerimeterRColorOS)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
-
-        val errorPathString =
+           val errorPathString =
             getResources(context).getString(R.string.config_landscapeBatteryErrorRColorOS)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-        val fillMaskString =
+        val fillOutlinePathString =
+            getResources(context).getString(R.string.config_landscapeBatteryFillOutlineL)
+        fillOutlinePath.set(PathParser.createPathFromPathData(fillOutlinePathString))
+        fillOutlinePath.computeBounds(RectF(), true)
+
+         val fillMaskString =
             getResources(context).getString(R.string.config_landscapeBatteryFillMaskRColorOS)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
@@ -422,20 +633,20 @@ open class RLandscapeBatteryColorOS(private val context: Context, frameColor: In
             getResources(context).getString(R.string.config_landscapeBatteryPlusRColorOS)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
 
-        dualTone = true
+        dualTone = false
     }
 
     companion object {
-        private val TAG = RLandscapeBatteryColorOS::class.java.simpleName
+        private val TAG = LandscapeBatteryL::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
         private const val CRITICAL_LEVEL = 20
 
-        // On a 12x20 grid, how wide to make the fill protection stroke.
+        // On a 24x12 grid, how wide to make the fill protection stroke.
         // Scales when our size changes
-        private const val PROTECTION_STROKE_WIDTH = 3f
+        private const val PROTECTION_STROKE_WIDTH = 2f
 
         // Arbitrarily chosen for visibility at small sizes
-        private const val PROTECTION_MIN_STROKE_WIDTH = 6f
+        private const val PROTECTION_MIN_STROKE_WIDTH = 5f
     }
 }
