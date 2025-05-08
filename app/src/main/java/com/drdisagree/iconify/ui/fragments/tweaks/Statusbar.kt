@@ -1,8 +1,6 @@
 package com.drdisagree.iconify.ui.fragments.tweaks
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +8,6 @@ import android.widget.RadioGroup
 import com.drdisagree.iconify.Iconify.Companion.appContext
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
-import com.drdisagree.iconify.data.common.Const.SWITCH_ANIMATION_DELAY
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.References.FABRICATED_SB_COLOR_SOURCE
 import com.drdisagree.iconify.data.common.References.FABRICATED_SB_COLOR_TINT
@@ -25,7 +22,6 @@ import com.drdisagree.iconify.databinding.FragmentStatusbarBinding
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.BaseFragment
 import com.drdisagree.iconify.ui.utils.ViewHelper.setHeader
-import com.drdisagree.iconify.utils.SystemUtils
 import com.drdisagree.iconify.utils.color.ColorUtils.colorToSpecialHex
 import com.drdisagree.iconify.utils.overlay.FabricatedUtils.buildAndEnableOverlays
 import com.drdisagree.iconify.utils.overlay.FabricatedUtils.disableOverlays
@@ -241,9 +237,9 @@ class Statusbar : BaseFragment() {
                     if (selectedStyle != "Monet") {
                         enableOverlay("IconifyComponentSBTint.overlay")
                         putString(FABRICATED_SB_COLOR_SOURCE, "Monet")
-                        Handler(Looper.getMainLooper()).postDelayed(
-                            { SystemUtils.restartSystemUI() },
-                            SWITCH_ANIMATION_DELAY
+                        MainActivity.showOrHidePendingActionButton(
+                            activityBinding = (requireActivity() as MainActivity).binding,
+                            requiresSystemUiRestart = true
                         )
                     }
                 }
@@ -338,9 +334,9 @@ class Statusbar : BaseFragment() {
             )
         )
 
-        Handler(Looper.getMainLooper()).postDelayed(
-            { SystemUtils.restartSystemUI() },
-            1000
+        MainActivity.showOrHidePendingActionButton(
+            activityBinding = (requireActivity() as MainActivity).binding,
+            requiresSystemUiRestart = true
         )
     }
 
@@ -357,9 +353,9 @@ class Statusbar : BaseFragment() {
 
         OverlayUtils.disableOverlay("IconifyComponentSBTint.overlay")
 
-        Handler(Looper.getMainLooper()).postDelayed(
-            { SystemUtils.restartSystemUI() },
-            1000
+        MainActivity.showOrHidePendingActionButton(
+            activityBinding = (requireActivity() as MainActivity).binding,
+            requiresSystemUiRestart = true
         )
     }
 
