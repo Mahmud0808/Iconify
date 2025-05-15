@@ -28,7 +28,7 @@
                 app:sliderStepSize="1"
                 app:sliderValue="2"
                 app:sliderValueFrom="0"
-                app:sliderValueTo="3"
+                app:sliderValueTo="15"
                 app:titleText="@string/quick_qspanel_row_title"
                 app:valueFormat="" />
 
@@ -39,7 +39,7 @@
                 app:sliderStepSize="1"
                 app:sliderValue="4"
                 app:sliderValueFrom="1"
-                app:sliderValueTo="8"
+                app:sliderValueTo="15"
                 app:titleText="@string/qspanel_row_title"
                 app:valueFormat="" />
 
@@ -50,7 +50,7 @@
                 app:sliderStepSize="1"
                 app:sliderValue="2"
                 app:sliderValueFrom="1"
-                app:sliderValueTo="5"
+                app:sliderValueTo="15"
                 app:titleText="@string/qspanel_column_title"
                 app:valueFormat="" />
 
