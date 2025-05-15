@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">Make privacy chip accent colored</string>
     <string name="disable_progress_wave_title">Disable Progress Wave</string>
     <string name="disable_progress_wave_desc">Disable progress bar wave animation</string>
+    <string name="section_title_settings_theme">Settings Theme</string>
+    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
+    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Trước khi bật Iconify từ các mô-đun LSPosed, hãy nhấn và giữ Iconify và nhấp vào Tối ưu hóa lại. Sau đó kích hoạt Iconify và khởi động lại SystemUI của bạn. Điều này là cần thiết để có trải nghiệm mượt mà hơn.</string>
     <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>

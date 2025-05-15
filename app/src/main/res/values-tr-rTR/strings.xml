@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">Gizlilik çipini vurgu renkli yap</string>
     <string name="disable_progress_wave_title">İlerleme Dalgasını Devre Dışı Bırak</string>
     <string name="disable_progress_wave_desc">İlerleme çubuğu dalga animasyonunu devre dışı bırak</string>
+    <string name="section_title_settings_theme">Ayarlar Teması</string>
+    <string name="enable_expressive_theme_title">Etkileyici Temayı Etkinleştir</string>
+    <string name="enable_expressive_theme_desc">Android 15 QPR2+ üzerinde etkileyici yeni ayarlar temasını etkinleştir</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Iconify\'ı LSPosed modüllerinden etkinleştirmeden önce, Iconify\'a uzun basın ve Yeniden Optimize Et\'e tıklayın. Ardından Iconify\'ı etkinleştirin ve SystemUI\'ı yeniden başlatın. Bu, daha sorunsuz bir deneyim için gereklidir.</string>
     <string name="lsposed_bootloop_warn">Etkinleştirdiğiniz özelliklerden biri ROM\'unuzla uyumlu değil. Lütfen bunu devre dışı bırakın ve SystemUI\'ı yeniden başlatın.</string>

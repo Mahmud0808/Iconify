@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">Usa l\'accento per colorare il privacy chip</string>
     <string name="disable_progress_wave_title">Disabilita Onda di Avanzamento</string>
     <string name="disable_progress_wave_desc">Disabilita l\'animazione dell\'onda nella barra di avanzamento</string>
+    <string name="section_title_settings_theme">Impostazioni Tema</string>
+    <string name="enable_expressive_theme_title">Abilita Tema Espressivo</string>
+    <string name="enable_expressive_theme_desc">Abilita il nuovo tema espressivo delle impostazioni su Android 15 QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Prima di abilitare Iconify dai moduli LSPosed, premi a lungo su Iconify e fai clic su Ri-ottimizza. Successivamente abilita Iconify e riavvia SystemUI. Ciò è necessario per un\'esperienza più fluida.</string>
     <string name="lsposed_bootloop_warn">Una delle funzionalità che hai attivato non è compatibile con la tua ROM. Per favore disabilitala e riavvia il tuo SystemUI.</string>

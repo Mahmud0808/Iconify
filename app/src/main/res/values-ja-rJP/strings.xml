@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">プライバシー チップにアクセントカラーを適用する</string>
     <string name="disable_progress_wave_title">プログレス ウェーブを無効化</string>
     <string name="disable_progress_wave_desc">プログレスバーの波アニメーションを無効化します</string>
+    <string name="section_title_settings_theme">Settings Theme</string>
+    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
+    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">LSPosed から Iconify モジュールを有効化する前に、Iconify を長押しして最適化をクリックしてください。その後 Iconify を有効にしてシステム UI を再起動してください。これは滑らかな動作に必要なことです。</string>
     <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>

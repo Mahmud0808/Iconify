@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">Kiemelőszinnel színezi ki a háttérlapot</string>
     <string name="disable_progress_wave_title">Eltünteti a haladási hullámot</string>
     <string name="disable_progress_wave_desc">Letiltja a haladási hullám animációját</string>
+    <string name="section_title_settings_theme">Beállítási téma</string>
+    <string name="enable_expressive_theme_title">A „Kifejező téma” engedélyezése</string>
+    <string name="enable_expressive_theme_desc">Engedélyezi a beállítások új \'Kifejező témáját\' Android 15 QPR2+ rendszeren</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Mielőtt engedélyezné az Iconify-t az LSPosed modulban, nyomjon hosszan az Iconify-ra és klikkeljen az Újra-Optimalizálás-ra. Ezután engedélyezze az Iconify-t, majd indítsa újra a rendszerfelületet. Ez elengedhetetlen a gördülékeny működéshez.</string>
     <string name="lsposed_bootloop_warn">Az egyik engedélyezett szolgáltatás nem kompatibilis a ROM-mal. Kérjük, tiltsa le, és indítsa újra a rendszerfelületet.</string>

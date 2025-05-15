@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">Окрасить индикатор активности в акцентный цвет</string>
     <string name="disable_progress_wave_title">Отключить прогресс-волну</string>
     <string name="disable_progress_wave_desc">Отключить анимацию волны на прогресс-баре медиаплеера</string>
+    <string name="section_title_settings_theme">Settings Theme</string>
+    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
+    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Перед включением Iconify в LSPosed, сделайте долгий клик по приложению и нажмите Re-optimize. После этого включите Iconify и перезапустите System UI. Это необходимо для лучшей работы.</string>
     <string name="lsposed_bootloop_warn">Одна из функций, которую вы включили, не совместима с вашей прошивкой. Пожалуйста, отключите её и перезапустите SystemUI.</string>

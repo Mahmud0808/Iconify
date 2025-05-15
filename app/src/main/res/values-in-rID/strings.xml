@@ -238,7 +238,7 @@
     <string name="activity_title_monet_engine">Mesin Monet</string>
     <string name="activity_desc_monet_engine">Ganti palet warna monet</string>
     <string name="section_title_stock_colors">Warna Stok</string>
-    <string name="apply_monet_accent_title">Monet Accent</string>
+    <string name="apply_monet_accent_title">Indone</string>
     <string name="apply_monet_accent_desc">Gunakan monet sistem sebagai accent</string>
     <string name="apply_monet_gradient_title">Gradiasi Monet</string>
     <string name="apply_monet_gradient_desc">Gunakan monet sistem sebagai gradient</string>
@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">Make privacy chip accent colored</string>
     <string name="disable_progress_wave_title">Disable Progress Wave</string>
     <string name="disable_progress_wave_desc">Disable progress bar wave animation</string>
+    <string name="section_title_settings_theme">Settings Theme</string>
+    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
+    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Sebelum mengaktifkan Iconify dari modul LSPosed, tekan lama pada Iconify dan klik Optimalkan ulang. Setelah itu aktifkan Iconify dan restart SystemUI Anda. Ini diperlukan untuk pengalaman yang lebih lancar.</string>
     <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>

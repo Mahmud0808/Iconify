@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">لهجه تراشه حریم خصوصی را رنگی کنید</string>
     <string name="disable_progress_wave_title">غیرفعال کردن موج پیشرفت</string>
     <string name="disable_progress_wave_desc">غیرفعال کردن انیمیشن موج نوار پیشرفت</string>
+    <string name="section_title_settings_theme">تنظیمات پوسته</string>
+    <string name="enable_expressive_theme_title">فعال کردن قالب رسا</string>
+    <string name="enable_expressive_theme_desc">فعال کردن تنظیمات جدید پوسته رسا در اندروید ۱۵ QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">قبل از فعال کردن Iconify از ماژول های LSPosed، روی Iconify طولانی فشار دهید و روی بهینه‌سازی دوباره کلیک کنید. پس از آن Iconify را فعال کرده و رابط سیستم خود را مجددا راه‌اندازی کنید. این برای یک تجربه روان تر لازم است.</string>
     <string name="lsposed_bootloop_warn">یکی از ویژگی‌هایی که فعال کرده‌اید با رام شما سازگار نیست. لطفاً آن را غیرفعال کنید و رابط سیستم خود را مجدداً راه‌اندازی کنید.</string>

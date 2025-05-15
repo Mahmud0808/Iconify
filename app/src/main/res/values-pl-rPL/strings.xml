@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">Ustaw kolor wskaźnika prywatności na akcent </string>
     <string name="disable_progress_wave_title">Wyłącz falujący wskaźnik postępu</string>
     <string name="disable_progress_wave_desc">Wyłącz animację falującego wskaźnika postępu</string>
+    <string name="section_title_settings_theme">Settings Theme</string>
+    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
+    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Przed włączeniem Iconify w zakładce modułów LSPosed naciśnij i przytrzymaj Iconify, a następnie kliknij Optymalizuj ponownie. Następnie włącz Iconify i zrestartuj SystemUI. Jest to konieczne, aby zapewnić płynne działanie modułu.</string>
     <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>

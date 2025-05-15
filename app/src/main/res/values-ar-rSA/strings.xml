@@ -413,6 +413,9 @@
     <string name="accent_privacy_chip_desc">جعل رقاقة الخصوصية ملونة بلون التمييز</string>
     <string name="disable_progress_wave_title">تعطيل موجة التقدم</string>
     <string name="disable_progress_wave_desc">تعطيل حركة موجة شريط التقدم</string>
+    <string name="section_title_settings_theme">Settings Theme</string>
+    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
+    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">قبل تفعيل Iconify في اضافات LSposed, اضغط لفترة طويلة على Iconify وانقر على إعادة التحسين. بعد ذلك، قم بتمكين Iconify وأعد تشغيل واجهتك. هذا ضروري لتجربة أكثر سلاسة..</string>
     <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
