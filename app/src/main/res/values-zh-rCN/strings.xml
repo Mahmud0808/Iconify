@@ -413,9 +413,9 @@
     <string name="accent_privacy_chip_desc">让Privacy chip强调着色</string>
     <string name="disable_progress_wave_title">禁用进度波</string>
     <string name="disable_progress_wave_desc">禁用进度条波形动画</string>
-    <string name="section_title_settings_theme">Settings Theme</string>
-    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
-    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
+    <string name="section_title_settings_theme">设置主题</string>
+    <string name="enable_expressive_theme_title">启用表达式主题</string>
+    <string name="enable_expressive_theme_desc">在 Android 15 QPR2+ 上启用新的设置表达式主题</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">在启用 Iconify LSPosed 模块之前，长按 Iconify 并点击重新优化。之后，启用 Iconify 并重启你的 SystemUI。为了获得更流畅的体验，这是必要的。</string>
     <string name="lsposed_bootloop_warn">您启用的某个功能与您的 ROM 不兼容。请禁用它并重新启动 SystemUI。</string>

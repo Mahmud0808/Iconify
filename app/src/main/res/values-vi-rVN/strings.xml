@@ -4,7 +4,7 @@
     <!-- Onboarding -->
     <string name="init_module_installation">Đang khởi tạo thiết lập</string>
     <string name="step">Bước</string>
-    <string name="step_number">Step %1$d/%2$d</string>
+    <string name="step_number"></string>
     <string name="module_installation_step1">Tạo vỏ mô-đun</string>
     <string name="module_installation_step2">Giải nén các tập tin cần thiết</string>
     <string name="module_installation_step3">Tạo lớp phủ APKs</string>

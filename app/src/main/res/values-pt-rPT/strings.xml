@@ -358,7 +358,7 @@
     <string name="navbar_disable_left_gesture_desc">Desativar voltar atrás no lado esquerdo do ecrã</string>
     <string name="navbar_disable_right_gesture_title">Desativar gesto direito</string>
     <string name="navbar_disable_right_gesture_desc">Desativar voltar atrás no lado direito do ecrã</string>
-    <string name="section_title_pill_navigation">Pill Navigation</string>
+    <string name="section_title_pill_navigation"></string>
     <string name="navbar_hide_pill_title">Esconder barra</string>
     <string name="navbar_hide_pill_desc">Esconder a barra de navegação</string>
     <string name="navbar_monet_pill_title">Barra Monet</string>
