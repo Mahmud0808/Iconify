@@ -99,13 +99,13 @@ class Lockscreen(context: Context) : ModPack(context) {
                 .resource("layout", "status_bar_expanded")
                 .suppressError()
                 .run { liparam ->
-                    liparam.view.findViewById<View>(
+                    liparam.view.findViewById<View?>(
                         liparam.res.getIdentifier(
                             "lock_icon_view",
                             "id",
                             mContext.packageName
                         )
-                    ).apply {
+                    )?.apply {
                         if (!hideLockscreenLockIcon) return@apply
 
                         layoutParams.height = 0

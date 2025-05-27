@@ -263,19 +263,6 @@ object Preferences {
     const val OP_QS_HEADER_GAP_EXPANDED = "xposed_opqsheadergapexpanded"
     const val FORCE_THEMED_ICONS = "xposed_forcethemedicons"
     const val APP_DRAWER_THEMED_ICONS = "xposed_appdrawerthemedicons"
-    const val APP_DRAWER_BACKGROUND_OPACITY = "xposed_appdrawerbackgroundopacity"
-    const val RECENTS_BACKGROUND_OPACITY = "xposed_recentsbackgroundopacity"
-    const val DISABLE_RECENTS_LIVE_TILE = "xposed_disablerecentslivetile"
-    const val DOUBLE_TAP_TO_SLEEP = "xposed_doubletaptosleep"
-    const val LAUNCHER_HIDE_STATUSBAR = "xposed_launcherhidestatusbar"
-    const val LAUNCHER_HIDE_TOP_SHADOW = "xposed_launcherhidetopshadow"
-    const val DESKTOP_ICON_LABELS = "xposed_desktopiconlabels"
-    const val APP_DRAWER_ICON_LABELS = "xposed_appdrawericonlabels"
-    const val HIDE_AT_A_GLANCE = "xposed_hideataglance"
-    const val DESKTOP_SEARCH_BAR = "xposed_desktopsearchbar"
-    const val DESKTOP_DOCK_SPACING = "xposed_desktopdockspacing"
-    const val LAUNCHER_ICON_SIZE = "xposed_launchericonsize"
-    const val LAUNCHER_TEXT_SIZE = "xposed_launchertextsize"
     const val NOTIFICATION_HEADSUP_BLUR = "xposed_notificationsheadsupblur"
     const val NOTIFICATION_HEADSUP_BLUR_RADIUS = "xposed_notificationsheadsupblurradius"
     const val NOTIFICATION_HEADSUP_TRANSPARENCY = "xposed_notificationsheadsuptransparency"
@@ -334,6 +321,7 @@ object Preferences {
     const val BATTERY_STYLE_DOTTED_CIRCLE = 36
     const val BATTERY_STYLE_FILLED_CIRCLE = 37
     const val BATTERY_STYLE_LANDSCAPE_KIM = 38
+    const val BATTERY_STYLE_LANDSCAPE_ONEUI7 = 39
 
     // Xposed force reload overlay
     const val FORCE_RELOAD_PACKAGE_NAME = "com.android.internal.display.cutout.emulation.corner"

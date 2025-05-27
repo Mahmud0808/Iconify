@@ -46,6 +46,7 @@ import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -88,6 +89,7 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
     private var wallpaperProcessorThread: Thread? = null
 
     private var shouldShowForeground = true
+    private var shouldShowBackground = true
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -413,6 +415,22 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
                 }
             }
 
+        KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
+            object : KeyguardShowingCallback.KeyguardShowingListener {
+                override fun onKeyguardShown() {
+                    shouldShowBackground = true
+                }
+
+                override fun onKeyguardDismissed() {
+                    shouldShowForeground = false
+                    shouldShowBackground = false
+
+                    updateForegroundVisibility()
+                    setDepthWallpaper()
+                }
+            }
+        )
+
         /*
          * Custom depth wallpaper images
          */
@@ -424,27 +442,27 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
     }
 
     private fun updateForegroundVisibility(targetAlpha: Float = 1f, duration: Long = 0L) {
-        if (::mWallpaperForeground.isInitialized) {
-            // Hide foreground when album art is showing
-            if (showDepthWallpaper && shouldShowForeground && !shouldShowAlbumArt) {
-                // Smooth appearance
-                if (duration == 0L) {
-                    mWallpaperForeground.visibility = View.VISIBLE
-                } else {
-                    mWallpaperForeground.apply {
-                        if (visibility != View.VISIBLE) {
-                            visibility = View.VISIBLE
-                            alpha = 0f
-                        }
-                        animate()
-                            .alpha(targetAlpha)
-                            .setDuration(duration)
-                            .start()
-                    }
-                }
+        if (::mWallpaperForeground.isInitialized.not()) return
+
+        // Hide foreground when album art is showing
+        if (showDepthWallpaper && shouldShowForeground && !shouldShowAlbumArt) {
+            // Smooth appearance
+            if (duration == 0L) {
+                mWallpaperForeground.visibility = View.VISIBLE
             } else {
-                mWallpaperForeground.visibility = View.GONE
+                mWallpaperForeground.apply {
+                    if (visibility != View.VISIBLE) {
+                        visibility = View.VISIBLE
+                        alpha = 0f
+                    }
+                    animate()
+                        .alpha(targetAlpha)
+                        .setDuration(duration)
+                        .start()
+                }
             }
+        } else {
+            mWallpaperForeground.visibility = View.GONE
         }
     }
 
@@ -600,15 +618,16 @@ abstract class BaseDepthWallpaperA14(context: Context) : ModPack(context) {
                 mWallpaperDimmingOverlay.alpha =
                     mScrimController.getField("mScrimBehindAlphaKeyguard") as Float
 
-                mWallpaperBackground.visibility = View.VISIBLE
-                shouldShowForeground = true
+                mWallpaperBackground.visibility =
+                    if (shouldShowBackground) View.VISIBLE else View.GONE
+                shouldShowForeground = shouldShowBackground
                 updateForegroundVisibility(targetAlpha, if (requiresAnimation) 300L else 0L)
             }
         } else if (mLayersCreated) {
             shouldShowForeground = false
             updateForegroundVisibility()
 
-            if (state == "UNLOCKED") {
+            if (state == "UNLOCKED" || !shouldShowBackground) {
                 mWallpaperBackground.visibility = View.GONE
             }
         }

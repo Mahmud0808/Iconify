@@ -33,7 +33,9 @@
         style="@style/TextAppearance.Material3.BodyMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
         android:layout_gravity="center"
         android:textAlignment="center"
         android:textColor="@color/text_color_secondary" />
+
 </LinearLayout>

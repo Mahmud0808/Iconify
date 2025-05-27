@@ -585,7 +585,10 @@ object ViewHelper {
 
     fun View?.removeViewFromParent() {
         if (this == null) return
-        (parent as? ViewGroup)?.removeView(this)
+        try {
+            (parent as? ViewGroup)?.removeView(this)
+        } catch (_: Exception) {
+        }
     }
 
     fun View?.getExpandableView(): Any? {

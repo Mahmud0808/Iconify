@@ -48,6 +48,7 @@ import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_IO
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_KIM
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_MIUI_PILL
+import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_ONEUI7
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_SMILEY
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_A
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_STYLE_B
@@ -112,6 +113,7 @@ import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryM
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryMIUIPill
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryN
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryO
+import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryOneUI7
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatterySmiley
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryStyleA
 import com.drdisagree.iconify.xposed.modules.batterystyles.LandscapeBatteryStyleB
@@ -147,6 +149,7 @@ import de.robv.android.xposed.XposedHelpers.getBooleanField
 import de.robv.android.xposed.XposedHelpers.setStaticIntField
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import kotlin.math.roundToInt
 
 @Suppress("unused")
 @SuppressLint("DiscouragedApi")
@@ -176,26 +179,31 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         var batteryStyle: Int
+
         Xprefs.apply {
             batteryStyle = getString(CUSTOM_BATTERY_STYLE, "0")!!.toInt()
-            val hidePercentage: Boolean = getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false)
-            val defaultInsidePercentage = batteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16 ||
-                    batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYL ||
-                    batteryStyle == BATTERY_STYLE_LANDSCAPE_BATTERYM
+
+            val hidePercentage = getBoolean(CUSTOM_BATTERY_HIDE_PERCENTAGE, false)
+            val defaultInsidePercentage = batteryStyle in listOf(
+                BATTERY_STYLE_LANDSCAPE_IOS_16,
+                BATTERY_STYLE_LANDSCAPE_BATTERYL,
+                BATTERY_STYLE_LANDSCAPE_BATTERYM,
+                BATTERY_STYLE_LANDSCAPE_ONEUI7
+            )
             val insidePercentage = defaultInsidePercentage ||
                     getBoolean(CUSTOM_BATTERY_INSIDE_PERCENTAGE, false)
-            defaultLandscapeBatteryEnabled = batteryStyle == BATTERY_STYLE_DEFAULT_LANDSCAPE ||
-                    batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE
-            customBatteryEnabled = batteryStyle != BATTERY_STYLE_DEFAULT &&
-                    batteryStyle != BATTERY_STYLE_DEFAULT_LANDSCAPE &&
-                    batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE
+            defaultLandscapeBatteryEnabled = batteryStyle in listOf(
+                BATTERY_STYLE_DEFAULT_LANDSCAPE,
+                BATTERY_STYLE_DEFAULT_RLANDSCAPE
+            )
+            customBatteryEnabled = batteryStyle !in listOf(
+                BATTERY_STYLE_DEFAULT,
+                BATTERY_STYLE_DEFAULT_LANDSCAPE,
+                BATTERY_STYLE_DEFAULT_RLANDSCAPE
+            )
 
             mBatteryRotation = if (defaultLandscapeBatteryEnabled) {
-                if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) {
-                    90
-                } else {
-                    270
-                }
+                if (batteryStyle == BATTERY_STYLE_DEFAULT_RLANDSCAPE) 90 else 270
             } else {
                 0
             }
@@ -666,7 +674,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
                 mBatteryDrawable?.let { batteryDrawable ->
                     batteryDrawable.setShowPercentEnabled(mShowPercentInside)
-                    batteryDrawable.alpha = Math.round(BATTERY_ICON_OPACITY * 2.55f)
+                    batteryDrawable.alpha = (BATTERY_ICON_OPACITY * 2.55f).roundToInt()
                     updateCustomizeBatteryDrawable(batteryDrawable)
                 }
             }
@@ -681,8 +689,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 || getFieldSilently("mWirelessCharging") as? Boolean == true
                 || batteryMeterViewParam?.thisObject?.getFieldSilently("mPluggedIn") as? Boolean == true
 
-        val mIsIncompatibleCharging = getFieldSilently("mIsIncompatibleCharging") as? Boolean
-            ?: false
+        val mIsIncompatibleCharging =
+            getFieldSilently("mIsIncompatibleCharging") as? Boolean == true
 
         return mCharging && !mIsIncompatibleCharging
     }
@@ -789,21 +797,20 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             BATTERY_STYLE_LANDSCAPE_BATTERYM -> LandscapeBatteryM(context, frameColor)
             BATTERY_STYLE_LANDSCAPE_BATTERYN -> LandscapeBatteryN(context, frameColor)
             BATTERY_STYLE_LANDSCAPE_BATTERYO -> LandscapeBatteryO(context, frameColor)
-            BATTERY_STYLE_CIRCLE, BATTERY_STYLE_DOTTED_CIRCLE -> CircleBattery(
-                context,
-                frameColor
-            ).apply {
+            BATTERY_STYLE_CIRCLE,
+            BATTERY_STYLE_DOTTED_CIRCLE -> CircleBattery(context, frameColor).apply {
                 setMeterStyle(mBatteryStyle)
             }
             BATTERY_STYLE_FILLED_CIRCLE -> CircleFilledBattery(context, frameColor)
             BATTERY_STYLE_LANDSCAPE_KIM -> LandscapeBatteryKim(context, frameColor)
-            BATTERY_STYLE_PORTRAIT_LORN -> PortraitBatteryLorn(context, frameColor)
+
+            BATTERY_STYLE_LANDSCAPE_ONEUI7 -> LandscapeBatteryOneUI7(context, frameColor)
             else -> null
         }
 
         mBatteryDrawable?.apply {
             setShowPercentEnabled(mShowPercentInside)
-            alpha = Math.round(BATTERY_ICON_OPACITY * 2.55f)
+            alpha = (BATTERY_ICON_OPACITY * 2.55f).roundToInt()
         }
 
         return mBatteryDrawable

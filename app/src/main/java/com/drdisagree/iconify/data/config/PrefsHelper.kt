@@ -29,6 +29,7 @@ import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_BA
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_BATTERYO
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_IOS_16
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_KIM
+import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_LANDSCAPE_ONEUI7
 import com.drdisagree.iconify.data.common.Preferences.BLUR_MEDIA_PLAYER_ARTWORK
 import com.drdisagree.iconify.data.common.Preferences.BLUR_MEDIA_PLAYER_ARTWORK_RADIUS
 import com.drdisagree.iconify.data.common.Preferences.BLUR_RADIUS_VALUE
@@ -402,7 +403,8 @@ object PrefsHelper {
                 batteryStyle != BATTERY_STYLE_DEFAULT_RLANDSCAPE &&
                 batteryStyle != BATTERY_STYLE_LANDSCAPE_IOS_16 &&
                 batteryStyle != BATTERY_STYLE_LANDSCAPE_BATTERYL &&
-                batteryStyle != BATTERY_STYLE_LANDSCAPE_BATTERYM
+                batteryStyle != BATTERY_STYLE_LANDSCAPE_BATTERYM &&
+                batteryStyle != BATTERY_STYLE_LANDSCAPE_ONEUI7
 
         val kimBattery = batteryStyle == BATTERY_STYLE_LANDSCAPE_KIM
 
