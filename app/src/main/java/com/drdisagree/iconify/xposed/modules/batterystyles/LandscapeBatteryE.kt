@@ -621,9 +621,9 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
         fillMask.computeBounds(fillRect, true)
 
         val fillOutlinePathString =
-            getResources(context).getString(R.string.config_landscapeBatteryFillOutlineL)
-        fillOutlinePath.set(PathParser.createPathFromPathData(fillOutlinePathString))
-        fillOutlinePath.computeBounds(RectF(), true)
+           getResources(context).getString(R.string.config_batterymeterLandPerimeterPathE)
+        perimeterPath.set(PathParser.createPathFromPathData(pathString))
+        perimeterPath.computeBounds(RectF(), true)
 
        val boltPathString =
             getResources(context).getString(R.string.config_landscapeBatteryBoltPathE)
