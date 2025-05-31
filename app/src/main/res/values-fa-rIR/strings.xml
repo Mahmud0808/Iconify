@@ -678,6 +678,7 @@
     <string name="battery_dotted_circle">باتری دایره‌ای تو‌پر</string>
     <string name="battery_filled_circle">باتری دایره ای پر شده</string>
     <string name="battery_landscape_kim">کیم افقی</string>
+    <string name="battery_landscape_oneui7">Landscape OneUI 7</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">درصد صدا</string>
     <string name="volume_percentage_desc">نمایش درصد باتری بالای نوار تنظیم صدا</string>

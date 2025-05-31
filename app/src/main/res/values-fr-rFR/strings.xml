@@ -678,6 +678,7 @@
     <string name="battery_dotted_circle">Batterie circulaire en pointillés</string>
     <string name="battery_filled_circle">Batterie circulaire remplie</string>
     <string name="battery_landscape_kim">Kim Paysage</string>
+    <string name="battery_landscape_oneui7">Landscape OneUI 7</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Pourcentage du volume</string>
     <string name="volume_percentage_desc">Afficher le pourcentage au-dessus du curseur de volume</string>

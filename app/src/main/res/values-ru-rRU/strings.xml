@@ -678,6 +678,7 @@
     <string name="battery_dotted_circle">Точечный круг батареи</string>
     <string name="battery_filled_circle">Заполненный круг</string>
     <string name="battery_landscape_kim">Горизонтальная батарея Kim</string>
+    <string name="battery_landscape_oneui7">Landscape OneUI 7</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Проценты громкости</string>
     <string name="volume_percentage_desc">Показывать проценты выше слайдера громкости</string>

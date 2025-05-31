@@ -8,6 +8,10 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 android {
     namespace = "com.drdisagree.iconify"
     compileSdk = 35
@@ -18,12 +22,9 @@ android {
         targetSdk = 35
         versionCode = 24
         versionName = "7.2.0"
+        multiDexEnabled = true
         setProperty("archivesBaseName", "Iconify v${defaultConfig.versionName}")
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
-
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
     }
 
     val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -41,7 +42,7 @@ android {
             storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
             storePassword = keystoreProperties.getProperty("storePassword")
         }
-    } catch (ignored: Exception) {
+    } catch (_: Exception) {
     }
 
     buildTypes {
@@ -114,6 +115,7 @@ android {
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -167,6 +169,9 @@ val standardImplementation by configurations
 dependencies {
     // Kotlin
     implementation(libs.androidx.core.ktx)
+
+    // Core Library Desugaring
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // Data Binding
     implementation(libs.library)

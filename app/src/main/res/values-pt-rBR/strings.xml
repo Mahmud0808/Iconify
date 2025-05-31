@@ -678,6 +678,7 @@
     <string name="battery_dotted_circle">Bateria circular pontilhada</string>
     <string name="battery_filled_circle">Bateria de círculo preenchido</string>
     <string name="battery_landscape_kim">Paisagem Kim</string>
+    <string name="battery_landscape_oneui7">Paisagem One UI 7</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Porcentagem do volume</string>
     <string name="volume_percentage_desc">Mostrar porcentagem acima do controle deslizante de volume</string>

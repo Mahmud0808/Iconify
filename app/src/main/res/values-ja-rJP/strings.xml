@@ -678,6 +678,7 @@
     <string name="battery_dotted_circle">ドットサークルバッテリー</string>
     <string name="battery_filled_circle">塗りつぶされたサークルバッテリー</string>
     <string name="battery_landscape_kim">Landscape Kim</string>
+    <string name="battery_landscape_oneui7">Landscape OneUI 7</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">音量のパーセンテージ</string>
     <string name="volume_percentage_desc">音量スライダーの上にパーセンテージを表示します</string>

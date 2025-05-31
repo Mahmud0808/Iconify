@@ -678,6 +678,7 @@
     <string name="battery_dotted_circle">Noktalı Daire Pil</string>
     <string name="battery_filled_circle">Dolu Daire Pil</string>
     <string name="battery_landscape_kim">Yatay Kim</string>
+    <string name="battery_landscape_oneui7">Yatay OneUI 7</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Ses Yüzdesi</string>
     <string name="volume_percentage_desc">Ses kaydırıcısının üzerinde yüzde göster</string>

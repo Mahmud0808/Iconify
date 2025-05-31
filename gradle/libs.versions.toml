@@ -1,5 +1,5 @@
 [versions]
-agp = "8.10.0"
+agp = "8.10.1"
 appcompat = "1.7.0"
 #noinspection GradleDependency
 bcpkixJdk18on = "1.78.1"
@@ -10,36 +10,37 @@ colorpickerVersion = "1.1.0"
 commonsText = "1.12.0"
 concurrentFutures = "1.2.0"
 constraintlayout = "2.2.1"
-coreKtx = "1.15.0"
+coreKtx = "1.16.0"
 coreSplashscreen = "1.0.1"
+desugar_jdk_libs = "2.1.5"
 dotsindicator = "5.1.0"
 eventbus = "3.3.1"
 fadingedgelayout = "1.0.0"
 flexbox = "3.0.0"
 glide = "4.16.0"
 googlePlayServicesMlkitSubjectSegmentationVersion = "16.0.0-beta1"
-guava = "33.2.1-jre"
+guava = "33.3.1-jre"
 jsoup = "1.18.3"
 kotlin = "2.1.10"
 kotlinxCoroutinesAndroid = "1.9.0"
 ksp = "2.1.10-1.0.31"
-library = "8.9.1"
+library = "8.10.1"
 libsuVersion = "6.0.0"
 lottie = "6.6.2"
 material = "1.12.0"
-navigationUiKtx = "2.8.9"
-navigationFragmentKtx = "2.8.9"
+navigationUiKtx = "2.9.0"
+navigationFragmentKtx = "2.9.0"
 parcelize = "2.0.0"
 paletteKtx = "1.0.0"
-playServicesBase = "18.6.0"
+playServicesBase = "18.7.0"
 preferenceKtx = "1.2.1"
-recyclerviewSelection = "1.1.0"
+recyclerviewSelection = "1.2.0"
 recyclerview = "1.4.0"
 remotepreferences = "0.8"
-roomVersion = "2.6.1"
-slf4jApi = "2.0.16"
+roomVersion = "2.7.1"
+slf4jApi = "2.0.17"
 viewpager2 = "1.1.0"
-workRuntime = "2.10.0"
+workRuntime = "2.10.1"
 xposedbridge = "main-SNAPSHOT"
 zip4j = "2.11.5"
 
@@ -64,6 +65,7 @@ circleindicator = { module = "me.relex:circleindicator", version.ref = "circlein
 collapsingtoolbarlayout-subtitle = { module = "com.hendraanggrian.material:collapsingtoolbarlayout-subtitle", version.ref = "collapsingtoolbarlayoutSubtitle" }
 com-google-android-gms-play-services-mlkit-subject-segmentation = { module = "com.google.android.gms:play-services-mlkit-subject-segmentation", version.ref = "googlePlayServicesMlkitSubjectSegmentationVersion" }
 commons-text = { module = "org.apache.commons:commons-text", version.ref = "commonsText" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
 eventbus = { module = "org.greenrobot:eventbus", version.ref = "eventbus" }
 fadingedgelayout = { module = "com.github.bosphere.android-fadingedgelayout:fadingedgelayout", version.ref = "fadingedgelayout" }

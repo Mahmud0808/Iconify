@@ -18,7 +18,7 @@ Thanks to these translators and proofreaders, this project exists:
           <br />
           <sub><b>igormiguell</b></sub></a>
         <br />
-        <sub><b>4957 words</b></sub>
+        <sub><b>4960 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/If.you.know.better.than.me.do.it.If.not.shut.up"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13525964/medium/22265802c0ad24a0a71f1abfc4776771.jpg" />
@@ -32,7 +32,7 @@ Thanks to these translators and proofreaders, this project exists:
           <br />
           <sub><b>𝗛𝗼𝗹𝗶 (mikropsoft)</b></sub></a>
         <br />
-        <sub><b>8896 words</b></sub>
+        <sub><b>8902 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/gyah4"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16087198/medium/00dc1723a463123bdd30b2e296a2cf66.jpg" />

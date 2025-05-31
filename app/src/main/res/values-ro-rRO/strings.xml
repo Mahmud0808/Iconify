@@ -678,6 +678,7 @@
     <string name="battery_dotted_circle">Dotted Circle Battery</string>
     <string name="battery_filled_circle">Filled Circle Battery</string>
     <string name="battery_landscape_kim">Landscape Kim</string>
+    <string name="battery_landscape_oneui7">Landscape OneUI 7</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Procentaj volum</string>
     <string name="volume_percentage_desc">Arată procentajul deasupra glisorului de volum</string>
