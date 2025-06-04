@@ -462,7 +462,7 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
         return when {
             charging -> 0xFF34C759.toInt()
             powerSaveEnabled -> 0xFFFFCC0A.toInt()
-            level > 20 -> fillColor
+            level > 60 -> fillColor
             level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
         }
