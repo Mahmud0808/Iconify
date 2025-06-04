@@ -263,7 +263,7 @@
     <string name="monet_style_title">Gaya Monet</string>
     <string name="monet_neutral">Netral</string>
     <string name="monet_monochrome">Satu warna</string>
-    <string name="monet_tonalspot">Tonal Spot</string>
+    <string name="monet_tonalspot"></string>
     <string name="monet_vibrant">Cerah</string>
     <string name="monet_rainbow">Pelangi</string>
     <string name="monet_expressive">Ekspresif</string>
@@ -275,8 +275,8 @@
     <string name="monet_background_saturation_title">Saturasi latar belakang</string>
     <string name="monet_background_lightness_title">Kecerahan Latar Belakang</string>
     <!-- UI Roundness -->
-    <string name="corner_radius_title">Corner Radius</string>
-    <string name="qstile_btn1_title">Internet</string>
+    <string name="corner_radius_title"></string>
+    <string name="qstile_btn1_title"></string>
     <string name="qstile_btn1_desc">Rungkad</string>
     <string name="qstile_btn2_title">Airplane</string>
     <string name="qstile_btn2_desc">Mati</string>
