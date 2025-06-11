@@ -459,10 +459,15 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         }
     }
 
-    private fun batteryColorForLevel(level: Int): Int {
+
+             private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging || powerSaveEnabled -> fillColor
+            charging -> 0xFF34C759.toInt()
+            powerSaveEnabled -> 0xFFFFCC0A.toInt()
+            level > 60 -> fillColor
+            level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
+        
         }
     }
 
@@ -639,7 +644,7 @@ open class LandscapeBatteryM(private val context: Context, frameColor: Int) :
         private val TAG = LandscapeBatteryL::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
-        private const val CRITICAL_LEVEL = 15
+        private const val CRITICAL_LEVEL = 30
 
         // On a 24x12 grid, how wide to make the fill protection stroke.
         // Scales when our size changes
