@@ -640,7 +640,7 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
         private val TAG = LandscapeBatteryL::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
-        private const val CRITICAL_LEVEL = 25
+        private const val CRITICAL_LEVEL = 30
 
         // On a 24x12 grid, how wide to make the fill protection stroke.
         // Scales when our size changes
