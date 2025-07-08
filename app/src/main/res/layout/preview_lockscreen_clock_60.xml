@@ -38,9 +38,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_bold"
-                    android:textColor="@color/colorPrimaryContainerDark"
                     android:format12Hour="EEEE"
                     android:format24Hour="EEEE"
+                    android:textColor="@color/colorSecondaryContainerDark"
                     android:textSize="18sp" />
 
                 <ImageView
