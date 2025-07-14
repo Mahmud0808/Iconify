@@ -678,7 +678,7 @@
     <string name="battery_dotted_circle">虚线环形电池</string>
     <string name="battery_filled_circle">填充环形电池</string>
     <string name="battery_landscape_kim">横向波形刻度 (Landscape Kim)</string>
-    <string name="battery_landscape_oneui7">Landscape OneUI 7</string>
+    <string name="battery_landscape_oneui7">使用 OneUI 7 上的横向布局</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">音量百分比</string>
     <string name="volume_percentage_desc">在音量滑块之上显示百分比</string>

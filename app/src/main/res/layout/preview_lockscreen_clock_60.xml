@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="0dp"
+    android:layout_gravity="center_horizontal|top"
+    android:gravity="center_horizontal|top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:tag="text1|nolineheight"
+                android:text="Today's"
+                android:textColor="@android:color/system_accent1_100"
+                android:textFontWeight="400"
+                android:textSize="40sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical">
+
+                <TextClock
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:format12Hour="EEEE"
+                    android:format24Hour="EEEE"
+                    android:tag="text1"
+                    android:textColor="@android:color/system_accent1_100"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/lockscreen_clock_60_arrow"
+                    android:tag="text1"
+                    android:tint="@android:color/system_accent1_100"
+                    tools:ignore="UseAppTint" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:backgroundTint="@android:color/system_accent1_900"
+            android:background="@drawable/lockscreen_clock_60_star_bg"
+            android:tag="accent1">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat"
+                android:format12Hour="dd"
+                android:gravity="center"
+                android:tag="text1|nolineheight"
+                android:textAlignment="center"
+                android:textColor="@android:color/system_accent1_100"
+                android:textSize="60sp" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="-53.6dp">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/system_accent1_900"
+            android:background="@drawable/lockscreen_clock_60_hr_bg"
+            android:tag="accent1">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat"
+                android:format12Hour="hh"
+                android:format24Hour="HH"
+                android:gravity="center"
+                android:padding="15dp"
+                android:tag="text1|nolineheight"
+                android:textColor="@android:color/system_accent1_100"
+                android:textSize="35sp" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:backgroundTint="@android:color/system_accent1_700"
+            android:background="@drawable/lockscreen_clock_60_min_bg"
+            android:tag="accent2">
+
+            <TextClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat"
+                android:format12Hour="mm"
+                android:format24Hour="MM"
+                android:gravity="center"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="15dp"
+                android:tag="text1|nolineheight"
+                android:textColor="@android:color/system_accent1_100"
+                android:textSize="35sp" />
+
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

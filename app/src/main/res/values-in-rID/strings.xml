@@ -278,7 +278,7 @@
     <string name="corner_radius_title"></string>
     <string name="qstile_btn1_title"></string>
     <string name="qstile_btn1_desc">Rungkad</string>
-    <string name="qstile_btn2_title">Airplane</string>
+    <string name="qstile_btn2_title"></string>
     <string name="qstile_btn2_desc">Mati</string>
     <string name="qstile_btn3_title">Location</string>
     <string name="qstile_btn3_desc">Mati</string>

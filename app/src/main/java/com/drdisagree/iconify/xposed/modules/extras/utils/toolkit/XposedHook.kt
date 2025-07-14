@@ -549,6 +549,7 @@ class LayoutHookHelper(private val xResources: XResources) {
      * Call before running any hook
      */
     fun throwError(): LayoutHookHelper {
+        suppressError()
         throwError = true
         return this
     }

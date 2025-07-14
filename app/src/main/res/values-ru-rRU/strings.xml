@@ -7,7 +7,7 @@
     <string name="step_number">Шаг %1$d/%2$d</string>
     <string name="module_installation_step1">Создание скриптов модуля</string>
     <string name="module_installation_step2">Извлечение необходимых файлов</string>
-    <string name="module_installation_step3">Создание оверлеев</string>
+    <string name="module_installation_step3">Создание APK-оверлеев</string>
     <string name="module_installation_step4">Выравнивание структуры оверлеев</string>
     <string name="module_installation_step5">Подписание оверлеев</string>
     <string name="module_installation_step6">Очистка временной папки</string>
@@ -413,9 +413,9 @@
     <string name="accent_privacy_chip_desc">Окрасить индикатор активности в акцентный цвет</string>
     <string name="disable_progress_wave_title">Отключить прогресс-волну</string>
     <string name="disable_progress_wave_desc">Отключить анимацию волны на прогресс-баре медиаплеера</string>
-    <string name="section_title_settings_theme">Settings Theme</string>
-    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
-    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
+    <string name="section_title_settings_theme">Настройки темы</string>
+    <string name="enable_expressive_theme_title">Включить Expressive Theme</string>
+    <string name="enable_expressive_theme_desc">Включить настройку выразительной темы для Android 15 QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Перед включением Iconify в LSPosed, сделайте долгий клик по приложению и нажмите Re-optimize. После этого включите Iconify и перезапустите System UI. Это необходимо для лучшей работы.</string>
     <string name="lsposed_bootloop_warn">Одна из функций, которую вы включили, не совместима с вашей прошивкой. Пожалуйста, отключите её и перезапустите SystemUI.</string>
@@ -678,7 +678,7 @@
     <string name="battery_dotted_circle">Точечный круг батареи</string>
     <string name="battery_filled_circle">Заполненный круг</string>
     <string name="battery_landscape_kim">Горизонтальная батарея Kim</string>
-    <string name="battery_landscape_oneui7">Landscape OneUI 7</string>
+    <string name="battery_landscape_oneui7">Ландшафтный OneUI 7</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Проценты громкости</string>
     <string name="volume_percentage_desc">Показывать проценты выше слайдера громкости</string>
