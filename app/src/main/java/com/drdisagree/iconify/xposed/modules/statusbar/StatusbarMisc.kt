@@ -1,5 +1,4 @@
 package com.drdisagree.iconify.xposed.modules.statusbar
-import android.util.TypedValue
 import android.R
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
@@ -367,7 +366,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             lp.width = widthInPx
             iconArea.layoutParams = lp
             }
-
+            }
         shadeHeaderControllerClass
             .hookMethod("updateQQSPaddings")
             .suppressError()
