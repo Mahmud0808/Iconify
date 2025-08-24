@@ -348,6 +348,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 phoneStatusBarViewParam = param.thisObject as ViewGroup
 
                 phoneStatusBarViewParam.moveStatusBarClock()
+                phoneStatusBarViewParam.background = ColorDrawable(Color.parseColor("#33000000"))
             }
 
         shadeHeaderControllerClass
