@@ -357,7 +357,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         // Convert 200dp to pixels
         val widthInPx = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
-            1200f,
+            2000f,
             res.displayMetrics
         ).toInt()
 
