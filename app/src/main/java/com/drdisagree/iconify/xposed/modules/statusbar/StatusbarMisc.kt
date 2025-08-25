@@ -349,8 +349,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
                 phoneStatusBarViewParam.moveStatusBarClock()
                 phoneStatusBarViewParam.background = ColorDrawable(Color.parseColor("#33000000"))
-            }
-        // 3) Find status_bar_start_side_except_heads_up and set width to wrap_content
+          val res = phoneStatusBarViewParam.resources
         val startSideId = res.getIdentifier(
             "status_bar_start_side_except_heads_up",
             "id",
