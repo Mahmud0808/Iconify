@@ -22,6 +22,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.BLUR_MEDIA_PLAYER_ARTWORK
@@ -713,7 +715,60 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 triggerQsElementVisibility()
             }
-    }
+    }val sectionHeaderViewClass =
+        findClass("$SYSTEMUI_PACKAGE.statusbar.notification.stack.SectionHeaderView")
+
+    sectionHeaderViewClass
+        .hookMethod("onFinishInflate")
+        .runAfter { param ->
+            mSilentTextContainer = param.thisObject as ViewGroup
+            triggerQsElementVisibility()
+        }
+
+    // *** Add this new block for CombinedQSHeader ***
+    val qsHeaderClass = findClass(
+        "$SYSTEMUI_PACKAGE.qs.CombinedQSHeader",
+        "$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader"
+    )
+
+    qsHeaderClass
+        .hookMethod("onFinishInflate")
+        .runAfter { param ->
+            val root = param.thisObject as ViewGroup
+            val context = root.context
+            val res = context.resources
+
+            // Find the LinearLayout hover_system_icons_container
+            val containerId = res.getIdentifier(
+                "hover_system_icons_container",
+                "id",
+                SYSTEMUI_PACKAGE
+            )
+            val container = root.findViewById<LinearLayout>(containerId) ?: return@runAfter
+
+            // Create and configure the TextView programmatically
+            val textView = TextView(context).apply {
+                text = "🍁   "
+                gravity = Gravity.CENTER
+                setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
+                setPadding(
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, res.displayMetrics).toInt(),
+                    0,
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, res.displayMetrics).toInt(),
+                    0
+                )
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27f, res.displayMetrics).toInt()
+                ).apply {
+                    gravity = Gravity.CENTER_VERTICAL
+                }
+            }
+
+            // Add the TextView at the start of the container
+            container.addView(textView, 0)
+        }
+}
 
     private fun compactMediaPlayer() {
         val mediaViewControllerClass =
