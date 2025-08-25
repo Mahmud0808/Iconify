@@ -364,7 +364,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         }
 
         // Find the notification_icon_area view
-          val res = phoneStatusBarViewParam.resources
+       
         val res = phoneStatusBarViewParam.resources
         val iconAreaId = res.getIdentifier("notification_icon_area", "id", "com.android.systemui")
         val iconArea = phoneStatusBarViewParam.findViewById<ViewGroup>(iconAreaId)
