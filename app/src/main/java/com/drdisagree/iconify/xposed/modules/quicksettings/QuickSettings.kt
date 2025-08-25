@@ -2,8 +2,6 @@ package com.drdisagree.iconify.xposed.modules.quicksettings
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
@@ -715,16 +713,6 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 triggerQsElementVisibility()
             }
-    
-    val sectionHeaderViewClass =
-        findClass("$SYSTEMUI_PACKAGE.statusbar.notification.stack.SectionHeaderView")
-
-    sectionHeaderViewClass
-        .hookMethod("onFinishInflate")
-        .runAfter { param ->
-            mSilentTextContainer = param.thisObject as ViewGroup
-            triggerQsElementVisibility()
-        }
 
     // *** Add this new block for CombinedQSHeader ***
     val qsHeaderClass = findClass(
