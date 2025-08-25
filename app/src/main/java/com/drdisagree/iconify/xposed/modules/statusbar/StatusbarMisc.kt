@@ -352,7 +352,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
       
         
                  
-
+  val res = phoneStatusBarViewParam.resources
         // 3) Find status_bar_start_side_except_heads_up and set width to wrap_content
         val startSideId = res.getIdentifier(
             "status_bar_start_side_except_heads_up",
