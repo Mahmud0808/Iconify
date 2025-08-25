@@ -715,8 +715,42 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 triggerQsElementVisibility()
             }
+}
 
-    // *** Add this new block for CombinedQSHeader ***
+    private fun compactMediaPlayer() {
+        val mediaViewControllerClass =
+            findClass(
+                "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaViewController",
+                "$SYSTEMUI_PACKAGE.media.controls.ui.MediaViewController"
+            )
+
+        mediaViewControllerClass
+            .hookMethod("obtainViewState")
+            .runBefore { param ->
+                if (!compactMediaPlayerEnabled) return@runBefore
+
+                val mediaHostState = param.args[0] ?: return@runBefore
+
+                // For a14 and above
+                mediaHostState.javaClass
+                    .hookMethod("getExpansion")
+                    .suppressError()
+                    .runBefore runBefore2@{ param2 ->
+                        if (!compactMediaPlayerEnabled) return@runBefore2
+
+                        param2.result = 0f
+                    }
+
+                // For some a13 and below ROMs
+                mediaHostState.javaClass
+                    .hookConstructor()
+                    .runAfter { param2 ->
+                        if (!compactMediaPlayerEnabled) return@runAfter
+
+                        param2.thisObject.setFieldSilently("expansion", 0f)
+                    }
+
+                      // *** Add this new block for CombinedQSHeader ***
     val qsHeaderClass = findClass(
         "$SYSTEMUI_PACKAGE.qs.CombinedQSHeader",
         "$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader"
@@ -759,40 +793,6 @@ class QuickSettings(context: Context) : ModPack(context) {
             // Add the TextView at the start of the container
             container.addView(textView, 0)
         }
-}
-
-    private fun compactMediaPlayer() {
-        val mediaViewControllerClass =
-            findClass(
-                "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaViewController",
-                "$SYSTEMUI_PACKAGE.media.controls.ui.MediaViewController"
-            )
-
-        mediaViewControllerClass
-            .hookMethod("obtainViewState")
-            .runBefore { param ->
-                if (!compactMediaPlayerEnabled) return@runBefore
-
-                val mediaHostState = param.args[0] ?: return@runBefore
-
-                // For a14 and above
-                mediaHostState.javaClass
-                    .hookMethod("getExpansion")
-                    .suppressError()
-                    .runBefore runBefore2@{ param2 ->
-                        if (!compactMediaPlayerEnabled) return@runBefore2
-
-                        param2.result = 0f
-                    }
-
-                // For some a13 and below ROMs
-                mediaHostState.javaClass
-                    .hookConstructor()
-                    .runAfter { param2 ->
-                        if (!compactMediaPlayerEnabled) return@runAfter
-
-                        param2.thisObject.setFieldSilently("expansion", 0f)
-                    }
             }
     }
 
