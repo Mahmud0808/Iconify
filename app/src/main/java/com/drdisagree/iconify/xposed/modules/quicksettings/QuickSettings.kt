@@ -3,7 +3,6 @@ package com.drdisagree.iconify.xposed.modules.quicksettings
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.util.TypedValue
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
