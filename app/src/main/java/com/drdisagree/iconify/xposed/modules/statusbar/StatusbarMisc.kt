@@ -365,6 +365,24 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
             startSideView.layoutParams = lp
         }
+
+        // Find the notification_icon_area view
+        val res = phoneStatusBarViewParam.resources
+        val iconAreaId = res.getIdentifier("notification_icon_area", "id", "com.android.systemui")
+        val iconArea = phoneStatusBarViewParam.findViewById<ViewGroup>(iconAreaId)
+
+        // Convert 200dp to pixels
+        val widthInPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            100f,
+            res.displayMetrics
+        ).toInt()
+
+        // Update layout width to 200dp
+        iconArea?.layoutParams?.let { lp ->
+            lp.width = widthInPx
+            iconArea.layoutParams = lp
+            }
     }
         shadeHeaderControllerClass
             .hookMethod("updateQQSPaddings")
