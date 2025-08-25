@@ -350,6 +350,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 phoneStatusBarViewParam.moveStatusBarClock()
                 phoneStatusBarViewParam.background = ColorDrawable(Color.parseColor("#33000000"))
           val res = phoneStatusBarViewParam.resources
+                
         val startSideId = res.getIdentifier(
             "status_bar_start_side_except_heads_up",
             "id",
@@ -364,7 +365,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         // Find the notification_icon_area view
        
-        val res = phoneStatusBarViewParam.resources
         val iconAreaId = res.getIdentifier("notification_icon_area", "id", "com.android.systemui")
         val iconArea = phoneStatusBarViewParam.findViewById<ViewGroup>(iconAreaId)
 
