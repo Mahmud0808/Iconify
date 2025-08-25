@@ -670,7 +670,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                 }
             }
     }
-
+// Satrting of function
     private fun manageQsElementVisibility() {
         val footerViewClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.notification.footer.ui.view.FooterView",
@@ -715,7 +715,8 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 triggerQsElementVisibility()
             }
-    }val sectionHeaderViewClass =
+    
+    val sectionHeaderViewClass =
         findClass("$SYSTEMUI_PACKAGE.statusbar.notification.stack.SectionHeaderView")
 
     sectionHeaderViewClass
