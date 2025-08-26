@@ -422,12 +422,12 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27f, res.displayMetrics).toInt()
                 ).apply {
                     gravity = Gravity.CENTER_VERTICAL
-                
             }
             }
             // Add the TextView at the start of the container
             container.addView(textView, 0)
         }
+            }
     
         shadeHeaderControllerClass
             .hookMethod("updateQQSPaddings")
