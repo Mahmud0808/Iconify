@@ -361,7 +361,17 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         startSideView?.layoutParams?.let { lp ->
             lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
             startSideView.layoutParams = lp
-        }
+        }  val startSideView = phoneStatusBarViewParam.findViewById<ViewGroup>(startSideId)
+
+        startSideView?.layoutParams?.let { lp ->
+             val widthInPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            800f,
+            res.displayMetrics
+        ).toInt()
+            lp.width = widthInPx
+        startSideView.layoutParams = lp
+            }
 
         // Find the notification_icon_area view
        
