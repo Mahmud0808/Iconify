@@ -359,11 +359,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         val startSideView = phoneStatusBarViewParam.findViewById<ViewGroup>(startSideId)
 
         startSideView?.layoutParams?.let { lp ->
-            lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
-            startSideView.layoutParams = lp
-        }  val startSideView = phoneStatusBarViewParam.findViewById<ViewGroup>(startSideId)
-
-        startSideView?.layoutParams?.let { lp ->
              val widthInPx = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             800f,
@@ -379,7 +374,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         val iconArea = phoneStatusBarViewParam.findViewById<ViewGroup>(iconAreaId)
 
         // Convert 200dp to pixels
-        val widthInPx = TypedValue.applyDimension(
+        val iconAreaWidthInPx = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             250f,
             res.displayMetrics
@@ -387,7 +382,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         // Update layout width to 200dp
         iconArea?.layoutParams?.let { lp ->
-            lp.width = widthInPx
+            lp.width = iconAreaWidthInPx
             iconArea.layoutParams = lp
             }
            // *** Add this new block for CombinedQSHeader ***
@@ -429,11 +424,11 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                     gravity = Gravity.CENTER_VERTICAL
                 
             }
-
+            }
             // Add the TextView at the start of the container
             container.addView(textView, 0)
         }
-    }
+    
         shadeHeaderControllerClass
             .hookMethod("updateQQSPaddings")
             .suppressError()
