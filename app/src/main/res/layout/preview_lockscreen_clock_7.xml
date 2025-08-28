@@ -64,7 +64,7 @@
                     android:format24Hour="HH"
                     android:includeFontPadding="false"
                     android:tag="text2|nolineheight"
-                    android:textColor="#FFFFFFFF"
+                    android:textColor="#ffffff"
                     android:textSize="22sp"
                     android:textStyle="bold" />
             </FrameLayout>
