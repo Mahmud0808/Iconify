@@ -6,7 +6,7 @@
     android:layout_gravity="start|center"
     android:gravity="start|center"
     android:orientation="horizontal"
-    
+     android:layout_marginStart="10dp"
     >
 
     <LinearLayout
