@@ -11,7 +11,7 @@
             android:layout_width="82dp"
                 android:layout_height="82dp"
             android:importantForAccessibility="no"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:tag="custom_image1"
              android:layout_marginTop="7dp"
                 android:adjustViewBounds="true"
