@@ -15,7 +15,7 @@
              android:layout_marginTop="7dp"
                 android:adjustViewBounds="true"
                 android:clickable="false"
-             android:scaleType="fitXY"
+             android:scaleType="fitCenter"
                 android:clipToOutline="true"
               android:layout_marginStart="9dp"
               android:layout_marginEnd="2dp" 
