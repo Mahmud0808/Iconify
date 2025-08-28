@@ -7,11 +7,14 @@
     android:orientation="horizontal">
     
     >
+   
+
          <ImageView
                 android:tag="profile_picture"
                 android:layout_width="82dp"
                 android:layout_height="82dp"
-              android:src="@drawable/default_avatar"
+             android:importantForAccessibility="no"
+                android:src="@drawable/lockscreen_clock_25_logo"
              android:layout_marginTop="7dp"
                 android:adjustViewBounds="true"
                 android:clickable="false"
