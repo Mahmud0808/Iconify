@@ -8,10 +8,10 @@
     
     >
          <ImageView
-                android:tag="profile_picture"
+                 android:tag="custom_image1"
                 android:layout_width="82dp"
                 android:layout_height="82dp"
-              android:src="@drawable/default_avatar"
+             android:src="@drawable/lockscreen_clock_39_logo"
              android:layout_marginTop="7dp"
                 android:adjustViewBounds="true"
                 android:clickable="false"
