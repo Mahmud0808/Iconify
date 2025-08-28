@@ -590,7 +590,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
                         val isRoundedImage = (clockStyle == 26 && tag.contains("1")) ||
                                 clockStyle in setOf(27, 30, 40, 53)
                         val isCircleImage = (clockStyle == 26 && tag.contains("2")) ||
-                                clockStyle == 39
+                                clockStyle == 39 && clockStyle == 7
                         val roundedSize = 32f
 
                         val drawable: Drawable = when {
