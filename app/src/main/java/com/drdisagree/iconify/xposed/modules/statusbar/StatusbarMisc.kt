@@ -389,7 +389,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     
     phoneStatusBarViewClass
     .hookMethod("onFinishInflate")
-    .runAfter { param ->
+    .runAfter { param: XC_MethodHook.MethodHookParam ->
         val headerRoot = param.thisObject as ViewGroup
 
         val res = headerRoot.resources
@@ -414,13 +414,11 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         // Set background color (black)
         hoverContainer.setBackgroundColor(Color.parseColor("#ff000000"))
 
-        // Keep alignment same as before
-        hoverContainer.layoutParams = FrameLayout.LayoutParams(
+        // Use simple LayoutParams (since parent is MotionLayout/ConstraintLayout)
+        hoverContainer.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.MATCH_PARENT
-        ).apply {
-            gravity = Gravity.END or Gravity.CENTER_VERTICAL
-        }
+        )
 
         // Find BatteryMeterView (we want to insert after this)
         val batteryId = res.getIdentifier(
