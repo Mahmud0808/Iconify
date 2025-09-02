@@ -398,55 +398,35 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             "id",
             "com.android.systemui"
         )
-        val motionLayout = headerRoot.findViewById<ViewGroup>(motionLayoutId)
+        val motionLayout = headerRoot.findViewById<ViewGroup>(motionLayoutId) as? ConstraintLayout
+            ?: return@runAfter
 
-        val hoverContainerId = res.getIdentifier(
-            "hover_system_icons_container",
-            "id",
-            "com.android.systemui"
-        )
-        val hoverContainer = motionLayout.findViewById<ViewGroup>(hoverContainerId)
-
-        // Remove from original parent and move it to end
-        (hoverContainer.parent as? ViewGroup)?.removeView(hoverContainer)
-        motionLayout.addView(hoverContainer)
-
-        // Set background color (black)
-        hoverContainer.setBackgroundColor(Color.parseColor("#ff000000"))
-
-        // Use simple LayoutParams (since parent is MotionLayout/ConstraintLayout)
-        hoverContainer.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-
-        // Find BatteryMeterView (we want to insert after this)
-        val batteryId = res.getIdentifier(
-            "batteryRemainingIcon",
-            "id",
-            "com.android.systemui"
-        )
-        val batteryView = hoverContainer.findViewById<View>(batteryId)
-
-        // Create new TextView with 🍁
-        val customText = TextView(headerRoot.context).apply {
+        // 🍁 TextView to inject at the far right
+        val mapleLeaf = TextView(headerRoot.context).apply {
             id = View.generateViewId()
-            text = "🍁   "
-            setTextColor(Color.WHITE)
-            textSize = 16f
-            setPadding(8, 4, 8, 4)
+            text = "🍁"
+            setTextColor(Color.parseColor("#FF5722")) // bright orange-red
+            textSize = 18f
+            gravity = Gravity.CENTER_VERTICAL
+            setPadding(12, 0, 12, 0) // breathing room
         }
 
-        // Insert below BatteryMeterView
-        val index = hoverContainer.indexOfChild(batteryView)
-        hoverContainer.addView(customText, index + 1)
+        // Add to MotionLayout
+        motionLayout.addView(mapleLeaf)
+
+        // Constrain it to the far right, centered vertically
+        val lp = ConstraintLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        ).apply {
+            endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+            topToTop = ConstraintLayout.LayoutParams.PARENT_ID
+            bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+        }
+        mapleLeaf.layoutParams = lp
     }
             }
-        shadeHeaderControllerClass
-            .hookMethod("updateQQSPaddings")
-            .suppressError()
-            .runAfter { phoneStatusBarViewParam.moveStatusBarClock() }
-    }
+        
 
     private fun show4GInsteadOfLTE() {
         val mobileMappingsConfigClass =
