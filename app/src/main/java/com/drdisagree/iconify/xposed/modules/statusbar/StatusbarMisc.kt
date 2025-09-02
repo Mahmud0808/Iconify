@@ -347,15 +347,16 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             }
         }
 
-        phoneStatusBarViewClass
-            .hookMethod("onFinishInflate")
-            .runAfter { param ->
-                phoneStatusBarViewParam = param.thisObject as ViewGroup
+        
+            phoneStatusBarViewClass
+    .hookMethod("onFinishInflate")
+    .runAfter { param ->
+        phoneStatusBarViewParam = param.thisObject as ViewGroup
 
-                phoneStatusBarViewParam.moveStatusBarClock()
-                phoneStatusBarViewParam.background = ColorDrawable(Color.parseColor("#33000000"))
-          val res = phoneStatusBarViewParam.resources
-                
+        phoneStatusBarViewParam.moveStatusBarClock()
+        phoneStatusBarViewParam.background = ColorDrawable(Color.parseColor("#33000000"))
+        val res = phoneStatusBarViewParam.resources
+
         val startSideId = res.getIdentifier(
             "status_bar_start_side_except_heads_up",
             "id",
@@ -364,43 +365,41 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         val startSideView = phoneStatusBarViewParam.findViewById<ViewGroup>(startSideId)
 
         startSideView?.layoutParams?.let { lp ->
-             val widthInPx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            800f,
-            res.displayMetrics
-        ).toInt()
+            val widthInPx = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                1400f,
+                res.displayMetrics
+            ).toInt()
             lp.width = widthInPx
-        startSideView.layoutParams = lp
-            }
+            startSideView.layoutParams = lp
+        }
 
         // Find the notification_icon_area view
-       
         val iconAreaId = res.getIdentifier("notification_icon_area", "id", "com.android.systemui")
         val iconArea = phoneStatusBarViewParam.findViewById<ViewGroup>(iconAreaId)
 
-        // Convert 200dp to pixels
+        // Convert 250dp to pixels
         val iconAreaWidthInPx = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             250f,
             res.displayMetrics
         ).toInt()
 
-        // Update layout width to 200dp
+        // Update layout width
         iconArea?.layoutParams?.let { lp ->
             lp.width = iconAreaWidthInPx
             iconArea.layoutParams = lp
-            }
-           // *** Add this new block for CombinedQSHeader ***
-    
-    
+        }
+
+        // *** CombinedQSHeader block ***
         val root = param.thisObject as ViewGroup
-        val res = root.resources
+        val res2 = root.resources   // renamed to avoid conflict
 
         // get existing views
-        val clockId = res.getIdentifier("clock", "id", "com.android.systemui")
-        val dateId = res.getIdentifier("date", "id", "com.android.systemui")
-        val systemIconsId = res.getIdentifier("system_icons", "id", "com.android.systemui")
-        val batteryId = res.getIdentifier("battery", "id", "com.android.systemui")
+        val clockId = res2.getIdentifier("clock", "id", "com.android.systemui")
+        val dateId = res2.getIdentifier("date", "id", "com.android.systemui")
+        val systemIconsId = res2.getIdentifier("system_icons", "id", "com.android.systemui")
+        val batteryId = res2.getIdentifier("battery", "id", "com.android.systemui")
 
         val clockView = root.findViewById<View>(clockId)
         val dateView = root.findViewById<View>(dateId)
@@ -421,11 +420,10 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.MATCH_PARENT
                 )
-                setBackgroundColor(Color.parseColor("#ff000000")) // background
+                setBackgroundColor(Color.parseColor("#ff000000"))
                 setPadding(16, 0, 16, 0)
             }
 
-            // first TextView (spacing like XML had)
             val leftText = TextView(root.context).apply {
                 text = "   "
                 textSize = 16f
@@ -436,7 +434,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 )
             }
 
-            // 🍁 TextView after battery
             val leafText = TextView(root.context).apply {
                 text = "🍁   "
                 textSize = 16f
@@ -447,7 +444,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 )
             }
 
-            // add everything in order like XML
             container.addView(clockView)
             container.addView(dateView)
             container.addView(leftText)
@@ -455,7 +451,6 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             container.addView(battery)
             container.addView(leafText)
 
-            // finally add container to root
             root.addView(container)
         }
     }
