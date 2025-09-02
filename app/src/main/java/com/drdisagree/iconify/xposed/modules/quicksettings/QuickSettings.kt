@@ -3,7 +3,7 @@ package com.drdisagree.iconify.xposed.modules.quicksettings
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.util.TypedValue
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
@@ -22,8 +22,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorInt
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.BLUR_MEDIA_PLAYER_ARTWORK
@@ -670,7 +668,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                 }
             }
     }
-// Satrting of function
+
     private fun manageQsElementVisibility() {
         val footerViewClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.notification.footer.ui.view.FooterView",
@@ -715,7 +713,7 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 triggerQsElementVisibility()
             }
-}
+    }
 
     private fun compactMediaPlayer() {
         val mediaViewControllerClass =
@@ -749,8 +747,6 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                         param2.thisObject.setFieldSilently("expansion", 0f)
                     }
-
-                   
             }
     }
 
