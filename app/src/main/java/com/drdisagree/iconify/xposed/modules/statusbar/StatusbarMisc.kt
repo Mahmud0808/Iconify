@@ -392,9 +392,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             }
            // *** Add this new block for CombinedQSHeader ***
     
-    phoneStatusBarViewClass
-    .hookMethod("onFinishInflate")
-    .runAfter { param ->
+    
         val root = param.thisObject as ViewGroup
         val res = root.resources
 
@@ -461,7 +459,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             root.addView(container)
         }
     }
-            }
+            
     private fun show4GInsteadOfLTE() {
         val mobileMappingsConfigClass =
             findClass("com.android.settingslib.mobile.MobileMappings\$Config")
