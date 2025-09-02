@@ -461,6 +461,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             root.addView(container)
         }
     }
+            }
     private fun show4GInsteadOfLTE() {
         val mobileMappingsConfigClass =
             findClass("com.android.settingslib.mobile.MobileMappings\$Config")
