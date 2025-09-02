@@ -392,44 +392,72 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     
     phoneStatusBarViewClass
     .hookMethod("onFinishInflate")
-    .runAfter { param: XC_MethodHook.MethodHookParam ->
-        val headerRoot = param.thisObject as ViewGroup
+    .runAfter { param ->
+        val root = param.thisObject as ViewGroup
+        val res = root.resources
 
-        val res = headerRoot.resources
-        val motionLayoutId = res.getIdentifier(
-            "combined_qs_header",
-            "id",
-            "com.android.systemui"
-        )
-        val motionLayout = headerRoot.findViewById<ViewGroup>(motionLayoutId) as? ConstraintLayout
-            ?: return@runAfter
+        // get existing views
+        val clockId = res.getIdentifier("clock", "id", "com.android.systemui")
+        val dateId = res.getIdentifier("date", "id", "com.android.systemui")
+        val systemIconsId = res.getIdentifier("system_icons", "id", "com.android.systemui")
+        val batteryId = res.getIdentifier("battery", "id", "com.android.systemui")
 
-        // 🍁 TextView to inject at the far right
-        val mapleLeaf = TextView(headerRoot.context).apply {
-            id = View.generateViewId()
-            text = "🍁"
-            setTextColor(Color.parseColor("#FF5722")) // bright orange-red
-            textSize = 18f
-            gravity = Gravity.CENTER_VERTICAL
-            setPadding(12, 0, 12, 0) // breathing room
-        }
+        val clockView = root.findViewById<View>(clockId)
+        val dateView = root.findViewById<View>(dateId)
+        val systemIcons = root.findViewById<View>(systemIconsId)
+        val battery = root.findViewById<View>(batteryId)
 
-        // Add to MotionLayout
-        motionLayout.addView(mapleLeaf)
+        if (clockView != null && dateView != null && systemIcons != null && battery != null) {
+            // remove them from parent before re-adding
+            (clockView.parent as? ViewGroup)?.removeView(clockView)
+            (dateView.parent as? ViewGroup)?.removeView(dateView)
+            (systemIcons.parent as? ViewGroup)?.removeView(systemIcons)
+            (battery.parent as? ViewGroup)?.removeView(battery)
 
-        // Constrain it to the far right, centered vertically
-        val lp = ConstraintLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        ).apply {
-            endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-            topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-            bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-        }
-        mapleLeaf.layoutParams = lp
-    }
+            // parent LinearLayout with background
+            val container = LinearLayout(root.context).apply {
+                orientation = LinearLayout.HORIZONTAL
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+                setBackgroundColor(Color.parseColor("#ff000000")) // background
+                setPadding(16, 0, 16, 0)
             }
-        
+
+            // first TextView (spacing like XML had)
+            val leftText = TextView(root.context).apply {
+                text = "   "
+                textSize = 16f
+                gravity = Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+            }
+
+            // 🍁 TextView after battery
+            val leafText = TextView(root.context).apply {
+                text = "🍁   "
+                textSize = 16f
+                gravity = Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+            }
+
+            // add everything in order like XML
+            container.addView(clockView)
+            container.addView(dateView)
+            container.addView(leftText)
+            container.addView(systemIcons)
+            container.addView(battery)
+            container.addView(leafText)
+
+            // finally add container to root
+            root.addView(container)
+        }
     }
     private fun show4GInsteadOfLTE() {
         val mobileMappingsConfigClass =
