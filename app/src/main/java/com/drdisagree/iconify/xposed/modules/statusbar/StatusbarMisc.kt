@@ -386,49 +386,64 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             iconArea.layoutParams = lp
             }
            // *** Add this new block for CombinedQSHeader ***
-    val qsHeaderClass = findClass(
-        "$SYSTEMUI_PACKAGE.qs.CombinedQSHeader",
-        "$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader"
-    )
-
-    qsHeaderClass
-        .hookMethod("onFinishInflate")
-        .runAfter { param ->
-            val root = param.thisObject as ViewGroup
-            val context = root.context
-            val res = context.resources
-
-            // Find the LinearLayout hover_system_icons_container
-            val containerId = res.getIdentifier(
-                "hover_system_icons_container",
-                "id",
-                SYSTEMUI_PACKAGE
-            )
-            val container = root.findViewById<LinearLayout>(containerId) ?: return@runAfter
-
-            // Create and configure the TextView programmatically
-            val textView = TextView(context).apply {
-                text = "🍁   "
-                gravity = Gravity.CENTER
-                setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
-                setPadding(
-                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, res.displayMetrics).toInt(),
-                    0,
-                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, res.displayMetrics).toInt(),
-                    0
-                )
-                layoutParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27f, res.displayMetrics).toInt()
-                ).apply {
-                    gravity = Gravity.CENTER_VERTICAL
-            }
-            }
-            // Add the TextView at the start of the container
-            container.addView(textView, 0)
-        }
-            }
     
+    phoneStatusBarViewClass
+    .hookMethod("onFinishInflate")
+    .runAfter { param ->
+        val headerRoot = param.thisObject as ViewGroup
+
+        val res = headerRoot.resources
+        val motionLayoutId = res.getIdentifier(
+            "combined_qs_header",
+            "id",
+            "com.android.systemui"
+        )
+        val motionLayout = headerRoot.findViewById<ViewGroup>(motionLayoutId)
+
+        val hoverContainerId = res.getIdentifier(
+            "hover_system_icons_container",
+            "id",
+            "com.android.systemui"
+        )
+        val hoverContainer = motionLayout.findViewById<ViewGroup>(hoverContainerId)
+
+        // Remove from original parent and move it to end
+        (hoverContainer.parent as? ViewGroup)?.removeView(hoverContainer)
+        motionLayout.addView(hoverContainer)
+
+        // Set background color (black)
+        hoverContainer.setBackgroundColor(Color.parseColor("#ff000000"))
+
+        // Keep alignment same as before
+        hoverContainer.layoutParams = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        ).apply {
+            gravity = Gravity.END or Gravity.CENTER_VERTICAL
+        }
+
+        // Find BatteryMeterView (we want to insert after this)
+        val batteryId = res.getIdentifier(
+            "batteryRemainingIcon",
+            "id",
+            "com.android.systemui"
+        )
+        val batteryView = hoverContainer.findViewById<View>(batteryId)
+
+        // Create new TextView with 🍁
+        val customText = TextView(headerRoot.context).apply {
+            id = View.generateViewId()
+            text = "🍁   "
+            setTextColor(Color.WHITE)
+            textSize = 16f
+            setPadding(8, 4, 8, 4)
+        }
+
+        // Insert below BatteryMeterView
+        val index = hoverContainer.indexOfChild(batteryView)
+        hoverContainer.addView(customText, index + 1)
+    }
+            }
         shadeHeaderControllerClass
             .hookMethod("updateQQSPaddings")
             .suppressError()
