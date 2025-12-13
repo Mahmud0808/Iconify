@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2019 The Android Open Source Project
  *
@@ -86,11 +87,11 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
     // Colors can be configured based on battery level (see res/values/arrays.xml)
     private var colorLevels: IntArray
 
-    private var fillColor: Int = Color.BLACK
-    private var backgroundColor: Int = Color.BLACK
+    private var fillColor: Int = Color.WHITE
+    private var backgroundColor: Int = Color.WHITE
 
     // updated whenever level changes
-    private var levelColor: Int = Color.BLACK
+    private var levelColor: Int = Color.WHITE
 
     // Dual tone implies that battery level is a clipped overlay over top of the whole shape
     private var dualTone = false
@@ -143,12 +144,11 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
         }
 
     private val fillColorStrokePaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
-        p.color = frameColor
-        p.alpha = 255
+        
         p.isDither = true
         p.strokeWidth = 5f
         p.style = Paint.Style.STROKE
-        p.blendMode = BlendMode.SRC
+        p.blendMode = BlendMode.CLEAR
         p.strokeMiter = 5f
         p.strokeJoin = Paint.Join.ROUND
     }
@@ -411,12 +411,12 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
         c.restore()
 
         if (charging || batteryLevel <= CRITICAL_LEVEL) {
-            textChargingPaint.textSize = bounds.width() * if (customChargingIcon) 0.42f else 0.38f
+            textChargingPaint.textSize = bounds.width() * if (customChargingIcon) 0.00f else 0.00f
             val textHeight = +textChargingPaint.fontMetrics.ascent
-            val pctXcharging = if (customChargingIcon) 0.76f else 0.59f
-            val pctX100 = if (customChargingIcon) 0.76f else 0.54f
+            val pctXcharging = if (customChargingIcon) 0.00f else 0.00f
+            val pctX100 = if (customChargingIcon) 0.00f else 0.00f
             val pctX = (bounds.width() + textHeight) *
-                    (if (!charging) 0.72f /* discharging */
+                    (if (!charging) 0.00f /* discharging */
                     else if (batteryLevel < 100) pctXcharging /* charging */
                     else pctX100) /* level == 100 */ /* charging */
             val pctY = bounds.height() * if (customChargingIcon) 0.79f else 0.76f
@@ -428,14 +428,17 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
             c.drawText(batteryLevel.toString(), pctX, pctY, textChargingPaint)
             c.restore()
         } else {
-            textPaint.textSize = bounds.width() * 0.40f
+            textPaint.textSize = bounds.width() * 0.00f
             textQsPaint.textSize = textPaint.textSize
             val textHeight = +textPaint.fontMetrics.ascent
-            val pctX = (bounds.width() + textHeight) * 0.80f
+            val pctX = (bounds.width() + textHeight) * 0.76f
             val pctY = bounds.height() * 0.79f
 
-            textPaint.color = Color.BLACK
-            textQsPaint.color = Color.BLACK
+            textPaint.color = fillColor
+            textQsPaint.color = getColorAttrDefaultColor(
+                                context,
+                                android.R.attr.textColorPrimaryInverse
+                            )
             if (isRotation) {
                 c.rotate(180f, pctX, pctY * 0.63f)
             }
@@ -446,8 +449,11 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
                 if (isQsPercent) textQsPaint else textPaint
             )
 
-            textPaint.color = Color.BLACK
-            textQsPaint.color = Color.BLACK
+            textPaint.color = fillColor.toInt().inv()
+            textQsPaint.color = getColorAttrDefaultColor(
+                                context,
+                                android.R.attr.textColorPrimaryInverse
+                            )
             c.save()
             c.drawText(
                 batteryLevel.toString(),
@@ -461,7 +467,10 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging || powerSaveEnabled -> fillColor
+            charging -> 0xFF34C759.toInt()
+            powerSaveEnabled -> 0xFFFFCC0A.toInt()
+            level > 60 -> fillColor
+            level >= 0 -> 0xFFFF0000.toInt()
             else -> getColorForLevel(level)
         }
     }
@@ -572,14 +581,13 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
         unscheduleSelf(invalidateRunnable)
         scheduleSelf(invalidateRunnable, 0)
     }
-
     @Suppress("DEPRECATION")
     private fun updateSize() {
         val b = bounds
         if (b.isEmpty) {
-            scaleMatrix.setScale(1f, 1f)
+            scaleMatrix.setScale(3f, 3f)
         } else {
-            scaleMatrix.setScale((b.right / WIDTH), (b.bottom / HEIGHT))
+            scaleMatrix.setScale((b.right.toFloat() / WIDTH), (b.bottom.toFloat() / HEIGHT))
         }
 
         perimeterPath.transform(scaleMatrix, scaledPerimeter)
@@ -602,37 +610,34 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
     @Suppress("DEPRECATION")
     @SuppressLint("RestrictedApi")
     private fun loadPaths() {
-         val pathString =
-            getResources(context).getString(R.string.config_batterymeterLandPerimeterPathE)
+        val pathString =
+            getResources(context).getString(R.string.config_landscapeBatteryPerimeterPathL)
         perimeterPath.set(PathParser.createPathFromPathData(pathString))
         perimeterPath.computeBounds(RectF(), true)
 
-
-       val errorPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryErrorPerimeterPathE)
+        val errorPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryErroriOS16)
         errorPerimeterPath.set(PathParser.createPathFromPathData(errorPathString))
         errorPerimeterPath.computeBounds(RectF(), true)
 
-
-     val fillMaskString =
-            getResources(context).getString(R.string.config_landscapeBatteryFillMaskE)
+        val fillMaskString =
+            getResources(context).getString(R.string.config_landscapeBatteryFillMaskL)
         fillMask.set(PathParser.createPathFromPathData(fillMaskString))
         // Set the fill rect so we can calculate the fill properly
         fillMask.computeBounds(fillRect, true)
 
         val fillOutlinePathString =
-           getResources(context).getString(R.string.config_batterymeterLandPerimeterPathE)
-        perimeterPath.set(PathParser.createPathFromPathData(pathString))
-        perimeterPath.computeBounds(RectF(), true)
+            getResources(context).getString(R.string.config_landscapeBatteryFillOutlineL)
+        fillOutlinePath.set(PathParser.createPathFromPathData(fillOutlinePathString))
+        fillOutlinePath.computeBounds(RectF(), true)
 
-       val boltPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryBoltPathE)
+        val boltPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryBoltPathL)
         boltPath.set(PathParser.createPathFromPathData(boltPathString))
 
-      val plusPathString =
-            getResources(context).getString(R.string.config_landscapeBatteryPowersavePathE)
+        val plusPathString =
+            getResources(context).getString(R.string.config_landscapeBatteryPowersavePathL)
         plusPath.set(PathParser.createPathFromPathData(plusPathString))
-
 
         dualTone = false
     }
@@ -641,7 +646,7 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
         private val TAG = LandscapeBatteryL::class.java.simpleName
         private const val WIDTH = 24f
         private const val HEIGHT = 12f
-        private const val CRITICAL_LEVEL = 15
+        private const val CRITICAL_LEVEL = 25
 
         // On a 24x12 grid, how wide to make the fill protection stroke.
         // Scales when our size changes
@@ -650,4 +655,4 @@ open class LandscapeBatteryE(private val context: Context, frameColor: Int) :
         // Arbitrarily chosen for visibility at small sizes
         private const val PROTECTION_MIN_STROKE_WIDTH = 5f
     }
-}
+    }
