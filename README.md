@@ -1,7 +1,3 @@
-> [!WARNING]
->
-> Android used to use XML for its UI, but starting with Android 15, Google began transitioning to Jetpack Compose. By Android 16 (QPR builds), the UI is fully built with Compose. Unlike XML, Jetpack Compose is much harder to modify or hook into because the code is inlined and heavily optimized during build time, making it difficult to trace or change. Also, since Compose constantly redraws the UI (recomposes), hooking into it reliably is challenging. Because of this, we’re archiving this project indefinitely until a better solution is found. Thank you for your understanding.
-
 <div align="center">
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png" width="100%" alt="Banner">
 
