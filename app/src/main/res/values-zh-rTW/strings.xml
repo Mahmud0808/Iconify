@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">改造無趣的 Android 使用者介面</string>
+    <string name="app_motto">改造無趣的 Android 使用者介面</string>
     <!-- Onboarding -->
     <string name="init_module_installation">初始化安裝</string>
     <string name="step">步驟</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">錐形\n正方形</string>
     <string name="icon_mask_style_vessel">船</string>
     <string name="icon_mask_style_rice_rohie_meow">羅西喵</string>
-    <string name="icon_mask_style_force_round">力園</string>
+    <string name="icon_mask_style_round">力園</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">基本顔色</string>
     <string name="activity_desc_basic_colors">改變主色和副色</string>

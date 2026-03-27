@@ -50,7 +50,7 @@ class Lockscreen(context: Context) : ModPack(context) {
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             wallpaperBlurEnabled = getBoolean(LOCKSCREEN_WALLPAPER_BLUR, false)
-            wallpaperBlurRadius = getSliderInt(LOCKSCREEN_WALLPAPER_BLUR_RADIUS, 25) / 100f * 25f
+            wallpaperBlurRadius = getInt(LOCKSCREEN_WALLPAPER_BLUR_RADIUS, 25) / 100f * 25f
             hideLockscreenLockIcon = getBoolean(HIDE_LOCKSCREEN_LOCK_ICON, false)
             hideQsOnLockscreen = getBoolean(HIDE_QS_ON_LOCKSCREEN, false)
         }

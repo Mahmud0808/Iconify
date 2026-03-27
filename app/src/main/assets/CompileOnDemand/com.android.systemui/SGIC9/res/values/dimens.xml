@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="status_bar_mobile_signal_size_updated">15sp</dimen>
+    <dimen name="status_bar_mobile_type_size_updated">15sp</dimen>
+    <dimen name="status_bar_mobile_container_height_updated">15sp</dimen>
+</resources>

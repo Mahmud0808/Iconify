@@ -28,7 +28,7 @@ import android.service.notification.StatusBarNotification
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
-import com.drdisagree.iconify.utils.color.ColorUtils.getColorResCompat
+import com.drdisagree.iconify.core.utils.ColorUtils.getColorResCompat
 import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.IconFetcher.AdaptiveDrawableResult
 
 /**
@@ -100,25 +100,23 @@ class OnGoingActionProgressController(
                 )
 
                 mIconView.colorFilter = null
-                mIconView.setImageTintList(null)
+                mIconView.imageTintList = null
             } ?: run {
                 if (useSmallIcon) {
                     mIconView.setColorFilter(
                         getColorResCompat(mContext, android.R.attr.colorForeground)
                     )
-                    mIconView.setImageTintList(
-                        ColorStateList.valueOf(
-                            getColorResCompat(mContext, android.R.attr.colorForeground)
-                        )
+                    mIconView.imageTintList = ColorStateList.valueOf(
+                        getColorResCompat(mContext, android.R.attr.colorForeground)
                     )
                 } else {
                     mIconView.colorFilter = null
-                    mIconView.setImageTintList(null)
+                    mIconView.imageTintList = null
                 }
             }
         } else {
             mIconView.colorFilter = null
-            mIconView.setImageTintList(null)
+            mIconView.imageTintList = null
         }
 
         mIconView.setImageDrawable(drawable.drawable)
@@ -167,7 +165,7 @@ class OnGoingActionProgressController(
                 mCurrentProgressMax = 100
             }
 
-            mProgressBar.setMax(mCurrentProgressMax)
+            mProgressBar.max = mCurrentProgressMax
             mProgressBar.progress = mCurrentProgress
 
             if (mCurrentDrawable != null) {

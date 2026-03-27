@@ -44,9 +44,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.utils.OmniJawsClient
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ControllersProvider
@@ -56,15 +56,15 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isNightMo
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getExpandableView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.lockscreen.widgets.LockscreenWidgets.Companion.launchableImageViewClass
-import com.drdisagree.iconify.xposed.modules.lockscreen.widgets.LockscreenWidgets.Companion.launchableLinearLayoutClass
 import java.lang.reflect.Method
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.min
+import androidx.core.view.isVisible
 
 @SuppressLint("ViewConstructor")
 class LockscreenWidgetsView(private val context: Context, activityStarter: Any?) :
@@ -359,10 +359,14 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
     }
 
     private fun createImageView(context: Context): ImageView {
+        launchableImageViewClass = findClass("$SYSTEMUI_PACKAGE.animation.view.LaunchableImageView")
+        launchableLinearLayoutClass =
+            findClass("$SYSTEMUI_PACKAGE.animation.view.LaunchableLinearLayout")
+
         val imageView = try {
             launchableImageViewClass!!.getConstructor(Context::class.java)
                 .newInstance(context) as ImageView
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // LaunchableImageView not found or other error, ensure the creation of our ImageView
             ImageView(context)
         }.apply {
@@ -649,12 +653,12 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
     private fun updateMainWidgetResources(efab: ExtendedFAB?) {
         if (efab == null) return
 
-        efab.setElevation(0F)
+        efab.elevation = 0F
         setButtonActiveState(null, efab, false)
 
         val params: ViewGroup.LayoutParams = efab.layoutParams
         if (params is LayoutParams) {
-            if (efab.visibility == VISIBLE &&
+            if (efab.isVisible &&
                 (mMainWidgetsList!!.size == 1 || mMainWidgetsList!!.contains("none"))
             ) {
                 params.width = (mFabWidth * mWidgetsScale).toInt()
@@ -1153,7 +1157,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
         post {
             try {
                 controlsTile.callMethod("handleClick", finalView)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
                 controlsTile.callMethod(
                     "handleClick",
                     finalView.getExpandableView()
@@ -1173,7 +1177,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
             post {
                 try {
                     mWalletTile.callMethod("handleClick", finalView)
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     mWalletTile.callMethod(
                         "handleClick",
                         finalView.getExpandableView()
@@ -1208,7 +1212,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
         post {
             try {
                 hotspotTile.callMethod("handleClick", finalView)
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
                 hotspotTile.callMethod(
                     "handleClick",
                     finalView.getExpandableView()
@@ -1232,7 +1236,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                 // Call the method on the ConnectivityManager instance
                 val result = method.invoke(connectivityManager)
                 // Safely handle the return value
-                return if (result is Boolean) result else false
+                return result as? Boolean ?: false
             } catch (e: Exception) {
                 log(this@LockscreenWidgetsView, "isMobileDataEnabled error: " + e.message)
                 return false
@@ -1414,7 +1418,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                 BuildConfig.APPLICATION_ID,
                 Context.CONTEXT_IGNORE_SECURITY
             )
-        } catch (ignored: java.lang.Exception) {
+        } catch (_: java.lang.Exception) {
         }
         mDarkColor = ResourcesCompat.getColor(
             appContext!!.resources,
@@ -1604,7 +1608,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
             btButtonFab,
             isBluetoothOn,
             icon,
-            if (isConnected) deviceName!!
+            if (isConnected) deviceName
             else getString(BT_LABEL, SYSTEMUI_PACKAGE)
         )
     }
@@ -1657,7 +1661,8 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
     @Suppress("deprecation")
     private fun getHotspotSSID(): String {
         try {
-            val methods: Array<Method> = WifiManager::class.java.declaredMethods.toList().union(WifiManager::class.java.methods.toList()).toTypedArray()
+            val methods: Array<Method> = WifiManager::class.java.declaredMethods.toList()
+                .union(WifiManager::class.java.methods.toList()).toTypedArray()
             for (m in methods) {
                 if (m.name == "getWifiApConfiguration") {
                     val config = m.invoke(mWifiManager) as android.net.wifi.WifiConfiguration
@@ -1964,6 +1969,9 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
         const val CAMERA_LABEL: String = "accessibility_camera_button"
         const val WALLET_LABEL: String = "wallet_title"
         const val HOTSPOT_LABEL: String = "quick_settings_hotspot_label"
+
+        var launchableImageViewClass: Class<*>? = null
+        var launchableLinearLayoutClass: Class<*>? = null
 
         @Volatile
         private var instance: LockscreenWidgetsView? = null

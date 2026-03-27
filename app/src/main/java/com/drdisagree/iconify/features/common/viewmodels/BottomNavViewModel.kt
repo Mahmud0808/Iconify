@@ -1,0 +1,34 @@
+package com.drdisagree.iconify.features.common.viewmodels
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import com.drdisagree.iconify.app.navigation.BOTTOM_BAR_TABS
+import com.drdisagree.iconify.app.navigation.DEFAULT_BOTTOM_BAR_TAB
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.math.floor
+
+@HiltViewModel
+class BottomNavViewModel @Inject constructor() : ViewModel() {
+
+    var selectedTabIndex by mutableIntStateOf(
+        BOTTOM_BAR_TABS.indexOf(DEFAULT_BOTTOM_BAR_TAB)
+            .takeIf { it != -1 }
+            ?: floor((BOTTOM_BAR_TABS.size / 2).toDouble()).toInt()
+    )
+        private set
+
+    var isBottomBarVisible by mutableStateOf(false)
+        private set
+
+    fun selectTab(index: Int) {
+        selectedTabIndex = index
+    }
+
+    fun showBottomBar(show: Boolean) {
+        isBottomBarVisible = show
+    }
+}

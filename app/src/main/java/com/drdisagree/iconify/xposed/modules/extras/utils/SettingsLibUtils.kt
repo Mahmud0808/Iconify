@@ -79,7 +79,7 @@ class SettingsLibUtils(context: Context) : ModPack(context) {
                     resID,
                     context
                 ) as Int
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
                 try {
                     callStaticMethod(
                         UtilsClass,
@@ -87,7 +87,7 @@ class SettingsLibUtils(context: Context) : ModPack(context) {
                         context,
                         resID
                     ) as Int
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                     try {
                         callStaticMethod(
                             UtilsClass,
@@ -96,7 +96,7 @@ class SettingsLibUtils(context: Context) : ModPack(context) {
                             resID,
                             defValue
                         ) as Int
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                         try {
                             callStaticMethod(
                                 UtilsClass,
@@ -128,7 +128,7 @@ class SettingsLibUtils(context: Context) : ModPack(context) {
                     resID,
                     context
                 ) as ColorStateList
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
                 try {
                     callStaticMethod(
                         UtilsClass,

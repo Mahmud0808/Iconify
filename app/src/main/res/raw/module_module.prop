@@ -1,0 +1,6 @@
+id=Iconify
+name=Iconify
+version={{VERSION_NAME}}
+versionCode={{VERSION_CODE}}
+author=DrDisagree
+description=Systemless module for Iconify. {{APP_MOTO}}.

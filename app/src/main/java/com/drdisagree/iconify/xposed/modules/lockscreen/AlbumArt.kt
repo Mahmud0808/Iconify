@@ -53,7 +53,7 @@ class AlbumArt(context: Context) : ModPack(context) {
         Xprefs.apply {
             mAlbumArtEnabled = getBoolean(ALBUM_ART_ON_LOCKSCREEN, false)
             mAlbumArtFilter = getString(ALBUM_ART_ON_LOCKSCREEN_FILTER, "0")!!.toInt()
-            mAlbumArtBlurLevel = getSliderInt(ALBUM_ART_ON_LOCKSCREEN_BLUR, 30) / 100f * 25f
+            mAlbumArtBlurLevel = getInt(ALBUM_ART_ON_LOCKSCREEN_BLUR, 30) / 100f * 25f
             mDepthEnabled = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
         }
 
@@ -172,7 +172,7 @@ class AlbumArt(context: Context) : ModPack(context) {
                 .hookMethod("onMediaDataLoaded")
                 .throwError()
                 .runAfter { param -> hookMediaData(param) }
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
             mediaDeviceManagerClass
                 .hookMethod("onMediaDataLoaded")
                 .runAfter { param -> hookMediaData(param) }

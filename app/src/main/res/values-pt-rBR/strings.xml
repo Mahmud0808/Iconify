@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Personalize a interface chata do Android</string>
+    <string name="app_motto">Personalize a interface chata do Android</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Inicializando a configuração</string>
     <string name="step">Etapa</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">Cônico\nretângulo</string>
     <string name="icon_mask_style_vessel">Navio</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Miau</string>
-    <string name="icon_mask_style_force_round">Rodada forçada</string>
+    <string name="icon_mask_style_round">Rodada forçada</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Cores básicas</string>
     <string name="activity_desc_basic_colors">Altere a cor primária e secundária</string>

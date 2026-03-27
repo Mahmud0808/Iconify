@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.content.res.Configuration
 import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
-import android.os.Build
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -75,12 +74,12 @@ class HeaderImage(context: Context) : ModPack(context) {
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             showHeaderImage = getBoolean(HEADER_IMAGE_SWITCH, false)
-            headerImageAlpha = getSliderInt(HEADER_IMAGE_ALPHA, 100)
-            imageHeight = getSliderInt(HEADER_IMAGE_HEIGHT, 140)
+            headerImageAlpha = getInt(HEADER_IMAGE_ALPHA, 100)
+            imageHeight = getInt(HEADER_IMAGE_HEIGHT, 140)
             zoomToFit = getBoolean(HEADER_IMAGE_ZOOMTOFIT, false)
             headerImageOverlap = getBoolean(HEADER_IMAGE_OVERLAP, false)
             hideLandscapeHeaderImage = getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true)
-            bottomFadeAmount = mContext.toPx(getSliderInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40))
+            bottomFadeAmount = mContext.toPx(getInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40))
         }
 
         if (key.isNotEmpty() &&
@@ -101,18 +100,11 @@ class HeaderImage(context: Context) : ModPack(context) {
             val intentFilter = IntentFilter()
             intentFilter.addAction(ACTION_BOOT_COMPLETED)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter,
-                    Context.RECEIVER_EXPORTED
-                )
-            } else {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter
-                )
-            }
+            mContext.registerReceiver(
+                mReceiver,
+                intentFilter,
+                Context.RECEIVER_EXPORTED
+            )
 
             mBroadcastRegistered = true
         }
@@ -234,7 +226,7 @@ class HeaderImage(context: Context) : ModPack(context) {
 
         shadeLayoutChangeListenerClass
             .hookMethod("onLayoutChange")
-            .runAfter { param ->
+            .runAfter {
                 if (!showHeaderImage) return@runAfter
 
                 val notificationPanelView = notificationPanelViewControllerInstance

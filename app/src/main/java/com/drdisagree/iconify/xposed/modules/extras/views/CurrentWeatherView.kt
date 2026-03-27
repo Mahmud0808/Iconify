@@ -16,9 +16,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.ui.utils.ViewHelper.applyTextSizeRecursively
-import com.drdisagree.iconify.ui.utils.ViewHelper.setTextRecursively
-import com.drdisagree.iconify.utils.OmniJawsClient
+import com.drdisagree.iconify.core.utils.ViewHelper.applyTextSizeRecursively
+import com.drdisagree.iconify.core.utils.ViewHelper.setTextRecursively
+import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findViewContainsTag
@@ -127,7 +127,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
             }
             .orElse("")
 
-        return if (instance.isEmpty()) throw IllegalStateException("No instance name found") else instance
+        return instance.ifEmpty { throw IllegalStateException("No instance name found") }
     }
 
     fun updateSizes(weatherTextSize: Int, weatherImageSize: Int, name: String) {

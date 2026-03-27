@@ -41,7 +41,7 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
         val notificationIconContainerClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.NotificationIconContainer")
         val iconStateClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.NotificationIconContainer\$IconState")
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.phone.NotificationIconContainer$IconState")
         val legacyNotificationIconAreaControllerImplClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.LegacyNotificationIconAreaControllerImpl",
             "$SYSTEMUI_PACKAGE.statusbar.phone.NotificationIconAreaController",
@@ -67,8 +67,8 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
                     icon.setField("mCurrentSetColor", 0) // StatusBarIconView.NO_COLOR
                     icon.callMethod("updateIconColor")
                 }
-            } catch (ignored: Throwable) {
-                log(this@AppIconsInStatusbar, ignored)
+            } catch (throwable: Throwable) {
+                log(this@AppIconsInStatusbar, throwable)
             }
         }
 
@@ -236,7 +236,7 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
                         scalingDrawableWrapperClass
                     )
                 }
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
             statusBarIconViewClass
                 .hookMethod("getIcon")
                 .parameters("com.android.internal.statusbar.StatusBarIcon")

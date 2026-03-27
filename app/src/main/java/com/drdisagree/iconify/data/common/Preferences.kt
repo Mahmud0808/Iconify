@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.data.common
 
-import com.drdisagree.iconify.BaseSplashActivity
-import com.drdisagree.iconify.data.config.RPrefs.getBoolean
+import com.drdisagree.iconify.data.config.Config
+import com.drdisagree.iconify.data.config.RPrefs
 
 object Preferences {
 
@@ -423,11 +423,10 @@ object Preferences {
     const val XPOSED_ONLY_MODE = "IconifyXposedOnlyMode"
     const val NEW_UPDATE_FOUND = "newUpdateFound"
 
-    var isXposedOnlyMode = getBoolean(XPOSED_ONLY_MODE, true) &&
-            !BaseSplashActivity.SKIP_TO_HOMEPAGE_FOR_TESTING
+    var isXposedOnlyMode = RPrefs.getBoolean(XPOSED_ONLY_MODE, true) &&
+            !Config.SKIP_TO_HOMEPAGE_FOR_TESTING
 
     // Others
     const val BOOT_ID = "boot_id"
-    const val VER_CODE = "versionCode"
     const val ALERT_DIALOG_QSROWCOL = "alertDialogQsRowCol"
 }

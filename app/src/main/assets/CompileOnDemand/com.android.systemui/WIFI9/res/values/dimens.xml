@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="status_bar_wifi_signal_height_updated">15sp</dimen>
+</resources>

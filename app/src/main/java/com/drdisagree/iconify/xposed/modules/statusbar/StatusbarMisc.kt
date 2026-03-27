@@ -82,12 +82,12 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             sbClockSizeSwitch = getBoolean(SB_CLOCK_SIZE_SWITCH, false)
-            sbClockSize = getSliderInt(SB_CLOCK_SIZE, 14)
+            sbClockSize = getInt(SB_CLOCK_SIZE, 14)
             hideLockscreenCarrier = getBoolean(HIDE_LOCKSCREEN_CARRIER, false)
             hideLockscreenStatusbar = getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false)
             clockPosition = getString(STATUSBAR_CLOCK_POSITION, "0")!!.toInt()
             show4GInsteadOfLTE = getBoolean(SHOW_4G_INSTEAD_OF_LTE, false)
-            notifIconsLimit = getSliderInt(NOTIFICATION_ICONS_LIMIT, -1)
+            notifIconsLimit = getInt(NOTIFICATION_ICONS_LIMIT, -1)
             dualStatusbarEnabled = getBoolean(DUAL_STATUSBAR, false)
             mClockClickable = getBoolean(CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH, false)
             hideDefaultBattery =

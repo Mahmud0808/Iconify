@@ -1,7 +1,7 @@
 package com.drdisagree.iconify.data.common
 
 import android.os.Build
-import com.drdisagree.iconify.Iconify.Companion.appContext
+import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.topjohnwu.superuser.Shell
 import java.io.File
 
@@ -13,21 +13,11 @@ object Dynamic {
     ).exec().out.size
 
     // Overlay compiler tools
-    val NATIVE_LIBRARY_DIR: String = appContext.applicationInfo.nativeLibraryDir
     val DATA_DIR: String = appContext.filesDir.absolutePath
     val BIN_DIR = appContext.dataDir.toString() + "/bin"
-    val AAPT2LIB = File(NATIVE_LIBRARY_DIR, "libaapt2.so")
-    val AAPT2 = File(BIN_DIR, "aapt2")
-    val ZIPALIGNLIB = File(NATIVE_LIBRARY_DIR, "libzipalign.so")
-    val ZIPALIGN = File(BIN_DIR, "zipalign")
-
-    // Onboarding overlay installation
-    var skippedInstallation = false
+    val AAPT2 = File(BIN_DIR, "libaapt2.so")
+    val ZIPALIGN = File(BIN_DIR, "libzipalign.so")
 
     // Device information
     val isAtleastA14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
-
-    // Floating action buttons
-    var requiresSystemUiRestart = false
-    var requiresDeviceRestart = false
 }

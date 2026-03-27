@@ -4,7 +4,6 @@
     <string-array name="module_scope" translatable="false">
         <item>android</item>
         <item>com.android.systemui</item>
-        <!--        <item>com.android.settings</item>-->
     </string-array>
 
     <string-array name="root_requirement" translatable="false">

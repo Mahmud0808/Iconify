@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Освіжити нудний інтерфейс Android</string>
+    <string name="app_motto">Освіжити нудний інтерфейс Android</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Початок встановлення</string>
     <string name="step">Крок</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">Конічний\nПрямокутник</string>
     <string name="icon_mask_style_vessel">Посудина</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Тільки коло</string>
+    <string name="icon_mask_style_round">Тільки коло</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Основні кольори</string>
     <string name="activity_desc_basic_colors">Змінити основний та додатковий колір</string>
