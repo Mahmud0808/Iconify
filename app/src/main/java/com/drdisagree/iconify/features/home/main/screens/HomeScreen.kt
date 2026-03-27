@@ -19,7 +19,7 @@ import kotlinx.coroutines.delay
 
 val homePreferences = preferenceScreen {
     composable(key = "header_image") {
-        HomeBannerCard(modifier = Modifier.padding(top = 16.dp))
+        HomeBannerCard()
     }
 
     composable(key = "home_cards") {

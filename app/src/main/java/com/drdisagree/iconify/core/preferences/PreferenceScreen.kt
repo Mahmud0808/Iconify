@@ -14,19 +14,10 @@ import com.drdisagree.iconify.core.ui.components.others.innerPaddingValues
 import com.drdisagree.iconify.core.ui.components.preferences.preferenceCategoryItems
 import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
 
-/** Entry point for the DSL. Returns a list of category definitions. */
 fun preferenceScreen(
     block: PreferenceScreenScope.() -> Unit
 ): List<PreferenceScreenItem> = PreferenceScreenScope().apply(block).items
 
-/**
- * A preference screen that plugs into the shared [com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold].
- *
- * It does NOT create its own Scaffold. Instead it:
- *  1. Calls [AppBarEffect] to push its title/back/actions into [com.drdisagree.iconify.core.ui.components.scaffolds.AppBarState]
- *  2. Reads [LocalInnerPadding] for the top/bottom offsets
- *  3. Renders a [LazyColumn] with the correct [contentPadding]
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreferenceScreen(
@@ -61,14 +52,13 @@ fun PreferenceScreen(
         actions = actions
     ) { innerPadding, _ ->
         val padding = innerPaddingValues(
-            innerPadding = innerPadding, start = 16.dp, end = 16.dp
+            innerPadding = innerPadding, horizontal = 16.dp, vertical = 16.dp
         )
 
         LazyColumn(
             modifier = modifier.fillMaxSize(),
             contentPadding = padding,
         ) {
-            // Track first visible category
             var firstVisibleCategoryAdded = false
 
             items.forEach { screenItem ->
@@ -80,7 +70,7 @@ fun PreferenceScreen(
                             controller = prefController,
                             addTopSpacer = !isFirstVisible
                         )
-                        // Only mark it added if it has visible preferences
+
                         if (screenItem.definition.preferences.any { it.isVisible(prefController) }) {
                             firstVisibleCategoryAdded = true
                         }
