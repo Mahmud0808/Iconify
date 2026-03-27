@@ -51,7 +51,7 @@
 
         <!-- Root Provider Proxy -->
         <service
-            android:name="com.drdisagree.iconify.services.providers.RootProviderProxy"
+            android:name=".services.providers.RootProviderProxy"
             android:exported="true"
             tools:ignore="ExportedService" />
 

@@ -9,9 +9,9 @@ import android.os.IBinder
 import android.os.RemoteException
 import android.os.UserManager
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
+import com.drdisagree.iconify.services.providers.IRootProviderProxy
 import com.drdisagree.iconify.services.providers.RootProviderProxy
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -189,7 +189,7 @@ class HookEntry : ServiceConnection {
             val intent = Intent().apply {
                 component = ComponentName(
                     BuildConfig.APPLICATION_ID,
-                    "com.drdisagree.iconify.services.providers.RootProviderProxy"
+                    RootProviderProxy::class.qualifiedName!!
                 )
             }
 

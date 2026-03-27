@@ -85,7 +85,7 @@
 
 # Root Service
 -keep class com.drdisagree.iconify.services.providers.RootProviderProxy { *; }
--keep class com.drdisagree.iconify.IRootProviderProxy { *; }
+-keep class com.drdisagree.iconify.services.providers.IRootProviderProxy { *; }
 
 # AIDL Classes (scoped to your package to avoid matching SDK interfaces)
 -keep interface com.drdisagree.iconify.**.I* { *; }

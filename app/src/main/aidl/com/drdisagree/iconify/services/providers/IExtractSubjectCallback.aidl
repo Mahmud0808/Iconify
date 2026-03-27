@@ -1,4 +1,4 @@
-package com.drdisagree.iconify;
+package com.drdisagree.iconify.services.providers;
 
 interface IExtractSubjectCallback {
     void onStart(String message);

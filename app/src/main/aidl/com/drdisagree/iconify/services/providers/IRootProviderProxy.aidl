@@ -1,6 +1,6 @@
-package com.drdisagree.iconify;
+package com.drdisagree.iconify.services.providers;
 
-import com.drdisagree.iconify.IExtractSubjectCallback;
+import com.drdisagree.iconify.services.providers.IExtractSubjectCallback;
 
 interface IRootProviderProxy {
 	String[] runCommand(String command);

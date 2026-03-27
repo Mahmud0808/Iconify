@@ -7,10 +7,9 @@ import android.graphics.Bitmap
 import android.os.IBinder
 import android.os.RemoteException
 import android.util.Log
-import com.drdisagree.iconify.IExtractSubjectCallback
-import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.utils.FileUtils
+import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.xposed.modules.extras.utils.BitmapSubjectSegmenter
 import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse
 import com.topjohnwu.superuser.Shell
@@ -27,11 +26,9 @@ class RootProviderProxy : Service() {
 
         init {
             try {
-                @Suppress("DEPRECATION")
                 Shell.setDefaultBuilder(
                     Shell.Builder.create()
                         .setFlags(Shell.FLAG_MOUNT_MASTER)
-                        .setFlags(Shell.FLAG_REDIRECT_STDERR)
                         .setTimeout(20)
                 )
             } catch (_: Throwable) {
@@ -63,7 +60,11 @@ class RootProviderProxy : Service() {
 
                         override fun onSuccess(result: Bitmap?) {
                             try {
-                                val tempFile = File.createTempFile("depth_wallpaper_fg", ".png")
+                                val fgFile = DEPTH_WALL_FG_FILE
+                                val tempFile = File.createTempFile(
+                                    fgFile.nameWithoutExtension,
+                                    ".${fgFile.extension}"
+                                )
 
                                 val outputStream = FileOutputStream(tempFile)
                                 result!!.compress(Bitmap.CompressFormat.PNG, 100, outputStream)

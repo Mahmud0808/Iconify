@@ -24,7 +24,6 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.scale
-import com.drdisagree.iconify.IExtractSubjectCallback
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_FAILURE
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_SUBJECT
@@ -48,6 +47,7 @@ import com.drdisagree.iconify.data.common.Preferences.LOCKSCREEN_SHADE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_BG_FILE
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
+import com.drdisagree.iconify.services.providers.IExtractSubjectCallback
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
