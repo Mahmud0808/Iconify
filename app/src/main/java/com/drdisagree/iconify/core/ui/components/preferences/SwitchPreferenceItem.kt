@@ -39,7 +39,6 @@ fun SwitchPreferenceItem(
         containerColor = containerColor,
         onClick = withHaptic { if (isEnabled) controller.setBoolean(def.key, !checked) }
     ) {
-        if (type.isMasterSwitch)
         LeadingIcon(def.icon, isEnabled, contentColor)
         TitleSummaryBlock(def.title, summary, isEnabled, contentColor)
         CompositionLocalProvider(LocalMinimumInteractiveComponentSize provides 1.dp) {
