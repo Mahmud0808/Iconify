@@ -25,8 +25,6 @@ import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_ALTERNATIVE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_VIEW_SWITCH
-import com.drdisagree.iconify.utils.color.monet.quantize.QuantizerCelebi
-import com.drdisagree.iconify.utils.color.monet.score.Score
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -42,6 +40,8 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvaila
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.google.android.material.color.utilities.QuantizerCelebi
+import com.google.android.material.color.utilities.Score
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.newInstance
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -97,6 +97,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             schemeStyle = "CONTENT"
         }
 
+        @SuppressLint("RestrictedApi")
         fun Notification.initializeColors(
             builder: Notification.Builder,
             packageContext: Context

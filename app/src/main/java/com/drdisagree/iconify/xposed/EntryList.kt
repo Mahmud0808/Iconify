@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.xposed
 
-import android.os.Build
-import com.drdisagree.iconify.data.common.Const.SETTINGS_PACKAGE
+import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.modules.BackgroundChip
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ConfigurationCallback
@@ -13,23 +12,21 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet
 import com.drdisagree.iconify.xposed.modules.extras.utils.SettingsLibUtils
+import com.drdisagree.iconify.xposed.modules.framework.BroadcastController
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
+import com.drdisagree.iconify.xposed.modules.lockscreen.DepthWallpaper
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
-import com.drdisagree.iconify.xposed.modules.lockscreen.clock.LockscreenClock
-import com.drdisagree.iconify.xposed.modules.lockscreen.clock.LockscreenClockA15
-import com.drdisagree.iconify.xposed.modules.lockscreen.depthwallpaper.DepthWallpaperA15
-import com.drdisagree.iconify.xposed.modules.lockscreen.weather.LockscreenWeather
-import com.drdisagree.iconify.xposed.modules.lockscreen.weather.LockscreenWeatherA15
-import com.drdisagree.iconify.xposed.modules.lockscreen.widgets.LockscreenWidgets
-import com.drdisagree.iconify.xposed.modules.lockscreen.widgets.LockscreenWidgetsA15
+import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenClock
+import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWeather
+import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgets
 import com.drdisagree.iconify.xposed.modules.misc.Miscellaneous
 import com.drdisagree.iconify.xposed.modules.quicksettings.AppIconInNotification
 import com.drdisagree.iconify.xposed.modules.quicksettings.ColorizeNotificationView
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeadsUpBlur
+import com.drdisagree.iconify.xposed.modules.quicksettings.QSTheme
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSTransparency
 import com.drdisagree.iconify.xposed.modules.quicksettings.QuickSettings
-import com.drdisagree.iconify.xposed.modules.quicksettings.headerclock.HeaderClockA14
 import com.drdisagree.iconify.xposed.modules.statusbar.AppIconsInStatusbar
 import com.drdisagree.iconify.xposed.modules.statusbar.DualStatusbar
 import com.drdisagree.iconify.xposed.modules.statusbar.OnGoingActionChip
@@ -47,7 +44,11 @@ object EntryList {
         HookCheck::class.java
     )
 
-    private val systemUICommonModPacks: List<Class<out ModPack>> = listOf(
+    private val frameworkModPacks: List<Class<out ModPack>> = listOf(
+        BroadcastController::class.java
+    )
+
+    private val systemUIModPacks: List<Class<out ModPack>> = listOf(
         MyConstraintSet::class.java,
         ControllersProvider::class.java,
         ThemeChangeCallback::class.java,
@@ -59,7 +60,6 @@ object EntryList {
         BackgroundChip::class.java,
         HeaderImage::class.java,
         Lockscreen::class.java,
-        LockscreenClock::class.java,
         LockscreenWidgets::class.java,
         LockscreenWeather::class.java,
         AlbumArt::class.java,
@@ -76,15 +76,12 @@ object EntryList {
         AppIconInNotification::class.java,
         HeadsUpBlur::class.java,
         OnGoingActionChip::class.java,
-        StatusbarLogo::class.java
-    )
-
-    private val systemUiAndroid16ModPacks: List<Class<out ModPack>> = listOf(
-        DepthWallpaperA15::class.java,
-        HeaderClockA14::class.java,
-        LockscreenClockA15::class.java,
-        LockscreenWeatherA15::class.java,
-        LockscreenWidgetsA15::class.java
+        StatusbarLogo::class.java,
+        DepthWallpaper::class.java,
+        LockscreenClock::class.java,
+        LockscreenWeather::class.java,
+        LockscreenWidgets::class.java,
+        QSTheme::class.java
     )
 
     fun getEntries(packageName: String): ArrayList<Class<out ModPack>> {
@@ -93,24 +90,12 @@ object EntryList {
         modPacks.addAll(topPriorityCommonModPacks)
 
         when (packageName) {
+            FRAMEWORK_PACKAGE -> modPacks.addAll(frameworkModPacks)
+
             SYSTEMUI_PACKAGE -> {
                 if (!HookEntry.isChildProcess) {
-                    modPacks.addAll(systemUICommonModPacks)
-
-                    when {
-                        Build.VERSION.SDK_INT >= 36 -> { // android 16+
-                            modPacks.addAll(systemUiAndroid16ModPacks)
-                        }
-                    }
+                    modPacks.addAll(systemUIModPacks)
                 }
-            }
-
-            SETTINGS_PACKAGE -> {
-                //                modPacks.addAll(settingsCommonModPacks)
-                //
-                //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-                //                    modPacks.addAll(settingsAndroid15ModPacks)
-                //                }
             }
         }
 

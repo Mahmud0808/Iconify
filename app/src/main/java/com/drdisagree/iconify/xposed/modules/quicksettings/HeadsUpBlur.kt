@@ -51,8 +51,8 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             headsUpBlurEnabled = getBoolean(NOTIFICATION_HEADSUP_BLUR, false)
-            headsUpBlurRadius = getSliderInt(NOTIFICATION_HEADSUP_BLUR_RADIUS, 48) / 100f * 25f
-            headsUpTransparency = getSliderInt(NOTIFICATION_HEADSUP_TRANSPARENCY, 70) / 100f * 255f
+            headsUpBlurRadius = getInt(NOTIFICATION_HEADSUP_BLUR_RADIUS, 48) / 100f * 25f
+            headsUpTransparency = getInt(NOTIFICATION_HEADSUP_TRANSPARENCY, 70) / 100f * 255f
             coloredNotificationView = getBoolean(COLORED_NOTIFICATION_VIEW_SWITCH, false)
         }
     }

@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
 import com.drdisagree.iconify.data.common.Const.ACTION_HOOK_CHECK_REQUEST
 import com.drdisagree.iconify.data.common.Const.ACTION_HOOK_CHECK_RESULT
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
@@ -46,15 +45,11 @@ class HookCheck(context: Context) : ModPack(context) {
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                mContext.registerReceiver(
-                    broadcastReceiver,
-                    intentFilter,
-                    Context.RECEIVER_EXPORTED
-                )
-            } else {
-                mContext.registerReceiver(broadcastReceiver, intentFilter)
-            }
+            mContext.registerReceiver(
+                broadcastReceiver,
+                intentFilter,
+                Context.RECEIVER_EXPORTED
+            )
         }
     }
 }

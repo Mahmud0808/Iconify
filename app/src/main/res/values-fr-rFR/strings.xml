@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Personnaliser l\'interface utilisateur ennuyeuse d\'Android</string>
+    <string name="app_motto">Personnaliser l\'interface utilisateur ennuyeuse d\'Android</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Initialisation de la configuration</string>
     <string name="step">Étape</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">Rectangle\neffilé</string>
     <string name="icon_mask_style_vessel">Vessel</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Force Round</string>
+    <string name="icon_mask_style_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Couleurs basiques</string>
     <string name="activity_desc_basic_colors">Modifier la couleur primaire et secondaire</string>

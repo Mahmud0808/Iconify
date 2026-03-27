@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Přizpůsobte si nudné Android prostředí</string>
+    <string name="app_motto">Přizpůsobte si nudné Android prostředí</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Inicializace nastavení</string>
     <string name="step">Krok</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">Vessel</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Force Round</string>
+    <string name="icon_mask_style_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Basic Colors</string>
     <string name="activity_desc_basic_colors">Change primary and secondary color</string>

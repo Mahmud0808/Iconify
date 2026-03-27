@@ -27,6 +27,10 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toCircularDrawable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @SuppressLint("AppCompatCustomView")
 abstract class LogoImage @JvmOverloads constructor(
@@ -67,7 +71,11 @@ abstract class LogoImage @JvmOverloads constructor(
     @Suppress("deprecation")
     @SuppressLint("UseCompatLoadingForDrawables")
     fun updateLogo() {
-        var requiresTint = true
+        if (mLogoStyle == 33) {
+            loadCustomLogoAsync()
+            return
+        }
+
         val drawable = when (mLogoStyle) {
             0 -> modRes.getDrawable(R.drawable.ic_android_logo)
             1 -> modRes.getDrawable(R.drawable.ic_adidas)
@@ -102,28 +110,35 @@ abstract class LogoImage @JvmOverloads constructor(
             30 -> modRes.getDrawable(R.drawable.ic_ubuntu_logo)
             31 -> modRes.getDrawable(R.drawable.ic_mint_logo)
             32 -> modRes.getDrawable(R.drawable.ic_amogus)
-            33 -> {
-                try {
-                    val drawable = ImageDecoder.decodeDrawable(
-                        ImageDecoder.createSource(STATUSBAR_LOGO_FILE)
-                    ).toCircularDrawable(mContext)
-
-                    requiresTint = false
-                    drawable
-                } catch (_: Throwable) {
-                    modRes.getDrawable(R.drawable.ic_android_logo)
-                }
-            }
             else -> modRes.getDrawable(R.drawable.ic_android_logo)
         }
 
-        if (requiresTint || forceApplyTint) {
+        if (forceApplyTint) {
             drawable.setTint(mTintColor)
         } else {
             drawable.clearColorFilter()
         }
 
         setImageDrawable(drawable)
+    }
+
+    @Suppress("deprecation")
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun loadCustomLogoAsync() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val drawable = try {
+                ImageDecoder.decodeDrawable(
+                    ImageDecoder.createSource(STATUSBAR_LOGO_FILE)
+                ).toCircularDrawable(mContext)
+            } catch (_: Throwable) {
+                modRes.getDrawable(R.drawable.ic_android_logo)
+            }
+
+            withContext(Dispatchers.Main) {
+                drawable.clearColorFilter()
+                setImageDrawable(drawable)
+            }
+        }
     }
 
     fun updateSettings(
@@ -139,11 +154,11 @@ abstract class LogoImage @JvmOverloads constructor(
 
         if (!mShowLogo || !isLogoVisible) {
             setImageDrawable(null)
-            setVisibility(GONE)
+            visibility = GONE
             return
         }
 
         updateLogo()
-        setVisibility(VISIBLE)
+        visibility = VISIBLE
     }
 }

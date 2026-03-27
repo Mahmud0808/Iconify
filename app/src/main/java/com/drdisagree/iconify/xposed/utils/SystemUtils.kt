@@ -34,7 +34,7 @@ class SystemUtils(var mContext: Context) {
         fun sleep(millis: Int) {
             try {
                 Thread.sleep(millis.toLong())
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
             }
         }
 
@@ -59,7 +59,7 @@ class SystemUtils(var mContext: Context) {
                     delay(500)
 
                     darkSwitching = false
-                } catch (ignored: Exception) {
+                } catch (_: Exception) {
                 }
             }
         }

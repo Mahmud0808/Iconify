@@ -1,8 +1,18 @@
 package com.drdisagree.iconify.data.common
 
 import com.drdisagree.iconify.BuildConfig
+import com.drdisagree.iconify.features.home.main.screens.homePreferences
+import com.drdisagree.iconify.features.settings.lookandfeel.screens.lookAndFeelPreferences
+import com.drdisagree.iconify.features.settings.main.screens.settingsPreferences
+import com.drdisagree.iconify.features.xposed.main.screens.xposedPreferences
 
 object References {
+
+    // Preference list
+    val PREFERENCE_LIST = homePreferences +
+            xposedPreferences() +
+            settingsPreferences() +
+            lookAndFeelPreferences
 
     // Fabricated overlays
     const val ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7"

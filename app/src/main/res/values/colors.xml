@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- General -->
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
     <color name="offwhite">#BFFFFFFF</color>
     <color name="red">#FFFF6565</color>
     <color name="pink">#FFEE5166</color>
     <color name="transparent">#00000000</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 
     <!-- UI -->
     <color name="colorAccent">@android:color/system_accent1_600</color>
@@ -148,5 +153,4 @@
     <color name="card_surface_color">@android:color/system_neutral1_100</color>
 
     <color name="wallpaper_preview_scrim_color">#99000000</color>
-
 </resources>

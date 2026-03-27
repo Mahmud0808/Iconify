@@ -104,10 +104,10 @@ class QuickSettings(context: Context) : ModPack(context) {
             isVerticalQSTileActive = getBoolean(VERTICAL_QSTILE_SWITCH, false)
             isHideLabelActive = getBoolean(HIDE_QSLABEL_SWITCH, false)
             customQsMarginsEnabled = getBoolean(CUSTOM_QS_MARGIN, false)
-            qqsTopMarginPort = getSliderInt(QQS_TOPMARGIN_PORTRAIT, 100)
-            qsTopMarginPort = getSliderInt(QS_TOPMARGIN_PORTRAIT, 100)
-            qqsTopMarginLand = getSliderInt(QQS_TOPMARGIN_LANDSCAPE, 0)
-            qsTopMarginLand = getSliderInt(QS_TOPMARGIN_LANDSCAPE, 0)
+            qqsTopMarginPort = getInt(QQS_TOPMARGIN_PORTRAIT, 100)
+            qsTopMarginPort = getInt(QS_TOPMARGIN_PORTRAIT, 100)
+            qqsTopMarginLand = getInt(QQS_TOPMARGIN_LANDSCAPE, 0)
+            qsTopMarginLand = getInt(QS_TOPMARGIN_LANDSCAPE, 0)
             fixQsTileColor = isAtLeastAndroid14 &&
                     getBoolean(FIX_QS_TILE_COLOR, false)
             fixNotificationColor = isAtLeastAndroid14 &&
@@ -122,7 +122,7 @@ class QuickSettings(context: Context) : ModPack(context) {
             compactMediaPlayerEnabled = getBoolean(COMPACT_MEDIA_PLAYER, false)
             blurMediaPlayerArtwork = getBoolean(BLUR_MEDIA_PLAYER_ARTWORK, false)
             blurMediaPlayerArtworkRadius =
-                getSliderInt(BLUR_MEDIA_PLAYER_ARTWORK_RADIUS, 60) / 100f * 25f
+                getInt(BLUR_MEDIA_PLAYER_ARTWORK_RADIUS, 60) / 100f * 25f
             isPixelVariant = getIsPixelVariant()
             showOpQsHeaderView = getBoolean(OP_QS_HEADER_SWITCH, false)
         }

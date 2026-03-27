@@ -53,7 +53,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             showLogo = getBoolean(STATUSBAR_LOGO_SWITCH, false)
             logoPosition = getString(STATUSBAR_LOGO_POSITION, "0")!!.toInt()
             logoStyle = getString(STATUSBAR_LOGO_STYLE, "0")!!.toInt()
-            logoSize = getSliderInt(STATUSBAR_LOGO_SIZE, 12)
+            logoSize = getInt(STATUSBAR_LOGO_SIZE, 12)
             customLogo = listOf<String>(
                 *modRes.getStringArray(R.array.status_bar_logo_style_entries)
             )[logoStyle] == modRes.getString(R.string.status_bar_logo_style_custom)

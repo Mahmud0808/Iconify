@@ -1,0 +1,24 @@
+package com.drdisagree.iconify.core.preferences
+
+sealed class PrefValue {
+    data class BoolValue(val v: Boolean) : PrefValue()
+    data class IntValue(val v: Int) : PrefValue()
+    data class FloatValue(val v: Float) : PrefValue()
+    data class DoubleValue(val v: Double) : PrefValue()
+    data class StringValue(val v: String) : PrefValue()
+    data class StringSetValue(val v: Set<String>) : PrefValue()
+    object None : PrefValue()
+}
+
+fun Any?.toPrefValue(): PrefValue {
+    return if (this == null) PrefValue.None
+    else when (this) {
+        is Boolean -> PrefValue.BoolValue(this)
+        is Int -> PrefValue.IntValue(this)
+        is Float -> PrefValue.FloatValue(this)
+        is Double -> PrefValue.DoubleValue(this)
+        is String -> PrefValue.StringValue(this)
+        is Set<*> -> PrefValue.StringSetValue(filterIsInstance<String>().toSet())
+        else -> throw IllegalArgumentException("Unsupported type for PrefValue: ${this::class}")
+    }
+}

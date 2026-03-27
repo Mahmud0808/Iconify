@@ -301,7 +301,7 @@ class DeviceWidgetView(private val mContext: Context) : FrameLayout(mContext) {
                 mBatteryReceiver,
                 IntentFilter(Intent.ACTION_BATTERY_CHANGED)
             )
-        } catch (ignored: Exception) {
+        } catch (_: Exception) {
         }
     }
 
@@ -310,7 +310,7 @@ class DeviceWidgetView(private val mContext: Context) : FrameLayout(mContext) {
 
         try {
             if (batteryRegistered) mContext.unregisterReceiver(mBatteryReceiver)
-        } catch (ignored: Exception) {
+        } catch (_: Exception) {
         }
     }
 

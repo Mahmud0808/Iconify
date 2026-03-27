@@ -41,9 +41,9 @@ class QSTransparency(context: Context) : ModPack(context) {
             qsTransparencyActive = getBoolean(QS_TRANSPARENCY_SWITCH, false)
             onlyNotifTransparencyActive = getBoolean(NOTIF_TRANSPARENCY_SWITCH, false)
             keepLockScreenShade = getBoolean(LOCKSCREEN_SHADE_SWITCH, false)
-            alpha = (getSliderInt(QSALPHA_LEVEL, 60).toFloat() / 100.0).toFloat()
+            alpha = (getInt(QSALPHA_LEVEL, 60).toFloat() / 100.0).toFloat()
             blurEnabled = getBoolean(QSPANEL_BLUR_SWITCH, false)
-            blurRadius = getSliderInt(BLUR_RADIUS_VALUE, 23)
+            blurRadius = getInt(BLUR_RADIUS_VALUE, 23)
         }
 
         if (key.isNotEmpty() &&
@@ -157,7 +157,7 @@ class QSTransparency(context: Context) : ModPack(context) {
 
                     val readonlyStateFlowInstance = try {
                         readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow)
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                         readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow, null)
                     }
 

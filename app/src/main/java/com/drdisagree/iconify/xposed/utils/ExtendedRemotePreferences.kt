@@ -2,7 +2,7 @@ package com.drdisagree.iconify.xposed.utils
 
 import android.content.Context
 import com.crossbowffs.remotepreferences.RemotePreferences
-import com.drdisagree.iconify.ui.preferences.SliderPreference
+import com.drdisagree.iconify.data.keys.Key
 
 @Suppress("unused")
 class ExtendedRemotePreferences : RemotePreferences {
@@ -20,19 +20,15 @@ class ExtendedRemotePreferences : RemotePreferences {
         strictMode: Boolean
     ) : super(context, authority, prefFileName, strictMode)
 
-    fun getBoolean(key: String?): Boolean {
+    fun getBoolean(key: String): Boolean {
         return getBoolean(key, false)
     }
 
-    fun getSliderInt(key: String?, defaultVal: Int): Int {
-        return SliderPreference.getSingleIntValue(this, key, defaultVal)
+    fun getBoolean(key: Key): Boolean {
+        return getBoolean(key.name, key.default as? Boolean ?: false)
     }
 
-    fun getSliderFloat(key: String?, defaultVal: Float): Float {
-        return SliderPreference.getSingleFloatValue(this, key, defaultVal)
-    }
-
-    fun getSliderValues(key: String?, defaultValue: Float): List<Float> {
-        return SliderPreference.getValues(this, key, defaultValue)
+    fun getString(key: Key): String? {
+        return getString(key.name, key.default as? String)
     }
 }

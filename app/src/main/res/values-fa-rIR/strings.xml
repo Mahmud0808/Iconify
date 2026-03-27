@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">شخصی سازی رابط‌ کاربری خسته کننده اندروید</string>
+    <string name="app_motto">شخصی سازی رابط‌ کاربری خسته کننده اندروید</string>
     <!-- Onboarding -->
     <string name="init_module_installation">راه‌اندازی اولیه</string>
     <string name="step">قدم</string>
@@ -231,7 +231,7 @@
     <string name="icon_mask_style_tapered_rectangle">مخروطی\nمستطیل</string>
     <string name="icon_mask_style_vessel">کشتی</string>
     <string name="icon_mask_style_rice_rohie_meow">روهی میو</string>
-    <string name="icon_mask_style_force_round">نیروی دور</string>
+    <string name="icon_mask_style_round">نیروی دور</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">بخش انتخاب رنگ</string>
     <string name="activity_desc_basic_colors">رنگ مورد نظر خود را در این قسمت انتخاب کنید</string>

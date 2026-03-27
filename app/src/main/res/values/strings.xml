@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Iconify</string>
-    <string name="app_moto">Customize Boring Android UI</string>
+    <string name="app_motto">Customize Boring Android UI</string>
 
     <!-- Onboarding -->
     <string name="init_module_installation">Initializing setup</string>
@@ -21,17 +21,36 @@
     <string name="onboarding_title_3">Shall We Begin Now ?</string>
     <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
     <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>
+    <string name="grant_permission">Grant Permission</string>
     <string name="need_storage_perm_title">Need Storage Permission</string>
     <string name="need_storage_perm_desc">Storage permission is required to build the necessary files.</string>
+    <string name="notification_perm_title">Allow Notifications</string>
+    <string name="notification_perm_desc">Needed to notify you about available updates and to display test notifications.</string>
+    <string name="optional_permission">Granting these permissions is optional!</string>
     <string name="compatible_root_not_found_title">Could Not Find Compatible Root Method</string>
     <string name="compatible_root_not_found_desc">Use any popular root solutions to proceed.</string>
     <string name="root_not_found_title">Root Is Not Accessible</string>
     <string name="root_not_found_desc">Looks like your device is not rooted!</string>
+    <string name="metamodule_not_found_title">Metamodule not installed</string>
+    <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
     <string name="need_reboot_title">Need Device Reboot</string>
     <string name="need_reboot_desc">Reboot your device to put all files in place.</string>
     <string name="installation_failed_title">Oops Did Not Expect That</string>
     <string name="installation_failed_desc">Logs have been saved in documents folder.</string>
     <string name="logs">Logs</string>
+
+    <!-- Disclaimer -->
+    <string name="disclaimer">Disclaimer</string>
+    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
+    <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
+    <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
+    <string name="disclaimer_2_description">Iconify functions by generating and injecting dynamic Runtime Resource Overlays (RRO) directly into your system.\nThese modifications are designed for AOSP-based ROMs and may conflict with heavily modified OEM skins (like HyperOS, Realme UI or OneUI).\nChanging certain system values may cause UI freezes or \"System UI has stopped\" errors depending on your specific Android version.</string>
+    <string name="disclaimer_3_title">Risk of Bootloop &amp; Recovery</string>
+    <string name="disclaimer_3_description">Modifying system files carries an inherent risk of causing a bootloop where the device fails to start.\nBefore proceeding, ensure you have a custom recovery (like TWRP, OrangeFox) installed.\nAlways know the hardware key combination for your device to boot into \"Safe Mode,\" which can disable all modules in an emergency.</string>
+    <string name="disclaimer_4_title">No Warranty &amp; Liability</string>
+    <string name="disclaimer_4_description">This software is provided \"as-is\" under the GPL-3.0 license, without any express or implied warranties.\nThe developer is not legally or financially responsible for bricked hardware, dead SD cards, or unexpected \"black screens.\"\nBy using this app, you acknowledge that you are modifying your device\'s core software at your own discretion.</string>
+    <string name="disclaimer_5_title">Data Safety &amp; Responsibility</string>
+    <string name="disclaimer_5_description">Backup is mandatory: Always maintain an off-device backup of your photos, contacts, and files before performing deep system theming.\nIt is your responsibility to verify compatibility with your ROM by checking the official GitHub documentation or community groups.\nIf you are unsure how to manually remove a Magisk module via ADB, please do not proceed with advanced modifications.</string>
 
     <!-- Search Preference -->
     <string name="search_title">Search</string>
@@ -146,7 +165,7 @@
     <string name="settings_github_repository_title">Github Repository</string>
     <string name="settings_github_repository_desc" translatable="false">Mahmud0808/Iconify</string>
     <string name="settings_telegram_group_title">Telegram Group</string>
-    <string name="settings_telegram_group_desc" translatable="false">\@IconifyDiscussion</string>
+    <string name="settings_telegram_group_desc" translatable="false">\@DrDsProjectsChat</string>
     <string name="settings_translate_title">Translate Iconify</string>
     <string name="settings_translate_desc">Help translate Iconify to your language.</string>
     <string name="settings_credits_title">Credits</string>
@@ -238,7 +257,7 @@
     <string name="icon_mask_style_scroll">Scroll</string>
     <string name="icon_mask_style_square">Square</string>
     <string name="icon_mask_style_teardrop">Teardrop</string>
-    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded Rectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Cloudy</string>
     <string name="icon_mask_style_cylinder">Cylinder</string>
@@ -246,10 +265,10 @@
     <string name="icon_mask_style_heart">Heart</string>
     <string name="icon_mask_style_leaf">Leaf</string>
     <string name="icon_mask_style_stretched">Streteched</string>
-    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered Rectangle</string>
     <string name="icon_mask_style_vessel">Vessel</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Force Round</string>
+    <string name="icon_mask_style_round">Round</string>
 
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Basic Colors</string>
@@ -1122,6 +1141,7 @@
     <string name="btn_skip">Skip</string>
     <string name="btn_next">Next</string>
     <string name="btn_back">Back</string>
+    <string name="btn_agree">I Agree</string>
     <string name="btn_lets_go">Let\'s Go</string>
     <string name="btn_close">Close</string>
     <string name="btn_positive">Yes</string>
@@ -1158,6 +1178,8 @@
     <string name="toast_selected_successfully">Selected successfully</string>
     <string name="toast_unavailable">Unavailable</string>
     <string name="toast_use_from_xposed_menu">Use this feature from Xposed Menu</string>
+    <string name="toast_downgrade_kernelsu">Downgrade KernelSU app and try again</string>
+    <string name="toast_reboot_and_try_again">Reboot device and try again</string>
 
     <!-- Push Notification -->
     <string name="new_update_title">Update Available</string>
