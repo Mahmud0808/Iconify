@@ -53,6 +53,11 @@ val statusbarPreferences = preferenceScreen {
             valueLabel = { "${it.toInt()}px" },
             isVisible = { pref -> pref.getBoolean(XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH) }
         )
+
+        switch(
+            key = XposedKey.HIDE_BATTERY_VIEW,
+            title = stringRes(R.string.hide_battery_title),
+        )
     }
 
     category(title = stringRes(R.string.section_title_icons)) {

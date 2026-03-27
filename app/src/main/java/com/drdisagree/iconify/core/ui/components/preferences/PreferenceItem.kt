@@ -110,5 +110,12 @@ fun PreferenceItem(
             type = type,
             modifier = modifier
         )
+
+        is PreferenceType.Info -> InfoPreferenceItem(
+            def = definition,
+            isEnabled = isEnabled,
+            summary = summary,
+            modifier = modifier
+        )
     }
 }

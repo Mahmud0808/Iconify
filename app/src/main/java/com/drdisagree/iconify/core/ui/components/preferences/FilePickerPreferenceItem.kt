@@ -1,6 +1,8 @@
 package com.drdisagree.iconify.core.ui.components.preferences
 
+import android.content.Context
 import android.net.Uri
+import android.provider.OpenableColumns
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -44,6 +46,7 @@ import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceType
 import com.drdisagree.iconify.core.preferences.resolve
 import com.drdisagree.iconify.core.preferences.stringRes
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 
 sealed class FilePickerType {
 
@@ -125,7 +128,9 @@ fun FilePickerPreferenceItem(
                 )
             }
             val uriStr = pickedUri.toString()
-            controller.setString(def.key, uriStr)
+            if (type.saveFileUri) {
+                controller.setString(def.key, uriStr)
+            }
             type.onFileSelected(controller, uriStr)
         }
     }
@@ -169,13 +174,15 @@ fun FilePickerPreferenceItem(
             //                Spacer(Modifier.height(8.dp))
             //            }
 
-            if (uri != null) {
+            if (uri != null && type.saveFileUri) {
                 FilenameChip(
                     name = fileName ?: "Unknown file",
                     type = type.pickerType,
                     isEnabled = isEnabled,
-                    onClear = {
-                        controller.setString(def.key, "")
+                    onClear = withHaptic {
+                        if (type.saveFileUri) {
+                            controller.setString(def.key, "")
+                        }
                         type.onFileSelected(controller, "")
                     },
                 )
@@ -183,7 +190,7 @@ fun FilePickerPreferenceItem(
             }
 
             Button(
-                onClick = { if (isEnabled) launcher.launch(type.pickerType.mimeTypes.toTypedArray()) },
+                onClick = withHaptic { if (isEnabled) launcher.launch(type.pickerType.mimeTypes.toTypedArray()) },
                 enabled = isEnabled,
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             ) {
@@ -193,10 +200,10 @@ fun FilePickerPreferenceItem(
     }
 }
 
-private fun resolveFileName(context: android.content.Context, uri: Uri): String? {
+private fun resolveFileName(context: Context, uri: Uri): String? {
     runCatching {
         context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-            val col = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+            val col = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             if (col != -1 && cursor.moveToFirst()) return cursor.getString(col)
         }
     }

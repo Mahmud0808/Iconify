@@ -71,6 +71,40 @@ class PreferenceCategoryScope {
         )
     )
 
+    fun twoTargetSwitch(
+        key: String,
+        icon: PrefIconRes? = null,
+        title: PrefStringRes,
+        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        defaultValue: Boolean = false,
+        isVisible: ((PreferenceController) -> Boolean) = { true },
+        isEnabled: ((PreferenceController) -> Boolean) = { true },
+        onClick: (Context, PreferenceController, NavController) -> Unit,
+    ) = prefs.add(
+        PreferenceDefinition(
+            key, title, defaultValue.toPrefValue(),
+            PreferenceType.TwoTargetSwitch(onClick),
+            icon, summary, isVisible, isEnabled
+        )
+    )
+
+    fun twoTargetSwitch(
+        key: Key,
+        icon: PrefIconRes? = null,
+        title: PrefStringRes,
+        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
+        defaultValue: Boolean = key.default as? Boolean ?: false,
+        isVisible: ((PreferenceController) -> Boolean) = { true },
+        isEnabled: ((PreferenceController) -> Boolean) = { true },
+        onClick: (Context, PreferenceController, NavController) -> Unit,
+    ) = prefs.add(
+        PreferenceDefinition(
+            key.name, title, defaultValue.toPrefValue(),
+            PreferenceType.TwoTargetSwitch(onClick),
+            icon, summary, isVisible, isEnabled
+        )
+    )
+
     fun slider(
         key: String,
         icon: PrefIconRes? = null,
@@ -214,40 +248,6 @@ class PreferenceCategoryScope {
         )
     )
 
-    fun twoTargetSwitch(
-        key: String,
-        icon: PrefIconRes? = null,
-        title: PrefStringRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
-        defaultValue: Boolean = false,
-        isVisible: ((PreferenceController) -> Boolean) = { true },
-        isEnabled: ((PreferenceController) -> Boolean) = { true },
-        onClick: (Context, PreferenceController, NavController) -> Unit,
-    ) = prefs.add(
-        PreferenceDefinition(
-            key, title, defaultValue.toPrefValue(),
-            PreferenceType.TwoTargetSwitch(onClick),
-            icon, summary, isVisible, isEnabled
-        )
-    )
-
-    fun twoTargetSwitch(
-        key: Key,
-        icon: PrefIconRes? = null,
-        title: PrefStringRes,
-        summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
-        defaultValue: Boolean = key.default as? Boolean ?: false,
-        isVisible: ((PreferenceController) -> Boolean) = { true },
-        isEnabled: ((PreferenceController) -> Boolean) = { true },
-        onClick: (Context, PreferenceController, NavController) -> Unit,
-    ) = prefs.add(
-        PreferenceDefinition(
-            key.name, title, defaultValue.toPrefValue(),
-            PreferenceType.TwoTargetSwitch(onClick),
-            icon, summary, isVisible, isEnabled
-        )
-    )
-
     fun colorPicker(
         key: String,
         icon: PrefIconRes? = null,
@@ -286,10 +286,14 @@ class PreferenceCategoryScope {
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
         pickerType: FilePickerType = FilePickerType.Any,
+        saveFileUri: Boolean = false,
         onFileSelected: (PreferenceController, String) -> Unit = { _, _ -> },
     ) = prefs.add(
         PreferenceDefinition(
-            key, title, PrefValue.None, PreferenceType.FilePicker(pickerType, onFileSelected),
+            key,
+            title,
+            PrefValue.None,
+            PreferenceType.FilePicker(pickerType, saveFileUri, onFileSelected),
             icon, summary, isVisible, isEnabled
         )
     )
@@ -302,10 +306,14 @@ class PreferenceCategoryScope {
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
         pickerType: FilePickerType = FilePickerType.Any,
+        saveFileUri: Boolean = false,
         onFileSelected: (PreferenceController, String) -> Unit = { _, _ -> },
     ) = prefs.add(
         PreferenceDefinition(
-            key.name, title, PrefValue.None, PreferenceType.FilePicker(pickerType, onFileSelected),
+            key.name,
+            title,
+            PrefValue.None,
+            PreferenceType.FilePicker(pickerType, saveFileUri, onFileSelected),
             icon, summary, isVisible, isEnabled
         )
     )
@@ -339,6 +347,32 @@ class PreferenceCategoryScope {
             key.name, title, PrefValue.None,
             PreferenceType.Action(onClick),
             icon, summary, isVisible, isEnabled
+        )
+    )
+
+    fun info(
+        key: String,
+        icon: PrefIconRes? = null,
+        text: PrefStringRes,
+        isVisible: ((PreferenceController) -> Boolean) = { true },
+        isEnabled: ((PreferenceController) -> Boolean) = { true },
+    ) = prefs.add(
+        PreferenceDefinition(
+            key, text, PrefValue.None, PreferenceType.Info,
+            icon, null, isVisible, isEnabled
+        )
+    )
+
+    fun info(
+        key: Key,
+        icon: PrefIconRes? = null,
+        text: PrefStringRes,
+        isVisible: ((PreferenceController) -> Boolean) = { true },
+        isEnabled: ((PreferenceController) -> Boolean) = { true },
+    ) = prefs.add(
+        PreferenceDefinition(
+            key.name, text, PrefValue.None, PreferenceType.Info,
+            icon, null, isVisible, isEnabled
         )
     )
 }

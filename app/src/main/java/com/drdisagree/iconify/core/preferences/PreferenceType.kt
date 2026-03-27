@@ -42,6 +42,7 @@ sealed class PreferenceType {
     /** File picker. */
     data class FilePicker(
         val pickerType: FilePickerType,
+        val saveFileUri: Boolean,
         val onFileSelected: (PreferenceController, String) -> Unit
     ) : PreferenceType()
 
@@ -51,4 +52,7 @@ sealed class PreferenceType {
 
     /** Custom composables. */
     data class Custom(val content: @Composable () -> Unit) : PreferenceType()
+
+    /** Info preference. */
+    object Info : PreferenceType()
 }
