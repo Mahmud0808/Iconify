@@ -28,6 +28,7 @@ import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -68,20 +69,19 @@ fun ColorPickerPreferenceItem(
     val colorPickerController = rememberColorPickerController()
     var showDialog by rememberSaveable { mutableStateOf(false) }
     val storedValue by controller.observe(def.key, (def.defaultValue as PrefValue.StringValue).v)
-    var draft by rememberSaveable { mutableStateOf(storedValue) }
-    var hexInput by rememberSaveable { mutableStateOf(storedValue.removePrefix("#")) }
-
-    LaunchedEffect(storedValue) {
-        draft = storedValue
-        hexInput = storedValue.removePrefix("#")
-    }
+    var dialogSessionKey by rememberSaveable { mutableIntStateOf(0) }
 
     PreferenceContainer(
         shape = shape,
         isEnabled = isEnabled,
         modifier = modifier,
         minLine = if (summary.isNullOrEmpty()) 1 else 2,
-        onClick = withHaptic { if (isEnabled) showDialog = true }
+        onClick = withHaptic {
+            if (isEnabled) {
+                dialogSessionKey++
+                showDialog = true
+            }
+        }
     ) {
         LeadingIcon(def.icon, isEnabled)
         TitleSummaryBlock(def.title, summary, isEnabled)
@@ -99,6 +99,18 @@ fun ColorPickerPreferenceItem(
     }
 
     if (showDialog) {
+        var draft by rememberSaveable(dialogSessionKey) { mutableStateOf(storedValue) }
+        var hexInput by rememberSaveable(dialogSessionKey) {
+            mutableStateOf(storedValue.removePrefix("#"))
+        }
+
+        LaunchedEffect(dialogSessionKey, draft) {
+            colorPickerController.selectByColor(
+                color = Color.fromHexSafe(draft) ?: Color.fromHex(storedValue),
+                fromUser = false
+            )
+        }
+
         Dialog(onDismissRequest = { showDialog = false }) {
             Surface(
                 shape = MaterialTheme.shapes.large,
@@ -154,7 +166,7 @@ fun ColorPickerPreferenceItem(
                                     MaterialTheme.colorScheme.outline,
                                     MaterialTheme.shapes.small
                                 ),
-                            selectedColor = Color.fromHexSafe(draft) ?: Color.fromHex(storedValue)
+                            selectedColor = colorPickerController.selectedColor.value
                         )
                     }
 
