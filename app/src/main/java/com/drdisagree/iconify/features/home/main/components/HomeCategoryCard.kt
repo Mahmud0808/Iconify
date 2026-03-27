@@ -35,35 +35,6 @@ import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.texts.AutoResizeableText
 
-private fun Modifier.categoryShadow(
-    color: Color,
-    borderRadius: Dp = 16.dp,
-    blurRadius: Dp = 8.dp,
-    offsetY: Dp = 6.dp
-) = this.drawBehind {
-    drawIntoCanvas { canvas ->
-        val paint = Paint()
-        val frameworkPaint = paint.nativePaint
-
-        frameworkPaint.maskFilter = BlurMaskFilter(
-            blurRadius.toPx(),
-            BlurMaskFilter.Blur.NORMAL
-        )
-
-        paint.color = color.copy(alpha = 0.75f)
-
-        canvas.drawRoundRect(
-            left = blurRadius.toPx(),
-            top = size.height - (blurRadius.toPx() / 2) + offsetY.toPx(),
-            right = size.width - blurRadius.toPx(),
-            bottom = size.height + blurRadius.toPx() + offsetY.toPx(),
-            radiusX = borderRadius.toPx(),
-            radiusY = borderRadius.toPx(),
-            paint = paint
-        )
-    }
-}
-
 @Composable
 fun HomeCategoryCard(
     modifier: Modifier = Modifier,
@@ -96,7 +67,7 @@ fun HomeCategoryCard(
             Icon(
                 painter = painterResource(icon),
                 contentDescription = null,
-                tint = foregroundColor.copy(alpha = 0.35f),
+                tint = foregroundColor.copy(alpha = 0.45f),
                 modifier = Modifier
                     .padding(8.dp)
                     .then(

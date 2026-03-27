@@ -69,7 +69,7 @@ fun settingsPreferences(
 
         action(
             key = "app_language",
-            icon = iconRes(Icons.Rounded.Language),
+            icon = iconRes(R.drawable.ic_language),
             title = stringRes(R.string.settings_app_language),
             summary = { _, _ -> stringRes("Choose your app language") },
             onClick = { context, _, _ ->
