@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BlurOn
 import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.FormatColorFill
 import androidx.compose.material.icons.rounded.NightsStay
 import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.rounded.SpaceBar
 import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -103,8 +105,8 @@ val lookAndFeelPreferences = preferenceScreen {
     category {
         listPref(
             key = SettingsKey.THEME_MODE,
-            title = stringRes(R.string.settings_app_theme),
             icon = iconRes(Icons.Rounded.DarkMode),
+            title = stringRes(R.string.settings_app_theme),
             entries = arrayRes(themeModes.map { it.name }),
             entryValues = arrayRes(themeModes.map { it.themeMode.toString() }),
             summary = { ctrl, key ->
@@ -115,8 +117,8 @@ val lookAndFeelPreferences = preferenceScreen {
 
         listPref(
             key = "theme_color",
-            title = stringRes("Theme Color"),
             icon = iconRes(Icons.Rounded.FormatColorFill),
+            title = stringRes("Theme Color"),
             defaultValue = "dynamic",
             entries = arrayRes(listOf(stringRes("Dynamic")) + allSeedColors.map {
                 stringRes(it.seedColor.name)
@@ -134,8 +136,8 @@ val lookAndFeelPreferences = preferenceScreen {
 
         listPref(
             key = SettingsKey.PALETTE_STYLE,
-            title = stringRes("Palette Style"),
             icon = iconRes(Icons.Rounded.Palette),
+            title = stringRes("Palette Style"),
             entries = arrayRes(paletteStyles.map { it.name }.toList()),
             entryValues = arrayRes(paletteStyles.map { it.paletteStyle.name }.toList()),
             summary = { ctrl, key ->
@@ -147,17 +149,17 @@ val lookAndFeelPreferences = preferenceScreen {
 
         switch(
             key = SettingsKey.AMOLED_THEME,
+            icon = iconRes(Icons.Rounded.NightsStay),
             title = stringRes("Amoled Mode"),
             summary = { _, _ -> stringRes("Black background in dark mode") },
-            icon = iconRes(Icons.Rounded.NightsStay),
             isVisible = { ctrl -> ctrl.getString("theme_color", "dynamic") != "dynamic" }
         )
 
         switch(
             key = SettingsKey.EXPRESSIVE_COLORS,
+            icon = iconRes(Icons.Rounded.WaterDrop),
             title = stringRes("Expressive Colors"),
             summary = { _, _ -> stringRes("Use colors that are more chromatic") },
-            icon = iconRes(Icons.Rounded.WaterDrop),
             isVisible = { ctrl ->
                 ctrl.getString("theme_color", "dynamic") != "dynamic" &&
                         ctrl.getString(SettingsKey.PALETTE_STYLE) in listOf(
@@ -171,8 +173,8 @@ val lookAndFeelPreferences = preferenceScreen {
 
         listPref(
             key = SettingsKey.CONTRAST_LEVEL,
-            title = stringRes("Contrast Level"),
             icon = iconRes(Icons.Rounded.Contrast),
+            title = stringRes("Contrast Level"),
             entries = arrayRes(contrastLevels.map { it.name }),
             entryValues = arrayRes(contrastLevels.map { it.contrast.value.toString() }),
             summary = { ctrl, key ->
@@ -180,6 +182,22 @@ val lookAndFeelPreferences = preferenceScreen {
                 contrastLevels.find { it.contrast.value == selected }!!.name
             },
             isVisible = { ctrl -> ctrl.getString("theme_color", "dynamic") != "dynamic" }
+        )
+    }
+
+    category(title = "Additional Settings") {
+        switch(
+            key = SettingsKey.BLUR_EFFECT,
+            icon = iconRes(Icons.Rounded.BlurOn),
+            title = stringRes("Blur Effect"),
+            summary = { _, _ -> stringRes("Apply a blur effect to backgrounds and UI elements") },
+        )
+
+        switch(
+            key = SettingsKey.FLOATING_BOTTOM_BAR,
+            icon = iconRes(Icons.Rounded.SpaceBar),
+            title = stringRes("Floating Bottom Bar"),
+            summary = { _, _ -> stringRes("Make the bottom bar float over content") },
         )
     }
 }

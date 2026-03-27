@@ -57,8 +57,8 @@ fun settingsPreferences(
     category(title = "Appearance") {
         action(
             key = "look_and_feel",
-            title = stringRes("Look & Feel"),
             icon = iconRes(R.drawable.ic_app_icon),
+            title = stringRes("Look & Feel"),
             summary = { _, _ -> stringRes("Theme, contrast and colors") },
             onClick = { _, _, nav ->
                 nav.navigate(NavRoutes.Settings.LookAndFeel) {
@@ -69,8 +69,8 @@ fun settingsPreferences(
 
         action(
             key = "app_language",
-            title = stringRes(R.string.settings_app_language),
             icon = iconRes(Icons.Rounded.Language),
+            title = stringRes(R.string.settings_app_language),
             summary = { _, _ -> stringRes("Choose your app language") },
             onClick = { context, _, _ ->
                 context.startActivity(
@@ -83,9 +83,9 @@ fun settingsPreferences(
 
         switch(
             key = SettingsKey.HAPTICS_AND_VIBRATION,
+            icon = iconRes(R.drawable.ic_vibrate),
             title = stringRes(R.string.settings_vibrate_ui_card_title),
             summary = { _, _ -> stringRes(R.string.settings_vibrate_ui_page_card_desc) },
-            icon = iconRes(R.drawable.ic_vibrate),
             isEnabled = { ctrl -> ctrl.getBoolean("notifications_enabled", true) },
         )
     }
@@ -93,15 +93,15 @@ fun settingsPreferences(
     category(title = stringRes(R.string.settings_section_title_miscellaneous)) {
         switch(
             key = SettingsKey.RESTART_SYSTEMUI_AFTER_BOOT,
+            icon = iconRes(R.drawable.ic_restart_systemui_after_boot),
             title = stringRes(R.string.settings_restart_systemui_after_boot_title),
             summary = { _, _ -> stringRes(R.string.settings_restart_systemui_after_boot_desc) },
-            icon = iconRes(R.drawable.ic_restart_systemui_after_boot),
         )
 
         action(
             key = "clearAppCache",
-            title = stringRes(R.string.settings_clear_app_cache_title),
             icon = iconRes(R.drawable.ic_clear_cache),
+            title = stringRes(R.string.settings_clear_app_cache_title),
             summary = { _, _ -> stringRes(R.string.settings_clear_app_cache_desc) },
             onClick = { context, _, _ ->
                 CacheUtils.clearCache(context)
@@ -116,8 +116,8 @@ fun settingsPreferences(
 
         action(
             key = "disableEverything",
-            title = stringRes(R.string.settings_disable_everything_title),
             icon = iconRes(R.drawable.ic_disable_everything),
+            title = stringRes(R.string.settings_disable_everything_title),
             summary = { _, _ -> stringRes(R.string.settings_disable_everything_desc) },
             onClick = { _, _, _ -> onDisableEverything() }
         )
@@ -126,24 +126,24 @@ fun settingsPreferences(
     category(title = stringRes(R.string.settings_section_title_about)) {
         action(
             key = "iconifyGitHub",
-            title = stringRes(R.string.settings_github_repository_title),
             icon = iconRes(R.drawable.ic_github),
+            title = stringRes(R.string.settings_github_repository_title),
             summary = { _, _ -> stringRes(R.string.settings_github_repository_desc) },
             onClick = { context, _, _ -> openUrl(context, GITHUB_REPO) }
         )
 
         action(
             key = "iconifyTelegram",
-            title = stringRes(R.string.settings_telegram_group_title),
             icon = iconRes(R.drawable.ic_telegram),
+            title = stringRes(R.string.settings_telegram_group_title),
             summary = { _, _ -> stringRes(R.string.settings_telegram_group_desc) },
             onClick = { context, _, _ -> openUrl(context, TELEGRAM_GROUP) }
         )
 
         action(
             key = "iconifyTranslate",
-            title = stringRes(R.string.settings_translate_title),
             icon = iconRes(R.drawable.ic_translate),
+            title = stringRes(R.string.settings_translate_title),
             summary = { _, _ -> stringRes(R.string.settings_translate_desc) },
             onClick = { context, _, _ -> openUrl(context, ICONIFY_CROWDIN) }
         )

@@ -23,6 +23,7 @@ import androidx.compose.material3.FloatingActionButtonMenu
 import androidx.compose.material3.FloatingActionButtonMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -65,8 +66,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.common.LocalHazeState
 import com.drdisagree.iconify.core.common.LocalInnerPadding
 import com.drdisagree.iconify.core.common.LocalLayerBackdrop
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.bottomnavbar.BottomNavigation
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.others.withHapticResult
@@ -74,6 +77,9 @@ import com.drdisagree.iconify.core.ui.utils.sharedHiltViewModel
 import com.drdisagree.iconify.features.common.viewmodels.BottomNavViewModel
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.kyant.backdrop.backdrops.layerBackdrop
+import dev.chrisbanes.haze.HazeDefaults
+import dev.chrisbanes.haze.HazeStyle
+import dev.chrisbanes.haze.haze
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -82,7 +88,11 @@ fun MainScaffold(
     bottomNavViewModel: BottomNavViewModel = sharedHiltViewModel(),
     content: @Composable () -> Unit
 ) {
+    val hazeState = LocalHazeState.current
     val backdrop = LocalLayerBackdrop.current
+    val settings = LocalSettings.current
+    val blurEffect = settings.blurEffect
+    val floatingBottomBar = settings.floatingBottomBar
 
     val showBottomBar by bottomNavViewModel::isBottomBarVisible
     var bottomBarVisible by rememberSaveable { mutableStateOf(false) }
@@ -99,6 +109,12 @@ fun MainScaffold(
         } else if (bottomBarVisible) {
             bottomBarVisible = false
         }
+    }
+
+    val dockedBottomBarBgColor = if (blurEffect) {
+        NavigationBarDefaults.containerColor.copy(alpha = .45f)
+    } else {
+        NavigationBarDefaults.containerColor
     }
 
     var fabMenuExpanded by rememberSaveable { mutableStateOf(false) }
@@ -268,7 +284,22 @@ fun MainScaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
     ) { innerPadding ->
         CompositionLocalProvider(LocalInnerPadding provides innerPadding) {
-            Box(modifier = Modifier.layerBackdrop(backdrop)) {
+            Box(
+                modifier = Modifier.then(
+                    if (floatingBottomBar) {
+                        Modifier.layerBackdrop(backdrop)
+                    } else {
+                        Modifier.haze(
+                            hazeState,
+                            HazeStyle(
+                                tint = dockedBottomBarBgColor,
+                                blurRadius = 12.dp,
+                                noiseFactor = HazeDefaults.noiseFactor
+                            )
+                        )
+                    }
+                )
+            ) {
                 content()
             }
         }

@@ -20,6 +20,7 @@ espressoCore = "3.7.0"
 fadingedgelayout = "1.0.0"
 googlePlayServicesMlkitSubjectSegmentationVersion = "16.0.0-beta1"
 graphicsShapes = "1.1.0"
+hazeJetpackCompose = "0.7.0"
 hilt = "2.59.2"
 hiltExt = "1.3.0"
 http = "5.3.2"
@@ -80,6 +81,7 @@ colorpicker-compose = { module = "com.github.skydoves:colorpicker-compose", vers
 com-google-android-gms-play-services-mlkit-subject-segmentation = { module = "com.google.android.gms:play-services-mlkit-subject-segmentation", version.ref = "googlePlayServicesMlkitSubjectSegmentationVersion" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 fadingedgelayout = { module = "com.github.bosphere.android-fadingedgelayout:fadingedgelayout", version.ref = "fadingedgelayout" }
+haze-jetpack-compose = { module = "dev.chrisbanes.haze:haze-jetpack-compose", version.ref = "hazeJetpackCompose" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltExt" }

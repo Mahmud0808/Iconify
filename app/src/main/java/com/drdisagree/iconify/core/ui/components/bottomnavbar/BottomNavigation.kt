@@ -13,7 +13,12 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -28,18 +33,25 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.PathMeasure
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceAtMost
 import androidx.compose.ui.util.lerp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.drdisagree.iconify.app.navigation.BOTTOM_BAR_TABS
 import com.drdisagree.iconify.app.navigation.DEFAULT_BOTTOM_BAR_TAB
+import com.drdisagree.iconify.core.common.LocalHazeState
 import com.drdisagree.iconify.core.common.LocalLayerBackdrop
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.utils.InteractiveHighlight
 import com.drdisagree.iconify.core.ui.utils.sharedHiltViewModel
@@ -48,6 +60,7 @@ import com.kyant.backdrop.drawBackdrop
 import com.kyant.backdrop.effects.blur
 import com.kyant.backdrop.effects.lens
 import com.kyant.backdrop.effects.vibrancy
+import dev.chrisbanes.haze.hazeChild
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -56,12 +69,72 @@ import kotlin.math.tanh
 
 @Composable
 fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewModel()) {
+    val settings = LocalSettings.current
+    val hazeState = LocalHazeState.current
     val backdrop = LocalLayerBackdrop.current
     val navController = LocalNavController.current
     val selectedTabIndex by bottomNavViewModel::selectedTabIndex
-    val backdropColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = .2f)
+    val blurEffect = settings.blurEffect
+    val floatingBottomBar = settings.floatingBottomBar
+
+    if (!floatingBottomBar) {
+        NavigationBar(
+            modifier = Modifier.then(
+                if (blurEffect) {
+                    Modifier.hazeChild(
+                        state = hazeState,
+                        shape = RectangleShape
+                    )
+                } else {
+                    Modifier
+                }
+            ),
+            containerColor = if (blurEffect) Color.Transparent
+            else NavigationBarDefaults.containerColor,
+        ) {
+            BOTTOM_BAR_TABS.forEachIndexed { index, tab ->
+                NavigationBarItem(
+                    selected = selectedTabIndex == index,
+                    onClick = {
+                        if (index != selectedTabIndex) {
+                            val isDefaultTab =
+                                index == BOTTOM_BAR_TABS.indexOf(DEFAULT_BOTTOM_BAR_TAB)
+                            navController.navigate(tab.route) {
+                                popUpTo(DEFAULT_BOTTOM_BAR_TAB) {
+                                    inclusive = isDefaultTab
+                                }
+                                launchSingleTop = true
+                            }
+                        }
+                    },
+                    icon = {
+                        val iconRes = if (selectedTabIndex == index) {
+                            tab.iconChecked
+                        } else {
+                            tab.iconUnchecked
+                        }
+                        Icon(
+                            painter = painterResource(iconRes),
+                            contentDescription = stringResource(tab.title)
+                        )
+                    },
+                    label = {
+                        Text(text = stringResource(tab.title))
+                    }
+                )
+            }
+        }
+        return
+    }
+
+    val backdropColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+        alpha = if (blurEffect) .2f else .92f
+    )
+
     val animationScope = rememberCoroutineScope()
-    val highlightColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.75f)
+    val highlightColor = MaterialTheme.colorScheme.primary.copy(
+        alpha = if (blurEffect) 0.75f else 0.9f
+    )
     val interactiveHighlight = remember(animationScope) {
         InteractiveHighlight(
             animationScope = animationScope,
@@ -83,8 +156,10 @@ fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewMode
                     shape = { CircleShape },
                     effects = {
                         vibrancy()
-                        blur(6.dp.toPx())
-                        lens(24.dp.toPx(), 32.dp.toPx())
+                        if (blurEffect) {
+                            blur(6.dp.toPx())
+                            lens(24.dp.toPx(), 32.dp.toPx())
+                        }
                     },
                     layerBlock = {
                         val width = size.width
@@ -208,6 +283,6 @@ fun BottomNavigation(bottomNavViewModel: BottomNavViewModel = sharedHiltViewMode
 @Composable
 fun BottomNavigationPreview() {
     PreviewComposable {
-        BottomNavigation()
+        BottomNavigation(viewModel())
     }
 }

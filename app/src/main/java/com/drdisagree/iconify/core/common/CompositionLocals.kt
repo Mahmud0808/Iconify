@@ -6,8 +6,8 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation.NavHostController
 import com.drdisagree.iconify.core.preferences.PreferenceController
-import com.drdisagree.iconify.data.models.AppSeedColors
 import com.kyant.backdrop.backdrops.LayerBackdrop
+import dev.chrisbanes.haze.HazeState
 
 val LocalWeakHaptic = staticCompositionLocalOf { {} }
 
@@ -21,16 +21,16 @@ val LocalSeedColor = staticCompositionLocalOf<Long> {
     error("No seed color provided")
 }
 
-val LocalTonalPalette = staticCompositionLocalOf<List<AppSeedColors>> {
-    error("No tonal palette provided")
-}
-
 val LocalPreferenceController = compositionLocalOf<PreferenceController> {
     error("No PreferenceController provided. Wrap your UI in ProvidePreferenceController { }.")
 }
 
 val LocalLayerBackdrop = staticCompositionLocalOf<LayerBackdrop> {
     error("No LayerBackdrop provided")
+}
+
+val LocalHazeState = staticCompositionLocalOf<HazeState> {
+    error("No HazeState provided")
 }
 
 val LocalNavController = staticCompositionLocalOf<NavHostController> {

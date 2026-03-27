@@ -6,12 +6,14 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalView
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.drdisagree.iconify.core.common.LocalDarkMode
+import com.drdisagree.iconify.core.common.LocalHazeState
 import com.drdisagree.iconify.core.common.LocalLayerBackdrop
 import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.common.LocalSeedColor
@@ -28,6 +30,7 @@ import com.drdisagree.iconify.data.states.SettingsState
 import com.drdisagree.iconify.features.common.viewmodels.SettingsViewModel
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import com.materialkolor.PaletteStyle
+import dev.chrisbanes.haze.HazeState
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
@@ -48,36 +51,33 @@ fun AppProviders(
     val isExpressive by settingsViewModel.booleanState(SettingsKey.EXPRESSIVE_COLORS)
     val isAmoledTheme by settingsViewModel.booleanState(SettingsKey.AMOLED_THEME)
     val contrastLevel by settingsViewModel.stringState(SettingsKey.CONTRAST_LEVEL)
+    val floatingBottomBar by settingsViewModel.booleanState(SettingsKey.FLOATING_BOTTOM_BAR)
+    val blurEffect by settingsViewModel.booleanState(SettingsKey.BLUR_EFFECT)
     val savedVersionCode by settingsViewModel.intState(SettingsKey.SAVED_VERSION_CODE)
 
-    val state = remember(
-        themeMode,
-        seedColor,
-        paletteStyle,
-        isDynamicColor,
-        isExpressive,
-        isAmoledTheme,
-        contrastLevel,
-        isHapticEnabled,
-        savedVersionCode,
-    ) {
-        SettingsState(
-            themeMode = themeMode.toInt(),
-            isExpressive = isExpressive,
-            isAmoledTheme = isAmoledTheme,
-            seedColor = seedColor.toLong(),
-            paletteStyle = PaletteStyle.valueOf(paletteStyle),
-            isDynamicColor = isDynamicColor,
-            contrastLevel = contrastLevel.toDouble(),
-            isHapticEnabled = isHapticEnabled,
-            savedVersionCode = savedVersionCode,
-            isLoaded = true,
-        )
+    val state by remember {
+        derivedStateOf {
+            SettingsState(
+                themeMode = themeMode.toInt(),
+                isExpressive = isExpressive,
+                isAmoledTheme = isAmoledTheme,
+                seedColor = seedColor.toLong(),
+                paletteStyle = PaletteStyle.valueOf(paletteStyle),
+                isDynamicColor = isDynamicColor,
+                contrastLevel = contrastLevel.toDouble(),
+                isHapticEnabled = isHapticEnabled,
+                floatingBottomBar = floatingBottomBar,
+                blurEffect = blurEffect,
+                savedVersionCode = savedVersionCode,
+                isLoaded = true,
+            )
+        }
     }
 
     val isDarkTheme = getIsDarkTheme(settingsState = state)
     val colorScheme = getColorScheme(settingsState = state)
 
+    val hazeState = remember { HazeState() }
     val backdropColor = colorScheme.surface
     val backdrop = rememberLayerBackdrop {
         drawRect(backdropColor)
@@ -102,6 +102,7 @@ fun AppProviders(
 
     ProvideSharedPreferencesController {
         CompositionLocalProvider(
+            LocalHazeState provides hazeState,
             LocalLayerBackdrop provides backdrop,
             LocalNavController provides navController,
             LocalSettings provides state,

@@ -7,17 +7,19 @@ import com.drdisagree.iconify.data.states.SettingsState
 import com.materialkolor.Contrast
 import com.materialkolor.PaletteStyle
 
-val LocalSettings = compositionLocalOf {
-    SettingsState(
-        themeMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
-        isDynamicColor = true,
-        seedColor = AppSeedColors.Blue.seedColor.primaryColor,
-        paletteStyle = PaletteStyle.TonalSpot,
-        isExpressive = false,
-        isAmoledTheme = false,
-        contrastLevel = Contrast.Default.value,
-        isHapticEnabled = true,
-        savedVersionCode = 0,
-        isLoaded = false,
-    )
-}
+val defaultSettings = SettingsState(
+    themeMode = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
+    isDynamicColor = true,
+    seedColor = AppSeedColors.Blue.seedColor.primaryColor,
+    paletteStyle = PaletteStyle.TonalSpot,
+    isExpressive = false,
+    isAmoledTheme = false,
+    contrastLevel = Contrast.Default.value,
+    isHapticEnabled = true,
+    floatingBottomBar = true,
+    blurEffect = true,
+    savedVersionCode = 0,
+    isLoaded = false,
+)
+
+val LocalSettings = compositionLocalOf { defaultSettings }

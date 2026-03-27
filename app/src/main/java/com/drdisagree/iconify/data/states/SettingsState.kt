@@ -11,6 +11,8 @@ data class SettingsState(
     val isAmoledTheme: Boolean,
     val contrastLevel: Double,
     val isHapticEnabled: Boolean,
+    val floatingBottomBar: Boolean,
+    val blurEffect: Boolean,
     val savedVersionCode: Int,
     val isLoaded: Boolean,
 )

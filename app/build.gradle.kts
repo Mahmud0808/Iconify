@@ -264,6 +264,9 @@ dependencies {
     // Liquid Glass
     implementation(libs.backdrop)
 
+    // Haze Blur
+    implementation(libs.haze.jetpack.compose)
+
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
