@@ -496,7 +496,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     companion object {
         private val TAG: String = CurrentWeatherView::class.java.name
 
-        val Int.dp: Int
+        val Int.toDp: Int
             get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
 
         @Volatile
@@ -511,8 +511,8 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 .forEach { obj: Array<Any> ->
                     val instance = obj[0] as CurrentWeatherView
                     val params = instance.mCurrentImage!!.layoutParams as LayoutParams
-                    params.width = size.dp
-                    params.height = size.dp
+                    params.width = size.toDp
+                    params.height = size.toDp
                     params.gravity = Gravity.CENTER_VERTICAL
                     instance.mCurrentImage!!.layoutParams = params
                     instance.mHumImage!!.layoutParams = params
