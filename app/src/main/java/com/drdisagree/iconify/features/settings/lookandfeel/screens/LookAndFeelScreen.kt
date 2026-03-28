@@ -110,7 +110,7 @@ val lookAndFeelPreferences = preferenceScreen {
             entries = arrayRes(themeModes.map { it.name }),
             entryValues = arrayRes(themeModes.map { it.themeMode.toString() }),
             summary = { ctrl, key ->
-                val selected = ctrl.getString(key).toInt()
+                val selected = ctrl.getString(key, SettingsKey.THEME_MODE.default as String).toInt()
                 themeModes.find { it.themeMode == selected }!!.name
             }
         )
@@ -141,7 +141,7 @@ val lookAndFeelPreferences = preferenceScreen {
             entries = arrayRes(paletteStyles.map { it.name }.toList()),
             entryValues = arrayRes(paletteStyles.map { it.paletteStyle.name }.toList()),
             summary = { ctrl, key ->
-                val v = ctrl.getString(key)
+                val v = ctrl.getString(key, SettingsKey.PALETTE_STYLE.default as String)
                 paletteStyles.find { it.paletteStyle.name == v }!!.name
             },
             isVisible = { ctrl -> ctrl.getString("theme_color", "dynamic") != "dynamic" }
@@ -178,7 +178,8 @@ val lookAndFeelPreferences = preferenceScreen {
             entries = arrayRes(contrastLevels.map { it.name }),
             entryValues = arrayRes(contrastLevels.map { it.contrast.value.toString() }),
             summary = { ctrl, key ->
-                val selected = ctrl.getString(key).toDouble()
+                val selected =
+                    ctrl.getString(key, SettingsKey.CONTRAST_LEVEL.default as String).toDouble()
                 contrastLevels.find { it.contrast.value == selected }!!.name
             },
             isVisible = { ctrl -> ctrl.getString("theme_color", "dynamic") != "dynamic" }
