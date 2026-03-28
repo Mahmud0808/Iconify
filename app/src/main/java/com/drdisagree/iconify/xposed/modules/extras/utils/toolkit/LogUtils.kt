@@ -1,5 +1,6 @@
-package com.drdisagree.iconify.xposed.modules.extras.utils.toolkit
+@file:Suppress("Unused")
 
+package com.drdisagree.iconify.xposed.modules.extras.utils.toolkit
 
 import android.view.View
 import android.view.ViewGroup

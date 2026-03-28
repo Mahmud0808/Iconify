@@ -17,6 +17,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.util.concurrent.CopyOnWriteArrayList
 
+@Suppress("Unused")
 class ControllersProvider(context: Context) : ModPack(context) {
 
     private var mBluetoothEnabled = false

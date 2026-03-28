@@ -63,7 +63,7 @@ class OpenWeatherMapProvider(context: Context?) : AbstractWeatherProvider(contex
 
             val city: String = getWeatherDataLocality(selection).toString()
 
-            val w: WeatherInfo = WeatherInfo(
+            val w = WeatherInfo(
                 mContext, selection, city,  /* condition */
                 weather.getString("main"),  /* conditionCode */
                 mapConditionIconToCode(
