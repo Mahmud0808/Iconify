@@ -38,8 +38,12 @@ import com.drdisagree.iconify.services.providers.AppProviders
 import com.drdisagree.iconify.xposed.modules.extras.utils.BitmapSubjectSegmenter
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import java.util.function.Consumer
+import kotlin.coroutines.resume
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -136,9 +140,7 @@ fun MyApp(onLoaded: () -> Unit = {}) {
     when (val state = appState) {
         is AppState.Loading -> {
             InitPreferences {
-                Shell.getShell {
-                    appState = AppState.Ready(Config.shouldSkipOnboarding())
-                }
+                appState = it
             }
         }
 
@@ -152,15 +154,28 @@ fun MyApp(onLoaded: () -> Unit = {}) {
 }
 
 @Composable
-private fun InitPreferences(onLoaded: () -> Unit) {
+private fun InitPreferences(onLoaded: (AppState.Ready) -> Unit) {
     val controller = LocalPreferenceController.current
 
     LaunchedEffect(Unit) {
-        val defaults: Map<String, PrefValue> = PREFERENCE_LIST
-            .filterIsInstance<PreferenceScreenItem.Category>()
-            .flatMap { it.definition.preferences }
-            .associate { pref -> pref.key to pref.defaultValue }
-        controller.initAll(defaults)
-        onLoaded()
+        withContext(Dispatchers.IO) {
+            val defaults: Map<String, PrefValue> = PREFERENCE_LIST
+                .filterIsInstance<PreferenceScreenItem.Category>()
+                .flatMap { it.definition.preferences }
+                .associate { pref -> pref.key to pref.defaultValue }
+            controller.initAll(defaults)
+        }
+
+        withContext(Dispatchers.IO) {
+            suspendCancellableCoroutine { cont ->
+                Shell.getShell { cont.resume(Unit) }
+            }
+        }
+
+        val skipOnboarding = withContext(Dispatchers.IO) {
+            Config.shouldSkipOnboarding()
+        }
+
+        onLoaded(AppState.Ready(skipOnboarding))
     }
 }
