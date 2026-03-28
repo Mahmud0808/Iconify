@@ -27,7 +27,6 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.app.navigation.NavGraph
 import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.common.LocalSettings
-import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceScreenItem
 import com.drdisagree.iconify.core.ui.components.others.BLUR_RADIUS
 import com.drdisagree.iconify.core.ui.theme.MyAppTheme
@@ -39,9 +38,11 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.BitmapSubjectSegmenter
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import java.util.function.Consumer
 import kotlin.coroutines.resume
 
@@ -50,7 +51,13 @@ class MainActivity : ComponentActivity() {
 
     private var isInitializing = true
 
-    init {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val splashscreen = installSplashScreen()
+        super.onCreate(savedInstanceState)
+        splashscreen.setKeepOnScreenCondition { isInitializing }
+        enableEdgeToEdge()
+        setupWindowBlurListener()
+
         Shell.enableVerboseLogging = BuildConfig.DEBUG
 
         if (Shell.getCachedShell() == null) {
@@ -58,17 +65,9 @@ class MainActivity : ComponentActivity() {
                 Shell.Builder
                     .create()
                     .setFlags(Shell.FLAG_MOUNT_MASTER)
-                    .setTimeout(20)
+                    .setTimeout(10)
             )
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        val splashscreen = installSplashScreen()
-        super.onCreate(savedInstanceState)
-        splashscreen.setKeepOnScreenCondition { isInitializing }
-        enableEdgeToEdge()
-        setupWindowBlurListener()
 
         setContent {
             AppProviders(this) {
@@ -121,61 +120,86 @@ class MainActivity : ComponentActivity() {
             }
         )
     }
-}
 
-@Composable
-fun MyApp(onLoaded: () -> Unit = {}) {
-    var appState by rememberSaveable(
-        stateSaver = Saver(
-            save = { state ->
-                when (state) {
-                    is AppState.Loading -> null
-                    is AppState.Ready -> state.skipOnboarding
+    @Composable
+    fun MyApp(onLoaded: () -> Unit = {}) {
+        var appState by rememberSaveable(
+            stateSaver = Saver(
+                save = { state ->
+                    when (state) {
+                        is AppState.Loading -> null
+                        is AppState.Ready -> state.skipOnboarding
+                    }
+                },
+                restore = { saved: Boolean -> AppState.Ready(saved) }
+            )
+        ) { mutableStateOf(AppState.Loading) }
+
+        when (val state = appState) {
+            is AppState.Loading -> {
+                InitPreferences { state ->
+                    appState = state
                 }
-            },
-            restore = { saved: Boolean -> AppState.Ready(saved) }
-        )
-    ) { mutableStateOf(AppState.Loading) }
-
-    when (val state = appState) {
-        is AppState.Loading -> {
-            InitPreferences {
-                appState = it
             }
-        }
 
-        is AppState.Ready -> {
-            NavGraph(skipOnboarding = state.skipOnboarding)
-            LaunchedEffect(Unit) {
-                onLoaded()
+            is AppState.Ready -> {
+                NavGraph(skipOnboarding = state.skipOnboarding)
+                LaunchedEffect(Unit) {
+                    onLoaded()
+                }
             }
         }
     }
-}
 
-@Composable
-private fun InitPreferences(onLoaded: (AppState.Ready) -> Unit) {
-    val controller = LocalPreferenceController.current
+    @Composable
+    private fun InitPreferences(onLoaded: (AppState.Ready) -> Unit) {
+        val controller = LocalPreferenceController.current
 
-    LaunchedEffect(Unit) {
-        withContext(Dispatchers.IO) {
-            val defaults: Map<String, PrefValue> = PREFERENCE_LIST
-                .filterIsInstance<PreferenceScreenItem.Category>()
-                .flatMap { it.definition.preferences }
-                .associate { pref -> pref.key to pref.defaultValue }
-            controller.initAll(defaults)
-        }
-
-        withContext(Dispatchers.IO) {
-            suspendCancellableCoroutine { cont ->
-                Shell.getShell { cont.resume(Unit) }
+        LaunchedEffect(Unit) {
+            withContext(Dispatchers.IO) {
+                val defaults = PREFERENCE_LIST
+                    .filterIsInstance<PreferenceScreenItem.Category>()
+                    .flatMap { it.definition.preferences }
+                    .associate { pref -> pref.key to pref.defaultValue }
+                controller.initAll(defaults)
             }
-        }
 
-        val skipOnboarding = withContext(Dispatchers.IO) {
-            Config.shouldSkipOnboarding()
-        }
+            val shellReady = withContext(Dispatchers.IO) {
+                try {
+                    withTimeout(15_000L) {
+                        suspendCancellableCoroutine { cont ->
+                            Shell.getShell { shell ->
+                                if (cont.isActive) cont.resume(shell.isRoot)
+                            }
+                        }
+                    }
+                } catch (_: TimeoutCancellationException) {
+                    Log.w(TAG, "Shell timed out — continuing without root")
+                    false
+                } catch (e: Exception) {
+                    Log.e(TAG, "Shell error", e)
+                    false
+                }
+            }
 
-        onLoaded(AppState.Ready(skipOnboarding))
+            val skipOnboarding = withContext(Dispatchers.IO) {
+                if (!shellReady) {
+                    false
+                } else {
+                    try {
+                        Config.shouldSkipOnboarding()
+                    } catch (e: Exception) {
+                        Log.e(TAG, "shouldSkipOnboarding error", e)
+                        false
+                    }
+                }
+            }
+
+            onLoaded(AppState.Ready(skipOnboarding))
+        }
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }
