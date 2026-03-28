@@ -9,7 +9,6 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
@@ -72,30 +71,30 @@ class QSTheme(context: Context) : ModPack(context) {
         val tileDefaultsClass =
             findClass("$SYSTEMUI_PACKAGE.qs.panels.ui.compose.infinitegrid.TileDefaults")
 
-        findClass("androidx.compose.material3.SliderColors")
-            .hookConstructor()
-            .runAfter { param ->
-                Thread.currentThread().stackTrace.firstOrNull { it.className.contains("BrightnessSliderKt") }
-                    ?.let {
-                        listOf(
-                            "activeTickColor",
-                            "activeTrackColor",
-                            "disabledActiveTickColor",
-                            "disabledActiveTrackColor",
-                            "disabledInactiveTickColor",
-                            "disabledInactiveTrackColor",
-                            "disabledThumbColor",
-                            "inactiveTickColor",
-                            "inactiveTrackColor",
-                            "thumbColor",
-                        ).forEach { name ->
-                            param.thisObject.setField(
-                                name,
-                                colorKtClass.callStaticMethod("Color", Color.RED)
-                            )
-                        }
-                    }
-            }
+        //        findClass("androidx.compose.material3.SliderColors")
+        //            .hookConstructor()
+        //            .runAfter { param ->
+        //                Thread.currentThread().stackTrace.firstOrNull { it.className.contains("BrightnessSliderKt") }
+        //                    ?.let {
+        //                        listOf(
+        //                            "activeTickColor",
+        //                            "activeTrackColor",
+        //                            "disabledActiveTickColor",
+        //                            "disabledActiveTrackColor",
+        //                            "disabledInactiveTickColor",
+        //                            "disabledInactiveTrackColor",
+        //                            "disabledThumbColor",
+        //                            "inactiveTickColor",
+        //                            "inactiveTrackColor",
+        //                            "thumbColor",
+        //                        ).forEach { name ->
+        //                            param.thisObject.setField(
+        //                                name,
+        //                                colorKtClass.callStaticMethod("Color", Color.RED)
+        //                            )
+        //                        }
+        //                    }
+        //            }
 
         tileDefaultsClass
             .hookMethod("getColorForState")
