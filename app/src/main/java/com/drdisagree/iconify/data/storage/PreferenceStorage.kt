@@ -129,7 +129,7 @@ class DataStoreStorage @Inject constructor(
     override fun loadAll(): Map<String, PrefValue> {
         val snapshot = runBlocking { dataStore.data.first() }
         return snapshot.asMap().mapNotNull { (key, raw) ->
-            val pv = raw.toPrefValue() ?: return@mapNotNull null
+            val pv = raw.toPrefValue()
             key.name to pv
         }.toMap()
     }

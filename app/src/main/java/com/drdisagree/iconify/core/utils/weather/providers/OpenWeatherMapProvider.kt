@@ -251,7 +251,7 @@ class OpenWeatherMapProvider(context: Context?) : AbstractWeatherProvider(contex
 
     private val aPIKey: String?
         get() {
-            val customKey: String = WeatherConfig.getOwmKey(mContext).toString()
+            val customKey: String = WeatherConfig.getOwmKey(mContext)
             if (!TextUtils.isEmpty(customKey)) {
                 return customKey
             }

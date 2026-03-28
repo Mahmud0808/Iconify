@@ -496,7 +496,7 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     companion object {
         private val TAG: String = CurrentWeatherView::class.java.name
 
-        val Int.toDp: Int
+        private val Int.toDp: Int
             get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
 
         @Volatile
