@@ -14,7 +14,6 @@
         android:background="@drawable/lockscreen_clock_10_background"
         android:orientation="vertical"
         android:padding="18dp"
-        android:theme="@style/ConsolasFontTextAppearance"
         tools:ignore="UselessParent">
 
         <LinearLayout
@@ -86,7 +85,7 @@
                     android:text="using namespace "
                     android:textColor="#E6CD69"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -95,7 +94,7 @@
                     android:text="std"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -104,7 +103,7 @@
                     android:text=";"
                     android:textColor="#CFD2D1"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
             </LinearLayout>
 
@@ -122,7 +121,7 @@
                     android:text="int "
                     android:textColor="#9FCA56"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -131,7 +130,7 @@
                     android:text="main"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -140,7 +139,7 @@
                     android:text="()"
                     android:textColor="#CFD2D1"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
             </LinearLayout>
 
@@ -158,7 +157,7 @@
                     android:text="{"
                     android:textColor="#CFD2D1"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
             </LinearLayout>
 
             <LinearLayout
@@ -175,7 +174,7 @@
                     android:text="\t\tcout "
                     android:textColor="#A074C4"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -184,7 +183,7 @@
                     android:text="&lt;&lt; "
                     android:textColor="#9FCA56"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -193,7 +192,7 @@
                     android:text="\u0022"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextClock
                     android:layout_width="wrap_content"
@@ -204,7 +203,7 @@
                     android:letterSpacing="0.03"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -213,7 +212,7 @@
                     android:text="\u0022"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -222,7 +221,7 @@
                     android:text=";"
                     android:textColor="#CFD2D1"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
             </LinearLayout>
 
             <LinearLayout
@@ -239,7 +238,7 @@
                     android:text="\t\tcout "
                     android:textColor="#A074C4"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -248,7 +247,7 @@
                     android:text="&lt;&lt; "
                     android:textColor="#9FCA56"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -257,7 +256,7 @@
                     android:text="\u0022"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextClock
                     android:layout_width="wrap_content"
@@ -270,7 +269,7 @@
                     android:textAllCaps="true"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -279,7 +278,7 @@
                     android:text="\u0022"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -288,7 +287,7 @@
                     android:text=";"
                     android:textColor="#CFD2D1"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
             </LinearLayout>
 
             <LinearLayout
@@ -305,7 +304,7 @@
                     android:text="\t\tcout "
                     android:textColor="#A074C4"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -314,7 +313,7 @@
                     android:text="&lt;&lt; "
                     android:textColor="#9FCA56"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -323,7 +322,7 @@
                     android:text="\u0022"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextClock
                     android:layout_width="wrap_content"
@@ -335,7 +334,7 @@
                     android:singleLine="true"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -344,7 +343,7 @@
                     android:text="\u0022"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -353,7 +352,7 @@
                     android:text=";"
                     android:textColor="#CFD2D1"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
             </LinearLayout>
 
             <LinearLayout
@@ -370,7 +369,7 @@
                     android:text="\t\tcout "
                     android:textColor="#A074C4"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -379,7 +378,7 @@
                     android:text="&lt;&lt; "
                     android:textColor="#9FCA56"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -388,7 +387,7 @@
                     android:text="\u0022"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextClock
                     android:layout_width="wrap_content"
@@ -402,7 +401,7 @@
                     android:textAllCaps="true"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -411,7 +410,7 @@
                     android:text="\u0022"
                     android:textColor="#54B5DB"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -420,7 +419,7 @@
                     android:text=";"
                     android:textColor="#CFD2D1"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
             </LinearLayout>
 
             <LinearLayout
@@ -437,7 +436,7 @@
                     android:text="\t\treturn "
                     android:textColor="#E6CD69"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -446,7 +445,7 @@
                     android:text="0"
                     android:textColor="#CD3F45"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -455,7 +454,7 @@
                     android:text=";"
                     android:textColor="#CFD2D1"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
             </LinearLayout>
 
             <LinearLayout
@@ -472,7 +471,7 @@
                     android:text="}"
                     android:textColor="#CFD2D1"
                     android:textSize="14sp"
-                    android:theme="@style/ConsolasFontTextAppearance" />
+                    android:fontFamily="@font/consolas" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

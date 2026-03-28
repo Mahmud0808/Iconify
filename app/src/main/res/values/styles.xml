@@ -9,12 +9,6 @@
         <item name="postSplashScreenTheme">@style/Theme.Iconify</item>
     </style>
 
-    <!-- @layout/preview_lockscreen_clock_10 -->
-    <style name="ConsolasFontTextAppearance">
-        <item name="fontFamily">@font/consolas</item>
-        <item name="android:fontFamily">@font/consolas</item>
-    </style>
-
     <!-- Weather -->
     <style name="WeatherBaseText" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@android:color/white</item>
