@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -51,7 +52,7 @@ fun HomeCategoryCard(
             .fillMaxWidth()
             .then(
                 if (smallVariant) Modifier.wrapContentHeight()
-                else Modifier.aspectRatio(1.1f)
+                else Modifier.height(160.dp)
             )
             .clip(MaterialTheme.shapes.large)
             .clickable(onClick = withHaptic { onClick() }),
