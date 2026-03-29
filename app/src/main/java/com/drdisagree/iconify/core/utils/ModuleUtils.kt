@@ -6,7 +6,7 @@ import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.app.MainActivity
-import com.drdisagree.iconify.core.utils.FileUtils.readRawResource
+import com.drdisagree.iconify.core.utils.AssetsUtils.readRawResource
 import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
 import com.drdisagree.iconify.core.utils.overlay.FabricatedUtils
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils

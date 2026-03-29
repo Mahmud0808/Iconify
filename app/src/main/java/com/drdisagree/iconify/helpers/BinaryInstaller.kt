@@ -7,7 +7,7 @@ import com.drdisagree.iconify.data.common.Dynamic.BIN_DIR
 import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
 import com.drdisagree.iconify.data.common.Dynamic.ZIPALIGN
 import com.drdisagree.iconify.core.utils.AbiUtils
-import com.drdisagree.iconify.core.utils.FileUtils
+import com.drdisagree.iconify.core.utils.AssetsUtils
 import com.topjohnwu.superuser.Shell
 import java.io.BufferedOutputStream
 import java.io.File
@@ -51,7 +51,7 @@ object BinaryInstaller {
 
         try {
             // Copy Tools folder (containing jniLibs.zip) from assets to DATA_DIR/Tools/
-            FileUtils.copyAssets("Tools")
+            AssetsUtils.copyAssets("Tools")
 
             val zipFile = File("$DATA_DIR/Tools", "jniLibs.zip")
 
@@ -110,7 +110,7 @@ object BinaryInstaller {
             Log.e(TAG, "Failed to extract tools.\n$e")
             hasErroredOut = true
         } finally {
-            FileUtils.cleanAssetsDir("Tools")
+            AssetsUtils.cleanAssetsDir("Tools")
         }
 
         return hasErroredOut

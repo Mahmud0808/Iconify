@@ -31,6 +31,9 @@ object Resources {
     val BACKUP_DIR: String
         get() = "$BASE_DIR/.iconify_backup"
 
+    val WALLPAPER_DIR: String
+        get() = "$BASE_DIR/.wallpapers"
+
     val TEMP_DIR: String
         get() = "$BASE_DIR/.iconify"
 

@@ -72,8 +72,8 @@ class RootProviderProxy : Service() {
                                 outputStream.close()
                                 result.recycle()
 
-                                val isSuccess = FileUtils.moveToIconifyHiddenDir(
-                                    tempFile.absolutePath,
+                                val isSuccess = FileUtils.moveToIconifyDir(
+                                    tempFile,
                                     resultPath
                                 )
 

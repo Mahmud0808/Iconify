@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
 import com.drdisagree.iconify.core.utils.FileUtils
-import com.drdisagree.iconify.core.utils.FileUtils.copyAssets
 import com.drdisagree.iconify.core.utils.Logger.writeLog
 import com.drdisagree.iconify.core.utils.ModuleUtils.createModule
 import com.drdisagree.iconify.core.utils.ModuleUtils.flashModule

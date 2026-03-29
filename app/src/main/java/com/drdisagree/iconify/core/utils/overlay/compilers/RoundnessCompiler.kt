@@ -13,7 +13,7 @@ import com.drdisagree.iconify.data.common.Resources.TEMP_DIR
 import com.drdisagree.iconify.data.common.Resources.TEMP_OVERLAY_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_UNALIGNED_DIR
-import com.drdisagree.iconify.core.utils.FileUtils.copyAssets
+import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
 import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
 import com.drdisagree.iconify.core.utils.SystemUtils.mountRO
 import com.drdisagree.iconify.core.utils.SystemUtils.mountRW

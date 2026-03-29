@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.core.utils.overlay.compilers
 
 import android.util.Log
+import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
 import com.drdisagree.iconify.core.utils.FileUtils
-import com.drdisagree.iconify.core.utils.FileUtils.copyAssets
 import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
 import com.drdisagree.iconify.core.utils.SystemUtils.mountRO
 import com.drdisagree.iconify.core.utils.SystemUtils.mountRW
