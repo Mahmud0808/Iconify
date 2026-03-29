@@ -3,14 +3,17 @@ package com.drdisagree.iconify.features.xposed.quicksettings.main.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.iconRes
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 
 val quickSettingsPreferences = preferenceScreen {
     category {
@@ -53,13 +56,12 @@ val quickSettingsPreferences = preferenceScreen {
 
     category(title = stringRes(R.string.section_title_qs_margin)) {
         twoTargetSwitch(
-            key = XposedKey.CUSTOM_QS_MARGIN,
+            key = XposedKey.CUSTOM_QS_MARGINS,
             title = stringRes(R.string.custom_qs_margin_title),
             summary = { _, _ -> stringRes(R.string.custom_qs_margin_desc) },
             onClick = { _, _, nav ->
                 nav.navigate(NavRoutes.Xposed.QuickSettings.Margins) {
                     launchSingleTop = true
-
                 }
             }
         )
@@ -183,7 +185,15 @@ val quickSettingsPreferences = preferenceScreen {
 }
 
 @Composable
-fun QuickSettingsScreen() {
+fun QuickSettingsScreen(
+    systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
+) {
+    PreferenceListener(key = null) { event ->
+        when (event.key) {
+            XposedKey.CUSTOM_QS_MARGINS.name -> systemActionViewModel?.shouldRestartSystemUI()
+        }
+    }
+
     PreferenceScreen(
         items = quickSettingsPreferences,
         title = stringResource(R.string.activity_title_quick_settings),
@@ -195,6 +205,6 @@ fun QuickSettingsScreen() {
 @Composable
 fun SettingsScreenPreview() {
     PreviewComposable {
-        QuickSettingsScreen()
+        QuickSettingsScreen(null)
     }
 }

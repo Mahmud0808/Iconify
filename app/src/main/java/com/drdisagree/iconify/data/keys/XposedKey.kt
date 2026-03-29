@@ -18,7 +18,6 @@ enum class XposedKey(override val default: Any?) : Key {
     ONGOING_ACTION_CHIP_SWITCH(false),
 
     // Quick Settings
-    CUSTOM_QS_MARGIN(false),
     COLORED_NOTIFICATION_ICON_SWITCH(false),
     COLORED_NOTIFICATION_VIEW_SWITCH(false),
     COLORED_NOTIFICATION_ALTERNATIVE_SWITCH(false),
@@ -71,6 +70,13 @@ enum class XposedKey(override val default: Any?) : Key {
     UNAVAILABLE_QS_TILE_ICON_BACKGROUND_COLOR("#FFFFFF"),
     UNAVAILABLE_QS_TILE_LABEL_COLOR("#FFFFFF"),
     UNAVAILABLE_QS_TILE_SECONDARY_LABEL_COLOR("#FFFFFF"),
+
+    // Quick Settings - Margins
+    CUSTOM_QS_MARGINS(false),
+    QQS_TOP_MARGIN_PORTRAIT(100f),
+    QS_TOP_MARGIN_PORTRAIT(100f),
+    QQS_TOP_MARGIN_LANDSCAPE(0f),
+    QS_TOP_MARGIN_LANDSCAPE(0f),
 
     // Lock Screen
     LOCKSCREEN_WALLPAPER_BLUR(false),
