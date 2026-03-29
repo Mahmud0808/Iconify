@@ -28,14 +28,14 @@
             android:textStyle="bold" />
 
         <TextClock
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="-10dp"
             android:includeFontPadding="false"
             android:format12Hour="mm"
             android:format24Hour="mm"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:singleLine="true"
             android:tag="text1"
             android:textColor="@android:color/white"
