@@ -44,24 +44,12 @@ object RootUtils {
         ) Shell.cmd($$"for file in $$folderName*; do chmod $$permission \"$file\"; done").exec()
     }
 
-    fun fileExists(dir: String): Boolean {
-        val lines = Shell.cmd("test -f $dir && echo '1'").exec().out
-
-        for (line in lines) {
-            if (line.contains("1")) return true
-        }
-
-        return false
+    fun fileExists(path: String): Boolean {
+        return Shell.cmd("[ -f \"$path\" ]").exec().code == 0
     }
 
-    fun folderExists(dir: String): Boolean {
-        val lines = Shell.cmd("test -d $dir && echo '1'").exec().out
-
-        for (line in lines) {
-            if (line.contains("1")) return true
-        }
-
-        return false
+    fun folderExists(path: String): Boolean {
+        return Shell.cmd("[ -d \"$path\" ]").exec().code == 0
     }
 
     fun deviceProperlyRooted(): Boolean {
