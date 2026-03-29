@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Kustomisasi UI Android yang Membosankan</string>
+    <string name="app_moto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Memulai setup</string>
     <string name="step">Langkah</string>
@@ -220,7 +220,7 @@
     <string name="icon_mask_style_scroll">Gulir</string>
     <string name="icon_mask_style_square">Persegi</string>
     <string name="icon_mask_style_teardrop">Tetes Air</string>
-    <string name="icon_mask_style_rounded_rectangle">Membulat\nPersegi Panjang</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Mendung</string>
     <string name="icon_mask_style_cylinder">Silinder</string>
@@ -228,10 +228,10 @@
     <string name="icon_mask_style_heart">Hati</string>
     <string name="icon_mask_style_leaf">Daun</string>
     <string name="icon_mask_style_stretched">Memperlonggar</string>
-    <string name="icon_mask_style_tapered_rectangle">Persegi panjang\n meruncing</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">Kapal</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meong</string>
-    <string name="icon_mask_style_force_round">Paksa Bulat</string>
+    <string name="icon_mask_style_force_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Warna Dasar</string>
     <string name="activity_desc_basic_colors">Ubah warna primer dan sekunder</string>

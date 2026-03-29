@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Personalisiere das langweilige Android UI</string>
+    <string name="app_moto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Starte Einrichtung</string>
     <string name="step">Schritt</string>
@@ -220,7 +220,7 @@
     <string name="icon_mask_style_scroll">Scroll</string>
     <string name="icon_mask_style_square">Quadrat</string>
     <string name="icon_mask_style_teardrop">Regentropfen</string>
-    <string name="icon_mask_style_rounded_rectangle">Abgerundetes\nRechteck</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Bewölkt</string>
     <string name="icon_mask_style_cylinder">Zylinder</string>
@@ -228,10 +228,10 @@
     <string name="icon_mask_style_heart">Herz</string>
     <string name="icon_mask_style_leaf">Blatt</string>
     <string name="icon_mask_style_stretched">Gestreckt</string>
-    <string name="icon_mask_style_tapered_rectangle">Zugespitzes\nRechteck</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">Gefäß</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Erzwinge Rundung</string>
+    <string name="icon_mask_style_force_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Grundlegende Farben</string>
     <string name="activity_desc_basic_colors">Ändere primär und sekundär Farbe</string>

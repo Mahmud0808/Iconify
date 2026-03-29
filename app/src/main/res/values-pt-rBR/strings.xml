@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Personalize a interface chata do Android</string>
+    <string name="app_moto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Inicializando a configuração</string>
     <string name="step">Etapa</string>
@@ -220,7 +220,7 @@
     <string name="icon_mask_style_scroll">Scroll</string>
     <string name="icon_mask_style_square">Quadrado</string>
     <string name="icon_mask_style_teardrop">Lágrima</string>
-    <string name="icon_mask_style_rounded_rectangle">Retângulo\narredondado</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Nublado</string>
     <string name="icon_mask_style_cylinder">Cilindro</string>
@@ -228,10 +228,10 @@
     <string name="icon_mask_style_heart">Coração</string>
     <string name="icon_mask_style_leaf">Folha</string>
     <string name="icon_mask_style_stretched">Esticado</string>
-    <string name="icon_mask_style_tapered_rectangle">Cônico\nretângulo</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">Navio</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Miau</string>
-    <string name="icon_mask_style_force_round">Rodada forçada</string>
+    <string name="icon_mask_style_force_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Cores básicas</string>
     <string name="activity_desc_basic_colors">Altere a cor primária e secundária</string>

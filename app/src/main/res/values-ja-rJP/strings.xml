@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">退屈な Android の UI をカスタマイズ</string>
+    <string name="app_moto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">セットアップの初期化中</string>
     <string name="step">ステップ</string>
@@ -220,7 +220,7 @@
     <string name="icon_mask_style_scroll">スクロール</string>
     <string name="icon_mask_style_square">四角形</string>
     <string name="icon_mask_style_teardrop">テアドロップ</string>
-    <string name="icon_mask_style_rounded_rectangle">角丸の\n四角形</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">雲</string>
     <string name="icon_mask_style_cylinder">円筒</string>
@@ -228,7 +228,7 @@
     <string name="icon_mask_style_heart">ハート</string>
     <string name="icon_mask_style_leaf">葉</string>
     <string name="icon_mask_style_stretched">引き延ばし</string>
-    <string name="icon_mask_style_tapered_rectangle">角の取れた\n四角形</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">湯呑み</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
     <string name="icon_mask_style_force_round">Force Round</string>

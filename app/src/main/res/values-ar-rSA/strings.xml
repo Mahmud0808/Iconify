@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">قم بتغيير واجهة المستخدم الممله </string>
+    <string name="app_moto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">جارٍ بدء الإعداد</string>
     <string name="step">خطوه</string>
@@ -220,7 +220,7 @@
     <string name="icon_mask_style_scroll">تمرير</string>
     <string name="icon_mask_style_square">مربع</string>
     <string name="icon_mask_style_teardrop">دمعة</string>
-    <string name="icon_mask_style_rounded_rectangle">مستطيل\n مستدير الزوايا</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">سحابي</string>
     <string name="icon_mask_style_cylinder">إسطواني</string>
@@ -228,7 +228,7 @@
     <string name="icon_mask_style_heart">قلب</string>
     <string name="icon_mask_style_leaf">ورقة</string>
     <string name="icon_mask_style_stretched">ممتد</string>
-    <string name="icon_mask_style_tapered_rectangle">مستطيل مدبب\n</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">إناء</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
     <string name="icon_mask_style_force_round">Force Round</string>

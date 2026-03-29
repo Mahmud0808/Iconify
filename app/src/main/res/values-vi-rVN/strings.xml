@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Tùy chỉnh giao diện người dùng Android nhàm chán</string>
+    <string name="app_moto">Tùy biến giao diện Android nhàm chán</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Đang khởi tạo thiết lập</string>
     <string name="step">Bước</string>
-    <string name="step_number"></string>
+    <string name="step_number">Bước %1$d/%2$d</string>
     <string name="module_installation_step1">Tạo vỏ mô-đun</string>
     <string name="module_installation_step2">Giải nén các tập tin cần thiết</string>
     <string name="module_installation_step3">Tạo lớp phủ APKs</string>
@@ -33,7 +33,7 @@
     <string name="logs">Nhật ký</string>
     <!-- Search Preference -->
     <string name="search_title"></string>
-    <string name="searchpreference_search">… Tìm kiếm…</string>
+    <string name="searchpreference_search">Tìm kiếm…</string>
     <string name="searchpreference_clear">Dọn dẹp</string>
     <string name="searchpreference_history_entry">Lịch sử tìm kiếm</string>
     <string name="searchpreference_more">Nhiều hơn</string>
@@ -137,11 +137,11 @@
     <string name="settings_disable_everything_title">Vô hiệu hóa mọi thứ</string>
     <string name="settings_disable_everything_desc">Vô hiệu hóa tất cả các lớp phủ, màu sắc và các thay đổi linh tinh được áp dụng do Iconify thực hiện.</string>
     <string name="settings_section_title_about">Giới thiệu</string>
-    <string name="settings_github_repository_title">Github Repository</string>
+    <string name="settings_github_repository_title">Kho lưu trữ Github</string>
     <string name="settings_telegram_group_title">Nhóm Telegram</string>
-    <string name="settings_translate_title">Translate Iconify</string>
+    <string name="settings_translate_title">Dịch Iconify</string>
     <string name="settings_translate_desc">Giúp chúng tôi dịch Iconify sang ngôn ngữ của bạn.</string>
-    <string name="settings_credits_title">Credits</string>
+    <string name="settings_credits_title">Ghi nhận</string>
     <string name="settings_credits_desc">Cảm ơn những người đã biến ứng dụng này thành hiện thực.</string>
     <!-- Icon Pack -->
     <string name="activity_title_colored_battery">Màu pin</string>
@@ -220,7 +220,7 @@
     <string name="icon_mask_style_scroll">Cuộn</string>
     <string name="icon_mask_style_square">Bo cạnh</string>
     <string name="icon_mask_style_teardrop">Giọt nước</string>
-    <string name="icon_mask_style_rounded_rectangle">Tròn\nHình chữ nhật</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Mây</string>
     <string name="icon_mask_style_cylinder">Hình trụ</string>
@@ -228,10 +228,10 @@
     <string name="icon_mask_style_heart">Trái tim</string>
     <string name="icon_mask_style_leaf">Lá cây</string>
     <string name="icon_mask_style_stretched">kéo dài</string>
-    <string name="icon_mask_style_tapered_rectangle">Thuôn nhọn\nHình chữ nhật</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">Tàu</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Buộc biểu tượng Hình tròn</string>
+    <string name="icon_mask_style_force_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Màu cơ bản</string>
     <string name="activity_desc_basic_colors">Thay đổi màu chính và phụ</string>
@@ -299,9 +299,9 @@
     <string name="section_title_qs_text_color">Màu văn bản QS</string>
     <string name="qs_text_color_normal">Bình thường</string>
     <string name="qs_text_color_pixel">Pixel</string>
-    <string name="custom_qs_tile_text_color_title">Custom Text Color</string>
+    <string name="custom_qs_tile_text_color_title">Tùy chỉnh màu chữ</string>
     <string name="custom_qs_tile_text_color_desc">Enable custom QS tile text color</string>
-    <string name="custom_qs_tile_text_color_list_title">Text Color Options</string>
+    <string name="custom_qs_tile_text_color_list_title">Các tùy chọn màu chữ</string>
     <string name="label_always_white_title">Luôn Trắng</string>
     <string name="label_always_white_desc">Tiêu đề trắng, phụ đề trắng</string>
     <string name="label_always_white_v2_title">Luôn trắng v2</string>
@@ -409,10 +409,10 @@
     <string name="tablet_header_title">Tiêu đề phong cách máy tính bảng </string>
     <string name="tablet_header_desc">Bật tiêu đề cho màn hình lớn</string>
     <string name="section_title_privacy_chip">Biểu tượng Quyền riêng tư</string>
-    <string name="accent_privacy_chip_title">Màu nhấn cho Biểu tượng Quyền riêng tư </string>
+    <string name="accent_privacy_chip_title">Màu nhấn cho Biểu tượng Quyền riêng tư</string>
     <string name="accent_privacy_chip_desc">Đổi màu Biểu tượng Quyền riêng tư theo hệ thống</string>
-    <string name="disable_progress_wave_title">Disable Progress Wave</string>
-    <string name="disable_progress_wave_desc">Disable progress bar wave animation</string>
+    <string name="disable_progress_wave_title">Vô hiệu hóa sóng tiến trình</string>
+    <string name="disable_progress_wave_desc">Vô hiệu hóa hiệu ứng sóng trên thanh tiến trình</string>
     <string name="section_title_settings_theme">Giao diện Chủ đề Cài đặt </string>
     <string name="enable_expressive_theme_title">Bật giao diện Material Expressive</string>
     <string name="enable_expressive_theme_desc">Bật giao diện Material Expressive mới trên Android 15 QPR2+</string>
@@ -454,7 +454,7 @@
     <string name="activity_title_xposed_others">Thêm nữa</string>
     <string name="activity_desc_xposed_others">Các tinh chỉnh và tùy chỉnh xposed khác</string>
     <string name="activity_title_xposed_weather_settings">Weather Settings</string>
-    <string name="activity_title_xposed_launcher">Launcher</string>
+    <string name="activity_title_xposed_launcher">Trình khởi chạy</string>
     <string name="activity_desc_xposed_launcher">Launcher related modifications</string>
     <string name="activity_title_lockscreen_album_art">Media Album Art</string>
     <!-- Oneplus QS Header -->
@@ -462,17 +462,17 @@
     <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
     <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
     <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
-    <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
+    <string name="oneplus_qs_header_hide_stock_media_player_title">Ẩn Trình phát phương tiện Mặc định</string>
     <string name="oneplus_qs_header_hide_stock_media_player_desc">Remove stock media player from QS panel</string>
     <string name="oneplus_qs_header_show_artwork_title">Show Artwork</string>
-    <string name="oneplus_qs_header_show_artwork_desc">Show album art of the playing media</string>
-    <string name="oneplus_qs_header_blur_level">Blur Level</string>
-    <string name="oneplus_qs_header_fade_level">Fade Level</string>
-    <string name="oneplus_qs_header_top_margin">Top Margin</string>
+    <string name="oneplus_qs_header_show_artwork_desc">Hiển thị ảnh bìa của phương tiện đang phát</string>
+    <string name="oneplus_qs_header_blur_level">Mức độ Làm mờ</string>
+    <string name="oneplus_qs_header_fade_level">Mức độ Mờ dần</string>
+    <string name="oneplus_qs_header_top_margin">Lề trên</string>
     <string name="oneplus_qs_header_expansion_y">Expansion Amount</string>
     <string name="oneplus_qs_header_gap">Expanded Gap</string>
     <!-- Lockscreen Widgets -->
-    <string name="lockscreen_widgets_title">Lockscreen Widgets</string>
+    <string name="lockscreen_widgets_title">Tiện ích Màn hình khóa</string>
     <string name="lockscreen_widgets_enabled_title">Enable Lockscreen Widgets</string>
     <string name="lockscreen_widgets_enabled_summary">Add widgets to lockscreen</string>
     <string name="lockscreen_display_widgets_title">Device Info Widget</string>
@@ -491,7 +491,7 @@
     <string name="custom_widget_3">Mini Widget 3</string>
     <string name="custom_widget_4">Mini Widget 4</string>
     <string name="widgets_custom_color">Custom Colors</string>
-    <string name="widgets_custom_color_title">Customize Widget Colors</string>
+    <string name="widgets_custom_color_title">Tùy chỉnh màu Widget</string>
     <string name="big_widget_active">Large Widget Active Color</string>
     <string name="big_widget_inactive">Large Widget Inactive Color</string>
     <string name="big_widget_icon_active">Large Widget Icon Active Color</string>
@@ -526,19 +526,19 @@
     <string name="ringer_vibrate">Vibrate</string>
     <string name="ringer_silent">Silent</string>
     <!-- Xposed Transparency & Blur -->
-    <string name="section_title_transparency">Transparency</string>
+    <string name="section_title_transparency">Độ trong suốt</string>
     <string name="transparent_qs_panel_title">Bảng QS trong suốt</string>
     <string name="transparent_qs_panel_desc">Làm cho nền bảng điều khiển QS trong suốt</string>
-    <string name="qs_background_opacity_title">Background Opacity</string>
+    <string name="qs_background_opacity_title">Độ mờ nền</string>
     <string name="transparent_notif_shade_title">Transparent Notification Shade</string>
     <string name="transparent_notif_shade_desc">Make only notification shade transparent</string>
-    <string name="keep_lockscreen_shade_title">Dim Lockscreen Wallpaper</string>
+    <string name="keep_lockscreen_shade_title">Làm tối Hình nền Màn hình khóa</string>
     <string name="keep_lockscreen_shade_desc">Suitable for light-colored wallpapers</string>
-    <string name="section_title_blur">Blur</string>
+    <string name="section_title_blur">Làm mờ</string>
     <string name="window_level_blur_title">Làm mờ cấp độ cửa sổ</string>
     <string name="window_level_blur_desc">Yêu cầu khởi động lại để làm việc</string>
     <string name="aggressive_blur_title">Aggressive Blur Enabler</string>
-    <string name="aggressive_blur_desc">Might bootloop in some roms</string>
+    <string name="aggressive_blur_desc">Có thể gây treo máy ở một số bản rom</string>
     <string name="blur_intensity_title">Cường độ mờ</string>
     <!-- Xposed Themes -->
     <string name="section_title_for_pixel_roms">For Pixel Roms</string>
@@ -606,11 +606,11 @@
     <string name="charging_icon_style_title">Charging Icon Style</string>
     <string name="charging_icon_margin_left_title">Charging Icon Margin Left</string>
     <string name="charging_icon_margin_right_title">Charging Icon Margin Right</string>
-    <string name="charging_icon_size_title">Charging Icon Size</string>
+    <string name="charging_icon_size_title">Kích thước biểu tượng sạc</string>
     <string name="perimeter_alpha_title">Perimeter Alpha</string>
     <string name="perimeter_alpha_desc">Make battery perimeter semi transparent</string>
     <string name="fill_alpha_title">Fill Alpha</string>
-    <string name="fill_alpha_desc">Make battery fill semi transparent</string>
+    <string name="fill_alpha_desc">Làm cho pin hiển thị bán trong suốt</string>
     <string name="rainbow_color_title">Rainbow Color</string>
     <string name="rainbow_color_desc">Show different color based on battery level</string>
     <string name="blend_color_title">Blend Color</string>
@@ -703,7 +703,7 @@
     <string name="custom_header_clock_title">Đồng hồ tiêu đề tùy chỉnh</string>
     <string name="custom_header_clock_desc">Thêm đồng hồ tùy chỉnh trên bảng QS</string>
     <string name="header_clock_style_title">Phong cách đồng hồ</string>
-    <string name="header_clock_font_title">Clock Font</string>
+    <string name="header_clock_font_title">Phông chữ đồng hồ</string>
     <string name="header_clock_font_desc">Use custom font for header clock</string>
     <string name="custom_header_clock_color_title">Custom Clock Color</string>
     <string name="custom_header_clock_color_desc">Custom colors instead of system colors</string>
@@ -741,30 +741,30 @@
     <string name="lockscreen_clock_bottom_margin_title">Lề dưới</string>
     <string name="lockscreen_clock_white_text_title">Chữ trắng</string>
     <string name="lockscreen_clock_white_text_desc">Buộc tất cả các màu thành màu trắng</string>
-    <string name="lsclock_custom_image_title">Use Custom Image</string>
+    <string name="lsclock_custom_image_title">Sử dụng ảnh tùy chỉnh</string>
     <string name="lsclock_custom_image_desc">Use custom image for lockscreen clock.</string>
     <string name="lsclock_custom_image_picker_title">Custom Image Picker</string>
     <string name="lockscreen_clock_custom_devicename">Custom Device Name</string>
     <string name="lockscreen_clock_custom_devicename_desc">Set custom device name for lockscreen clock.\nKeep blank to use System\'s Device Name.</string>
     <string name="lockscreen_clock_custom_username">Custom User Name</string>
     <string name="lockscreen_clock_custom_username_desc">Set custom user name for lockscreen clock.\nKeep blank to use System\'s User Name.</string>
-    <string name="btn_select">Select</string>
+    <string name="btn_select">Chọn</string>
     <string name="battery_charging">Battery Charging</string>
     <string name="battery_discharging">Battery Discharging</string>
     <string name="battery_full">Battery Full</string>
     <string name="battery_level_percentage">Battery Level</string>
     <string name="welcome_back">Welcome back!</string>
-    <string name="default_user_name">User</string>
+    <string name="default_user_name">Người dùng</string>
     <!-- Xposed Depth Wallpaper -->
     <string name="enable_depth_wallpaper_title">Enable Depth Wallpaper</string>
     <string name="enable_depth_wallpaper_desc">Show iOS like depth wallpaper\n%s</string>
-    <string name="depth_wallpaper_ai_mode">AI Mode</string>
+    <string name="depth_wallpaper_ai_mode">Chế độ AI</string>
     <string name="depth_wallpaper_ai_mlkit">MLKit (Google)</string>
     <string name="depth_wallpaper_ai_plugin">Plugin</string>
-    <string name="depth_wallpaper_ai_status">AI Status</string>
+    <string name="depth_wallpaper_ai_status">Trạng thái AI</string>
     <string name="depth_wallpaper_ai_status_plugin_not_installed">AI Plugin not installed.\nTap to download</string>
     <string name="depth_wallpaper_ai_status_plugin_installed">AI Plugin installed.\nTap to open</string>
-    <string name="enable_custom_depth_wallpaper_title">Custom Images</string>
+    <string name="enable_custom_depth_wallpaper_title">Hình ảnh tùy chỉnh</string>
     <string name="enable_custom_depth_wallpaper_desc">Set custom images as depth wallpaper</string>
     <string name="depth_wallpaper_on_aod_title">Show on AOD</string>
     <string name="depth_wallpaper_on_aod_desc">Show subject on always on display</string>
@@ -788,7 +788,7 @@
     <string name="depth_wallpaper_missing_ai_model">AI model is not available!</string>
     <string name="use_custom_lockscreen_clock">Must use custom lockscreen clock</string>
     <!-- Xposed Background Chip -->
-    <string name="section_title_status_bar">Status Bar</string>
+    <string name="section_title_status_bar">Thanh trạng thái</string>
     <string name="sb_clock_background_chip_title">Chip đồng hồ thanh trạng thái</string>
     <string name="sb_clock_background_chip_desc">Chip hiển thị phía sau đồng hồ trên thanh trạng thái</string>
     <string name="sb_clock_customize_chip_title">Customize Clock Chip</string>
@@ -802,7 +802,7 @@
     <string name="sbclock_color_custom_color">Custom Color</string>
     <string name="clock_text_color_picker_title">Text Color Picker</string>
     <string name="clock_text_color_picker_desc">Set color of statubsar clock text</string>
-    <string name="section_title_status_icons">Status Icons</string>
+    <string name="section_title_status_icons">Biểu tượng thanh trạng thái</string>
     <string name="chip_style_title">Phong cách chip</string>
     <string name="status_icons_chip_title">Chip biểu tượng trạng thái</string>
     <string name="status_icons_chip_desc">Hiển thị chip đằng sau các biểu tượng trạng thái</string>
@@ -848,16 +848,16 @@
     <string name="sb_swap_wifi_cellular_desc">Swap wifi and cellular icons</string>
     <string name="sb_swap_cellular_network_type_title">Swap Cellular and Network Type</string>
     <string name="sb_swap_cellular_network_type_desc">Swap cellular and network type (3G 4G LTE etc.) icons</string>
-    <string name="sb_clock_position_title">Clock Position</string>
-    <string name="section_title_clock">Clock</string>
-    <string name="sb_clock_position_left">Left (Default)</string>
-    <string name="sb_clock_position_center">Center</string>
-    <string name="sb_clock_position_right">Right</string>
+    <string name="sb_clock_position_title">Vị trí đồng hồ</string>
+    <string name="section_title_clock">Đồng hồ</string>
+    <string name="sb_clock_position_left">Trái (Mặc định)</string>
+    <string name="sb_clock_position_center">Giữa</string>
+    <string name="sb_clock_position_right">Phải</string>
     <string name="ongoing_action_chip_title">Ongoing Action Chip</string>
     <string name="ongoing_action_chip_desc">Show progress indicator in status bar for ongoing actions like downloads</string>
-    <string name="sb_show_4g_icon_title">4G Icon</string>
-    <string name="sb_show_4g_icon_desc">Display 4G icon in statusbar instead of LTE</string>
-    <string name="sb_max_notification_icons_title">Notification Icons Limit</string>
+    <string name="sb_show_4g_icon_title">Biểu tượng 4G</string>
+    <string name="sb_show_4g_icon_desc">Hiển thị biểu tượng 4G trên thanh trạng thái thay vì LTE</string>
+    <string name="sb_max_notification_icons_title">Giới hạn biểu tượng thông báo</string>
     <string name="dual_status_bar_title">Dual Statusbar</string>
     <string name="dual_status_bar_desc">Display statusbar elements in two rows</string>
     <string name="status_bar_logo_title">Logo</string>
@@ -915,7 +915,7 @@
     <string name="dsb_swap_start_side_desc">Swap the position of clock and notification icons</string>
     <string name="dsb_swap_end_side_title">Swap End Side</string>
     <string name="dsb_swap_end_side_desc">Swap the position of battery and status icons</string>
-    <string name="dsb_statusbar_height_title">Statusbar Height</string>
+    <string name="dsb_statusbar_height_title">Chiều cao thanh trạng thái</string>
     <string name="dsb_start_padding_title">Start Padding</string>
     <string name="dsb_end_padding_title">End Padding</string>
     <string name="dsb_top_padding_title">Top Padding</string>
@@ -929,13 +929,13 @@
     <string name="hide_carrier_group_desc">Ẩn nhóm nhà mạng khỏi bảng QS</string>
     <string name="hide_status_icons_title">Ẩn biểu tượng trạng thái</string>
     <string name="hide_status_icons_desc">Xóa các biểu tượng thời gian, ngày tháng và pin</string>
-    <string name="lock_screen">Lock Screen</string>
+    <string name="lock_screen">Màn hình khoá</string>
     <string name="hide_ls_lock_icon_title">Hide LS Lock Icon</string>
     <string name="hide_ls_lock_icon_desc">Hide lock icon view on lockscreen</string>
     <string name="fixed_status_icons_title">Sửa biểu tượng trạng thái</string>
     <string name="fixed_status_icons_desc">Set status icons in fixed position\nMight be buggy on some rom</string>
-    <string name="ls_wallpaper_blur_title">Wallpaper Blur</string>
-    <string name="ls_wallpaper_blur_desc">Apply blur effect on lockscreen</string>
+    <string name="ls_wallpaper_blur_title">Làm mờ hình nền</string>
+    <string name="ls_wallpaper_blur_desc">Áp dụng hiệu ứng làm mờ trên màn hình khóa</string>
     <string name="ls_wallpaper_blur_radius_title">Wallpaper Blur Intensity</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Nhật ký thay đổi</string>
@@ -1035,21 +1035,21 @@
     <string name="import_settings">Cài đặt nhập</string>
     <string name="restart_sysui_title">Khởi động lại SystemUI</string>
     <string name="import_settings_confirmation_title">Bạn có chắc không?</string>
-    <string name="import_settings_confirmation_desc">You will lose your current setup and settings.</string>
+    <string name="import_settings_confirmation_desc">Bạn sẽ mất thiết lập và cài đặt hiện tại của mình.</string>
     <!-- Xposed 3 dot menu -->
     <string name="reset_settings">Reset Settings</string>
     <string name="imported_settings">Đã nhập cài đặt thành công</string>
     <string name="exported_settings">Đã lưu cài đặt thành công</string>
     <!-- Style List -->
     <string name="style_0">Không có</string>
-    <string name="style">Style %d</string>
+    <string name="style">Kiểu %d</string>
     <!-- Buttons -->
     <string name="btn_continue">TIẾP TỤC</string>
     <string name="btn_restart">Khởi động lại</string>
     <string name="btn_disable">Vô hiệu hóa</string>
     <string name="btn_enable">Cho phép</string>
     <string name="btn_apply">ÁP DỤNG</string>
-    <string name="btn_save">Save</string>
+    <string name="btn_save">Lưu</string>
     <string name="btn_disable_custom_colors">Vô hiệu hóa màu tùy chỉnh</string>
     <string name="btn_enable_custom_colors">Áp dụng màu sắc</string>
     <string name="btn_reset">CÀI LẠI</string>
@@ -1142,7 +1142,7 @@
     <string name="app_updates">Cập nhật ứng dụng</string>
     <string name="positive">Đúng</string>
     <string name="negative">KHÔNG</string>
-    <string name="understood">Understood</string>
+    <string name="understood">Đã hiểu</string>
     <string name="custom_toast_title">Tùy chỉnh thông báo nhanh</string>
     <string name="custom_toast_desc">Bật thông báo nhanh kiểu tùy chỉnh</string>
     <string name="custom_progressbar_title">Thanh tiến trình tùy chỉnh</string>
@@ -1158,7 +1158,7 @@
     <string name="custom_qs_margin_title">Ký quỹ QS tùy chỉnh</string>
     <string name="custom_qs_margin_desc">Bật lề tùy chỉnh cho bảng QS</string>
     <string name="force_enable_blur_title">Buộc kích hoạt tính năng làm mờ</string>
-    <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
+    <string name="force_enable_blur_desc">Buộc kích hoạt tính năng làm mờ đối với các rom không được hỗ trợ</string>
     <string name="choose_header_image">Chọn hình ảnh tiêu đề</string>
     <string name="choose_clock_font">Chọn Phông chữ Đồng hồ</string>
     <string name="pick_style">Chọn một phong cách của sự lựa chọn của bạn</string>
@@ -1184,28 +1184,28 @@
     <string name="lockscreen_customization_desc">Enable lockscreen customizations</string>
     <string name="general_on">On</string>
     <string name="general_off">Off</string>
-    <string name="one_time_reboot_needed">Reboot your device!</string>
+    <string name="one_time_reboot_needed">Khởi động lại thiết bị của bạn!</string>
     <string name="tap_to_select">Tap on preview to select</string>
-    <string name="dont_show_again">Don\'t show again</string>
+    <string name="dont_show_again">Không hiển thị nữa</string>
     <string name="requires_lsposed_for_a14">To ensure proper functionality, enabling the Iconify module in LSPosed is mandatory for android 14 and above.\n\nAfter that, enable the fixes from: Tweaks &gt; Xposed Menu &gt; Themes &gt; Others.</string>
     <string name="file_picker_desc">Do not select file from Recent</string>
-    <string name="btn_dismiss">Dismiss</string>
-    <string name="btn_restart_device">Restart Device</string>
+    <string name="btn_dismiss">Đóng</string>
+    <string name="btn_restart_device">Khởi động lại thiết bị</string>
     <string name="btn_pending">Pending</string>
     <string name="accent_primary">Accent Primary</string>
     <string name="accent_secondary">Accent Secondary</string>
     <string name="accent_tertiary">Accent Tertiary</string>
     <string name="text_color_primary">Text Color Primary</string>
     <string name="text_color_inverse">Text Color Inverse</string>
-    <string name="learn_more">Learn more</string>
+    <string name="learn_more">Tìm hiểu thêm</string>
     <string name="custom_tiles_footer_info">To ensure custom tiles work properly, first use the default internet and bluetooth tiles once before using the custom ones.</string>
     <string name="hig_res_image_footer_info">Avoid using high-resolution images, as they may cause your SystemUI to crash.</string>
-    <string name="more">More</string>
+    <string name="more">Nhiều hơn</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
     <string name="units_title">Unit</string>
     <string name="weather_progress_title">Verifying location</string>
-    <string name="weather_select_location">Select location</string>
+    <string name="weather_select_location">Chọn vị trí</string>
     <string name="weather_custom_location_dialog_title">Enter location</string>
     <string name="weather_custom_location_title">Location</string>
     <string name="weather_custom_location_missing">Set custom location</string>

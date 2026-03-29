@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">شخصی سازی رابط‌ کاربری خسته کننده اندروید</string>
+    <string name="app_moto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">راه‌اندازی اولیه</string>
     <string name="step">قدم</string>
@@ -220,7 +220,7 @@
     <string name="icon_mask_style_scroll">پیمایش</string>
     <string name="icon_mask_style_square">مربع</string>
     <string name="icon_mask_style_teardrop">قطره اشک</string>
-    <string name="icon_mask_style_rounded_rectangle">گرد\nمستطیل</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">ابری</string>
     <string name="icon_mask_style_cylinder">سیلندر</string>
@@ -228,10 +228,10 @@
     <string name="icon_mask_style_heart">قلب</string>
     <string name="icon_mask_style_leaf">برگ</string>
     <string name="icon_mask_style_stretched">کشیده شده</string>
-    <string name="icon_mask_style_tapered_rectangle">مخروطی\nمستطیل</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">کشتی</string>
     <string name="icon_mask_style_rice_rohie_meow">روهی میو</string>
-    <string name="icon_mask_style_force_round">نیروی دور</string>
+    <string name="icon_mask_style_force_round">Force Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">بخش انتخاب رنگ</string>
     <string name="activity_desc_basic_colors">رنگ مورد نظر خود را در این قسمت انتخاب کنید</string>

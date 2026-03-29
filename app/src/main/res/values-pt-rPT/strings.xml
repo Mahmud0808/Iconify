@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Personalizar a IU Android</string>
+    <string name="app_moto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">A inicializar</string>
     <string name="step">Passo</string>
@@ -220,7 +220,7 @@
     <string name="icon_mask_style_scroll">Pregaminho</string>
     <string name="icon_mask_style_square">Quadrado</string>
     <string name="icon_mask_style_teardrop">Lágrima</string>
-    <string name="icon_mask_style_rounded_rectangle">Arredondado\nRetangular</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded\nRectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Nuvem</string>
     <string name="icon_mask_style_cylinder">Cilindro</string>
@@ -228,7 +228,7 @@
     <string name="icon_mask_style_heart">Coração</string>
     <string name="icon_mask_style_leaf">Folha</string>
     <string name="icon_mask_style_stretched">Esticado</string>
-    <string name="icon_mask_style_tapered_rectangle">Cónico\nRetângulo</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered\nRectangle</string>
     <string name="icon_mask_style_vessel">Navio</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
     <string name="icon_mask_style_force_round">Force Round</string>

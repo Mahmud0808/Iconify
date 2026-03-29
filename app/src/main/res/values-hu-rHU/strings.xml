@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Az unalmas Android testreszabása</string>
+    <string name="app_moto">Az unalmas Android felület testreszabása</string>
     <!-- Onboarding -->
     <string name="init_module_installation">A beállítások előkészítése</string>
     <string name="step">Lépés</string>
@@ -220,7 +220,7 @@
     <string name="icon_mask_style_scroll">Tekercs</string>
     <string name="icon_mask_style_square">Négyzet</string>
     <string name="icon_mask_style_teardrop">Könnycsepp</string>
-    <string name="icon_mask_style_rounded_rectangle">Lekerekített\nTéglalap</string>
+    <string name="icon_mask_style_rounded_rectangle">Kerekített\nSzögletes</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Felhős</string>
     <string name="icon_mask_style_cylinder">Henger</string>
@@ -228,10 +228,10 @@
     <string name="icon_mask_style_heart">Szív</string>
     <string name="icon_mask_style_leaf">Falevél</string>
     <string name="icon_mask_style_stretched">Nyújtott</string>
-    <string name="icon_mask_style_tapered_rectangle">Kúpos\nTéglalap</string>
+    <string name="icon_mask_style_tapered_rectangle">Csúcsos\nSzögletes</string>
     <string name="icon_mask_style_vessel">Hajó</string>
     <string name="icon_mask_style_rice_rohie_meow">Miau</string>
-    <string name="icon_mask_style_force_round">Kényszerített kerek</string>
+    <string name="icon_mask_style_force_round">Kerekítés erőltetése</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Alapszínek</string>
     <string name="activity_desc_basic_colors">Fő- és alszínek módosítása</string>
