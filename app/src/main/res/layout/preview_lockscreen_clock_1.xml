@@ -48,9 +48,9 @@
         </LinearLayout>
 
         <TextClock
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|start"
+            android:layout_gravity="center"
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
             android:gravity="center"
@@ -61,15 +61,16 @@
             android:textSize="20dp" />
 
         <TextClock
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|start"
+            android:layout_gravity="center"
             android:format12Hour="MMMM dd"
             android:format24Hour="dd MMMM"
             android:gravity="center"
             android:includeFontPadding="false"
             android:singleLine="true"
             android:tag="text1"
+            android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="16dp" />
     </LinearLayout>
