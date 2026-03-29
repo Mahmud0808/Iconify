@@ -60,6 +60,7 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -72,6 +73,7 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -85,11 +87,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalDarkMode
 import com.drdisagree.iconify.core.ui.components.others.AutoScalingDevicePreview
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
+import com.drdisagree.iconify.core.utils.WallpaperUtils
 import com.materialkolor.ktx.harmonize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -126,20 +132,24 @@ fun DevicePreviewPager(
 
     // Cache all inflated views, keyed by res ID
     val viewCache = remember(layoutResIds) { mutableStateMapOf<Int, View>() }
-    var isReady by remember { mutableStateOf(false) }
+    var isReady by rememberSaveable { mutableStateOf(false) }
 
     val count = layoutResIds.size
     val isLoaded = count > 0
     val virtualCount = if (isLoaded) Int.MAX_VALUE else 1
-    val initialVirtualPage = remember(count, startPageIndex) {
-        if (count == 0) 0
-        else (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % count) + startPageIndex
+    val initialVirtualPage by rememberSaveable(count, startPageIndex) {
+        mutableIntStateOf(
+            if (count == 0) 0
+            else (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % count) + startPageIndex
+        )
     }
 
     val pagerState = rememberPagerState(
         initialPage = initialVirtualPage,
         pageCount = { virtualCount },
     )
+
+    var wallpaperBytes by rememberSaveable { mutableStateOf<ByteArray?>(null) }
 
     // Pre-inflate all views once res IDs are available
     LaunchedEffect(layoutResIds) {
@@ -173,6 +183,11 @@ fun DevicePreviewPager(
 
         // Single batch write — one recomposition instead of N
         viewCache.putAll(inflated)
+
+        WallpaperUtils.prepareLockWallpaper()?.let { file ->
+            wallpaperBytes = withContext(Dispatchers.IO) { file.readBytes() }
+        }
+
         isReady = layoutResIds.all { viewCache.containsKey(it) }
 
         if (isReady) {
@@ -371,6 +386,7 @@ fun DevicePreviewPager(
                     frameHeight = noRotationFrameHeight,
                     bezelHorizontal = bezelH,
                     bezelVertical = bezelV,
+                    wallpaperBytes = wallpaperBytes,
                     modifier = Modifier.zIndex(1f),
                 )
 
@@ -519,7 +535,7 @@ fun DevicePreviewPager(
                 }
                 val labelSlide by remember { derivedStateOf { fraction * -32f } }
 
-                if (isReady) {
+                if (isReady && resolvedNames.isNotEmpty()) {
                     Text(
                         text = resolvedNames[pagerState.currentPage.realIndex(count)],
                         color = Color.White,
@@ -540,7 +556,7 @@ fun DevicePreviewPager(
             }
         }
 
-        val isSelected = remember(pagerState.currentPage, startPageIndex) {
+        val isSelected = rememberSaveable(pagerState.currentPage, startPageIndex) {
             mutableStateOf(
                 pagerState.currentPage.realIndex(count) == startPageIndex
             )
@@ -595,8 +611,10 @@ private fun PhoneFrame(
     frameHeight: Dp,
     bezelHorizontal: Dp,
     bezelVertical: Dp,
+    wallpaperBytes: ByteArray?,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
     val isDarkTheme = LocalDarkMode.current
 
     val cornerRadius = frameWidth * 0.10f
@@ -605,12 +623,14 @@ private fun PhoneFrame(
     val darkBgColor = if (isDarkTheme) MaterialTheme.colorScheme.surface
     else MaterialTheme.colorScheme.inverseSurface
 
-    val colors = remember(MaterialTheme.colorScheme) {
+    val colors = remember(MaterialTheme.colorScheme, wallpaperBytes) {
         object {
             val outerBodyColor = Color(0xFF1C1C1E).harmonize(darkBgColor)
             val screenCutOutColor = Color.Black.harmonize(darkBgColor).copy(alpha = 0.6f)
             val buttonsColor = Color(0xFF2C2C2C).harmonize(darkBgColor)
-            val punchHoleColor = Color(0xFFFFFFFF).harmonize(darkBgColor).copy(alpha = 0.2f)
+            val punchHoleColor = (if (wallpaperBytes != null) Color.Black else Color.White)
+                .harmonize(darkBgColor)
+                .copy(alpha = if (wallpaperBytes != null) 0.6f else 0.2f)
             val gestureIndicatorColor = Color(0xFF555555).harmonize(darkBgColor)
         }
     }
@@ -639,6 +659,24 @@ private fun PhoneFrame(
                 .fillMaxSize()
                 .clip(RoundedCornerShape(cornerRadius2))
                 .background(colors.screenCutOutColor),
+        )
+
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(wallpaperBytes)
+                .memoryCacheKey("lock_wallpaper")
+                .diskCacheKey("lock_wallpaper")
+                .crossfade(true)
+                .build(),
+            contentDescription = "Lock wallpaper",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .padding(
+                    horizontal = bezelHorizontal,
+                    vertical = bezelVertical
+                )
+                .fillMaxSize()
+                .clip(RoundedCornerShape(cornerRadius2))
         )
 
         // Volume up

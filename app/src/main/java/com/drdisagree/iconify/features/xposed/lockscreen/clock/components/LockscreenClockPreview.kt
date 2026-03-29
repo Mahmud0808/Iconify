@@ -4,7 +4,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
@@ -39,11 +40,13 @@ fun LockscreenClockPreview(
     val clockNone = stringResource(R.string.clock_none)
     val clockStyleName = stringResource(R.string.clock_style_name)
 
-    val names = remember(layoutIds, clockNone, clockStyleName) {
-        List(layoutIds.size) { index ->
-            if (index == 0) clockNone
-            else clockStyleName.format(index)
-        }
+    val names by rememberSaveable(layoutIds, clockNone, clockStyleName) {
+        mutableStateOf(
+            List(layoutIds.size) { index ->
+                if (index == 0) clockNone
+                else clockStyleName.format(index)
+            }
+        )
     }
 
     DevicePreviewPager(
