@@ -202,6 +202,7 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.material3.window.size.class1)
+    implementation(libs.androidx.asynclayoutinflater)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

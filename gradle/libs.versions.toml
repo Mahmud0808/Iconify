@@ -44,6 +44,7 @@ workRuntimeKtx = "2.11.2"
 xposedbridge = "main-SNAPSHOT"
 zip4j = "2.11.6"
 material3WindowSizeClass = "1.4.0"
+asynclayoutinflater = "1.1.0"
 
 [libraries]
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanistDrawablepainter" }
@@ -99,6 +100,7 @@ su-service = { module = "com.github.topjohnwu.libsu:service", version.ref = "lib
 xposedbridge = { module = "com.github.Mahmud0808:XposedBridge", version.ref = "xposedbridge" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 androidx-compose-material3-window-size-class1 = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3WindowSizeClass" }
+androidx-asynclayoutinflater = { group = "androidx.asynclayoutinflater", name = "asynclayoutinflater", version.ref = "asynclayoutinflater" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

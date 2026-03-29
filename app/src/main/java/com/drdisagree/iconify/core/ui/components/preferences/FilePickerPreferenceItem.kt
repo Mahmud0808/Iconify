@@ -22,6 +22,7 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.rounded.AttachFile
 import androidx.compose.material.icons.rounded.AudioFile
 import androidx.compose.material.icons.rounded.Description
+import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.VideoFile
@@ -81,6 +82,20 @@ sealed class FilePickerType {
             "text/plain",
         )
         override val label = stringRes("Pick document")
+    }
+
+    object Font : FilePickerType() {
+        override val mimeTypes = listOf(
+            "font/ttf",
+            "font/otf",
+            "font/woff",
+            "font/woff2",
+            "application/x-font-ttf",
+            "application/x-font-opentype",
+            "application/font-woff",
+            "application/vnd.ms-fontobject"
+        )
+        override val label = stringRes("Pick font")
     }
 
     object Any : FilePickerType() {
@@ -218,6 +233,7 @@ private fun FileTypeIcon(type: FilePickerType, contentColor: Color) {
         FilePickerType.Audio -> Icons.Rounded.AudioFile
         FilePickerType.Pdf -> Icons.Rounded.PictureAsPdf
         FilePickerType.Document -> Icons.Rounded.Description
+        FilePickerType.Font -> Icons.Rounded.FontDownload
         else -> Icons.Rounded.AttachFile
     }
 
