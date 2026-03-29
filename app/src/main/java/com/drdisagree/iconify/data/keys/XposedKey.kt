@@ -93,6 +93,8 @@ enum class XposedKey(override val default: Any?) : Key {
     LSCLOCK_TEXT_SCALING(1f),
     LSCLOCK_TOP_MARGIN(100f),
     LSCLOCK_BOTTOM_MARGIN(40f),
+    LSCLOCK_DEVICE_NAME(""),
+    LSCLOCK_USER_NAME(""),
 
     // Volume Panel
     VOLUME_PANEL_PERCENTAGE(false),

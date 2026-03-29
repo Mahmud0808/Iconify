@@ -540,7 +540,7 @@ fun DevicePreviewPager(
             }
         }
 
-        val isSelected = remember(pagerState.currentPage) {
+        val isSelected = remember(pagerState.currentPage, startPageIndex) {
             mutableStateOf(
                 pagerState.currentPage.realIndex(count) == startPageIndex
             )
@@ -549,7 +549,7 @@ fun DevicePreviewPager(
         SplitButtonLayout(
             leadingButton = {
                 SplitButtonDefaults.LeadingButton(
-                    enabled = enabled && !isSelected.value,
+                    enabled = enabled && isReady && !isSelected.value,
                     onClick = withHaptic {
                         onSelect(pagerState.currentPage.realIndex(count))
                     }
@@ -559,7 +559,7 @@ fun DevicePreviewPager(
             },
             trailingButton = {
                 SplitButtonDefaults.TrailingButton(
-                    enabled = !isSelected.value,
+                    enabled = isReady && !isSelected.value,
                     onClick = withHaptic {
                         scope.launch {
                             val current = pagerState.currentPage

@@ -26,7 +26,7 @@ fun LockscreenClockPreview(
 ) {
     val resources = LocalResources.current
     val preferenceController = LocalPreferenceController.current
-    val isEnabled by preferenceController.observe(XposedKey.CUSTOM_LSCLOCK.name, false)
+    val isClockEnabled by preferenceController.observe(XposedKey.CUSTOM_LSCLOCK.name, false)
     val startPageIndex by preferenceController.observe(XposedKey.LSCLOCK_STYLE.name, 0)
 
     LaunchedEffect(Unit) {
@@ -48,7 +48,7 @@ fun LockscreenClockPreview(
 
     DevicePreviewPager(
         modifier = Modifier.padding(top = 24.dp),
-        enabled = isEnabled,
+        enabled = isClockEnabled,
         startPageIndex = startPageIndex,
         layoutResIds = layoutIds,
         names = names,

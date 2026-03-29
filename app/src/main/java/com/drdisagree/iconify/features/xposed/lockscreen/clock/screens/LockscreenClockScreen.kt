@@ -46,6 +46,44 @@ val lsClockPreferences = preferenceScreen {
     }
 
     category {
+        slider(
+            key = XposedKey.LSCLOCK_LINE_HEIGHT,
+            title = stringRes(R.string.lockscreen_font_line_height_title),
+            min = 40f,
+            max = 400f,
+            valueLabel = { "${it.toInt()}dp" },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+        )
+
+        slider(
+            key = XposedKey.LSCLOCK_TEXT_SCALING,
+            title = stringRes(R.string.lockscreen_font_text_scaling_title),
+            min = 40f,
+            max = 400f,
+            valueLabel = { "${"%.1f".format(it)}x" },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+        )
+
+        slider(
+            key = XposedKey.LSCLOCK_TOP_MARGIN,
+            title = stringRes(R.string.lockscreen_clock_top_margin_title),
+            min = 40f,
+            max = 400f,
+            valueLabel = { "${it.toInt()}dp" },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+        )
+
+        slider(
+            key = XposedKey.LSCLOCK_BOTTOM_MARGIN,
+            title = stringRes(R.string.lockscreen_clock_bottom_margin_title),
+            min = 40f,
+            max = 400f,
+            valueLabel = { "${it.toInt()}dp" },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+        )
+    }
+
+    category {
         switch(
             key = XposedKey.LSCLOCK_CUSTOM_COLOR,
             title = stringRes(R.string.lsclock_custom_color_title),
@@ -105,40 +143,33 @@ val lsClockPreferences = preferenceScreen {
     }
 
     category {
-        slider(
-            key = XposedKey.LSCLOCK_LINE_HEIGHT,
-            title = stringRes(R.string.lockscreen_font_line_height_title),
-            min = 40f,
-            max = 400f,
-            valueLabel = { "${it.toInt()}dp" },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+        editText(
+            key = XposedKey.LSCLOCK_DEVICE_NAME,
+            title = stringRes(R.string.lockscreen_clock_custom_devicename),
+            summary = { prefs, _ ->
+                val currentVal = prefs.getString(XposedKey.LSCLOCK_DEVICE_NAME)
+
+                if (currentVal.isNotEmpty()) stringRes(currentVal)
+                else stringRes(R.string.lockscreen_clock_custom_devicename_desc)
+            },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) },
+            isVisible = { it.getInt(XposedKey.LSCLOCK_STYLE) in setOf(19, 32, 47) },
         )
 
-        slider(
-            key = XposedKey.LSCLOCK_TEXT_SCALING,
-            title = stringRes(R.string.lockscreen_font_text_scaling_title),
-            min = 40f,
-            max = 400f,
-            valueLabel = { "${"%.1f".format(it)}x" },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
-        )
+        editText(
+            key = XposedKey.LSCLOCK_USER_NAME,
+            title = stringRes(R.string.lockscreen_clock_custom_username),
+            summary = { prefs, _ ->
+                val currentVal = prefs.getString(XposedKey.LSCLOCK_USER_NAME)
 
-        slider(
-            key = XposedKey.LSCLOCK_TOP_MARGIN,
-            title = stringRes(R.string.lockscreen_clock_top_margin_title),
-            min = 40f,
-            max = 400f,
-            valueLabel = { "${it.toInt()}dp" },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
-        )
-
-        slider(
-            key = XposedKey.LSCLOCK_BOTTOM_MARGIN,
-            title = stringRes(R.string.lockscreen_clock_bottom_margin_title),
-            min = 40f,
-            max = 400f,
-            valueLabel = { "${it.toInt()}dp" },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+                if (currentVal.isNotEmpty()) stringRes(currentVal)
+                else stringRes(R.string.lockscreen_clock_custom_username_desc)
+            },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) },
+            isVisible = {
+                it.getInt(XposedKey.LSCLOCK_STYLE) in
+                        setOf(7, 32, 35, 36, 42, 48, 50, 53)
+            },
         )
     }
 }
