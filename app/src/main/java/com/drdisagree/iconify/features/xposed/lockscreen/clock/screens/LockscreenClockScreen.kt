@@ -49,8 +49,8 @@ val lsClockPreferences = preferenceScreen {
         slider(
             key = XposedKey.LSCLOCK_LINE_HEIGHT,
             title = stringRes(R.string.lockscreen_font_line_height_title),
-            min = 40f,
-            max = 400f,
+            min = -120f,
+            max = 120f,
             valueLabel = { "${it.toInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
         )
@@ -58,17 +58,18 @@ val lsClockPreferences = preferenceScreen {
         slider(
             key = XposedKey.LSCLOCK_TEXT_SCALING,
             title = stringRes(R.string.lockscreen_font_text_scaling_title),
-            min = 40f,
-            max = 400f,
-            valueLabel = { "${"%.1f".format(it)}x" },
+            min = 5f,
+            max = 25f,
+            steps = 19,
+            valueLabel = { "${"%.1f".format(it / 10f)}x" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
         )
 
         slider(
             key = XposedKey.LSCLOCK_TOP_MARGIN,
             title = stringRes(R.string.lockscreen_clock_top_margin_title),
-            min = 40f,
-            max = 400f,
+            min = 0f,
+            max = 600f,
             valueLabel = { "${it.toInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
         )
@@ -76,8 +77,8 @@ val lsClockPreferences = preferenceScreen {
         slider(
             key = XposedKey.LSCLOCK_BOTTOM_MARGIN,
             title = stringRes(R.string.lockscreen_clock_bottom_margin_title),
-            min = 40f,
-            max = 400f,
+            min = 0f,
+            max = 600f,
             valueLabel = { "${it.toInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
         )
