@@ -1,6 +1,8 @@
 package com.drdisagree.iconify.core.ui.components.scaffolds
 
 import androidx.activity.compose.BackHandler
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -46,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -66,6 +69,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.common.LocalDarkMode
 import com.drdisagree.iconify.core.common.LocalHazeState
 import com.drdisagree.iconify.core.common.LocalInnerPadding
 import com.drdisagree.iconify.core.common.LocalLayerBackdrop
@@ -77,9 +81,18 @@ import com.drdisagree.iconify.core.ui.utils.sharedHiltViewModel
 import com.drdisagree.iconify.features.common.viewmodels.BottomNavViewModel
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.kyant.backdrop.backdrops.layerBackdrop
+import com.materialkolor.ktx.harmonize
 import dev.chrisbanes.haze.HazeDefaults
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.haze
+
+private data class FabMenuItem(
+    @param:DrawableRes val icon: Int,
+    @param:StringRes val title: Int,
+    val containerColor: Color,
+    val contentColor: Color,
+    val onClick: () -> Unit
+)
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -90,6 +103,7 @@ fun MainScaffold(
 ) {
     val hazeState = LocalHazeState.current
     val backdrop = LocalLayerBackdrop.current
+    val isDarkTheme = LocalDarkMode.current
     val settings = LocalSettings.current
     val blurEffect = settings.blurEffect
     val floatingBottomBar = settings.floatingBottomBar
@@ -131,29 +145,56 @@ fun MainScaffold(
         }
     }
 
+    val tertiaryContainer = MaterialTheme.colorScheme.tertiaryContainer
+    val onTertiaryContainer = MaterialTheme.colorScheme.onTertiaryContainer
+
+    val warningContainer = if (isDarkTheme) Color(0xFFA46200) else Color(0xFFFFE0B2)
+    val onWarningContainer = if (isDarkTheme) Color(0xFFFFE0B2) else Color(0xFF4E2600)
+
+    val errorContainer = if (isDarkTheme) Color(0xFF8C1D18) else Color(0xFFF9DEDC)
+    val onErrorContainer = if (isDarkTheme) Color(0xFFF9DEDC) else Color(0xFF410E0B)
+
+    val harmonizedColors = remember(MaterialTheme.colorScheme) {
+        object {
+            val warningContainer = warningContainer.harmonize(tertiaryContainer)
+            val onWarningContainer = onWarningContainer.harmonize(onTertiaryContainer)
+            val errorContainer = errorContainer.harmonize(tertiaryContainer)
+            val onErrorContainer = onErrorContainer.harmonize(onTertiaryContainer)
+        }
+    }
+
     val fabMenuItems = buildList {
         if (shouldRestartSystemUI || shouldRebootDevice) {
             add(
-                Triple(
-                    R.drawable.ic_close,
-                    R.string.btn_dismiss
-                ) { systemActionViewModel.clearFlags() }
+                FabMenuItem(
+                    icon = R.drawable.ic_close,
+                    title = R.string.btn_dismiss,
+                    containerColor = tertiaryContainer,
+                    contentColor = onTertiaryContainer,
+                    onClick = { systemActionViewModel.clearFlags() }
+                )
             )
         }
         if (shouldRebootDevice) {
             add(
-                Triple(
-                    R.drawable.ic_pixel_device,
-                    R.string.btn_restart_device
-                ) { systemActionViewModel.triggerRestartDevice() }
+                FabMenuItem(
+                    icon = R.drawable.ic_pixel_device,
+                    title = R.string.btn_restart_device,
+                    containerColor = harmonizedColors.errorContainer,
+                    contentColor = harmonizedColors.onErrorContainer,
+                    onClick = { systemActionViewModel.triggerRestartDevice() }
+                )
             )
         }
         if (shouldRestartSystemUI) {
             add(
-                Triple(
-                    R.drawable.ic_restart_systemui,
-                    R.string.btn_restart_systemui
-                ) { systemActionViewModel.triggerRestartSystemUI() }
+                FabMenuItem(
+                    icon = R.drawable.ic_restart_systemui,
+                    title = R.string.btn_restart_systemui,
+                    containerColor = harmonizedColors.warningContainer,
+                    contentColor = harmonizedColors.onWarningContainer,
+                    onClick = { systemActionViewModel.triggerRestartSystemUI() }
+                )
             )
         }
     }
@@ -234,7 +275,7 @@ fun MainScaffold(
                         }
                     }
                 ) {
-                    fabMenuItems.forEachIndexed { i, (icon, title, onClick) ->
+                    fabMenuItems.forEachIndexed { i, item ->
                         FloatingActionButtonMenuItem(
                             modifier = Modifier
                                 .semantics {
@@ -260,22 +301,23 @@ fun MainScaffold(
                                 ),
                             onClick = withHaptic {
                                 fabMenuExpanded = false
-                                onClick()
+                                item.onClick()
                             },
                             icon = {
                                 Icon(
-                                    painter = painterResource(icon),
+                                    painter = painterResource(item.icon),
                                     contentDescription = null,
                                     modifier = Modifier.size(24.dp)
                                 )
                             },
                             text = {
                                 Text(
-                                    text = stringResource(title),
+                                    text = stringResource(item.title),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                             },
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                            containerColor = item.containerColor,
+                            contentColor = item.contentColor
                         )
                     }
                 }
