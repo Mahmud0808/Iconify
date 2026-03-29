@@ -5,7 +5,6 @@
 -dontwarn androidx.window.extensions.core.util.function.Predicate
 
 -keepattributes Exceptions,LineNumberTable,Signature,SourceFile
--renamesourcefileattribute SourceFile
 
 -keepclasseswithmembernames,allowoptimization,allowobfuscation class * {
     native <methods>;

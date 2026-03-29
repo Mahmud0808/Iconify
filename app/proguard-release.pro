@@ -1,4 +1,3 @@
-# Strip only noisy logs in release
 -keep,allowoptimization class android.util.Log {
     public static int i(...);
     public static int w(...);
@@ -6,3 +5,5 @@
     public static int wtf(...);
     public static java.lang.String getStackTraceString(java.lang.Throwable);
 }
+
+-renamesourcefileattribute SourceFile

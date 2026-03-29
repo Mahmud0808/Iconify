@@ -1,4 +1,3 @@
-# Keep all log calls in debug (no stripping)
 -keep,allowoptimization class android.util.Log {
     public static int v(...);
     public static int d(...);
