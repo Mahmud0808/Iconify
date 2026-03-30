@@ -59,9 +59,9 @@ import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
 import com.drdisagree.iconify.data.common.XposedConst.LOCKSCREEN_WEATHER_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherDialog
-import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherEvent
-import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
+import com.drdisagree.iconify.features.xposed.lockscreen.weather.events.WeatherDialog
+import com.drdisagree.iconify.features.xposed.lockscreen.weather.events.WeatherEvent
+import com.drdisagree.iconify.features.xposed.lockscreen.weather.viewmodels.WeatherViewModel
 import com.drdisagree.iconify.helpers.maskKey
 import com.drdisagree.iconify.helpers.toXposedSharedPath
 import kotlinx.coroutines.flow.collectLatest

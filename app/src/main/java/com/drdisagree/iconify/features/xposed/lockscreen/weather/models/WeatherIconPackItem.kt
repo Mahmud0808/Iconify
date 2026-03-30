@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.features.xposed.lockscreen.common.models
+package com.drdisagree.iconify.features.xposed.lockscreen.weather.models
 
 import android.graphics.drawable.Drawable
 

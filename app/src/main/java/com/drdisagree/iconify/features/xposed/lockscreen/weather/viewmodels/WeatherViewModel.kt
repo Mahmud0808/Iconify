@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels
+package com.drdisagree.iconify.features.xposed.lockscreen.weather.viewmodels
 
 import android.Manifest
 import android.content.Context
@@ -18,10 +18,10 @@ import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.core.utils.weather.WeatherConfig
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.data.storage.PreferenceStorage
-import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherDialog
-import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherEvent
-import com.drdisagree.iconify.features.xposed.lockscreen.common.models.WeatherIconPackItem
-import com.drdisagree.iconify.features.xposed.lockscreen.common.states.WeatherScreenState
+import com.drdisagree.iconify.features.xposed.lockscreen.weather.events.WeatherDialog
+import com.drdisagree.iconify.features.xposed.lockscreen.weather.events.WeatherEvent
+import com.drdisagree.iconify.features.xposed.lockscreen.weather.models.WeatherIconPackItem
+import com.drdisagree.iconify.features.xposed.lockscreen.weather.states.WeatherScreenState
 import com.drdisagree.iconify.services.schedulers.WeatherScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
