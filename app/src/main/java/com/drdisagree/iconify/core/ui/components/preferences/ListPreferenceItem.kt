@@ -6,17 +6,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -29,6 +34,7 @@ import com.drdisagree.iconify.core.preferences.PreferenceType
 import com.drdisagree.iconify.core.preferences.resolve
 import com.drdisagree.iconify.core.preferences.resolveOrNull
 import com.drdisagree.iconify.core.preferences.resolveToStrings
+import com.drdisagree.iconify.core.ui.components.others.ColumnScrollIndicator
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 
 @Composable
@@ -43,6 +49,7 @@ fun ListPreferenceItem(
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
     val selectedValue by controller.observe(def.key, "")
+
     val displaySummary = summary
         ?: type.entries.resolve()
             .getOrNull(type.entryValues.resolveToStrings().indexOf(selectedValue)).resolveOrNull()
@@ -63,37 +70,72 @@ fun ListPreferenceItem(
             onDismissRequest = { showDialog = false },
             title = { Text(def.title.resolve()) },
             text = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    type.entries.resolve().forEachIndexed { i, entry ->
-                        val value = type.entryValues.resolveToStrings()[i]
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(8.dp))
-                                .clickable(
-                                    onClick = withHaptic {
-                                        controller.setString(def.key, value)
-                                        showDialog = false
-                                    }
-                                )
-                                .padding(horizontal = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            RadioButton(
-                                selected = selectedValue == value,
-                                onClick = withHaptic {
-                                    controller.setString(def.key, value)
-                                    showDialog = false
-                                }
-                            )
-                            Text(entry.resolve(), style = MaterialTheme.typography.bodyMedium)
-                        }
+                val listState = rememberLazyListState()
+                val entries = type.entries.resolve()
+
+                val showTopDivider by remember {
+                    derivedStateOf { listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 0 }
+                }
+                val showBottomDivider by remember {
+                    derivedStateOf {
+                        val layoutInfo = listState.layoutInfo
+                        val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
+                        lastVisibleItem != null &&
+                                (lastVisibleItem.index < layoutInfo.totalItemsCount - 1 ||
+                                        lastVisibleItem.offset + lastVisibleItem.size > layoutInfo.viewportEndOffset)
                     }
+                }
+
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    if (showTopDivider) HorizontalDivider()
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        LazyColumn(
+                            state = listState,
+                            modifier = Modifier
+                                .wrapContentHeight()
+                                .weight(1f)
+                        ) {
+                            itemsIndexed(entries) { i, entry ->
+                                val value = type.entryValues.resolveToStrings()[i]
+
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .clickable(
+                                            onClick = withHaptic {
+                                                controller.setString(def.key, value)
+                                                showDialog = false
+                                            }
+                                        )
+                                        .padding(horizontal = 4.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                ) {
+                                    RadioButton(
+                                        selected = selectedValue == value,
+                                        onClick = withHaptic {
+                                            controller.setString(def.key, value)
+                                            showDialog = false
+                                        }
+                                    )
+                                    Text(
+                                        text = entry.resolve(),
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+                            }
+                        }
+
+                        ColumnScrollIndicator(listState = listState)
+                    }
+
+                    if (showBottomDivider) HorizontalDivider()
                 }
             },
             confirmButton = {
