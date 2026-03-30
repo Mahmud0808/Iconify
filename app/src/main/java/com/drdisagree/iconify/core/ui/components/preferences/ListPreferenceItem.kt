@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -112,10 +111,9 @@ fun ListPreferenceItem(
                                                 controller.setString(def.key, value)
                                                 showDialog = false
                                             }
-                                        )
-                                        .padding(horizontal = 4.dp),
+                                        ),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
                                 ) {
                                     RadioButton(
                                         selected = selectedValue == value,
@@ -126,7 +124,7 @@ fun ListPreferenceItem(
                                     )
                                     Text(
                                         text = entry.resolve(),
-                                        style = MaterialTheme.typography.bodyMedium
+                                        style = MaterialTheme.typography.bodyLarge
                                     )
                                 }
                             }
