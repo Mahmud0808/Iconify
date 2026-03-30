@@ -102,6 +102,17 @@ enum class XposedKey(override val default: Any?) : Key {
     LSCLOCK_DEVICE_NAME(""),
     LSCLOCK_USER_NAME(""),
 
+    // Lockscreen - Weather
+
+    // Lockscreen - Widgets
+
+    // Lockscreen - Depth Wallpaper
+
+    // Lockscreen - Media Album Art
+    ALBUM_ART_ON_LOCKSCREEN(false),
+    ALBUM_ART_ON_LOCKSCREEN_FILTER("0"),
+    ALBUM_ART_ON_LOCKSCREEN_BLUR(30f),
+
     // Volume Panel
     VOLUME_PANEL_PERCENTAGE(false),
     VOLUME_PANEL_SAFETY_WARNING(true),
