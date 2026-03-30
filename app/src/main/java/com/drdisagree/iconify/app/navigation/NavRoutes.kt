@@ -127,6 +127,9 @@ sealed class NavRoutes {
             data object Widgets : Lockscreen()
 
             @Serializable
+            data object Location : Lockscreen()
+
+            @Serializable
             data object DepthWallpaper : Lockscreen()
 
             @Serializable

@@ -1252,6 +1252,7 @@
     <string name="force_enable_blur_desc">Force enable blur for unsupported roms</string>
     <string name="choose_header_image">Choose Header Image</string>
     <string name="choose_clock_font">Choose Clock Font</string>
+    <string name="choose_weather_font">Choose Weather Font</string>
     <string name="pick_style">Pick a style of your choice</string>
     <string name="attention">Attention!</string>
     <string name="method_toggle_dark_mode">Double Toggle Dark Mode</string>

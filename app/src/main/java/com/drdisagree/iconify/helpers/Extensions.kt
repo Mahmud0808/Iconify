@@ -107,3 +107,14 @@ fun Uri.toXposedSharedPath(customFileName: String? = null): String? {
         null
     }
 }
+
+fun String?.maskKey(): String {
+    if (isNullOrEmpty()) return ""
+    if (length <= 8) return "*".repeat(length)
+
+    val start = take(4)
+    val end = takeLast(4)
+    val stars = "*".repeat(length - 8)
+
+    return "$start$stars$end"
+}

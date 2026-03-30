@@ -7,6 +7,7 @@ import java.io.File
 object XposedConst {
 
     const val PREF_FILE_NAME = "${BuildConfig.APPLICATION_ID}.preferences"
+    const val WEATHER_PREF_FILE_NAME = "${BuildConfig.APPLICATION_ID}.weather.preferences"
     const val XPOSED_RESOURCE_FOLDER_NAME = "Iconify"
 
     val XPOSED_RESOURCE_DIR: File

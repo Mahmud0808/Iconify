@@ -40,6 +40,7 @@ import com.drdisagree.iconify.features.settings.main.screens.SettingsScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.albumart.screens.LockscreenAlbumArtScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.clock.screens.LockscreenClockScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.screens.DepthWallpaperScreen
+import com.drdisagree.iconify.features.xposed.lockscreen.location.screens.LocationScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.main.screens.LockscreenScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.weather.screens.LockscreenWeatherScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.widgets.screens.LockscreenWidgetsScreen
@@ -218,6 +219,7 @@ fun NavGraph(
                         composable<NavRoutes.Xposed.Lockscreen.Widgets> { LockscreenWidgetsScreen() }
                         composable<NavRoutes.Xposed.Lockscreen.DepthWallpaper> { DepthWallpaperScreen() }
                         composable<NavRoutes.Xposed.Lockscreen.MediaAlbumArt> { LockscreenAlbumArtScreen() }
+                        composable<NavRoutes.Xposed.Lockscreen.Location> { LocationScreen() }
                     }
 
                     composable<NavRoutes.Xposed.VolumePanel> { VolumePanelScreen() }
