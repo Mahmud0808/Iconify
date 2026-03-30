@@ -241,7 +241,7 @@
 
     <!-- Lockscreen Widgets -->
     <string-array name="lockscreen_widgets_entries" translatable="false">
-        <item>none</item>
+        <item>@string/none</item>
         <item>@string/calculator</item>
         <item>@string/media</item>
         <item>@string/clock_timer</item>

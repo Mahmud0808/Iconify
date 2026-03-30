@@ -6,6 +6,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.util.Log
+import androidx.core.content.edit
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.core.utils.weather.providers.METNorwayProvider
 import com.drdisagree.iconify.core.utils.weather.providers.OpenMeteoProvider
@@ -47,7 +48,7 @@ object WeatherConfig {
     }
 
     fun clear(context: Context) {
-        context.getWeatherPrefs().edit().clear().apply()
+        context.getWeatherPrefs().edit { clear() }
         val prefs = listOf(
             WEATHER_PROVIDER,
             WEATHER_UNITS,
@@ -56,7 +57,7 @@ object WeatherConfig {
             PREF_KEY_UPDATE_ERROR
         )
         prefs.forEach {
-            context.getPrefs().edit().remove(it).apply()
+            context.getPrefs().edit { remove(it) }
         }
     }
 
@@ -97,8 +98,8 @@ object WeatherConfig {
     }
 
     fun setLocationId(context: Context, lat: String?, lon: String?) {
-        context.getWeatherPrefs().edit().putString(PREF_KEY_LOCATION_LAT, lat).apply()
-        context.getWeatherPrefs().edit().putString(PREF_KEY_LOCATION_LON, lon).apply()
+        context.getWeatherPrefs().edit { putString(PREF_KEY_LOCATION_LAT, lat) }
+        context.getWeatherPrefs().edit { putString(PREF_KEY_LOCATION_LON, lon) }
     }
 
     fun getLocationName(context: Context): String? {
@@ -106,7 +107,7 @@ object WeatherConfig {
     }
 
     fun setLocationName(context: Context, name: String?) {
-        context.getWeatherPrefs().edit().putString(PREF_KEY_LOCATION_NAME, name).apply()
+        context.getWeatherPrefs().edit { putString(PREF_KEY_LOCATION_NAME, name) }
     }
 
     fun getWeatherData(context: Context): WeatherInfo? {
@@ -126,18 +127,22 @@ object WeatherConfig {
     }
 
     fun setWeatherData(data: WeatherInfo, context: Context) {
-        context.getWeatherPrefs().edit().putString(
-            PREF_KEY_WEATHER_DATA,
-            data.toSerializedString()
-        ).apply()
-        context.getWeatherPrefs().edit().putLong(
-            PREF_KEY_LAST_UPDATE,
-            System.currentTimeMillis()
-        ).apply()
+        context.getWeatherPrefs().edit {
+            putString(
+                PREF_KEY_WEATHER_DATA,
+                data.toSerializedString()
+            )
+        }
+        context.getWeatherPrefs().edit {
+            putLong(
+                PREF_KEY_LAST_UPDATE,
+                System.currentTimeMillis()
+            )
+        }
     }
 
     fun clearLastUpdateTime(context: Context) {
-        context.getWeatherPrefs().edit().putLong(PREF_KEY_LAST_UPDATE, 0).apply()
+        context.getWeatherPrefs().edit { putLong(PREF_KEY_LAST_UPDATE, 0) }
     }
 
     fun isEnabled(context: Context): Boolean {
@@ -148,7 +153,7 @@ object WeatherConfig {
     }
 
     fun setEnabled(context: Context, value: Boolean, key: String?) {
-        context.getPrefs().edit().putBoolean(key, value).apply()
+        context.getPrefs().edit { putBoolean(key, value) }
     }
 
     fun getUpdateInterval(context: Context): Int {
@@ -166,7 +171,7 @@ object WeatherConfig {
     }
 
     fun setUpdateError(context: Context, value: Boolean) {
-        context.getWeatherPrefs().edit().putBoolean(PREF_KEY_UPDATE_ERROR, value).apply()
+        context.getWeatherPrefs().edit { putBoolean(PREF_KEY_UPDATE_ERROR, value) }
     }
 
     fun isSetupDone(context: Context): Boolean {

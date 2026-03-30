@@ -562,6 +562,7 @@
     <string name="lockscreen_device_widget_style_arcs">Four Arcs</string>
 
     <!-- LS Widgets Actions -->
+    <string name="none">None</string>
     <string name="camera">Camera</string>
     <string name="clock_timer">Clock/Timer</string>
     <string name="calculator">Calculator</string>
