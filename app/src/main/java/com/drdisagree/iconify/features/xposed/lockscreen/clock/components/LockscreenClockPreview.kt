@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
@@ -32,15 +32,20 @@ fun LockscreenClockPreview(
 
     LaunchedEffect(Unit) {
         lockscreenClockViewModel?.loadClockLayouts(resources)
+        lockscreenClockViewModel?.loadWallpaper()
     }
 
     val layoutIds by (lockscreenClockViewModel?.clockLayoutIds ?: flowOf(emptyList()))
         .collectAsStateWithLifecycle(initialValue = emptyList())
+    val wallpaperBytes by (lockscreenClockViewModel?.wallpaperBytes ?: flowOf(null))
+        .collectAsStateWithLifecycle(initialValue = null)
+    val wallpaperReady by (lockscreenClockViewModel?.wallpaperReady ?: flowOf(false))
+        .collectAsStateWithLifecycle(initialValue = false)
 
     val clockNone = stringResource(R.string.clock_none)
     val clockStyleName = stringResource(R.string.clock_style_name)
 
-    val names by rememberSaveable(layoutIds, clockNone, clockStyleName) {
+    val names by remember(layoutIds, clockNone, clockStyleName) {
         mutableStateOf(
             List(layoutIds.size) { index ->
                 if (index == 0) clockNone
@@ -55,6 +60,8 @@ fun LockscreenClockPreview(
         startPageIndex = startPageIndex,
         layoutResIds = layoutIds,
         names = names,
+        wallpaperReady = wallpaperReady,
+        wallpaperBytes = wallpaperBytes,
         horizontalPaddingToIgnore = 16.dp,
         onSelect = { index ->
             preferenceController.setInt(XposedKey.LSCLOCK_STYLE, index)

@@ -95,9 +95,10 @@ import com.drdisagree.iconify.core.common.LocalDarkMode
 import com.drdisagree.iconify.core.ui.components.others.AutoScalingDevicePreview
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
-import com.drdisagree.iconify.core.utils.WallpaperUtils
 import com.materialkolor.ktx.harmonize
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.take
@@ -116,6 +117,8 @@ fun DevicePreviewPager(
     startPageIndex: Int = 0,
     @LayoutRes layoutResIds: List<Int>,
     names: List<String> = emptyList(),
+    wallpaperReady: Boolean = true,
+    wallpaperBytes: ByteArray? = null,
     sidePageScale: Float = 0.82f,
     onPageChanged: (index: Int) -> Unit = {},
     onSelect: (index: Int) -> Unit = {},
@@ -130,18 +133,25 @@ fun DevicePreviewPager(
     val scope = rememberCoroutineScope()
     val deviceAspectRatio = rememberDeviceAspectRatio()
 
-    // Cache all inflated views, keyed by res ID
     val viewCache = remember(layoutResIds) { mutableStateMapOf<Int, View>() }
-    var isReady by rememberSaveable { mutableStateOf(false) }
+    val isReady by remember(layoutResIds, viewCache, wallpaperReady) {
+        derivedStateOf {
+            layoutResIds.isNotEmpty() &&
+                    layoutResIds.all { viewCache.containsKey(it) } &&
+                    wallpaperReady
+        }
+    }
 
     val count = layoutResIds.size
-    val isLoaded = count > 0
+    val isLoaded = count > 0 && names.size == count
+
+    val resolvedNames = List(count) { i -> names.getOrNull(i) ?: "${i + 1}" }
+
     val virtualCount = if (isLoaded) Int.MAX_VALUE else 1
-    val initialVirtualPage by rememberSaveable(count, startPageIndex) {
-        mutableIntStateOf(
-            if (count == 0) 0
-            else (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % count) + startPageIndex
-        )
+    var currentIndex by rememberSaveable { mutableIntStateOf(startPageIndex) }
+    val initialVirtualPage = remember(count, currentIndex) {
+        if (count == 0) 0
+        else (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % count) + currentIndex
     }
 
     val pagerState = rememberPagerState(
@@ -149,25 +159,24 @@ fun DevicePreviewPager(
         pageCount = { virtualCount },
     )
 
-    var wallpaperBytes by rememberSaveable { mutableStateOf<ByteArray?>(null) }
+    var isRestored by remember { mutableStateOf(false) }
 
-    // Pre-inflate all views once res IDs are available
+    LaunchedEffect(pagerState.settledPage) {
+        if (!isRestored) return@LaunchedEffect
+
+        currentIndex = pagerState.settledPage.realIndex(count)
+        onPageChanged(currentIndex)
+    }
+
     LaunchedEffect(layoutResIds) {
         if (layoutResIds.isEmpty()) return@LaunchedEffect
 
         val pending = layoutResIds.filter { !viewCache.containsKey(it) }
-        if (pending.isEmpty()) {
-            isReady = true
-            return@LaunchedEffect
-        }
+        if (pending.isEmpty()) return@LaunchedEffect
 
-        // Inflate all views off the main thread using withContext
         val inflated = withContext(Dispatchers.Default) {
             pending.associateWith { resId ->
-                // LayoutInflater requires main thread — use a per-resId
-                // suspendCoroutine bridge with AsyncLayoutInflater
                 suspendCancellableCoroutine { cont ->
-                    // Must post back to main for AsyncLayoutInflater
                     Handler(Looper.getMainLooper()).post {
                         AsyncLayoutInflater(context).inflate(resId, null) { view, _, _ ->
                             view.layoutParams = FrameLayout.LayoutParams(
@@ -181,27 +190,17 @@ fun DevicePreviewPager(
             }
         }
 
-        // Single batch write — one recomposition instead of N
         viewCache.putAll(inflated)
-
-        WallpaperUtils.prepareLockWallpaper()?.let { file ->
-            wallpaperBytes = withContext(Dispatchers.IO) { file.readBytes() }
-        }
-
-        isReady = layoutResIds.all { viewCache.containsKey(it) }
-
-        if (isReady) {
-            val targetPage = (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % count) + startPageIndex
-            pagerState.scrollToPage(targetPage)
-        }
     }
 
-    val resolvedNames = List(count) { i -> names.getOrNull(i) ?: "${i + 1}" }
+    LaunchedEffect(isReady, count) {
+        if (!isReady || count == 0) return@LaunchedEffect
 
-    val realIndex by remember { derivedStateOf { pagerState.settledPage.realIndex(count) } }
-
-    LaunchedEffect(realIndex) {
-        onPageChanged(realIndex)
+        val target = (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % count) + currentIndex
+        if (currentIndex != target) {
+            pagerState.scrollToPage(target)
+            isRestored = true
+        }
     }
 
     val deviceWidthPx = when (configuration.orientation) {
@@ -535,7 +534,7 @@ fun DevicePreviewPager(
                 }
                 val labelSlide by remember { derivedStateOf { fraction * -32f } }
 
-                if (isReady && resolvedNames.isNotEmpty()) {
+                if (isLoaded && isReady) {
                     Text(
                         text = resolvedNames[pagerState.currentPage.realIndex(count)],
                         color = Color.White,
@@ -661,23 +660,25 @@ private fun PhoneFrame(
                 .background(colors.screenCutOutColor),
         )
 
-        AsyncImage(
-            model = ImageRequest.Builder(context)
-                .data(wallpaperBytes)
-                .memoryCacheKey("lock_wallpaper")
-                .diskCacheKey("lock_wallpaper")
-                .crossfade(true)
-                .build(),
-            contentDescription = "Lock wallpaper",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .padding(
-                    horizontal = bezelHorizontal,
-                    vertical = bezelVertical
-                )
-                .fillMaxSize()
-                .clip(RoundedCornerShape(cornerRadius2))
-        )
+        if (isReady) {
+            AsyncImage(
+                model = ImageRequest.Builder(context)
+                    .data(wallpaperBytes)
+                    .memoryCacheKey("lock_wallpaper")
+                    .diskCacheKey("lock_wallpaper")
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "Lock wallpaper",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .padding(
+                        horizontal = bezelHorizontal,
+                        vertical = bezelVertical
+                    )
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(cornerRadius2))
+            )
+        }
 
         // Volume up
         Box(
