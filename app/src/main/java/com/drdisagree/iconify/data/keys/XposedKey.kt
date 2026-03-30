@@ -107,6 +107,13 @@ enum class XposedKey(override val default: Any?) : Key {
     // Lockscreen - Widgets
 
     // Lockscreen - Depth Wallpaper
+    LOCKSCREEN_DEPTH_WALLPAPER(false),
+    DEPTH_WALLPAPER_CUSTOM_IMAGE(false),
+    DEPTH_WALLPAPER_AI_MODE("0"),
+    DEPTH_WALLPAPER_FOREGROUND_IMAGE_FILE_URI(""),
+    DEPTH_WALLPAPER_BACKGROUND_IMAGE_FILE_URI(""),
+    DEPTH_WALLPAPER_FOREGROUND_IMAGE_OPACITY(80f),
+    DEPTH_WALLPAPER_SHOW_ON_AOD(true),
 
     // Lockscreen - Media Album Art
     ALBUM_ART_ON_LOCKSCREEN(false),

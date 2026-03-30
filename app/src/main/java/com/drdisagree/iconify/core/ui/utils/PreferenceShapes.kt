@@ -39,7 +39,7 @@ fun cardCorners(position: ItemPosition): CardCorners = when (position) {
 }
 
 fun resolvePosition(visibleIndices: List<Int>, index: Int): ItemPosition {
-    if (visibleIndices.size == 1) return ItemPosition.SOLO
+    if (visibleIndices.size <= 1) return ItemPosition.SOLO
 
     return when (index) {
         visibleIndices.first() -> ItemPosition.FIRST
