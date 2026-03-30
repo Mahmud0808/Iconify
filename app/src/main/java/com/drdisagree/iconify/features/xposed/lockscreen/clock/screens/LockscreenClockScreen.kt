@@ -56,12 +56,12 @@ val lsClockPreferences = preferenceScreen {
         )
 
         slider(
-            key = XposedKey.LSCLOCK_TEXT_SCALING,
+            key = XposedKey.LSCLOCK_TEXT_SCALE,
             title = stringRes(R.string.lockscreen_font_text_scaling_title),
-            min = 5f,
-            max = 25f,
+            min = 0.5f,
+            max = 2.5f,
             steps = 19,
-            valueLabel = { "${"%.1f".format(it / 10f)}x" },
+            valueLabel = { "${"%.1f".format(it)}x" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
         )
 
