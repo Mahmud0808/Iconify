@@ -46,8 +46,6 @@ class WeatherViewModel @Inject constructor(
 
     val controller = PreferenceController(preferenceStorage)
 
-    // ---- public state -------------------------------------------------------
-
     private val _state = MutableStateFlow(WeatherScreenState())
     val state: StateFlow<WeatherScreenState> = _state.asStateFlow()
 
@@ -60,15 +58,6 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    // ---- OmniJaws observer (mirrors onResume / onPause) --------------------
-
-    /**
-     * Call from a [DisposableEffect] in the composable:
-     *   DisposableEffect(Unit) {
-     *       viewModel.attachObserver()
-     *       onDispose { viewModel.detachObserver() }
-     *   }
-     */
     fun attachObserver() {
         weatherClient.addObserver(omniJawsObserver)
         handlePermissions()
@@ -109,8 +98,6 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    // ---- Initialisation (mirrors onCreatePreferences) ----------------------
-
     @Suppress("DiscouragedApi")
     private suspend fun loadIconPacks() = withContext(Dispatchers.Default) {
         val entries = mutableListOf<String?>()
@@ -139,13 +126,7 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    // ---- Called when the location result comes back (mirrors fragmentResultListener) --
-
-    /**
-     * Equivalent to the [setFragmentResultListener] for [DATA_LOCATION_KEY].
-     * Call this when the location picker screen returns a result.
-     */
-    fun onLocationNameReceived(locationName: String?) {
+    fun onLocationNameReceived() {
         if (WeatherConfig.isEnabled(context)
             && !controller.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)
         ) {
@@ -153,9 +134,6 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    // ---- Preference change handlers (mirrors updateScreen) -----------------
-
-    /** Called when the master on/off switch is toggled. */
     fun onMainSwitchChanged(enabled: Boolean, key: XposedKey) {
         WeatherConfig.setEnabled(context, enabled, key.name)
 
@@ -166,7 +144,6 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    /** Called when WEATHER_PROVIDER changes. */
     fun onWeatherProviderChanged(provider: String) {
         forceRefreshWeatherSettings()
 
@@ -181,17 +158,14 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    /** Called when WEATHER_CUSTOM_LOCATION switch is toggled. */
     fun onCustomLocationChanged() {
         forceRefreshWeatherSettings()
     }
 
-    /** Called when the user taps "Update status" row. */
     fun onUpdateStatusClicked() {
         forceRefreshWeatherSettings()
     }
 
-    /** Called when the user picks an icon pack from the bottom sheet. */
     fun onIconPackSelected(index: Int) {
         val packs = _state.value.iconPacks
         if (index !in packs.indices) return
@@ -202,25 +176,19 @@ class WeatherViewModel @Inject constructor(
         forceRefreshWeatherSettings()
     }
 
-    // ---- Dialog dismissal --------------------------------------------------
-
     fun dismissDialog() {
         _state.update { it.copy(dialog = null) }
     }
 
-    /** User confirmed "open location settings". */
     fun onOpenLocationSettingsConfirmed() {
         dismissDialog()
         emit(WeatherEvent.OpenLocationSettings)
     }
 
-    /** User confirmed "open app permission settings". */
     fun onOpenAppPermissionSettingsConfirmed() {
         dismissDialog()
         emit(WeatherEvent.OpenAppPermissionSettings)
     }
-
-    // ---- Permission result (mirrors requestPermissionLauncher callback) -----
 
     fun onPermissionResult(fineGranted: Boolean, coarseGranted: Boolean) {
         if (fineGranted || coarseGranted) {
@@ -228,9 +196,6 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    // ---- Private helpers (direct ports of private fragment methods) --------
-
-    /** Mirrors handlePermissions() */
     private fun handlePermissions() {
         if (WeatherConfig.isEnabled(context) &&
             !controller.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)
@@ -241,19 +206,16 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    /** Mirrors hasPermissions() */
     private fun hasPermissions(): Boolean =
         context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 context.checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
 
-    /** Mirrors isLocationEnabled() */
     private fun isLocationEnabled(): Boolean {
         val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return lm.isLocationEnabled
     }
 
-    /** Mirrors checkLocationEnabled() */
     private fun checkLocationEnabled(force: Boolean) {
         if (!isLocationEnabled()) {
             _state.update { it.copy(dialog = WeatherDialog.LocationDisabled) }
@@ -262,7 +224,6 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    /** Mirrors checkLocationPermission() */
     private fun checkLocationPermission(force: Boolean) {
         if (!hasPermissions() && !controller.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)) {
             // The composable will check shouldShowRationale and decide whether to show
@@ -275,10 +236,6 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    /**
-     * The composable calls this after evaluating shouldShowRequestPermissionRationale.
-     * If rationale should be shown → show our dialog; otherwise the launcher was already fired.
-     */
     fun onShouldShowPermissionRationale(shouldShow: Boolean) {
         if (shouldShow) {
             _state.update { it.copy(dialog = WeatherDialog.PermissionRationale) }
@@ -286,17 +243,14 @@ class WeatherViewModel @Inject constructor(
         // If false the composable fires the system launcher directly (no dialog needed)
     }
 
-    /** Mirrors enableService() */
     private fun enableService() {
         WeatherScheduler.scheduleUpdates(context)
     }
 
-    /** Mirrors forceRefreshWeatherSettings() */
     fun forceRefreshWeatherSettings() {
         WeatherScheduler.scheduleUpdateNow(context)
     }
 
-    /** Mirrors queryAndUpdateWeather() */
     private fun queryAndUpdateWeather() {
         weatherClient.queryWeather()
         weatherClient.mCachedInfo?.let { info ->
@@ -304,7 +258,6 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    /** Mirrors getAvailableWeatherIconPacks() */
     @Suppress("DiscouragedApi")
     private fun getAvailableWeatherIconPacks(
         entries: MutableList<String?>,
