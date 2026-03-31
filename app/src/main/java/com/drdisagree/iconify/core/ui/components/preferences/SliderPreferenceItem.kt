@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -34,6 +35,7 @@ fun SliderPreferenceItem(
 ) {
     val value by controller.observe(def.key, type.min)
     var previousValue by remember { mutableFloatStateOf(value) }
+    var previousLabel by remember { mutableStateOf<String?>(null) }
 
     val onValueChangeWithHaptic = withHaptic { /* no-op */ }
 
@@ -59,12 +61,15 @@ fun SliderPreferenceItem(
             Slider(
                 value = value,
                 onValueChange = { newValue ->
-                    if (isEnabled) {
-                        if (previousValue != newValue) {
+                    if (isEnabled && previousValue != newValue) {
+                        val newLabel = type.valueLabel?.invoke(newValue)
+                            ?: newValue.toInt().toString()
+                        if (newLabel != previousLabel) {
                             onValueChangeWithHaptic()
-                            previousValue = newValue
-                            controller.setFloat(def.key, newValue)
+                            previousLabel = newLabel
                         }
+                        previousValue = newValue
+                        controller.setFloat(def.key, newValue)
                     }
                 },
                 valueRange = type.min..type.max,
