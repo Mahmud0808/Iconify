@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceType
@@ -33,7 +34,7 @@ fun SliderPreferenceItem(
     type: PreferenceType.Slider,
     modifier: Modifier,
 ) {
-    val value by controller.observe(def.key, type.min)
+    val value by controller.observe(def.key, (def.defaultValue as PrefValue.FloatValue).v)
     var previousValue by remember { mutableFloatStateOf(value) }
     var previousLabel by remember { mutableStateOf<String?>(null) }
 
