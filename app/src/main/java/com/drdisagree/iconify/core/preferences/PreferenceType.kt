@@ -14,7 +14,8 @@ sealed class PreferenceType {
         val min: Float = 0f,
         val max: Float = 100f,
         val steps: Int = 0,
-        val valueLabel: ((Float) -> String)? = null
+        val valueLabel: ((Float) -> String)? = null,
+        val applyOnValueChangeFinished: Boolean
     ) : PreferenceType()
 
     /** Single-choice list dialog. */

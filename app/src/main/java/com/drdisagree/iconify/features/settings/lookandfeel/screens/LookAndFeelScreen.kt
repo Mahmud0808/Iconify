@@ -10,8 +10,10 @@ import androidx.compose.material.icons.rounded.BlurOn
 import androidx.compose.material.icons.rounded.Contrast
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.FormatColorFill
+import androidx.compose.material.icons.rounded.FormatSize
 import androidx.compose.material.icons.rounded.NightsStay
 import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.rounded.PhotoSizeSelectLarge
 import androidx.compose.material.icons.rounded.SpaceBar
 import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.runtime.Composable
@@ -199,6 +201,30 @@ val lookAndFeelPreferences = preferenceScreen {
             icon = iconRes(Icons.Rounded.SpaceBar),
             title = stringRes("Floating Bottom Bar"),
             summary = { _, _ -> stringRes("Make the bottom bar float over content") },
+        )
+
+        slider(
+            key = SettingsKey.UI_SCALE,
+            icon = iconRes(Icons.Rounded.PhotoSizeSelectLarge),
+            title = stringRes("UI Scale"),
+            summary = { _, _ -> stringRes("Change the size of UI elements") },
+            min = 0.5f,
+            max = 1.2f,
+            steps = 6,
+            valueLabel = { "${"%.1f".format(it)}x" },
+            applyOnValueChangeFinished = true,
+        )
+
+        slider(
+            key = SettingsKey.TEXT_SCALE,
+            icon = iconRes(Icons.Rounded.FormatSize),
+            title = stringRes("Text Scale"),
+            summary = { _, _ -> stringRes("Change the size of text") },
+            min = 0.5f,
+            max = 2f,
+            steps = 14,
+            valueLabel = { "${"%.1f".format(it)}x" },
+            applyOnValueChangeFinished = true,
         )
     }
 }

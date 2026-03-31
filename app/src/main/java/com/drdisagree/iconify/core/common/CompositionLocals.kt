@@ -17,10 +17,6 @@ val LocalDarkMode = staticCompositionLocalOf<Boolean> {
     error("No dark mode provided")
 }
 
-val LocalSeedColor = staticCompositionLocalOf<Long> {
-    error("No seed color provided")
-}
-
 val LocalPreferenceController = compositionLocalOf<PreferenceController> {
     error("No PreferenceController provided. Wrap your UI in ProvidePreferenceController { }.")
 }

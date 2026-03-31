@@ -114,13 +114,14 @@ class PreferenceCategoryScope {
         max: Float = 100f,
         steps: Int = 0,
         valueLabel: ((Float) -> String)? = null,
+        applyOnValueChangeFinished: Boolean = false,
         summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
             key, title, defaultValue.toPrefValue(),
-            PreferenceType.Slider(min, max, steps, valueLabel),
+            PreferenceType.Slider(min, max, steps, valueLabel, applyOnValueChangeFinished),
             icon, summary, isVisible, isEnabled
         )
     )
@@ -134,13 +135,14 @@ class PreferenceCategoryScope {
         max: Float = 100f,
         steps: Int = 0,
         valueLabel: ((Float) -> String)? = null,
+        applyOnValueChangeFinished: Boolean = false,
         summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
             key.name, title, defaultValue.toPrefValue(),
-            PreferenceType.Slider(min, max, steps, valueLabel),
+            PreferenceType.Slider(min, max, steps, valueLabel, applyOnValueChangeFinished),
             icon, summary, isVisible, isEnabled
         )
     )

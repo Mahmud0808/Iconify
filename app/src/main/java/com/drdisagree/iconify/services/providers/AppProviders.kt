@@ -9,14 +9,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.Density
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.drdisagree.iconify.core.common.LocalDarkMode
 import com.drdisagree.iconify.core.common.LocalHazeState
 import com.drdisagree.iconify.core.common.LocalLayerBackdrop
 import com.drdisagree.iconify.core.common.LocalNavController
-import com.drdisagree.iconify.core.common.LocalSeedColor
 import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.common.LocalStrongHaptic
 import com.drdisagree.iconify.core.common.LocalWeakHaptic
@@ -40,6 +41,8 @@ fun AppProviders(
     content: @Composable () -> Unit
 ) {
     val view = LocalView.current
+    val baseDensity = LocalDensity.current
+
     val navController = rememberNavController()
     val windowSizeClass = calculateWindowSizeClass(activity)
 
@@ -54,6 +57,8 @@ fun AppProviders(
     val floatingBottomBar by settingsViewModel.booleanState(SettingsKey.FLOATING_BOTTOM_BAR)
     val blurEffect by settingsViewModel.booleanState(SettingsKey.BLUR_EFFECT)
     val savedVersionCode by settingsViewModel.intState(SettingsKey.SAVED_VERSION_CODE)
+    val uiScale by settingsViewModel.floatState(SettingsKey.UI_SCALE)
+    val textScale by settingsViewModel.floatState(SettingsKey.TEXT_SCALE)
 
     val state by remember {
         derivedStateOf {
@@ -84,6 +89,13 @@ fun AppProviders(
         drawContent()
     }
 
+    val scaledDensity = remember(uiScale, textScale, baseDensity) {
+        Density(
+            density = baseDensity.density * uiScale,
+            fontScale = baseDensity.fontScale * uiScale * textScale
+        )
+    }
+
     val weakHaptic = remember(isHapticEnabled, view) {
         {
             if (isHapticEnabled) {
@@ -108,9 +120,9 @@ fun AppProviders(
             LocalSettings provides state,
             LocalWeakHaptic provides weakHaptic,
             LocalStrongHaptic provides strongHaptic,
-            LocalSeedColor provides seedColor.toLong(),
             LocalDarkMode provides isDarkTheme,
             LocalWindowSizeClass provides windowSizeClass,
+            LocalDensity provides scaledDensity,
         ) {
             content()
         }

@@ -16,6 +16,8 @@ enum class SettingsKey(override val default: Any?) : Key {
     HAPTICS_AND_VIBRATION(true),
     FLOATING_BOTTOM_BAR(true),
     BLUR_EFFECT(true),
+    UI_SCALE(1f),
+    TEXT_SCALE(1f),
     SAVED_VERSION_CODE(0),
     RESTART_SYSTEMUI_AFTER_BOOT(false),
 }

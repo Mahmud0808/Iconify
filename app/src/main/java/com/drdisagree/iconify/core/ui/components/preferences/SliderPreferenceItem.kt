@@ -34,11 +34,29 @@ fun SliderPreferenceItem(
     type: PreferenceType.Slider,
     modifier: Modifier,
 ) {
-    val value by controller.observe(def.key, (def.defaultValue as PrefValue.FloatValue).v)
-    var previousValue by remember { mutableFloatStateOf(value) }
+    val persistedValue by controller.observe(def.key, (def.defaultValue as PrefValue.FloatValue).v)
+    var sliderValue by remember { mutableFloatStateOf(persistedValue) }
     var previousLabel by remember { mutableStateOf<String?>(null) }
 
     val onValueChangeWithHaptic = withHaptic { /* no-op */ }
+
+    fun updateUiValue(newValue: Float) {
+        if (!isEnabled || sliderValue == newValue) return
+
+        val newLabel = type.valueLabel?.invoke(newValue)
+            ?: newValue.toInt().toString()
+
+        if (newLabel != previousLabel) {
+            onValueChangeWithHaptic()
+            previousLabel = newLabel
+        }
+
+        sliderValue = newValue
+    }
+
+    fun persistValue(value: Float) {
+        controller.setFloat(def.key, value)
+    }
 
     PreferenceContainer(
         shape = shape,
@@ -46,7 +64,7 @@ fun SliderPreferenceItem(
         modifier = modifier,
         minLine = if (summary.isNullOrEmpty()) 2 else 3,
     ) {
-        Column(modifier = modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth()) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -54,23 +72,23 @@ fun SliderPreferenceItem(
                 LeadingIcon(def.icon, isEnabled)
                 TitleSummaryBlock(def.title, summary, isEnabled)
                 Text(
-                    text = type.valueLabel?.invoke(value) ?: value.toInt().toString(),
+                    text = type.valueLabel?.invoke(sliderValue) ?: sliderValue.toInt().toString(),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
                 )
             }
             Slider(
-                value = value,
+                value = sliderValue,
                 onValueChange = { newValue ->
-                    if (isEnabled && previousValue != newValue) {
-                        val newLabel = type.valueLabel?.invoke(newValue)
-                            ?: newValue.toInt().toString()
-                        if (newLabel != previousLabel) {
-                            onValueChangeWithHaptic()
-                            previousLabel = newLabel
-                        }
-                        previousValue = newValue
-                        controller.setFloat(def.key, newValue)
+                    updateUiValue(newValue)
+
+                    if (!type.applyOnValueChangeFinished) {
+                        persistValue(newValue)
+                    }
+                },
+                onValueChangeFinished = {
+                    if (type.applyOnValueChangeFinished) {
+                        persistValue(sliderValue)
                     }
                 },
                 valueRange = type.min..type.max,
