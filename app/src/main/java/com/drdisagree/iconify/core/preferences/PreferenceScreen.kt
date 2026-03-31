@@ -7,12 +7,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.ui.components.others.innerPaddingValues
 import com.drdisagree.iconify.core.ui.components.preferences.preferenceCategoryItems
 import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
+import kotlinx.coroutines.delay
 
 fun preferenceScreen(
     block: PreferenceScreenScope.() -> Unit
@@ -32,14 +37,32 @@ fun PreferenceScreen(
 ) {
     val prefController = LocalPreferenceController.current
 
-    // Seed defaults once when the category list is first seen.
-    LaunchedEffect(items) {
-        items.filterIsInstance<PreferenceScreenItem.Category>()
-            .forEach { cat ->
-                cat.definition.preferences.forEach { pref ->
-                    prefController.init(pref.key, pref.defaultValue)
-                }
+    val categories = remember(items) {
+        items.filterIsInstance<PreferenceScreenItem.Category>().map { it.definition }
+    }
+
+    val firstLoadMapPerCategory = remember(items) {
+        categories.associateWith { cat ->
+            mutableStateMapOf<String, Boolean>().also { map ->
+                cat.preferences.forEach { map[it.key] = true }
             }
+        }
+    }
+
+    val visibleIndicesPerCategory = categories.associateWith { cat ->
+        rememberCategoryVisibleIndices(cat, prefController)
+    }
+
+    LaunchedEffect(items) {
+        categories.forEach { cat ->
+            cat.preferences.forEach { pref ->
+                prefController.init(pref.key, pref.defaultValue)
+            }
+        }
+        delay(100)
+        firstLoadMapPerCategory.forEach { (_, map) ->
+            map.keys.forEach { map[it] = false }
+        }
     }
 
     AppScaffold(
@@ -52,7 +75,9 @@ fun PreferenceScreen(
         actions = actions
     ) { innerPadding, _ ->
         val padding = innerPaddingValues(
-            innerPadding = innerPadding, horizontal = 16.dp, vertical = 16.dp
+            innerPadding = innerPadding,
+            horizontal = 16.dp,
+            vertical = 16.dp
         )
 
         LazyColumn(
@@ -64,14 +89,20 @@ fun PreferenceScreen(
             items.forEach { screenItem ->
                 when (screenItem) {
                     is PreferenceScreenItem.Category -> {
+                        val cat = screenItem.definition
                         val isFirstVisible = !firstVisibleCategoryAdded
+                        val firstLoadMap = firstLoadMapPerCategory[cat] ?: emptyMap()
+                        val visibleIndices = visibleIndicesPerCategory[cat]?.value ?: emptyList()
+
                         preferenceCategoryItems(
-                            category = screenItem.definition,
+                            category = cat,
                             controller = prefController,
-                            addTopSpacer = !isFirstVisible
+                            addTopSpacer = !isFirstVisible,
+                            firstLoadMap = firstLoadMap,
+                            visibleIndices = visibleIndices,
                         )
 
-                        if (screenItem.definition.preferences.any { it.isVisible(prefController) }) {
+                        if (visibleIndices.isNotEmpty()) {
                             firstVisibleCategoryAdded = true
                         }
                     }
@@ -83,6 +114,18 @@ fun PreferenceScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun rememberCategoryVisibleIndices(
+    category: PreferenceCategoryDefinition,
+    controller: PreferenceController,
+): State<List<Int>> = remember(category) {
+    derivedStateOf {
+        category.preferences.indices.filter { i ->
+            category.preferences[i].isVisible(controller)
         }
     }
 }
