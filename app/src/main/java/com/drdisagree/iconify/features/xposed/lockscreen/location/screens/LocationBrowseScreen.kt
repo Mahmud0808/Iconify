@@ -37,7 +37,7 @@ import com.drdisagree.iconify.core.ui.components.scaffolds.AppScaffold
 import com.drdisagree.iconify.features.xposed.lockscreen.location.models.LocationBrowseItem
 import com.drdisagree.iconify.features.xposed.lockscreen.location.states.LocationBrowseUiState
 import com.drdisagree.iconify.features.xposed.lockscreen.location.viewmodels.LocationBrowseViewModel
-import com.drdisagree.iconify.features.xposed.lockscreen.weather.viewmodels.WeatherViewModel
+import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
 
 @Composable
 fun LocationBrowseScreen(

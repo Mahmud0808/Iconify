@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.features.xposed.lockscreen.weather.events
+package com.drdisagree.iconify.features.xposed.lockscreen.common.events
 
 sealed class WeatherDialog {
     object LocationDisabled : WeatherDialog()

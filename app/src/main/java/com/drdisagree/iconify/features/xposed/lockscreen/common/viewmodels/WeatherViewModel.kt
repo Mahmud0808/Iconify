@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.features.xposed.lockscreen.weather.viewmodels
+package com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels
 
 import android.Manifest
 import android.content.Context
@@ -18,10 +18,10 @@ import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.core.utils.weather.WeatherConfig
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.data.storage.PreferenceStorage
-import com.drdisagree.iconify.features.xposed.lockscreen.weather.events.WeatherDialog
-import com.drdisagree.iconify.features.xposed.lockscreen.weather.events.WeatherEvent
-import com.drdisagree.iconify.features.xposed.lockscreen.weather.models.WeatherIconPackItem
-import com.drdisagree.iconify.features.xposed.lockscreen.weather.states.WeatherScreenState
+import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherDialog
+import com.drdisagree.iconify.features.xposed.lockscreen.common.events.WeatherEvent
+import com.drdisagree.iconify.features.xposed.lockscreen.common.models.WeatherIconPackItem
+import com.drdisagree.iconify.features.xposed.lockscreen.common.states.WeatherScreenState
 import com.drdisagree.iconify.services.schedulers.WeatherScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -44,10 +44,10 @@ class WeatherViewModel @Inject constructor(
     @param:SharedPrefs private val preferenceStorage: PreferenceStorage,
 ) : ViewModel() {
 
-    val controller = PreferenceController(preferenceStorage)
+    private val controller = PreferenceController(preferenceStorage)
 
-    private val _state = MutableStateFlow(WeatherScreenState())
-    val state: StateFlow<WeatherScreenState> = _state.asStateFlow()
+    private val _screenState = MutableStateFlow(WeatherScreenState())
+    val screenState: StateFlow<WeatherScreenState> = _screenState.asStateFlow()
 
     private val _events = MutableSharedFlow<WeatherEvent>()
     val events = _events.asSharedFlow()
@@ -94,7 +94,7 @@ class WeatherViewModel @Inject constructor(
                     context.getString(R.string.omnijaws_service_error_long)
                 }
             }
-            _state.update { it.copy(updateStatusSummary = msg) }
+            _screenState.update { it.copy(updateStatusSummary = msg) }
         }
     }
 
@@ -122,7 +122,12 @@ class WeatherViewModel @Inject constructor(
         }
 
         withContext(Dispatchers.Main) {
-            _state.update { it.copy(iconPacks = items, selectedIconPackIndex = selectedIndex) }
+            _screenState.update {
+                it.copy(
+                    iconPacks = items,
+                    selectedIconPackIndex = selectedIndex
+                )
+            }
         }
     }
 
@@ -149,11 +154,11 @@ class WeatherViewModel @Inject constructor(
 
         when (provider) {
             "1" if controller.getString(XposedKey.WEATHER_OWM_KEY).isEmpty() -> {
-                _state.update { it.copy(dialog = WeatherDialog.OwmKey) }
+                _screenState.update { it.copy(dialog = WeatherDialog.OwmKey) }
             }
 
             "2" if controller.getString(XposedKey.WEATHER_YANDEX_KEY).isEmpty() -> {
-                _state.update { it.copy(dialog = WeatherDialog.YandexKey) }
+                _screenState.update { it.copy(dialog = WeatherDialog.YandexKey) }
             }
         }
     }
@@ -167,17 +172,17 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun onIconPackSelected(index: Int) {
-        val packs = _state.value.iconPacks
+        val packs = _screenState.value.iconPacks
         if (index !in packs.indices) return
 
         controller.set(XposedKey.WEATHER_ICON_PACK, packs[index].value.toPrefValue())
-        _state.update { it.copy(selectedIconPackIndex = index) }
+        _screenState.update { it.copy(selectedIconPackIndex = index) }
 
         forceRefreshWeatherSettings()
     }
 
     fun dismissDialog() {
-        _state.update { it.copy(dialog = null) }
+        _screenState.update { it.copy(dialog = null) }
     }
 
     fun onOpenLocationSettingsConfirmed() {
@@ -218,7 +223,7 @@ class WeatherViewModel @Inject constructor(
 
     private fun checkLocationEnabled(force: Boolean) {
         if (!isLocationEnabled()) {
-            _state.update { it.copy(dialog = WeatherDialog.LocationDisabled) }
+            _screenState.update { it.copy(dialog = WeatherDialog.LocationDisabled) }
         } else {
             checkLocationPermission(force)
         }
@@ -238,7 +243,7 @@ class WeatherViewModel @Inject constructor(
 
     fun onShouldShowPermissionRationale(shouldShow: Boolean) {
         if (shouldShow) {
-            _state.update { it.copy(dialog = WeatherDialog.PermissionRationale) }
+            _screenState.update { it.copy(dialog = WeatherDialog.PermissionRationale) }
         }
         // If false the composable fires the system launcher directly (no dialog needed)
     }
@@ -254,7 +259,7 @@ class WeatherViewModel @Inject constructor(
     private fun queryAndUpdateWeather() {
         weatherClient.queryWeather()
         weatherClient.mCachedInfo?.let { info ->
-            _state.update { it.copy(updateStatusSummary = info.lastUpdateTime) }
+            _screenState.update { it.copy(updateStatusSummary = info.lastUpdateTime) }
         }
     }
 
