@@ -87,49 +87,87 @@ class PreferenceController(
 
     fun get(key: String): PrefValue? = _prefs[key]
 
-    fun get(key: String, default: PrefValue?): PrefValue? = _prefs[key] ?: default
+    fun get(key: String, default: PrefValue?): PrefValue? {
+        if (default != null) init(key, default)
+        return _prefs[key] ?: default
+    }
 
-    fun getBoolean(key: String, default: Boolean = false): Boolean =
-        (_prefs[key] as? PrefValue.BoolValue)?.v ?: default
+    fun getBoolean(key: String, default: Boolean = false): Boolean {
+        init(key, default.toPrefValue())
+        return (_prefs[key] as? PrefValue.BoolValue)?.v ?: default
+    }
 
-    fun getInt(key: String, default: Int = 0): Int =
-        (_prefs[key] as? PrefValue.IntValue)?.v ?: default
+    fun getInt(key: String, default: Int = 0): Int {
+        init(key, default.toPrefValue())
+        return (_prefs[key] as? PrefValue.IntValue)?.v ?: default
+    }
 
-    fun getFloat(key: String, default: Float = 0f): Float =
-        (_prefs[key] as? PrefValue.FloatValue)?.v ?: default
+    fun getFloat(key: String, default: Float = 0f): Float {
+        init(key, default.toPrefValue())
+        return (_prefs[key] as? PrefValue.FloatValue)?.v ?: default
+    }
 
-    fun getDouble(key: String, default: Double = 0.0): Double =
-        (_prefs[key] as? PrefValue.DoubleValue)?.v ?: default
+    fun getDouble(key: String, default: Double = 0.0): Double {
+        init(key, default.toPrefValue())
+        return (_prefs[key] as? PrefValue.DoubleValue)?.v ?: default
+    }
 
-    fun getString(key: String, default: String = ""): String =
-        (_prefs[key] as? PrefValue.StringValue)?.v ?: default
+    fun getString(key: String, default: String = ""): String {
+        init(key, default.toPrefValue())
+        return (_prefs[key] as? PrefValue.StringValue)?.v ?: default
+    }
 
-    fun getStringSet(key: String, default: Set<String> = emptySet()): Set<String> =
-        (_prefs[key] as? PrefValue.StringSetValue)?.v ?: default
+    fun getStringSet(key: String, default: Set<String> = emptySet()): Set<String> {
+        init(key, default.toPrefValue())
+        return (_prefs[key] as? PrefValue.StringSetValue)?.v ?: default
+    }
 
-    fun get(key: Key): PrefValue? = _prefs[key.name] ?: key.default?.toPrefValue()
+    fun get(key: Key): PrefValue? {
+        key.default?.toPrefValue()?.let { init(key.name, it) }
+        return _prefs[key.name] ?: key.default?.toPrefValue()
+    }
 
-    fun get(key: Key, default: PrefValue?): PrefValue? = _prefs[key.name] ?: default
+    fun get(key: Key, default: PrefValue?): PrefValue? {
+        init(key.name, default ?: key.default?.toPrefValue() ?: return _prefs[key.name])
+        return _prefs[key.name] ?: default
+    }
 
-    fun getBoolean(key: Key): Boolean =
-        (_prefs[key.name] as? PrefValue.BoolValue)?.v ?: key.default as? Boolean ?: false
+    fun getBoolean(key: Key): Boolean {
+        val default = key.default as? Boolean ?: false
+        init(key.name, default.toPrefValue())
+        return (_prefs[key.name] as? PrefValue.BoolValue)?.v ?: default
+    }
 
-    fun getInt(key: Key): Int =
-        (_prefs[key.name] as? PrefValue.IntValue)?.v ?: key.default as? Int ?: 0
+    fun getInt(key: Key): Int {
+        val default = key.default as? Int ?: 0
+        init(key.name, default.toPrefValue())
+        return (_prefs[key.name] as? PrefValue.IntValue)?.v ?: default
+    }
 
-    fun getFloat(key: Key): Float =
-        (_prefs[key.name] as? PrefValue.FloatValue)?.v ?: key.default as? Float ?: 0f
+    fun getFloat(key: Key): Float {
+        val default = key.default as? Float ?: 0f
+        init(key.name, default.toPrefValue())
+        return (_prefs[key.name] as? PrefValue.FloatValue)?.v ?: default
+    }
 
-    fun getDouble(key: Key): Double =
-        (_prefs[key.name] as? PrefValue.DoubleValue)?.v ?: key.default as? Double ?: 0.0
+    fun getDouble(key: Key): Double {
+        val default = key.default as? Double ?: 0.0
+        init(key.name, default.toPrefValue())
+        return (_prefs[key.name] as? PrefValue.DoubleValue)?.v ?: default
+    }
 
-    fun getString(key: Key): String =
-        (_prefs[key.name] as? PrefValue.StringValue)?.v ?: key.default as? String ?: ""
+    fun getString(key: Key): String {
+        val default = key.default as? String ?: ""
+        init(key.name, default.toPrefValue())
+        return (_prefs[key.name] as? PrefValue.StringValue)?.v ?: default
+    }
 
     @Suppress("UNCHECKED_CAST")
-    fun getStringSet(key: Key): Set<String> =
-        (_prefs[key.name] as? PrefValue.StringSetValue)?.v ?: key.default as? Set<String>
-        ?: emptySet()
+    fun getStringSet(key: Key): Set<String> {
+        val default = key.default as? Set<String> ?: emptySet()
+        init(key.name, default.toPrefValue())
+        return (_prefs[key.name] as? PrefValue.StringSetValue)?.v ?: default
+    }
 
     fun setBoolean(key: String, value: Boolean) = set(key, value.toPrefValue())
 
