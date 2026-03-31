@@ -57,6 +57,7 @@ val statusbarPreferences = preferenceScreen {
         switch(
             key = XposedKey.HIDE_BATTERY_VIEW,
             title = stringRes(R.string.hide_battery_title),
+            summary = { _, _-> stringRes("Hide battery icon from statusbar") },
         )
     }
 
