@@ -64,7 +64,9 @@ fun lsWeatherPreferences(
             onClick = { _, _, _ -> weatherViewModel?.onUpdateStatusClicked() },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
         )
+    }
 
+    category {
         listPref(
             key = XposedKey.WEATHER_PROVIDER,
             title = stringRes(R.string.weather_provider),
@@ -99,6 +101,27 @@ fun lsWeatherPreferences(
             isVisible = { it.getString(XposedKey.WEATHER_PROVIDER) in setOf("2") },
         )
 
+        twoTargetSwitch(
+            key = XposedKey.WEATHER_CUSTOM_LOCATION,
+            title = stringRes(R.string.custom_location_title),
+            summary = { prefs, key ->
+                val currentVal = prefs.getBoolean(
+                    key,
+                    XposedKey.WEATHER_CUSTOM_LOCATION.default as Boolean
+                )
+                if (currentVal) stringRes(R.string.general_on)
+                else stringRes(R.string.general_off)
+            },
+            onClick = { _, _, nav ->
+                nav.navigate(NavRoutes.Xposed.Lockscreen.Location) {
+                    launchSingleTop = true
+                }
+            },
+            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
+        )
+    }
+
+    category {
         listPref(
             key = XposedKey.WEATHER_UNITS,
             title = stringRes(R.string.units_title),
@@ -154,27 +177,9 @@ fun lsWeatherPreferences(
             },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
         )
+    }
 
-        slider(
-            key = XposedKey.WEATHER_TEXT_SIZE,
-            title = stringRes(R.string.weather_text_size),
-            min = 13f,
-            max = 24f,
-            steps = 10,
-            valueLabel = { "${it.toInt()}px" },
-            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
-        )
-
-        slider(
-            key = XposedKey.WEATHER_ICON_SIZE,
-            title = stringRes(R.string.weather_image_size),
-            min = 13f,
-            max = 24f,
-            steps = 10,
-            valueLabel = { "${it.toInt()}px" },
-            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
-        )
-
+    category {
         switch(
             key = XposedKey.WEATHER_TEXT_COLOR_ENABLED,
             title = stringRes(R.string.weather_custom_color_switch_title),
@@ -197,25 +202,6 @@ fun lsWeatherPreferences(
             isVisible = { it.getBoolean(XposedKey.WEATHER_TEXT_COLOR_ENABLED) }
         )
 
-        twoTargetSwitch(
-            key = XposedKey.WEATHER_CUSTOM_LOCATION,
-            title = stringRes(R.string.custom_location_title),
-            summary = { prefs, key ->
-                val currentVal = prefs.getBoolean(
-                    key,
-                    XposedKey.WEATHER_CUSTOM_LOCATION.default as Boolean
-                )
-                if (currentVal) stringRes(R.string.general_on)
-                else stringRes(R.string.general_off)
-            },
-            onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Location) {
-                    launchSingleTop = true
-                }
-            },
-            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
-        )
-
         action(
             key = XposedKey.WEATHER_ICON_PACK,
             title = stringRes(R.string.weather_icon_pack_title),
@@ -224,11 +210,54 @@ fun lsWeatherPreferences(
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
         )
 
+        listPref(
+            key = XposedKey.WEATHER_STYLE,
+            title = stringRes(R.string.lockscreen_weather_selection_title),
+            entries = arrayRes(R.array.lockscreen_weather_bg_entries),
+            entryValues = arrayRes(R.array.lockscreen_weather_bg_values),
+            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
+        )
+
+        filePicker(
+            key = XposedKey.WEATHER_CUSTOM_FONT_FILE_URI,
+            title = stringRes(R.string.choose_weather_font),
+            pickerType = FilePickerType.Font,
+            saveFileUri = true,
+            onFileSelected = { _, uriString ->
+                if (uriString.isNotEmpty()) {
+                    uriString.toUri().toXposedSharedPath(LOCKSCREEN_WEATHER_FONT_FILE.name)
+                }
+            },
+            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
+        )
+    }
+
+    category {
         switch(
             key = XposedKey.WEATHER_CENTER_VIEW,
             title = stringRes(R.string.weather_center_view_title),
             summary = { _, _ -> stringRes(R.string.weather_center_view_summary) },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
+        )
+
+        slider(
+            key = XposedKey.WEATHER_TEXT_SIZE,
+            title = stringRes(R.string.weather_text_size),
+            min = 13f,
+            max = 24f,
+            steps = 10,
+            valueLabel = { "${it.toInt()}px" },
+            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
+        )
+
+        slider(
+            key = XposedKey.WEATHER_ICON_SIZE,
+            title = stringRes(R.string.weather_image_size),
+            min = 13f,
+            max = 24f,
+            steps = 10,
+            valueLabel = { "${it.toInt()}px" },
+            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
         )
 
         slider(
@@ -255,27 +284,6 @@ fun lsWeatherPreferences(
             min = 0f,
             max = 100f,
             valueLabel = { "${it.toInt()}dp" },
-            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
-        )
-
-        listPref(
-            key = XposedKey.WEATHER_STYLE,
-            title = stringRes(R.string.lockscreen_weather_selection_title),
-            entries = arrayRes(R.array.lockscreen_weather_bg_entries),
-            entryValues = arrayRes(R.array.lockscreen_weather_bg_values),
-            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
-        )
-
-        filePicker(
-            key = XposedKey.WEATHER_CUSTOM_FONT_FILE_URI,
-            title = stringRes(R.string.choose_weather_font),
-            pickerType = FilePickerType.Font,
-            saveFileUri = true,
-            onFileSelected = { _, uriString ->
-                if (uriString.isNotEmpty()) {
-                    uriString.toUri().toXposedSharedPath(LOCKSCREEN_WEATHER_FONT_FILE.name)
-                }
-            },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) }
         )
     }
