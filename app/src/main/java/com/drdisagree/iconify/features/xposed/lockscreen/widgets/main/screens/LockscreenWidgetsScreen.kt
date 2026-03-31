@@ -237,7 +237,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean) = preferenceScreen {
 
         slider(
             key = XposedKey.LOCKSCREEN_WIDGETS_TOP_MARGIN,
-            title = stringRes(R.string.qqs_panel_top_margin_title),
+            title = stringRes(R.string.lockscreen_clock_top_margin_title),
             min = -100f,
             max = 400f,
             valueLabel = { "${it.toInt()}dp" },
@@ -246,7 +246,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean) = preferenceScreen {
 
         slider(
             key = XposedKey.LOCKSCREEN_WIDGETS_BOTTOM_MARGIN,
-            title = stringRes(R.string.qs_panel_top_margin_title),
+            title = stringRes(R.string.lockscreen_clock_bottom_margin_title),
             min = -100f,
             max = 400f,
             valueLabel = { "${it.toInt()}dp" },
@@ -255,7 +255,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean) = preferenceScreen {
 
         slider(
             key = XposedKey.LOCKSCREEN_WIDGETS_CORNER_RADIUS,
-            title = stringRes(R.string.qqs_panel_top_margin_title),
+            title = stringRes(R.string.lockscreen_widgets_roundness),
             min = 0f,
             max = 140f,
             valueLabel = { "${it.toInt()}dp" },
@@ -264,7 +264,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean) = preferenceScreen {
 
         slider(
             key = XposedKey.LOCKSCREEN_WIDGETS_VIEW_SCALE,
-            title = stringRes(R.string.qs_panel_top_margin_title),
+            title = stringRes(R.string.lockscreen_widgets_scale),
             min = 0.5f,
             max = 1.5f,
             steps = 9,
