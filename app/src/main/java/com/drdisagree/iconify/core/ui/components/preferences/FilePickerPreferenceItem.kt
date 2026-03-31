@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -123,16 +124,30 @@ fun FilePickerPreferenceItem(
 
     val uriString by controller.observe(def.key, "")
     val uri: Uri? = remember(uriString) { uriString.takeIf { it.isNotEmpty() }?.let(Uri::parse) }
+    val fileName: String? = remember(uri) { uri?.let { resolveFileName(context, it) } }
 
-    val fileName: String? = remember(uri) {
-        uri?.let { resolveFileName(context, it) }
-    }
-
+    val isImageType = type.pickerType is FilePickerType.Image
     val isImage: Boolean = remember(uri) {
         uri?.let { context.contentResolver.getType(it)?.startsWith("image/") } ?: false
     }
 
-    val launcher = rememberLauncherForActivityResult(
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+    ) { pickedUri ->
+        if (pickedUri != null && isEnabled) {
+            runCatching {
+                context.contentResolver.takePersistableUriPermission(
+                    pickedUri,
+                    android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION,
+                )
+            }
+            val uriStr = pickedUri.toString()
+            if (type.saveFileUri) controller.setString(def.key, uriStr)
+            type.onFileSelected(controller, uriStr)
+        }
+    }
+
+    val documentLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
     ) { pickedUri ->
         if (pickedUri != null && isEnabled) {
@@ -143,10 +158,20 @@ fun FilePickerPreferenceItem(
                 )
             }
             val uriStr = pickedUri.toString()
-            if (type.saveFileUri) {
-                controller.setString(def.key, uriStr)
-            }
+            if (type.saveFileUri) controller.setString(def.key, uriStr)
             type.onFileSelected(controller, uriStr)
+        }
+    }
+
+    val onPickClick = withHaptic {
+        if (isEnabled) {
+            if (isImageType) {
+                photoPickerLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
+            } else {
+                documentLauncher.launch(type.pickerType.mimeTypes.toTypedArray())
+            }
         }
     }
 
@@ -205,7 +230,7 @@ fun FilePickerPreferenceItem(
             }
 
             Button(
-                onClick = withHaptic { if (isEnabled) launcher.launch(type.pickerType.mimeTypes.toTypedArray()) },
+                onClick = onPickClick,
                 enabled = isEnabled,
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             ) {
