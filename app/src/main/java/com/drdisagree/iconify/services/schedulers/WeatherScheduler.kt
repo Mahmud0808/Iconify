@@ -27,7 +27,7 @@ object WeatherScheduler {
 
         val workManager = WorkManager.getInstance(context)
 
-        val weatherEnabled: Boolean = WeatherConfig.isEnabled(context)
+        val weatherEnabled: Boolean = WeatherConfig.isEnabled()
 
         Log.d(TAG, "Weather enabled: $weatherEnabled")
 
@@ -35,7 +35,7 @@ object WeatherScheduler {
             Log.d(TAG, "Scheduling updates")
             val builder: PeriodicWorkRequest.Builder = PeriodicWorkRequest.Builder(
                 WeatherWork::class.java,
-                WeatherConfig.getUpdateInterval(context).toLong(), TimeUnit.HOURS
+                WeatherConfig.getUpdateInterval().toLong(), TimeUnit.HOURS
             )
                 .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.HOURS)
 

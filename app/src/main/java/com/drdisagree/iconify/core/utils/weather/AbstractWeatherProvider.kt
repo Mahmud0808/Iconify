@@ -158,7 +158,7 @@ abstract class AbstractWeatherProvider(protected var mContext: Context) {
 
     protected fun getWeatherDataLocality(coordinates: String): String? {
         var city: String?
-        if (isCustomLocation(mContext)) {
+        if (isCustomLocation()) {
             city = getLocationName(mContext)
             if (TextUtils.isEmpty(city)) {
                 city = getCoordinatesLocality(coordinates)

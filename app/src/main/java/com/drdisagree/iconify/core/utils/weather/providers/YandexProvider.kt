@@ -38,7 +38,7 @@ class YandexProvider(context: Context?) : AbstractWeatherProvider(context!!) {
             URL_WEATHER + coordinates + PART_PARAMETERS,
             language
         )
-        val apiKey: String = WeatherConfig.getYandexKey(mContext)
+        val apiKey: String = WeatherConfig.getYandexKey()
         // Check API Key first
         if (TextUtils.isEmpty(apiKey)) {
             Log.e(TAG, "Yandex API key is not set")

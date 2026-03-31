@@ -43,7 +43,8 @@ import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.screens.
 import com.drdisagree.iconify.features.xposed.lockscreen.location.screens.LocationBrowseScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.main.screens.LockscreenScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.weather.screens.LockscreenWeatherScreen
-import com.drdisagree.iconify.features.xposed.lockscreen.widgets.screens.LockscreenWidgetsScreen
+import com.drdisagree.iconify.features.xposed.lockscreen.widgets.main.screens.LockscreenWidgetsScreen
+import com.drdisagree.iconify.features.xposed.lockscreen.widgets.weather.screens.LockscreenWidgetsWeatherScreen
 import com.drdisagree.iconify.features.xposed.main.screens.XposedScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.headerimage.screens.HeaderImageScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.main.screens.QuickSettingsScreen
@@ -216,7 +217,12 @@ fun NavGraph(
                         composable<NavRoutes.Xposed.Lockscreen.Main> { LockscreenScreen() }
                         composable<NavRoutes.Xposed.Lockscreen.Clock> { LockscreenClockScreen() }
                         composable<NavRoutes.Xposed.Lockscreen.Weather> { LockscreenWeatherScreen() }
-                        composable<NavRoutes.Xposed.Lockscreen.Widgets> { LockscreenWidgetsScreen() }
+
+                        navigation<NavRoutes.Xposed.Lockscreen.Widgets.Root>(startDestination = NavRoutes.Xposed.Lockscreen.Widgets.Main) {
+                            composable<NavRoutes.Xposed.Lockscreen.Widgets.Main> { LockscreenWidgetsScreen() }
+                            composable<NavRoutes.Xposed.Lockscreen.Widgets.Weather> { LockscreenWidgetsWeatherScreen() }
+                        }
+
                         composable<NavRoutes.Xposed.Lockscreen.DepthWallpaper> { DepthWallpaperScreen() }
                         composable<NavRoutes.Xposed.Lockscreen.MediaAlbumArt> { LockscreenAlbumArtScreen() }
                         composable<NavRoutes.Xposed.Lockscreen.Location> { LocationBrowseScreen() }

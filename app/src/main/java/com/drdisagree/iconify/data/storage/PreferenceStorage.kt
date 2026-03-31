@@ -15,7 +15,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.toPrefValue
-import com.drdisagree.iconify.data.config.RPrefs.getPrefsName
+import com.drdisagree.iconify.data.common.XposedConst.PREF_FILE_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,7 +47,7 @@ interface PreferenceStorage {
 @Singleton
 class SharedPreferencesStorage @Inject constructor(
     @ApplicationContext context: Context,
-    fileName: String = getPrefsName(),
+    fileName: String = PREF_FILE_NAME,
 ) : PreferenceStorage {
 
     private val sp: SharedPreferences = context

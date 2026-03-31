@@ -40,7 +40,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     @param:ApplicationContext val context: Context,
-    private val weatherClient: OmniJawsClient,
+    val mWeatherClient: OmniJawsClient,
     @param:SharedPrefs private val preferenceStorage: PreferenceStorage,
 ) : ViewModel() {
 
@@ -59,12 +59,12 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun attachObserver() {
-        weatherClient.addObserver(omniJawsObserver)
+        mWeatherClient.addObserver(omniJawsObserver)
         handlePermissions()
     }
 
     fun detachObserver() {
-        weatherClient.removeObserver(omniJawsObserver)
+        mWeatherClient.removeObserver(omniJawsObserver)
     }
 
     private val omniJawsObserver = object : OmniJawsClient.OmniJawsObserver {
@@ -114,7 +114,7 @@ class WeatherViewModel @Inject constructor(
             )
         }
 
-        val savedPack = WeatherConfig.getIconPack(context).toString()
+        val savedPack = WeatherConfig.getIconPack().toString()
         var selectedIndex = values.indexOfFirst { it == savedPack }
         if (selectedIndex == -1) {
             selectedIndex = values.indexOfFirst { it == DEFAULT_WEATHER_ICON_PACKAGE }
@@ -132,7 +132,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun onLocationNameReceived() {
-        if (WeatherConfig.isEnabled(context)
+        if (WeatherConfig.isEnabled()
             && !controller.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)
         ) {
             checkLocationEnabled(force = true)
@@ -140,7 +140,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun onMainSwitchChanged(enabled: Boolean, key: XposedKey) {
-        WeatherConfig.setEnabled(context, enabled, key.name)
+        WeatherConfig.setEnabled(enabled, key.name)
 
         if (enabled) {
             handlePermissions()
@@ -202,7 +202,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     private fun handlePermissions() {
-        if (WeatherConfig.isEnabled(context) &&
+        if (WeatherConfig.isEnabled() &&
             !controller.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)
         ) {
             checkLocationEnabled(force = false)
@@ -257,8 +257,8 @@ class WeatherViewModel @Inject constructor(
     }
 
     private fun queryAndUpdateWeather() {
-        weatherClient.queryWeather()
-        weatherClient.mCachedInfo?.let { info ->
+        mWeatherClient.queryWeather()
+        mWeatherClient.mCachedInfo?.let { info ->
             _screenState.update { it.copy(updateStatusSummary = info.lastUpdateTime) }
         }
     }

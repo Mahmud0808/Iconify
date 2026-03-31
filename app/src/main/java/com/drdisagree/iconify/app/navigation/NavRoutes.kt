@@ -124,7 +124,17 @@ sealed class NavRoutes {
             data object Weather : Lockscreen()
 
             @Serializable
-            data object Widgets : Lockscreen()
+            sealed class Widgets : Lockscreen() {
+
+                @Serializable
+                data object Root : Widgets()
+
+                @Serializable
+                data object Main : Widgets()
+
+                @Serializable
+                data object Weather : Widgets()
+            }
 
             @Serializable
             data object Location : Lockscreen()

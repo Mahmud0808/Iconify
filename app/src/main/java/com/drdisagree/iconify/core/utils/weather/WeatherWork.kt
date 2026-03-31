@@ -39,7 +39,7 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
 
     override fun startWork(): ListenableFuture<Result> {
         return CallbackToFutureAdapter.getFuture { completer: CallbackToFutureAdapter.Completer<Result> ->
-            if (!isEnabled(mContext)) {
+            if (!isEnabled()) {
                 handleError(
                     completer,
                     EXTRA_ERROR_DISABLED,
@@ -48,7 +48,7 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
                 return@getFuture completer
             }
 
-            if (!isCustomLocation(mContext)) {
+            if (!isCustomLocation()) {
                 // Check permissions and location enabled
                 // only if not using custom location
                 if (!checkPermissions()) {
@@ -71,7 +71,7 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
                     if (location != null) {
                         Log.d(TAG, "Location retrieved")
                         updateWeather(location, completer)
-                    } else if (isCustomLocation(mContext)) {
+                    } else if (isCustomLocation()) {
                         Log.d(TAG, "Using custom location configuration")
                         updateWeather(null, completer)
                     } else {
@@ -119,7 +119,7 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
     private fun getCurrentLocation(): CompletableFuture<Location?> {
         val locationFuture = CompletableFuture<Location?>()
 
-        if (isCustomLocation(mContext)) {
+        if (isCustomLocation()) {
             locationFuture.complete(null)
             return locationFuture
         }
@@ -193,12 +193,12 @@ class WeatherWork(val mContext: Context, workerParams: WorkerParameters) :
         var w: WeatherInfo? = null
         try {
             val provider = getProvider(mContext)
-            val isMetric = isMetric(mContext)
+            val isMetric = isMetric()
             var i = 0
             while (i < RETRY_MAX_NUM) {
-                Log.i(TAG, "location: $location, isCustomLocation: ${isCustomLocation(mContext)}")
+                Log.i(TAG, "location: $location, isCustomLocation: ${isCustomLocation()}")
                 Log.i(TAG, "getLocationLat: ${getLocationLat(mContext)}, getLocationLon: ${getLocationLon(mContext)}")
-                w = if (location != null && !isCustomLocation(mContext)) {
+                w = if (location != null && !isCustomLocation()) {
                     provider.getLocationWeather(location, isMetric)
                 } else if (!TextUtils.isEmpty(getLocationLat(mContext)) && !TextUtils.isEmpty(
                         getLocationLon(mContext)

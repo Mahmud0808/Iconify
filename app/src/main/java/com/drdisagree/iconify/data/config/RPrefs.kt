@@ -10,18 +10,13 @@ import com.drdisagree.iconify.data.keys.Key
 @Suppress("unused")
 object RPrefs : SharedPreferences {
 
-    fun getPrefsName() = PREF_FILE_NAME
-
-    private val prefs: SharedPreferences by lazy {
-        appContext.createDeviceProtectedStorageContext().getSharedPreferences(
-            getPrefsName(), MODE_PRIVATE
-        )
+    val prefs: SharedPreferences by lazy {
+        appContext
+            .createDeviceProtectedStorageContext()
+            .getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE)
     }
 
     private val editor: SharedPreferences.Editor by lazy { prefs.edit() }
-
-    val instance: RPrefs
-        get() = this
 
     val getPrefs: SharedPreferences
         get() = prefs

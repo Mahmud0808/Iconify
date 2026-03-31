@@ -1,6 +1,6 @@
 package com.drdisagree.iconify.core.di
 
-import com.drdisagree.iconify.data.config.RPrefs.getPrefsName
+import com.drdisagree.iconify.data.common.XposedConst.PREF_FILE_NAME
 import com.drdisagree.iconify.data.storage.DataStoreStorage
 import com.drdisagree.iconify.data.storage.PreferenceStorage
 import com.drdisagree.iconify.data.storage.SharedPreferencesStorage
@@ -33,6 +33,6 @@ abstract class PreferenceModule {
 
         @Provides
         @Singleton
-        fun provideFileName(): String = getPrefsName()
+        fun provideFileName(): String = PREF_FILE_NAME
     }
 }

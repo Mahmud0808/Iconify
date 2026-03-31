@@ -78,7 +78,7 @@
         <item>vi-VN</item>
     </string-array>
 
-    <string-array name="app_icon">
+    <string-array name="app_icon" translatable="false">
         <item>@string/settings_app_icon_default</item>
         <item>@string/settings_app_icon_themed</item>
         <item>@string/settings_app_icon_retro</item>
@@ -90,7 +90,7 @@
         <item>SplashActivityRetro</item>
     </string-array>
 
-    <string-array name="app_theme">
+    <string-array name="app_theme" translatable="false">
         <item>@string/settings_app_theme_light</item>
         <item>@string/settings_app_theme_dark</item>
         <item>@string/settings_app_theme_system</item>
@@ -102,45 +102,45 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="settings_icon_bg">
+    <string-array name="settings_icon_bg" translatable="false">
         <item>@string/settings_icons_minimal</item>
         <item>@string/settings_icons_filled</item>
         <item>@string/settings_icons_outline</item>
         <item>@string/settings_icons_neumorph</item>
     </string-array>
 
-    <string-array name="settings_icon_shape">
+    <string-array name="settings_icon_shape" translatable="false">
         <item>@string/settings_icons_circle</item>
         <item>@string/settings_icons_squircle</item>
         <item>@string/settings_icons_square</item>
     </string-array>
 
-    <string-array name="settings_icon_size">
+    <string-array name="settings_icon_size" translatable="false">
         <item>@string/settings_icons_size1</item>
         <item>@string/settings_icons_size2</item>
         <item>@string/settings_icons_size3</item>
         <item>@string/settings_icons_size4</item>
     </string-array>
 
-    <string-array name="settings_icon_color">
+    <string-array name="settings_icon_color" translatable="false">
         <item>@string/settings_icons_follow_system</item>
         <item>@string/settings_icons_system_inverse</item>
         <item>@string/settings_icons_monet_accent</item>
     </string-array>
 
-    <string-array name="xposed_force_apply_method">
+    <string-array name="xposed_force_apply_method" translatable="false">
         <item>@string/method_toggle_dark_mode</item>
         <item>@string/method_restart_systemui</item>
         <item>@string/method_do_nothing</item>
     </string-array>
 
-    <string-array name="statusbar_clock_color">
+    <string-array name="statusbar_clock_color" translatable="false">
         <item>@string/sbclock_color_follow_system</item>
         <item>@string/sbclock_color_transparent_text</item>
         <item>@string/sbclock_color_custom_color</item>
     </string-array>
 
-    <string-array name="monet_style">
+    <string-array name="monet_style" translatable="false">
         <item>@string/monet_neutral</item>
         <item>@string/monet_monochrome</item>
         <item>@string/monet_tonalspot</item>
@@ -152,14 +152,14 @@
         <item>@string/monet_fruitsalad</item>
     </string-array>
 
-    <string-array name="update_schedule">
+    <string-array name="update_schedule" translatable="false">
         <item>@string/update_schedule1</item>
         <item>@string/update_schedule2</item>
         <item>@string/update_schedule3</item>
         <item>@string/update_schedule4</item>
     </string-array>
 
-    <string-array name="xposed_mod_apply_method">
+    <string-array name="xposed_mod_apply_method" translatable="false">
         <item>@string/settings_auto_restart_systemui</item>
         <item>@string/settings_auto_force_reload_ui</item>
         <item>@string/settings_manual_restart_systemui</item>
@@ -191,7 +191,7 @@
         <item>@string/interval_12_hour</item>
     </string-array>
 
-    <string-array name="update_interval_values">
+    <string-array name="update_interval_values" translatable="false">
         <item>1</item>
         <item>2</item>
         <item>4</item>
@@ -200,7 +200,7 @@
     </string-array>
 
     <!-- Lockscreen Weather Provider -->
-    <string-array name="weather_provider_entries">
+    <string-array name="weather_provider_entries" translatable="false">
         <item>@string/openmeteo</item>
         <item>@string/openweathermap</item>
         <item>@string/yandex</item>
@@ -215,7 +215,7 @@
     </string-array>
 
     <!-- Lockscreen Weather styles -->
-    <string-array name="lockscreen_weather_bg_entries">
+    <string-array name="lockscreen_weather_bg_entries" translatable="false">
         <item>@string/lockscreen_weather_selection_default</item>
         <item>@string/lockscreen_weather_selection_str_box</item>
         <item>@string/lockscreen_weather_selection_str_round</item>
@@ -275,11 +275,12 @@
     </string-array>
 
     <!-- Lockscreen Device Widget style -->
-    <string-array name="lockscreen_device_widget_entries">
+    <string-array name="lockscreen_device_widget_entries" translatable="false">
         <item>@string/lockscreen_device_widget_style_classic</item>
         <item>@string/lockscreen_device_widget_style_arcs</item>
     </string-array>
-    <string-array name="lockscreen_device_widget_values">
+
+    <string-array name="lockscreen_device_widget_values" translatable="false">
         <item>0</item>
         <item>1</item>
     </string-array>

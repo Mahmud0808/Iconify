@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.core.preferences
 
+import android.util.Log
+
 sealed class PrefValue {
     data class BoolValue(val v: Boolean) : PrefValue()
     data class IntValue(val v: Int) : PrefValue()
@@ -19,6 +21,9 @@ fun Any?.toPrefValue(): PrefValue {
         is Double -> PrefValue.DoubleValue(this)
         is String -> PrefValue.StringValue(this)
         is Set<*> -> PrefValue.StringSetValue(filterIsInstance<String>().toSet())
-        else -> throw IllegalArgumentException("Unsupported type for PrefValue: ${this::class}")
+        else -> {
+            Log.w("PrefValue", "Unsupported type for PrefValue: ${this::class}")
+            PrefValue.None
+        }
     }
 }

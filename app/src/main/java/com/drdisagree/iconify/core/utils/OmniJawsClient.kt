@@ -336,7 +336,7 @@ class OmniJawsClient(private val mContext: Context) {
     }
 
     val isOmniJawsEnabled: Boolean
-        get() = WeatherConfig.isEnabled(mContext)
+        get() = WeatherConfig.isEnabled()
 
     private val temperatureUnit: String
         get() = "\u00b0" + (if (mMetric) "C" else "F")

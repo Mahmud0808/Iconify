@@ -34,13 +34,13 @@ class WeatherContentProvider : ContentProvider() {
 
         if (projectionType == URI_TYPE_SETTINGS) {
             result.newRow()
-                .add(COLUMN_ENABLED, if (WeatherConfig.isEnabled(mContext)) 1 else 0)
-                .add(COLUMN_PROVIDER, WeatherConfig.getProviderId(mContext))
-                .add(COLUMN_INTERVAL, WeatherConfig.getUpdateInterval(mContext))
-                .add(COLUMN_UNITS, if (WeatherConfig.isMetric(mContext)) 0 else 1)
+                .add(COLUMN_ENABLED, if (WeatherConfig.isEnabled()) 1 else 0)
+                .add(COLUMN_PROVIDER, WeatherConfig.getProviderId())
+                .add(COLUMN_INTERVAL, WeatherConfig.getUpdateInterval())
+                .add(COLUMN_UNITS, if (WeatherConfig.isMetric()) 0 else 1)
                 .add(
                     COLUMN_LOCATION,
-                    if (WeatherConfig.isCustomLocation(mContext)) WeatherConfig.getLocationName(
+                    if (WeatherConfig.isCustomLocation()) WeatherConfig.getLocationName(
                         mContext
                     ) else ""
                 )
@@ -50,8 +50,7 @@ class WeatherContentProvider : ContentProvider() {
                 )
                 .add(
                     COLUMN_ICON_PACK,
-                    if (WeatherConfig.getIconPack(mContext) != null) WeatherConfig.getIconPack(
-                        mContext
+                    if (WeatherConfig.getIconPack() != null) WeatherConfig.getIconPack(
                     ) else ""
                 )
 

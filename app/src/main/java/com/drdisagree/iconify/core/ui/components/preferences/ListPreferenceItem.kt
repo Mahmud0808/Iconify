@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceType
@@ -47,7 +48,7 @@ fun ListPreferenceItem(
     modifier: Modifier,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    val selectedValue by controller.observe(def.key, "")
+    val selectedValue by controller.observe(def.key, (def.defaultValue as PrefValue.StringValue).v)
 
     val displaySummary = summary
         ?: type.entries.resolve()

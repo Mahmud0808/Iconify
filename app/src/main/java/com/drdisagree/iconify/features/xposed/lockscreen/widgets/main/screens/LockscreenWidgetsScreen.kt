@@ -1,14 +1,20 @@
-package com.drdisagree.iconify.features.xposed.lockscreen.widgets.screens
+package com.drdisagree.iconify.features.xposed.lockscreen.widgets.main.screens
 
-import android.content.Context
+import android.text.TextUtils
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.common.LocalPreferenceController
+import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.arrayRes
@@ -18,8 +24,11 @@ import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.utils.weather.WeatherConfig
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
+import com.drdisagree.iconify.services.schedulers.WeatherScheduler
+import java.util.stream.Collectors
 
-fun lsWidgetsPreferences(context: Context?) = preferenceScreen {
+fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean) = preferenceScreen {
     category {
         switch(
             key = XposedKey.LOCKSCREEN_WIDGETS,
@@ -217,17 +226,13 @@ fun lsWidgetsPreferences(context: Context?) = preferenceScreen {
         action(
             key = "xposed_lockscreen_widget_weather_settings",
             title = stringRes(R.string.weather_settings),
-            summary = { _, _ -> stringRes(R.string.activity_desc_transparency_blur) },
             onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Weather) {
+                nav.navigate(NavRoutes.Xposed.Lockscreen.Widgets.Weather) {
                     launchSingleTop = true
                 }
             },
-            isVisible = {
-                context != null
-                        && WeatherConfig.isEnabled(appContext)
-                        && it.getBoolean(XposedKey.LOCKSCREEN_WIDGETS)
-            }
+            isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WIDGETS) },
+            isVisible = { isWeatherSettingsVisible }
         )
 
         slider(
@@ -278,21 +283,93 @@ fun lsWidgetsPreferences(context: Context?) = preferenceScreen {
 
 @Composable
 fun LockscreenWidgetsScreen(
+    weatherViewModel: WeatherViewModel = hiltViewModel(),
     systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
 ) {
     val context = LocalContext.current
+    val preferenceController = LocalPreferenceController.current
 
-    PreferenceListener(key = XposedKey.LOCKSCREEN_WIDGETS) { _ ->
-        systemActionViewModel?.shouldRestartSystemUI()
+    var isWeatherSettingsVisible by rememberSaveable { mutableStateOf(false) }
+
+    fun List<String>.replaceEmptyWithNone(): MutableList<String> {
+        return stream()
+            .map { s: String? -> if (TextUtils.isEmpty(s)) "none" else s }
+            .collect(Collectors.toList())
     }
 
-    LockscreenWidgetsScreenContent(context)
+    fun getMainWidgetsList() = listOf(
+        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET1),
+        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET2)
+    ).replaceEmptyWithNone()
+
+    fun getExtraWidgetsList() = listOf(
+        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET1),
+        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET2),
+        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET3),
+        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET4)
+    ).replaceEmptyWithNone()
+
+    fun isWeatherTileEnabled(): Boolean {
+        return (getMainWidgetsList() + getExtraWidgetsList()).any { it.contains("weather") }
+    }
+
+    LaunchedEffect(Unit) {
+        val wasWeatherEnabled = WeatherConfig.isEnabled()
+        val mWeatherClient = weatherViewModel.mWeatherClient
+        val widgetsEnabled = preferenceController.getBoolean(XposedKey.LOCKSCREEN_WIDGETS)
+        isWeatherSettingsVisible = isWeatherTileEnabled()
+        val weatherEnabled = widgetsEnabled && isWeatherSettingsVisible
+
+        if (weatherEnabled && wasWeatherEnabled && mWeatherClient.mCachedInfo != null) {
+            if (System.currentTimeMillis() - mWeatherClient.mCachedInfo!!.timeStamp > 3600000) {
+                WeatherScheduler.scheduleUpdateNow(context)
+            }
+        } else if (weatherEnabled) {
+            WeatherScheduler.scheduleUpdates(context)
+            WeatherScheduler.scheduleUpdateNow(context)
+        }
+    }
+
+    PreferenceListener { event ->
+        when (event.key) {
+            XposedKey.LOCKSCREEN_WIDGETS.name -> {
+                val isEnabled = (event.newValue as PrefValue.BoolValue).v
+                weatherViewModel.onMainSwitchChanged(isEnabled, XposedKey.LOCKSCREEN_WIDGETS)
+                systemActionViewModel?.shouldRestartSystemUI()
+            }
+
+            XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET1.name,
+            XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET2.name -> {
+                preferenceController.setString(
+                    XposedKey.LOCKSCREEN_WIDGETS_MAIN,
+                    TextUtils.join(",", getMainWidgetsList())
+                )
+            }
+
+            XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET1.name,
+            XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET2.name,
+            XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET3.name,
+            XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET4.name -> {
+                preferenceController.setString(
+                    XposedKey.LOCKSCREEN_WIDGETS_EXTRAS,
+                    TextUtils.join(",", getExtraWidgetsList())
+                )
+            }
+
+            XposedKey.LOCKSCREEN_WIDGETS_MAIN.name,
+            XposedKey.LOCKSCREEN_WIDGETS_EXTRAS.name -> {
+                isWeatherSettingsVisible = isWeatherTileEnabled()
+            }
+        }
+    }
+
+    LockscreenWidgetsScreenContent(isWeatherSettingsVisible = isWeatherSettingsVisible)
 }
 
 @Composable
-private fun LockscreenWidgetsScreenContent(context: Context?) {
+private fun LockscreenWidgetsScreenContent(isWeatherSettingsVisible: Boolean) {
     PreferenceScreen(
-        items = lsWidgetsPreferences(context),
+        items = lsWidgetsPreferences(isWeatherSettingsVisible),
         title = stringResource(R.string.activity_title_lockscreen_widget),
         showBackIcon = true
     )
@@ -302,6 +379,6 @@ private fun LockscreenWidgetsScreenContent(context: Context?) {
 @Composable
 fun LockscreenWidgetsScreenPreview() {
     PreviewComposable {
-        LockscreenWidgetsScreenContent(null)
+        LockscreenWidgetsScreenContent(false)
     }
 }

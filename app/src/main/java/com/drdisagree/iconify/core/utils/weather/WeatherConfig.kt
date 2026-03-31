@@ -11,8 +11,8 @@ import com.drdisagree.iconify.core.utils.weather.providers.METNorwayProvider
 import com.drdisagree.iconify.core.utils.weather.providers.OpenMeteoProvider
 import com.drdisagree.iconify.core.utils.weather.providers.OpenWeatherMapProvider
 import com.drdisagree.iconify.core.utils.weather.providers.YandexProvider
-import com.drdisagree.iconify.data.common.XposedConst.PREF_FILE_NAME
 import com.drdisagree.iconify.data.common.XposedConst.WEATHER_PREF_FILE_NAME
+import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
@@ -26,16 +26,15 @@ object WeatherConfig {
     private const val PREF_KEY_LAST_UPDATE: String = "last_update"
     private const val PREF_KEY_UPDATE_ERROR: String = "update_error"
 
-    private fun Context.getPrefs(): SharedPreferences {
+    private fun getPrefs(): SharedPreferences {
         if (XprefsIsInitialized) return Xprefs
 
-        return createDeviceProtectedStorageContext()
-            .getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE)
+        return RPrefs.getPrefs
     }
 
     private fun Context.getWeatherPrefs(): SharedPreferences {
-        val deviceProtectedContext = createDeviceProtectedStorageContext()
-        return deviceProtectedContext.getSharedPreferences(WEATHER_PREF_FILE_NAME, MODE_PRIVATE)
+        return createDeviceProtectedStorageContext()
+            .getSharedPreferences(WEATHER_PREF_FILE_NAME, MODE_PRIVATE)
     }
 
     fun clear(context: Context) {
@@ -48,12 +47,12 @@ object WeatherConfig {
             PREF_KEY_UPDATE_ERROR
         )
         prefs.forEach {
-            context.getPrefs().edit { remove(it) }
+            getPrefs().edit { remove(it) }
         }
     }
 
     fun getProvider(context: Context): AbstractWeatherProvider {
-        val provider = context.getPrefs().getString(XposedKey.WEATHER_PROVIDER.name, "0")
+        val provider = getPrefs().getString(XposedKey.WEATHER_PROVIDER.name, "0")
         return when (provider) {
             "1" -> OpenWeatherMapProvider(context)
             "2" -> YandexProvider(context)
@@ -62,8 +61,8 @@ object WeatherConfig {
         }
     }
 
-    fun getProviderId(context: Context): String {
-        val provider = context.getPrefs().getString(XposedKey.WEATHER_PROVIDER.name, "0")
+    fun getProviderId(): String {
+        val provider = getPrefs().getString(XposedKey.WEATHER_PROVIDER.name, "0")
         return when (provider) {
             "1" -> "OpenWeatherMap"
             "2" -> "Yandex"
@@ -72,12 +71,12 @@ object WeatherConfig {
         }
     }
 
-    fun isMetric(context: Context): Boolean {
-        return context.getPrefs().getString(XposedKey.WEATHER_UNITS.name, "0") == "0"
+    fun isMetric(): Boolean {
+        return getPrefs().getString(XposedKey.WEATHER_UNITS.name, "0") == "0"
     }
 
-    fun isCustomLocation(context: Context): Boolean {
-        return context.getPrefs().getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION.name, false)
+    fun isCustomLocation(): Boolean {
+        return getPrefs().getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION.name, false)
     }
 
     fun getLocationLat(context: Context): String? {
@@ -136,30 +135,37 @@ object WeatherConfig {
         context.getWeatherPrefs().edit { putLong(PREF_KEY_LAST_UPDATE, 0) }
     }
 
-    fun isEnabled(context: Context): Boolean {
-        val lsWeather = context.getPrefs().getBoolean(XposedKey.LOCKSCREEN_WEATHER.name, false)
-        val bigWidgets = context.getPrefs().getString(XposedKey.LOCKSCREEN_WIDGETS_MAIN.name, "")
-        val miniWidgets = context.getPrefs().getString(XposedKey.LOCKSCREEN_WIDGETS_EXTRAS.name, "")
-        return lsWeather || bigWidgets!!.contains("weather") || miniWidgets!!.contains("weather")
+    fun isEnabled(): Boolean {
+        val lsWeather = getPrefs().getBoolean(XposedKey.LOCKSCREEN_WEATHER.name, false)
+        val lsWidgets = getPrefs().getBoolean(XposedKey.LOCKSCREEN_WIDGETS.name, false)
+
+        val bigWidgets = getPrefs().getString(XposedKey.LOCKSCREEN_WIDGETS_MAIN.name, "")!!
+        val miniWidgets =
+            getPrefs().getString(XposedKey.LOCKSCREEN_WIDGETS_EXTRAS.name, "")!!
+
+        return lsWeather || (lsWidgets && (listOf(
+            bigWidgets,
+            miniWidgets
+        ).any { it.contains("weather") }))
     }
 
-    fun setEnabled(context: Context, value: Boolean, key: String?) {
-        context.getPrefs().edit { putBoolean(key, value) }
+    fun setEnabled(value: Boolean, key: String?) {
+        getPrefs().edit { putBoolean(key, value) }
     }
 
-    fun getUpdateInterval(context: Context): Int {
+    fun getUpdateInterval(): Int {
         var updateValue = 2
         try {
             updateValue =
-                context.getPrefs().getString(XposedKey.WEATHER_UPDATE_INTERVAL.name, "2")!!.toInt()
+                getPrefs().getString(XposedKey.WEATHER_UPDATE_INTERVAL.name, "2")!!.toInt()
         } catch (_: Throwable) {
         }
 
         return updateValue
     }
 
-    fun getIconPack(context: Context): String? {
-        return context.getPrefs().getString(XposedKey.WEATHER_ICON_PACK.name, null)
+    fun getIconPack(): String? {
+        return getPrefs().getString(XposedKey.WEATHER_ICON_PACK.name, null)
     }
 
     fun setUpdateError(context: Context, value: Boolean) {
@@ -171,12 +177,12 @@ object WeatherConfig {
                 == PackageManager.PERMISSION_GRANTED)
     }
 
-    fun getOwmKey(context: Context): String {
-        return context.getPrefs().getString(XposedKey.WEATHER_OWM_KEY.name, "") ?: ""
+    fun getOwmKey(): String {
+        return getPrefs().getString(XposedKey.WEATHER_OWM_KEY.name, "") ?: ""
     }
 
-    fun getYandexKey(context: Context): String {
-        return context.getPrefs().getString(XposedKey.WEATHER_YANDEX_KEY.name, "") ?: ""
+    fun getYandexKey(): String {
+        return getPrefs().getString(XposedKey.WEATHER_YANDEX_KEY.name, "") ?: ""
     }
 
 }

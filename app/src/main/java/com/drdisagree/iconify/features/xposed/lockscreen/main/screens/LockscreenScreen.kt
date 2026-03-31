@@ -44,7 +44,7 @@ val lockscreenPreferences = preferenceScreen {
             title = stringRes(R.string.activity_title_lockscreen_widget),
             summary = { _, _ -> stringRes(R.string.activity_desc_lockscreen_widget) },
             onClick = { _, _, nav ->
-                nav.navigate(NavRoutes.Xposed.Lockscreen.Widgets) {
+                nav.navigate(NavRoutes.Xposed.Lockscreen.Widgets.Root) {
                     launchSingleTop = true
                 }
             }
