@@ -974,6 +974,8 @@
     <string name="status_bar_logo_style_custom">Custom Image</string>
     <string name="status_bar_logo_tint_title">Follow Statusbar Tint</string>
     <string name="status_bar_logo_tint_desc">Switch to a light/dark background to update tint</string>
+    <string name="status_bar_logo_chooser_title">Select Logo Image</string>
+    <string name="status_bar_logo_chooser_desc">Select a custom logo image</string>
 
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Dual Row Statusbar</string>

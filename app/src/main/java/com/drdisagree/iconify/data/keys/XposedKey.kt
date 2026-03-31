@@ -1,14 +1,13 @@
 package com.drdisagree.iconify.data.keys
 
 enum class XposedKey(override val default: Any?) : Key {
-    // Status Bar
+    // Statusbar
     STATUSBAR_CLOCK_CHIP(false),
     STATUSBAR_CLOCK_POSITION("0"),
     STATUSBAR_CLOCK_CLICKABLE(false),
     STATUSBAR_CLOCK_TEXT_SIZE_SWITCH(false),
     STATUSBAR_CLOCK_TEXT_SIZE(14f),
     HIDE_BATTERY_VIEW(false),
-    STATUSBAR_LOGO(false),
     COLORED_STATUSBAR_ICON(false),
     STATUSBAR_SWAP_WIFI_CELLULAR(false),
     STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE(false),
@@ -16,6 +15,18 @@ enum class XposedKey(override val default: Any?) : Key {
     NOTIFICATION_ICONS_LIMIT(4),
     DUAL_STATUSBAR(false),
     ONGOING_ACTION_CHIP_SWITCH(false),
+
+    // Statusbar - Clock Chip
+
+    // Statusbar - Logo
+    STATUSBAR_LOGO(false),
+    STATUSBAR_LOGO_POSITION("0"),
+    STATUSBAR_LOGO_STYLE("0"),
+    STATUSBAR_LOGO_FILE_URI(""),
+    STATUSBAR_LOGO_SIZE(18f),
+    STATUSBAR_LOGO_TINT(false),
+
+    // Statusbar - Dual Statusbar
 
     // Quick Settings
     COLORED_NOTIFICATION_ICON_SWITCH(false),
@@ -104,7 +115,6 @@ enum class XposedKey(override val default: Any?) : Key {
 
     // Lockscreen - Weather
     LOCKSCREEN_WEATHER(false),
-    WEATHER_TRIGGER_UPDATE("weather_trigger_update"),
     WEATHER_ICON_PACK(null),
     WEATHER_UPDATE_INTERVAL("1"),
     WEATHER_SHOW_LOCATION(true),
