@@ -40,14 +40,13 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.utils.navigationBarHeight
 import com.drdisagree.iconify.features.xposed.lockscreen.common.models.WeatherIconPackItem
-import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.WeatherViewModel
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 fun WeatherIconPackBottomSheet(
     iconPacks: List<WeatherIconPackItem>,
     selectedIconPackIndex: Int,
-    weatherViewModel: WeatherViewModel?,
+    onItemClick: (Int) -> Unit,
     onDismiss: () -> Unit
 ) {
     val navbarHeight = navigationBarHeight()
@@ -84,7 +83,7 @@ fun WeatherIconPackBottomSheet(
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { weatherViewModel?.onIconPackSelected(index) },
+                        .clickable { onItemClick(index) },
                     shape = MaterialTheme.shapes.small,
                     color = MaterialTheme.colorScheme.surfaceVariant,
                     border = if (isSelected) {
@@ -135,7 +134,7 @@ fun WeatherIconPackBottomSheetPreview() {
         WeatherIconPackBottomSheet(
             iconPacks = emptyList(),
             selectedIconPackIndex = 0,
-            weatherViewModel = null,
+            onItemClick = {},
             onDismiss = {}
         )
     }

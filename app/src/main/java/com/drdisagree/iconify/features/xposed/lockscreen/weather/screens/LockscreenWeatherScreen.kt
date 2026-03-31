@@ -316,7 +316,7 @@ fun LockscreenWeatherScreen(
         WeatherIconPackBottomSheet(
             iconPacks = screenState.iconPacks,
             selectedIconPackIndex = screenState.selectedIconPackIndex,
-            weatherViewModel = weatherViewModel,
+            onItemClick = { weatherViewModel.onIconPackSelected(it) },
             onDismiss = { showIconPackSheet = false }
         )
     }
