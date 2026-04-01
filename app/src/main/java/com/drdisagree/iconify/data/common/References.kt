@@ -1,18 +1,54 @@
 package com.drdisagree.iconify.data.common
 
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.features.home.main.screens.homePreferences
 import com.drdisagree.iconify.features.settings.lookandfeel.screens.lookAndFeelPreferences
 import com.drdisagree.iconify.features.settings.main.screens.settingsPreferences
+import com.drdisagree.iconify.features.xposed.lockscreen.albumart.screens.lsAlbumArtPreferences
+import com.drdisagree.iconify.features.xposed.lockscreen.clock.screens.lsClockPreferences
+import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.screens.depthWallpaperPreferences
+import com.drdisagree.iconify.features.xposed.lockscreen.main.screens.lockscreenPreferences
+import com.drdisagree.iconify.features.xposed.lockscreen.weather.screens.lsWeatherPreferences
+import com.drdisagree.iconify.features.xposed.lockscreen.widgets.main.screens.lsWidgetsPreferences
 import com.drdisagree.iconify.features.xposed.main.screens.xposedPreferences
+import com.drdisagree.iconify.features.xposed.quicksettings.headerimage.screens.headerImagePreferences
+import com.drdisagree.iconify.features.xposed.quicksettings.main.screens.quickSettingsPreferences
+import com.drdisagree.iconify.features.xposed.quicksettings.margins.screens.qsMarginsPreferences
+import com.drdisagree.iconify.features.xposed.quicksettings.themes.screens.qsThemesPreferences
+import com.drdisagree.iconify.features.xposed.quicksettings.transparency.screens.qsTransparencyPreferences
+import com.drdisagree.iconify.features.xposed.statusbar.clockchip.screens.clockChipPreferences
+import com.drdisagree.iconify.features.xposed.statusbar.dualstatusbar.screens.dualStatusbarPreferences
+import com.drdisagree.iconify.features.xposed.statusbar.logo.screens.statusbarLogoPreferences
+import com.drdisagree.iconify.features.xposed.statusbar.main.screens.statusbarPreferences
+import com.drdisagree.iconify.features.xposed.volumepanel.screens.volumePanelPreferences
 
 object References {
 
-    // Preference list
-    val PREFERENCE_LIST = homePreferences +
-            xposedPreferences() +
-            settingsPreferences() +
+    // Xposed preferences
+    private val allXposedPreferences = xposedPreferences() +
+            lockscreenPreferences +
+            lsAlbumArtPreferences +
+            lsClockPreferences +
+            depthWallpaperPreferences() +
+            lsWeatherPreferences() +
+            lsWidgetsPreferences() +
+            quickSettingsPreferences +
+            headerImagePreferences +
+            qsMarginsPreferences +
+            qsThemesPreferences +
+            qsTransparencyPreferences +
+            statusbarPreferences +
+            clockChipPreferences +
+            dualStatusbarPreferences +
+            statusbarLogoPreferences() +
+            volumePanelPreferences
+
+
+    // Settings preferences
+    private val allSettingsPreferences = settingsPreferences() +
             lookAndFeelPreferences
+
+    // All preference list
+    val PREFERENCE_LIST = allXposedPreferences + allSettingsPreferences
 
     // Fabricated overlays
     const val ICONIFY_COLOR_ACCENT_PRIMARY = "0xFF50A6D7"

@@ -28,7 +28,7 @@ import com.drdisagree.iconify.features.xposed.lockscreen.common.viewmodels.Weath
 import com.drdisagree.iconify.services.schedulers.WeatherScheduler
 import java.util.stream.Collectors
 
-fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean) = preferenceScreen {
+fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preferenceScreen {
     category {
         switch(
             key = XposedKey.LOCKSCREEN_WIDGETS,
@@ -366,7 +366,7 @@ fun LockscreenWidgetsScreen(
 }
 
 @Composable
-private fun LockscreenWidgetsScreenContent(isWeatherSettingsVisible: Boolean) {
+private fun LockscreenWidgetsScreenContent(isWeatherSettingsVisible: Boolean = false) {
     PreferenceScreen(
         items = lsWidgetsPreferences(isWeatherSettingsVisible),
         title = stringResource(R.string.activity_title_lockscreen_widget),
@@ -378,6 +378,6 @@ private fun LockscreenWidgetsScreenContent(isWeatherSettingsVisible: Boolean) {
 @Composable
 fun LockscreenWidgetsScreenPreview() {
     PreviewComposable {
-        LockscreenWidgetsScreenContent(false)
+        LockscreenWidgetsScreenContent()
     }
 }

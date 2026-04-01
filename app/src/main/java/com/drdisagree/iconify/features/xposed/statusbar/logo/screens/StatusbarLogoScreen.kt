@@ -31,8 +31,8 @@ import com.drdisagree.iconify.helpers.toXposedSharedPath
 import kotlinx.coroutines.launch
 
 fun statusbarLogoPreferences(
-    selectedLogoLabel: String,
-    onLogoStyleClick: () -> Unit
+    selectedLogoLabel: String = "",
+    onLogoStyleClick: () -> Unit = {}
 ) = preferenceScreen {
     category {
         switch(

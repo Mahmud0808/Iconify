@@ -41,9 +41,9 @@ import com.drdisagree.iconify.helpers.toXposedSharedPath
 import com.drdisagree.iconify.xposed.modules.extras.utils.BitmapSubjectSegmenter
 
 fun depthWallpaperPreferences(
-    context: Context?,
-    mlKitAvailable: Boolean?,
-    aiPluginInstalled: Boolean
+    context: Context? = null,
+    mlKitAvailable: Boolean? = null,
+    aiPluginInstalled: Boolean = false
 ) = preferenceScreen {
     category {
         switch(
@@ -241,9 +241,9 @@ fun DepthWallpaperScreen() {
 
 @Composable
 private fun DepthWallpaperScreenContent(
-    context: Context?,
-    mlKitAvailable: Boolean?,
-    aiPluginInstalled: Boolean
+    context: Context? = null,
+    mlKitAvailable: Boolean? = null,
+    aiPluginInstalled: Boolean = false
 ) {
     PreferenceScreen(
         items = depthWallpaperPreferences(context, mlKitAvailable, aiPluginInstalled),
@@ -256,6 +256,6 @@ private fun DepthWallpaperScreenContent(
 @Composable
 fun DepthWallpaperScreenPreview() {
     PreviewComposable {
-        DepthWallpaperScreenContent(null, null, false)
+        DepthWallpaperScreenContent()
     }
 }

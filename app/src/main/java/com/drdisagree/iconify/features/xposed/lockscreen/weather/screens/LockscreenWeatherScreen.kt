@@ -31,10 +31,10 @@ import com.drdisagree.iconify.helpers.maskKey
 import com.drdisagree.iconify.helpers.toXposedSharedPath
 
 fun lsWeatherPreferences(
-    weatherViewModel: WeatherViewModel?,
-    updateStatusSummary: String?,
-    selectedPackLabel: String,
-    onIconPackClick: () -> Unit
+    weatherViewModel: WeatherViewModel? = null,
+    updateStatusSummary: String? = null,
+    selectedPackLabel: String = "",
+    onIconPackClick: () -> Unit = {}
 ) = preferenceScreen {
     category {
         switch(
@@ -343,10 +343,10 @@ fun LockscreenWeatherScreen(
 
 @Composable
 private fun LockscreenWeatherScreenContent(
-    weatherViewModel: WeatherViewModel?,
-    updateStatusSummary: String?,
-    selectedPackLabel: String,
-    onIconPackClick: () -> Unit
+    weatherViewModel: WeatherViewModel? = null,
+    updateStatusSummary: String? = null,
+    selectedPackLabel: String = "",
+    onIconPackClick: () -> Unit = {}
 ) {
     PreferenceScreen(
         items = lsWeatherPreferences(
@@ -364,10 +364,6 @@ private fun LockscreenWeatherScreenContent(
 @Composable
 fun LockscreenWeatherScreenPreview() {
     PreviewComposable {
-        LockscreenWeatherScreenContent(
-            null,
-            null,
-            ""
-        ) {}
+        LockscreenWeatherScreenContent()
     }
 }
