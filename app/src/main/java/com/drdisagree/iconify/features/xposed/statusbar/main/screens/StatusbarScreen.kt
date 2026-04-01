@@ -104,6 +104,9 @@ val statusbarPreferences = preferenceScreen {
             max = 15f,
             steps = 14,
             valueLabel = { "${it.toInt()}" },
+            showDefaultIndicator = true,
+            hideDefaultValue = true,
+            showResetButton = true
         )
     }
 

@@ -12,7 +12,7 @@ enum class XposedKey(override val default: Any?) : Key {
     STATUSBAR_SWAP_WIFI_CELLULAR(false),
     STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE(false),
     SHOW_4G_INSTEAD_OF_LTE(false),
-    NOTIFICATION_ICONS_LIMIT(4),
+    NOTIFICATION_ICONS_LIMIT(-1),
     DUAL_STATUSBAR(false),
     ONGOING_ACTION_CHIP_SWITCH(false),
 

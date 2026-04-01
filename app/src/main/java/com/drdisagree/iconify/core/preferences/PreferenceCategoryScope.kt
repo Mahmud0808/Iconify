@@ -115,13 +115,19 @@ class PreferenceCategoryScope {
         steps: Int = 0,
         valueLabel: ((Float) -> String)? = null,
         applyOnValueChangeFinished: Boolean = false,
+        showResetButton: Boolean = false,
+        showDefaultIndicator: Boolean = false,
+        hideDefaultValue: Boolean = false,
         summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
             key, title, defaultValue.toPrefValue(),
-            PreferenceType.Slider(min, max, steps, valueLabel, applyOnValueChangeFinished),
+            PreferenceType.Slider(
+                min, max, steps, valueLabel, applyOnValueChangeFinished,
+                showResetButton, showDefaultIndicator, hideDefaultValue
+            ),
             icon, summary, isVisible, isEnabled
         )
     )
@@ -136,13 +142,19 @@ class PreferenceCategoryScope {
         steps: Int = 0,
         valueLabel: ((Float) -> String)? = null,
         applyOnValueChangeFinished: Boolean = false,
+        showResetButton: Boolean = false,
+        showDefaultIndicator: Boolean = false,
+        hideDefaultValue: Boolean = false,
         summary: ((PreferenceController, String) -> PrefStringRes?)? = null,
         isVisible: ((PreferenceController) -> Boolean) = { true },
         isEnabled: ((PreferenceController) -> Boolean) = { true },
     ) = prefs.add(
         PreferenceDefinition(
             key.name, title, defaultValue.toPrefValue(),
-            PreferenceType.Slider(min, max, steps, valueLabel, applyOnValueChangeFinished),
+            PreferenceType.Slider(
+                min, max, steps, valueLabel, applyOnValueChangeFinished,
+                showResetButton, showDefaultIndicator, hideDefaultValue
+            ),
             icon, summary, isVisible, isEnabled
         )
     )
