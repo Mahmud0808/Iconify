@@ -11,9 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.drdisagree.iconify.core.preferences.PrefIconRes
 import com.drdisagree.iconify.core.preferences.PrefStringRes
 import com.drdisagree.iconify.core.preferences.resolve
@@ -28,7 +26,7 @@ fun CategoryTitleRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 4.dp)
+            .padding(horizontal = 8.dp)
             .padding(bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -43,10 +41,7 @@ fun CategoryTitleRow(
         }
         Text(
             text = title.resolve(),
-            style = MaterialTheme.typography.labelMedium.copy(
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = 0.8.sp,
-            ),
+            style = MaterialTheme.typography.titleSmallEmphasized,
             color = MaterialTheme.colorScheme.primary,
         )
     }
