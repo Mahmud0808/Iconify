@@ -3,9 +3,9 @@ package com.drdisagree.iconify.data.config
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.core.utils.ModuleUtils
 import com.drdisagree.iconify.core.utils.RootUtils
-import com.drdisagree.iconify.core.utils.SystemUtils
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.data.common.Preferences
+import com.drdisagree.iconify.data.keys.SettingsKey
 
 object Config {
 
@@ -25,7 +25,8 @@ object Config {
         val isModuleInstalled = ModuleUtils.moduleExists()
         val isOverlayInstalled = OverlayUtils.overlayExists()
         var isXposedOnlyMode = RPrefs.getBoolean(Preferences.XPOSED_ONLY_MODE, false)
-        val isVersionCodeCorrect = BuildConfig.VERSION_CODE == SystemUtils.savedVersionCode
+        val savedVersionCode = RPrefs.getInt(SettingsKey.SAVED_VERSION_CODE)
+        val isVersionCodeCorrect = BuildConfig.VERSION_CODE == savedVersionCode
 
         if (isRooted) {
             if (isOverlayInstalled) {

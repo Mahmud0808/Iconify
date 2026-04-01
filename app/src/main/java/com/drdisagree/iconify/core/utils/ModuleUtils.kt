@@ -13,7 +13,6 @@ import com.drdisagree.iconify.core.utils.overlay.OverlayUtils
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.data.common.Preferences.COLOR_ACCENT_SECONDARY
-import com.drdisagree.iconify.data.common.Preferences.FIRST_INSTALL
 import com.drdisagree.iconify.data.common.Preferences.RESTART_SYSUI_AFTER_BOOT
 import com.drdisagree.iconify.data.common.References.ICONIFY_COLOR_ACCENT_PRIMARY
 import com.drdisagree.iconify.data.common.References.ICONIFY_COLOR_ACCENT_SECONDARY
@@ -22,6 +21,7 @@ import com.drdisagree.iconify.data.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.data.common.Resources.TEMP_DIR
 import com.drdisagree.iconify.data.common.Resources.TEMP_MODULE_DIR
 import com.drdisagree.iconify.data.config.RPrefs
+import com.drdisagree.iconify.data.keys.SettingsKey
 import com.drdisagree.iconify.helpers.BackupRestore
 import com.drdisagree.iconify.helpers.replaceAll
 import com.topjohnwu.superuser.Shell
@@ -109,7 +109,7 @@ object ModuleUtils {
         val postExec = StringBuilder()
         var primaryColorEnabled = false
         var secondaryColorEnabled = false
-        val firstInstall = RPrefs.getBoolean(FIRST_INSTALL, true)
+        val firstInstall = RPrefs.getBoolean(SettingsKey.FIRST_INSTALL, true)
         val map = appContext.getSharedPreferences(
             BuildConfig.APPLICATION_ID,
             Context.MODE_PRIVATE

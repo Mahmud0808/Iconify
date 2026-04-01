@@ -41,6 +41,7 @@ interface PreferenceStorage {
     fun loadAll(): Map<String, PrefValue>
     fun read(key: String, defaultValue: PrefValue): Any?
     fun write(key: String, value: PrefValue)
+    fun clearAll()
     fun dispose()
 }
 
@@ -117,6 +118,10 @@ class SharedPreferencesStorage @Inject constructor(
         awaitClose { sp.unregisterOnSharedPreferenceChangeListener(listener) }
     }
 
+    override fun clearAll() {
+        sp.edit { clear() }
+    }
+
     override fun dispose() {}
 }
 
@@ -179,6 +184,12 @@ class DataStoreStorage @Inject constructor(
                     ExternalChange(key.name, raw.toPrefValue())
                 }.asFlow()
             }
+
+    override fun clearAll() {
+        scope.launch {
+            dataStore.edit { it.clear() }
+        }
+    }
 
     override fun dispose() {
         scope.cancel()

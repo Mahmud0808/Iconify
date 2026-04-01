@@ -65,6 +65,10 @@ class FakeSharedPrefsStorage : PreferenceStorage {
         data[key] = value
     }
 
+    override fun clearAll() {
+        data.clear()
+    }
+
     override fun dispose() {
         data.clear()
     }

@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.di.SharedPrefs
+import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
 import com.drdisagree.iconify.core.utils.FileUtils
 import com.drdisagree.iconify.core.utils.Logger.writeLog
@@ -20,17 +22,12 @@ import com.drdisagree.iconify.core.utils.RootUtils.deviceProperlyRooted
 import com.drdisagree.iconify.core.utils.RootUtils.isDeviceRooted
 import com.drdisagree.iconify.core.utils.RootUtils.isModuleUpdatePending
 import com.drdisagree.iconify.core.utils.RootUtils.requireMetamodule
-import com.drdisagree.iconify.core.utils.SystemUtils.hasStoragePermission
-import com.drdisagree.iconify.core.utils.SystemUtils.savedVersionCode
 import com.drdisagree.iconify.core.utils.overlay.OverlayUtils.overlayExists
 import com.drdisagree.iconify.core.utils.overlay.compilers.OnboardingCompiler.apkSigner
 import com.drdisagree.iconify.core.utils.overlay.compilers.OnboardingCompiler.createManifest
 import com.drdisagree.iconify.core.utils.overlay.compilers.OnboardingCompiler.runAapt
 import com.drdisagree.iconify.core.utils.overlay.compilers.OnboardingCompiler.zipAlign
 import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
-import com.drdisagree.iconify.data.common.Preferences.FIRST_INSTALL
-import com.drdisagree.iconify.data.common.Preferences.UPDATE_DETECTED
-import com.drdisagree.iconify.data.common.Preferences.XPOSED_ONLY_MODE
 import com.drdisagree.iconify.data.common.Resources.BACKUP_DIR
 import com.drdisagree.iconify.data.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.data.common.Resources.SIGNED_DIR
@@ -41,8 +38,8 @@ import com.drdisagree.iconify.data.common.Resources.TEMP_OVERLAY_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_UNALIGNED_DIR
 import com.drdisagree.iconify.data.config.Config
-import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.keys.SettingsKey
+import com.drdisagree.iconify.data.storage.PreferenceStorage
 import com.drdisagree.iconify.features.onboarding.states.InstallationEvent
 import com.drdisagree.iconify.features.onboarding.states.InstallationState
 import com.drdisagree.iconify.helpers.BackupRestore.restoreFiles
@@ -66,9 +63,13 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class OnboardingViewModel @Inject constructor() : ViewModel() {
+class OnboardingViewModel @Inject constructor(
+    @param:SharedPrefs private val preferenceStorage: PreferenceStorage
+) : ViewModel() {
 
     private val tag = OnboardingViewModel::class.java.simpleName
+
+    private val controller = PreferenceController(preferenceStorage)
 
     private val _state = MutableStateFlow<InstallationState>(InstallationState.Idle)
     val state: StateFlow<InstallationState> = _state.asStateFlow()
@@ -136,18 +137,18 @@ class OnboardingViewModel @Inject constructor() : ViewModel() {
                 return@launch
             }
 
-            if (!hasStoragePermission()) {
-                _events.emit(
-                    InstallationEvent.Toast(R.string.need_storage_perm_title)
-                )
-                return@launch
-            }
+            //            if (!hasStoragePermission()) {
+            //                _events.emit(
+            //                    InstallationEvent.Toast(R.string.need_storage_perm_title)
+            //                )
+            //                return@launch
+            //            }
 
             val moduleExists = moduleExists()
             val overlayExists = overlayExists()
 
             if ((!skipInstallation && (Config.FORCE_OVERLAY_INSTALLATION ||
-                        RPrefs.getInt(SettingsKey.SAVED_VERSION_CODE) != BuildConfig.VERSION_CODE ||
+                        controller.getInt(SettingsKey.SAVED_VERSION_CODE) != BuildConfig.VERSION_CODE ||
                         !moduleExists ||
                         !overlayExists)) ||
                 (skipInstallation && !moduleExists)
@@ -155,7 +156,10 @@ class OnboardingViewModel @Inject constructor() : ViewModel() {
                 clearDatabase(skipInstallation, moduleExists, overlayExists)
                 performInstallation(skipInstallation)
             } else {
-                RPrefs.putBoolean(XPOSED_ONLY_MODE, skipInstallation && !overlayExists)
+                controller.setBoolean(
+                    SettingsKey.XPOSED_ONLY_MODE,
+                    skipInstallation && !overlayExists
+                )
 
                 if (!skipInstallation) {
                     _state.emit(InstallationState.Success)
@@ -445,19 +449,19 @@ class OnboardingViewModel @Inject constructor() : ViewModel() {
 
         if (!hasErroredOut) {
             if (!skip) {
-                if (BuildConfig.VERSION_CODE != savedVersionCode) {
-                    if (RPrefs.getBoolean(FIRST_INSTALL, true)) {
-                        RPrefs.putBoolean(FIRST_INSTALL, true)
-                        RPrefs.putBoolean(UPDATE_DETECTED, false)
+                if (BuildConfig.VERSION_CODE != controller.getInt(SettingsKey.SAVED_VERSION_CODE)) {
+                    if (controller.getBoolean(SettingsKey.FIRST_INSTALL)) {
+                        controller.setBoolean(SettingsKey.FIRST_INSTALL, true)
+                        controller.setBoolean(SettingsKey.UPDATE_DETECTED, false)
                     } else {
-                        RPrefs.putBoolean(FIRST_INSTALL, false)
-                        RPrefs.putBoolean(UPDATE_DETECTED, true)
+                        controller.setBoolean(SettingsKey.FIRST_INSTALL, false)
+                        controller.setBoolean(SettingsKey.UPDATE_DETECTED, true)
                     }
 
-                    RPrefs.putInt(SettingsKey.SAVED_VERSION_CODE, BuildConfig.VERSION_CODE)
+                    controller.setInt(SettingsKey.SAVED_VERSION_CODE, BuildConfig.VERSION_CODE)
                 }
 
-                RPrefs.putBoolean(XPOSED_ONLY_MODE, false)
+                controller.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
 
                 if (moduleExists() && overlayExists()) {
                     _events.emit(
@@ -472,7 +476,7 @@ class OnboardingViewModel @Inject constructor() : ViewModel() {
                     _state.emit(InstallationState.Reboot)
                 }
             } else {
-                RPrefs.putBoolean(XPOSED_ONLY_MODE, true)
+                controller.setBoolean(SettingsKey.XPOSED_ONLY_MODE, true)
 
                 _events.emit(
                     InstallationEvent.Toast(R.string.one_time_reboot_needed)
@@ -497,7 +501,7 @@ class OnboardingViewModel @Inject constructor() : ViewModel() {
         overlayExists: Boolean
     ) {
         if (!skip && (!moduleExists || !overlayExists)) {
-            RPrefs.clearAllPrefs()
+            controller.reset()
             CoroutineScope(Dispatchers.IO).launch {
                 //                DynamicResourceRepository(
                 //                    DynamicResourceDatabase.getInstance().dynamicResourceDao()
@@ -506,7 +510,7 @@ class OnboardingViewModel @Inject constructor() : ViewModel() {
                 //                }
             }
         } else if (skip && !moduleExists) {
-            RPrefs.clearAllPrefs()
+            controller.reset()
             CoroutineScope(Dispatchers.IO).launch {
                 //                DynamicResourceRepository(
                 //                    DynamicResourceDatabase.getInstance().dynamicResourceDao()
@@ -522,7 +526,7 @@ class OnboardingViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun onCancelled() {
-        RPrefs.clearPref(XPOSED_ONLY_MODE)
+        controller.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
 
         Shell.cmd(
             "rm -rf $DATA_DIR",

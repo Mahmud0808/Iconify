@@ -191,6 +191,12 @@ class PreferenceController(
 
     fun setStringSet(key: Key, value: Set<String>) = set(key.name, value.toPrefValue())
 
+    fun reset(defaults: Map<String, PrefValue> = emptyMap()) {
+        storage.clearAll()
+        _prefs.clear()
+        defaults.forEach { (k, v) -> _prefs[k] = v }
+    }
+
     @Composable
     inline fun <reified T> observe(key: String, default: T): State<T> =
         remember(key) {

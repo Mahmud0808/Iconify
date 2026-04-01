@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.provider.Settings
 import android.util.Log
 import android.view.WindowInsets
@@ -24,7 +23,6 @@ import com.drdisagree.iconify.data.common.Preferences
 import com.drdisagree.iconify.data.common.References
 import com.drdisagree.iconify.data.common.Resources
 import com.drdisagree.iconify.data.config.RPrefs
-import com.drdisagree.iconify.data.keys.SettingsKey
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.CoroutineScope
@@ -214,18 +212,6 @@ object SystemUtils {
                 RPrefs.putString(Preferences.BOOT_ID, bootId)
             }
         }
-
-    fun saveVersionCode() {
-        RPrefs.putInt(SettingsKey.SAVED_VERSION_CODE, BuildConfig.VERSION_CODE)
-    }
-
-    val savedVersionCode: Int
-        get() = RPrefs.getInt(SettingsKey.SAVED_VERSION_CODE, -1)
-
-    fun hasStoragePermission(): Boolean {
-        return true
-        return Environment.isExternalStorageManager() || Environment.isExternalStorageLegacy()
-    }
 
     fun hasNotificationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(

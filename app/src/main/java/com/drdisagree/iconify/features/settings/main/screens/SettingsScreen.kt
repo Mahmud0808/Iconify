@@ -5,8 +5,6 @@ import android.net.Uri
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.LocalActivity
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -19,8 +17,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
@@ -36,14 +36,10 @@ import com.drdisagree.iconify.core.utils.CacheUtils
 import com.drdisagree.iconify.core.utils.SystemUtils
 import com.drdisagree.iconify.core.utils.SystemUtils.disableBlur
 import com.drdisagree.iconify.core.utils.SystemUtils.saveBootId
-import com.drdisagree.iconify.core.utils.SystemUtils.saveVersionCode
 import com.drdisagree.iconify.data.common.Const.GITHUB_REPO
 import com.drdisagree.iconify.data.common.Const.ICONIFY_CROWDIN
 import com.drdisagree.iconify.data.common.Const.TELEGRAM_GROUP
-import com.drdisagree.iconify.data.common.Preferences.FIRST_INSTALL
-import com.drdisagree.iconify.data.common.Preferences.ON_HOME_PAGE
 import com.drdisagree.iconify.data.common.Resources.MODULE_DIR
-import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.keys.SettingsKey
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -154,6 +150,7 @@ fun settingsPreferences(
 fun SettingsScreen() {
     val context = LocalContext.current
     val activity = LocalActivity.current
+    val preferenceController = LocalPreferenceController.current
     val coroutineScope = rememberCoroutineScope()
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var showLoading by rememberSaveable { mutableStateOf(false) }
@@ -188,7 +185,7 @@ fun SettingsScreen() {
                             //                    WeatherConfig.clear(context)
 
                             // Clear shared preferences
-                            RPrefs.clearAllPrefs()
+                            preferenceController.reset()
 
                             // Clear dynamic resource database
                             //                    DynamicResourceRepository(
@@ -199,17 +196,24 @@ fun SettingsScreen() {
 
                             saveBootId
                             disableBlur(false)
-                            saveVersionCode()
 
-                            RPrefs.putBoolean(ON_HOME_PAGE, true)
-                            RPrefs.putBoolean(FIRST_INSTALL, false)
+                            preferenceController.setInt(
+                                SettingsKey.SAVED_VERSION_CODE,
+                                BuildConfig.VERSION_CODE
+                            )
+                            preferenceController.setBoolean(
+                                SettingsKey.ON_HOME_PAGE,
+                                true
+                            )
+                            preferenceController.setBoolean(
+                                SettingsKey.FIRST_INSTALL,
+                                false
+                            )
 
                             Shell.cmd(
                                 $$"> $$MODULE_DIR/system.prop; > $$MODULE_DIR/post-exec.sh; for ol in $(cmd overlay list | grep -E '.x.*IconifyComponent' | sed -E 's/^.x..//'); do cmd overlay disable $ol; done"
                             ).submit()
-                        }
 
-                        withContext(Dispatchers.Main) {
                             delay(3000)
                             showLoading = false
 

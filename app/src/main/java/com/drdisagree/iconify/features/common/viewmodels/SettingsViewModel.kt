@@ -21,7 +21,7 @@ class SettingsViewModel @Inject constructor(
     @param:SharedPrefs private val preferenceStorage: PreferenceStorage
 ) : ViewModel() {
 
-    val controller = PreferenceController(preferenceStorage)
+    private val controller = PreferenceController(preferenceStorage)
 
     init {
         viewModelScope.launch {
