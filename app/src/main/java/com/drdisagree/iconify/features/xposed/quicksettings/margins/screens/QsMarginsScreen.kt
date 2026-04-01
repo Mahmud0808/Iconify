@@ -19,7 +19,6 @@ val qsMarginsPreferences = preferenceScreen {
             key = XposedKey.CUSTOM_QS_MARGINS,
             isMasterSwitch = true,
             title = stringRes(R.string.custom_qs_margin_title),
-            summary = { _, _ -> stringRes(R.string.custom_qs_margin_desc) },
         )
     }
 

@@ -39,7 +39,6 @@ fun statusbarLogoPreferences(
             key = XposedKey.STATUSBAR_LOGO,
             isMasterSwitch = true,
             title = stringRes(R.string.status_bar_logo_enable_title),
-            summary = { _, _ -> stringRes(R.string.status_bar_logo_desc) }
         )
     }
 

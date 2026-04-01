@@ -17,7 +17,6 @@ val lsAlbumArtPreferences = preferenceScreen {
             key = XposedKey.ALBUM_ART_ON_LOCKSCREEN,
             isMasterSwitch = true,
             title = stringRes(R.string.media_art_title),
-            summary = { _, _ -> stringRes(R.string.media_art_summary) }
         )
     }
 

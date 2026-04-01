@@ -41,7 +41,6 @@ fun lsWeatherPreferences(
             key = XposedKey.LOCKSCREEN_WEATHER,
             isMasterSwitch = true,
             title = stringRes(R.string.lockscreen_weather_title),
-            summary = { _, _ -> stringRes(R.string.lockscreen_weather_desc) }
         )
     }
 

@@ -21,7 +21,6 @@ val lsClockPreferences = preferenceScreen {
             key = XposedKey.CUSTOM_LSCLOCK,
             isMasterSwitch = true,
             title = stringRes(R.string.activity_title_lockscreen_clock),
-            summary = { _, _ -> stringRes(R.string.activity_desc_lockscreen_clock) }
         )
     }
 

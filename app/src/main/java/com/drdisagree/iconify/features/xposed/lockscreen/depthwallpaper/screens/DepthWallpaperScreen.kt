@@ -50,7 +50,6 @@ fun depthWallpaperPreferences(
             key = XposedKey.LOCKSCREEN_DEPTH_WALLPAPER,
             isMasterSwitch = true,
             title = stringRes(R.string.enable_depth_wallpaper_title),
-            summary = { _, _ -> stringRes(R.string.activity_desc_depth_wallpaper) }
         )
     }
 

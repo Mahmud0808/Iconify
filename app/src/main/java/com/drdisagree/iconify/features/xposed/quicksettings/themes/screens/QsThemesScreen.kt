@@ -19,7 +19,6 @@ val qsThemesPreferences = preferenceScreen {
             key = XposedKey.CUSTOM_QS_THEME,
             isMasterSwitch = true,
             title = stringRes("Quick settings theme"),
-            summary = { _, _ -> stringRes("Enable custom QS theme") }
         )
     }
 

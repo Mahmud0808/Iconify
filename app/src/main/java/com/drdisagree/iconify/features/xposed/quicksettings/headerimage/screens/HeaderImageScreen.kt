@@ -20,7 +20,6 @@ val headerImagePreferences = preferenceScreen {
             key = XposedKey.CUSTOM_HEADER_IMAGE,
             isMasterSwitch = true,
             title = stringRes(R.string.activity_title_header_image),
-            summary = { _, _ -> stringRes(R.string.activity_desc_header_image) }
         )
     }
 

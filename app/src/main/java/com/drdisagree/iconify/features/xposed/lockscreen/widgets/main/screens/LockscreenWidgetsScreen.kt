@@ -34,7 +34,6 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean) = preferenceScreen {
             key = XposedKey.LOCKSCREEN_WIDGETS,
             isMasterSwitch = true,
             title = stringRes(R.string.lockscreen_widgets_enabled_title),
-            summary = { _, _ -> stringRes(R.string.activity_desc_lockscreen_widget) }
         )
     }
 

@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.core.ui.components.preferences
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +32,10 @@ fun SwitchPreferenceItem(
     else MaterialTheme.colorScheme.surfaceContainerHigh
     val contentColor = if (type.isMasterSwitch) MaterialTheme.colorScheme.onPrimaryContainer
     else MaterialTheme.colorScheme.onSurface
+    val shape = if (type.isMasterSwitch) CircleShape else shape
+    val contentPadding = if (type.isMasterSwitch) PaddingValues(20.dp)
+    else PaddingValues(horizontal = 16.dp, vertical = 14.dp)
+    val summary = if (type.isMasterSwitch) null else summary
 
     PreferenceContainer(
         shape = shape,
@@ -37,6 +43,7 @@ fun SwitchPreferenceItem(
         modifier = modifier,
         minLine = if (summary.isNullOrEmpty()) 1 else 2,
         containerColor = containerColor,
+        contentPadding = contentPadding,
         onClick = withHaptic { if (isEnabled) controller.setBoolean(def.key, !checked) }
     ) {
         LeadingIcon(def.icon, isEnabled, contentColor)
@@ -45,10 +52,7 @@ fun SwitchPreferenceItem(
             Switch(
                 checked = checked,
                 onCheckedChange = withHapticResult {
-                    if (isEnabled) controller.setBoolean(
-                        def.key,
-                        it as Boolean
-                    )
+                    if (isEnabled) controller.setBoolean(def.key, it as Boolean)
                 },
                 enabled = isEnabled,
             )
