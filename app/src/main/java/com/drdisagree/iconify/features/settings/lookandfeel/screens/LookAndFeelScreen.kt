@@ -212,6 +212,9 @@ val lookAndFeelPreferences = preferenceScreen {
             max = 1.2f,
             steps = 6,
             valueLabel = { "${"%.1f".format(it)}x" },
+            showDefaultIndicator = true,
+            hideDefaultValue = true,
+            showResetButton = true,
             applyOnValueChangeFinished = true,
         )
 
@@ -224,6 +227,9 @@ val lookAndFeelPreferences = preferenceScreen {
             max = 2f,
             steps = 14,
             valueLabel = { "${"%.1f".format(it)}x" },
+            showDefaultIndicator = true,
+            hideDefaultValue = true,
+            showResetButton = true,
             applyOnValueChangeFinished = true,
         )
     }
