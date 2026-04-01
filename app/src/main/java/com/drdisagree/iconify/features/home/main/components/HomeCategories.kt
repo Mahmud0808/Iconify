@@ -13,8 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.showComingSoonToast
 
@@ -100,7 +100,12 @@ fun HomeCategories(modifier: Modifier = Modifier) {
                     } else {
                         MaterialTheme.colorScheme.surfaceContainerHigh
                     }
-                    val foregroundColor = MaterialTheme.colorScheme.onSurface
+                    val foregroundColor = if (shouldBePrimary) {
+                        MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.onSurface)
+                    } else {
+                        MaterialTheme.colorScheme.onSurface
+                    }
 
                     HomeCategoryCard(
                         title = stringResource(item.title),
@@ -136,7 +141,12 @@ fun HomeCategories(modifier: Modifier = Modifier) {
                     } else {
                         MaterialTheme.colorScheme.surfaceContainerHigh
                     }
-                    val foregroundColor = MaterialTheme.colorScheme.onSurface
+                    val foregroundColor = if (shouldBePrimary) {
+                        MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.25f)
+                            .compositeOver(MaterialTheme.colorScheme.onSurface)
+                    } else {
+                        MaterialTheme.colorScheme.onSurface
+                    }
 
                     HomeCategoryCard(
                         title = stringResource(item.title),

@@ -1,12 +1,10 @@
 package com.drdisagree.iconify.features.home.main.components
 
-import android.graphics.BlurMaskFilter
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,14 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.nativePaint
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
@@ -54,9 +47,9 @@ fun HomeCategoryCard(
                 if (smallVariant) Modifier.wrapContentHeight()
                 else Modifier.height(160.dp)
             )
-            .clip(MaterialTheme.shapes.large)
+            .clip(MaterialTheme.shapes.extraLarge)
             .clickable(onClick = withHaptic { onClick() }),
-        shape = MaterialTheme.shapes.large,
+        shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(containerColor = backgroundColor)
     ) {
         Box(
