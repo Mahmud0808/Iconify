@@ -28,6 +28,8 @@ import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.PictureAsPdf
 import androidx.compose.material.icons.rounded.VideoFile
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -110,6 +112,7 @@ sealed class FilePickerType {
     ) : FilePickerType()
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun FilePickerPreferenceItem(
     def: PreferenceDefinition,
@@ -232,6 +235,7 @@ fun FilePickerPreferenceItem(
             Button(
                 onClick = onPickClick,
                 enabled = isEnabled,
+                shapes = ButtonDefaults.shapes(),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 Text(text = if (uri != null) "Replace" else type.pickerType.label.resolve())
