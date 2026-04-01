@@ -97,7 +97,7 @@ enum class XposedKey(override val default: Any?) : Key {
     HIDE_LOCKSCREEN_STATUSBAR(false),
 
     // Lockscreen - Clock
-    CUSTOM_LSCLOCK(false),
+    CUSTOM_LOCKSCREEN_CLOCK(false),
     LSCLOCK_STYLE(0),
     LSCLOCK_FONT_FILE_URI(""),
     LSCLOCK_CUSTOM_COLOR(false),

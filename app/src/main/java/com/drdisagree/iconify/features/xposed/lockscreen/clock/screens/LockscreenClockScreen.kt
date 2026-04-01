@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.preferences.stringRes
@@ -12,13 +14,14 @@ import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.lockscreen.clock.components.LockscreenClockPreview
 import com.drdisagree.iconify.helpers.toXposedSharedPath
 
 val lsClockPreferences = preferenceScreen {
     category {
         switch(
-            key = XposedKey.CUSTOM_LSCLOCK,
+            key = XposedKey.CUSTOM_LOCKSCREEN_CLOCK,
             isMasterSwitch = true,
             title = stringRes(R.string.activity_title_lockscreen_clock),
         )
@@ -40,7 +43,7 @@ val lsClockPreferences = preferenceScreen {
                     uriString.toUri().toXposedSharedPath(LSCLOCK_FONT_FILE.name)
                 }
             },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
     }
 
@@ -51,7 +54,7 @@ val lsClockPreferences = preferenceScreen {
             min = -120f,
             max = 120f,
             valueLabel = { "${it.toInt()}dp" },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
 
         slider(
@@ -61,7 +64,7 @@ val lsClockPreferences = preferenceScreen {
             max = 2.5f,
             steps = 19,
             valueLabel = { "${"%.1f".format(it)}x" },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
 
         slider(
@@ -70,7 +73,7 @@ val lsClockPreferences = preferenceScreen {
             min = 0f,
             max = 600f,
             valueLabel = { "${it.toInt()}dp" },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
 
         slider(
@@ -79,7 +82,7 @@ val lsClockPreferences = preferenceScreen {
             min = 0f,
             max = 600f,
             valueLabel = { "${it.toInt()}dp" },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
     }
 
@@ -88,7 +91,7 @@ val lsClockPreferences = preferenceScreen {
             key = XposedKey.LSCLOCK_CUSTOM_COLOR,
             title = stringRes(R.string.lsclock_custom_color_title),
             summary = { _, _ -> stringRes(R.string.lsclock_custom_color_desc) },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) }
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
 
         colorPicker(
@@ -96,7 +99,7 @@ val lsClockPreferences = preferenceScreen {
             title = stringRes(R.string.accent_primary),
             isEnabled = {
                 it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) &&
-                        it.getBoolean(XposedKey.CUSTOM_LSCLOCK)
+                        it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
             },
             isVisible = { it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) }
         )
@@ -106,7 +109,7 @@ val lsClockPreferences = preferenceScreen {
             title = stringRes(R.string.accent_primary),
             isEnabled = {
                 it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) &&
-                        it.getBoolean(XposedKey.CUSTOM_LSCLOCK)
+                        it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
             },
             isVisible = { it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) }
         )
@@ -116,7 +119,7 @@ val lsClockPreferences = preferenceScreen {
             title = stringRes(R.string.accent_primary),
             isEnabled = {
                 it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) &&
-                        it.getBoolean(XposedKey.CUSTOM_LSCLOCK)
+                        it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
             },
             isVisible = { it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) }
         )
@@ -126,7 +129,7 @@ val lsClockPreferences = preferenceScreen {
             title = stringRes(R.string.accent_primary),
             isEnabled = {
                 it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) &&
-                        it.getBoolean(XposedKey.CUSTOM_LSCLOCK)
+                        it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
             },
             isVisible = { it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) }
         )
@@ -136,7 +139,7 @@ val lsClockPreferences = preferenceScreen {
             title = stringRes(R.string.accent_primary),
             isEnabled = {
                 it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) &&
-                        it.getBoolean(XposedKey.CUSTOM_LSCLOCK)
+                        it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
             },
             isVisible = { it.getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR) }
         )
@@ -152,7 +155,7 @@ val lsClockPreferences = preferenceScreen {
                 if (currentVal.isNotEmpty()) stringRes(currentVal)
                 else stringRes(R.string.lockscreen_clock_custom_devicename_desc)
             },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) },
             isVisible = { it.getInt(XposedKey.LSCLOCK_STYLE) in setOf(19, 32, 47) },
         )
 
@@ -165,7 +168,7 @@ val lsClockPreferences = preferenceScreen {
                 if (currentVal.isNotEmpty()) stringRes(currentVal)
                 else stringRes(R.string.lockscreen_clock_custom_username_desc)
             },
-            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LSCLOCK) },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) },
             isVisible = {
                 it.getInt(XposedKey.LSCLOCK_STYLE) in
                         setOf(7, 32, 35, 36, 42, 48, 50, 53)
@@ -175,7 +178,13 @@ val lsClockPreferences = preferenceScreen {
 }
 
 @Composable
-fun LockscreenClockScreen() {
+fun LockscreenClockScreen(
+    systemActionViewModel: SystemActionViewModel = hiltViewModel(),
+) {
+    PreferenceListener(key = XposedKey.CUSTOM_LOCKSCREEN_CLOCK) {
+        systemActionViewModel.shouldRestartSystemUI()
+    }
+
     PreferenceScreen(
         items = lsClockPreferences,
         title = stringResource(R.string.activity_title_lockscreen_clock),
