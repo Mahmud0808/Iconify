@@ -13,7 +13,6 @@ enum class XposedKey(override val default: Any?) : Key {
     STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE(false),
     SHOW_4G_INSTEAD_OF_LTE(false),
     NOTIFICATION_ICONS_LIMIT(-1),
-    DUAL_STATUSBAR(false),
     ONGOING_ACTION_CHIP_SWITCH(false),
 
     // Statusbar - Clock Chip
@@ -27,6 +26,20 @@ enum class XposedKey(override val default: Any?) : Key {
     STATUSBAR_LOGO_TINT(false),
 
     // Statusbar - Dual Statusbar
+    DUAL_STATUSBAR(false),
+    DUAL_STATUSBAR_PORTRAIT_ONLY(false),
+    DUAL_STATUSBAR_START_SIDE_SINGLE_ROW(false),
+    DUAL_STATUSBAR_END_SIDE_SINGLE_ROW(false),
+    DUAL_STATUSBAR_SWAP_START_SIDE(false),
+    DUAL_STATUSBAR_SWAP_END_SIDE(false),
+    DUAL_STATUSBAR_HEIGHT(-1f),
+    DUAL_STATUSBAR_START_PADDING(-1f),
+    DUAL_STATUSBAR_END_PADDING(-1f),
+    DUAL_STATUSBAR_TOP_PADDING(-1f),
+    DUAL_STATUSBAR_START_TOP_MARGIN(0f),
+    DUAL_STATUSBAR_START_BOTTOM_MARGIN(0f),
+    DUAL_STATUSBAR_END_TOP_MARGIN(0f),
+    DUAL_STATUSBAR_END_BOTTOM_MARGIN(0f),
 
     // Quick Settings
     COLORED_NOTIFICATION_ICON_SWITCH(false),
