@@ -11,50 +11,40 @@ import com.topjohnwu.superuser.Shell
 
 object BackupRestore {
 
+    private val ICONIFY_COMPONENTS = listOf(
+        "CR1", "CR2", // Corner radius
+        "Dynamic1", "Dynamic2", "Dynamic3", "Dynamic4", "Dynamic5", // Dynamically generated
+        "NFN", // Notification
+        "SGIC", // Signal icon
+        "SIP1", "SIP2", "SIP3", // Settings icon pack
+        "SIS", // System icon shape
+        "TSTFRM", // Toast frame
+        "WIFI" // WiFi icon
+    )
+
     fun backupFiles() {
-        // Create backup directory
         Shell.cmd("rm -rf $BACKUP_DIR").exec()
         FileUtils.ensureDirs(BACKUP_DIR)
 
-        backupFiles(
+        val files = mutableListOf(
             "$MODULE_DIR/system.prop",
-            "$MODULE_DIR/post-exec.sh",
-            "$OVERLAY_DIR/IconifyComponentCR1.apk",
-            "$OVERLAY_DIR/IconifyComponentCR2.apk",
-            "$OVERLAY_DIR/IconifyComponentSIS.apk",
-            "$OVERLAY_DIR/IconifyComponentSIP1.apk",
-            "$OVERLAY_DIR/IconifyComponentSIP2.apk",
-            "$OVERLAY_DIR/IconifyComponentSIP3.apk",
-            "$OVERLAY_DIR/IconifyComponentPGB.apk",
-            "$OVERLAY_DIR/IconifyComponentSWITCH1.apk",
-            "$OVERLAY_DIR/IconifyComponentSWITCH2.apk",
-            "$OVERLAY_DIR/IconifyComponentDynamic1.apk",
-            "$OVERLAY_DIR/IconifyComponentDynamic2.apk",
-            "$OVERLAY_DIR/IconifyComponentDynamic3.apk",
-            "$OVERLAY_DIR/IconifyComponentDynamic4.apk",
-            "$OVERLAY_DIR/IconifyComponentDynamic5.apk"
+            "$MODULE_DIR/post-exec.sh"
         )
+
+        files += ICONIFY_COMPONENTS.map { "$OVERLAY_DIR/IconifyComponent$it.apk" }
+
+        backupFiles(*files.toTypedArray())
     }
 
     fun restoreFiles() {
-        restoreFiles(
+        val files = mutableListOf(
             "system.prop" to TEMP_MODULE_DIR,
-            "post-exec.sh" to TEMP_MODULE_DIR,
-            "IconifyComponentCR1.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentCR2.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentSIS.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentSIP1.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentSIP2.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentSIP3.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentPGB.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentSWITCH1.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentSWITCH2.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentDynamic1.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentDynamic2.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentDynamic3.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentDynamic4.apk" to TEMP_MODULE_OVERLAY_DIR,
-            "IconifyComponentDynamic5.apk" to TEMP_MODULE_OVERLAY_DIR
+            "post-exec.sh" to TEMP_MODULE_DIR
         )
+
+        files += ICONIFY_COMPONENTS.map { "IconifyComponent$it.apk" to TEMP_MODULE_OVERLAY_DIR }
+
+        restoreFiles(*files.toTypedArray())
 
         restoreBlurSettings()
 
