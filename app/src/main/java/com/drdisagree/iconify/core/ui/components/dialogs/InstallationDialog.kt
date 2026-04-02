@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -115,12 +114,14 @@ fun InstallationDialog(
                 val density = LocalDensity.current
 
                 LaunchedEffect(logs.size) {
-                    snapshotFlow { listState.layoutInfo.totalItemsCount }
-                        .collect { count ->
-                            if (count > 0) {
-                                listState.animateScrollToItem(count - 1)
-                            }
+                    if (logs.isNotEmpty()) {
+                        val lastIndex = (logs.size - 1).coerceAtLeast(0)
+                        try {
+                            listState.animateScrollToItem(lastIndex)
+                        } catch (_: IndexOutOfBoundsException) {
+                            // List mutated during scroll animation; safe to ignore
                         }
+                    }
                 }
 
                 AnimatedVisibility(logs.isNotEmpty()) {
@@ -142,10 +143,10 @@ fun InstallationDialog(
                                 },
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
                         ) {
-                            items(
+                            itemsIndexed(
                                 items = logs,
-                                key = { it.hashCode() }
-                            ) { log ->
+                                key = { index, _ -> index }
+                            ) { _, log ->
                                 Text(
                                     text = coloredLogText(log),
                                     fontFamily = FontFamily.Monospace,
