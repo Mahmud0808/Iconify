@@ -16,7 +16,6 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
-import com.drdisagree.iconify.core.ui.components.others.showComingSoonToast
 
 private data class CategoryItem(
     val title: Int,
@@ -115,12 +114,8 @@ fun HomeCategories(modifier: Modifier = Modifier) {
                         foregroundColor = foregroundColor,
                         smallVariant = item.smallVariant,
                         onClick = {
-                            if (item.route == NavRoutes.Home.More) {
-                                showComingSoonToast(context)
-                            } else {
-                                navController.navigate(item.route) {
-                                    launchSingleTop = true
-                                }
+                            navController.navigate(item.route) {
+                                launchSingleTop = true
                             }
                         }
                     )
@@ -156,12 +151,8 @@ fun HomeCategories(modifier: Modifier = Modifier) {
                         foregroundColor = foregroundColor,
                         smallVariant = item.smallVariant,
                         onClick = {
-                            if (item.route == NavRoutes.Home.More || item.route == NavRoutes.Home.SettingsIcons) {
-                                showComingSoonToast(context)
-                            } else {
-                                navController.navigate(item.route) {
-                                    launchSingleTop = true
-                                }
+                            navController.navigate(item.route) {
+                                launchSingleTop = true
                             }
                         }
                     )
