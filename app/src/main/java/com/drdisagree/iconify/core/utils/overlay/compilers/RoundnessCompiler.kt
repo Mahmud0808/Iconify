@@ -1,6 +1,14 @@
 package com.drdisagree.iconify.core.utils.overlay.compilers
 
 import android.util.Log
+import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
+import com.drdisagree.iconify.core.utils.FileUtils
+import com.drdisagree.iconify.core.utils.Logger.writeLog
+import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
+import com.drdisagree.iconify.core.utils.SystemUtils.mountRO
+import com.drdisagree.iconify.core.utils.SystemUtils.mountRW
+import com.drdisagree.iconify.core.utils.overlay.OverlayUtils.disableOverlays
+import com.drdisagree.iconify.core.utils.overlay.OverlayUtils.enableOverlays
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
@@ -13,14 +21,7 @@ import com.drdisagree.iconify.data.common.Resources.TEMP_DIR
 import com.drdisagree.iconify.data.common.Resources.TEMP_OVERLAY_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_UNALIGNED_DIR
-import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
-import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
-import com.drdisagree.iconify.core.utils.SystemUtils.mountRO
-import com.drdisagree.iconify.core.utils.SystemUtils.mountRW
 import com.drdisagree.iconify.helpers.BinaryInstaller.symLinkBinaries
-import com.drdisagree.iconify.core.utils.Logger.writeLog
-import com.drdisagree.iconify.core.utils.overlay.OverlayUtils.disableOverlays
-import com.drdisagree.iconify.core.utils.overlay.OverlayUtils.enableOverlays
 import com.topjohnwu.superuser.Shell
 import java.io.IOException
 
@@ -108,14 +109,17 @@ object RoundnessCompiler {
         }
 
         // Create temp directory
-        Shell.cmd("rm -rf $TEMP_DIR; mkdir -p $TEMP_DIR").exec()
-        Shell.cmd("mkdir -p $TEMP_OVERLAY_DIR").exec()
-        Shell.cmd("mkdir -p $UNSIGNED_UNALIGNED_DIR").exec()
-        Shell.cmd("mkdir -p $UNSIGNED_DIR").exec()
-        Shell.cmd("mkdir -p $SIGNED_DIR").exec()
+        Shell.cmd("rm -rf $TEMP_DIR").exec()
+        FileUtils.ensureDirs(
+            TEMP_DIR,
+            TEMP_OVERLAY_DIR,
+            UNSIGNED_UNALIGNED_DIR,
+            UNSIGNED_DIR,
+            SIGNED_DIR
+        )
 
         if (!mForce) {
-            Shell.cmd("mkdir -p $BACKUP_DIR").exec()
+            FileUtils.ensureDirs(BACKUP_DIR)
         } else {
             // Disable the overlay in case it is already enabled
             val overlayNames = arrayOfNulls<String>(mOverlayName.size)

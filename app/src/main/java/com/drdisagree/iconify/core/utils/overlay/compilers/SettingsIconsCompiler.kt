@@ -1,6 +1,14 @@
 package com.drdisagree.iconify.core.utils.overlay.compilers
 
 import android.util.Log
+import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
+import com.drdisagree.iconify.core.utils.FileUtils
+import com.drdisagree.iconify.core.utils.Logger.writeLog
+import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
+import com.drdisagree.iconify.core.utils.SystemUtils.mountRO
+import com.drdisagree.iconify.core.utils.SystemUtils.mountRW
+import com.drdisagree.iconify.core.utils.overlay.OverlayUtils.disableOverlays
+import com.drdisagree.iconify.core.utils.overlay.OverlayUtils.enableOverlays
 import com.drdisagree.iconify.data.common.Const.GMS_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SETTINGS_PACKAGE
 import com.drdisagree.iconify.data.common.Const.WELLBEING_PACKAGE
@@ -14,15 +22,9 @@ import com.drdisagree.iconify.data.common.Resources.TEMP_DIR
 import com.drdisagree.iconify.data.common.Resources.TEMP_OVERLAY_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_DIR
 import com.drdisagree.iconify.data.common.Resources.UNSIGNED_UNALIGNED_DIR
-import com.drdisagree.iconify.core.utils.AssetsUtils.copyAssets
-import com.drdisagree.iconify.core.utils.RootUtils.setPermissions
-import com.drdisagree.iconify.core.utils.SystemUtils.mountRO
-import com.drdisagree.iconify.core.utils.SystemUtils.mountRW
 import com.drdisagree.iconify.helpers.BinaryInstaller.symLinkBinaries
-import com.drdisagree.iconify.core.utils.Logger.writeLog
-import com.drdisagree.iconify.core.utils.overlay.OverlayUtils.disableOverlays
-import com.drdisagree.iconify.core.utils.overlay.OverlayUtils.enableOverlays
 import com.topjohnwu.superuser.Shell
+import java.io.File
 import java.io.IOException
 
 object SettingsIconsCompiler {
@@ -116,19 +118,22 @@ object SettingsIconsCompiler {
         }
 
         // Create temp directory
-        Shell.cmd("rm -rf $TEMP_DIR; mkdir -p $TEMP_DIR").exec()
-        Shell.cmd("mkdir -p $TEMP_OVERLAY_DIR").exec()
-        Shell.cmd("mkdir -p $TEMP_CACHE_DIR").exec()
-        Shell.cmd("mkdir -p $UNSIGNED_UNALIGNED_DIR").exec()
-        Shell.cmd("mkdir -p $UNSIGNED_DIR").exec()
-        Shell.cmd("mkdir -p $SIGNED_DIR").exec()
+        Shell.cmd("rm -rf $TEMP_DIR").exec()
+        FileUtils.ensureDirs(
+            TEMP_DIR,
+            TEMP_OVERLAY_DIR,
+            TEMP_CACHE_DIR,
+            UNSIGNED_UNALIGNED_DIR,
+            UNSIGNED_DIR,
+            SIGNED_DIR
+        )
 
         for (aPackages in mPackages) {
-            Shell.cmd("mkdir -p $TEMP_CACHE_DIR/$aPackages/").exec()
+            FileUtils.ensureDirs("$TEMP_CACHE_DIR/$aPackages/")
         }
 
         if (!mForce) {
-            Shell.cmd("mkdir -p $BACKUP_DIR").exec()
+            FileUtils.ensureDirs(BACKUP_DIR)
         } else {
             // Disable the overlay in case it is already enabled
             val overlayNames = arrayOfNulls<String>(mPackages.size)
@@ -219,31 +224,37 @@ object SettingsIconsCompiler {
     }
 
     private fun writeResources(source: String, resources: String): Boolean {
-        val result = Shell.cmd(
-            "rm -rf $source/res/values/Iconify.xml",
-            "printf '$resources' > $source/res/values/Iconify.xml;"
-        ).exec()
+        return try {
+            val valuesDir = File("$source/res/values").also {
+                FileUtils.ensureDirs(it.absolutePath)
+            }
 
-        if (result.isSuccess) Log.i(
-            "$TAG - WriteResources",
-            "Successfully written resources for SettingsIcons"
-        ) else {
+            val iconifyFile = File(valuesDir, "Iconify.xml")
+
+            if (iconifyFile.exists()) iconifyFile.delete()
+
+            iconifyFile.writeText(resources, Charsets.UTF_8)
+
+            Log.i(
+                "$TAG - WriteResources",
+                "Successfully written resources for SettingsIcons"
+            )
+
+            false
+        } catch (e: Exception) {
             Log.e(
                 "$TAG - WriteResources",
-                "Failed to write resources for SettingsIcons\n${
-                    java.lang.String.join(
-                        "\n",
-                        result.out
-                    )
-                }"
+                "Failed to write resources for SettingsIcons",
+                e
             )
+
             writeLog(
                 "$TAG - WriteResources",
                 "Failed to write resources for SettingsIcons",
-                result.out
+                listOf(e.stackTraceToString())
             )
-        }
 
-        return !result.isSuccess
+            true
+        }
     }
 }

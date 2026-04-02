@@ -45,7 +45,9 @@ object AssetsUtils {
         Log.d(TAG, "Writable ${dir.absolutePath}: ${dir.canWrite()}")
 
         if (!dir.exists() || !dir.canWrite()) {
-            Shell.cmd("mkdir -p $DATA_DIR/$dirName").exec()
+            Shell.cmd(
+                "rm -rf $DATA_DIR/$dirName && mkdir -p $DATA_DIR/$dirName && chmod 644 $DATA_DIR/$dirName"
+            ).exec()
         }
     }
 
