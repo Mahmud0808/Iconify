@@ -43,26 +43,6 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import kotlin.math.roundToInt
 
-/**
- * MergeImagesComposable
- *
- * Displays two images side by side with names below.
- * They animate toward each other, overlap at center, then fade out — on repeat.
- *
- * Animation phases (each looping):
- *  1. IDLE      → Images and names visible at their start positions, full alpha
- *  2. MOVING    → Images slide toward center while names fade out at halfway
- *  3. MERGED    → Images overlap at center, brief pause
- *  4. FADE_OUT  → Both images fade out
- *  5. (reset)   → Back to IDLE
- *
- * @param leftImage      Painter for the left image
- * @param rightImage     Painter for the right image
- * @param leftName       Label shown below the left image
- * @param rightName      Label shown below the right image
- * @param imageWidth      Width and height of each image card
- * @param gap            Initial horizontal gap between the two images
- */
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun DepthWallpaperExample(
@@ -76,18 +56,15 @@ fun DepthWallpaperExample(
 ) {
     val density = LocalDensity.current
 
-    // ── Animation durations ──────────────────────────────────────────────────
-    val idleDurationMs = 600
+    val idleDurationMs = 800
     val moveDurationMs = 900
     val mergedPauseMs = 400
     val fadeOutDurationMs = 500
 
-    // ── Infinite transition drives everything ────────────────────────────────
     val infiniteTransition = rememberInfiniteTransition(label = "merge_loop")
 
     val totalCycle = idleDurationMs + moveDurationMs + mergedPauseMs + fadeOutDurationMs
 
-    // Raw cycle progress 0f → 1f, then repeats
     val cycleProgress by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
@@ -98,13 +75,10 @@ fun DepthWallpaperExample(
         label = "cycle_progress"
     )
 
-    // ── Derived per-phase values ──────────────────────────────────────────────
     val idleFraction = idleDurationMs.toFloat() / totalCycle
     val moveFraction = moveDurationMs.toFloat() / totalCycle
     val pauseFraction = mergedPauseMs.toFloat() / totalCycle
-    // fadeOutFraction covers the rest
 
-    // How far through the MOVE phase are we? (0..1)
     val moveProgress: Float = when {
         cycleProgress < idleFraction -> 0f
         cycleProgress < idleFraction + moveFraction ->
@@ -113,20 +87,15 @@ fun DepthWallpaperExample(
         else -> 1f
     }
 
-    // Is the fade-out phase active?
     val fadeOutStart = idleFraction + moveFraction + pauseFraction
     val fadeProgress: Float = when {
         cycleProgress < fadeOutStart -> 0f
         else -> ((cycleProgress - fadeOutStart) / (1f - fadeOutStart)).coerceIn(0f, 1f)
     }
 
-    // ── Easing curves ────────────────────────────────────────────────────────
     val easedMove = FastOutSlowInEasing.transform(moveProgress)
     val easedFade = FastOutLinearInEasing.transform(fadeProgress)
 
-    // ── Layout-aware offset calc ─────────────────────────────────────────────
-    //   Total travel = gap/2 (each image moves half the gap toward center)
-    //   We use BoxWithConstraints for pixel-perfect offset
     BoxWithConstraints(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -136,14 +105,11 @@ fun DepthWallpaperExample(
         val halfImagePx = with(density) { (imageWidth / 2).toPx() }
         val halfGapPx = with(density) { (gap / 2).toPx() }
 
-        // How many px each image travels
         val travelPx = halfImagePx + halfGapPx
 
-        // Left image moves RIGHT (+), right image moves LEFT (-)
         val leftOffsetPx = (easedMove * travelPx).roundToInt()
         val rightOffsetPx = (easedMove * travelPx).roundToInt()
 
-        // Names fade out at the midpoint of the move (moveProgress == 0.5)
         val nameFadeStart = 0.2f
         val nameFadeEnd = 0.4f
         val nameAlpha = when {
@@ -152,7 +118,6 @@ fun DepthWallpaperExample(
             else -> 1f - ((moveProgress - nameFadeStart) / (nameFadeEnd - nameFadeStart))
         }.coerceIn(0f, 1f)
 
-        // Overall alpha (images fade to nothing during fade-out phase)
         val imageAlpha = (1f - easedFade).coerceIn(0f, 1f)
 
         Row(
@@ -160,7 +125,6 @@ fun DepthWallpaperExample(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
         ) {
-            // ── LEFT card ────────────────────────────────────────────────────
             ImageCard(
                 painter = leftImage,
                 name = leftName,
@@ -173,7 +137,6 @@ fun DepthWallpaperExample(
 
             Spacer(modifier = Modifier.width(gap))
 
-            // ── RIGHT card ───────────────────────────────────────────────────
             ImageCard(
                 painter = rightImage,
                 name = rightName,
@@ -186,8 +149,6 @@ fun DepthWallpaperExample(
         }
     }
 }
-
-// ── Internal card composable ─────────────────────────────────────────────────
 
 @Composable
 private fun ImageCard(
@@ -228,8 +189,6 @@ private fun ImageCard(
         )
     }
 }
-
-// ── Preview / Usage example ──────────────────────────────────────────────────
 
 @Preview(showBackground = true)
 @Composable
