@@ -64,7 +64,7 @@ object SettingsIconsCompiler {
 
             // Write resources
             if (resources != "" && writeResources(
-                    TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + overlayName,
+                    "$TEMP_CACHE_DIR/${mPackages[i]}/$overlayName",
                     resources
                 )
             ) {
@@ -75,7 +75,7 @@ object SettingsIconsCompiler {
 
             // Build APK using AAPT
             if (OverlayCompiler.runAapt(
-                    TEMP_CACHE_DIR + "/" + mPackages[i] + "/" + overlayName,
+                    "$TEMP_CACHE_DIR/${mPackages[i]}/$overlayName",
                     mPackages[i]
                 )
             ) {
@@ -118,7 +118,6 @@ object SettingsIconsCompiler {
         }
 
         // Create temp directory
-        Shell.cmd("rm -rf $TEMP_DIR").exec()
         FileUtils.ensureDirs(
             TEMP_DIR,
             TEMP_OVERLAY_DIR,
@@ -128,8 +127,8 @@ object SettingsIconsCompiler {
             SIGNED_DIR
         )
 
-        for (aPackages in mPackages) {
-            FileUtils.ensureDirs("$TEMP_CACHE_DIR/$aPackages/")
+        for (mPackage in mPackages) {
+            FileUtils.ensureDirs("$TEMP_CACHE_DIR/$mPackage/")
         }
 
         if (!mForce) {

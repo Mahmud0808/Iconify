@@ -115,7 +115,7 @@ fun HomeCategories(modifier: Modifier = Modifier) {
                         foregroundColor = foregroundColor,
                         smallVariant = item.smallVariant,
                         onClick = {
-                            if (item.route == NavRoutes.Home.More || item.route == NavRoutes.Home.SettingsIcons) {
+                            if (item.route == NavRoutes.Home.More) {
                                 showComingSoonToast(context)
                             } else {
                                 navController.navigate(item.route) {

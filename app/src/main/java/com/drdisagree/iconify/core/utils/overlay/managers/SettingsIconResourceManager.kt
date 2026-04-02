@@ -7,11 +7,11 @@ object SettingsIconResourceManager {
 
     @Throws(IOException::class)
     fun buildOverlay(
-        iconSet: Int,
         backgroundStyle: Int,
         backgroundShape: Int,
         iconSize: Int,
         iconColor: Int,
+        iconSet: Int,
         force: Boolean
     ): Boolean {
         var resources = ""
@@ -83,8 +83,8 @@ object SettingsIconResourceManager {
 
             when (backgroundShape) {
                 1 -> resources += """
-                            <dimen name="bg_roundness">48.0dip</dimen>
-                            <dimen name="outline_roundness">48.0dip</dimen>
+                                    <dimen name="bg_roundness">48.0dip</dimen>
+                                    <dimen name="outline_roundness">48.0dip</dimen>
                         
                         """.trimIndent()
 

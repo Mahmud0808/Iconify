@@ -65,7 +65,7 @@ object OverlayCompiler {
         }
 
         val command = aaptCommand.toString()
-        var result = Shell.cmd(command).exec()
+        var result = Shell.cmd("$command 2>&1").exec()
 
         if (!result.isSuccess) {
             val keywords = listOf(
@@ -82,7 +82,7 @@ object OverlayCompiler {
                         "find $source/res -type f -name \"*.xml\" -exec sed -i '/$keyword/d' {} +"
                     ).exec()
                 }
-                result = Shell.cmd(command).exec()
+                result = Shell.cmd("$command 2>&1").exec()
             }
         }
 
@@ -91,7 +91,10 @@ object OverlayCompiler {
         } else {
             Log.e(
                 "$TAG - AAPT",
-                "Failed to build APK for $name\n${result.out.joinToString("\n")}"
+                "Failed to build APK for $name\n${
+                    (if (result.out.firstOrNull().isNullOrEmpty()) result.err
+                    else result.out).joinToString("\n")
+                }"
             )
 
             val fileContents = Shell.cmd(
@@ -103,7 +106,7 @@ object OverlayCompiler {
                 header = "Failed to build APK for $name",
                 command = command,
                 fileContents = fileContents,
-                errorLog = result.out
+                errorLog = if (result.out.firstOrNull().isNullOrEmpty()) result.err else result.out
             )
         }
 

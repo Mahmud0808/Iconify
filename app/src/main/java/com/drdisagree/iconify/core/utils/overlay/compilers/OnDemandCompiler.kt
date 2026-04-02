@@ -75,11 +75,7 @@ object OnDemandCompiler {
         }
 
         // Build APK using AAPT
-        if (OverlayCompiler.runAapt(
-                "$TEMP_CACHE_DIR/$targetPackage/$overlayName",
-                targetPackage
-            )
-        ) {
+        if (OverlayCompiler.runAapt("$TEMP_CACHE_DIR/$targetPackage/$overlayName", targetPackage)) {
             Log.e(TAG, "Failed to build $overlayName! Exiting...")
             postExecute(true)
             return true

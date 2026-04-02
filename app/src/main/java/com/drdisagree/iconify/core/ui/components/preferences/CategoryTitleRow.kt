@@ -19,7 +19,7 @@ import com.drdisagree.iconify.core.preferences.resolve
 @Composable
 fun CategoryTitleRow(
     title: PrefStringRes,
-    icon: PrefIconRes?,
+    icon: PrefIconRes? = null,
 ) {
     if (title.resolve().isEmpty()) return
 

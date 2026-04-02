@@ -114,23 +114,20 @@ object AppUtils {
     }
 
     fun getSplitLocations(packageName: String?): Array<String?> {
-        try {
-            var splitLocations = appContext.packageManager.getApplicationInfo(
-                packageName!!, 0
-            ).splitSourceDirs
-
-            if (splitLocations == null) {
-                splitLocations = arrayOf(
-                    appContext.packageManager.getApplicationInfo(
-                        packageName, 0
-                    ).sourceDir
+        return try {
+            appContext
+                .packageManager
+                .getApplicationInfo(packageName!!, 0)
+                .splitSourceDirs
+                ?: arrayOf(
+                    appContext
+                        .packageManager
+                        .getApplicationInfo(packageName, 0)
+                        .sourceDir
                 )
-            }
-            return splitLocations
         } catch (_: PackageManager.NameNotFoundException) {
+            arrayOfNulls(0)
         }
-
-        return arrayOfNulls(0)
     }
 
     val isLSPosedInstalled: Boolean

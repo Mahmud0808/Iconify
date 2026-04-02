@@ -38,7 +38,7 @@ object Logger {
         for (line in fileContents) {
             log.append("\n\t").append(line)
         }
-        log.append('\n')
+        log.append("\n\n")
 
         log.append(tag).append(":\n")
         for (line in errorLog) {

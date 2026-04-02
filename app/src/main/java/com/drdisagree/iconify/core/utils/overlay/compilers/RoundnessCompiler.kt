@@ -109,7 +109,6 @@ object RoundnessCompiler {
         }
 
         // Create temp directory
-        Shell.cmd("rm -rf $TEMP_DIR").exec()
         FileUtils.ensureDirs(
             TEMP_DIR,
             TEMP_OVERLAY_DIR,

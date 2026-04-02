@@ -32,7 +32,7 @@ private val THREE_LINE_LIST_ITEM_MIN_HEIGHT = 88.dp
 @Composable
 fun PreferenceContainer(
     modifier: Modifier = Modifier,
-    shape: RoundedCornerShape,
+    shape: RoundedCornerShape = RoundedCornerShape(28.dp),
     isEnabled: Boolean,
     minLine: Int = 1,
     onClick: (() -> Unit)? = null,
