@@ -68,8 +68,8 @@ fun depthWallpaperPreferences(
                 DepthWallpaperExample(
                     leftImage = painterResource(id = R.drawable.depth_wallpaper_example_fg),
                     rightImage = painterResource(id = R.drawable.depth_wallpaper_example_bg),
-                    leftName = stringResource(R.string.background_image_title),
-                    rightName = stringResource(R.string.foreground_image_title),
+                    leftName = stringResource(R.string.foreground_image_title),
+                    rightName = stringResource(R.string.background_image_title),
                     imageWidth = imageWidth,
                     gap = centerGap
                 )
