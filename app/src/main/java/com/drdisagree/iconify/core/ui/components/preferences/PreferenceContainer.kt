@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 
-val SINGLE_LINE_LIST_ITEM_MIN_HEIGHT = 56.dp
-val TWO_LINE_LIST_ITEM_MIN_HEIGHT = 72.dp
-val THREE_LINE_LIST_ITEM_MIN_HEIGHT = 88.dp
+private val SINGLE_LINE_LIST_ITEM_MIN_HEIGHT = 56.dp
+private val TWO_LINE_LIST_ITEM_MIN_HEIGHT = 72.dp
+private val THREE_LINE_LIST_ITEM_MIN_HEIGHT = 88.dp
 
 @Composable
 fun PreferenceContainer(
@@ -41,35 +41,31 @@ fun PreferenceContainer(
     spaceAmongItems: Dp = 16.dp,
     content: @Composable RowScope.() -> Unit,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-
-    val baseModifier = modifier
-        .fillMaxWidth()
-        .heightIn(
-            min = when {
-                minLine <= 1 -> SINGLE_LINE_LIST_ITEM_MIN_HEIGHT
-                minLine == 2 -> TWO_LINE_LIST_ITEM_MIN_HEIGHT
-                else -> THREE_LINE_LIST_ITEM_MIN_HEIGHT
-            }
-        )
-        .clip(shape)
-        .background(containerColor, shape)
-        .alpha(if (isEnabled) 1f else 0.38f)
-        .then(
-            if (onClick != null) {
-                Modifier.clickable(
-                    interactionSource = interactionSource,
-                    indication = ripple(),
-                    enabled = isEnabled,
-                    role = Role.Button,
-                    onClick = withHaptic { onClick() }
-                )
-            } else Modifier
-        )
-        .padding(contentPadding)
-
     Row(
-        modifier = baseModifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(
+                min = when {
+                    minLine <= 1 -> SINGLE_LINE_LIST_ITEM_MIN_HEIGHT
+                    minLine == 2 -> TWO_LINE_LIST_ITEM_MIN_HEIGHT
+                    else -> THREE_LINE_LIST_ITEM_MIN_HEIGHT
+                }
+            )
+            .clip(shape)
+            .background(containerColor, shape)
+            .alpha(if (isEnabled) 1f else 0.38f)
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = ripple(),
+                        enabled = isEnabled,
+                        role = Role.Button,
+                        onClick = withHaptic { onClick() }
+                    )
+                } else Modifier
+            )
+            .padding(contentPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(spaceAmongItems),
         content = content
