@@ -15,19 +15,23 @@ sleep 3
 
 {{RESTART_SYSUI_AFTER_BOOT}}sleep 6
 
-handle_overlay() {
-  local overlay_name="$1"
+handle_overlay_am() {
+  local amac="IconifyComponentAMAC.overlay"
+  local amgc="IconifyComponentAMGC.overlay"
 
-  local overlay=$(cmd overlay list | grep -E "^.x..${overlay_name}.overlay" | sed -E "s/^.x..//")
-  local disableMonet=$(cmd overlay list | grep -E "^.x..IconifyComponentDM.overlay" | sed -E "s/^.x..//")
+  local overlays
+  overlays="$(cmd overlay list)"
 
-  if ([ ! -z "${overlay}" ] && [ -z "${disableMonet}" ])
-  then
-    cmd overlay disable --user current "${overlay_name}.overlay"
-    cmd overlay enable --user current "${overlay_name}.overlay"
-    cmd overlay set-priority "${overlay_name}.overlay" highest
+  local amac_enabled
+  local amgc_enabled
+
+  amac_enabled=$(echo "$overlays" | grep -F "[x] $amac")
+  amgc_enabled=$(echo "$overlays" | grep -F "[x] $amgc")
+
+  if [ -z "$amac_enabled" ] && [ -z "$amgc_enabled" ]; then
+    cmd overlay enable --user current "$amgc"
+    cmd overlay set-priority "$amgc" highest
   fi
 }
 
-handle_overlay "IconifyComponentQSPBD"
-handle_overlay "IconifyComponentQSPBA"
+handle_overlay_am

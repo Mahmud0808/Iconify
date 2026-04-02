@@ -109,11 +109,8 @@ object ModuleUtils {
         val postExec = StringBuilder()
         var primaryColorEnabled = false
         var secondaryColorEnabled = false
-        val firstInstall = RPrefs.getBoolean(SettingsKey.FIRST_INSTALL, true)
-        val map = appContext.getSharedPreferences(
-            BuildConfig.APPLICATION_ID,
-            Context.MODE_PRIVATE
-        ).all
+        val firstInstall = RPrefs.getBoolean(SettingsKey.FIRST_INSTALL)
+        val map = RPrefs.prefs.all
 
         for ((key, value) in map) {
             if (value is Boolean && value && key.startsWith("fabricated")) {
