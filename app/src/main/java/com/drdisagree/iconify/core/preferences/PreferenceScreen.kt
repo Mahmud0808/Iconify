@@ -96,7 +96,7 @@ fun PreferenceScreen(
 
                         preferenceCategoryItems(
                             category = cat,
-                            controller = prefController,
+                            prefController = prefController,
                             addTopSpacer = !isFirstVisible,
                             firstLoadMap = firstLoadMap,
                             visibleIndices = visibleIndices,
@@ -121,11 +121,11 @@ fun PreferenceScreen(
 @Composable
 private fun rememberCategoryVisibleIndices(
     category: PreferenceCategoryDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
 ): State<List<Int>> = remember(category) {
     derivedStateOf {
         category.preferences.indices.filter { i ->
-            category.preferences[i].isVisible(controller)
+            category.preferences[i].isVisible(prefController)
         }
     }
 }

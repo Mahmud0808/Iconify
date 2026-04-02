@@ -153,7 +153,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun InitPreferences(onLoaded: (AppState.Ready) -> Unit) {
-        val controller = LocalPreferenceController.current
+        val prefController = LocalPreferenceController.current
 
         LaunchedEffect(Unit) {
             withContext(Dispatchers.IO) {
@@ -161,7 +161,7 @@ class MainActivity : ComponentActivity() {
                     .filterIsInstance<PreferenceScreenItem.Category>()
                     .flatMap { it.definition.preferences }
                     .associate { pref -> pref.key to pref.defaultValue }
-                controller.initAll(defaults)
+                prefController.initAll(defaults)
             }
 
             val shellReady = withContext(Dispatchers.IO) {

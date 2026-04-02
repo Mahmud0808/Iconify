@@ -86,7 +86,7 @@ fun QsTransparencyScreen(
     systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
 ) {
     val scope = rememberCoroutineScope()
-    val preferenceController = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
 
     PreferenceListener(key = null) { event ->
         when (event.key) {
@@ -97,7 +97,7 @@ fun QsTransparencyScreen(
                     if (isEnabled) {
                         SystemUtils.enableBlur(force = false)
                     } else {
-                        preferenceController.set(XposedKey.QUICK_SETTINGS_AGGRESSIVE_BLUR)
+                        prefController.set(XposedKey.QUICK_SETTINGS_AGGRESSIVE_BLUR)
                         SystemUtils.disableBlur(force = false)
                     }
 

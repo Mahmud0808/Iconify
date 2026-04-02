@@ -44,7 +44,7 @@ class WeatherViewModel @Inject constructor(
     @param:SharedPrefs private val preferenceStorage: PreferenceStorage,
 ) : ViewModel() {
 
-    private val controller = PreferenceController(preferenceStorage)
+    private val prefController = PreferenceController(preferenceStorage)
 
     private val _screenState = MutableStateFlow(WeatherScreenState())
     val screenState: StateFlow<WeatherScreenState> = _screenState.asStateFlow()
@@ -133,7 +133,7 @@ class WeatherViewModel @Inject constructor(
 
     fun onLocationNameReceived() {
         if (WeatherConfig.isEnabled()
-            && !controller.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)
+            && !prefController.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)
         ) {
             checkLocationEnabled(force = true)
         }
@@ -153,11 +153,11 @@ class WeatherViewModel @Inject constructor(
         forceRefreshWeatherSettings()
 
         when (provider) {
-            "1" if controller.getString(XposedKey.WEATHER_OWM_KEY).isEmpty() -> {
+            "1" if prefController.getString(XposedKey.WEATHER_OWM_KEY).isEmpty() -> {
                 _screenState.update { it.copy(dialog = WeatherDialog.OwmKey) }
             }
 
-            "2" if controller.getString(XposedKey.WEATHER_YANDEX_KEY).isEmpty() -> {
+            "2" if prefController.getString(XposedKey.WEATHER_YANDEX_KEY).isEmpty() -> {
                 _screenState.update { it.copy(dialog = WeatherDialog.YandexKey) }
             }
         }
@@ -175,7 +175,7 @@ class WeatherViewModel @Inject constructor(
         val packs = _screenState.value.iconPacks
         if (index !in packs.indices) return
 
-        controller.set(XposedKey.WEATHER_ICON_PACK, packs[index].value.toPrefValue())
+        prefController.set(XposedKey.WEATHER_ICON_PACK, packs[index].value.toPrefValue())
         _screenState.update { it.copy(selectedIconPackIndex = index) }
 
         forceRefreshWeatherSettings()
@@ -203,7 +203,7 @@ class WeatherViewModel @Inject constructor(
 
     private fun handlePermissions() {
         if (WeatherConfig.isEnabled() &&
-            !controller.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)
+            !prefController.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)
         ) {
             checkLocationEnabled(force = false)
         } else {
@@ -230,7 +230,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     private fun checkLocationPermission(force: Boolean) {
-        if (!hasPermissions() && !controller.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)) {
+        if (!hasPermissions() && !prefController.getBoolean(XposedKey.WEATHER_CUSTOM_LOCATION)) {
             // The composable will check shouldShowRationale and decide whether to show
             // the rationale dialog or fire the system permission request directly.
             // We emit the event and let the UI decide (mirrors requestLocationPermission logic).

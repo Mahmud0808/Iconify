@@ -20,7 +20,7 @@ fun ActionPreferenceItem(
     modifier: Modifier,
 ) {
     val context = LocalContext.current
-    val preferenceController = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
     val navController = LocalNavController.current
 
     PreferenceContainer(
@@ -31,7 +31,7 @@ fun ActionPreferenceItem(
         onClick = withHaptic {
             if (isEnabled) type.onClick(
                 context,
-                preferenceController,
+                prefController,
                 navController
             )
         }

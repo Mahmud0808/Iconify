@@ -237,24 +237,24 @@ val lookAndFeelPreferences = preferenceScreen {
 
 @Composable
 fun LookAndFeelScreen() {
-    val preferenceController = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
 
     PreferenceListener(key = "theme_color") {
         val newValue = (it.newValue as PrefValue.StringValue).v
 
         if (newValue == "dynamic") {
-            preferenceController.setBoolean(SettingsKey.DYNAMIC_COLORS, true)
+            prefController.setBoolean(SettingsKey.DYNAMIC_COLORS, true)
         } else {
             allSeedColors.find { seed ->
                 newValue == seed.seedColor.name
                     .lowercase()
                     .replace(" ", "_")
             }?.let { seedColor ->
-                preferenceController.setString(
+                prefController.setString(
                     SettingsKey.SEED_COLOR,
                     seedColor.seedColor.primaryColor.toString()
                 )
-                preferenceController.setBoolean(SettingsKey.DYNAMIC_COLORS, false)
+                prefController.setBoolean(SettingsKey.DYNAMIC_COLORS, false)
             }
         }
     }

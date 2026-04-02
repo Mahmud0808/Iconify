@@ -40,7 +40,7 @@ import com.drdisagree.iconify.core.ui.components.others.withHaptic
 @Composable
 fun ListPreferenceItem(
     def: PreferenceDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
     summary: String?,
@@ -48,7 +48,7 @@ fun ListPreferenceItem(
     modifier: Modifier,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    val selectedValue by controller.observe(def.key, (def.defaultValue as PrefValue.StringValue).v)
+    val selectedValue by prefController.observe(def.key, (def.defaultValue as PrefValue.StringValue).v)
 
     val displaySummary = summary
         ?: type.entries.resolve()
@@ -109,7 +109,7 @@ fun ListPreferenceItem(
                                         .clip(RoundedCornerShape(8.dp))
                                         .clickable(
                                             onClick = withHaptic {
-                                                controller.setString(def.key, value)
+                                                prefController.setString(def.key, value)
                                                 showDialog = false
                                             }
                                         ),
@@ -119,7 +119,7 @@ fun ListPreferenceItem(
                                     RadioButton(
                                         selected = selectedValue == value,
                                         onClick = withHaptic {
-                                            controller.setString(def.key, value)
+                                            prefController.setString(def.key, value)
                                             showDialog = false
                                         }
                                     )

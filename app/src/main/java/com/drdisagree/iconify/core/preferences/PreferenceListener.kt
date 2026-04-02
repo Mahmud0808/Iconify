@@ -23,13 +23,13 @@ fun PreferenceListener(
     key: String? = null,
     callback: (PreferenceChangeEvent) -> Unit,
 ) {
-    val controller = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
     val latestCallback by rememberUpdatedState(callback)
 
-    DisposableEffect(controller, key) {
-        val handle = controller.addListener(key) { latestCallback(it) }
+    DisposableEffect(prefController, key) {
+        val handle = prefController.addListener(key) { latestCallback(it) }
 
-        onDispose { controller.removeListener(handle) }
+        onDispose { prefController.removeListener(handle) }
     }
 }
 
@@ -38,12 +38,12 @@ fun PreferenceListener(
     key: Key,
     callback: (PreferenceChangeEvent) -> Unit,
 ) {
-    val controller = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
     val latestCallback by rememberUpdatedState(callback)
 
-    DisposableEffect(controller, key) {
-        val handle = controller.addListener(key) { latestCallback(it) }
+    DisposableEffect(prefController, key) {
+        val handle = prefController.addListener(key) { latestCallback(it) }
 
-        onDispose { controller.removeListener(handle) }
+        onDispose { prefController.removeListener(handle) }
     }
 }

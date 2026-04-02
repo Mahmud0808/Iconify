@@ -21,7 +21,7 @@ class SettingsViewModel @Inject constructor(
     @param:SharedPrefs private val preferenceStorage: PreferenceStorage
 ) : ViewModel() {
 
-    private val controller = PreferenceController(preferenceStorage)
+    private val prefController = PreferenceController(preferenceStorage)
 
     init {
         viewModelScope.launch {
@@ -30,7 +30,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun loadSettings() {
-        controller.initAll(
+        prefController.initAll(
             SettingsKey.entries.associate { key ->
                 key.name to key.default.toPrefValue()
             }
@@ -38,40 +38,40 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun getValue(key: SettingsKey): Any? {
-        return controller.get(key.name, key.default?.toPrefValue())
+        return prefController.get(key.name, key.default?.toPrefValue())
             ?: key.default
     }
 
     fun setValue(key: SettingsKey, value: Any) {
-        controller.set(key.name, value.toPrefValue())
+        prefController.set(key.name, value.toPrefValue())
     }
 
-    fun getBooleanFlow(key: SettingsKey): Flow<Boolean> = controller.changesFlow
+    fun getBooleanFlow(key: SettingsKey): Flow<Boolean> = prefController.changesFlow
         .filterNotNull()
         .filter { it.key == key.name }
-        .map { controller.getBoolean(key.name, key.default as Boolean) }
-        .onStart { emit(controller.getBoolean(key.name, key.default as Boolean)) }
+        .map { prefController.getBoolean(key.name, key.default as Boolean) }
+        .onStart { emit(prefController.getBoolean(key.name, key.default as Boolean)) }
 
-    fun getIntFlow(key: SettingsKey): Flow<Int> = controller.changesFlow
+    fun getIntFlow(key: SettingsKey): Flow<Int> = prefController.changesFlow
         .filterNotNull()
         .filter { it.key == key.name }
-        .map { controller.getInt(key.name, key.default as Int) }
-        .onStart { emit(controller.getInt(key.name, key.default as Int)) }
+        .map { prefController.getInt(key.name, key.default as Int) }
+        .onStart { emit(prefController.getInt(key.name, key.default as Int)) }
 
-    fun getFloatFlow(key: SettingsKey): Flow<Float> = controller.changesFlow
+    fun getFloatFlow(key: SettingsKey): Flow<Float> = prefController.changesFlow
         .filterNotNull()
         .filter { it.key == key.name }
-        .map { controller.getFloat(key.name, key.default as Float) }
-        .onStart { emit(controller.getFloat(key.name, key.default as Float)) }
+        .map { prefController.getFloat(key.name, key.default as Float) }
+        .onStart { emit(prefController.getFloat(key.name, key.default as Float)) }
 
-    fun getStringFlow(key: SettingsKey): Flow<String> = controller.changesFlow
+    fun getStringFlow(key: SettingsKey): Flow<String> = prefController.changesFlow
         .filterNotNull()
         .filter { it.key == key.name }
-        .map { controller.getString(key.name, key.default as String) }
-        .onStart { emit(controller.getString(key.name, key.default as String)) }
+        .map { prefController.getString(key.name, key.default as String) }
+        .onStart { emit(prefController.getString(key.name, key.default as String)) }
 
     override fun onCleared() {
-        controller.dispose()
+        prefController.dispose()
         super.onCleared()
     }
 }

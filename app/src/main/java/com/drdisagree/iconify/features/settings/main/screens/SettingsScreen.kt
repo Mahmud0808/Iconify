@@ -150,7 +150,7 @@ fun settingsPreferences(
 fun SettingsScreen() {
     val context = LocalContext.current
     val activity = LocalActivity.current
-    val preferenceController = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
     val coroutineScope = rememberCoroutineScope()
     var showDialog by rememberSaveable { mutableStateOf(false) }
     var showLoading by rememberSaveable { mutableStateOf(false) }
@@ -185,7 +185,7 @@ fun SettingsScreen() {
                             //                    WeatherConfig.clear(context)
 
                             // Clear shared preferences
-                            preferenceController.reset()
+                            prefController.reset()
 
                             // Clear dynamic resource database
                             //                    DynamicResourceRepository(
@@ -197,15 +197,15 @@ fun SettingsScreen() {
                             saveBootId
                             disableBlur(false)
 
-                            preferenceController.setInt(
+                            prefController.setInt(
                                 SettingsKey.SAVED_VERSION_CODE,
                                 BuildConfig.VERSION_CODE
                             )
-                            preferenceController.setBoolean(
+                            prefController.setBoolean(
                                 SettingsKey.ON_HOME_PAGE,
                                 true
                             )
-                            preferenceController.setBoolean(
+                            prefController.setBoolean(
                                 SettingsKey.FIRST_INSTALL,
                                 false
                             )

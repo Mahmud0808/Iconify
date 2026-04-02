@@ -116,7 +116,7 @@ sealed class FilePickerType {
 @Composable
 fun FilePickerPreferenceItem(
     def: PreferenceDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
     summary: String?,
@@ -125,7 +125,7 @@ fun FilePickerPreferenceItem(
 ) {
     val context = LocalContext.current
 
-    val uriString by controller.observe(def.key, "")
+    val uriString by prefController.observe(def.key, "")
     val uri: Uri? = remember(uriString) { uriString.takeIf { it.isNotEmpty() }?.let(Uri::parse) }
     val fileName: String? = remember(uri) { uri?.let { resolveFileName(context, it) } }
 
@@ -145,8 +145,8 @@ fun FilePickerPreferenceItem(
                 )
             }
             val uriStr = pickedUri.toString()
-            if (type.saveFileUri) controller.setString(def.key, uriStr)
-            type.onFileSelected(controller, uriStr)
+            if (type.saveFileUri) prefController.setString(def.key, uriStr)
+            type.onFileSelected(prefController, uriStr)
         }
     }
 
@@ -161,8 +161,8 @@ fun FilePickerPreferenceItem(
                 )
             }
             val uriStr = pickedUri.toString()
-            if (type.saveFileUri) controller.setString(def.key, uriStr)
-            type.onFileSelected(controller, uriStr)
+            if (type.saveFileUri) prefController.setString(def.key, uriStr)
+            type.onFileSelected(prefController, uriStr)
         }
     }
 
@@ -224,9 +224,9 @@ fun FilePickerPreferenceItem(
                     isEnabled = isEnabled,
                     onClear = withHaptic {
                         if (type.saveFileUri) {
-                            controller.setString(def.key, "")
+                            prefController.setString(def.key, "")
                         }
-                        type.onFileSelected(controller, "")
+                        type.onFileSelected(prefController, "")
                     },
                 )
                 Spacer(Modifier.height(8.dp))

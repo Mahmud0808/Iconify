@@ -69,7 +69,7 @@ class OnboardingViewModel @Inject constructor(
 
     private val tag = OnboardingViewModel::class.java.simpleName
 
-    private val controller = PreferenceController(preferenceStorage)
+    private val prefController = PreferenceController(preferenceStorage)
 
     private val _state = MutableStateFlow<InstallationState>(InstallationState.Idle)
     val state: StateFlow<InstallationState> = _state.asStateFlow()
@@ -148,7 +148,7 @@ class OnboardingViewModel @Inject constructor(
             val overlayExists = overlayExists()
 
             if ((!skipInstallation && (Config.FORCE_OVERLAY_INSTALLATION ||
-                        controller.getInt(SettingsKey.SAVED_VERSION_CODE) != BuildConfig.VERSION_CODE ||
+                        prefController.getInt(SettingsKey.SAVED_VERSION_CODE) != BuildConfig.VERSION_CODE ||
                         !moduleExists ||
                         !overlayExists)) ||
                 (skipInstallation && !moduleExists)
@@ -156,7 +156,7 @@ class OnboardingViewModel @Inject constructor(
                 clearDatabase(skipInstallation, moduleExists, overlayExists)
                 performInstallation(skipInstallation)
             } else {
-                controller.setBoolean(
+                prefController.setBoolean(
                     SettingsKey.XPOSED_ONLY_MODE,
                     skipInstallation && !overlayExists
                 )
@@ -449,19 +449,19 @@ class OnboardingViewModel @Inject constructor(
 
         if (!hasErroredOut) {
             if (!skip) {
-                if (BuildConfig.VERSION_CODE != controller.getInt(SettingsKey.SAVED_VERSION_CODE)) {
-                    if (controller.getBoolean(SettingsKey.FIRST_INSTALL)) {
-                        controller.setBoolean(SettingsKey.FIRST_INSTALL, true)
-                        controller.setBoolean(SettingsKey.UPDATE_DETECTED, false)
+                if (BuildConfig.VERSION_CODE != prefController.getInt(SettingsKey.SAVED_VERSION_CODE)) {
+                    if (prefController.getBoolean(SettingsKey.FIRST_INSTALL)) {
+                        prefController.setBoolean(SettingsKey.FIRST_INSTALL, true)
+                        prefController.setBoolean(SettingsKey.UPDATE_DETECTED, false)
                     } else {
-                        controller.setBoolean(SettingsKey.FIRST_INSTALL, false)
-                        controller.setBoolean(SettingsKey.UPDATE_DETECTED, true)
+                        prefController.setBoolean(SettingsKey.FIRST_INSTALL, false)
+                        prefController.setBoolean(SettingsKey.UPDATE_DETECTED, true)
                     }
 
-                    controller.setInt(SettingsKey.SAVED_VERSION_CODE, BuildConfig.VERSION_CODE)
+                    prefController.setInt(SettingsKey.SAVED_VERSION_CODE, BuildConfig.VERSION_CODE)
                 }
 
-                controller.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
+                prefController.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
 
                 if (moduleExists() && overlayExists()) {
                     _events.emit(
@@ -476,7 +476,7 @@ class OnboardingViewModel @Inject constructor(
                     _state.emit(InstallationState.Reboot)
                 }
             } else {
-                controller.setBoolean(SettingsKey.XPOSED_ONLY_MODE, true)
+                prefController.setBoolean(SettingsKey.XPOSED_ONLY_MODE, true)
 
                 _events.emit(
                     InstallationEvent.Toast(R.string.one_time_reboot_needed)
@@ -501,7 +501,7 @@ class OnboardingViewModel @Inject constructor(
         overlayExists: Boolean
     ) {
         if (!skip && (!moduleExists || !overlayExists)) {
-            controller.reset()
+            prefController.reset()
             CoroutineScope(Dispatchers.IO).launch {
                 //                DynamicResourceRepository(
                 //                    DynamicResourceDatabase.getInstance().dynamicResourceDao()
@@ -510,7 +510,7 @@ class OnboardingViewModel @Inject constructor(
                 //                }
             }
         } else if (skip && !moduleExists) {
-            controller.reset()
+            prefController.reset()
             CoroutineScope(Dispatchers.IO).launch {
                 //                DynamicResourceRepository(
                 //                    DynamicResourceDatabase.getInstance().dynamicResourceDao()
@@ -526,7 +526,7 @@ class OnboardingViewModel @Inject constructor(
     }
 
     private fun onCancelled() {
-        controller.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
+        prefController.setBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
 
         Shell.cmd(
             "rm -rf $DATA_DIR",

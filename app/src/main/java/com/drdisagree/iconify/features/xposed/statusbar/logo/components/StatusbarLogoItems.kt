@@ -28,9 +28,9 @@ import java.io.FileNotFoundException
 
 @Composable
 fun rememberStatusbarLogoItems(context: Context, reloadKey: Int): List<StatusbarLogoItem> {
-    val preferenceController = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
 
-    val customImageUri by preferenceController.observe(
+    val customImageUri by prefController.observe(
         XposedKey.STATUSBAR_LOGO_FILE_URI.name,
         XposedKey.STATUSBAR_LOGO_FILE_URI.default as String
     )

@@ -30,7 +30,7 @@ import com.drdisagree.iconify.core.ui.components.others.withHapticResult
 @Composable
 fun TwoTargetSwitchPreferenceItem(
     def: PreferenceDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
     summary: String?,
@@ -38,17 +38,17 @@ fun TwoTargetSwitchPreferenceItem(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val preferenceController = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
     val navController = LocalNavController.current
 
-    val checked by controller.observe(def.key, false)
+    val checked by prefController.observe(def.key, false)
 
     PreferenceContainer(
         shape = shape,
         isEnabled = isEnabled,
         modifier = modifier,
         minLine = if (summary.isNullOrEmpty()) 1 else 2,
-        onClick = withHaptic { type.onClick(context, preferenceController, navController) }
+        onClick = withHaptic { type.onClick(context, prefController, navController) }
     ) {
         LeadingIcon(def.icon, isEnabled)
         TitleSummaryBlock(def.title, summary, isEnabled)
@@ -74,7 +74,7 @@ fun TwoTargetSwitchPreferenceItem(
             Switch(
                 checked = checked,
                 onCheckedChange = withHapticResult {
-                    if (isEnabled) controller.setBoolean(
+                    if (isEnabled) prefController.setBoolean(
                         def.key,
                         it as Boolean
                     )

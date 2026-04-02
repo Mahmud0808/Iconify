@@ -23,7 +23,7 @@ import com.drdisagree.iconify.core.ui.utils.resolvePosition
 
 fun LazyListScope.preferenceCategoryItems(
     category: PreferenceCategoryDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     addTopSpacer: Boolean = true,
     firstLoadMap: Map<String, Boolean>,
     visibleIndices: List<Int>,
@@ -52,13 +52,13 @@ fun LazyListScope.preferenceCategoryItems(
             enter = if (firstLoad) EnterTransition.None else fadeIn() + expandVertically(),
             exit = if (firstLoad) ExitTransition.None else fadeOut() + shrinkVertically(),
         ) {
-            val isEnabled = pref.isEnabled(controller)
-            val summary = pref.summary?.invoke(controller, pref.key).resolveOrNull()
+            val isEnabled = pref.isEnabled(prefController)
+            val summary = pref.summary?.invoke(prefController, pref.key).resolveOrNull()
             val topPad = if (index == visibleIndices.firstOrNull()) 0.dp else CARD_ITEM_SPACING
 
             PreferenceItem(
                 definition = pref,
-                controller = controller,
+                prefController = prefController,
                 shape = shape,
                 isEnabled = isEnabled,
                 summary = summary,

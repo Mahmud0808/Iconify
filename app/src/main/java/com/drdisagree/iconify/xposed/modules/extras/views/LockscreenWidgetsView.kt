@@ -407,28 +407,28 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                 mContext.getSystemService(MediaSessionManager::class.java)
             var localController: MediaController? = null
             val remoteMediaSessionLists: MutableList<String> = ArrayList()
-            for (controller: MediaController in mediaSessionManager.getActiveSessions(null)) {
-                val pi = controller.playbackInfo
-                val playbackState = controller.playbackState ?: continue
+            for (prefController: MediaController in mediaSessionManager.getActiveSessions(null)) {
+                val pi = prefController.playbackInfo
+                val playbackState = prefController.playbackState ?: continue
                 if (playbackState.state != PlaybackState.STATE_PLAYING) {
                     continue
                 }
                 if (pi.playbackType == PlaybackInfo.PLAYBACK_TYPE_REMOTE) {
                     if (localController != null
-                        && localController.packageName!!.contentEquals(controller.packageName)
+                        && localController.packageName!!.contentEquals(prefController.packageName)
                     ) {
                         localController = null
                     }
-                    if (!remoteMediaSessionLists.contains(controller.packageName)) {
-                        remoteMediaSessionLists.add(controller.packageName)
+                    if (!remoteMediaSessionLists.contains(prefController.packageName)) {
+                        remoteMediaSessionLists.add(prefController.packageName)
                     }
                     continue
                 }
                 if (pi.playbackType == PlaybackInfo.PLAYBACK_TYPE_LOCAL) {
                     if (localController == null
-                        && !remoteMediaSessionLists.contains(controller.packageName)
+                        && !remoteMediaSessionLists.contains(prefController.packageName)
                     ) {
-                        localController = controller
+                        localController = prefController
                     }
                 }
             }
@@ -1685,9 +1685,9 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
         return false
     }
 
-    private fun getMediaControllerPlaybackState(controller: MediaController?): Int {
-        if (controller != null) {
-            val playbackState = controller.playbackState
+    private fun getMediaControllerPlaybackState(prefController: MediaController?): Int {
+        if (prefController != null) {
+            val playbackState = prefController.playbackState
             if (playbackState != null) {
                 return playbackState.state
             }

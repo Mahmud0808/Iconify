@@ -16,7 +16,7 @@ import dagger.hilt.android.EntryPointAccessors
 fun ProvideSharedPreferencesController(content: @Composable () -> Unit) {
     val previewMode = LocalInspectionMode.current
 
-    val controller = if (previewMode) {
+    val prefController = if (previewMode) {
         remember { PreferenceController(FakeSharedPrefsStorage()) }
     } else {
         val context = LocalContext.current.applicationContext
@@ -33,11 +33,11 @@ fun ProvideSharedPreferencesController(content: @Composable () -> Unit) {
         }
     }
 
-    DisposableEffect(controller) {
-        onDispose { controller.dispose() }
+    DisposableEffect(prefController) {
+        onDispose { prefController.dispose() }
     }
 
-    ProvidePreferenceController(controller, content)
+    ProvidePreferenceController(prefController, content)
 }
 
 @Composable
@@ -51,23 +51,23 @@ fun ProvideDataStoreController(content: @Composable () -> Unit) {
         ).dataStoreStorage()
     }
 
-    val controller = remember(preferenceStorage) {
+    val prefController = remember(preferenceStorage) {
         PreferenceController(preferenceStorage)
     }
 
-    DisposableEffect(controller) {
-        onDispose { controller.dispose() }
+    DisposableEffect(prefController) {
+        onDispose { prefController.dispose() }
     }
 
-    ProvidePreferenceController(controller, content)
+    ProvidePreferenceController(prefController, content)
 }
 
 @Composable
 private fun ProvidePreferenceController(
-    controller: PreferenceController,
+    prefController: PreferenceController,
     content: @Composable () -> Unit,
 ) {
-    CompositionLocalProvider(LocalPreferenceController provides controller) {
+    CompositionLocalProvider(LocalPreferenceController provides prefController) {
         content()
     }
 }

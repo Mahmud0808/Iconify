@@ -37,7 +37,7 @@ data class PreferenceCategoryDefinition(
  *
  * @property key Unique identifier used for reading and writing the stored value.
  * @property title The display title of the preference.
- * @property defaultValue The initial value seeded into the controller on first use.
+ * @property defaultValue The initial value seeded into the prefController on first use.
  * @property type The interaction type (e.g., switch, slider, list) used to render the UI.
  * @property icon An optional leading icon to display next to the preference.
  * @property summary A dynamic lambda to derive summary text from the current state.

@@ -60,7 +60,7 @@ import com.materialkolor.ktx.toHex
 @Composable
 fun ColorPickerPreferenceItem(
     def: PreferenceDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
     summary: String?,
@@ -68,7 +68,7 @@ fun ColorPickerPreferenceItem(
 ) {
     val colorPickerController = rememberColorPickerController()
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    val storedValue by controller.observe(def.key, (def.defaultValue as PrefValue.StringValue).v)
+    val storedValue by prefController.observe(def.key, (def.defaultValue as PrefValue.StringValue).v)
     var dialogSessionKey by rememberSaveable { mutableIntStateOf(0) }
 
     PreferenceContainer(
@@ -248,7 +248,7 @@ fun ColorPickerPreferenceItem(
                                     draft != storedValue -> draft
                                     else -> storedValue
                                 }
-                                controller.setString(def.key, toSave)
+                                prefController.setString(def.key, toSave)
                                 showDialog = false
                             }
                         ) {

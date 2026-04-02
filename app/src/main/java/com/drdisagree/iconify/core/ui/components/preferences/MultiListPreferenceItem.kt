@@ -38,7 +38,7 @@ import com.drdisagree.iconify.core.ui.components.others.withHaptic
 @Composable
 fun MultiListPreferenceItem(
     def: PreferenceDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
     summary: String?,
@@ -46,7 +46,7 @@ fun MultiListPreferenceItem(
     modifier: Modifier,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    val selectedValues by controller.observe(def.key, emptySet<String>())
+    val selectedValues by prefController.observe(def.key, emptySet<String>())
 
     val displaySummary = summary
         ?: selectedValues.mapNotNull { v ->
@@ -149,7 +149,7 @@ fun MultiListPreferenceItem(
             confirmButton = {
                 TextButton(
                     onClick = withHaptic {
-                        controller.setStringSet(def.key, localSelected)
+                        prefController.setStringSet(def.key, localSelected)
                         showDialog = false
                     }
                 ) { Text("OK") }

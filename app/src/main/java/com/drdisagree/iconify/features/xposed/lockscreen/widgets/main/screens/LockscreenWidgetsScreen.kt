@@ -286,7 +286,7 @@ fun LockscreenWidgetsScreen(
     systemActionViewModel: SystemActionViewModel? = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val preferenceController = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
 
     var isWeatherSettingsVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -297,15 +297,15 @@ fun LockscreenWidgetsScreen(
     }
 
     fun getMainWidgetsList() = listOf(
-        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET1),
-        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET2)
+        prefController.getString(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET1),
+        prefController.getString(XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET2)
     ).replaceEmptyWithNone()
 
     fun getExtraWidgetsList() = listOf(
-        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET1),
-        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET2),
-        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET3),
-        preferenceController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET4)
+        prefController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET1),
+        prefController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET2),
+        prefController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET3),
+        prefController.getString(XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET4)
     ).replaceEmptyWithNone()
 
     fun isWeatherTileEnabled(): Boolean {
@@ -315,7 +315,7 @@ fun LockscreenWidgetsScreen(
     LaunchedEffect(Unit) {
         val wasWeatherEnabled = WeatherConfig.isEnabled()
         val mWeatherClient = weatherViewModel.mWeatherClient
-        val widgetsEnabled = preferenceController.getBoolean(XposedKey.LOCKSCREEN_WIDGETS)
+        val widgetsEnabled = prefController.getBoolean(XposedKey.LOCKSCREEN_WIDGETS)
         isWeatherSettingsVisible = isWeatherTileEnabled()
         val weatherEnabled = widgetsEnabled && isWeatherSettingsVisible
 
@@ -339,7 +339,7 @@ fun LockscreenWidgetsScreen(
 
             XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET1.name,
             XposedKey.LOCKSCREEN_WIDGETS_LARGE_WIDGET2.name -> {
-                preferenceController.setString(
+                prefController.setString(
                     XposedKey.LOCKSCREEN_WIDGETS_MAIN,
                     TextUtils.join(",", getMainWidgetsList())
                 )
@@ -349,7 +349,7 @@ fun LockscreenWidgetsScreen(
             XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET2.name,
             XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET3.name,
             XposedKey.LOCKSCREEN_WIDGETS_MINI_WIDGET4.name -> {
-                preferenceController.setString(
+                prefController.setString(
                     XposedKey.LOCKSCREEN_WIDGETS_EXTRAS,
                     TextUtils.join(",", getExtraWidgetsList())
                 )

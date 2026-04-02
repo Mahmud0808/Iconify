@@ -21,14 +21,14 @@ import com.drdisagree.iconify.core.ui.components.others.withHaptic
 @Composable
 fun EditTextPreferenceItem(
     def: PreferenceDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
     summary: String?,
     modifier: Modifier,
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    val storedValue by controller.observe(def.key, "")
+    val storedValue by prefController.observe(def.key, "")
     val displaySummary = summary ?: storedValue.ifBlank { null }
 
     PreferenceContainer(
@@ -57,7 +57,7 @@ fun EditTextPreferenceItem(
             },
             confirmButton = {
                 TextButton(onClick = withHaptic {
-                    controller.setString(def.key, draft)
+                    prefController.setString(def.key, draft)
                     showDialog = false
                 }) { Text("OK") }
             },

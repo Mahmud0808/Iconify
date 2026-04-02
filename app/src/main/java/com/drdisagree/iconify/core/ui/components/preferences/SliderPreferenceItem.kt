@@ -38,7 +38,7 @@ import com.drdisagree.iconify.helpers.replaceAll
 @Composable
 fun SliderPreferenceItem(
     def: PreferenceDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
     summary: String?,
@@ -46,7 +46,7 @@ fun SliderPreferenceItem(
     modifier: Modifier,
 ) {
     val defaultValue = (def.defaultValue as PrefValue.FloatValue).v
-    val persistedValue by controller.observe(def.key, defaultValue)
+    val persistedValue by prefController.observe(def.key, defaultValue)
     var sliderValue by remember { mutableFloatStateOf(persistedValue) }
     var previousLabel by remember { mutableStateOf<String?>(null) }
     val originalValueLabel = type.valueLabel?.invoke(sliderValue) ?: sliderValue.toInt().toString()
@@ -77,7 +77,7 @@ fun SliderPreferenceItem(
     }
 
     fun persistValue(value: Float) {
-        controller.setFloat(def.key, value)
+        prefController.setFloat(def.key, value)
     }
 
     PreferenceContainer(

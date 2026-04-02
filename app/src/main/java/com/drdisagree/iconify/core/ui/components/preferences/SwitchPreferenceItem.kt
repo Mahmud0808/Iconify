@@ -20,14 +20,14 @@ import com.drdisagree.iconify.core.ui.components.others.withHapticResult
 @Composable
 fun SwitchPreferenceItem(
     def: PreferenceDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
     summary: String?,
     type: PreferenceType.Switch,
     modifier: Modifier,
 ) {
-    val checked by controller.observe(def.key, false)
+    val checked by prefController.observe(def.key, false)
     val containerColor = if (type.isMasterSwitch) MaterialTheme.colorScheme.primaryContainer
     else MaterialTheme.colorScheme.surfaceContainerHigh
     val contentColor = if (type.isMasterSwitch) MaterialTheme.colorScheme.onPrimaryContainer
@@ -44,7 +44,7 @@ fun SwitchPreferenceItem(
         minLine = if (summary.isNullOrEmpty()) 1 else 2,
         containerColor = containerColor,
         contentPadding = contentPadding,
-        onClick = withHaptic { if (isEnabled) controller.setBoolean(def.key, !checked) }
+        onClick = withHaptic { if (isEnabled) prefController.setBoolean(def.key, !checked) }
     ) {
         LeadingIcon(def.icon, isEnabled, contentColor)
         TitleSummaryBlock(def.title, summary, isEnabled, contentColor)
@@ -52,7 +52,7 @@ fun SwitchPreferenceItem(
             Switch(
                 checked = checked,
                 onCheckedChange = withHapticResult {
-                    if (isEnabled) controller.setBoolean(def.key, it as Boolean)
+                    if (isEnabled) prefController.setBoolean(def.key, it as Boolean)
                 },
                 enabled = isEnabled,
             )

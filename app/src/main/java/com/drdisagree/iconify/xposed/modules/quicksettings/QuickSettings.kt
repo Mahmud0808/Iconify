@@ -692,7 +692,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     private fun compactMediaPlayer() {
         val mediaViewControllerClass =
             findClass(
-                "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaViewController",
+                "$SYSTEMUI_PACKAGE.media.controls.ui.prefController.MediaViewController",
                 "$SYSTEMUI_PACKAGE.media.controls.ui.MediaViewController"
             )
 
@@ -726,7 +726,7 @@ class QuickSettings(context: Context) : ModPack(context) {
 
     private fun blurMediaPlayerArtwork() {
         val mediaControlPanelClass = findClass(
-            "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaControlPanel",
+            "$SYSTEMUI_PACKAGE.media.controls.ui.prefController.MediaControlPanel",
             "$SYSTEMUI_PACKAGE.media.controls.ui.MediaControlPanel",
             "$SYSTEMUI_PACKAGE.media.MediaControlPanel"
         )

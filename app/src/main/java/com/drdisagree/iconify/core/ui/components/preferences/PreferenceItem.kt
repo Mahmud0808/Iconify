@@ -11,7 +11,7 @@ import com.drdisagree.iconify.core.preferences.PreferenceType
 @Composable
 fun PreferenceItem(
     definition: PreferenceDefinition,
-    controller: PreferenceController,
+    prefController: PreferenceController,
     shape: RoundedCornerShape,
     isEnabled: Boolean,
     summary: String?,
@@ -26,7 +26,7 @@ fun PreferenceItem(
 
         is PreferenceType.Switch -> SwitchPreferenceItem(
             def = definition,
-            controller = controller,
+            prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
             summary = summary,
@@ -36,7 +36,7 @@ fun PreferenceItem(
 
         is PreferenceType.Slider -> SliderPreferenceItem(
             def = definition,
-            controller = controller,
+            prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
             summary = summary,
@@ -46,7 +46,7 @@ fun PreferenceItem(
 
         is PreferenceType.ListPref -> ListPreferenceItem(
             def = definition,
-            controller = controller,
+            prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
             summary = summary,
@@ -56,7 +56,7 @@ fun PreferenceItem(
 
         is PreferenceType.MultiList -> MultiListPreferenceItem(
             def = definition,
-            controller = controller,
+            prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
             summary = summary,
@@ -75,7 +75,7 @@ fun PreferenceItem(
 
         is PreferenceType.EditText -> EditTextPreferenceItem(
             def = definition,
-            controller = controller,
+            prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
             summary = summary,
@@ -84,7 +84,7 @@ fun PreferenceItem(
 
         is PreferenceType.TwoTargetSwitch -> TwoTargetSwitchPreferenceItem(
             def = definition,
-            controller = controller,
+            prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
             summary = summary,
@@ -94,7 +94,7 @@ fun PreferenceItem(
 
         is PreferenceType.ColorPicker -> ColorPickerPreferenceItem(
             def = definition,
-            controller = controller,
+            prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
             summary = summary,
@@ -103,7 +103,7 @@ fun PreferenceItem(
 
         is PreferenceType.FilePicker -> FilePickerPreferenceItem(
             def = definition,
-            controller = controller,
+            prefController = prefController,
             shape = shape,
             isEnabled = isEnabled,
             summary = summary,

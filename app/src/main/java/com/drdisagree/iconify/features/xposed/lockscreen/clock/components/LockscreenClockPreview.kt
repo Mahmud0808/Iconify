@@ -26,9 +26,9 @@ fun LockscreenClockPreview(
     lockscreenClockViewModel: LockscreenClockViewModel? = hiltViewModel()
 ) {
     val resources = LocalResources.current
-    val preferenceController = LocalPreferenceController.current
-    val isClockEnabled by preferenceController.observe(XposedKey.CUSTOM_LOCKSCREEN_CLOCK.name, false)
-    val startPageIndex by preferenceController.observe(XposedKey.LSCLOCK_STYLE.name, 0)
+    val prefController = LocalPreferenceController.current
+    val isClockEnabled by prefController.observe(XposedKey.CUSTOM_LOCKSCREEN_CLOCK.name, false)
+    val startPageIndex by prefController.observe(XposedKey.LSCLOCK_STYLE.name, 0)
 
     LaunchedEffect(Unit) {
         lockscreenClockViewModel?.loadClockLayouts(resources)
@@ -64,7 +64,7 @@ fun LockscreenClockPreview(
         wallpaperBytes = wallpaperBytes,
         horizontalPaddingToIgnore = 16.dp,
         onSelect = { index ->
-            preferenceController.setInt(XposedKey.LSCLOCK_STYLE, index)
+            prefController.setInt(XposedKey.LSCLOCK_STYLE, index)
         }
     )
 }

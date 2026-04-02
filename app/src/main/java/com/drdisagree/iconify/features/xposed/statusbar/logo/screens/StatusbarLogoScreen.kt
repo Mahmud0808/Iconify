@@ -97,12 +97,12 @@ fun statusbarLogoPreferences(
 @Composable
 fun StatusbarLogoScreen() {
     val context = LocalContext.current
-    val preferenceController = LocalPreferenceController.current
+    val prefController = LocalPreferenceController.current
 
     var reloadKey by rememberSaveable { mutableIntStateOf(0) }
     val logoItems = rememberStatusbarLogoItems(context, reloadKey)
     var showLogoStyleSheet by rememberSaveable { mutableStateOf(false) }
-    val selectedItemValue by preferenceController.observe(
+    val selectedItemValue by prefController.observe(
         XposedKey.STATUSBAR_LOGO_STYLE.name,
         XposedKey.STATUSBAR_LOGO_STYLE.default as String
     )
@@ -119,7 +119,7 @@ fun StatusbarLogoScreen() {
             iconPacks = logoItems,
             selectedItemIndex = selectedItemIndex,
             onItemClick = { index ->
-                preferenceController.setString(
+                prefController.setString(
                     XposedKey.STATUSBAR_LOGO_STYLE.name,
                     index.toString()
                 )
