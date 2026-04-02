@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Reloj Cliqueable</string>
     <string name="statusbar_clock_clickable_desc">Clic para abrir la aplicación del reloj</string>
     <string name="section_title_text">Texto</string>
-    <string name="statusbar_clock_text_title">Color de texto del reloj</string>
-    <string name="sbclock_color_follow_system">Seguir el Sistema</string>
-    <string name="sbclock_color_transparent_text">Texto Transparente</string>
-    <string name="sbclock_color_custom_color">Color Personalizado</string>
+    <string name="statusbar_clock_text_color_title">Color de texto del reloj</string>
+    <string name="sbclock_text_color_follow_system">Seguir el Sistema</string>
+    <string name="sbclock_text_color_transparent_text">Texto Transparente</string>
+    <string name="sbclock_text_color_custom_color">Color Personalizado</string>
     <string name="clock_text_color_picker_title">Selector de color del reloj</string>
     <string name="clock_text_color_picker_desc">Establecer el color del texto del reloj de la barra de estado</string>
     <string name="section_title_status_icons">Iconos de estado</string>

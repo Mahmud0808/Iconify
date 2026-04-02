@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Кликабельные часы</string>
     <string name="statusbar_clock_clickable_desc">Нажмите, чтобы открыть часы</string>
     <string name="section_title_text">Текст</string>
-    <string name="statusbar_clock_text_title">Цвет текста часов</string>
-    <string name="sbclock_color_follow_system">Соответствие системе</string>
-    <string name="sbclock_color_transparent_text">Прозрачный текст</string>
-    <string name="sbclock_color_custom_color">Кастомный цвет</string>
+    <string name="statusbar_clock_text_color_title">Цвет текста часов</string>
+    <string name="sbclock_text_color_follow_system">Соответствие системе</string>
+    <string name="sbclock_text_color_transparent_text">Прозрачный текст</string>
+    <string name="sbclock_text_color_custom_color">Кастомный цвет</string>
     <string name="clock_text_color_picker_title">Выбор цвета текста</string>
     <string name="clock_text_color_picker_desc">Установить цвет текста часов статусбара</string>
     <string name="section_title_status_icons">Иконки строки состояния</string>

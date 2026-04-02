@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">ساعت قابل کلیک</string>
     <string name="statusbar_clock_clickable_desc">برای بازکردن برنامه ساعت کلیک کنید</string>
     <string name="section_title_text">متن</string>
-    <string name="statusbar_clock_text_title">رنگ متن ساعت</string>
-    <string name="sbclock_color_follow_system">پیروی از سیستم</string>
-    <string name="sbclock_color_transparent_text">متن شفاف</string>
-    <string name="sbclock_color_custom_color">رنگ سفارشی</string>
+    <string name="statusbar_clock_text_color_title">رنگ متن ساعت</string>
+    <string name="sbclock_text_color_follow_system">پیروی از سیستم</string>
+    <string name="sbclock_text_color_transparent_text">متن شفاف</string>
+    <string name="sbclock_text_color_custom_color">رنگ سفارشی</string>
     <string name="clock_text_color_picker_title">انتخابگر رنگ متن</string>
     <string name="clock_text_color_picker_desc">تنظیم رنگ متن ساعت نوار‌اعلان</string>
     <string name="section_title_status_icons">نمادهای وضعیت</string>

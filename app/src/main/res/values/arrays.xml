@@ -134,10 +134,38 @@
         <item>@string/method_do_nothing</item>
     </string-array>
 
-    <string-array name="statusbar_clock_color" translatable="false">
-        <item>@string/sbclock_color_follow_system</item>
-        <item>@string/sbclock_color_transparent_text</item>
-        <item>@string/sbclock_color_custom_color</item>
+    <string-array name="statusbar_clock_text_color_entries" translatable="false">
+        <item>@string/sbclock_text_color_follow_system</item>
+        <item>@string/sbclock_text_color_transparent_text</item>
+        <item>@string/sbclock_text_color_custom_color</item>
+    </string-array>
+
+    <string-array name="statusbar_clock_text_color_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="statusbar_clock_fill_color_entries" translatable="false">
+        <item>@string/sbclock_fill_color_accent</item>
+        <item>@string/sbclock_fill_color_gradient</item>
+        <item>@string/sbclock_fill_color_custom</item>
+    </string-array>
+
+    <string-array name="statusbar_clock_fill_color_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="statusbar_clock_border_color_entries" translatable="false">
+        <item>@string/border_color_accent</item>
+        <item>@string/border_color_custom</item>
+    </string-array>
+
+    <string-array name="statusbar_clock_border_color_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
     </string-array>
 
     <string-array name="monet_style" translatable="false">
@@ -285,7 +313,7 @@
         <item>1</item>
     </string-array>
 
-    <string-array name="gradient_direction">
+    <string-array name="gradient_direction_entries">
         <item>Left to Right</item>
         <item>Right to Left</item>
         <item>Top to Bottom</item>
@@ -294,6 +322,17 @@
         <item>Top Right to Bottom Left</item>
         <item>Bottom Left to Top Right</item>
         <item>Bottom Right to Top Left</item>
+    </string-array>
+
+    <string-array name="gradient_direction_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
     </string-array>
 
     <string-array name="depth_wallpaper_mode_entries" translatable="false">

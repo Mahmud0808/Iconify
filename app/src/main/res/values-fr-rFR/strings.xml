@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Horloge cliquable</string>
     <string name="statusbar_clock_clickable_desc">Cliquez pour ouvrir l\'application d\'horloge</string>
     <string name="section_title_text">Texte</string>
-    <string name="statusbar_clock_text_title">Couleur du texte de l\'horloge</string>
-    <string name="sbclock_color_follow_system">Suivre le système</string>
-    <string name="sbclock_color_transparent_text">Texte transparent</string>
-    <string name="sbclock_color_custom_color">Couleurs personnalisées</string>
+    <string name="statusbar_clock_text_color_title">Couleur du texte de l\'horloge</string>
+    <string name="sbclock_text_color_follow_system">Suivre le système</string>
+    <string name="sbclock_text_color_transparent_text">Texte transparent</string>
+    <string name="sbclock_text_color_custom_color">Couleurs personnalisées</string>
     <string name="clock_text_color_picker_title">Sélecteur de couleur du texte</string>
     <string name="clock_text_color_picker_desc">Définir la couleur du texte de l\'horloge de la barre de statut</string>
     <string name="section_title_status_icons">Icônes de la barre d’état</string>

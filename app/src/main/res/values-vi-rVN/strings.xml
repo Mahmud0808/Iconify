@@ -797,10 +797,10 @@
     <string name="statusbar_clock_clickable_title">Clickable Clock</string>
     <string name="statusbar_clock_clickable_desc">Click to open clock app</string>
     <string name="section_title_text">Text</string>
-    <string name="statusbar_clock_text_title">Clock Text Color</string>
-    <string name="sbclock_color_follow_system">Follow System</string>
-    <string name="sbclock_color_transparent_text">Transparent Text</string>
-    <string name="sbclock_color_custom_color">Custom Color</string>
+    <string name="statusbar_clock_text_color_title">Clock Text Color</string>
+    <string name="sbclock_text_color_follow_system">Follow System</string>
+    <string name="sbclock_text_color_transparent_text">Transparent Text</string>
+    <string name="sbclock_text_color_custom_color">Custom Color</string>
     <string name="clock_text_color_picker_title">Text Color Picker</string>
     <string name="clock_text_color_picker_desc">Set color of statubsar clock text</string>
     <string name="section_title_status_icons">Status Icons</string>

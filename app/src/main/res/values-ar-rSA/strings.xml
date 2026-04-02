@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Clickable Clock</string>
     <string name="statusbar_clock_clickable_desc">Click to open clock app</string>
     <string name="section_title_text">النص</string>
-    <string name="statusbar_clock_text_title">لون نص الساعة</string>
-    <string name="sbclock_color_follow_system">اتبع النظام</string>
-    <string name="sbclock_color_transparent_text">نص شفاف</string>
-    <string name="sbclock_color_custom_color">لون مخصص</string>
+    <string name="statusbar_clock_text_color_title">لون نص الساعة</string>
+    <string name="sbclock_text_color_follow_system">اتبع النظام</string>
+    <string name="sbclock_text_color_transparent_text">نص شفاف</string>
+    <string name="sbclock_text_color_custom_color">لون مخصص</string>
     <string name="clock_text_color_picker_title">اختيار لون النص</string>
     <string name="clock_text_color_picker_desc">اختيار لون ساعة شريط الحالة</string>
     <string name="section_title_status_icons">أيقونات الحالة</string>

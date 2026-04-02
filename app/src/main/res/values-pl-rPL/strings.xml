@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Interaktywny zegar</string>
     <string name="statusbar_clock_clickable_desc">Dotknij, by otworzyć zegar</string>
     <string name="section_title_text">Tekst</string>
-    <string name="statusbar_clock_text_title">Kolor tekstu zegara</string>
-    <string name="sbclock_color_follow_system">Systemowy</string>
-    <string name="sbclock_color_transparent_text">Przezroczysty tekst</string>
-    <string name="sbclock_color_custom_color">Niestandardowy kolor</string>
+    <string name="statusbar_clock_text_color_title">Kolor tekstu zegara</string>
+    <string name="sbclock_text_color_follow_system">Systemowy</string>
+    <string name="sbclock_text_color_transparent_text">Przezroczysty tekst</string>
+    <string name="sbclock_text_color_custom_color">Niestandardowy kolor</string>
     <string name="clock_text_color_picker_title">Selektor koloru tekstu</string>
     <string name="clock_text_color_picker_desc">Ustaw kolor tekstu zegara na pasku statusu</string>
     <string name="section_title_status_icons">Ikony stanu</string>

@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Kattintható Óra</string>
     <string name="statusbar_clock_clickable_desc">Kattintson az Óra megnyitásához</string>
     <string name="section_title_text">Szöveg</string>
-    <string name="statusbar_clock_text_title">Az Óra betűszíne</string>
-    <string name="sbclock_color_follow_system">Rendszerkövetés</string>
-    <string name="sbclock_color_transparent_text">Áttetsző szöveg</string>
-    <string name="sbclock_color_custom_color">Egyéni szín</string>
+    <string name="statusbar_clock_text_color_title">Az Óra betűszíne</string>
+    <string name="sbclock_text_color_follow_system">Rendszerkövetés</string>
+    <string name="sbclock_text_color_transparent_text">Áttetsző szöveg</string>
+    <string name="sbclock_text_color_custom_color">Egyéni szín</string>
     <string name="clock_text_color_picker_title">Betűszín-választó</string>
     <string name="clock_text_color_picker_desc">Állítsa be az állapotsor-óra szövegének színét</string>
     <string name="section_title_status_icons">Állapotikonok</string>

@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">点击时钟</string>
     <string name="statusbar_clock_clickable_desc">点击时钟打开时钟应用程序</string>
     <string name="section_title_text">文本</string>
-    <string name="statusbar_clock_text_title">时钟文本颜色</string>
-    <string name="sbclock_color_follow_system">跟随系统</string>
-    <string name="sbclock_color_transparent_text">透明文本</string>
-    <string name="sbclock_color_custom_color">自定义颜色</string>
+    <string name="statusbar_clock_text_color_title">时钟文本颜色</string>
+    <string name="sbclock_text_color_follow_system">跟随系统</string>
+    <string name="sbclock_text_color_transparent_text">透明文本</string>
+    <string name="sbclock_text_color_custom_color">自定义颜色</string>
     <string name="clock_text_color_picker_title">文本颜色选择器</string>
     <string name="clock_text_color_picker_desc">设置状态栏时钟文本的颜色</string>
     <string name="section_title_status_icons">状态图标</string>

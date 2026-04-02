@@ -796,10 +796,10 @@
     <string name="statusbar_clock_clickable_title">Tıklanabilir Saat</string>
     <string name="statusbar_clock_clickable_desc">Saat uygulamasını açmak için tıklayın</string>
     <string name="section_title_text">Metin</string>
-    <string name="statusbar_clock_text_title">Saat Metin Rengi</string>
-    <string name="sbclock_color_follow_system">Sistemi Takip Et</string>
-    <string name="sbclock_color_transparent_text">Şeffaf Metin</string>
-    <string name="sbclock_color_custom_color">Özel Renk</string>
+    <string name="statusbar_clock_text_color_title">Saat Metin Rengi</string>
+    <string name="sbclock_text_color_follow_system">Sistemi Takip Et</string>
+    <string name="sbclock_text_color_transparent_text">Şeffaf Metin</string>
+    <string name="sbclock_text_color_custom_color">Özel Renk</string>
     <string name="clock_text_color_picker_title">Metin Renk Seçici</string>
     <string name="clock_text_color_picker_desc">Durum çubuğu saati metninin rengini ayarlayın</string>
     <string name="section_title_status_icons">Durum Simgeleri</string>
