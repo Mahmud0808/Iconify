@@ -31,6 +31,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.toColorInt
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.utils.TextUtils
@@ -38,26 +39,11 @@ import com.drdisagree.iconify.data.common.Const.ACTION_LS_CLOCK_INFLATED
 import com.drdisagree.iconify.data.common.Const.RESET_LOCKSCREEN_CLOCK_COMMAND
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_BOTTOMMARGIN
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT1
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT2
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_COLOR_CODE_ACCENT3
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_COLOR_CODE_TEXT1
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_COLOR_CODE_TEXT2
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_COLOR_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_DEVICENAME
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_FONT_LINEHEIGHT
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_FONT_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_FONT_TEXT_SCALING
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_IMAGE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_STYLE
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_TOPMARGIN
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_USERNAME
 import com.drdisagree.iconify.data.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_FONT_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
@@ -90,7 +76,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.ArcProgressImageView
-import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen.Companion.isComposeLockscreen
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -179,55 +164,57 @@ class LockscreenClock(context: Context) : ModPack(context) {
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (!XprefsIsInitialized || !isComposeLockscreen) return
+        if (!XprefsIsInitialized) return
 
         Xprefs.apply {
-            showLockscreenClock = getBoolean(LSCLOCK_SWITCH, false)
-            clockStyle = getInt(LSCLOCK_STYLE, 0)
-            topMargin = getInt(LSCLOCK_TOPMARGIN, 100)
-            bottomMargin = getInt(LSCLOCK_BOTTOMMARGIN, 40)
-            textScaleFactor = getInt(LSCLOCK_FONT_TEXT_SCALING, 10) / 10.0f
+            showLockscreenClock = getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
+            clockStyle = getInt(XposedKey.LSCLOCK_STYLE)
+            topMargin = getInt(XposedKey.LSCLOCK_TOP_MARGIN)
+            bottomMargin = getInt(XposedKey.LSCLOCK_BOTTOM_MARGIN)
+            textScaleFactor = getFloat(XposedKey.LSCLOCK_TEXT_SCALE)
             reduceFactor = if (textScaleFactor > 1f) 0.91f else 1f
-            lineHeight = getInt(LSCLOCK_FONT_LINEHEIGHT, 0)
-            customColorEnabled = getBoolean(LSCLOCK_COLOR_SWITCH, false)
-            customUserName = getString(LSCLOCK_USERNAME, "")!!
-            customDeviceName = getString(LSCLOCK_DEVICENAME, "")!!
-            customImageEnabled = getBoolean(LSCLOCK_IMAGE_SWITCH, false)
-            customFontEnabled = getBoolean(LSCLOCK_FONT_SWITCH, false)
+            lineHeight = getInt(XposedKey.LSCLOCK_LINE_HEIGHT)
+            customColorEnabled = getBoolean(XposedKey.LSCLOCK_CUSTOM_COLOR)
+            customUserName = getString(XposedKey.LSCLOCK_USER_NAME)
+            customDeviceName = getString(XposedKey.LSCLOCK_DEVICE_NAME)
+            customFontEnabled = getString(XposedKey.LSCLOCK_FONT_FILE_URI).isNotEmpty()
+            customImageEnabled = getString(XposedKey.LSCLOCK_IMAGE1_FILE_URI).isNotEmpty() ||
+                    getString(XposedKey.LSCLOCK_IMAGE2_FILE_URI).isNotEmpty()
         }
 
         resetStockClock()
 
         when (key.firstOrNull()) {
             in setOf(
-                LSCLOCK_SWITCH,
-                LSCLOCK_STYLE,
-                LSCLOCK_FONT_SWITCH,
-                LSCLOCK_COLOR_SWITCH,
-                LSCLOCK_FONT_LINEHEIGHT,
-                LSCLOCK_FONT_TEXT_SCALING
+                XposedKey.CUSTOM_LOCKSCREEN_CLOCK.name,
+                XposedKey.LSCLOCK_STYLE.name,
+                XposedKey.LSCLOCK_FONT_FILE_URI.name,
+                XposedKey.LSCLOCK_CUSTOM_COLOR.name,
+                XposedKey.LSCLOCK_LINE_HEIGHT.name,
+                XposedKey.LSCLOCK_TEXT_SCALE.name
             ) -> updateClockView(true)
 
             in setOf(
-                LSCLOCK_IMAGE_SWITCH,
-                LSCLOCK_USERNAME,
-                LSCLOCK_DEVICENAME
+                XposedKey.LSCLOCK_IMAGE1_FILE_URI.name,
+                XposedKey.LSCLOCK_IMAGE2_FILE_URI.name,
+                XposedKey.LSCLOCK_USER_NAME.name,
+                XposedKey.LSCLOCK_DEVICE_NAME.name
             ) -> modifyClockView(currentClockView)
 
             in setOf(
-                LSCLOCK_TOPMARGIN,
-                LSCLOCK_BOTTOMMARGIN
+                XposedKey.LSCLOCK_TOP_MARGIN.name,
+                XposedKey.LSCLOCK_BOTTOM_MARGIN.name
             ) -> {
                 mLsItemsContainer?.let { applyLayoutConstraints(it) }
                 modifyClockView(currentClockView)
             }
 
             in setOf(
-                LSCLOCK_COLOR_CODE_ACCENT1,
-                LSCLOCK_COLOR_CODE_ACCENT2,
-                LSCLOCK_COLOR_CODE_ACCENT3,
-                LSCLOCK_COLOR_CODE_TEXT1,
-                LSCLOCK_COLOR_CODE_TEXT2
+                XposedKey.LSCLOCK_COLOR_ACCENT_PRIMARY.name,
+                XposedKey.LSCLOCK_COLOR_ACCENT_SECONDARY.name,
+                XposedKey.LSCLOCK_COLOR_ACCENT_TERTIARY.name,
+                XposedKey.LSCLOCK_COLOR_TEXT_PRIMARY.name,
+                XposedKey.LSCLOCK_COLOR_TEXT_INVERSE.name
             ) -> {
                 loadColors()
                 modifyClockView(currentClockView)
@@ -236,8 +223,6 @@ class LockscreenClock(context: Context) : ModPack(context) {
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        if (!isComposeLockscreen) return
-
         initResources(mContext)
 
         val aodBurnInSectionClass =
@@ -337,7 +322,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
         // Hide stock clock for ROMs with MigrateClocksToBlueprint disabled
         val keyguardClockSwitchClass = findClass(
             "com.android.keyguard.KeyguardClockSwitch",
-            suppressError = Build.VERSION.SDK_INT >= 36
+            suppressError = true
         )
 
         keyguardClockSwitchClass
@@ -862,7 +847,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
                     tickIndicator.setTextColor(Color.TRANSPARENT)
                     hourView.visibility = View.VISIBLE
 
-                    TimeUtils.setCurrentTimeTextClockRed(
+                    TimeUtils.setCurrentTimeTextClockAccent(
                         tickIndicator,
                         hourView,
                         if (customColorEnabled) mAccentColor1 else mSystemAccent
@@ -1027,47 +1012,14 @@ class LockscreenClock(context: Context) : ModPack(context) {
     }
 
     private fun loadColors() {
-        if (!XprefsIsInitialized || !isComposeLockscreen) return
+        if (!XprefsIsInitialized) return
 
         Xprefs.apply {
-            mAccentColor1 = getInt(
-                LSCLOCK_COLOR_CODE_ACCENT1,
-                mContext.resources.getColor(
-                    mContext.resources.getIdentifier(
-                        "android:color/system_accent1_300",
-                        "color",
-                        mContext.packageName
-                    ), mContext.theme
-                )
-            )
-            mAccentColor2 = getInt(
-                LSCLOCK_COLOR_CODE_ACCENT2,
-                mContext.resources.getColor(
-                    mContext.resources.getIdentifier(
-                        "android:color/system_accent2_300",
-                        "color",
-                        mContext.packageName
-                    ), mContext.theme
-                )
-            )
-            mAccentColor3 = getInt(
-                LSCLOCK_COLOR_CODE_ACCENT3,
-                mContext.resources.getColor(
-                    mContext.resources.getIdentifier(
-                        "android:color/system_accent3_300",
-                        "color",
-                        mContext.packageName
-                    ), mContext.theme
-                )
-            )
-            mTextColor1 = getInt(
-                LSCLOCK_COLOR_CODE_TEXT1,
-                Color.WHITE
-            )
-            mTextColor2 = getInt(
-                LSCLOCK_COLOR_CODE_TEXT2,
-                Color.BLACK
-            )
+            mAccentColor1 = getString(XposedKey.LSCLOCK_COLOR_ACCENT_PRIMARY).toColorInt()
+            mAccentColor2 = getString(XposedKey.LSCLOCK_COLOR_ACCENT_SECONDARY).toColorInt()
+            mAccentColor3 = getString(XposedKey.LSCLOCK_COLOR_ACCENT_TERTIARY).toColorInt()
+            mTextColor1 = getString(XposedKey.LSCLOCK_COLOR_TEXT_PRIMARY).toColorInt()
+            mTextColor2 = getString(XposedKey.LSCLOCK_COLOR_TEXT_INVERSE).toColorInt()
             mSystemAccent = mContext.resources.getColor(
                 mContext.resources.getIdentifier(
                     "android:color/system_accent1_300",

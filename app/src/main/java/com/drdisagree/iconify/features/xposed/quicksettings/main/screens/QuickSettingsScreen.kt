@@ -69,22 +69,22 @@ val quickSettingsPreferences = preferenceScreen {
 
     category(title = stringRes(R.string.section_title_notifications)) {
         switch(
-            key = XposedKey.COLORED_NOTIFICATION_ICON_SWITCH,
+            key = XposedKey.COLORED_NOTIFICATION_ICON,
             title = stringRes(R.string.colored_qs_notification_title),
             summary = { _, _ -> stringRes(R.string.colored_qs_notification_desc) },
         )
 
         switch(
-            key = XposedKey.COLORED_NOTIFICATION_VIEW_SWITCH,
+            key = XposedKey.COLORED_NOTIFICATION_VIEW,
             title = stringRes(R.string.colorize_notification_view_title),
             summary = { _, _ -> stringRes(R.string.colorize_notification_view_desc) },
         )
 
         switch(
-            key = XposedKey.COLORED_NOTIFICATION_ALTERNATIVE_SWITCH,
+            key = XposedKey.COLORED_NOTIFICATION_VIEW_ALTERNATIVE,
             title = stringRes(R.string.colorize_notification_alternative_color_generation_title),
             summary = { _, _ -> stringRes(R.string.colorize_notification_alternative_color_generation_desc) },
-            isVisible = { pref -> pref.getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW_SWITCH) }
+            isVisible = { pref -> pref.getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW) }
         )
     }
 

@@ -15,31 +15,15 @@ import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.graphics.toColorInt
 import androidx.core.view.children
 import com.drdisagree.iconify.data.common.Const.ACTION_LS_CLOCK_INFLATED
 import com.drdisagree.iconify.data.common.Const.ACTION_WEATHER_INFLATED
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WEATHER_TAG
-import com.drdisagree.iconify.data.common.Preferences.LOCKSCREEN_WIDGETS_ENABLED
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_CENTER_VIEW
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_CUSTOM_MARGINS_BOTTOM
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_CUSTOM_MARGINS_SIDE
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_CUSTOM_MARGINS_TOP
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_FONT_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_ICON_SIZE
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_SHOW_CONDITION
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_SHOW_HUMIDITY
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_SHOW_LOCATION
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_SHOW_WIND
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_STYLE
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_TEXT_COLOR
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_TEXT_COLOR_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_TEXT_SIZE
-import com.drdisagree.iconify.data.common.Preferences.WEATHER_TRIGGER_UPDATE
 import com.drdisagree.iconify.data.common.XposedConst.LOCKSCREEN_WEATHER_FONT_FILE
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
@@ -58,7 +42,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Com
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.CurrentWeatherView
-import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen.Companion.isComposeLockscreen
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -102,45 +85,44 @@ class LockscreenWeather(context: Context) : ModPack(context) {
     }
 
     override fun updatePrefs(vararg key: String) {
-        if (!XprefsIsInitialized || !isComposeLockscreen) return
+        if (!XprefsIsInitialized) return
 
         Xprefs.apply {
-            mWeatherEnabled = getBoolean(WEATHER_SWITCH, false)
-            weatherShowLocation = getBoolean(WEATHER_SHOW_LOCATION, true)
-            weatherShowCondition = getBoolean(WEATHER_SHOW_CONDITION, true)
-            weatherShowHumidity = getBoolean(WEATHER_SHOW_HUMIDITY, false)
-            weatherShowWind = getBoolean(WEATHER_SHOW_WIND, false)
-            weatherCustomColor = getBoolean(WEATHER_TEXT_COLOR_SWITCH, false)
-            weatherColor = getInt(WEATHER_TEXT_COLOR, Color.WHITE)
-            weatherTextSize = getInt(WEATHER_TEXT_SIZE, 16)
-            weatherImageSize = getInt(WEATHER_ICON_SIZE, 18)
-            mSideMargin = getInt(WEATHER_CUSTOM_MARGINS_SIDE, 32)
-            mTopMargin = getInt(WEATHER_CUSTOM_MARGINS_TOP, 20)
-            mBottomMargin = getInt(WEATHER_CUSTOM_MARGINS_BOTTOM, 20)
-            mWeatherBackground = Integer.parseInt(getString(WEATHER_STYLE, "0")!!)
-            mCenterWeather = getBoolean(WEATHER_CENTER_VIEW, false)
-            mLockscreenClockEnabled = getBoolean(LSCLOCK_SWITCH, false)
-            mWidgetsEnabled = getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false)
-            mCustomFontEnabled = Xprefs.getBoolean(WEATHER_FONT_SWITCH, false)
+            mWeatherEnabled = getBoolean(XposedKey.LOCKSCREEN_WEATHER)
+            weatherShowLocation = getBoolean(XposedKey.WEATHER_SHOW_LOCATION)
+            weatherShowCondition = getBoolean(XposedKey.WEATHER_SHOW_CONDITION)
+            weatherShowHumidity = getBoolean(XposedKey.WEATHER_SHOW_HUMIDITY)
+            weatherShowWind = getBoolean(XposedKey.WEATHER_SHOW_WIND)
+            weatherCustomColor = getBoolean(XposedKey.WEATHER_TEXT_COLOR)
+            weatherColor = getString(XposedKey.WEATHER_TEXT_COLOR_CODE).toColorInt()
+            weatherTextSize = getInt(XposedKey.WEATHER_TEXT_SIZE)
+            weatherImageSize = getInt(XposedKey.WEATHER_ICON_SIZE)
+            mSideMargin = getInt(XposedKey.WEATHER_CUSTOM_MARGINS_SIDE)
+            mTopMargin = getInt(XposedKey.WEATHER_CUSTOM_MARGINS_TOP)
+            mBottomMargin = getInt(XposedKey.WEATHER_CUSTOM_MARGINS_BOTTOM)
+            mWeatherBackground = getString(XposedKey.WEATHER_STYLE).toInt()
+            mCenterWeather = getBoolean(XposedKey.WEATHER_CENTER_VIEW)
+            mLockscreenClockEnabled = getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
+            mWidgetsEnabled = getBoolean(XposedKey.LOCKSCREEN_WIDGETS)
+            mCustomFontEnabled = getString(XposedKey.WEATHER_CUSTOM_FONT_FILE_URI).isNotEmpty()
         }
 
         when (key.firstOrNull()) {
             in setOf(
-                WEATHER_TRIGGER_UPDATE,
-                WEATHER_SHOW_LOCATION,
-                WEATHER_SHOW_CONDITION,
-                WEATHER_SHOW_HUMIDITY,
-                WEATHER_SHOW_WIND,
-                WEATHER_TEXT_COLOR_SWITCH,
-                WEATHER_TEXT_COLOR,
-                WEATHER_TEXT_SIZE,
-                WEATHER_ICON_SIZE,
-                WEATHER_STYLE,
-                WEATHER_CUSTOM_MARGINS_BOTTOM,
-                WEATHER_CUSTOM_MARGINS_SIDE,
-                WEATHER_CUSTOM_MARGINS_TOP,
-                WEATHER_CENTER_VIEW,
-                WEATHER_FONT_SWITCH
+                XposedKey.WEATHER_SHOW_LOCATION.name,
+                XposedKey.WEATHER_SHOW_CONDITION.name,
+                XposedKey.WEATHER_SHOW_HUMIDITY.name,
+                XposedKey.WEATHER_SHOW_WIND.name,
+                XposedKey.WEATHER_TEXT_COLOR.name,
+                XposedKey.WEATHER_TEXT_COLOR_CODE.name,
+                XposedKey.WEATHER_TEXT_SIZE.name,
+                XposedKey.WEATHER_ICON_SIZE.name,
+                XposedKey.WEATHER_STYLE.name,
+                XposedKey.WEATHER_CUSTOM_MARGINS_BOTTOM.name,
+                XposedKey.WEATHER_CUSTOM_MARGINS_SIDE.name,
+                XposedKey.WEATHER_CUSTOM_MARGINS_TOP.name,
+                XposedKey.WEATHER_CENTER_VIEW.name,
+                XposedKey.WEATHER_CUSTOM_FONT_FILE_URI.name
             ) -> {
                 if (::mWeatherContainer.isInitialized) {
                     applyLayoutConstraints(mLsItemsContainer ?: mWeatherContainer)
@@ -152,8 +134,6 @@ class LockscreenWeather(context: Context) : ModPack(context) {
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag", "DiscouragedApi")
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-        if (!isComposeLockscreen) return
-
         // Receiver to handle lockscreen clock inflated
         if (!mBroadcastRegistered) {
             val intentFilter = IntentFilter()
@@ -381,7 +361,6 @@ class LockscreenWeather(context: Context) : ModPack(context) {
 
     @SuppressLint("DiscouragedApi")
     private fun placeWeatherView() {
-        if (!isComposeLockscreen) return
         if (!mWeatherEnabled || mLockscreenRootView == null) return
         if (mLockscreenClockEnabled && !mLockscreenClockInflated) return
 
@@ -579,9 +558,7 @@ class LockscreenWeather(context: Context) : ModPack(context) {
     }
 
     private fun updateWeatherView() {
-        if (isComposeLockscreen) {
-            refreshWeatherView(CurrentWeatherView.getInstance(LOCKSCREEN_WEATHER))
-        }
+        refreshWeatherView(CurrentWeatherView.getInstance(LOCKSCREEN_WEATHER))
     }
 
     companion object {

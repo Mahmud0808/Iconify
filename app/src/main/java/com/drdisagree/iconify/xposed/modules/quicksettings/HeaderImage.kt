@@ -19,15 +19,9 @@ import android.widget.RelativeLayout
 import com.bosphere.fadingedgelayout.FadingEdgeLayout
 import com.drdisagree.iconify.data.common.Const.ACTION_BOOT_COMPLETED
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_ALPHA
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_BOTTOM_FADE_AMOUNT
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_HEIGHT
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_OVERLAP
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_ZOOMTOFIT
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_TAG
 import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
@@ -53,7 +47,6 @@ class HeaderImage(context: Context) : ModPack(context) {
     private var imageHeight = 140
     private var headerImageAlpha = 100
     private var zoomToFit = false
-    private var headerImageOverlap = false
     private var hideLandscapeHeaderImage = true
     private var mQsHeaderLayout: FadingEdgeLayout? = null
     private var mQsHeaderImageView: ImageView? = null
@@ -73,24 +66,21 @@ class HeaderImage(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            showHeaderImage = getBoolean(HEADER_IMAGE_SWITCH, false)
-            headerImageAlpha = getInt(HEADER_IMAGE_ALPHA, 100)
-            imageHeight = getInt(HEADER_IMAGE_HEIGHT, 140)
-            zoomToFit = getBoolean(HEADER_IMAGE_ZOOMTOFIT, false)
-            headerImageOverlap = getBoolean(HEADER_IMAGE_OVERLAP, false)
-            hideLandscapeHeaderImage = getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true)
-            bottomFadeAmount = mContext.toPx(getInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40))
+            showHeaderImage = getBoolean(XposedKey.CUSTOM_HEADER_IMAGE)
+            headerImageAlpha = getInt(XposedKey.HEADER_IMAGE_OPACITY)
+            imageHeight = getInt(XposedKey.HEADER_IMAGE_HEIGHT)
+            zoomToFit = getBoolean(XposedKey.HEADER_IMAGE_ZOOM_TO_FIT)
+            hideLandscapeHeaderImage = getBoolean(XposedKey.HEADER_IMAGE_HIDE_IN_LANDSCAPE)
+            bottomFadeAmount = mContext.toPx(getInt(XposedKey.HEADER_IMAGE_BOTTOM_FADE_AMOUNT))
         }
 
-        if (key.isNotEmpty() &&
-            (key[0] == HEADER_IMAGE_SWITCH ||
-                    key[0] == HEADER_IMAGE_LANDSCAPE_SWITCH ||
-                    key[0] == HEADER_IMAGE_ALPHA ||
-                    key[0] == HEADER_IMAGE_HEIGHT ||
-                    key[0] == HEADER_IMAGE_ZOOMTOFIT ||
-                    key[0] == HEADER_IMAGE_BOTTOM_FADE_AMOUNT)
-        ) {
-            updateQSHeaderImage()
+        when (key.firstOrNull()) {
+            XposedKey.CUSTOM_HEADER_IMAGE.name,
+            XposedKey.HEADER_IMAGE_OPACITY.name,
+            XposedKey.HEADER_IMAGE_HEIGHT.name,
+            XposedKey.HEADER_IMAGE_ZOOM_TO_FIT.name,
+            XposedKey.HEADER_IMAGE_HIDE_IN_LANDSCAPE.name,
+            XposedKey.HEADER_IMAGE_BOTTOM_FADE_AMOUNT.name -> updateQSHeaderImage()
         }
     }
 
@@ -259,8 +249,6 @@ class HeaderImage(context: Context) : ModPack(context) {
         qsContainerImpl
             .hookMethod("onFinishInflate")
             .runAfter { param ->
-                if (headerImageOverlap) return@runAfter
-
                 val mHeader = param.thisObject.getField("mHeader") as FrameLayout
 
                 (param.thisObject as FrameLayout).apply {

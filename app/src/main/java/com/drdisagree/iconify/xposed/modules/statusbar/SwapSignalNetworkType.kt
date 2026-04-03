@@ -6,7 +6,7 @@ import android.content.res.XResources
 import android.view.View
 import android.view.ViewGroup
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
@@ -23,7 +23,8 @@ class SwapSignalNetworkType(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            swapCellularAndNetworkTypeIcon = getBoolean(STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE, false)
+            swapCellularAndNetworkTypeIcon =
+                getBoolean(XposedKey.STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE)
         }
     }
 

@@ -6,22 +6,13 @@ import android.content.res.XResources
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.FIXED_STATUS_ICONS_SIDEMARGIN
-import com.drdisagree.iconify.data.common.Preferences.FIXED_STATUS_ICONS_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.FIXED_STATUS_ICONS_TOPMARGIN
-import com.drdisagree.iconify.data.common.Preferences.HEADER_CLOCK_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.HIDE_DATA_DISABLED_ICON
-import com.drdisagree.iconify.data.common.Preferences.HIDE_STATUS_ICONS_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.QSPANEL_HIDE_CARRIER
-import com.drdisagree.iconify.data.common.References.FABRICATED_SB_COLOR_SOURCE
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
@@ -37,40 +28,28 @@ class Miscellaneous(context: Context) : ModPack(context) {
 
     private var hideQsCarrierGroup = false
     private var hideStatusIcons = false
-    private var fixedStatusIcons = false
     private var hideDataDisabledIcon = false
-    private var sideMarginStatusIcons = 0
-    private var topMarginStatusIcons = 8
     private var mobileSignalControllerParam: Any? = null
-    private var showHeaderClockA14 = false
     private var coloredStatusbarOverlayEnabled = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            hideQsCarrierGroup = getBoolean(QSPANEL_HIDE_CARRIER, false)
-            hideStatusIcons = getBoolean(HIDE_STATUS_ICONS_SWITCH, false)
-            fixedStatusIcons = getBoolean(FIXED_STATUS_ICONS_SWITCH, false)
-            topMarginStatusIcons = getInt(FIXED_STATUS_ICONS_TOPMARGIN, 8)
-            sideMarginStatusIcons = getInt(FIXED_STATUS_ICONS_SIDEMARGIN, 0)
-            hideDataDisabledIcon = getBoolean(HIDE_DATA_DISABLED_ICON, false)
-            showHeaderClockA14 = getBoolean(HEADER_CLOCK_SWITCH, false)
-            coloredStatusbarOverlayEnabled = getBoolean("IconifyComponentSBTint.overlay") ||
-                    getString(FABRICATED_SB_COLOR_SOURCE, "System") == "Custom"
+            hideQsCarrierGroup = getBoolean(XposedKey.QS_PANEL_HIDE_CARRIER)
+            hideStatusIcons = getBoolean(XposedKey.HIDE_STATUS_ICONS)
+            hideDataDisabledIcon = false
+            coloredStatusbarOverlayEnabled = false
         }
 
         when (key.firstOrNull()) {
-            QSPANEL_HIDE_CARRIER -> hideQSCarrierGroup()
+            XposedKey.QS_PANEL_HIDE_CARRIER.name -> hideQSCarrierGroup()
 
-            HIDE_STATUS_ICONS_SWITCH -> hideStatusIcons()
-
-            HIDE_DATA_DISABLED_ICON -> mobileSignalControllerParam.callMethod("updateTelephony")
+            //            HIDE_DATA_DISABLED_ICON -> mobileSignalControllerParam.callMethod("updateTelephony")
         }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         hideElements()
         hideQSCarrierGroup()
-        hideStatusIcons()
         hideDataDisabledIcon()
         fixRotationViewColor()
     }
@@ -210,7 +189,7 @@ class Miscellaneous(context: Context) : ModPack(context) {
             .resource("layout", "quick_qs_status_icons")
             .suppressError()
             .run { liparam ->
-                if (!hideQsCarrierGroup || showHeaderClockA14) return@run
+                if (!hideQsCarrierGroup) return@run
 
                 liparam.view.findViewById<LinearLayout>(
                     liparam.res.getIdentifier(
@@ -223,191 +202,6 @@ class Miscellaneous(context: Context) : ModPack(context) {
                     layoutParams.width = 0
                     minimumWidth = 0
                     visibility = View.INVISIBLE
-                }
-            }
-    }
-
-    private fun hideStatusIcons() {
-        val xResources: XResources = resParams[SYSTEMUI_PACKAGE]?.res ?: return
-
-        xResources
-            .hookLayout()
-            .packageName(SYSTEMUI_PACKAGE)
-            .resource("layout", "quick_qs_status_icons")
-            .suppressError()
-            .run { liparam ->
-                if (!hideStatusIcons) return@run
-
-                try {
-                    liparam.view.findViewById<TextView>(
-                        liparam.res.getIdentifier(
-                            "clock",
-                            "id",
-                            mContext.packageName
-                        )
-                    ).apply {
-                        layoutParams.height = 0
-                        layoutParams.width = 0
-                        setTextAppearance(0)
-                        setTextColor(0)
-                    }
-                } catch (_: Throwable) {
-                }
-
-                try {
-                    liparam.view.findViewById<TextView>(
-                        liparam.res.getIdentifier(
-                            "date_clock",
-                            "id",
-                            mContext.packageName
-                        )
-                    ).apply {
-                        layoutParams.height = 0
-                        layoutParams.width = 0
-                        setTextAppearance(0)
-                        setTextColor(0)
-                    }
-                } catch (_: Throwable) {
-                }
-
-                if (!showHeaderClockA14) {
-                    try {
-                        liparam.view.findViewById<LinearLayout>(
-                            liparam.res.getIdentifier(
-                                "carrier_group",
-                                "id",
-                                mContext.packageName
-                            )
-                        ).apply {
-                            layoutParams.height = 0
-                            layoutParams.width = 0
-                            minimumWidth = 0
-                            visibility = View.INVISIBLE
-                        }
-                    } catch (_: Throwable) {
-                    }
-
-                    try {
-                        liparam.view.findViewById<LinearLayout>(
-                            liparam.res.getIdentifier(
-                                "statusIcons",
-                                "id",
-                                mContext.packageName
-                            )
-                        ).apply {
-                            layoutParams.height = 0
-                            layoutParams.width = 0
-                        }
-                    } catch (_: Throwable) {
-                    }
-
-                    try {
-                        liparam.view.findViewById<LinearLayout>(
-                            liparam.res.getIdentifier(
-                                "batteryRemainingIcon",
-                                "id",
-                                mContext.packageName
-                            )
-                        ).apply {
-                            layoutParams.height = 0
-                            layoutParams.width = 0
-                        }
-                    } catch (_: Throwable) {
-                    }
-                }
-
-                try {
-                    liparam.view.findViewById<FrameLayout>(
-                        liparam.res.getIdentifier(
-                            "rightLayout",
-                            "id",
-                            mContext.packageName
-                        )
-                    ).apply {
-                        layoutParams.height = 0
-                        layoutParams.width = 0
-                        visibility = View.INVISIBLE
-                    }
-                } catch (_: Throwable) {
-                }
-
-                // Ricedroid date
-                try {
-                    liparam.view.findViewById<TextView>(
-                        liparam.res.getIdentifier(
-                            "date",
-                            "id",
-                            mContext.packageName
-                        )
-                    ).apply {
-                        layoutParams.height = 0
-                        layoutParams.width = 0
-                        setTextAppearance(0)
-                        setTextColor(0)
-                    }
-                } catch (_: Throwable) {
-                }
-
-                // Nusantara clock
-                try {
-                    liparam.view.findViewById<TextView>(
-                        liparam.res.getIdentifier(
-                            "jr_clock",
-                            "id",
-                            mContext.packageName
-                        )
-                    ).apply {
-                        layoutParams.height = 0
-                        layoutParams.width = 0
-                        setTextAppearance(0)
-                        setTextColor(0)
-                    }
-                } catch (_: Throwable) {
-                }
-
-                // Nusantara date
-                try {
-                    val jrDateContainer =
-                        liparam.view.findViewById<LinearLayout>(
-                            liparam.res.getIdentifier(
-                                "jr_date_container",
-                                "id",
-                                mContext.packageName
-                            )
-                        )
-                    (jrDateContainer.getChildAt(0) as TextView).apply {
-                        layoutParams.height = 0
-                        layoutParams.width = 0
-                        setTextAppearance(0)
-                        setTextColor(0)
-                    }
-                } catch (_: Throwable) {
-                }
-            }
-
-        xResources
-            .hookLayout()
-            .packageName(SYSTEMUI_PACKAGE)
-            .resource("layout", "quick_status_bar_header_date_privacy")
-            .suppressError()
-            .run { liparam ->
-                if (!hideStatusIcons) return@run
-
-                try {
-                    liparam.view.findViewById<TextView>(
-                        liparam.res.getIdentifier(
-                            "date",
-                            "id",
-                            mContext.packageName
-                        )
-                    ).apply {
-                        setTextAppearance(0)
-                        layoutParams.height = 0
-                        layoutParams.width = 0
-                        setTextAppearance(0)
-                        setTextColor(0)
-                    }
-                } catch (_: Throwable) {
                 }
             }
     }

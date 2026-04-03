@@ -2,7 +2,7 @@ package com.drdisagree.iconify.xposed
 
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.xposed.modules.BackgroundChip
+import com.drdisagree.iconify.xposed.modules.statusbar.ClockChip
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ConfigurationCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ControllersProvider
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
@@ -57,7 +57,7 @@ object EntryList {
         KeyguardShowingCallback::class.java,
         DozeCallback::class.java,
         ConfigurationCallback::class.java,
-        BackgroundChip::class.java,
+        ClockChip::class.java,
         HeaderImage::class.java,
         Lockscreen::class.java,
         LockscreenWidgets::class.java,

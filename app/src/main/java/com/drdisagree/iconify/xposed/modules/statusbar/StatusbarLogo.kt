@@ -10,13 +10,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_CUSTOM
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_POSITION
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_SIZE
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_STYLE
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_LOGO_TINT
 import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
@@ -50,22 +45,22 @@ class StatusbarLogo(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            showLogo = getBoolean(STATUSBAR_LOGO_SWITCH, false)
-            logoPosition = getString(STATUSBAR_LOGO_POSITION, "0")!!.toInt()
-            logoStyle = getString(STATUSBAR_LOGO_STYLE, "0")!!.toInt()
-            logoSize = getInt(STATUSBAR_LOGO_SIZE, 12)
+            showLogo = getBoolean(XposedKey.STATUSBAR_LOGO)
+            logoPosition = getString(XposedKey.STATUSBAR_LOGO_POSITION).toInt()
+            logoStyle = getString(XposedKey.STATUSBAR_LOGO_STYLE).toInt()
+            logoSize = getInt(XposedKey.STATUSBAR_LOGO_SIZE)
             customLogo = listOf<String>(
                 *modRes.getStringArray(R.array.status_bar_logo_style_entries)
             )[logoStyle] == modRes.getString(R.string.status_bar_logo_style_custom)
-            tintCustomLogo = customLogo && getBoolean(STATUSBAR_LOGO_TINT, false)
+            tintCustomLogo = customLogo && getBoolean(XposedKey.STATUSBAR_LOGO_TINT)
         }
 
         when (key.firstOrNull()) {
             in setOf(
-                STATUSBAR_LOGO_SWITCH,
-                STATUSBAR_LOGO_POSITION,
-                STATUSBAR_LOGO_STYLE,
-                STATUSBAR_LOGO_TINT
+                XposedKey.STATUSBAR_LOGO.name,
+                XposedKey.STATUSBAR_LOGO_POSITION.name,
+                XposedKey.STATUSBAR_LOGO_STYLE.name,
+                XposedKey.STATUSBAR_LOGO_TINT.name
             ) -> {
                 logoImageView?.updateSettings(
                     showLogo,
@@ -81,12 +76,12 @@ class StatusbarLogo(context: Context) : ModPack(context) {
                 )
             }
 
-            STATUSBAR_LOGO_CUSTOM -> {
+            XposedKey.STATUSBAR_LOGO_FILE_URI.name -> {
                 logoImageView?.loadCustomLogo()
                 logoImageViewRight?.loadCustomLogo()
             }
 
-            STATUSBAR_LOGO_SIZE -> {
+            XposedKey.STATUSBAR_LOGO_SIZE.name -> {
                 logoImageView?.updateLeftLogo()
                 logoImageViewRight?.updateRightLogo()
             }

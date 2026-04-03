@@ -12,10 +12,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.drdisagree.iconify.data.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.ALBUM_ART_ON_LOCKSCREEN
-import com.drdisagree.iconify.data.common.Preferences.ALBUM_ART_ON_LOCKSCREEN_BLUR
-import com.drdisagree.iconify.data.common.Preferences.ALBUM_ART_ON_LOCKSCREEN_FILTER
-import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_SWITCH
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getColored
@@ -51,21 +48,21 @@ class AlbumArt(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            mAlbumArtEnabled = getBoolean(ALBUM_ART_ON_LOCKSCREEN, false)
-            mAlbumArtFilter = getString(ALBUM_ART_ON_LOCKSCREEN_FILTER, "0")!!.toInt()
-            mAlbumArtBlurLevel = getInt(ALBUM_ART_ON_LOCKSCREEN_BLUR, 30) / 100f * 25f
-            mDepthEnabled = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
+            mAlbumArtEnabled = getBoolean(XposedKey.ALBUM_ART_ON_LOCKSCREEN)
+            mAlbumArtFilter = getString(XposedKey.ALBUM_ART_ON_LOCKSCREEN_FILTER).toInt()
+            mAlbumArtBlurLevel = getInt(XposedKey.ALBUM_ART_ON_LOCKSCREEN_BLUR) / 100f * 25f
+            mDepthEnabled = getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER)
         }
 
         when (key.firstOrNull()) {
-            ALBUM_ART_ON_LOCKSCREEN -> {
+            XposedKey.ALBUM_ART_ON_LOCKSCREEN.name -> {
                 updateAlbumArtState()
                 broadcastAlbumArtUpdate()
             }
 
             in setOf(
-                ALBUM_ART_ON_LOCKSCREEN_FILTER,
-                ALBUM_ART_ON_LOCKSCREEN_BLUR
+                XposedKey.ALBUM_ART_ON_LOCKSCREEN_FILTER.name,
+                XposedKey.ALBUM_ART_ON_LOCKSCREEN_BLUR.name
             ) -> updateAlbumArtFilter()
         }
     }
@@ -192,7 +189,7 @@ class AlbumArt(context: Context) : ModPack(context) {
         Thread {
             mContext.sendBroadcast(
                 Intent(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY).apply {
-                    setFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+                    flags = Intent.FLAG_RECEIVER_FOREGROUND
                 }
             )
         }.start()

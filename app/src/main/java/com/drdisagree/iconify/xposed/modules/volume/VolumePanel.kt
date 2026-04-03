@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.VOLUME_PANEL_PERCENTAGE
-import com.drdisagree.iconify.data.common.Preferences.VOLUME_PANEL_SAFETY_WARNING
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
@@ -33,8 +32,8 @@ class VolumePanel(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            showPercentage = getBoolean(VOLUME_PANEL_PERCENTAGE, false)
-            showWarning = getBoolean(VOLUME_PANEL_SAFETY_WARNING, true)
+            showPercentage = getBoolean(XposedKey.VOLUME_PANEL_PERCENTAGE)
+            showWarning = getBoolean(XposedKey.VOLUME_PANEL_SAFETY_WARNING)
         }
     }
 

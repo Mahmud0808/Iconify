@@ -3,6 +3,7 @@ package com.drdisagree.iconify.xposed.utils
 import android.content.Context
 import com.crossbowffs.remotepreferences.RemotePreferences
 import com.drdisagree.iconify.data.keys.Key
+import kotlin.math.roundToInt
 
 @Suppress("unused")
 class ExtendedRemotePreferences : RemotePreferences {
@@ -28,7 +29,19 @@ class ExtendedRemotePreferences : RemotePreferences {
         return getBoolean(key.name, key.default as? Boolean ?: false)
     }
 
-    fun getString(key: Key): String? {
-        return getString(key.name, key.default as? String)
+    fun getString(key: Key): String {
+        return getString(key.name, key.default as? String ?: "")!!
+    }
+
+    fun getInt(key: Key): Int {
+        return getFloat(key.name, key.default as? Float ?: 0f).roundToInt()
+    }
+
+    fun getFloat(key: Key): Float {
+        return getFloat(key.name, key.default as? Float ?: 0f)
+    }
+
+    fun getDouble(key: Key): Double {
+        return getFloat(key.name, key.default as? Float ?: 0f).toDouble()
     }
 }

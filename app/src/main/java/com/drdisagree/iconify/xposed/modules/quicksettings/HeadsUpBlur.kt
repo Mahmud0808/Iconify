@@ -15,10 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_VIEW_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_BLUR
-import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_BLUR_RADIUS
-import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_HEADSUP_TRANSPARENCY
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isNightMode
@@ -50,10 +47,11 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            headsUpBlurEnabled = getBoolean(NOTIFICATION_HEADSUP_BLUR, false)
-            headsUpBlurRadius = getInt(NOTIFICATION_HEADSUP_BLUR_RADIUS, 48) / 100f * 25f
-            headsUpTransparency = getInt(NOTIFICATION_HEADSUP_TRANSPARENCY, 70) / 100f * 255f
-            coloredNotificationView = getBoolean(COLORED_NOTIFICATION_VIEW_SWITCH, false)
+            headsUpBlurEnabled = getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR)
+            headsUpBlurRadius = getFloat(XposedKey.NOTIFICATION_HEADS_UP_BLUR_RADIUS) / 100f * 25f
+            headsUpTransparency =
+                getFloat(XposedKey.NOTIFICATION_HEADS_UP_TRANSPARENCY) / 100f * 255f
+            coloredNotificationView = getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW)
         }
     }
 

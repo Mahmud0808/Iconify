@@ -11,12 +11,9 @@ import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import android.view.WindowInsets
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.R
-import com.drdisagree.iconify.app.Iconify
 import com.drdisagree.iconify.app.Iconify.Companion.appContext
 import com.drdisagree.iconify.data.common.Const
 import com.drdisagree.iconify.data.common.Preferences
@@ -45,7 +42,7 @@ object SystemUtils {
     private const val BLUR_CMD_5 = "ro.config.avoid_gfx_accel=false"
 
     val isDarkMode: Boolean
-        get() = Iconify.Companion.appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES == Configuration.UI_MODE_NIGHT_YES
+        get() = appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES == Configuration.UI_MODE_NIGHT_YES
 
     fun restartSystemUI() {
         val loadTimeKey = String.format(
@@ -63,34 +60,6 @@ object SystemUtils {
         RPrefs.putLong(loadTimeKey, currentTime)
         RPrefs.putInt(strikeKey, 0)
         Shell.cmd("killall ${Const.SYSTEMUI_PACKAGE}").submit()
-    }
-
-    private fun forceReloadUI() {
-        val state = RPrefs.getBoolean(Preferences.FORCE_RELOAD_OVERLAY_STATE, false)
-        val pkgName: String = Preferences.FORCE_RELOAD_PACKAGE_NAME
-
-        Shell.cmd(
-            "cmd overlay " + (if (state) "disable" else "enable") + " --user current " + pkgName + "; cmd overlay " + (if (state) "enable" else "disable") + " --user current " + pkgName
-        ).submit()
-    }
-
-    fun handleSystemUIRestart() {
-        val selectedBehavior =
-            RPrefs.getString(Preferences.RESTART_SYSUI_BEHAVIOR_EXT, "0")!!.toInt()
-
-        when (selectedBehavior) {
-            0 -> restartSystemUI()
-
-            1 -> forceReloadUI()
-
-            else -> {
-                Toast.makeText(
-                    Iconify.Companion.appContext,
-                    Iconify.Companion.appContext.resources.getString(R.string.settings_systemui_restart_required),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
     }
 
     fun restartDevice() {

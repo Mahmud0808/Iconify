@@ -42,7 +42,7 @@ class QSTheme(context: Context) : ModPack(context) {
         Xprefs.apply {
             customQsTheme = getBoolean(XposedKey.CUSTOM_QS_THEME)
 
-            fun readColor(key: XposedKey) = getString(key)!!.toColorInt()
+            fun readColor(key: XposedKey) = getString(key).toColorInt()
 
             activeBgColor = readColor(XposedKey.ACTIVE_QS_TILE_BACKGROUND_COLOR)
             activeIconColor = readColor(XposedKey.ACTIVE_QS_TILE_ICON_COLOR)

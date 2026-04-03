@@ -26,22 +26,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_DEFAULT
-import com.drdisagree.iconify.data.common.Preferences.CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.CUSTOM_BATTERY_STYLE
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR
-import com.drdisagree.iconify.data.common.Preferences.HIDE_BATTERY_VIEW
-import com.drdisagree.iconify.data.common.Preferences.HIDE_LOCKSCREEN_CARRIER
-import com.drdisagree.iconify.data.common.Preferences.HIDE_LOCKSCREEN_STATUSBAR
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
-import com.drdisagree.iconify.data.common.Preferences.NOTIFICATION_ICONS_LIMIT
-import com.drdisagree.iconify.data.common.Preferences.SB_CLOCK_SIZE
-import com.drdisagree.iconify.data.common.Preferences.SB_CLOCK_SIZE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.SHOW_4G_INSTEAD_OF_LTE
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_CLOCK_POSITION
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.BackgroundChip
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getRightClockView
@@ -81,29 +69,27 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            sbClockSizeSwitch = getBoolean(SB_CLOCK_SIZE_SWITCH, false)
-            sbClockSize = getInt(SB_CLOCK_SIZE, 14)
-            hideLockscreenCarrier = getBoolean(HIDE_LOCKSCREEN_CARRIER, false)
-            hideLockscreenStatusbar = getBoolean(HIDE_LOCKSCREEN_STATUSBAR, false)
-            clockPosition = getString(STATUSBAR_CLOCK_POSITION, "0")!!.toInt()
-            show4GInsteadOfLTE = getBoolean(SHOW_4G_INSTEAD_OF_LTE, false)
-            notifIconsLimit = getInt(NOTIFICATION_ICONS_LIMIT, -1)
-            dualStatusbarEnabled = getBoolean(DUAL_STATUSBAR, false)
-            mClockClickable = getBoolean(CHIP_STATUSBAR_CLOCK_CLICKABLE_SWITCH, false)
-            hideDefaultBattery =
-                getString(CUSTOM_BATTERY_STYLE, "0")!!.toInt() == BATTERY_STYLE_DEFAULT
-                        && getBoolean(HIDE_BATTERY_VIEW, false)
+            sbClockSizeSwitch = getBoolean(XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH)
+            sbClockSize = getInt(XposedKey.STATUSBAR_CLOCK_TEXT_SIZE)
+            hideLockscreenCarrier = getBoolean(XposedKey.HIDE_LOCKSCREEN_CARRIER)
+            hideLockscreenStatusbar = getBoolean(XposedKey.HIDE_LOCKSCREEN_STATUSBAR)
+            clockPosition = getString(XposedKey.STATUSBAR_CLOCK_POSITION).toInt()
+            show4GInsteadOfLTE = getBoolean(XposedKey.SHOW_4G_INSTEAD_OF_LTE)
+            notifIconsLimit = getInt(XposedKey.NOTIFICATION_ICONS_LIMIT)
+            dualStatusbarEnabled = getBoolean(XposedKey.DUAL_STATUSBAR)
+            mClockClickable = getBoolean(XposedKey.STATUSBAR_CLOCK_CLICKABLE)
+            hideDefaultBattery = getBoolean(XposedKey.HIDE_BATTERY_VIEW)
         }
 
         when (key.firstOrNull()) {
             in setOf(
-                SB_CLOCK_SIZE_SWITCH,
-                SB_CLOCK_SIZE
+                XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH.name,
+                XposedKey.STATUSBAR_CLOCK_TEXT_SIZE.name
             ) -> setClockSize()
 
             in setOf(
-                HIDE_LOCKSCREEN_CARRIER,
-                HIDE_LOCKSCREEN_STATUSBAR
+                XposedKey.HIDE_LOCKSCREEN_CARRIER.name,
+                XposedKey.HIDE_LOCKSCREEN_STATUSBAR.name
             ) -> hideLockscreenCarrierOrStatusbar()
         }
     }
@@ -465,7 +451,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 ).forEach { clockView ->
                     if (mClockClickable && clockView != null) {
                         // Add click animation for Clock Chip
-                        setClockChipClickable(mContext, clockView, BackgroundChip.cornerRadii)
+                        setClockChipClickable(mContext, clockView, ClockChip.cornerRadii)
 
                         clockView.setOnClickListener {
                             try {

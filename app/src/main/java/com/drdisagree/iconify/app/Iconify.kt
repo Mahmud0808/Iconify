@@ -2,7 +2,6 @@ package com.drdisagree.iconify.app
 
 import android.app.Application
 import android.content.Context
-import com.drdisagree.iconify.helpers.LocaleHelper
 import dagger.hilt.android.HiltAndroidApp
 import java.lang.ref.WeakReference
 
@@ -23,11 +22,7 @@ class Iconify : Application() {
         val appContext: Context
             get() {
                 if (!this::contextReference.isInitialized || contextReference.get() == null) {
-                    contextReference = WeakReference(
-                        LocaleHelper.setLocale(
-                            getInstance().applicationContext
-                        )
-                    )
+                    contextReference = WeakReference(getInstance().applicationContext)
                 }
                 return contextReference.get()!!
             }

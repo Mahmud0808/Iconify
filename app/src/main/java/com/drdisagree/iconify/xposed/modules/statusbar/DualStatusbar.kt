@@ -10,22 +10,8 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_END_BOTTOM_MARGIN
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_END_PADDING
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_END_SIDE_SINGLE_ROW
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_END_TOP_MARGIN
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_HEIGHT
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_ONLY_PORTRAIT
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_START_BOTTOM_MARGIN
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_START_PADDING
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_START_SIDE_SINGLE_ROW
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_START_TOP_MARGIN
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_SWAP_END_SIDE
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_SWAP_START_SIDE
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_TOP_PADDING
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_CLOCK_POSITION
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
@@ -75,48 +61,48 @@ class DualStatusbar(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            dualStatusbarEnabled = getBoolean(DUAL_STATUSBAR, false)
-            portraitOnlyEnabled = getBoolean(DUAL_STATUSBAR_ONLY_PORTRAIT, false)
-            singleRowStartSide = getBoolean(DUAL_STATUSBAR_START_SIDE_SINGLE_ROW, false)
-            singleRowEndSide = getBoolean(DUAL_STATUSBAR_END_SIDE_SINGLE_ROW, false)
-            swapStartSide = getBoolean(DUAL_STATUSBAR_SWAP_START_SIDE, false)
-            swapEndSide = getBoolean(DUAL_STATUSBAR_SWAP_END_SIDE, false)
-            statusbarHeight = getInt(DUAL_STATUSBAR_HEIGHT, -1)
-            statusbarStartPadding = getInt(DUAL_STATUSBAR_START_PADDING, -1)
-            statusbarEndPadding = getInt(DUAL_STATUSBAR_END_PADDING, -1)
-            statusbarTopPadding = getInt(DUAL_STATUSBAR_TOP_PADDING, -1)
-            startTopMargin = getInt(DUAL_STATUSBAR_START_TOP_MARGIN, 0)
-            startBottomMargin = getInt(DUAL_STATUSBAR_START_BOTTOM_MARGIN, 0)
-            endTopMargin = getInt(DUAL_STATUSBAR_END_TOP_MARGIN, 0)
-            endBottomMargin = getInt(DUAL_STATUSBAR_END_BOTTOM_MARGIN, 0)
-            clockPosition = getString(STATUSBAR_CLOCK_POSITION, "0")!!.toInt()
+            dualStatusbarEnabled = getBoolean(XposedKey.DUAL_STATUSBAR)
+            portraitOnlyEnabled = getBoolean(XposedKey.DUAL_STATUSBAR_PORTRAIT_ONLY)
+            singleRowStartSide = getBoolean(XposedKey.DUAL_STATUSBAR_START_SIDE_SINGLE_ROW)
+            singleRowEndSide = getBoolean(XposedKey.DUAL_STATUSBAR_END_SIDE_SINGLE_ROW)
+            swapStartSide = getBoolean(XposedKey.DUAL_STATUSBAR_SWAP_START_SIDE)
+            swapEndSide = getBoolean(XposedKey.DUAL_STATUSBAR_SWAP_END_SIDE)
+            statusbarHeight = getInt(XposedKey.DUAL_STATUSBAR_HEIGHT)
+            statusbarStartPadding = getInt(XposedKey.DUAL_STATUSBAR_START_PADDING)
+            statusbarEndPadding = getInt(XposedKey.DUAL_STATUSBAR_END_PADDING)
+            statusbarTopPadding = getInt(XposedKey.DUAL_STATUSBAR_TOP_PADDING)
+            startTopMargin = getInt(XposedKey.DUAL_STATUSBAR_START_TOP_MARGIN)
+            startBottomMargin = getInt(XposedKey.DUAL_STATUSBAR_START_BOTTOM_MARGIN)
+            endTopMargin = getInt(XposedKey.DUAL_STATUSBAR_END_TOP_MARGIN)
+            endBottomMargin = getInt(XposedKey.DUAL_STATUSBAR_END_BOTTOM_MARGIN)
+            clockPosition = getString(XposedKey.STATUSBAR_CLOCK_POSITION).toInt()
         }
 
         when (key.firstOrNull()) {
             in setOf(
-                DUAL_STATUSBAR_ONLY_PORTRAIT,
-                DUAL_STATUSBAR_START_SIDE_SINGLE_ROW,
-                DUAL_STATUSBAR_END_SIDE_SINGLE_ROW,
-                DUAL_STATUSBAR_SWAP_START_SIDE,
-                DUAL_STATUSBAR_SWAP_END_SIDE
+                XposedKey.DUAL_STATUSBAR_PORTRAIT_ONLY.name,
+                XposedKey.DUAL_STATUSBAR_START_SIDE_SINGLE_ROW.name,
+                XposedKey.DUAL_STATUSBAR_END_SIDE_SINGLE_ROW.name,
+                XposedKey.DUAL_STATUSBAR_SWAP_START_SIDE.name,
+                XposedKey.DUAL_STATUSBAR_SWAP_END_SIDE.name
             ) -> updateRowsIfNeeded()
 
             in setOf(
-                DUAL_STATUSBAR_START_PADDING,
-                DUAL_STATUSBAR_END_PADDING,
-                DUAL_STATUSBAR_TOP_PADDING
+                XposedKey.DUAL_STATUSBAR_START_PADDING.name,
+                XposedKey.DUAL_STATUSBAR_END_PADDING.name,
+                XposedKey.DUAL_STATUSBAR_TOP_PADDING.name
             ) -> setStatusbarPadding()
 
             in setOf(
-                DUAL_STATUSBAR_START_TOP_MARGIN,
-                DUAL_STATUSBAR_START_BOTTOM_MARGIN,
-                DUAL_STATUSBAR_END_TOP_MARGIN,
-                DUAL_STATUSBAR_END_BOTTOM_MARGIN
+                XposedKey.DUAL_STATUSBAR_START_TOP_MARGIN.name,
+                XposedKey.DUAL_STATUSBAR_START_BOTTOM_MARGIN.name,
+                XposedKey.DUAL_STATUSBAR_END_TOP_MARGIN.name,
+                XposedKey.DUAL_STATUSBAR_END_BOTTOM_MARGIN.name
             ) -> setStatusbarRowMargin()
 
-            DUAL_STATUSBAR_HEIGHT -> updateWindowHeight()
+            XposedKey.DUAL_STATUSBAR_HEIGHT.name -> updateWindowHeight()
 
-            STATUSBAR_CLOCK_POSITION -> handleClockPosition()
+            XposedKey.STATUSBAR_CLOCK_POSITION.name -> handleClockPosition()
         }
     }
 
@@ -516,48 +502,54 @@ class DualStatusbar(context: Context) : ModPack(context) {
         val centerClockContainer = (statusbarContents?.parent as? ViewGroup)
             ?.findViewWithTag<LinearLayout>(ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG)
 
-        if (clockPosition == 0) { // Left
-            centerClockContainer.removeViewFromParent()
-            startTopSideContainer?.reAddView(mClockView)
-            startTopSideContainer?.visibility = View.VISIBLE
-            (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)
-            (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
-                Gravity.CENTER_VERTICAL or Gravity.START
-        } else if (clockPosition == 1) { // Center
-            val container = centerClockContainer ?: AlphaOptimizedLinearLayout(mContext).apply {
-                tag = ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
-                gravity = Gravity.CENTER
-                orientation = LinearLayout.HORIZONTAL
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-                )
-                setPadding(
-                    0,
-                    mContext.resources.getDimensionPixelSize(
-                        mContext.resources.getIdentifier(
-                            "status_bar_padding_top",
-                            "dimen",
-                            mContext.packageName
-                        )
-                    ),
-                    0,
-                    0
-                )
-                reAddView(mClockView)
+        when (clockPosition) {
+            0 -> { // Left
+                centerClockContainer.removeViewFromParent()
+                startTopSideContainer?.reAddView(mClockView)
+                startTopSideContainer?.visibility = View.VISIBLE
+                (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)
+                (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
+                    Gravity.CENTER_VERTICAL or Gravity.START
             }
 
-            (statusbarContents?.parent as? ViewGroup)?.reAddView(container)
-            startTopSideContainer?.visibility = View.GONE
-            (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)
-            (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.CENTER
-        } else if (clockPosition == 2) { // Right
-            centerClockContainer.removeViewFromParent()
-            endTopSideContainer?.reAddView(mClockView)
-            startTopSideContainer?.visibility = View.GONE
-            (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(6)
-            (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
-                Gravity.CENTER_VERTICAL or Gravity.END
+            1 -> { // Center
+                val container = centerClockContainer ?: AlphaOptimizedLinearLayout(mContext).apply {
+                    tag = ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
+                    gravity = Gravity.CENTER
+                    orientation = LinearLayout.HORIZONTAL
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
+                    )
+                    setPadding(
+                        0,
+                        mContext.resources.getDimensionPixelSize(
+                            mContext.resources.getIdentifier(
+                                "status_bar_padding_top",
+                                "dimen",
+                                mContext.packageName
+                            )
+                        ),
+                        0,
+                        0
+                    )
+                    reAddView(mClockView)
+                }
+
+                (statusbarContents?.parent as? ViewGroup)?.reAddView(container)
+                startTopSideContainer?.visibility = View.GONE
+                (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)
+                (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.CENTER
+            }
+
+            2 -> { // Right
+                centerClockContainer.removeViewFromParent()
+                endTopSideContainer?.reAddView(mClockView)
+                startTopSideContainer?.visibility = View.GONE
+                (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(6)
+                (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
+                    Gravity.CENTER_VERTICAL or Gravity.END
+            }
         }
     }
 

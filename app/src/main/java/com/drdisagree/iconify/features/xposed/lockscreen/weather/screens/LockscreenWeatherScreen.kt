@@ -180,12 +180,12 @@ fun lsWeatherPreferences(
 
     category {
         switch(
-            key = XposedKey.WEATHER_TEXT_COLOR_ENABLED,
+            key = XposedKey.WEATHER_TEXT_COLOR,
             title = stringRes(R.string.weather_custom_color_switch_title),
             summary = { prefs, key ->
                 val currentVal = prefs.getBoolean(
                     key,
-                    XposedKey.WEATHER_TEXT_COLOR_ENABLED.default as Boolean
+                    XposedKey.WEATHER_TEXT_COLOR.default as Boolean
                 )
                 if (currentVal) stringRes(R.string.general_on)
                 else stringRes(R.string.general_off)
@@ -194,11 +194,11 @@ fun lsWeatherPreferences(
         )
 
         colorPicker(
-            key = XposedKey.WEATHER_TEXT_COLOR,
+            key = XposedKey.WEATHER_TEXT_COLOR_CODE,
             title = stringRes(R.string.weather_custom_color_title),
             summary = { _, _ -> stringRes(R.string.weather_custom_color_summary) },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WEATHER) },
-            isVisible = { it.getBoolean(XposedKey.WEATHER_TEXT_COLOR_ENABLED) }
+            isVisible = { it.getBoolean(XposedKey.WEATHER_TEXT_COLOR) }
         )
 
         action(

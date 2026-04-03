@@ -32,7 +32,7 @@ object ChipDrawable {
 
     fun createChipDrawable(
         context: Context,
-        accentFill: Boolean = true,
+        fillColorOption: Int = 0,
         startColor: Int = 0xFF0000,
         endColor: Int = 0x00FF00,
         gradientDirection: GradientDirection = GradientDirection.LEFT_RIGHT,
@@ -47,11 +47,21 @@ object ChipDrawable {
         cornerRadii: FloatArray = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
     ): LayerDrawable {
         val gradientDrawable = GradientDrawable().apply {
-            colors = if (accentFill) {
-                val color = ContextCompat.getColor(context, android.R.color.system_accent1_400)
-                intArrayOf(color, color)
-            } else {
-                intArrayOf(startColor, endColor)
+            colors = when (fillColorOption) {
+                0 -> {
+                    val color = ContextCompat.getColor(context, android.R.color.system_accent1_400)
+                    intArrayOf(color, color)
+                }
+
+                1 -> {
+                    val color1 = ContextCompat.getColor(context, android.R.color.system_accent1_400)
+                    val color2 = ContextCompat.getColor(context, android.R.color.system_accent3_400)
+                    intArrayOf(color1, color2)
+                }
+
+                else -> {
+                    intArrayOf(startColor, endColor)
+                }
             }
             orientation = when (gradientDirection) {
                 GradientDirection.TOP_BOTTOM -> GradientDrawable.Orientation.LEFT_RIGHT

@@ -13,6 +13,8 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_FONT_FILE
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
+import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.lockscreen.clock.components.LockscreenClockPreview
@@ -43,6 +45,36 @@ val lsClockPreferences = preferenceScreen {
                     uriString.toUri().toXposedSharedPath(LSCLOCK_FONT_FILE.name)
                 }
             },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
+        )
+
+        filePicker(
+            key = XposedKey.LSCLOCK_IMAGE1_FILE_URI,
+            title = stringRes(R.string.lockscreen_clock_font_title),
+            summary = { _, _ -> stringRes(R.string.lockscreen_clock_font_desc) },
+            pickerType = FilePickerType.Font,
+            saveFileUri = true,
+            onFileSelected = { _, uriString ->
+                if (uriString.isNotEmpty()) {
+                    uriString.toUri().toXposedSharedPath(LSCLOCK_IMAGE1_FILE.name)
+                }
+            },
+            isVisible = { it.getInt(XposedKey.LSCLOCK_STYLE) in setOf(26, 27, 30, 39, 40, 42, 53) },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
+        )
+
+        filePicker(
+            key = XposedKey.LSCLOCK_IMAGE2_FILE_URI,
+            title = stringRes(R.string.lockscreen_clock_font_title),
+            summary = { _, _ -> stringRes(R.string.lockscreen_clock_font_desc) },
+            pickerType = FilePickerType.Font,
+            saveFileUri = true,
+            onFileSelected = { _, uriString ->
+                if (uriString.isNotEmpty()) {
+                    uriString.toUri().toXposedSharedPath(LSCLOCK_IMAGE2_FILE.name)
+                }
+            },
+            isVisible = { it.getInt(XposedKey.LSCLOCK_STYLE) in setOf(26) },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
     }

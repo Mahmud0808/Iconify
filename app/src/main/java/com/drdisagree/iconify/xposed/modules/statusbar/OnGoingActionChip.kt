@@ -6,8 +6,7 @@ import android.service.notification.StatusBarNotification
 import android.view.View
 import android.view.ViewGroup
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.COLORED_STATUSBAR_ICON
-import com.drdisagree.iconify.data.common.Preferences.ONGOING_ACTION_CHIP_SWITCH
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
@@ -28,12 +27,12 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            onGoingActionChipEnabled = getBoolean(ONGOING_ACTION_CHIP_SWITCH, false)
-            mColoredStatusbarIcon = getBoolean(COLORED_STATUSBAR_ICON, false)
+            onGoingActionChipEnabled = getBoolean(XposedKey.ONGOING_ACTION_CHIP)
+            mColoredStatusbarIcon = getBoolean(XposedKey.COLORED_STATUSBAR_ICON)
         }
 
         when (key.firstOrNull()) {
-            ONGOING_ACTION_CHIP_SWITCH -> mOnGoingActionProgressController?.setForceHidden(!onGoingActionChipEnabled)
+            XposedKey.ONGOING_ACTION_CHIP.name -> mOnGoingActionProgressController?.setForceHidden(!onGoingActionChipEnabled)
         }
     }
 

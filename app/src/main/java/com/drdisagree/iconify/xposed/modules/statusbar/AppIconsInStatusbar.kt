@@ -10,7 +10,7 @@ import android.util.TypedValue
 import android.view.View
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.COLORED_STATUSBAR_ICON
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.DrawableSize
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -33,7 +33,7 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            mColoredStatusbarIcon = getBoolean(COLORED_STATUSBAR_ICON, false)
+            mColoredStatusbarIcon = getBoolean(XposedKey.COLORED_STATUSBAR_ICON)
         }
     }
 

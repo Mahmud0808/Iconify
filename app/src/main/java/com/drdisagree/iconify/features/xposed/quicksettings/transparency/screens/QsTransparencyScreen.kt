@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.features.xposed.quicksettings.transparency.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -87,6 +88,15 @@ fun QsTransparencyScreen(
 ) {
     val scope = rememberCoroutineScope()
     val prefController = LocalPreferenceController.current
+
+    LaunchedEffect(Unit) {
+        if (SystemUtils.isBlurEnabled(force = false)) {
+            prefController.setBoolean(XposedKey.QUICK_SETTINGS_BLUR, true)
+        }
+        if (SystemUtils.isBlurEnabled(force = true)) {
+            prefController.setBoolean(XposedKey.QUICK_SETTINGS_AGGRESSIVE_BLUR, true)
+        }
+    }
 
     PreferenceListener(key = null) { event ->
         when (event.key) {

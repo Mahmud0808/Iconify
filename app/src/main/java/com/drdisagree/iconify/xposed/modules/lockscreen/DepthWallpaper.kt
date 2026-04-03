@@ -12,7 +12,6 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -31,22 +30,15 @@ import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_SUCCESS
 import com.drdisagree.iconify.data.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
 import com.drdisagree.iconify.data.common.Const.AI_PLUGIN_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.CUSTOM_DEPTH_WALLPAPER_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_AI_MODE
-import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_CHANGED
-import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_FOREGROUND_ALPHA
-import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_ON_AOD
-import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_BACKGROUND_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CONTAINER_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WEATHER_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WIDGET_TAG
-import com.drdisagree.iconify.data.common.Preferences.LOCKSCREEN_SHADE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.LSCLOCK_SWITCH
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_BG_FILE
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.services.providers.IExtractSubjectCallback
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
@@ -143,25 +135,26 @@ class DepthWallpaper(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            showDepthWallpaper = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
-            showLockscreenClock = getBoolean(LSCLOCK_SWITCH, false)
-            showCustomImages = getBoolean(CUSTOM_DEPTH_WALLPAPER_SWITCH, false)
-            foregroundAlpha = getInt(DEPTH_WALLPAPER_FOREGROUND_ALPHA, 80) / 100.0f
-            showOnAOD = getBoolean(DEPTH_WALLPAPER_ON_AOD, true)
-            keepLockScreenShade = getBoolean(LOCKSCREEN_SHADE_SWITCH, true)
-            mAiMode = getString(DEPTH_WALLPAPER_AI_MODE, "0")!!.toInt()
+            showDepthWallpaper = getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER)
+            showLockscreenClock = getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK)
+            showCustomImages = getBoolean(XposedKey.DEPTH_WALLPAPER_CUSTOM_IMAGE)
+            foregroundAlpha = getInt(XposedKey.DEPTH_WALLPAPER_FOREGROUND_IMAGE_OPACITY) / 100.0f
+            showOnAOD = getBoolean(XposedKey.DEPTH_WALLPAPER_SHOW_ON_AOD)
+            keepLockScreenShade = getBoolean(XposedKey.LOCKSCREEN_SHADE)
+            mAiMode = getString(XposedKey.DEPTH_WALLPAPER_AI_MODE).toInt()
         }
 
         when (key.firstOrNull()) {
-            DEPTH_WALLPAPER_SWITCH -> setCustomDepthWallpaper()
+            XposedKey.LOCKSCREEN_DEPTH_WALLPAPER.name -> setCustomDepthWallpaper()
 
-            DEPTH_WALLPAPER_CHANGED -> {
-                mWallpaperForegroundCacheValid = false
+            XposedKey.DEPTH_WALLPAPER_CUSTOM_IMAGE.name -> {
+                if (!showCustomImages) invalidateCache()
                 setCustomDepthWallpaper()
             }
 
-            CUSTOM_DEPTH_WALLPAPER_SWITCH -> {
-                if (!showCustomImages) invalidateCache()
+            XposedKey.DEPTH_WALLPAPER_BACKGROUND_IMAGE_FILE_URI.name,
+            XposedKey.DEPTH_WALLPAPER_FOREGROUND_IMAGE_FILE_URI.name -> {
+                mWallpaperForegroundCacheValid = false
                 setCustomDepthWallpaper()
             }
         }
@@ -175,18 +168,11 @@ class DepthWallpaper(context: Context) : ModPack(context) {
                 addAction(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY)
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter,
-                    Context.RECEIVER_EXPORTED
-                )
-            } else {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter
-                )
-            }
+            mContext.registerReceiver(
+                mReceiver,
+                intentFilter,
+                Context.RECEIVER_EXPORTED
+            )
 
             mBroadcastRegistered = true
         }
@@ -231,15 +217,11 @@ class DepthWallpaper(context: Context) : ModPack(context) {
                 addAction(ACTION_EXTRACT_SUCCESS)
                 addAction(ACTION_EXTRACT_FAILURE)
             }.also { intentFilter ->
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    mContext.registerReceiver(
-                        mPluginReceiver,
-                        intentFilter,
-                        Context.RECEIVER_EXPORTED
-                    )
-                } else {
-                    mContext.registerReceiver(mPluginReceiver, intentFilter)
-                }
+                mContext.registerReceiver(
+                    mPluginReceiver,
+                    intentFilter,
+                    Context.RECEIVER_EXPORTED
+                )
             }
             mPluginReceiverRegistered = true
         }

@@ -184,7 +184,7 @@ object TimeUtils {
         }
     }
 
-    fun setCurrentTimeTextClockRed(tickIndicator: TextClock?, hourView: TextView?, color: Int) {
+    fun setCurrentTimeTextClockAccent(tickIndicator: TextClock?, hourView: TextView?, color: Int) {
         if (tickIndicator == null || hourView == null) return
 
         setCurrentTimeHourRed(tickIndicator, hourView, color)

@@ -36,9 +36,9 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CONTAINER_TAG
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
@@ -47,6 +47,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 
+@Suppress("unused")
 object ViewHelper {
 
     fun setMargins(viewGroup: Any, context: Context, left: Int, top: Int, right: Int, bottom: Int) {
@@ -221,7 +222,7 @@ object ViewHelper {
             }
 
             is ViewGroup -> {
-                view.setBackgroundTintList(ColorStateList.valueOf(color))
+                view.backgroundTintList = ColorStateList.valueOf(color)
             }
 
             is ProgressBar -> {
@@ -507,7 +508,7 @@ object ViewHelper {
         synchronized(ViewHelper) {
             var layout: LinearLayout? = findViewWithTag(ICONIFY_LOCKSCREEN_CONTAINER_TAG)
 
-            val showDepthWallpaper = Xprefs.getBoolean(DEPTH_WALLPAPER_SWITCH, false)
+            val showDepthWallpaper = Xprefs.getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER)
             val idx = if (showDepthWallpaper) {
                 val tempIdx = findChildIndexContainsTag(ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG)
                 if (tempIdx == -1) 0 else tempIdx

@@ -100,7 +100,7 @@ val statusbarPreferences = preferenceScreen {
         slider(
             key = XposedKey.NOTIFICATION_ICONS_LIMIT,
             title = stringRes(R.string.sb_max_notification_icons_title),
-            min = 0f,
+            min = -1f,
             max = 15f,
             steps = 14,
             valueLabel = { "${it.toInt()}" },
@@ -123,7 +123,7 @@ val statusbarPreferences = preferenceScreen {
         )
 
         switch(
-            key = XposedKey.ONGOING_ACTION_CHIP_SWITCH,
+            key = XposedKey.ONGOING_ACTION_CHIP,
             title = stringRes(R.string.ongoing_action_chip_title),
             summary = { _, _ -> stringRes(R.string.ongoing_action_chip_desc) },
         )
