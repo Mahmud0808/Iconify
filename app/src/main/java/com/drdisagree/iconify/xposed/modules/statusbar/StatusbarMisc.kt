@@ -9,7 +9,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.content.res.XResources
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
@@ -28,7 +27,6 @@ import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.StatusBarClock.getLeftClockView
@@ -38,15 +36,14 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 @SuppressLint("DiscouragedApi")
 class StatusbarMisc(context: Context) : ModPack(context) {
@@ -67,7 +64,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     private var dualStatusbarEnabled = false
     private var hideDefaultBattery = false
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             sbClockSizeSwitch = getBoolean(XposedKey.STATUSBAR_CLOCK_TEXT_SIZE_SWITCH)
             sbClockSize = getInt(XposedKey.STATUSBAR_CLOCK_TEXT_SIZE)
@@ -94,7 +91,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         hideLockscreenCarrierOrStatusbar()
         applyClockSize()
         setClockPosition()
@@ -104,18 +101,18 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     }
 
     private fun hideLockscreenCarrierOrStatusbar() {
-        val xResources: XResources = resParams[SYSTEMUI_PACKAGE]?.res ?: return
+        val keyguardStatusBarViewClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.KeyguardStatusBarView")
 
-        xResources
-            .hookLayout()
-            .packageName(SYSTEMUI_PACKAGE)
-            .resource("layout", "keyguard_status_bar")
-            .suppressError()
-            .run { liparam ->
+        keyguardStatusBarViewClass
+            .hookMethod("onFinishInflate")
+            .runAfter { param ->
+                val parent = param.thisObject as ViewGroup
+
                 if (hideLockscreenCarrier) {
                     try {
-                        liparam.view.findViewById<TextView>(
-                            liparam.res.getIdentifier(
+                        parent.findViewById<TextView>(
+                            mContext.resources.getIdentifier(
                                 "keyguard_carrier_text",
                                 "id",
                                 mContext.packageName
@@ -131,8 +128,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
                 if (hideLockscreenStatusbar) {
                     try {
-                        liparam.view.findViewById<LinearLayout>(
-                            liparam.res.getIdentifier(
+                        parent.findViewById<LinearLayout>(
+                            mContext.resources.getIdentifier(
                                 "status_icon_area",
                                 "id",
                                 mContext.packageName
@@ -146,8 +143,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                     }
 
                     try {
-                        liparam.view.findViewById<TextView>(
-                            liparam.res.getIdentifier(
+                        parent.findViewById<TextView>(
+                            mContext.resources.getIdentifier(
                                 "keyguard_carrier_text",
                                 "id",
                                 mContext.packageName

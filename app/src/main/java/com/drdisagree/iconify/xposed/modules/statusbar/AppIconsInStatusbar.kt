@@ -5,7 +5,6 @@ import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
@@ -13,31 +12,30 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.DrawableSize
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.MethodHookParam
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callStaticMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam
-import de.robv.android.xposed.XposedHelpers.callStaticMethod
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 @SuppressLint("DiscouragedApi")
 class AppIconsInStatusbar(context: Context) : ModPack(context) {
 
     private var mColoredStatusbarIcon = false
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             mColoredStatusbarIcon = getBoolean(XposedKey.COLORED_STATUSBAR_ICON)
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         val notificationIconContainerClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.NotificationIconContainer")
         val iconStateClass =
@@ -100,45 +98,41 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
 
             try {
                 icon = context.packageManager.getApplicationIcon(pkgName)
-            } catch (e: Throwable) {
+            } catch (_: Throwable) {
                 return
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                val isLowRamDevice = callStaticMethod(
-                    ActivityManager::class.java,
-                    "isLowRamDeviceStatic"
-                ) as Boolean
+            val isLowRamDevice =
+                ActivityManager::class.java.callStaticMethod("isLowRamDeviceStatic") as Boolean
 
-                val maxIconSize = res.getDimensionPixelSize(
-                    res.getIdentifier(
-                        if (isLowRamDevice) {
-                            "notification_small_icon_size_low_ram"
-                        } else {
-                            "notification_small_icon_size"
-                        },
-                        "dimen",
-                        FRAMEWORK_PACKAGE
-                    )
+            val maxIconSize = res.getDimensionPixelSize(
+                res.getIdentifier(
+                    if (isLowRamDevice) {
+                        "notification_small_icon_size_low_ram"
+                    } else {
+                        "notification_small_icon_size"
+                    },
+                    "dimen",
+                    FRAMEWORK_PACKAGE
                 )
+            )
 
-                icon = if (drawableSizeClass != null) {
-                    drawableSizeClass.callStaticMethod(
-                        "downscaleToSize",
-                        res,
-                        icon,
-                        maxIconSize,
-                        maxIconSize
-                    )
-                } else {
-                    DrawableSize.downscaleToSize(
-                        res,
-                        icon,
-                        maxIconSize,
-                        maxIconSize
-                    )
-                } as Drawable
-            }
+            icon = if (drawableSizeClass != null) {
+                drawableSizeClass.callStaticMethod(
+                    "downscaleToSize",
+                    res,
+                    icon,
+                    maxIconSize,
+                    maxIconSize
+                )
+            } else {
+                DrawableSize.downscaleToSize(
+                    res,
+                    icon,
+                    maxIconSize,
+                    maxIconSize
+                )
+            } as Drawable
 
             val typedValue = TypedValue()
             res.getValue(

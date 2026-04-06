@@ -16,14 +16,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.core.utils.ViewHelper.applyTextSizeRecursively
 import com.drdisagree.iconify.core.utils.ViewHelper.setTextRecursively
-import com.drdisagree.iconify.core.utils.OmniJawsClient
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookEntry.Companion.moduleResources
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findViewContainsTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.findViewWithTagAndChangeColor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import java.util.Locale
 import java.util.function.Consumer
 import kotlin.math.roundToInt
@@ -172,8 +172,8 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
     private fun setErrorView(errorReason: Int) {
         var reQuery = false
         val errorText = when (errorReason) {
-            OmniJawsClient.EXTRA_ERROR_DISABLED -> modRes.getString(R.string.omnijaws_service_disabled)
-            OmniJawsClient.EXTRA_ERROR_NO_PERMISSIONS -> modRes.getString(R.string.omnijaws_service_error_permissions)
+            OmniJawsClient.EXTRA_ERROR_DISABLED -> moduleResources.getString(R.string.omnijaws_service_disabled)
+            OmniJawsClient.EXTRA_ERROR_NO_PERMISSIONS -> moduleResources.getString(R.string.omnijaws_service_error_permissions)
             else -> ""
         }
 
@@ -227,31 +227,31 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
 
                 val formattedCondition = when {
                     formattedConditionLowercase.contains("clouds") -> {
-                        modRes.getString(R.string.weather_condition_clouds)
+                        moduleResources.getString(R.string.weather_condition_clouds)
                     }
 
                     formattedConditionLowercase.contains("rain") -> {
-                        modRes.getString(R.string.weather_condition_rain)
+                        moduleResources.getString(R.string.weather_condition_rain)
                     }
 
                     formattedConditionLowercase.contains("clear") -> {
-                        modRes.getString(R.string.weather_condition_clear)
+                        moduleResources.getString(R.string.weather_condition_clear)
                     }
 
                     formattedConditionLowercase.contains("storm") -> {
-                        modRes.getString(R.string.weather_condition_storm)
+                        moduleResources.getString(R.string.weather_condition_storm)
                     }
 
                     formattedConditionLowercase.contains("snow") -> {
-                        modRes.getString(R.string.weather_condition_snow)
+                        moduleResources.getString(R.string.weather_condition_snow)
                     }
 
                     formattedConditionLowercase.contains("wind") -> {
-                        modRes.getString(R.string.weather_condition_wind)
+                        moduleResources.getString(R.string.weather_condition_wind)
                     }
 
                     formattedConditionLowercase.contains("mist") -> {
-                        modRes.getString(R.string.weather_condition_mist)
+                        moduleResources.getString(R.string.weather_condition_mist)
                     }
 
                     else -> {
@@ -329,12 +329,14 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_hor).toFloat(),
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_box_padding_hor)
+                        .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
                 mWeatherVerPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_ver).toFloat(),
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_box_padding_ver)
+                        .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
             }
@@ -347,12 +349,14 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_hor).toFloat(),
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_box_padding_hor)
+                        .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
                 mWeatherVerPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_box_padding_ver).toFloat(),
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_box_padding_ver)
+                        .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
             }
@@ -365,12 +369,14 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_hor).toFloat(),
+                    moduleResources.getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_hor)
+                        .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
                 mWeatherVerPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_ver).toFloat(),
+                    moduleResources.getDimensionPixelSize(R.dimen.q_nowplay_pill_padding_ver)
+                        .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
             }
@@ -383,13 +389,13 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
                         .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
                 mWeatherVerPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
                         .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
@@ -403,13 +409,13 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
                         .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
                 mWeatherVerPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
                         .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
@@ -423,13 +429,13 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
                         .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
                 mWeatherVerPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
                         .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
@@ -443,13 +449,13 @@ class CurrentWeatherView(context: Context, name: String) : LinearLayout(context)
                 )
                 mWeatherHorPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_hor)
                         .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()
                 mWeatherVerPadding = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_PX,
-                    modRes.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
+                    moduleResources.getDimensionPixelSize(R.dimen.widget_date_accent_box_padding_ver)
                         .toFloat(),
                     mContext.resources.displayMetrics
                 ).roundToInt()

@@ -42,13 +42,14 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookEntry.Companion.moduleResources
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ControllersProvider
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ActivityLauncherUtils
@@ -56,15 +57,14 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isNightMo
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getExpandableView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import java.lang.reflect.Method
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.min
-import androidx.core.view.isVisible
 
 @SuppressLint("ViewConstructor")
 class LockscreenWidgetsView(private val context: Context, activityStarter: Any?) :
@@ -338,8 +338,9 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
             (layoutParams as MarginLayoutParams).apply {
-                topMargin = modRes.getDimensionPixelSize(R.dimen.kg_widget_margin_vertical)
-                bottomMargin = modRes.getDimensionPixelSize(R.dimen.kg_widget_margin_bottom)
+                topMargin = moduleResources.getDimensionPixelSize(R.dimen.kg_widget_margin_vertical)
+                bottomMargin =
+                    moduleResources.getDimensionPixelSize(R.dimen.kg_widget_margin_bottom)
             }
         }
 
@@ -510,19 +511,20 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                 if (formattedCondition.lowercase(Locale.getDefault()).contains("clouds") ||
                     formattedCondition.lowercase(Locale.getDefault()).contains("overcast")
                 ) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_clouds)
+                    formattedCondition =
+                        moduleResources.getString(R.string.weather_condition_clouds)
                 } else if (formattedCondition.lowercase(Locale.getDefault()).contains("rain")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_rain)
+                    formattedCondition = moduleResources.getString(R.string.weather_condition_rain)
                 } else if (formattedCondition.lowercase(Locale.getDefault()).contains("clear")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_clear)
+                    formattedCondition = moduleResources.getString(R.string.weather_condition_clear)
                 } else if (formattedCondition.lowercase(Locale.getDefault()).contains("storm")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_storm)
+                    formattedCondition = moduleResources.getString(R.string.weather_condition_storm)
                 } else if (formattedCondition.lowercase(Locale.getDefault()).contains("snow")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_snow)
+                    formattedCondition = moduleResources.getString(R.string.weather_condition_snow)
                 } else if (formattedCondition.lowercase(Locale.getDefault()).contains("wind")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_wind)
+                    formattedCondition = moduleResources.getString(R.string.weather_condition_wind)
                 } else if (formattedCondition.lowercase(Locale.getDefault()).contains("mist")) {
-                    formattedCondition = modRes.getString(R.string.weather_condition_mist)
+                    formattedCondition = moduleResources.getString(R.string.weather_condition_mist)
                 }
 
                 // MET Norway
@@ -760,7 +762,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                     clickListener = { toggleRingerMode() },
                     icon = getDrawable(RING_VOLUME, SYSTEMUI_PACKAGE)
                         ?: ResourcesCompat.getDrawable(
-                            modRes,
+                            moduleResources,
                             R.drawable.ic_ringer_normal,
                             mContext.theme
                         ),
@@ -820,7 +822,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                     vibrate(1)
                 },
                 icon = getDrawable(ALARM_ICON, SYSTEMUI_PACKAGE),
-                text = modRes.getString(R.string.clock_timer)
+                text = moduleResources.getString(R.string.clock_timer)
             )
 
             "camera" -> setUpWidgetResources(
@@ -875,7 +877,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                     clickListener = { toggleMediaPlaybackState() },
                     icon = getDrawable(MEDIA_PLAY, SYSTEMUI_PACKAGE)
                         ?: ResourcesCompat.getDrawable(
-                            modRes,
+                            moduleResources,
                             R.drawable.ic_play,
                             mContext.theme
                         ),
@@ -1111,7 +1113,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
             if (isPlaying) MEDIA_PAUSE else MEDIA_PLAY,
             SYSTEMUI_PACKAGE
         ) ?: ResourcesCompat.getDrawable(
-            modRes,
+            moduleResources,
             if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play,
             mContext.theme
         )
@@ -1444,17 +1446,20 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
 
     private fun setupDimens() {
         // Fab Dimens
-        mFabWidth = modRes.getDimensionPixelSize(R.dimen.kg_widget_main_width)
-        mFabHeight = modRes.getDimensionPixelSize(R.dimen.kg_widget_main_height)
-        mFabMarginStart = modRes.getDimensionPixelSize(R.dimen.kg_widgets_main_margin_start)
-        mFabMarginEnd = modRes.getDimensionPixelSize(R.dimen.kg_widgets_main_margin_end)
-        mFabPadding = modRes.getDimensionPixelSize(R.dimen.kg_main_widgets_icon_padding)
+        mFabWidth = moduleResources.getDimensionPixelSize(R.dimen.kg_widget_main_width)
+        mFabHeight = moduleResources.getDimensionPixelSize(R.dimen.kg_widget_main_height)
+        mFabMarginStart =
+            moduleResources.getDimensionPixelSize(R.dimen.kg_widgets_main_margin_start)
+        mFabMarginEnd = moduleResources.getDimensionPixelSize(R.dimen.kg_widgets_main_margin_end)
+        mFabPadding = moduleResources.getDimensionPixelSize(R.dimen.kg_main_widgets_icon_padding)
 
         // Circle Dimens
-        mWidgetCircleSize = modRes.getDimensionPixelSize(R.dimen.kg_widget_circle_size)
-        mWidgetMarginHorizontal = modRes.getDimensionPixelSize(R.dimen.kg_widgets_margin_horizontal)
-        mWidgetMarginVertical = modRes.getDimensionPixelSize(R.dimen.kg_widget_margin_vertical)
-        mWidgetIconPadding = modRes.getDimensionPixelSize(R.dimen.kg_widgets_icon_padding)
+        mWidgetCircleSize = moduleResources.getDimensionPixelSize(R.dimen.kg_widget_circle_size)
+        mWidgetMarginHorizontal =
+            moduleResources.getDimensionPixelSize(R.dimen.kg_widgets_margin_horizontal)
+        mWidgetMarginVertical =
+            moduleResources.getDimensionPixelSize(R.dimen.kg_widget_margin_vertical)
+        mWidgetIconPadding = moduleResources.getDimensionPixelSize(R.dimen.kg_widgets_icon_padding)
     }
 
     private fun drawUI() {
@@ -1819,7 +1824,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
             // We have a calculator icon, so if SystemUI doesn't just return ours
             return when (drawableRes) {
                 CALCULATOR_ICON -> ResourcesCompat.getDrawable(
-                    modRes,
+                    moduleResources,
                     R.drawable.ic_calculator,
                     mContext.theme
                 )
@@ -1847,10 +1852,10 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
         } catch (t: Throwable) {
             // We have our own strings too, so return them if SystemUI doesn't
             return when (stringRes) {
-                HOME_CONTROLS_LABEL -> modRes.getString(R.string.home_controls)
-                CALCULATOR_LABEL -> modRes.getString(R.string.calculator)
-                CAMERA_LABEL -> modRes.getString(R.string.camera)
-                WALLET_LABEL -> modRes.getString(R.string.wallet)
+                HOME_CONTROLS_LABEL -> moduleResources.getString(R.string.home_controls)
+                CALCULATOR_LABEL -> moduleResources.getString(R.string.calculator)
+                CAMERA_LABEL -> moduleResources.getString(R.string.camera)
+                WALLET_LABEL -> moduleResources.getString(R.string.wallet)
                 MEDIA_PLAY_LABEL -> "Play"
                 else -> {
                     log(this@LockscreenWidgetsView, "getString $stringRes from $pkg error $t")
@@ -1870,7 +1875,7 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                     else -> throw IllegalStateException("Unexpected value: " + mAudioManager.ringerMode)
                 }, SYSTEMUI_PACKAGE
             ) ?: ResourcesCompat.getDrawable(
-                modRes,
+                moduleResources,
                 when (mAudioManager.ringerMode) {
                     AudioManager.RINGER_MODE_NORMAL -> R.drawable.ic_ringer_normal
                     AudioManager.RINGER_MODE_VIBRATE -> R.drawable.ic_ringer_vibrate
@@ -1890,12 +1895,12 @@ class LockscreenWidgetsView(private val context: Context, activityStarter: Any?)
                 else -> throw IllegalStateException("Unexpected value: " + mAudioManager.ringerMode)
             }
 
-            return modRes.getString(resName)
+            return moduleResources.getString(resName)
         }
 
     private fun createWidgetBackgroundDrawable(): RippleDrawable {
         val rippleDrawable = ResourcesCompat.getDrawable(
-            modRes,
+            moduleResources,
             R.drawable.lockscreen_widget_background_circle,
             mContext.theme
         ) as RippleDrawable

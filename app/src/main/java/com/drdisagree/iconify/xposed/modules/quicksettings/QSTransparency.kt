@@ -8,16 +8,15 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookConstructor
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XposedHelpers.findField
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 @SuppressLint("DiscouragedApi")
 class QSTransparency(context: Context) : ModPack(context) {
@@ -31,7 +30,7 @@ class QSTransparency(context: Context) : ModPack(context) {
     private var blurRadius = 23
     private var quickSettingsController: Any? = null
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             qsTransparencyActive = getBoolean(XposedKey.QUICK_SETTINGS_TRANSPARENCY)
             onlyNotifTransparencyActive = getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY)
@@ -48,7 +47,7 @@ class QSTransparency(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         setQsTransparency()
         setBlurRadius()
     }
@@ -72,24 +71,15 @@ class QSTransparency(context: Context) : ModPack(context) {
                     param.args[alphaIndex] = param.args[alphaIndex] as Float * keyguardAlpha
                 } else {
                     val scrimName = when {
-                        findField(
-                            scrimControllerClass,
-                            "mScrimInFront"
-                        )[param.thisObject] == param.args[0] -> {
+                        param.thisObject.getField("mScrimInFront") == param.args[0] -> {
                             "front_scrim"
                         }
 
-                        findField(
-                            scrimControllerClass,
-                            "mScrimBehind"
-                        )[param.thisObject] == param.args[0] -> {
+                        param.thisObject.getField("mScrimBehind") == param.args[0] -> {
                             "behind_scrim"
                         }
 
-                        findField(
-                            scrimControllerClass,
-                            "mNotificationsScrim"
-                        )[param.thisObject] == param.args[0] -> {
+                        param.thisObject.getField("mNotificationsScrim") == param.args[0] -> {
                             "notifications_scrim"
                         }
 

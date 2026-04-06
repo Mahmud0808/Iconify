@@ -11,7 +11,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookEntry.Companion.moduleResources
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.getColorResCompat
 
@@ -61,7 +61,7 @@ class OnGoingActionChipView @JvmOverloads constructor(
             max = 100
             progress = 0
             gravity = Gravity.CENTER_VERTICAL
-            progressDrawable = modRes.getDrawable(
+            progressDrawable = moduleResources.getDrawable(
                 R.drawable.ongoing_action_chip_progress_bar,
                 context.theme
             )

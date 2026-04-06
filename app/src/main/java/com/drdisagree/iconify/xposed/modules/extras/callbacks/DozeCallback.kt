@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 import java.util.concurrent.CopyOnWriteArrayList
 
 class DozeCallback(context: Context) : ModPack(context) {
@@ -21,9 +21,9 @@ class DozeCallback(context: Context) : ModPack(context) {
 
     private val mDozeListeners = CopyOnWriteArrayList<DozeListener>()
 
-    override fun updatePrefs(vararg key: String) {}
+    override fun onPreferenceUpdated(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         instance = this
 
         fun updateState(isDozing: Boolean, isPulsing: Boolean) {

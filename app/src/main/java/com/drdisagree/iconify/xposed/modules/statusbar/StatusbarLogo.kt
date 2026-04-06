@@ -12,7 +12,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookEntry.Companion.moduleResources
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
@@ -20,15 +20,15 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCal
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toCircularDrawable
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.MethodHookParam
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callStaticMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImage
 import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImageView
 import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImageViewRight
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 @SuppressLint("DiscouragedApi")
 class StatusbarLogo(context: Context) : ModPack(context) {
@@ -43,15 +43,15 @@ class StatusbarLogo(context: Context) : ModPack(context) {
     private var logoImageViewRight: LogoImageViewRight? = null
     private var darkIconDispatcherClass: Class<*>? = null
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             showLogo = getBoolean(XposedKey.STATUSBAR_LOGO)
             logoPosition = getString(XposedKey.STATUSBAR_LOGO_POSITION).toInt()
             logoStyle = getString(XposedKey.STATUSBAR_LOGO_STYLE).toInt()
             logoSize = getInt(XposedKey.STATUSBAR_LOGO_SIZE)
             customLogo = listOf<String>(
-                *modRes.getStringArray(R.array.status_bar_logo_style_entries)
-            )[logoStyle] == modRes.getString(R.string.status_bar_logo_style_custom)
+                *moduleResources.getStringArray(R.array.status_bar_logo_style_entries)
+            )[logoStyle] == moduleResources.getString(R.string.status_bar_logo_style_custom)
             tintCustomLogo = customLogo && getBoolean(XposedKey.STATUSBAR_LOGO_TINT)
         }
 
@@ -88,7 +88,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         darkIconDispatcherClass = findClass("$SYSTEMUI_PACKAGE.plugins.DarkIconDispatcher")
 
         val phoneStatusBarViewClass =
@@ -184,7 +184,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
         )
 
         fun updateLogoColor(
-            param: XC_MethodHook.MethodHookParam,
+            param: MethodHookParam,
             logoImageView: LogoImageView,
             logoImageViewRight: LogoImageViewRight
         ) {
@@ -297,7 +297,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
             setImageDrawable(drawable)
         } catch (_: Throwable) {
             @Suppress("DEPRECATION")
-            modRes.getDrawable(R.drawable.ic_android_logo)
+            moduleResources.getDrawable(R.drawable.ic_android_logo)
         }
     }
 }

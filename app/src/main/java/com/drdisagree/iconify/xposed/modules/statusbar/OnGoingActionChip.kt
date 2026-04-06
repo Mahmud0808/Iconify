@@ -10,12 +10,12 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.OnGoingActionChipView
 import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.OnGoingActionProgressController
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 @SuppressLint("DiscouragedApi")
 class OnGoingActionChip(context: Context) : ModPack(context) {
@@ -25,7 +25,7 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
     private var mOnGoingActionProgressController: OnGoingActionProgressController? = null
     private var mColoredStatusbarIcon = false
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             onGoingActionChipEnabled = getBoolean(XposedKey.ONGOING_ACTION_CHIP)
             mColoredStatusbarIcon = getBoolean(XposedKey.COLORED_STATUSBAR_ICON)
@@ -36,7 +36,7 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         val phoneStatusBarViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarView")
 

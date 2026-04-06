@@ -30,7 +30,7 @@ import android.os.Build
 import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookEntry.Companion.moduleResources
 import com.drdisagree.iconify.xposed.modules.extras.views.ArcProgressWidget.generateBitmap
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
@@ -227,7 +227,7 @@ class ArcProgressImageView(context: Context) : ImageView(context) {
             if (progressPercent == -1) 0 else progressPercent,
             progressText,
             40,
-            ResourcesCompat.getDrawable(modRes, progressType.iconRes, mContext.theme),
+            ResourcesCompat.getDrawable(moduleResources, progressType.iconRes, mContext.theme),
             36,
             typeface ?: Typeface.create(Typeface.DEFAULT, Typeface.BOLD),
             mProgressColor,

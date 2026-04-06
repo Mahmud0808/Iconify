@@ -2,7 +2,6 @@ package com.drdisagree.iconify.xposed.modules.misc
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.XResources
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +9,17 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getAnyField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookConstructor
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 @SuppressLint("DiscouragedApi")
 class Miscellaneous(context: Context) : ModPack(context) {
@@ -32,7 +30,7 @@ class Miscellaneous(context: Context) : ModPack(context) {
     private var mobileSignalControllerParam: Any? = null
     private var coloredStatusbarOverlayEnabled = false
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             hideQsCarrierGroup = getBoolean(XposedKey.QS_PANEL_HIDE_CARRIER)
             hideStatusIcons = getBoolean(XposedKey.HIDE_STATUS_ICONS)
@@ -47,7 +45,7 @@ class Miscellaneous(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         hideElements()
         hideQSCarrierGroup()
         hideDataDisabledIcon()
@@ -181,23 +179,20 @@ class Miscellaneous(context: Context) : ModPack(context) {
     }
 
     private fun hideQSCarrierGroup() {
-        val xResources: XResources = resParams[SYSTEMUI_PACKAGE]?.res ?: return
+        val shadeHeaderControllerClass = findClass(
+            "$SYSTEMUI_PACKAGE.shade.LargeScreenShadeHeaderController",
+            "$SYSTEMUI_PACKAGE.shade.ShadeHeaderController"
+        )
 
-        xResources
-            .hookLayout()
-            .packageName(SYSTEMUI_PACKAGE)
-            .resource("layout", "quick_qs_status_icons")
-            .suppressError()
-            .run { liparam ->
-                if (!hideQsCarrierGroup) return@run
+        shadeHeaderControllerClass
+            .hookMethod("onInit")
+            .runAfter { param ->
+                if (!hideQsCarrierGroup) return@runAfter
 
-                liparam.view.findViewById<LinearLayout>(
-                    liparam.res.getIdentifier(
-                        "carrier_group",
-                        "id",
-                        mContext.packageName
-                    )
-                ).apply {
+                (param.thisObject.getAnyField(
+                    "qsCarrierGroup",
+                    "mShadeCarrierGroup"
+                ) as LinearLayout).apply {
                     layoutParams.height = 0
                     layoutParams.width = 0
                     minimumWidth = 0

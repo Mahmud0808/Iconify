@@ -20,18 +20,18 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isNightMode
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setExtraField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 import java.util.Collections
 import java.util.WeakHashMap
 import kotlin.math.roundToInt
@@ -45,7 +45,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
     private var isQsExpanded = false
     private var coloredNotificationView = false
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             headsUpBlurEnabled = getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR)
             headsUpBlurRadius = getFloat(XposedKey.NOTIFICATION_HEADS_UP_BLUR_RADIUS) / 100f * 25f
@@ -56,7 +56,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
     }
 
     @SuppressLint("DiscouragedApi")
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         val headsUpManagerClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.policy.BaseHeadsUpManager",
             "$SYSTEMUI_PACKAGE.statusbar.notification.headsup.HeadsUpManagerImpl",
@@ -68,7 +68,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!headsUpBlurEnabled) return@runAfter
 
-                val listener = param.args[0]
+                val listener = param.args[0]!!
 
                 listener::class.java
                     .hookMethod("onHeadsUpStateChanged")

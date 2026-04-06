@@ -4,6 +4,7 @@ accompanistNavigationAnimation = "0.36.0"
 activityCompose = "1.13.0"
 agp = "9.1.0"
 appcompat = "1.7.1"
+asynclayoutinflater = "1.1.0"
 backdrop = "1.0.6"
 #noinspection NewerVersionAvailable,GradleDependency
 bcpkixJdk18on = "1.78.1"
@@ -32,8 +33,11 @@ ksp = "2.3.6"
 libsuVersion = "6.0.0"
 lifecycleRuntimeKtx = "2.10.0"
 lottie = "6.7.1"
+lsposedApi = "101.0.1"
+lsposedService = "101.0.0"
 material = "1.13.0"
 material3 = "1.5.0-alpha16"
+material3WindowSizeClass = "1.4.0"
 materialIconsExtended = "1.7.8"
 materialKolor = "4.1.1"
 navigationCompose = "2.9.7"
@@ -43,12 +47,11 @@ remotepreferences = "0.8"
 workRuntimeKtx = "2.11.2"
 xposedbridge = "main-SNAPSHOT"
 zip4j = "2.11.6"
-material3WindowSizeClass = "1.4.0"
-asynclayoutinflater = "1.1.0"
 
 [libraries]
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanistDrawablepainter" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
+androidx-asynclayoutinflater = { group = "androidx.asynclayoutinflater", name = "asynclayoutinflater", version.ref = "asynclayoutinflater" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-concurrent-futures = { module = "androidx.concurrent:concurrent-futures", version.ref = "concurrentFutures" }
@@ -64,6 +67,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-material3-window-size-class1 = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3WindowSizeClass" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -89,6 +93,8 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
+lsposed-api = { module = "io.github.libxposed:api", version.ref = "lsposedApi" }
+lsposed-service = { module = "io.github.libxposed:service", version.ref = "lsposedService" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 material-kolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "http" }
@@ -99,8 +105,6 @@ su-nio = { module = "com.github.topjohnwu.libsu:nio", version.ref = "libsuVersio
 su-service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsuVersion" }
 xposedbridge = { module = "com.github.Mahmud0808:XposedBridge", version.ref = "xposedbridge" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
-androidx-compose-material3-window-size-class1 = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3WindowSizeClass" }
-androidx-asynclayoutinflater = { group = "androidx.asynclayoutinflater", name = "asynclayoutinflater", version.ref = "asynclayoutinflater" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

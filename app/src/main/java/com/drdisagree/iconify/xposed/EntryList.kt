@@ -92,7 +92,11 @@ object EntryList {
         modPacks.addAll(topPriorityCommonModPacks)
 
         when (packageName) {
-            FRAMEWORK_PACKAGE -> modPacks.addAll(frameworkModPacks)
+            FRAMEWORK_PACKAGE -> {
+                if (HookEntry.isSystemServer) {
+                    modPacks.addAll(frameworkModPacks)
+                }
+            }
 
             SYSTEMUI_PACKAGE -> {
                 if (!HookEntry.isChildProcess) {

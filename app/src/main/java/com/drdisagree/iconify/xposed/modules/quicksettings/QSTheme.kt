@@ -5,14 +5,14 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.GraphicsColorKt
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getAnyField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 class QSTheme(context: Context) : ModPack(context) {
 
@@ -36,7 +36,7 @@ class QSTheme(context: Context) : ModPack(context) {
     private var unavailableLabelColor = "#FFFFFF"
     private var unavailableSecondaryLabelColor = "#FFFFFF"
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             customQsTheme = getBoolean(XposedKey.CUSTOM_QS_THEME)
 
@@ -62,7 +62,7 @@ class QSTheme(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         val tileDefaultsClass =
             findClass("$SYSTEMUI_PACKAGE.qs.panels.ui.compose.infinitegrid.TileDefaults")
 

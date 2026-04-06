@@ -16,17 +16,17 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethodSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookConstructor
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 @SuppressLint("DiscouragedApi")
 class QuickSettings(context: Context) : ModPack(context) {
@@ -48,7 +48,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var blurMediaPlayerArtwork = false
     private var blurMediaPlayerArtworkRadius = 15f
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             customQsMarginsEnabled = getBoolean(XposedKey.CUSTOM_QS_MARGINS)
             qqsTopMarginPort = getInt(XposedKey.QQS_TOP_MARGIN_PORTRAIT)
@@ -69,7 +69,7 @@ class QuickSettings(context: Context) : ModPack(context) {
         triggerQsElementVisibility()
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         setQsMargin()
         fixNotificationColorA14()
         manageQsElementVisibility()
@@ -109,7 +109,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                     "mBackgroundNormal"
                 ) as? View
 
-                if (param.args.size > 0 && param.args[0] is Int) {
+                if (param.args.isNotEmpty() && param.args[0] is Int) {
                     param.thisObject.setFieldSilently("mCurrentBackgroundTint", param.args[0])
                 }
 

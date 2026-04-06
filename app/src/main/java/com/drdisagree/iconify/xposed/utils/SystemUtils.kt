@@ -71,11 +71,7 @@ class SystemUtils(var mContext: Context) {
         }
 
         fun <Method> killSelf() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                resetCounter(Process.myProcessName())
-            } else {
-                resetCounter(Application.getProcessName())
-            }
+            resetCounter(Process.myProcessName())
             Process.killProcess(Process.myPid())
         }
     }

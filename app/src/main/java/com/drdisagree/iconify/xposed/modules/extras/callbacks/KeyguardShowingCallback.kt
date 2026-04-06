@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookConstructor
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 import java.util.concurrent.CopyOnWriteArrayList
 
 class KeyguardShowingCallback(context: Context) : ModPack(context) {
@@ -20,9 +20,9 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
     private var mScrimControllerObj: Any? = null
     private val mKeyguardShowingListeners = CopyOnWriteArrayList<KeyguardShowingListener>()
 
-    override fun updatePrefs(vararg key: String) {}
+    override fun onPreferenceUpdated(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         instance = this
 
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")

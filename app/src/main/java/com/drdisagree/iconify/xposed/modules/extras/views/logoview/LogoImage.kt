@@ -25,7 +25,7 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.XposedConst.STATUSBAR_LOGO_FILE
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookEntry.Companion.moduleResources
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toCircularDrawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -77,40 +77,40 @@ abstract class LogoImage @JvmOverloads constructor(
         }
 
         val drawable = when (mLogoStyle) {
-            0 -> modRes.getDrawable(R.drawable.ic_android_logo)
-            1 -> modRes.getDrawable(R.drawable.ic_adidas)
-            2 -> modRes.getDrawable(R.drawable.ic_alien)
-            3 -> modRes.getDrawable(R.drawable.ic_apple_logo)
-            4 -> modRes.getDrawable(R.drawable.ic_avengers)
-            5 -> modRes.getDrawable(R.drawable.ic_batman)
-            6 -> modRes.getDrawable(R.drawable.ic_batman_tdk)
-            7 -> modRes.getDrawable(R.drawable.ic_beats)
-            8 -> modRes.getDrawable(R.drawable.ic_biohazard)
-            9 -> modRes.getDrawable(R.drawable.ic_blackberry)
-            10 -> modRes.getDrawable(R.drawable.ic_cannabis)
-            11 -> modRes.getDrawable(R.drawable.ic_emoticon_cool)
-            12 -> modRes.getDrawable(R.drawable.ic_emoticon_devil)
-            13 -> modRes.getDrawable(R.drawable.ic_fire)
-            14 -> modRes.getDrawable(R.drawable.ic_heart)
-            15 -> modRes.getDrawable(R.drawable.ic_nike)
-            16 -> modRes.getDrawable(R.drawable.ic_pac_man)
-            17 -> modRes.getDrawable(R.drawable.ic_puma)
-            18 -> modRes.getDrawable(R.drawable.ic_rog)
-            19 -> modRes.getDrawable(R.drawable.ic_spiderman)
-            20 -> modRes.getDrawable(R.drawable.ic_superman)
-            21 -> modRes.getDrawable(R.drawable.ic_windows)
-            22 -> modRes.getDrawable(R.drawable.ic_xbox)
-            23 -> modRes.getDrawable(R.drawable.ic_ghost)
-            24 -> modRes.getDrawable(R.drawable.ic_ninja)
-            25 -> modRes.getDrawable(R.drawable.ic_robot)
-            26 -> modRes.getDrawable(R.drawable.ic_ironman)
-            27 -> modRes.getDrawable(R.drawable.ic_captain_america)
-            28 -> modRes.getDrawable(R.drawable.ic_flash)
-            29 -> modRes.getDrawable(R.drawable.ic_tux_logo)
-            30 -> modRes.getDrawable(R.drawable.ic_ubuntu_logo)
-            31 -> modRes.getDrawable(R.drawable.ic_mint_logo)
-            32 -> modRes.getDrawable(R.drawable.ic_amogus)
-            else -> modRes.getDrawable(R.drawable.ic_android_logo)
+            0 -> moduleResources.getDrawable(R.drawable.ic_android_logo)
+            1 -> moduleResources.getDrawable(R.drawable.ic_adidas)
+            2 -> moduleResources.getDrawable(R.drawable.ic_alien)
+            3 -> moduleResources.getDrawable(R.drawable.ic_apple_logo)
+            4 -> moduleResources.getDrawable(R.drawable.ic_avengers)
+            5 -> moduleResources.getDrawable(R.drawable.ic_batman)
+            6 -> moduleResources.getDrawable(R.drawable.ic_batman_tdk)
+            7 -> moduleResources.getDrawable(R.drawable.ic_beats)
+            8 -> moduleResources.getDrawable(R.drawable.ic_biohazard)
+            9 -> moduleResources.getDrawable(R.drawable.ic_blackberry)
+            10 -> moduleResources.getDrawable(R.drawable.ic_cannabis)
+            11 -> moduleResources.getDrawable(R.drawable.ic_emoticon_cool)
+            12 -> moduleResources.getDrawable(R.drawable.ic_emoticon_devil)
+            13 -> moduleResources.getDrawable(R.drawable.ic_fire)
+            14 -> moduleResources.getDrawable(R.drawable.ic_heart)
+            15 -> moduleResources.getDrawable(R.drawable.ic_nike)
+            16 -> moduleResources.getDrawable(R.drawable.ic_pac_man)
+            17 -> moduleResources.getDrawable(R.drawable.ic_puma)
+            18 -> moduleResources.getDrawable(R.drawable.ic_rog)
+            19 -> moduleResources.getDrawable(R.drawable.ic_spiderman)
+            20 -> moduleResources.getDrawable(R.drawable.ic_superman)
+            21 -> moduleResources.getDrawable(R.drawable.ic_windows)
+            22 -> moduleResources.getDrawable(R.drawable.ic_xbox)
+            23 -> moduleResources.getDrawable(R.drawable.ic_ghost)
+            24 -> moduleResources.getDrawable(R.drawable.ic_ninja)
+            25 -> moduleResources.getDrawable(R.drawable.ic_robot)
+            26 -> moduleResources.getDrawable(R.drawable.ic_ironman)
+            27 -> moduleResources.getDrawable(R.drawable.ic_captain_america)
+            28 -> moduleResources.getDrawable(R.drawable.ic_flash)
+            29 -> moduleResources.getDrawable(R.drawable.ic_tux_logo)
+            30 -> moduleResources.getDrawable(R.drawable.ic_ubuntu_logo)
+            31 -> moduleResources.getDrawable(R.drawable.ic_mint_logo)
+            32 -> moduleResources.getDrawable(R.drawable.ic_amogus)
+            else -> moduleResources.getDrawable(R.drawable.ic_android_logo)
         }
 
         if (forceApplyTint) {
@@ -131,7 +131,7 @@ abstract class LogoImage @JvmOverloads constructor(
                     ImageDecoder.createSource(STATUSBAR_LOGO_FILE)
                 ).toCircularDrawable(mContext)
             } catch (_: Throwable) {
-                modRes.getDrawable(R.drawable.ic_android_logo)
+                moduleResources.getDrawable(R.drawable.ic_android_logo)
             }
 
             withContext(Dispatchers.Main) {

@@ -10,7 +10,7 @@ import com.drdisagree.iconify.data.keys.SettingsKey
 object Config {
 
     @SuppressWarnings("ConstantConditions")
-    private val SKIP_INSTALLATION = false
+    private val SKIP_INSTALLATION = true
 
     @SuppressWarnings("ConstantConditions")
     val FORCE_OVERLAY_INSTALLATION = false

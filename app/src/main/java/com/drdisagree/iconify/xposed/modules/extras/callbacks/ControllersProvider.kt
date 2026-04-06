@@ -6,15 +6,15 @@ import android.view.View
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getExpandableView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookConstructor
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 import java.util.concurrent.CopyOnWriteArrayList
 
 @Suppress("Unused")
@@ -38,9 +38,9 @@ class ControllersProvider(context: Context) : ModPack(context) {
 
     private var mExpandableClass: Class<*>? = null
 
-    override fun updatePrefs(vararg key: String) {}
+    override fun onPreferenceUpdated(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         instance = this
 
         // Network Callbacks
@@ -50,11 +50,11 @@ class ControllersProvider(context: Context) : ModPack(context) {
 
         callbackHandler
             .hookMethod("setMobileDataIndicators")
-            .runAfter { param -> onSetMobileDataIndicators(param.args[0]) }
+            .runAfter { param -> onSetMobileDataIndicators(param.args[0]!!) }
 
         callbackHandler
             .hookMethod("setIsAirplaneMode")
-            .runAfter { param -> onSetIsAirplaneMode(param.args[0]) }
+            .runAfter { param -> onSetIsAirplaneMode(param.args[0]!!) }
 
         callbackHandler
             .hookMethod("setNoSims")
@@ -62,7 +62,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
 
         callbackHandler
             .hookMethod("setWifiIndicators")
-            .runAfter { param -> onWifiChanged(param.args[0]) }
+            .runAfter { param -> onWifiChanged(param.args[0]!!) }
 
         // Internet Tile - for opening Internet Dialog
         findClass("$SYSTEMUI_PACKAGE.qs.tiles.InternetTile", suppressError = true)

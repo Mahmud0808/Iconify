@@ -10,28 +10,33 @@ class Iconify : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
-        contextReference = WeakReference(applicationContext)
+
+        _instance = this
+        _contextReference = WeakReference(applicationContext)
     }
 
     companion object {
 
-        private lateinit var instance: Iconify
-        private lateinit var contextReference: WeakReference<Context>
+        private lateinit var _instance: Iconify
+        private lateinit var _contextReference: WeakReference<Context>
+
+        private var instance: Iconify
+            get() {
+                if (this::_instance.isInitialized.not()) {
+                    _instance = Iconify()
+                }
+                return _instance
+            }
+            set(value) {
+                _instance = value
+            }
 
         val appContext: Context
             get() {
-                if (!this::contextReference.isInitialized || contextReference.get() == null) {
-                    contextReference = WeakReference(getInstance().applicationContext)
+                if (this::_contextReference.isInitialized.not() || _contextReference.get() == null) {
+                    _contextReference = WeakReference(instance.applicationContext)
                 }
-                return contextReference.get()!!
+                return _contextReference.get()!!
             }
-
-        private fun getInstance(): Iconify {
-            if (!this::instance.isInitialized) {
-                instance = Iconify()
-            }
-            return instance
-        }
     }
 }

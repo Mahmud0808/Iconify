@@ -9,15 +9,15 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.XC_MethodHook
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.MethodHookParam
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 
 @SuppressLint("DiscouragedApi")
 object StatusBarClock {
 
-    fun getLeftClockView(mContext: Context, param: XC_MethodHook.MethodHookParam) = try {
+    fun getLeftClockView(mContext: Context, param: MethodHookParam) = try {
         param.thisObject.getField("mClockView") as View
     } catch (_: Throwable) {
         try {
@@ -62,7 +62,7 @@ object StatusBarClock {
         }
     }
 
-    fun getCenterClockView(mContext: Context, param: XC_MethodHook.MethodHookParam) = try {
+    fun getCenterClockView(mContext: Context, param: MethodHookParam) = try {
         param.thisObject.getField("mCenterClockView") as View
     } catch (_: Throwable) {
         try {
@@ -101,7 +101,7 @@ object StatusBarClock {
         }
     }
 
-    fun getRightClockView(mContext: Context, param: XC_MethodHook.MethodHookParam) = try {
+    fun getRightClockView(mContext: Context, param: MethodHookParam) = try {
         param.thisObject.getField("mRightClockView") as View
     } catch (_: Throwable) {
         try {

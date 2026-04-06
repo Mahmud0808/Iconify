@@ -7,9 +7,9 @@ import android.os.LocaleList
 import android.view.View
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 import java.util.concurrent.CopyOnWriteArrayList
 
 class ConfigurationCallback(context: Context) : ModPack(context) {
@@ -39,9 +39,9 @@ class ConfigurationCallback(context: Context) : ModPack(context) {
         layoutDirection = currentConfig.layoutDirection
     }
 
-    override fun updatePrefs(vararg key: String) {}
+    override fun onPreferenceUpdated(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         instance = this
 
         val configurationControllerImplClass =

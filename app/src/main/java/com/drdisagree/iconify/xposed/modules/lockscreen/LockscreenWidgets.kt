@@ -32,17 +32,17 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.MyConstraintSet.Compan
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.assignIdsToViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.setMargins
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookConstructor
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.LockscreenWidgetsView
 import com.drdisagree.iconify.xposed.modules.extras.views.LockscreenWidgetsView.Companion.launchableImageViewClass
 import com.drdisagree.iconify.xposed.modules.extras.views.LockscreenWidgetsView.Companion.launchableLinearLayoutClass
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 class LockscreenWidgets(context: Context) : ModPack(context) {
 
@@ -109,7 +109,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
         }
     }
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         if (!XprefsIsInitialized) return
 
         Xprefs.apply {
@@ -196,7 +196,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag", "DiscouragedApi")
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         // Receiver to handle weather inflated
         if (!mBroadcastRegistered) {
             val intentFilter = IntentFilter()
@@ -320,7 +320,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!mWidgetsEnabled) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = param.args[0]!!
 
                 constraintSet.clear(
                     notificationContainerId,
@@ -353,7 +353,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!mWidgetsEnabled) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = param.args[0]!!
 
                 val smartSpaceViewId = if (dateSmartSpaceViewAvailable) {
                     dateSmartSpaceViewId

@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.HookEntry.Companion.moduleResources
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 
 class ActivityLauncherUtils(private val mContext: Context, private val mActivityStarter: Any?) {
     private val mPackageManager: PackageManager = mContext.packageManager
@@ -50,9 +50,10 @@ class ActivityLauncherUtils(private val mContext: Context, private val mActivity
     }
 
     fun launchTimer() {
-        val intent = Intent()
-        intent.setAction("android.intent.action.SHOW_ALARMS")
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        val intent = Intent().apply {
+            action = "android.intent.action.SHOW_ALARMS"
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        }
         launchAppIfAvailable(intent, R.string.clock_timer)
     }
 
@@ -72,8 +73,9 @@ class ActivityLauncherUtils(private val mContext: Context, private val mActivity
 
     fun launchSettingsComponent(className: String) {
         if (mActivityStarter == null) return
-        val intent = Intent()
-        intent.setComponent(ComponentName("com.android.settings", className))
+        val intent = Intent().apply {
+            component = ComponentName("com.android.settings", className)
+        }
         mActivityStarter.callMethod("startActivity", intent, true)
     }
 
@@ -96,19 +98,20 @@ class ActivityLauncherUtils(private val mContext: Context, private val mActivity
     }
 
     private fun showNoDefaultAppFoundToast(@StringRes appTypeResId: Int) {
-        Toast.makeText(mContext, modRes.getString(appTypeResId) + " not found", Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(
+            mContext,
+            moduleResources.getString(appTypeResId) + " not found",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     fun launchWeatherActivity(fromQs: Boolean) {
         val launchIntent = Intent()
-        launchIntent.setComponent(
-            ComponentName(
-                BuildConfig.APPLICATION_ID,
-                BuildConfig.APPLICATION_ID
-                    .replace(".debug", "")
-                    .replace(".foss", "") + ".ui.activities.WeatherActivity"
-            )
+        launchIntent.component = ComponentName(
+            BuildConfig.APPLICATION_ID,
+            BuildConfig.APPLICATION_ID
+                .replace(".debug", "")
+                .replace(".foss", "") + ".ui.activities.WeatherActivity"
         )
         if (mActivityStarter == null) {
             log(this@ActivityLauncherUtils, "ActivityStarter is null")

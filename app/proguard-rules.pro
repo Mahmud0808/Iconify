@@ -25,36 +25,23 @@
 }
 
 # Activity and Fragment names
--keep class com.drdisagree.iconify.ui.activities.**
--keep class com.drdisagree.iconify.ui.fragments.**
+-keep,allowobfuscation,allowoptimization class com.drdisagree.iconify.app.MainActivity { *; }
+-keepclassmembers,allowobfuscation,allowoptimization class com.drdisagree.iconify.ui.activities.**
+-keepclassmembers,allowobfuscation,allowoptimization class com.drdisagree.iconify.ui.fragments.**
+
+# Xposed
+-adaptresourcefilecontents META-INF/xposed/java_init.list
+-keepattributes RuntimeVisibleAnnotations
+-keep,allowobfuscation,allowoptimization public class * extends io.github.libxposed.api.XposedModule {
+    public <init>(...);
+    public void onModuleLoaded(...);
+    public void onPackageLoaded(...);
+    public void onPackageReady(...);
+    public void onSystemServerStarting(...);
+}
 
 # Xposed framework stubs
 -keep class de.robv.android.xposed.** { *; }
-
-# Xposed entry points (called directly by the framework)
--keep class com.drdisagree.iconify.xposed.InitHook {
-    public <init>();
-}
--keep class * implements de.robv.android.xposed.IXposedHookLoadPackage
--keep class * implements de.robv.android.xposed.IXposedHookInitPackageResources
-
-# Optimize method bodies, preserve Xposed lifecycle signatures
--keepclassmembers,allowoptimization,allowobfuscation class com.drdisagree.iconify.xposed.** {
-    public <init>();
-    public <init>(android.content.Context);
-    public void initZygote(de.robv.android.xposed.IXposedHookZygoteInit$StartupParam);
-    public void handleLoadPackage(de.robv.android.xposed.callbacks.XC_LoadPackage$LoadPackageParam);
-    public void handleInitPackageResources(de.robv.android.xposed.callbacks.XC_InitPackageResources$InitPackageResourcesParam);
-}
-
-# Hook callbacks
--keepclassmembers,allowoptimization,allowobfuscation class * extends de.robv.android.xposed.XC_MethodHook {
-    protected void beforeHookedMethod(de.robv.android.xposed.XC_MethodHook$MethodHookParam);
-    protected void afterHookedMethod(de.robv.android.xposed.XC_MethodHook$MethodHookParam);
-}
--keepclassmembers,allowoptimization,allowobfuscation class * extends de.robv.android.xposed.XC_MethodReplacement {
-    protected java.lang.Object replaceHookedMethod(de.robv.android.xposed.XC_MethodHook$MethodHookParam);
-}
 
 # XPrefs: name and public API must be stable for cross-process access
 -keepnames class com.drdisagree.iconify.xposed.utils.XPrefs
@@ -63,9 +50,15 @@
 }
 
 # Xposed logs
--keep class de.robv.android.xposed.XposedBridge {
-    public static void log(java.lang.String);
-    public static void log(java.lang.Throwable);
+-keep class io.github.libxposed.api.XposedInterface {
+    public void log(int, java.lang.String, java.lang.String);
+    public void log(int, java.lang.String, java.lang.String, java.lang.Throwable);
+}
+
+# Service connection
+-keepclassmembers class * implements android.content.ServiceConnection {
+    public void onServiceConnected(...);
+    public void onServiceDisconnected(...);
 }
 
 # MLKit
@@ -75,21 +68,30 @@
 -keep class com.google.mlkit.vision.segmentation.subject.internal.** { *; }
 
 # Weather
--keepnames class com.drdisagree.iconify.utils.weather.**
--keep class com.drdisagree.iconify.utils.weather.** { *; }
+-keep,allowoptimization class com.drdisagree.iconify.core.utils.weather.** { *; }
 
 # Obfuscation
 -repackageclasses
 -allowaccessmodification
 
 # Root Service
--keep class com.drdisagree.iconify.services.providers.RootProviderProxy { *; }
--keep class com.drdisagree.iconify.services.providers.IRootProviderProxy { *; }
+-keepclassmembers,allowoptimization class com.drdisagree.iconify.services.providers.RootProviderProxy {
+    public *;
+}
+-keepclassmembers,allowoptimization interface com.drdisagree.iconify.services.providers.IRootProviderProxy {
+    public *;
+}
 
-# AIDL Classes (scoped to your package to avoid matching SDK interfaces)
--keep interface com.drdisagree.iconify.**.I* { *; }
--keep class com.drdisagree.iconify.**.I*$Stub { *; }
--keep class com.drdisagree.iconify.**.I*$Stub$Proxy { *; }
+# AIDL Classes
+-keepclassmembers,allowoptimization interface com.drdisagree.iconify.**.I* {
+    public *;
+}
+-keepclassmembers,allowoptimization class com.drdisagree.iconify.**.I*$Stub {
+    public *;
+}
+-keepclassmembers,allowoptimization class com.drdisagree.iconify.**.I*$Stub$Proxy {
+    public *;
+}
 
 # Keep all drawable resources
 -keep class androidx.compose.ui.res.** { *; }

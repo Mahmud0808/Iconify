@@ -11,7 +11,7 @@ import android.text.format.DateFormat
 import android.text.style.ForegroundColorSpan
 import android.widget.TextClock
 import android.widget.TextView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date

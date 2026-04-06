@@ -26,20 +26,17 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethodSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.XposedHelpers.callMethod
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 class HeaderImage(context: Context) : ModPack(context) {
 
@@ -64,7 +61,7 @@ class HeaderImage(context: Context) : ModPack(context) {
         }
     }
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             showHeaderImage = getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) &&
                     getString(XposedKey.HEADER_IMAGE_FILE_URI).isNotEmpty()
@@ -87,7 +84,7 @@ class HeaderImage(context: Context) : ModPack(context) {
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         if (!mBroadcastRegistered) {
             val intentFilter = IntentFilter()
             intentFilter.addAction(ACTION_BOOT_COMPLETED)
@@ -150,21 +147,23 @@ class HeaderImage(context: Context) : ModPack(context) {
                 updateQSHeaderImage()
             }
 
-        var notificationShadeWindowControllerHooks: Set<XC_MethodHook.Unhook>? = null
         notificationPanelViewControllerClass
             .hookMethod("setExpandedHeightInternal")
-            .runBefore { param ->
-                if (!showHeaderImage) return@runBefore
+            .run { param, proceed ->
+                if (!showHeaderImage) {
+                    return@run proceed()
+                }
 
                 val mNotificationShadeWindowController =
                     param.thisObject.getField("mNotificationShadeWindowController")
 
-                notificationShadeWindowControllerHooks = XposedBridge.hookAllMethods(
-                    mNotificationShadeWindowController::class.java,
-                    "batchApplyWindowLayoutParams",
-                    object : XC_MethodHook() {
-                        override fun beforeHookedMethod(param2: MethodHookParam) {
-                            if (param2.thisObject !== mNotificationShadeWindowController) return
+                val notificationShadeWindowControllerHooks =
+                    mNotificationShadeWindowController::class.java
+                        .hookMethod("batchApplyWindowLayoutParams")
+                        .run batchApply@{ param2, proceed2 ->
+                            if (param2.thisObject !== mNotificationShadeWindowController) {
+                                return@batchApply proceed2()
+                            }
 
                             val scope = param2.args[0] as Runnable
 
@@ -189,15 +188,11 @@ class HeaderImage(context: Context) : ModPack(context) {
                                 )
                             }
                             param2.thisObject.callMethodSilently("applyWindowLayoutParams")
-
-                            param2.result = null
                         }
-                    }
-                )
-            }
-            .runAfter {
-                notificationShadeWindowControllerHooks?.forEach { it.unhook() }
-                notificationShadeWindowControllerHooks = null
+
+                proceed()
+
+                notificationShadeWindowControllerHooks.unhookAll()
             }
 
         val configurationListenerClass =
@@ -234,11 +229,7 @@ class HeaderImage(context: Context) : ModPack(context) {
                 val mTopViewMeasureHeight =
                     param.thisObject.getField("mTopViewMeasureHeight") as Int
 
-                if (callMethod(
-                        mDatePrivacyView,
-                        "getMeasuredHeight"
-                    ) as Int != mTopViewMeasureHeight
-                ) {
+                if (mDatePrivacyView.callMethod("getMeasuredHeight") as Int != mTopViewMeasureHeight) {
                     param.thisObject.setField(
                         "mTopViewMeasureHeight",
                         mDatePrivacyView.callMethod("getMeasuredHeight")

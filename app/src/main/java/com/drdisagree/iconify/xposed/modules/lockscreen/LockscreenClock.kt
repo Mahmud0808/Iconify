@@ -69,16 +69,16 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.setMargins
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookConstructor
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.ArcProgressImageView
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -163,7 +163,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
         ThemeChangeCallback.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
     }
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         if (!XprefsIsInitialized) return
 
         Xprefs.apply {
@@ -223,7 +223,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         initResources(mContext)
 
         val aodBurnInSectionClass =
@@ -364,7 +364,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!showLockscreenClock) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = param.args[0]!!
 
                 if (mLsItemsContainer != null) {
                     constraintSet.clear(
@@ -402,7 +402,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!showLockscreenClock) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = param.args[0]!!
 
                 if (mLsItemsContainer != null) {
                     constraintSet.clear(
@@ -448,7 +448,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!showLockscreenClock) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = param.args[0]!!
 
                 // Connect bc smartspace to bottom of date smartspace
                 constraintSet.clear(
@@ -498,7 +498,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!showLockscreenClock) return@runAfter
 
-                val callback = param.args[0]
+                val callback = param.args[0]!!
 
                 callback.javaClass
                     .hookMethod(

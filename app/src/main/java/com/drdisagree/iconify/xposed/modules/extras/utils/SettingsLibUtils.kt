@@ -3,16 +3,16 @@ package com.drdisagree.iconify.xposed.modules.extras.utils
 import android.content.Context
 import android.content.res.ColorStateList
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.XposedHelpers.callStaticMethod
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callStaticMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.log
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 class SettingsLibUtils(context: Context) : ModPack(context) {
 
-    override fun updatePrefs(vararg key: String) {}
+    override fun onPreferenceUpdated(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         UtilsClass = findClass(
             "com.android.settingslib.Utils",
             suppressError = true
@@ -73,24 +73,21 @@ class SettingsLibUtils(context: Context) : ModPack(context) {
             if (UtilsClass == null) return defValue
 
             return try {
-                callStaticMethod(
-                    UtilsClass,
+                UtilsClass.callStaticMethod(
                     methodName,
                     resID,
                     context
                 ) as Int
             } catch (_: Throwable) {
                 try {
-                    callStaticMethod(
-                        UtilsClass,
+                    UtilsClass.callStaticMethod(
                         methodName,
                         context,
                         resID
                     ) as Int
                 } catch (_: Throwable) {
                     try {
-                        callStaticMethod(
-                            UtilsClass,
+                        UtilsClass.callStaticMethod(
                             methodName,
                             context,
                             resID,
@@ -98,8 +95,7 @@ class SettingsLibUtils(context: Context) : ModPack(context) {
                         ) as Int
                     } catch (_: Throwable) {
                         try {
-                            callStaticMethod(
-                                UtilsClass,
+                            UtilsClass.callStaticMethod(
                                 methodName,
                                 resID,
                                 defValue,
@@ -122,16 +118,14 @@ class SettingsLibUtils(context: Context) : ModPack(context) {
             if (UtilsClass == null) return ColorStateList.valueOf(0)
 
             return try {
-                callStaticMethod(
-                    UtilsClass,
+                UtilsClass.callStaticMethod(
                     methodName,
                     resID,
                     context
                 ) as ColorStateList
             } catch (_: Throwable) {
                 try {
-                    callStaticMethod(
-                        UtilsClass,
+                    UtilsClass.callStaticMethod(
                         methodName,
                         context,
                         resID

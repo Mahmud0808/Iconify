@@ -3,15 +3,15 @@ package com.drdisagree.iconify.xposed.modules.extras.utils
 import android.content.Context
 import androidx.core.graphics.toColorInt
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callStaticMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 class GraphicsColorKt(context: Context) : ModPack(context) {
 
-    override fun updatePrefs(vararg key: String) {}
+    override fun onPreferenceUpdated(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         ColorKtClass = findClass("androidx.compose.ui.graphics.ColorKt")
     }
 

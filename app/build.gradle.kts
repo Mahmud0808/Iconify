@@ -53,8 +53,8 @@ android {
 
     buildTypes {
         debug {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             applicationIdSuffix = ".debug"
             signingConfig = releaseSigning
             resValue("string", "derived_app_name", "Iconify (Debug)")
@@ -242,6 +242,8 @@ dependencies {
     // So we create a mirror GitHub repository and obtain the library from `jitpack.io` instead.
     // Equivalent to `implementation 'de.robv.android.xposed:api:82'`.
     compileOnly(libs.xposedbridge)
+    compileOnly(libs.lsposed.api)
+    implementation(libs.lsposed.service)
 
     // The core module that provides APIs to a shell
     implementation(libs.su.core)

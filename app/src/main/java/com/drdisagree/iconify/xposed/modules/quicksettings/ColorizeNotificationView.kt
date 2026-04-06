@@ -25,25 +25,25 @@ import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.MethodHookParam
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getAnyField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getExtraField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.newInstance
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setExtraField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHelpers.setFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookConstructor
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.google.android.material.color.utilities.QuantizerCelebi
 import com.google.android.material.color.utilities.Score
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers.newInstance
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 @SuppressLint("DiscouragedApi")
 @Suppress("deprecation", "UNCHECKED_CAST")
@@ -55,7 +55,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
     private var subTextResId = 0
     private var schemeStyle: Any = "TONAL_SPOT"
 
-    override fun updatePrefs(vararg key: String) {
+    override fun onPreferenceUpdated(vararg key: String) {
         Xprefs.apply {
             coloredNotificationView = getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW)
             coloredNotificationAlternativeColor =
@@ -63,7 +63,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun onPackageLoaded(packageReadyParam: PackageReadyParam) {
         val colorSchemeClass = findClass("$SYSTEMUI_PACKAGE.monet.ColorScheme")
         val monetStyleClass = findClass(
             "$SYSTEMUI_PACKAGE.monet.Style",
@@ -349,7 +349,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 }
             }
 
-        fun runAfterOnNotificationUpdated(mEntry: Any, param: XC_MethodHook.MethodHookParam) {
+        fun runAfterOnNotificationUpdated(mEntry: Any, param: MethodHookParam) {
             val mSbn = mEntry.getField("mSbn")
             val notification = mSbn.callMethod("getNotification") as Notification
 
@@ -471,8 +471,6 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             .runAfter { param ->
                 if (!coloredNotificationView) return@runAfter
 
-                if (param.thisObject == null) return@runAfter
-
                 val mEntry = param.thisObject.getFieldSilently("mNotificationEntry")
                     ?: return@runAfter
                 val singleLineView = param.thisObject.getFieldSilently("mSingleLineView")
@@ -492,7 +490,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 }
             }
 
-        fun updateBeforeNotificationContent(param: XC_MethodHook.MethodHookParam) {
+        fun updateBeforeNotificationContent(param: MethodHookParam) {
             if (!coloredNotificationView) return
 
             var builder: Notification.Builder? = null
@@ -512,7 +510,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             notification.initializeColors(builder, mContext)
         }
 
-        fun updateAfterNotificationContent(param: XC_MethodHook.MethodHookParam) {
+        fun updateAfterNotificationContent(param: MethodHookParam) {
             if (!coloredNotificationView) return
 
             var builder: Notification.Builder? = null
@@ -528,7 +526,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             if (builder == null || mContext == null) return
 
             val notification: Notification = builder.notification
-            val inflationProgress: Any = param.result
+            val inflationProgress: Any = param.result!!
 
             notification.setTextColor(inflationProgress, mContext)
         }

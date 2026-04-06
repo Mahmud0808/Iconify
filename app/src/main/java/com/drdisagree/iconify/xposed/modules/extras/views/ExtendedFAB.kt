@@ -5,8 +5,7 @@ import android.content.ContextWrapper
 import android.content.res.Resources
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
-import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookEntry.Companion.moduleResources
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
 class ExtendedFAB @JvmOverloads constructor(
@@ -16,7 +15,7 @@ class ExtendedFAB @JvmOverloads constructor(
 ) : ExtendedFloatingActionButton(
     ContextThemeWrapper(object : ContextWrapper(context) {
         override fun getResources(): Resources {
-            return modRes
+            return moduleResources
         }
     }, com.google.android.material.R.style.Theme_MaterialComponents_DayNight),
     attrs,
