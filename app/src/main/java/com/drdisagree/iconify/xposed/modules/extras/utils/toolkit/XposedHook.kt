@@ -573,7 +573,7 @@ class MethodHookHelper(
             .intercept { chain ->
                 val param = makeParam(
                     chain.executable,
-                    chain.thisObject ?: Unit,
+                    chain.thisObject,
                     chain.args.toTypedArray()
                 )
 
