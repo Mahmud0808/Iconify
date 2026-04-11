@@ -1,10 +1,7 @@
 package com.drdisagree.iconify.xposed.modules.lockscreen.depthwallpaper
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
 import android.graphics.drawable.Drawable
@@ -20,8 +17,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.drdisagree.iconify.data.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.addAlbumArtVisibilityListener
 import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_BACKGROUND_MOVEMENT_MULTIPLIER
 import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_CHANGED
 import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_FADE_ANIMATION
@@ -62,19 +59,7 @@ class DepthWallpaper(context: Context) : ModPack(context) {
     private var unzoomWallpaper = false
     private var foregroundAlpha = 1.0f
 
-    private var mBroadcastRegistered = false
-    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY) {
-                // Hide foreground when album art is showing
-                if (showDepthWallpaper && !shouldShowAlbumArt) {
-                    mDepthWallpaperForeground?.visibility = View.VISIBLE
-                } else {
-                    mDepthWallpaperForeground?.visibility = View.GONE
-                }
-            }
-        }
-    }
+    private var mAlbumArtListenerRegistered = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -104,26 +89,16 @@ class DepthWallpaper(context: Context) : ModPack(context) {
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        // Receiver to handle foreground visibility
-        if (!mBroadcastRegistered) {
-            val intentFilter = IntentFilter().apply {
-                addAction(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY)
+        // Listen for album art visibility changes directly (in-process)
+        if (!mAlbumArtListenerRegistered) {
+            addAlbumArtVisibilityListener {
+                if (showDepthWallpaper && !shouldShowAlbumArt) {
+                    mDepthWallpaperForeground?.visibility = View.VISIBLE
+                } else {
+                    mDepthWallpaperForeground?.visibility = View.GONE
+                }
             }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter,
-                    Context.RECEIVER_EXPORTED
-                )
-            } else {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter
-                )
-            }
-
-            mBroadcastRegistered = true
+            mAlbumArtListenerRegistered = true
         }
 
         val keyguardBottomAreaViewClass =

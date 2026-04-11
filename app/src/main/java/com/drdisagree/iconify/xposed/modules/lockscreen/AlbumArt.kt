@@ -2,7 +2,6 @@ package com.drdisagree.iconify.xposed.modules.lockscreen
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.media.session.PlaybackState
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.drdisagree.iconify.data.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ALBUM_ART_ON_LOCKSCREEN
 import com.drdisagree.iconify.data.common.Preferences.ALBUM_ART_ON_LOCKSCREEN_BLUR
@@ -168,13 +166,7 @@ class AlbumArt(context: Context) : ModPack(context) {
     }
 
     private fun broadcastAlbumArtUpdate() {
-        Thread {
-            mContext.sendBroadcast(
-                Intent(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY).apply {
-                    setFlags(Intent.FLAG_RECEIVER_FOREGROUND)
-                }
-            )
-        }.start()
+        albumArtListeners.forEach { it.onAlbumArtVisibilityChanged() }
     }
 
     private fun updateAlbumArtState() {
@@ -248,8 +240,18 @@ class AlbumArt(context: Context) : ModPack(context) {
         }
     }
 
+    fun interface AlbumArtVisibilityListener {
+        fun onAlbumArtVisibilityChanged()
+    }
+
     companion object {
         private var showAlbumArt: Boolean = false
         val shouldShowAlbumArt: Boolean get() = showAlbumArt
+
+        private val albumArtListeners = mutableListOf<AlbumArtVisibilityListener>()
+
+        fun addAlbumArtVisibilityListener(listener: AlbumArtVisibilityListener) {
+            albumArtListeners.add(listener)
+        }
     }
 }
