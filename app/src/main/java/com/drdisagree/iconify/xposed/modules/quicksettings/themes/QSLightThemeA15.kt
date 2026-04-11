@@ -30,6 +30,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
+import com.drdisagree.iconify.xposed.utils.OemUtils
 import com.drdisagree.iconify.xposed.utils.SystemUtils
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
@@ -953,6 +954,11 @@ class QSLightThemeA15(context: Context) : ModPack(context) {
         isDark = isCurrentlyDark
 
         calculateColors()
+
+        // Sony devices don't support QSLT/QSDT framework overlays due to
+        // different QS resource structures. The Xposed hooks in calculateColors()
+        // handle theming instead.
+        if (OemUtils.isSony) return
 
         Utils.disableOverlays(qsLightThemeOverlay, qsDualToneOverlay)
 

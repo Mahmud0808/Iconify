@@ -29,7 +29,7 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_FAILURE
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_SUBJECT
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_SUCCESS
-import com.drdisagree.iconify.data.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
+import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.addAlbumArtVisibilityListener
 import com.drdisagree.iconify.data.common.Const.AI_PLUGIN_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.CUSTOM_DEPTH_WALLPAPER_SWITCH
@@ -60,6 +60,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.shouldShowAlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen.Companion.isComposeLockscreen
+import com.drdisagree.iconify.xposed.utils.OemUtils
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -105,14 +106,7 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
     )
 
     private var shouldShowForeground = true
-    private var mBroadcastRegistered = false
-    private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY) {
-                updateForegroundVisibility()
-            }
-        }
-    }
+    private var mAlbumArtListenerRegistered = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -147,26 +141,12 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag", "NewApi")
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        // Receiver to handle foreground visibility
-        if (!mBroadcastRegistered) {
-            val intentFilter = IntentFilter().apply {
-                addAction(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY)
+        // Listen for album art visibility changes directly (in-process)
+        if (!mAlbumArtListenerRegistered) {
+            addAlbumArtVisibilityListener {
+                updateForegroundVisibility()
             }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter,
-                    Context.RECEIVER_EXPORTED
-                )
-            } else {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter
-                )
-            }
-
-            mBroadcastRegistered = true
+            mAlbumArtListenerRegistered = true
         }
 
         mPluginReceiver = object : BroadcastReceiver() {
@@ -268,6 +248,11 @@ class DepthWallpaperA15(context: Context) : ModPack(context) {
                             )
                         ) {
                             entryV.removeOnAttachStateChangeListener(this)
+                            return@postDelayed
+                        }
+
+                        // Sony has duplicate keyguard_root_view; the correct one has clipChildren=false
+                        if (OemUtils.isSony && rootView.clipChildren) {
                             return@postDelayed
                         }
 

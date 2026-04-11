@@ -85,6 +85,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.ArcProgressImageView
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen.Companion.isComposeLockscreen
+import com.drdisagree.iconify.xposed.utils.OemUtils
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.XC_MethodHook
@@ -267,6 +268,11 @@ class LockscreenClockA15(context: Context) : ModPack(context) {
                             )
                         ) {
                             entryV.removeOnAttachStateChangeListener(this)
+                            return@postDelayed
+                        }
+
+                        // Sony has duplicate keyguard_root_view; the correct one has clipChildren=false
+                        if (OemUtils.isSony && rootView.clipChildren) {
                             return@postDelayed
                         }
 

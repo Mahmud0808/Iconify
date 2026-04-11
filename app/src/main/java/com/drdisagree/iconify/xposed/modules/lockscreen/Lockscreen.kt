@@ -26,6 +26,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSile
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.utils.OemUtils
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -136,6 +137,11 @@ class Lockscreen(context: Context) : ModPack(context) {
                                 )
                             ) {
                                 entryV.removeOnAttachStateChangeListener(this)
+                                return@postDelayed
+                            }
+
+                            // Sony has duplicate keyguard_root_view; the correct one has clipChildren=false
+                            if (OemUtils.isSony && rootView.clipChildren) {
                                 return@postDelayed
                             }
 

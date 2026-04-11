@@ -3,6 +3,7 @@ package com.drdisagree.iconify.xposed.modules.quicksettings.themes
 import android.service.quicksettings.Tile
 import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import de.robv.android.xposed.XC_MethodHook
 
 object Utils {
@@ -43,15 +44,23 @@ object Utils {
 
     fun enableOverlay(pkgName: String) {
         enqueueProxyCommand { proxy ->
-            proxy.runCommand("cmd overlay enable --user current $pkgName")
-            proxy.runCommand("cmd overlay set-priority $pkgName highest")
+            try {
+                proxy.runCommand("cmd overlay enable --user current $pkgName")
+                proxy.runCommand("cmd overlay set-priority $pkgName highest")
+            } catch (e: Throwable) {
+                log("QSThemeUtils", "Failed to enable overlay $pkgName: ${e.message}")
+            }
         }
     }
 
     fun enableOverlay(pkgName: String, priority: String) {
         enqueueProxyCommand { proxy ->
-            proxy.runCommand("cmd overlay enable --user current $pkgName")
-            proxy.runCommand("cmd overlay set-priority $pkgName $priority")
+            try {
+                proxy.runCommand("cmd overlay enable --user current $pkgName")
+                proxy.runCommand("cmd overlay set-priority $pkgName $priority")
+            } catch (e: Throwable) {
+                log("QSThemeUtils", "Failed to enable overlay $pkgName: ${e.message}")
+            }
         }
     }
 
@@ -64,13 +73,21 @@ object Utils {
         }
 
         enqueueProxyCommand { proxy ->
-            proxy.runCommand(command.toString().trim { it <= ' ' })
+            try {
+                proxy.runCommand(command.toString().trim { it <= ' ' })
+            } catch (e: Throwable) {
+                log("QSThemeUtils", "Failed to enable overlays: ${e.message}")
+            }
         }
     }
 
     fun disableOverlay(pkgName: String) {
         enqueueProxyCommand { proxy ->
-            proxy.runCommand("cmd overlay disable --user current $pkgName")
+            try {
+                proxy.runCommand("cmd overlay disable --user current $pkgName")
+            } catch (e: Throwable) {
+                log("QSThemeUtils", "Failed to disable overlay $pkgName: ${e.message}")
+            }
         }
     }
 
@@ -82,7 +99,11 @@ object Utils {
         }
 
         enqueueProxyCommand { proxy ->
-            proxy.runCommand(command.toString().trim { it <= ' ' })
+            try {
+                proxy.runCommand(command.toString().trim { it <= ' ' })
+            } catch (e: Throwable) {
+                log("QSThemeUtils", "Failed to disable overlays: ${e.message}")
+            }
         }
     }
 }
