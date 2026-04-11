@@ -58,6 +58,7 @@ object Preferences {
     const val CHIP_STATUS_ICONS_RADIUS_BOTTOM_RIGHT = "xposed_chipstatusiconsradiusbottomright"
     const val CHIP_STATUS_ICONS_RADIUS_BOTTOM_LEFT = "xposed_chipstatusiconsradiusbottomleft"
     const val VERTICAL_QSTILE_SWITCH = "xposed_verticalqstile"
+    const val HORIZONTAL_QSTILE_SWITCH = "xposed_horizontalqstile"
     const val HIDE_QSLABEL_SWITCH = "xposed_hideqslabel"
     const val VOLUME_PANEL_PERCENTAGE = "xposed_volumepanelpercentage"
     const val VOLUME_PANEL_SAFETY_WARNING = "xposed_volumepanelsafetywarning"

@@ -40,6 +40,7 @@ import com.drdisagree.iconify.data.common.Preferences.QQS_TOPMARGIN_PORTRAIT
 import com.drdisagree.iconify.data.common.Preferences.QS_TOPMARGIN_LANDSCAPE
 import com.drdisagree.iconify.data.common.Preferences.QS_TOPMARGIN_PORTRAIT
 import com.drdisagree.iconify.data.common.Preferences.SELECTED_QS_TEXT_COLOR
+import com.drdisagree.iconify.data.common.Preferences.HORIZONTAL_QSTILE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.VERTICAL_QSTILE_SWITCH
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
@@ -88,6 +89,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var mKeyguardStateController: Any? = null
     private val isAtLeastAndroid14 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
     private var isVerticalQSTileActive = false
+    private var isHorizontalQSTileActive = false
     private var isHideLabelActive = false
     private var customQsMarginsEnabled = false
     private var qsTilePrimaryTextSize: Float? = null
@@ -98,6 +100,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             isVerticalQSTileActive = getBoolean(VERTICAL_QSTILE_SWITCH, false)
+            isHorizontalQSTileActive = getBoolean(HORIZONTAL_QSTILE_SWITCH, false)
             isHideLabelActive = getBoolean(HIDE_QSLABEL_SWITCH, false)
             customQsMarginsEnabled = getBoolean(CUSTOM_QS_MARGIN, false)
             qqsTopMarginPort = getSliderInt(QQS_TOPMARGIN_PORTRAIT, 100)
@@ -126,6 +129,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         initQsAccentColor()
         setVerticalTiles()
+        setHorizontalTiles()
         setQsMargin()
         fixQsTileAndLabelColorA14()
         fixNotificationColorA14()
@@ -226,6 +230,76 @@ class QuickSettings(context: Context) : ModPack(context) {
                 if (!isVerticalQSTileActive) return@runAfter
 
                 fixTileLayout(param.thisObject as LinearLayout, mParam)
+            }
+    }
+
+    private fun setHorizontalTiles() {
+        val qsTileViewImplClass = findClass("$SYSTEMUI_PACKAGE.qs.tileimpl.QSTileViewImpl")
+
+        qsTileViewImplClass
+            .hookConstructor()
+            .runAfter { param ->
+                if (!isHorizontalQSTileActive || isVerticalQSTileActive) return@runAfter
+
+                try {
+                    val tile = param.thisObject as LinearLayout
+
+                    tile.orientation = LinearLayout.HORIZONTAL
+                    tile.gravity = Gravity.CENTER_VERTICAL or Gravity.START
+
+                    val labelContainer = param.thisObject.getField(
+                        "labelContainer"
+                    ) as LinearLayout
+
+                    labelContainer.layoutParams = LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1f
+                    ).apply {
+                        marginStart = mContext.toPx(8)
+                    }
+
+                    (param.thisObject.getField(
+                        "label"
+                    ) as TextView).apply {
+                        textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+                    }
+
+                    (param.thisObject.getField(
+                        "secondaryLabel"
+                    ) as TextView).apply {
+                        textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+                    }
+
+                    (param.thisObject.getField("sideView") as View).visibility = View.GONE
+                } catch (throwable: Throwable) {
+                    log(this@QuickSettings, throwable)
+                }
+            }
+
+        qsTileViewImplClass
+            .hookMethod("onConfigurationChanged")
+            .runAfter { param ->
+                if (!isHorizontalQSTileActive || isVerticalQSTileActive) return@runAfter
+
+                try {
+                    val tile = param.thisObject as LinearLayout
+
+                    tile.orientation = LinearLayout.HORIZONTAL
+                    tile.gravity = Gravity.CENTER_VERTICAL or Gravity.START
+
+                    val labelContainer = param.thisObject.getField(
+                        "labelContainer"
+                    ) as LinearLayout
+
+                    (labelContainer.layoutParams as LinearLayout.LayoutParams).apply {
+                        width = 0
+                        weight = 1f
+                        marginStart = mContext.toPx(8)
+                    }
+                } catch (throwable: Throwable) {
+                    log(this@QuickSettings, throwable)
+                }
             }
     }
 

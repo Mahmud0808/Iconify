@@ -57,6 +57,13 @@
             android:title="@string/hide_qs_tile_label_title"
             app:iconSpaceReserved="false" />
 
+        <com.drdisagree.iconify.ui.preferences.SwitchPreference
+            android:key="xposed_horizontalqstile"
+            android:summary="@string/horizontal_qs_tile_desc"
+            android:title="@string/horizontal_qs_tile_title"
+            app:iconSpaceReserved="false" />
+
+
     </com.drdisagree.iconify.ui.preferences.PreferenceCategory>
 
     <com.drdisagree.iconify.ui.preferences.PreferenceCategory

@@ -602,6 +602,8 @@
     <string name="section_title_qs_tile">QS Tile</string>
     <string name="vertical_qs_tile_title">Vertical QS Tile</string>
     <string name="vertical_qs_tile_desc">Show label below QS icon</string>
+    <string name="horizontal_qs_tile_title">Horizontal QS Tile</string>
+    <string name="horizontal_qs_tile_desc">Show label beside QS icon (recommended with 2 columns)</string>
     <string name="hide_qs_tile_label_title">Hide QS Tile Label</string>
     <string name="hide_qs_tile_label_desc">Use only with vertical tiles</string>
     <string name="qs_tile_label_scaling_title">Text Size Scaling</string>

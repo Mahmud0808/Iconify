@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.ui.fragments.xposed
 
+import android.os.Bundle
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_ALTERNATIVE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_ICON_SWITCH
@@ -11,13 +12,18 @@ import com.drdisagree.iconify.data.common.Preferences.FIX_QS_TILE_COLOR
 import com.drdisagree.iconify.data.common.Preferences.HIDE_QSLABEL_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.HIDE_QS_SILENT_TEXT
 import com.drdisagree.iconify.data.common.Preferences.HIDE_STATUS_ICONS_SWITCH
+import com.drdisagree.iconify.data.common.Preferences.HORIZONTAL_QSTILE_SWITCH
 import com.drdisagree.iconify.data.common.Preferences.QSPANEL_HIDE_CARRIER
 import com.drdisagree.iconify.data.common.Preferences.SELECTED_QS_TEXT_COLOR
 import com.drdisagree.iconify.data.common.Preferences.VERTICAL_QSTILE_SWITCH
 import com.drdisagree.iconify.ui.activities.MainActivity
 import com.drdisagree.iconify.ui.base.ControlledPreferenceFragmentCompat
+import com.drdisagree.iconify.ui.preferences.SwitchPreference
 
 class QuickSettings : ControlledPreferenceFragmentCompat() {
+
+    private var verticalPref: SwitchPreference? = null
+    private var horizontalPref: SwitchPreference? = null
 
     override val title: String
         get() = getString(R.string.activity_title_quick_settings)
@@ -31,11 +37,35 @@ class QuickSettings : ControlledPreferenceFragmentCompat() {
     override val hasMenu: Boolean
         get() = true
 
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        super.onCreatePreferences(savedInstanceState, rootKey)
+
+        verticalPref = findPreference(VERTICAL_QSTILE_SWITCH)
+        horizontalPref = findPreference(HORIZONTAL_QSTILE_SWITCH)
+
+        updateMutualExclusion()
+    }
+
+    private fun updateMutualExclusion() {
+        verticalPref?.let { v ->
+            horizontalPref?.let { h ->
+                h.isEnabled = !v.isChecked
+                v.isEnabled = !h.isChecked
+            }
+        }
+    }
+
     override fun updateScreen(key: String?) {
         super.updateScreen(key)
 
         when (key) {
             VERTICAL_QSTILE_SWITCH,
+            HORIZONTAL_QSTILE_SWITCH -> updateMutualExclusion()
+        }
+
+        when (key) {
+            VERTICAL_QSTILE_SWITCH,
+            HORIZONTAL_QSTILE_SWITCH,
             CUSTOM_QS_TEXT_COLOR,
             SELECTED_QS_TEXT_COLOR,
             HIDE_QSLABEL_SWITCH,
