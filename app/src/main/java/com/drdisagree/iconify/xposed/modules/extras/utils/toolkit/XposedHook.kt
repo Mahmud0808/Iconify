@@ -33,37 +33,6 @@ class Proceed(private val action: (Array<Any?>?) -> Any?) {
     }
 }
 
-class MethodHookParam {
-
-    lateinit var thisObject: Any
-    var method: Executable? = null
-    var args: Array<Any?> = emptyArray()
-
-    var result: Any? = null
-        set(value) {
-            _throwable = null
-            _returnEarly = true
-            field = value
-        }
-
-    private var _throwable: Throwable? = null
-    var throwable: Throwable?
-        get() = _throwable
-        set(value) {
-            _returnEarly = true
-            result = null
-            _throwable = value
-        }
-
-    private var _returnEarly: Boolean = false
-    val returnEarly: Boolean get() = _returnEarly
-
-    fun hasThrowable(): Boolean = _throwable != null
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T> getArg(index: Int): T = args[index] as T
-}
-
 object XposedHook {
 
     private var defaultClassLoader: ClassLoader? = null
@@ -102,7 +71,7 @@ object XposedHook {
         suppressError: Boolean = false,
         throwException: Boolean = false
     ): Class<*>? {
-        if (classLoader == null && defaultClassLoader == null) {
+        if (classLoader == null && defaultClassLoader == null && frameworkClassLoader == null) {
             throw IllegalStateException("XposedHook must be initialized first")
         }
 
@@ -113,13 +82,10 @@ object XposedHook {
         }
 
         classNames.forEach { name ->
-            tryLoad(name, classLoader ?: defaultClassLoader!!)?.let { return it }
-        }
-
-        if (frameworkClassLoader != null) {
-            classNames.forEach { name ->
-                tryLoad(name, frameworkClassLoader!!)?.let { return it }
-            }
+            tryLoad(
+                name,
+                classLoader ?: defaultClassLoader ?: frameworkClassLoader!!
+            )?.let { return it }
         }
 
         if (throwException) {
@@ -552,8 +518,8 @@ class MethodHookHelper(
 
     private fun makeParam(
         executable: Executable,
-        thisObject: Any,
-        args: Array<Any?>
+        thisObject: Any?,
+        args: Array<Any?>?
     ): MethodHookParam {
         return MethodHookParam().also {
             it.thisObject = thisObject
@@ -582,7 +548,7 @@ class MethodHookHelper(
 
                     if (param.hasThrowable()) throw param.throwable!!
 
-                    if (!param.returnEarly) {
+                    if (!param.isReturnEarly) {
                         try {
                             param.result = chain.proceed(param.args)
                         } catch (t: Throwable) {
@@ -647,7 +613,11 @@ class MethodHookHelper(
             .setExceptionMode(resolveExceptionMode())
             .setPriority(priority)
             .intercept { chain ->
-                val param = makeParam(chain.executable, chain.thisObject, chain.args.toTypedArray())
+                val param = makeParam(
+                    chain.executable,
+                    chain.thisObject,
+                    chain.args.toTypedArray()
+                )
 
                 val body = {
                     callback(param)

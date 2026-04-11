@@ -47,19 +47,16 @@ class HookEntry : XposedModule(), ServiceConnection {
     }
 
     override fun onModuleLoaded(moduleLoadedParam: ModuleLoadedParam) {
-        XposedHook.setXposedInterface(this)
         processName = moduleLoadedParam.processName
         isSystemServer = moduleLoadedParam.isSystemServer
     }
 
     override fun onSystemServerStarting(systemServerStartingParam: SystemServerStartingParam) {
-        XposedHook.setXposedInterface(this)
         XposedHook.setFrameworkClassLoader(systemServerStartingParam.classLoader)
     }
 
     override fun onPackageReady(packageReadyParam: PackageReadyParam) {
         XposedHook.setXposedInterface(this)
-        XposedHook.setDefaultClassLoader(packageReadyParam.classLoader)
 
         when {
             isSystemServer -> {
@@ -145,6 +142,8 @@ class HookEntry : XposedModule(), ServiceConnection {
     }
 
     private fun loadModPacks(packageReadyParam: PackageReadyParam) {
+        XposedHook.setDefaultClassLoader(packageReadyParam.classLoader)
+
         if (moduleResources
                 .getStringArray(R.array.root_requirement)
                 .toList()
