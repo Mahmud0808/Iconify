@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         applicationId = "com.drdisagree.iconify"
-        minSdk = 36
+        minSdk = 31
         targetSdk = 36
         versionCode = 25
         versionName = "8.0.0"
@@ -54,21 +54,10 @@ android {
     val isCiBuild = System.getenv("CI") == "true"
 
     buildTypes {
+
         debug {
             isMinifyEnabled = isCiBuild
             isShrinkResources = isCiBuild
-            applicationIdSuffix = ".debug"
-            signingConfig = releaseSigning
-            resValue("string", "derived_app_name", "Iconify (Debug)")
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro", "proguard-debug.pro"
-            )
-        }
-
-        release {
-            isMinifyEnabled = true
-            isShrinkResources = true
             signingConfig = releaseSigning
             resValue("string", "derived_app_name", "Iconify")
             proguardFiles(
