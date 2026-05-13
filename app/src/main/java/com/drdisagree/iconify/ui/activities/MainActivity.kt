@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.airbnb.lottie.LottieCompositionFactory
+import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Dynamic
 import com.drdisagree.iconify.data.common.Preferences
@@ -37,9 +38,11 @@ import com.drdisagree.iconify.ui.preferences.preferencesearch.SearchPreferenceRe
 import com.drdisagree.iconify.ui.utils.FragmentGroup
 import com.drdisagree.iconify.ui.utils.isInGroup
 import com.drdisagree.iconify.utils.HapticUtils.weakVibrate
+import com.drdisagree.iconify.utils.RootUtils
 import com.drdisagree.iconify.utils.SystemUtils
 import com.drdisagree.iconify.utils.overlay.FabricatedUtils
 import com.drdisagree.iconify.utils.overlay.OverlayUtils
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import kotlinx.coroutines.CoroutineScope
@@ -79,11 +82,14 @@ class MainActivity : BaseActivity(),
         }
 
         initData()
+        showVivoSafeNoticeIfNeeded()
 
         setupFloatingActionButtons()
     }
 
     private fun initData() {
+        if (BuildConfig.VIVO_SAFE_MODE && !RootUtils.deviceProperlyRooted()) return
+
         CoroutineScope(Dispatchers.IO).launch {
             // Clear lottie cache
             LottieCompositionFactory.clearCache(this@MainActivity)
@@ -136,6 +142,8 @@ class MainActivity : BaseActivity(),
         binding.restartSystemui.setOnClickListener {
             binding.restartSystemui.weakVibrate()
 
+            if (showVivoSafeBlockedIfNeeded()) return@setOnClickListener
+
             Dynamic.requiresSystemUiRestart = false
 
             showOrHidePendingActionButton(
@@ -152,6 +160,8 @@ class MainActivity : BaseActivity(),
         binding.restartDevice.setOnClickListener {
             binding.restartDevice.weakVibrate()
 
+            if (showVivoSafeBlockedIfNeeded()) return@setOnClickListener
+
             Dynamic.requiresDeviceRestart = false
 
             showOrHidePendingActionButton(
@@ -164,6 +174,28 @@ class MainActivity : BaseActivity(),
                 SystemUtils.restartDevice()
             }, 500)
         }
+    }
+
+    private fun showVivoSafeNoticeIfNeeded() {
+        if (!BuildConfig.VIVO_SAFE_MODE) return
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.vivo_safe_notice_title)
+            .setMessage(R.string.vivo_safe_notice_desc)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+    }
+
+    private fun showVivoSafeBlockedIfNeeded(): Boolean {
+        if (!BuildConfig.VIVO_SAFE_MODE || RootUtils.deviceProperlyRooted()) return false
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.vivo_safe_blocked_title)
+            .setMessage(R.string.vivo_safe_blocked_desc)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+
+        return true
     }
 
     private fun setupNavigation() {

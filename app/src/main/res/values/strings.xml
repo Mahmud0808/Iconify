@@ -1,6 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">Iconify</string>
-    <string name="app_moto">Customize Boring Android UI</string>
+    <string name="app_name" translatable="false">Iconify Vivo Safe</string>
+    <string name="app_moto">Safe preview build for Vivo</string>
+    <string name="vivo_safe_notice_title">Vivo Safe Mode</string>
+    <string name="vivo_safe_notice_desc">This custom build is installed for Vivo V2111 stock Android 12 testing. Without Magisk, KernelSU, or APatch root, system overlays and module actions are blocked. You can browse the app, but do not expect system UI changes to apply.</string>
+    <string name="vivo_safe_blocked_title">Root action blocked</string>
+    <string name="vivo_safe_blocked_desc">Vivo Safe Mode blocked this action because this device does not have compatible root. No module, overlay, reboot, or SystemUI command was run.</string>
+    <string name="vivo_safe_preview_toast">Opened in Vivo Safe preview mode.</string>
 
     <!-- Onboarding -->
     <string name="init_module_installation">Initializing setup</string>
@@ -16,8 +21,8 @@
     <string name="onboarding_subtitle_1">Let\'s customize everything to our likings.</string>
     <string name="onboarding_desc_1">Ditch the stock UI monotony – personalize every tech detail to match your style and preferences.</string>
     <string name="onboarding_title_2">Is My Device Supported ?</string>
-    <string name="onboarding_subtitle_2">Iconify supports all Pixel and AOSP ROMs.</string>
-    <string name="onboarding_desc_2">Compatible with all Pixel and AOSP-based ROMs, ensuring broad support for Android devices.</string>
+    <string name="onboarding_subtitle_2">This safe build is only for preview on Vivo stock ROM.</string>
+    <string name="onboarding_desc_2">Root-only module installation is blocked unless compatible Magisk, KernelSU, or APatch root is available.</string>
     <string name="onboarding_title_3">Shall We Begin Now ?</string>
     <string name="onboarding_subtitle_3">It is time for iconify to do some internal work.</string>
     <string name="onboarding_desc_3">Starting internal tasks, marking the initiation of essential work. Ready to begin?</string>

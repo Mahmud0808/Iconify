@@ -42,7 +42,10 @@ class SplashActivity : AppCompatActivity() {
                     (isOverlayInstalled || isXposedOnlyMode)
 
             val intent: Intent =
-                if (SKIP_TO_HOMEPAGE_FOR_TESTING ||
+                if (BuildConfig.VIVO_SAFE_MODE && !isRooted) {
+                    keepShowing = false
+                    Intent(this@SplashActivity, MainActivity::class.java)
+                } else if (SKIP_TO_HOMEPAGE_FOR_TESTING ||
                     (isRooted &&
                             isModuleProperlyInstalled &&
                             isVersionCodeCorrect)

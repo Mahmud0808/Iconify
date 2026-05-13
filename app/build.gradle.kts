@@ -18,8 +18,9 @@ android {
         targetSdk = 35
         versionCode = 24
         versionName = "7.2.0"
-        setProperty("archivesBaseName", "Iconify v${defaultConfig.versionName}")
+        setProperty("archivesBaseName", "Iconify Vivo Safe v${defaultConfig.versionName}")
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
+        buildConfigField("boolean", "VIVO_SAFE_MODE", "true")
 
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
@@ -51,7 +52,7 @@ android {
             isCrunchPngs = false
             proguardFiles("proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro")
             applicationIdSuffix = ".debug"
-            resValue("string", "derived_app_name", "Iconify (Debug)")
+            resValue("string", "derived_app_name", "Iconify Vivo Safe")
             signingConfig = releaseSigning
         }
 
@@ -60,7 +61,7 @@ android {
             isShrinkResources = true
             isCrunchPngs = false
             proguardFiles("proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro")
-            resValue("string", "derived_app_name", "Iconify")
+            resValue("string", "derived_app_name", "Iconify Vivo Safe")
             signingConfig = releaseSigning
         }
     }
@@ -71,13 +72,13 @@ android {
         create("standard") {
             isDefault = true
             dimension = "distribution"
-            resValue("string", "derived_app_name", "Iconify")
+            resValue("string", "derived_app_name", "Iconify Vivo Safe")
         }
 
         create("foss") {
             dimension = "distribution"
             applicationIdSuffix = ".foss"
-            resValue("string", "derived_app_name", "Iconify (FOSS)")
+            resValue("string", "derived_app_name", "Iconify Vivo Safe")
         }
     }
 
