@@ -180,6 +180,11 @@ class OnboardingView : FrameLayout {
         hasErroredOut = false
 
         Shell.getShell {
+            if (BuildConfig.VIVO_SAFE_MODE && !deviceProperlyRooted()) {
+                openVivoSafePreview()
+                return@getShell
+            }
+
             if (!isDeviceRooted) {
                 ErrorDialog(context).show(
                     R.string.root_not_found_title,
@@ -255,6 +260,11 @@ class OnboardingView : FrameLayout {
         hasErroredOut = false
 
         Shell.getShell {
+            if (BuildConfig.VIVO_SAFE_MODE && !deviceProperlyRooted()) {
+                openVivoSafePreview()
+                return@getShell
+            }
+
             if (!isDeviceRooted) {
                 ErrorDialog(context).show(
                     R.string.root_not_found_title,
@@ -317,6 +327,21 @@ class OnboardingView : FrameLayout {
         }
 
         return true
+    }
+
+    private fun openVivoSafePreview() {
+        putBoolean(XPOSED_ONLY_MODE, false)
+
+        val intent = Intent(context, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
+        animateSlideLeft(context)
+
+        Toast.makeText(
+            context,
+            R.string.vivo_safe_preview_toast,
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun handleInstallation() {

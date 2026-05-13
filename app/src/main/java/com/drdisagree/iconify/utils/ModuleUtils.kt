@@ -38,6 +38,11 @@ object ModuleUtils {
     private val TAG = ModuleUtils::class.java.getSimpleName()
 
     fun handleModule() {
+        if (BuildConfig.VIVO_SAFE_MODE && !RootUtils.deviceProperlyRooted()) {
+            Log.w(TAG, "Vivo Safe Mode blocked module handling without compatible root")
+            return
+        }
+
         if (moduleExists()) {
             // Clean temporary directory
             Shell.cmd("rm -rf $TEMP_DIR").exec()
@@ -222,6 +227,10 @@ object ModuleUtils {
     @Throws(Exception::class)
     fun flashModule(modulePath: String): Boolean {
         var result: Shell.Result? = null
+
+        if (BuildConfig.VIVO_SAFE_MODE && !RootUtils.deviceProperlyRooted()) {
+            throw Exception("Vivo Safe Mode blocked module flashing without compatible root")
+        }
 
         if (RootUtils.isMagiskInstalled) {
             result = Shell.cmd("magisk --install-module $modulePath").exec()

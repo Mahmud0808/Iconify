@@ -53,6 +53,8 @@ object SystemUtils {
         get() = appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_YES == Configuration.UI_MODE_NIGHT_YES
 
     fun restartSystemUI() {
+        if (blockVivoSafeRootAction()) return
+
         val loadTimeKey = String.format("%s%s", LOAD_TIME_KEY_KEY, SYSTEMUI_PACKAGE)
         val strikeKey = String.format("%s%s", PACKAGE_STRIKE_KEY_KEY, SYSTEMUI_PACKAGE)
         val currentTime = Calendar.getInstance().time.time
@@ -63,6 +65,8 @@ object SystemUtils {
     }
 
     private fun forceReloadUI() {
+        if (blockVivoSafeRootAction()) return
+
         val state = RPrefs.getBoolean(FORCE_RELOAD_OVERLAY_STATE, false)
         val pkgName: String = FORCE_RELOAD_PACKAGE_NAME
 
@@ -94,7 +98,21 @@ object SystemUtils {
     }
 
     fun restartDevice() {
+        if (blockVivoSafeRootAction()) return
+
         Shell.cmd("am start -a android.intent.action.REBOOT").exec()
+    }
+
+    private fun blockVivoSafeRootAction(): Boolean {
+        if (!BuildConfig.VIVO_SAFE_MODE || RootUtils.deviceProperlyRooted()) return false
+
+        Toast.makeText(
+            appContext,
+            appContext.resources.getString(R.string.vivo_safe_blocked_desc),
+            Toast.LENGTH_LONG
+        ).show()
+
+        return true
     }
 
     fun disableBlur(force: Boolean) {
