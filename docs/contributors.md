@@ -35,10 +35,10 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/mrx7014">
-                    <img src="https://avatars.githubusercontent.com/u/90919499?v=4" width="100;" alt="mrx7014"/>
+                <a href="https://github.com/armond0x">
+                    <img src="https://avatars.githubusercontent.com/u/90919499?v=4" width="100;" alt="armond0x"/>
                     <br />
-                    <sub><b>MRX7014</b></sub>
+                    <sub><b>ARMOND</b></sub>
                 </a>
             </td>
             <td align="center">
