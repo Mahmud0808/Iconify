@@ -20,8 +20,8 @@ android {
         applicationId = "com.drdisagree.iconify"
         minSdk = 31
         targetSdk = 35
-        versionCode = 24
-        versionName = "7.2.0"
+        versionCode = 25
+        versionName = "7.3.0"
         multiDexEnabled = true
         setProperty("archivesBaseName", "Iconify v${defaultConfig.versionName}")
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")

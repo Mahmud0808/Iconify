@@ -1,8 +1,8 @@
 {
-  "versionName": "7.2.0",
-  "versionCode": 24,
-  "apkUrl": "https://github.com/Mahmud0808/Iconify/releases/download/v7.2.0/Iconify.v7.2.0.Standard.Universal.apk",
+  "versionName": "7.3.0",
+  "versionCode": 25,
+  "apkUrl": "https://github.com/Mahmud0808/Iconify/releases/download/v7.3.0/Iconify.v7.3.0.Standard.apk",
   "changelog": [
-    "### Iconify v7.2.0 has arrived! It has the following new changes:\n## Feature Changes:\n- __New Additions:__\n    - Added some missing volume icons of android 15.\n    - Allow hiding oneplus quick settings album art.\n- __General Improvements:__\n    - Fixed launcher recents blurry preview.\n    - Fixed album art and compact media player for android 13.\n    - Fixed lag on quick settings tile editing page.\n    - Fixed navigation bar mods disabling recents gesture.\n    - Fixed a few issues related to dynamic overlays.\n    - Fixed dotted circle battery style.\n    - Fixed toast color not following light/dark theme in android 15.\n    - Fixed hotspot icon crash when swap network icon is enabled.\n    - Fixed app drawer background opacity for tablet devices.\n## App Changes:\n- Bump AGP and dependencies\n- Updated translations (thanks to all the contributors on [Crowdin](https://crowdin.com/project/iconify))\n- And many more improvements...\n- Clean install recommended\nAlso included in this version are bug fixes and other improvements."
+    "### Iconify v7.3.0 has arrived! It has the following new changes:\n## Feature Changes:\n- __New Additions:__\n    - Added new lockscreen clock styles.\n    - Added a few missing icons in icon packs.\n- __General Improvements:__\n    - Status bar logo customization improvements.\n    - Heads-Up & media blur effects, and OneUI 7 battery style.\n    - Multiple bug fixes, stability improvements, and translation updates.\n## App Changes:\n- Bump AGP and dependencies\n- Updated translations (thanks to all the contributors on [Crowdin](https://crowdin.com/project/iconify))\n- And many more improvements...\nAlso included in this version are bug fixes and other improvements."
   ]
 }
