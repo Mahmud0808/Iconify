@@ -1,0 +1,43 @@
+package com.drdisagree.iconify.data.keys
+
+enum class TweaksKey(override val default: Any?) : Key {
+    // Color Engine
+    BASIC_COLOR_PRIMARY("#FF0000"),
+    BASIC_COLOR_SECONDARY("#0000FF"),
+    MONET_ACCENT(false),
+    MONET_GRADIENT(true),
+
+    // Corner Radius
+    UI_CORNER_RADIUS(28f),
+    UI_CORNER_RADIUS_SAVED(-1f),
+
+    // Statusbar
+    STATUSBAR_TINT_MODE("0"),
+    STATUSBAR_TINT_CUSTOM_COLOR_CODE("#FFFFFF"),
+    STATUSBAR_START_PADDING(-1f),
+    STATUSBAR_END_PADDING(-1f),
+    STATUSBAR_HEIGHT(-1f),
+
+    // Navigation bar
+    NAVIGATION_BAR_DISPLAY_MODE_FULL_SCREEN(false),
+    NAVIGATION_BAR_DISPLAY_MODE_IMMERSIVE(false),
+    NAVIGATION_BAR_DISPLAY_MODE_GCAM_LAG_FIX(false),
+    NAVIGATION_BAR_HIDE_KEYBOARD_BUTTONS(false),
+    NAVIGATION_BAR_LOWER_SENSITIVITY(false),
+    NAVIGATION_BAR_DISABLE_LEFT_GESTURE(false),
+    NAVIGATION_BAR_DISABLE_RIGHT_GESTURE(false),
+    NAVIGATION_BAR_HIDE_PILL(false),
+    NAVIGATION_BAR_MONET_PILL(false),
+    NAVIGATION_BAR_PILL_WIDTH(108f),
+    NAVIGATION_BAR_PILL_THICKNESS(4f),
+    NAVIGATION_BAR_PILL_APPEARANCE("-1f,-1f"),
+
+    // Media Player
+    DISABLE_PROGRESS_WAVE(false),
+
+    // Miscellaneous
+    TABLET_LANDSCAPE(false),
+    NOTCH_BAR_KILLER(false),
+    TABLET_HEADER(false),
+    ACCENT_PRIVACY_CHIP(false),
+}

@@ -1,0 +1,7 @@
+id=Iconify
+name=Iconify
+version=1
+versionCode=1
+author=DrDisagree
+description=Systemless module for Iconify. Customize Boring Android UI.
+minMagisk=25000

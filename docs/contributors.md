@@ -38,7 +38,7 @@ This project exists thanks to the following contributors:
                 <a href="https://github.com/mrx7014">
                     <img src="https://avatars.githubusercontent.com/u/90919499?v=4" width="100;" alt="mrx7014"/>
                     <br />
-                    <sub><b>MRX7014 | Octopus</b></sub>
+                    <sub><b>MRX7014</b></sub>
                 </a>
             </td>
             <td align="center">
@@ -72,17 +72,17 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/igormiguell">
-                    <img src="https://avatars.githubusercontent.com/u/134963561?v=4" width="100;" alt="igormiguell"/>
-                    <br />
-                    <sub><b>igor</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/KaeruShi">
                     <img src="https://avatars.githubusercontent.com/u/89345339?v=4" width="100;" alt="KaeruShi"/>
                     <br />
                     <sub><b>KaeruShi</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/igormiguell">
+                    <img src="https://avatars.githubusercontent.com/u/134963561?v=4" width="100;" alt="igormiguell"/>
+                    <br />
+                    <sub><b>igor</b></sub>
                 </a>
             </td>
             <td align="center">
@@ -95,17 +95,10 @@ This project exists thanks to the following contributors:
 		</tr>
 		<tr>
             <td align="center">
-                <a href="https://github.com/MXC48">
-                    <img src="https://avatars.githubusercontent.com/u/123580315?v=4" width="100;" alt="MXC48"/>
+                <a href="https://github.com/kshitij-bhale">
+                    <img src="https://avatars.githubusercontent.com/u/156404280?v=4" width="100;" alt="kshitij-bhale"/>
                     <br />
-                    <sub><b>MXC48</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/H1mJT">
-                    <img src="https://avatars.githubusercontent.com/u/92359223?v=4" width="100;" alt="H1mJT"/>
-                    <br />
-                    <sub><b>Himjyoti Thakuria</b></sub>
+                    <sub><b>kshitij-bhale</b></sub>
                 </a>
             </td>
             <td align="center">
@@ -116,17 +109,47 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/H1mJT">
+                    <img src="https://avatars.githubusercontent.com/u/92359223?v=4" width="100;" alt="H1mJT"/>
+                    <br />
+                    <sub><b>Himjyoti Thakuria</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/Ventiqu">
+                    <img src="https://avatars.githubusercontent.com/u/114502891?v=4" width="100;" alt="Ventiqu"/>
+                    <br />
+                    <sub><b>Ventiqu</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/MXC48">
+                    <img src="https://avatars.githubusercontent.com/u/123580315?v=4" width="100;" alt="MXC48"/>
+                    <br />
+                    <sub><b>MXC48</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/AAGaming00">
                     <img src="https://avatars.githubusercontent.com/u/42613600?v=4" width="100;" alt="AAGaming00"/>
                     <br />
                     <sub><b>AAGaming</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/armv7a">
                     <img src="https://avatars.githubusercontent.com/u/147451408?v=4" width="100;" alt="armv7a"/>
                     <br />
                     <sub><b>armv7a</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/FlazeIGuess">
+                    <img src="https://avatars.githubusercontent.com/u/61559082?v=4" width="100;" alt="FlazeIGuess"/>
+                    <br />
+                    <sub><b>Flaze</b></sub>
                 </a>
             </td>
             <td align="center">
@@ -136,8 +159,6 @@ This project exists thanks to the following contributors:
                     <sub><b>Kyler</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/IzzySoft">
                     <img src="https://avatars.githubusercontent.com/u/6781438?v=4" width="100;" alt="IzzySoft"/>
@@ -146,12 +167,21 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/SK00RUPA">
-                    <img src="https://avatars.githubusercontent.com/u/36867039?v=4" width="100;" alt="SK00RUPA"/>
+                <a href="https://github.com/lixkote">
+                    <img src="https://avatars.githubusercontent.com/u/95425619?v=4" width="100;" alt="lixkote"/>
                     <br />
-                    <sub><b>SK00RUPA</b></sub>
+                    <sub><b>lixkote</b></sub>
                 </a>
             </td>
+            <td align="center">
+                <a href="https://github.com/flumpyflarb">
+                    <img src="https://avatars.githubusercontent.com/u/36867039?v=4" width="100;" alt="flumpyflarb"/>
+                    <br />
+                    <sub><b>flumpyflarb</b></sub>
+                </a>
+            </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/backslashxx">
                     <img src="https://avatars.githubusercontent.com/u/118538522?v=4" width="100;" alt="backslashxx"/>

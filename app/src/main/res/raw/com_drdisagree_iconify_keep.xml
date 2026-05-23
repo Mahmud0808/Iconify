@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:keep="
+    @layout/preview_header_clock_*,
+    @layout/preview_lockscreen_clock_*,
+    @layout/view_current_weather,
+    @layout/view_device_widget,
     @drawable/google_*,
     @drawable/icons8_color_hand_*,
     @drawable/marshmallow_*,
@@ -15,4 +19,8 @@
     @drawable/weather_vclouds_*,
     @drawable/weather_weezle_*,
     @drawable/outline_*,
-    @drawable/weatherclient_*" />
+    @drawable/weatherclient_*,
+    @drawable/nothing_*,
+    @drawable/img_home_card_bg,
+    @array/batterymeter_color_levels,
+    @array/batterymeter_color_values" />

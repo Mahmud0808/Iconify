@@ -8,9 +8,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center"
-        android:tag="clock"
         android:gravity="center_vertical"
-        android:layoutDirection="ltr">
+        android:layoutDirection="ltr"
+        android:tag="clock">
 
         <TextClock
             android:layout_width="wrap_content"
@@ -18,8 +18,8 @@
             android:layout_gravity="start|center"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
-            android:singleLine="true"
             android:includeFontPadding="false"
+            android:singleLine="true"
             android:tag="text1"
             android:textColor="?android:textColorPrimary"
             android:textSize="40dp"
@@ -31,9 +31,9 @@
             android:layout_gravity="start|center"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
+            android:includeFontPadding="false"
             android:maxLength="2"
             android:singleLine="true"
-            android:includeFontPadding="false"
             android:tag="accent1"
             android:textColor="@android:color/system_accent1_300"
             android:textSize="40dp"
@@ -44,7 +44,7 @@
         android:layout_width="4dp"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:background="@drawable/custom_background_less_rounded"
+        android:background="@drawable/header_clock_1_custom_background"
         android:backgroundTint="@android:color/system_accent3_300"
         android:tag="accent3" />
 
@@ -52,16 +52,16 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:tag="date"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:tag="date">
 
         <TextClock
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:format12Hour="EEEE"
             android:format24Hour="EEEE"
-            android:singleLine="true"
             android:includeFontPadding="false"
+            android:singleLine="true"
             android:tag="text1"
             android:textAlignment="viewStart"
             android:textColor="?android:textColorPrimary"
@@ -73,8 +73,8 @@
             android:layout_height="wrap_content"
             android:format12Hour="dd MMMM"
             android:format24Hour="dd MMMM"
-            android:singleLine="true"
             android:includeFontPadding="false"
+            android:singleLine="true"
             android:tag="text1"
             android:textAlignment="viewStart"
             android:textColor="?android:textColorPrimary"

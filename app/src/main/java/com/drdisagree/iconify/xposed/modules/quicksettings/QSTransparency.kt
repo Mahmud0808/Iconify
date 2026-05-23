@@ -5,12 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.widget.LinearLayout
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.BLUR_RADIUS_VALUE
-import com.drdisagree.iconify.data.common.Preferences.LOCKSCREEN_SHADE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.NOTIF_TRANSPARENCY_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.QSALPHA_LEVEL
-import com.drdisagree.iconify.data.common.Preferences.QSPANEL_BLUR_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.QS_TRANSPARENCY_SWITCH
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -38,20 +33,18 @@ class QSTransparency(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            qsTransparencyActive = getBoolean(QS_TRANSPARENCY_SWITCH, false)
-            onlyNotifTransparencyActive = getBoolean(NOTIF_TRANSPARENCY_SWITCH, false)
-            keepLockScreenShade = getBoolean(LOCKSCREEN_SHADE_SWITCH, false)
-            alpha = (getSliderInt(QSALPHA_LEVEL, 60).toFloat() / 100.0).toFloat()
-            blurEnabled = getBoolean(QSPANEL_BLUR_SWITCH, false)
-            blurRadius = getSliderInt(BLUR_RADIUS_VALUE, 23)
+            qsTransparencyActive = getBoolean(XposedKey.QUICK_SETTINGS_TRANSPARENCY)
+            onlyNotifTransparencyActive = getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY)
+            keepLockScreenShade = getBoolean(XposedKey.LOCKSCREEN_SHADE)
+            alpha = getFloat(XposedKey.QUICK_SETTINGS_ALPHA_LEVEL) / 100f
+            blurEnabled = getBoolean(XposedKey.QUICK_SETTINGS_BLUR)
+            blurRadius = getInt(XposedKey.QUICK_SETTINGS_BLUR_RADIUS)
         }
 
-        if (key.isNotEmpty() &&
-            (key[0] == QS_TRANSPARENCY_SWITCH ||
-                    key[0] == NOTIF_TRANSPARENCY_SWITCH ||
-                    key[0] == QSALPHA_LEVEL)
-        ) {
-            updateQsScrimRadius()
+        when (key.firstOrNull()) {
+            XposedKey.QUICK_SETTINGS_TRANSPARENCY.name,
+            XposedKey.NOTIFICATION_TRANSPARENCY.name,
+            XposedKey.QUICK_SETTINGS_ALPHA_LEVEL.name -> updateQsScrimRadius()
         }
     }
 
@@ -157,7 +150,7 @@ class QSTransparency(context: Context) : ModPack(context) {
 
                     val readonlyStateFlowInstance = try {
                         readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow)
-                    } catch (ignored: Throwable) {
+                    } catch (_: Throwable) {
                         readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow, null)
                     }
 

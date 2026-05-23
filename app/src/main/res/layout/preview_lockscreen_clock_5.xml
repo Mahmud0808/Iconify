@@ -14,7 +14,7 @@
         android:gravity="center_horizontal|top"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/widget_bg"
+        android:background="@drawable/lockscreen_clock_5_widget_bg"
         android:backgroundTint="#FF1B1D1F"
         android:orientation="vertical"
         android:padding="16dp">
@@ -31,7 +31,7 @@
                 android:layout_height="90dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1.0"
-                android:background="@drawable/clock_bg"
+                android:background="@drawable/lockscreen_clock_5_clock_bg"
                 android:backgroundTint="@android:color/system_accent1_200"
                 android:backgroundTintMode="multiply"
                 android:clipToOutline="true"
@@ -76,7 +76,7 @@
                 android:layout_height="90dp"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1.0"
-                android:background="@drawable/calendar_bg"
+                android:background="@drawable/lockscreen_clock_5_calendar_bg"
                 android:backgroundTint="@android:color/system_accent3_200"
                 android:backgroundTintMode="multiply"
                 android:clipToOutline="true"
@@ -142,10 +142,10 @@
                 android:tag="volume_progressbar"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:indeterminateDrawable="@drawable/widget_progress_track"
+                android:indeterminateDrawable="@drawable/lockscreen_clock_5_widget_progress_track"
                 android:indeterminateOnly="false"
                 android:progress="40"
-                android:progressDrawable="@drawable/widget_progress_track"
+                android:progressDrawable="@drawable/lockscreen_clock_5_widget_progress_track"
                 android:progressTint="@android:color/system_accent1_400" />
 
             <LinearLayout
@@ -210,10 +210,10 @@
                 android:tag="battery_progressbar"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:indeterminateDrawable="@drawable/widget_progress_track"
+                android:indeterminateDrawable="@drawable/lockscreen_clock_5_widget_progress_track"
                 android:indeterminateOnly="false"
                 android:progress="40"
-                android:progressDrawable="@drawable/widget_progress_track"
+                android:progressDrawable="@drawable/lockscreen_clock_5_widget_progress_track"
                 android:progressTint="@android:color/system_accent3_400" />
 
             <LinearLayout

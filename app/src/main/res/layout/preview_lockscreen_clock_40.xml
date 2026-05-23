@@ -17,6 +17,7 @@
             android:layout_width="300dp"
             android:layout_height="100dp"
             android:layout_gravity="top|center"
+            android:tag="custom_image1"
             android:background="@drawable/lockscreen_clock_40_bg"
             android:orientation="horizontal">
 

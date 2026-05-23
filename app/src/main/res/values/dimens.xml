@@ -1,38 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="container_margin">14dp</dimen>
-    <dimen name="container_marginSide">16dp</dimen>
-    <dimen name="container_marginTopBottom">24dp</dimen>
-    <dimen name="container_padding">24dp</dimen>
-    <dimen name="container_paddingSide">24dp</dimen>
-    <dimen name="cont_title_size">16sp</dimen>
-    <dimen name="cont_desc_size">14sp</dimen>
-    <dimen name="preview_margin">3dp</dimen>
-    <dimen name="preview_icon_size">18dp</dimen>
-    <dimen name="cont_corner_radius">24dp</dimen>
-    <dimen name="cont_corner_radius2">22dp</dimen>
-    <dimen name="reset_button_size">20dp</dimen>
-    <dimen name="header_title_size">18sp</dimen>
-    <dimen name="content_marginTop">24dp</dimen>
-    <dimen name="switch_min_width">46dp</dimen>
-    <dimen name="switch_bar_radius">32dp</dimen>
-    <dimen name="switch_thumb_margin">8dp</dimen>
-    <dimen name="switch_thumb_size">14dp</dimen>
-    <dimen name="switch_track_width">46dp</dimen>
-    <dimen name="switch_track_height">20dp</dimen>
-    <dimen name="switch_track_radius">32dp</dimen>
-    <dimen name="preview_color_picker_radius">32dp</dimen>
-    <item name="switch_track_on_alpha" format="float" type="dimen">1.0</item>
-    <item name="rotate_rtl_mode" format="float" type="dimen">0.0</item>
-    <item name="flip_rtl_mode" format="float" type="dimen">1.0</item>
 
-    <!-- List PopUp Bottom Sheet Dialog -->
-    <dimen name="list_dialog_toolbar_height">50dp</dimen>
-    <dimen name="list_dialog_list_margin_bottom">30dp</dimen>
-    <dimen name="bottom_sheet_bg_top_corner_radius">24dp</dimen>
-    <dimen name="list_dialog_recycler_margin_top">8dp</dimen>
-    <dimen name="list_dialog_toolbar_margin_top">-20dp</dimen>
-    <dimen name="list_dialog_list_margin_side">4dp</dimen>
+    <!-- Notification styles -->
+    <dimen name="preview_notification_corner_radius">24dp</dimen>
 
     <!-- Weather styles padding-->
     <dimen name="widget_date_box_padding_hor">12dp</dimen>
@@ -54,15 +24,7 @@
     <dimen name="kg_widgets_icon_padding">18dp</dimen>
     <dimen name="kg_main_widgets_icon_padding">20dp</dimen>
     <dimen name="kg_widget_main_height">88dp</dimen>
-    <dimen name="kg_widget_main_width">175dp</dimen>
-
-    <!-- Searchbar dimens -->
-    <dimen name="searchbar_height">56dp</dimen>
-    <dimen name="searchbar_corner_radius">16dp</dimen>
-    <dimen name="preference_padding_start">15dip</dimen>
-    <dimen name="preference_padding_end">6dip</dimen>
-    <dimen name="preference_padding_top">6dip</dimen>
-    <dimen name="preference_padding_bottom">6dip</dimen>
+    <dimen name="kg_widget_main_width">160dp</dimen>
 
     <!-- Weather Activity -->
     <dimen name="activity_forecast_image_size">38dp</dimen>

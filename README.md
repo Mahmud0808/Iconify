@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png" width="100%" alt="Banner">
 
-# v7.2.0 is out!
+# v8.0.0 is out!
 </div>
 <p align="center">
   <a href="https://github.com/Mahmud0808/Iconify/releases"><img src="https://img.shields.io/github/downloads/Mahmud0808/Iconify/total?color=%233DDC84&logo=android&logoColor=%23fff&style=for-the-badge" alt="Downloads"></a>
@@ -33,17 +33,20 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 # 🛠 Requirements
 
-- Android 12+ Pixel / AOSP based custom ROM
+- **Android 12+ Pixel / AOSP based custom ROM**:
+    - **Android 12 to Android 16 (non-QPR)**: Use [v7.3.0](https://github.com/Mahmud0808/Iconify/releases/tag/v7.3.0)
+    - **Android 16 QPR1 and later**: Use [v8.0.0](https://github.com/Mahmud0808/Iconify/releases/tag/v8.0.0) and later
 
-- [Magisk](https://github.com/topjohnwu/Magisk) (Recommended) / [KernelSU](https://github.com/tiann/KernelSU) / [APatch](https://github.com/bmax121/APatch)
+- [Magisk](https://github.com/topjohnwu/Magisk) / [KernelSU](https://github.com/tiann/KernelSU) / [APatch](https://github.com/bmax121/APatch)
+    - **KernelSU v3.0+** users must install [Mountify](https://github.com/backslashxx/mountify/releases/latest) (or another metamodule of choice), otherwise some features will be missing in the app.
 
-- [LSPosed](https://github.com/LSPosed/LSPosed) / Other Xposed framework (Optional)
+- [LSPosed](https://github.com/LSPosed/LSPosed) / [Vector](https://github.com/JingMatrix/Vector) / Other Xposed framework
 
 - Decryption Supported Custom Recovery (Just in case)
 
 # 👨‍💻 Installation
 
-### Installation for Magisk Users:​
+### Installation for Magisk Users:
 
 1. Download and install the Iconify app.
 
@@ -53,13 +56,30 @@ Furthermore, the open-source nature of Iconify encourages community contribution
 
 4. Reboot the device when prompted, profit!
 
-### Installation for KernelSU/APatch Users:​
+### Installation for KernelSU/APatch Users:
 
-1. Flash [ZygiskNext](https://github.com/Dr-TSNG/ZygiskNext/releases/latest) module (only if you want to use LSPosed features).
+1. **For KernelSU / KernelSU Next v3.0+ Users**:
+   <details>
+     <summary><b>Click to show Mountify setup instructions (Required for systemless /system modification)</b></summary>
 
-2. Reboot your device to get the module installed successfully.
+    * Uninstall the Iconify module if present.
+    * Download and install the latest [Mountify](https://github.com/backslashxx/mountify/releases/latest) module and reboot.
+    * Configure Mountify:
+      ```env
+      mountify_mounts=2
+      MOUNT_DEVICE_NAME=KSU
+      mountify_custom_umount=0
+      ```
+    * Reboot again.
 
-3. Now follow the installation steps of magisk users and voila!
+   *Ps: You can try changing the value of `mountify_custom_umount` according to your needs. You can try other metamodules if Mountify doesn't work.*
+   </details>
+
+2. Flash [ZygiskNext](https://github.com/Dr-TSNG/ZygiskNext/releases/latest) and [LSPosed](https://github.com/LSPosed/LSPosed) / [Vector](https://github.com/JingMatrix/Vector) module (only if you want to use LSPosed features).
+
+3. Reboot your device to get the module installed successfully.
+
+4. Now follow the installation steps of magisk users and voila!
 
 > [!TIP]
 >
@@ -117,7 +137,10 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 <details>
   <summary>Is Android version "xx" supported?</summary>
 
-- Iconify officially supports Android 12 and later versions. Compatibility with earlier Android versions is not provided, and there are no plans to introduce support for those versions.
+- Iconify officially supports Android 12 and later versions.
+    - **Android 12 to Android 16 (non-QPR)**: Use v7.3.0
+    - **Android 16 QPR1 and later**: Use v8.0.0 and later
+- Compatibility with earlier Android versions is not provided, and there are no plans to introduce support for those versions.
 </details>
 
 <details>

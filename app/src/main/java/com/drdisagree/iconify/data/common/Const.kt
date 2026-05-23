@@ -1,7 +1,6 @@
 package com.drdisagree.iconify.data.common
 
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.utils.RootUtils
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector
 
 object Const {
@@ -25,12 +24,13 @@ object Const {
 
     // 3rd party packages
     const val COLORBLENDR_PACKAGE = "com.drdisagree.colorblendr"
+    const val PL_ENHANCED_PACKAGE = "com.drdisagree.pixellauncherenhanced"
 
     // Github repo
     const val GITHUB_REPO = "https://github.com/Mahmud0808/Iconify"
 
     // Telegram group
-    const val TELEGRAM_GROUP = "https://t.me/IconifyDiscussion"
+    const val TELEGRAM_GROUP = "https://t.me/DrDsProjectsChat"
 
     // Crowdin
     const val ICONIFY_CROWDIN = "https://crowdin.com/project/iconify"
@@ -44,6 +44,7 @@ object Const {
 
     // ColorBlender URL
     const val COLORBLENDR_URL = "https://github.com/Mahmud0808/ColorBlendr"
+    const val PL_ENHANCED_URL = "https://github.com/Mahmud0808/PixelLauncherEnhanced"
 
     // Fragment variables
     const val TRANSITION_DELAY = 120
@@ -77,77 +78,15 @@ object Const {
     const val ACTION_EXTRACT_SUBJECT = "$AI_PLUGIN_PACKAGE.ACTION_EXTRACT_SUBJECT"
     const val ACTION_EXTRACT_SUCCESS = "$AI_PLUGIN_PACKAGE.ACTION_EXTRACT_SUCCESS"
     const val ACTION_EXTRACT_FAILURE = "$AI_PLUGIN_PACKAGE.ACTION_EXTRACT_FAILURE"
-    const val ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY =
-        "${BuildConfig.APPLICATION_ID}.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY"
 
-    // Module script
-    val MAGISK_UPDATE_BINARY = """
-            #!/sbin/sh
-            
-            #################
-            # Initialization
-            #################
-            
-            umask 022
-            
-            # echo before loading util_functions
-            ui_print() { echo "${'$'}1"; }
-            
-            require_new_magisk() {
-              ui_print "*******************************"
-              ui_print " Please install Magisk v20.4+! "
-              ui_print "*******************************"
-              exit 1
-            }
-            
-            #########################
-            # Load util_functions.sh
-            #########################
-            
-            OUTFD=${'$'}2
-            ZIPFILE=${'$'}3
-            
-            mount /data 2>/dev/null
-            
-            [ -f /data/adb/magisk/util_functions.sh ] || require_new_magisk
-            . /data/adb/magisk/util_functions.sh
-            [ ${'$'}MAGISK_VER_CODE -lt 20400 ] && require_new_magisk
-            
-            install_module
-            exit 0
-            """.trimIndent()
-
-    val POST_FS_DATA = if (RootUtils.isSusfsBinaryAvailable) {
-        """
-            #!/usr/bin/env sh
-            MODDIR="${'$'}{0%%/*}"
-            modid="Iconify"
-            SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
-            
-            if [ ${'$'}KSU_MAGIC_MOUNT = true ]; then
-            	exit 0
-            fi
-
-            [ ! -f ${'$'}MODDIR/skip_mount ] && touch ${'$'}MODDIR/skip_mount
-            
-            [ -w /mnt ] && basefolder=/mnt
-            [ -w /mnt/vendor ] && basefolder=/mnt/vendor
-            
-            mkdir ${'$'}basefolder/${'$'}modid
-            
-            cd ${'$'}MODDIR
-            
-            for i in ${'$'}(ls -d */*); do
-            	mkdir -p ${'$'}basefolder/${'$'}modid/${'$'}i
-            	mount --bind ${'$'}MODDIR/${'$'}i ${'$'}basefolder/${'$'}modid/${'$'}i
-            	mount -t overlay -o "lowerdir=${'$'}basefolder/${'$'}modid/${'$'}i:/${'$'}i" overlay /${'$'}i
-            	${'$'}{SUSFS_BIN} add_sus_mount /${'$'}i
-            done
-            """
-    } else {
-        """
-            #!/usr/bin/env sh
-            MODDIR="${'$'}{0%%/*}"
-            """
-    }.trimIndent()
+    val BROADCAST_ACTIONS = listOf(
+        ACTION_HOOK_CHECK_REQUEST,
+        ACTION_HOOK_CHECK_RESULT,
+        ACTION_BOOT_COMPLETED,
+        ACTION_LS_CLOCK_INFLATED,
+        ACTION_WEATHER_INFLATED,
+        ACTION_EXTRACT_SUBJECT,
+        ACTION_EXTRACT_SUCCESS,
+        ACTION_EXTRACT_FAILURE,
+    )
 }

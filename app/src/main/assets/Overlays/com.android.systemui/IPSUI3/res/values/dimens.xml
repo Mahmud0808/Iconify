@@ -3,4 +3,8 @@
     <dimen name="status_bar_battery_icon_height">29.0dip</dimen>
     <dimen name="status_bar_battery_icon_width">22.0dip</dimen>
     <dimen name="signal_cluster_battery_padding">0.0dip</dimen>
+    <dimen name="status_bar_mobile_signal_size_updated">15sp</dimen>
+    <dimen name="status_bar_wifi_signal_height_updated">15sp</dimen>
+    <dimen name="status_bar_mobile_type_size_updated">15sp</dimen>
+    <dimen name="status_bar_mobile_container_height_updated">15sp</dimen>
 </resources>

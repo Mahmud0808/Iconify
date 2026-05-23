@@ -1,0 +1,298 @@
+package com.drdisagree.iconify.xposed.modules.statusbar
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import com.drdisagree.iconify.R
+import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImage
+import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImageView
+import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImageViewRight
+import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+
+@SuppressLint("DiscouragedApi")
+class StatusbarLogo(context: Context) : ModPack(context) {
+
+    private var showLogo = false
+    private var logoPosition = 0
+    private var logoStyle = 0
+    private var logoSize = 12
+    private var customLogo = false
+    private var customLogoUri = ""
+    private var tintCustomLogo = false
+    private var requiresTint = false
+    private var logoImageView: LogoImageView? = null
+    private var logoImageViewRight: LogoImageViewRight? = null
+    private var darkIconDispatcherClass: Class<*>? = null
+
+    override fun updatePrefs(vararg key: String) {
+        Xprefs.apply {
+            showLogo = getBoolean(XposedKey.STATUSBAR_LOGO)
+            logoPosition = getString(XposedKey.STATUSBAR_LOGO_POSITION).toInt()
+            logoStyle = getString(XposedKey.STATUSBAR_LOGO_STYLE).toInt()
+            logoSize = getInt(XposedKey.STATUSBAR_LOGO_SIZE)
+            customLogo = listOf<String>(
+                *modRes.getStringArray(R.array.status_bar_logo_style_entries)
+            )[logoStyle] == modRes.getString(R.string.status_bar_logo_style_custom)
+            customLogoUri = getString(XposedKey.STATUSBAR_LOGO_FILE_URI)
+            tintCustomLogo = customLogo && getBoolean(XposedKey.STATUSBAR_LOGO_TINT)
+            requiresTint = !customLogo || tintCustomLogo
+        }
+
+        when (key.firstOrNull()) {
+            in setOf(
+                XposedKey.STATUSBAR_LOGO.name,
+                XposedKey.STATUSBAR_LOGO_POSITION.name,
+                XposedKey.STATUSBAR_LOGO_STYLE.name,
+                XposedKey.STATUSBAR_LOGO_TINT.name
+            ) -> {
+                logoImageView?.updateSettings(
+                    showLogo,
+                    logoPosition,
+                    logoStyle,
+                    requiresTint
+                )
+                logoImageViewRight?.updateSettings(
+                    showLogo,
+                    logoPosition,
+                    logoStyle,
+                    requiresTint
+                )
+            }
+
+            XposedKey.STATUSBAR_LOGO_FILE_URI.name -> {
+                logoImageView?.loadCustomLogo()
+                logoImageViewRight?.loadCustomLogo()
+            }
+
+            XposedKey.STATUSBAR_LOGO_SIZE.name -> {
+                logoImageView?.updateLeftLogo()
+                logoImageViewRight?.updateRightLogo()
+            }
+        }
+    }
+
+    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+        darkIconDispatcherClass = findClass("$SYSTEMUI_PACKAGE.plugins.DarkIconDispatcher")
+
+        val phoneStatusBarViewClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarView")
+
+        phoneStatusBarViewClass
+            .hookMethod("onFinishInflate")
+            .runAfter { param ->
+                val phoneStatusBarView = param.thisObject as ViewGroup
+
+                val startSideExceptHeadsUp = phoneStatusBarView.findViewById<ViewGroup?>(
+                    mContext.resources.getIdentifier(
+                        "status_bar_start_side_except_heads_up",
+                        "id",
+                        mContext.packageName
+                    )
+                ) ?: phoneStatusBarView.findViewById(
+                    mContext.resources.getIdentifier(
+                        "status_bar_left_side",
+                        "id",
+                        mContext.packageName
+                    )
+                )
+
+                val systemIconsParent = phoneStatusBarView.findViewById<ViewGroup>(
+                    mContext.resources.getIdentifier(
+                        "status_bar_end_side_content",
+                        "id",
+                        mContext.packageName
+                    )
+                )
+
+                if (logoImageView == null) {
+                    logoImageView = LogoImageView(mContext).apply {
+                        setupLeftLogo()
+                    }
+                }
+
+                if (logoImageViewRight == null) {
+                    logoImageViewRight = LogoImageViewRight(mContext).apply {
+                        setupRightLogo()
+                    }
+                }
+
+                logoImageView!!.updateSettings(
+                    showLogo,
+                    logoPosition,
+                    logoStyle,
+                    requiresTint
+                )
+                logoImageViewRight!!.updateSettings(
+                    showLogo,
+                    logoPosition,
+                    logoStyle,
+                    requiresTint
+                )
+
+                logoImageView!!.loadCustomLogo()
+                logoImageViewRight!!.loadCustomLogo()
+
+                startSideExceptHeadsUp.reAddView(logoImageView, 1)
+                systemIconsParent.reAddView(logoImageViewRight, systemIconsParent.childCount)
+            }
+
+        KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
+            object : KeyguardShowingCallback.KeyguardShowingListener {
+                override fun onKeyguardShown() {
+                    logoImageView?.alpha = 0f
+                }
+
+                override fun onKeyguardDismissed() {
+                    logoImageView?.alpha = 1f
+                }
+            }
+        )
+
+        fun updateLogoColor(
+            param: XC_MethodHook.MethodHookParam,
+            logoImageView: LogoImageView,
+            logoImageViewRight: LogoImageViewRight
+        ) {
+            val areas = param.args[0]
+            val tint = param.args[2]
+
+            val mTintColor = darkIconDispatcherClass.callStaticMethod(
+                "getTint",
+                areas,
+                logoImageView,
+                tint
+            ) as Int
+
+            if (mTintColor == logoImageView.mTintColor &&
+                mTintColor == logoImageViewRight.mTintColor
+            ) return
+
+            logoImageView.mTintColor = mTintColor
+            logoImageViewRight.mTintColor = mTintColor
+
+            if (!showLogo) return
+
+            if (requiresTint) {
+                if (logoImageView.isLogoVisible) {
+                    logoImageView.updateLogo(force = false)
+                }
+                if (logoImageViewRight.isLogoVisible) {
+                    logoImageViewRight.updateLogo(force = false)
+                }
+            }
+        }
+
+        val clockClass = findClass("$SYSTEMUI_PACKAGE.statusbar.policy.Clock")
+
+        clockClass
+            .hookMethod("onDarkChanged")
+            .runAfter { param ->
+                if (logoImageView == null || logoImageViewRight == null) return@runAfter
+
+                updateLogoColor(param, logoImageView!!, logoImageViewRight!!)
+            }
+
+        val headsUpAppearanceControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.HeadsUpAppearanceController")
+
+        headsUpAppearanceControllerClass
+            .hookMethod("onDarkChanged")
+            .runAfter { param ->
+                if (logoImageView == null || logoImageViewRight == null) return@runAfter
+
+                updateLogoColor(param, logoImageView!!, logoImageViewRight!!)
+            }
+
+        BootCallback.registerBootListener {
+            logoImageView?.loadCustomLogo()
+            logoImageViewRight?.loadCustomLogo()
+        }
+    }
+
+    private fun LogoImage.updateLeftLogo() {
+        setupLeftLogo()
+        updateSettings(showLogo, logoPosition, logoStyle, requiresTint)
+    }
+
+    private fun LogoImage.updateRightLogo() {
+        setupRightLogo()
+        updateSettings(showLogo, logoPosition, logoStyle, requiresTint)
+    }
+
+    private fun LogoImage.setupLeftLogo() {
+        setupLogo(
+            "status_bar_left_clock_starting_padding",
+            "status_bar_left_clock_end_padding"
+        )
+    }
+
+    private fun LogoImage.setupRightLogo() {
+        setupLogo(
+            "status_bar_clock_starting_padding",
+            "status_bar_clock_end_padding"
+        )
+    }
+
+    private fun LogoImage.setupLogo(startPaddingRes: String, endPaddingRes: String) {
+        layoutParams = LinearLayout.LayoutParams(
+            mContext.toPx(logoSize),
+            mContext.toPx(logoSize)
+        ).apply {
+            gravity = Gravity.CENTER_VERTICAL or Gravity.END
+            marginStart = mContext.resources.getDimensionPixelSize(
+                mContext.resources.getIdentifier(
+                    startPaddingRes,
+                    "dimen",
+                    mContext.packageName
+                )
+            )
+            marginEnd = mContext.resources.getDimensionPixelSize(
+                mContext.resources.getIdentifier(
+                    endPaddingRes,
+                    "dimen",
+                    mContext.packageName
+                )
+            )
+        }
+        scaleType = ImageView.ScaleType.FIT_CENTER
+        visibility = View.GONE
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun LogoImage.loadCustomLogo() {
+        if (!customLogo) return
+
+        if (customLogoUri.isEmpty()) {
+            setImageDrawable(
+                GradientDrawable().apply {
+                    shape = GradientDrawable.OVAL
+                    setStroke(mContext.toPx(2), Color.DKGRAY)
+                    setColor(Color.TRANSPARENT)
+                    setSize(mContext.toPx(logoSize), mContext.toPx(logoSize))
+                }
+            )
+            return
+        }
+
+        updateLogo()
+    }
+}

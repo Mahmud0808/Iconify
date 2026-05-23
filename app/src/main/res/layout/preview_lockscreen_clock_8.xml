@@ -77,7 +77,7 @@
                 android:layout_gravity="start"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="80dp"
-                android:background="@drawable/custom_background_2"
+                android:background="@drawable/lockscreen_clock_8_custom_background"
                 android:backgroundTint="@android:color/system_accent1_100"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"

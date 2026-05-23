@@ -5,11 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.res.Configuration
 import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
-import android.os.Build
-import android.os.Environment
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
@@ -21,28 +18,32 @@ import android.widget.RelativeLayout
 import com.bosphere.fadingedgelayout.FadingEdgeLayout
 import com.drdisagree.iconify.data.common.Const.ACTION_BOOT_COMPLETED
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_ALPHA
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_BOTTOM_FADE_AMOUNT
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_HEIGHT
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_LANDSCAPE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_OVERLAP
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.HEADER_IMAGE_ZOOMTOFIT
-import com.drdisagree.iconify.data.common.Preferences.ICONIFY_QS_HEADER_CONTAINER_TAG
+import com.drdisagree.iconify.data.common.Preferences.ICONIFY_QS_HEADER_IMAGE_CONTAINER_TAG
+import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLandscape
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.UnhookHandle
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XposedHelpers.callMethod
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import java.io.File
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.android.awaitFrame
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class HeaderImage(context: Context) : ModPack(context) {
 
@@ -50,11 +51,16 @@ class HeaderImage(context: Context) : ModPack(context) {
     private var imageHeight = 140
     private var headerImageAlpha = 100
     private var zoomToFit = false
-    private var headerImageOverlap = false
     private var hideLandscapeHeaderImage = true
-    private var mQsHeaderLayout: FadingEdgeLayout? = null
+    private var halfWidthLandscapeHeaderImage = false
+    private var mQsHeaderImageLayout: FadingEdgeLayout? = null
     private var mQsHeaderImageView: ImageView? = null
     private var bottomFadeAmount = 0
+    private var notificationPanelViewControllerInstance: Any? = null
+    private var shadeHeaderControllerInstance: Any? = null
+    private var qsOpeningJob: Job? = null
+    private var showHeaderClock = false
+    private var lastLayoutAlpha = -1f
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -68,125 +74,195 @@ class HeaderImage(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            showHeaderImage = getBoolean(HEADER_IMAGE_SWITCH, false)
-            headerImageAlpha = getSliderInt(HEADER_IMAGE_ALPHA, 100)
-            imageHeight = getSliderInt(HEADER_IMAGE_HEIGHT, 140)
-            zoomToFit = getBoolean(HEADER_IMAGE_ZOOMTOFIT, false)
-            headerImageOverlap = getBoolean(HEADER_IMAGE_OVERLAP, false)
-            hideLandscapeHeaderImage = getBoolean(HEADER_IMAGE_LANDSCAPE_SWITCH, true)
-            bottomFadeAmount = mContext.toPx(getSliderInt(HEADER_IMAGE_BOTTOM_FADE_AMOUNT, 40))
+            showHeaderImage = getBoolean(XposedKey.CUSTOM_HEADER_IMAGE) &&
+                    getString(XposedKey.HEADER_IMAGE_FILE_URI).isNotEmpty()
+            headerImageAlpha = getInt(XposedKey.HEADER_IMAGE_OPACITY)
+            imageHeight = if (getBoolean(XposedKey.HEADER_IMAGE_MAXIMUM_HEIGHT)) -1
+            else getInt(XposedKey.HEADER_IMAGE_HEIGHT)
+            zoomToFit = getBoolean(XposedKey.HEADER_IMAGE_ZOOM_TO_FIT)
+            hideLandscapeHeaderImage = getBoolean(XposedKey.HEADER_IMAGE_HIDE_IN_LANDSCAPE)
+            halfWidthLandscapeHeaderImage =
+                getBoolean(XposedKey.HEADER_IMAGE_HALF_WIDTH_IN_LANDSCAPE)
+            bottomFadeAmount = mContext.toPx(getInt(XposedKey.HEADER_IMAGE_BOTTOM_FADE_AMOUNT))
+            showHeaderClock = getBoolean(XposedKey.CUSTOM_HEADER_CLOCK)
         }
 
-        if (key.isNotEmpty() &&
-            (key[0] == HEADER_IMAGE_SWITCH ||
-                    key[0] == HEADER_IMAGE_LANDSCAPE_SWITCH ||
-                    key[0] == HEADER_IMAGE_ALPHA ||
-                    key[0] == HEADER_IMAGE_HEIGHT ||
-                    key[0] == HEADER_IMAGE_ZOOMTOFIT ||
-                    key[0] == HEADER_IMAGE_BOTTOM_FADE_AMOUNT)
-        ) {
-            updateQSHeaderImage()
+        when (key.firstOrNull()) {
+            XposedKey.CUSTOM_HEADER_IMAGE.name,
+            XposedKey.HEADER_IMAGE_FILE_URI.name,
+            XposedKey.HEADER_IMAGE_OPACITY.name,
+            XposedKey.HEADER_IMAGE_HEIGHT.name,
+            XposedKey.HEADER_IMAGE_ZOOM_TO_FIT.name,
+            XposedKey.HEADER_IMAGE_HIDE_IN_LANDSCAPE.name,
+            XposedKey.HEADER_IMAGE_BOTTOM_FADE_AMOUNT.name -> updateQSHeaderImage()
         }
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         if (!mBroadcastRegistered) {
-            val intentFilter = IntentFilter()
-            intentFilter.addAction(ACTION_BOOT_COMPLETED)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter,
-                    Context.RECEIVER_EXPORTED
-                )
-            } else {
-                mContext.registerReceiver(
-                    mReceiver,
-                    intentFilter
-                )
-            }
+            mContext.registerReceiver(
+                mReceiver,
+                IntentFilter().apply {
+                    addAction(ACTION_BOOT_COMPLETED)
+                },
+                Context.RECEIVER_EXPORTED
+            )
 
             mBroadcastRegistered = true
         }
 
-        val quickStatusBarHeader = findClass("$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader")
-        val qsContainerImpl = findClass("$SYSTEMUI_PACKAGE.qs.QSContainerImpl")
+        val shadeHeaderControllerClass = findClass(
+            "$SYSTEMUI_PACKAGE.shade.LargeScreenShadeHeaderController",
+            "$SYSTEMUI_PACKAGE.shade.ShadeHeaderController"
+        )
+        val qsContainerImplClass = findClass("$SYSTEMUI_PACKAGE.qs.QSContainerImpl")
+        val notificationPanelViewControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
+        val configurationListenerClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController$ConfigurationListener")
+        val shadeLayoutChangeListenerClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController$ShadeLayoutChangeListener")
 
-        quickStatusBarHeader
-            .hookMethod("onFinishInflate")
+        notificationPanelViewControllerClass
+            .hookMethod("onFinishInflate", "reInflateViews")
             .runAfter { param ->
-                val mQuickStatusBarHeader = param.thisObject as FrameLayout
-                mQsHeaderLayout = FadingEdgeLayout(mContext).apply {
-                    tag = ICONIFY_QS_HEADER_CONTAINER_TAG
+                notificationPanelViewControllerInstance = param.thisObject
+
+                val notificationPanelView = param.thisObject.getField("mView") as FrameLayout
+
+                mQsHeaderImageLayout = FadingEdgeLayout(mContext).apply {
+                    tag = ICONIFY_QS_HEADER_IMAGE_CONTAINER_TAG
                 }
 
-                val layoutParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, TypedValue.applyDimension(
+                mQsHeaderImageLayout!!.layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
+                    else TypedValue.applyDimension(
                         TypedValue.COMPLEX_UNIT_DIP,
                         imageHeight.toFloat(),
                         mContext.resources.displayMetrics
                     ).toInt()
-                )
-                layoutParams.leftMargin = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    -16f,
-                    mContext.resources.displayMetrics
-                ).toInt()
-                layoutParams.rightMargin = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    -16f,
-                    mContext.resources.displayMetrics
-                ).toInt()
-
-                mQsHeaderLayout!!.layoutParams = layoutParams
-                mQsHeaderLayout!!.visibility = View.GONE
+                ).apply {
+                    gravity = Gravity.START
+                    leftMargin = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        -16f,
+                        mContext.resources.displayMetrics
+                    ).toInt()
+                    rightMargin = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        -16f,
+                        mContext.resources.displayMetrics
+                    ).toInt()
+                }
 
                 mQsHeaderImageView = ImageView(mContext)
                 mQsHeaderImageView!!.layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
+                mQsHeaderImageView!!.visibility = View.INVISIBLE
 
-                mQsHeaderLayout!!.addView(mQsHeaderImageView)
-                mQuickStatusBarHeader.addView(mQsHeaderLayout, 0)
+                mQsHeaderImageLayout!!.reAddView(mQsHeaderImageView)
+                notificationPanelView.reAddView(mQsHeaderImageLayout, 0)
 
                 updateQSHeaderImage()
             }
 
-        quickStatusBarHeader
-            .hookMethod("updateResources")
-            .runAfter { updateQSHeaderImage() }
+        notificationPanelViewControllerClass
+            .hookMethod("setExpandedHeightInternal")
+            .run(object : XC_MethodHook() {
+                private val hookTracker = ThreadLocal<UnhookHandle>()
 
-        quickStatusBarHeader
-            .hookMethod("onMeasure")
-            .suppressError()
-            .runAfter { param ->
-                val mDatePrivacyView = param.thisObject.getField("mDatePrivacyView") as View
-                val mTopViewMeasureHeight =
-                    param.thisObject.getField("mTopViewMeasureHeight") as Int
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    if (!showHeaderImage && !showHeaderClock) return
 
-                if (callMethod(
-                        mDatePrivacyView,
-                        "getMeasuredHeight"
-                    ) as Int != mTopViewMeasureHeight
-                ) {
-                    param.thisObject.setField(
-                        "mTopViewMeasureHeight",
-                        mDatePrivacyView.callMethod("getMeasuredHeight")
-                    )
+                    val mNotificationShadeWindowController =
+                        param.thisObject.getField("mNotificationShadeWindowController")
 
-                    param.thisObject.callMethod("updateAnimators")
+                    val handle = mNotificationShadeWindowController::class.java
+                        .hookMethod("batchApplyWindowLayoutParams")
+                        .runBefore batchApply@{ param2 ->
+                            if (param2.thisObject !== mNotificationShadeWindowController) return@batchApply
+
+                            val scope = param2.args[0] as Runnable
+
+                            val mDeferWindowLayoutParams =
+                                param2.thisObject.getFieldSilently("mDeferWindowLayoutParams") as? Int
+                            mDeferWindowLayoutParams?.let {
+                                param2.thisObject.setFieldSilently(
+                                    "mDeferWindowLayoutParams",
+                                    it + 1
+                                )
+                            }
+                            scope.run()
+                            Runnable {
+                                val notificationPanelView =
+                                    param.thisObject.getField("mView") as FrameLayout
+                                notificationPanelView.post { updateQSHeaderImageState() }
+                            }.run()
+                            mDeferWindowLayoutParams?.let {
+                                param2.thisObject.setFieldSilently(
+                                    "mDeferWindowLayoutParams",
+                                    it
+                                )
+                            }
+                            param2.thisObject.callMethodSilently("applyWindowLayoutParams")
+
+                            param2.result = null
+                        }
+                        .getUnhookHandle()
+
+                    hookTracker.set(handle)
+                }
+
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    hookTracker.get()?.let {
+                        it.unhook()
+                        hookTracker.remove()
+                    }
+                }
+            })
+
+        configurationListenerClass
+            .hookMethod("onConfigChanged")
+            .runAfter {
+                if (!showHeaderImage && !showHeaderClock) return@runAfter
+
+                val notificationPanelView = notificationPanelViewControllerInstance
+                    .getField("mView") as FrameLayout
+
+                notificationPanelView.post { updateQSHeaderImageState() }
+            }
+
+        shadeLayoutChangeListenerClass
+            .hookMethod("onLayoutChange")
+            .runAfter {
+                if (!showHeaderImage && !showHeaderClock) return@runAfter
+
+                val notificationPanelView = notificationPanelViewControllerInstance
+                    .getField("mView") as FrameLayout
+
+                notificationPanelView.post { updateQSHeaderImageState() }
+            }
+
+        notificationPanelViewControllerClass
+            .hookMethodMatchPattern("onPanelStateChanged.*")
+            .runAfter {
+                if (!showHeaderImage && !showHeaderClock) return@runAfter
+
+                val state = it.args[0] as Int
+
+                when (state) {
+                    STATE_OPENING -> startQsOpeningLoop()
+                    STATE_OPEN, STATE_CLOSED -> stopQsOpeningLoop()
                 }
             }
-            .suppressError()
 
-        qsContainerImpl
+        qsContainerImplClass
             .hookMethod("onFinishInflate")
             .runAfter { param ->
-                if (headerImageOverlap) return@runAfter
-
                 val mHeader = param.thisObject.getField("mHeader") as FrameLayout
 
                 (param.thisObject as FrameLayout).apply {
@@ -195,38 +271,113 @@ class HeaderImage(context: Context) : ModPack(context) {
                     requestLayout()
                 }
             }
+
+        shadeHeaderControllerClass
+            .hookMethod("onInit")
+            .runAfter { param ->
+                shadeHeaderControllerInstance = param.thisObject
+            }
+    }
+
+    private fun startQsOpeningLoop() {
+        if (qsOpeningJob?.isActive == true ||
+            notificationPanelViewControllerInstance == null
+        ) return
+
+        val notificationPanelView = notificationPanelViewControllerInstance
+            .getField("mView") as FrameLayout
+
+        qsOpeningJob = CoroutineScope(Dispatchers.Main).launch {
+            while (isActive) {
+                awaitFrame()
+                if (!notificationPanelView.isLaidOut) continue
+                updateQSHeaderImageState()
+            }
+        }
+    }
+
+    private fun stopQsOpeningLoop() {
+        qsOpeningJob?.cancel()
+        qsOpeningJob = null
     }
 
     private fun updateQSHeaderImage() {
-        if (mQsHeaderLayout == null || mQsHeaderImageView == null) {
+        if (showHeaderImage && mQsHeaderImageView != null) {
+            mQsHeaderImageView!!.apply {
+                if (visibility != View.VISIBLE) {
+                    visibility = View.VISIBLE
+                }
+                loadImageOrGif()
+                updateImageProperties()
+            }
+
+            mQsHeaderImageLayout?.apply {
+                setFadeEdges(false, false, bottomFadeAmount != 0, false)
+                setFadeSizes(0, 0, bottomFadeAmount, 0)
+            }
+        }
+        updateQSHeaderImageState()
+    }
+
+    private fun updateQSHeaderImageState() {
+        val layout = mQsHeaderImageLayout ?: return
+        val imageView = mQsHeaderImageView ?: return
+        val shadeHeader = shadeHeaderControllerInstance ?: return
+
+        val shadeExpandedFraction = shadeHeader.getField("shadeExpandedFraction") as Float
+        val normalizedFraction =
+            ((shadeExpandedFraction - ANIM_START_FRACTION) / (ANIM_END_FRACTION - ANIM_START_FRACTION))
+                .coerceIn(0f, 1f)
+        val computedAlpha = normalizedFraction * (headerImageAlpha / 100f)
+
+        val isLandscape = mContext.isLandscape
+        val screenWidth = mContext.resources.displayMetrics.widthPixels
+
+        if (!showHeaderImage || shadeExpandedFraction <= 0f || (isLandscape && hideLandscapeHeaderImage)) {
+            if (imageView.visibility != View.INVISIBLE) {
+                imageView.visibility = View.INVISIBLE
+            }
             return
         }
 
-        if (!showHeaderImage) {
-            mQsHeaderLayout!!.visibility = View.GONE
-            return
+        if (imageView.visibility != View.VISIBLE) {
+            imageView.visibility = View.VISIBLE
         }
 
-        mQsHeaderImageView!!.loadImageOrGif()
+        if (lastLayoutAlpha != computedAlpha || lastLayoutAlpha == -1f) {
+            layout.alpha = computedAlpha
+            lastLayoutAlpha = computedAlpha
+        }
 
-        mQsHeaderImageView!!.imageAlpha = (headerImageAlpha / 100.0 * 255.0).toInt()
-        mQsHeaderLayout!!.layoutParams.height = TypedValue.applyDimension(
+        val lp = imageView.layoutParams
+        var requiresLpUpdate = false
+
+        val targetWidth = if (isLandscape && halfWidthLandscapeHeaderImage) screenWidth / 2
+        else ViewGroup.LayoutParams.MATCH_PARENT
+
+        val targetHeight = if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
+        else TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             imageHeight.toFloat(),
             mContext.resources.displayMetrics
         ).toInt()
-        mQsHeaderLayout!!.requestLayout()
 
-        val config = mContext.resources.configuration
-
-        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && hideLandscapeHeaderImage) {
-            mQsHeaderLayout!!.visibility = View.GONE
-        } else {
-            mQsHeaderLayout!!.visibility = View.VISIBLE
+        if (lp.width != targetWidth) {
+            lp.width = targetWidth
+            requiresLpUpdate = true
         }
 
-        mQsHeaderLayout!!.setFadeEdges(false, false, bottomFadeAmount != 0, false)
-        mQsHeaderLayout!!.setFadeSizes(0, 0, bottomFadeAmount, 0)
+        if (lp.height != targetHeight) {
+            lp.height = targetHeight
+            requiresLpUpdate = true
+        }
+
+        if (requiresLpUpdate) {
+            imageView.layoutParams = lp
+            imageView.updateImageProperties()
+        }
+
+        layout.requestLayout()
     }
 
     private fun ImageView.addCenterProperty() {
@@ -254,46 +405,41 @@ class HeaderImage(context: Context) : ModPack(context) {
     }
 
     private fun ImageView.loadImageOrGif() {
-        try {
-            val executor = Executors.newSingleThreadScheduledExecutor()
-            executor.scheduleWithFixedDelay({
-                val androidDir =
-                    File(Environment.getExternalStorageDirectory().toString() + "/Android")
+        BootCallback.registerBootListener {
+            if (HEADER_IMAGE_FILE.exists()) {
+                val source = ImageDecoder.createSource(HEADER_IMAGE_FILE)
+                val drawable = ImageDecoder.decodeDrawable(source)
 
-                if (androidDir.isDirectory) {
-                    try {
-                        val source = ImageDecoder.createSource(
-                            File(
-                                Environment.getExternalStorageDirectory()
-                                    .toString() + "/.iconify_files/header_image.png"
-                            )
-                        )
-                        val drawable = ImageDecoder.decodeDrawable(source)
+                setImageDrawable(drawable)
+                clipToOutline = true
+                updateImageProperties()
 
-                        setImageDrawable(drawable)
-                        clipToOutline = true
-
-                        if (!zoomToFit) {
-                            scaleType = ImageView.ScaleType.FIT_XY
-                        } else {
-                            scaleType = ImageView.ScaleType.CENTER_CROP
-                            adjustViewBounds = false
-                            cropToPadding = false
-                            minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
-                            addCenterProperty()
-                        }
-
-                        if (drawable is AnimatedImageDrawable) {
-                            drawable.start()
-                        }
-                    } catch (ignored: Throwable) {
-                    }
-
-                    executor.shutdown()
-                    executor.shutdownNow()
+                if (drawable is AnimatedImageDrawable) {
+                    drawable.start()
                 }
-            }, 0, 5, TimeUnit.SECONDS)
-        } catch (ignored: Throwable) {
+            }
         }
+    }
+
+    private fun ImageView.updateImageProperties() {
+        if (!zoomToFit) {
+            scaleType = ImageView.ScaleType.FIT_XY
+        } else {
+            scaleType = ImageView.ScaleType.CENTER_CROP
+            adjustViewBounds = false
+            cropToPadding = false
+            minimumWidth = ViewGroup.LayoutParams.MATCH_PARENT
+            addCenterProperty()
+        }
+    }
+
+    companion object {
+        // Source: https://cs.android.com/android/platform/superproject/+/android-latest-release:frameworks/base/packages/SystemUI/src/com/android/systemui/shade/ShadeExpansionStateManager.kt;l=156-158
+        const val STATE_CLOSED = 0
+        const val STATE_OPENING = 1
+        const val STATE_OPEN = 2
+
+        const val ANIM_START_FRACTION = 0.43f
+        const val ANIM_END_FRACTION = 0.7f
     }
 }

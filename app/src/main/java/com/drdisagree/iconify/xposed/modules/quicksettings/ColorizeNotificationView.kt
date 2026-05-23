@@ -9,22 +9,19 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.os.Handler
-import android.os.Looper
+import android.graphics.drawable.LayerDrawable
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RemoteViews
 import android.widget.TextView
 import androidx.core.graphics.ColorUtils
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.graphics.drawable.toDrawable
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_ALTERNATIVE_SWITCH
-import com.drdisagree.iconify.data.common.Preferences.COLORED_NOTIFICATION_VIEW_SWITCH
-import com.drdisagree.iconify.utils.color.monet.quantize.QuantizerCelebi
-import com.drdisagree.iconify.utils.color.monet.score.Score
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -37,12 +34,16 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructo
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import com.materialkolor.quantize.QuantizerCelebi
+import com.materialkolor.score.Score
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.newInstance
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import kotlin.math.roundToInt
 
 @SuppressLint("DiscouragedApi")
 @Suppress("deprecation", "UNCHECKED_CAST")
@@ -56,36 +57,41 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            coloredNotificationView = getBoolean(COLORED_NOTIFICATION_VIEW_SWITCH, false)
+            coloredNotificationView = getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW)
             coloredNotificationAlternativeColor =
-                getBoolean(COLORED_NOTIFICATION_ALTERNATIVE_SWITCH, false)
+                getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW_ALTERNATIVE)
         }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         val colorSchemeClass = findClass("$SYSTEMUI_PACKAGE.monet.ColorScheme")
-        val monetStyleClass = findClass("$SYSTEMUI_PACKAGE.monet.Style")!!
-        val notificationBuilderClass = findClass("android.app.Notification\$Builder")
-        val expandableNotificationRowClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.ExpandableNotificationRow")
+        val monetStyleClass = findClass(
+            "$SYSTEMUI_PACKAGE.monet.Style",
+            suppressError = true
+        )
+        val notificationBuilderClass = findClass($$"android.app.Notification$Builder")
+        val notificationEntryClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.notification.collection.NotificationEntry")
         val notificationBackgroundViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationBackgroundView")
         val notificationViewWrapperClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.wrapper.NotificationViewWrapper")
         val notificationContentViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationContentView")
-        val notificationContentInflaterClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationContentInflater")
+        val notificationContentInflaterClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationContentInflater",
+            suppressError = true
+        )
 
         try {
-            val styles: Array<out Any> = monetStyleClass.getEnumConstants()!!
+            val styles: Array<out Any> = monetStyleClass?.getEnumConstants()!!
             for (style in styles) {
                 if (style.toString().contains("CONTENT")) {
                     schemeStyle = style
                     break
                 }
             }
-        } catch (ignore: Throwable) {
+        } catch (_: Throwable) {
             // A16B1 doesn't have the enum constants, but CONTENT exists
             schemeStyle = "CONTENT"
         }
@@ -113,8 +119,8 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             val packageManager = packageContext.packageManager
             val notifyIcon = try {
                 packageManager.getApplicationIcon(pkgName)
-            } catch (ignored: Throwable) {
-                ColorDrawable(fallbackColor)
+            } catch (_: Throwable) {
+                fallbackColor.toDrawable()
             }
 
             builder.callMethod("makeNotificationGroupHeader")
@@ -122,10 +128,18 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             val wallpaperColors: WallpaperColors?
             var primaryColor: Int?
 
-            if (!coloredNotificationAlternativeColor) { // Use WallpaperColors to get the primary color
+            if (!coloredNotificationAlternativeColor) {
+                // Use WallpaperColors to get the primary color
                 wallpaperColors = WallpaperColors.fromDrawable(notifyIcon)
                 primaryColor = wallpaperColors.primaryColor.toArgb()
-            } else { // Use Monet Score and Quantizer to get the primary color
+
+                if (Color.luminance(primaryColor) > 0.9) {
+                    wallpaperColors.secondaryColor?.let {
+                        primaryColor = it.toArgb()
+                    }
+                }
+            } else {
+                // Use Monet Score and Quantizer to get the primary color
                 val bitmap = notifyIcon.drawableToBitmap()
                 val width = bitmap.width
                 val height = bitmap.height
@@ -133,13 +147,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
                 primaryColor = Score.score(QuantizerCelebi.quantize(pixels, 25)).firstOrNull()
                     ?: fallbackColor
-                wallpaperColors = WallpaperColors.fromDrawable(ColorDrawable(primaryColor))
-            }
-
-            if (Color.luminance(primaryColor) > 0.9) {
-                wallpaperColors.secondaryColor?.let {
-                    primaryColor = it.toArgb()
-                }
+                wallpaperColors = WallpaperColors.fromDrawable(primaryColor.toDrawable())
             }
 
             val darkTheme = packageContext.resources.configuration.isNightModeActive
@@ -175,12 +183,21 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                                 6 // CONTENT style is converted to 6 in A16B1
                             )
                         }.getOrElse {
-                            // Android 13
-                            newInstance(
-                                colorSchemeClass,
-                                wallpaperColors,
-                                schemeStyle
-                            )
+                            runCatching {
+                                // Android 13
+                                newInstance(
+                                    colorSchemeClass,
+                                    wallpaperColors,
+                                    schemeStyle
+                                )
+                            }.getOrElse {
+                                // Android 13
+                                newInstance(
+                                    colorSchemeClass,
+                                    wallpaperColors,
+                                    6
+                                )
+                            }
                         }
                     }
                 }
@@ -231,12 +248,13 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 "mTertiaryAccentColor" to mTertiaryAccentColor,
                 "mOnTertiaryAccentTextColor" to mOnTertiaryAccentTextColor,
                 "mTertiaryFixedDimAccentColor" to mTertiaryFixedDimAccentColor,
-                "mOnTertiaryFixedAccentTextColor" to mOnTertiaryFixedAccentTextColor
+                "mOnTertiaryFixedAccentTextColor" to mOnTertiaryFixedAccentTextColor,
+                "mTextColor" to mPrimaryTextColor
             ).forEach { (fieldName, value) ->
-                mColors.setField(fieldName, value)
+                mColors.setFieldSilently(fieldName, value)
 
                 if (fieldName == "mBackgroundColor") {
-                    setExtraField("mNotifyBackgroundColor", value)
+                    setExtraField("mNotifyBackgroundColor", value.withSemiTransparency())
                 } else {
                     setExtraField(fieldName, value)
                 }
@@ -307,6 +325,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                     val mColors = builder.getField("mColors")
 
                     listOf(
+                        "mBackgroundColor",
                         "mProtectionColor",
                         "mPrimaryTextColor",
                         "mSecondaryTextColor",
@@ -315,69 +334,106 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                         "mTertiaryAccentColor",
                         "mOnTertiaryAccentTextColor",
                         "mTertiaryFixedDimAccentColor",
-                        "mOnTertiaryFixedAccentTextColor"
+                        "mOnTertiaryFixedAccentTextColor",
+                        "mTextColor"
                     ).forEach { fieldName ->
-                        mColors.setField(
-                            fieldName,
-                            notification.getExtraField(fieldName)
-                        )
+                        if (fieldName == "mBackgroundColor") {
+                            mColors.setFieldSilently(
+                                fieldName,
+                                (notification.getExtraField("mNotifyBackgroundColor") as? Int)?.withSemiTransparency()
+                            )
+                        } else {
+                            mColors.setFieldSilently(
+                                fieldName,
+                                notification.getExtraField(fieldName)
+                            )
+                        }
                     }
                 }
             }
 
-        expandableNotificationRowClass
-            .hookMethod("onNotificationUpdated")
+        val rowContentBindStageAnonymousClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.notification.row.RowContentBindStage$1")
+
+        rowContentBindStageAnonymousClass
+            .hookMethodMatchPattern("onAsyncInflationFinished.*")
             .runAfter { param ->
                 if (!coloredNotificationView) return@runAfter
 
-                val mEntry = param.thisObject.getFieldSilently("mEntry") ?: return@runAfter
+                var entryFieldName: String? = null
+
+                for (field in param.thisObject.javaClass.declaredFields) {
+                    if (notificationEntryClass!!.isAssignableFrom(field.type)) {
+                        entryFieldName = field.name
+                        break
+                    }
+                }
+
+                if (entryFieldName == null) {
+                    log(
+                        this@ColorizeNotificationView,
+                        "Could not find NotificationEntry field"
+                    )
+                    return@runAfter
+                }
+
+                val mEntry = param.thisObject.getFieldSilently(entryFieldName)
+                    ?: return@runAfter
+                val expandableNotificationRow = mEntry.getFieldSilently("row")
+                    ?: return@runAfter
 
                 val mSbn = mEntry.getField("mSbn")
                 val notification = mSbn.callMethod("getNotification") as Notification
 
                 val overflowColor = notification.getExtraFieldSilently("mSecondaryTextColor")
                 if (overflowColor != null) {
-                    param.thisObject.setFieldSilently("mNotificationColor", overflowColor)
+                    expandableNotificationRow.setFieldSilently("mNotificationColor", overflowColor)
                 }
 
                 val mNotifyBackgroundColor =
                     notification.getExtraFieldSilently("mNotifyBackgroundColor")
-                if (mNotifyBackgroundColor != null) {
-                    var bgColor = mNotifyBackgroundColor as Int
-                    val mCurrentBackgroundTint = try {
-                        param.thisObject.callMethod("getCurrentBackgroundTint")
-                    } catch (ignore: Throwable) {
-                        param.thisObject.getField("mCurrentBackgroundTint")
-                    } as Int
+                        ?: return@runAfter
 
-                    if (mCurrentBackgroundTint != bgColor) {
-                        bgColor = Color.argb(
-                            255,
-                            Color.red(bgColor),
-                            Color.green(bgColor),
-                            Color.blue(bgColor)
-                        )
-                        param.thisObject.callMethod("setBackgroundTintColor", bgColor)
+                val mCurrentBackgroundTint = try {
+                    expandableNotificationRow.callMethod("getCurrentBackgroundTint")
+                } catch (_: Throwable) {
+                    expandableNotificationRow.getField("mCurrentBackgroundTint")
+                } as Int
 
-                        param.thisObject.setFieldSilently("mCurrentBackgroundTint", bgColor)
+                val usesTransparentBackground = (expandableNotificationRow
+                    .callMethod("calculateBgColor", true, true) as Int)
+                    .hasTransparency()
+                val bgColor = (mNotifyBackgroundColor as Int)
+                    .withSemiTransparency(isSemiTransparent = usesTransparentBackground)
 
-                        val notificationBackgroundView = param.thisObject.getField(
-                            "mBackgroundNormal"
-                        ) as View
+                if (mCurrentBackgroundTint == bgColor) return@runAfter
 
-                        val bgDrawable = notificationBackgroundView.getFieldSilently(
-                            "mBackground"
-                        ) as? Drawable
-                        if (bgDrawable != null) {
-                            DrawableCompat.setTint(bgDrawable, bgColor)
-                        }
+                expandableNotificationRow.callMethod("setBackgroundTintColor", bgColor)
+                expandableNotificationRow.setFieldSilently("mCurrentBackgroundTint", bgColor)
 
-                        notificationBackgroundView.setFieldSilently("mTintColor", bgColor)
+                val notificationBackgroundView = expandableNotificationRow.getField(
+                    "mBackgroundNormal"
+                ) as View
 
-                        Handler(Looper.getMainLooper()).post {
-                            notificationBackgroundView.invalidate()
-                        }
+                val bgDrawable = notificationBackgroundView.getFieldSilently(
+                    "mBackground"
+                ) as? Drawable
+
+                if (bgDrawable != null) {
+                    // Blur drawable support
+                    if (bgDrawable is LayerDrawable && bgDrawable.numberOfLayers > 2 &&
+                        bgDrawable.getDrawable(2)::class.java.simpleName.contains("BackgroundBlurDrawable")
+                    ) {
+                        bgDrawable.getDrawable(2).callMethod("setColor", bgColor)
+                    } else {
+                        DrawableCompat.setTint(bgDrawable, bgColor)
                     }
+                }
+
+                notificationBackgroundView.setFieldSilently("mTintColor", bgColor)
+
+                notificationBackgroundView.post {
+                    notificationBackgroundView.invalidate()
                 }
             }
 
@@ -398,11 +454,12 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             .runBefore { param ->
                 if (!coloredNotificationView) return@runBefore
 
-                param.result = param.thisObject.getField("mBackgroundColor")
+                param.result =
+                    (param.thisObject.getField("mBackgroundColor") as Int).withSemiTransparency()
             }
 
         notificationContentViewClass
-            .hookMethod("updateAllSingleLineViews")
+            .hookMethod("setSingleLineView")
             .runAfter { param ->
                 if (!coloredNotificationView) return@runAfter
 
@@ -427,48 +484,62 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 }
             }
 
-        if (notificationContentInflaterClass.isMethodAvailable("createRemoteViews")) {
+        fun updateBeforeNotificationContent(param: XC_MethodHook.MethodHookParam) {
+            if (!coloredNotificationView) return
+
+            var builder: Notification.Builder? = null
+            var mContext: Context? = null
+
+            param.args.forEach { arg ->
+                when (arg) {
+                    is Notification.Builder -> builder = arg
+                    is Context -> mContext = arg
+                }
+            }
+
+            if (builder == null || mContext == null) return
+
+            val notification = builder.getField("mN") as Notification
+
+            notification.initializeColors(builder, mContext)
+        }
+
+        fun updateAfterNotificationContent(param: XC_MethodHook.MethodHookParam) {
+            if (!coloredNotificationView) return
+
+            var builder: Notification.Builder? = null
+            var mContext: Context? = null
+
+            param.args.forEach { arg ->
+                when (arg) {
+                    is Notification.Builder -> builder = arg
+                    is Context -> mContext = arg
+                }
+            }
+
+            if (builder == null || mContext == null) return
+
+            val notification: Notification = builder.notification
+            val inflationProgress: Any = param.result
+
+            notification.setTextColor(inflationProgress, mContext)
+        }
+
+        if (notificationContentInflaterClass != null &&
+            notificationContentInflaterClass.isMethodAvailable("createRemoteViews")
+        ) {
             notificationContentInflaterClass
                 .hookMethodMatchPattern(".*createRemoteViews.*")
-                .runBefore { param ->
-                    if (!coloredNotificationView) return@runBefore
+                .runBefore { param -> updateBeforeNotificationContent(param) }
+                .runAfter { param -> updateAfterNotificationContent(param) }
+        } else {
+            val notificationRowContentBinderImplCompanionClass =
+                findClass($$"$$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationRowContentBinderImpl$Companion")
 
-                    var builder: Notification.Builder? = null
-                    var mContext: Context? = null
-
-                    param.args.forEach { arg ->
-                        when (arg) {
-                            is Notification.Builder -> builder = arg
-                            is Context -> mContext = arg
-                        }
-                    }
-
-                    if (builder == null || mContext == null) return@runBefore
-
-                    val notification = builder.getField("mN") as Notification
-
-                    notification.initializeColors(builder!!, mContext!!)
-                }
-                .runAfter { param ->
-                    if (!coloredNotificationView) return@runAfter
-
-                    var builder: Notification.Builder? = null
-                    var mContext: Context? = null
-
-                    param.args.forEach { arg ->
-                        when (arg) {
-                            is Notification.Builder -> builder = arg
-                            is Context -> mContext = arg
-                        }
-                    }
-
-                    if (builder == null || mContext == null) return@runAfter
-
-                    val notification: Notification = builder!!.notification
-                    val inflationProgress: Any = param.result
-
-                    notification.setTextColor(inflationProgress, mContext!!)
-                }
+            notificationRowContentBinderImplCompanionClass
+                .hookMethodMatchPattern(".*beginInflationAsync.*")
+                .runBefore { param -> updateBeforeNotificationContent(param) }
+                .runAfter { param -> updateAfterNotificationContent(param) }
         }
     }
 
@@ -476,15 +547,26 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
         return if (this is BitmapDrawable && bitmap != null) {
             bitmap
         } else {
-            val bitmap = Bitmap.createBitmap(
+            val bitmap = createBitmap(
                 intrinsicWidth.coerceAtLeast(1),
-                intrinsicHeight.coerceAtLeast(1),
-                Bitmap.Config.ARGB_8888
+                intrinsicHeight.coerceAtLeast(1)
             )
             val canvas = Canvas(bitmap)
             setBounds(0, 0, canvas.width, canvas.height)
             draw(canvas)
             bitmap
         }
+    }
+
+    private fun Int.withSemiTransparency(isSemiTransparent: Boolean = true): Int {
+        val alphaFactor = if (isSemiTransparent) 0.54f else 1f
+        val alpha = (255f * alphaFactor).roundToInt().coerceIn(0, 255)
+
+        return (this and 0x00FFFFFF) or (alpha shl 24)
+    }
+
+    private fun Int.hasTransparency(): Boolean {
+        val alpha = this ushr 24
+        return alpha < 255
     }
 }

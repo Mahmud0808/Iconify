@@ -4,15 +4,10 @@
     <string-array name="module_scope" translatable="false">
         <item>android</item>
         <item>com.android.systemui</item>
-        <item>com.android.settings</item>
-        <item>com.google.android.apps.nexuslauncher</item>
-        <item>com.android.launcher3</item>
     </string-array>
 
     <string-array name="root_requirement" translatable="false">
         <item>com.android.systemui</item>
-        <item>com.google.android.apps.nexuslauncher</item>
-        <item>com.android.launcher3</item>
     </string-array>
 
     <string-array name="locale_name">
@@ -83,97 +78,78 @@
         <item>vi-VN</item>
     </string-array>
 
-    <string-array name="app_icon">
-        <item>@string/settings_app_icon_default</item>
-        <item>@string/settings_app_icon_themed</item>
-        <item>@string/settings_app_icon_retro</item>
-    </string-array>
-
-    <string-array name="app_icon_identifier" translatable="false">
-        <item>SplashActivity</item>
-        <item>SplashActivityThemed</item>
-        <item>SplashActivityRetro</item>
-    </string-array>
-
-    <string-array name="app_theme">
-        <item>@string/settings_app_theme_light</item>
-        <item>@string/settings_app_theme_dark</item>
-        <item>@string/settings_app_theme_system</item>
-    </string-array>
-
-    <string-array name="app_theme_identifier" translatable="false">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
-    <string-array name="settings_icon_bg">
+    <string-array name="settings_icon_bg" translatable="false">
         <item>@string/settings_icons_minimal</item>
         <item>@string/settings_icons_filled</item>
         <item>@string/settings_icons_outline</item>
         <item>@string/settings_icons_neumorph</item>
     </string-array>
 
-    <string-array name="settings_icon_shape">
+    <string-array name="settings_icon_shape" translatable="false">
         <item>@string/settings_icons_circle</item>
         <item>@string/settings_icons_squircle</item>
         <item>@string/settings_icons_square</item>
     </string-array>
 
-    <string-array name="settings_icon_size">
+    <string-array name="settings_icon_size" translatable="false">
         <item>@string/settings_icons_size1</item>
         <item>@string/settings_icons_size2</item>
         <item>@string/settings_icons_size3</item>
         <item>@string/settings_icons_size4</item>
     </string-array>
 
-    <string-array name="settings_icon_color">
+    <string-array name="settings_icon_color" translatable="false">
         <item>@string/settings_icons_follow_system</item>
         <item>@string/settings_icons_system_inverse</item>
         <item>@string/settings_icons_monet_accent</item>
     </string-array>
 
-    <string-array name="xposed_force_apply_method">
-        <item>@string/method_toggle_dark_mode</item>
-        <item>@string/method_restart_systemui</item>
-        <item>@string/method_do_nothing</item>
+    <string-array name="statusbar_clock_text_color_entries" translatable="false">
+        <item>@string/sbclock_text_color_follow_system</item>
+        <item>@string/sbclock_text_color_transparent_text</item>
+        <item>@string/sbclock_text_color_custom_color</item>
     </string-array>
 
-    <string-array name="statusbar_clock_color">
-        <item>@string/sbclock_color_follow_system</item>
-        <item>@string/sbclock_color_transparent_text</item>
-        <item>@string/sbclock_color_custom_color</item>
+    <string-array name="statusbar_clock_text_color_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
-    <string-array name="monet_style">
-        <item>@string/monet_neutral</item>
-        <item>@string/monet_monochrome</item>
-        <item>@string/monet_tonalspot</item>
-        <item>@string/monet_vibrant</item>
-        <item>@string/monet_rainbow</item>
-        <item>@string/monet_expressive</item>
-        <item>@string/monet_fidelity</item>
-        <item>@string/monet_content</item>
-        <item>@string/monet_fruitsalad</item>
+    <string-array name="statusbar_clock_fill_color_entries" translatable="false">
+        <item>@string/sbclock_fill_color_accent</item>
+        <item>@string/sbclock_fill_color_gradient</item>
+        <item>@string/sbclock_fill_color_custom</item>
     </string-array>
 
-    <string-array name="update_schedule">
+    <string-array name="statusbar_clock_fill_color_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="statusbar_clock_border_color_entries" translatable="false">
+        <item>@string/border_color_accent</item>
+        <item>@string/border_color_custom</item>
+    </string-array>
+
+    <string-array name="statusbar_clock_border_color_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="update_schedule_entries" translatable="false">
         <item>@string/update_schedule1</item>
         <item>@string/update_schedule2</item>
         <item>@string/update_schedule3</item>
         <item>@string/update_schedule4</item>
     </string-array>
 
-    <string-array name="xposed_mod_apply_method">
-        <item>@string/settings_auto_restart_systemui</item>
-        <item>@string/settings_auto_force_reload_ui</item>
-        <item>@string/settings_manual_restart_systemui</item>
-    </string-array>
-
-    <string-array name="xposed_mod_apply_method_identifier" translatable="false">
+    <string-array name="update_schedule_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 
     <!-- Lockscreen Weather Units -->
@@ -196,7 +172,7 @@
         <item>@string/interval_12_hour</item>
     </string-array>
 
-    <string-array name="update_interval_values">
+    <string-array name="update_interval_values" translatable="false">
         <item>1</item>
         <item>2</item>
         <item>4</item>
@@ -205,7 +181,7 @@
     </string-array>
 
     <!-- Lockscreen Weather Provider -->
-    <string-array name="weather_provider_entries">
+    <string-array name="weather_provider_entries" translatable="false">
         <item>@string/openmeteo</item>
         <item>@string/openweathermap</item>
         <item>@string/yandex</item>
@@ -220,7 +196,7 @@
     </string-array>
 
     <!-- Lockscreen Weather styles -->
-    <string-array name="lockscreen_weather_bg_entries">
+    <string-array name="lockscreen_weather_bg_entries" translatable="false">
         <item>@string/lockscreen_weather_selection_default</item>
         <item>@string/lockscreen_weather_selection_str_box</item>
         <item>@string/lockscreen_weather_selection_str_round</item>
@@ -246,7 +222,7 @@
 
     <!-- Lockscreen Widgets -->
     <string-array name="lockscreen_widgets_entries" translatable="false">
-        <item>none</item>
+        <item>@string/none</item>
         <item>@string/calculator</item>
         <item>@string/media</item>
         <item>@string/clock_timer</item>
@@ -279,17 +255,31 @@
         <item>hotspot</item>
     </string-array>
 
+    <!-- Statusbar tint -->
+    <string-array name="statusbar_tint_entries" translatable="false">
+        <item>@string/sb_tint_system</item>
+        <item>@string/sb_tint_monet</item>
+        <item>@string/sb_tint_custom</item>
+    </string-array>
+
+    <string-array name="statusbar_tint_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <!-- Lockscreen Device Widget style -->
-    <string-array name="lockscreen_device_widget_entries">
+    <string-array name="lockscreen_device_widget_entries" translatable="false">
         <item>@string/lockscreen_device_widget_style_classic</item>
         <item>@string/lockscreen_device_widget_style_arcs</item>
     </string-array>
-    <string-array name="lockscreen_device_widget_values">
+
+    <string-array name="lockscreen_device_widget_values" translatable="false">
         <item>0</item>
         <item>1</item>
     </string-array>
 
-    <string-array name="gradient_direction">
+    <string-array name="gradient_direction_entries">
         <item>Left to Right</item>
         <item>Right to Left</item>
         <item>Top to Bottom</item>
@@ -298,6 +288,17 @@
         <item>Top Right to Bottom Left</item>
         <item>Bottom Left to Top Right</item>
         <item>Bottom Right to Top Left</item>
+    </string-array>
+
+    <string-array name="gradient_direction_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
     </string-array>
 
     <string-array name="depth_wallpaper_mode_entries" translatable="false">
@@ -360,6 +361,169 @@
         <item>4</item>
         <item>5</item>
         <item>6</item>
+    </string-array>
+
+    <!-- Status bar - Logo -->
+    <string-array name="status_bar_clock_position_entries" translatable="false">
+        <item>@string/sb_clock_position_left</item>
+        <item>@string/sb_clock_position_center</item>
+        <item>@string/sb_clock_position_right</item>
+    </string-array>
+
+    <string-array name="status_bar_clock_position_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- Status bar - Logo -->
+    <string-array name="status_bar_logo_position_entries" translatable="false">
+        <item>@string/status_bar_logo_position_left</item>
+        <item>@string/status_bar_logo_position_right</item>
+    </string-array>
+
+    <string-array name="status_bar_logo_position_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="status_bar_logo_style_entries" translatable="false">
+        <item>@string/status_bar_logo_style_android</item>
+        <item>@string/status_bar_logo_style_adidas</item>
+        <item>@string/status_bar_logo_style_alien</item>
+        <item>@string/status_bar_logo_style_apple</item>
+        <item>@string/status_bar_logo_style_avengers</item>
+        <item>@string/status_bar_logo_style_batman</item>
+        <item>@string/status_bar_logo_style_batman_tdk</item>
+        <item>@string/status_bar_logo_style_beats</item>
+        <item>@string/status_bar_logo_style_biohazard</item>
+        <item>@string/status_bar_logo_style_blackberry</item>
+        <item>@string/status_bar_logo_style_cannabis</item>
+        <item>@string/status_bar_logo_style_emoticon_cool</item>
+        <item>@string/status_bar_logo_style_emoticon_devil</item>
+        <item>@string/status_bar_logo_style_fire</item>
+        <item>@string/status_bar_logo_style_heart</item>
+        <item>@string/status_bar_logo_style_nike</item>
+        <item>@string/status_bar_logo_style_pacman</item>
+        <item>@string/status_bar_logo_style_puma</item>
+        <item>@string/status_bar_logo_style_rog</item>
+        <item>@string/status_bar_logo_style_spiderman</item>
+        <item>@string/status_bar_logo_style_superman</item>
+        <item>@string/status_bar_logo_style_windows</item>
+        <item>@string/status_bar_logo_style_xbox</item>
+        <item>@string/status_bar_logo_style_ghost</item>
+        <item>@string/status_bar_logo_style_ninja</item>
+        <item>@string/status_bar_logo_style_robot</item>
+        <item>@string/status_bar_logo_style_ironman</item>
+        <item>@string/status_bar_logo_style_captain_america</item>
+        <item>@string/status_bar_logo_style_flash</item>
+        <item>@string/status_bar_logo_style_tux</item>
+        <item>@string/status_bar_logo_style_ubuntu</item>
+        <item>@string/status_bar_logo_style_mint</item>
+        <item>@string/status_bar_logo_style_amogus</item>
+        <item>@string/status_bar_logo_style_custom</item>
+    </string-array>
+
+    <string-array name="status_bar_logo_style_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+    </string-array>
+
+    <!-- Text Clock -->
+    <string-array name="numbers">
+        <item>Zero</item>
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
+        <item>Six</item>
+        <item>Seven</item>
+        <item>Eight</item>
+        <item>Nine</item>
+        <item>Ten</item>
+        <item>Eleven</item>
+        <item>Twelve</item>
+        <item>Thirteen</item>
+        <item>Fourteen</item>
+        <item>Fifteen</item>
+        <item>Sixteen</item>
+        <item>Seventeen</item>
+        <item>Eighteen</item>
+        <item>Nineteen</item>
+        <item>Twenty</item>
+        <item>Twenty One</item>
+        <item>Twenty Two</item>
+        <item>Twenty Three</item>
+        <item>Twenty Four</item>
+        <item>Twenty Five</item>
+        <item>Twenty Six</item>
+        <item>Twenty Seven</item>
+        <item>Twenty Eight</item>
+        <item>Twenty Nine</item>
+        <item>Thirty</item>
+        <item>Thirty One</item>
+        <item>Thirty Two</item>
+        <item>Thirty Three</item>
+        <item>Thirty Four</item>
+        <item>Thirty Five</item>
+        <item>Thirty Six</item>
+        <item>Thirty Seven</item>
+        <item>Thirty Eight</item>
+        <item>Thirty Nine</item>
+        <item>Forty</item>
+        <item>Forty One</item>
+        <item>Forty Two</item>
+        <item>Forty Three</item>
+        <item>Forty Four</item>
+        <item>Forty Five</item>
+        <item>Forty Six</item>
+        <item>Forty Seven</item>
+        <item>Forty Eight</item>
+        <item>Forty Nine</item>
+        <item>Fifty</item>
+        <item>Fifty One</item>
+        <item>Fifty Two</item>
+        <item>Fifty Three</item>
+        <item>Fifty Four</item>
+        <item>Fifty Five</item>
+        <item>Fifty Six</item>
+        <item>Fifty Seven</item>
+        <item>Fifty Eight</item>
+        <item>Fifty Nine</item>
+        <item>Sixty</item>
     </string-array>
 
 </resources>

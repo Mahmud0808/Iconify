@@ -49,7 +49,7 @@ object BootLoopProtector {
                 .putLong(loadTimeKey, currentTime)
                 .putInt(strikeKey, 0)
                 .commit()
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
     }
 }

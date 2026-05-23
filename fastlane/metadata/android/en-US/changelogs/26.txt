@@ -1,0 +1,8 @@
+Iconify v8.0.0 has arrived! It has the following new changes:
+
+Feature Changes:
+• Major UI overhaul for a cleaner, more modern experience.
+• Updated minimum supported Android version to 16 QPR1.
+• Significant stability, performance, and build toolchain improvements.
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v8.0.0

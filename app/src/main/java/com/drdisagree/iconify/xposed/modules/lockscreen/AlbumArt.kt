@@ -2,7 +2,6 @@ package com.drdisagree.iconify.xposed.modules.lockscreen
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.media.session.PlaybackState
@@ -10,18 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.drdisagree.iconify.data.common.Const.ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.ALBUM_ART_ON_LOCKSCREEN
-import com.drdisagree.iconify.data.common.Preferences.ALBUM_ART_ON_LOCKSCREEN_BLUR
-import com.drdisagree.iconify.data.common.Preferences.ALBUM_ART_ON_LOCKSCREEN_FILTER
-import com.drdisagree.iconify.data.common.Preferences.DEPTH_WALLPAPER_SWITCH
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.applyBlur
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getColored
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.getGrayscaleBlurredImage
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toGrayscale
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getColored
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getGrayscaleBlurredImage
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toGrayscale
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
@@ -51,21 +47,21 @@ class AlbumArt(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            mAlbumArtEnabled = getBoolean(ALBUM_ART_ON_LOCKSCREEN, false)
-            mAlbumArtFilter = getString(ALBUM_ART_ON_LOCKSCREEN_FILTER, "0")!!.toInt()
-            mAlbumArtBlurLevel = getSliderInt(ALBUM_ART_ON_LOCKSCREEN_BLUR, 30) / 100f * 25f
-            mDepthEnabled = getBoolean(DEPTH_WALLPAPER_SWITCH, false)
+            mAlbumArtEnabled = getBoolean(XposedKey.ALBUM_ART_ON_LOCKSCREEN)
+            mAlbumArtFilter = getString(XposedKey.ALBUM_ART_ON_LOCKSCREEN_FILTER).toInt()
+            mAlbumArtBlurLevel = getInt(XposedKey.ALBUM_ART_ON_LOCKSCREEN_BLUR) / 100f * 25f
+            mDepthEnabled = getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER)
         }
 
         when (key.firstOrNull()) {
-            ALBUM_ART_ON_LOCKSCREEN -> {
+            XposedKey.ALBUM_ART_ON_LOCKSCREEN.name -> {
                 updateAlbumArtState()
                 broadcastAlbumArtUpdate()
             }
 
             in setOf(
-                ALBUM_ART_ON_LOCKSCREEN_FILTER,
-                ALBUM_ART_ON_LOCKSCREEN_BLUR
+                XposedKey.ALBUM_ART_ON_LOCKSCREEN_FILTER.name,
+                XposedKey.ALBUM_ART_ON_LOCKSCREEN_BLUR.name
             ) -> updateAlbumArtFilter()
         }
     }
@@ -81,6 +77,8 @@ class AlbumArt(context: Context) : ModPack(context) {
         val scrimControllerClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController"
         )
+        val notificationPanelViewControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
         val mediaDataManagerClass = findClass(
             "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDataManager",
             "$SYSTEMUI_PACKAGE.media.controls.pipeline.MediaDataManager",
@@ -98,6 +96,25 @@ class AlbumArt(context: Context) : ModPack(context) {
         scrimControllerClass
             .hookConstructor()
             .runAfter { param -> mScrimControllerObj = param.thisObject }
+
+        notificationPanelViewControllerClass
+            .hookConstructor()
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
+            }
+
+        notificationPanelViewControllerClass
+            .hookMethod(
+                "onFinishInflate",
+                "reInflateViews"
+            )
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
+            }
 
         centralSurfacesImplClass
             .hookMethod("start")
@@ -151,7 +168,7 @@ class AlbumArt(context: Context) : ModPack(context) {
                 .hookMethod("onMediaDataLoaded")
                 .throwError()
                 .runAfter { param -> hookMediaData(param) }
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
             mediaDeviceManagerClass
                 .hookMethod("onMediaDataLoaded")
                 .runAfter { param -> hookMediaData(param) }
@@ -168,13 +185,7 @@ class AlbumArt(context: Context) : ModPack(context) {
     }
 
     private fun broadcastAlbumArtUpdate() {
-        Thread {
-            mContext.sendBroadcast(
-                Intent(ACTION_UPDATE_DEPTH_WALLPAPER_FOREGROUND_VISIBILITY).apply {
-                    setFlags(Intent.FLAG_RECEIVER_FOREGROUND)
-                }
-            )
-        }.start()
+        AlbumArtCallback.notifyVisibilityChanged()
     }
 
     private fun updateAlbumArtState() {

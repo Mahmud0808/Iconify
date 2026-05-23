@@ -18,7 +18,7 @@ class ExtendedFAB @JvmOverloads constructor(
         override fun getResources(): Resources {
             return modRes
         }
-    }, R.style.Theme_MaterialComponents_DayNight),
+    }, com.google.android.material.R.style.Theme_MaterialComponents_DayNight),
     attrs,
     defStyleAttr
 )

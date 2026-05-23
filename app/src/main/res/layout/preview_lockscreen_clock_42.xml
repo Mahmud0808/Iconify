@@ -64,6 +64,7 @@
                 android:importantForAccessibility="no"
                 android:orientation="horizontal"
                 android:scaleType="fitXY"
+                android:tag="custom_image1"
                 android:src="@drawable/lockscreen_clock_42_logo" />
 
             <LinearLayout

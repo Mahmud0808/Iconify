@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_moto">Personnaliser l\'interface utilisateur ennuyeuse d\'Android</string>
+    <string name="app_motto">Customize Boring Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Initialisation de la configuration</string>
     <string name="step">Étape</string>
@@ -20,17 +20,35 @@
     <string name="onboarding_title_3">Pouvons-nous commencer maintenant ?</string>
     <string name="onboarding_subtitle_3">Il est temps pour iconify de faire un travail interne.</string>
     <string name="onboarding_desc_3">Démarrage de tâches internes, marquant le lancement de travaux essentiels. Prêt à commencer ?</string>
+    <string name="grant_permission">Grant Permission</string>
     <string name="need_storage_perm_title">Besoin de l\'autorisation d\'accès au stockage</string>
     <string name="need_storage_perm_desc">L\'autorisation d\'accès au stockage est requise pour créer les fichiers nécessaires.</string>
+    <string name="notification_perm_title">Allow Notifications</string>
+    <string name="notification_perm_desc">Needed to notify you about available updates and to display test notifications.</string>
+    <string name="optional_permission">Granting these permissions is optional!</string>
     <string name="compatible_root_not_found_title">Impossible de trouver une méthode root compatible</string>
     <string name="compatible_root_not_found_desc">Vous devez rooter votre appareil.</string>
     <string name="root_not_found_title">Root non accessible</string>
     <string name="root_not_found_desc">On dirait que votre appareil n\'est pas rooté !</string>
+    <string name="metamodule_not_found_title">Metamodule not installed</string>
+    <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
     <string name="need_reboot_title">Vous devez redémarrer votre appareil</string>
     <string name="need_reboot_desc">Redémarrez votre appareil pour mettre tous les fichiers en place.</string>
     <string name="installation_failed_title">Oups, je ne m\'attendais pas à ça</string>
     <string name="installation_failed_desc">Les journaux ont été enregistrés dans le dossier des documents.</string>
     <string name="logs">Journaux</string>
+    <!-- Disclaimer -->
+    <string name="disclaimer">Disclaimer</string>
+    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
+    <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
+    <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
+    <string name="disclaimer_2_description">Iconify functions by generating and injecting dynamic Runtime Resource Overlays (RRO) directly into your system.\nThese modifications are designed for AOSP-based ROMs and may conflict with heavily modified OEM skins (like HyperOS, Realme UI or OneUI).\nChanging certain system values may cause UI freezes or \"System UI has stopped\" errors depending on your specific Android version.</string>
+    <string name="disclaimer_3_title">Risk of Bootloop &amp; Recovery</string>
+    <string name="disclaimer_3_description">Modifying system files carries an inherent risk of causing a bootloop where the device fails to start.\nBefore proceeding, ensure you have a custom recovery (like TWRP, OrangeFox) installed.\nAlways know the hardware key combination for your device to boot into \"Safe Mode,\" which can disable all modules in an emergency.</string>
+    <string name="disclaimer_4_title">No Warranty &amp; Liability</string>
+    <string name="disclaimer_4_description">This software is provided \"as-is\" under the GPL-3.0 license, without any express or implied warranties.\nThe developer is not legally or financially responsible for bricked hardware, dead SD cards, or unexpected \"black screens.\"\nBy using this app, you acknowledge that you are modifying your device\'s core software at your own discretion.</string>
+    <string name="disclaimer_5_title">Data Safety &amp; Responsibility</string>
+    <string name="disclaimer_5_description">Backup is mandatory: Always maintain an off-device backup of your photos, contacts, and files before performing deep system theming.\nIt is your responsibility to verify compatibility with your ROM by checking the official GitHub documentation or community groups.\nIf you are unsure how to manually remove a Magisk module via ADB, please do not proceed with advanced modifications.</string>
     <!-- Search Preference -->
     <string name="search_title">Rechercher</string>
     <string name="searchpreference_search">Rechercher…</string>
@@ -39,6 +57,7 @@
     <string name="searchpreference_more">Plus</string>
     <string name="searchpreference_clear_history">Vider l\'historique</string>
     <string name="searchpreference_no_result">Aucun résultat</string>
+    <string name="recent_searches">Recent searches</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Pack d\'icônes</string>
@@ -98,6 +117,7 @@
     <!-- Settings -->
     <string name="settings_section_title_general">Général</string>
     <string name="settings_app_language">Language</string>
+    <string name="settings_app_language_desc">Choose your app language</string>
     <string name="settings_app_icon">Icône de l\'application</string>
     <string name="settings_app_icon_default">Icône d\'origine</string>
     <string name="settings_app_icon_themed">Icône thèmé</string>
@@ -112,7 +132,7 @@
     <string name="settings_auto_update_title">Mise à jour automatique</string>
     <string name="settings_auto_update_desc">Recherchez les nouvelles versions en arrière-plan.</string>
     <string name="settings_auto_update_title_wifi_only">Vérifier via WiFi uniquement</string>
-    <string name="settings_auto_update_desc_wifi_only">Recherchez les mises à jour via Wi-Fi uniquement.</string>
+    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Afficher l\'avertissement</string>
     <string name="settings_show_warning_desc">Afficher un avertissement sur la façon de réoptimiser le module dans le menu Xposed.</string>
@@ -220,7 +240,7 @@
     <string name="icon_mask_style_scroll">Scroll</string>
     <string name="icon_mask_style_square">Carré</string>
     <string name="icon_mask_style_teardrop">Larme</string>
-    <string name="icon_mask_style_rounded_rectangle">Rectangle\narrondi</string>
+    <string name="icon_mask_style_rounded_rectangle">Rounded Rectangle</string>
     <string name="icon_mask_style_ios">iOS</string>
     <string name="icon_mask_style_cloudy">Nuageux</string>
     <string name="icon_mask_style_cylinder">Cylindre</string>
@@ -228,10 +248,10 @@
     <string name="icon_mask_style_heart">Cœur</string>
     <string name="icon_mask_style_leaf">Feuille</string>
     <string name="icon_mask_style_stretched">Étiré</string>
-    <string name="icon_mask_style_tapered_rectangle">Rectangle\neffilé</string>
+    <string name="icon_mask_style_tapered_rectangle">Tapered Rectangle</string>
     <string name="icon_mask_style_vessel">Vessel</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
-    <string name="icon_mask_style_force_round">Force Round</string>
+    <string name="icon_mask_style_round">Round</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Couleurs basiques</string>
     <string name="activity_desc_basic_colors">Modifier la couleur primaire et secondaire</string>
@@ -327,11 +347,11 @@
     <string name="qs_panel_top_margin_info">Faites pivoter l\'appareil pour voir les modifications. Si cela ne fonctionne pas, redémarrez SystemUI.</string>
     <!-- Statusbar -->
     <string name="section_title_spacing">Espacement</string>
-    <string name="sb_left_padding">Rembourrage gauche</string>
-    <string name="sb_right_padding">Rembourrage droit</string>
+    <string name="sb_start_padding">Start Padding</string>
+    <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Hauteur</string>
     <string name="section_title_color">Couleur</string>
-    <string name="sb_color_tint_title">Teinte</string>
+    <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Teinte des icônes et textes de la barre d\'état</string>
     <string name="sb_tint_system">Teinte système par défaut</string>
     <string name="sb_tint_monet">Teinte monet / accent</string>
@@ -413,14 +433,17 @@
     <string name="accent_privacy_chip_desc">Rendre la puce de confidentialité colorée</string>
     <string name="disable_progress_wave_title">Désactiver la vague de progression</string>
     <string name="disable_progress_wave_desc">Désactiver l\'animation de la vague de progression</string>
+    <string name="section_title_settings_theme">Settings Theme</string>
+    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
+    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">Avant d\'activer Iconify depuis les modules LSPosed, appuyez longuement sur Iconify et cliquez sur Re-optimize. Après ça activez Iconify et redémarrez votre SystemUI. Ceci est nécessaire pour une expérience plus fluide.</string>
-    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
+    <string name="lsposed_bootloop_warn">Une des fonctions que vous avez activé n\'est pas compatible avec votre ROM. Merci de la désactiver puis de redémarrer votre SystemUI.</string>
     <string name="xposed_only_desc">Vous êtes actuellement en mode Xposed Only . Cela nécessite que iconify soit activé dans l\'application LSPosed. Assurez-vous également que le module Iconify est affiché dans le gestionnaire Magisk. Pour accéder à toutes les fonctionnalités, effacez les données de l\'application iconify et passez par le processus d\'installation !</string>
     <string name="xposed_module_disabled_title">Module non activé</string>
     <string name="xposed_module_disabled_desc">Le service système n\'est pas en cours d\'exécution</string>
-    <string name="xposed_module_bootlooped_title">Bootloop Detected</string>
-    <string name="xposed_module_bootlooped_desc">Module has been disabled</string>
+    <string name="xposed_module_bootlooped_title">Bootloop détecté</string>
+    <string name="xposed_module_bootlooped_desc">Le module a été désactivé</string>
     <string name="activity_title_transparency_blur">Transparence &amp; flou</string>
     <string name="activity_desc_transparency_blur">Activez le flou et la transparence de QS</string>
     <string name="activity_title_themes">Thèmes</string>
@@ -498,11 +521,13 @@
     <string name="mini_widget_icon_active">Couleur active de l\'icône du mini widget</string>
     <string name="mini_widget_icon_inactive">Couleur inactive de l\'icône du mini widget</string>
     <string name="weather_settings">Paramètres de la météo</string>
+    <string name="lockscreen_widgets_roundness">Widgets Roundness</string>
     <string name="lockscreen_widgets_scale">Échelle des widgets</string>
     <string name="lockscreen_device_widget_style_title">Style du Widget de l\'appareil</string>
     <string name="lockscreen_device_widget_style_classic">Barre avec deux arcs</string>
     <string name="lockscreen_device_widget_style_arcs">Quatre Arcs</string>
     <!-- LS Widgets Actions -->
+    <string name="none">None</string>
     <string name="camera">Caméra</string>
     <string name="clock_timer">Horloge/Minuterie</string>
     <string name="calculator">Calculatrice</string>
@@ -569,13 +594,23 @@
     <string name="section_title_notifications">Notification</string>
     <string name="colored_qs_notification_title">Icône de notification colorée</string>
     <string name="colored_qs_notification_desc">Afficher l\'icône de l\'application en tant qu\'icône de notification</string>
+    <string name="section_headsup_title">Heads Up</string>
+    <string name="notification_headsup_blur_title">Heads Up Blur</string>
+    <string name="notification_headsup_blur_intensity_title">Heads Up Blur Intensity</string>
+    <string name="notification_headsup_blur_transparency_title">Heads Up Transparency</string>
+    <string name="notification_headsup_blur_desc">Show blur on heads up notification</string>
     <string name="section_title_qs_margin">Marges QS</string>
     <string name="section_title_media_player">Lecteur multimédia</string>
     <string name="compact_media_player_title">Lecteur multimédia compact</string>
     <string name="compact_media_player_desc">Rendre le lecteur multimédia compact</string>
+    <string name="media_player_artwork_blur_title">Blur Artwork</string>
+    <string name="media_player_artwork_blur_desc">Blur media player album art</string>
+    <string name="media_player_artwork_blur_radius_title">Artwork Blur Intensity</string>
     <string name="section_title_qs_elements">Éléments des réglages rapides</string>
     <string name="hide_qs_on_lockscreen_title">Masquer les réglages rapides sur l\'écran de verrouillage</string>
     <string name="hide_qs_on_lockscreen_desc">Désactiver les réglages rapides sur écran de verrouillage sécurisé</string>
+    <string name="hide_qs_on_lockscreen_a15_title">Disable QS on Lockscreen</string>
+    <string name="hide_qs_on_lockscreen_a15_desc">Disable quick settings tiles on secured lockscreen</string>
     <string name="hide_qs_silent_text_title">Masquer le message silencieux</string>
     <string name="hide_qs_silent_text_desc">Masquer le message silencieux affiché sous forme d\'en-tête de notifications silencieuses</string>
     <string name="hide_qs_footer_buttons_title">Masquer les boutons de pied de page</string>
@@ -664,6 +699,7 @@
     <string name="battery_dotted_circle">Batterie circulaire en pointillés</string>
     <string name="battery_filled_circle">Batterie circulaire remplie</string>
     <string name="battery_landscape_kim">Kim Paysage</string>
+    <string name="battery_landscape_oneui7">Landscape OneUI 7</string>
     <!-- Xposed Volume Panel -->
     <string name="volume_percentage_title">Pourcentage du volume</string>
     <string name="volume_percentage_desc">Afficher le pourcentage au-dessus du curseur de volume</string>
@@ -682,6 +718,8 @@
     <string name="header_image_zoom_to_fit_desc">L\'image est étirée pour s\'adapter par défaut</string>
     <string name="header_image_hide_in_landscape_title">Cacher en mode paysage</string>
     <string name="header_image_hide_in_landscape_desc">Cacher l\'image en mode paysage</string>
+    <string name="header_image_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_image_half_width_in_landscape_desc">Set image width to half of screen in landscape mode</string>
     <string name="header_image_alpha_gradient_title">Alpha des dégradés</string>
     <string name="header_image_alpha_gradient_desc">Ajouter un effet dégradé à l\'image d\'en-tête</string>
     <!-- Xposed Header Clock -->
@@ -695,6 +733,7 @@
     <string name="header_clock_color_picker_title">Sélecteur de couleurs d\'horloge</string>
     <string name="header_clock_color_picker_desc">Définir la couleur du texte de l\'horloge d\'en-tête</string>
     <string name="header_clock_expansion_y_title">Quantité d\'extension</string>
+    <string name="header_clock_landscape_offset_y_title">Offset Y in Landscape</string>
     <string name="header_clock_font_text_scaling_title">Mise à l\'échelle du texte</string>
     <string name="header_clock_side_margin_title">Marge latérale</string>
     <string name="header_clock_top_margin_title">Marge supérieure</string>
@@ -702,6 +741,8 @@
     <string name="header_clock_white_text_desc">Forcer le texte à être blanc</string>
     <string name="header_clock_center_clock_title">Centrer l\'horloge</string>
     <string name="header_clock_center_clock_desc">Déplacer l\'horloge au centre de l\'écran</string>
+    <string name="header_clock_half_width_in_landscape_title">Half Width in Landscape</string>
+    <string name="header_clock_half_width_in_landscape_desc">Set layout width to half of screen in landscape mode</string>
     <string name="header_clock_hide_landscape_title">Masquer en mode paysage</string>
     <string name="header_clock_hide_landscape_desc">Masquer l\'horloge en mode paysage</string>
     <!-- Xposed Lockscreen Clock -->
@@ -714,6 +755,10 @@
     <string name="lockscreen_clock_move_notification_icon_desc">Déplacer les icônes AOD sous l\'horloge personnalisée, peut être buggé sur les anciennes ROM</string>
     <string name="lockscreen_clock_font_title">Police de l\'horloge</string>
     <string name="lockscreen_clock_font_desc">Utiliser une police personnalisée pour l\'horloge de l\'écran de verrouillage</string>
+    <string name="lockscreen_clock_image1_title">Custom Image 1</string>
+    <string name="lockscreen_clock_image2_title">Custom Image 2</string>
+    <string name="lockscreen_clock_image_title">Image personnalisée</string>
+    <string name="lockscreen_clock_image_desc">Utiliser une image personnalisée pour l\'horloge de l\'écran de verrouillage</string>
     <string name="lsclock_custom_color_title">Couleur de l\'horloge personnalisée</string>
     <string name="lsclock_custom_color_desc">Couleurs personnalisées au lieu des couleurs système</string>
     <string name="lsclock_color_picker_title">Sélecteur de couleurs d\'horloge</string>
@@ -765,6 +810,7 @@
     <string name="wallpaper_background_sensitivity_title">Sensibilité de l\'arrière-plan</string>
     <string name="depth_wallpaper_model_ready">Le modèle IA est téléchargé sur l\'appareil</string>
     <string name="depth_wallpaper_model_not_available">Le modèle IA n\'est pas (encore) disponible sur l\'appareil</string>
+    <string name="depth_wallpaper_model_checking">Checking for AI model availability…</string>
     <string name="depth_wallpaper_subject_extraction_started">Extraction du sujet du fond d\'écran…</string>
     <string name="depth_wallpaper_subject_extraction_success">Sujet du fond d\'écran extrait !</string>
     <string name="depth_wallpaper_subject_extraction_failed">Impossible d\'extraire le sujet du fond d\'écran !</string>
@@ -776,11 +822,17 @@
     <string name="sb_clock_background_chip_desc">Afficher une puce derrière l\'horloge de la barre d\'état</string>
     <string name="sb_clock_customize_chip_title">Personnaliser la puce de l\'horloge</string>
     <string name="sb_clock_customize_chip_desc">Couleurs personnalisées, rondeur, tracé etc.</string>
+    <string name="statusbar_clock_clickable_title">Horloge cliquable</string>
+    <string name="statusbar_clock_clickable_desc">Cliquez pour ouvrir l\'application d\'horloge</string>
     <string name="section_title_text">Texte</string>
-    <string name="statusbar_clock_text_title">Couleur du texte de l\'horloge</string>
-    <string name="sbclock_color_follow_system">Suivre le système</string>
-    <string name="sbclock_color_transparent_text">Texte transparent</string>
-    <string name="sbclock_color_custom_color">Couleurs personnalisées</string>
+    <string name="statusbar_clock_text_color_title">Clock Text Color</string>
+    <string name="sbclock_text_color_follow_system">Follow System</string>
+    <string name="sbclock_text_color_transparent_text">Transparent Text</string>
+    <string name="sbclock_text_color_custom_color">Custom Color</string>
+    <string name="statusbar_clock_fill_color_title">Clock Fill Color</string>
+    <string name="sbclock_fill_color_accent">@string/apply_monet_accent_title</string>
+    <string name="sbclock_fill_color_gradient">@string/apply_monet_gradient_title</string>
+    <string name="sbclock_fill_color_custom">@string/sbclock_text_color_custom_color</string>
     <string name="clock_text_color_picker_title">Sélecteur de couleur du texte</string>
     <string name="clock_text_color_picker_desc">Définir la couleur du texte de l\'horloge de la barre de statut</string>
     <string name="section_title_status_icons">Icônes de la barre d’état</string>
@@ -799,8 +851,10 @@
     <string name="fill_end_color">Couleur de fin de remplissage</string>
     <string name="section_title_border">Bordure</string>
     <string name="enable_border">Activer la bordure</string>
-    <string name="accent_border_color">Couleur de la bordure d\'accentuation</string>
-    <string name="border_color">Couleur de la bordure</string>
+    <string name="border_color_title">Border Color</string>
+    <string name="border_color_accent">Accent Color</string>
+    <string name="border_color_custom">Custom Color</string>
+    <string name="border_color_custom_title">Custom Border Color</string>
     <string name="dashed_border">Bordure en pointillés</string>
     <string name="dash_width">Largeur des pointillés</string>
     <string name="dash_gap">Écartement des pointillés</string>
@@ -829,13 +883,64 @@
     <string name="sb_swap_wifi_cellular_desc">Interchanger l\'icône du wifi et cellulaire</string>
     <string name="sb_swap_cellular_network_type_title">Permuter le type Cellulaire et Réseau</string>
     <string name="sb_swap_cellular_network_type_desc">Permuter les icônes de type cellulaire et réseau (3G 4G LTE etc.)</string>
-    <string name="sb_clock_on_right_side_title">Horloge sur le côté final</string>
-    <string name="sb_clock_on_right_side_desc">Afficher l\'horloge à la fin de la barre d\'état</string>
+    <string name="sb_clock_position_title">Position de l\'horloge</string>
+    <string name="section_title_clock">Horloge</string>
+    <string name="sb_clock_position_left">Gauche (Par défaut)</string>
+    <string name="sb_clock_position_center">Centre</string>
+    <string name="sb_clock_position_right">Droite</string>
+    <string name="ongoing_action_chip_title">Ongoing Action Chip</string>
+    <string name="ongoing_action_chip_desc">Afficher un indicateur de progression dans la barre des tâches pour les actions en cours comme les téléchargements</string>
     <string name="sb_show_4g_icon_title">Icône 4G</string>
     <string name="sb_show_4g_icon_desc">Afficher l\'icône 4G dans la barre d\'état au lieu de LTE</string>
     <string name="sb_max_notification_icons_title">Limite d\'icônes de notification</string>
     <string name="dual_status_bar_title">Double barre d\'état</string>
     <string name="dual_status_bar_desc">Afficher les éléments de la barre d\'état en deux lignes</string>
+    <string name="status_bar_logo_title">Logo</string>
+    <string name="status_bar_logo_desc">Display a custom logo on the status bar</string>
+    <string name="status_bar_logo_enable_title">Activer le logo</string>
+    <string name="status_bar_logo_position_title">Position du logo</string>
+    <string name="status_bar_logo_position_left">Côté gauche</string>
+    <string name="status_bar_logo_position_right">Côté droit</string>
+    <string name="status_bar_logo_style_title">Style du logo</string>
+    <string name="status_bar_logo_size_title">Taille du logo</string>
+    <string name="status_bar_logo_style_android">Android</string>
+    <string name="status_bar_logo_style_adidas">Adidas</string>
+    <string name="status_bar_logo_style_alien">Alien</string>
+    <string name="status_bar_logo_style_apple">Apple</string>
+    <string name="status_bar_logo_style_avengers">Avengers</string>
+    <string name="status_bar_logo_style_batman">Batman</string>
+    <string name="status_bar_logo_style_batman_tdk">Batman The Dark Knight</string>
+    <string name="status_bar_logo_style_beats">Beats</string>
+    <string name="status_bar_logo_style_biohazard">Biohazard</string>
+    <string name="status_bar_logo_style_blackberry">BlackBerry</string>
+    <string name="status_bar_logo_style_cannabis">Cannabis</string>
+    <string name="status_bar_logo_style_emoticon_cool">Emoticon cool</string>
+    <string name="status_bar_logo_style_emoticon_devil">Emoticon devil</string>
+    <string name="status_bar_logo_style_fire">Fire</string>
+    <string name="status_bar_logo_style_heart">Heart</string>
+    <string name="status_bar_logo_style_nike">Nike</string>
+    <string name="status_bar_logo_style_pacman">Pac-man</string>
+    <string name="status_bar_logo_style_puma">Puma</string>
+    <string name="status_bar_logo_style_rog">ROG</string>
+    <string name="status_bar_logo_style_spiderman">Spider-Man</string>
+    <string name="status_bar_logo_style_superman">Superman</string>
+    <string name="status_bar_logo_style_windows">Windows</string>
+    <string name="status_bar_logo_style_xbox">Xbox</string>
+    <string name="status_bar_logo_style_ghost">Ghost</string>
+    <string name="status_bar_logo_style_ninja">Ninja</string>
+    <string name="status_bar_logo_style_robot">Robot</string>
+    <string name="status_bar_logo_style_ironman">Iron Man</string>
+    <string name="status_bar_logo_style_captain_america">Captain America</string>
+    <string name="status_bar_logo_style_flash">Flash</string>
+    <string name="status_bar_logo_style_tux">Tux</string>
+    <string name="status_bar_logo_style_ubuntu">Ubuntu</string>
+    <string name="status_bar_logo_style_mint">Linux Mint</string>
+    <string name="status_bar_logo_style_amogus">Amogus</string>
+    <string name="status_bar_logo_style_custom">Custom Image</string>
+    <string name="status_bar_logo_tint_title">Follow Statusbar Tint</string>
+    <string name="status_bar_logo_tint_desc">Switch to a light/dark background to update tint</string>
+    <string name="status_bar_logo_chooser_title">Select Logo Image</string>
+    <string name="status_bar_logo_chooser_desc">Select a custom logo image</string>
     <!-- Xposed Dual Statusbar -->
     <string name="dsb_title">Barre d\'état à double ligne</string>
     <string name="dsb_portrait_only_title">Portrait uniquement</string>
@@ -874,8 +979,16 @@
     <string name="no_internet_connection">Impossible de se connecter au serveur!\nIl peut y avoir un problème avec votre connexion internet ou le serveur peut être en panne pour le moment. Veuillez réessayer plus tard.</string>
     <string name="changelog_not_found">Changelog introuvable !\nCela peut être un problème avec votre connexion internet ou le serveur peut être en panne pour le moment. Veuillez réessayer plus tard.</string>
     <string name="individual_changelog_not_found">Quelque chose s\'est mal passé.\nCe changelog peut ne pas être disponible sur le serveur.</string>
+    <string name="changelog_changes_in">Changes in %1$s</string>
+    <string name="changelog_changes_since">Changes since %1$s</string>
     <!-- App Updates -->
+    <string name="settings_section_title_updates">Updates</string>
+    <string name="settings_app_update_checker_title">App Update</string>
+    <string name="check_for_updates_button">Check for updates</string>
+    <string name="download_update_button">Download Update</string>
     <string name="checking_for_update">Vérification des mises à jour</string>
+    <string name="downloading_update">Downloading Update\n(%d%%)</string>
+    <string name="installing_update">Prompting for Installation…</string>
     <string name="update_available">Mise à jour disponible !</string>
     <string name="update_dialog_desc">La mise à jour %s est disponible au téléchargement.</string>
     <string name="view_changelog">Voir la liste des changements</string>
@@ -950,7 +1063,7 @@
     <string name="unzoom_depth_wallpaper_title">Dézoomer la profondeur du fond d\'écran</string>
     <string name="unzoom_depth_wallpaper_desc">Supprimer l\'effet de zoom sur le fond d\'écran de profondeur</string>
     <string name="hide_data_disabled_icon_title">Masquer l\'icône de données désactivées</string>
-    <string name="hide_data_disabled_icon_desc">Masquer l\'indicateur de données désactivées</string>
+    <string name="hide_data_disabled_icon_desc">Toggle mobile data off and on to see the effect</string>
     <string name="colorize_notification_view_title">Coloriser la vue des notifications</string>
     <string name="colorize_notification_view_desc">Faire de la vue des notifications la même couleur que l\'icône de l\'application</string>
     <string name="colorize_notification_alternative_color_generation_title">Génération de couleurs alternatives</string>
@@ -994,6 +1107,7 @@
     <string name="btn_skip">Ignorer</string>
     <string name="btn_next">Suivant</string>
     <string name="btn_back">Précédent</string>
+    <string name="btn_agree">I Agree</string>
     <string name="btn_lets_go">C\'est parti</string>
     <string name="btn_close">Fermer</string>
     <string name="btn_positive">Oui</string>
@@ -1029,6 +1143,8 @@
     <string name="toast_selected_successfully">Sélectionné avec succès</string>
     <string name="toast_unavailable">Indisponible</string>
     <string name="toast_use_from_xposed_menu">Utiliser cette fonctionnalité du menu Xposed</string>
+    <string name="toast_downgrade_kernelsu">Downgrade KernelSU app and try again</string>
+    <string name="toast_reboot_and_try_again">Reboot device and try again</string>
     <!-- Push Notification -->
     <string name="new_update_title">Mise à jour disponible</string>
     <string name="new_update_desc">Une nouvelle version d\'Iconify est disponible.</string>
@@ -1093,6 +1209,7 @@
     <string name="force_enable_blur_desc">Forcer l\'activation du flou pour les roms non supportées</string>
     <string name="choose_header_image">Choisir l\'image d\'en-tête</string>
     <string name="choose_clock_font">Choisir la police de l\'horloge</string>
+    <string name="choose_weather_font">Choose Weather Font</string>
     <string name="pick_style">Choisissez un style de votre choix</string>
     <string name="attention">Attention !</string>
     <string name="method_toggle_dark_mode">Mode sombre à double bascule</string>
@@ -1132,6 +1249,7 @@
     <string name="learn_more">En savoir plus</string>
     <string name="custom_tiles_footer_info">Pour s\'assurer que les tuiles personnalisées fonctionnent correctement, utilisez d\'abord les tuiles internet et bluetooth par défaut une fois avant d\'utiliser les tuiles personnalisées.</string>
     <string name="hig_res_image_footer_info">Évitez d\'utiliser des images haute résolution, car elles peuvent causer le plantage de l\'interface utilisateur de votre système.</string>
+    <string name="qs_grid_footer_info">Double toggle dark mode or restart SystemUI to apply changes.</string>
     <string name="more">More</string>
     <!-- Weather -->
     <!-- Omni Jaws Strings -->
@@ -1147,8 +1265,6 @@
     <string name="settings_title">Paramètres</string>
     <string name="auto_update_title">Mises à jour automatiques</string>
     <string name="auto_update_summary">Vérifier les nouvelles versions de temps en temps</string>
-    <string name="update_over_wifi_title">Vérifier les mises à jour en Wi-Fi uniquement</string>
-    <string name="update_over_wifi_summary">Vérifier les mises à jour en arrière-plan uniquement lorsque vous êtes connecté au Wi-Fi</string>
     <string name="unit_metric">Métrique (\u00b0C)</string>
     <string name="unit_imperial">Impérial (\u00b0F)</string>
     <string name="update">Mise à jour</string>
@@ -1260,14 +1376,22 @@
     <string name="section_title_recents">Récents</string>
     <string name="force_themed_icons_title">Forcer les icônes à thème</string>
     <string name="force_themed_icons_desc">Générer des icônes monochromatiques si elles ne sont pas fournies par l\'application</string>
+    <string name="launcher_icon_size_title">Icon Size</string>
+    <string name="launcher_text_size_title">Text Size</string>
     <string name="app_drawer_themed_icons_title">Icônes du thème du tiroir d\'applications</string>
     <string name="app_drawer_themed_icons_desc">Activer les icônes à thème dans le tiroir d\'applications</string>
     <string name="double_tap_to_sleep_title">Double appui pour mettre en veille</string>
     <string name="double_tap_to_sleep_desc">Double appui sur un espace vide de l\'écran d\'accueil pour éteindre l\'écran</string>
     <string name="desktop_icon_labels_title">Labels d\'icônes sur le bureau</string>
+    <string name="hide_launcher_statusbar_title">Hide Statusbar</string>
+    <string name="hide_launcher_statusbar_desc">Expand quick settings panel once if status bar is not hidden</string>
+    <string name="hide_launcher_top_shadow_title">Hide Top Shadow</string>
+    <string name="hide_launcher_top_shadow_desc">Remove top shadow from home screen</string>
     <string name="app_drawer_icon_labels_title">Étiquettes d\'icônes dans le tiroir d\'applications</string>
     <string name="disable_recents_live_tile_title">Disable Recents Live Tile</string>
     <string name="disable_recents_live_tile_desc">Disable live tile if recents screen is buggy</string>
+    <string name="hide_at_a_glance_title">Hide At A Glance</string>
+    <string name="hide_at_a_glance_desc">Hide at a glance from home screen</string>
     <string name="hide_desktop_search_bar_title">Masquer la barre de recherche du bureau</string>
     <string name="hide_desktop_search_bar_desc">Masquer la barre de recherche dans le dock du bureau</string>
     <string name="dock_spacing_title">Espacement du dock</string>
@@ -1283,4 +1407,67 @@
     <string name="switch_theme_required_desc">Basculer entre les thèmes clairs et sombres en cas de comportement inattendu.</string>
     <string name="device_rotation_required_title">Thème de rotation de l\'appareil</string>
     <string name="device_rotation_required_desc">Changez de rotation de votre appareil pour que cette modification prenne effet.</string>
+    <string name="hex_color">Hex color</string>
+    <string name="hex_color_prefix">#</string>
+    <string name="enter_6_or_8_hex_digits">Enter 6 (RRGGBB) or 8 (AARRGGBB) hex digits</string>
+    <string name="btn_pick_video">Pick video</string>
+    <string name="btn_pick_audio">Pick audio</string>
+    <string name="btn_pick_pdf">Pick PDF</string>
+    <string name="btn_pick_document">Pick document</string>
+    <string name="btn_pick_file">Pick file</string>
+    <string name="advanced_color_settings_title">Advanced Settings</string>
+    <string name="advanced_color_settings_desc">Get advanced color customizations</string>
+    <string name="look_and_feel_title">Look &amp; Feel</string>
+    <string name="look_and_feel_desc">Theme, contrast and colors</string>
+    <string name="ok">OK</string>
+    <string name="no_key_provided">No key provided</string>
+    <string name="hide_default_battery_desc">Hide default battery icon from statusbar</string>
+    <string name="requires_link_to_custom_color">Requires ‘Link to Custom Color’ to be enabled in Xposed &gt; Statusbar</string>
+    <string name="choose_custom_color">Choose Custom Color</string>
+    <string name="statusbar_switch_between_light_and_dark">Switch between light and dark themes to update the status bar color.</string>
+    <string name="theme_color">Theme Color</string>
+    <string name="theme_color_dynamic">Dynamic</string>
+    <string name="palette_style">Palette Style</string>
+    <string name="amoled_mode_title">Amoled Mode</string>
+    <string name="amoled_mode_desc">Black background in dark mode</string>
+    <string name="expressive_colors_title">Expressive Colors</string>
+    <string name="expressive_colors_desc">Use colors that are more chromatic</string>
+    <string name="contrast_level">Contrast Level</string>
+    <string name="contrast_default">Default</string>
+    <string name="contrast_medium">Medium</string>
+    <string name="contrast_high">High</string>
+    <string name="contrast_reduced">Reduced</string>
+    <string name="blur_effect_title">Blur Effect</string>
+    <string name="blur_effect_desc">Apply a blur effect to backgrounds and UI elements</string>
+    <string name="floating_bottom_bar_title">Floating Bottom Bar</string>
+    <string name="floating_bottom_bar_desc">Make the bottom bar float over content</string>
+    <string name="display_scale_title">Display Scale</string>
+    <string name="display_scale_desc">Change the size of UI elements</string>
+    <string name="text_scale_title">Text Scale</string>
+    <string name="text_scale_desc">Change the size of text</string>
+    <string name="header_image_maximum_height_title">Maximum Height</string>
+    <string name="header_image_maximum_height_desc">Show header image on full QS panel</string>
+    <string name="fix_notification_expand_button_color_title">Fix Notification Expand Button Color</string>
+    <string name="fix_notification_expand_button_color_desc">Fix expand button background color on Android 16 QPR3 beta</string>
+    <string name="quick_settings_theme">Quick Settings Theme</string>
+    <string name="tile_background_color">Tile Background Color</string>
+    <string name="icon_color">Icon Color</string>
+    <string name="icon_background_color">Icon Background Color</string>
+    <string name="label_color">Label Color</string>
+    <string name="secondary_label_color">Secondary Label Color</string>
+    <string name="dsb_portrait_only_desc">Display dual rows in portrait mode only</string>
+    <string name="link_to_custom_color_title">Link to Custom Color</string>
+    <string name="link_to_custom_color_desc">Use the color selected in Home screen &gt; More &gt; Statusbar</string>
+    <string name="buy_a_coffee">Buy a coffee</string>
+    <string name="developer_intro_desc">Crafting beautiful Android customization experiences. If Iconify brings you joy, a coffee goes a long way! ☕</string>
+    <string name="lead_developer">Lead Developer</string>
+    <string name="pick_a_color">Pick a color</string>
+    <string name="section_title_appearance">Appearance</string>
+    <string name="section_title_additional_settings">Additional Settings</string>
+    <string name="section_title_active_tile_colors">Active Tile Colors</string>
+    <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
+    <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
+    <!-- Search -->
+    <string name="search_settings_hint">Search settings…</string>
+    <string name="search_no_results">No results found</string>
 </resources>

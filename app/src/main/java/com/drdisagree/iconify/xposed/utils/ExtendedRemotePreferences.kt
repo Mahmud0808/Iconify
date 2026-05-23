@@ -1,8 +1,11 @@
 package com.drdisagree.iconify.xposed.utils
 
 import android.content.Context
+import androidx.core.graphics.toColorInt
 import com.crossbowffs.remotepreferences.RemotePreferences
-import com.drdisagree.iconify.ui.preferences.SliderPreference
+import com.drdisagree.iconify.data.keys.Key
+import com.drdisagree.iconify.data.keys.XposedKey
+import kotlin.math.roundToInt
 
 @Suppress("unused")
 class ExtendedRemotePreferences : RemotePreferences {
@@ -20,19 +23,29 @@ class ExtendedRemotePreferences : RemotePreferences {
         strictMode: Boolean
     ) : super(context, authority, prefFileName, strictMode)
 
-    fun getBoolean(key: String?): Boolean {
+    fun getBoolean(key: String): Boolean {
         return getBoolean(key, false)
     }
 
-    fun getSliderInt(key: String?, defaultVal: Int): Int {
-        return SliderPreference.getSingleIntValue(this, key, defaultVal)
+    fun getBoolean(key: Key): Boolean {
+        return getBoolean(key.name, key.default as? Boolean ?: false)
     }
 
-    fun getSliderFloat(key: String?, defaultVal: Float): Float {
-        return SliderPreference.getSingleFloatValue(this, key, defaultVal)
+    fun getString(key: Key): String {
+        return getString(key.name, key.default as? String ?: "")!!
     }
 
-    fun getSliderValues(key: String?, defaultValue: Float): List<Float> {
-        return SliderPreference.getValues(this, key, defaultValue)
+    fun getInt(key: Key): Int {
+        return getFloat(key.name, key.default as? Float ?: 0f).roundToInt()
     }
+
+    fun getFloat(key: Key): Float {
+        return getFloat(key.name, key.default as? Float ?: 0f)
+    }
+
+    fun getDouble(key: Key): Double {
+        return getFloat(key.name, key.default as? Float ?: 0f).toDouble()
+    }
+
+    fun getColor(key: XposedKey) = getString(key).toColorInt()
 }

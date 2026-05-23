@@ -1,29 +1,36 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.agp.app)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.ksp)
-    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.parcelize)
 }
 
 android {
     namespace = "com.drdisagree.iconify"
-    compileSdk = 35
+
+    compileSdk {
+        version = release(36) {
+            minorApiLevel = 1
+        }
+    }
 
     defaultConfig {
         applicationId = "com.drdisagree.iconify"
-        minSdk = 31
-        targetSdk = 35
-        versionCode = 24
-        versionName = "7.2.0"
-        setProperty("archivesBaseName", "Iconify v${defaultConfig.versionName}")
+        minSdk = 36
+        targetSdk = 36
+        versionCode = 26
+        versionName = "8.0.0"
+        multiDexEnabled = true
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
-
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
+        buildConfigField("int", "OVERLAY_VERSION_CODE", "4")
     }
 
     val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -41,53 +48,33 @@ android {
             storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
             storePassword = keystoreProperties.getProperty("storePassword")
         }
-    } catch (ignored: Exception) {
+    } catch (_: Exception) {
     }
+
+    val isCiBuild = System.getenv("CI") == "true"
 
     buildTypes {
         debug {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            isCrunchPngs = false
-            proguardFiles("proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro")
+            isMinifyEnabled = isCiBuild
+            isShrinkResources = isCiBuild
             applicationIdSuffix = ".debug"
-            resValue("string", "derived_app_name", "Iconify (Debug)")
             signingConfig = releaseSigning
+            resValue("string", "derived_app_name", "Iconify (Debug)")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro", "proguard-debug.pro"
+            )
         }
 
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            isCrunchPngs = false
-            proguardFiles("proguard-android-optimize.txt", "proguard.pro", "proguard-rules.pro")
-            resValue("string", "derived_app_name", "Iconify")
             signingConfig = releaseSigning
-        }
-    }
-
-    flavorDimensions += "distribution"
-
-    productFlavors {
-        create("standard") {
-            isDefault = true
-            dimension = "distribution"
             resValue("string", "derived_app_name", "Iconify")
-        }
-
-        create("foss") {
-            dimension = "distribution"
-            applicationIdSuffix = ".foss"
-            resValue("string", "derived_app_name", "Iconify (FOSS)")
-        }
-    }
-
-    sourceSets {
-        getByName("standard") {
-            java.srcDirs("src/standard/java")
-        }
-
-        getByName("foss") {
-            java.srcDirs("src/foss/java")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro", "proguard-release.pro"
+            )
         }
     }
 
@@ -107,48 +94,91 @@ android {
         includeInBundle = false
     }
 
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
-        aidl = true
-    }
-
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+    buildFeatures {
+        compose = true
+        buildConfig = true
+        resValues = true
+        aidl = true
     }
 
     packaging {
-        jniLibs.excludes += setOf(
-            "/META-INF/*",
-            "/META-INF/versions/**",
-            "/org/bouncycastle/**",
-            "/kotlin/**",
-            "/kotlinx/**"
-        )
+        resources {
+            excludes += setOf(
+                "/META-INF/*",
+                "/META-INF/versions/**",
+                "/org/bouncycastle/**",
+                "/kotlin/**",
+                "/kotlinx/**",
+                "rebel.xml",
+                "/*.txt",
+                "/*.bin",
+                "/*.json"
+            )
+        }
 
-        resources.excludes += setOf(
-            "/META-INF/*",
-            "/META-INF/versions/**",
-            "/org/bouncycastle/**",
-            "/kotlin/**",
-            "/kotlinx/**",
-            "rebel.xml",
-            "/*.txt",
-            "/*.bin",
-            "/*.json"
-        )
+        jniLibs {
+            excludes += setOf(
+                "/META-INF/*",
+                "/META-INF/versions/**",
+                "/org/bouncycastle/**",
+                "/kotlin/**",
+                "/kotlinx/**"
+            )
 
-        jniLibs.useLegacyPackaging = true
+            useLegacyPackaging = true
+        }
     }
 
     lint {
         abortOnError = false
         checkReleaseBuilds = false
+    }
+}
+
+base {
+    archivesName = "Iconify v${android.defaultConfig.versionName}"
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+
+    compilerOptions {
+        languageVersion = KotlinVersion.KOTLIN_2_3
+        jvmTarget = JvmTarget.JVM_17
+    }
+}
+
+tasks.register("renameApks") {
+    dependsOn("assembleDebug", "assembleRelease")
+
+    doLast {
+        val variants = listOf("debug", "release")
+
+        variants.forEach { variant ->
+            val apkDir = layout.buildDirectory
+                .dir("outputs/apk/$variant")
+                .get()
+                .asFile
+
+            val apk = apkDir.listFiles()
+                ?.firstOrNull { it.extension == "apk" }
+                ?: return@forEach
+
+            val versionName = android.defaultConfig.versionName
+            val newName = "Iconify v${versionName}.apk"
+
+            val renamed = File(apkDir, newName)
+
+            apk.renameTo(renamed)
+        }
     }
 }
 
@@ -161,16 +191,53 @@ gradle.taskGraph.whenReady {
     gradle.startParameter.warningMode = WarningMode.Summary
 }
 
-val fossImplementation by configurations
-val standardImplementation by configurations
-
 dependencies {
-    // Kotlin
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.material)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.compose.material3.window.size.class1)
+    implementation(libs.androidx.asynclayoutinflater)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // Data Binding
-    implementation(libs.library)
-    implementation(libs.androidx.palette.ktx)
+    // Core Library Desugaring
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    // Material icons
+    implementation(libs.androidx.compose.material.icons.extended)
+
+    // Datastore
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.datastore)
+
+    // Splashscreen
+    implementation(libs.androidx.core.splashscreen)
+
+    // ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // Navigation Animation
+    implementation(libs.accompanist.navigation.animation)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    ksp(libs.hilt.android.compiler)
 
     // Xposed API
     // F-Droid disallow `api.xposed.info` since it's not a "Trusted Maven Repository".
@@ -185,96 +252,69 @@ dependencies {
     // Optional: Provides remote file system support
     implementation(libs.su.nio)
 
-    // Coroutines
-    implementation(libs.kotlinx.coroutines.android)
-
-    // Color Picker
-    implementation(libs.jaredrummler.colorpicker)
-
-    // Splash Screen
-    implementation(libs.androidx.core.splashscreen)
-
-    // Material Components
-    implementation(libs.material)
-
-    // APK Signer
-    implementation(libs.bcpkix.jdk18on)
-
     // Zip Util
     implementation(libs.zip4j)
-
-    // Preference
-    implementation(libs.androidx.preference.ktx)
 
     // Remote Preference
     implementation(libs.remotepreferences)
 
-    // Flexbox
-    implementation(libs.flexbox)
+    // Google Subject Segmentation - MLKit
+    implementation(libs.com.google.android.gms.play.services.mlkit.subject.segmentation)
+    implementation(libs.play.services.base)
 
-    // Glide
-    implementation(libs.glide)
-    ksp(libs.glide.compiler)
+    // APK Signer
+    implementation(libs.bcpkix.jdk18on)
 
-    // RecyclerView
-    implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.recyclerview.selection)
+    // Liquid Glass
+    implementation(libs.backdrop)
 
-    // ViewPager2
-    implementation(libs.androidx.viewpager2)
+    // Haze Blur
+    implementation(libs.haze.jetpack.compose)
 
-    // Circle Indicator
-    implementation(libs.circleindicator)
+    // Serialization
+    implementation(libs.kotlinx.serialization.json)
 
-    // Lottie Animation
-    implementation(libs.lottie)
+    // Lottie animation
+    implementation(libs.lottie.compose)
 
-    // HTML Parser
-    implementation(libs.jsoup)
+    // Clip shape
+    implementation(libs.androidx.graphics.shapes)
 
-    // Collapsing Toolbar with subtitle
-    implementation(libs.collapsingtoolbarlayout.subtitle)
+    // Drawable painter
+    implementation(libs.accompanist.drawablepainter)
 
-    // Navigation Component
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
+    // Material3 Color Scheme
+    implementation(libs.material.kolor)
+
+    // Work Manager
+    implementation(libs.androidx.work.runtime.ktx)
 
     // Concurrency
-    implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.concurrent.futures)
-    implementation(libs.guava)
 
-    // Event Bus
-    implementation(libs.eventbus)
-
-    // Dots Indicator
-    implementation(libs.dotsindicator)
+    // OkHttp
+    implementation(libs.okhttp)
 
     // Fading Edge Layout
     implementation(libs.fadingedgelayout)
 
-    // Google Subject Segmentation - MLKit
-    standardImplementation(libs.com.google.android.gms.play.services.mlkit.subject.segmentation)
-    standardImplementation(libs.play.services.base)
+    // Color Picker
+    implementation(libs.colorpicker.compose)
 
-    // Blur View
-    implementation(libs.blurview)
-
-    // Misc
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.work.runtime)
-    implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.slf4j.api)
-    implementation(libs.commons.text)
-
-    // OkHttp
-    implementation(libs.okhttp)
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     // Room Database
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
+
+    // Class initializer
+    implementation (libs.objenesis)
+
+    // Compose Markdown
+    implementation(libs.compose.markdown)
 }
 
 tasks.register("printVersionName") {

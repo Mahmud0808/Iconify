@@ -20,6 +20,7 @@
             android:layout_gravity="center"
             android:importantForAccessibility="no"
             android:scaleType="fitXY"
+            android:tag="custom_image1"
             android:src="@drawable/lockscreen_clock_39_logo" />
 
         <FrameLayout

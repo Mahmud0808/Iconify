@@ -1,0 +1,10 @@
+Iconify v7.3.0 has arrived! It has the following new changes:
+
+Feature Changes:
+• Added new lockscreen clock styles.
+• Added a few missing icons in icon packs.
+• Status bar logo customization improvements.
+• Heads-Up & media blur effects, and OneUI 7 battery style.
+• Multiple bug fixes, stability improvements, and translation updates.
+
+Full changelog at https://github.com/Mahmud0808/Iconify/releases/tag/v7.3.0

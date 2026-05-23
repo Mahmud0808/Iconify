@@ -6,15 +6,30 @@ import com.drdisagree.iconify.data.common.Resources.DYNAMIC_RESOURCE_TABLE
 
 @Entity(
     tableName = DYNAMIC_RESOURCE_TABLE,
-    indices = [Index("packageName")],
-    primaryKeys = ["packageName", "resourceName", "startEndTag", "isPortrait", "isLandscape", "isNightMode"]
+    primaryKeys = [
+        "overlayId",
+        "packageName",
+        "startEndTag",
+        "resourceName",
+        "isPortrait",
+        "isLandscape",
+        "isNightMode"
+    ],
+    indices = [
+        Index("overlayId"),
+        Index("packageName"),
+        Index("resourceName"),
+        Index("createdAt")
+    ]
 )
 data class DynamicResourceEntity(
+    val overlayId: String,
     val packageName: String,
-    var startEndTag: String,
-    var resourceName: String,
-    var resourceValue: String,
-    var isPortrait: Boolean,
-    var isLandscape: Boolean,
-    var isNightMode: Boolean
+    val startEndTag: String,
+    val resourceName: String,
+    val resourceValue: String,
+    val isPortrait: Boolean,
+    val isLandscape: Boolean,
+    val isNightMode: Boolean,
+    val createdAt: Long = System.currentTimeMillis()
 )

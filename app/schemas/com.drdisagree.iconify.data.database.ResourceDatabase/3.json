@@ -1,0 +1,221 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "a511a2fdb76d0e24b600cb7ccfe63391",
+    "entities": [
+      {
+        "tableName": "dynamic_resource_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`overlayId` TEXT NOT NULL, `packageName` TEXT NOT NULL, `startEndTag` TEXT NOT NULL, `resourceName` TEXT NOT NULL, `resourceValue` TEXT NOT NULL, `isPortrait` INTEGER NOT NULL, `isLandscape` INTEGER NOT NULL, `isNightMode` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`overlayId`, `packageName`, `startEndTag`, `resourceName`, `isPortrait`, `isLandscape`, `isNightMode`))",
+        "fields": [
+          {
+            "fieldPath": "overlayId",
+            "columnName": "overlayId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startEndTag",
+            "columnName": "startEndTag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resourceName",
+            "columnName": "resourceName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resourceValue",
+            "columnName": "resourceValue",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isPortrait",
+            "columnName": "isPortrait",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isLandscape",
+            "columnName": "isLandscape",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isNightMode",
+            "columnName": "isNightMode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "overlayId",
+            "packageName",
+            "startEndTag",
+            "resourceName",
+            "isPortrait",
+            "isLandscape",
+            "isNightMode"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_dynamic_resource_table_overlayId",
+            "unique": false,
+            "columnNames": [
+              "overlayId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_dynamic_resource_table_overlayId` ON `${TABLE_NAME}` (`overlayId`)"
+          },
+          {
+            "name": "index_dynamic_resource_table_packageName",
+            "unique": false,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_dynamic_resource_table_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          },
+          {
+            "name": "index_dynamic_resource_table_resourceName",
+            "unique": false,
+            "columnNames": [
+              "resourceName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_dynamic_resource_table_resourceName` ON `${TABLE_NAME}` (`resourceName`)"
+          },
+          {
+            "name": "index_dynamic_resource_table_createdAt",
+            "unique": false,
+            "columnNames": [
+              "createdAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_dynamic_resource_table_createdAt` ON `${TABLE_NAME}` (`createdAt`)"
+          }
+        ]
+      },
+      {
+        "tableName": "fabricated_resource_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`targetPackageName` TEXT NOT NULL, `overlayName` TEXT NOT NULL, `resourceType` TEXT NOT NULL, `resourceName` TEXT NOT NULL, `resourceValue` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`targetPackageName`, `overlayName`, `resourceType`, `resourceName`))",
+        "fields": [
+          {
+            "fieldPath": "targetPackageName",
+            "columnName": "targetPackageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "overlayName",
+            "columnName": "overlayName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resourceType",
+            "columnName": "resourceType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resourceName",
+            "columnName": "resourceName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resourceValue",
+            "columnName": "resourceValue",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "targetPackageName",
+            "overlayName",
+            "resourceType",
+            "resourceName"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_fabricated_resource_table_targetPackageName",
+            "unique": false,
+            "columnNames": [
+              "targetPackageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fabricated_resource_table_targetPackageName` ON `${TABLE_NAME}` (`targetPackageName`)"
+          },
+          {
+            "name": "index_fabricated_resource_table_overlayName",
+            "unique": false,
+            "columnNames": [
+              "overlayName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fabricated_resource_table_overlayName` ON `${TABLE_NAME}` (`overlayName`)"
+          },
+          {
+            "name": "index_fabricated_resource_table_resourceType",
+            "unique": false,
+            "columnNames": [
+              "resourceType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fabricated_resource_table_resourceType` ON `${TABLE_NAME}` (`resourceType`)"
+          },
+          {
+            "name": "index_fabricated_resource_table_resourceName",
+            "unique": false,
+            "columnNames": [
+              "resourceName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fabricated_resource_table_resourceName` ON `${TABLE_NAME}` (`resourceName`)"
+          },
+          {
+            "name": "index_fabricated_resource_table_createdAt",
+            "unique": false,
+            "columnNames": [
+              "createdAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fabricated_resource_table_createdAt` ON `${TABLE_NAME}` (`createdAt`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a511a2fdb76d0e24b600cb7ccfe63391')"
+    ]
+  }
+}

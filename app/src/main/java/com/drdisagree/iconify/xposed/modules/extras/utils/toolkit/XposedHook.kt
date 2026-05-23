@@ -1,18 +1,19 @@
+@file:Suppress("unused")
+
 package com.drdisagree.iconify.xposed.modules.extras.utils.toolkit
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.content.res.XResources
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager.init
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge.hookAllConstructors
-import de.robv.android.xposed.XposedBridge.hookAllMethods
 import de.robv.android.xposed.XposedBridge.hookMethod
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.findAndHookConstructor
-import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.getStaticObjectField
 import de.robv.android.xposed.callbacks.XC_LayoutInflated
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -25,39 +26,34 @@ class XposedHook {
         lateinit var loadPackageParam: XC_LoadPackage.LoadPackageParam
 
         fun init(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-            Companion.loadPackageParam =
-                loadPackageParam
+            this.loadPackageParam = loadPackageParam
         }
 
+        /**
+         * Tries each [classNames] in order, returning the first one found.
+         * Returns `null` on failure, logging or throwing based on [suppressError]
+         * / [throwException].
+         */
         fun findClass(
             vararg classNames: String,
             suppressError: Boolean = false,
             throwException: Boolean = false
         ): Class<*>? {
-            if (Companion::loadPackageParam.isInitialized.not()) {
-                throw IllegalStateException("XposedHook.init() must be called before XposedHook.findClass()")
+            if (!this::loadPackageParam.isInitialized) {
+                throw IllegalStateException("XposedHook.init() must be called before findClass()")
             }
 
-            for (className in classNames) {
-                val clazz = XposedHelpers.findClassIfExists(
-                    className,
-                    loadPackageParam.classLoader
-                )
+            for (name in classNames) {
+                val clazz = XposedHelpers.findClassIfExists(name, loadPackageParam.classLoader)
                 if (clazz != null) return clazz
             }
 
-            if (throwException) {
-                if (classNames.size == 1) {
-                    throw Throwable("Class not found: ${classNames[0]}")
-                } else {
-                    throw Throwable("None of the classes were found: ${classNames.joinToString()}")
-                }
-            } else if (!suppressError) {
-                if (classNames.size == 1) {
-                    log(XposedHook, "Class not found: ${classNames[0]}")
-                } else {
-                    log(XposedHook, "None of the classes were found: ${classNames.joinToString()}")
-                }
+            val msg = if (classNames.size == 1) "Class not found: ${classNames[0]}"
+            else "None of the classes were found: ${classNames.joinToString()}"
+
+            when {
+                throwException -> throw Throwable(msg)
+                !suppressError -> log(XposedHook, msg)
             }
 
             return null
@@ -65,479 +61,231 @@ class XposedHook {
     }
 }
 
-fun Class<*>?.hookMethod(vararg methodNames: String): MethodHookHelper {
-    return MethodHookHelper(
-        this,
-        methodNames
-    )
-}
-
-fun Class<*>?.hookConstructor(): MethodHookHelper {
-    return MethodHookHelper(this)
-}
-
-fun Class<*>?.hookMethodMatchPattern(methodNamePattern: String): MethodHookHelper {
-    return MethodHookHelper(
-        this,
-        arrayOf(methodNamePattern),
-        true
-    )
-}
-
-class MethodHookHelper(
+class MethodHookHelper private constructor(
     private val clazz: Class<*>?,
-    private val methodNames: Array<out String>? = null,
-    private val isPattern: Boolean = false,
-    private val method: Method? = null
+    private val methodNames: Array<out String>?,
+    private val isPattern: Boolean,
+    private val directMethod: Method?
 ) {
 
     constructor(
         clazz: Class<*>?,
         methodNames: Array<out String>? = null,
         isPattern: Boolean = false
-    ) : this(
-        clazz,
-        methodNames,
-        isPattern,
-        null
-    )
+    ) : this(clazz, methodNames, isPattern, null)
 
-    constructor(
-        method: Method
-    ) : this(
-        null,
-        null,
-        false,
-        method
-    )
+    constructor(method: Method) : this(null, null, false, method)
 
     private var parameterTypes: Array<Any?>? = null
-    private var printError: Boolean = true
-    private var throwError: Boolean = false
+    private var printError = true
+    private var throwError = false
+    private val handle = UnhookHandle()
 
     @Suppress("UNCHECKED_CAST")
     fun parameters(vararg parameterTypes: Any?): MethodHookHelper {
-        this.parameterTypes = parameterTypes as Array<Any?>?
+        this.parameterTypes = parameterTypes as Array<Any?>
         return this
     }
 
-    fun run(callback: XC_MethodHook): MethodHookHelper {
-        if (method != null) { // hooking directly via Method instance
-            hookMethod(method, callback)
-        } else if (methodNames.isNullOrEmpty()) { // hooking constructor
-            hookConstructor(callback)
-        } else { // hooking method
-            methodNames.forEach { methodName ->
-                if (isPattern) {
-                    val pattern = Pattern.compile(methodName)
-                    clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
-                        ?.forEach { method ->
-                        if (pattern.matcher(method.name).matches()) {
-                            hookMethod(method, callback)
-                        }
-                    }
-                } else {
-                    clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
-                        ?.find { it.name == methodName }?.let { method ->
-                        hookMethod(method, callback)
-                    } ?: run {
-                        if (printError) {
-                            if (clazz != null && methodNames!!.size == 1) {
-                                log(
-                                    XposedHook,
-                                    "Method not found: $methodName in ${clazz.simpleName}"
-                                )
-                            }
-                        } else if (throwError) {
-                            throw Throwable("Method not found: $methodName in ${clazz?.simpleName}")
-                        }
-                    }
-                }
-            }
-        }
-
-        return this
-    }
-
-    fun runBefore(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper {
-        if (method != null) { // hooking directly via Method instance
-            hookMethodBefore(method, callback)
-        } else if (methodNames.isNullOrEmpty()) { // hooking constructor
-            hookConstructorBefore(callback)
-        } else { // hooking method
-            methodNames.forEach { methodName ->
-                if (isPattern) {
-                    val pattern = Pattern.compile(methodName)
-                    clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
-                        ?.forEach { method ->
-                        if (pattern.matcher(method.name).matches()) {
-                            hookMethodBefore(method, callback)
-                        }
-                    }
-                } else {
-                    clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
-                        ?.find { it.name == methodName }?.let { method ->
-                        hookMethodBefore(method, callback)
-                    } ?: run {
-                        if (printError) {
-                            if (clazz != null && methodNames!!.size == 1) {
-                                log(
-                                    XposedHook,
-                                    "Method not found: $methodName in ${clazz.simpleName}"
-                                )
-                            }
-                        } else if (throwError) {
-                            throw Throwable("Method not found: $methodName in ${clazz?.simpleName}")
-                        }
-                    }
-                }
-            }
-        }
-
-        return this
-    }
-
-    fun runAfter(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper {
-        if (method != null) { // hooking directly via Method instance
-            hookMethodAfter(method, callback)
-        } else if (methodNames.isNullOrEmpty()) { // hooking constructor
-            hookConstructorAfter(callback)
-        } else { // hooking method
-            methodNames.forEach { methodName ->
-                if (isPattern) {
-                    val pattern = Pattern.compile(methodName)
-                    clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
-                        ?.forEach { method ->
-                        if (pattern.matcher(method.name).matches()) {
-                            hookMethodAfter(method, callback)
-                        }
-                    }
-                } else {
-                    clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
-                        ?.find { it.name == methodName }?.let { method ->
-                        hookMethodAfter(method, callback)
-                    } ?: run {
-                        if (printError) {
-                            if (clazz != null && methodNames!!.size == 1) {
-                                log(
-                                    XposedHook,
-                                    "Method not found: $methodName in ${clazz.simpleName}"
-                                )
-                            }
-                        } else if (throwError) {
-                            throw Throwable("Method not found: $methodName in ${clazz?.simpleName}")
-                        }
-                    }
-                }
-            }
-        }
-
-        return this
-    }
-
-    fun replace(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper {
-        if (method != null) { // hooking directly via Method instance
-            hookMethodReplace(method, callback)
-        } else {
-            methodNames?.forEach { methodName ->
-                if (isPattern) {
-                    val pattern = Pattern.compile(methodName)
-                    clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
-                        ?.forEach { method ->
-                        if (pattern.matcher(method.name).matches()) {
-                            hookMethodReplace(method, callback)
-                        }
-                    }
-                } else {
-                    clazz?.declaredMethods?.toList()?.union(clazz.methods.toList())
-                        ?.find { it.name == methodName }?.let { method ->
-                        hookMethodReplace(method, callback)
-                    } ?: run {
-                        if (printError) {
-                            if (clazz != null && methodNames!!.size == 1) {
-                                log(
-                                    XposedHook,
-                                    "Method not found: $methodName in ${clazz.simpleName}"
-                                )
-                            }
-                        } else if (throwError) {
-                            throw Throwable("Method not found: $methodName in ${clazz?.simpleName}")
-                        }
-                    }
-                }
-            }
-        }
-
-        return this
-    }
-
-    private fun hookConstructor(callback: XC_MethodHook): MethodHookHelper {
-        if (clazz == null) return this
-
-        if (parameterTypes.isNullOrEmpty()) {
-            hookAllConstructors(clazz, callback)
-        } else {
-            findAndHookConstructor(
-                clazz,
-                *parameterTypes!!,
-                callback
-            )
-        }
-
-        return this
-    }
-
-    private fun hookConstructorBefore(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper {
-        if (clazz == null) return this
-
-        if (parameterTypes.isNullOrEmpty()) {
-            hookAllConstructors(clazz, object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    callback(param)
-                }
-            })
-        } else {
-            findAndHookConstructor(
-                clazz,
-                *parameterTypes!!,
-                object : XC_MethodHook() {
-                    override fun beforeHookedMethod(param: MethodHookParam) {
-                        callback(param)
-                    }
-                }
-            )
-        }
-
-        return this
-    }
-
-    private fun hookConstructorAfter(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper {
-        if (clazz == null) return this
-
-        if (parameterTypes.isNullOrEmpty()) {
-            hookAllConstructors(clazz, object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    callback(param)
-                }
-            })
-        } else {
-            findAndHookConstructor(
-                clazz,
-                *parameterTypes!!,
-                object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        callback(param)
-                    }
-                }
-            )
-        }
-
-        return this
-    }
-
-    private fun hookMethodBefore(
-        method: Method,
-        callback: (XC_MethodHook.MethodHookParam) -> Unit
-    ) {
-        if (clazz == null) {
-            hookMethod(method, object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    callback(param)
-                }
-            })
-        } else {
-            if (parameterTypes.isNullOrEmpty()) {
-                hookAllMethods(clazz, method.name, object : XC_MethodHook() {
-                    override fun beforeHookedMethod(param: MethodHookParam) {
-                        callback(param)
-                    }
-                })
-            } else {
-                findAndHookMethod(
-                    clazz,
-                    method.name,
-                    *parameterTypes!!,
-                    object : XC_MethodHook() {
-                        override fun beforeHookedMethod(param: MethodHookParam) {
-                            callback(param)
-                        }
-                    }
-                )
-            }
-        }
-    }
-
-    private fun hookMethodAfter(
-        method: Method,
-        callback: (XC_MethodHook.MethodHookParam) -> Unit
-    ) {
-        if (clazz == null) {
-            hookMethod(method, object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    callback(param)
-                }
-            })
-        } else {
-            if (parameterTypes.isNullOrEmpty()) {
-                hookAllMethods(clazz, method.name, object : XC_MethodHook() {
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        callback(param)
-                    }
-                })
-            } else {
-                findAndHookMethod(
-                    clazz,
-                    method.name,
-                    *parameterTypes!!,
-                    object : XC_MethodHook() {
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            callback(param)
-                        }
-                    }
-                )
-            }
-        }
-    }
-
-    private fun hookMethodReplace(
-        method: Method,
-        callback: (XC_MethodHook.MethodHookParam) -> Unit
-    ) {
-        if (clazz == null) {
-            hookMethod(method, object : XC_MethodReplacement() {
-                override fun replaceHookedMethod(param: MethodHookParam): Any? {
-                    callback(param)
-                    return null
-                }
-            })
-        } else {
-            if (parameterTypes.isNullOrEmpty()) {
-                hookAllMethods(clazz, method.name, object : XC_MethodReplacement() {
-                    override fun replaceHookedMethod(param: MethodHookParam): Any? {
-                        callback(param)
-                        return null
-                    }
-                })
-            } else {
-                findAndHookMethod(
-                    clazz,
-                    method.name,
-                    *parameterTypes!!,
-                    object : XC_MethodReplacement() {
-                        override fun replaceHookedMethod(param: MethodHookParam): Any? {
-                            callback(param)
-                            return null
-                        }
-                    }
-                )
-            }
-        }
-    }
-
-    /*
-     * Call before running any hook
-     */
+    /** Suppress "not found" log output. */
     fun suppressError(): MethodHookHelper {
         printError = false
         return this
     }
 
-    /*
-     * Call before running any hook
-     */
+    /** Throw instead of logging when a target cannot be found. */
     fun throwError(): MethodHookHelper {
-        suppressError()
-        throwError = true
+        suppressError(); throwError = true
         return this
+    }
+
+    /** Install a raw [XC_MethodHook] that manages both before and after. */
+    fun run(callback: XC_MethodHook): MethodHookHelper =
+        hookWithCallback(callback)
+
+    /** Run [callback] **before** the hooked method body executes. */
+    fun runBefore(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper =
+        hookWithCallback(object : XC_MethodHook() {
+            override fun beforeHookedMethod(param: MethodHookParam) = callback(param)
+        })
+
+    /** Run [callback] **after** the hooked method returns. */
+    fun runAfter(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper =
+        hookWithCallback(object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) = callback(param)
+        })
+
+    /**
+     * Replace the hooked method entirely — the original body is **not** called.
+     * Set `param.result` inside [callback] to provide a return value.
+     */
+    fun replace(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper =
+        hookWithCallback(object : XC_MethodReplacement() {
+            override fun replaceHookedMethod(param: MethodHookParam): Any? {
+                callback(param)
+                return param.result
+            }
+        })
+
+    /**
+     * Returns the live [UnhookHandle] that accumulates every token registered
+     * through this builder.  Safe to call at any point in the chain.
+     */
+    fun getUnhookHandle(): UnhookHandle = handle
+
+    private fun hookWithCallback(callback: XC_MethodHook): MethodHookHelper {
+        when {
+            directMethod != null -> handle.add(hookMethod(directMethod, callback))
+
+            methodNames.isNullOrEmpty() -> {
+                if (clazz == null) return this
+                if (parameterTypes.isNullOrEmpty()) {
+                    hookAllConstructors(clazz, callback).forEach { handle.add(it) }
+                } else {
+                    handle.add(findAndHookConstructor(clazz, *parameterTypes!!, callback))
+                }
+            }
+
+            else -> {
+                var foundAny = false
+                methodNames.forEach { nameOrPattern ->
+                    findCandidates(nameOrPattern).forEach { method ->
+                        handle.add(hookMethod(method, callback))
+                        foundAny = true
+                    }
+                }
+                if (!foundAny && clazz != null) {
+                    val msg = "Method(s) not found: ${methodNames.joinToString()} " +
+                            "in ${clazz.simpleName}"
+                    when {
+                        throwError -> throw Throwable(msg)
+                        printError -> log(XposedHook, msg)
+                    }
+                }
+            }
+        }
+        return this
+    }
+
+    /**
+     * Returns all methods on [clazz] whose name matches [nameOrPattern].
+     *
+     * Merges declared (private/protected) and inherited (public) methods,
+     * de-duplicated by signature.  When [parameterTypes] is set the result is
+     * narrowed to the best-matching overload(s).
+     */
+    private fun findCandidates(nameOrPattern: String): List<Method> {
+        if (clazz == null) return emptyList()
+
+        // Merge declared + inherited, de-duplicate by name + parameter signature
+        val allMethods = (clazz.declaredMethods.asSequence() + clazz.methods.asSequence())
+            .distinctBy { m -> m.name + m.parameterTypes.joinToString(",") { it.name } }
+            .toList()
+
+        // Filter by name or compiled pattern
+        val matched = if (isPattern) {
+            val pattern = Pattern.compile(nameOrPattern)
+            allMethods.filter { pattern.matcher(it.name).matches() }
+        } else {
+            allMethods.filter { it.name == nameOrPattern }
+        }
+
+        // Optionally narrow to a specific overload
+        if (!parameterTypes.isNullOrEmpty()) {
+            return matched.filter { method ->
+                val types = method.parameterTypes
+                if (types.size != parameterTypes!!.size) return@filter false
+                types.indices.all { i ->
+                    when (val expected = parameterTypes!![i]) {
+                        null -> true
+                        is Class<*> -> types[i] == expected
+                        is String -> types[i].name == expected
+                        else -> false
+                    }
+                }
+            }
+        }
+
+        return matched
     }
 }
 
-fun Method.run(callback: XC_MethodHook): MethodHookHelper {
-    return MethodHookHelper(this)
-        .run(callback)
-}
+fun Class<*>?.hookMethod(vararg methodNames: String): MethodHookHelper =
+    MethodHookHelper(clazz = this, methodNames = methodNames)
 
-fun Method.runBefore(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper {
-    return MethodHookHelper(this)
-        .runBefore(callback)
-}
+fun Class<*>?.hookConstructor(): MethodHookHelper =
+    MethodHookHelper(clazz = this)
 
-fun Method.runAfter(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper {
-    return MethodHookHelper(this)
-        .runAfter(callback)
-}
+fun Class<*>?.hookMethodMatchPattern(methodNamePattern: String): MethodHookHelper =
+    MethodHookHelper(clazz = this, methodNames = arrayOf(methodNamePattern), isPattern = true)
 
-fun Method.replace(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper {
-    return MethodHookHelper(this)
-        .replace(callback)
-}
+fun Method.run(callback: XC_MethodHook): MethodHookHelper =
+    MethodHookHelper(this).run(callback)
 
-fun XResources.hookLayout(): LayoutHookHelper {
-    return LayoutHookHelper(this)
-}
+fun Method.runBefore(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper =
+    MethodHookHelper(this).runBefore(callback)
+
+fun Method.runAfter(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper =
+    MethodHookHelper(this).runAfter(callback)
+
+fun Method.replace(callback: (XC_MethodHook.MethodHookParam) -> Unit): MethodHookHelper =
+    MethodHookHelper(this).replace(callback)
+
+fun XResources.hookLayout(): LayoutHookHelper = LayoutHookHelper(this)
 
 class LayoutHookHelper(private val xResources: XResources) {
 
     private var packageName: String? = null
     private var resourceType: String? = null
     private var resourceName: String? = null
-    private var printError: Boolean = true
-    private var throwError: Boolean = false
+    private var printError = true
+    private var throwError = false
+    private val handle = UnhookHandle()
 
     fun packageName(packageName: String): LayoutHookHelper {
         this.packageName = packageName
         return this
     }
 
-    fun resource(
-        resourceType: String,
-        resourceName: String
-    ): LayoutHookHelper {
-        this.resourceType = resourceType
-        this.resourceName = resourceName
+    fun resource(resourceType: String, resourceName: String): LayoutHookHelper {
+        this.resourceType = resourceType; this.resourceName = resourceName
         return this
     }
 
     fun run(callback: (XC_LayoutInflated.LayoutInflatedParam) -> Unit): LayoutHookHelper {
-        if (packageName == null || resourceType == null || resourceName == null) {
-            throw IllegalArgumentException("packageName, resourceType and resourceName must be set")
-        }
+        requireNotNull(packageName) { "packageName must be set" }
+        requireNotNull(resourceType) { "resourceType must be set" }
+        requireNotNull(resourceName) { "resourceName must be set" }
 
         try {
-            xResources.hookLayout(
-                packageName,
-                resourceType,
-                resourceName,
+            val unhook = xResources.hookLayout(
+                packageName, resourceType, resourceName,
                 object : XC_LayoutInflated() {
-                    override fun handleLayoutInflated(param: LayoutInflatedParam) {
-                        callback(param)
-                    }
+                    override fun handleLayoutInflated(param: LayoutInflatedParam) = callback(param)
                 }
             )
-        } catch (throwable: Throwable) {
-            if (printError) {
-                log(XposedHook, throwable)
-            } else if (throwError) {
-                throw throwable
+            handle.add(unhook)
+        } catch (t: Throwable) {
+            when {
+                throwError -> throw t; printError -> log(XposedHook, t)
             }
         }
 
         return this
     }
 
-    /*
-     * Call before running any hook
-     */
+    /** Returns the [UnhookHandle] for every layout hook registered here. */
+    fun getUnhookHandle(): UnhookHandle = handle
+
+    /** Silence error logs. Call before [run]. */
     fun suppressError(): LayoutHookHelper {
         printError = false
         return this
     }
 
-    /*
-     * Call before running any hook
-     */
+    /** Throw on errors. Call before [run]. */
     fun throwError(): LayoutHookHelper {
-        throwError = true
+        suppressError(); throwError = true
         return this
     }
 }
@@ -546,43 +294,57 @@ object ResourceHookManager {
 
     private val hookedResources = mutableListOf<HookData>()
     private var contextRef: WeakReference<Context>? = null
+    private val handle = UnhookHandle()
 
     fun init(context: Context) {
         contextRef = WeakReference(context)
-
         applyHooks()
     }
 
-    fun hookDimen(): HookBuilder {
-        return HookBuilder(HookType.DIMENSION)
-    }
+    fun hookDimen(): HookBuilder = HookBuilder(HookType.DIMENSION)
+    fun hookBoolean(): HookBuilder = HookBuilder(HookType.BOOLEAN)
+    fun hookInteger(): HookBuilder = HookBuilder(HookType.INTEGER)
 
-    fun hookBoolean(): HookBuilder {
-        return HookBuilder(HookType.BOOLEAN)
-    }
+    /**
+     * Returns the [UnhookHandle] for every [Resources] method hook installed
+     * during [init].  Call [UnhookHandle.unhook] to remove them all.
+     */
+    fun getUnhookHandle(): UnhookHandle = handle
 
-    fun hookInteger(): HookBuilder {
-        return HookBuilder(HookType.INTEGER)
+    /**
+     * Removes all [Resources] hooks and clears the registered resource list.
+     * Call [init] again to re-apply hooks later.
+     */
+    fun unhookAll() {
+        handle.unhook()
+        hookedResources.clear()
     }
 
     private fun applyHooks() {
-        val context = contextRef!!.get() ?: throw IllegalStateException("Context is null")
+        val context = contextRef?.get()
+            ?: throw IllegalStateException("Context is null — call init() first")
 
         HookType.entries.forEach { hookType ->
-            hookType.methods.forEach { method ->
-                Resources::class.java
-                    .hookMethod(method)
+            hookType.methods.forEach { methodName ->
+                val methodHandle = Resources::class.java
+                    .hookMethod(methodName)
                     .runBefore { param ->
-                        val hookData = hookedResources.find {
-                            it.method == method && it.resId == param.args[0] && it.condition.invoke()
+                        val data = hookedResources.find {
+                            it.method == methodName &&
+                                    it.resId == param.args[0] &&
+                                    it.condition()
                         } ?: return@runBefore
 
-                        if (method == "getDimensionPixelSize") {
-                            param.result = context.toPx(hookData.value.invoke() as Int)
-                        } else {
-                            param.result = hookData.value.invoke()
+                        param.result = when (methodName) {
+                            "getDimensionPixelSize",
+                            "getDimensionPixelOffset" -> context.toPx(data.value() as Int)
+
+                            else -> data.value()
                         }
                     }
+                    .getUnhookHandle()
+
+                handle.merge(methodHandle)
             }
         }
     }
@@ -606,7 +368,7 @@ object ResourceHookManager {
         @SuppressLint("DiscouragedApi")
         fun addResource(name: String, value: () -> Any): HookBuilder {
             val context = contextRef?.get() ?: return this
-            if (packageName == null) throw IllegalArgumentException("packageName must be set")
+            requireNotNull(packageName) { "forPackageName() must be called first" }
 
             val resId = context.resources.getIdentifier(
                 name,
@@ -616,19 +378,31 @@ object ResourceHookManager {
 
             if (resId != 0) {
                 hookType.methods.forEach { method ->
-                    resourcesToHook.add(HookData(resId, method, value, condition))
+                    resourcesToHook.add(HookData(resId, method, value, condition, UnhookHandle()))
                 }
             }
 
             return this
         }
 
-        fun apply() {
-            resourcesToHook.forEach { resource ->
-                if (!hookedResources.contains(resource)) {
-                    hookedResources.add(resource)
+        fun apply(): UnhookHandle {
+            val localHandle = UnhookHandle()
+
+            resourcesToHook.forEach { pending ->
+                val isDuplicate = hookedResources.any { existing ->
+                    existing.resId == pending.resId && existing.method == pending.method
+                }
+
+                if (!isDuplicate) {
+                    hookedResources.add(pending.copy(owner = localHandle))
                 }
             }
+
+            localHandle.addCustom {
+                hookedResources.removeAll { it.owner == localHandle }
+            }
+
+            return localHandle
         }
     }
 
@@ -636,7 +410,8 @@ object ResourceHookManager {
         val resId: Int,
         val method: String,
         val value: () -> Any,
-        val condition: () -> Boolean
+        val condition: () -> Boolean,
+        val owner: UnhookHandle
     )
 
     enum class HookType(val resourceType: String, val methods: List<String>) {
@@ -655,121 +430,153 @@ object ResourceHookManager {
     }
 }
 
+class UnhookHandle {
+
+    // We store a list of lambdas that perform the unhooking action
+    private val unhookActions = mutableSetOf<() -> Unit>()
+
+    val size: Int get() = unhookActions.size
+    val isEmpty: Boolean get() = unhookActions.isEmpty()
+
+    /** Reverts every hook (Method, Layout, etc.) tracked by this handle. */
+    fun unhook() {
+        unhookActions.forEach { it.invoke() }
+        unhookActions.clear()
+    }
+
+    /** Add a Method unhook token */
+    internal fun add(token: XC_MethodHook.Unhook) {
+        unhookActions.add { token.unhook() }
+    }
+
+    /** Add a Layout unhook token */
+    internal fun add(token: XC_LayoutInflated.Unhook) {
+        unhookActions.add { token.unhook() }
+    }
+
+    /**
+     * Adds a custom cleanup action to be executed when [unhook] is called.
+     * Use this to manage non-standard hooks or resource cleanup that aren't
+     * automatically handled by the standard Xposed unhook tokens.
+     */
+    internal fun addCustom(action: () -> Unit) {
+        unhookActions.add(action)
+    }
+
+    /** Merges another handle into this one */
+    internal fun merge(other: UnhookHandle) {
+        unhookActions.addAll(other.unhookActions)
+    }
+
+    operator fun plus(other: UnhookHandle): UnhookHandle {
+        val newHandle = UnhookHandle()
+        newHandle.unhookActions.addAll(this.unhookActions)
+        newHandle.unhookActions.addAll(other.unhookActions)
+        return newHandle
+    }
+}
+
 fun Any?.callMethod(methodName: String): Any? {
     if (this == null) return null
-
     return XposedHelpers.callMethod(this, methodName)
 }
 
 fun Any?.callMethod(methodName: String, vararg args: Any?): Any? {
     if (this == null) return null
-
     return XposedHelpers.callMethod(this, methodName, *args)
 }
 
 fun Any?.callMethodSilently(methodName: String): Any? {
     if (this == null) return null
-
     return try {
         XposedHelpers.callMethod(this, methodName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
 
 fun Any?.callMethodSilently(methodName: String, vararg args: Any?): Any? {
     if (this == null) return null
-
     return try {
         XposedHelpers.callMethod(this, methodName, *args)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
 
 fun Class<*>?.callStaticMethod(methodName: String): Any? {
     if (this == null) return null
-
     return XposedHelpers.callStaticMethod(this, methodName)
 }
 
 fun Class<*>?.callStaticMethod(methodName: String, vararg args: Any?): Any? {
     if (this == null) return null
-
     return XposedHelpers.callStaticMethod(this, methodName, *args)
 }
 
 fun Class<*>?.callStaticMethodSilently(methodName: String): Any? {
     if (this == null) return null
-
     return try {
         XposedHelpers.callStaticMethod(this, methodName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
 
 fun Class<*>?.callStaticMethodSilently(methodName: String, vararg args: Any?): Any? {
     if (this == null) return null
-
     return try {
         XposedHelpers.callStaticMethod(this, methodName, *args)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
 
 fun Any?.getField(fieldName: String): Any {
-    if (this == null) throw NoSuchFieldError("Field not found: $fieldName, object is null")
-
+    if (this == null) throw NoSuchFieldError("Field not found: $fieldName — object is null")
     return XposedHelpers.getObjectField(this, fieldName)
 }
 
 fun Any?.getFieldSilently(fieldName: String): Any? {
     if (this == null) return null
-
     return try {
         XposedHelpers.getObjectField(this, fieldName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
 
-fun Any?.setField(fieldName: String, value: Any?) {
+fun Any?.setField(fieldName: String, value: Any?) =
     XposedHelpers.setObjectField(this, fieldName, value)
-}
 
 fun Any?.setFieldSilently(fieldName: String, value: Any?) {
     try {
         XposedHelpers.setObjectField(this, fieldName, value)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
     }
 }
 
 fun Class<*>?.getStaticField(fieldName: String): Any {
-    if (this == null) throw NoSuchFieldError("Field not found: $fieldName, class is null")
-
+    if (this == null) throw NoSuchFieldError("Field not found: $fieldName — class is null")
     return getStaticObjectField(this, fieldName)
 }
 
 fun Class<*>?.getStaticFieldSilently(fieldName: String): Any? {
     if (this == null) return null
-
     return try {
         getStaticObjectField(this, fieldName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
 }
 
-fun Class<*>?.setStaticField(fieldName: String, value: Any?) {
+fun Class<*>?.setStaticField(fieldName: String, value: Any?) =
     XposedHelpers.setStaticObjectField(this, fieldName, value)
-}
 
 fun Class<*>?.setStaticFieldSilently(fieldName: String, value: Any?) {
     try {
         XposedHelpers.setStaticObjectField(this, fieldName, value)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
     }
 }
 
@@ -777,10 +584,9 @@ fun Any?.getAnyField(vararg fieldNames: String): Any? {
     fieldNames.forEach { fieldName ->
         try {
             return XposedHelpers.getObjectField(this, fieldName)
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
     }
-
     throw NoSuchFieldError("Field not found: ${fieldNames.joinToString()}")
 }
 
@@ -788,10 +594,9 @@ fun Any?.setAnyField(value: Any?, vararg fieldNames: String) {
     fieldNames.forEach { fieldName ->
         try {
             return XposedHelpers.setObjectField(this, fieldName, value)
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
     }
-
     throw NoSuchFieldError("Field not found: ${fieldNames.joinToString()}")
 }
 
@@ -799,24 +604,21 @@ fun Class<*>?.getAnyStaticField(vararg fieldNames: String): Any? {
     fieldNames.forEach { fieldName ->
         try {
             return getStaticObjectField(this, fieldName)
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
         }
     }
-
     throw NoSuchFieldError("Field not found: ${fieldNames.joinToString()}")
 }
 
-fun Any?.getExtraField(fieldName: String): Any {
-    return XposedHelpers.getAdditionalInstanceField(this, fieldName)
-}
+fun Any?.getExtraField(fieldName: String): Any =
+    XposedHelpers.getAdditionalInstanceField(this, fieldName)
 
-fun Any?.getExtraFieldSilently(fieldName: String): Any? {
-    return try {
+fun Any?.getExtraFieldSilently(fieldName: String): Any? =
+    try {
         XposedHelpers.getAdditionalInstanceField(this, fieldName)
-    } catch (ignored: Throwable) {
+    } catch (_: Throwable) {
         null
     }
-}
 
 fun Any?.setExtraField(fieldName: String, value: Any?) {
     XposedHelpers.setAdditionalInstanceField(this, fieldName, value)

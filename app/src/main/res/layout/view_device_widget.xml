@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:tag="device_widget_classic">
@@ -65,7 +64,7 @@
                 android:indeterminateOnly="false"
                 android:progress="40"
                 android:progressDrawable="@drawable/ios_widget_line_progress_track"
-                android:progressTint="@color/white"
+                android:progressTint="#FFFFFF"
                 android:tag="battery_progressbar" />
 
         </LinearLayout>
@@ -77,7 +76,7 @@
             android:adjustViewBounds="true"
             android:alpha="0.9"
             android:tag="volume_progress"
-            tools:background="@drawable/arc_progress" />
+            tools:background="@drawable/lockscreen_widget_arc_progress" />
 
         <LinearLayout
             android:layout_width="60dp"
@@ -85,14 +84,13 @@
             android:adjustViewBounds="true"
             android:alpha="0.9"
             android:tag="ram_usage_info"
-            tools:background="@drawable/arc_progress" />
+            tools:background="@drawable/lockscreen_widget_arc_progress" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:gravity="center"
         android:visibility="gone"
         android:orientation="horizontal"
@@ -106,7 +104,7 @@
             android:alpha="0.9"
             android:orientation="horizontal"
             android:tag="battery_progress_arc"
-            tools:background="@drawable/arc_progress" />
+            tools:background="@drawable/lockscreen_widget_arc_progress" />
 
         <LinearLayout
             android:layout_width="60dp"
@@ -116,7 +114,7 @@
             android:alpha="0.9"
             android:orientation="horizontal"
             android:tag="memory_progress"
-            tools:background="@drawable/arc_progress" />
+            tools:background="@drawable/lockscreen_widget_arc_progress" />
 
         <LinearLayout
             android:layout_width="60dp"
@@ -126,7 +124,7 @@
             android:alpha="0.9"
             android:orientation="horizontal"
             android:tag="temperature_progress"
-            tools:background="@drawable/arc_progress" />
+            tools:background="@drawable/lockscreen_widget_arc_progress" />
 
         <LinearLayout
             android:layout_width="60dp"
@@ -136,7 +134,7 @@
             android:alpha="0.9"
             android:orientation="horizontal"
             android:tag="volume_progress_2"
-            tools:background="@drawable/arc_progress" />
+            tools:background="@drawable/lockscreen_widget_arc_progress" />
 
     </LinearLayout>
 </LinearLayout>

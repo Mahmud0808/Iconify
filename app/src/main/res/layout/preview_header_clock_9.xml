@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/container_background_accent"
+        android:background="@drawable/header_clock_9_container_background_accent"
         android:gravity="center_horizontal"
         android:tag="gradient"
         tools:ignore="UselessParent">
@@ -18,14 +18,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|center"
             android:layout_margin="2dp"
-            android:background="@drawable/time_container_background"
+            android:background="@drawable/header_clock_9_time_container_background"
             android:format12Hour="hh:mm"
             android:format24Hour="HH:mm"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
             android:singleLine="true"
-            android:tag="clock"
-            android:textColor="@color/white"
+            android:tag="clock|text1"
+            android:textColor="#FFFFFF"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -33,13 +33,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:format12Hour="EEE, MMM dd"
-            android:format24Hour="EEE, dd MMM"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="8dp"
+            android:format12Hour="EEE, MMM dd"
+            android:format24Hour="EEE, dd MMM"
             android:singleLine="true"
-            android:tag="date"
-            android:textColor="@color/white"
+            android:tag="date|text1"
+            android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
     </LinearLayout>

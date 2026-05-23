@@ -3,23 +3,20 @@ package com.drdisagree.iconify.data.config
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import com.drdisagree.iconify.Iconify.Companion.appContext
-import com.drdisagree.iconify.data.common.Resources.SHARED_XPREFERENCES
-import com.drdisagree.iconify.ui.preferences.SliderPreference
+import com.drdisagree.iconify.app.Iconify.Companion.appContext
+import com.drdisagree.iconify.data.common.XposedConst.PREF_FILE_NAME
+import com.drdisagree.iconify.data.keys.Key
 
 @Suppress("unused")
 object RPrefs : SharedPreferences {
 
-    private val prefs: SharedPreferences by lazy {
-        appContext.createDeviceProtectedStorageContext().getSharedPreferences(
-            SHARED_XPREFERENCES, MODE_PRIVATE
-        )
+    val prefs: SharedPreferences by lazy {
+        appContext
+            .createDeviceProtectedStorageContext()
+            .getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE)
     }
 
     private val editor: SharedPreferences.Editor by lazy { prefs.edit() }
-
-    val instance: RPrefs
-        get() = this
 
     val getPrefs: SharedPreferences
         get() = prefs
@@ -29,65 +26,87 @@ object RPrefs : SharedPreferences {
         editor.putBoolean(key, value).apply()
     }
 
+    fun putBoolean(key: Key, value: Boolean) = putBoolean(key.name, value)
+
     fun putInt(key: String?, value: Int) {
         editor.putInt(key, value).apply()
     }
+
+    fun putInt(key: Key, value: Int) = putInt(key.name, value)
 
     fun putFloat(key: String?, value: Float) {
         editor.putFloat(key, value).apply()
     }
 
+    fun putFloat(key: Key, value: Float) = putFloat(key.name, value)
+
     fun putLong(key: String?, value: Long) {
         editor.putLong(key, value).apply()
     }
 
+    fun putLong(key: Key, value: Long) = putLong(key.name, value)
+
     fun putString(key: String?, value: String?) {
         editor.putString(key, value).apply()
     }
+
+    fun putString(key: Key, value: String?) = putString(key.name, value)
 
     // Basic get methods
     fun getBoolean(key: String?): Boolean {
         return prefs.getBoolean(key, false)
     }
 
+    fun getBoolean(key: Key): Boolean = getBoolean(key.name, key.default as? Boolean ?: false)
+
+    fun getBoolean(key: Key, defValue: Boolean): Boolean =
+        getBoolean(key.name, defValue)
+
     fun getInt(key: String?): Int {
         return prefs.getInt(key, 0)
     }
+
+    fun getInt(key: Key): Int = getInt(key.name, key.default as? Int ?: 0)
+
+    fun getInt(key: Key, defValue: Int): Int = getInt(key.name, defValue)
 
     fun getLong(key: String?): Long {
         return prefs.getLong(key, 0)
     }
 
+    fun getLong(key: Key): Long = getLong(key.name, key.default as? Long ?: 0)
+
+    fun getLong(key: Key, defValue: Long): Long = getLong(key.name, defValue)
+
     fun getFloat(key: String?): Float {
         return prefs.getFloat(key, 0f)
     }
+
+    fun getFloat(key: Key): Float = getFloat(key.name, key.default as? Float ?: 0f)
+
+    fun getFloat(key: Key, defValue: Float): Float = getFloat(key.name, defValue)
 
     fun getString(key: String?): String? {
         return prefs.getString(key, null)
     }
 
-    // Custom slider preference methods
-    fun getSliderInt(key: String?, defaultVal: Int): Int {
-        return SliderPreference.getSingleIntValue(this, key, defaultVal)
-    }
+    fun getString(key: Key): String? = getString(key.name, key.default as? String)
 
-    fun getSliderValues(key: String?, defaultValue: Float): List<Float> {
-        return SliderPreference.getValues(this, key, defaultValue)
-    }
-
-    fun getSliderFloat(key: String?, defaultVal: Float): Float {
-        return SliderPreference.getSingleFloatValue(this, key, defaultVal)
-    }
+    fun getString(key: Key, defValue: String?): String? = getString(key.name, defValue)
 
     // Clear methods
     fun clearPref(key: String?) {
         editor.remove(key).apply()
     }
 
+    fun clearPref(key: Key) = clearPref(key.name)
+
     fun clearPrefs(vararg keys: String?) {
-        keys.forEach { key ->
-            editor.remove(key).apply()
-        }
+        keys.forEach { key -> clearPref(key) }
+    }
+
+    fun clearPrefs(vararg keys: Key) {
+        keys.forEach { key -> clearPref(key.name) }
     }
 
     fun clearAllPrefs() {

@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.STATUSBAR_SWAP_WIFI_CELLULAR
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -23,22 +24,22 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            swapWifiAndCellularIcon = getBoolean(STATUSBAR_SWAP_WIFI_CELLULAR, false)
+            swapWifiAndCellularIcon = getBoolean(XposedKey.STATUSBAR_SWAP_WIFI_CELLULAR)
         }
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         val statusIconContainerClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.StatusIconContainer")
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ui.IconManager")
 
         statusIconContainerClass
-            .hookMethod("onViewAdded")
+            .hookMethod("addNewWifiIcon", "addNewMobileIcon", "addHolder")
             .runAfter { param ->
                 if (!swapWifiAndCellularIcon) return@runAfter
 
-                val parent = param.thisObject as ViewGroup
+                val parent = param.thisObject.getField("mGroup") as ViewGroup
 
-                val wifiView = parent.findViewById<View>(
+                val wifiView = parent.findViewById<View?>(
                     mContext.resources.getIdentifier(
                         "wifi_combo",
                         "id",
@@ -56,11 +57,11 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
                     .toMutableList()
 
                 if (mobileViews.isNotEmpty() && wifiView != null) {
-                    val lastMobileView = mobileViews.last()
-                    val lastMobileIndex = parent.indexOfChild(lastMobileView)
+                    val firstMobileView = mobileViews.first()
+                    val firstMobileIndex = parent.indexOfChild(firstMobileView)
 
-                    if (lastMobileIndex > parent.indexOfChild(wifiView)) {
-                        parent.reAddView(wifiView, lastMobileIndex)
+                    if (firstMobileIndex < parent.indexOfChild(wifiView)) {
+                        parent.reAddView(wifiView, firstMobileIndex - 1)
                     }
                 }
             }
@@ -81,7 +82,7 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
 
                     if (mobileIndex != -1) {
                         result.remove("wifi")
-                        result.add(mobileIndex, "wifi")
+                        result.add(mobileIndex - 1, "wifi")
                     }
 
                     param.result = result.toTypedArray()

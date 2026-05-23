@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.VOLUME_PANEL_PERCENTAGE
-import com.drdisagree.iconify.data.common.Preferences.VOLUME_PANEL_SAFETY_WARNING
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
@@ -22,6 +22,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 @SuppressLint("DiscouragedApi", "DefaultLocale")
 class VolumePanel(context: Context) : ModPack(context) {
@@ -31,8 +32,8 @@ class VolumePanel(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            showPercentage = getBoolean(VOLUME_PANEL_PERCENTAGE, false)
-            showWarning = getBoolean(VOLUME_PANEL_SAFETY_WARNING, true)
+            showPercentage = getBoolean(XposedKey.VOLUME_PANEL_PERCENTAGE)
+            showWarning = getBoolean(XposedKey.VOLUME_PANEL_SAFETY_WARNING)
         }
     }
 
@@ -42,9 +43,15 @@ class VolumePanel(context: Context) : ModPack(context) {
     }
 
     private fun showVolumePercentage() {
-        val volumeDialogImplClass = findClass("$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl")
-        val audioStreamStateClass = findClass(
-            "$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel\$State",
+        val volumeDialogImplClass = findClass(
+            "$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl",
+            suppressError = true
+        )
+        val audioStreamStateClass =
+            findClass($$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$State")
+        val audioStreamToStateClass = findClass(
+            $$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$toState$1",
+            $$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$toState$2",
             suppressError = true
         )
 
@@ -126,37 +133,81 @@ class VolumePanel(context: Context) : ModPack(context) {
             }
 
         // Compose implementation of extended volume panel
+        fun updateVolumeLabel(thisObject: Any) {
+            val currentValue = thisObject.getField("value") as Float
+            val maxValue = thisObject
+                .getField("valueRange")
+                .getField("_endInclusive") as Float
+            val percentage = 100 * currentValue / maxValue
+            var label = thisObject.getField("label") as String
+            label = String.format("$label - ${percentage.roundToInt()}%%")
+
+            thisObject.setField("label", label)
+        }
+
         audioStreamStateClass
             .hookConstructor()
-            .suppressError()
             .runAfter { param ->
                 if (!showPercentage) return@runAfter
 
-                val currentValue = param.thisObject.getField("value") as Float
-                val maxValue = param.thisObject
-                    .getField("valueRange")
-                    .getField("_endInclusive") as Float
-                val percentage = 100 * currentValue / maxValue
-                var label = param.thisObject.getField("label") as String
-                label = String.format("$label - ${Math.round(percentage)}%%")
+                updateVolumeLabel(param.thisObject)
+            }
 
-                param.thisObject.setField("label", label)
+        audioStreamToStateClass
+            .hookMethod("invokeSuspend")
+            .runAfter { param ->
+                if (!showPercentage) return@runAfter
+
+                val state = param.result
+                updateVolumeLabel(state)
+                param.result = state
             }
     }
 
     private fun showSafetyWarning() {
-        val volumeDialogImplClass = findClass("$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl")
+        val volumeDialogImplClass = findClass(
+            "$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl",
+            suppressError = true
+        )
 
-        volumeDialogImplClass
-            .hookMethod(
-                "onShowSafetyWarning",
-                "showSafetyWarningH"
-            )
-            .runBefore { param ->
-                if (!showWarning) {
-                    param.result = null
-                }
+        if (volumeDialogImplClass == null) {
+            ResourceHookManager
+                .hookBoolean()
+                .whenCondition { !showWarning }
+                .forPackageName(SYSTEMUI_PACKAGE)
+                .addResource("enable_safety_warning") { false }
+                .apply()
+        } else {
+            try {
+                volumeDialogImplClass
+                    .hookMethod(
+                        "onShowSafetyWarning",
+                        "showSafetyWarningH"
+                    )
+                    .throwError()
+                    .runBefore { param ->
+                        if (!showWarning) {
+                            param.result = null
+                        }
+                    }
+            } catch (_: Throwable) {
+                volumeDialogImplClass
+                    .hookConstructor()
+                    .runAfter { param ->
+                        if (showWarning) return@runAfter
+
+                        val mControllerCallbackH = param.thisObject.getField("mControllerCallbackH")
+
+                        mControllerCallbackH.javaClass
+                            .hookMethod("onShowSafetyWarning")
+                            .runBefore { param ->
+                                if (!showWarning) {
+                                    param.result = null
+                                }
+                            }
+                    }
             }
+        }
     }
 
     private fun createVolumeTextView(): TextView {

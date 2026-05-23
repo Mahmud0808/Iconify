@@ -2,40 +2,34 @@ package com.drdisagree.iconify.xposed.modules.statusbar
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.core.view.doOnAttach
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_END_BOTTOM_MARGIN
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_END_PADDING
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_END_SIDE_SINGLE_ROW
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_END_TOP_MARGIN
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_HEIGHT
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_ONLY_PORTRAIT
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_START_BOTTOM_MARGIN
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_START_PADDING
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_START_SIDE_SINGLE_ROW
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_START_TOP_MARGIN
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_SWAP_END_SIDE
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_SWAP_START_SIDE
-import com.drdisagree.iconify.data.common.Preferences.DUAL_STATUSBAR_TOP_PADDING
-import com.drdisagree.iconify.data.common.Preferences.SHOW_CLOCK_ON_RIGHT_SIDE
+import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_DEFAULT
+import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_BATTERY_ICON_TAG
+import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
+import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.DisplayUtils.isLandscape
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.reAddView
-import com.drdisagree.iconify.xposed.modules.extras.utils.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLandscape
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
@@ -68,52 +62,57 @@ class DualStatusbar(context: Context) : ModPack(context) {
     private var cutoutSpaceView: View? = null
     private var mPhoneStatusBarViewObj: Any? = null
     private var mScrimControllerObj: Any? = null
-    private var clockOnRightSide = false
+    private var clockPosition = 0
+    private var customBatteryEnabled = false
+    private var hideDefaultBattery = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            dualStatusbarEnabled = getBoolean(DUAL_STATUSBAR, false)
-            portraitOnlyEnabled = getBoolean(DUAL_STATUSBAR_ONLY_PORTRAIT, false)
-            singleRowStartSide = getBoolean(DUAL_STATUSBAR_START_SIDE_SINGLE_ROW, false)
-            singleRowEndSide = getBoolean(DUAL_STATUSBAR_END_SIDE_SINGLE_ROW, false)
-            swapStartSide = getBoolean(DUAL_STATUSBAR_SWAP_START_SIDE, false)
-            swapEndSide = getBoolean(DUAL_STATUSBAR_SWAP_END_SIDE, false)
-            statusbarHeight = getSliderInt(DUAL_STATUSBAR_HEIGHT, -1)
-            statusbarStartPadding = getSliderInt(DUAL_STATUSBAR_START_PADDING, -1)
-            statusbarEndPadding = getSliderInt(DUAL_STATUSBAR_END_PADDING, -1)
-            statusbarTopPadding = getSliderInt(DUAL_STATUSBAR_TOP_PADDING, -1)
-            startTopMargin = getSliderInt(DUAL_STATUSBAR_START_TOP_MARGIN, 0)
-            startBottomMargin = getSliderInt(DUAL_STATUSBAR_START_BOTTOM_MARGIN, 0)
-            endTopMargin = getSliderInt(DUAL_STATUSBAR_END_TOP_MARGIN, 0)
-            endBottomMargin = getSliderInt(DUAL_STATUSBAR_END_BOTTOM_MARGIN, 0)
-            clockOnRightSide = getBoolean(SHOW_CLOCK_ON_RIGHT_SIDE, false)
+            dualStatusbarEnabled = getBoolean(XposedKey.DUAL_STATUSBAR)
+            portraitOnlyEnabled = getBoolean(XposedKey.DUAL_STATUSBAR_PORTRAIT_ONLY)
+            singleRowStartSide = getBoolean(XposedKey.DUAL_STATUSBAR_START_SIDE_SINGLE_ROW)
+            singleRowEndSide = getBoolean(XposedKey.DUAL_STATUSBAR_END_SIDE_SINGLE_ROW)
+            swapStartSide = getBoolean(XposedKey.DUAL_STATUSBAR_SWAP_START_SIDE)
+            swapEndSide = getBoolean(XposedKey.DUAL_STATUSBAR_SWAP_END_SIDE)
+            statusbarHeight = getInt(XposedKey.DUAL_STATUSBAR_HEIGHT)
+            statusbarStartPadding = getInt(XposedKey.DUAL_STATUSBAR_START_PADDING)
+            statusbarEndPadding = getInt(XposedKey.DUAL_STATUSBAR_END_PADDING)
+            statusbarTopPadding = getInt(XposedKey.DUAL_STATUSBAR_TOP_PADDING)
+            startTopMargin = getInt(XposedKey.DUAL_STATUSBAR_START_TOP_MARGIN)
+            startBottomMargin = getInt(XposedKey.DUAL_STATUSBAR_START_BOTTOM_MARGIN)
+            endTopMargin = getInt(XposedKey.DUAL_STATUSBAR_END_TOP_MARGIN)
+            endBottomMargin = getInt(XposedKey.DUAL_STATUSBAR_END_BOTTOM_MARGIN)
+            clockPosition = getString(XposedKey.STATUSBAR_CLOCK_POSITION).toInt()
+            customBatteryEnabled =
+                getString(XposedKey.CUSTOM_BATTERY_STYLE).toInt() != BATTERY_STYLE_DEFAULT
+            hideDefaultBattery = getBoolean(XposedKey.HIDE_DEFAULT_BATTERY_VIEW)
         }
 
         when (key.firstOrNull()) {
             in setOf(
-                DUAL_STATUSBAR_ONLY_PORTRAIT,
-                DUAL_STATUSBAR_START_SIDE_SINGLE_ROW,
-                DUAL_STATUSBAR_END_SIDE_SINGLE_ROW,
-                DUAL_STATUSBAR_SWAP_START_SIDE,
-                DUAL_STATUSBAR_SWAP_END_SIDE
+                XposedKey.DUAL_STATUSBAR_PORTRAIT_ONLY.name,
+                XposedKey.DUAL_STATUSBAR_START_SIDE_SINGLE_ROW.name,
+                XposedKey.DUAL_STATUSBAR_END_SIDE_SINGLE_ROW.name,
+                XposedKey.DUAL_STATUSBAR_SWAP_START_SIDE.name,
+                XposedKey.DUAL_STATUSBAR_SWAP_END_SIDE.name
             ) -> updateRowsIfNeeded()
 
             in setOf(
-                DUAL_STATUSBAR_START_PADDING,
-                DUAL_STATUSBAR_END_PADDING,
-                DUAL_STATUSBAR_TOP_PADDING
+                XposedKey.DUAL_STATUSBAR_START_PADDING.name,
+                XposedKey.DUAL_STATUSBAR_END_PADDING.name,
+                XposedKey.DUAL_STATUSBAR_TOP_PADDING.name
             ) -> setStatusbarPadding()
 
             in setOf(
-                DUAL_STATUSBAR_START_TOP_MARGIN,
-                DUAL_STATUSBAR_START_BOTTOM_MARGIN,
-                DUAL_STATUSBAR_END_TOP_MARGIN,
-                DUAL_STATUSBAR_END_BOTTOM_MARGIN
+                XposedKey.DUAL_STATUSBAR_START_TOP_MARGIN.name,
+                XposedKey.DUAL_STATUSBAR_START_BOTTOM_MARGIN.name,
+                XposedKey.DUAL_STATUSBAR_END_TOP_MARGIN.name,
+                XposedKey.DUAL_STATUSBAR_END_BOTTOM_MARGIN.name
             ) -> setStatusbarRowMargin()
 
-            DUAL_STATUSBAR_HEIGHT -> updateWindowHeight()
+            XposedKey.DUAL_STATUSBAR_HEIGHT.name -> updateWindowHeight()
 
-            SHOW_CLOCK_ON_RIGHT_SIDE -> handleClockOnRightSide()
+            XposedKey.STATUSBAR_CLOCK_POSITION.name -> handleClockPosition()
         }
     }
 
@@ -121,14 +120,31 @@ class DualStatusbar(context: Context) : ModPack(context) {
         val phoneStatusBarViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarView")
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
-        val qsImplClass = findClass(
-            "$SYSTEMUI_PACKAGE.qs.QSImpl",
-            "$SYSTEMUI_PACKAGE.qs.QSFragment"
-        )
+        val notificationPanelViewControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
 
         scrimControllerClass
             .hookConstructor()
             .runAfter { param -> mScrimControllerObj = param.thisObject }
+
+        notificationPanelViewControllerClass
+            .hookConstructor()
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
+            }
+
+        notificationPanelViewControllerClass
+            .hookMethod(
+                "onFinishInflate",
+                "reInflateViews"
+            )
+            .runAfter { param ->
+                if (mScrimControllerObj == null) {
+                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                }
+            }
 
         phoneStatusBarViewClass
             .hookConstructor()
@@ -156,20 +172,25 @@ class DualStatusbar(context: Context) : ModPack(context) {
                             mContext.packageName
                         )
                     )
-                    val statusbarStartSideContainer = phoneStatusBarView.findViewById<FrameLayout>(
-                        mContext.resources.getIdentifier(
-                            "status_bar_start_side_container",
-                            "id",
-                            mContext.packageName
+                    val statusbarStartSideContainer = runCatching {
+                        phoneStatusBarView.findViewById<FrameLayout>(
+                            mContext.resources.getIdentifier(
+                                "status_bar_start_side_container",
+                                "id",
+                                mContext.packageName
+                            )
                         )
-                    )
-                    val statusbarEndSideContainer = phoneStatusBarView.findViewById<FrameLayout>(
-                        mContext.resources.getIdentifier(
-                            "status_bar_end_side_container",
-                            "id",
-                            mContext.packageName
+                    }.getOrNull() ?: statusbarContents!!.getChildAt(0)
+                    val statusbarEndSideContainer = runCatching {
+                        phoneStatusBarView.findViewById<FrameLayout>(
+                            mContext.resources.getIdentifier(
+                                "status_bar_end_side_container",
+                                "id",
+                                mContext.packageName
+                            )
                         )
-                    )
+                    }.getOrNull() ?: statusbarContents!!
+                        .getChildAt(statusbarContents!!.childCount - 1)
 
                     newStartSideContainer = LinearLayout(mContext).apply {
                         orientation = LinearLayout.VERTICAL
@@ -237,13 +258,6 @@ class DualStatusbar(context: Context) : ModPack(context) {
                     newStartSideContainer?.id = statusbarStartSideContainer.id
                     statusbarStartSideContainer.id = View.NO_ID
 
-                    batteryIconView = phoneStatusBarView.findViewById<View>(
-                        mContext.resources.getIdentifier(
-                            "battery",
-                            "id",
-                            mContext.packageName
-                        )
-                    )
                     endTopSideContainer = LinearLayout(mContext).apply {
                         orientation = LinearLayout.HORIZONTAL
                         layoutParams = LinearLayout.LayoutParams(
@@ -263,7 +277,6 @@ class DualStatusbar(context: Context) : ModPack(context) {
                         gravity = Gravity.END or Gravity.CENTER_VERTICAL
                     }
 
-                    endTopSideContainer?.reAddView(batteryIconView, 0)
                     endBottomSideContainer?.reAddView(statusbarEndSideContainer, 0)
 
                     newEndSideContainer?.reAddView(endTopSideContainer, 0)
@@ -272,8 +285,20 @@ class DualStatusbar(context: Context) : ModPack(context) {
                     statusbarEndSideContainer.id = View.NO_ID
                 }
 
+                phoneStatusBarView.doOnAttach { view ->
+                    Handler(Looper.getMainLooper()).postDelayed(
+                        {
+                            if (batteryIconView == null || batteryIconView!!.parent != endTopSideContainer) {
+                                batteryIconView = view.findBatteryView()
+                                endTopSideContainer?.reAddView(batteryIconView, 0)
+                            }
+                        },
+                        200
+                    )
+                }
+
                 updateRowsIfNeeded()
-                handleClockOnRightSide()
+                handleClockPosition()
             }
 
         ResourceHookManager
@@ -297,18 +322,20 @@ class DualStatusbar(context: Context) : ModPack(context) {
             .addResource("status_bar_icons_padding_end") { 0 }
             .apply()
 
-        // Handle a bug where statusbar battery is shown on lockscreen too
-        scrimControllerClass
-            .hookMethod("applyAndDispatchState")
-            .runAfter { updateBatteryIconVisibility() }
+        // Handle a bug where statusbar battery is duplicated on lockscreen
+        KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
+            object : KeyguardShowingCallback.KeyguardShowingListener {
+                override fun onKeyguardShown() {
+                    isKeyguardShown = true
+                    batteryIconView?.post { batteryIconView?.visibility = View.GONE }
+                }
 
-        qsImplClass
-            .hookMethod("setQsExpansion")
-            .runAfter { param ->
-                if (param.thisObject.callMethod("isKeyguardState") as Boolean) {
-                    updateBatteryIconVisibility()
+                override fun onKeyguardDismissed() {
+                    isKeyguardShown = false
+                    batteryIconView?.post { batteryIconView?.visibility = View.VISIBLE }
                 }
             }
+        )
     }
 
     private fun updateRowsIfNeeded() {
@@ -485,28 +512,90 @@ class DualStatusbar(context: Context) : ModPack(context) {
         mPhoneStatusBarViewObj.callMethodSilently("updateWindowHeight")
     }
 
-    private fun updateBatteryIconVisibility() {
-        if (!dualStatusbarEnabled || mScrimControllerObj == null) return
-
-        val hideBatteryIcon = mScrimControllerObj.getField("mState").toString() == "KEYGUARD"
-
-        batteryIconView?.visibility = if (hideBatteryIcon) View.INVISIBLE else View.VISIBLE
-    }
-
-    private fun handleClockOnRightSide() {
+    private fun handleClockPosition() {
         if (!dualStatusbarEnabled) return
 
-        if (clockOnRightSide) {
-            endTopSideContainer?.reAddView(mClockView)
-            startTopSideContainer?.visibility = View.GONE
-            (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(6)
-        } else {
-            startTopSideContainer?.reAddView(mClockView)
-            startTopSideContainer?.visibility = View.VISIBLE
-            (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)
+        val centerClockContainer = (statusbarContents?.parent as? ViewGroup)
+            ?.findViewWithTag<LinearLayout>(ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG)
+
+        when (clockPosition) {
+            0 -> { // Left
+                centerClockContainer.removeViewFromParent()
+                startTopSideContainer?.reAddView(mClockView)
+                startTopSideContainer?.visibility = View.VISIBLE
+                (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)
+                (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
+                    Gravity.CENTER_VERTICAL or Gravity.START
+            }
+
+            1 -> { // Center
+                val container = centerClockContainer ?: AlphaOptimizedLinearLayout(mContext).apply {
+                    tag = ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
+                    gravity = Gravity.CENTER
+                    orientation = LinearLayout.HORIZONTAL
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
+                    )
+                    setPadding(
+                        0,
+                        mContext.resources.getDimensionPixelSize(
+                            mContext.resources.getIdentifier(
+                                "status_bar_padding_top",
+                                "dimen",
+                                mContext.packageName
+                            )
+                        ),
+                        0,
+                        0
+                    )
+                    reAddView(mClockView)
+                }
+
+                (statusbarContents?.parent as? ViewGroup)?.reAddView(container)
+                startTopSideContainer?.visibility = View.GONE
+                (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)
+                (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity = Gravity.CENTER
+            }
+
+            2 -> { // Right
+                centerClockContainer.removeViewFromParent()
+                endTopSideContainer?.reAddView(mClockView)
+                startTopSideContainer?.visibility = View.GONE
+                (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(6)
+                (mClockView?.layoutParams as? LinearLayout.LayoutParams)?.gravity =
+                    Gravity.CENTER_VERTICAL or Gravity.END
+            }
         }
+    }
+
+    private fun View.findBatteryView(): View? {
+        val systemIconsView = findViewById<ViewGroup>(
+            mContext.resources.getIdentifier(
+                "system_icons",
+                "id",
+                mContext.packageName
+            )
+        )
+
+        if (customBatteryEnabled) {
+            return systemIconsView.findViewWithTag(ICONIFY_SB_BATTERY_ICON_TAG)
+        } else if (!hideDefaultBattery) {
+            for (i in systemIconsView.childCount - 1 downTo 0) {
+                val child = systemIconsView.getChildAt(i)
+                if (child.javaClass.simpleName == "ComposeView") {
+                    return child
+                }
+            }
+        }
+
+        return null
     }
 
     private val isDsbResourceEnabled: Boolean
         get() = dualStatusbarEnabled && (!portraitOnlyEnabled || !mContext.isLandscape)
+
+    companion object {
+        var isKeyguardShown = true
+    }
 }

@@ -9,9 +9,10 @@ import android.os.IBinder
 import android.os.RemoteException
 import android.os.UserManager
 import com.drdisagree.iconify.BuildConfig
-import com.drdisagree.iconify.IRootProviderProxy
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
+import com.drdisagree.iconify.services.providers.IRootProviderProxy
+import com.drdisagree.iconify.services.providers.RootProviderProxy
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
@@ -44,7 +45,7 @@ class HookEntry : ServiceConnection {
     fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         isChildProcess = try {
             loadPackageParam.processName.contains(":")
-        } catch (ignored: Throwable) {
+        } catch (_: Throwable) {
             false
         }
 
@@ -77,40 +78,33 @@ class HookEntry : ServiceConnection {
             }
 
             else -> {
-                if (!isChildProcess) {
-                    Instrumentation::class.java
-                        .hookMethod("newApplication")
-                        .parameters(
-                            ClassLoader::class.java,
-                            String::class.java,
-                            Context::class.java
-                        )
-                        .runAfter { param ->
-                            try {
-                                if (!::mContext.isInitialized) {
-                                    mContext = param.args[2] as Context
+                Instrumentation::class.java
+                    .hookMethod("newApplication")
+                    .runAfter { param ->
+                        try {
+                            if (!::mContext.isInitialized) {
+                                mContext = param.args[param.args.size - 1] as Context
 
-                                    HookRes.modRes = mContext.createPackageContext(
-                                        BuildConfig.APPLICATION_ID,
-                                        Context.CONTEXT_IGNORE_SECURITY
-                                    ).resources
+                                HookRes.modRes = mContext.createPackageContext(
+                                    BuildConfig.APPLICATION_ID,
+                                    Context.CONTEXT_IGNORE_SECURITY
+                                ).resources
 
-                                    XPrefs.init(mContext)
-                                    ResourceHookManager.init(mContext)
+                                XPrefs.init(mContext)
+                                ResourceHookManager.init(mContext)
 
-                                    waitForXprefsLoad(loadPackageParam)
-                                }
-                            } catch (throwable: Throwable) {
-                                log(this@HookEntry, throwable)
+                                waitForXprefsLoad(loadPackageParam)
                             }
+                        } catch (throwable: Throwable) {
+                            log(this@HookEntry, throwable)
                         }
-                }
+                    }
             }
         }
     }
 
     private fun onXPrefsReady(loadPackageParam: LoadPackageParam) {
-        if (!isChildProcess && BootLoopProtector.isBootLooped(loadPackageParam.packageName)) {
+        if (BootLoopProtector.isBootLooped(loadPackageParam.packageName)) {
             log("Possible crash in ${loadPackageParam.packageName} ; Iconify will not load for now...")
             return
         }
@@ -159,7 +153,7 @@ class HookEntry : ServiceConnection {
             try {
                 Xprefs.getBoolean("LoadTestBooleanValue", false)
                 break
-            } catch (ignored: Throwable) {
+            } catch (_: Throwable) {
                 SystemUtils.sleep(1000);
             }
         }
@@ -195,11 +189,7 @@ class HookEntry : ServiceConnection {
             val intent = Intent().apply {
                 component = ComponentName(
                     BuildConfig.APPLICATION_ID,
-                    "${
-                        BuildConfig.APPLICATION_ID
-                            .replace(".debug", "")
-                            .replace(".foss", "")
-                    }.services.RootProviderProxy"
+                    RootProviderProxy::class.qualifiedName!!
                 )
             }
 
@@ -220,7 +210,7 @@ class HookEntry : ServiceConnection {
             while (!proxyQueue.isEmpty()) {
                 try {
                     proxyQueue.poll()!!.run(rootProxyIPC!!)
-                } catch (ignored: Throwable) {
+                } catch (_: Throwable) {
                 }
             }
         }
@@ -254,7 +244,7 @@ class HookEntry : ServiceConnection {
             rootProxyIPC?.let {
                 try {
                     runnable.run(it)
-                } catch (ignored: RemoteException) {
+                } catch (_: RemoteException) {
                 }
             } ?: run {
                 synchronized(proxyQueue) {

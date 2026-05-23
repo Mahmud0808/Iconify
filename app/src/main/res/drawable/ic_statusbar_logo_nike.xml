@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) 2021 BananaDroid
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="16dp"
+    android:height="16dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M 3.667969 8.332031 C 2.199219 10.066406 0.800781 12.132812 0.800781 13.734375 C 0.800781 14.332031 1 14.867188 1.398438 15.265625 C 2.066406 15.867188 2.800781 16.066406 3.535156 16.066406 C 4.601562 16.066406 5.667969 15.601562 6.464844 15.265625 C 7.867188 14.734375 23.132812 8.066406 23.132812 8.066406 C 23.265625 8 23.265625 7.933594 23.066406 8 C 23 8 6.398438 12.464844 6.398438 12.464844 C 6.132812 12.601562 5.800781 12.601562 5.464844 12.601562 C 4.199219 12.601562 3.066406 11.933594 3.066406 10.398438 C 3.066406 9.867188 3.265625 9.132812 3.667969 8.332031 Z M 3.667969 8.332031" />
+</vector>
