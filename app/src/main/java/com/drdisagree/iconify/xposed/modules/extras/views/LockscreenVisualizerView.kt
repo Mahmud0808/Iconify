@@ -12,8 +12,7 @@ import android.os.SystemClock
 import android.os.Looper
 import android.os.Handler
 import android.view.View
-import kotlin.math.hypot
-import kotlin.math.ln
+import kotlin.math.log10
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
@@ -52,6 +51,9 @@ class LockscreenVisualizerView(context: Context) : View(context) {
     private val levels = FloatArray(barCount)
     private val targetLevels = FloatArray(barCount)
     private val smoothedTargets = FloatArray(barCount)
+    private val systemUiAverageWindows = Array(barCount) { FloatArray(SYSTEMUI_AVERAGE_WINDOW) }
+    private val systemUiAveragePositions = IntArray(barCount)
+    private val systemUiAverageCounts = IntArray(barCount)
 
     private var consecutiveValidFrames = 0
     private var consecutiveEmptyFrames = 0
@@ -204,7 +206,7 @@ class LockscreenVisualizerView(context: Context) : View(context) {
                             fft?.let { updateFft(it) }
                         }
                     },
-                    Visualizer.getMaxCaptureRate() / 2,
+                    Visualizer.getMaxCaptureRate() * 3 / 4,
                     false,
                     true
                 )
@@ -224,6 +226,7 @@ class LockscreenVisualizerView(context: Context) : View(context) {
         streamValid = false
         consecutiveValidFrames = 0
         consecutiveEmptyFrames = 0
+        clearSystemUiAverages()
 
         runCatching {
             visualizer?.enabled = false
@@ -278,15 +281,22 @@ class LockscreenVisualizerView(context: Context) : View(context) {
             val bin = spectrumBin(normalizedIndex, usableBins)
             val index = (bin * 2).coerceAtMost(fft.size - 2)
 
-            val real = fft[index].toFloat()
-            val imag = fft[index + 1].toFloat()
-            val magnitude = hypot(real, imag)
+            val real = fft[index].toInt()
+            val imag = fft[index + 1].toInt()
+            val magnitude = real * real + imag * imag
 
+            val dbValue = if (magnitude > 0) {
+                10f * log10(magnitude.toFloat())
+            } else {
+                0f
+            }
+
+            val averagedDb = systemUiAverage(i, dbValue)
             val bandGain = spectrumGain(normalizedIndex)
-            val value = (ln(1f + magnitude) / ln(129f)) * bandGain * sensitivity
-            val compressed = value / (1f + value * PEAK_COMPRESSION)
+            val value = (averagedDb * SYSTEMUI_DB_FUZZ_FACTOR * bandGain * sensitivity) /
+                SYSTEMUI_DB_HEIGHT_NORMALIZER
 
-            targetLevels[i] = max(targetLevels[i], compressed.coerceIn(0f, 1f))
+            targetLevels[i] = max(targetLevels[i], value.coerceIn(0f, 1f))
         }
     }
 
@@ -325,16 +335,45 @@ class LockscreenVisualizerView(context: Context) : View(context) {
 
         var i = 2
         while (i + 1 < fft.size) {
-            val real = fft[i].toFloat()
-            val imag = fft[i + 1].toFloat()
-            sum += hypot(real, imag)
+            val real = fft[i].toInt()
+            val imag = fft[i + 1].toInt()
+            val magnitude = real * real + imag * imag
+            if (magnitude > 0) {
+                sum += 10f * log10(magnitude.toFloat())
+            }
             count++
             i += 2
         }
 
         if (count == 0) return 0f
 
-        return (sum / count) / 128f
+        return (sum / count) / SYSTEMUI_FRAME_DB_NORMALIZER
+    }
+
+    private fun systemUiAverage(index: Int, value: Float): Float {
+        val window = systemUiAverageWindows[index]
+        val position = systemUiAveragePositions[index]
+
+        window[position] = value / SYSTEMUI_AVERAGE_WINDOW
+        systemUiAveragePositions[index] = (position + 1) % SYSTEMUI_AVERAGE_WINDOW
+        if (systemUiAverageCounts[index] < SYSTEMUI_AVERAGE_WINDOW) {
+            systemUiAverageCounts[index]++
+        }
+
+        var sum = 0f
+        for (i in 0 until systemUiAverageCounts[index]) {
+            sum += window[i]
+        }
+
+        return sum
+    }
+
+    private fun clearSystemUiAverages() {
+        for (i in 0 until barCount) {
+            systemUiAverageWindows[i].fill(0f)
+            systemUiAveragePositions[i] = 0
+            systemUiAverageCounts[i] = 0
+        }
     }
 
     private fun markEmptyFrame() {
@@ -412,6 +451,7 @@ class LockscreenVisualizerView(context: Context) : View(context) {
             targetLevels[i] = 0f
             smoothedTargets[i] = 0f
         }
+        clearSystemUiAverages()
         invalidate()
     }
 
@@ -566,15 +606,18 @@ class LockscreenVisualizerView(context: Context) : View(context) {
         private const val VALID_FRAME_THRESHOLD = 2
         private const val EMPTY_FRAME_THRESHOLD = 60
         private const val NOISE_GATE = 0.010f
+        private const val SYSTEMUI_AVERAGE_WINDOW = 2
+        private const val SYSTEMUI_DB_FUZZ_FACTOR = 1.0f
+        private const val SYSTEMUI_DB_HEIGHT_NORMALIZER = 58f
+        private const val SYSTEMUI_FRAME_DB_NORMALIZER = 38f
         private const val DEFAULT_SENSITIVITY = 1.42f
         private const val DEFAULT_HEIGHT_DP = 500f
         private const val DEFAULT_BAR_THICKNESS_DP = 19f
         private const val DEFAULT_SMOOTHNESS = 50f
         private const val DEFAULT_FPS = 120
         private const val BASE_FRAME_MS = 16.666f
-        private const val DEAD_ZONE = 0.012f
+        private const val DEAD_ZONE = 0.006f
         private const val REVEAL_ANIMATION = 0.075f
-        private const val PEAK_COMPRESSION = 0.55f
         private const val MUSIC_ACTIVE_GRACE_MS = 4_000L
         private const val VALID_AUDIO_GRACE_MS = 3_500L
         private const val COLOR_MODE_STATIC = 0
