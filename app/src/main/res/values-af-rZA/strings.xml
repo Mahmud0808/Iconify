@@ -1470,4 +1470,19 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
+
+    <!-- Lockscreen Visualizer -->
+    <string name="lockscreen_visualizer_title">Visualiseerder</string>
+    <string name="lockscreen_visualizer_desc">Wys musiekvisualiseerder op die sluitskerm</string>
+    <string name="lockscreen_visualizer_color_mode_title">Kleurstyl</string>
+    <string name="lockscreen_visualizer_static_color_title">Kleur</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Kleur 1</string>
+    <string name="lockscreen_visualizer_gradient_end_title">Kleur 2</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Lawa-spoed</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Sensitiwiteit</string>
+    <string name="lockscreen_visualizer_height_title">Visualiseerderhoogte</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Balkdikte</string>
+    <string name="lockscreen_visualizer_smoothness_title">Gladheid</string>
+    <string name="lockscreen_visualizer_fps_title">Visualiseerder-FPS</string>
+
 </resources>

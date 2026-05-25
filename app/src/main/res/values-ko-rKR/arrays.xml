@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Lockscreen Visualizer -->
+    <string-array name="lockscreen_visualizer_color_mode_entries">
+        <item>고정</item>
+        <item>라바</item>
+        <item>그라데이션</item>
+        <item>스펙트럼</item>
+    </string-array>
+
+</resources>

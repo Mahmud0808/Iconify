@@ -1471,4 +1471,19 @@ transparent machen</string>
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
+
+    <!-- Lockscreen Visualizer -->
+    <string name="lockscreen_visualizer_title">Visualisierer</string>
+    <string name="lockscreen_visualizer_desc">Musik-Visualisierer auf dem Sperrbildschirm anzeigen</string>
+    <string name="lockscreen_visualizer_color_mode_title">Farbstil</string>
+    <string name="lockscreen_visualizer_static_color_title">Farbe</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Farbe 1</string>
+    <string name="lockscreen_visualizer_gradient_end_title">Farbe 2</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Lava-Geschwindigkeit</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Empfindlichkeit</string>
+    <string name="lockscreen_visualizer_height_title">Höhe des Visualisierers</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Balkendicke</string>
+    <string name="lockscreen_visualizer_smoothness_title">Glättung</string>
+    <string name="lockscreen_visualizer_fps_title">Visualizer-FPS</string>
+
 </resources>

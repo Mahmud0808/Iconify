@@ -1026,19 +1026,6 @@
     <string name="ls_wallpaper_blur_title">Wallpaper Blur</string>
     <string name="ls_wallpaper_blur_desc">Apply blur effect on lockscreen</string>
     <string name="ls_wallpaper_blur_radius_title">Wallpaper Blur Intensity</string>
-    <string name="lockscreen_visualizer_title">Visualizer</string>
-    <string name="lockscreen_visualizer_desc">Show music visualizer on lock screen</string>
-
-    <string name="lockscreen_visualizer_color_mode_title">Стиль цвета</string>
-    <string name="lockscreen_visualizer_static_color_title">Цвет</string>
-    <string name="lockscreen_visualizer_gradient_start_title">Цвет 1</string>
-    <string name="lockscreen_visualizer_gradient_end_title">Цвет 2</string>
-    <string name="lockscreen_visualizer_lava_speed_title">Скорость переливания</string>
-    <string name="lockscreen_visualizer_sensitivity_title">Чувствительность</string>
-    <string name="lockscreen_visualizer_height_title">Высота визуализатора</string>
-    <string name="lockscreen_visualizer_bar_thickness_title">Толщина полос</string>
-    <string name="lockscreen_visualizer_smoothness_title">Плавность</string>
-    <string name="lockscreen_visualizer_fps_title">FPS визуализатора</string>
 
     <!-- Changelog -->
     <string name="activity_title_changelog">Changelog</string>
@@ -1566,5 +1553,20 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
+
+
+    <!-- Lockscreen Visualizer -->
+    <string name="lockscreen_visualizer_title">Visualizer</string>
+    <string name="lockscreen_visualizer_desc">Show music visualizer on lock screen</string>
+    <string name="lockscreen_visualizer_color_mode_title">Color style</string>
+    <string name="lockscreen_visualizer_static_color_title">Color</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Color 1</string>
+    <string name="lockscreen_visualizer_gradient_end_title">Color 2</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Lava speed</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Sensitivity</string>
+    <string name="lockscreen_visualizer_height_title">Visualizer height</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Bar thickness</string>
+    <string name="lockscreen_visualizer_smoothness_title">Smoothness</string>
+    <string name="lockscreen_visualizer_fps_title">Visualizer FPS</string>
 
 </resources>

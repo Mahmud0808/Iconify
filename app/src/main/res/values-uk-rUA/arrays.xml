@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Lockscreen Visualizer -->
+    <string-array name="lockscreen_visualizer_color_mode_entries">
+        <item>Статичний</item>
+        <item>Переливання</item>
+        <item>Градієнт</item>
+        <item>Спектр</item>
+    </string-array>
+
+</resources>

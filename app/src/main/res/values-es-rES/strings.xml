@@ -1470,4 +1470,19 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
+
+    <!-- Lockscreen Visualizer -->
+    <string name="lockscreen_visualizer_title">Visualizador</string>
+    <string name="lockscreen_visualizer_desc">Mostrar visualizador de música en la pantalla de bloqueo</string>
+    <string name="lockscreen_visualizer_color_mode_title">Estilo de color</string>
+    <string name="lockscreen_visualizer_static_color_title">Color</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Color 1</string>
+    <string name="lockscreen_visualizer_gradient_end_title">Color 2</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Velocidad de lava</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Sensibilidad</string>
+    <string name="lockscreen_visualizer_height_title">Altura del visualizador</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Grosor de las barras</string>
+    <string name="lockscreen_visualizer_smoothness_title">Suavidad</string>
+    <string name="lockscreen_visualizer_fps_title">FPS del visualizador</string>
+
 </resources>

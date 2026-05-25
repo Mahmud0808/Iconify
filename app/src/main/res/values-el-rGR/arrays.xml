@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Lockscreen Visualizer -->
+    <string-array name="lockscreen_visualizer_color_mode_entries">
+        <item>Στατικό</item>
+        <item>Λάβα</item>
+        <item>Διαβάθμιση</item>
+        <item>Φάσμα</item>
+    </string-array>
+
+</resources>

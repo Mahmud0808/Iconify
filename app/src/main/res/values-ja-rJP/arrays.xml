@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Lockscreen Visualizer -->
+    <string-array name="lockscreen_visualizer_color_mode_entries">
+        <item>静的</item>
+        <item>ラバ</item>
+        <item>グラデーション</item>
+        <item>スペクトラム</item>
+    </string-array>
+
+</resources>

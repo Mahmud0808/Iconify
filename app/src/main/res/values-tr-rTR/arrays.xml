@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Lockscreen Visualizer -->
+    <string-array name="lockscreen_visualizer_color_mode_entries">
+        <item>Sabit</item>
+        <item>Lava</item>
+        <item>Gradyan</item>
+        <item>Spektrum</item>
+    </string-array>
+
+</resources>

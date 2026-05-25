@@ -1470,4 +1470,19 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
+
+    <!-- Lockscreen Visualizer -->
+    <string name="lockscreen_visualizer_title">Vizualizator</string>
+    <string name="lockscreen_visualizer_desc">Afișează vizualizatorul muzical pe ecranul de blocare</string>
+    <string name="lockscreen_visualizer_color_mode_title">Stil de culoare</string>
+    <string name="lockscreen_visualizer_static_color_title">Culoare</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Culoare 1</string>
+    <string name="lockscreen_visualizer_gradient_end_title">Culoare 2</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Viteza lavei</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Sensibilitate</string>
+    <string name="lockscreen_visualizer_height_title">Înălțimea vizualizatorului</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Grosimea barelor</string>
+    <string name="lockscreen_visualizer_smoothness_title">Netezime</string>
+    <string name="lockscreen_visualizer_fps_title">FPS vizualizator</string>
+
 </resources>

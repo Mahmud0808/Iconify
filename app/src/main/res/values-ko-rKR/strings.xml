@@ -1470,4 +1470,19 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
+
+    <!-- Lockscreen Visualizer -->
+    <string name="lockscreen_visualizer_title">비주얼라이저</string>
+    <string name="lockscreen_visualizer_desc">잠금 화면에 음악 비주얼라이저 표시</string>
+    <string name="lockscreen_visualizer_color_mode_title">색상 스타일</string>
+    <string name="lockscreen_visualizer_static_color_title">색상</string>
+    <string name="lockscreen_visualizer_gradient_start_title">색상 1</string>
+    <string name="lockscreen_visualizer_gradient_end_title">색상 2</string>
+    <string name="lockscreen_visualizer_lava_speed_title">라바 속도</string>
+    <string name="lockscreen_visualizer_sensitivity_title">감도</string>
+    <string name="lockscreen_visualizer_height_title">비주얼라이저 높이</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">막대 두께</string>
+    <string name="lockscreen_visualizer_smoothness_title">부드러움</string>
+    <string name="lockscreen_visualizer_fps_title">비주얼라이저 FPS</string>
+
 </resources>

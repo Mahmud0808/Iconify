@@ -1470,4 +1470,19 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
+
+    <!-- Lockscreen Visualizer -->
+    <string name="lockscreen_visualizer_title">Trình trực quan hóa</string>
+    <string name="lockscreen_visualizer_desc">Hiển thị trình trực quan hóa nhạc trên màn hình khóa</string>
+    <string name="lockscreen_visualizer_color_mode_title">Kiểu màu</string>
+    <string name="lockscreen_visualizer_static_color_title">Màu</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Màu 1</string>
+    <string name="lockscreen_visualizer_gradient_end_title">Màu 2</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Tốc độ dung nham</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Độ nhạy</string>
+    <string name="lockscreen_visualizer_height_title">Chiều cao trình trực quan hóa</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Độ dày cột</string>
+    <string name="lockscreen_visualizer_smoothness_title">Độ mượt</string>
+    <string name="lockscreen_visualizer_fps_title">FPS trình trực quan hóa</string>
+
 </resources>

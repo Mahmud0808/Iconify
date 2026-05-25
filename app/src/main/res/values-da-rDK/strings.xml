@@ -1470,4 +1470,19 @@
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
     <string name="search_no_results">No results found</string>
+
+    <!-- Lockscreen Visualizer -->
+    <string name="lockscreen_visualizer_title">Visualizer</string>
+    <string name="lockscreen_visualizer_desc">Vis musikvisualizer på låseskærmen</string>
+    <string name="lockscreen_visualizer_color_mode_title">Farvestil</string>
+    <string name="lockscreen_visualizer_static_color_title">Farve</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Farve 1</string>
+    <string name="lockscreen_visualizer_gradient_end_title">Farve 2</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Lavahastighed</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Følsomhed</string>
+    <string name="lockscreen_visualizer_height_title">Visualizer-højde</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Bjælketykkelse</string>
+    <string name="lockscreen_visualizer_smoothness_title">Jævnhed</string>
+    <string name="lockscreen_visualizer_fps_title">Visualizer-FPS</string>
+
 </resources>
