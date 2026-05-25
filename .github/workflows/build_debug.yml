@@ -2,7 +2,7 @@ name: Build Debug APK
 
 on:
   push:
-    branches: [ "beta", "feature/lockscreen-visualizer" ]
+    branches: [ "beta" ]
   workflow_dispatch:
 
 jobs:

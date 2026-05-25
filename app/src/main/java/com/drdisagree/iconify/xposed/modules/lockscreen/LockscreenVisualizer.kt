@@ -36,7 +36,6 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
     private var barThicknessDp = 19f
     private var smoothness = 50f
     private var renderFps = 120
-    private var lockscreenRootView: ViewGroup? = null
     private var keyguardRootView: ViewGroup? = null
     private var visualizerView: LockscreenVisualizerView? = null
     private var isKeyguardVisible = false
@@ -45,26 +44,19 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
 
-        visualizerEnabled = Xprefs.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER)
-        colorMode = Xprefs.getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE).toIntOrNull() ?: 1
-        staticColor = parseColor(
-            Xprefs.getString(XposedKey.LOCKSCREEN_VISUALIZER_STATIC_COLOR),
-            Color.rgb(224, 184, 99)
-        )
-        gradientStartColor = parseColor(
-            Xprefs.getString(XposedKey.LOCKSCREEN_VISUALIZER_GRADIENT_COLOR_START),
-            Color.rgb(224, 184, 99)
-        )
-        gradientEndColor = parseColor(
-            Xprefs.getString(XposedKey.LOCKSCREEN_VISUALIZER_GRADIENT_COLOR_END),
-            Color.rgb(255, 106, 136)
-        )
-        lavaSpeedSeconds = Xprefs.getFloat(XposedKey.LOCKSCREEN_VISUALIZER_LAVA_SPEED)
-        sensitivity = Xprefs.getFloat(XposedKey.LOCKSCREEN_VISUALIZER_SENSITIVITY)
-        visualizerHeightDp = Xprefs.getFloat(XposedKey.LOCKSCREEN_VISUALIZER_HEIGHT)
-        barThicknessDp = Xprefs.getFloat(XposedKey.LOCKSCREEN_VISUALIZER_BAR_THICKNESS)
-        smoothness = Xprefs.getFloat(XposedKey.LOCKSCREEN_VISUALIZER_SMOOTHNESS)
-        renderFps = Xprefs.getString(XposedKey.LOCKSCREEN_VISUALIZER_FPS).toIntOrNull() ?: 120
+        Xprefs.apply {
+            visualizerEnabled = getBoolean(XposedKey.LOCKSCREEN_VISUALIZER)
+            colorMode = getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE).toInt()
+            staticColor = getColor(XposedKey.LOCKSCREEN_VISUALIZER_STATIC_COLOR)
+            gradientStartColor = getColor(XposedKey.LOCKSCREEN_VISUALIZER_GRADIENT_COLOR_START)
+            gradientEndColor = getColor(XposedKey.LOCKSCREEN_VISUALIZER_GRADIENT_COLOR_END)
+            lavaSpeedSeconds = getFloat(XposedKey.LOCKSCREEN_VISUALIZER_LAVA_SPEED)
+            sensitivity = getFloat(XposedKey.LOCKSCREEN_VISUALIZER_SENSITIVITY)
+            visualizerHeightDp = getFloat(XposedKey.LOCKSCREEN_VISUALIZER_HEIGHT)
+            barThicknessDp = getFloat(XposedKey.LOCKSCREEN_VISUALIZER_BAR_THICKNESS)
+            smoothness = getFloat(XposedKey.LOCKSCREEN_VISUALIZER_SMOOTHNESS)
+            renderFps = getString(XposedKey.LOCKSCREEN_VISUALIZER_FPS).toInt()
+        }
 
         when (key.firstOrNull()) {
             XposedKey.LOCKSCREEN_VISUALIZER.name,
@@ -99,8 +91,7 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
                         )
                     ) ?: return@postDelayed
 
-                lockscreenRootView = rootView
-                keyguardRootView = findOverlayHost(rootView)
+                keyguardRootView = rootView
                 updateVisualizer()
             }, 1000)
         }
@@ -151,22 +142,6 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
         }
     }
 
-    private fun findOverlayHost(rootView: ViewGroup): ViewGroup {
-        var current: View? = rootView
-        var bestHost: ViewGroup = rootView
-
-        while (current != null) {
-            if (current is FrameLayout && current.width > 0 && current.height > 0) {
-                bestHost = current
-            }
-
-            val parent = current.parent
-            current = parent as? View
-        }
-
-        return (rootView.rootView as? ViewGroup) ?: bestHost
-    }
-
     private fun updateVisualizer() {
         Handler(Looper.getMainLooper()).post {
             if (visualizerEnabled && isKeyguardVisible) {
@@ -191,12 +166,13 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
 
         val view = LockscreenVisualizerView(mContext).apply {
             tag = VISUALIZER_TAG
+            id = View.generateViewId()
             layoutParams = createLayoutParams(rootView)
         }
 
         configureVisualizer(view)
 
-        rootView.addView(view)
+        rootView.addView(view, 0)
         visualizerView = view
         view.showFromBottom(resetLevels = true)
     }
@@ -248,14 +224,6 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
         )
     }
 
-    private fun parseColor(value: String, fallback: Int): Int {
-        return runCatching {
-            Color.parseColor(value)
-        }.getOrElse {
-            fallback
-        }
-    }
-
     private fun createLayoutParams(rootView: ViewGroup): ViewGroup.LayoutParams {
         val height = ViewGroup.LayoutParams.MATCH_PARENT
         val bottomMargin = 0
@@ -284,10 +252,6 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
                 height
             )
         }
-    }
-
-    private fun Context.dp(value: Int): Int {
-        return (value * resources.displayMetrics.density).toInt()
     }
 
     companion object {

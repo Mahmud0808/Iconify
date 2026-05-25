@@ -19,6 +19,7 @@ import com.drdisagree.iconify.features.xposed.lockscreen.albumart.screens.lsAlbu
 import com.drdisagree.iconify.features.xposed.lockscreen.clock.screens.lsClockPreferences
 import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.screens.depthWallpaperPreferences
 import com.drdisagree.iconify.features.xposed.lockscreen.main.screens.lockscreenPreferences
+import com.drdisagree.iconify.features.xposed.lockscreen.visualizer.screens.lockscreenVisualizerPreferences
 import com.drdisagree.iconify.features.xposed.lockscreen.weather.screens.lsWeatherPreferences
 import com.drdisagree.iconify.features.xposed.lockscreen.widgets.main.screens.lsWidgetsPreferences
 import com.drdisagree.iconify.features.xposed.lockscreen.widgets.weather.screens.lsWidgetsWeatherPreferences
@@ -345,6 +346,15 @@ object SearchIndex {
                     stringRes(R.string.activity_title_lockscreen_album_art)
                 ),
                 route = NavRoutes.MainGraph.Xposed.Lockscreen.MediaAlbumArt,
+            ),
+            ScreenEntry(
+                items = lockscreenVisualizerPreferences,
+                screenTitleResId = R.string.activity_title_lockscreen_visualizer,
+                breadcrumbs = listOf(
+                    xposed, lockscreen,
+                    stringRes(R.string.activity_title_lockscreen_visualizer)
+                ),
+                route = NavRoutes.MainGraph.Xposed.Lockscreen.Visualizer,
             ),
 
             // ── Xposed > Volume Panel ─────────────────────────────────────

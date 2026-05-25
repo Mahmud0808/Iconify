@@ -81,8 +81,8 @@ val lockscreenPreferences = preferenceScreen {
         action(
             key = "xposedLockscreenVisualizer",
             icon = iconRes(R.drawable.ic_volume_eq),
-            title = stringRes(R.string.lockscreen_visualizer_title),
-            summary = { stringRes(R.string.lockscreen_visualizer_desc) },
+            title = stringRes(R.string.activity_title_lockscreen_visualizer),
+            summary = { stringRes(R.string.activity_desc_lockscreen_visualizer) },
             onClick = {
                 it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.Visualizer) {
                     launchSingleTop = true

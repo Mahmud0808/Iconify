@@ -13,31 +13,34 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import java.util.Locale
 import kotlin.math.roundToInt
 
 val lockscreenVisualizerPreferences = preferenceScreen {
     category {
         switch(
             key = XposedKey.LOCKSCREEN_VISUALIZER,
-            title = stringRes(R.string.lockscreen_visualizer_title),
-            summary = { stringRes(R.string.lockscreen_visualizer_desc) },
+            isMasterSwitch = true,
+            title = stringRes(R.string.activity_title_lockscreen_visualizer),
         )
+    }
 
+    category {
         listPref(
             key = XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE,
             title = stringRes(R.string.lockscreen_visualizer_color_mode_title),
             entries = arrayRes(R.array.lockscreen_visualizer_color_mode_entries),
             entryValues = arrayRes(R.array.lockscreen_visualizer_color_mode_values),
-            isVisible = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
         )
 
         colorPicker(
             key = XposedKey.LOCKSCREEN_VISUALIZER_STATIC_COLOR,
             title = stringRes(R.string.lockscreen_visualizer_static_color_title),
             showAlphaSlider = true,
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) },
             isVisible = { pref ->
-                pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) &&
-                    pref.getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE) in setOf("0", "1")
+                pref.getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE) in setOf("0")
             }
         )
 
@@ -45,20 +48,16 @@ val lockscreenVisualizerPreferences = preferenceScreen {
             key = XposedKey.LOCKSCREEN_VISUALIZER_GRADIENT_COLOR_START,
             title = stringRes(R.string.lockscreen_visualizer_gradient_start_title),
             showAlphaSlider = true,
-            isVisible = { pref ->
-                pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) &&
-                    pref.getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE) == "2"
-            }
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) },
+            isVisible = { pref -> pref.getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE) == "2" }
         )
 
         colorPicker(
             key = XposedKey.LOCKSCREEN_VISUALIZER_GRADIENT_COLOR_END,
             title = stringRes(R.string.lockscreen_visualizer_gradient_end_title),
             showAlphaSlider = true,
-            isVisible = { pref ->
-                pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) &&
-                    pref.getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE) == "2"
-            }
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) },
+            isVisible = { pref -> pref.getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE) == "2" }
         )
 
         slider(
@@ -67,10 +66,8 @@ val lockscreenVisualizerPreferences = preferenceScreen {
             min = 5f,
             max = 60f,
             valueLabel = { "${it.roundToInt()}s" },
-            isVisible = { pref ->
-                pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) &&
-                    pref.getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE) == "1"
-            }
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) },
+            isVisible = { pref -> pref.getString(XposedKey.LOCKSCREEN_VISUALIZER_COLOR_MODE) == "1" }
         )
 
         listPref(
@@ -78,7 +75,7 @@ val lockscreenVisualizerPreferences = preferenceScreen {
             title = stringRes(R.string.lockscreen_visualizer_fps_title),
             entries = arrayRes(R.array.lockscreen_visualizer_fps_entries),
             entryValues = arrayRes(R.array.lockscreen_visualizer_fps_values),
-            isVisible = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
         )
 
         slider(
@@ -86,8 +83,8 @@ val lockscreenVisualizerPreferences = preferenceScreen {
             title = stringRes(R.string.lockscreen_visualizer_sensitivity_title),
             min = 0.5f,
             max = 3.0f,
-            valueLabel = { String.format("%.2fx", it) },
-            isVisible = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
+            valueLabel = { String.format(Locale.getDefault(), "%.2fx", it) },
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
         )
 
         slider(
@@ -96,7 +93,7 @@ val lockscreenVisualizerPreferences = preferenceScreen {
             min = 180f,
             max = 760f,
             valueLabel = { "${it.roundToInt()}dp" },
-            isVisible = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
         )
 
         slider(
@@ -105,7 +102,7 @@ val lockscreenVisualizerPreferences = preferenceScreen {
             min = 6f,
             max = 32f,
             valueLabel = { "${it.roundToInt()}dp" },
-            isVisible = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
         )
 
         slider(
@@ -114,7 +111,7 @@ val lockscreenVisualizerPreferences = preferenceScreen {
             min = 0f,
             max = 100f,
             valueLabel = { "${it.roundToInt()}%" },
-            isVisible = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
+            isEnabled = { pref -> pref.getBoolean(XposedKey.LOCKSCREEN_VISUALIZER) }
         )
     }
 }
@@ -143,7 +140,7 @@ fun LockscreenVisualizerScreen(
 
     PreferenceScreen(
         items = lockscreenVisualizerPreferences,
-        title = stringResource(R.string.lockscreen_visualizer_title),
+        title = stringResource(R.string.activity_title_lockscreen_visualizer),
         showBackIcon = true
     )
 }
