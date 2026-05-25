@@ -415,8 +415,11 @@ class LockscreenVisualizerView(context: Context) : View(context) {
             revealProgress = revealTarget
         }
 
+        val visualizerHeight = min(context.dp(visualizerHeightDp).toFloat(), height * 0.70f)
+        val minimumActiveLevel = if (shouldAnimate) minimumActiveLevel(visualizerHeight) else 0f
+
         for (i in 0 until barCount) {
-            val rawSource = if (shouldAnimate) targetLevels[i] else 0f
+            val rawSource = if (shouldAnimate) max(targetLevels[i], minimumActiveLevel) else 0f
 
             smoothedTargets[i] += (rawSource - smoothedTargets[i]) * targetSmoothing
 
@@ -455,13 +458,20 @@ class LockscreenVisualizerView(context: Context) : View(context) {
         invalidate()
     }
 
+    private fun minimumActiveLevel(visualizerHeight: Float): Float {
+        if (visualizerHeight <= 0f) return 0f
+
+        return (context.dp(BOTTOM_OFFSCREEN_DP + MIN_VISIBLE_BAR_DP).toFloat() / visualizerHeight)
+            .coerceIn(0f, 0.25f)
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         if (width <= 0 || height <= 0) return
 
         val visualizerHeight = min(context.dp(visualizerHeightDp).toFloat(), height * 0.70f)
-        val baseline = height - context.dp(BOTTOM_OFFSET_DP).toFloat() +
+        val baseline = height + context.dp(BOTTOM_OFFSCREEN_DP).toFloat() +
             visualizerHeight * (1f - revealProgress)
         val barGap = width.toFloat() / barCount
         val stroke = min(context.dp(barThicknessDp).toFloat(), barGap * 0.82f)
@@ -618,7 +628,8 @@ class LockscreenVisualizerView(context: Context) : View(context) {
         private const val BASE_FRAME_MS = 16.666f
         private const val DEAD_ZONE = 0.006f
         private const val REVEAL_ANIMATION = 0.075f
-        private const val BOTTOM_OFFSET_DP = 12f
+        private const val BOTTOM_OFFSCREEN_DP = 14f
+        private const val MIN_VISIBLE_BAR_DP = 6f
         private const val MUSIC_ACTIVE_GRACE_MS = 4_000L
         private const val VALID_AUDIO_GRACE_MS = 3_500L
         private const val COLOR_MODE_STATIC = 0
