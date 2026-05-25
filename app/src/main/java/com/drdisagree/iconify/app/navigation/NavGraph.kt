@@ -55,6 +55,7 @@ import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.screens.
 import com.drdisagree.iconify.features.xposed.lockscreen.location.screens.LocationBrowseScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.main.screens.LockscreenScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.weather.screens.LockscreenWeatherScreen
+import com.drdisagree.iconify.features.xposed.lockscreen.visualizer.screens.LockscreenVisualizerScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.widgets.main.screens.LockscreenWidgetsScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.widgets.weather.screens.LockscreenWidgetsWeatherScreen
 import com.drdisagree.iconify.features.xposed.main.screens.XposedScreen
@@ -286,6 +287,7 @@ fun NavGraph(
 
                         composable<NavRoutes.MainGraph.Xposed.Lockscreen.DepthWallpaper> { DepthWallpaperScreen() }
                         composable<NavRoutes.MainGraph.Xposed.Lockscreen.MediaAlbumArt> { LockscreenAlbumArtScreen() }
+                        composable<NavRoutes.MainGraph.Xposed.Lockscreen.Visualizer> { LockscreenVisualizerScreen() }
                         composable<NavRoutes.MainGraph.Xposed.Lockscreen.Location> { LocationBrowseScreen() }
                     }
 

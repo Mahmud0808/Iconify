@@ -20,6 +20,7 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.DepthWallpaper
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenClock
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWeather
+import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenVisualizer
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgets
 import com.drdisagree.iconify.xposed.modules.misc.Miscellaneous
 import com.drdisagree.iconify.xposed.modules.quicksettings.AppIconInNotification
@@ -74,6 +75,7 @@ object EntryList {
         LockscreenWidgets::class.java,
         LockscreenWeather::class.java,
         AlbumArt::class.java,
+        LockscreenVisualizer::class.java,
         Miscellaneous::class.java,
         QSTransparency::class.java,
         QuickSettings::class.java,

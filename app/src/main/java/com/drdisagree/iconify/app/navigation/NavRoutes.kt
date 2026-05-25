@@ -190,6 +190,9 @@ sealed class NavRoutes {
 
                 @Serializable
                 data object MediaAlbumArt : Lockscreen()
+
+                @Serializable
+                data object Visualizer : Lockscreen()
             }
 
             @Serializable

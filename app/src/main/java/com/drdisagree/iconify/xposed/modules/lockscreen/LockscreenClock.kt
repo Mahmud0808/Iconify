@@ -109,6 +109,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
     private var mRamUsageArcProgress: ArcProgressImageView? = null
     private var mBatteryLevelArcProgress: ArcProgressImageView? = null
     private var mTemperatureArcProgress: ArcProgressImageView? = null
+    private var mCpuUsageArcProgress: ArcProgressImageView? = null
     private var mAccentColor1 = 0
     private var mAccentColor2 = 0
     private var mAccentColor3 = 0
@@ -713,7 +714,8 @@ class LockscreenClock(context: Context) : ModPack(context) {
             mVolumeLevelArcProgress,
             mRamUsageArcProgress,
             mBatteryLevelArcProgress,
-            mTemperatureArcProgress
+            mTemperatureArcProgress,
+            mCpuUsageArcProgress
         )
 
     private fun modifyClockView(clockView: View?) {
@@ -789,6 +791,9 @@ class LockscreenClock(context: Context) : ModPack(context) {
         mVolumeProgress = null
         mVolumeLevelArcProgress = null
         mRamUsageArcProgress = null
+        mBatteryLevelArcProgress = null
+        mTemperatureArcProgress = null
+        mCpuUsageArcProgress = null
 
         clockView.apply {
             when (clockStyle) {
@@ -812,6 +817,13 @@ class LockscreenClock(context: Context) : ModPack(context) {
                     addArcProgressView("ram_usage_info")
                     addArcProgressView("battery_progress_arc")
                     addArcProgressView("temperature_progress")
+                }
+
+                61 -> {
+                    addArcProgressView("battery_progress_arc")
+                    addArcProgressView("ram_usage_info")
+                    addArcProgressView("temperature_progress")
+                    addArcProgressView("cpu_usage_info")
                 }
 
                 else -> {}
@@ -950,6 +962,15 @@ class LockscreenClock(context: Context) : ModPack(context) {
                     }
                 }
                 container?.reAddView(mTemperatureArcProgress)
+            }
+
+            "cpu_usage_info" -> {
+                if (mCpuUsageArcProgress == null) {
+                    mCpuUsageArcProgress = newArcProgress().apply {
+                        setProgressType(ArcProgressImageView.ProgressType.CPU)
+                    }
+                }
+                container?.reAddView(mCpuUsageArcProgress)
             }
         }
     }

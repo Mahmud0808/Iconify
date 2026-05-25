@@ -32,6 +32,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.modules.extras.views.ArcProgressWidget.generateBitmap
+import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.ScheduledFuture
@@ -45,8 +46,11 @@ class ArcProgressImageView(context: Context) : ImageView(context) {
     private var mContext: Context = context
     private var progressType: ProgressType
     private var progressPercent = -1
+    private var progressText = ""
     private var batteryLevel = -1
     private var batteryTemperature = -1
+    private var previousCpuTotal = -1L
+    private var previousCpuIdle = -1L
     private var audioManager: AudioManager? = null
     private var scheduler: ScheduledExecutorService? = null
     private var updateTask: ScheduledFuture<*>? = null
@@ -80,6 +84,7 @@ class ArcProgressImageView(context: Context) : ImageView(context) {
         MEMORY(R.drawable.ic_memory),
         TEMPERATURE(R.drawable.ic_temperature),
         VOLUME(R.drawable.ic_volume_eq),
+        CPU(R.drawable.ic_cpu),
         UNKNOWN(-1)
     }
 
@@ -175,7 +180,12 @@ class ArcProgressImageView(context: Context) : ImageView(context) {
     }
 
     private fun startProgressUpdates() {
-        if (progressType == ProgressType.MEMORY || progressType == ProgressType.VOLUME) {
+        if (
+            progressType == ProgressType.MEMORY ||
+            progressType == ProgressType.VOLUME ||
+            progressType == ProgressType.CPU ||
+            progressType == ProgressType.BATTERY
+        ) {
             scheduler = Executors.newSingleThreadScheduledExecutor()
             updateTask = scheduler!!.scheduleWithFixedDelay(
                 { this.updateProgress() },
@@ -197,11 +207,32 @@ class ArcProgressImageView(context: Context) : ImageView(context) {
             ProgressType.MEMORY -> memoryLevel
             ProgressType.TEMPERATURE -> batteryTemperature
             ProgressType.VOLUME -> volumeLevel
+            ProgressType.CPU -> cpuLevel
             else -> -1
         }
 
-        if (newProgressPercent != progressPercent) {
+        val newProgressText = when (progressType) {
+            ProgressType.BATTERY -> batteryCurrentText
+            ProgressType.TEMPERATURE -> {
+                if (newProgressPercent != -1) {
+                    "$newProgressPercent\u2103" // degree
+                } else {
+                    "N/A"
+                }
+            }
+
+            else -> {
+                if (newProgressPercent == -1) {
+                    "..."
+                } else {
+                    "$newProgressPercent%"
+                }
+            }
+        }
+
+        if (newProgressPercent != progressPercent || newProgressText != progressText) {
             progressPercent = newProgressPercent
+            progressText = newProgressText
             updateImageView()
         }
     }
@@ -209,24 +240,11 @@ class ArcProgressImageView(context: Context) : ImageView(context) {
     private fun updateImageView() {
         if (progressType == ProgressType.UNKNOWN) return
 
-        val progressText = if (progressType == ProgressType.TEMPERATURE) {
-            if (progressPercent != -1) {
-                "$progressPercent\u2103" // degree
-            } else {
-                "N/A"
-            }
-        } else {
-            if (progressPercent == -1) {
-                "..."
-            } else {
-                "$progressPercent%"
-            }
-        }
         val widgetBitmap = generateBitmap(
             mContext,
             if (progressPercent == -1) 0 else progressPercent,
             progressText,
-            40,
+            if (progressType == ProgressType.BATTERY) 30 else 40,
             ResourcesCompat.getDrawable(modRes, progressType.iconRes, mContext.theme),
             36,
             typeface ?: Typeface.create(Typeface.DEFAULT, Typeface.BOLD),
@@ -254,6 +272,104 @@ class ArcProgressImageView(context: Context) : ImageView(context) {
             val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
             return max(0.0, min(((currentVolume * 100) / maxVolume).toDouble(), 100.0)).toInt()
         }
+
+    private val batteryCurrentText: String
+        get() {
+            val batteryManager = mContext.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+            val currentNowMicroAmpere =
+                batteryManager.getLongProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
+
+            if (currentNowMicroAmpere == Long.MIN_VALUE || currentNowMicroAmpere == 0L) {
+                return "N/A"
+            }
+
+            val currentNowMilliAmpere = currentNowMicroAmpere / 1000
+            return if (currentNowMilliAmpere > 0) {
+                "+${currentNowMilliAmpere}mA"
+            } else {
+                "${currentNowMilliAmpere}mA"
+            }
+        }
+
+    private val cpuLevel: Int
+        get() = readCpuUsageLevel() ?: readCpuFrequencyLevel() ?: -1
+
+    private fun readCpuUsageLevel(): Int? {
+        val cpuStats = readCpuStats() ?: return null
+        val total = cpuStats.first
+        val idle = cpuStats.second
+
+        if (previousCpuTotal < 0 || previousCpuIdle < 0) {
+            previousCpuTotal = total
+            previousCpuIdle = idle
+            return 0
+        }
+
+        val totalDelta = total - previousCpuTotal
+        val idleDelta = idle - previousCpuIdle
+
+        previousCpuTotal = total
+        previousCpuIdle = idle
+
+        if (totalDelta <= 0) return null
+
+        val usage = ((totalDelta - idleDelta) * 100 / totalDelta).toInt()
+        return max(0.0, min(usage.toDouble(), 100.0)).toInt()
+    }
+
+    private fun readCpuStats(): Pair<Long, Long>? {
+        return runCatching {
+            val values = File("/proc/stat")
+                .readLines()
+                .firstOrNull { it.startsWith("cpu ") }
+                ?.trim()
+                ?.split(Regex("\\s+"))
+                ?.drop(1)
+                ?.map { it.toLong() }
+                ?: return null
+
+            val idle = values.getOrNull(3).orZero() + values.getOrNull(4).orZero()
+            val total = values.sum()
+            total to idle
+        }.getOrNull()
+    }
+
+    private fun readCpuFrequencyLevel(): Int? {
+        return runCatching {
+            val cpuRoot = File("/sys/devices/system/cpu")
+            val cpuDirs = cpuRoot.listFiles { file ->
+                file.isDirectory && file.name.matches(Regex("cpu\\d+"))
+            }.orEmpty()
+
+            var totalPercent = 0
+            var validCores = 0
+
+            cpuDirs.forEach { cpuDir ->
+                val curFreq = File(cpuDir, "cpufreq/scaling_cur_freq")
+                    .takeIf { it.canRead() }
+                    ?.readText()
+                    ?.trim()
+                    ?.toLongOrNull()
+
+                val maxFreq = File(cpuDir, "cpufreq/cpuinfo_max_freq")
+                    .takeIf { it.canRead() }
+                    ?.readText()
+                    ?.trim()
+                    ?.toLongOrNull()
+
+                if (curFreq != null && maxFreq != null && maxFreq > 0) {
+                    totalPercent += ((curFreq * 100) / maxFreq).toInt()
+                    validCores++
+                }
+            }
+
+            if (validCores == 0) return null
+
+            max(0.0, min((totalPercent / validCores).toDouble(), 100.0)).toInt()
+        }.getOrNull()
+    }
+
+    private fun Long?.orZero() = this ?: 0L
 
     private fun updateVisibility() {
         val enabled = progressType != ProgressType.UNKNOWN
