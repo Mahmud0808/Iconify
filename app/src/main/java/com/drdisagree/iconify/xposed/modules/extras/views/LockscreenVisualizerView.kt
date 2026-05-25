@@ -461,8 +461,8 @@ class LockscreenVisualizerView(context: Context) : View(context) {
         if (width <= 0 || height <= 0) return
 
         val visualizerHeight = min(context.dp(visualizerHeightDp).toFloat(), height * 0.70f)
-        val bottomPadding = context.dp(2).toFloat()
-        val baseline = height + context.dp(14).toFloat() + visualizerHeight * (1f - revealProgress)
+        val baseline = height + context.dp(BOTTOM_OFFSCREEN_DP).toFloat() +
+            visualizerHeight * (1f - revealProgress)
         val barGap = width.toFloat() / barCount
         val stroke = min(context.dp(barThicknessDp).toFloat(), barGap * 0.82f)
 
@@ -618,6 +618,7 @@ class LockscreenVisualizerView(context: Context) : View(context) {
         private const val BASE_FRAME_MS = 16.666f
         private const val DEAD_ZONE = 0.006f
         private const val REVEAL_ANIMATION = 0.075f
+        private const val BOTTOM_OFFSCREEN_DP = 3f
         private const val MUSIC_ACTIVE_GRACE_MS = 4_000L
         private const val VALID_AUDIO_GRACE_MS = 3_500L
         private const val COLOR_MODE_STATIC = 0
