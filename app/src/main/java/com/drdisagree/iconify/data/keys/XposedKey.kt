@@ -291,4 +291,6 @@ enum class XposedKey(override val default: Any?) : Key {
     // Volume Panel
     VOLUME_PANEL_PERCENTAGE(false),
     VOLUME_PANEL_SAFETY_WARNING(true),
+    VOLUME_PANEL_APP_VOLUME(false),
+    VOLUME_PANEL_MULTI_AUDIO_FOCUS(false),
 }

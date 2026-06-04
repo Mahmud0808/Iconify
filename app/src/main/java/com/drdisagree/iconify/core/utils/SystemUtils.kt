@@ -60,6 +60,15 @@ object SystemUtils {
         Shell.cmd("am start -a android.intent.action.REBOOT").exec()
     }
 
+    fun setMultiAudioFocusEnabled(enabled: Boolean) {
+        val value = if (enabled) "1" else "0"
+
+        Shell.cmd(
+            "settings put system multi_audio_focus_enabled $value",
+            "settings put --user 0 system multi_audio_focus_enabled $value"
+        ).exec()
+    }
+
     fun disableBlur(force: Boolean) {
         Shell.cmd(
             if (!force) "mv " + Resources.MODULE_DIR +
