@@ -749,12 +749,15 @@
     <string name="safety_warning_title">Safety Warning</string>
     <string name="safety_warning_desc">Show warning on high volume</string>
     <string name="app_volume_button_title">Per-app volume</string>
-    <string name="app_volume_button_desc">Show a per-app volume button in the volume panel for active audio sources</string>
-
+    <string name="app_volume_button_desc">Long press menu button in the volume panel for active audio sources</string>
     <string name="multi_audio_focus_title">Multiple audio sources</string>
     <string name="multi_audio_focus_desc">Allow several apps to keep playing audio at the same time. Requires a full device reboot.</string>
     <string name="colored_ringer_icon_title">Colored Ringer Icon</string>
     <string name="colored_ringer_icon_desc">Enable if selected ringer icon is invisible</string>
+    <string name="volume_sheet_app_volume">App Volume</string>
+    <string name="volume_sheet_no_active_source">No active sources found</string>
+    <string name="volume_sheet_active_sources_count_format">Active sources: %d</string>
+    <string name="volume_sheet_play_music_or_video">Play some music or video and open this panel again.</string>
 
     <!-- Xposed Header Image -->
     <string name="header_image_title">Pick Header Image</string>

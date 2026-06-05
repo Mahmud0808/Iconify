@@ -1,12 +1,7 @@
 package com.drdisagree.iconify.xposed.modules.extras.views
 
 import android.content.Context
-import android.content.ContextWrapper
-import android.content.res.Resources
 import android.util.AttributeSet
-import android.view.ContextThemeWrapper
-import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
 class ExtendedFAB @JvmOverloads constructor(
@@ -14,11 +9,7 @@ class ExtendedFAB @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ExtendedFloatingActionButton(
-    ContextThemeWrapper(object : ContextWrapper(context) {
-        override fun getResources(): Resources {
-            return modRes
-        }
-    }, com.google.android.material.R.style.Theme_MaterialComponents_DayNight),
+    createMonetM3Context(context),
     attrs,
     defStyleAttr
 )
