@@ -19,8 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.IconPreviewGrid
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.utils.ItemPosition
 import com.drdisagree.iconify.core.ui.utils.cardCorners
 import com.drdisagree.iconify.data.models.SettingsIconsPreview
@@ -39,8 +41,10 @@ fun SettingsIconsCard(
     val corners = cardCorners(itemPosition)
 
     Card(
-        onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        onClick = withHaptic { onClick() },
+        modifier = modifier
+            .fillMaxWidth()
+            .bounceClick(pressedScale = 0.97f),
         shape = RoundedCornerShape(
             topStart = corners.topStart,
             topEnd = corners.topEnd,

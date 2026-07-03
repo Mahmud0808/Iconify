@@ -10,8 +10,8 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
@@ -32,14 +32,15 @@ import com.drdisagree.iconify.core.common.LocalWeakHaptic
 import com.drdisagree.iconify.core.common.LocalWindowSizeClass
 import com.drdisagree.iconify.core.utils.HapticUtils.strongHaptic
 import com.drdisagree.iconify.core.utils.HapticUtils.weakHaptic
+import com.drdisagree.iconify.core.common.SettingsHolder
 import com.drdisagree.iconify.data.keys.SettingsKey
-import com.drdisagree.iconify.data.states.SettingsState
 import com.drdisagree.iconify.features.common.viewmodels.SettingsViewModel
 import com.kyant.backdrop.backdrops.rememberLayerBackdrop
 import com.materialkolor.PaletteStyle
 import com.materialkolor.dynamiccolor.ColorSpec
 import com.materialkolor.rememberDynamicColorScheme
 import dev.chrisbanes.haze.HazeState
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
@@ -55,63 +56,95 @@ fun AppProviders(
     val navController = rememberNavController()
     val windowSizeClass = calculateWindowSizeClass(activity)
 
-    val themeMode by settingsViewModel.stringState(SettingsKey.THEME_MODE)
-    val isHapticEnabled by settingsViewModel.booleanState(SettingsKey.HAPTICS_AND_VIBRATION)
-    val seedColor by settingsViewModel.stringState(SettingsKey.SEED_COLOR)
-    val isDynamicColor by settingsViewModel.booleanState(SettingsKey.DYNAMIC_COLORS)
-    val paletteStyle by settingsViewModel.stringState(SettingsKey.PALETTE_STYLE)
-    val isExpressive by settingsViewModel.booleanState(SettingsKey.EXPRESSIVE_COLORS)
-    val isAmoledTheme by settingsViewModel.booleanState(SettingsKey.AMOLED_THEME)
-    val contrastLevel by settingsViewModel.stringState(SettingsKey.CONTRAST_LEVEL)
-    val floatingBottomBar by settingsViewModel.booleanState(SettingsKey.FLOATING_BOTTOM_BAR)
-    val blurEffect by settingsViewModel.booleanState(SettingsKey.BLUR_EFFECT)
-    val overlayVersionCode by settingsViewModel.intState(SettingsKey.OVERLAY_VERSION_CODE)
-    val isXposedOnlyMode by settingsViewModel.booleanState(SettingsKey.XPOSED_ONLY_MODE)
-    val isPlaygroundUnlocked by settingsViewModel.booleanState(SettingsKey.PLAYGROUND_UNLOCKED)
     val uiScale by settingsViewModel.floatState(SettingsKey.UI_SCALE)
     val textScale by settingsViewModel.floatState(SettingsKey.TEXT_SCALE)
-    val isSettingsLoaded by settingsViewModel.isLoaded.collectAsState()
 
-    val state by remember {
-        derivedStateOf {
-            SettingsState(
-                themeMode = themeMode.toInt(),
-                isExpressive = isExpressive,
-                isAmoledTheme = isAmoledTheme,
-                seedColor = seedColor.toLong(),
-                paletteStyle = PaletteStyle.valueOf(paletteStyle),
-                isDynamicColor = isDynamicColor,
-                contrastLevel = contrastLevel.toDouble(),
-                isHapticEnabled = isHapticEnabled,
-                floatingBottomBar = floatingBottomBar,
-                blurEffect = blurEffect,
-                overlayVersionCode = overlayVersionCode,
-                isXposedOnlyMode = isXposedOnlyMode,
-                isPlaygroundUnlocked = isPlaygroundUnlocked,
-                isLoaded = isSettingsLoaded,
-            )
+    val settingsHolder = remember { SettingsHolder() }
+
+    // Collect preference flows straight into the snapshot holder. Each flow
+    // emits its current value on start, and every property write invalidates
+    // only the composables that read that specific property.
+    LaunchedEffect(settingsViewModel) {
+        launch {
+            settingsViewModel.getStringFlow(SettingsKey.THEME_MODE)
+                .collect { settingsHolder.themeMode = it.toInt() }
+        }
+        launch {
+            settingsViewModel.getBooleanFlow(SettingsKey.EXPRESSIVE_COLORS)
+                .collect { settingsHolder.isExpressive = it }
+        }
+        launch {
+            settingsViewModel.getBooleanFlow(SettingsKey.AMOLED_THEME)
+                .collect { settingsHolder.isAmoledTheme = it }
+        }
+        launch {
+            settingsViewModel.getStringFlow(SettingsKey.SEED_COLOR)
+                .collect { settingsHolder.seedColor = it.toLong() }
+        }
+        launch {
+            settingsViewModel.getStringFlow(SettingsKey.PALETTE_STYLE)
+                .collect { settingsHolder.paletteStyle = PaletteStyle.valueOf(it) }
+        }
+        launch {
+            settingsViewModel.getBooleanFlow(SettingsKey.DYNAMIC_COLORS)
+                .collect { settingsHolder.isDynamicColor = it }
+        }
+        launch {
+            settingsViewModel.getStringFlow(SettingsKey.CONTRAST_LEVEL)
+                .collect { settingsHolder.contrastLevel = it.toDouble() }
+        }
+        launch {
+            settingsViewModel.getBooleanFlow(SettingsKey.HAPTICS_AND_VIBRATION)
+                .collect { settingsHolder.isHapticEnabled = it }
+        }
+        launch {
+            settingsViewModel.getBooleanFlow(SettingsKey.FLOATING_BOTTOM_BAR)
+                .collect { settingsHolder.floatingBottomBar = it }
+        }
+        launch {
+            settingsViewModel.getBooleanFlow(SettingsKey.BLUR_EFFECT)
+                .collect { settingsHolder.blurEffect = it }
+        }
+        launch {
+            settingsViewModel.getBooleanFlow(SettingsKey.ANIMATIONS)
+                .collect { settingsHolder.animationsEnabled = it }
+        }
+        launch {
+            settingsViewModel.getIntFlow(SettingsKey.OVERLAY_VERSION_CODE)
+                .collect { settingsHolder.overlayVersionCode = it }
+        }
+        launch {
+            settingsViewModel.getBooleanFlow(SettingsKey.XPOSED_ONLY_MODE)
+                .collect { settingsHolder.isXposedOnlyMode = it }
+        }
+        launch {
+            settingsViewModel.getBooleanFlow(SettingsKey.PLAYGROUND_UNLOCKED)
+                .collect { settingsHolder.isPlaygroundUnlocked = it }
+        }
+        launch {
+            settingsViewModel.isLoaded.collect { settingsHolder.isLoaded = it }
         }
     }
 
-    val isDarkTheme = when (themeMode.toInt()) {
+    val isDarkTheme = when (settingsHolder.themeMode) {
         AppCompatDelegate.MODE_NIGHT_YES -> true
         AppCompatDelegate.MODE_NIGHT_NO -> false
         else -> isSystemInDarkTheme()
     }
 
     val colorScheme = when {
-        isDynamicColor -> when {
+        settingsHolder.isDynamicColor -> when {
             isDarkTheme -> dynamicDarkColorScheme(context)
             else -> dynamicLightColorScheme(context)
         }
 
         else -> rememberDynamicColorScheme(
-            seedColor = Color(seedColor.toLong()),
+            seedColor = Color(settingsHolder.seedColor),
             isDark = isDarkTheme,
-            isAmoled = isAmoledTheme,
-            contrastLevel = contrastLevel.toDouble(),
-            style = PaletteStyle.valueOf(paletteStyle),
-            specVersion = if (isExpressive) ColorSpec.SpecVersion.SPEC_2025
+            isAmoled = settingsHolder.isAmoledTheme,
+            contrastLevel = settingsHolder.contrastLevel,
+            style = settingsHolder.paletteStyle,
+            specVersion = if (settingsHolder.isExpressive) ColorSpec.SpecVersion.SPEC_2025
             else ColorSpec.SpecVersion.SPEC_2021,
         )
     }
@@ -134,17 +167,19 @@ fun AppProviders(
         )
     }
 
-    val weakHaptic = remember(isHapticEnabled, view) {
+    // Haptic enablement is read inside the lambdas at invocation time, so
+    // toggling the setting doesn't recompose anything.
+    val weakHaptic = remember(settingsHolder, view) {
         {
-            if (isHapticEnabled) {
+            if (settingsHolder.isHapticEnabled) {
                 view.weakHaptic()
             }
         }
     }
 
-    val strongHaptic = remember(isHapticEnabled, view) {
+    val strongHaptic = remember(settingsHolder, view) {
         {
-            if (isHapticEnabled) {
+            if (settingsHolder.isHapticEnabled) {
                 view.strongHaptic()
             }
         }
@@ -155,7 +190,7 @@ fun AppProviders(
             LocalHazeState provides hazeState,
             LocalLayerBackdrop provides backdrop,
             LocalNavController provides navController,
-            LocalSettings provides state,
+            LocalSettings provides settingsHolder,
             LocalColorScheme provides colorScheme,
             LocalWeakHaptic provides weakHaptic,
             LocalStrongHaptic provides strongHaptic,
@@ -169,21 +204,6 @@ fun AppProviders(
 }
 
 @Composable
-private fun SettingsViewModel.booleanState(key: SettingsKey): androidx.compose.runtime.State<Boolean> {
-    return getBooleanFlow(key).collectAsState(initial = key.default as Boolean)
-}
-
-@Composable
-private fun SettingsViewModel.intState(key: SettingsKey): androidx.compose.runtime.State<Int> {
-    return getIntFlow(key).collectAsState(initial = key.default as Int)
-}
-
-@Composable
 private fun SettingsViewModel.floatState(key: SettingsKey): androidx.compose.runtime.State<Float> {
     return getFloatFlow(key).collectAsState(initial = key.default as Float)
-}
-
-@Composable
-private fun SettingsViewModel.stringState(key: SettingsKey): androidx.compose.runtime.State<String> {
-    return getStringFlow(key).collectAsState(initial = key.default as String)
 }

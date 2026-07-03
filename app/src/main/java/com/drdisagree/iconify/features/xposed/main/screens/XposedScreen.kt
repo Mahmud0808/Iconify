@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.github.yohannestz.iconsax_compose.iconsax.Iconsax
 import com.drdisagree.iconify.app.navigation.NavRoutes
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.iconRes
 import com.drdisagree.iconify.core.preferences.preferenceScreen
@@ -100,8 +101,10 @@ fun xposedPreferences(
 
 @Composable
 fun XposedScreen(bottomNavViewModel: BottomNavViewModel = sharedHiltViewModel()) {
+    val animationsEnabled = LocalSettings.current.animationsEnabled
+
     LaunchedEffect(Unit) {
-        delay(600.milliseconds)
+        if (animationsEnabled) delay(600.milliseconds)
         bottomNavViewModel.showBottomBar(true)
     }
 

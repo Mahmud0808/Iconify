@@ -1553,6 +1553,8 @@
     <string name="contrast_medium">Medium</string>
     <string name="contrast_high">High</string>
     <string name="contrast_reduced">Reduced</string>
+    <string name="animations_title">Animations</string>
+    <string name="animations_desc">Enable fluid animations, screen transitions and touch feedback effects</string>
     <string name="blur_effect_title">Blur Effect</string>
     <string name="blur_effect_desc">Apply a blur effect to backgrounds and UI elements</string>
     <string name="floating_bottom_bar_title">Floating Bottom Bar</string>

@@ -8,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.preferenceScreen
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
@@ -29,8 +30,10 @@ val homePreferences = preferenceScreen {
 
 @Composable
 fun HomeScreen(bottomNavViewModel: BottomNavViewModel = sharedHiltViewModel()) {
+    val animationsEnabled = LocalSettings.current.animationsEnabled
+
     LaunchedEffect(Unit) {
-        delay(300)
+        if (animationsEnabled) delay(300)
         bottomNavViewModel.showBottomBar(true)
     }
 

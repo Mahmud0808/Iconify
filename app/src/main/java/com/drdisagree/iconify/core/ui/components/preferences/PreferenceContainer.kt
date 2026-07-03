@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 
 private val SINGLE_LINE_LIST_ITEM_MIN_HEIGHT = 56.dp
@@ -50,6 +51,11 @@ fun PreferenceContainer(
                     minLine == 2 -> TWO_LINE_LIST_ITEM_MIN_HEIGHT
                     else -> THREE_LINE_LIST_ITEM_MIN_HEIGHT
                 }
+            )
+            .then(
+                if (onClick != null && isEnabled) {
+                    Modifier.bounceClick(pressedScale = 0.98f)
+                } else Modifier
             )
             .clip(shape)
             .background(containerColor, shape)

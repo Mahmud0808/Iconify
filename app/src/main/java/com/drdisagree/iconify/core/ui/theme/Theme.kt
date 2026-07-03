@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.drdisagree.iconify.core.common.LocalColorScheme
 import com.drdisagree.iconify.core.common.LocalDarkMode
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.materialkolor.ktx.animateColorScheme
 
 @Composable
@@ -22,6 +23,7 @@ fun MyAppTheme(
 ) {
     val view = LocalView.current
     val targetScheme = LocalColorScheme.current
+    val animationsEnabled = LocalSettings.current.animationsEnabled
 
     var animate by rememberSaveable { mutableStateOf(false) }
 
@@ -29,7 +31,7 @@ fun MyAppTheme(
         animate = true
     }
 
-    val colorScheme = if (animate) {
+    val colorScheme = if (animate && animationsEnabled) {
         animateColorScheme(colorScheme = targetScheme)
     } else {
         targetScheme

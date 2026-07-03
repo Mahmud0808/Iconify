@@ -181,6 +181,13 @@ val lookAndFeelPreferences = preferenceScreen {
 
     category(title = stringRes(R.string.section_title_additional_settings)) {
         switch(
+            key = SettingsKey.ANIMATIONS,
+            icon = iconRes(Iconsax.Outline.Magicpen),
+            title = stringRes(R.string.animations_title),
+            summary = { stringRes(R.string.animations_desc) },
+        )
+
+        switch(
             key = SettingsKey.BLUR_EFFECT,
             icon = iconRes(Iconsax.Outline.Blur),
             title = stringRes(R.string.blur_effect_title),

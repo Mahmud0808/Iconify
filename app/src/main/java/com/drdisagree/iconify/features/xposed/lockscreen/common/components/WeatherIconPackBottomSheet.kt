@@ -3,6 +3,9 @@ package com.drdisagree.iconify.features.xposed.lockscreen.common.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -53,7 +56,9 @@ fun WeatherIconPackBottomSheet(
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { onItemClick(index) },
+                        .bounceClick(pressedScale = 0.95f)
+                        .clip(MaterialTheme.shapes.small)
+                        .clickable(onClick = withHaptic { onItemClick(index) }),
                     shape = MaterialTheme.shapes.small,
                     color = MaterialTheme.colorScheme.surfaceVariant,
                     border = if (isSelected) {

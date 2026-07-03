@@ -42,7 +42,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
+import com.drdisagree.iconify.core.ui.components.extensions.softShadow
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.texts.AutoResizeableText
 
@@ -58,7 +60,9 @@ fun HomeCategoryCard(
     onClick: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isPressed by interactionSource.collectIsPressedAsState()
+    val animationsEnabled = LocalSettings.current.animationsEnabled
+    val pressed by interactionSource.collectIsPressedAsState()
+    val isPressed = animationsEnabled && pressed
 
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.92f else 1f,
@@ -98,6 +102,7 @@ fun HomeCategoryCard(
             .fillMaxWidth()
             .height(if (smallVariant) 84.dp else 190.dp)
             .scale(scale)
+            .softShadow(color = backgroundColor, cornerRadius = 28.dp)
             .clip(RoundedCornerShape(outerShapeCorner))
             .clickable(
                 interactionSource = interactionSource,

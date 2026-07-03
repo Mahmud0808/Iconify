@@ -54,6 +54,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
 import com.drdisagree.iconify.core.ui.components.others.DecorativeShape
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.components.svg.DynamicColorImageVectors
@@ -276,6 +277,7 @@ private fun PermissionCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 40.dp)
+            .bounceClick(pressedScale = 0.97f)
             .clip(MaterialTheme.shapes.large)
             .border(CardDefaults.outlinedCardBorder())
             .clickable(onClick = withHaptic { onClick() }),

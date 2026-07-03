@@ -3,6 +3,9 @@ package com.drdisagree.iconify.features.xposed.statusbar.batterystyle.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -73,7 +76,9 @@ fun BatteryStyleBottomSheet(
                             }
                         }
                         .heightIn(min = maxHeight)
-                        .clickable { onItemClick(index) },
+                        .bounceClick(pressedScale = 0.95f)
+                        .clip(MaterialTheme.shapes.medium)
+                        .clickable(onClick = withHaptic { onItemClick(index) }),
                     shape = MaterialTheme.shapes.medium,
                     color = MaterialTheme.colorScheme.surfaceVariant,
                     border = if (isSelected) {

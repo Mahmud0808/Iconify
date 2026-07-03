@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.IconPreviewGrid
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
@@ -40,8 +41,10 @@ fun IconPackCard(
     shape: Shape = MaterialTheme.shapes.large
 ) {
     Card(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
+        onClick = withHaptic { onClick() },
+        modifier = Modifier
+            .fillMaxWidth()
+            .bounceClick(pressedScale = 0.97f),
         shape = shape,
         colors = CardDefaults.cardColors(
             containerColor = if (iconPack.isApplied) MaterialTheme.colorScheme.primaryContainer

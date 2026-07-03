@@ -43,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
@@ -64,10 +65,11 @@ fun NotificationCard(
         modifier = Modifier
             .widthIn(max = 480.dp)
             .fillMaxWidth()
+            .bounceClick(pressedScale = 0.98f)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
-                onClick = onClick
+                onClick = withHaptic { onClick() }
             ),
         shape = RoundedCornerShape(0.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent),

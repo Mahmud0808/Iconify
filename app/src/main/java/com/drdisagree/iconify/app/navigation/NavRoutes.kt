@@ -204,8 +204,8 @@ sealed class NavRoutes {
             data object Tab : Xposed(), BottomBarTab {
                 override val route: NavRoutes = Root
                 override val title: Int = R.string.navbar_xposed
-                override val iconChecked: ImageVector = Iconsax.Bold.Magicpen
-                override val iconUnchecked: ImageVector = Iconsax.Outline.Magicpen
+                override val iconChecked: ImageVector = Iconsax.Bold.Cpu
+                override val iconUnchecked: ImageVector = Iconsax.Outline.Cpu
             }
         }
 

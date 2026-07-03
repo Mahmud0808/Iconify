@@ -2,6 +2,8 @@ package com.drdisagree.iconify.core.ui.components.topappbar
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -42,6 +44,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -56,6 +59,7 @@ import androidx.compose.ui.util.lerp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalDarkMode
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import kotlinx.coroutines.delay
@@ -81,16 +85,22 @@ fun CollapsingTopAppBar(
 ) {
     val isDarkTheme = LocalDarkMode.current
     val navController = LocalNavController.current
+    val animationsEnabled = LocalSettings.current.animationsEnabled
     val expandedFontSize = 32.sp
     val collapsedFontSize = 22.sp
-    val fontSize by animateFloatAsState(
-        targetValue = lerp(
-            expandedFontSize.value,
-            collapsedFontSize.value,
-            scrollBehavior.state.collapsedFraction
-        ),
-        label = "fontSizeAnimation"
+    val targetFontSize = lerp(
+        expandedFontSize.value,
+        collapsedFontSize.value,
+        scrollBehavior.state.collapsedFraction
     )
+    val fontSize by if (animationsEnabled) {
+        animateFloatAsState(
+            targetValue = targetFontSize,
+            label = "fontSizeAnimation"
+        )
+    } else {
+        rememberUpdatedState(targetFontSize)
+    }
 
     var backVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -121,8 +131,8 @@ fun CollapsingTopAppBar(
         navigationIcon = {
             AnimatedVisibility(
                 visible = backVisible,
-                enter = fadeIn() + scaleIn(),
-                exit = fadeOut() + scaleOut(),
+                enter = if (animationsEnabled) fadeIn() + scaleIn() else EnterTransition.None,
+                exit = if (animationsEnabled) fadeOut() + scaleOut() else ExitTransition.None,
             ) {
                 IconButton(
                     onClick = withHaptic {
@@ -167,6 +177,7 @@ fun CollapsingTopAppBar(
 @Composable
 fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean, isLastItem: Boolean) {
     val isDarkTheme = LocalDarkMode.current
+    val animationsEnabled = LocalSettings.current.animationsEnabled
     val expanded = rememberSaveable { mutableStateOf(false) }
 
     var actionVisible by rememberSaveable { mutableStateOf(false) }
@@ -182,8 +193,8 @@ fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean, isLastItem: Boo
     Box(modifier = Modifier.padding(start = 4.dp, end = 16.dp)) {
         AnimatedVisibility(
             visible = actionVisible,
-            enter = fadeIn() + scaleIn(),
-            exit = fadeOut() + scaleOut(),
+            enter = if (animationsEnabled) fadeIn() + scaleIn() else EnterTransition.None,
+            exit = if (animationsEnabled) fadeOut() + scaleOut() else ExitTransition.None,
         ) {
             IconButton(
                 onClick = {

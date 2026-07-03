@@ -27,9 +27,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
 import com.drdisagree.iconify.core.ui.components.others.IconPreviewGrid
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_LARGE
 import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_SMALL
+import com.drdisagree.iconify.core.ui.utils.animateColorGated
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -41,7 +44,29 @@ fun IconPreviewCard(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
+    val previewBgColor = animateColorGated(
+        if (isApplied) MaterialTheme.colorScheme.primaryContainer
+        else MaterialTheme.colorScheme.surfaceContainerHigh,
+        label = "previewBg"
+    )
+    val borderColor = animateColorGated(
+        if (isApplied) MaterialTheme.colorScheme.primary
+        else MaterialTheme.colorScheme.surfaceContainerHigh,
+        label = "previewBorder"
+    )
+    val labelBgColor = animateColorGated(
+        if (isApplied) MaterialTheme.colorScheme.primary
+        else MaterialTheme.colorScheme.surfaceContainerHigh,
+        label = "labelBg"
+    )
+    val labelTextColor = animateColorGated(
+        if (isApplied) MaterialTheme.colorScheme.onPrimary
+        else MaterialTheme.colorScheme.onSurface,
+        label = "labelText"
+    )
+
     Card(
+        modifier = Modifier.bounceClick(pressedScale = 0.97f),
         shape = RoundedCornerShape(CARD_CORNER_LARGE),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
@@ -51,7 +76,7 @@ fun IconPreviewCard(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier.clickable(
-                        onClick = onClick,
+                        onClick = withHaptic { onClick() },
                         interactionSource = interactionSource,
                         indication = null
                     )
@@ -67,18 +92,14 @@ fun IconPreviewCard(
                                     bottomEnd = CARD_CORNER_SMALL
                                 )
                             )
-                            .background(
-                                if (isApplied) MaterialTheme.colorScheme.primaryContainer
-                                else MaterialTheme.colorScheme.surfaceContainerHigh
-                            )
+                            .background(previewBgColor)
                             .indication(
                                 interactionSource = interactionSource,
                                 indication = ripple()
                             )
                             .border(
                                 2.dp,
-                                if (isApplied) MaterialTheme.colorScheme.primary
-                                else MaterialTheme.colorScheme.surfaceContainerHigh,
+                                borderColor,
                                 RoundedCornerShape(
                                     topStart = CARD_CORNER_LARGE,
                                     topEnd = CARD_CORNER_LARGE,
@@ -107,13 +128,7 @@ fun IconPreviewCard(
                                     bottomEnd = CARD_CORNER_LARGE
                                 )
                             )
-                            .background(
-                                if (isApplied) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.surfaceContainerHigh
-                                }
-                            )
+                            .background(labelBgColor)
                             .indication(
                                 interactionSource = interactionSource,
                                 indication = ripple()
@@ -129,11 +144,7 @@ fun IconPreviewCard(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .basicMarquee(iterations = Int.MAX_VALUE),
-                            color = if (isApplied) {
-                                MaterialTheme.colorScheme.onPrimary
-                            } else {
-                                MaterialTheme.colorScheme.onSurface
-                            },
+                            color = labelTextColor,
                         )
                     }
                 }

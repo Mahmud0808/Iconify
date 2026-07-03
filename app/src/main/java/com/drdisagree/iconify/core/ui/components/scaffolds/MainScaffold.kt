@@ -104,6 +104,7 @@ fun MainScaffold(
     val settings = LocalSettings.current
     val blurEffect = settings.blurEffect
     val floatingBottomBar = settings.floatingBottomBar
+    val animationsEnabled = settings.animationsEnabled
 
     val showBottomBar by bottomNavViewModel::isBottomBarVisible
     var bottomBarVisible by rememberSaveable { mutableStateOf(false) }
@@ -204,11 +205,11 @@ fun MainScaffold(
         bottomBar = {
             AnimatedVisibility(
                 visible = showBottomBar,
-                enter = if (!bottomBarVisible) {
+                enter = if (animationsEnabled && !bottomBarVisible) {
                     slideInVertically(animationSpec = bottomNavBounceSpec) { it } +
                             fadeIn(animationSpec = bottomNavFadeSpec)
                 } else EnterTransition.None,
-                exit = if (!bottomBarVisible) {
+                exit = if (animationsEnabled && !bottomBarVisible) {
                     slideOutVertically(animationSpec = bottomNavBounceSpec) { it } +
                             fadeOut(animationSpec = bottomNavFadeSpec)
                 } else ExitTransition.None

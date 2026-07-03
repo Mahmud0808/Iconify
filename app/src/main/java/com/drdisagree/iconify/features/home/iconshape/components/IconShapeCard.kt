@@ -42,8 +42,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.TooltipArrow
+import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.ui.utils.CARD_CORNER_LARGE
 import com.drdisagree.iconify.core.ui.utils.rememberXmlPainter
 import com.drdisagree.iconify.data.models.IconShapePreview
@@ -59,6 +61,7 @@ fun IconShapeCard(
     val interactionSource = remember { MutableInteractionSource() }
 
     Card(
+        modifier = Modifier.bounceClick(pressedScale = 0.95f),
         shape = RoundedCornerShape(CARD_CORNER_LARGE),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
@@ -67,7 +70,7 @@ fun IconShapeCard(
                 .padding(8.dp)
                 .width(78.dp)
                 .clickable(
-                    onClick = onClick,
+                    onClick = withHaptic { onClick() },
                     interactionSource = interactionSource,
                     indication = null
                 ),

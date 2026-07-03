@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.app.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -22,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navigation
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.scaffolds.MainScaffold
 import com.drdisagree.iconify.core.ui.utils.sharedHiltViewModel
 import com.drdisagree.iconify.features.changelog.screens.ChangelogScreen
@@ -84,6 +87,7 @@ fun NavGraph(
     val navController = LocalNavController.current
     val layoutDirection = LocalLayoutDirection.current
     val activity = LocalActivity.current
+    val animationsEnabled = LocalSettings.current.animationsEnabled
 
     LaunchedEffect(activity) {
         if (activity?.intent?.getBooleanExtra("open_app_updates", false) == true) {
@@ -128,6 +132,8 @@ fun NavGraph(
             navController = navController,
             startDestination = startDestination,
             enterTransition = {
+                if (!animationsEnabled) return@NavHost EnterTransition.None
+
                 when (initialState.destination) {
                     NavRoutes.Onboarding -> {
                         slideInHorizontally(
@@ -157,6 +163,8 @@ fun NavGraph(
                 }
             },
             exitTransition = {
+                if (!animationsEnabled) return@NavHost ExitTransition.None
+
                 when (targetState.destination) {
                     NavRoutes.Onboarding -> {
                         slideOutHorizontally(
@@ -186,6 +194,8 @@ fun NavGraph(
                 }
             },
             popEnterTransition = {
+                if (!animationsEnabled) return@NavHost EnterTransition.None
+
                 val dir = resolveDirection(
                     initialState.destination,
                     targetState.destination
@@ -204,6 +214,8 @@ fun NavGraph(
                 }
             },
             popExitTransition = {
+                if (!animationsEnabled) return@NavHost ExitTransition.None
+
                 val dir = resolveDirection(
                     initialState.destination,
                     targetState.destination

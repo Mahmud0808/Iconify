@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.ui.components.extensions.bounceClick
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 
 @Composable
@@ -30,7 +31,9 @@ fun IconSizeHintBanner(modifier: Modifier = Modifier, onDismiss: () -> Unit) {
                 launchSingleTop = true
             }
         },
-        modifier = modifier.padding(bottom = 8.dp),
+        modifier = modifier
+            .padding(bottom = 8.dp)
+            .bounceClick(pressedScale = 0.98f),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer
         )
