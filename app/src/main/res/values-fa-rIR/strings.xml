@@ -1470,6 +1470,8 @@
     <string name="contrast_medium">متوسط</string>
     <string name="contrast_high">زیاد</string>
     <string name="contrast_reduced">کاهش یافته</string>
+    <string name="animations_title">Animations</string>
+    <string name="animations_desc">Enable fluid animations, screen transitions and touch feedback effects</string>
     <string name="blur_effect_title">جلوه تاری</string>
     <string name="blur_effect_desc">اعمال جلوه تاری به پس‌زمینه‌ها و عناصر رابط کاربری</string>
     <string name="floating_bottom_bar_title">نوار پایین شناور</string>
