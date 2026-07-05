@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_motto">Customize Boring Android UI</string>
+    <string name="app_motto">Налаштуйте нудний Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Початок встановлення</string>
     <string name="step">Крок</string>
@@ -20,34 +20,34 @@
     <string name="onboarding_title_3">Почнемо зараз?</string>
     <string name="onboarding_subtitle_3">Настав час Iconify виконати деяку внутрішню роботу.</string>
     <string name="onboarding_desc_3">Початок внутрішніх завдань, що знаменують початок важливої роботи. Готові розпочати?</string>
-    <string name="grant_permission">Grant Permission</string>
+    <string name="grant_permission">Надати дозвіл</string>
     <string name="need_storage_perm_title">Потрібен дозвіл на доступ до сховища</string>
     <string name="need_storage_perm_desc">Для створення необхідних файлів потрібен дозвіл на зберігання.</string>
-    <string name="notification_perm_title">Allow Notifications</string>
-    <string name="notification_perm_desc">Needed to notify you about available updates and to display test notifications.</string>
-    <string name="optional_permission">Granting these permissions is optional!</string>
+    <string name="notification_perm_title">Дозволити повідомлення</string>
+    <string name="notification_perm_desc">Необхідно повідомити вас про доступні оновлення та для показу тестових повідомлень.</string>
+    <string name="optional_permission">Надання цих дозволів є необов\'язковим!</string>
     <string name="compatible_root_not_found_title">Не вдалося знайти сумісний root-доступ</string>
     <string name="compatible_root_not_found_desc">Використовуйте будь-який популярний root-доступ, щоби продовжити.</string>
     <string name="root_not_found_title">Root-доступ недоступний</string>
     <string name="root_not_found_desc">Схоже, що ваш пристрій не має root-прав!</string>
-    <string name="metamodule_not_found_title">Metamodule not installed</string>
-    <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
+    <string name="metamodule_not_found_title">Мета модуль не встановлено</string>
+    <string name="metamodule_not_found_desc">\'KernelSU 3.0.0\' і новіші вимагають Мета модуль для включення безсистемної / модифікації системи.</string>
     <string name="need_reboot_title">Потрібно перезавантажити пристрій</string>
     <string name="need_reboot_desc">Перезавантажте пристрій, щоб розмістити всі файли.</string>
     <string name="installation_failed_title">Упс... Не очікував такого</string>
     <string name="installation_failed_desc">Журнали були збережені в теці «Documents».</string>
     <string name="logs">Журнали</string>
     <!-- Disclaimer -->
-    <string name="disclaimer">Disclaimer</string>
-    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
-    <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
-    <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
+    <string name="disclaimer">Відмова від відповідальності</string>
+    <string name="disclaimer_1_title">Root-доступ &amp; Навколишнє середовище</string>
+    <string name="disclaimer_1_description">Ця програма вимагає Root привілею через Magisk, KernelSU, або APatch для зміни системних ресурсів.\nПоки LSPosed є необов\'язковим, рекомендується для забезпечення кращої сумісності та розширеної підтримки функцій.\nДодаток запросить Суперкористувача дозволу; без них жодні зміни не можуть бути застосовані до вашої системи.</string>
+    <string name="disclaimer_2_title">Системні накладання &amp; Модифікації</string>
     <string name="disclaimer_2_description">Iconify functions by generating and injecting dynamic Runtime Resource Overlays (RRO) directly into your system.\nThese modifications are designed for AOSP-based ROMs and may conflict with heavily modified OEM skins (like HyperOS, Realme UI or OneUI).\nChanging certain system values may cause UI freezes or \"System UI has stopped\" errors depending on your specific Android version.</string>
-    <string name="disclaimer_3_title">Risk of Bootloop &amp; Recovery</string>
+    <string name="disclaimer_3_title">Ризик Bootloop &amp; Recovery</string>
     <string name="disclaimer_3_description">Modifying system files carries an inherent risk of causing a bootloop where the device fails to start.\nBefore proceeding, ensure you have a custom recovery (like TWRP, OrangeFox) installed.\nAlways know the hardware key combination for your device to boot into \"Safe Mode,\" which can disable all modules in an emergency.</string>
-    <string name="disclaimer_4_title">No Warranty &amp; Liability</string>
+    <string name="disclaimer_4_title">Відсутність гарантій &amp; відповідальності</string>
     <string name="disclaimer_4_description">This software is provided \"as-is\" under the GPL-3.0 license, without any express or implied warranties.\nThe developer is not legally or financially responsible for bricked hardware, dead SD cards, or unexpected \"black screens.\"\nBy using this app, you acknowledge that you are modifying your device\'s core software at your own discretion.</string>
-    <string name="disclaimer_5_title">Data Safety &amp; Responsibility</string>
+    <string name="disclaimer_5_title">Безпека даних &amp; Відповідальність</string>
     <string name="disclaimer_5_description">Backup is mandatory: Always maintain an off-device backup of your photos, contacts, and files before performing deep system theming.\nIt is your responsibility to verify compatibility with your ROM by checking the official GitHub documentation or community groups.\nIf you are unsure how to manually remove a Magisk module via ADB, please do not proceed with advanced modifications.</string>
     <!-- Search Preference -->
     <string name="search_title">Пошук</string>
@@ -57,7 +57,7 @@
     <string name="searchpreference_more">Більше</string>
     <string name="searchpreference_clear_history">Очистити історію</string>
     <string name="searchpreference_no_result">Нічого не знайдено</string>
-    <string name="recent_searches">Recent searches</string>
+    <string name="recent_searches">Нещодавні пошуки</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Набір значків</string>
@@ -113,11 +113,11 @@
     <string name="activity_desc_xposed_menu">LSPosed обов\'язковий для цих параметрів</string>
     <string name="activity_title_extras">Додатково</string>
     <string name="activity_desc_extras">Додаткові твіки та налаштування</string>
-    <string name="activity_title_dual_statusbar">Dual Statusbar</string>
+    <string name="activity_title_dual_statusbar">Подвійний рядок стану</string>
     <!-- Settings -->
     <string name="settings_section_title_general">Загальні</string>
     <string name="settings_app_language">Мова</string>
-    <string name="settings_app_language_desc">Choose your app language</string>
+    <string name="settings_app_language_desc">Вибрати мову програми</string>
     <string name="settings_app_icon">Значок застосунку</string>
     <string name="settings_app_icon_default">Типовий значок</string>
     <string name="settings_app_icon_themed">Тематичний значок</string>
@@ -132,7 +132,7 @@
     <string name="settings_auto_update_title">Автооновлення</string>
     <string name="settings_auto_update_desc">Перевіряти наявність нових версій у фоновому режимі.</string>
     <string name="settings_auto_update_title_wifi_only">Перевіряти лише по Wi-Fi</string>
-    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
+    <string name="settings_auto_update_desc_wifi_only">Перевірити оновлення у фоновому режимі лише при підключенні Wi-Fi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Показувати попередження</string>
     <string name="settings_show_warning_desc">Показувати попередження про повторну оптимізацію модуля в меню Xposed.</string>
@@ -148,8 +148,8 @@
     <string name="settings_show_home_page_card_desc">Показувати красиву картку на головній.</string>
     <string name="settings_vibrate_ui_card_title">Вібровідгук</string>
     <string name="settings_vibrate_ui_page_card_desc">Покращуйте зворотний зв\'язок за допомогою інтерактивного відклику.</string>
-    <string name="settings_slider_controller_title">Slider Controller</string>
-    <string name="settings_slider_controller_desc">Enable to display plus and minus buttons with sliders.</string>
+    <string name="settings_slider_controller_title">Контролер слайдера</string>
+    <string name="settings_slider_controller_desc">Увімкніть показ кнопок \"плюс\" та \"мінус\" із повзунками.</string>
     <string name="settings_clear_app_cache_title">Очистити кеш застосунку</string>
     <string name="settings_clear_app_cache_desc">Очищення кешу, створеного через використання власних шрифтів, зображень або gif-файлів.</string>
     <string name="activity_title_experimental">Експериментальні</string>
@@ -1470,6 +1470,8 @@
     <string name="contrast_medium">Medium</string>
     <string name="contrast_high">High</string>
     <string name="contrast_reduced">Reduced</string>
+    <string name="animations_title">Анімації</string>
+    <string name="animations_desc">Увімкнути плавні анімації, переходи екрану та ефекти сенсорного зворотного зв\'язку</string>
     <string name="blur_effect_title">Blur Effect</string>
     <string name="blur_effect_desc">Apply a blur effect to backgrounds and UI elements</string>
     <string name="floating_bottom_bar_title">Floating Bottom Bar</string>
@@ -1483,10 +1485,10 @@
     <string name="fix_notification_expand_button_color_title">Fix Notification Expand Button Color</string>
     <string name="fix_notification_expand_button_color_desc">Fix expand button background color on Android 16 QPR3 beta</string>
     <string name="quick_settings_theme">Quick Settings Theme</string>
-    <string name="tile_background_color">Tile Background Color</string>
-    <string name="icon_color">Icon Color</string>
-    <string name="icon_background_color">Icon Background Color</string>
-    <string name="label_color">Label Color</string>
+    <string name="tile_background_color">Колір фону плитки</string>
+    <string name="icon_color">Колір іконки</string>
+    <string name="icon_background_color">Колір фону іконки</string>
+    <string name="label_color">Колір ярлика</string>
     <string name="secondary_label_color">Secondary Label Color</string>
     <string name="dsb_portrait_only_desc">Display dual rows in portrait mode only</string>
     <string name="link_to_custom_color_title">Link to Custom Color</string>

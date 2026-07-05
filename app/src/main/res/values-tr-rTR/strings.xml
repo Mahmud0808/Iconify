@@ -1470,6 +1470,8 @@
     <string name="contrast_medium">Orta</string>
     <string name="contrast_high">Yüksek</string>
     <string name="contrast_reduced">Düşürülmüş</string>
+    <string name="animations_title">Animations</string>
+    <string name="animations_desc">Enable fluid animations, screen transitions and touch feedback effects</string>
     <string name="blur_effect_title">Bulanıklık Efekti</string>
     <string name="blur_effect_desc">Arka planlara ve arayüz öğelerine bulanıklık efekti uygulayın</string>
     <string name="floating_bottom_bar_title">Yüzen Alt Çubuk</string>
