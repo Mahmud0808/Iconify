@@ -267,7 +267,7 @@ fun lsWidgetsPreferences(isWeatherSettingsVisible: Boolean = false) = preference
             min = 0.5f,
             max = 1.5f,
             steps = 9,
-            valueLabel = { "${it.roundToInt()}x" },
+            valueLabel = { if (it % 1f == 0f) "${it.roundToInt()}x" else "%.1fx".format(it) },
             isEnabled = { it.getBoolean(XposedKey.LOCKSCREEN_WIDGETS) }
         )
     }
