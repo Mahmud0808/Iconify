@@ -102,6 +102,7 @@ enum class XposedKey(override val default: Any?) : Key {
     COMPACT_MEDIA_PLAYER(false),
     BLUR_MEDIA_PLAYER_ARTWORK(false),
     BLUR_MEDIA_PLAYER_ARTWORK_RADIUS(60f),
+    DISABLE_QS_EXPRESSIVE_EFFECTS(false),
     HIDE_QS_SILENT_TEXT(false),
     HIDE_QS_FOOTER_BUTTONS(false),
     QS_PANEL_HIDE_CARRIER(false),
