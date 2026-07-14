@@ -202,6 +202,7 @@ class LockscreenWeather(context: Context) : ModPack(context) {
                 aodBurnInProtection = AodBurnInProtection.registerForView(
                     mLsItemsContainer ?: mWeatherContainer
                 )
+                aodBurnInProtection!!.setMovementEnabled(DozeCallback.getInstance().isDozing())
 
                 placeWeatherView()
             }, 1000)

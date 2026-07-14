@@ -252,7 +252,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
                 mLsItemsContainer = rootView.getLsItemsContainer()
                 aodBurnInProtection =
                     AodBurnInProtection.registerForView(mLsItemsContainer!!)
-                aodBurnInProtection!!.setMovementEnabled(true)
+                aodBurnInProtection!!.setMovementEnabled(DozeCallback.getInstance().isDozing())
                 applyLayoutConstraints(mLsItemsContainer!!)
 
                 // Hide stock clock

@@ -1,89 +1,83 @@
 package com.drdisagree.iconify.xposed.modules.extras.views
 
 import android.view.View
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class AodBurnInProtection(private val view: View) {
 
     private var isMovementEnabled: Boolean = false
-    private var originalX: Float = 0f
-    private var originalY: Float = 0f
-    private var movementJob: Job? = null
-
-    init {
-        originalX = view.x
-        originalY = view.y
-    }
+    private var baseTranslationX: Float = 0f
+    private var baseTranslationY: Float = 0f
+    private var currentOffsetX: Float = 0f
+    private var currentOffsetY: Float = 0f
 
     fun setMovementEnabled(enabled: Boolean) {
-        if (enabled != isMovementEnabled) {
-            isMovementEnabled = enabled
+        if (enabled == isMovementEnabled) return
 
-            if (isMovementEnabled) {
-                originalX = view.x
-                originalY = view.y
-                startMovement()
-            } else {
-                stopMovement()
-            }
+        isMovementEnabled = enabled
+
+        if (enabled) {
+            baseTranslationX = view.translationX
+            baseTranslationY = view.translationY
+            currentOffsetX = 0f
+            currentOffsetY = 0f
+            moveViewSlightly()
+        } else {
+            resetViewPosition()
         }
     }
 
-    private fun startMovement() {
-        if (movementJob?.isActive == true) return
+    fun onDozeTimeTick() {
+        if (!isMovementEnabled) return
 
-        movementJob = CoroutineScope(Dispatchers.Main).launch {
-            while (isMovementEnabled) {
-                moveViewSlightly()
-                delay(45 * 60 * 1000L) // Delay for 45 minutes
-            }
-        }
-    }
-
-    private fun stopMovement() {
-        movementJob?.cancel()
-        resetViewPosition()
+        moveViewSlightly()
     }
 
     private fun moveViewSlightly() {
-        val offsetX = (6..10).random().toFloat() * if (Math.random() > 0.5) 1 else -1
-        val offsetY = (6..10).random().toFloat() * if (Math.random() > 0.5) 1 else -1
+        val maxOffset = MAX_OFFSET_DP * view.resources.displayMetrics.density
 
-        view.animate()
-            .x(view.x + offsetX)
-            .y(view.y + offsetY)
-            .setDuration(1000)
-            .start()
+        currentOffsetX = (currentOffsetX + randomStep()).coerceIn(-maxOffset, maxOffset)
+        currentOffsetY = (currentOffsetY + randomStep()).coerceIn(-maxOffset, maxOffset)
+
+        view.translationX = baseTranslationX + currentOffsetX
+        view.translationY = baseTranslationY + currentOffsetY
+    }
+
+    private fun randomStep(): Float {
+        return (STEP_MIN_PX..STEP_MAX_PX).random().toFloat() * if (Math.random() > 0.5) 1 else -1
     }
 
     private fun resetViewPosition() {
+        currentOffsetX = 0f
+        currentOffsetY = 0f
+
         view.animate()
-            .x(originalX)
-            .y(originalY)
+            .translationX(baseTranslationX)
+            .translationY(baseTranslationY)
             .setDuration(300)
             .start()
     }
 
     companion object {
+        private const val STEP_MIN_PX = 2
+        private const val STEP_MAX_PX = 4
+        private const val MAX_OFFSET_DP = 8f
+
         private val activeMovements = mutableMapOf<View, AodBurnInProtection>()
 
         fun registerForView(view: View): AodBurnInProtection {
             return activeMovements.getOrPut(view) {
-                AodBurnInProtection(view).also {
-                    it.startMovement()
-                }
+                AodBurnInProtection(view)
             }
         }
 
         fun unregisterForView(view: View) {
-            activeMovements[view]?.apply {
-                stopMovement()
+            activeMovements.remove(view)?.apply {
+                setMovementEnabled(false)
             }
-            activeMovements.remove(view)
+        }
+
+        fun dispatchDozeTimeTick() {
+            activeMovements.values.forEach { it.onDozeTimeTick() }
         }
     }
 }

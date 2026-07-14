@@ -2,12 +2,18 @@ package com.drdisagree.iconify.xposed.modules.extras.callbacks
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
+import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -46,6 +52,7 @@ class DozeCallback(context: Context) : ModPack(context) {
         )
         val notificationPanelViewControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
+        val dozeUiClass = findClass("$SYSTEMUI_PACKAGE.doze.DozeUi")
 
         statusBarStateControllerImplClass
             .hookMethod("setIsDozing")
@@ -112,7 +119,30 @@ class DozeCallback(context: Context) : ModPack(context) {
         ) {
             log(this@DozeCallback, "Pulse method hook is not available")
         }
+
+        dozeUiClass
+            .hookMethod("transitionTo")
+            .runAfter { param ->
+                val dozeServiceHostClass = param.thisObject.getField("mHost")
+                val authControllerClass = dozeServiceHostClass.getField("mAuthController").javaClass
+
+                if (authControllerClass.getExtraFieldSilently("dozeTimeTickHooked") == true) return@runAfter
+
+                authControllerClass
+                    .hookMethod("dozeTimeTick")
+                    .runAfter { onDozeTimeTick() }
+
+                authControllerClass.setExtraField("dozeTimeTickHooked", true)
+            }
     }
+
+    private fun onDozeTimeTick() {
+        Handler(Looper.getMainLooper()).post {
+            AodBurnInProtection.dispatchDozeTimeTick()
+        }
+    }
+
+    fun isDozing(): Boolean = mIsDozing || mIsPulsing
 
     interface DozeListener {
         fun onDozingStarted()

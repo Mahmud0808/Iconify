@@ -257,6 +257,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
                 aodBurnInProtection = AodBurnInProtection.registerForView(
                     mLsItemsContainer ?: mWidgetsContainer
                 )
+                aodBurnInProtection!!.setMovementEnabled(DozeCallback.getInstance().isDozing())
 
                 placeWidgetsView()
             }, 1000)
