@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mahmud0808.github.io/Iconify/sitemap.xml

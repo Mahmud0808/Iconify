@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iconify — Free and Open-Source Android Customizer</title>
+  <meta name="description" content="Iconify is a free and open-source Android app for customizing your device's UI: icon packs, Quick Settings, lockscreen clocks, depth wallpaper, statusbar, volume panel and more. Requires root (Magisk/KernelSU/APatch) on Android 12+ Pixel/AOSP ROMs.">
+  <link rel="canonical" href="https://mahmud0808.github.io/Iconify/">
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/fastlane/metadata/android/en-US/images/icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Iconify">
+  <meta property="og:title" content="Iconify — Free and Open-Source Android Customizer">
+  <meta property="og:description" content="Customize Boring Android UI. Icon packs, Quick Settings tweaks, lockscreen clocks, depth wallpaper and more — free, open source, for rooted Android 12+ Pixel/AOSP ROMs.">
+  <meta property="og:url" content="https://mahmud0808.github.io/Iconify/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Iconify — Free and Open-Source Android Customizer">
+  <meta name="twitter:description" content="Customize Boring Android UI. Icon packs, Quick Settings tweaks, lockscreen clocks, depth wallpaper and more — free, open source, for rooted Android 12+ Pixel/AOSP ROMs.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Iconify",
+    "operatingSystem": "Android 12+",
+    "applicationCategory": "UtilitiesApplication",
+    "description": "Free and open-source Android customizer application. Customize icon packs, Quick Settings, lockscreen, statusbar, notifications, volume panel and more on rooted Android 12+ Pixel/AOSP ROMs.",
+    "url": "https://mahmud0808.github.io/Iconify/",
+    "image": "https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/.github/resources/banner.png",
+    "downloadUrl": "https://github.com/Mahmud0808/Iconify/releases/latest",
+    "license": "https://github.com/Mahmud0808/Iconify/blob/beta/LICENSE",
+    "author": { "@type": "Person", "name": "DrDisagree", "url": "https://github.com/Mahmud0808" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="module" src="assets/main.js"></script>
+</head>
+<body id="top">
+  <div class="backdrop" aria-hidden="true"></div>
+
+  <header class="hero">
+    <div class="container">
+      <svg class="hero-logo" viewBox="0 0 24 24" role="img" aria-label="Iconify app logo">
+        <g transform="translate(3.36 3.36) scale(0.72)" fill="#ffffff">
+          <path d="M12.71,2.31C14.90,4.10,17.52,6.67,18.76,9.11C22.77,17.32,16.50,22.00,12.00,22.00C7.50,22.00,1.23,17.32,5.24,9.11C6.48,6.67,9.10,4.10,11.29,2.31Q12.03,1.73,12.71,2.31zM12.00,7.00C10.89,7.00,9.99,7.89,9.99,9.00C9.99,10.11,10.89,11.00,12.00,11.00C13.11,11.00,14.01,10.11,14.01,9.00C14.01,7.89,13.11,7.00,12.00,7.00zM14.42,16.71Q15.08,15.51,14.13,13.24C10.98,14.63,10.67,11.81,9.35,11.85Q9.36,13.64,9.31,15.20C9.14,18.32,13.04,19.19,14.42,16.71z"/>
+        </g>
+      </svg>
+      <h1>Iconify</h1>
+      <p class="tagline">Customize Boring Android UI</p>
+      <p class="pitch">A free and open-source Android application that lets you customize your device's user interface — from system icons and Quick Settings to the lockscreen — without directly modifying system files.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="https://github.com/Mahmud0808/Iconify/releases/latest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download latest release
+        </a>
+        <a class="btn btn-glass" href="https://github.com/Mahmud0808/Iconify">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14 0 1.54-.02 2.79-.02 3.17 0 .31.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+      <p class="hero-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        Requires Magisk, KernelSU or APatch for root access, on an Android 12+ Pixel / AOSP based ROM.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section id="features">
+      <div class="container">
+        <p class="section-label reveal">Features</p>
+        <h2 class="reveal">What you can change</h2>
+        <p class="section-intro reveal">Iconify applies its tweaks through Android overlays and the Xposed framework. Some features require LSPosed (or another Xposed framework) — the rest work with root alone. Exact availability varies by Android version: v7.3.0 (Android 12 – 16) and v8.0.0+ (Android 16 QPR1+) each offer a slightly different set.</p>
+        <div class="feature-grid">
+          <article class="feature-card glass reveal" style="--i:0">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+            <h3>System icon packs</h3>
+            <p>Swap system icons with packs like Aurora, Gradicon, Lorn, Plumpy and more — including WiFi, cellular, media player and Settings icons, plus custom icon shapes.</p>
+          </article>
+          <article class="feature-card glass reveal" style="--i:1">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.67 1.5-1.5 0-.4-.15-.74-.4-1-.24-.26-.4-.61-.4-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.5-9-10-9z"/></svg></div>
+            <h3>Color engine</h3>
+            <p>Apply solid or gradient accent colors, or drive the whole Material You palette from the monet engine with custom colors and saturation.</p>
+          </article>
+          <article class="feature-card glass reveal" style="--i:2">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></div>
+            <h3>Quick Settings panel</h3>
+            <p>Change QS tile shapes, rows and columns, tile size, icon and label options, panel margins and QS themes — plus panel transparency and blur.</p>
+          </article>
+          <article class="feature-card glass reveal" style="--i:3">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="3"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <h3>Lockscreen</h3>
+            <p>Add custom lockscreen clocks, weather, widgets, media album art and a music visualizer — or an iOS-like depth wallpaper effect.</p>
+          </article>
+          <article class="feature-card glass reveal" style="--i:4">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="7" width="12" height="14" rx="3"/><path d="M10 4h4"/><path d="M12 11v6"/><path d="M9.5 14.5 12 17l2.5-2.5"/></svg></div>
+            <h3>Statusbar &amp; battery styles</h3>
+            <p>Modify the statusbar, recolor the battery icon, pick custom battery styles, and add a statusbar logo, clock chip or dual statusbar.</p>
+          </article>
+          <article class="feature-card glass reveal" style="--i:5">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="3"/><circle cx="8" cy="10" r="1.6"/><path d="m21 13-4.35-4.35a1 1 0 0 0-1.42 0L8 16"/><path d="M8 20h8"/></svg></div>
+            <h3>Header image &amp; clock</h3>
+            <p>Put a custom image or clock on the Quick Settings panel header.</p>
+          </article>
+          <article class="feature-card glass reveal" style="--i:6">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></div>
+            <h3>Notifications &amp; media</h3>
+            <p>Customize the notification style, media player style and toast frame to match the rest of your setup.</p>
+          </article>
+          <article class="feature-card glass reveal" style="--i:7">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div>
+            <h3>Volume panel</h3>
+            <p>Restyle the volume panel with custom designs.</p>
+          </article>
+          <article class="feature-card glass reveal" style="--i:8">
+            <div class="icon-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/><rect x="8" y="8" width="8" height="8" rx="3"/></svg></div>
+            <h3>UI roundness &amp; bars</h3>
+            <p>Change the corner radius of the whole interface, restyle the brightness bar and progress bars, and tweak navigation bar options.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenshots">
+      <div class="container">
+        <p class="section-label reveal">Screenshots</p>
+        <h2 class="reveal">The app, as it looks</h2>
+        <p class="section-intro reveal">Previews for every tweak — no more applying overlays blind.</p>
+        <div class="shots">
+          <figure class="shot-card glass reveal" style="--i:0">
+            <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" alt="Iconify home screen" loading="lazy" width="1080" height="2400">
+            <figcaption>Home</figcaption>
+          </figure>
+          <figure class="shot-card glass reveal" style="--i:1">
+            <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" alt="Tweaks screen" loading="lazy" width="1080" height="2400">
+            <figcaption>Tweaks</figcaption>
+          </figure>
+          <figure class="shot-card glass reveal" style="--i:2">
+            <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" alt="Xposed menu" loading="lazy" width="1080" height="2400">
+            <figcaption>Xposed</figcaption>
+          </figure>
+          <figure class="shot-card glass reveal" style="--i:3">
+            <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" alt="Icon Pack styles" loading="lazy" width="1080" height="2400">
+            <figcaption>Icon packs</figcaption>
+          </figure>
+          <figure class="shot-card glass reveal" style="--i:4">
+            <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" alt="Brightness bar styles" loading="lazy" width="1080" height="2400">
+            <figcaption>Brightness bars</figcaption>
+          </figure>
+          <figure class="shot-card glass reveal" style="--i:5">
+            <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" alt="QS panel tile styles" loading="lazy" width="1080" height="2400">
+            <figcaption>QS tiles</figcaption>
+          </figure>
+          <figure class="shot-card glass reveal" style="--i:6">
+            <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" alt="Notification styles" loading="lazy" width="1080" height="2400">
+            <figcaption>Notifications</figcaption>
+          </figure>
+          <figure class="shot-card glass reveal" style="--i:7">
+            <img src="https://raw.githubusercontent.com/Mahmud0808/Iconify/beta/fastlane/metadata/android/en-US/images/phoneScreenshots/8.png" alt="Monet engine color palette" loading="lazy" width="1080" height="2400">
+            <figcaption>Colors</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="requirements">
+      <div class="container">
+        <p class="section-label reveal">Requirements</p>
+        <h2 class="reveal">What you need</h2>
+        <div class="req-strip">
+          <div class="req-item glass reveal" style="--i:0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg>
+            <div>
+              <strong>Android 12+ Pixel / AOSP ROM</strong>
+              <span>Android 12 – 16 (non-QPR): use v7.3.0 · Android 16 QPR1 and later: use v8.0.0+. Other OEM skins (MIUI, OneUI, ColorOS…) are not supported.</span>
+            </div>
+          </div>
+          <div class="req-item glass reveal" style="--i:1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div>
+              <strong>Root access</strong>
+              <span>Magisk, KernelSU or APatch. KernelSU v3.0+ users also need Mountify (or another metamodule), otherwise some features will be missing.</span>
+            </div>
+          </div>
+          <div class="req-item glass reveal" style="--i:2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 7h-4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M4 12H2"/><path d="M22 12h-2"/><path d="M12 4V2"/><path d="M12 22v-2"/></svg>
+            <div>
+              <strong>Xposed framework (optional)</strong>
+              <span>LSPosed, Vector or another Xposed framework unlocks extras like header clocks, lockscreen clocks, header image and battery styles.</span>
+            </div>
+          </div>
+          <div class="req-item glass reveal" style="--i:3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/><path d="M12 7v5l3 3"/></svg>
+            <div>
+              <strong>Custom recovery (recommended)</strong>
+              <span>A decryption-supported custom recovery, just in case you need to revert changes.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <p class="section-label reveal">FAQ</p>
+        <h2 class="reveal">Common questions</h2>
+        <div class="faq-list">
+          <details class="faq-item glass reveal" style="--i:0">
+            <summary>How does Iconify work?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></summary>
+            <div class="faq-body">Iconify uses Android overlays and the Xposed framework, so modifications apply to the device's UI without directly modifying the underlying system files.</div>
+          </details>
+          <details class="faq-item glass reveal" style="--i:1">
+            <summary>Do I need root access?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></summary>
+            <div class="faq-body">Yes, root access is required. KernelSU and APatch are supported, but Magisk is highly recommended for the best compatibility.</div>
+          </details>
+          <details class="faq-item glass reveal" style="--i:2">
+            <summary>Why is LSPosed optional?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></summary>
+            <div class="faq-body">Most features work without it. Installing LSPosed adds extras such as header clocks, lockscreen clocks, header image and battery styles.</div>
+          </details>
+          <details class="faq-item glass reveal" style="--i:3">
+            <summary>Which devices are supported?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></summary>
+            <div class="faq-body">Iconify exclusively supports stock Pixel or custom AOSP ROMs. It does not support other OEM skins such as MIUI, OneUI, ColorOS, NothingOS or MotoUI. Heavily modified ROMs are discouraged.</div>
+          </details>
+          <details class="faq-item glass reveal" style="--i:4">
+            <summary>Which version do I need for my Android version?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></summary>
+            <div class="faq-body">Android 12 to Android 16 (non-QPR): use v7.3.0. Android 16 QPR1 and later: use v8.0.0 and later. Versions below Android 12 are not supported and there are no plans to add support.</div>
+          </details>
+          <details class="faq-item glass reveal" style="--i:5">
+            <summary>What's the difference between FOSS and Standard builds?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></summary>
+            <div class="faq-body">The FOSS build does not include ML Kit, which is used to automatically extract subjects from depth wallpapers using AI. Everything else is the same.</div>
+          </details>
+          <details class="faq-item glass reveal" style="--i:6">
+            <summary>I got a bootloop. How do I fix it?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></summary>
+            <div class="faq-body">Boot into Safe Mode, or remove the Iconify folder from /data/adb/modules/ using a custom recovery.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/Mahmud0808/Iconify">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14 0 1.54-.02 2.79-.02 3.17 0 .31.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+          GitHub
+        </a>
+        <a href="https://github.com/Mahmud0808/Iconify/releases">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Releases
+        </a>
+        <a href="https://github.com/Mahmud0808/Iconify/issues/new/choose">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+          Report a bug
+        </a>
+        <a href="https://t.me/DrDsProjects">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6c.3-1.2-.9-2.2-2-1.7L2.7 9.6c-1.2.5-1.1 2.2.1 2.6l4.6 1.4 1.8 5.6c.3 1 1.6 1.3 2.4.5l2.6-2.6 4.8 3.5c.9.7 2.2.2 2.4-.9l2.5-15.1ZM8.2 12.6l9.7-6-7.5 7.1-.2.2-.5 3.5-1.5-4.8Z"/></svg>
+          Telegram
+        </a>
+        <a href="https://t.me/DrDsProjectsChat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8a5 5 0 1 0-10 0"/><circle cx="12" cy="8" r="0"/><path d="M21 21v-1a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v1"/><circle cx="12" cy="8" r="5"/></svg>
+          Support group
+        </a>
+        <a href="https://crowdin.com/project/iconify">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18"/><path d="M12 3a15 15 0 0 0 0 18"/></svg>
+          Translate on Crowdin
+        </a>
+        <a href="https://www.buymeacoffee.com/DrDisagree">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a3 3 0 0 1 0 6h-1"/><path d="M4 8h13v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8z"/><path d="M6 2v2"/><path d="M10 2v2"/><path d="M14 2v2"/></svg>
+          Buy me a coffee
+        </a>
+      </div>
+      <div class="disclaimer glass">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        <div>
+          <strong>Disclaimer</strong>
+          <ul>
+            <li>Iconify may not be fully compatible with all custom ROMs — use on heavily modified ROMs is discouraged.</li>
+            <li>The developer cannot be held responsible for any damage or issues on your device.</li>
+            <li>Keeping a custom recovery installed is highly recommended to revert changes if something goes wrong.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="pill-nav" aria-label="Site navigation">
+    <a href="#top" class="active">
+      <svg class="ico-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9z"/><path d="M9 21v-6h6v6"/></svg>
+      <svg class="ico-filled" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.9 3 10v9a2 2 0 0 0 2 2h4v-7h6v7h4a2 2 0 0 0 2-2v-9L12 2.9Z"/></svg>
+      Home
+    </a>
+    <a href="#features">
+      <svg class="ico-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 4 5 5-12 12H3v-5L15 4z"/><path d="M14 7l3 3"/><path d="M19 2l.9 2.1L22 5l-2.1.9L19 8l-.9-2.1L16 5l2.1-.9L19 2z"/></svg>
+      <svg class="ico-filled" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14.06 6.19l3.75 3.75L7.5 20.25H3.75V16.5L14.06 6.19Zm2.83-2.83a1.5 1.5 0 0 1 2.12 0l1.63 1.63a1.5 1.5 0 0 1 0 2.12l-1.7 1.7-3.75-3.75 1.7-1.7Z"/><path d="M19 2l.9 2.1L22 5l-2.1.9L19 8l-.9-2.1L16 5l2.1-.9L19 2z"/></svg>
+      Features
+    </a>
+    <a href="#screenshots">
+      <svg class="ico-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m21 15-4.35-4.35a1 1 0 0 0-1.42 0L7 19"/></svg>
+      <svg class="ico-filled" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Zm2.5 3.5A1.75 1.75 0 1 0 8.5 10a1.75 1.75 0 0 0 0-3.5ZM8.5 13 5 17.5h14L14.5 11l-3.4 4.37L8.5 13Z"/></svg>
+      Screens
+    </a>
+    <a href="#faq">
+      <svg class="ico-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><path d="M12 17.5h.01"/></svg>
+      <svg class="ico-filled" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 17h-2v-2h2v2Zm2.07-7.75-.9.92A3.6 3.6 0 0 0 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26A1.96 1.96 0 0 0 12 7a2 2 0 0 0-2 2H8a4 4 0 1 1 8 0c0 .88-.36 1.68-.93 2.25Z"/></svg>
+      FAQ
+    </a>
+    <a href="https://github.com/Mahmud0808/Iconify" aria-label="Iconify on GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14 0 1.54-.02 2.79-.02 3.17 0 .31.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+      GitHub
+    </a>
+  </nav>
+</body>
+</html>
