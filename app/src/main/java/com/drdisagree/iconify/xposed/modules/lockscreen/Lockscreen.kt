@@ -15,6 +15,7 @@ import android.os.Looper
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
@@ -83,6 +84,45 @@ class Lockscreen(context: Context) : ModPack(context) {
 
     @SuppressLint("DiscouragedApi")
     private fun hideLockscreenLockIcon() {
+        var mDeviceEntryIconView: View? = null
+
+        fun setUdfpsIconsTransparent() {
+            mDeviceEntryIconView?.let { view ->
+                runCatching {
+                    (view.getFieldSilently("iconView") as? ImageView)?.imageAlpha = 0
+                }
+                runCatching {
+                    (view.getFieldSilently("bgView") as? ImageView)?.imageAlpha = 0
+                }
+            }
+        }
+
+        val deviceEntryIconViewClass =
+            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.DeviceEntryIconView")
+
+        deviceEntryIconViewClass
+            .hookConstructor()
+            .runAfter { param ->
+                mDeviceEntryIconView = param.thisObject as? View
+
+                if (!hideLockscreenLockIcon) return@runAfter
+
+                setUdfpsIconsTransparent()
+
+                mDeviceEntryIconView?.addOnAttachStateChangeListener(object :
+                    OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(v: View) {
+                        v.z = 100f
+                    }
+
+                    override fun onViewDetachedFromWindow(v: View) {}
+                })
+
+                mDeviceEntryIconView?.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+                    v.z = 100f
+                }
+            }
+
         val aodBurnInLayerClass =
             findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInLayer")
         var aodBurnInLayerHooked = false
