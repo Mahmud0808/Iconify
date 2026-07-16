@@ -83,6 +83,153 @@ class Accordion {
 
 document.querySelectorAll(".faq-item").forEach((d) => new Accordion(d));
 
+// ---- icon pack marquees: fill each track to viewport width, then clone for a seamless loop ----
+for (const marquee of document.querySelectorAll(".marquee")) {
+  const [track, clone] = marquee.querySelectorAll(".marquee-track");
+  if (!track || !clone) continue;
+  const items = [...track.children];
+  for (let i = 0; track.scrollWidth < marquee.clientWidth && i < 10; i++) {
+    for (const item of items) track.appendChild(item.cloneNode(true));
+  }
+  clone.innerHTML = track.innerHTML;
+}
+
+// ---- cursor spotlight on feature cards ----
+if (window.matchMedia("(hover: hover)").matches) {
+  for (const card of document.querySelectorAll(".feature-card")) {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+      card.style.setProperty("--my", `${e.clientY - rect.top}px`);
+    });
+  }
+}
+
+// ---- live GitHub stats with count-up ----
+const statsEl = document.getElementById("gh-stats");
+
+// hold the count-up until the stats row starts fading in, so the
+// placeholder is never visible and the count runs during the reveal
+const statsReady = new Promise((resolve) => {
+  if (!statsEl || reduceMotion.matches) {
+    resolve();
+    return;
+  }
+  let settled = false;
+  const settle = () => {
+    if (!settled) {
+      settled = true;
+      resolve();
+    }
+  };
+  statsEl.addEventListener("animationstart", settle, { once: true });
+  setTimeout(settle, 1500);
+});
+
+function formatStat(n) {
+  if (n >= 1000) return `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k`;
+  return `${n}`;
+}
+
+function countUp(el, target) {
+  if (reduceMotion.matches) {
+    el.textContent = formatStat(target);
+    return;
+  }
+  const duration = 1200;
+  const start = performance.now();
+  const tick = (now) => {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 4);
+    el.textContent = formatStat(Math.round(target * eased));
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+function renderStats({ stars, forks, version }) {
+  const starsEl = statsEl.querySelector("[data-stat='stars']");
+  const forksEl = statsEl.querySelector("[data-stat='forks']");
+  const versionEl = statsEl.querySelector("[data-stat='version']");
+  statsReady.then(() => {
+    if (stars) countUp(starsEl, stars);
+    if (forks) countUp(forksEl, forks);
+    if (version) versionEl.textContent = version;
+  });
+}
+
+async function loadStats() {
+  if (!statsEl) return;
+  const CACHE_KEY = "iconify-gh-stats";
+  const TTL = 60 * 60 * 1000;
+  try {
+    const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
+    if (cached && Date.now() - cached.at < TTL) {
+      renderStats(cached.data);
+      return;
+    }
+  } catch { /* corrupt cache — refetch */ }
+
+  try {
+    const [repoRes, releaseRes] = await Promise.all([
+      fetch("https://api.github.com/repos/Mahmud0808/Iconify"),
+      fetch("https://api.github.com/repos/Mahmud0808/Iconify/releases/latest")
+    ]);
+    if (!repoRes.ok) throw new Error(`repo ${repoRes.status}`);
+    const repo = await repoRes.json();
+    const release = releaseRes.ok ? await releaseRes.json() : null;
+    const data = {
+      stars: repo.stargazers_count,
+      forks: repo.forks_count,
+      version: release?.tag_name ?? null
+    };
+    renderStats(data);
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), data }));
+    } catch { /* storage full or blocked — fine */ }
+  } catch {
+    // rate-limited or offline: try stale cache, else hide the strip
+    try {
+      const stale = JSON.parse(localStorage.getItem(CACHE_KEY));
+      if (stale?.data) {
+        renderStats(stale.data);
+        return;
+      }
+    } catch { /* ignore */ }
+    statsEl.hidden = true;
+  }
+}
+loadStats();
+
+// ---- screenshot lightbox ----
+const lightbox = document.getElementById("lightbox");
+if (lightbox && typeof lightbox.showModal === "function") {
+  const lightboxImg = lightbox.querySelector("img");
+  const lightboxCaption = lightbox.querySelector("figcaption");
+
+  for (const btn of document.querySelectorAll(".shot-zoom")) {
+    btn.addEventListener("click", () => {
+      const img = btn.querySelector("img");
+      const caption = btn.closest(".shot-card")?.querySelector("figcaption");
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt;
+      lightboxCaption.textContent = caption?.textContent ?? "";
+      lightbox.showModal();
+    });
+  }
+
+  lightbox.querySelector(".lightbox-close").addEventListener("click", () => lightbox.close());
+
+  // click on backdrop closes
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) lightbox.close();
+  });
+
+  lightbox.addEventListener("close", () => {
+    lightboxImg.src = "";
+  });
+}
+
 const navLinks = [...document.querySelectorAll(".pill-nav a[href^='#']")];
 const targets = navLinks
   .map((link) => document.querySelector(link.hash === "#top" ? ".hero" : link.hash))
