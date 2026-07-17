@@ -3,6 +3,10 @@ name: Build Debug APK
 on:
   push:
     branches: [ "beta" ]
+    paths-ignore:
+      - 'docs/**'
+      - '.github/**'
+      - '*.md'
   workflow_dispatch:
 
 jobs:
@@ -78,13 +82,7 @@ jobs:
         id: get_commit_message
         run: |
           COMMIT_MESSAGE_HEADER=$(git log -1 --pretty=%B | head -n 1)
-
-          if [[ "$COMMIT_MESSAGE_HEADER" == *".md"* || "$COMMIT_MESSAGE_HEADER" == *".yml"* ]]; then
-            echo "Skipping build upload."
-            echo "SKIP_BUILD=true" >> $GITHUB_ENV
-          else
-            echo "SKIP_BUILD=false" >> $GITHUB_ENV
-          fi
+          echo "SKIP_BUILD=false" >> $GITHUB_ENV
 
           if [[ "$COMMIT_MESSAGE_HEADER" =~ ^Merge\ remote-tracking\ branch ]]; then
             COMMIT_MESSAGE_HEADER="Synced with the latest changes"
