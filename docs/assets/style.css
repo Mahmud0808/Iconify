@@ -1018,19 +1018,22 @@ section:not(.marquee-section) .container { position: relative; }
 
 /* ---- scroll-linked hero (progressive enhancement) ---- */
 
-@supports (animation-timeline: scroll()) {
+@supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    /* fade is driven by how far the element itself has left the viewport
+       (not absolute scroll distance), so a taller hero on phones doesn't
+       fade content that is still on screen */
     .hero-copy {
       animation: hero-recede linear both;
-      animation-timeline: scroll();
-      animation-range: 0 80vh;
+      animation-timeline: view();
+      animation-range: exit 50% exit 100%;
     }
 
     .hero-visual {
       animation: hero-in 1s cubic-bezier(0.22, 0.9, 0.3, 1) 0.35s backwards,
         visual-recede linear both;
-      animation-timeline: auto, scroll();
-      animation-range: normal, 0 80vh;
+      animation-timeline: auto, view();
+      animation-range: normal, exit 50% exit 100%;
     }
   }
 }
