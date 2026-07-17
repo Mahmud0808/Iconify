@@ -92,7 +92,80 @@ for (const marquee of document.querySelectorAll(".marquee")) {
 		for (const item of items) track.appendChild(item.cloneNode(true));
 	}
 	clone.innerHTML = track.innerHTML;
+
+	// duration scales with track width so every row moves at the same speed
+	const duration = `${track.scrollWidth / 40}s`;
+	track.style.animationDuration = duration;
+	clone.style.animationDuration = duration;
 }
+
+// ---- liquid-glass nav: lens-style edge refraction.
+// Needs backdrop-filter: url(), so it's enabled only where that works (Chromium);
+// other browsers keep the plain frosted-blur look. ----
+(() => {
+	const nav = document.querySelector(".pill-nav");
+	const map = document.getElementById("lg-map");
+	if (!nav || !map) return;
+
+	const isWebkit =
+		/Safari/.test(navigator.userAgent) &&
+		!/Chrome/.test(navigator.userAgent);
+	const isFirefox = /Firefox/.test(navigator.userAgent);
+	const probe = document.createElement("div");
+	probe.style.backdropFilter = "url(#liquid-glass)";
+	if (isWebkit || isFirefox || probe.style.backdropFilter === "") return;
+
+	// displacement map: R drives x, G drives y. 50% gray (0.5) means "no shift",
+	// so both gradients hold 0.5 through the middle and ramp smoothly only near
+	// the rim — a continuous profile (no steps), otherwise the backdrop doubles
+	const updateMap = () => {
+		const { width, height } = nav.getBoundingClientRect();
+		if (!width || !height) return;
+		// rasterize at device resolution — at fractional/high DPR the map is
+		// otherwise misaligned with the backdrop and parts of the pill stay sharp
+		const dpr = window.devicePixelRatio || 1;
+		// same physical rim width on every side, so all four edges bend equally
+		const ramp = Math.min(width, height) * 0.35;
+		const rx = ((ramp / width) * 100).toFixed(2);
+		const ry = ((ramp / height) * 100).toFixed(2);
+		const svg =
+			`<svg width="${width * dpr}" height="${height * dpr}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">` +
+			`<defs>` +
+			`<linearGradient id="lg-x" x1="0%" y1="0%" x2="100%" y2="0%">` +
+			`<stop offset="0%" stop-color="#ff0000"/>` +
+			`<stop offset="${rx}%" stop-color="#800000"/>` +
+			`<stop offset="${100 - rx}%" stop-color="#800000"/>` +
+			`<stop offset="100%" stop-color="#000000"/>` +
+			`</linearGradient>` +
+			`<linearGradient id="lg-y" x1="0%" y1="0%" x2="0%" y2="100%">` +
+			`<stop offset="0%" stop-color="#00ff00"/>` +
+			`<stop offset="${ry}%" stop-color="#008000"/>` +
+			`<stop offset="${100 - ry}%" stop-color="#008000"/>` +
+			`<stop offset="100%" stop-color="#000000"/>` +
+			`</linearGradient>` +
+			`</defs>` +
+			`<rect width="${width}" height="${height}" fill="url(#lg-x)"/>` +
+			`<rect width="${width}" height="${height}" fill="url(#lg-y)" style="mix-blend-mode:screen"/>` +
+			`</svg>`;
+		// pin the map to the element box in user units — the filter region is
+		// larger than the element, so percentage sizing would misalign it
+		map.setAttribute("x", "0");
+		map.setAttribute("y", "0");
+		map.setAttribute("width", `${width}`);
+		map.setAttribute("height", `${height}`);
+		map.setAttribute(
+			"href",
+			`data:image/svg+xml,${encodeURIComponent(svg)}`,
+		);
+	};
+
+	// single displacement pass: subtle lens bend at the rim, no color fringing
+	document.getElementById("lg-lens")?.setAttribute("scale", "-35");
+
+	updateMap();
+	new ResizeObserver(updateMap).observe(nav);
+	nav.classList.add("glass-active");
+})();
 
 // ---- cursor spotlight on feature cards ----
 if (window.matchMedia("(hover: hover)").matches) {
@@ -136,6 +209,8 @@ function countUp(el, target) {
 		el.textContent = formatStat(target);
 		return;
 	}
+	// reserve the final width up front so the row doesn't shift while counting
+	el.style.minWidth = `${formatStat(target).length}ch`;
 	const duration = 1200;
 	const start = performance.now();
 	const tick = (now) => {

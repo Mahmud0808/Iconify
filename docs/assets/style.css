@@ -323,6 +323,7 @@ h2 {
 	bottom: max(1rem, env(safe-area-inset-bottom));
 	transform: translateX(-50%);
 	z-index: 50;
+	isolation: isolate;
 	display: flex;
 	align-items: center;
 	gap: 0.25rem;
@@ -350,7 +351,30 @@ h2 {
 	pointer-events: none;
 }
 
+/* liquid glass: the class is added by JS only where backdrop-filter: url()
+   works (Chromium); everywhere else the frosted look above remains */
+.pill-nav.glass-active {
+	background: color-mix(in srgb, var(--bg-raised) 12%, transparent);
+	backdrop-filter: url(#liquid-glass) saturate(1.3);
+	-webkit-backdrop-filter: url(#liquid-glass) saturate(1.3);
+	box-shadow:
+		var(--shadow-nav),
+		inset 0 0 2px 1px rgba(255, 255, 255, 0.28),
+		inset 0 0 10px 4px rgba(255, 255, 255, 0.12);
+}
+
+@media (prefers-color-scheme: light) {
+	.pill-nav.glass-active {
+		box-shadow:
+			var(--shadow-nav),
+			inset 0 0 2px 1px rgba(20, 30, 45, 0.14),
+			inset 0 0 10px 4px rgba(20, 30, 45, 0.08);
+	}
+}
+
 .pill-nav a {
+	position: relative;
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -511,7 +535,8 @@ h3,
 	box-shadow:
 		0 40px 80px rgba(0, 0, 0, 0.55),
 		0 12px 32px rgba(29, 68, 134, 0.35),
-		inset 0 1px 1px rgba(255, 255, 255, 0.14);
+		inset 0 1px 1px rgba(255, 255, 255, 0.18),
+		inset 1px 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .phone::before {
@@ -533,12 +558,25 @@ h3,
 	position: absolute;
 	inset: 0;
 	border-radius: inherit;
-	background: linear-gradient(
-		115deg,
-		transparent 38%,
-		rgba(255, 255, 255, 0.025) 48%,
-		transparent 58%
-	);
+	background:
+		linear-gradient(
+			115deg,
+			transparent 32%,
+			rgba(255, 255, 255, 0.045) 43%,
+			rgba(255, 255, 255, 0.015) 50%,
+			transparent 60%
+		),
+		linear-gradient(
+			115deg,
+			transparent 64%,
+			rgba(255, 255, 255, 0.028) 69%,
+			transparent 75%
+		),
+		radial-gradient(
+			120% 55% at 14% 0%,
+			rgba(255, 255, 255, 0.05),
+			transparent 55%
+		);
 	pointer-events: none;
 }
 
