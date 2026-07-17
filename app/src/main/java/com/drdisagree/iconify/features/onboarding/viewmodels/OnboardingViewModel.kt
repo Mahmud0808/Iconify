@@ -28,6 +28,7 @@ import com.drdisagree.iconify.core.utils.overlay.compilers.OnboardingCompiler.ru
 import com.drdisagree.iconify.core.utils.overlay.compilers.OnboardingCompiler.zipAlign
 import com.drdisagree.iconify.data.common.Dynamic.DATA_DIR
 import com.drdisagree.iconify.data.common.Resources.BACKUP_DIR
+import com.drdisagree.iconify.data.common.Resources.DOWNLOADS_DIR
 import com.drdisagree.iconify.data.common.Resources.MODULE_DIR
 import com.drdisagree.iconify.data.common.Resources.SIGNED_DIR
 import com.drdisagree.iconify.data.common.Resources.TEMP_DIR
@@ -139,6 +140,10 @@ class OnboardingViewModel @Inject constructor(
             //                )
             //                return@launch
             //            }
+
+            if (prefController.getBoolean(SettingsKey.FIRST_INSTALL)) {
+                Shell.cmd("rm -rf '$DOWNLOADS_DIR/Iconify'").exec()
+            }
 
             val moduleExists = moduleExists()
             val overlayExists = overlayExists()
