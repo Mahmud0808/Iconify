@@ -1470,8 +1470,8 @@
     <string name="contrast_medium">Médio</string>
     <string name="contrast_high">Alto</string>
     <string name="contrast_reduced">Reduzido</string>
-    <string name="animations_title">Animations</string>
-    <string name="animations_desc">Enable fluid animations, screen transitions and touch feedback effects</string>
+    <string name="animations_title">Animações</string>
+    <string name="animations_desc">Ative animações fluidas, transições de tela e efeitos de feedback tátil</string>
     <string name="blur_effect_title">Efeito de desfoque</string>
     <string name="blur_effect_desc">Aplique um efeito de desfoque aos fundos e elementos da interface do usuário</string>
     <string name="floating_bottom_bar_title">Barra inferior flutuante</string>

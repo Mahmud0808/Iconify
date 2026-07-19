@@ -164,7 +164,7 @@ Thanks to these translators and proofreaders, this project exists:
           <br />
           <sub><b>Noturno (Bellidio)</b></sub></a>
         <br />
-        <sub><b>845 words</b></sub>
+        <sub><b>855 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/bugycugy"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13990869/medium/a4e0b16904126d8e0d014d952f4bc1b6.jpeg" />
