@@ -1,7 +1,9 @@
 package com.drdisagree.iconify.core.ui.theme
 
 import android.app.Activity
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialExpressiveTheme
+import androidx.compose.material3.MotionScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -16,14 +18,15 @@ import com.drdisagree.iconify.core.common.LocalDarkMode
 import com.drdisagree.iconify.core.common.LocalSettings
 import com.materialkolor.ktx.animateColorScheme
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MyAppTheme(
     darkTheme: Boolean = LocalDarkMode.current,
     content: @Composable () -> Unit
 ) {
     val view = LocalView.current
+    val settings = LocalSettings.current
     val targetScheme = LocalColorScheme.current
-    val animationsEnabled = LocalSettings.current.animationsEnabled
 
     var animate by rememberSaveable { mutableStateOf(false) }
 
@@ -31,7 +34,7 @@ fun MyAppTheme(
         animate = true
     }
 
-    val colorScheme = if (animate && animationsEnabled) {
+    val colorScheme = if (animate && settings.animationsEnabled) {
         animateColorScheme(colorScheme = targetScheme)
     } else {
         targetScheme
@@ -45,8 +48,13 @@ fun MyAppTheme(
         }
     }
 
-    MaterialTheme(
+    MaterialExpressiveTheme(
         colorScheme = colorScheme,
+        motionScheme = if (settings.isExpressive) {
+            MotionScheme.expressive()
+        } else {
+            MotionScheme.standard()
+        },
         typography = Typography,
         shapes = AppShapes,
         content = content
