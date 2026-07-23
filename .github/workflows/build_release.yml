@@ -1,0 +1,86 @@
+name: Build Release APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Release APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Get application version name
+        run: echo "VERSION_NAME=$(${{ github.workspace }}/gradlew -q printVersionName)" >> $GITHUB_ENV
+
+      - name: Write sign info
+        if: github.repository == 'Mahmud0808/Iconify'
+        run: |
+          if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
+            echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
+            echo keyAlias='${{ secrets.KEY_ALIAS }}' >> keystore.properties
+            echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> keystore.properties
+            echo storeFile='${{ github.workspace }}/key.jks' >> keystore.properties
+            echo ${{ secrets.KEYSTORE }} | base64 --decode > ${{ github.workspace }}/key.jks
+          fi
+
+      - name: Build Release APK
+        run: |
+          ./gradlew assembleFossRelease -PsplitApks
+          ./gradlew assembleStandardRelease
+
+      - name: Rename APKs
+        run: |
+          set -e
+
+          V="${{ env.VERSION_NAME }}"
+          FOSS_DIR="app/build/outputs/apk/foss/release"
+          STANDARD_DIR="app/build/outputs/apk/standard/release"
+
+          for abi in arm64-v8a armeabi-v7a x86 x86_64; do
+            mv "$FOSS_DIR"/*-"$abi"-*.apk "$FOSS_DIR/Iconify.v$V.Foss.$abi.apk"
+          done
+
+          mv "$STANDARD_DIR"/*.apk "$STANDARD_DIR/Iconify.v$V.Standard.Universal.apk"
+
+      - name: Upload Standard Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Iconify.v${{ env.VERSION_NAME }}.Standard.Universal"
+          path: app/build/outputs/apk/standard/release/Iconify.v${{ env.VERSION_NAME }}.Standard.Universal.apk
+          if-no-files-found: error
+
+      - name: Upload FOSS Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Iconify.v${{ env.VERSION_NAME }}.Foss.arm64-v8a"
+          path: app/build/outputs/apk/foss/release/Iconify.v${{ env.VERSION_NAME }}.Foss.arm64-v8a.apk
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "Iconify.v${{ env.VERSION_NAME }}.Foss.armeabi-v7a"
+          path: app/build/outputs/apk/foss/release/Iconify.v${{ env.VERSION_NAME }}.Foss.armeabi-v7a.apk
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "Iconify.v${{ env.VERSION_NAME }}.Foss.x86"
+          path: app/build/outputs/apk/foss/release/Iconify.v${{ env.VERSION_NAME }}.Foss.x86.apk
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "Iconify.v${{ env.VERSION_NAME }}.Foss.x86_64"
+          path: app/build/outputs/apk/foss/release/Iconify.v${{ env.VERSION_NAME }}.Foss.x86_64.apk
+          if-no-files-found: error
