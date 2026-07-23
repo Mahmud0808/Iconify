@@ -38,8 +38,6 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WIDGET_
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_BG_FILE
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.services.providers.IExtractSubjectCallback
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
@@ -66,7 +64,7 @@ import kotlin.math.max
 import kotlin.math.roundToInt
 
 @SuppressLint("DiscouragedApi")
-class DepthWallpaper(context: Context) : ModPack(context) {
+abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
 
     private var showDepthWallpaper = false
     private var showLockscreenClock = false
@@ -83,7 +81,7 @@ class DepthWallpaper(context: Context) : ModPack(context) {
     private var mLayersCreated = false
     private var showOnAOD = true
     private var keepLockScreenShade = true
-    private var mAiMode = 0
+    protected var mAiMode = 0
     private var mPluginReceiverRegistered = false
     private lateinit var mPluginReceiver: BroadcastReceiver
     private var wallpaperProcessorThread: Thread? = null
@@ -100,33 +98,7 @@ class DepthWallpaper(context: Context) : ModPack(context) {
         updateForegroundVisibility()
     }
 
-    fun handleSubjectExtraction(scaledWallpaper: Bitmap?) {
-        val callback = object : IExtractSubjectCallback.Stub() {
-            override fun onStart(message: String) {
-                Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(mContext, message, Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onResult(success: Boolean, message: String) {
-                Handler(Looper.getMainLooper()).post {
-                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
-        if (mAiMode == 0) {
-            enqueueProxyCommand { proxy ->
-                proxy.extractSubject(
-                    scaledWallpaper,
-                    DEPTH_WALL_FG_FILE.absolutePath,
-                    callback
-                )
-            }
-        } else {
-            sendPluginIntent()
-        }
-    }
+    abstract fun handleSubjectExtraction(scaledWallpaper: Bitmap? = null)
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -177,7 +149,7 @@ class DepthWallpaper(context: Context) : ModPack(context) {
                         ACTION_EXTRACT_FAILURE -> {
                             mWallpaperForegroundCacheValid = false
                             log(
-                                this@DepthWallpaper,
+                                this@BaseDepthWallpaper,
                                 "Subject extraction failed\n${intent.getStringExtra("error")}"
                             )
 
@@ -348,7 +320,7 @@ class DepthWallpaper(context: Context) : ModPack(context) {
                             out.flush()
                             out.close()
                         } catch (throwable: IOException) {
-                            log(this@DepthWallpaper, throwable)
+                            log(this@BaseDepthWallpaper, throwable)
                         }
 
                         if (!mLayersCreated) {
@@ -527,7 +499,7 @@ class DepthWallpaper(context: Context) : ModPack(context) {
         }
     }
 
-    fun sendPluginIntent() {
+    protected fun sendPluginIntent() {
         try {
             Handler(Looper.getMainLooper()).post {
                 Toast.makeText(

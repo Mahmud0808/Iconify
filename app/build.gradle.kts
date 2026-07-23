@@ -78,6 +78,32 @@ android {
         }
     }
 
+    flavorDimensions += "distribution"
+
+    productFlavors {
+        create("standard") {
+            isDefault = true
+            dimension = "distribution"
+            resValue("string", "derived_app_name", "Iconify")
+        }
+
+        create("foss") {
+            dimension = "distribution"
+            applicationIdSuffix = ".foss"
+            resValue("string", "derived_app_name", "Iconify (FOSS)")
+        }
+    }
+
+    sourceSets {
+        getByName("standard") {
+            java.directories.add("src/standard/java")
+        }
+
+        getByName("foss") {
+            java.directories.add("src/foss/java")
+        }
+    }
+
     if (hasProperty("splitApks")) {
         splits {
             abi {
@@ -157,27 +183,35 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 tasks.register("renameApks") {
+    description = "Rename generated APKs."
     dependsOn("assembleDebug", "assembleRelease")
 
     doLast {
+        val flavors = listOf("standard", "foss")
         val variants = listOf("debug", "release")
 
-        variants.forEach { variant ->
-            val apkDir = layout.buildDirectory
-                .dir("outputs/apk/$variant")
-                .get()
-                .asFile
+        flavors.forEach { flavor ->
+            variants.forEach { variant ->
+                val apkDir = layout.buildDirectory
+                    .dir("outputs/apk/$flavor/$variant")
+                    .get()
+                    .asFile
 
-            val apk = apkDir.listFiles()
-                ?.firstOrNull { it.extension == "apk" }
-                ?: return@forEach
+                val apk = apkDir.listFiles()
+                    ?.firstOrNull { it.extension == "apk" }
+                    ?: return@forEach
 
-            val versionName = android.defaultConfig.versionName
-            val newName = "Iconify v${versionName}.apk"
+                val versionName = android.defaultConfig.versionName
+                val newName = if (flavor == "foss") {
+                    "Iconify (FOSS) v${versionName}.apk"
+                } else {
+                    "Iconify v${versionName}.apk"
+                }
 
-            val renamed = File(apkDir, newName)
+                val renamed = File(apkDir, newName)
 
-            apk.renameTo(renamed)
+                apk.renameTo(renamed)
+            }
         }
     }
 }
@@ -190,6 +224,9 @@ gradle.taskGraph.whenReady {
     gradle.startParameter.showStacktrace = ShowStacktrace.ALWAYS
     gradle.startParameter.warningMode = WarningMode.Summary
 }
+
+val fossImplementation by configurations
+val standardImplementation by configurations
 
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -206,19 +243,13 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.material3.window.size.class1)
     implementation(libs.androidx.asynclayoutinflater)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // Core Library Desugaring
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     // Iconsax icons
-    implementation("io.github.yohannestz:iconsax-compose:1.0.1")
+    implementation(libs.iconsax.compose)
 
     // Datastore
     implementation(libs.androidx.datastore.preferences)
@@ -259,8 +290,8 @@ dependencies {
     implementation(libs.remotepreferences)
 
     // Google Subject Segmentation - MLKit
-    implementation(libs.com.google.android.gms.play.services.mlkit.subject.segmentation)
-    implementation(libs.play.services.base)
+    standardImplementation(libs.com.google.android.gms.play.services.mlkit.subject.segmentation)
+    standardImplementation(libs.play.services.base)
 
     // APK Signer
     implementation(libs.bcpkix.jdk18on)
@@ -318,5 +349,6 @@ dependencies {
 }
 
 tasks.register("printVersionName") {
+    description = "Print application version name."
     println(android.defaultConfig.versionName?.replace("-(Stable|Beta)".toRegex(), ""))
 }

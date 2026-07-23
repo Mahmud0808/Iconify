@@ -40,7 +40,6 @@ import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.components.DepthWallpaperExample
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.BitmapSubjectSegmenter
 import kotlin.math.roundToInt
 
 fun depthWallpaperPreferences(
@@ -212,10 +211,9 @@ fun DepthWallpaperScreen(
     var aiPluginInstalled by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        BitmapSubjectSegmenter(context)
-            .checkModelAvailability { response ->
-                mlKitAvailable = response.areModulesAvailable()
-            }
+        checkMlKitModelAvailability(context) { available ->
+            mlKitAvailable = available
+        }
     }
 
     if (!previewMode) {

@@ -15,12 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.drdisagree.iconify.BuildConfig
@@ -33,9 +31,7 @@ import com.drdisagree.iconify.data.config.Config
 import com.drdisagree.iconify.data.states.AppState
 import com.drdisagree.iconify.services.providers.AppProviders
 import com.drdisagree.iconify.services.schedulers.UpdateScheduler
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.BitmapSubjectSegmenter
 import com.topjohnwu.superuser.Shell
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -43,11 +39,13 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import java.util.function.Consumer
 import kotlin.coroutines.resume
+import kotlin.time.Duration.Companion.milliseconds
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+abstract class BaseMainActivity : ComponentActivity() {
 
     private var isInitializing = true
+
+    protected abstract fun initializeMLKit()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashscreen = installSplashScreen()
@@ -69,19 +67,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AppProviders(this) {
-                val context = LocalContext.current
                 val settingsLoaded = LocalSettings.current.isLoaded
                 var appLoaded by rememberSaveable { mutableStateOf(false) }
-                val segmenter = remember { BitmapSubjectSegmenter(context) }
 
                 LaunchedEffect(settingsLoaded, appLoaded) {
                     if (settingsLoaded && appLoaded) {
-                        segmenter.checkModelAvailability { response ->
-                            Log.d(
-                                "MLKit",
-                                "Model availability: ${response.areModulesAvailable()}"
-                            )
-                        }
+                        initializeMLKit()
                         isInitializing = false
                     }
                 }
@@ -155,7 +146,7 @@ class MainActivity : ComponentActivity() {
         LaunchedEffect(Unit) {
             val shellReady = withContext(Dispatchers.IO) {
                 try {
-                    withTimeout(15_000L) {
+                    withTimeout(15_000L.milliseconds) {
                         suspendCancellableCoroutine { cont ->
                             Shell.getShell { shell ->
                                 if (cont.isActive) cont.resume(shell.isRoot)
