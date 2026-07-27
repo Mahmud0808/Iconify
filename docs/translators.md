@@ -1,6 +1,6 @@
 ### Translators
 
-Thanks to these translators and proofreaders, this project exists:
+Thanks to the translators and proofreaders below:
 
 <!-- CROWDIN-CONTRIBUTORS-START -->
 <table>

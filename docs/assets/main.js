@@ -83,7 +83,7 @@ class Accordion {
 
 document.querySelectorAll(".faq-item").forEach((d) => new Accordion(d));
 
-// ---- icon pack marquees: fill each track to viewport width, then clone for a seamless loop ----
+// ---- icon pack marquees: fill each track to viewport width, then clone for a gapless loop ----
 for (const marquee of document.querySelectorAll(".marquee")) {
 	const [track, clone] = marquee.querySelectorAll(".marquee-track");
 	if (!track || !clone) continue;
@@ -166,17 +166,6 @@ for (const marquee of document.querySelectorAll(".marquee")) {
 	new ResizeObserver(updateMap).observe(nav);
 	nav.classList.add("glass-active");
 })();
-
-// ---- cursor spotlight on feature cards ----
-if (window.matchMedia("(hover: hover)").matches) {
-	for (const card of document.querySelectorAll(".feature-card")) {
-		card.addEventListener("mousemove", (e) => {
-			const rect = card.getBoundingClientRect();
-			card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-			card.style.setProperty("--my", `${e.clientY - rect.top}px`);
-		});
-	}
-}
 
 // ---- live GitHub stats with count-up ----
 const statsEl = document.getElementById("gh-stats");

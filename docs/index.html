@@ -90,7 +90,14 @@
 		</script>
 
 		<link rel="stylesheet" href="assets/style.css" />
-		<script type="module" src="assets/main.js"></script>
+		<script>
+			document.documentElement.classList.add("js");
+		</script>
+		<script
+			type="module"
+			src="assets/main.js"
+			onerror="document.documentElement.classList.remove('js')"
+		></script>
 	</head>
 	<body id="top">
 		<div class="backdrop" aria-hidden="true"></div>
@@ -116,10 +123,9 @@
 					<h1>Iconify</h1>
 					<p class="tagline">Customize Boring Android UI</p>
 					<p class="pitch">
-						A free and open-source Android application that lets you
-						customize your device's user interface — from system
-						icons and Quick Settings to the lockscreen — without
-						directly modifying system files.
+						Free and open source. Restyle system icons, Quick
+						Settings, the statusbar and the lockscreen — without
+						editing system files directly.
 					</p>
 					<div class="hero-ctas">
 						<a
@@ -213,7 +219,7 @@
 			aria-label="Wi-Fi and cellular icon styles included in Iconify"
 		>
 			<p class="marquee-label">
-				Wi-Fi &amp; cellular icons — every style included
+				Wi-Fi &amp; cellular icons, every style included
 			</p>
 			<div class="marquee">
 				<ul class="marquee-track">
@@ -2481,64 +2487,53 @@
 					<p class="section-label reveal">Features</p>
 					<h2 class="reveal">What you can change</h2>
 					<p class="section-intro reveal">
-						Iconify applies its tweaks through Android overlays and
-						the Xposed framework. Some features require LSPosed (or
-						another Xposed framework) — the rest work with root
-						alone. Exact availability varies by Android version:
-						v7.3.0 (Android 12 – 16) and v8.0.0+ (Android 16 QPR1+)
-						each offer a slightly different set.
+						Tweaks apply through Android overlays and the Xposed
+						framework. Most need root alone; a few need LSPosed or
+						another Xposed framework. Feature sets differ slightly
+						between v7.3.0 (Android 12 – 16) and v8.0.0+ (Android 16
+						QPR1+).
 					</p>
-					<div class="feature-grid">
-						<article
-							class="feature-card glass reveal"
-							style="--i: 0"
-						>
-							<div class="icon-tile">
-								<svg
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<path
-										d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-									/>
-								</svg>
-							</div>
+					<div class="feature-list">
+						<article class="feature-item reveal" style="--i: 0">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<path
+									d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+								/>
+							</svg>
 							<h3>System icon packs</h3>
 							<p>
 								Swap system icons with packs like Aurora,
-								Gradicon, Lorn, Plumpy and more — including
-								WiFi, cellular, media player and Settings icons,
-								plus custom icon shapes.
+								Gradicon, Lorn, Plumpy and more. Covers WiFi,
+								cellular, media player and Settings icons, plus
+								custom icon shapes.
 							</p>
 						</article>
-						<article
-							class="feature-card glass reveal"
-							style="--i: 1"
-						>
-							<div class="icon-tile">
-								<svg
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<circle cx="13.5" cy="6.5" r=".5" />
-									<circle cx="17.5" cy="10.5" r=".5" />
-									<circle cx="8.5" cy="7.5" r=".5" />
-									<circle cx="6.5" cy="12.5" r=".5" />
-									<path
-										d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.67 1.5-1.5 0-.4-.15-.74-.4-1-.24-.26-.4-.61-.4-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.5-9-10-9z"
-									/>
-								</svg>
-							</div>
+						<article class="feature-item reveal" style="--i: 1">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<circle cx="13.5" cy="6.5" r=".5" />
+								<circle cx="17.5" cy="10.5" r=".5" />
+								<circle cx="8.5" cy="7.5" r=".5" />
+								<circle cx="6.5" cy="12.5" r=".5" />
+								<path
+									d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.67 1.5-1.5 0-.4-.15-.74-.4-1-.24-.26-.4-.61-.4-1 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-4.96-4.5-9-10-9z"
+								/>
+							</svg>
 							<h3>Color engine</h3>
 							<p>
 								Apply solid or gradient accent colors, or drive
@@ -2546,114 +2541,93 @@
 								engine with custom colors and saturation.
 							</p>
 						</article>
-						<article
-							class="feature-card glass reveal"
-							style="--i: 2"
-						>
-							<div class="icon-tile">
-								<svg
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<rect
-										x="3"
-										y="3"
-										width="7"
-										height="7"
-										rx="2"
-									/>
-									<rect
-										x="14"
-										y="3"
-										width="7"
-										height="7"
-										rx="2"
-									/>
-									<rect
-										x="3"
-										y="14"
-										width="7"
-										height="7"
-										rx="2"
-									/>
-									<rect
-										x="14"
-										y="14"
-										width="7"
-										height="7"
-										rx="2"
-									/>
-								</svg>
-							</div>
+						<article class="feature-item reveal" style="--i: 2">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<rect x="3" y="3" width="7" height="7" rx="2" />
+								<rect
+									x="14"
+									y="3"
+									width="7"
+									height="7"
+									rx="2"
+								/>
+								<rect
+									x="3"
+									y="14"
+									width="7"
+									height="7"
+									rx="2"
+								/>
+								<rect
+									x="14"
+									y="14"
+									width="7"
+									height="7"
+									rx="2"
+								/>
+							</svg>
 							<h3>Quick Settings panel</h3>
 							<p>
 								Change QS tile shapes, rows and columns, tile
-								size, icon and label options, panel margins and
-								QS themes — plus panel transparency and blur.
+								size, icon and label options, panel margins, QS
+								themes, panel transparency and blur.
 							</p>
 						</article>
-						<article
-							class="feature-card glass reveal"
-							style="--i: 3"
-						>
-							<div class="icon-tile">
-								<svg
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<rect
-										x="3"
-										y="11"
-										width="18"
-										height="10"
-										rx="3"
-									/>
-									<path d="M7 11V7a5 5 0 0 1 10 0v4" />
-								</svg>
-							</div>
+						<article class="feature-item reveal" style="--i: 3">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<rect
+									x="3"
+									y="11"
+									width="18"
+									height="10"
+									rx="3"
+								/>
+								<path d="M7 11V7a5 5 0 0 1 10 0v4" />
+							</svg>
 							<h3>Lockscreen</h3>
 							<p>
 								Add custom lockscreen clocks, weather, widgets,
-								media album art and a music visualizer — or an
+								media album art, a music visualizer, or an
 								iOS-like depth wallpaper effect.
 							</p>
 						</article>
-						<article
-							class="feature-card glass reveal"
-							style="--i: 4"
-						>
-							<div class="icon-tile">
-								<svg
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<rect
-										x="6"
-										y="7"
-										width="12"
-										height="14"
-										rx="3"
-									/>
-									<path d="M10 4h4" />
-									<path d="M12 11v6" />
-									<path d="M9.5 14.5 12 17l2.5-2.5" />
-								</svg>
-							</div>
+						<article class="feature-item reveal" style="--i: 4">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<rect
+									x="6"
+									y="7"
+									width="12"
+									height="14"
+									rx="3"
+								/>
+								<path d="M10 4h4" />
+								<path d="M12 11v6" />
+								<path d="M9.5 14.5 12 17l2.5-2.5" />
+							</svg>
 							<h3>Statusbar &amp; battery styles</h3>
 							<p>
 								Modify the statusbar, recolor the battery icon,
@@ -2661,60 +2635,50 @@
 								logo, clock chip or dual statusbar.
 							</p>
 						</article>
-						<article
-							class="feature-card glass reveal"
-							style="--i: 5"
-						>
-							<div class="icon-tile">
-								<svg
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<rect
-										x="3"
-										y="4"
-										width="18"
-										height="12"
-										rx="3"
-									/>
-									<circle cx="8" cy="10" r="1.6" />
-									<path
-										d="m21 13-4.35-4.35a1 1 0 0 0-1.42 0L8 16"
-									/>
-									<path d="M8 20h8" />
-								</svg>
-							</div>
+						<article class="feature-item reveal" style="--i: 5">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<rect
+									x="3"
+									y="4"
+									width="18"
+									height="12"
+									rx="3"
+								/>
+								<circle cx="8" cy="10" r="1.6" />
+								<path
+									d="m21 13-4.35-4.35a1 1 0 0 0-1.42 0L8 16"
+								/>
+								<path d="M8 20h8" />
+							</svg>
 							<h3>Header image &amp; clock</h3>
 							<p>
 								Put a custom image or clock on the Quick
 								Settings panel header.
 							</p>
 						</article>
-						<article
-							class="feature-card glass reveal"
-							style="--i: 6"
-						>
-							<div class="icon-tile">
-								<svg
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<path
-										d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"
-									/>
-									<path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-								</svg>
-							</div>
+						<article class="feature-item reveal" style="--i: 6">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<path
+									d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"
+								/>
+								<path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+							</svg>
 							<h3>Notifications &amp; media</h3>
 							<p>
 								Customize the notification style, media player
@@ -2722,53 +2686,37 @@
 								setup.
 							</p>
 						</article>
-						<article
-							class="feature-card glass reveal"
-							style="--i: 7"
-						>
-							<div class="icon-tile">
-								<svg
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<path d="M11 5 6 9H2v6h4l5 4V5z" />
-									<path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-									<path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-								</svg>
-							</div>
+						<article class="feature-item reveal" style="--i: 7">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<path d="M11 5 6 9H2v6h4l5 4V5z" />
+								<path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+								<path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+							</svg>
 							<h3>Volume panel</h3>
 							<p>Restyle the volume panel with custom designs.</p>
 						</article>
-						<article
-							class="feature-card glass reveal"
-							style="--i: 8"
-						>
-							<div class="icon-tile">
-								<svg
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									aria-hidden="true"
-								>
-									<path d="M21 12a9 9 0 1 1-9-9" />
-									<path d="M21 3v6h-6" />
-									<rect
-										x="8"
-										y="8"
-										width="8"
-										height="8"
-										rx="3"
-									/>
-								</svg>
-							</div>
+						<article class="feature-item reveal" style="--i: 8">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<path d="M21 12a9 9 0 1 1-9-9" />
+								<path d="M21 3v6h-6" />
+								<rect x="8" y="8" width="8" height="8" rx="3" />
+							</svg>
 							<h3>UI roundness &amp; bars</h3>
 							<p>
 								Change the corner radius of the whole interface,
@@ -2926,7 +2874,7 @@
 					<p class="section-label reveal">Requirements</p>
 					<h2 class="reveal">What you need</h2>
 					<div class="req-strip">
-						<div class="req-item glass reveal" style="--i: 0">
+						<div class="req-item reveal" style="--i: 0">
 							<svg
 								viewBox="0 0 24 24"
 								fill="none"
@@ -2945,17 +2893,14 @@
 								/>
 								<path d="M11 18h2" />
 							</svg>
-							<div>
-								<strong>Android 12+ Pixel / AOSP ROM</strong>
-								<span
-									>Android 12 – 16 (non-QPR): use v7.3.0 ·
-									Android 16 QPR1 and later: use v8.0.0+.
-									Other OEM skins (MIUI, OneUI, ColorOS…) are
-									not supported.</span
-								>
-							</div>
+							<strong>Android 12+ Pixel / AOSP ROM</strong>
+							<span
+								>Android 12 – 16 (non-QPR): use v7.3.0 · Android
+								16 QPR1 and later: use v8.0.0+. Other OEM skins
+								(MIUI, OneUI, ColorOS…) are not supported.</span
+							>
 						</div>
-						<div class="req-item glass reveal" style="--i: 1">
+						<div class="req-item reveal" style="--i: 1">
 							<svg
 								viewBox="0 0 24 24"
 								fill="none"
@@ -2969,17 +2914,15 @@
 									d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
 								/>
 							</svg>
-							<div>
-								<strong>Root access</strong>
-								<span
-									>Magisk, KernelSU or APatch. KernelSU v3.0+
-									users also need Mountify (or another
-									metamodule), otherwise some features will be
-									missing.</span
-								>
-							</div>
+							<strong>Root access</strong>
+							<span
+								>Magisk, KernelSU or APatch. KernelSU v3.0+
+								users also need Mountify (or another
+								metamodule), otherwise some features will be
+								missing.</span
+							>
 						</div>
-						<div class="req-item glass reveal" style="--i: 2">
+						<div class="req-item reveal" style="--i: 2">
 							<svg
 								viewBox="0 0 24 24"
 								fill="none"
@@ -2997,17 +2940,14 @@
 								<path d="M12 4V2" />
 								<path d="M12 22v-2" />
 							</svg>
-							<div>
-								<strong>Xposed framework (optional)</strong>
-								<span
-									>LSPosed, Vector or another Xposed framework
-									unlocks extras like header clocks,
-									lockscreen clocks, header image and battery
-									styles.</span
-								>
-							</div>
+							<strong>Xposed framework (optional)</strong>
+							<span
+								>LSPosed, Vector or another Xposed framework
+								unlocks extras like header clocks, lockscreen
+								clocks, header image and battery styles.</span
+							>
 						</div>
-						<div class="req-item glass reveal" style="--i: 3">
+						<div class="req-item reveal" style="--i: 3">
 							<svg
 								viewBox="0 0 24 24"
 								fill="none"
@@ -3021,14 +2961,11 @@
 								<path d="M3 4v5h5" />
 								<path d="M12 7v5l3 3" />
 							</svg>
-							<div>
-								<strong>Custom recovery (recommended)</strong>
-								<span
-									>A decryption-supported custom recovery,
-									just in case you need to revert
-									changes.</span
-								>
-							</div>
+							<strong>Custom recovery (recommended)</strong>
+							<span
+								>A decryption-supported custom recovery, just in
+								case you need to revert changes.</span
+							>
 						</div>
 					</div>
 				</div>
@@ -3330,7 +3267,7 @@
 						<ul>
 							<li>
 								Iconify may not be fully compatible with all
-								custom ROMs — use on heavily modified ROMs is
+								custom ROMs. Use on heavily modified ROMs is
 								discouraged.
 							</li>
 							<li>

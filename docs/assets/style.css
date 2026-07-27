@@ -6,12 +6,6 @@
 	src: url("fonts/outfit-latin.woff2") format("woff2");
 }
 
-@property --beam-angle {
-	syntax: "<angle>";
-	initial-value: 0deg;
-	inherits: false;
-}
-
 :root {
 	--font-display:
 		"Outfit", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -33,13 +27,15 @@
 	--brand-2: #6ea1f7;
 	--tint-indigo: #262a4a;
 
-	--radius-lg: 28px;
-	--radius-md: 20px;
-	--radius-sm: 14px;
+	--radius-lg: 20px;
+	--radius-md: 14px;
+	--radius-sm: 10px;
 	--radius-pill: 999px;
 
+	/* height of the floating nav + its offset, so no section ends underneath it */
+	--nav-safe: calc(5.5rem + env(safe-area-inset-bottom));
+
 	--nav-blur: saturate(150%) blur(18px);
-	--shadow-card: 0 10px 34px rgba(0, 0, 0, 0.35);
 	--shadow-nav: 0 12px 40px rgba(0, 0, 0, 0.5);
 
 	color-scheme: dark;
@@ -59,7 +55,6 @@
 		--accent: #2f6cb8;
 		--accent-deep: #d7e6f7;
 		--tint-indigo: #dfe3f8;
-		--shadow-card: 0 10px 30px rgba(23, 43, 70, 0.12);
 		--shadow-nav: 0 12px 36px rgba(23, 43, 70, 0.22);
 		color-scheme: light;
 	}
@@ -73,6 +68,7 @@
 
 html {
 	scroll-behavior: smooth;
+	scroll-padding-bottom: var(--nav-safe);
 	scrollbar-color: color-mix(in srgb, var(--accent) 35%, transparent)
 		transparent;
 	scrollbar-width: thin;
@@ -120,6 +116,18 @@ a {
 }
 a:hover {
 	text-decoration: underline;
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+/* .glass sets overflow: hidden, which clips an outward ring — inset these */
+.faq-item summary:focus-visible,
+.shot-zoom:focus-visible {
+	outline-offset: -3px;
 }
 
 .backdrop {
@@ -288,10 +296,12 @@ h2 {
 
 .section-intro {
 	color: var(--text-dim);
-	max-width: 46rem;
+	max-width: 38rem;
 	margin-bottom: 2.2rem;
 }
 
+/* elevation is declared once: a border here, a shadow only on things that
+   genuinely float (the nav, the lightbox, the phone, a lifted shot card) */
 .glass {
 	position: relative;
 	background: var(--surface);
@@ -299,22 +309,7 @@ h2 {
 	border-radius: var(--radius-lg);
 	backdrop-filter: var(--nav-blur);
 	-webkit-backdrop-filter: var(--nav-blur);
-	box-shadow: var(--shadow-card);
 	overflow: hidden;
-}
-
-.glass::before {
-	content: "";
-	position: absolute;
-	inset: 0 8% auto 8%;
-	height: 1px;
-	background: linear-gradient(
-		90deg,
-		transparent,
-		var(--surface-highlight),
-		transparent
-	);
-	pointer-events: none;
 }
 
 .pill-nav {
@@ -441,7 +436,8 @@ h2 {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	padding-block: 5rem 3rem;
+	/* bottom clears the floating nav, so the stats row never sits under it */
+	padding-block: 5rem var(--nav-safe);
 }
 
 .hero-layout {
@@ -604,19 +600,13 @@ h3,
 	font-weight: 700;
 	letter-spacing: -0.02em;
 	font-variant-numeric: tabular-nums;
-	background: linear-gradient(120deg, var(--text), var(--accent));
-	-webkit-background-clip: text;
-	background-clip: text;
-	-webkit-text-fill-color: transparent;
-	color: transparent;
+	color: var(--text);
 }
 
 .stat span {
 	color: var(--text-dim);
-	font-size: 0.82rem;
-	font-weight: 600;
-	letter-spacing: 0.04em;
-	text-transform: uppercase;
+	font-size: 0.86rem;
+	font-weight: 500;
 }
 
 .hero-logo {
@@ -634,30 +624,8 @@ h3,
 	letter-spacing: -0.03em;
 	margin-top: 1.4rem;
 	line-height: 1.05;
-	background: linear-gradient(
-		100deg,
-		var(--text) 20%,
-		var(--accent) 45%,
-		var(--brand-2) 60%,
-		var(--text) 80%
-	);
-	background-size: 250% 100%;
-	-webkit-background-clip: text;
-	background-clip: text;
-	-webkit-text-fill-color: transparent;
-	color: transparent;
-	animation:
-		hero-in 0.8s cubic-bezier(0.22, 0.9, 0.3, 1) 0.15s backwards,
-		h1-sheen 9s linear 1s infinite;
-}
-
-@keyframes h1-sheen {
-	from {
-		background-position: 125% 0;
-	}
-	to {
-		background-position: -125% 0;
-	}
+	color: var(--text);
+	animation: hero-in 0.8s cubic-bezier(0.22, 0.9, 0.3, 1) 0.15s backwards;
 }
 
 .hero .tagline {
@@ -735,38 +703,6 @@ h3,
 	box-shadow: 0 12px 30px rgba(61, 125, 245, 0.55);
 }
 
-/* rotating border beam — masked to a 2.5px ring so it never covers the button face */
-.btn-primary::before {
-	content: "";
-	position: absolute;
-	inset: -2.5px;
-	border-radius: inherit;
-	padding: 2.5px;
-	background: conic-gradient(
-		from var(--beam-angle),
-		transparent 0%,
-		transparent 72%,
-		rgba(233, 243, 255, 0.95) 86%,
-		transparent 100%
-	);
-	-webkit-mask:
-		linear-gradient(#000 0 0) content-box,
-		linear-gradient(#000 0 0);
-	-webkit-mask-composite: xor;
-	mask:
-		linear-gradient(#000 0 0) content-box,
-		linear-gradient(#000 0 0);
-	mask-composite: exclude;
-	pointer-events: none;
-	animation: beam-spin 3.5s linear infinite;
-}
-
-@keyframes beam-spin {
-	to {
-		--beam-angle: 360deg;
-	}
-}
-
 .btn-glass {
 	background: var(--surface-strong);
 	color: var(--text);
@@ -782,79 +718,63 @@ h3,
 	);
 }
 
-.feature-grid {
+/* ---- feature index ----
+   The capabilities are a settings list, so they are laid out as one: rows of
+   icon + label + subtitle, the same shape the app's own screens use. A grid of
+   nine identical cards said nothing that the rows do not. */
+
+.feature-list {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-	gap: 1.1rem;
+	border-top: 1px solid var(--surface-border);
 }
 
-.feature-card {
-	padding: 1.5rem;
-	border-radius: var(--radius-lg);
-	transition:
-		transform 0.25s ease,
-		box-shadow 0.25s ease,
-		background-color 0.25s ease;
+@media (min-width: 820px) {
+	.feature-list {
+		grid-template-columns: 1fr 1fr;
+		column-gap: 2.5rem;
+	}
+
+	/* an odd number of items would leave the last rule dangling at half width */
+	.feature-item:last-child:nth-child(odd) {
+		grid-column: 1 / -1;
+	}
+	.feature-item:last-child:nth-child(odd) p {
+		max-width: 62ch;
+	}
 }
 
-/* cursor spotlight (JS sets --mx / --my) */
-.feature-card::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	border-radius: inherit;
-	background: radial-gradient(
-		240px circle at var(--mx, 50%) var(--my, 50%),
-		color-mix(in srgb, var(--accent) 14%, transparent),
-		transparent 65%
-	);
-	opacity: 0;
-	transition: opacity 0.35s ease;
-	pointer-events: none;
-}
-
-.feature-card:hover::after {
-	opacity: 1;
-}
-
-.feature-card:hover {
-	transform: translateY(-5px);
-	background: var(--surface-strong);
-	box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45);
-}
-
-.feature-card .icon-tile {
-	width: 52px;
-	height: 52px;
+.feature-item {
 	display: grid;
-	place-items: center;
-	border-radius: var(--radius-sm);
-	background: var(--surface-strong);
-	border: 1px solid var(--surface-border);
+	grid-template-columns: 22px minmax(0, 1fr);
+	column-gap: 1rem;
+	align-items: start;
+	padding: 1.15rem 0.9rem 1.25rem;
+	border-bottom: 1px solid var(--surface-border);
+	transition: background-color 0.2s ease;
+}
+
+.feature-item:hover {
+	background: var(--surface);
+}
+
+.feature-item > svg {
+	grid-row: 1 / span 2;
+	width: 22px;
+	height: 22px;
+	margin-top: 0.2rem;
 	color: var(--accent);
-	margin-bottom: 1.1rem;
 }
 
-.feature-card .icon-tile svg {
-	width: 26px;
-	height: 26px;
-}
-
-.feature-card h3 {
-	font-size: 1.12rem;
+.feature-item h3 {
+	font-size: 1.02rem;
 	font-weight: 700;
-	margin-bottom: 0.4rem;
-}
-.feature-card p {
-	color: var(--text-dim);
-	font-size: 0.95rem;
+	margin-bottom: 0.2rem;
 }
 
-.feature-card:nth-child(even) {
-	background: color-mix(in srgb, var(--tint-indigo) 65%, transparent);
-}
-.feature-card:nth-child(even):hover {
-	background: color-mix(in srgb, var(--tint-indigo) 85%, transparent);
+.feature-item p {
+	color: var(--text-dim);
+	font-size: 0.94rem;
+	line-height: 1.55;
 }
 
 .shots {
@@ -863,7 +783,14 @@ h3,
 	grid-auto-columns: min(68vw, 300px);
 	gap: 1.1rem;
 	overflow-x: auto;
-	padding: 0.5rem 0.25rem 1.4rem;
+	/* A scroller clips on every axis, so the hover shadow has to fit inside
+	   this padding — sideways too, or the first and last cards get shaved.
+	   The mobile shadow (0 10px 20px over a -6px lift) reaches 16px up, 24px
+	   down and 20px to each side. The negative margin is exactly the container
+	   gutter, so the room comes out of the gutter rather than off the page,
+	   and the cards stay aligned with the heading above. */
+	margin-inline: -1.25rem;
+	padding: 1.5rem 1.25rem 2rem;
 	scroll-snap-type: x mandatory;
 	scrollbar-width: thin;
 }
@@ -877,9 +804,19 @@ h3,
 		box-shadow 0.25s ease;
 }
 
-.shot-card:hover {
-	transform: translateY(-6px);
-	box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+/* touch devices have no real hover; without this the lift sticks after a tap */
+@media (hover: hover) {
+	.shot-card:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45);
+	}
+}
+
+/* past the scroller breakpoint nothing clips, so the shadow can open up */
+@media (hover: hover) and (min-width: 900px) {
+	.shot-card:hover {
+		box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+	}
 }
 
 .shot-card img {
@@ -905,37 +842,45 @@ h3,
 		grid-template-columns: repeat(4, 1fr);
 		grid-auto-columns: unset;
 		overflow: visible;
+		/* not a scroller here, so nothing clips and the room isn't needed */
+		margin-inline: 0;
+		padding: 0.5rem 0.25rem 1.4rem;
 	}
 }
 
+/* two columns, never four — at four the copy wrapped at ~24 characters */
 .req-strip {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-	gap: 1.1rem;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+	gap: 0 2.5rem;
+	border-top: 1px solid var(--surface-border);
 }
 
 .req-item {
-	display: flex;
-	gap: 0.9rem;
-	padding: 1.2rem 1.3rem;
-	border-radius: var(--radius-md);
-	align-items: flex-start;
+	display: grid;
+	grid-template-columns: 24px minmax(0, 1fr);
+	column-gap: 0.9rem;
+	align-items: start;
+	padding: 1.15rem 0.9rem 1.25rem;
+	border-bottom: 1px solid var(--surface-border);
 }
 
 .req-item svg {
+	grid-row: 1 / span 2;
 	width: 24px;
 	height: 24px;
-	flex: none;
 	color: var(--accent);
 	margin-top: 0.15rem;
 }
 .req-item strong {
 	display: block;
-	font-size: 0.98rem;
+	font-size: 1rem;
+	margin-bottom: 0.2rem;
 }
 .req-item span {
 	color: var(--text-dim);
-	font-size: 0.88rem;
+	font-size: 0.92rem;
+	line-height: 1.55;
 }
 
 .faq-list {
@@ -1004,6 +949,7 @@ footer {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5rem;
+	min-height: 44px;
 	padding: 0.6rem 1.1rem;
 	border-radius: var(--radius-pill);
 	color: var(--text);
@@ -1079,7 +1025,7 @@ footer {
 @keyframes rise-in {
 	from {
 		opacity: 0;
-		transform: translateY(26px);
+		transform: translateY(14px);
 	}
 	to {
 		opacity: 1;
@@ -1091,10 +1037,23 @@ footer {
 	opacity: 0;
 }
 
+/* the module may be blocked, fail to parse, or scripting may be off entirely —
+   in any of those cases everything below the hero must still be visible */
+html:not(.js) .reveal {
+	opacity: 1;
+	animation: none;
+}
+
 .reveal.revealed {
 	opacity: 1;
-	animation: rise-in 0.7s cubic-bezier(0.22, 0.9, 0.3, 1) backwards;
-	animation-delay: calc(var(--i, 0) * 70ms);
+	animation: rise-in 0.55s cubic-bezier(0.22, 0.9, 0.3, 1) backwards;
+}
+
+/* stagger only where the items are a set that reads as filling in; a section
+   heading does not need to arrive after the one above it */
+.feature-item.revealed,
+.shot-card.revealed {
+	animation-delay: calc(var(--i, 0) * 55ms);
 }
 
 @keyframes hero-in {
@@ -1147,10 +1106,8 @@ footer {
 .marquee-label {
 	text-align: center;
 	color: var(--text-dim);
-	font-size: 0.85rem;
-	font-weight: 600;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
+	font-size: 0.92rem;
+	font-weight: 500;
 	margin-bottom: 1.1rem;
 }
 
@@ -1326,30 +1283,6 @@ footer {
 	height: 18px;
 }
 
-/* ---- soft section transitions ---- */
-
-section:not(.marquee-section) .container {
-	position: relative;
-}
-
-#features .container::before,
-#screenshots .container::before,
-#requirements .container::before,
-#faq .container::before {
-	content: "";
-	position: absolute;
-	top: -2.25rem;
-	left: 10%;
-	right: 10%;
-	height: 1px;
-	background: linear-gradient(
-		90deg,
-		transparent,
-		color-mix(in srgb, var(--accent) 30%, transparent),
-		transparent
-	);
-}
-
 /* ---- scroll-linked hero (progressive enhancement) ---- */
 
 @supports (animation-timeline: view()) {
@@ -1407,9 +1340,7 @@ section:not(.marquee-section) .container {
 	.backdrop::after,
 	.phone-glow,
 	.phone-tilt,
-	.marquee-track,
-	.btn-primary::before,
-	.hero h1 {
+	.marquee-track {
 		animation: none !important;
 	}
 
