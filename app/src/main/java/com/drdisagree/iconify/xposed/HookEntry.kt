@@ -5,8 +5,11 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.os.RemoteException
+import android.os.SystemClock
 import android.os.UserManager
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
@@ -33,6 +36,8 @@ import java.lang.reflect.InvocationTargetException
 import java.util.LinkedList
 import java.util.Queue
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.time.Duration.Companion.milliseconds
 
 class HookEntry : ServiceConnection {
 
@@ -149,15 +154,35 @@ class HookEntry : ServiceConnection {
     }
 
     private fun waitForXprefsLoad(loadPackageParam: LoadPackageParam) {
-        while (true) {
-            try {
-                Xprefs.getBoolean("LoadTestBooleanValue", false)
-                break
-            } catch (_: Throwable) {
-                SystemUtils.sleep(1000);
+        val deadline = SystemClock.uptimeMillis() + MAX_PREFS_WAIT_MS
+
+        while (SystemClock.uptimeMillis() < deadline) {
+            if (Xprefs.isProviderReady()) {
+                onPrefsAvailable(loadPackageParam)
+                return
+            }
+            SystemUtils.sleep(1000)
+        }
+
+        log(
+            "Prefs provider not responding after ${MAX_PREFS_WAIT_MS / 1000}s; " +
+                    "continuing ${loadPackageParam.packageName} startup without Iconify " +
+                    "and waiting for the provider in background"
+        )
+
+        val loaded = AtomicBoolean(false)
+        Xprefs.addRecoveryListener {
+            if (loaded.compareAndSet(false, true)) {
+                Handler(Looper.getMainLooper()).post { onPrefsAvailable(loadPackageParam) }
             }
         }
 
+        if (Xprefs.isProviderReady() && loaded.compareAndSet(false, true)) {
+            onPrefsAvailable(loadPackageParam)
+        }
+    }
+
+    private fun onPrefsAvailable(loadPackageParam: LoadPackageParam) {
         log("Iconify Version: ${BuildConfig.VERSION_NAME}")
         log("Hooked ${loadPackageParam.packageName}")
 
@@ -171,14 +196,14 @@ class HookEntry : ServiceConnection {
             withContext(Dispatchers.IO) {
                 while (mUserManager == null || !mUserManager.isUserUnlocked) {
                     // device is still CE encrypted
-                    delay(2000)
+                    delay(2000.milliseconds)
                 }
 
-                delay(5000) // wait for the unlocked account to settle down a bit
+                delay(5000.milliseconds) // wait for the unlocked account to settle down a bit
 
                 while (rootProxyIPC == null) {
                     connectRootService()
-                    delay(5000)
+                    delay(5000.milliseconds)
                 }
             }
         }
@@ -233,6 +258,8 @@ class HookEntry : ServiceConnection {
             set(value) {
                 _instance = value?.let { WeakReference(it) }
             }
+
+        private const val MAX_PREFS_WAIT_MS = 30_000L
 
         val runningMods = ArrayList<ModPack>()
         var isChildProcess = false

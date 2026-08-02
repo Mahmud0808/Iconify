@@ -18,19 +18,21 @@ object BootLoopProtector {
         val strikeKey = "$PACKAGE_STRIKE_KEY_KEY$packageName"
         val currentTime = Calendar.getInstance().time.time
         val lastLoadTime = Xprefs.getLong(loadTimeKey, 0)
-        var strikeCount = Xprefs.getInt(strikeKey, 0)
+        val strikeCount = Xprefs.getInt(strikeKey, 0)
 
         if (currentTime - lastLoadTime > 40000) {
-            Xprefs.edit()
-                .putLong(loadTimeKey, currentTime)
-                .putInt(strikeKey, 0)
-                .commit()
+            Xprefs.boundedCommit { editor ->
+                editor
+                    .putLong(loadTimeKey, currentTime)
+                    .putInt(strikeKey, 0)
+            }
         } else if (strikeCount >= 3) {
             return true
         } else {
-            Xprefs.edit()
-                .putInt(strikeKey, ++strikeCount)
-                .commit()
+            val newStrikeCount = strikeCount + 1
+            Xprefs.boundedCommit { editor ->
+                editor.putInt(strikeKey, newStrikeCount)
+            }
         }
 
         return false
@@ -45,10 +47,11 @@ object BootLoopProtector {
             val strikeKey = "$PACKAGE_STRIKE_KEY_KEY$packageName"
             val currentTime = Calendar.getInstance().time.time
 
-            Xprefs.edit()
-                .putLong(loadTimeKey, currentTime)
-                .putInt(strikeKey, 0)
-                .commit()
+            Xprefs.boundedCommit { editor ->
+                editor
+                    .putLong(loadTimeKey, currentTime)
+                    .putInt(strikeKey, 0)
+            }
         } catch (_: Throwable) {
         }
     }
