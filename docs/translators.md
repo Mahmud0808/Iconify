@@ -28,6 +28,13 @@ Thanks to the translators and proofreaders below:
         <sub><b>9269 words</b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/johhnywarner"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13625233/medium/92cf188dd38d6afd7c1f9ba412f4d290.png" />
+          <br />
+          <sub><b>Johnny Warner (johhnywarner)</b></sub></a>
+        <br />
+        <sub><b>4063 words</b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/gyah4"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/16087198/medium/00dc1723a463123bdd30b2e296a2cf66.jpg" />
           <br />
           <sub><b>Zhang chunyu (gyah4)</b></sub></a>
@@ -40,13 +47,6 @@ Thanks to the translators and proofreaders below:
           <sub><b>Kefir (Kefir2105)</b></sub></a>
         <br />
         <sub><b>3936 words</b></sub>
-      </td>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/johhnywarner"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13625233/medium/92cf188dd38d6afd7c1f9ba412f4d290.png" />
-          <br />
-          <sub><b>Johnny Warner (johhnywarner)</b></sub></a>
-        <br />
-        <sub><b>3856 words</b></sub>
       </td>
     </tr>
     <tr>
