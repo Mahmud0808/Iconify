@@ -25,23 +25,23 @@
     <string name="need_storage_perm_desc">Izin penyimpanan diperlukan untuk membuat file yang diperlukan.</string>
     <string name="notification_perm_title">Izinkan Notifikasi</string>
     <string name="notification_perm_desc">Diperlukan untuk memberi tahu Anda tentang pembaruan yang tersedia dan untuk menampilkan pemberitahuan uji coba.</string>
-    <string name="optional_permission">Granting these permissions is optional!</string>
+    <string name="optional_permission">Memberikan izin ini bersifat opsional!</string>
     <string name="compatible_root_not_found_title">Yah, gak nemu metode root yang kompatibel</string>
     <string name="compatible_root_not_found_desc">Pake solusi root popular apapun (contohnya Magisk).</string>
     <string name="root_not_found_title">Root Tidak Dapat Diakses</string>
     <string name="root_not_found_desc">Sepertinya perangkat Anda belum di-root!</string>
-    <string name="metamodule_not_found_title">Metamodule not installed</string>
-    <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
+    <string name="metamodule_not_found_title">Meta modul tidak terpasang</string>
+    <string name="metamodule_not_found_desc">KernelSu 3.0.0 dan yang terbaru memerlukan Meta modul untuk mengaktifkan modifikasi sistem.</string>
     <string name="need_reboot_title">Perlu Reboot Perangkat</string>
     <string name="need_reboot_desc">Nyalakan ulang perangkat Anda untuk meletakkan semua file di tempatnya.</string>
     <string name="installation_failed_title">Ups Tidak Mengharapkan Itu</string>
     <string name="installation_failed_desc">Log telah disimpan di folder dokumen.</string>
     <string name="logs">Logs</string>
     <!-- Disclaimer -->
-    <string name="disclaimer">Disclaimer</string>
-    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
+    <string name="disclaimer">Perhatian</string>
+    <string name="disclaimer_1_title">Akses akar &amp; Lingkungan</string>
     <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
-    <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
+    <string name="disclaimer_2_title">Sistem lapisan &amp; Modifikasi</string>
     <string name="disclaimer_2_description">Iconify functions by generating and injecting dynamic Runtime Resource Overlays (RRO) directly into your system.\nThese modifications are designed for AOSP-based ROMs and may conflict with heavily modified OEM skins (like HyperOS, Realme UI or OneUI).\nChanging certain system values may cause UI freezes or \"System UI has stopped\" errors depending on your specific Android version.</string>
     <string name="disclaimer_3_title">Risk of Bootloop &amp; Recovery</string>
     <string name="disclaimer_3_description">Modifying system files carries an inherent risk of causing a bootloop where the device fails to start.\nBefore proceeding, ensure you have a custom recovery (like TWRP, OrangeFox) installed.\nAlways know the hardware key combination for your device to boot into \"Safe Mode,\" which can disable all modules in an emergency.</string>
@@ -117,7 +117,7 @@
     <!-- Settings -->
     <string name="settings_section_title_general">Umum</string>
     <string name="settings_app_language">Bahasa</string>
-    <string name="settings_app_language_desc">Choose your app language</string>
+    <string name="settings_app_language_desc">Pilih bahasa aplikasi anda</string>
     <string name="settings_app_icon">Ikon Aplikasi</string>
     <string name="settings_app_icon_default">Ikon Bawaan</string>
     <string name="settings_app_icon_themed">Ikon Bertema</string>
@@ -132,7 +132,7 @@
     <string name="settings_auto_update_title">Perbarui Otomatis</string>
     <string name="settings_auto_update_desc">Memeriksa versi baru di latar belakang.</string>
     <string name="settings_auto_update_title_wifi_only">Periksa Lewat WiFi Saja</string>
-    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
+    <string name="settings_auto_update_desc_wifi_only">Cek versi terbaru di latar belakang hanya saat terhuung ke jaringan wifi</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Tampilkan Peringatan</string>
     <string name="settings_show_warning_desc">Tampilkan peringatan tentang cara mengoptimalkan ulang modul di Menu XPosed</string>
@@ -251,7 +251,7 @@
     <string name="icon_mask_style_tapered_rectangle">Tapered Rectangle</string>
     <string name="icon_mask_style_vessel">Kapal</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meong</string>
-    <string name="icon_mask_style_round">Round</string>
+    <string name="icon_mask_style_round">Bulat</string>
     <!-- Color Engine -->
     <string name="activity_title_basic_colors">Warna Dasar</string>
     <string name="activity_desc_basic_colors">Ubah warna primer dan sekunder</string>
@@ -334,7 +334,7 @@
     <string name="label_follow_system_v2_desc">Title sistem, subtitle accent</string>
     <string name="label_fix_text_color_title">Fix Warna Teks</string>
     <string name="label_fix_text_color_desc">Gunakan jika di atas tidak berhasil</string>
-    <string name="label_follow_accent_title">Follow Accent</string>
+    <string name="label_follow_accent_title">Ikuti aksen</string>
     <string name="label_follow_accent_desc">Title accent, subtitle accent</string>
     <!-- QS Tile Size -->
     <string name="section_title_portrait">Mode Portrait</string>
@@ -350,7 +350,7 @@
     <string name="sb_start_padding">Start Padding</string>
     <string name="sb_end_padding">End Padding</string>
     <string name="sb_height">Tinggi</string>
-    <string name="section_title_icon_sizes">Icon Sizes</string>
+    <string name="section_title_icon_sizes">Ukuran ikon</string>
     <string name="sb_signal_icon_size_title">Enlarge Signal Icons</string>
     <string name="sb_signal_icon_size_desc">Increase signal icon size for custom icon packs</string>
     <string name="sb_wifi_icon_size_title">Enlarge WiFi Icons</string>
@@ -359,7 +359,7 @@
     <string name="sb_network_type_size_desc">Increase network type indicator size for custom icon packs</string>
     <string name="hint_icon_size_increase">Icons look too small? Tap here to adjust icon sizes</string>
     <string name="section_title_color">Warna</string>
-    <string name="sb_color_tint_title">Statusbar Icon Color</string>
+    <string name="sb_color_tint_title">Warna ikon bilah stasus</string>
     <string name="sb_color_tint_desc">Tint statusbar ikon dan teks</string>
     <string name="sb_tint_system">Tint bawaan sistem</string>
     <string name="sb_tint_monet">Tint Monet/Aksen</string>
@@ -409,7 +409,7 @@
     <string name="read_carefully">Baca dengan seksama!</string>
     <!-- Volume Panel Style -->
     <string name="volume_style">Gaya Volume</string>
-    <string name="volume_style_default">Default</string>
+    <string name="volume_style_default">Bawaan</string>
     <string name="volume_style_gradient">Gradien</string>
     <string name="volume_style_doublelayer">Lapis Ganda</string>
     <string name="volume_style_shadedlayer">Lapis Bayang</string>
@@ -436,7 +436,7 @@
     <string name="notch_bar_killer_desc">Matikan ruang kosong notch bar</string>
     <string name="tablet_header_title">Tablet Header</string>
     <string name="tablet_header_desc">Enable large screen shade header</string>
-    <string name="section_title_privacy_chip">Privacy Chip</string>
+    <string name="section_title_privacy_chip">Keripik privasi</string>
     <string name="accent_privacy_chip_title">Accent Privacy Chip</string>
     <string name="accent_privacy_chip_desc">Make privacy chip accent colored</string>
     <string name="disable_progress_wave_title">Disable Progress Wave</string>
