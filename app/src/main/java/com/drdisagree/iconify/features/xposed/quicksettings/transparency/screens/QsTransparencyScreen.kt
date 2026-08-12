@@ -130,6 +130,7 @@ fun QsTransparencyScreen(
                 }
             }
 
+            XposedKey.QUICK_SETTINGS_ALPHA_LEVEL.name,
             XposedKey.QUICK_SETTINGS_BLUR_RADIUS.name -> {
                 systemActionViewModel?.shouldRestartSystemUI()
             }
