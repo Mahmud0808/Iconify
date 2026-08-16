@@ -39,14 +39,14 @@
     <string name="logs">Registros</string>
     <!-- Disclaimer -->
     <string name="disclaimer">Descargo de responsabilidad</string>
-    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
+    <string name="disclaimer_1_title">Acceso root y Entorno</string>
     <string name="disclaimer_1_description">Esta aplicación requiere privilegios de Root a través de Magisk, KernelSU o APatch para modificar los recursos del sistema.\nAunque LSPosed es opcional, se recomienda encarecidamente para la mejor compatibilidad y soporte de funciones avanzadas.\nLa aplicación solicitará permisos de Superusuario; sin ellos, no se pueden aplicar cambios en tu sistema.</string>
-    <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
+    <string name="disclaimer_2_title">Mascaras del Sistema y Modificaciones</string>
     <string name="disclaimer_2_description">Iconify funciona generando e inyectando capas dinámicas de recursos de Ejecución (RRO) directamente en su sistema.\nEstas modificaciones están diseñadas para ROMs basadas en AOSP y pueden entrar en conflicto con skins OEM fuertemente modificados (como HyperOS, Realme UI u OneUI)\nCambiar ciertos valores del sistema puede causar congelaciones de la interfaz de usuario o errores de \"System UI se ha detenido\" dependiendo de su versión específica de Android.</string>
     <string name="disclaimer_3_title">Riesgo de Bootloop &amp; Recovery</string>
     <string name="disclaimer_3_description">Modificar archivos del sistema conlleva un riesgo inherente de causar un bucle de arranque donde el dispositivo no logra iniciar.\nAntes de continuar, asegúrate de tener instalado un recovery personalizado (como TWRP, OrangeFox).\nSiempre conoce la combinación de teclas de hardware de tu dispositivo para iniciar en \"Modo Seguro\", que puede desactivar todos los módulos en caso de emergencia.</string>
     <string name="disclaimer_4_title">Sin garantía &amp; Responsabilidad</string>
-    <string name="disclaimer_4_description">This software is provided \"as-is\" under the GPL-3.0 license, without any express or implied warranties.\nThe developer is not legally or financially responsible for bricked hardware, dead SD cards, or unexpected \"black screens.\"\nBy using this app, you acknowledge that you are modifying your device\'s core software at your own discretion.</string>
+    <string name="disclaimer_4_description">Este software se entrega \"tal cual\" bajo la licencia GPL-3.0, sin ninguna garantía expresa o implicita.\nEl desarrollador no es legal o financieramente responsable de hardware inservible, tarjetas SD muertas, o \"pantallazos negros\" inesperados.\nAl utilizar esta aplicación, reconoces que estás modificando el software principal de tu dispositivo bajo tu propia discreción.</string>
     <string name="disclaimer_5_title">Seguridad de los datos &amp; Responsabilidad</string>
     <string name="disclaimer_5_description">La copia de seguridad es obligatoria: Siempre mantenga una copia de seguridad fuera del dispositivo de sus fotos, contactos y archivos antes de realizar una personalización profunda del sistema.\nEs su responsabilidad verificar la compatibilidad con su ROM consultando la documentación oficial de GitHub o los grupos de la comunidad.\nSi no está seguro de cómo eliminar manualmente un módulo de Magisk mediante ADB, por favor no continúe con modificaciones avanzadas.</string>
     <!-- Search Preference -->
@@ -248,7 +248,7 @@
     <string name="icon_mask_style_heart">Corazón</string>
     <string name="icon_mask_style_leaf">Hoja</string>
     <string name="icon_mask_style_stretched">Estirado</string>
-    <string name="icon_mask_style_tapered_rectangle">Tapered Rectangle</string>
+    <string name="icon_mask_style_tapered_rectangle">Cuadrado recortado</string>
     <string name="icon_mask_style_vessel">Vaso</string>
     <string name="icon_mask_style_rice_rohie_meow">Rohie Meow</string>
     <string name="icon_mask_style_round">Redondo</string>
@@ -350,16 +350,16 @@
     <string name="sb_start_padding">Margen inicial</string>
     <string name="sb_end_padding">Margen final</string>
     <string name="sb_height">Altura</string>
-    <string name="section_title_icon_sizes">Icon Sizes</string>
-    <string name="sb_signal_icon_size_title">Enlarge Signal Icons</string>
-    <string name="sb_signal_icon_size_desc">Increase signal icon size for custom icon packs</string>
-    <string name="sb_wifi_icon_size_title">Enlarge WiFi Icons</string>
-    <string name="sb_wifi_icon_size_desc">Increase WiFi icon size for custom icon packs</string>
-    <string name="sb_network_type_size_title">Enlarge Network Type Icons</string>
-    <string name="sb_network_type_size_desc">Increase network type indicator size for custom icon packs</string>
-    <string name="hint_icon_size_increase">Icons look too small? Tap here to adjust icon sizes</string>
+    <string name="section_title_icon_sizes">Tamaño de iconos</string>
+    <string name="sb_signal_icon_size_title">Agrandar icono de señal</string>
+    <string name="sb_signal_icon_size_desc">Aumenta el tamaño del icono de señal para paquetes de iconos personalizados</string>
+    <string name="sb_wifi_icon_size_title">Agrandar icono de WiFi</string>
+    <string name="sb_wifi_icon_size_desc">Aumenta el tamaño del icono de WiFi para paquetes de iconos personalizados</string>
+    <string name="sb_network_type_size_title">Agrandar iconos de tipo red</string>
+    <string name="sb_network_type_size_desc">Aumenta el tamaño de los iconos de tipo de red para paquetes de iconos personalizados</string>
+    <string name="hint_icon_size_increase">¿Los iconos se ven muy pequeños? Pulsa aquí para ajustar los tamaños de los iconos</string>
     <string name="section_title_color">Color</string>
-    <string name="sb_color_tint_title">Statusbar Icon Color</string>
+    <string name="sb_color_tint_title">Color del icono de la barra de estado</string>
     <string name="sb_color_tint_desc">Tintar iconos y textos de la barra de estado</string>
     <string name="sb_tint_system">Tinte de Sistema Predeterminado</string>
     <string name="sb_tint_monet">Tinte Monet/Acento</string>
@@ -535,7 +535,7 @@
     <string name="lockscreen_device_widget_style_classic">Barra con dos arcos</string>
     <string name="lockscreen_device_widget_style_arcs">Cuatro arcos</string>
     <!-- LS Widgets Actions -->
-    <string name="none">None</string>
+    <string name="none">Ninguno</string>
     <string name="camera">Cámara</string>
     <string name="clock_timer">Reloj/temporizador</string>
     <string name="calculator">Calculadora</string>
@@ -713,16 +713,16 @@
     <string name="volume_percentage_desc">Mostrar porcentaje sobre el deslizador del volumen</string>
     <string name="safety_warning_title">Advertencia de seguridad</string>
     <string name="safety_warning_desc">Mostrar advertencia en volumen alto</string>
-    <string name="app_volume_button_title">Per-app volume</string>
-    <string name="app_volume_button_desc">Long press menu button in the volume panel for active audio sources</string>
-    <string name="multi_audio_focus_title">Multiple audio sources</string>
-    <string name="multi_audio_focus_desc">Allow several apps to keep playing audio at the same time. Requires a full device reboot.</string>
+    <string name="app_volume_button_title">Volúmen por aplicación</string>
+    <string name="app_volume_button_desc">Pulsación larga del botón menú en el panel de volumen para fuentes de audio activas</string>
+    <string name="multi_audio_focus_title">Múltiples fuentes de audio</string>
+    <string name="multi_audio_focus_desc">Permite que varias aplicaciones sigan reproduciendo audio al mismo tiempo. Requiere un reinicio completo del dispositivo.</string>
     <string name="colored_ringer_icon_title">Icono de tono colorido</string>
     <string name="colored_ringer_icon_desc">Habilitar si el icono del tono seleccionado es invisible</string>
-    <string name="volume_sheet_app_volume">App Volume</string>
-    <string name="volume_sheet_no_active_source">No active sources found</string>
-    <string name="volume_sheet_active_sources_count_format">Active sources: %d</string>
-    <string name="volume_sheet_play_music_or_video">Play some music or video and open this panel again.</string>
+    <string name="volume_sheet_app_volume">Volumen de la aplicación</string>
+    <string name="volume_sheet_no_active_source">No se encontraron fuentes activas</string>
+    <string name="volume_sheet_active_sources_count_format">Fuentes activas: %d</string>
+    <string name="volume_sheet_play_music_or_video">Reproduce algo de música o vídeo y vuelve a abrir este panel.</string>
     <!-- Xposed Header Image -->
     <string name="header_image_title">Seleccionar imagen de encabezado</string>
     <string name="header_image_desc">Añadir imagen de encabezado en el panel de Ajustes Rápidos\nNo selecciones archivos de \"Recientes\"</string>
