@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_motto">Customize Boring Android UI</string>
+    <string name="app_motto">Dostosuj nudny interfejs Androida</string>
     <!-- Onboarding -->
     <string name="init_module_installation">Rozpoczynanie instalacji</string>
     <string name="step">Krok</string>
@@ -20,17 +20,17 @@
     <string name="onboarding_title_3">Zaczynamy?</string>
     <string name="onboarding_subtitle_3">Nadszedł czas, aby Iconify wykonał trochę wewnętrznej pracy</string>
     <string name="onboarding_desc_3">Rozruch zadań wewnętrznych ocznacza początek istotnej pracy. Jesteście gotowi?</string>
-    <string name="grant_permission">Grant Permission</string>
+    <string name="grant_permission">Udziel uprawnienia</string>
     <string name="need_storage_perm_title">Potrzebne jest uprawnienie do pamięci masowej</string>
     <string name="need_storage_perm_desc">Aby utworzyć niezbędne pliki, aplikacja wymaga dostępu do pamięci masowej</string>
-    <string name="notification_perm_title">Allow Notifications</string>
-    <string name="notification_perm_desc">Needed to notify you about available updates and to display test notifications.</string>
-    <string name="optional_permission">Granting these permissions is optional!</string>
+    <string name="notification_perm_title">Zezwól na powiadomienia</string>
+    <string name="notification_perm_desc">Wymagane do powiadamiania Was o dostępnych aktualizacjach i wyświetlanie powiadomień testowych.</string>
+    <string name="optional_permission">Przyznanie tych uprawnień nie jest obowiązkowe!</string>
     <string name="compatible_root_not_found_title">Nie znaleziono kompatybilnej metody root</string>
     <string name="compatible_root_not_found_desc">Aby kontynuować, użyj dowolnych popularnych rozwiązań roota.</string>
     <string name="root_not_found_title">Root jest niedostępny</string>
     <string name="root_not_found_desc">Wygląda na to, że Twoje urządzenie nie jest zrootowane!</string>
-    <string name="metamodule_not_found_title">Metamodule not installed</string>
+    <string name="metamodule_not_found_title">Metamoduł nie jest zainstalowany</string>
     <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
     <string name="need_reboot_title">Wymagany restart urządzenia</string>
     <string name="need_reboot_desc">Uruchom ponownie urządzenie, aby wszystkie pliki znalazły się w odpowiednich miejscach</string>
