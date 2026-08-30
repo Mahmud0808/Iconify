@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_motto">Customize Boring Android UI</string>
+    <string name="app_motto">自定義無趣的 Android UI</string>
     <!-- Onboarding -->
     <string name="init_module_installation">初始化安裝</string>
     <string name="step">步驟</string>
-    <string name="step_number">Step %1$d/%2$d</string>
+    <string name="step_number">步驟 %1$d/%2$d</string>
     <string name="module_installation_step1">建立模組殼層</string>
     <string name="module_installation_step2">正在解壓縮需要的檔案</string>
     <string name="module_installation_step3">正在建立用作覆蓋的 APK</string>
@@ -20,35 +20,35 @@
     <string name="onboarding_title_3">我們可以開始了嗎？</string>
     <string name="onboarding_subtitle_3">是時候讓 Iconify 進行一些內部工作。</string>
     <string name="onboarding_desc_3">需要進行一些內部工作來初始化。要開始了嗎？</string>
-    <string name="grant_permission">Grant Permission</string>
+    <string name="grant_permission">授予權限</string>
     <string name="need_storage_perm_title">需要存取儲存空間的權利</string>
     <string name="need_storage_perm_desc">需要存取儲存空間的權限以建立需要的檔案。</string>
-    <string name="notification_perm_title">Allow Notifications</string>
-    <string name="notification_perm_desc">Needed to notify you about available updates and to display test notifications.</string>
-    <string name="optional_permission">Granting these permissions is optional!</string>
+    <string name="notification_perm_title">允許通知</string>
+    <string name="notification_perm_desc">需要通知您有可用的更新，并顯示測試通知。</string>
+    <string name="optional_permission">這些權限是可選的！</string>
     <string name="compatible_root_not_found_title">找不到相容的 root 解決方案</string>
     <string name="compatible_root_not_found_desc">使用任何熱門的 root 解決方案來執行</string>
     <string name="root_not_found_title">無法存取 root</string>
     <string name="root_not_found_desc">看起來您的裝置似乎沒有被 root 過！</string>
-    <string name="metamodule_not_found_title">Metamodule not installed</string>
-    <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
+    <string name="metamodule_not_found_title">元模組未安裝</string>
+    <string name="metamodule_not_found_desc">KernelSU 3.0.0 以上版本須要元模組才能啟用對 systemless /system 修改</string>
     <string name="need_reboot_title">需要重新啟動裝置</string>
     <string name="need_reboot_desc">重新啟動您的裝置讓所有檔案就定位。</string>
     <string name="installation_failed_title">噢不，發生非預期的狀況</string>
     <string name="installation_failed_desc">記錄檔已經儲存在「文件」資料夾中。</string>
     <string name="logs">記錄檔</string>
     <!-- Disclaimer -->
-    <string name="disclaimer">Disclaimer</string>
-    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
-    <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
-    <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
-    <string name="disclaimer_2_description">Iconify functions by generating and injecting dynamic Runtime Resource Overlays (RRO) directly into your system.\nThese modifications are designed for AOSP-based ROMs and may conflict with heavily modified OEM skins (like HyperOS, Realme UI or OneUI).\nChanging certain system values may cause UI freezes or \"System UI has stopped\" errors depending on your specific Android version.</string>
-    <string name="disclaimer_3_title">Risk of Bootloop &amp; Recovery</string>
-    <string name="disclaimer_3_description">Modifying system files carries an inherent risk of causing a bootloop where the device fails to start.\nBefore proceeding, ensure you have a custom recovery (like TWRP, OrangeFox) installed.\nAlways know the hardware key combination for your device to boot into \"Safe Mode,\" which can disable all modules in an emergency.</string>
-    <string name="disclaimer_4_title">No Warranty &amp; Liability</string>
-    <string name="disclaimer_4_description">This software is provided \"as-is\" under the GPL-3.0 license, without any express or implied warranties.\nThe developer is not legally or financially responsible for bricked hardware, dead SD cards, or unexpected \"black screens.\"\nBy using this app, you acknowledge that you are modifying your device\'s core software at your own discretion.</string>
-    <string name="disclaimer_5_title">Data Safety &amp; Responsibility</string>
-    <string name="disclaimer_5_description">Backup is mandatory: Always maintain an off-device backup of your photos, contacts, and files before performing deep system theming.\nIt is your responsibility to verify compatibility with your ROM by checking the official GitHub documentation or community groups.\nIf you are unsure how to manually remove a Magisk module via ADB, please do not proceed with advanced modifications.</string>
+    <string name="disclaimer">免責聲明</string>
+    <string name="disclaimer_1_title">Root 權限 &amp; 環境</string>
+    <string name="disclaimer_1_description">此應用程式須要透過 Magisk ﹑ KernelSU 或 APatch 取得 Root 權限來修改系統資源。\n雖然 LSPosed 是可選的，但為了最好的相容性和進階功能支援，強烈建議使用。\n此應用程式會請求超級使用者權限；如果沒有此權限，系統將無法套用任何更改。</string>
+    <string name="disclaimer_2_title">對系統覆蓋 &amp; 修改</string>
+    <string name="disclaimer_2_description">Iconify 的運作方式是透過產生並注入Dynamic Runtime Resource Overlays（RRO）到你的系統中。\n這些修改專為基於 AOSP 的 ROM 設計，可能會與某些深度修改的 OEM 系統（如 HyperOS、Realme UI 或 One UI）發生衝突。\n根據您的 Android 版本不同，更改特定系統數值可能會導致 UI 凍結或出現「系統 UI 已停止運作」的錯誤。</string>
+    <string name="disclaimer_3_title">無限重啟的風險 &amp; 復原</string>
+    <string name="disclaimer_3_description">修改系統文件會導致有無限重啟而無法啟動的風險。\n在操作前，請確定你有安裝第三方Recovery（如 TWRP 、 OrangeFox）。\n請確定你了解你的裝置進入安全模式的按鍵組合，來在緊急情況下停用所有模組。</string>
+    <string name="disclaimer_4_title">無擔保 &amp; 責任</string>
+    <string name="disclaimer_4_description">本軟體依 GPL-3.0 授權條款以「現狀」提供，不提供任何明示或暗示之擔保。\n如果因使用此軟體導致裝置變磚、SD 卡損壞或突發的「黑屏」等問題，開發者不承擔任何法律或財務責任。\n使用本應用程式即表示您承認並同意：您是在自行承擔風險的前提下修改裝置的核心軟體。</string>
+    <string name="disclaimer_5_title">資料安全 &amp; 免責聲明</string>
+    <string name="disclaimer_5_description">請必須做備份：在執行深度系統主題化之前，請務必將您的相片、聯絡人和檔案備份到裝置以外的地方。\n您有責任透過查閱官方 GitHub 文件或社群討論群組，來確認與您 ROM 的相容性。\n若您不確定如何透過 ADB 手動移除 Magisk 模組，請勿不要進行進階修改。</string>
     <!-- Search Preference -->
     <string name="search_title">搜尋</string>
     <string name="searchpreference_search">搜尋...</string>
@@ -57,7 +57,7 @@
     <string name="searchpreference_more">更多</string>
     <string name="searchpreference_clear_history">清除歷史紀錄</string>
     <string name="searchpreference_no_result">沒有結果</string>
-    <string name="recent_searches">Recent searches</string>
+    <string name="recent_searches">最近搜尋</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">圖示套件</string>
@@ -117,7 +117,7 @@
     <!-- Settings -->
     <string name="settings_section_title_general">常規</string>
     <string name="settings_app_language">語言</string>
-    <string name="settings_app_language_desc">Choose your app language</string>
+    <string name="settings_app_language_desc">選擇你的應用程式語言</string>
     <string name="settings_app_icon">應用圖示</string>
     <string name="settings_app_icon_default">預設圖示</string>
     <string name="settings_app_icon_themed">主題圖示</string>
@@ -132,7 +132,7 @@
     <string name="settings_auto_update_title">自動更新</string>
     <string name="settings_auto_update_desc">在後臺檢查新版本</string>
     <string name="settings_auto_update_title_wifi_only">僅通過WIFI進行檢查</string>
-    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
+    <string name="settings_auto_update_desc_wifi_only">僅在連接 wifi 時才檢查背景更新</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">顯示警告</string>
     <string name="settings_show_warning_desc">在Xposed功能表中顯示有關如何重新優化模組的警告</string>
@@ -147,9 +147,9 @@
     <string name="settings_show_home_page_card_title">顯示主頁卡</string>
     <string name="settings_show_home_page_card_desc">在主頁上展示一張精美的卡片。</string>
     <string name="settings_vibrate_ui_card_title">觸覺回饋</string>
-    <string name="settings_vibrate_ui_page_card_desc">Enhance touch feedback with interactive haptics.</string>
-    <string name="settings_slider_controller_title">Slider Controller</string>
-    <string name="settings_slider_controller_desc">Enable to display plus and minus buttons with sliders.</string>
+    <string name="settings_vibrate_ui_page_card_desc">使用震動加強觸覺反饋</string>
+    <string name="settings_slider_controller_title">滑動控制器</string>
+    <string name="settings_slider_controller_desc">啟用亮度滑動加減按鈕</string>
     <string name="settings_clear_app_cache_title">清理應用程式緩存</string>
     <string name="settings_clear_app_cache_desc">清理因使用自訂字形、圖像或GIF動圖而產生的緩存</string>
     <string name="activity_title_experimental">實驗性</string>
@@ -320,7 +320,7 @@
     <string name="qs_text_color_normal">正常</string>
     <string name="qs_text_color_pixel">像素</string>
     <string name="custom_qs_tile_text_color_title">Custom Text Color</string>
-    <string name="custom_qs_tile_text_color_desc">Enable custom QS tile text color</string>
+    <string name="custom_qs_tile_text_color_desc">啟用自訂 QS 圖塊文字顏色</string>
     <string name="custom_qs_tile_text_color_list_title">Text Color Options</string>
     <string name="label_always_white_title">總是白色</string>
     <string name="label_always_white_desc">標題為白色，副標題為白色</string>
@@ -442,11 +442,11 @@
     <string name="disable_progress_wave_title">禁用進度波</string>
     <string name="disable_progress_wave_desc">禁用進度指示器波形動畫</string>
     <string name="section_title_settings_theme">Settings Theme</string>
-    <string name="enable_expressive_theme_title">Enable Expressive Theme</string>
-    <string name="enable_expressive_theme_desc">Enable the new settings expressive theme on Android 15 QPR2+</string>
+    <string name="enable_expressive_theme_title">啟用表達式主題</string>
+    <string name="enable_expressive_theme_desc">在 Android 15 QPR2+ 上啟用新設定表達式主題</string>
     <!-- Xposed Menu -->
     <string name="lsposed_warn">在從 LSPosed 模組啟用 Iconify 之前，長按 Iconify 並按一下重新優化。之後，啟用 Iconify 並重新啟動 SystemUI。這對於更流暢的體驗是必要的。</string>
-    <string name="lsposed_bootloop_warn">One of the features you enabled is not compatible with your ROM. Please disable it and restart your SystemUI.</string>
+    <string name="lsposed_bootloop_warn">你啟用的某一個功能不相容於你的 ROM。請關閉它並重新啟動你的 SystemUI。</string>
     <string name="xposed_only_desc">您當前處於「僅 Xposed」 模式。這需要在 LSPosed 應用中啟用 iconify。還要確保 Iconify 模組顯示在 Magisk 管理器中。要訪問所有功能，請清除iconify應用程式的數據並完成安裝過程！</string>
     <string name="xposed_module_disabled_title">模組未激活</string>
     <string name="xposed_module_disabled_desc">系統服務未運行</string>
@@ -487,7 +487,7 @@
     <string name="activity_title_lockscreen_album_art">Media Album Art</string>
     <!-- Oneplus QS Header -->
     <string name="oneplus_qs_header_title">Oneplus QS Header</string>
-    <string name="oneplus_qs_header_desc">Enable OOS style media player and tiles in QS</string>
+    <string name="oneplus_qs_header_desc">啟用 OOS 風格的媒體播放器和圖塊</string>
     <string name="oneplus_qs_header_vibrate_title">Haptic Feedback</string>
     <string name="oneplus_qs_header_vibrate_desc">Add haptic feedback on tiles</string>
     <string name="oneplus_qs_header_hide_stock_media_player_title">Hide Stock Media Player</string>
