@@ -30,7 +30,7 @@
     <string name="compatible_root_not_found_desc">Devam etmek için popüler root çözümlerinden birini kullanın.</string>
     <string name="root_not_found_title">Root Erişimi Yok</string>
     <string name="root_not_found_desc">Görünüşe göre cihazınız rootlu değil!</string>
-    <string name="metamodule_not_found_title">Metamodül yüklü değil</string>
+    <string name="metamodule_not_found_title">Metamodule yüklü değil</string>
     <string name="metamodule_not_found_desc">KernelSU 3.0.0 ve daha yeni sürümler, sisteme dokunmayan (systemless) /system modifikasyonlarını etkinleştirmek için Metamodül gerektirir.</string>
     <string name="need_reboot_title">Cihazın Yeniden Başlatılması Gerekiyor</string>
     <string name="need_reboot_desc">Tüm dosyaların yerini alması için cihazınızı yeniden başlatın.</string>
@@ -57,7 +57,7 @@
     <string name="searchpreference_more">Daha Fazla</string>
     <string name="searchpreference_clear_history">Geçmişi temizle</string>
     <string name="searchpreference_no_result">Sonuç bulunamadı</string>
-    <string name="recent_searches">Recent searches</string>
+    <string name="recent_searches">Son aramalar</string>
     <!-- Home -->
     <string name="activity_title_home_page">Iconify</string>
     <string name="activity_title_icon_pack">Simge Paketi</string>
@@ -132,7 +132,7 @@
     <string name="settings_auto_update_title">Otomatik Güncelleme</string>
     <string name="settings_auto_update_desc">Arka planda yeni sürümleri kontrol et.</string>
     <string name="settings_auto_update_title_wifi_only">Sadece Wi-Fi Üzerinden Kontrol Et</string>
-    <string name="settings_auto_update_desc_wifi_only">Check for updates in background only when connected to wifi</string>
+    <string name="settings_auto_update_desc_wifi_only">Hücresel veri aktifken arka plan güncellemelerini kapat</string>
     <string name="settings_section_title_xposed">Xposed</string>
     <string name="settings_show_warning_title">Uyarıyı Göster</string>
     <string name="settings_show_warning_desc">Xposed menüsünde modülün nasıl yeniden optimize edileceğine dair uyarıyı göster.</string>
@@ -350,14 +350,14 @@
     <string name="sb_start_padding">Başlangıç İç Boşluğu</string>
     <string name="sb_end_padding">Bitiş İç Boşluğu</string>
     <string name="sb_height">Yükseklik</string>
-    <string name="section_title_icon_sizes">Icon Sizes</string>
-    <string name="sb_signal_icon_size_title">Enlarge Signal Icons</string>
-    <string name="sb_signal_icon_size_desc">Increase signal icon size for custom icon packs</string>
-    <string name="sb_wifi_icon_size_title">Enlarge WiFi Icons</string>
-    <string name="sb_wifi_icon_size_desc">Increase WiFi icon size for custom icon packs</string>
-    <string name="sb_network_type_size_title">Enlarge Network Type Icons</string>
-    <string name="sb_network_type_size_desc">Increase network type indicator size for custom icon packs</string>
-    <string name="hint_icon_size_increase">Icons look too small? Tap here to adjust icon sizes</string>
+    <string name="section_title_icon_sizes">Simge Boyutları</string>
+    <string name="sb_signal_icon_size_title">Şebeke Simgelerini Büyüt</string>
+    <string name="sb_signal_icon_size_desc">Özel simge paketleri için şebeke simgesini büyüt</string>
+    <string name="sb_wifi_icon_size_title">WiFi Simgesini Büyüt</string>
+    <string name="sb_wifi_icon_size_desc">Özel simge paketleri için WiFi simgesini büyüt</string>
+    <string name="sb_network_type_size_title">Şebeke Tipi Simgelerini Büyüt</string>
+    <string name="sb_network_type_size_desc">Özel simge paketleri için şebeke tipi simgelerini büyüt</string>
+    <string name="hint_icon_size_increase">Simgeler küçük mü? Ayarlamak için buraya dokunun</string>
     <string name="section_title_color">Renk</string>
     <string name="sb_color_tint_title">Durum Çubuğu Simge Rengi</string>
     <string name="sb_color_tint_desc">Durum çubuğu simgelerini ve metinlerini renklendirin</string>
@@ -713,16 +713,16 @@
     <string name="volume_percentage_desc">Ses kaydırıcısının üzerinde yüzdeyi göster</string>
     <string name="safety_warning_title">Güvenlik Uyarısı</string>
     <string name="safety_warning_desc">Yüksek ses seviyesinde uyarı göster</string>
-    <string name="app_volume_button_title">Per-app volume</string>
-    <string name="app_volume_button_desc">Long press menu button in the volume panel for active audio sources</string>
-    <string name="multi_audio_focus_title">Multiple audio sources</string>
-    <string name="multi_audio_focus_desc">Allow several apps to keep playing audio at the same time. Requires a full device reboot.</string>
+    <string name="app_volume_button_title">Uygulamaya özel ses seviyesi</string>
+    <string name="app_volume_button_desc">Ses panelindeki menü butonuna basılı tutun</string>
+    <string name="multi_audio_focus_title">Çoklu ses kaynağı</string>
+    <string name="multi_audio_focus_desc">Uygulamaların hep birlikte ses oynatabilmesini sağlar. Cihazı yeniden başlatmak gerekir.</string>
     <string name="colored_ringer_icon_title">Renkli Zil Sesi Simgesi</string>
     <string name="colored_ringer_icon_desc">Seçilen zil sesi simgesi görünmüyorsa etkinleştirin</string>
-    <string name="volume_sheet_app_volume">App Volume</string>
-    <string name="volume_sheet_no_active_source">No active sources found</string>
-    <string name="volume_sheet_active_sources_count_format">Active sources: %d</string>
-    <string name="volume_sheet_play_music_or_video">Play some music or video and open this panel again.</string>
+    <string name="volume_sheet_app_volume">Uygulama Sesi Seviyesi</string>
+    <string name="volume_sheet_no_active_source">Aktif kaynak bulunamadı</string>
+    <string name="volume_sheet_active_sources_count_format">Aktif kaynaklar: %d</string>
+    <string name="volume_sheet_play_music_or_video">Bir müzik ve ya video oynatıp yeniden açmayı deneğin.</string>
     <!-- Xposed Header Image -->
     <string name="header_image_title">Başlık Resmi Seç</string>
     <string name="header_image_desc">QS paneline başlık resmi ekle\nResmi \"Son Kullanılanlar\"dan seçmeyin</string>
@@ -990,18 +990,18 @@
     <string name="ls_wallpaper_blur_title">Duvar Kağıdı Bulanıklığı</string>
     <string name="ls_wallpaper_blur_desc">Kilit ekranına bulanıklık efekti uygula</string>
     <string name="ls_wallpaper_blur_radius_title">Duvar Kağıdı Bulanıklık Yoğunluğu</string>
-    <string name="activity_title_lockscreen_visualizer">Music Visualizer</string>
-    <string name="activity_desc_lockscreen_visualizer">Show music visualizer on lock screen</string>
-    <string name="lockscreen_visualizer_color_mode_title">Color Mode</string>
-    <string name="lockscreen_visualizer_static_color_title">Color</string>
-    <string name="lockscreen_visualizer_gradient_start_title">Start Color</string>
-    <string name="lockscreen_visualizer_gradient_end_title">End Color</string>
-    <string name="lockscreen_visualizer_lava_speed_title">Flow speed</string>
-    <string name="lockscreen_visualizer_sensitivity_title">Sensitivity</string>
-    <string name="lockscreen_visualizer_height_title">Visualizer height</string>
-    <string name="lockscreen_visualizer_bar_thickness_title">Bar thickness</string>
-    <string name="lockscreen_visualizer_smoothness_title">Smoothness</string>
-    <string name="lockscreen_visualizer_fps_title">Visualizer FPS</string>
+    <string name="activity_title_lockscreen_visualizer">Müzik Görselleştirici</string>
+    <string name="activity_desc_lockscreen_visualizer">Müzik görselleştiriciyi kilit ekranında göster</string>
+    <string name="lockscreen_visualizer_color_mode_title">Renk Modu</string>
+    <string name="lockscreen_visualizer_static_color_title">Renk</string>
+    <string name="lockscreen_visualizer_gradient_start_title">Başlama Rengi</string>
+    <string name="lockscreen_visualizer_gradient_end_title">Bitiş Rengi</string>
+    <string name="lockscreen_visualizer_lava_speed_title">Akış hızı</string>
+    <string name="lockscreen_visualizer_sensitivity_title">Hassaslık</string>
+    <string name="lockscreen_visualizer_height_title">Görselleştirici yüksekliği</string>
+    <string name="lockscreen_visualizer_bar_thickness_title">Çubuk kalınlığı</string>
+    <string name="lockscreen_visualizer_smoothness_title">Yumuşaklık</string>
+    <string name="lockscreen_visualizer_fps_title">Görselleştirici FPS-i</string>
     <!-- Changelog -->
     <string name="activity_title_changelog">Sürüm Notları (Changelog)</string>
     <string name="no_internet_connection">Sunucuya bağlanılamadı!\nİnternet bağlantınızda bir sorun olabilir veya sunucu şu anda kapalı olabilir. Lütfen daha sonra tekrar deneyin.</string>
@@ -1010,13 +1010,13 @@
     <string name="changelog_changes_in">%1$s sürümündeki değişiklikler</string>
     <string name="changelog_changes_since">%1$s tarihinden bu yana gerçekleşen değişiklikler</string>
     <!-- App Updates -->
-    <string name="settings_section_title_updates">Updates</string>
-    <string name="settings_app_update_checker_title">App Update</string>
-    <string name="check_for_updates_button">Check for updates</string>
-    <string name="download_update_button">Download Update</string>
+    <string name="settings_section_title_updates">Güncellemeler</string>
+    <string name="settings_app_update_checker_title">Uygulama Güncellemesi</string>
+    <string name="check_for_updates_button">Güncelleme kontrolü</string>
+    <string name="download_update_button">Güncellemeyi İndir</string>
     <string name="checking_for_update">Güncelleme Kontrol Ediliyor</string>
-    <string name="downloading_update">Downloading Update\n(%d%%)</string>
-    <string name="installing_update">Prompting for Installation…</string>
+    <string name="downloading_update">Güncelleme İndiriliyor\n(%d%%)</string>
+    <string name="installing_update">Güncelleme Yükleniyor…</string>
     <string name="update_available">Güncelleme mevcut!</string>
     <string name="update_dialog_desc">%s sürümü indirilmeye hazır.</string>
     <string name="view_changelog">Sürüm Notlarını Görüntüle</string>
@@ -1126,8 +1126,8 @@
     <string name="btn_disable_custom_colors">Özel Renkleri Devre Dışı Bırak</string>
     <string name="btn_enable_custom_colors">Renkleri Uygula</string>
     <string name="btn_reset">Sıfırla</string>
-    <string name="btn_decrease">Decrease</string>
-    <string name="btn_increase">Increase</string>
+    <string name="btn_decrease">Küçült</string>
+    <string name="btn_increase">Büyüt</string>
     <string name="btn_reboot_now">Şimdi Yeniden Başlat</string>
     <string name="btn_download">İndir</string>
     <string name="btn_restart_systemui">SystemUI\'ı Yeniden Başlat</string>
@@ -1445,9 +1445,9 @@
     <string name="btn_pick_pdf">PDF seç</string>
     <string name="btn_pick_document">Belge seç</string>
     <string name="btn_pick_file">Dosya seç</string>
-    <string name="btn_replace_file">Replace</string>
-    <string name="file_unknown_name">Unknown file</string>
-    <string name="file_clear">Clear</string>
+    <string name="btn_replace_file">Değiştir</string>
+    <string name="file_unknown_name">Bilinmeyen dosya</string>
+    <string name="file_clear">Temizle</string>
     <string name="advanced_color_settings_title">Gelişmiş Ayarlar</string>
     <string name="advanced_color_settings_desc">Gelişmiş renk özelleştirmelerini edinin</string>
     <string name="look_and_feel_title">Görünüm &amp; His</string>
@@ -1470,8 +1470,8 @@
     <string name="contrast_medium">Orta</string>
     <string name="contrast_high">Yüksek</string>
     <string name="contrast_reduced">Düşürülmüş</string>
-    <string name="animations_title">Animations</string>
-    <string name="animations_desc">Enable fluid animations, screen transitions and touch feedback effects</string>
+    <string name="animations_title">Animasyonlar</string>
+    <string name="animations_desc">Alıcı animasyonları, ekran geçişlerini ve dokunma geri bildirimi efektlerini açın</string>
     <string name="blur_effect_title">Bulanıklık Efekti</string>
     <string name="blur_effect_desc">Arka planlara ve arayüz öğelerine bulanıklık efekti uygulayın</string>
     <string name="floating_bottom_bar_title">Yüzen Alt Çubuk</string>
@@ -1503,6 +1503,6 @@
     <string name="section_title_inactive_tile_colors">Pasif Kutucuk Renkleri</string>
     <string name="section_title_disabled_tile_colors">Devre Dışı Kutucuk Renkleri</string>
     <!-- Search -->
-    <string name="search_settings_hint">Search settings…</string>
-    <string name="search_no_results">No results found</string>
+    <string name="search_settings_hint">Arama sonuçları…</string>
+    <string name="search_no_results">Sonuç bulunamadı</string>
 </resources>
