@@ -100,6 +100,14 @@ val tweaksStatusbarPreferences = preferenceScreen {
         )
     }
 
+    category(title = stringRes(R.string.section_title_icon_visibility)) {
+        switch(
+            key = XposedKey.STATUSBAR_HIDE_MUTE_ICON,
+            title = stringRes(R.string.sb_hide_mute_icon_title),
+            summary = { stringRes(R.string.sb_hide_mute_icon_desc) },
+        )
+    }
+
     category {
         info(
             key = "statusbar_custom_color",
