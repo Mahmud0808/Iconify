@@ -659,6 +659,8 @@
     <string name="hide_qs_on_lockscreen_desc">Disable quick settings panel on secured lockscreen</string>
     <string name="hide_qs_on_lockscreen_a15_title">Disable QS on Lockscreen</string>
     <string name="hide_qs_on_lockscreen_a15_desc">Disable quick settings tiles on secured lockscreen</string>
+    <string name="disable_qs_expressive_effects_title">Disable Expressive Effects</string>
+    <string name="disable_qs_expressive_effects_desc">Disables the rounding and bounce effects when a tile is pressed</string>
     <string name="hide_qs_silent_text_title">Hide Silent Text</string>
     <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
     <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
