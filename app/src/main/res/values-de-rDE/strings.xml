@@ -25,7 +25,7 @@
     <string name="need_storage_perm_desc">Speicherzugriff benötigt, um die notwendigen Dateien zu bauen.</string>
     <string name="notification_perm_title">Benachrichtigungen erlauben</string>
     <string name="notification_perm_desc">Benötigt, um Sie über verfügbare Updates zu informieren und Testbenachrichtigungen anzuzeigen.</string>
-    <string name="optional_permission">Granting these permissions is optional!</string>
+    <string name="optional_permission">Diese Erlaubnisse zu erlauben ist optional!</string>
     <string name="compatible_root_not_found_title">Konnte keine kompatible Root-Methode finden</string>
     <string name="compatible_root_not_found_desc">Verwenden Sie eine populäre Root-Lösung, um fortzufahren.</string>
     <string name="root_not_found_title">Kein root Zugriff</string>
@@ -38,7 +38,7 @@
     <string name="installation_failed_desc">Logs wurden im Dokumente Ordner gespeichert.</string>
     <string name="logs">Logs</string>
     <!-- Disclaimer -->
-    <string name="disclaimer">Disclaimer</string>
+    <string name="disclaimer">Achtung</string>
     <string name="disclaimer_1_title">Root Access &amp; Environment</string>
     <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
     <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>

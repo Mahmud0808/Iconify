@@ -31,15 +31,15 @@
     <string name="root_not_found_title">Root jest niedostępny</string>
     <string name="root_not_found_desc">Wygląda na to, że Twoje urządzenie nie jest zrootowane!</string>
     <string name="metamodule_not_found_title">Metamoduł nie jest zainstalowany</string>
-    <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
+    <string name="metamodule_not_found_desc">KernelSU 3.0.0 i nowsze wymagają Metamodule, aby włączyć modyfikacje system/systemless.</string>
     <string name="need_reboot_title">Wymagany restart urządzenia</string>
     <string name="need_reboot_desc">Uruchom ponownie urządzenie, aby wszystkie pliki znalazły się w odpowiednich miejscach</string>
     <string name="installation_failed_title">Ups, nie tak to miało wyglądać</string>
     <string name="installation_failed_desc">Logi zostały zapisane w folderze Dokumenty</string>
     <string name="logs">Logi</string>
     <!-- Disclaimer -->
-    <string name="disclaimer">Disclaimer</string>
-    <string name="disclaimer_1_title">Root Access &amp; Environment</string>
+    <string name="disclaimer">Zastrzeżenie</string>
+    <string name="disclaimer_1_title">Dostęp do root &amp; Środowisko</string>
     <string name="disclaimer_1_description">This application requires Root privileges via Magisk, KernelSU, or APatch to modify system resources.\nWhile LSPosed is optional, it is highly recommended for the best compatibility and advanced feature support.\nThe app will prompt for Superuser permissions; without them, no changes can be applied to your system.</string>
     <string name="disclaimer_2_title">System Overlays &amp; Modifications</string>
     <string name="disclaimer_2_description">Iconify functions by generating and injecting dynamic Runtime Resource Overlays (RRO) directly into your system.\nThese modifications are designed for AOSP-based ROMs and may conflict with heavily modified OEM skins (like HyperOS, Realme UI or OneUI).\nChanging certain system values may cause UI freezes or \"System UI has stopped\" errors depending on your specific Android version.</string>
