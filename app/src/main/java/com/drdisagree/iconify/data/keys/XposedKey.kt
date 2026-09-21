@@ -14,6 +14,7 @@ enum class XposedKey(override val default: Any?) : Key {
     ONGOING_ACTION_CHIP(false),
     STATUSBAR_LINK_TO_CUSTOM_COLOR(false),
     STATUSBAR_CUSTOM_COLOR_CHANGED(false),
+    STATUSBAR_HIDE_MUTE_ICON(false),
 
     // Statusbar - Battery style
     CUSTOM_BATTERY_STYLE("0"),
