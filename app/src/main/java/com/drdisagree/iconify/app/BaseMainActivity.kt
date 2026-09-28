@@ -27,6 +27,7 @@ import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.others.BLUR_RADIUS
 import com.drdisagree.iconify.core.ui.theme.MyAppTheme
+import com.drdisagree.iconify.core.utils.FileUtils
 import com.drdisagree.iconify.data.config.Config
 import com.drdisagree.iconify.data.states.AppState
 import com.drdisagree.iconify.services.providers.AppProviders
@@ -163,6 +164,8 @@ abstract class BaseMainActivity : ComponentActivity() {
             }
 
             val skipOnboarding = withContext(Dispatchers.IO) {
+                if (shellReady) FileUtils.reclaimXposedResourceDir()
+
                 if (!shellReady && !Config.SKIP_TO_HOMEPAGE_FOR_TESTING) {
                     false
                 } else {

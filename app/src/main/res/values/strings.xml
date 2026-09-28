@@ -1214,6 +1214,7 @@
     <string name="toast_reboot">Reboot required</string>
     <string name="toast_copied">Copied to Clipboard</string>
     <string name="toast_error">Something went wrong</string>
+    <string name="toast_xposed_file_save_failed">Couldn\'t save file to %1$s. Delete that folder and try again.</string>
     <string name="toast_disable_everything">Long press to disable everything</string>
     <string name="toast_disabled_everything">Everything is disabled</string>
     <string name="toast_restart_sysui">Long press to restart SystemUI</string>
