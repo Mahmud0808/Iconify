@@ -1,9 +1,10 @@
 package com.drdisagree.iconify.core.preferences
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.drdisagree.iconify.data.keys.Key
 import com.drdisagree.iconify.data.storage.PreferenceStorage
@@ -16,14 +17,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import java.util.concurrent.ConcurrentHashMap
 
 @Suppress("unused")
 class PreferenceController(
     private val storage: PreferenceStorage,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate),
 ) {
-    private val _prefs = mutableStateMapOf<String, PrefValue>()
-    val prefs: Map<String, PrefValue> get() = _prefs
+    private val slots = ConcurrentHashMap<String, MutableState<PrefValue?>>()
+
+    val prefs: Map<String, PrefValue>
+        get() = slots.mapNotNull { (k, s) -> s.value?.let { k to it } }.toMap()
+
+    private fun slot(key: String): MutableState<PrefValue?> =
+        slots.computeIfAbsent(key) { mutableStateOf(null) }
 
     private val _changesFlow = MutableStateFlow<PreferenceChangeEvent?>(null)
     val changesFlow: StateFlow<PreferenceChangeEvent?> = _changesFlow.asStateFlow()
@@ -35,9 +42,9 @@ class PreferenceController(
     init {
         scope.launch {
             storage.externalChanges
-                .filter { change -> _prefs.containsKey(change.key) }
+                .filter { change -> slots[change.key]?.value != null }
                 .collect { change ->
-                    val current = _prefs[change.key]
+                    val current = slot(change.key).value
                     if (current != change.value) {
                         setInternal(change.key, change.value, persist = false)
                     }
@@ -46,8 +53,9 @@ class PreferenceController(
     }
 
     fun init(key: String, default: PrefValue) {
-        if (_prefs.containsKey(key)) return
-        _prefs[key] = storedSnapshot[key]
+        val slot = slot(key)
+        if (slot.value != null) return
+        slot.value = storedSnapshot[key]
             ?: storage.read(key, default)?.toPrefValue()
                     ?: default
     }
@@ -62,10 +70,10 @@ class PreferenceController(
     fun set(key: String, value: PrefValue) = setInternal(key, value, persist = true)
 
     private fun setInternal(key: String, value: PrefValue, persist: Boolean) {
-        val old = _prefs[key]
+        val old = slot(key).value
         if (old == value) return
 
-        _prefs[key] = value
+        slot(key).value = value
         if (persist) storage.write(key, value)
 
         val event = PreferenceChangeEvent(key, old, value)
@@ -85,88 +93,88 @@ class PreferenceController(
         }
     }
 
-    fun get(key: String): PrefValue? = _prefs[key]
+    fun get(key: String): PrefValue? = slot(key).value
 
     fun get(key: String, default: PrefValue?): PrefValue? {
         if (default != null) init(key, default)
-        return _prefs[key] ?: default
+        return slot(key).value ?: default
     }
 
     fun getBoolean(key: String, default: Boolean = false): Boolean {
         init(key, default.toPrefValue())
-        return (_prefs[key] as? PrefValue.BoolValue)?.v ?: default
+        return (slot(key).value as? PrefValue.BoolValue)?.v ?: default
     }
 
     fun getInt(key: String, default: Int = 0): Int {
         init(key, default.toPrefValue())
-        return (_prefs[key] as? PrefValue.IntValue)?.v ?: default
+        return (slot(key).value as? PrefValue.IntValue)?.v ?: default
     }
 
     fun getFloat(key: String, default: Float = 0f): Float {
         init(key, default.toPrefValue())
-        return (_prefs[key] as? PrefValue.FloatValue)?.v ?: default
+        return (slot(key).value as? PrefValue.FloatValue)?.v ?: default
     }
 
     fun getDouble(key: String, default: Double = 0.0): Double {
         init(key, default.toPrefValue())
-        return (_prefs[key] as? PrefValue.DoubleValue)?.v ?: default
+        return (slot(key).value as? PrefValue.DoubleValue)?.v ?: default
     }
 
     fun getString(key: String, default: String = ""): String {
         init(key, default.toPrefValue())
-        return (_prefs[key] as? PrefValue.StringValue)?.v ?: default
+        return (slot(key).value as? PrefValue.StringValue)?.v ?: default
     }
 
     fun getStringSet(key: String, default: Set<String> = emptySet()): Set<String> {
         init(key, default.toPrefValue())
-        return (_prefs[key] as? PrefValue.StringSetValue)?.v ?: default
+        return (slot(key).value as? PrefValue.StringSetValue)?.v ?: default
     }
 
     fun get(key: Key): PrefValue? {
         key.default?.toPrefValue()?.let { init(key.name, it) }
-        return _prefs[key.name] ?: key.default?.toPrefValue()
+        return slot(key.name).value ?: key.default?.toPrefValue()
     }
 
     fun get(key: Key, default: PrefValue?): PrefValue? {
-        init(key.name, default ?: key.default?.toPrefValue() ?: return _prefs[key.name])
-        return _prefs[key.name] ?: default
+        init(key.name, default ?: key.default?.toPrefValue() ?: return slot(key.name).value)
+        return slot(key.name).value ?: default
     }
 
     fun getBoolean(key: Key): Boolean {
         val default = key.default as? Boolean ?: false
         init(key.name, default.toPrefValue())
-        return (_prefs[key.name] as? PrefValue.BoolValue)?.v ?: default
+        return (slot(key.name).value as? PrefValue.BoolValue)?.v ?: default
     }
 
     fun getInt(key: Key): Int {
         val default = key.default as? Int ?: 0
         init(key.name, default.toPrefValue())
-        return (_prefs[key.name] as? PrefValue.IntValue)?.v ?: default
+        return (slot(key.name).value as? PrefValue.IntValue)?.v ?: default
     }
 
     fun getFloat(key: Key): Float {
         val default = key.default as? Float ?: 0f
         init(key.name, default.toPrefValue())
-        return (_prefs[key.name] as? PrefValue.FloatValue)?.v ?: default
+        return (slot(key.name).value as? PrefValue.FloatValue)?.v ?: default
     }
 
     fun getDouble(key: Key): Double {
         val default = key.default as? Double ?: 0.0
         init(key.name, default.toPrefValue())
-        return (_prefs[key.name] as? PrefValue.DoubleValue)?.v ?: default
+        return (slot(key.name).value as? PrefValue.DoubleValue)?.v ?: default
     }
 
     fun getString(key: Key): String {
         val default = key.default as? String ?: ""
         init(key.name, default.toPrefValue())
-        return (_prefs[key.name] as? PrefValue.StringValue)?.v ?: default
+        return (slot(key.name).value as? PrefValue.StringValue)?.v ?: default
     }
 
     @Suppress("UNCHECKED_CAST")
     fun getStringSet(key: Key): Set<String> {
         val default = key.default as? Set<String> ?: emptySet()
         init(key.name, default.toPrefValue())
-        return (_prefs[key.name] as? PrefValue.StringSetValue)?.v ?: default
+        return (slot(key.name).value as? PrefValue.StringSetValue)?.v ?: default
     }
 
     fun setBoolean(key: String, value: Boolean) = set(key, value.toPrefValue())
@@ -193,8 +201,8 @@ class PreferenceController(
 
     fun reset(defaults: Map<String, PrefValue> = emptyMap()) {
         storage.clearAll()
-        _prefs.clear()
-        defaults.forEach { (k, v) -> _prefs[k] = v }
+        slots.values.forEach { it.value = null }
+        defaults.forEach { (k, v) -> slot(k).value = v }
     }
 
     @Composable
