@@ -31,6 +31,7 @@ android {
         multiDexEnabled = true
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
         buildConfigField("int", "OVERLAY_VERSION_CODE", "5")
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     val keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -230,6 +231,8 @@ val standardImplementation by configurations
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.ext.junit)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))

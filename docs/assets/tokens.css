@@ -1,0 +1,111 @@
+@font-face {
+	font-family: "Bricolage Grotesque";
+	font-style: normal;
+	font-weight: 200 800;
+	font-display: swap;
+	src: url("fonts/bricolage-grotesque-latin.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Geist";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("fonts/geist-latin.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Geist Mono";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("fonts/geist-mono-latin.woff2") format("woff2");
+}
+
+:root {
+	color-scheme: dark;
+
+	--color-paper: oklch(17.5% 0.014 262);
+	--color-paper-2: oklch(20.5% 0.016 262);
+	--color-paper-3: oklch(24.5% 0.018 262);
+	--color-ink: oklch(95% 0.008 262);
+	--color-ink-2: oklch(79% 0.014 262);
+	--color-muted: oklch(64% 0.016 262);
+	--color-rule: oklch(31% 0.016 262);
+	--color-rule-2: oklch(26% 0.016 262);
+	--color-accent: oklch(74% 0.14 262);
+	--color-accent-fill: oklch(58% 0.2 263);
+	--color-accent-fill-hover: oklch(63% 0.2 263);
+	--color-on-accent: oklch(98.5% 0.005 262);
+	--color-focus: oklch(78% 0.17 262);
+	--color-scrim: oklch(12% 0.012 262 / 0.88);
+	--color-accent-soft: oklch(36% 0.1 263);
+
+	--color-band: oklch(54% 0.2 263);
+	--color-on-band: oklch(98.5% 0.005 262);
+	--color-on-band-2: oklch(90% 0.045 262);
+	--color-band-rule: oklch(68% 0.15 263);
+	--color-band-ink: oklch(42% 0.19 263);
+
+	--font-display:
+		"Bricolage Grotesque", "Geist", ui-sans-serif, system-ui, sans-serif;
+	--font-body: "Geist", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", monospace;
+
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-md: 1.125rem;
+	--text-lg: 1.25rem;
+	--text-xl: 1.5rem;
+	--text-3xl: clamp(2rem, 1.35rem + 2.6vw, 3.25rem);
+	--text-display: clamp(2.75rem, 1.5rem + 5.2vw, 5.75rem);
+	--text-mast: clamp(3.5rem, 1.5rem + 9vw, 9rem);
+	--text-poster: clamp(4.5rem, 1rem + 15vw, 14rem);
+	--text-hero: clamp(2.5rem, 1.3rem + 4.2vw, 5rem);
+
+	--space-3xs: 0.25rem;
+	--space-2xs: 0.5rem;
+	--space-xs: 0.75rem;
+	--space-sm: 1rem;
+	--space-md: 1.5rem;
+	--space-lg: 2rem;
+	--space-xl: 3rem;
+	--space-2xl: 4.5rem;
+	--space-3xl: 7rem;
+
+	--gutter: clamp(1rem, 4vw, 2.5rem);
+	--page: min(75rem, 100% - 2 * var(--gutter));
+
+	--radius-control: 0.875rem;
+	--radius-shot: 1.5rem;
+	--radius-pill: 999px;
+	--rule: 1px solid var(--color-rule);
+
+	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+	--ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+	--dur-short: 160ms;
+	--dur-med: 240ms;
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		color-scheme: light;
+
+		--color-paper: oklch(98.4% 0.005 262);
+		--color-paper-2: oklch(96% 0.008 262);
+		--color-paper-3: oklch(93% 0.01 262);
+		--color-ink: oklch(21% 0.02 262);
+		--color-ink-2: oklch(38% 0.02 262);
+		--color-muted: oklch(50% 0.02 262);
+		--color-rule: oklch(88% 0.012 262);
+		--color-rule-2: oklch(92.5% 0.01 262);
+		--color-accent: oklch(50% 0.19 263);
+		--color-accent-fill: oklch(54% 0.2 263);
+		--color-accent-fill-hover: oklch(49% 0.2 263);
+		--color-focus: oklch(52% 0.21 263);
+		--color-scrim: oklch(97% 0.006 262 / 0.9);
+		--color-accent-soft: oklch(89% 0.06 263);
+	}
+}

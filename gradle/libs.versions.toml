@@ -3,6 +3,8 @@ accompanistDrawablepainter = "0.37.3"
 accompanistNavigationAnimation = "0.36.0"
 activityCompose = "1.13.0"
 agp = "9.3.0"
+androidxTestExtJunit = "1.2.1"
+androidxTestRunner = "1.6.2"
 appcompat = "1.7.1"
 asynclayoutinflater = "1.1.0"
 backdrop = "2.0.0"
@@ -47,6 +49,8 @@ xposedbridge = "main-SNAPSHOT"
 zip4j = "2.11.6"
 
 [libraries]
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestExtJunit" }
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidxTestRunner" }
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanistDrawablepainter" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
 androidx-asynclayoutinflater = { group = "androidx.asynclayoutinflater", name = "asynclayoutinflater", version.ref = "asynclayoutinflater" }
