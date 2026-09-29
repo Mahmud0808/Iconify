@@ -1,254 +1,53 @@
+const REPO = "Mahmud0808/Iconify";
+const CACHE_KEY = "iconify-gh-stats";
+const TTL = 60 * 60 * 1000;
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-const revealables = document.querySelectorAll(".reveal");
-if ("IntersectionObserver" in window && !reduceMotion.matches) {
-	const observer = new IntersectionObserver(
-		(entries) => {
-			for (const entry of entries) {
-				if (entry.isIntersecting) {
-					entry.target.classList.add("revealed");
-					observer.unobserve(entry.target);
-				}
-			}
-		},
-		{ threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
-	);
-	revealables.forEach((el) => observer.observe(el));
-} else {
-	revealables.forEach((el) => el.classList.add("revealed"));
-}
-
-class Accordion {
-	constructor(details) {
-		this.details = details;
-		this.summary = details.querySelector("summary");
-		this.animation = null;
-		this.summary.addEventListener("click", (e) => this.onClick(e));
-	}
-
-	onClick(e) {
-		e.preventDefault();
-		if (reduceMotion.matches) {
-			this.details.open = !this.details.open;
-			return;
-		}
-		this.details.style.overflow = "hidden";
-		if (this.details.open) {
-			this.shrink();
-		} else {
-			this.expand();
-		}
-	}
-
-	shrink() {
-		const startHeight = this.details.offsetHeight;
-		const endHeight = this.summary.offsetHeight;
-		this.animate(startHeight, endHeight, false);
-	}
-
-	expand() {
-		this.details.open = true;
-		const startHeight = this.summary.offsetHeight;
-		const endHeight = this.details.offsetHeight;
-		this.animate(startHeight, endHeight, true);
-	}
-
-	animate(startHeight, endHeight, opening) {
-		this.animation?.cancel();
-		const body = this.details.querySelector(".faq-body");
-		const bodyPad = getComputedStyle(body).paddingBottom;
-		this.animation = this.details.animate(
-			{ height: [`${startHeight}px`, `${endHeight}px`] },
-			{ duration: 300, easing: "cubic-bezier(0.22, 0.9, 0.3, 1)" },
-		);
-		body.animate(
-			{
-				paddingBottom: opening ? ["0px", bodyPad] : [bodyPad, "0px"],
-				opacity: opening ? [0, 1] : [1, 0],
-			},
-			{ duration: 300, easing: "cubic-bezier(0.22, 0.9, 0.3, 1)" },
-		);
-		this.animation.onfinish = () => this.onFinish(opening);
-		this.animation.oncancel = () => {
-			this.animation = null;
-		};
-	}
-
-	onFinish(open) {
-		this.details.open = open;
-		this.details.style.overflow = "";
-		this.animation = null;
-	}
-}
-
-document.querySelectorAll(".faq-item").forEach((d) => new Accordion(d));
-
-// ---- icon pack marquees: fill each track to viewport width, then clone for a gapless loop ----
-for (const marquee of document.querySelectorAll(".marquee")) {
-	const [track, clone] = marquee.querySelectorAll(".marquee-track");
-	if (!track || !clone) continue;
-	const items = [...track.children];
-	for (let i = 0; track.scrollWidth < marquee.clientWidth && i < 10; i++) {
-		for (const item of items) track.appendChild(item.cloneNode(true));
-	}
-	clone.innerHTML = track.innerHTML;
-
-	// duration scales with track width so every row moves at the same speed
-	const duration = `${track.scrollWidth / 40}s`;
-	track.style.animationDuration = duration;
-	clone.style.animationDuration = duration;
-}
-
-// ---- liquid-glass nav: lens-style edge refraction.
-// Needs backdrop-filter: url(), so it's enabled only where that works (Chromium);
-// other browsers keep the plain frosted-blur look. ----
-(() => {
-	const nav = document.querySelector(".pill-nav");
-	const map = document.getElementById("lg-map");
-	if (!nav || !map) return;
-
-	const isWebkit =
-		/Safari/.test(navigator.userAgent) &&
-		!/Chrome/.test(navigator.userAgent);
-	const isFirefox = /Firefox/.test(navigator.userAgent);
-	const probe = document.createElement("div");
-	probe.style.backdropFilter = "url(#liquid-glass)";
-	if (isWebkit || isFirefox || probe.style.backdropFilter === "") return;
-
-	// displacement map: R drives x, G drives y. 50% gray (0.5) means "no shift",
-	// so both gradients hold 0.5 through the middle and ramp smoothly only near
-	// the rim — a continuous profile (no steps), otherwise the backdrop doubles
-	const updateMap = () => {
-		const { width, height } = nav.getBoundingClientRect();
-		if (!width || !height) return;
-		// rasterize at device resolution — at fractional/high DPR the map is
-		// otherwise misaligned with the backdrop and parts of the pill stay sharp
-		const dpr = window.devicePixelRatio || 1;
-		// same physical rim width on every side, so all four edges bend equally
-		const ramp = Math.min(width, height) * 0.35;
-		const rx = ((ramp / width) * 100).toFixed(2);
-		const ry = ((ramp / height) * 100).toFixed(2);
-		const svg =
-			`<svg width="${width * dpr}" height="${height * dpr}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">` +
-			`<defs>` +
-			`<linearGradient id="lg-x" x1="0%" y1="0%" x2="100%" y2="0%">` +
-			`<stop offset="0%" stop-color="#ff0000"/>` +
-			`<stop offset="${rx}%" stop-color="#800000"/>` +
-			`<stop offset="${100 - rx}%" stop-color="#800000"/>` +
-			`<stop offset="100%" stop-color="#000000"/>` +
-			`</linearGradient>` +
-			`<linearGradient id="lg-y" x1="0%" y1="0%" x2="0%" y2="100%">` +
-			`<stop offset="0%" stop-color="#00ff00"/>` +
-			`<stop offset="${ry}%" stop-color="#008000"/>` +
-			`<stop offset="${100 - ry}%" stop-color="#008000"/>` +
-			`<stop offset="100%" stop-color="#000000"/>` +
-			`</linearGradient>` +
-			`</defs>` +
-			`<rect width="${width}" height="${height}" fill="url(#lg-x)"/>` +
-			`<rect width="${width}" height="${height}" fill="url(#lg-y)" style="mix-blend-mode:screen"/>` +
-			`</svg>`;
-		// pin the map to the element box in user units — the filter region is
-		// larger than the element, so percentage sizing would misalign it
-		map.setAttribute("x", "0");
-		map.setAttribute("y", "0");
-		map.setAttribute("width", `${width}`);
-		map.setAttribute("height", `${height}`);
-		map.setAttribute(
-			"href",
-			`data:image/svg+xml,${encodeURIComponent(svg)}`,
-		);
-	};
-
-	// single displacement pass: subtle lens bend at the rim, no color fringing
-	document.getElementById("lg-lens")?.setAttribute("scale", "-35");
-
-	updateMap();
-	new ResizeObserver(updateMap).observe(nav);
-	nav.classList.add("glass-active");
-})();
-
-// ---- live GitHub stats with count-up ----
-const statsEl = document.getElementById("gh-stats");
-
-// hold the count-up until the stats row starts fading in, so the
-// placeholder is never visible and the count runs during the reveal
-const statsReady = new Promise((resolve) => {
-	if (!statsEl || reduceMotion.matches) {
-		resolve();
-		return;
-	}
-	let settled = false;
-	const settle = () => {
-		if (!settled) {
-			settled = true;
-			resolve();
-		}
-	};
-	statsEl.addEventListener("animationstart", settle, { once: true });
-	setTimeout(settle, 1500);
-});
-
-function formatStat(n) {
+function formatCount(n) {
 	if (n >= 1000) return `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k`;
 	return `${n}`;
 }
 
-function countUp(el, target) {
-	if (reduceMotion.matches) {
-		el.textContent = formatStat(target);
-		return;
+function renderStats({ stars, version }) {
+	if (stars) {
+		for (const el of document.querySelectorAll("[data-stat='stars']")) {
+			el.textContent = formatCount(stars);
+			el.hidden = false;
+		}
 	}
-	// reserve the final width up front so the row doesn't shift while counting
-	el.style.minWidth = `${formatStat(target).length}ch`;
-	const duration = 1200;
-	const start = performance.now();
-	const tick = (now) => {
-		const t = Math.min((now - start) / duration, 1);
-		const eased = 1 - Math.pow(1 - t, 4);
-		el.textContent = formatStat(Math.round(target * eased));
-		if (t < 1) requestAnimationFrame(tick);
-	};
-	requestAnimationFrame(tick);
+	if (version) {
+		document.querySelector("[data-stat='version']").textContent = version;
+		document.querySelector("[data-stat-row]").hidden = false;
+		document.querySelector("[data-download-label]").textContent =
+			`Download ${version}`;
+	}
 }
 
-function renderStats({ stars, forks, version }) {
-	const starsEl = statsEl.querySelector("[data-stat='stars']");
-	const forksEl = statsEl.querySelector("[data-stat='forks']");
-	const versionEl = statsEl.querySelector("[data-stat='version']");
-	statsReady.then(() => {
-		if (stars) countUp(starsEl, stars);
-		if (forks) countUp(forksEl, forks);
-		if (version) versionEl.textContent = version;
-	});
+function readCache() {
+	try {
+		return JSON.parse(localStorage.getItem(CACHE_KEY));
+	} catch {
+		return null;
+	}
 }
 
 async function loadStats() {
-	if (!statsEl) return;
-	const CACHE_KEY = "iconify-gh-stats";
-	const TTL = 60 * 60 * 1000;
-	try {
-		const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
-		if (cached && Date.now() - cached.at < TTL) {
-			renderStats(cached.data);
-			return;
-		}
-	} catch {
-		/* corrupt cache — refetch */
+	const cached = readCache();
+	if (cached && Date.now() - cached.at < TTL) {
+		renderStats(cached.data);
+		return;
 	}
 
 	try {
 		const [repoRes, releaseRes] = await Promise.all([
-			fetch("https://api.github.com/repos/Mahmud0808/Iconify"),
-			fetch(
-				"https://api.github.com/repos/Mahmud0808/Iconify/releases/latest",
-			),
+			fetch(`https://api.github.com/repos/${REPO}`),
+			fetch(`https://api.github.com/repos/${REPO}/releases/latest`),
 		]);
 		if (!repoRes.ok) throw new Error(`repo ${repoRes.status}`);
 		const repo = await repoRes.json();
 		const release = releaseRes.ok ? await releaseRes.json() : null;
 		const data = {
 			stars: repo.stargazers_count,
-			forks: repo.forks_count,
 			version: release?.tag_name ?? null,
 		};
 		renderStats(data);
@@ -257,75 +56,261 @@ async function loadStats() {
 				CACHE_KEY,
 				JSON.stringify({ at: Date.now(), data }),
 			);
-		} catch {
-			/* storage full or blocked — fine */
-		}
+		} catch {}
 	} catch {
-		// rate-limited or offline: try stale cache, else hide the strip
-		try {
-			const stale = JSON.parse(localStorage.getItem(CACHE_KEY));
-			if (stale?.data) {
-				renderStats(stale.data);
-				return;
-			}
-		} catch {
-			/* ignore */
-		}
-		statsEl.hidden = true;
+		if (cached?.data) renderStats(cached.data);
 	}
 }
-loadStats();
 
-// ---- screenshot lightbox ----
-const lightbox = document.getElementById("lightbox");
-if (lightbox && typeof lightbox.showModal === "function") {
-	const lightboxImg = lightbox.querySelector("img");
-	const lightboxCaption = lightbox.querySelector("figcaption");
+function startClock() {
+	const clocks = document.querySelectorAll("[data-clock]");
+	const format = new Intl.DateTimeFormat(undefined, {
+		hour: "numeric",
+		minute: "2-digit",
+	});
+	const tick = () => {
+		const text = format
+			.formatToParts(new Date())
+			.filter((p) => p.type !== "dayPeriod")
+			.map((p) => p.value)
+			.join("")
+			.trim();
+		clocks.forEach((el) => (el.textContent = text));
+	};
+	tick();
+	setTimeout(
+		() => {
+			tick();
+			setInterval(tick, 60_000);
+		},
+		60_000 - (Date.now() % 60_000),
+	);
+}
+
+function stylesFor(group) {
+	return [...document.querySelectorAll(`.glyph[data-group='${group}']`)].map(
+		(btn) => ({
+			name: btn.dataset.name,
+			svg: btn.querySelector("svg, .batt"),
+		}),
+	);
+}
+
+function swap(slot, svg, label, name) {
+	if (label) label.textContent = name;
+	const incoming = svg.cloneNode(true);
+
+	if (reduceMotion.matches) {
+		slot.replaceChildren(incoming);
+		return;
+	}
+
+	for (const stale of slot.querySelectorAll(".is-leaving")) stale.remove();
+	const outgoing = slot.firstElementChild;
+	slot.append(incoming);
+
+	const easing = "cubic-bezier(0.16, 1, 0.3, 1)";
+	if (outgoing) {
+		outgoing.classList.add("is-leaving");
+		outgoing
+			.animate(
+				{
+					transform: ["none", "translateY(-45%) scale(0.8)"],
+					opacity: [1, 0],
+				},
+				{ duration: 380, easing, fill: "forwards" },
+			)
+			.finished.then(
+				() => outgoing.remove(),
+				() => {},
+			);
+	}
+	incoming.animate(
+		{
+			transform: ["translateY(45%) scale(0.8)", "none"],
+			opacity: [0, 1],
+		},
+		{ duration: 520, delay: 70, easing, fill: "backwards" },
+	);
+}
+
+function startPoster() {
+	const poster = document.querySelector(".poster");
+	const toggle = document.querySelector("[data-poster-toggle]");
+	if (!poster || reduceMotion.matches) return;
+
+	const groups = ["wifi", "cell", "battery"].map((group) => {
+		const styles = stylesFor(group);
+		const label = poster.querySelector(`[data-slot-name='${group}']`);
+		return {
+			styles,
+			label,
+			slot: poster.querySelector(`[data-slot='${group}']`),
+			index: Math.max(
+				0,
+				styles.findIndex((s) => s.name === label.textContent.trim()),
+			),
+		};
+	});
+
+	let paused = false;
+	let visible = true;
+	let turn = 0;
+
+	setInterval(() => {
+		if (paused || !visible || document.hidden) return;
+		const g = groups[turn % groups.length];
+		g.index = (g.index + 1) % g.styles.length;
+		const next = g.styles[g.index];
+		swap(g.slot, next.svg, g.label, next.name);
+		turn++;
+	}, 1400);
+
+	new IntersectionObserver(([entry]) => {
+		visible = entry.isIntersecting;
+	}).observe(poster);
+
+	toggle.hidden = false;
+	toggle.addEventListener("click", () => {
+		paused = !paused;
+		toggle.setAttribute("aria-pressed", String(paused));
+		toggle.textContent = paused ? "Play" : "Pause";
+	});
+}
+
+function startPicker() {
+	for (const btn of document.querySelectorAll(".glyph")) {
+		btn.addEventListener("click", () => {
+			const group = btn.dataset.group;
+			for (const other of document.querySelectorAll(
+				`.glyph[data-group='${group}']`,
+			)) {
+				other.setAttribute("aria-pressed", String(other === btn));
+			}
+			swap(
+				document.querySelector(`[data-pick='${group}']`),
+				btn.querySelector("svg, .batt"),
+				document.querySelector(`[data-pick-name='${group}']`),
+				btn.dataset.name,
+			);
+		});
+	}
+}
+
+function startMap() {
+	for (const item of document.querySelectorAll("[data-area]")) {
+		const n = item.dataset.area;
+		const targets = document.querySelectorAll(
+			`[data-region='${n}'], [data-mark='${n}']`,
+		);
+		const light = (on) => {
+			item.classList.toggle("is-lit", on);
+			targets.forEach((t) => t.classList.toggle("is-lit", on));
+		};
+		item.addEventListener("pointerenter", () => light(true));
+		item.addEventListener("pointerleave", () => light(false));
+	}
+}
+
+function startStrip() {
+	const strip = document.querySelector(".shot-strip");
+	const nav = document.querySelector(".strip-nav");
+	if (!strip || !nav) return;
+	const [prev, next] = nav.querySelectorAll("button");
+
+	const update = () => {
+		const max = strip.scrollWidth - strip.clientWidth;
+		nav.hidden = max <= 1;
+		prev.disabled = strip.scrollLeft <= 1;
+		next.disabled = strip.scrollLeft >= max - 1;
+	};
+
+	for (const btn of [prev, next]) {
+		btn.addEventListener("click", () => {
+			strip.scrollBy({
+				left: Number(btn.dataset.strip) * strip.clientWidth,
+				behavior: reduceMotion.matches ? "auto" : "smooth",
+			});
+		});
+	}
+
+	strip.addEventListener("scroll", update, { passive: true });
+	new ResizeObserver(update).observe(strip);
+	update();
+}
+
+function startFaq() {
+	const easing = "cubic-bezier(0.16, 1, 0.3, 1)";
+	for (const details of document.querySelectorAll(".faq details")) {
+		const summary = details.querySelector("summary");
+		const answer = details.querySelector(".faq-a");
+		let running = null;
+
+		summary.addEventListener("click", (e) => {
+			if (reduceMotion.matches) return;
+			e.preventDefault();
+			running?.cancel();
+
+			const closing =
+				details.open && !details.classList.contains("is-closing");
+			const from = `${answer.getBoundingClientRect().height}px`;
+
+			if (closing) {
+				details.classList.add("is-closing");
+				running = answer.animate(
+					{ height: [from, "0px"], opacity: [1, 0] },
+					{ duration: 240, easing },
+				);
+				running.onfinish = () => {
+					details.open = false;
+					details.classList.remove("is-closing");
+					running = null;
+				};
+			} else {
+				details.classList.remove("is-closing");
+				details.open = true;
+				const to = `${answer.scrollHeight}px`;
+				running = answer.animate(
+					{ height: [from, to], opacity: [0, 1] },
+					{ duration: 320, easing },
+				);
+				running.onfinish = () => {
+					running = null;
+				};
+			}
+		});
+	}
+}
+
+function startLightbox() {
+	const lightbox = document.getElementById("lightbox");
+	if (!lightbox || typeof lightbox.showModal !== "function") return;
+	const img = lightbox.querySelector("img");
+	const caption = lightbox.querySelector("figcaption");
 
 	for (const btn of document.querySelectorAll(".shot-zoom")) {
 		btn.addEventListener("click", () => {
-			const img = btn.querySelector("img");
-			const caption = btn
-				.closest(".shot-card")
-				?.querySelector("figcaption");
-			lightboxImg.src = img.currentSrc || img.src;
-			lightboxImg.alt = img.alt;
-			lightboxCaption.textContent = caption?.textContent ?? "";
+			const shot = btn.querySelector("img");
+			img.src = shot.currentSrc || shot.src;
+			img.alt = shot.alt;
+			caption.textContent =
+				btn.closest(".shot")?.querySelector("p")?.textContent ?? "";
 			lightbox.showModal();
 		});
 	}
 
-	lightbox
-		.querySelector(".lightbox-close")
-		.addEventListener("click", () => lightbox.close());
-
-	// click on backdrop closes
 	lightbox.addEventListener("click", (e) => {
 		if (e.target === lightbox) lightbox.close();
 	});
 
-	lightbox.addEventListener("close", () => {
-		lightboxImg.src = "";
-	});
+	lightbox.addEventListener("close", () => img.removeAttribute("src"));
 }
 
-const navLinks = [...document.querySelectorAll(".pill-nav a[href^='#']")];
-const targets = navLinks
-	.map((link) =>
-		document.querySelector(link.hash === "#top" ? ".hero" : link.hash),
-	)
-	.filter(Boolean);
-
-const sectionObserver = new IntersectionObserver(
-	(entries) => {
-		for (const entry of entries) {
-			if (!entry.isIntersecting) continue;
-			const id = entry.target.id || "top";
-			navLinks.forEach((link) =>
-				link.classList.toggle("active", link.hash === `#${id}`),
-			);
-		}
-	},
-	{ rootMargin: "-40% 0px -55% 0px" },
-);
-targets.forEach((t) => sectionObserver.observe(t));
+loadStats();
+startClock();
+startPoster();
+startPicker();
+startMap();
+startStrip();
+startFaq();
+startLightbox();
