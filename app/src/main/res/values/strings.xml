@@ -386,6 +386,9 @@
     <string name="sb_network_type_size_title">Enlarge Network Type Icons</string>
     <string name="sb_network_type_size_desc">Increase network type indicator size for custom icon packs</string>
     <string name="hint_icon_size_increase">Icons look too small? Tap here to adjust icon sizes</string>
+    <string name="section_title_icon_visibility">Icon Visibility</string>
+    <string name="sb_hide_mute_icon_title">Hide Mute Icon</string>
+    <string name="sb_hide_mute_icon_desc">Hide the ringer mute icon from the status bar. Needed on Android 17 QPR1 and up, where the old icon blacklist no longer covers it</string>
     <string name="section_title_color">Color</string>
     <string name="sb_color_tint_title">Statusbar Icon Color</string>
     <string name="sb_color_tint_desc">Tint statusbar icons and texts</string>

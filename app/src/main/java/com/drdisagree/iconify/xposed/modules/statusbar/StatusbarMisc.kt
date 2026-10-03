@@ -15,6 +15,7 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.os.Bundle
 import android.provider.AlarmClock
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
@@ -75,6 +76,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     private var dualStatusbarEnabled = false
     private var linkToCustomColor = false
     private var darkIconDispatcherImplInstance: Any? = null
+    private var hideMuteIconStatusbar = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -88,6 +90,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             dualStatusbarEnabled = getBoolean(XposedKey.DUAL_STATUSBAR)
             mClockClickable = getBoolean(XposedKey.STATUSBAR_CLOCK_CLICKABLE)
             linkToCustomColor = getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR)
+            hideMuteIconStatusbar = getBoolean(XposedKey.STATUSBAR_HIDE_MUTE_ICON)
         }
 
         when (key.firstOrNull()) {
@@ -103,6 +106,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
             XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR.name,
             XposedKey.STATUSBAR_CUSTOM_COLOR_CHANGED.name -> applyIconTint()
+
+            XposedKey.STATUSBAR_HIDE_MUTE_ICON.name -> applyMuteIconVisibility()
         }
     }
 
@@ -114,6 +119,25 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         notificationIconsLimit()
         clickableClockView()
         setStatusbarColor()
+        applyMuteIconVisibility()
+    }
+
+    /**
+     * Since Android 17 QPR1, SystemUI's status bar icons run through a new Compose
+     * pipeline that ignores the old `icon_blacklist` setting entirely. The mute icon
+     * on that pipeline reads its own dedicated Secure setting instead, and SystemUI
+     * observes it live, so writing it from here (as SystemUI itself, which already
+     * holds WRITE_SECURE_SETTINGS) takes effect immediately without a restart.
+     */
+    private fun applyMuteIconVisibility() {
+        try {
+            Settings.Secure.putInt(
+                mContext.contentResolver,
+                "status_bar_show_mute_icon",
+                if (hideMuteIconStatusbar) 0 else 1
+            )
+        } catch (_: Throwable) {
+        }
     }
 
     private fun hideLockscreenCarrierOrStatusbar() {
