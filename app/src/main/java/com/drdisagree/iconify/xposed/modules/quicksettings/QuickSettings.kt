@@ -36,6 +36,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @SuppressLint("DiscouragedApi")
@@ -44,6 +45,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var fixNotificationColor = true
     private var fixNotificationFooterButtonsColor = true
     private var fixNotificationExpandButtonColor = true
+    private var disableExpressiveEffects = false
     private var hideSilentText = false
     private var hideFooterButtons = false
     private var qqsTopMarginPort = 100
@@ -68,6 +70,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                 getBoolean(XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR)
             fixNotificationExpandButtonColor =
                 getBoolean(XposedKey.FIX_NOTIFICATION_EXPAND_BUTTON_COLOR)
+            disableExpressiveEffects = getBoolean(XposedKey.DISABLE_QS_EXPRESSIVE_EFFECTS)
             hideSilentText = getBoolean(XposedKey.HIDE_QS_SILENT_TEXT)
             hideFooterButtons = getBoolean(XposedKey.HIDE_QS_FOOTER_BUTTONS)
             compactMediaPlayerEnabled = getBoolean(XposedKey.COMPACT_MEDIA_PLAYER)
@@ -84,6 +87,43 @@ class QuickSettings(context: Context) : ModPack(context) {
         manageQsElementVisibility()
         compactMediaPlayer()
         blurMediaPlayerArtwork()
+        setQsExpressiveness()
+    }
+
+    private fun setQsExpressiveness() {
+        val inTileBounceableLambda = ThreadLocal<Boolean>()
+        inTileBounceableLambda.set(false)
+
+        val tileBounceableLambdaClass = findClass("$SYSTEMUI_PACKAGE.qs.panels.ui.compose.infinitegrid.TileKt\$\$ExternalSyntheticLambda2")
+        tileBounceableLambdaClass.hookMethod("invoke").runBefore {
+                if (!disableExpressiveEffects) return@runBefore
+                inTileBounceableLambda.set(true)
+            }.runAfter {
+                inTileBounceableLambda.set(false)
+            }
+
+        val bounceableClass =
+            findClass("com.android.compose.animation.BounceableKt")
+        bounceableClass.hookMethod($$"bounceable$default")
+            .runAfter { param ->
+                if (!inTileBounceableLambda.get()!!) return@runAfter
+                param.result = param.args[0]
+            }
+
+        val tileDefaultsClass = findClass("$SYSTEMUI_PACKAGE.qs.panels.ui.compose.infinitegrid.TileDefaults")
+        tileDefaultsClass.hookMethod("animateTileShapeAsState")
+            .run(object : XC_MethodHook() {
+                private val prevState = ThreadLocal<Int>()
+
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    prevState.set(param.args[0].getFieldSilently("visualState") as? Int ?: return)
+                    param.args[0].setFieldSilently("visualState", 1 /* STATE_INACTIVE */)
+                }
+
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    param.args[0].setFieldSilently("visualState", prevState.get() ?: return)
+                }
+            })
     }
 
     private fun setQsMargin() {
