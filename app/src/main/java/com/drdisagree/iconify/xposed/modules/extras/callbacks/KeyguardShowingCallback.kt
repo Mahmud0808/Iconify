@@ -24,6 +24,9 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
     @Volatile
     private var stateListenerHooked = false
 
+    val isKeyguardShowing: Boolean
+        get() = isKeyguardState
+
     override fun updatePrefs(vararg key: String) {}
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {

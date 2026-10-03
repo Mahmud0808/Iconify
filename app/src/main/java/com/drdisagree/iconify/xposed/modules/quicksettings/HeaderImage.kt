@@ -116,7 +116,7 @@ class HeaderImage(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.shade.LargeScreenShadeHeaderController",
             "$SYSTEMUI_PACKAGE.shade.ShadeHeaderController"
         )
-        val qsContainerImplClass = findClass("$SYSTEMUI_PACKAGE.qs.QSContainerImpl")
+        val qsContainerImplClass = findClass("$SYSTEMUI_PACKAGE.qs.QSContainerImpl", suppressError = true)
         val notificationPanelViewControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
         val configurationListenerClass =

@@ -216,6 +216,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
 
         headsUpAppearanceControllerClass
             .hookMethod("onDarkChanged")
+            .suppressError()
             .runAfter { param ->
                 if (logoImageView == null || logoImageViewRight == null) return@runAfter
 

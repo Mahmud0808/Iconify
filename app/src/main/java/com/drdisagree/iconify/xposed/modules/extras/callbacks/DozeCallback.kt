@@ -48,7 +48,8 @@ class DozeCallback(context: Context) : ModPack(context) {
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController")
         val collapsedStatusBarFragment = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
-            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
+            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment",
+            suppressError = true
         )
         val notificationPanelViewControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")

@@ -222,28 +222,42 @@ class QuickSettings(context: Context) : ModPack(context) {
                 )
             }
 
-        val actionsDialogLiteClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.globalactions.GlobalActionsDialogLite$ActionsDialogLite")
+        val actionsDialogLiteClass = findClass(
+            $$"$$SYSTEMUI_PACKAGE.globalactions.GlobalActionsDialogLite$ActionsDialogLite",
+            suppressError = true
+        )
+        val actionsDialogLiteDelegateClass = findClass(
+            $$"$$SYSTEMUI_PACKAGE.globalactions.GlobalActionsDialogLite$ActionsDialogLiteDelegate",
+            suppressError = true
+        )
         val singlePressActionClass =
             findClass($$"$$SYSTEMUI_PACKAGE.globalactions.GlobalActionsDialogLite$SinglePressAction")
+
+        fun Dialog.clearActionListTint() {
+            if (!fixNotificationColor) return
+
+            findViewById<View>(
+                mContext.resources.getIdentifier(
+                    "list",
+                    "id",
+                    FRAMEWORK_PACKAGE
+                )
+            )?.backgroundTintList = null
+        }
 
         actionsDialogLiteClass
             .hookMethod("onCreate")
             .parameters(Bundle::class.java)
-            .runAfter { param ->
-                if (!fixNotificationColor) return@runAfter
+            .runAfter { param -> (param.thisObject as Dialog).clearActionListTint() }
 
-                val dialog = param.thisObject as Dialog
+        actionsDialogLiteDelegateClass
+            .hookMethod("onCreate")
+            .parameters(Dialog::class.java, Bundle::class.java)
+            .runAfter { param -> (param.args[0] as? Dialog)?.clearActionListTint() }
 
-                val listView = dialog.findViewById<View>(
-                    mContext.resources.getIdentifier(
-                        "list",
-                        "id",
-                        FRAMEWORK_PACKAGE
-                    )
-                )
-                listView.backgroundTintList = null
-            }
+        if (actionsDialogLiteClass == null && actionsDialogLiteDelegateClass == null) {
+            log(this@QuickSettings, "Power menu dialog class not found")
+        }
 
         singlePressActionClass
             .hookMethod("create")

@@ -12,6 +12,7 @@ import android.widget.ImageView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getColored
@@ -69,7 +70,8 @@ class AlbumArt(context: Context) : ModPack(context) {
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         val qsImplClass = findClass(
             "$SYSTEMUI_PACKAGE.qs.QSImpl",
-            "$SYSTEMUI_PACKAGE.qs.QSFragment"
+            "$SYSTEMUI_PACKAGE.qs.QSFragment",
+            "$SYSTEMUI_PACKAGE.qs.composefragment.QSFragmentCompose"
         )
         val centralSurfacesImplClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.CentralSurfacesImpl"
@@ -141,7 +143,11 @@ class AlbumArt(context: Context) : ModPack(context) {
         qsImplClass
             .hookMethod("setQsExpansion")
             .runAfter { param ->
-                if (param.thisObject.callMethod("isKeyguardState") as Boolean) {
+                val isKeyguardState =
+                    param.thisObject.callMethodSilently("isKeyguardState") as? Boolean
+                        ?: KeyguardShowingCallback.getInstance().isKeyguardShowing
+
+                if (isKeyguardState) {
                     updateAlbumArtState()
                     broadcastAlbumArtUpdate()
                 }

@@ -222,7 +222,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         val collapsedStatusBarFragment = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.CollapsedStatusBarFragment",
-            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment"
+            "$SYSTEMUI_PACKAGE.statusbar.phone.fragment.CollapsedStatusBarFragment",
+            suppressError = true
         )
 
         collapsedStatusBarFragment

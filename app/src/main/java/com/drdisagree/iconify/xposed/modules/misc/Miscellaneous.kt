@@ -55,7 +55,7 @@ class Miscellaneous(context: Context) : ModPack(context) {
     }
 
     private fun hideElements() {
-        val quickStatusBarHeader = findClass("$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader")
+        val quickStatusBarHeader = findClass("$SYSTEMUI_PACKAGE.qs.QuickStatusBarHeader", suppressError = true)
 
         quickStatusBarHeader
             .hookMethod("onFinishInflate")

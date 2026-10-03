@@ -97,6 +97,14 @@ class ControllersProvider(context: Context) : ModPack(context) {
                 }
             }
 
+        findClass("$SYSTEMUI_PACKAGE.qs.tiles.dialog.InternetDialogManager", suppressError = true)
+            .hookConstructor()
+            .runAfter { param ->
+                if (mInternetDialogManager == null) {
+                    mInternetDialogManager = param.thisObject
+                }
+            }
+
         // Stole also Internet Dialog Manager in case no tile is available
         findClass("$SYSTEMUI_PACKAGE.statusbar.connectivity.NetworkControllerImpl")
             .hookConstructor()

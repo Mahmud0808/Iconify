@@ -40,6 +40,7 @@ import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
@@ -182,7 +183,8 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
 
         val qsImplClass = findClass(
             "$SYSTEMUI_PACKAGE.qs.QSImpl",
-            "$SYSTEMUI_PACKAGE.qs.QSFragment"
+            "$SYSTEMUI_PACKAGE.qs.QSFragment",
+            "$SYSTEMUI_PACKAGE.qs.composefragment.QSFragmentCompose"
         )
         val canvasEngineClass =
             findClass($$"$$SYSTEMUI_PACKAGE.wallpapers.ImageWallpaper$CanvasEngine")
@@ -380,7 +382,11 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         qsImplClass
             .hookMethod("setQsExpansion")
             .runAfter { param ->
-                if (param.thisObject.callMethod("isKeyguardState") as Boolean) {
+                val isKeyguardState =
+                    param.thisObject.callMethodSilently("isKeyguardState") as? Boolean
+                        ?: KeyguardShowingCallback.getInstance().isKeyguardShowing
+
+                if (isKeyguardState) {
                     setDepthWallpaper()
                 }
             }

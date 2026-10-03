@@ -19,7 +19,7 @@ class LaunchableViews(context: Context) : ModPack(context) {
         contextRef = WeakReference(mContext)
 
         launchableFabClass =
-            findClass("$SYSTEMUI_PACKAGE.animation.view.LaunchableFAB")
+            findClass("$SYSTEMUI_PACKAGE.animation.view.LaunchableFAB", suppressError = true)
         launchableImageViewClass =
             findClass("$SYSTEMUI_PACKAGE.animation.view.LaunchableImageView")
         launchableLinearLayoutClass =

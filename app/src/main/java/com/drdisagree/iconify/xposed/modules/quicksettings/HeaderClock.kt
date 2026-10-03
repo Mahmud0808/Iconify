@@ -217,7 +217,7 @@ class HeaderClock(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.shade.ShadeHeaderController"
         )
         val qsSecurityFooterUtilsClass = findClass("$SYSTEMUI_PACKAGE.qs.QSSecurityFooterUtils")
-        val qsContainerImplClass = findClass("$SYSTEMUI_PACKAGE.qs.QSContainerImpl")
+        val qsContainerImplClass = findClass("$SYSTEMUI_PACKAGE.qs.QSContainerImpl", suppressError = true)
         val notificationPanelViewControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
         val configurationListenerClass =

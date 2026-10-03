@@ -24,6 +24,7 @@ class ExpandableViews(context: Context) : ModPack(context) {
             $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView$1",
             $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView$2",
             $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView$3",
+            suppressError = true
         )
         RefObjectRefClass = findClass($$"kotlin.jvm.internal.Ref$ObjectRef")
     }
@@ -41,6 +42,8 @@ class ExpandableViews(context: Context) : ModPack(context) {
 
             return if (ExpandableClass.isMethodAvailable("fromView", View::class.java)) {
                 ExpandableClass!!.callStaticMethod("fromView", this)
+            } else if (ExpandableCompanionFromViewClass == null) {
+                null
             } else {
                 runCatching {
                     ExpandableCompanionFromViewClass!!
