@@ -142,6 +142,14 @@ val xposedStatusbarPreferences = preferenceScreen {
             title = stringRes(R.string.ongoing_action_chip_title),
             summary = { stringRes(R.string.ongoing_action_chip_desc) },
         )
+
+        listPref(
+            key = XposedKey.ONGOING_ACTION_CHIP_STYLE,
+            title = stringRes(R.string.ongoing_action_chip_style_title),
+            entries = arrayRes(R.array.ongoing_action_chip_style_entries),
+            entryValues = arrayRes(R.array.ongoing_action_chip_style_values),
+            isVisible = { pref -> pref.getBoolean(XposedKey.ONGOING_ACTION_CHIP) }
+        )
     }
 
     category(title = stringRes(R.string.section_title_others)) {

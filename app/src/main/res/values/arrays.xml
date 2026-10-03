@@ -376,6 +376,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="ongoing_action_chip_style_entries" translatable="false">
+        <item>@string/ongoing_action_chip_style_pill</item>
+        <item>@string/ongoing_action_chip_style_compact</item>
+    </string-array>
+
+    <string-array name="ongoing_action_chip_style_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
     <!-- Status bar - Logo -->
     <string-array name="status_bar_logo_position_entries" translatable="false">
         <item>@string/status_bar_logo_position_left</item>

@@ -18,17 +18,12 @@
  */
 package com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.Drawable
 import android.service.notification.StatusBarNotification
 import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
-import com.drdisagree.iconify.core.utils.ColorUtils.getColorResCompat
 import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.IconFetcher.AdaptiveDrawableResult
 
 /**
@@ -42,7 +37,6 @@ class OnGoingActionProgressController(
 ) {
 
     // Views of chip
-    private val mProgressBar: ProgressBar = chipView.getProgressBar()
     private val mIconView: ImageView = chipView.getAppIcon()
 
     // Visibility state
@@ -56,6 +50,16 @@ class OnGoingActionProgressController(
     private var mTrackedNotificationKey: String? = null
 
     private val mIconFetcher: IconFetcher = IconFetcher(mContext)
+
+    var onChipKeyChanged: (() -> Unit)? = null
+    private var mLastChipKey: String? = null
+
+    val chipNotificationKey: String?
+        get() = if (mIsTrackingProgress && chipView.visibility == View.VISIBLE) {
+            mTrackedNotificationKey
+        } else {
+            null
+        }
 
     /**
      * Starts tracking progress of certain notification @AsyncUnsafe
@@ -76,49 +80,8 @@ class OnGoingActionProgressController(
     /**
      * Updates icon based on result from IconFetcher @AsyncUnsafe
      */
-    @SuppressLint("DiscouragedApi")
     private fun updateIconImageView(drawable: AdaptiveDrawableResult) {
-        if (drawable.isAdaptive) {
-            (drawable.drawable as? AdaptiveIconDrawable)?.apply {
-                foreground.setTint(
-                    mContext.resources.getColor(
-                        mContext.resources.getIdentifier(
-                            "android:color/system_neutral1_800",
-                            "color",
-                            mContext.packageName
-                        ), mContext.theme
-                    )
-                )
-                background.setTint(
-                    mContext.resources.getColor(
-                        mContext.resources.getIdentifier(
-                            "android:color/system_neutral1_50",
-                            "color",
-                            mContext.packageName
-                        ), mContext.theme
-                    )
-                )
-
-                mIconView.colorFilter = null
-                mIconView.imageTintList = null
-            } ?: run {
-                if (useSmallIcon) {
-                    mIconView.setColorFilter(
-                        getColorResCompat(mContext, android.R.attr.colorForeground)
-                    )
-                    mIconView.imageTintList = ColorStateList.valueOf(
-                        getColorResCompat(mContext, android.R.attr.colorForeground)
-                    )
-                } else {
-                    mIconView.colorFilter = null
-                    mIconView.imageTintList = null
-                }
-            }
-        } else {
-            mIconView.colorFilter = null
-            mIconView.imageTintList = null
-        }
-
+        chipView.setIconMonochrome(useSmallIcon && !drawable.isAdaptive)
         mIconView.setImageDrawable(drawable.drawable)
     }
 
@@ -140,6 +103,16 @@ class OnGoingActionProgressController(
      * Updates progress views
      */
     private fun updateViews() {
+        applyViews()
+
+        val chipKey = chipNotificationKey
+        if (chipKey != mLastChipKey) {
+            mLastChipKey = chipKey
+            onChipKeyChanged?.invoke()
+        }
+    }
+
+    private fun applyViews() {
         if (mIsForceHidden) { // Keyguard locked, user-disabled, etc.
             chipView.visibility = View.GONE
             return
@@ -156,21 +129,14 @@ class OnGoingActionProgressController(
             chipView.visibility = View.VISIBLE
         }
 
-        // Check if there's actually a change before updating views
-        if (mProgressBar.max != mCurrentProgressMax ||
-            mProgressBar.progress != mCurrentProgress ||
-            mIconView.drawable != mCurrentDrawable
-        ) {
-            if (mCurrentProgressMax == 0) {
-                mCurrentProgressMax = 100
-            }
+        if (mCurrentProgressMax == 0) {
+            mCurrentProgressMax = 100
+        }
 
-            mProgressBar.max = mCurrentProgressMax
-            mProgressBar.progress = mCurrentProgress
+        chipView.setProgress(mCurrentProgressMax, mCurrentProgress)
 
-            if (mCurrentDrawable != null) {
-                mIconView.setImageDrawable(mCurrentDrawable)
-            }
+        if (mCurrentDrawable != null && mIconView.drawable != mCurrentDrawable) {
+            mIconView.setImageDrawable(mCurrentDrawable)
         }
     }
 

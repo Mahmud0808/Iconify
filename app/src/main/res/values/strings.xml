@@ -956,6 +956,9 @@
     <string name="sb_clock_position_right">Right</string>
     <string name="ongoing_action_chip_title">Ongoing Action Chip</string>
     <string name="ongoing_action_chip_desc">Show progress indicator in status bar for ongoing actions like downloads</string>
+    <string name="ongoing_action_chip_style_title">Chip style</string>
+    <string name="ongoing_action_chip_style_pill">Progress bar</string>
+    <string name="ongoing_action_chip_style_compact">Compact ring</string>
     <string name="sb_show_4g_icon_title">4G Icon</string>
     <string name="sb_show_4g_icon_desc">Display 4G icon in statusbar instead of LTE</string>
     <string name="sb_max_notification_icons_title">Notification Icons Limit</string>
