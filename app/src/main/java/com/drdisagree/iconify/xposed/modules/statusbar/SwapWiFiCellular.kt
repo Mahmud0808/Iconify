@@ -12,59 +12,44 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.lang.ref.WeakReference
 
 @SuppressLint("DiscouragedApi")
 class SwapWiFiCellular(context: Context) : ModPack(context) {
 
     private var swapWifiAndCellularIcon = false
+    private var orderedSlotNamesRepository: WeakReference<Any>? = null
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             swapWifiAndCellularIcon = getBoolean(XposedKey.STATUSBAR_SWAP_WIFI_CELLULAR)
         }
+
+        applyToOrderedSlotNames()
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        val statusIconContainerClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ui.IconManager")
+        val iconManagerClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.phone.ui.IconManager",
+            suppressError = true
+        )
 
-        statusIconContainerClass
-            .hookMethod("addNewWifiIcon", "addNewMobileIcon", "addHolder")
-            .runAfter { param ->
-                if (!swapWifiAndCellularIcon) return@runAfter
-
-                val parent = param.thisObject.getField("mGroup") as ViewGroup
-
-                val wifiView = parent.findViewById<View?>(
-                    mContext.resources.getIdentifier(
-                        "wifi_combo",
-                        "id",
-                        mContext.packageName
-                    )
-                )
-
-                val mobileId = mContext.resources.getIdentifier(
-                    "mobile_combo",
-                    "id",
-                    mContext.packageName
-                )
-                val mobileViews = parent.children
-                    .filter { it.id == mobileId }
-                    .toMutableList()
-
-                if (mobileViews.isNotEmpty() && wifiView != null) {
-                    val firstMobileView = mobileViews.first()
-                    val firstMobileIndex = parent.indexOfChild(firstMobileView)
-
-                    if (firstMobileIndex < parent.indexOfChild(wifiView)) {
-                        parent.reAddView(wifiView, firstMobileIndex - 1)
-                    }
-                }
-            }
+        if (iconManagerClass != null) {
+            iconManagerClass
+                .hookMethod("addNewWifiIcon", "addNewMobileIcon", "addHolder")
+                .runAfter { param -> reorderIconGroup(param.thisObject) }
+        } else {
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ui.TintedIconManager")
+                .hookMethod("onIconAdded")
+                .runAfter { param -> reorderIconGroup(param.thisObject) }
+        }
 
         val configStatusBarIconsId = mContext.resources.getIdentifier(
             "config_statusBarIcons",
@@ -77,16 +62,91 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
             .hookMethod("getStringArray")
             .runAfter { param ->
                 if (swapWifiAndCellularIcon && param.args[0] == configStatusBarIconsId) {
-                    val result = (param.result as Array<String>).toMutableList()
-                    val mobileIndex = result.indexOf("mobile")
-
-                    if (mobileIndex != -1) {
-                        result.remove("wifi")
-                        result.add(mobileIndex - 1, "wifi")
-                    }
-
-                    param.result = result.toTypedArray()
+                    param.result = (param.result as Array<String>).toList()
+                        .withWifiBeforeMobile()
+                        .toTypedArray()
                 }
             }
+
+        findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.systemstatusicons.data.repository.OrderedIconSlotNamesRepository",
+            suppressError = true
+        )
+            .hookConstructor()
+            .runAfter { param ->
+                orderedSlotNamesRepository = WeakReference(param.thisObject)
+                applyToOrderedSlotNames()
+            }
+    }
+
+    private fun reorderIconGroup(iconManager: Any) {
+        if (!swapWifiAndCellularIcon) return
+
+        val parent = iconManager.getField("mGroup") as ViewGroup
+
+        val wifiView = parent.findViewById<View?>(
+            mContext.resources.getIdentifier(
+                "wifi_combo",
+                "id",
+                mContext.packageName
+            )
+        )
+
+        val mobileId = mContext.resources.getIdentifier(
+            "mobile_combo",
+            "id",
+            mContext.packageName
+        )
+        val firstMobileView = parent.children.firstOrNull { it.id == mobileId }
+
+        if (firstMobileView != null && wifiView != null) {
+            val firstMobileIndex = parent.indexOfChild(firstMobileView)
+
+            if (firstMobileIndex < parent.indexOfChild(wifiView)) {
+                parent.reAddView(wifiView, firstMobileIndex - 1)
+            }
+        }
+    }
+
+    private fun applyToOrderedSlotNames() {
+        val repository = orderedSlotNamesRepository?.get() ?: return
+        val stateFlow = repository.getFieldSilently("_orderedIconSlotNames") ?: return
+
+        @Suppress("UNCHECKED_CAST")
+        val current = stateFlow.callMethodSilently("getValue") as? List<String> ?: return
+        val updated = if (swapWifiAndCellularIcon) {
+            current.withWifiBeforeMobile()
+        } else {
+            current.withWifiAfterMobile()
+        }
+
+        if (updated != current) {
+            stateFlow.callMethodSilently("setValue", updated)
+        }
+    }
+
+    private fun List<String>.withWifiBeforeMobile(): List<String> {
+        val mobileIndex = indexOf(MOBILE_SLOT)
+        if (mobileIndex == -1 || indexOf(WIFI_SLOT) < mobileIndex) return this
+
+        return toMutableList().apply {
+            remove(WIFI_SLOT)
+            add((mobileIndex - 1).coerceAtLeast(0), WIFI_SLOT)
+        }
+    }
+
+    private fun List<String>.withWifiAfterMobile(): List<String> {
+        val wifiIndex = indexOf(WIFI_SLOT)
+        if (wifiIndex == -1 || wifiIndex > indexOf(MOBILE_SLOT)) return this
+
+        return toMutableList().apply {
+            remove(WIFI_SLOT)
+            add(indexOf(MOBILE_SLOT) + 1, WIFI_SLOT)
+        }
+    }
+
+    companion object {
+        private const val WIFI_SLOT = "wifi"
+        private const val MOBILE_SLOT = "mobile"
     }
 }
