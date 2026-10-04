@@ -906,6 +906,9 @@
     <string name="sb_clock_position_right">Right</string>
     <string name="ongoing_action_chip_title">Ongoing Action Chip</string>
     <string name="ongoing_action_chip_desc">Show progress indicator in status bar for ongoing actions like downloads</string>
+    <string name="ongoing_action_chip_style_title">Chip style</string>
+    <string name="ongoing_action_chip_style_pill">Progress bar</string>
+    <string name="ongoing_action_chip_style_compact">Compact ring</string>
     <string name="sb_show_4g_icon_title">4G Icon</string>
     <string name="sb_show_4g_icon_desc">Display 4G icon in statusbar instead of LTE</string>
     <string name="sb_max_notification_icons_title">Notification Icons Limit</string>
@@ -1151,6 +1154,7 @@
     <string name="toast_reboot">إعادة تشغيل مطلوبة</string>
     <string name="toast_copied">نُسخ إلى الحافظة</string>
     <string name="toast_error">هناك خطأ ما</string>
+    <string name="toast_xposed_file_save_failed">Couldn\'t save file to %1$s. Delete that folder and try again.</string>
     <string name="toast_disable_everything">اضغط لفترة طويلة لتعطيل كل شيء</string>
     <string name="toast_disabled_everything">كل شيء معطل</string>
     <string name="toast_restart_sysui">اضغط لفترة طويلة لإعادة تشغيل SystemUI</string>
