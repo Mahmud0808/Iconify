@@ -906,6 +906,9 @@
     <string name="sb_clock_position_right">Derecha</string>
     <string name="ongoing_action_chip_title">Chip de acción en curso</string>
     <string name="ongoing_action_chip_desc">Muestra el indicador de progreso en la barra de estado para las acciones en curso como las descargas</string>
+    <string name="ongoing_action_chip_style_title">Chip style</string>
+    <string name="ongoing_action_chip_style_pill">Progress bar</string>
+    <string name="ongoing_action_chip_style_compact">Compact ring</string>
     <string name="sb_show_4g_icon_title">Icono 4G</string>
     <string name="sb_show_4g_icon_desc">Mostrar icono 4G en la barra de estado en lugar de LTE</string>
     <string name="sb_max_notification_icons_title">Límite de iconos de notificación</string>
@@ -1151,6 +1154,7 @@
     <string name="toast_reboot">Reinicio requerido</string>
     <string name="toast_copied">Copiado al portapapeles</string>
     <string name="toast_error">Algo salió mal</string>
+    <string name="toast_xposed_file_save_failed">Couldn\'t save file to %1$s. Delete that folder and try again.</string>
     <string name="toast_disable_everything">Mantén presionado para deshabilitar todo</string>
     <string name="toast_disabled_everything">Todo está deshabilitado</string>
     <string name="toast_restart_sysui">Mantén presionado para reiniciar SystemUI</string>
