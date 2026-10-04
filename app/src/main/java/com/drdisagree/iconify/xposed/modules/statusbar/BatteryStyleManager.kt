@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.children
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_CIRCLE
@@ -63,6 +64,7 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DualToneHandler
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -114,7 +116,11 @@ import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.RLandscapeB
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.RLandscapeBatteryStyleA
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.RLandscapeBatteryStyleB
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.lang.reflect.Method
+import java.util.Collections
+import java.util.WeakHashMap
 
 @SuppressLint("DiscouragedApi")
 class BatteryStyleManager(context: Context) : ModPack(context) {
@@ -150,6 +156,11 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var hideDefaultBattery = false
     private var dualStatusbarEnabled = false
     private var linkToCustomColor = false
+    private var composeHomeStatusIcons = false
+    private var homeStatusIconsDepth = 0
+    private var zeroSizeModifier: Method? = null
+    private val homeBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
+    private val hiddenToOriginalModifier = WeakHashMap<Any, Any>()
 
     private data class BatteryCallbackState(
         val level: Int = 0,
@@ -337,16 +348,14 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 if (mBatteryMeterView == null) {
                     mBatteryMeterView = createBatteryMeterView(ICONIFY_SB_BATTERY_ICON_TAG)
 
-                    val systemIconsContainer = mView.findViewById<ViewGroup>(
-                        mContext.resources.getIdentifier(
-                            "system_icons",
-                            "id",
-                            SYSTEMUI_PACKAGE
-                        )
-                    )
-                    systemIconsContainer.addView(mBatteryMeterView, -1)
+                    mView.homeBatteryContainer().addView(mBatteryMeterView, -1)
 
                     batteryViews.add(mBatteryMeterView)
+                }
+
+                if (composeHomeStatusIcons) {
+                    val batteryMeterView = mBatteryMeterView
+                    mView.post { mView.homeBatteryContainer().reAddView(batteryMeterView) }
                 }
 
                 refreshBatteryData()
@@ -467,46 +476,36 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         modernStatusBarViewClass
             .hookMethod("onDarkChangedWithContrast")
             .runAfter { param ->
-                val areas = param.args[0]
-                val tint = param.args[1] as Int
+                val newTint = darkIconDispatcherClass.callStaticMethod(
+                    "getTint",
+                    param.args[0],
+                    param.thisObject,
+                    param.args[1] as Int
+                ) as Int
+
+                applyStatusBarTint(newTint)
+            }
+
+        findClass("$SYSTEMUI_PACKAGE.statusbar.policy.Clock")
+            .hookMethod("onDarkChanged")
+            .runAfter { param ->
+                if (!composeHomeStatusIcons) return@runAfter
+
+                val batteryView = batteryViews.firstOrNull {
+                    it.tag == ICONIFY_SB_BATTERY_ICON_TAG
+                } ?: return@runAfter
 
                 val newTint = darkIconDispatcherClass.callStaticMethod(
                     "getTint",
-                    areas,
-                    param.thisObject,
-                    tint
+                    param.args[0],
+                    batteryView,
+                    param.args[2] as Int
                 ) as Int
 
-                val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
-                val statusbarColor =
-                    if (ColorUtils.calculateLuminance(newTint) > 0.5)
-                        statusbarColorLight
-                    else
-                        statusbarColorDark
-
-                val nonAdaptedSingleToneColor =
-                    if (linkToCustomColor)
-                        DualToneHandler.getSingleColorWithTint(statusbarColor)
-                    else
-                        DualToneHandler.getSingleColorWithTint(newTint)
-                val nonAdaptedForegroundColor =
-                    if (linkToCustomColor)
-                        DualToneHandler.getFillColorWithTint(statusbarColor)
-                    else
-                        DualToneHandler.getFillColorWithTint(newTint)
-                val nonAdaptedBackgroundColor =
-                    if (linkToCustomColor)
-                        DualToneHandler.getBackgroundColorWithTint(statusbarColor)
-                    else
-                        DualToneHandler.getBackgroundColorWithTint(newTint)
-
-                applyBatteryColors(
-                    tag = ICONIFY_SB_BATTERY_ICON_TAG,
-                    fgColor = nonAdaptedForegroundColor,
-                    bgColor = nonAdaptedBackgroundColor,
-                    singleToneColor = nonAdaptedSingleToneColor
-                )
+                applyStatusBarTint(newTint)
             }
+
+        hookComposeHomeBattery()
 
         keyguardStatusBarViewClass
             .hookMethod("onThemeChanged", "updateIconsAndTextColors")
@@ -591,6 +590,38 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     singleToneColor = fgColor
                 )
             }
+    }
+
+    private fun applyStatusBarTint(newTint: Int) {
+        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
+        val statusbarColor =
+            if (ColorUtils.calculateLuminance(newTint) > 0.5)
+                statusbarColorLight
+            else
+                statusbarColorDark
+
+        val nonAdaptedSingleToneColor =
+            if (linkToCustomColor)
+                DualToneHandler.getSingleColorWithTint(statusbarColor)
+            else
+                DualToneHandler.getSingleColorWithTint(newTint)
+        val nonAdaptedForegroundColor =
+            if (linkToCustomColor)
+                DualToneHandler.getFillColorWithTint(statusbarColor)
+            else
+                DualToneHandler.getFillColorWithTint(newTint)
+        val nonAdaptedBackgroundColor =
+            if (linkToCustomColor)
+                DualToneHandler.getBackgroundColorWithTint(statusbarColor)
+            else
+                DualToneHandler.getBackgroundColorWithTint(newTint)
+
+        applyBatteryColors(
+            tag = ICONIFY_SB_BATTERY_ICON_TAG,
+            fgColor = nonAdaptedForegroundColor,
+            bgColor = nonAdaptedBackgroundColor,
+            singleToneColor = nonAdaptedSingleToneColor
+        )
     }
 
     private fun createBatteryMeterView(tag: String): LinearLayout {
@@ -885,6 +916,101 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         )
     }
 
+    private fun View.homeBatteryContainer(): ViewGroup {
+        val endSideContent = findViewById<ViewGroup?>(
+            mContext.resources.getIdentifier(
+                "status_bar_end_side_content",
+                "id",
+                SYSTEMUI_PACKAGE
+            )
+        )
+
+        composeHomeStatusIcons = endSideContent?.children?.any {
+            it.javaClass.simpleName == "ComposeView"
+        } == true
+
+        if (composeHomeStatusIcons) return endSideContent!!
+
+        return findViewById(
+            mContext.resources.getIdentifier(
+                "system_icons",
+                "id",
+                SYSTEMUI_PACKAGE
+            )
+        )
+    }
+
+    private fun hookComposeHomeBattery() {
+        val statusBarRootClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.StatusBarRootKt",
+            suppressError = true
+        ) ?: return
+        val unifiedBatteryClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.ui.composable.UnifiedBatteryKt",
+            suppressError = true
+        ) ?: return
+        val sizeKtClass = findClass(
+            "androidx.compose.foundation.layout.SizeKt",
+            suppressError = true
+        ) ?: return
+
+        zeroSizeModifier = sizeKtClass.declaredMethods.firstOrNull { method ->
+            method.name.startsWith("size-") &&
+                    method.parameterTypes.size == 2 &&
+                    method.parameterTypes[0].name == COMPOSE_MODIFIER_CLASS &&
+                    method.parameterTypes[1] == Float::class.javaPrimitiveType
+        } ?: return
+
+        statusBarRootClass
+            .hookMethod("SystemStatusIconsContainer")
+            .suppressError()
+            .run(object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    homeStatusIconsDepth++
+                }
+
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    homeStatusIconsDepth--
+                }
+            })
+
+        unifiedBatteryClass
+            .hookMethod("UnifiedBattery")
+            .suppressError()
+            .runBefore { param ->
+                val index = (param.method as Method).parameterTypes.indexOfFirst {
+                    it.name == COMPOSE_MODIFIER_CLASS
+                }
+                if (index == -1) return@runBefore
+
+                val modifier = param.args[index] ?: return@runBefore
+                val original = hiddenToOriginalModifier[modifier] ?: modifier
+                val isHomeBattery = homeStatusIconsDepth > 0 ||
+                        original in homeBatteryModifiers ||
+                        hiddenToOriginalModifier.containsKey(modifier)
+                if (!isHomeBattery) return@runBefore
+
+                homeBatteryModifiers.add(original)
+
+                param.args[index] = if (customBatteryEnabled || hideDefaultBattery) {
+                    hiddenModifierFor(original) ?: original
+                } else {
+                    original
+                }
+            }
+    }
+
+    private fun hiddenModifierFor(original: Any): Any? {
+        val hidden = try {
+            zeroSizeModifier?.invoke(null, original, 0f)
+        } catch (_: Throwable) {
+            null
+        } ?: return null
+
+        hiddenToOriginalModifier[hidden] = original
+        return hidden
+    }
+
     private fun View.hideStockBatteryIcon(onQS: Boolean = false) {
         if (!customBatteryEnabled && !hideDefaultBattery) return
 
@@ -996,5 +1122,6 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         private const val BATTERY_ICON_TAG = "battery_icon"
         private const val CHARGING_ICON_TAG = "charging_con"
         private const val PERCENTAGE_TEXT_TAG = "percentage_text"
+        private const val COMPOSE_MODIFIER_CLASS = "androidx.compose.ui.Modifier"
     }
 }
