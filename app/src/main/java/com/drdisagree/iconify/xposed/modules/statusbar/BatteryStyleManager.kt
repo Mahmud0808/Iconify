@@ -66,6 +66,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideVi
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
@@ -390,10 +391,12 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
                 mView.hideStockBatteryIcon()
 
-                mView.callMethod(
-                    "onThemeChanged",
-                    param.thisObject.getField("mTintedIconManager")
-                )
+                val tintedIconManager = param.thisObject.getFieldSilently("mTintedIconManager")
+                if (tintedIconManager != null) {
+                    mView.callMethod("onThemeChanged", tintedIconManager)
+                } else {
+                    mView.callMethodSilently("updateIconsAndTextColors")
+                }
             }
 
         keyguardStatusBarViewControllerClass
@@ -506,7 +509,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             }
 
         keyguardStatusBarViewClass
-            .hookMethod("onThemeChanged")
+            .hookMethod("onThemeChanged", "updateIconsAndTextColors")
             .runAfter { param ->
                 val tintAreas = param.thisObject.getField("mEmptyTintRect")
                 val textColor: Int = SettingsLibUtils.getColorAttrDefaultColor(

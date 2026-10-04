@@ -33,6 +33,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvaila
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.Collections
 import java.util.WeakHashMap
@@ -148,11 +149,15 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         val notificationBackgroundViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationBackgroundView")
 
+        val hasFocusOverlayRadii = notificationBackgroundViewClass?.let {
+            XposedHelpers.findFieldIfExists(it, "mFocusOverlayCornerRadii") != null
+        } == true
+
         // Replace the method with ours otherwise we get ClassCastException
         notificationBackgroundViewClass
             .hookMethod("updateBackgroundRadii")
             .runBefore { param ->
-                if (!headsUpBlurEnabled) return@runBefore
+                if (!headsUpBlurEnabled || !hasFocusOverlayRadii) return@runBefore
 
                 if (param.thisObject.getField("mDontModifyCorners") as Boolean) {
                     param.result = null
