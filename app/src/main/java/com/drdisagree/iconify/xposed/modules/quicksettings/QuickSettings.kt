@@ -6,9 +6,11 @@ import android.app.Notification
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -98,13 +100,27 @@ class QuickSettings(context: Context) : ModPack(context) {
 
     private fun getQsMargin() = if (mContext.isLandscape) qsTopMarginLand else qsTopMarginPort
 
+    private val isAndroid17Qpr1OrLater: Boolean
+        get() = Build.VERSION.SDK_INT >= 37 && (Build.VERSION.SDK_INT > 37 ||
+                Build.getMinorSdkVersion(Build.VERSION.SDK_INT_FULL) >= 1)
+
     private fun setQsMargin() {
         ResourceHookManager
             .hookDimen()
             .whenCondition { customQsMarginsEnabled }
             .forPackageName(SYSTEMUI_PACKAGE)
             .addResource("large_screen_shade_header_height") { getQqsMargin() }
-            .addResource("qs_panel_padding_top") { getQsMargin().toFloat() }
+            .addResource("qs_panel_padding_top") {
+                if (isAndroid17Qpr1OrLater) {
+                    TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        getQsMargin().toFloat(),
+                        mContext.resources.displayMetrics
+                    )
+                } else {
+                    getQsMargin().toFloat()
+                }
+            }
             .apply()
 
         setSceneContainerQsMargin()
