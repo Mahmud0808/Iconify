@@ -153,18 +153,18 @@ Thanks to the translators and proofreaders below:
         <sub><b>1422 words</b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Holiu618"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17854885/medium/2916a5c1dfed94a82d0c2cf6f79f047f.png" />
+          <br />
+          <sub><b>泥鰍 (Holiu618)</b></sub></a>
+        <br />
+        <sub><b>972 words</b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Cccc_"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14589232/medium/cc59e13f7da4c4db7bde651a92f98805.png" />
           <br />
           <sub><b>Cccc_owo (Cccc_)</b></sub></a>
         <br />
         <sub><b>1562 words</b></sub>
-      </td>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Holiu618"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17854885/medium/2916a5c1dfed94a82d0c2cf6f79f047f.png" />
-          <br />
-          <sub><b>泥鰍 (Holiu618)</b></sub></a>
-        <br />
-        <sub><b>961 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/VistHJ"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15685383/medium/4cff5d86dc99789f0a9a2ced7e8adc67.jpeg" />
