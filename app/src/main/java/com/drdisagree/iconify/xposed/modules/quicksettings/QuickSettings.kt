@@ -36,7 +36,10 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.lang.reflect.Method
+import java.util.WeakHashMap
 
 @SuppressLint("DiscouragedApi")
 class QuickSettings(context: Context) : ModPack(context) {
@@ -55,6 +58,9 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var blurMediaPlayerArtwork = false
     private var blurMediaPlayerArtworkRadius = 15f
     private var coloredNotificationView = false
+    private var shadeHeaderDimensionsClass: Class<*>? = null
+    private var defaultExpandedHeaderHeight: Float? = null
+    private val paddedToOriginalHeaderModifier = WeakHashMap<Any, Any>()
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -76,6 +82,8 @@ class QuickSettings(context: Context) : ModPack(context) {
                 getFloat(XposedKey.BLUR_MEDIA_PLAYER_ARTWORK_RADIUS) / 100f * 25f
             coloredNotificationView = getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW)
         }
+
+        applyExpandedHeaderHeight()
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -86,10 +94,11 @@ class QuickSettings(context: Context) : ModPack(context) {
         blurMediaPlayerArtwork()
     }
 
-    private fun setQsMargin() {
-        fun getQqsMargin() = if (mContext.isLandscape) qqsTopMarginLand else qqsTopMarginPort
-        fun getQsMargin() = if (mContext.isLandscape) qsTopMarginLand else qsTopMarginPort
+    private fun getQqsMargin() = if (mContext.isLandscape) qqsTopMarginLand else qqsTopMarginPort
 
+    private fun getQsMargin() = if (mContext.isLandscape) qsTopMarginLand else qsTopMarginPort
+
+    private fun setQsMargin() {
         ResourceHookManager
             .hookDimen()
             .whenCondition { customQsMarginsEnabled }
@@ -97,6 +106,82 @@ class QuickSettings(context: Context) : ModPack(context) {
             .addResource("large_screen_shade_header_height") { getQqsMargin() }
             .addResource("qs_panel_padding_top") { getQsMargin().toFloat() }
             .apply()
+
+        setSceneContainerQsMargin()
+    }
+
+    private fun setSceneContainerQsMargin() {
+        shadeHeaderDimensionsClass = findClass(
+            $$"$$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeHeader$Dimensions",
+            suppressError = true
+        ) ?: return
+        val shadeHeaderClass = findClass(
+            "$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeHeaderKt",
+            suppressError = true
+        ) ?: return
+        val paddingMethod = findClass(
+            "androidx.compose.foundation.layout.PaddingKt",
+            suppressError = true
+        )?.declaredMethods?.firstOrNull { method ->
+            method.name.startsWith("padding-") &&
+                    method.parameterTypes.size == 5 &&
+                    method.parameterTypes[0].name == COMPOSE_MODIFIER_CLASS &&
+                    method.parameterTypes.drop(1).all { it == Float::class.javaPrimitiveType }
+        }
+
+        shadeHeaderClass
+            .hookMethod("ExpandedShadeHeader")
+            .suppressError()
+            .runBefore { applyExpandedHeaderHeight() }
+
+        if (paddingMethod == null) return
+
+        shadeHeaderClass
+            .hookMethod("CollapsedShadeHeader")
+            .suppressError()
+            .runBefore { param ->
+                val index = (param.method as Method).parameterTypes.indexOfFirst {
+                    it.name == COMPOSE_MODIFIER_CLASS
+                }
+                if (index == -1) return@runBefore
+
+                val modifier = param.args[index] ?: return@runBefore
+                val original = paddedToOriginalHeaderModifier[modifier] ?: modifier
+                param.args[index] = original
+
+                if (!customQsMarginsEnabled) return@runBefore
+
+                val statusBarHeightPx = param.args
+                    .firstOrNull { it?.javaClass?.simpleName == "ShadeHeaderViewModel" }
+                    .getFieldSilently($$"statusBarHeightPx$delegate")
+                    .callMethodSilently("getValue") as? Number ?: return@runBefore
+                val density = mContext.resources.displayMetrics.density
+                val extraDp = getQqsMargin() - statusBarHeightPx.toFloat() / density
+                if (extraDp <= 0f) return@runBefore
+
+                val padded = try {
+                    paddingMethod.invoke(null, original, 0f, 0f, 0f, extraDp)
+                } catch (_: Throwable) {
+                    null
+                } ?: return@runBefore
+
+                paddedToOriginalHeaderModifier[padded] = original
+                param.args[index] = padded
+            }
+    }
+
+    private fun applyExpandedHeaderHeight() {
+        val dimensionsClass = shadeHeaderDimensionsClass ?: return
+
+        try {
+            val defaultHeight = defaultExpandedHeaderHeight
+                ?: XposedHelpers.getStaticFloatField(dimensionsClass, EXPANDED_HEADER_HEIGHT)
+                    .also { defaultExpandedHeaderHeight = it }
+            val height = if (customQsMarginsEnabled) getQsMargin().toFloat() else defaultHeight
+
+            XposedHelpers.setStaticFloatField(dimensionsClass, EXPANDED_HEADER_HEIGHT, height)
+        } catch (_: Throwable) {
+        }
     }
 
     private fun fixNotificationColor() {
@@ -394,5 +479,10 @@ class QuickSettings(context: Context) : ModPack(context) {
                     }
                 }
         }
+    }
+
+    companion object {
+        private const val COMPOSE_MODIFIER_CLASS = "androidx.compose.ui.Modifier"
+        private const val EXPANDED_HEADER_HEIGHT = "ExpandedHeight"
     }
 }
