@@ -16,7 +16,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 @Suppress("UNUSED_PARAMETER")
@@ -66,8 +66,8 @@ open class CircleFilledBattery(private val mContext: Context, frameColor: Int) :
 
         val levelPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-        val centerX = mDimension / 2f + mPadding.left
-        val centerY = mDimension / 2f + mPadding.top
+        val centerX = bounds.left + mPadding.left + (bounds.width() - mPadding.width()) / 2f
+        val centerY = bounds.top + mPadding.top + (bounds.height() - mPadding.height()) / 2f
 
         val baseRadius = mDimension / 2f
 
@@ -150,13 +150,12 @@ open class CircleFilledBattery(private val mContext: Context, frameColor: Int) :
     override fun setColorFilter(colorFilter: ColorFilter?) {
     }
 
-    override fun setBounds(bounds: Rect) {
-        super.setBounds(bounds)
-        mDimension = max(
-            (bounds.height() - mPadding.height()).toDouble(),
-            (bounds.width() - mPadding.width()).toDouble()
+    override fun onBoundsChange(bounds: Rect) {
+        super.onBoundsChange(bounds)
+        mDimension = min(
+            bounds.height() - mPadding.height(),
+            bounds.width() - mPadding.width()
         )
-            .toInt()
         invalidateSelf()
     }
 
