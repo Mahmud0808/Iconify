@@ -653,7 +653,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
         currentClockView = mLsItemsContainer!!.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG)
         val isClockAdded = currentClockView != null
 
-        if (isClockAdded && currentTime - lastUpdated < THRESHOLD_TIME) {
+        if (!force && isClockAdded && currentTime - lastUpdated < THRESHOLD_TIME) {
             return
         } else {
             lastUpdated = currentTime
