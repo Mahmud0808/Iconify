@@ -156,6 +156,26 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 param.args[1] = brightness
             }
 
+        findClass(
+            "$SYSTEMUI_PACKAGE.qs.ui.composable.QuickSettingsShadeOverlayKt",
+            suppressError = true
+        )
+            .hookMethod("QuickSettingsLayoutContent")
+            .suppressError()
+            .runBefore { param ->
+                if (!brightnessBelowTiles) return@runBefore
+
+                val slots = (param.method as Method).parameterTypes
+                    .withIndex()
+                    .filter { it.value.name == FUNCTION3_CLASS }
+                    .map { it.index }
+                if (slots.size != 3) return@runBefore
+
+                val brightness = param.args[slots[1]]
+                param.args[slots[1]] = param.args[slots[2]]
+                param.args[slots[2]] = brightness
+            }
+
         val shadeSceneClass = findClass(
             "$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeSceneKt",
             suppressError = true
@@ -494,6 +514,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         private const val ELEMENT_KEY_DEFAULTS = 14
         private const val COMPOSER_CLASS = "androidx.compose.runtime.Composer"
         private const val FUNCTION0_CLASS = "kotlin.jvm.functions.Function0"
+        private const val FUNCTION3_CLASS = "kotlin.jvm.functions.Function3"
         private const val CONTENT_SCOPE_CLASS = "com.android.compose.animation.scene.ContentScope"
         private const val SHADE_SCENE_VIEW_MODEL_CLASS =
             "$SYSTEMUI_PACKAGE.shade.ui.viewmodel.ShadeSceneContentViewModel"
