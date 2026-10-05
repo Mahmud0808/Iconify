@@ -19,6 +19,8 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XposedHelpers.findField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.lang.reflect.Proxy
+import java.util.WeakHashMap
 import kotlin.math.roundToInt
 
 @SuppressLint("DiscouragedApi")
@@ -32,6 +34,7 @@ class QSTransparency(context: Context) : ModPack(context) {
     private var blurEnabled = false
     private var blurRadius = 23
     private var quickSettingsController: Any? = null
+    private val notificationScrimAlphas = WeakHashMap<Any, Any>()
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -181,6 +184,64 @@ class QSTransparency(context: Context) : ModPack(context) {
         quickSettingsControllerClass
             .hookConstructor()
             .runAfter { param -> quickSettingsController = param.thisObject }
+
+        hookComposeNotificationScrim()
+    }
+
+    private fun hookComposeNotificationScrim() {
+        val function0Class = findClass(FUNCTION0_CLASS, suppressError = true) ?: return
+        val invokeMethod = try {
+            function0Class.getMethod("invoke")
+        } catch (_: Throwable) {
+            return
+        }
+
+        findClass(
+            "com.android.compose.modifiers.AnimatedBackgroundKt",
+            suppressError = true
+        )
+            .hookMethod("animatedBackground")
+            .suppressError()
+            .runBefore { param ->
+                if (param.args.size < 3) return@runBefore
+
+                val alpha = param.args[2] ?: return@runBefore
+                if (alpha in notificationScrimAlphas.values) return@runBefore
+                if (!isCalledFromNotificationPanel()) return@runBefore
+
+                param.args[2] = notificationScrimAlphas.getOrPut(alpha) {
+                    Proxy.newProxyInstance(
+                        function0Class.classLoader,
+                        arrayOf(function0Class)
+                    ) { proxy, method, args ->
+                        when (method.name) {
+                            "invoke" -> {
+                                val value = invokeMethod.invoke(alpha) as? Float ?: 1f
+                                if (qsTransparencyActive || onlyNotifTransparencyActive) {
+                                    value * qsAlpha
+                                } else {
+                                    value
+                                }
+                            }
+
+                            "equals" -> proxy === args?.firstOrNull()
+                            "hashCode" -> System.identityHashCode(proxy)
+                            "toString" -> "IconifyNotificationScrimAlpha"
+                            else -> null
+                        }
+                    }
+                }
+            }
+    }
+
+    private fun isCalledFromNotificationPanel(): Boolean {
+        val caller = Thread.currentThread().stackTrace.firstOrNull { frame ->
+            (frame.className.startsWith("com.android.systemui.") ||
+                    frame.className.startsWith("com.android.compose.")) &&
+                    !frame.className.startsWith(ANIMATED_BACKGROUND_CLASS)
+        } ?: return false
+
+        return caller.className.startsWith(NOTIFICATIONS_COMPOSABLE_CLASS)
     }
 
     private fun updateQsScrimRadius() {
@@ -207,5 +268,13 @@ class QSTransparency(context: Context) : ModPack(context) {
             .forPackageName(SYSTEMUI_PACKAGE)
             .addResource("max_window_blur_radius") { blurRadius }
             .apply()
+    }
+
+    companion object {
+        private const val FUNCTION0_CLASS = "kotlin.jvm.functions.Function0"
+        private const val ANIMATED_BACKGROUND_CLASS =
+            "com.android.compose.modifiers.AnimatedBackgroundKt"
+        private const val NOTIFICATIONS_COMPOSABLE_CLASS =
+            "$SYSTEMUI_PACKAGE.notifications.ui.composable.NotificationsKt"
     }
 }
