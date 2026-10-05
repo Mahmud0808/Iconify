@@ -10,6 +10,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Com
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -26,6 +27,9 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
 
     private var function2Class: Class<*>? = null
     private var function3Class: Class<*>? = null
+    private var function0Class: Class<*>? = null
+    private var rememberViewModelMethod: Method? = null
+    private var sceneBrightnessElementKey: Any? = null
     private var kotlinUnit: Any? = null
     private var modifierCompanion: Any? = null
     private var sharedElementKey: Any? = null
@@ -39,6 +43,10 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     private val qsBrightnessSlots = WeakHashMap<Any, Any>()
     private val qqsTilesSlots = WeakHashMap<Any, Any>()
 
+    private var shadeSceneViewModel: Any? = null
+    private var shadeScope: Any? = null
+    private val shadeQqsSlots = WeakHashMap<Any, Any>()
+
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             brightnessBelowTiles = getBoolean(XposedKey.QS_BRIGHTNESS_SLIDER_BOTTOM)
@@ -47,6 +55,12 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+        resolveComposeApis()
+        hookQsFragmentCompose()
+        hookSceneContainer()
+    }
+
+    private fun hookQsFragmentCompose() {
         val qsFragmentClass = findClass(
             "$SYSTEMUI_PACKAGE.qs.composefragment.QSFragmentCompose",
             suppressError = true
@@ -55,8 +69,6 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.qs.composefragment.QSFragmentComposeKt",
             suppressError = true
         ) ?: return
-
-        resolveComposeApis()
 
         qsFragmentClass
             .hookMethod("QuickQuickSettingsElement")
@@ -129,9 +141,158 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
             }
     }
 
+    private fun hookSceneContainer() {
+        findClass(
+            "$SYSTEMUI_PACKAGE.qs.ui.composable.QuickSettingsContentKt",
+            suppressError = true
+        )
+            .hookMethodMatchPattern("QuickSettingsPanelLayout.*")
+            .suppressError()
+            .runBefore { param ->
+                if (!brightnessBelowTiles || param.args.size < 2) return@runBefore
+
+                val brightness = param.args[0] ?: return@runBefore
+                param.args[0] = param.args[1]
+                param.args[1] = brightness
+            }
+
+        val shadeSceneClass = findClass(
+            "$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeSceneKt",
+            suppressError = true
+        ) ?: return
+
+        shadeSceneClass
+            .hookMethod("SingleShade")
+            .suppressError()
+            .runBefore { param ->
+                param.args.forEach { arg ->
+                    when (arg?.javaClass?.name) {
+                        SHADE_SCENE_VIEW_MODEL_CLASS -> shadeSceneViewModel = arg
+                    }
+                    if (arg != null && isContentScope(arg)) shadeScope = arg
+                }
+            }
+
+        shadeSceneClass
+            .hookMethodMatchPattern("MediaAndQqsLayout.*")
+            .suppressError()
+            .runBefore { param ->
+                if (!brightnessInQqs || isSplitShade()) return@runBefore
+
+                val mediaInRow = param.args.firstOrNull { it is Boolean } as? Boolean
+                if (mediaInRow != false) return@runBefore
+
+                val qqs = param.args.firstOrNull() ?: return@runBefore
+                if (qqs in shadeQqsSlots.values) return@runBefore
+
+                shadeQqsSlots[qqs]?.let {
+                    param.args[0] = it
+                    return@runBefore
+                }
+
+                val slot = composableSlot { composer, changed ->
+                    if (brightnessBelowTiles) {
+                        qqs.callMethod("invoke", composer, changed)
+                        composeShadeBrightness(composer)
+                    } else {
+                        composeShadeBrightness(composer)
+                        qqs.callMethod("invoke", composer, changed)
+                    }
+                } ?: return@runBefore
+
+                shadeQqsSlots[qqs] = slot
+                param.args[0] = slot
+            }
+    }
+
+    private fun composeShadeBrightness(composer: Any) {
+        val containerViewModel = rememberShadeContainerViewModel(composer) ?: return
+        val brightnessViewModel = containerViewModel
+            .getFieldSilently("brightnessSliderViewModel") ?: return
+        val scope = shadeScope
+        val key = sceneBrightnessElementKey ?: sharedElementKey
+
+        if (scope != null && key != null) {
+            composeElement(scope, key, composer) {
+                composeBrightnessContainer(composer, brightnessViewModel)
+            }
+        } else {
+            composeBrightnessContainer(composer, brightnessViewModel)
+        }
+    }
+
+    private fun rememberShadeContainerViewModel(composer: Any): Any? {
+        val method = rememberViewModelMethod ?: return null
+        val factory = shadeSceneViewModel?.getFieldSilently("qsContainerViewModelFactory")
+            ?: return null
+        val provider = function0Proxy { factory.callMethod("create", false) } ?: return null
+
+        val parameterTypes = method.parameterTypes
+        val composerIndex = parameterTypes.indexOfFirst { it.name == COMPOSER_CLASS }
+        if (composerIndex == -1) return null
+
+        var defaultMask = 0
+        var stringFilled = false
+        val args = arrayOfNulls<Any>(parameterTypes.size)
+
+        parameterTypes.forEachIndexed { index, type ->
+            args[index] = when {
+                index == composerIndex -> composer
+                index > composerIndex -> 0
+                type == String::class.java && !stringFilled -> {
+                    stringFilled = true
+                    QQS_BRIGHTNESS_TRACE
+                }
+
+                type.name == FUNCTION0_CLASS -> provider
+                else -> {
+                    defaultMask = defaultMask or (1 shl index)
+                    null
+                }
+            }
+        }
+
+        if (parameterTypes.size - composerIndex - 1 == 2) {
+            args[parameterTypes.size - 1] = defaultMask
+        }
+
+        return method.invoke(null, *args)
+    }
+
+    private fun isContentScope(arg: Any): Boolean {
+        return arg.javaClass.interfaces.any { it.name == CONTENT_SCOPE_CLASS } ||
+                arg.javaClass.methods.any { it.name == "Element" && it.parameterTypes.size == 5 }
+    }
+
+    private fun isSplitShade(): Boolean {
+        val id = mContext.resources.getIdentifier(
+            "config_use_split_notification_shade",
+            "bool",
+            SYSTEMUI_PACKAGE
+        )
+        return id != 0 && mContext.resources.getBoolean(id)
+    }
+
     private fun resolveComposeApis() {
         function2Class = findClass("kotlin.jvm.functions.Function2", suppressError = true)
         function3Class = findClass("kotlin.jvm.functions.Function3", suppressError = true)
+        function0Class = findClass(FUNCTION0_CLASS, suppressError = true)
+
+        rememberViewModelMethod = findClass(
+            "$SYSTEMUI_PACKAGE.lifecycle.SysUiViewModelKt",
+            suppressError = true
+        )?.declaredMethods?.firstOrNull { it.name == "rememberViewModel" }
+
+        sceneBrightnessElementKey = try {
+            findClass(
+                "$SYSTEMUI_PACKAGE.qs.shared.ui.QuickSettings\$Elements",
+                suppressError = true
+            )?.getDeclaredField("BrightnessSlider")
+                ?.apply { isAccessible = true }
+                ?.get(null)
+        } catch (_: Throwable) {
+            null
+        }
 
         try {
             kotlinUnit = findClass("kotlin.Unit", suppressError = true)
@@ -185,9 +346,9 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         val key = sharedElementKey
 
         if (scope != null && key != null) {
-            composeElement(scope, key, composer) { composeBrightnessContainer(composer) }
+            composeElement(scope, key, composer) { composeQsFragmentBrightness(composer) }
         } else {
-            composeBrightnessContainer(composer)
+            composeQsFragmentBrightness(composer)
         }
     }
 
@@ -204,12 +365,16 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         elementMethod.invoke(scope, key, modifierCompanion, elementContent, composer, 0)
     }
 
-    private fun composeBrightnessContainer(composer: Any) {
-        val method = brightnessContainerMethod ?: return
+    private fun composeQsFragmentBrightness(composer: Any) {
         val viewModel = qsFragment
             .getFieldSilently("viewModel")
             .getFieldSilently("containerViewModel")
             .getFieldSilently("brightnessSliderViewModel") ?: return
+        composeBrightnessContainer(composer, viewModel)
+    }
+
+    private fun composeBrightnessContainer(composer: Any, viewModel: Any) {
+        val method = brightnessContainerMethod ?: return
         val colors = containerColors() ?: return
 
         val parameterTypes = method.parameterTypes
@@ -288,6 +453,22 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         }
     }
 
+    private fun function0Proxy(block: () -> Any?): Any? {
+        val functionClass = function0Class ?: return null
+        return Proxy.newProxyInstance(
+            functionClass.classLoader,
+            arrayOf(functionClass)
+        ) { proxy, method, args ->
+            when (method.name) {
+                "invoke" -> block()
+                "equals" -> proxy === args?.firstOrNull()
+                "hashCode" -> System.identityHashCode(proxy)
+                "toString" -> "IconifyViewModelFactory"
+                else -> null
+            }
+        }
+    }
+
     private fun composableContent(block: () -> Unit): Any? {
         val functionClass = function3Class ?: return null
         return Proxy.newProxyInstance(
@@ -312,6 +493,11 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         private const val SHARED_ELEMENT_NAME = "IconifyBrightnessSlider"
         private const val ELEMENT_KEY_DEFAULTS = 14
         private const val COMPOSER_CLASS = "androidx.compose.runtime.Composer"
+        private const val FUNCTION0_CLASS = "kotlin.jvm.functions.Function0"
+        private const val CONTENT_SCOPE_CLASS = "com.android.compose.animation.scene.ContentScope"
+        private const val SHADE_SCENE_VIEW_MODEL_CLASS =
+            "$SYSTEMUI_PACKAGE.shade.ui.viewmodel.ShadeSceneContentViewModel"
+        private const val QQS_BRIGHTNESS_TRACE = "iconify_qqs_brightness"
         private const val COMPOSE_MODIFIER_CLASS = "androidx.compose.ui.Modifier"
         private const val BRIGHTNESS_VIEW_MODEL_CLASS =
             "$SYSTEMUI_PACKAGE.brightness.ui.viewmodel.BrightnessSliderViewModel"
