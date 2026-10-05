@@ -165,6 +165,18 @@ val quickSettingsPreferences = preferenceScreen {
 
     category(title = stringRes(R.string.section_title_qs_elements)) {
         switch(
+            key = XposedKey.QS_BRIGHTNESS_SLIDER_BOTTOM,
+            title = stringRes(R.string.qs_brightness_slider_bottom_title),
+            summary = { stringRes(R.string.qs_brightness_slider_bottom_desc) }
+        )
+
+        switch(
+            key = XposedKey.QQS_BRIGHTNESS_SLIDER,
+            title = stringRes(R.string.qqs_brightness_slider_title),
+            summary = { stringRes(R.string.qqs_brightness_slider_desc) }
+        )
+
+        switch(
             key = XposedKey.HIDE_QS_SILENT_TEXT,
             title = stringRes(R.string.hide_qs_silent_text_title),
             summary = { stringRes(R.string.hide_qs_silent_text_desc) },
@@ -223,6 +235,8 @@ fun QuickSettingsScreen(
             XposedKey.COMPACT_MEDIA_PLAYER.name,
             XposedKey.BLUR_MEDIA_PLAYER_ARTWORK.name,
             XposedKey.HIDE_QS_SILENT_TEXT.name,
+            XposedKey.QS_BRIGHTNESS_SLIDER_BOTTOM.name,
+            XposedKey.QQS_BRIGHTNESS_SLIDER.name,
             XposedKey.HIDE_QS_FOOTER_BUTTONS.name,
             XposedKey.QS_PANEL_HIDE_CARRIER.name,
             XposedKey.HIDE_STATUS_ICONS.name,

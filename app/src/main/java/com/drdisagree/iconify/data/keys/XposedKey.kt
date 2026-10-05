@@ -192,6 +192,8 @@ enum class XposedKey(override val default: Any?) : Key {
     QS_FOOTER_GRADIENT_END_COLOR("#D0BCFF"),
 
     // Quick Settings - Margins
+    QS_BRIGHTNESS_SLIDER_BOTTOM(false),
+    QQS_BRIGHTNESS_SLIDER(false),
     CUSTOM_QS_MARGINS(false),
     QQS_TOP_MARGIN_PORTRAIT(100f),
     QS_TOP_MARGIN_PORTRAIT(100f),

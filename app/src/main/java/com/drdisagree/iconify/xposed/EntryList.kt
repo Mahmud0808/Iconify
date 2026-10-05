@@ -29,6 +29,7 @@ import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderClock
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeadsUpBlur
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSGrid
+import com.drdisagree.iconify.xposed.modules.quicksettings.QSBrightnessSlider
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSTheme
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSTransparency
 import com.drdisagree.iconify.xposed.modules.quicksettings.QuickSettings
@@ -96,7 +97,8 @@ object EntryList {
         LockscreenClock::class.java,
         LockscreenWeather::class.java,
         LockscreenWidgets::class.java,
-        QSTheme::class.java
+        QSTheme::class.java,
+        QSBrightnessSlider::class.java
     )
 
     fun getEntries(packageName: String): ArrayList<Class<out ModPack>> {

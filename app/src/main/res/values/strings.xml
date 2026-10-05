@@ -1590,6 +1590,10 @@
     <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
     <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
     <string name="section_title_brightness_slider_colors">Brightness Slider Colors</string>
+    <string name="qs_brightness_slider_bottom_title">Brightness Slider Below Tiles</string>
+    <string name="qs_brightness_slider_bottom_desc">Move the brightness slider below the quick settings tiles</string>
+    <string name="qqs_brightness_slider_title">Always Show Brightness Slider</string>
+    <string name="qqs_brightness_slider_desc">Show the brightness slider in collapsed quick settings and share it with expanded quick settings</string>
     <string name="brightness_slider_active_color">Active Track Color</string>
     <string name="brightness_slider_inactive_color">Inactive Track Color</string>
     <string name="brightness_slider_thumb_color">Thumb Color</string>
