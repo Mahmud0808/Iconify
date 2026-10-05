@@ -157,11 +157,11 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var dualStatusbarEnabled = false
     private var linkToCustomColor = false
     private var composeHomeStatusIcons = false
-    private var homeStatusIconsDepth = 0
+    private var composeStatusIconsDepth = 0
     private var zeroSizeModifier: Method? = null
     private var clipToBoundsModifier: Method? = null
     private var alphaModifier: Method? = null
-    private val homeBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
+    private val hideableBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
     private val hiddenToOriginalModifier = WeakHashMap<Any, Any>()
 
     private data class BatteryCallbackState(
@@ -347,17 +347,22 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 var mBatteryMeterView =
                     mView.findViewWithTag<ViewGroup?>(ICONIFY_SB_BATTERY_ICON_TAG)
 
+                composeHomeStatusIcons = mView.composeBatteryHost(HOME_COMPOSE_HOST) != null
+
                 if (mBatteryMeterView == null) {
                     mBatteryMeterView = createBatteryMeterView(ICONIFY_SB_BATTERY_ICON_TAG)
 
-                    mView.homeBatteryContainer().addView(mBatteryMeterView, -1)
+                    mView.batteryContainer(HOME_COMPOSE_HOST).addView(mBatteryMeterView, -1)
 
                     batteryViews.add(mBatteryMeterView)
                 }
 
-                if (composeHomeStatusIcons) {
-                    val batteryMeterView = mBatteryMeterView
-                    mView.post { mView.homeBatteryContainer().reAddView(batteryMeterView) }
+                val batteryMeterView = mBatteryMeterView
+                mView.post {
+                    mView.composeBatteryHost(HOME_COMPOSE_HOST)?.let {
+                        composeHomeStatusIcons = true
+                        it.reAddView(batteryMeterView)
+                    }
                 }
 
                 refreshBatteryData()
@@ -386,16 +391,14 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 if (mBatteryMeterView == null) {
                     mBatteryMeterView = createBatteryMeterView(ICONIFY_LS_BATTERY_ICON_TAG)
 
-                    val systemIconsContainer = mView.findViewById<ViewGroup>(
-                        mContext.resources.getIdentifier(
-                            "system_icons",
-                            "id",
-                            SYSTEMUI_PACKAGE
-                        )
-                    )
-                    systemIconsContainer.addView(mBatteryMeterView, -1)
+                    mView.batteryContainer(KEYGUARD_COMPOSE_HOST).addView(mBatteryMeterView, -1)
 
                     batteryViews.add(mBatteryMeterView)
+                }
+
+                val batteryMeterView = mBatteryMeterView
+                mView.post {
+                    mView.composeBatteryHost(KEYGUARD_COMPOSE_HOST)?.reAddView(batteryMeterView)
                 }
 
                 refreshBatteryData()
@@ -507,7 +510,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 applyStatusBarTint(newTint)
             }
 
-        hookComposeHomeBattery()
+        hookComposeStockBattery()
 
         keyguardStatusBarViewClass
             .hookMethod("onThemeChanged", "updateIconsAndTextColors")
@@ -918,22 +921,16 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         )
     }
 
-    private fun View.homeBatteryContainer(): ViewGroup {
-        val endSideContent = findViewById<ViewGroup?>(
-            mContext.resources.getIdentifier(
-                "status_bar_end_side_content",
-                "id",
-                SYSTEMUI_PACKAGE
-            )
-        )
+    private fun View.composeBatteryHost(hostIdName: String): ViewGroup? {
+        val host = findViewById<ViewGroup?>(
+            mContext.resources.getIdentifier(hostIdName, "id", SYSTEMUI_PACKAGE)
+        ) ?: return null
 
-        composeHomeStatusIcons = endSideContent?.children?.any {
-            it.javaClass.simpleName == "ComposeView"
-        } == true
+        return host.takeIf { it.children.any { child -> child.javaClass.simpleName == "ComposeView" } }
+    }
 
-        if (composeHomeStatusIcons) return endSideContent!!
-
-        return findViewById(
+    private fun View.batteryContainer(composeHostIdName: String): ViewGroup {
+        return composeBatteryHost(composeHostIdName) ?: findViewById(
             mContext.resources.getIdentifier(
                 "system_icons",
                 "id",
@@ -942,11 +939,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         )
     }
 
-    private fun hookComposeHomeBattery() {
-        val statusBarRootClass = findClass(
-            "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.StatusBarRootKt",
-            suppressError = true
-        ) ?: return
+    private fun hookComposeStockBattery() {
         val unifiedBatteryClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.ui.composable.UnifiedBatteryKt",
             suppressError = true
@@ -981,18 +974,23 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     method.parameterTypes[1] == Float::class.javaPrimitiveType
         }
 
-        statusBarRootClass
-            .hookMethod("SystemStatusIconsContainer")
-            .suppressError()
-            .run(object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    homeStatusIconsDepth++
-                }
+        listOf(
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.StatusBarRootKt",
+            "$SYSTEMUI_PACKAGE.keyguard.ui.composable.elements.StatusBarElementProviderKt"
+        ).forEach { className ->
+            findClass(className, suppressError = true)
+                .hookMethod("SystemStatusIconsContainer")
+                .suppressError()
+                .run(object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        composeStatusIconsDepth++
+                    }
 
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    homeStatusIconsDepth--
-                }
-            })
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        composeStatusIconsDepth--
+                    }
+                })
+        }
 
         unifiedBatteryClass
             .hookMethod("UnifiedBattery")
@@ -1005,12 +1003,12 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
                 val modifier = param.args[index] ?: return@runBefore
                 val original = hiddenToOriginalModifier[modifier] ?: modifier
-                val isHomeBattery = homeStatusIconsDepth > 0 ||
-                        original in homeBatteryModifiers ||
+                val isHideable = composeStatusIconsDepth > 0 ||
+                        original in hideableBatteryModifiers ||
                         hiddenToOriginalModifier.containsKey(modifier)
-                if (!isHomeBattery) return@runBefore
+                if (!isHideable) return@runBefore
 
-                homeBatteryModifiers.add(original)
+                hideableBatteryModifiers.add(original)
 
                 param.args[index] = if (customBatteryEnabled || hideDefaultBattery) {
                     hiddenModifierFor(original) ?: original
@@ -1146,5 +1144,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         private const val CHARGING_ICON_TAG = "charging_con"
         private const val PERCENTAGE_TEXT_TAG = "percentage_text"
         private const val COMPOSE_MODIFIER_CLASS = "androidx.compose.ui.Modifier"
+        private const val HOME_COMPOSE_HOST = "status_bar_end_side_content"
+        private const val KEYGUARD_COMPOSE_HOST = "system_icons_container"
     }
 }
