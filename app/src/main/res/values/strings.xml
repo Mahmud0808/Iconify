@@ -1589,6 +1589,26 @@
     <string name="section_title_active_tile_colors">Active Tile Colors</string>
     <string name="section_title_inactive_tile_colors">Inactive Tile Colors</string>
     <string name="section_title_disabled_tile_colors">Disabled Tile Colors</string>
+    <string name="section_title_brightness_slider_colors">Brightness Slider Colors</string>
+    <string name="brightness_slider_active_color">Active Track Color</string>
+    <string name="brightness_slider_inactive_color">Inactive Track Color</string>
+    <string name="brightness_slider_thumb_color">Thumb Color</string>
+    <string name="brightness_slider_gradient_title">Gradient Active Track</string>
+    <string name="brightness_slider_gradient_desc">Blend the active track from the active track color to the end color</string>
+    <string name="brightness_slider_gradient_end_color">Gradient End Color</string>
+    <string name="active_tile_gradient_title">Gradient Tile Background</string>
+    <string name="active_tile_gradient_desc">Blend the active tile background from the tile background color to the end color</string>
+    <string name="active_tile_gradient_end_color">Gradient End Color</string>
+    <string name="section_title_qs_footer_colors">Footer Button Colors</string>
+    <string name="qs_footer_active_button_background_color">Active Button Background Color</string>
+    <string name="qs_footer_active_button_icon_color">Active Button Icon Color</string>
+    <string name="qs_footer_inactive_button_background_color">Inactive Button Background Color</string>
+    <string name="qs_footer_inactive_button_icon_color">Inactive Button Icon Color</string>
+    <string name="qs_footer_chip_background_color">Info Chip Background Color</string>
+    <string name="qs_footer_chip_content_color">Info Chip Content Color</string>
+    <string name="qs_footer_gradient_title">Gradient Active Button</string>
+    <string name="qs_footer_gradient_desc">Blend active footer buttons from the active button background color to the end color</string>
+    <string name="qs_footer_gradient_end_color">Gradient End Color</string>
 
     <!-- Search -->
     <string name="search_settings_hint">Search settings…</string>
