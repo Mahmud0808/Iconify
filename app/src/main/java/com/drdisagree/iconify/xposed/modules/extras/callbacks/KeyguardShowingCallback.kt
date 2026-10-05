@@ -37,6 +37,7 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
 
         notificationPanelViewControllerClass
             .hookMethodMatchPattern("onPanelStateChanged.*")
+            .suppressError()
             .runAfter { param ->
                 val isKeyguardState =
                     param.thisObject.getField("mBarState") in listOf(KEYGUARD, SHADE_LOCKED)
