@@ -167,6 +167,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private val hideableBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
     private val hiddenToOriginalModifier = WeakHashMap<Any, Any>()
     private val composeMarginListeners = WeakHashMap<View, View.OnLayoutChangeListener>()
+    private val composeHostListeners = WeakHashMap<ViewGroup, View.OnLayoutChangeListener>()
 
     private data class BatteryCallbackState(
         val level: Int = 0,
@@ -365,7 +366,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 mView.post {
                     mView.composeBatteryHost(HOME_COMPOSE_HOST)?.let {
                         composeHomeStatusIcons = true
-                        it.placeBatteryBesideCompose(batteryMeterView)
+                        it.keepBatteryBesideCompose(batteryMeterView)
                     }
                 }
 
@@ -403,7 +404,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 val batteryMeterView = mBatteryMeterView
                 mView.post {
                     mView.composeBatteryHost(KEYGUARD_COMPOSE_HOST)
-                        ?.placeBatteryBesideCompose(batteryMeterView)
+                        ?.keepBatteryBesideCompose(batteryMeterView)
                 }
 
                 refreshBatteryData()
@@ -936,7 +937,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
     private fun View.addBatteryView(composeHostIdName: String, batteryView: ViewGroup) {
         composeBatteryHost(composeHostIdName)?.let {
-            it.placeBatteryBesideCompose(batteryView)
+            it.keepBatteryBesideCompose(batteryView)
             return
         }
 
@@ -947,6 +948,22 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 SYSTEMUI_PACKAGE
             )
         ).addView(batteryView, -1)
+    }
+
+    private fun ViewGroup.keepBatteryBesideCompose(batteryView: View) {
+        placeBatteryBesideCompose(batteryView)
+        if (composeHostListeners.containsKey(this)) return
+
+        val listener = View.OnLayoutChangeListener { host, _, _, _, _, _, _, _, _ ->
+            val group = host as ViewGroup
+            if (batteryView.parent === group &&
+                group.indexOfChild(batteryView) != group.childCount - 1
+            ) {
+                group.post { group.placeBatteryBesideCompose(batteryView) }
+            }
+        }
+        composeHostListeners[this] = listener
+        addOnLayoutChangeListener(listener)
     }
 
     private fun ViewGroup.placeBatteryBesideCompose(batteryView: View) {
