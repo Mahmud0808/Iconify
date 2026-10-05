@@ -957,9 +957,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         val listener = View.OnLayoutChangeListener { host, _, _, _, _, _, _, _, _ ->
             val group = host as ViewGroup
-            if (batteryView.parent === group &&
-                group.indexOfChild(batteryView) != group.childCount - 1
-            ) {
+            if (!group.isBatteryPlaced(batteryView)) {
                 group.post { group.placeBatteryBesideCompose(batteryView) }
             }
         }
@@ -967,7 +965,42 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         addOnLayoutChangeListener(listener)
     }
 
+    private fun ViewGroup.composeHostRow(): LinearLayout? {
+        if (this !is FrameLayout || children.none { it.javaClass.simpleName == "ComposeView" }) {
+            return null
+        }
+        return (parent as? LinearLayout)?.takeIf { it.orientation == LinearLayout.HORIZONTAL }
+    }
+
+    private fun ViewGroup.isBatteryPlaced(batteryView: View): Boolean {
+        val row = composeHostRow()
+            ?: return batteryView.parent !== this || indexOfChild(batteryView) == childCount - 1
+
+        return batteryView.parent === row &&
+                row.indexOfChild(batteryView) == row.indexOfChild(this) + 1
+    }
+
     private fun ViewGroup.placeBatteryBesideCompose(batteryView: View) {
+        composeHostRow()?.let { row ->
+            if (isBatteryPlaced(batteryView)) return
+
+            val hostMarginEnd = (layoutParams as? ViewGroup.MarginLayoutParams)?.marginEnd ?: 0
+            batteryView.removeViewFromParent()
+            row.addView(
+                batteryView,
+                row.indexOfChild(this) + 1,
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    gravity = Gravity.CENTER_VERTICAL
+                    marginStart = -hostMarginEnd
+                    marginEnd = hostMarginEnd
+                }
+            )
+            return
+        }
+
         val composeView = children.lastOrNull { it.javaClass.simpleName == "ComposeView" }
 
         if (this !is FrameLayout || composeView == null) {
