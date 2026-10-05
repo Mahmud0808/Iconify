@@ -359,9 +359,9 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     mBatteryMeterView = createBatteryMeterView(ICONIFY_SB_BATTERY_ICON_TAG)
 
                     mView.addBatteryView(HOME_COMPOSE_HOST, mBatteryMeterView)
-
-                    batteryViews.add(mBatteryMeterView)
                 }
+
+                batteryViews.add(mBatteryMeterView)
 
                 val batteryMeterView = mBatteryMeterView
                 mView.post {
@@ -398,9 +398,9 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     mBatteryMeterView = createBatteryMeterView(ICONIFY_LS_BATTERY_ICON_TAG)
 
                     mView.addBatteryView(KEYGUARD_COMPOSE_HOST, mBatteryMeterView)
-
-                    batteryViews.add(mBatteryMeterView)
                 }
+
+                batteryViews.add(mBatteryMeterView)
 
                 val batteryMeterView = mBatteryMeterView
                 mView.post {
@@ -457,9 +457,9 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                         )
                     )
                     systemIconsContainer.addView(mBatteryMeterView, -1)
-
-                    batteryViews.add(mBatteryMeterView)
                 }
+
+                batteryViews.add(mBatteryMeterView)
 
                 val (fgColor, bgColor) = getQsIconColors(context)
 
