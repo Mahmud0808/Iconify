@@ -10,6 +10,7 @@ import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
@@ -17,6 +18,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.ref.WeakReference
@@ -51,6 +53,19 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
                 .runAfter { param -> reorderIconGroup(param.thisObject) }
         }
 
+        findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.phone.ui.StatusBarIconControllerImpl",
+            suppressError = true
+        )
+            .hookMethod("onTuningChanged")
+            .suppressError()
+            .runAfter { param ->
+                (param.thisObject.getFieldSilently("mIconGroups") as? Collection<*>)
+                    ?.filterNotNull()
+                    ?.forEach { reorderIconGroup(it) }
+                applyToOrderedSlotNames()
+            }
+
         val configStatusBarIconsId = mContext.resources.getIdentifier(
             "config_statusBarIcons",
             "array",
@@ -77,6 +92,14 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
                 orderedSlotNamesRepository = WeakReference(param.thisObject)
                 applyToOrderedSlotNames()
             }
+
+        BootCallback.registerBootListener {
+            val enabled = Xprefs.getBoolean(XposedKey.STATUSBAR_SWAP_WIFI_CELLULAR)
+            if (enabled != swapWifiAndCellularIcon) {
+                swapWifiAndCellularIcon = enabled
+            }
+            applyToOrderedSlotNames()
+        }
     }
 
     private fun reorderIconGroup(iconManager: Any) {
