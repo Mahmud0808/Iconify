@@ -159,6 +159,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var composeHomeStatusIcons = false
     private var homeStatusIconsDepth = 0
     private var zeroSizeModifier: Method? = null
+    private var clipToBoundsModifier: Method? = null
+    private var alphaModifier: Method? = null
     private val homeBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
     private val hiddenToOriginalModifier = WeakHashMap<Any, Any>()
 
@@ -961,6 +963,24 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     method.parameterTypes[1] == Float::class.javaPrimitiveType
         } ?: return
 
+        clipToBoundsModifier = findClass(
+            "androidx.compose.ui.draw.ClipKt",
+            suppressError = true
+        )?.declaredMethods?.firstOrNull { method ->
+            method.name == "clipToBounds" &&
+                    method.parameterTypes.size == 1 &&
+                    method.parameterTypes[0].name == COMPOSE_MODIFIER_CLASS
+        }
+        alphaModifier = findClass(
+            "androidx.compose.ui.draw.AlphaKt",
+            suppressError = true
+        )?.declaredMethods?.firstOrNull { method ->
+            method.name == "alpha" &&
+                    method.parameterTypes.size == 2 &&
+                    method.parameterTypes[0].name == COMPOSE_MODIFIER_CLASS &&
+                    method.parameterTypes[1] == Float::class.javaPrimitiveType
+        }
+
         statusBarRootClass
             .hookMethod("SystemStatusIconsContainer")
             .suppressError()
@@ -1002,7 +1022,10 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
     private fun hiddenModifierFor(original: Any): Any? {
         val hidden = try {
-            zeroSizeModifier?.invoke(null, original, 0f)
+            var modifier = zeroSizeModifier?.invoke(null, original, 0f) ?: return null
+            clipToBoundsModifier?.let { modifier = it.invoke(null, modifier)!! }
+            alphaModifier?.let { modifier = it.invoke(null, modifier, 0f)!! }
+            modifier
         } catch (_: Throwable) {
             null
         } ?: return null
