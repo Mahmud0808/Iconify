@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,6 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_CIRCLE
@@ -65,6 +67,7 @@ import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DualToneHandler
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -163,6 +166,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var alphaModifier: Method? = null
     private val hideableBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
     private val hiddenToOriginalModifier = WeakHashMap<Any, Any>()
+    private val composeMarginListeners = WeakHashMap<View, View.OnLayoutChangeListener>()
 
     private data class BatteryCallbackState(
         val level: Int = 0,
@@ -352,7 +356,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 if (mBatteryMeterView == null) {
                     mBatteryMeterView = createBatteryMeterView(ICONIFY_SB_BATTERY_ICON_TAG)
 
-                    mView.batteryContainer(HOME_COMPOSE_HOST).addView(mBatteryMeterView, -1)
+                    mView.addBatteryView(HOME_COMPOSE_HOST, mBatteryMeterView)
 
                     batteryViews.add(mBatteryMeterView)
                 }
@@ -361,7 +365,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 mView.post {
                     mView.composeBatteryHost(HOME_COMPOSE_HOST)?.let {
                         composeHomeStatusIcons = true
-                        it.reAddView(batteryMeterView)
+                        it.placeBatteryBesideCompose(batteryMeterView)
                     }
                 }
 
@@ -391,14 +395,15 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 if (mBatteryMeterView == null) {
                     mBatteryMeterView = createBatteryMeterView(ICONIFY_LS_BATTERY_ICON_TAG)
 
-                    mView.batteryContainer(KEYGUARD_COMPOSE_HOST).addView(mBatteryMeterView, -1)
+                    mView.addBatteryView(KEYGUARD_COMPOSE_HOST, mBatteryMeterView)
 
                     batteryViews.add(mBatteryMeterView)
                 }
 
                 val batteryMeterView = mBatteryMeterView
                 mView.post {
-                    mView.composeBatteryHost(KEYGUARD_COMPOSE_HOST)?.reAddView(batteryMeterView)
+                    mView.composeBatteryHost(KEYGUARD_COMPOSE_HOST)
+                        ?.placeBatteryBesideCompose(batteryMeterView)
                 }
 
                 refreshBatteryData()
@@ -929,14 +934,53 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         return host.takeIf { it.children.any { child -> child.javaClass.simpleName == "ComposeView" } }
     }
 
-    private fun View.batteryContainer(composeHostIdName: String): ViewGroup {
-        return composeBatteryHost(composeHostIdName) ?: findViewById(
+    private fun View.addBatteryView(composeHostIdName: String, batteryView: ViewGroup) {
+        composeBatteryHost(composeHostIdName)?.let {
+            it.placeBatteryBesideCompose(batteryView)
+            return
+        }
+
+        findViewById<ViewGroup>(
             mContext.resources.getIdentifier(
                 "system_icons",
                 "id",
                 SYSTEMUI_PACKAGE
             )
+        ).addView(batteryView, -1)
+    }
+
+    private fun ViewGroup.placeBatteryBesideCompose(batteryView: View) {
+        val composeView = children.lastOrNull { it.javaClass.simpleName == "ComposeView" }
+
+        if (this !is FrameLayout || composeView == null) {
+            reAddView(batteryView)
+            return
+        }
+
+        if (batteryView.parent !== this) {
+            batteryView.removeViewFromParent()
+            addView(batteryView)
+        }
+        batteryView.layoutParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT,
+            Gravity.END or Gravity.CENTER_VERTICAL
         )
+
+        composeMarginListeners.remove(batteryView)?.let {
+            batteryView.removeOnLayoutChangeListener(it)
+        }
+        val listener = View.OnLayoutChangeListener { view, _, _, _, _, _, _, _, _ ->
+            val params = composeView.layoutParams as? ViewGroup.MarginLayoutParams
+                ?: return@OnLayoutChangeListener
+            val marginEnd = if (view.isVisible) view.width else 0
+            if (params.marginEnd != marginEnd) {
+                params.marginEnd = marginEnd
+                composeView.layoutParams = params
+            }
+        }
+        composeMarginListeners[batteryView] = listener
+        batteryView.addOnLayoutChangeListener(listener)
     }
 
     private fun hookComposeStockBattery() {
