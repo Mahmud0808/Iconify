@@ -162,6 +162,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var composeStatusIconsDepth = 0
     private var zeroSizeModifier: Method? = null
     private var modifierCompanion: Any? = null
+    private var modifierThen: Method? = null
     private var clipToBoundsModifier: Method? = null
     private var alphaModifier: Method? = null
     private val hideableBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
@@ -1013,10 +1014,14 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             suppressError = true
         ) ?: return
 
+        val modifierClass = findClass(COMPOSE_MODIFIER_CLASS, suppressError = true)
         modifierCompanion = try {
-            findClass(COMPOSE_MODIFIER_CLASS, suppressError = true)
-                ?.getField("Companion")
-                ?.get(null)
+            modifierClass?.getField("Companion")?.get(null)
+        } catch (_: Throwable) {
+            null
+        }
+        modifierThen = try {
+            modifierClass?.getMethod("then", modifierClass)
         } catch (_: Throwable) {
             null
         }
@@ -1096,7 +1101,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             var modifier = zeroSizeModifier?.invoke(null, companion, 0f) ?: return null
             clipToBoundsModifier?.let { modifier = it.invoke(null, modifier)!! }
             alphaModifier?.let { modifier = it.invoke(null, modifier, 0f)!! }
-            modifier.callMethod("then", original)
+            modifierThen?.invoke(modifier, original) ?: return null
         } catch (_: Throwable) {
             null
         } ?: return null
