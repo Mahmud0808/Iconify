@@ -66,7 +66,6 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DualToneHandler
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -162,6 +161,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var composeHomeStatusIcons = false
     private var composeStatusIconsDepth = 0
     private var zeroSizeModifier: Method? = null
+    private var modifierCompanion: Any? = null
     private var clipToBoundsModifier: Method? = null
     private var alphaModifier: Method? = null
     private val hideableBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
@@ -970,7 +970,10 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         val composeView = children.lastOrNull { it.javaClass.simpleName == "ComposeView" }
 
         if (this !is FrameLayout || composeView == null) {
-            reAddView(batteryView)
+            if (batteryView.parent !== this || indexOfChild(batteryView) != childCount - 1) {
+                batteryView.removeViewFromParent()
+                addView(batteryView)
+            }
             return
         }
 
@@ -1009,6 +1012,14 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             "androidx.compose.foundation.layout.SizeKt",
             suppressError = true
         ) ?: return
+
+        modifierCompanion = try {
+            findClass(COMPOSE_MODIFIER_CLASS, suppressError = true)
+                ?.getField("Companion")
+                ?.get(null)
+        } catch (_: Throwable) {
+            null
+        }
 
         zeroSizeModifier = sizeKtClass.declaredMethods.firstOrNull { method ->
             method.name.startsWith("size-") &&
@@ -1081,10 +1092,11 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
     private fun hiddenModifierFor(original: Any): Any? {
         val hidden = try {
-            var modifier = zeroSizeModifier?.invoke(null, original, 0f) ?: return null
+            val companion = modifierCompanion ?: return null
+            var modifier = zeroSizeModifier?.invoke(null, companion, 0f) ?: return null
             clipToBoundsModifier?.let { modifier = it.invoke(null, modifier)!! }
             alphaModifier?.let { modifier = it.invoke(null, modifier, 0f)!! }
-            modifier
+            modifier.callMethod("then", original)
         } catch (_: Throwable) {
             null
         } ?: return null
