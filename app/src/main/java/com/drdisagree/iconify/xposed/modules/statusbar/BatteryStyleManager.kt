@@ -68,8 +68,8 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DualToneHandler
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
@@ -161,8 +161,6 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var composeHomeStatusIcons = false
     private var composeStatusIconsDepth = 0
     private var zeroSizeModifier: Method? = null
-    private var modifierCompanion: Any? = null
-    private var modifierThen: Method? = null
     private var clipToBoundsModifier: Method? = null
     private var alphaModifier: Method? = null
     private val hideableBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
@@ -413,8 +411,15 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 mView.hideStockBatteryIcon()
 
                 val tintedIconManager = param.thisObject.getFieldSilently("mTintedIconManager")
-                if (tintedIconManager != null) {
-                    mView.callMethod("onThemeChanged", tintedIconManager)
+                val onThemeChanged = tintedIconManager?.let { manager ->
+                    mView.javaClass.methods.firstOrNull {
+                        it.name == "onThemeChanged" &&
+                                it.parameterTypes.size == 1 &&
+                                it.parameterTypes[0].isInstance(manager)
+                    }
+                }
+                if (onThemeChanged != null) {
+                    onThemeChanged.invoke(mView, tintedIconManager)
                 } else {
                     mView.callMethodSilently("updateIconsAndTextColors")
                 }
@@ -1042,47 +1047,20 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.ui.composable.UnifiedBatteryKt",
             suppressError = true
         ) ?: return
-        val sizeKtClass = findClass(
+        zeroSizeModifier = ComposeToolkit.modifierFunction(
             "androidx.compose.foundation.layout.SizeKt",
-            suppressError = true
+            "size",
+            Float::class.javaPrimitiveType
         ) ?: return
-
-        val modifierClass = findClass(COMPOSE_MODIFIER_CLASS, suppressError = true)
-        modifierCompanion = try {
-            modifierClass?.getField("Companion")?.get(null)
-        } catch (_: Throwable) {
-            null
-        }
-        modifierThen = try {
-            modifierClass?.getMethod("then", modifierClass)
-        } catch (_: Throwable) {
-            null
-        }
-
-        zeroSizeModifier = sizeKtClass.declaredMethods.firstOrNull { method ->
-            method.name.startsWith("size-") &&
-                    method.parameterTypes.size == 2 &&
-                    method.parameterTypes[0].name == COMPOSE_MODIFIER_CLASS &&
-                    method.parameterTypes[1] == Float::class.javaPrimitiveType
-        } ?: return
-
-        clipToBoundsModifier = findClass(
+        clipToBoundsModifier = ComposeToolkit.modifierFunction(
             "androidx.compose.ui.draw.ClipKt",
-            suppressError = true
-        )?.declaredMethods?.firstOrNull { method ->
-            method.name == "clipToBounds" &&
-                    method.parameterTypes.size == 1 &&
-                    method.parameterTypes[0].name == COMPOSE_MODIFIER_CLASS
-        }
-        alphaModifier = findClass(
+            "clipToBounds"
+        )
+        alphaModifier = ComposeToolkit.modifierFunction(
             "androidx.compose.ui.draw.AlphaKt",
-            suppressError = true
-        )?.declaredMethods?.firstOrNull { method ->
-            method.name == "alpha" &&
-                    method.parameterTypes.size == 2 &&
-                    method.parameterTypes[0].name == COMPOSE_MODIFIER_CLASS &&
-                    method.parameterTypes[1] == Float::class.javaPrimitiveType
-        }
+            "alpha",
+            Float::class.javaPrimitiveType
+        )
 
         listOf(
             "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.StatusBarRootKt",
@@ -1130,11 +1108,11 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
     private fun hiddenModifierFor(original: Any): Any? {
         val hidden = try {
-            val companion = modifierCompanion ?: return null
+            val companion = ComposeToolkit.emptyModifier ?: return null
             var modifier = zeroSizeModifier?.invoke(null, companion, 0f) ?: return null
             clipToBoundsModifier?.let { modifier = it.invoke(null, modifier)!! }
             alphaModifier?.let { modifier = it.invoke(null, modifier, 0f)!! }
-            modifierThen?.invoke(modifier, original) ?: return null
+            ComposeToolkit.then(modifier, original) ?: return null
         } catch (_: Throwable) {
             null
         } ?: return null
@@ -1254,7 +1232,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         private const val BATTERY_ICON_TAG = "battery_icon"
         private const val CHARGING_ICON_TAG = "charging_con"
         private const val PERCENTAGE_TEXT_TAG = "percentage_text"
-        private const val COMPOSE_MODIFIER_CLASS = "androidx.compose.ui.Modifier"
+        private const val COMPOSE_MODIFIER_CLASS = ComposeToolkit.MODIFIER_CLASS
         private const val HOME_COMPOSE_HOST = "status_bar_end_side_content"
         private const val KEYGUARD_COMPOSE_HOST = "system_icons_container"
     }

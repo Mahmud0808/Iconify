@@ -23,6 +23,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLa
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
@@ -135,15 +136,14 @@ class QuickSettings(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeHeaderKt",
             suppressError = true
         ) ?: return
-        val paddingMethod = findClass(
+        val paddingMethod = ComposeToolkit.modifierFunction(
             "androidx.compose.foundation.layout.PaddingKt",
-            suppressError = true
-        )?.declaredMethods?.firstOrNull { method ->
-            method.name.startsWith("padding-") &&
-                    method.parameterTypes.size == 5 &&
-                    method.parameterTypes[0].name == COMPOSE_MODIFIER_CLASS &&
-                    method.parameterTypes.drop(1).all { it == Float::class.javaPrimitiveType }
-        }
+            "padding",
+            Float::class.javaPrimitiveType,
+            Float::class.javaPrimitiveType,
+            Float::class.javaPrimitiveType,
+            Float::class.javaPrimitiveType
+        )
 
         shadeHeaderClass
             .hookMethod("ExpandedShadeHeader")
@@ -498,7 +498,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     }
 
     companion object {
-        private const val COMPOSE_MODIFIER_CLASS = "androidx.compose.ui.Modifier"
+        private const val COMPOSE_MODIFIER_CLASS = ComposeToolkit.MODIFIER_CLASS
         private const val EXPANDED_HEADER_HEIGHT = "ExpandedHeight"
     }
 }

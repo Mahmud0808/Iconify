@@ -16,7 +16,7 @@ import androidx.core.graphics.toColorInt
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.GraphicsColorKt
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
@@ -34,7 +34,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
-import java.lang.reflect.Proxy
 import java.util.Collections
 import java.util.WeakHashMap
 
@@ -81,8 +80,6 @@ class QSTheme(context: Context) : ModPack(context) {
 
     private var sliderColorsConstructor: Constructor<*>? = null
     private var drawWithContentMethod: Method? = null
-    private var function1Class: Class<*>? = null
-    private var kotlinUnit: Any? = null
     private val themedSliderColors = WeakHashMap<Any, Boolean>()
     private val gradientDrawers = WeakHashMap<Any, Any>()
     private val gradientPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -149,13 +146,6 @@ class QSTheme(context: Context) : ModPack(context) {
         val tileDefaultsClass =
             findClass("$SYSTEMUI_PACKAGE.qs.panels.ui.compose.infinitegrid.TileDefaults")
 
-        function1Class = findClass("kotlin.jvm.functions.Function1", suppressError = true)
-        kotlinUnit = try {
-            findClass("kotlin.Unit", suppressError = true)?.getField("INSTANCE")?.get(null)
-        } catch (_: Throwable) {
-            null
-        }
-
         hookBrightnessSlider()
         hookTileGradient()
         hookFooterActions()
@@ -188,7 +178,7 @@ class QSTheme(context: Context) : ModPack(context) {
                                 (if (isDualTarget) activeBgColor else activeIconBgColor).toColorInt()
                             setField(
                                 "background",
-                                GraphicsColorKt.colorOf(
+                                ComposeToolkit.colorOf(
                                     if (activeTileGradient) {
                                         backgroundColor and 0x00FFFFFF
                                     } else {
@@ -198,65 +188,65 @@ class QSTheme(context: Context) : ModPack(context) {
                             )
                             setField(
                                 "icon",
-                                GraphicsColorKt.colorOf(activeIconColor)
+                                ComposeToolkit.colorOf(activeIconColor)
                             )
                             setField(
                                 "iconBackground",
-                                GraphicsColorKt.colorOf(activeIconBgColor)
+                                ComposeToolkit.colorOf(activeIconBgColor)
                             )
                             setField(
                                 "label",
-                                GraphicsColorKt.colorOf(activeLabelColor)
+                                ComposeToolkit.colorOf(activeLabelColor)
                             )
                             setField(
                                 "secondaryLabel",
-                                GraphicsColorKt.colorOf(activeSecondaryLabelColor)
+                                ComposeToolkit.colorOf(activeSecondaryLabelColor)
                             )
                         }
 
                         STATE_INACTIVE -> {
                             setField(
                                 "background",
-                                GraphicsColorKt.colorOf(inactiveBgColor)
+                                ComposeToolkit.colorOf(inactiveBgColor)
                             )
                             setField(
                                 "icon",
-                                GraphicsColorKt.colorOf(inactiveIconColor)
+                                ComposeToolkit.colorOf(inactiveIconColor)
                             )
                             setField(
                                 "iconBackground",
-                                GraphicsColorKt.colorOf(inactiveIconBgColor)
+                                ComposeToolkit.colorOf(inactiveIconBgColor)
                             )
                             setField(
                                 "label",
-                                GraphicsColorKt.colorOf(inactiveLabelColor)
+                                ComposeToolkit.colorOf(inactiveLabelColor)
                             )
                             setField(
                                 "secondaryLabel",
-                                GraphicsColorKt.colorOf(inactiveSecondaryLabelColor)
+                                ComposeToolkit.colorOf(inactiveSecondaryLabelColor)
                             )
                         }
 
                         STATE_UNAVAILABLE -> {
                             setField(
                                 "background",
-                                GraphicsColorKt.colorOf(unavailableBgColor)
+                                ComposeToolkit.colorOf(unavailableBgColor)
                             )
                             setField(
                                 "icon",
-                                GraphicsColorKt.colorOf(unavailableIconColor)
+                                ComposeToolkit.colorOf(unavailableIconColor)
                             )
                             setField(
                                 "iconBackground",
-                                GraphicsColorKt.colorOf(unavailableIconBgColor)
+                                ComposeToolkit.colorOf(unavailableIconBgColor)
                             )
                             setField(
                                 "label",
-                                GraphicsColorKt.colorOf(unavailableLabelColor)
+                                ComposeToolkit.colorOf(unavailableLabelColor)
                             )
                             setField(
                                 "secondaryLabel",
-                                GraphicsColorKt.colorOf(unavailableSecondaryLabelColor)
+                                ComposeToolkit.colorOf(unavailableSecondaryLabelColor)
                             )
                         }
 
@@ -277,12 +267,7 @@ class QSTheme(context: Context) : ModPack(context) {
                     constructor.parameterTypes.all { it == Long::class.javaPrimitiveType }
         } ?: return
 
-        drawWithContentMethod = findClass(
-            "androidx.compose.ui.draw.DrawModifierKt",
-            suppressError = true
-        )?.declaredMethods?.firstOrNull { method ->
-            method.name == "drawWithContent" && method.parameterTypes.size == 2
-        }
+        drawWithContentMethod = ComposeToolkit.modifierFunction(DRAW_MODIFIER_CLASS, "drawWithContent", null)
         findClass("androidx.compose.material3.SliderDefaults", suppressError = true)
             .hookMethodMatchPattern("(Track|Thumb).*")
             .suppressError()
@@ -343,7 +328,7 @@ class QSTheme(context: Context) : ModPack(context) {
     }
 
     private fun colorValue(color: String): Any? = try {
-        GraphicsColorKt.colorOf(color)
+        ComposeToolkit.colorOf(color)
     } catch (_: Throwable) {
         null
     }
@@ -568,12 +553,8 @@ class QSTheme(context: Context) : ModPack(context) {
     }
 
     private fun hookTileGradient() {
-        drawBehindMethod = findClass(
-            "androidx.compose.ui.draw.DrawModifierKt",
-            suppressError = true
-        )?.declaredMethods?.firstOrNull { method ->
-            method.name == "drawBehind" && method.parameterTypes.size == 2
-        } ?: return
+        drawBehindMethod = ComposeToolkit.modifierFunction(DRAW_MODIFIER_CLASS, "drawBehind", null)
+            ?: return
         toArgbMethod = findClass(
             "androidx.compose.ui.graphics.ColorKt",
             suppressError = true
@@ -704,25 +685,8 @@ class QSTheme(context: Context) : ModPack(context) {
             ?.get(outline.getFieldSilently("path")) as? Path
     }
 
-    private fun drawProxy(onDraw: (Any) -> Unit): Any? {
-        val functionClass = function1Class ?: return null
-        return Proxy.newProxyInstance(
-            functionClass.classLoader,
-            arrayOf(functionClass)
-        ) { proxy, method, args ->
-            when (method.name) {
-                "invoke" -> {
-                    onDraw(args[0])
-                    kotlinUnit
-                }
-
-                "equals" -> proxy === args?.firstOrNull()
-                "hashCode" -> System.identityHashCode(proxy)
-                "toString" -> "IconifyDrawProxy"
-                else -> null
-            }
-        }
-    }
+    private fun drawProxy(onDraw: (Any) -> Unit): Any? =
+        ComposeToolkit.function1("IconifyDrawProxy") { drawScope -> onDraw(drawScope!!) }
 
     private fun nativeCanvasOf(drawScope: Any): Canvas? {
         val composeCanvas = drawScope.callMethod("getDrawContext").callMethod("getCanvas")
@@ -763,7 +727,8 @@ class QSTheme(context: Context) : ModPack(context) {
         private const val FOOTER_TYPE_PUSHED = "iconify_footer_type_pushed"
         private const val ACTIVE_FOOTER_BUTTON = "PowerActionViewModel"
         private const val COMPOSE_SHAPE_CLASS = "androidx.compose.ui.graphics.Shape"
-        private const val FUNCTION0_CLASS = "kotlin.jvm.functions.Function0"
+        private const val FUNCTION0_CLASS = ComposeToolkit.FUNCTION0_CLASS
+        private const val DRAW_MODIFIER_CLASS = "androidx.compose.ui.draw.DrawModifierKt"
         private const val SLIDER_COLORS_CLASS = "androidx.compose.material3.SliderColors"
         private const val SLIDER_STATE_CLASS = "androidx.compose.material3.SliderState"
         private const val COMPOSE_MODIFIER_CLASS = "androidx.compose.ui.Modifier"

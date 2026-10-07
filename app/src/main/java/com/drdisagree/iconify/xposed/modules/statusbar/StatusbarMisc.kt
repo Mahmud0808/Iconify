@@ -30,7 +30,6 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CO
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.GraphicsColorKt
 import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getLeftClockView
@@ -38,6 +37,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.ge
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.setClockGravity
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -566,7 +566,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         batteryLightThemeClass.setStaticField(
             "lowAlphaBg",
-            GraphicsColorKt.colorOf(
+            ComposeToolkit.colorOf(
                 ColorUtils.setAlphaComponent(
                     statusbarColorLight,
                     (255 * 0.20f).roundToInt()
@@ -575,7 +575,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         )
         batteryLightThemeClass.setStaticField(
             "highAlphaBg",
-            GraphicsColorKt.colorOf(
+            ComposeToolkit.colorOf(
                 ColorUtils.setAlphaComponent(
                     statusbarColorLight,
                     (255 * 0.55f).roundToInt()
@@ -584,7 +584,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         )
         batteryDarkThemeClass.setStaticField(
             "lowAlphaBg",
-            GraphicsColorKt.colorOf(
+            ComposeToolkit.colorOf(
                 ColorUtils.setAlphaComponent(
                     statusbarColorLight,
                     (255 * 0.45f).roundToInt()
@@ -593,7 +593,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         )
         batteryDarkThemeClass.setStaticField(
             "highAlphaBg",
-            GraphicsColorKt.colorOf(
+            ComposeToolkit.colorOf(
                 ColorUtils.setAlphaComponent(
                     statusbarColorLight,
                     (255 * 0.55f).roundToInt()
@@ -608,11 +608,11 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         batteryLightThemeDefaultClass.setStaticField(
             "fill",
-            GraphicsColorKt.colorOf(statusbarColorLight)
+            ComposeToolkit.colorOf(statusbarColorLight)
         )
         batteryDarkThemeDefaultClass.setStaticField(
             "fill",
-            GraphicsColorKt.colorOf(statusbarColorDark)
+            ComposeToolkit.colorOf(statusbarColorDark)
         )
     }
 

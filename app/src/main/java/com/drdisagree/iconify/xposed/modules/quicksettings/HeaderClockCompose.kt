@@ -11,6 +11,7 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallbac
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ShadeSceneInjector
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.TouchAnimator
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
@@ -60,7 +61,6 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
         initResources(mContext)
         SceneContainer.trackShadeExpansion()
         hookActivityStarter()
-        ComposeViewHost.init()
         hideStockHeaderElements()
 
         ShadeSceneInjector.addBehindContent(
@@ -169,7 +169,7 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
             .suppressError()
             .runBefore { param ->
                 if (!showHeaderClock) return@runBefore
-                if (!ComposeViewHost.isCalledFrom(SHADE_HEADER_CLASS)) return@runBefore
+                if (!ComposeToolkit.isCalledFrom(SHADE_HEADER_CLASS)) return@runBefore
                 hideModifierArgument(param)
             }
 
@@ -190,16 +190,16 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
 
     private fun hideModifierArgument(param: MethodHookParam) {
         val method = param.method as Method
-        val index = ComposeViewHost.parameterIndex(method, ComposeViewHost.MODIFIER_CLASS)
+        val index = ComposeToolkit.parameterIndex(method, ComposeToolkit.MODIFIER_CLASS)
         if (index == -1) return
 
         val original = param.args[index]
         if (original != null && ComposeViewHost.isHiddenModifier(original)) return
 
-        val hidden = ComposeViewHost.hiddenModifier(original ?: ComposeViewHost.emptyModifier ?: return)
+        val hidden = ComposeViewHost.hiddenModifier(original ?: ComposeToolkit.emptyModifier ?: return)
             ?: return
         param.args[index] = hidden
-        ComposeViewHost.clearDefaultBit(method, param.args, index)
+        ComposeToolkit.clearDefaultBit(method, param.args, index)
     }
 
     companion object {

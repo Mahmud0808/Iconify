@@ -5,7 +5,8 @@ import android.content.Context
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.GraphicsColorKt
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
@@ -17,7 +18,6 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
-import java.lang.reflect.Proxy
 import java.util.Collections
 import java.util.WeakHashMap
 
@@ -27,13 +27,8 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     private var brightnessBelowTiles = false
     private var brightnessInQqs = false
 
-    private var function2Class: Class<*>? = null
-    private var function3Class: Class<*>? = null
-    private var function0Class: Class<*>? = null
     private var rememberViewModelMethod: Method? = null
     private var sceneBrightnessElementKey: Any? = null
-    private var kotlinUnit: Any? = null
-    private var modifierCompanion: Any? = null
     private var sharedElementKey: Any? = null
     private var brightnessContainerMethod: Method? = null
     private var containerColorsConstructor: Constructor<*>? = null
@@ -139,7 +134,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                     }
                     ?: return@runBefore
 
-                composer.startGroup(LANDSCAPE_LAYOUT_GROUP_KEY)
+                ComposeToolkit.startGroup(composer, LANDSCAPE_LAYOUT_GROUP_KEY)
                 try {
                     composeOriginalLayout(
                         method,
@@ -150,7 +145,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                         composer
                     )
                 } finally {
-                    composer.endGroup()
+                    ComposeToolkit.endGroup(composer)
                 }
                 param.result = null
             }
@@ -348,10 +343,6 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     }
 
     private fun resolveComposeApis() {
-        function2Class = findClass("kotlin.jvm.functions.Function2", suppressError = true)
-        function3Class = findClass("kotlin.jvm.functions.Function3", suppressError = true)
-        function0Class = findClass(FUNCTION0_CLASS, suppressError = true)
-
         rememberViewModelMethod = findClass(
             "$SYSTEMUI_PACKAGE.lifecycle.SysUiViewModelKt",
             suppressError = true
@@ -368,22 +359,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
             null
         }
 
-        try {
-            kotlinUnit = findClass("kotlin.Unit", suppressError = true)
-                ?.getField("INSTANCE")?.get(null)
-            modifierCompanion = findClass("androidx.compose.ui.Modifier", suppressError = true)
-                ?.getField("Companion")?.get(null)
-        } catch (_: Throwable) {
-        }
-
-        sharedElementKey = try {
-            findClass("com.android.compose.animation.scene.ElementKey", suppressError = true)
-                ?.declaredConstructors
-                ?.firstOrNull { it.parameterTypes.size == 6 }
-                ?.newInstance(SHARED_ELEMENT_NAME, null, null, false, ELEMENT_KEY_DEFAULTS, null)
-        } catch (_: Throwable) {
-            null
-        }
+        sharedElementKey = ComposeViewHost.elementKey(SHARED_ELEMENT_NAME)
 
         brightnessContainerMethod = findClass(
             "$SYSTEMUI_PACKAGE.brightness.ui.compose.BrightnessSliderKt",
@@ -436,7 +412,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
             return
         }
 
-        elementMethod.invoke(scope, key, modifierCompanion, elementContent, composer, 0)
+        elementMethod.invoke(scope, key, ComposeToolkit.emptyModifier, elementContent, composer, 0)
     }
 
     private fun composeQsFragmentBrightness(composer: Any) {
@@ -463,7 +439,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 index == composerIndex -> composer
                 index > composerIndex -> 0
                 type.name == BRIGHTNESS_VIEW_MODEL_CLASS -> viewModel
-                type.name == COMPOSE_MODIFIER_CLASS -> modifierCompanion
+                type.name == COMPOSE_MODIFIER_CLASS -> ComposeToolkit.emptyModifier
                 type.name == CONTAINER_COLORS_CLASS -> colors
                 type == Boolean::class.javaPrimitiveType -> {
                     defaultMask = defaultMask or (1 shl index)
@@ -498,28 +474,12 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
 
         return try {
             containerColorsConstructor?.newInstance(
-                GraphicsColorKt.colorOf(0),
-                GraphicsColorKt.colorOf(mirrorColor)
+                ComposeToolkit.colorOf(0),
+                ComposeToolkit.colorOf(mirrorColor)
             )
         } catch (throwable: Throwable) {
             log(this@QSBrightnessSlider, throwable)
             null
-        }
-    }
-
-    private fun Any.startGroup(key: Int) {
-        try {
-            callMethod("startReplaceGroup", key)
-        } catch (_: Throwable) {
-            callMethod("startReplaceableGroup", key)
-        }
-    }
-
-    private fun Any.endGroup() {
-        try {
-            callMethod("endReplaceGroup")
-        } catch (_: Throwable) {
-            callMethod("endReplaceableGroup")
         }
     }
 
@@ -551,75 +511,29 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         XposedBridge.invokeOriginalMethod(method, null, args)
     }
 
-    private fun composableSlot(block: (composer: Any, changed: Any?) -> Unit): Any? {
-        val functionClass = function2Class ?: return null
-        return Proxy.newProxyInstance(
-            functionClass.classLoader,
-            arrayOf(functionClass)
-        ) { proxy, method, args ->
-            when (method.name) {
-                "invoke" -> {
-                    block(args[0], args[1])
-                    kotlinUnit
-                }
-
-                "equals" -> proxy === args?.firstOrNull()
-                "hashCode" -> System.identityHashCode(proxy)
-                "toString" -> "IconifyBrightnessSlot"
-                else -> null
-            }
+    private fun composableSlot(block: (composer: Any, changed: Any?) -> Unit): Any? =
+        ComposeToolkit.function2("IconifyBrightnessSlot") { composer, changed ->
+            block(composer!!, changed)
         }
-    }
 
-    private fun function0Proxy(block: () -> Any?): Any? {
-        val functionClass = function0Class ?: return null
-        return Proxy.newProxyInstance(
-            functionClass.classLoader,
-            arrayOf(functionClass)
-        ) { proxy, method, args ->
-            when (method.name) {
-                "invoke" -> block()
-                "equals" -> proxy === args?.firstOrNull()
-                "hashCode" -> System.identityHashCode(proxy)
-                "toString" -> "IconifyViewModelFactory"
-                else -> null
-            }
-        }
-    }
+    private fun function0Proxy(block: () -> Any?): Any? =
+        ComposeToolkit.function0("IconifyViewModelFactory", block)
 
-    private fun composableContent(block: () -> Unit): Any? {
-        val functionClass = function3Class ?: return null
-        return Proxy.newProxyInstance(
-            functionClass.classLoader,
-            arrayOf(functionClass)
-        ) { proxy, method, args ->
-            when (method.name) {
-                "invoke" -> {
-                    block()
-                    kotlinUnit
-                }
-
-                "equals" -> proxy === args?.firstOrNull()
-                "hashCode" -> System.identityHashCode(proxy)
-                "toString" -> "IconifyBrightnessElement"
-                else -> null
-            }
-        }
-    }
+    private fun composableContent(block: () -> Unit): Any? =
+        ComposeToolkit.function3("IconifyBrightnessElement") { _, _, _ -> block() }
 
     companion object {
         private const val SHARED_ELEMENT_NAME = "IconifyBrightnessSlider"
-        private const val ELEMENT_KEY_DEFAULTS = 14
-        private const val COMPOSER_CLASS = "androidx.compose.runtime.Composer"
-        private const val FUNCTION2_CLASS = "kotlin.jvm.functions.Function2"
+        private const val COMPOSER_CLASS = ComposeToolkit.COMPOSER_CLASS
+        private const val FUNCTION2_CLASS = ComposeToolkit.FUNCTION2_CLASS
         private const val LANDSCAPE_LAYOUT_GROUP_KEY = 0x1C0B5A1D
-        private const val FUNCTION0_CLASS = "kotlin.jvm.functions.Function0"
-        private const val FUNCTION3_CLASS = "kotlin.jvm.functions.Function3"
-        private const val CONTENT_SCOPE_CLASS = "com.android.compose.animation.scene.ContentScope"
+        private const val FUNCTION0_CLASS = ComposeToolkit.FUNCTION0_CLASS
+        private const val FUNCTION3_CLASS = ComposeToolkit.FUNCTION3_CLASS
+        private const val CONTENT_SCOPE_CLASS = ComposeToolkit.CONTENT_SCOPE_CLASS
         private const val SHADE_SCENE_VIEW_MODEL_CLASS =
             "$SYSTEMUI_PACKAGE.shade.ui.viewmodel.ShadeSceneContentViewModel"
         private const val QQS_BRIGHTNESS_TRACE = "iconify_qqs_brightness"
-        private const val COMPOSE_MODIFIER_CLASS = "androidx.compose.ui.Modifier"
+        private const val COMPOSE_MODIFIER_CLASS = ComposeToolkit.MODIFIER_CLASS
         private const val BRIGHTNESS_VIEW_MODEL_CLASS =
             "$SYSTEMUI_PACKAGE.brightness.ui.viewmodel.BrightnessSliderViewModel"
         private const val CONTAINER_COLORS_CLASS =

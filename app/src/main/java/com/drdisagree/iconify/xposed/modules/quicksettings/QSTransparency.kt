@@ -9,6 +9,7 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
@@ -19,7 +20,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XposedHelpers.findField
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import java.lang.reflect.Proxy
 import java.util.WeakHashMap
 import kotlin.math.roundToInt
 
@@ -189,13 +189,6 @@ class QSTransparency(context: Context) : ModPack(context) {
     }
 
     private fun hookComposeNotificationScrim() {
-        val function0Class = findClass(FUNCTION0_CLASS, suppressError = true) ?: return
-        val invokeMethod = try {
-            function0Class.getMethod("invoke")
-        } catch (_: Throwable) {
-            return
-        }
-
         findClass(
             "com.android.compose.modifiers.AnimatedBackgroundKt",
             suppressError = true
@@ -210,26 +203,14 @@ class QSTransparency(context: Context) : ModPack(context) {
                 if (!isCalledFromNotificationPanel()) return@runBefore
 
                 param.args[2] = notificationScrimAlphas.getOrPut(alpha) {
-                    Proxy.newProxyInstance(
-                        function0Class.classLoader,
-                        arrayOf(function0Class)
-                    ) { proxy, method, args ->
-                        when (method.name) {
-                            "invoke" -> {
-                                val value = invokeMethod.invoke(alpha) as? Float ?: 1f
-                                if (qsTransparencyActive || onlyNotifTransparencyActive) {
-                                    value * qsAlpha
-                                } else {
-                                    value
-                                }
-                            }
-
-                            "equals" -> proxy === args?.firstOrNull()
-                            "hashCode" -> System.identityHashCode(proxy)
-                            "toString" -> "IconifyNotificationScrimAlpha"
-                            else -> null
+                    ComposeToolkit.function0("IconifyNotificationScrimAlpha") {
+                        val value = ComposeToolkit.invokeFunction(alpha) as? Float ?: 1f
+                        if (qsTransparencyActive || onlyNotifTransparencyActive) {
+                            value * qsAlpha
+                        } else {
+                            value
                         }
-                    }
+                    } ?: return@runBefore
                 }
             }
     }
@@ -271,7 +252,6 @@ class QSTransparency(context: Context) : ModPack(context) {
     }
 
     companion object {
-        private const val FUNCTION0_CLASS = "kotlin.jvm.functions.Function0"
         private const val ANIMATED_BACKGROUND_CLASS =
             "com.android.compose.modifiers.AnimatedBackgroundKt"
         private const val NOTIFICATIONS_COMPOSABLE_CLASS =

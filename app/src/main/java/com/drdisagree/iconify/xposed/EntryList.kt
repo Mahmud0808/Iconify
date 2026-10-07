@@ -4,7 +4,6 @@ import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.modules.extras.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.extras.ExpandableViews
-import com.drdisagree.iconify.xposed.modules.extras.GraphicsColorKt
 import com.drdisagree.iconify.xposed.modules.extras.LaunchableViews
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet
 import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
@@ -58,7 +57,6 @@ object EntryList {
 
     private val systemUIModPacks: List<Class<out ModPack>> = listOf(
         /* Top priority */
-        GraphicsColorKt::class.java,
         MyConstraintSet::class.java,
         LaunchableViews::class.java,
         ExpandableViews::class.java,
