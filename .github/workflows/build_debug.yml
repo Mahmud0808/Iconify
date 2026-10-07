@@ -44,7 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      actions: read
     steps:
       - uses: actions/checkout@v4
 
@@ -129,6 +128,13 @@ jobs:
           path: app/build/outputs/apk/foss/debug/*-x86_64-*.apk
           if-no-files-found: error
 
+      - name: Restore last notified commit
+        uses: actions/cache/restore@v4
+        with:
+          path: .ci/last_notified_sha
+          key: telegram-last-sha-${{ github.run_id }}
+          restore-keys: telegram-last-sha-
+
       - name: Get Commit Messages
         id: get_commit_message
         env:
@@ -136,9 +142,7 @@ jobs:
         run: |
           echo "SKIP_BUILD=false" >> $GITHUB_ENV
 
-          LAST_SHA=$(gh run list --repo "${{ github.repository }}" --workflow build_debug.yml \
-            --branch "${{ github.ref_name }}" --status success -L 1 \
-            --json headSha --jq '.[0].headSha // empty' || true)
+          LAST_SHA=$(cat .ci/last_notified_sha 2>/dev/null || true)
 
           HEADERS=""
           if [[ -n "$LAST_SHA" && "$LAST_SHA" != "${{ github.sha }}" ]]; then
@@ -206,3 +210,16 @@ jobs:
             ]' \
             -F file="@releases/Iconify A16 v${{ env.VERSION_NAME }} Dev (#${{ github.run_number }}).zip" \
             -F disable_notification=true || exit 1
+
+      - name: Remember notified commit
+        if: github.repository == 'Mahmud0808/Iconify' && env.SKIP_BUILD != 'true'
+        run: |
+          mkdir -p .ci
+          echo "${{ github.sha }}" > .ci/last_notified_sha
+
+      - name: Save last notified commit
+        if: github.repository == 'Mahmud0808/Iconify' && env.SKIP_BUILD != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .ci/last_notified_sha
+          key: telegram-last-sha-${{ github.run_id }}
