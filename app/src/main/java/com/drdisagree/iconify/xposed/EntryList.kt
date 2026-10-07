@@ -26,7 +26,9 @@ import com.drdisagree.iconify.xposed.modules.misc.Miscellaneous
 import com.drdisagree.iconify.xposed.modules.quicksettings.AppIconInNotification
 import com.drdisagree.iconify.xposed.modules.quicksettings.ColorizeNotificationView
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderClock
+import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderClockCompose
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage
+import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImageCompose
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeadsUpBlur
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSGrid
 import com.drdisagree.iconify.xposed.modules.quicksettings.QSBrightnessSlider
@@ -45,6 +47,7 @@ import com.drdisagree.iconify.xposed.modules.statusbar.SwapWiFiCellular
 import com.drdisagree.iconify.xposed.modules.volume.PerAppVolume
 import com.drdisagree.iconify.xposed.modules.volume.VolumePanel
 import com.drdisagree.iconify.xposed.utils.HookCheck
+import com.drdisagree.iconify.xposed.utils.SceneContainer
 
 object EntryList {
 
@@ -101,6 +104,14 @@ object EntryList {
         QSBrightnessSlider::class.java
     )
 
+    private val sceneContainerModPacks: Map<Class<out ModPack>, Class<out ModPack>> = mapOf(
+        HeaderClock::class.java to HeaderClockCompose::class.java,
+        HeaderImage::class.java to HeaderImageCompose::class.java
+    )
+
+    private fun Class<out ModPack>.forCurrentShade(): Class<out ModPack> =
+        if (SceneContainer.isEnabled) sceneContainerModPacks[this] ?: this else this
+
     fun getEntries(packageName: String): ArrayList<Class<out ModPack>> {
         val modPacks = ArrayList<Class<out ModPack>>()
 
@@ -111,7 +122,7 @@ object EntryList {
 
             SYSTEMUI_PACKAGE -> {
                 if (!HookEntry.isChildProcess) {
-                    modPacks.addAll(systemUIModPacks)
+                    modPacks.addAll(systemUIModPacks.map { it.forCurrentShade() })
                 }
             }
         }

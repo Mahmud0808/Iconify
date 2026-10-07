@@ -45,22 +45,22 @@ import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-class HeaderImage(context: Context) : ModPack(context) {
+open class HeaderImage(context: Context) : ModPack(context) {
 
-    private var showHeaderImage = false
+    protected var showHeaderImage = false
     private var imageHeight = 140
     private var headerImageAlpha = 100
     private var zoomToFit = false
-    private var hideLandscapeHeaderImage = true
+    protected var hideLandscapeHeaderImage = true
     private var halfWidthLandscapeHeaderImage = false
-    private var mQsHeaderImageLayout: FadingEdgeLayout? = null
-    private var mQsHeaderImageView: ImageView? = null
+    protected var mQsHeaderImageLayout: FadingEdgeLayout? = null
+    protected var mQsHeaderImageView: ImageView? = null
     private var bottomFadeAmount = 0
     private var notificationPanelViewControllerInstance: Any? = null
     private var shadeHeaderControllerInstance: Any? = null
     private var qsOpeningJob: Job? = null
-    private var showHeaderClock = false
-    private var lastLayoutAlpha = -1f
+    protected var showHeaderClock = false
+    protected var lastLayoutAlpha = -1f
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -131,41 +131,7 @@ class HeaderImage(context: Context) : ModPack(context) {
 
                 val notificationPanelView = param.thisObject.getField("mView") as FrameLayout
 
-                mQsHeaderImageLayout = FadingEdgeLayout(mContext).apply {
-                    tag = ICONIFY_QS_HEADER_IMAGE_CONTAINER_TAG
-                }
-
-                mQsHeaderImageLayout!!.layoutParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
-                    else TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        imageHeight.toFloat(),
-                        mContext.resources.displayMetrics
-                    ).toInt()
-                ).apply {
-                    gravity = Gravity.START
-                    leftMargin = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        -16f,
-                        mContext.resources.displayMetrics
-                    ).toInt()
-                    rightMargin = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        -16f,
-                        mContext.resources.displayMetrics
-                    ).toInt()
-                }
-
-                mQsHeaderImageView = ImageView(mContext)
-                mQsHeaderImageView!!.layoutParams = LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                mQsHeaderImageView!!.visibility = View.INVISIBLE
-
-                mQsHeaderImageLayout!!.reAddView(mQsHeaderImageView)
-                notificationPanelView.reAddView(mQsHeaderImageLayout, 0)
+                notificationPanelView.reAddView(createHeaderImageLayout(), 0)
 
                 updateQSHeaderImage()
             }
@@ -279,6 +245,59 @@ class HeaderImage(context: Context) : ModPack(context) {
             }
     }
 
+    protected fun createHeaderImageLayout(): FadingEdgeLayout {
+        val layout = FadingEdgeLayout(mContext).apply {
+            tag = ICONIFY_QS_HEADER_IMAGE_CONTAINER_TAG
+        }
+        mQsHeaderImageLayout = layout
+
+        layout.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            headerImageLayoutHeight()
+        ).apply {
+            gravity = Gravity.START
+            leftMargin = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                -16f,
+                mContext.resources.displayMetrics
+            ).toInt()
+            rightMargin = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                -16f,
+                mContext.resources.displayMetrics
+            ).toInt()
+        }
+
+        mQsHeaderImageView = ImageView(mContext)
+        mQsHeaderImageView!!.layoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        mQsHeaderImageView!!.visibility = View.INVISIBLE
+
+        layout.reAddView(mQsHeaderImageView)
+
+        return layout
+    }
+
+    protected fun applyFadeEdges() {
+        mQsHeaderImageLayout?.apply {
+            setFadeEdges(false, false, bottomFadeAmount != 0, false)
+            setFadeSizes(0, 0, bottomFadeAmount, 0)
+        }
+    }
+
+    protected fun headerImageLayoutHeight(): Int =
+        if (imageHeight == -1) ViewGroup.LayoutParams.MATCH_PARENT
+        else TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            imageHeight.toFloat(),
+            mContext.resources.displayMetrics
+        ).toInt()
+
+    protected open fun currentShadeExpandedFraction(): Float? =
+        shadeHeaderControllerInstance?.getField("shadeExpandedFraction") as? Float
+
     private fun startQsOpeningLoop() {
         if (qsOpeningJob?.isActive == true ||
             notificationPanelViewControllerInstance == null
@@ -301,7 +320,7 @@ class HeaderImage(context: Context) : ModPack(context) {
         qsOpeningJob = null
     }
 
-    private fun updateQSHeaderImage() {
+    protected fun updateQSHeaderImage() {
         if (showHeaderImage && mQsHeaderImageView != null) {
             mQsHeaderImageView!!.apply {
                 if (visibility != View.VISIBLE) {
@@ -311,20 +330,15 @@ class HeaderImage(context: Context) : ModPack(context) {
                 updateImageProperties()
             }
 
-            mQsHeaderImageLayout?.apply {
-                setFadeEdges(false, false, bottomFadeAmount != 0, false)
-                setFadeSizes(0, 0, bottomFadeAmount, 0)
-            }
+            applyFadeEdges()
         }
         updateQSHeaderImageState()
     }
 
-    private fun updateQSHeaderImageState() {
+    protected fun updateQSHeaderImageState() {
         val layout = mQsHeaderImageLayout ?: return
         val imageView = mQsHeaderImageView ?: return
-        val shadeHeader = shadeHeaderControllerInstance ?: return
-
-        val shadeExpandedFraction = shadeHeader.getField("shadeExpandedFraction") as Float
+        val shadeExpandedFraction = currentShadeExpandedFraction() ?: return
         val normalizedFraction =
             ((shadeExpandedFraction - ANIM_START_FRACTION) / (ANIM_END_FRACTION - ANIM_START_FRACTION))
                 .coerceIn(0f, 1f)
@@ -382,18 +396,27 @@ class HeaderImage(context: Context) : ModPack(context) {
 
     private fun ImageView.addCenterProperty() {
         val layoutParams = layoutParams
+        val isHalfWidth = mContext.isLandscape && halfWidthLandscapeHeaderImage
+        val gravity = if (isHalfWidth) Gravity.START or Gravity.CENTER_VERTICAL else Gravity.CENTER
 
         when (layoutParams) {
             is RelativeLayout.LayoutParams -> {
-                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT)
+                if (isHalfWidth) {
+                    layoutParams.removeRule(RelativeLayout.CENTER_IN_PARENT)
+                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START)
+                    layoutParams.addRule(RelativeLayout.CENTER_VERTICAL)
+                } else {
+                    layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_START)
+                    layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT)
+                }
             }
 
             is LinearLayout.LayoutParams -> {
-                layoutParams.gravity = Gravity.CENTER
+                layoutParams.gravity = gravity
             }
 
             is FrameLayout.LayoutParams -> {
-                layoutParams.gravity = Gravity.CENTER
+                layoutParams.gravity = gravity
             }
 
             else -> {

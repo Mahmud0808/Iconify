@@ -83,9 +83,9 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 
 @SuppressLint("DiscouragedApi")
-class HeaderClock(context: Context) : ModPack(context) {
+open class HeaderClock(context: Context) : ModPack(context) {
 
-    private var showHeaderClock = false
+    protected var showHeaderClock = false
     private var clockStyle = 0
     private var customColorEnabled = false
     private var mAccentColor1 = 0
@@ -101,20 +101,20 @@ class HeaderClock(context: Context) : ModPack(context) {
     private var mQQSExpansionY: Float = 8f
     private var landscapeOffsetY: Float = 8f
     private var halfWidthLandscapeHeaderImage = true
-    private var hideQsCarrierGroup = false
-    private var hideStatusIcons = false
-    private var mQsHeaderClockContainer: LinearLayout = LinearLayout(mContext)
-    private var mQsClockContainer: LinearLayout = LinearLayout(mContext)
-    private var mQsIconsContainer: LinearLayout = LinearLayout(mContext)
+    protected var hideQsCarrierGroup = false
+    protected var hideStatusIcons = false
+    protected var mQsHeaderClockContainer: LinearLayout = LinearLayout(mContext)
+    protected var mQsClockContainer: LinearLayout = LinearLayout(mContext)
+    protected var mQsIconsContainer: LinearLayout = LinearLayout(mContext)
     private var mUserManager: UserManager? = null
     private var mActivityStarter: Any? = null
-    private var mQQSContainerAnimator: TouchAnimator? = null
+    protected var mQQSContainerAnimator: TouchAnimator? = null
     private var systemBarUtilsClass: Class<*>? = null
     private var notificationPanelViewControllerInstance: Any? = null
     private var shadeHeaderControllerInstance: Any? = null
     private var qsOpeningJob: Job? = null
-    private var lastShadeExpandedFraction = -1f
-    private var lastQsExpandedFraction = -1f
+    protected var lastShadeExpandedFraction = -1f
+    protected var lastQsExpandedFraction = -1f
     private val mViewOnClickListener = View.OnClickListener { v: View ->
         val tag = v.tag.toString()
         if (tag == "clock") {
@@ -216,7 +216,6 @@ class HeaderClock(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.shade.LargeScreenShadeHeaderController",
             "$SYSTEMUI_PACKAGE.shade.ShadeHeaderController"
         )
-        val qsSecurityFooterUtilsClass = findClass("$SYSTEMUI_PACKAGE.qs.QSSecurityFooterUtils")
         val qsContainerImplClass = findClass("$SYSTEMUI_PACKAGE.qs.QSContainerImpl", suppressError = true)
         val notificationPanelViewControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
@@ -228,21 +227,7 @@ class HeaderClock(context: Context) : ModPack(context) {
             findClass($$"$$SYSTEMUI_PACKAGE.shade.ShadeHeaderController$configurationControllerListener$1")
         systemBarUtilsClass = findClass("com.android.internal.policy.SystemBarUtils")
 
-        qsSecurityFooterUtilsClass
-            .hookConstructor()
-            .runAfter { param ->
-                if (mActivityStarter == null) {
-                    mActivityStarter = param.thisObject.getField("mActivityStarter")
-                }
-            }
-
-        qsSecurityFooterUtilsClass
-            .hookMethod("createDialogView")
-            .runAfter { param ->
-                if (mActivityStarter == null) {
-                    mActivityStarter = param.thisObject.getField("mActivityStarter")
-                }
-            }
+        hookActivityStarter()
 
         notificationPanelViewControllerClass
             .hookMethod("onFinishInflate", "reInflateViews")
@@ -250,48 +235,8 @@ class HeaderClock(context: Context) : ModPack(context) {
                 notificationPanelViewControllerInstance = param.thisObject
 
                 val notificationPanelView = param.thisObject.getField("mView") as FrameLayout
-                val screenWidth = mContext.resources.displayMetrics.widthPixels
 
-                mQsHeaderClockContainer.apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        if (mContext.isLandscape && halfWidthLandscapeHeaderImage) screenWidth / 2
-                        else ViewGroup.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        setPadding(
-                            mContext.toPx(16),
-                            0,
-                            mContext.toPx(16),
-                            0
-                        )
-                    }
-                    orientation = LinearLayout.HORIZONTAL
-                }
-
-                mQsClockContainer.apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        1f
-                    )
-                    orientation = LinearLayout.VERTICAL
-                }
-
-                mQsIconsContainer.apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
-                    )
-                    orientation = LinearLayout.VERTICAL
-                    gravity = Gravity.END or Gravity.CENTER
-                }
-
-                mQsHeaderClockContainer.apply {
-                    (parent as? ViewGroup)?.removeView(this)
-                    removeAllViews()
-                    reAddView(mQsClockContainer, 0)
-                    reAddView(mQsIconsContainer, 1)
-                }
+                setupHeaderClockContainer()
 
                 val headerImageIndex = notificationPanelView.findChildIndexContainsTag(
                     ICONIFY_QS_HEADER_IMAGE_CONTAINER_TAG
@@ -452,6 +397,84 @@ class HeaderClock(context: Context) : ModPack(context) {
         BootCallback.registerBootListener { updateClockView() }
     }
 
+    protected fun hookActivityStarter() {
+        val qsSecurityFooterUtilsClass = findClass(
+            "$SYSTEMUI_PACKAGE.qs.QSSecurityFooterUtils",
+            suppressError = true
+        )
+
+        qsSecurityFooterUtilsClass
+            .hookConstructor()
+            .suppressError()
+            .runAfter { param ->
+                if (mActivityStarter == null) {
+                    mActivityStarter = param.thisObject.getField("mActivityStarter")
+                }
+            }
+
+        qsSecurityFooterUtilsClass
+            .hookMethod("createDialogView")
+            .suppressError()
+            .runAfter { param ->
+                if (mActivityStarter == null) {
+                    mActivityStarter = param.thisObject.getField("mActivityStarter")
+                }
+            }
+    }
+
+    protected fun setupHeaderClockContainer() {
+        val screenWidth = mContext.resources.displayMetrics.widthPixels
+
+        mQsHeaderClockContainer.apply {
+            layoutParams = LinearLayout.LayoutParams(
+                if (mContext.isLandscape && halfWidthLandscapeHeaderImage) screenWidth / 2
+                else ViewGroup.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setPadding(
+                    mContext.toPx(16),
+                    0,
+                    mContext.toPx(16),
+                    0
+                )
+            }
+            orientation = LinearLayout.HORIZONTAL
+        }
+
+        mQsClockContainer.apply {
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                1f
+            )
+            orientation = LinearLayout.VERTICAL
+        }
+
+        mQsIconsContainer.apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.END or Gravity.CENTER
+        }
+
+        mQsHeaderClockContainer.apply {
+            (parent as? ViewGroup)?.removeView(this)
+            removeAllViews()
+            reAddView(mQsClockContainer, 0)
+            reAddView(mQsIconsContainer, 1)
+        }
+    }
+
+    protected open val hiddenVisibility: Int = View.GONE
+
+    protected open fun currentShadeExpandedFraction(): Float? =
+        shadeHeaderControllerInstance?.getField("shadeExpandedFraction") as? Float
+
+    protected open fun currentQsExpandedFraction(): Float? =
+        shadeHeaderControllerInstance?.getField("qsExpandedFraction") as? Float
+
     private fun startQsOpeningLoop() {
         if (qsOpeningJob?.isActive == true ||
             notificationPanelViewControllerInstance == null
@@ -474,7 +497,7 @@ class HeaderClock(context: Context) : ModPack(context) {
         qsOpeningJob = null
     }
 
-    private fun buildHeaderViewExpansion() {
+    protected fun buildHeaderViewExpansion() {
         val isLandscape = mContext.isLandscape
         val density = mContext.resources.displayMetrics.density
 
@@ -511,13 +534,13 @@ class HeaderClock(context: Context) : ModPack(context) {
         mQQSContainerAnimator = builderP.build()
     }
 
-    private fun initResources(context: Context) {
+    protected fun initResources(context: Context) {
         Handler(Looper.getMainLooper()).post {
             mUserManager = context.getSystemService(Context.USER_SERVICE) as UserManager
         }
     }
 
-    private fun updateClockView() {
+    protected fun updateClockView() {
         if (!showHeaderClock) return
 
         val isClockAdded =
@@ -552,26 +575,24 @@ class HeaderClock(context: Context) : ModPack(context) {
         }
     }
 
-    private fun updateQSHeaderClockState() {
-        val shadeHeader = shadeHeaderControllerInstance ?: return
+    protected fun updateQSHeaderClockState() {
+        val shadeExpandedFraction = currentShadeExpandedFraction() ?: return
+        val qsExpandedFraction = currentQsExpandedFraction() ?: return
 
         if (!showHeaderClock) {
-            if (mQsHeaderClockContainer.visibility != View.GONE) {
-                mQsHeaderClockContainer.visibility = View.GONE
+            if (mQsHeaderClockContainer.visibility != hiddenVisibility) {
+                mQsHeaderClockContainer.visibility = hiddenVisibility
             }
             return
         }
-
-        val shadeExpandedFraction = shadeHeader.getField("shadeExpandedFraction") as Float
-        val qsExpandedFraction = shadeHeader.getField("qsExpandedFraction") as Float
 
         val normalizedFraction =
             ((shadeExpandedFraction - ANIM_START_FRACTION) / (ANIM_END_FRACTION - ANIM_START_FRACTION))
                 .coerceIn(0f, 1f)
 
         if (shadeExpandedFraction <= 0f) {
-            if (mQsHeaderClockContainer.visibility != View.GONE) {
-                mQsHeaderClockContainer.visibility = View.GONE
+            if (mQsHeaderClockContainer.visibility != hiddenVisibility) {
+                mQsHeaderClockContainer.visibility = hiddenVisibility
             }
             return
         }
