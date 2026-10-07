@@ -106,6 +106,8 @@ open class HeaderClock(context: Context) : ModPack(context) {
     protected var mQsHeaderClockContainer: LinearLayout = LinearLayout(mContext)
     protected var mQsClockContainer: LinearLayout = LinearLayout(mContext)
     protected var mQsIconsContainer: LinearLayout = LinearLayout(mContext)
+    private val qsCarrierGroupWrapper = FrameLayout(mContext)
+    private val systemIconsWrapper = FrameLayout(mContext)
     private var mUserManager: UserManager? = null
     private var mActivityStarter: Any? = null
     protected var mQQSContainerAnimator: TouchAnimator? = null
@@ -190,7 +192,10 @@ open class HeaderClock(context: Context) : ModPack(context) {
             XposedKey.HEADER_CLOCK_TEXT_SCALE.name,
             XposedKey.HEADER_CLOCK_LANDSCAPE_OFFSET_Y.name,
             XposedKey.QS_PANEL_HIDE_CARRIER.name,
-            XposedKey.HIDE_STATUS_ICONS.name -> updateClockView()
+            XposedKey.HIDE_STATUS_ICONS.name -> {
+                updateHeaderIconsVisibility()
+                updateClockView()
+            }
 
             XposedKey.HEADER_CLOCK_EXPANSION_Y.name -> buildHeaderViewExpansion()
         }
@@ -375,17 +380,14 @@ open class HeaderClock(context: Context) : ModPack(context) {
                     "qsCarrierGroup",
                     "mShadeCarrierGroup"
                 ) as LinearLayout
-                (qsCarrierGroup.parent as? ViewGroup)?.removeView(qsCarrierGroup)
-                if (hideQsCarrierGroup) qsCarrierGroup.visibility = View.GONE
-                mQsIconsContainer.addView(qsCarrierGroup)
+                mQsIconsContainer.addWrapped(qsCarrierGroupWrapper, qsCarrierGroup)
 
                 val systemIconsHoverContainer = param.thisObject.getField(
                     "systemIconsHoverContainer"
                 ) as LinearLayout
-                (systemIconsHoverContainer.parent as? ViewGroup)
-                    ?.removeView(systemIconsHoverContainer)
-                if (hideStatusIcons) systemIconsHoverContainer.visibility = View.GONE
-                mQsIconsContainer.addView(systemIconsHoverContainer)
+                mQsIconsContainer.addWrapped(systemIconsWrapper, systemIconsHoverContainer)
+
+                updateHeaderIconsVisibility()
 
                 param.thisObject.setExtraField("mQsIconsContainer", mQsIconsContainer)
             }
@@ -395,6 +397,46 @@ open class HeaderClock(context: Context) : ModPack(context) {
             .runAfter { updateClockView() }
 
         BootCallback.registerBootListener { updateClockView() }
+    }
+
+    private fun LinearLayout.addWrapped(wrapper: FrameLayout, child: View) {
+        val wrapperParams = if (child.parent === wrapper) {
+            wrapper.layoutParams as? LinearLayout.LayoutParams
+        } else {
+            when (val params = child.layoutParams) {
+                is ViewGroup.MarginLayoutParams -> LinearLayout.LayoutParams(params)
+                null -> null
+                else -> LinearLayout.LayoutParams(params)
+            }
+        } ?: LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        (child.parent as? ViewGroup)?.removeView(child)
+        (wrapper.parent as? ViewGroup)?.removeView(wrapper)
+        wrapper.removeAllViews()
+        wrapper.addView(
+            child,
+            FrameLayout.LayoutParams(
+                if (wrapperParams.width == ViewGroup.LayoutParams.WRAP_CONTENT) {
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                } else {
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                },
+                if (wrapperParams.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                } else {
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                }
+            )
+        )
+        addView(wrapper, wrapperParams)
+    }
+
+    private fun updateHeaderIconsVisibility() {
+        qsCarrierGroupWrapper.visibility = if (hideQsCarrierGroup) View.GONE else View.VISIBLE
+        systemIconsWrapper.visibility = if (hideStatusIcons) View.GONE else View.VISIBLE
     }
 
     protected fun hookActivityStarter() {
