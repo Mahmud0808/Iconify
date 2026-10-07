@@ -64,6 +64,7 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DualToneHandler
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
@@ -77,6 +78,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.statusbar.BatteryStyleManager.BatteryView.Companion.getBatteryView
 import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarMisc.Companion.getStatusbarColors
@@ -117,6 +119,7 @@ import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.RLandscapeB
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.RLandscapeBatteryColorOS
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.RLandscapeBatteryStyleA
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.RLandscapeBatteryStyleB
+import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -163,6 +166,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var zeroSizeModifier: Method? = null
     private var clipToBoundsModifier: Method? = null
     private var alphaModifier: Method? = null
+    private var composeQsIconColor: Long? = null
+    private val batteryColors = HashMap<Any?, BatteryColors>()
     private val hideableBatteryModifiers = Collections.newSetFromMap(WeakHashMap<Any, Boolean>())
     private val hiddenToOriginalModifier = WeakHashMap<Any, Any>()
     private val composeMarginListeners = WeakHashMap<View, View.OnLayoutChangeListener>()
@@ -193,6 +198,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             }
         }
     }
+
+    private data class BatteryColors(val fg: Int, val bg: Int, val singleTone: Int)
 
     override fun updatePrefs(vararg key: String) {
         val batteryIconStyle = Xprefs.getString(XposedKey.CUSTOM_BATTERY_STYLE).toInt()
@@ -523,6 +530,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             }
 
         hookComposeStockBattery()
+        hookComposeShadeHeaderBattery()
 
         keyguardStatusBarViewClass
             .hookMethod("onThemeChanged", "updateIconsAndTextColors")
@@ -718,6 +726,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             val mBatteryIconView = mBatteryView.batteryIcon
 
             mBatteryIconView.setImageDrawable(getNewBatteryDrawable(mContext))
+            applyStoredBatteryColors(batteryView)
         }
     }
 
@@ -758,6 +767,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             val mBatteryDrawable: BatteryDrawable = (mBatteryIconView.drawable as? BatteryDrawable)
                 ?: getNewBatteryDrawable(mContext)?.also {
                     mBatteryIconView.setImageDrawable(it)
+                    applyStoredBatteryColors(batteryView)
                 } ?: continue
 
             val level = batteryCallbackState.level
@@ -816,22 +826,24 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         bgColor: Int,
         singleToneColor: Int
     ) {
+        batteryColors[tag] = BatteryColors(fgColor, bgColor, singleToneColor)
+
         batteryViews
             .filter { it.tag == tag }
-            .forEach { batteryView ->
-                val mBatteryView = batteryView.getBatteryView()
-                val mBatteryIconView = mBatteryView.batteryIcon
-                val mChargingIconView = mBatteryView.chargingIcon
-                val mPercentageView = mBatteryView.percentageText
+            .forEach { applyStoredBatteryColors(it) }
+    }
 
-                (mBatteryIconView.drawable as? BatteryDrawable)?.setColors(
-                    fgColor,
-                    bgColor,
-                    singleToneColor
-                )
-                mChargingIconView.setColorFilter(singleToneColor, PorterDuff.Mode.SRC_IN)
-                mPercentageView.setTextColor(singleToneColor)
-            }
+    private fun applyStoredBatteryColors(batteryView: ViewGroup) {
+        val colors = batteryColors[batteryView.tag] ?: return
+        val mBatteryView = batteryView.getBatteryView()
+
+        (mBatteryView.batteryIcon.drawable as? BatteryDrawable)?.setColors(
+            colors.fg,
+            colors.bg,
+            colors.singleTone
+        )
+        mBatteryView.chargingIcon.setColorFilter(colors.singleTone, PorterDuff.Mode.SRC_IN)
+        mBatteryView.percentageText.setTextColor(colors.singleTone)
     }
 
     private fun updateBatteryIconView(mBatteryIconView: ImageView) {
@@ -1106,6 +1118,80 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             }
     }
 
+    private fun hookComposeShadeHeaderBattery() {
+        if (!SceneContainer.isEnabled || !ComposeViewHost.isAvailable) return
+
+        findClass("$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeHeaderKt", suppressError = true)
+            .hookMethodMatchPattern("BatteryInfo(-.*)?")
+            .suppressError()
+            .runBefore { param ->
+                if (!customBatteryEnabled && !hideDefaultBattery) return@runBefore
+
+                val method = param.method as Method
+                val modifierIndex = ComposeToolkit.parameterIndex(method, COMPOSE_MODIFIER_CLASS)
+                val composer = param.args.getOrNull(
+                    ComposeToolkit.parameterIndex(method, ComposeToolkit.COMPOSER_CLASS)
+                ) ?: return@runBefore
+                val modifier = param.args.getOrNull(modifierIndex)
+
+                if (!customBatteryEnabled) {
+                    if (modifier != null) {
+                        param.args[modifierIndex] = hiddenModifierFor(modifier) ?: modifier
+                    }
+                    return@runBefore
+                }
+
+                val colorIndex = method.parameterTypes.indexOfFirst { it == Long::class.javaPrimitiveType }
+                (param.args.getOrNull(colorIndex) as? Long)?.let { color ->
+                    if (color != composeQsIconColor) {
+                        composeQsIconColor = color
+                        applyComposeQsBatteryColors()
+                    }
+                }
+
+                ComposeViewHost.emitInGroup(composer, QS_BATTERY_GROUP_KEY, modifier) {
+                    createComposeQsBatteryView()
+                }
+                param.result = null
+            }
+    }
+
+    private fun createComposeQsBatteryView(): View {
+        val batteryView = createBatteryMeterView(ICONIFY_QS_BATTERY_ICON_TAG)
+
+        batteryView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {
+                batteryViews.add(batteryView)
+                refreshBatteryData()
+                batteryView.post { applyComposeQsBatteryColors() }
+            }
+
+            override fun onViewDetachedFromWindow(v: View) {
+                batteryViews.remove(batteryView)
+            }
+        })
+
+        return batteryView
+    }
+
+    private fun applyComposeQsBatteryColors() {
+        val (defaultFgColor, defaultBgColor) = getQsIconColors(mContext)
+        val color = composeQsIconColor
+        val fgColor = if (color != null && color and 0x3FL == 0L) {
+            (color ushr 32).toInt()
+        } else {
+            defaultFgColor
+        }
+        val bgColor = ColorUtils.setAlphaComponent(fgColor, Color.alpha(defaultBgColor))
+
+        applyBatteryColors(
+            tag = ICONIFY_QS_BATTERY_ICON_TAG,
+            fgColor = fgColor,
+            bgColor = bgColor,
+            singleToneColor = fgColor
+        )
+    }
+
     private fun hiddenModifierFor(original: Any): Any? {
         val hidden = try {
             val companion = ComposeToolkit.emptyModifier ?: return null
@@ -1235,5 +1321,6 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         private const val COMPOSE_MODIFIER_CLASS = ComposeToolkit.MODIFIER_CLASS
         private const val HOME_COMPOSE_HOST = "status_bar_end_side_content"
         private const val KEYGUARD_COMPOSE_HOST = "system_icons_container"
+        private const val QS_BATTERY_GROUP_KEY = 0x1C0BBA77
     }
 }

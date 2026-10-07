@@ -63,7 +63,7 @@ object ShadeSceneInjector {
                     if (scope != null && elementKey != null) {
                         ComposeViewHost.emitElement(scope, elementKey, composer, layer.key, layer.factory)
                     } else {
-                        ComposeViewHost.emitInGroup(composer, layer.key, layer.factory)
+                        ComposeViewHost.emitInGroup(composer, layer.key, factory = layer.factory)
                     }
                 }
             }

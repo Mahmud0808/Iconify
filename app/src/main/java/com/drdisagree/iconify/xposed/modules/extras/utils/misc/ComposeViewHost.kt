@@ -44,7 +44,7 @@ object ComposeViewHost {
     val isAvailable: Boolean
         get() = androidViewMethod != null && ComposeToolkit.functionClass(1) != null
 
-    fun emit(composer: Any, factory: (Context) -> View) {
+    fun emit(composer: Any, modifier: Any? = null, factory: (Context) -> View) {
         val method = androidViewMethod ?: return
         val factoryFunction = ComposeToolkit.function1("IconifyViewFactory") { context ->
             factory(context as Context)
@@ -53,7 +53,7 @@ object ComposeViewHost {
         method.invoke(
             null,
             factoryFunction,
-            ComposeToolkit.emptyModifier,
+            modifier ?: ComposeToolkit.emptyModifier,
             null,
             composer,
             0,
@@ -61,8 +61,13 @@ object ComposeViewHost {
         )
     }
 
-    fun emitInGroup(composer: Any, key: Int, factory: (Context) -> View) {
-        ComposeToolkit.inGroup(composer, key) { emit(composer, factory) }
+    fun emitInGroup(
+        composer: Any,
+        key: Int,
+        modifier: Any? = null,
+        factory: (Context) -> View
+    ) {
+        ComposeToolkit.inGroup(composer, key) { emit(composer, modifier, factory) }
     }
 
     fun emitElement(scope: Any, key: Any, composer: Any, groupKey: Int, factory: (Context) -> View) {
@@ -70,12 +75,12 @@ object ComposeViewHost {
             it.name == "Element" && it.parameterTypes.size == 5
         }
         val content = ComposeToolkit.function3("IconifyElementContent") { _, contentComposer, _ ->
-            emit(contentComposer!!, factory)
+            emit(contentComposer!!, factory = factory)
         }
 
         ComposeToolkit.inGroup(composer, groupKey) {
             if (elementMethod == null || content == null) {
-                emit(composer, factory)
+                emit(composer, factory = factory)
             } else {
                 elementMethod.invoke(scope, key, ComposeToolkit.emptyModifier, content, composer, 0)
             }
