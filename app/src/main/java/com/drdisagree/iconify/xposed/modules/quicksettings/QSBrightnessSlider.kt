@@ -18,6 +18,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
+import java.util.Collections
 import java.util.WeakHashMap
 
 @SuppressLint("DiscouragedApi")
@@ -44,6 +45,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     private val qsBrightnessSlots = WeakHashMap<Any, Any>()
     private val qqsTilesSlots = WeakHashMap<Any, Any>()
     private val mediaRowSlots = WeakHashMap<Any, Pair<Any, Any>>()
+    private val arrangedFirstSlots: MutableSet<Any> = Collections.newSetFromMap(WeakHashMap())
     private var emptyComposableSlot: Any? = null
 
     private var shadeSceneViewModel: Any? = null
@@ -97,6 +99,8 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 if (param.args.size < 3) return@runBefore
 
                 val brightness = param.args[0] ?: return@runBefore
+                if (brightness in arrangedFirstSlots) return@runBefore
+
                 val tiles = param.args[1] ?: return@runBefore
                 val brightnessSlot = if (brightnessInQqs) {
                     sharedQsBrightnessSlot(brightness) ?: brightness
@@ -114,24 +118,41 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 val media = param.args[2]
                 val emptySlot = emptySlot()
                 if (mediaInRow != true || media == null || emptySlot == null) {
+                    arrangedFirstSlots.add(tiles)
                     param.args[0] = tiles
                     param.args[1] = brightnessSlot
                     return@runBefore
                 }
 
                 val method = param.method as Method
+                val composer = param.args.getOrNull(
+                    method.parameterTypes.indexOfFirst { it.name == COMPOSER_CLASS }
+                ) ?: return@runBefore
                 val tilesAndMediaRow = mediaRowSlots[tiles]
                     ?.takeIf { it.first === media }
                     ?.second
-                    ?: composableSlot { composer, _ ->
-                        composeOriginalLayout(method, emptySlot, tiles, media, true, composer)
-                    }?.also { mediaRowSlots[tiles] = media to it }
+                    ?: composableSlot { rowComposer, _ ->
+                        composeOriginalLayout(method, emptySlot, tiles, media, true, rowComposer)
+                    }?.also {
+                        mediaRowSlots[tiles] = media to it
+                        arrangedFirstSlots.add(it)
+                    }
                     ?: return@runBefore
 
-                param.args[0] = tilesAndMediaRow
-                param.args[1] = brightnessSlot
-                param.args[2] = emptySlot
-                param.args[mediaInRowIndex] = false
+                composer.startGroup(LANDSCAPE_LAYOUT_GROUP_KEY)
+                try {
+                    composeOriginalLayout(
+                        method,
+                        tilesAndMediaRow,
+                        brightnessSlot,
+                        emptySlot,
+                        false,
+                        composer
+                    )
+                } finally {
+                    composer.endGroup()
+                }
+                param.result = null
             }
 
         qsLayoutClass
@@ -478,6 +499,22 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         }
     }
 
+    private fun Any.startGroup(key: Int) {
+        try {
+            callMethod("startReplaceGroup", key)
+        } catch (_: Throwable) {
+            callMethod("startReplaceableGroup", key)
+        }
+    }
+
+    private fun Any.endGroup() {
+        try {
+            callMethod("endReplaceGroup")
+        } catch (_: Throwable) {
+            callMethod("endReplaceableGroup")
+        }
+    }
+
     private fun emptySlot(): Any? {
         return emptyComposableSlot ?: composableSlot { _, _ -> }?.also { emptyComposableSlot = it }
     }
@@ -567,6 +604,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         private const val ELEMENT_KEY_DEFAULTS = 14
         private const val COMPOSER_CLASS = "androidx.compose.runtime.Composer"
         private const val FUNCTION2_CLASS = "kotlin.jvm.functions.Function2"
+        private const val LANDSCAPE_LAYOUT_GROUP_KEY = 0x1C0B5A1D
         private const val FUNCTION0_CLASS = "kotlin.jvm.functions.Function0"
         private const val FUNCTION3_CLASS = "kotlin.jvm.functions.Function3"
         private const val CONTENT_SCOPE_CLASS = "com.android.compose.animation.scene.ContentScope"
