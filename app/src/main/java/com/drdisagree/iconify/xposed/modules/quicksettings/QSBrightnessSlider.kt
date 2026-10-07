@@ -198,7 +198,11 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 if (!brightnessBelowTiles || param.args.size < 2) return@runBefore
 
                 val brightness = param.args[0] ?: return@runBefore
-                param.args[0] = param.args[1]
+                if (brightness in arrangedFirstSlots) return@runBefore
+                val tiles = param.args[1] ?: return@runBefore
+
+                arrangedFirstSlots.add(tiles)
+                param.args[0] = tiles
                 param.args[1] = brightness
             }
 
@@ -217,8 +221,12 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                     .map { it.index }
                 if (slots.size != 3) return@runBefore
 
-                val brightness = param.args[slots[1]]
-                param.args[slots[1]] = param.args[slots[2]]
+                val brightness = param.args[slots[1]] ?: return@runBefore
+                if (brightness in arrangedFirstSlots) return@runBefore
+                val tiles = param.args[slots[2]] ?: return@runBefore
+
+                arrangedFirstSlots.add(tiles)
+                param.args[slots[1]] = tiles
                 param.args[slots[2]] = brightness
             }
 
