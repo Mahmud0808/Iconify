@@ -13,6 +13,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
@@ -42,6 +43,8 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
 
     private val qsBrightnessSlots = WeakHashMap<Any, Any>()
     private val qqsTilesSlots = WeakHashMap<Any, Any>()
+    private val mediaRowSlots = WeakHashMap<Any, Pair<Any, Any>>()
+    private var emptyComposableSlot: Any? = null
 
     private var shadeSceneViewModel: Any? = null
     private var shadeScope: Any? = null
@@ -101,12 +104,34 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                     brightness
                 }
 
-                if (brightnessBelowTiles) {
+                if (!brightnessBelowTiles) {
+                    param.args[0] = brightnessSlot
+                    return@runBefore
+                }
+
+                val mediaInRowIndex = param.args.indexOfFirst { it is Boolean }
+                val mediaInRow = param.args.getOrNull(mediaInRowIndex) as? Boolean
+                val media = param.args[2]
+                val emptySlot = emptySlot()
+                if (mediaInRow != true || media == null || emptySlot == null) {
                     param.args[0] = tiles
                     param.args[1] = brightnessSlot
-                } else {
-                    param.args[0] = brightnessSlot
+                    return@runBefore
                 }
+
+                val method = param.method as Method
+                val tilesAndMediaRow = mediaRowSlots[tiles]
+                    ?.takeIf { it.first === media }
+                    ?.second
+                    ?: composableSlot { composer, _ ->
+                        composeOriginalLayout(method, emptySlot, tiles, media, true, composer)
+                    }?.also { mediaRowSlots[tiles] = media to it }
+                    ?: return@runBefore
+
+                param.args[0] = tilesAndMediaRow
+                param.args[1] = brightnessSlot
+                param.args[2] = emptySlot
+                param.args[mediaInRowIndex] = false
             }
 
         qsLayoutClass
@@ -453,6 +478,34 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         }
     }
 
+    private fun emptySlot(): Any? {
+        return emptyComposableSlot ?: composableSlot { _, _ -> }?.also { emptyComposableSlot = it }
+    }
+
+    private fun composeOriginalLayout(
+        method: Method,
+        brightness: Any,
+        tiles: Any,
+        media: Any,
+        mediaInRow: Boolean,
+        composer: Any
+    ) {
+        val slots = arrayOf(brightness, tiles, media)
+        var slotIndex = 0
+
+        val args = method.parameterTypes.map { type ->
+            when {
+                type.name == FUNCTION2_CLASS -> slots.getOrNull(slotIndex++)
+                type == Boolean::class.javaPrimitiveType -> mediaInRow
+                type.name == COMPOSER_CLASS -> composer
+                type == Int::class.javaPrimitiveType -> 0
+                else -> null
+            }
+        }.toTypedArray()
+
+        XposedBridge.invokeOriginalMethod(method, null, args)
+    }
+
     private fun composableSlot(block: (composer: Any, changed: Any?) -> Unit): Any? {
         val functionClass = function2Class ?: return null
         return Proxy.newProxyInstance(
@@ -513,6 +566,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         private const val SHARED_ELEMENT_NAME = "IconifyBrightnessSlider"
         private const val ELEMENT_KEY_DEFAULTS = 14
         private const val COMPOSER_CLASS = "androidx.compose.runtime.Composer"
+        private const val FUNCTION2_CLASS = "kotlin.jvm.functions.Function2"
         private const val FUNCTION0_CLASS = "kotlin.jvm.functions.Function0"
         private const val FUNCTION3_CLASS = "kotlin.jvm.functions.Function3"
         private const val CONTENT_SCOPE_CLASS = "com.android.compose.animation.scene.ContentScope"
