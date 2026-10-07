@@ -3,11 +3,19 @@ name: Build Debug APK
 on:
   push:
     branches: [ "beta" ]
-    paths-ignore:
-      - 'docs/**'
-      - '.github/**'
-      - '*.md'
+    paths:
+      - 'app/**'
+      - 'ModuleBase/**'
+      - 'gradle/**'
+      - '*.gradle.kts'
+      - 'gradle.properties'
+      - 'gradlew'
+      - 'gradlew.bat'
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   synchronize-with-crowdin:
@@ -34,6 +42,9 @@ jobs:
   build:
     name: Build Debug APK
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v4
 
@@ -42,7 +53,14 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: gradle
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Increase Gradle heap
+        run: |
+          mkdir -p ~/.gradle
+          echo "org.gradle.jvmargs=-Xmx6g -XX:+UseG1GC -Dfile.encoding=UTF-8" >> ~/.gradle/gradle.properties
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -68,10 +86,12 @@ jobs:
             echo ${{ secrets.KEYSTORE }} | base64 --decode > ${{ github.workspace }}/key.jks
           fi
 
-      - name: Build Debug APK
-        run: |
-          ./gradlew assembleFossDebug -PsplitApks
-          ./gradlew assembleStandardDebug
+      - name: Build Standard Debug APK
+        run: ./gradlew assembleStandardDebug
+
+      - name: Build FOSS Debug APKs
+        if: github.event_name == 'workflow_dispatch'
+        run: ./gradlew assembleFossDebug -PsplitApks
 
       - name: Upload Standard Build Artifact
         uses: actions/upload-artifact@v4
@@ -81,25 +101,29 @@ jobs:
           if-no-files-found: error
 
       - name: Upload FOSS Build Artifacts
+        if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: "Iconify (FOSS) v${{ env.VERSION_NAME }} Dev (#${{ github.run_number }}) - arm64-v8a"
           path: app/build/outputs/apk/foss/debug/*-arm64-v8a-*.apk
           if-no-files-found: error
 
-      - uses: actions/upload-artifact@v4
+      - if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
         with:
           name: "Iconify (FOSS) v${{ env.VERSION_NAME }} Dev (#${{ github.run_number }}) - armeabi-v7a"
           path: app/build/outputs/apk/foss/debug/*-armeabi-v7a-*.apk
           if-no-files-found: error
 
-      - uses: actions/upload-artifact@v4
+      - if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
         with:
           name: "Iconify (FOSS) v${{ env.VERSION_NAME }} Dev (#${{ github.run_number }}) - x86"
           path: app/build/outputs/apk/foss/debug/*-x86-*.apk
           if-no-files-found: error
 
-      - uses: actions/upload-artifact@v4
+      - if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
         with:
           name: "Iconify (FOSS) v${{ env.VERSION_NAME }} Dev (#${{ github.run_number }}) - x86_64"
           path: app/build/outputs/apk/foss/debug/*-x86_64-*.apk
@@ -107,25 +131,44 @@ jobs:
 
       - name: Get Commit Messages
         id: get_commit_message
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          COMMIT_MESSAGE_HEADER=$(git log -1 --pretty=%B | head -n 1)
           echo "SKIP_BUILD=false" >> $GITHUB_ENV
 
-          if [[ "$COMMIT_MESSAGE_HEADER" =~ ^Merge\ remote-tracking\ branch ]]; then
-            COMMIT_MESSAGE_HEADER="Synced with the latest changes"
+          LAST_SHA=$(gh run list --repo "${{ github.repository }}" --workflow build_debug.yml \
+            --branch "${{ github.ref_name }}" --status success -L 1 \
+            --json headSha --jq '.[0].headSha // empty' || true)
+
+          HEADERS=""
+          if [[ -n "$LAST_SHA" && "$LAST_SHA" != "${{ github.sha }}" ]]; then
+            HEADERS=$(gh api "repos/${{ github.repository }}/compare/$LAST_SHA...${{ github.sha }}" \
+              --jq '.commits[].commit.message | split("\n")[0]' || true)
+          fi
+          if [[ -z "$HEADERS" ]]; then
+            HEADERS=$(git log -1 --pretty=%B | head -n 1)
           fi
 
-          if [[ "$COMMIT_MESSAGE_HEADER" =~ Mahmud0808/beta-localization$ ]]; then
-            COMMIT_MESSAGE_HEADER="Updated translations"
-          fi
+          HEADERS=$(echo "$HEADERS" \
+            | sed -E 's/^Merge remote-tracking branch.*/Synced with the latest changes/' \
+            | sed -E 's|.*Mahmud0808/beta-localization$|Updated translations|' \
+            | sed '/^[[:space:]]*$/d' \
+            | awk '!seen[$0]++')
 
-          if [[ -z "$COMMIT_MESSAGE_HEADER" ]]; then
+          if [[ -z "$HEADERS" ]]; then
             echo "No valid changelog found!"
-            COMMIT_MESSAGE_HEADER="No valid changelog found!"
+            HEADERS="No valid changelog found!"
             echo "SKIP_BUILD=true" >> $GITHUB_ENV
           fi
 
-          ESCAPED_MESSAGE=$(echo "$COMMIT_MESSAGE_HEADER" | jq -Rsa . | sed 's/^"\(.*\)"$/\1/' | sed "s/'//g")
+          if [[ $(echo "$HEADERS" | wc -l) -gt 1 ]]; then
+            CHANGELOG=$(printf '\n%s' "$(echo "$HEADERS" | sed 's/^/• /')")
+          else
+            CHANGELOG=" $HEADERS"
+          fi
+          CHANGELOG=$(printf '%s' "$CHANGELOG" | head -c 900)
+
+          ESCAPED_MESSAGE=$(printf '%s' "$CHANGELOG" | jq -Rsa . | sed 's/^"\(.*\)"$/\1/' | sed "s/'//g")
           echo "COMMIT_MESSAGE_HEADER=${ESCAPED_MESSAGE}" >> $GITHUB_ENV
 
       - name: Clean Previous Release Folder
@@ -159,7 +202,7 @@ jobs:
             -F chat_id=${{ secrets.TG_CHAT_ID }} \
             -F message_thread_id=${{ secrets.TG_CHAT_THREAD_ID }} \
             -F media='[
-              {"type":"document","media":"attach://file","caption":"#Iconify: ${{ env.COMMIT_MESSAGE_HEADER }}"}
+              {"type":"document","media":"attach://file","caption":"#Iconify:${{ env.COMMIT_MESSAGE_HEADER }}"}
             ]' \
             -F file="@releases/Iconify A16 v${{ env.VERSION_NAME }} Dev (#${{ github.run_number }}).zip" \
             -F disable_notification=true || exit 1

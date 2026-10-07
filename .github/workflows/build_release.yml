@@ -15,7 +15,14 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: gradle
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Increase Gradle heap
+        run: |
+          mkdir -p ~/.gradle
+          echo "org.gradle.jvmargs=-Xmx6g -XX:+UseG1GC -Dfile.encoding=UTF-8" >> ~/.gradle/gradle.properties
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
