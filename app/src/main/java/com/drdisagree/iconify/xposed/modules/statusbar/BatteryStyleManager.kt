@@ -1092,6 +1092,28 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 })
         }
 
+        findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.ui.composable.BatteryWithEstimateKt",
+            suppressError = true
+        )
+            .hookMethodMatchPattern("BatteryWithEstimate(-.*)?")
+            .suppressError()
+            .runBefore { param ->
+                if (!customBatteryEnabled && !hideDefaultBattery) return@runBefore
+
+                val method = param.method as Method
+                val index = ComposeToolkit.parameterIndex(method, COMPOSE_MODIFIER_CLASS)
+                if (index == -1) return@runBefore
+
+                val modifier = param.args[index]
+                if (modifier != null && hiddenToOriginalModifier.containsKey(modifier)) return@runBefore
+
+                val original = modifier ?: ComposeToolkit.emptyModifier ?: return@runBefore
+                val hidden = hiddenModifierFor(original) ?: return@runBefore
+                param.args[index] = hidden
+                if (modifier == null) ComposeToolkit.clearDefaultBit(method, param.args, index)
+            }
+
         unifiedBatteryClass
             .hookMethod("UnifiedBattery")
             .suppressError()
@@ -1125,7 +1147,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             .hookMethodMatchPattern("BatteryInfo(-.*)?")
             .suppressError()
             .runBefore { param ->
-                if (!customBatteryEnabled && !hideDefaultBattery) return@runBefore
+                if (!customBatteryEnabled) return@runBefore
 
                 val method = param.method as Method
                 val modifierIndex = ComposeToolkit.parameterIndex(method, COMPOSE_MODIFIER_CLASS)
@@ -1133,13 +1155,6 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     ComposeToolkit.parameterIndex(method, ComposeToolkit.COMPOSER_CLASS)
                 ) ?: return@runBefore
                 val modifier = param.args.getOrNull(modifierIndex)
-
-                if (!customBatteryEnabled) {
-                    if (modifier != null) {
-                        param.args[modifierIndex] = hiddenModifierFor(modifier) ?: modifier
-                    }
-                    return@runBefore
-                }
 
                 val colorIndex = method.parameterTypes.indexOfFirst { it == Long::class.javaPrimitiveType }
                 (param.args.getOrNull(colorIndex) as? Long)?.let { color ->
