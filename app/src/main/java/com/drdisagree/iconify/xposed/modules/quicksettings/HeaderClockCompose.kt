@@ -186,6 +186,13 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
             .runBefore { param ->
                 if (showHeaderClock && hideStatusIcons) hideModifierArgument(param)
             }
+
+        shadeHeaderClass
+            .hookMethodMatchPattern("BatteryInfo(-.*)?")
+            .suppressError()
+            .runBefore { param ->
+                if (showHeaderClock && hideStatusIcons) hideModifierArgument(param)
+            }
     }
 
     private fun hideModifierArgument(param: MethodHookParam) {

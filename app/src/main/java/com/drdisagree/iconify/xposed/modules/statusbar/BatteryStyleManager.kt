@@ -159,6 +159,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
     private var mChargingIconMR = 0
     private var mChargingIconWH = 14
     private var hideDefaultBattery = false
+    private var headerStatusIconsHidden = false
     private var dualStatusbarEnabled = false
     private var linkToCustomColor = false
     private var composeHomeStatusIcons = false
@@ -244,6 +245,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             mChargingIconMR = getInt(XposedKey.CUSTOM_BATTERY_CHARGING_ICON_MARGIN_RIGHT)
             mChargingIconWH = getInt(XposedKey.CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT)
             hideDefaultBattery = getBoolean(XposedKey.HIDE_DEFAULT_BATTERY_VIEW)
+            headerStatusIconsHidden = getBoolean(XposedKey.CUSTOM_HEADER_CLOCK) &&
+                    getBoolean(XposedKey.HIDE_STATUS_ICONS)
             dualStatusbarEnabled = getBoolean(XposedKey.DUAL_STATUSBAR)
             linkToCustomColor = getBoolean(XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR)
         }
@@ -1147,7 +1150,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             .hookMethodMatchPattern("BatteryInfo(-.*)?")
             .suppressError()
             .runBefore { param ->
-                if (!customBatteryEnabled) return@runBefore
+                if (!customBatteryEnabled || headerStatusIconsHidden) return@runBefore
 
                 val method = param.method as Method
                 val modifierIndex = ComposeToolkit.parameterIndex(method, COMPOSE_MODIFIER_CLASS)
