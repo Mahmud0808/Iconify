@@ -40,8 +40,10 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     private val qsBrightnessSlots = WeakHashMap<Any, Any>()
     private val qqsTilesSlots = WeakHashMap<Any, Any>()
     private val mediaRowSlots = WeakHashMap<Any, Pair<Any, Any>>()
+    private val sceneMediaRowSlots = WeakHashMap<Any, Pair<Any, Any>>()
     private val arrangedFirstSlots: MutableSet<Any> = Collections.newSetFromMap(WeakHashMap())
     private var emptyComposableSlot: Any? = null
+    private var emptyScopedComposableSlot: Any? = null
 
     private var shadeSceneViewModel: Any? = null
     private var shadeScope: Any? = null
@@ -196,9 +198,56 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 if (brightness in arrangedFirstSlots) return@runBefore
                 val tiles = param.args[1] ?: return@runBefore
 
-                arrangedFirstSlots.add(tiles)
-                param.args[0] = tiles
-                param.args[1] = brightness
+                val method = param.method as Method
+                val mediaInRowIndex = method.parameterTypes.indexOfFirst {
+                    it == Boolean::class.javaPrimitiveType
+                }
+                val mediaInRow = param.args.getOrNull(mediaInRowIndex) as? Boolean
+                val media = param.args[2]
+                val emptySlot = emptyScopedSlot()
+                val composer = param.args.getOrNull(
+                    ComposeToolkit.parameterIndex(method, COMPOSER_CLASS)
+                )
+
+                if (mediaInRow != true || media == null || emptySlot == null || composer == null) {
+                    arrangedFirstSlots.add(tiles)
+                    param.args[0] = tiles
+                    param.args[1] = brightness
+                    return@runBefore
+                }
+
+                val originalArgs = param.args.clone()
+                val tilesAndMediaRow = sceneMediaRowSlots[tiles]
+                    ?.takeIf { it.first === media }
+                    ?.second
+                    ?: ComposeToolkit.function3("IconifyQsTilesMediaRow") { _, rowComposer, _ ->
+                        invokeScenePanelLayout(
+                            method,
+                            originalArgs,
+                            arrayOf(emptySlot, tiles, media),
+                            mediaInRowIndex,
+                            true,
+                            ComposeToolkit.emptyModifier,
+                            rowComposer!!
+                        )
+                    }?.also {
+                        sceneMediaRowSlots[tiles] = media to it
+                        arrangedFirstSlots.add(it)
+                    }
+                    ?: return@runBefore
+
+                ComposeToolkit.inGroup(composer, SCENE_LANDSCAPE_LAYOUT_GROUP_KEY) {
+                    invokeScenePanelLayout(
+                        method,
+                        originalArgs,
+                        arrayOf(tilesAndMediaRow, brightness, emptySlot),
+                        mediaInRowIndex,
+                        false,
+                        null,
+                        composer
+                    )
+                }
+                param.result = null
             }
 
         findClass(
@@ -484,7 +533,10 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     }
 
     private fun emptySlot(): Any? {
-        return emptyComposableSlot ?: composableSlot { _, _ -> }?.also { emptyComposableSlot = it }
+        return emptyComposableSlot ?: composableSlot { _, _ -> }?.also {
+            emptyComposableSlot = it
+            arrangedFirstSlots.add(it)
+        }
     }
 
     private fun composeOriginalLayout(
@@ -511,6 +563,38 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         XposedBridge.invokeOriginalMethod(method, null, args)
     }
 
+    private fun emptyScopedSlot(): Any? {
+        return emptyScopedComposableSlot
+            ?: ComposeToolkit.function3("IconifyEmptySlot") { _, _, _ -> }
+                ?.also {
+                    emptyScopedComposableSlot = it
+                    arrangedFirstSlots.add(it)
+                }
+    }
+
+    private fun invokeScenePanelLayout(
+        method: Method,
+        originalArgs: Array<Any?>,
+        slots: Array<Any>,
+        mediaInRowIndex: Int,
+        mediaInRow: Boolean,
+        modifier: Any?,
+        composer: Any
+    ) {
+        val args = originalArgs.clone()
+        slots.forEachIndexed { index, slot -> args[index] = slot }
+        args[mediaInRowIndex] = mediaInRow
+        if (modifier != null) {
+            val modifierIndex = ComposeToolkit.parameterIndex(method, COMPOSE_MODIFIER_CLASS)
+            if (modifierIndex != -1) args[modifierIndex] = modifier
+        }
+        val composerIndex = ComposeToolkit.parameterIndex(method, COMPOSER_CLASS)
+        args[composerIndex] = composer
+        for (index in composerIndex + 1 until args.size) args[index] = 0
+
+        XposedBridge.invokeOriginalMethod(method, null, args)
+    }
+
     private fun composableSlot(block: (composer: Any, changed: Any?) -> Unit): Any? =
         ComposeToolkit.function2("IconifyBrightnessSlot") { composer, changed ->
             block(composer!!, changed)
@@ -527,6 +611,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         private const val COMPOSER_CLASS = ComposeToolkit.COMPOSER_CLASS
         private const val FUNCTION2_CLASS = ComposeToolkit.FUNCTION2_CLASS
         private const val LANDSCAPE_LAYOUT_GROUP_KEY = 0x1C0B5A1D
+        private const val SCENE_LANDSCAPE_LAYOUT_GROUP_KEY = 0x1C0B5A1E
         private const val FUNCTION0_CLASS = ComposeToolkit.FUNCTION0_CLASS
         private const val FUNCTION3_CLASS = ComposeToolkit.FUNCTION3_CLASS
         private const val CONTENT_SCOPE_CLASS = ComposeToolkit.CONTENT_SCOPE_CLASS
