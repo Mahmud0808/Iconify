@@ -18,7 +18,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatc
 import com.drdisagree.iconify.xposed.utils.SceneContainer
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import java.lang.reflect.Method
 import java.util.Collections
 import java.util.WeakHashMap
 
@@ -195,19 +194,8 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
             }
     }
 
-    private fun hideModifierArgument(param: MethodHookParam) {
-        val method = param.method as Method
-        val index = ComposeToolkit.parameterIndex(method, ComposeToolkit.MODIFIER_CLASS)
-        if (index == -1) return
-
-        val original = param.args[index]
-        if (original != null && ComposeViewHost.isHiddenModifier(original)) return
-
-        val hidden = ComposeViewHost.hiddenModifier(original ?: ComposeToolkit.emptyModifier ?: return)
-            ?: return
-        param.args[index] = hidden
-        ComposeToolkit.clearDefaultBit(method, param.args, index)
-    }
+    private fun hideModifierArgument(param: MethodHookParam) =
+        ComposeViewHost.hideModifierArgument(param)
 
     companion object {
         private const val GROUP_KEY = 0x1C0B1C1C

@@ -12,12 +12,14 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -117,6 +119,25 @@ class Miscellaneous(context: Context) : ModPack(context) {
                     ) as? LinearLayout
                     (mShadeCarrierGroup?.parent as? ViewGroup)?.removeView(mShadeCarrierGroup)
                 }
+            }
+
+        val axQuickSettingsHeaderClass = findClass(
+            "$SYSTEMUI_PACKAGE.qs.ax.ui.header.AxQuickSettingsHeaderKt",
+            suppressError = true
+        )
+
+        axQuickSettingsHeaderClass
+            .hookMethod("AxStatusIcons")
+            .suppressError()
+            .runBefore { param ->
+                if (hideStatusIcons) ComposeViewHost.hideModifierArgument(param)
+            }
+
+        axQuickSettingsHeaderClass
+            .hookMethodMatchPattern("AxBatteryInfo(-.*)?")
+            .suppressError()
+            .runBefore { param ->
+                if (hideStatusIcons) ComposeViewHost.hideModifierArgument(param)
             }
     }
 

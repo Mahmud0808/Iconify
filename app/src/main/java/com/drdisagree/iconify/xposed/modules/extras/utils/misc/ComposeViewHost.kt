@@ -5,6 +5,7 @@ import android.view.Choreographer
 import android.view.View
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import java.lang.reflect.Method
 import java.util.Collections
 import java.util.WeakHashMap
@@ -130,6 +131,20 @@ object ComposeViewHost {
     }
 
     fun isHiddenModifier(modifier: Any): Boolean = modifier in hiddenModifiers
+
+    fun hideModifierArgument(param: MethodHookParam) {
+        val method = param.method as Method
+        val index = ComposeToolkit.parameterIndex(method, ComposeToolkit.MODIFIER_CLASS)
+        if (index == -1) return
+
+        val original = param.args[index]
+        if (original != null && isHiddenModifier(original)) return
+
+        val hidden = hiddenModifier(original ?: ComposeToolkit.emptyModifier ?: return)
+            ?: return
+        param.args[index] = hidden
+        ComposeToolkit.clearDefaultBit(method, param.args, index)
+    }
 
     fun runEveryFrameWhileAttached(view: View, onFrame: () -> Unit) {
         val callback = object : Choreographer.FrameCallback {
