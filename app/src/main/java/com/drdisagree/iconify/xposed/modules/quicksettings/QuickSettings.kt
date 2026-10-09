@@ -39,7 +39,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Method
 import java.util.WeakHashMap
@@ -63,6 +62,8 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var coloredNotificationView = false
     private var shadeHeaderDimensionsClass: Class<*>? = null
     private var defaultExpandedHeaderHeight: Float? = null
+    private var expandedHeaderHeightWritable = true
+    private var expandedHeaderDepth = 0
     private val paddedToOriginalHeaderModifier = WeakHashMap<Any, Any>()
 
     override fun updatePrefs(vararg key: String) {
@@ -148,7 +149,22 @@ class QuickSettings(context: Context) : ModPack(context) {
         shadeHeaderClass
             .hookMethod("ExpandedShadeHeader")
             .suppressError()
-            .runBefore { applyExpandedHeaderHeight() }
+            .runBefore {
+                expandedHeaderDepth++
+                applyExpandedHeaderHeight()
+            }
+            .runAfter { expandedHeaderDepth-- }
+
+        findClass("androidx.compose.foundation.layout.SizeKt", suppressError = true)
+            .hookMethodMatchPattern("defaultMinSize-.*\\\$default")
+            .suppressError()
+            .runBefore { param ->
+                if (expandedHeaderDepth <= 0 || !customQsMarginsEnabled) return@runBefore
+                val defaultHeight = defaultExpandedHeaderHeight ?: return@runBefore
+                if (param.args.getOrNull(2) as? Float != defaultHeight) return@runBefore
+
+                param.args[2] = getQsMargin().toFloat()
+            }
 
         if (paddingMethod == null) return
 
@@ -190,13 +206,17 @@ class QuickSettings(context: Context) : ModPack(context) {
         val dimensionsClass = shadeHeaderDimensionsClass ?: return
 
         try {
+            val field = dimensionsClass.getDeclaredField(EXPANDED_HEADER_HEIGHT).apply {
+                isAccessible = true
+            }
             val defaultHeight = defaultExpandedHeaderHeight
-                ?: XposedHelpers.getStaticFloatField(dimensionsClass, EXPANDED_HEADER_HEIGHT)
-                    .also { defaultExpandedHeaderHeight = it }
-            val height = if (customQsMarginsEnabled) getQsMargin().toFloat() else defaultHeight
+                ?: field.getFloat(null).also { defaultExpandedHeaderHeight = it }
+            if (!expandedHeaderHeightWritable) return
 
-            XposedHelpers.setStaticFloatField(dimensionsClass, EXPANDED_HEADER_HEIGHT, height)
+            val height = if (customQsMarginsEnabled) getQsMargin().toFloat() else defaultHeight
+            if (field.getFloat(null) != height) field.setFloat(null, height)
         } catch (_: Throwable) {
+            expandedHeaderHeightWritable = false
         }
     }
 

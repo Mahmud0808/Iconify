@@ -33,33 +33,35 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assign
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.LockscreenWidgetsView
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
-class LockscreenWidgets(context: Context) : ModPack(context) {
+open class LockscreenWidgets(context: Context) : ModPack(context) {
 
     // Parent
     private var mLockscreenRootView: ViewGroup? = null
-    private var mLsItemsContainer: LinearLayout? = null
+    protected var mLsItemsContainer: LinearLayout? = null
 
     // Widgets Container
-    private lateinit var mWidgetsContainer: LinearLayout
+    protected lateinit var mWidgetsContainer: LinearLayout
 
     // Ls custom clock
-    private var mLockscreenClockEnabled = false
-    private var mLockscreenClockInflated = false
+    protected var mLockscreenClockEnabled = false
+    protected var mLockscreenClockInflated = false
 
     // Ls weather
-    private var mWeatherEnabled = false
-    private var mWeatherInflated = false
+    protected var mWeatherEnabled = false
+    protected var mWeatherInflated = false
 
     // Widgets Prefs
     // Lockscreen Widgets
-    private var mWidgetsEnabled = false
+    protected var mWidgetsEnabled = false
     private var mDeviceWidgetEnabled = false
     private var mDeviceCustomColor = false
     private var mDeviceLinearColor = Color.WHITE
@@ -84,7 +86,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
     private var mDeviceWidgetStyle = 0
     private var dateSmartSpaceViewAvailable = false
     private var bcSmartSpaceViewAvailable = false
-    private var aodBurnInProtection: AodBurnInProtection? = null
+    protected var aodBurnInProtection: AodBurnInProtection? = null
 
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -192,29 +194,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag", "DiscouragedApi")
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-        // Receiver to handle weather inflated
-        if (!mBroadcastRegistered) {
-            val intentFilter = IntentFilter()
-            intentFilter.addAction(ACTION_WEATHER_INFLATED)
-            intentFilter.addAction(ACTION_LS_CLOCK_INFLATED)
-
-            mContext.registerReceiver(
-                mReceiver,
-                intentFilter,
-                Context.RECEIVER_EXPORTED
-            )
-
-            mBroadcastRegistered = true
-        }
-
-        mWidgetsContainer = LinearLayout(mContext).apply {
-            id = View.generateViewId()
-            tag = ICONIFY_LOCKSCREEN_WIDGET_TAG
-            layoutParams = LinearLayout.LayoutParams(
-                0,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        }
+        setupWidgetsCommon()
 
         val aodBurnInSectionClass =
             findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
@@ -269,6 +249,12 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
                 if (!mWidgetsEnabled) return@runAfter
 
                 val entryV = param.args[0] as View
+
+                if (entryV.getExtraFieldSilently(ATTACH_LISTENER_FIELD) == true) {
+                    if (entryV.isAttachedToWindow) viewAttached(entryV)
+                    return@runAfter
+                }
+                entryV.setExtraField(ATTACH_LISTENER_FIELD, true)
 
                 entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
                     override fun onViewAttachedToWindow(v: View) {
@@ -394,6 +380,33 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
 
                 updateLockscreenWidgetsOnClock(param.args[0] as Boolean)
             }
+    }
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
+    protected fun setupWidgetsCommon() {
+        // Receiver to handle weather inflated
+        if (!mBroadcastRegistered) {
+            val intentFilter = IntentFilter()
+            intentFilter.addAction(ACTION_WEATHER_INFLATED)
+            intentFilter.addAction(ACTION_LS_CLOCK_INFLATED)
+
+            mContext.registerReceiver(
+                mReceiver,
+                intentFilter,
+                Context.RECEIVER_EXPORTED
+            )
+
+            mBroadcastRegistered = true
+        }
+
+        mWidgetsContainer = LinearLayout(mContext).apply {
+            id = View.generateViewId()
+            tag = ICONIFY_LOCKSCREEN_WIDGET_TAG
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
 
         // For unknown reason, rotating device makes the height of view to 0
         // This is a workaround to make sure the view is visible
@@ -433,8 +446,10 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
         )
     }
 
-    private fun placeWidgetsView() {
-        if ((!mWidgetsEnabled || mLockscreenRootView == null) ||
+    protected open fun isWidgetsHostReady(): Boolean = mLockscreenRootView != null
+
+    protected fun placeWidgetsView() {
+        if ((!mWidgetsEnabled || !isWidgetsHostReady()) ||
             (mLockscreenClockEnabled && !mLockscreenClockInflated) ||
             (mWeatherEnabled && !mWeatherInflated)
         ) return
@@ -571,7 +586,7 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
         )
     }
 
-    private fun updateLockscreenWidgetsOnClock(isLargeClock: Boolean) {
+    protected fun updateLockscreenWidgetsOnClock(isLargeClock: Boolean) {
         LockscreenWidgetsView.getInstance()?.setIsLargeClock(
             if (mLockscreenClockEnabled) false else isLargeClock
         )
@@ -647,6 +662,8 @@ class LockscreenWidgets(context: Context) : ModPack(context) {
     }
 
     companion object {
+
+        private const val ATTACH_LISTENER_FIELD = "iconifyLsWidgetsAttachListener"
 
         @SuppressLint("DiscouragedApi")
         fun getAvailableSmartSpaceViews(rootView: ViewGroup): Pair<Boolean, Boolean> {

@@ -8,7 +8,7 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
@@ -121,25 +121,48 @@ class DozeCallback(context: Context) : ModPack(context) {
             log(this@DozeCallback, "Pulse method hook is not available")
         }
 
+        val authControllerClass = findClass(
+            "$SYSTEMUI_PACKAGE.biometrics.AuthController",
+            suppressError = true
+        )
+
+        if (authControllerClass != null) {
+            authControllerClass
+                .hookMethod("dozeTimeTick")
+                .suppressError()
+                .runAfter { onDozeTimeTick() }
+
+            authControllerClass.setExtraField("dozeTimeTickHooked", true)
+        }
+
         dozeUiClass
             .hookMethod("transitionTo")
             .runAfter { param ->
-                val dozeServiceHostClass = param.thisObject.getField("mHost")
-                val authControllerClass = dozeServiceHostClass.getField("mAuthController").javaClass
+                val runtimeAuthControllerClass = param.thisObject
+                    .getFieldSilently("mHost")
+                    ?.getFieldSilently("mAuthController")
+                    ?.javaClass ?: return@runAfter
 
-                if (authControllerClass.getExtraFieldSilently("dozeTimeTickHooked") == true) return@runAfter
+                if (runtimeAuthControllerClass.getExtraFieldSilently("dozeTimeTickHooked") == true) return@runAfter
 
-                authControllerClass
+                runtimeAuthControllerClass
                     .hookMethod("dozeTimeTick")
                     .runAfter { onDozeTimeTick() }
 
-                authControllerClass.setExtraField("dozeTimeTickHooked", true)
+                runtimeAuthControllerClass.setExtraField("dozeTimeTickHooked", true)
             }
     }
 
     private fun onDozeTimeTick() {
         Handler(Looper.getMainLooper()).post {
             AodBurnInProtection.dispatchDozeTimeTick()
+            mDozeListeners.forEach {
+                try {
+                    it.onDozeTimeTick()
+                } catch (throwable: Throwable) {
+                    log(this@DozeCallback, "onDozeTimeTick: $throwable")
+                }
+            }
         }
     }
 
@@ -148,6 +171,7 @@ class DozeCallback(context: Context) : ModPack(context) {
     interface DozeListener {
         fun onDozingStarted()
         fun onDozingStopped()
+        fun onDozeTimeTick() {}
     }
 
     private fun notifyStateChanged(isDozing: Boolean) {

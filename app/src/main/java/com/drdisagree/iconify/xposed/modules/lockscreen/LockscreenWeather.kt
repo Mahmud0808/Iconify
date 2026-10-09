@@ -38,7 +38,9 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddV
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.CurrentWeatherView
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgets.Companion.getAvailableSmartSpaceViews
@@ -46,9 +48,9 @@ import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
-class LockscreenWeather(context: Context) : ModPack(context) {
+open class LockscreenWeather(context: Context) : ModPack(context) {
 
-    private var mWeatherEnabled = false
+    protected var mWeatherEnabled = false
     private var weatherShowLocation = true
     private var weatherShowCondition = true
     private var weatherShowHumidity = false
@@ -63,14 +65,14 @@ class LockscreenWeather(context: Context) : ModPack(context) {
     private var mWeatherBackground = 0
     private var mCenterWeather = false
     private var mLockscreenRootView: ViewGroup? = null
-    private var mLsItemsContainer: LinearLayout? = null
-    private var mLockscreenClockEnabled = false
-    private var mLockscreenClockInflated = false
-    private var mWidgetsEnabled = false
+    protected var mLsItemsContainer: LinearLayout? = null
+    protected var mLockscreenClockEnabled = false
+    protected var mLockscreenClockInflated = false
+    protected var mWidgetsEnabled = false
     private var dateSmartSpaceViewAvailable = false
     private var bcSmartSpaceViewAvailable = false
-    private lateinit var mWeatherContainer: LinearLayout
-    private var aodBurnInProtection: AodBurnInProtection? = null
+    protected lateinit var mWeatherContainer: LinearLayout
+    protected var aodBurnInProtection: AodBurnInProtection? = null
     private var mCustomFontEnabled = false
 
     private var mBroadcastRegistered = false
@@ -135,28 +137,7 @@ class LockscreenWeather(context: Context) : ModPack(context) {
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag", "DiscouragedApi")
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
-        // Receiver to handle lockscreen clock inflated
-        if (!mBroadcastRegistered) {
-            val intentFilter = IntentFilter()
-            intentFilter.addAction(ACTION_LS_CLOCK_INFLATED)
-
-            mContext.registerReceiver(
-                mReceiver,
-                intentFilter,
-                Context.RECEIVER_EXPORTED
-            )
-
-            mBroadcastRegistered = true
-        }
-
-        mWeatherContainer = LinearLayout(mContext).apply {
-            id = View.generateViewId()
-            tag = ICONIFY_LOCKSCREEN_WEATHER_TAG
-            layoutParams = LinearLayout.LayoutParams(
-                0,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        }
+        setupWeatherCommon()
 
         val aodBurnInSectionClass =
             findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
@@ -214,6 +195,12 @@ class LockscreenWeather(context: Context) : ModPack(context) {
                 if (!mWeatherEnabled) return@runAfter
 
                 val entryV = param.args[0] as View
+
+                if (entryV.getExtraFieldSilently(ATTACH_LISTENER_FIELD) == true) {
+                    if (entryV.isAttachedToWindow) viewAttached(entryV)
+                    return@runAfter
+                }
+                entryV.setExtraField(ATTACH_LISTENER_FIELD, true)
 
                 entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
                     override fun onViewAttachedToWindow(v: View) {
@@ -326,6 +313,32 @@ class LockscreenWeather(context: Context) : ModPack(context) {
                     )
                 }
             }
+    }
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
+    protected fun setupWeatherCommon() {
+        // Receiver to handle lockscreen clock inflated
+        if (!mBroadcastRegistered) {
+            val intentFilter = IntentFilter()
+            intentFilter.addAction(ACTION_LS_CLOCK_INFLATED)
+
+            mContext.registerReceiver(
+                mReceiver,
+                intentFilter,
+                Context.RECEIVER_EXPORTED
+            )
+
+            mBroadcastRegistered = true
+        }
+
+        mWeatherContainer = LinearLayout(mContext).apply {
+            id = View.generateViewId()
+            tag = ICONIFY_LOCKSCREEN_WEATHER_TAG
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
 
         // For unknown reason, rotating device makes the height of view to 0
         // This is a workaround to make sure the view is visible
@@ -363,9 +376,11 @@ class LockscreenWeather(context: Context) : ModPack(context) {
         BootCallback.registerBootListener { updateWeatherView() }
     }
 
+    protected open fun isWeatherHostReady(): Boolean = mLockscreenRootView != null
+
     @SuppressLint("DiscouragedApi")
-    private fun placeWeatherView() {
-        if (!mWeatherEnabled || mLockscreenRootView == null) return
+    protected fun placeWeatherView() {
+        if (!mWeatherEnabled || !isWeatherHostReady()) return
         if (mLockscreenClockEnabled && !mLockscreenClockInflated) return
 
         val currentWeatherView: CurrentWeatherView = CurrentWeatherView.getInstance(
@@ -572,5 +587,6 @@ class LockscreenWeather(context: Context) : ModPack(context) {
 
     companion object {
         const val LOCKSCREEN_WEATHER = "iconify_ls_weather"
+        private const val ATTACH_LISTENER_FIELD = "iconifyLsWeatherAttachListener"
     }
 }

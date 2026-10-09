@@ -42,6 +42,31 @@ object ComposeViewHost {
         )
     }
 
+    private val offsetModifierMethod: Method? by lazy {
+        ComposeToolkit.modifierFunction(
+            "androidx.compose.foundation.layout.OffsetKt",
+            "offset",
+            ComposeToolkit.functionClass(1)
+        )
+    }
+
+    private val intOffsetBox: Method? by lazy {
+        ComposeToolkit.staticMethod("androidx.compose.ui.unit.IntOffset", "box-impl") {
+            it.name == "box-impl" && it.parameterTypes.size == 1
+        }
+    }
+
+    fun offsetModifier(offset: () -> Pair<Int, Int>): Any? = try {
+        val provider = ComposeToolkit.function1("IconifyOffset") {
+            val (x, y) = offset()
+            intOffsetBox?.invoke(null, (x.toLong() shl 32) or (y.toLong() and 0xFFFFFFFFL))
+        }
+        if (provider == null) null
+        else offsetModifierMethod?.invoke(null, ComposeToolkit.emptyModifier, provider)
+    } catch (_: Throwable) {
+        null
+    }
+
     val isAvailable: Boolean
         get() = androidViewMethod != null && ComposeToolkit.functionClass(1) != null
 

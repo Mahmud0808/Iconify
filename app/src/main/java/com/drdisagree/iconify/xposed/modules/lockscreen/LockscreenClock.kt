@@ -70,6 +70,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddV
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
@@ -90,11 +91,11 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 @SuppressLint("DiscouragedApi")
-class LockscreenClock(context: Context) : ModPack(context) {
+open class LockscreenClock(context: Context) : ModPack(context) {
 
-    private var showLockscreenClock = false
+    protected var showLockscreenClock = false
     private var mLockscreenRootView: ViewGroup? = null
-    private var mLsItemsContainer: LinearLayout? = null
+    protected var mLsItemsContainer: LinearLayout? = null
     private var mUserManager: UserManager? = null
     private var mAudioManager: AudioManager? = null
     private var mActivityManager: ActivityManager? = null
@@ -130,7 +131,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
     private var currentClockView: View? = null
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
-    private var aodBurnInProtection: AodBurnInProtection? = null
+    protected var aodBurnInProtection: AodBurnInProtection? = null
 
     private val mBatteryReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -187,7 +188,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
                     getString(XposedKey.LSCLOCK_IMAGE2_FILE_URI).isNotEmpty()
         }
 
-        resetStockClock()
+        if (key.firstOrNull() == XposedKey.CUSTOM_LOCKSCREEN_CLOCK.name) resetStockClock()
 
         when (key.firstOrNull()) {
             in setOf(
@@ -309,6 +310,12 @@ class LockscreenClock(context: Context) : ModPack(context) {
 
                 val entryV = param.args[0] as View
 
+                if (entryV.getExtraFieldSilently(ATTACH_LISTENER_FIELD) == true) {
+                    if (entryV.isAttachedToWindow) viewAttached(entryV)
+                    return@runAfter
+                }
+                entryV.setExtraField(ATTACH_LISTENER_FIELD, true)
+
                 entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
                     override fun onViewAttachedToWindow(v: View) {
                         viewAttached(entryV)
@@ -352,6 +359,24 @@ class LockscreenClock(context: Context) : ModPack(context) {
                         SYSTEMUI_PACKAGE
                     )
                 ).hideView()
+            }
+
+        findClass(
+            "$SYSTEMUI_PACKAGE.keyguard.ui.binder.KeyguardClockViewBinder",
+            suppressError = true
+        )
+            .hookMethod("addClockViews")
+            .suppressError()
+            .runAfter { param ->
+                if (!showLockscreenClock) return@runAfter
+
+                val clockController = param.args.firstOrNull() ?: return@runAfter
+
+                listOf("getSmallClock", "getLargeClock").forEach { getter ->
+                    (clockController.callMethodSilently(getter)
+                        ?.callMethodSilently("getView") as? View)
+                        .hideView()
+                }
             }
 
         val defaultNotificationStackScrollLayoutSectionClass =
@@ -494,54 +519,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
                 }
             }
 
-        val keyguardUpdateMonitor = findClass("com.android.keyguard.KeyguardUpdateMonitor")
-
-        keyguardUpdateMonitor
-            .hookMethod("registerCallback")
-            .parameters("com.android.keyguard.KeyguardUpdateMonitorCallback")
-            .runAfter { param ->
-                if (!showLockscreenClock) return@runAfter
-
-                val callbackClass = param.args[0].javaClass
-
-                if (callbackClass.getExtraFieldSilently("hooked") == true) return@runAfter
-
-                callbackClass.setExtraField("hooked", true)
-
-                callbackClass
-                    .hookMethod(
-                        "onTimeChanged",
-                        "onTimeFormatChanged",
-                        "onTimeZoneChanged"
-                    )
-                    .runAfter runAfter2@{
-                        if (!showLockscreenClock) return@runAfter2
-
-                        Handler(Looper.getMainLooper()).post { updateClockView() }
-                    }
-            }
-
-        val dozeTriggersClass = findClass("$SYSTEMUI_PACKAGE.doze.DozeTriggers")
-
-        dozeTriggersClass
-            .hookMethod("gentleWakeUp")
-            .runAfter {
-                if (!showLockscreenClock) return@runAfter
-
-                Handler(Looper.getMainLooper()).post { updateClockView() }
-            }
-
-        DozeCallback.getInstance().registerDozeChangeListener(
-            object : DozeCallback.DozeListener {
-                override fun onDozingStarted() {
-                    aodBurnInProtection?.setMovementEnabled(true)
-                }
-
-                override fun onDozingStopped() {
-                    aodBurnInProtection?.setMovementEnabled(false)
-                }
-            }
-        )
+        hookClockUpdates()
 
         // For unknown reason, rotating device makes the height of view to 0
         // This is a workaround to make sure the view is visible
@@ -597,10 +575,68 @@ class LockscreenClock(context: Context) : ModPack(context) {
                 }
             }
 
+    }
+
+    protected fun hookClockUpdates() {
+        val keyguardUpdateMonitor = findClass("com.android.keyguard.KeyguardUpdateMonitor")
+
+        keyguardUpdateMonitor
+            .hookMethod("registerCallback")
+            .parameters("com.android.keyguard.KeyguardUpdateMonitorCallback")
+            .runAfter { param ->
+                if (!showLockscreenClock) return@runAfter
+
+                val callbackClass = param.args[0].javaClass
+
+                if (callbackClass.getExtraFieldSilently("hooked") == true) return@runAfter
+
+                callbackClass.setExtraField("hooked", true)
+
+                callbackClass
+                    .hookMethod(
+                        "onTimeChanged",
+                        "onTimeFormatChanged",
+                        "onTimeZoneChanged"
+                    )
+                    .runAfter runAfter2@{
+                        if (!showLockscreenClock) return@runAfter2
+
+                        Handler(Looper.getMainLooper()).post { updateClockView() }
+                    }
+            }
+
+        val dozeTriggersClass = findClass("$SYSTEMUI_PACKAGE.doze.DozeTriggers")
+
+        dozeTriggersClass
+            .hookMethod("gentleWakeUp")
+            .runAfter {
+                if (!showLockscreenClock) return@runAfter
+
+                Handler(Looper.getMainLooper()).post { updateClockView() }
+            }
+
+        DozeCallback.getInstance().registerDozeChangeListener(
+            object : DozeCallback.DozeListener {
+                override fun onDozingStarted() {
+                    aodBurnInProtection?.setMovementEnabled(true)
+                    refreshClockTime()
+                }
+
+                override fun onDozingStopped() {
+                    aodBurnInProtection?.setMovementEnabled(false)
+                    refreshClockTime()
+                }
+
+                override fun onDozeTimeTick() {
+                    refreshClockTime()
+                }
+            }
+        )
+
         BootCallback.registerBootListener { updateClockView(true) }
     }
 
-    private fun initResources(context: Context) {
+    protected fun initResources(context: Context) {
         Handler(Looper.getMainLooper()).post {
             mUserManager = context.getSystemService(Context.USER_SERVICE) as UserManager
         }
@@ -624,12 +660,13 @@ class LockscreenClock(context: Context) : ModPack(context) {
     }
 
     // Broadcast receiver for updating clock
-    private fun registerClockUpdater() {
+    protected fun registerClockUpdater() {
         val filter = IntentFilter().apply {
             addAction(Intent.ACTION_TIME_TICK)
             addAction(Intent.ACTION_TIME_CHANGED)
             addAction(Intent.ACTION_TIMEZONE_CHANGED)
             addAction(Intent.ACTION_LOCALE_CHANGED)
+            addAction(Intent.ACTION_SCREEN_ON)
         }
 
         mContext.registerReceiver(timeChangedReceiver, filter)
@@ -637,7 +674,12 @@ class LockscreenClock(context: Context) : ModPack(context) {
         updateClockView()
     }
 
-    private fun unregisterClockUpdater() {
+    private fun refreshClockTime() {
+        if (!showLockscreenClock) return
+        Handler(Looper.getMainLooper()).post { updateClockView() }
+    }
+
+    protected fun unregisterClockUpdater() {
         try {
             mContext.unregisterReceiver(timeChangedReceiver)
         } catch (_: Throwable) {
@@ -646,7 +688,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
     }
 
     @Synchronized
-    private fun updateClockView(force: Boolean = false) {
+    protected fun updateClockView(force: Boolean = false) {
         if (mLsItemsContainer == null) return
 
         val currentTime = System.currentTimeMillis()
@@ -1176,7 +1218,7 @@ class LockscreenClock(context: Context) : ModPack(context) {
         }
     }
 
-    private fun resetStockClock() {
+    protected open fun resetStockClock() {
         if (showLockscreenClock) {
             enqueueProxyCommand { proxy ->
                 proxy.runCommand(RESET_LOCKSCREEN_CLOCK_COMMAND)
@@ -1187,5 +1229,6 @@ class LockscreenClock(context: Context) : ModPack(context) {
     companion object {
         private var lastUpdated = System.currentTimeMillis()
         private const val THRESHOLD_TIME: Long = 500 // milliseconds
+        private const val ATTACH_LISTENER_FIELD = "iconifyLsClockAttachListener"
     }
 }

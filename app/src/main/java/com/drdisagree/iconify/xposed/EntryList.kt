@@ -18,9 +18,12 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
 import com.drdisagree.iconify.xposed.modules.lockscreen.DepthWallpaper
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenClock
+import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenClockCompose
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWeather
+import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWeatherCompose
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenVisualizer
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgets
+import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgetsCompose
 import com.drdisagree.iconify.xposed.modules.misc.Miscellaneous
 import com.drdisagree.iconify.xposed.modules.quicksettings.AppIconInNotification
 import com.drdisagree.iconify.xposed.modules.quicksettings.ColorizeNotificationView
@@ -104,7 +107,10 @@ object EntryList {
 
     private val sceneContainerModPacks: Map<Class<out ModPack>, Class<out ModPack>> = mapOf(
         HeaderClock::class.java to HeaderClockCompose::class.java,
-        HeaderImage::class.java to HeaderImageCompose::class.java
+        HeaderImage::class.java to HeaderImageCompose::class.java,
+        LockscreenClock::class.java to LockscreenClockCompose::class.java,
+        LockscreenWeather::class.java to LockscreenWeatherCompose::class.java,
+        LockscreenWidgets::class.java to LockscreenWidgetsCompose::class.java
     )
 
     private fun Class<out ModPack>.forCurrentShade(): Class<out ModPack> =
@@ -120,7 +126,7 @@ object EntryList {
 
             SYSTEMUI_PACKAGE -> {
                 if (!HookEntry.isChildProcess) {
-                    modPacks.addAll(systemUIModPacks.map { it.forCurrentShade() })
+                    modPacks.addAll(systemUIModPacks.distinct().map { it.forCurrentShade() })
                 }
             }
         }

@@ -28,6 +28,7 @@ import android.renderscript.ScriptIntrinsicBlur
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -44,7 +45,9 @@ import androidx.core.view.isVisible
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CONTAINER_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 
 @Suppress("unused")
@@ -455,42 +458,67 @@ object ViewHelper {
         return result
     }
 
+    private const val HIDDEN_VIEW_FIELD = "iconifyHiddenView"
+    private val hiddenColorFilter = PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP)
+
     fun View?.hideView() {
         if (this == null) return
 
+        val view = this
+
         fun makeInvisible() {
-            apply {
-                if (isVisible) {
-                    visibility = View.INVISIBLE
+            if (view.isVisible) {
+                view.visibility = View.INVISIBLE
+            }
+            if (view is TextView) {
+                if (view.currentTextColor != Color.TRANSPARENT) {
+                    view.setTextColor(Color.TRANSPARENT)
+                    view.compoundDrawablesRelative.forEach { it?.setTint(Color.TRANSPARENT) }
+                    view.compoundDrawables.forEach { it?.setTint(Color.TRANSPARENT) }
                 }
-                if (this is TextView) {
-                    setTextColor(Color.TRANSPARENT)
-                    compoundDrawablesRelative.forEach { it?.setTint(Color.TRANSPARENT) }
-                    compoundDrawables.forEach { it?.setTint(Color.TRANSPARENT) }
-                } else if (this is ImageView) {
-                    setColorFilter(Color.TRANSPARENT)
+            } else if (view is ImageView) {
+                if (view.colorFilter !== hiddenColorFilter) {
+                    view.colorFilter = hiddenColorFilter
                 }
             }
         }
 
         fun makeSizeZero() {
-            apply {
-                layoutParams.apply {
-                    if (height != 0) height = 0
-                    if (width != 0) width = 0
-                }
+            view.layoutParams?.apply {
+                if (height != 0) height = 0
+                if (width != 0) width = 0
             }
         }
 
         makeSizeZero()
         makeInvisible()
 
-        viewTreeObserver?.addOnGlobalLayoutListener {
+        if (view.getExtraFieldSilently(HIDDEN_VIEW_FIELD) == true) return
+        view.setExtraField(HIDDEN_VIEW_FIELD, true)
+
+        view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             makeSizeZero()
             makeInvisible()
         }
-        viewTreeObserver?.addOnDrawListener {
-            makeInvisible()
+
+        val drawListener = ViewTreeObserver.OnDrawListener { makeInvisible() }
+
+        view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {
+                v.post {
+                    if (v.isAttachedToWindow) v.viewTreeObserver.addOnDrawListener(drawListener)
+                }
+            }
+
+            override fun onViewDetachedFromWindow(v: View) {
+                v.viewTreeObserver.removeOnDrawListener(drawListener)
+            }
+        })
+
+        if (view.isAttachedToWindow) {
+            view.post {
+                if (view.isAttachedToWindow) view.viewTreeObserver.addOnDrawListener(drawListener)
+            }
         }
     }
 
