@@ -532,6 +532,26 @@ class QuickSettings(context: Context) : ModPack(context) {
                         param2.thisObject.setFieldSilently("expansion", 0f)
                     }
             }
+
+        val mediaPresentationStyleClass = findClass(
+            "$SYSTEMUI_PACKAGE.media.remedia.ui.compose.MediaPresentationStyle",
+            suppressError = true
+        ) ?: return
+        val compressedStyle = mediaPresentationStyleClass.enumConstants
+            ?.firstOrNull { (it as Enum<*>).name == "Compressed" } ?: return
+
+        findClass("$SYSTEMUI_PACKAGE.media.remedia.ui.compose.MediaKt", suppressError = true)
+            .hookMethod("Media")
+            .suppressError()
+            .runBefore { param ->
+                if (!compactMediaPlayerEnabled) return@runBefore
+
+                param.args.forEachIndexed { index, arg ->
+                    if (arg is Enum<*> && arg.javaClass == mediaPresentationStyleClass && arg.name == "Default") {
+                        param.args[index] = compressedStyle
+                    }
+                }
+            }
     }
 
     private fun blurMediaPlayerArtwork() {
