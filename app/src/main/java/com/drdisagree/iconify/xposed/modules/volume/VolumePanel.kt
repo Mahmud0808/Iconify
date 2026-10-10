@@ -1,8 +1,13 @@
 package com.drdisagree.iconify.xposed.modules.volume
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
+import android.media.AudioManager
+import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +21,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
@@ -23,6 +29,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.lang.reflect.Modifier
 import java.util.WeakHashMap
 import kotlin.math.ceil
 import kotlin.math.roundToInt
@@ -32,8 +39,8 @@ class VolumePanel(context: Context) : ModPack(context) {
 
     private var showPercentage = false
     private var showWarning = true
-    private val sliderPercentViews = WeakHashMap<Any, TextView>()
-    private val sliderPercentages = WeakHashMap<Any, Int>()
+    private val sliderPercentViews = WeakHashMap<TextView, Int>()
+    private var volumeReceiverRegistered = false
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -182,10 +189,7 @@ class VolumePanel(context: Context) : ModPack(context) {
                 if (!showPercentage) return@runAfter
 
                 val sliderView = param.args.getOrNull(2) as? FrameLayout ?: return@runAfter
-                val viewModel = param.args.getOrNull(1)
-                    ?.getFieldSilently("volumeDialogSliderViewBinderProvider")
-                    ?.callMethod("get")
-                    ?.getFieldSilently("viewModel") ?: return@runAfter
+                val stream = param.args.getOrNull(1)?.sliderStream() ?: return@runAfter
                 val composeView = sliderView.findViewById<View?>(
                     mContext.resources.getIdentifier(
                         "volume_dialog_slider",
@@ -223,40 +227,66 @@ class VolumePanel(context: Context) : ModPack(context) {
                         }
                     }
 
-                volumeNumber.setTextColor(dialogTextColor(sliderView.context))
-                sliderPercentViews[viewModel] = volumeNumber
-                sliderPercentages[viewModel]?.let { volumeNumber.text = String.format("%d%%", it) }
+                sliderPercentViews[volumeNumber] = stream
+                registerVolumeReceiver()
+                volumeNumber.updateStreamPercentage(stream)
             }
+    }
 
-        findClass(
-            $$"$$SYSTEMUI_PACKAGE.volume.dialog.sliders.ui.viewmodel.VolumeDialogSliderViewModel$state$2",
-            suppressError = true
-        )
-            .hookMethod("invokeSuspend")
-            .suppressError()
-            .runAfter { param ->
-                if (!showPercentage) return@runAfter
+    private fun Any.sliderStream(): Int? {
+        var type: Class<*>? = javaClass
+        while (type != null && type != Any::class.java) {
+            type.declaredFields.forEach { field ->
+                if (field.type.isPrimitive || Modifier.isStatic(field.modifiers)) return@forEach
 
-                val state = param.result ?: return@runAfter
-                if (!state.javaClass.name.endsWith("VolumeDialogSliderStateModel")) return@runAfter
+                field.isAccessible = true
+                val stream = field.get(this)?.callMethodSilently("getAudioStream") as? Int
+                if (stream != null) return stream
+            }
+            type = type.superclass
+        }
 
-                val viewModel = param.thisObject.getFieldSilently("this$0") ?: return@runAfter
-                val value = state.getFieldSilently("value") as? Float ?: return@runAfter
-                val range = state.getFieldSilently("valueRange") ?: return@runAfter
-                val start = range.getFieldSilently("_start") as? Float ?: return@runAfter
-                val end = range.getFieldSilently("_endInclusive") as? Float ?: return@runAfter
-                if (end <= start) return@runAfter
+        return null
+    }
 
-                val percentage = (100 * (value - start) / (end - start)).roundToInt().coerceIn(0, 100)
-                sliderPercentages[viewModel] = percentage
+    private fun registerVolumeReceiver() {
+        if (volumeReceiverRegistered) return
+        volumeReceiverRegistered = true
 
-                sliderPercentViews[viewModel]?.let { view ->
-                    view.post {
-                        view.setTextColor(dialogTextColor(view.context))
-                        view.text = String.format("%d%%", percentage)
-                    }
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val stream = intent.getIntExtra(EXTRA_VOLUME_STREAM_TYPE, -1)
+
+                sliderPercentViews.entries.toList().forEach { (view, viewStream) ->
+                    if (stream == -1 || stream == viewStream) view.updateStreamPercentage(viewStream)
                 }
             }
+        }
+        val filter = IntentFilter().apply {
+            addAction(VOLUME_CHANGED_ACTION)
+            addAction(STREAM_MUTE_CHANGED_ACTION)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mContext.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED)
+        } else {
+            mContext.registerReceiver(receiver, filter)
+        }
+    }
+
+    private fun TextView.updateStreamPercentage(stream: Int) {
+        val audioManager = context.getSystemService(AudioManager::class.java) ?: return
+        val percentage = runCatching {
+            val min = audioManager.getStreamMinVolume(stream)
+            val max = audioManager.getStreamMaxVolume(stream)
+            val level = if (audioManager.isStreamMute(stream)) min else audioManager.getStreamVolume(stream)
+            if (max <= min) return
+
+            (100f * (level - min) / (max - min)).roundToInt().coerceIn(0, 100)
+        }.getOrNull() ?: return
+
+        setTextColor(dialogTextColor(context))
+        text = String.format("%d%%", percentage)
     }
 
     private fun showSafetyWarning() {
@@ -347,5 +377,8 @@ class VolumePanel(context: Context) : ModPack(context) {
 
     companion object {
         private const val VOLUME_NUMBER_TAG = "iconify_volume_number"
+        private const val VOLUME_CHANGED_ACTION = "android.media.VOLUME_CHANGED_ACTION"
+        private const val STREAM_MUTE_CHANGED_ACTION = "android.media.STREAM_MUTE_CHANGED_ACTION"
+        private const val EXTRA_VOLUME_STREAM_TYPE = "android.media.EXTRA_VOLUME_STREAM_TYPE"
     }
 }
