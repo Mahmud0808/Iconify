@@ -8,6 +8,8 @@ import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -65,6 +67,7 @@ class QSTransparency(context: Context) : ModPack(context) {
             .hookMethod("shadePanel")
             .runAfter { param ->
                 if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runAfter
+                if (!qsTransparencyActive && !isCalledFromShadeScene()) return@runAfter
                 if (param.result == null) return@runAfter
 
                 val blurSupported = param.args[1] as Boolean
@@ -186,6 +189,23 @@ class QSTransparency(context: Context) : ModPack(context) {
             .runAfter { param -> quickSettingsController = param.thisObject }
 
         hookComposeNotificationScrim()
+        hookComposeLockscreenScrim()
+    }
+
+    private fun hookComposeLockscreenScrim() {
+        findClass(
+            "$SYSTEMUI_PACKAGE.keyguard.ui.composable.LockscreenBehindScrimKt",
+            suppressError = true
+        )
+            .hookMethod("LockscreenBehindScrim")
+            .suppressError()
+            .runBefore { param ->
+                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runBefore
+                if (keepLockScreenShade) return@runBefore
+                if (DozeCallback.getInstance().isDozing()) return@runBefore
+
+                ComposeViewHost.hideModifierArgument(param)
+            }
     }
 
     private fun hookComposeNotificationScrim() {
@@ -214,6 +234,9 @@ class QSTransparency(context: Context) : ModPack(context) {
                 }
             }
     }
+
+    private fun isCalledFromShadeScene(): Boolean =
+        Thread.currentThread().stackTrace.any { it.className.startsWith(SHADE_SCENE_CLASS) }
 
     private fun isCalledFromNotificationPanel(): Boolean {
         val caller = Thread.currentThread().stackTrace.firstOrNull { frame ->
@@ -254,6 +277,8 @@ class QSTransparency(context: Context) : ModPack(context) {
     companion object {
         private const val ANIMATED_BACKGROUND_CLASS =
             "com.android.compose.modifiers.AnimatedBackgroundKt"
+        private const val SHADE_SCENE_CLASS =
+            "$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeSceneKt"
         private const val NOTIFICATIONS_COMPOSABLE_CLASS =
             "$SYSTEMUI_PACKAGE.notifications.ui.composable.NotificationsKt"
     }
