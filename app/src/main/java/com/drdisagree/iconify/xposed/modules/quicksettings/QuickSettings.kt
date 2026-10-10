@@ -14,11 +14,14 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
@@ -51,6 +54,7 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var fixNotificationExpandButtonColor = true
     private var hideSilentText = false
     private var hideFooterButtons = false
+    private var hideCaughtUpMessage = false
     private var qqsTopMarginPort = 100
     private var qsTopMarginPort = 100
     private var qqsTopMarginLand = 0
@@ -80,6 +84,7 @@ class QuickSettings(context: Context) : ModPack(context) {
                 getBoolean(XposedKey.FIX_NOTIFICATION_EXPAND_BUTTON_COLOR)
             hideSilentText = getBoolean(XposedKey.HIDE_QS_SILENT_TEXT)
             hideFooterButtons = getBoolean(XposedKey.HIDE_QS_FOOTER_BUTTONS)
+            hideCaughtUpMessage = getBoolean(XposedKey.HIDE_NOTIFICATION_CAUGHT_UP)
             compactMediaPlayerEnabled = getBoolean(XposedKey.COMPACT_MEDIA_PLAYER)
             blurMediaPlayerArtwork = getBoolean(XposedKey.BLUR_MEDIA_PLAYER_ARTWORK)
             blurMediaPlayerArtworkRadius =
@@ -432,6 +437,59 @@ class QuickSettings(context: Context) : ModPack(context) {
                 val mSilentTextContainer = param.thisObject as ViewGroup
 
                 if (hideSilentText) mSilentTextContainer.hideView()
+            }
+
+        hideCaughtUpMessage()
+    }
+
+    @SuppressLint("DiscouragedApi")
+    private fun hideCaughtUpMessage() {
+        val caughtUpText by lazy {
+            runCatching {
+                mContext.getString(
+                    mContext.resources.getIdentifier(
+                        "caught_up_shade_text",
+                        "string",
+                        SYSTEMUI_PACKAGE
+                    )
+                )
+            }.getOrNull()
+        }
+
+        findClass(
+            "$SYSTEMUI_PACKAGE.notifications.stack.emptyshade.ui.composable.EmptyShadeContentImplKt",
+            suppressError = true
+        )
+            .hookMethod("EmptyShadeContent")
+            .suppressError()
+            .runBefore { param ->
+                if (!hideCaughtUpMessage) return@runBefore
+
+                val text = param.args.getOrNull(0) as? String ?: return@runBefore
+                if (text == caughtUpText) ComposeViewHost.hideModifierArgument(param)
+            }
+
+        findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.notification.emptyshade.ui.view.EmptyShadeIconView",
+            suppressError = true
+        )
+            .hookMethod("onFinishInflate")
+            .suppressError()
+            .runAfter { param ->
+                val textView = param.thisObject.getFieldSilently("textView") as? TextView
+                    ?: return@runAfter
+                val iconView = param.thisObject.getFieldSilently("iconView") as? View
+
+                fun updateVisibility() {
+                    val hide = hideCaughtUpMessage && textView.text?.toString() == caughtUpText
+                    val alpha = if (hide) 0f else 1f
+
+                    if (textView.alpha != alpha) textView.alpha = alpha
+                    if (iconView != null && iconView.alpha != alpha) iconView.alpha = alpha
+                }
+
+                textView.doAfterTextChanged { updateVisibility() }
+                updateVisibility()
             }
     }
 

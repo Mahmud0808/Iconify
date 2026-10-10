@@ -105,6 +105,7 @@ enum class XposedKey(override val default: Any?) : Key {
     BLUR_MEDIA_PLAYER_ARTWORK_RADIUS(60f),
     HIDE_QS_SILENT_TEXT(false),
     HIDE_QS_FOOTER_BUTTONS(false),
+    HIDE_NOTIFICATION_CAUGHT_UP(false),
     QS_PANEL_HIDE_CARRIER(false),
     HIDE_STATUS_ICONS(false),
     FIX_NOTIFICATION_COLOR(false),

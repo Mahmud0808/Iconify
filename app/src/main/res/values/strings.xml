@@ -663,6 +663,8 @@
     <string name="hide_qs_silent_text_desc">Hide silent text shown as header of silent notifications</string>
     <string name="hide_qs_footer_buttons_title">Hide Footer Buttons</string>
     <string name="hide_qs_footer_buttons_desc">Hide footer buttons shown under notification stack</string>
+    <string name="hide_notification_caught_up_title">Hide Caught Up Message</string>
+    <string name="hide_notification_caught_up_desc">Hide \"You\'re all caught up\" message and icon when there are no notifications</string>
 
     <!-- Xposed Battery Style -->
     <string name="battery_style_title">Battery Style</string>

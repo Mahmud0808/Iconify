@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.features.xposed.quicksettings.main.screens
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -189,6 +190,13 @@ val quickSettingsPreferences = preferenceScreen {
         )
 
         switch(
+            key = XposedKey.HIDE_NOTIFICATION_CAUGHT_UP,
+            title = stringRes(R.string.hide_notification_caught_up_title),
+            summary = { stringRes(R.string.hide_notification_caught_up_desc) },
+            isVisible = { Build.VERSION.SDK_INT >= 37 },
+        )
+
+        switch(
             key = XposedKey.QS_PANEL_HIDE_CARRIER,
             title = stringRes(R.string.hide_carrier_group_title),
             summary = { stringRes(R.string.hide_carrier_group_desc) },
@@ -238,6 +246,7 @@ fun QuickSettingsScreen(
             XposedKey.QS_BRIGHTNESS_SLIDER_BOTTOM.name,
             XposedKey.QQS_BRIGHTNESS_SLIDER.name,
             XposedKey.HIDE_QS_FOOTER_BUTTONS.name,
+            XposedKey.HIDE_NOTIFICATION_CAUGHT_UP.name,
             XposedKey.QS_PANEL_HIDE_CARRIER.name,
             XposedKey.HIDE_STATUS_ICONS.name,
             XposedKey.FIX_NOTIFICATION_COLOR.name,

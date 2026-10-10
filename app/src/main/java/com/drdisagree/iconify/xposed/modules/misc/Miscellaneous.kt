@@ -121,6 +121,32 @@ class Miscellaneous(context: Context) : ModPack(context) {
                 }
             }
 
+        val shadeHeaderClass = findClass(
+            "$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeHeaderKt",
+            suppressError = true
+        )
+
+        shadeHeaderClass
+            .hookMethod("ShadeCarrierGroup")
+            .suppressError()
+            .runBefore { param ->
+                if (hideStatusIcons || hideQsCarrierGroup) ComposeViewHost.hideModifierArgument(param)
+            }
+
+        shadeHeaderClass
+            .hookMethod("StatusIcons")
+            .suppressError()
+            .runBefore { param ->
+                if (hideStatusIcons) ComposeViewHost.hideModifierArgument(param)
+            }
+
+        shadeHeaderClass
+            .hookMethodMatchPattern("BatteryInfo(-.*)?")
+            .suppressError()
+            .runBefore { param ->
+                if (hideStatusIcons) ComposeViewHost.hideModifierArgument(param)
+            }
+
         val axQuickSettingsHeaderClass = findClass(
             "$SYSTEMUI_PACKAGE.qs.ax.ui.header.AxQuickSettingsHeaderKt",
             suppressError = true
