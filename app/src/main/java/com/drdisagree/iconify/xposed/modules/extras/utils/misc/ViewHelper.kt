@@ -580,7 +580,7 @@ object ViewHelper {
     }
 
     fun ViewGroup.reAddView(childView: View?) {
-        reAddView(childView, -1)
+        reAddView(childView, Int.MAX_VALUE)
     }
 
     fun ViewGroup.reAddView(childView: View?, index: Int) {
@@ -588,12 +588,8 @@ object ViewHelper {
             val currentIndex = indexOfChild(view)
 
             if (currentIndex != -1) {
-                val tempChildCount = childCount
-                val adjustedIndex = if (index >= tempChildCount) tempChildCount - 1 else index
-
-                if ((index != -1 && currentIndex == adjustedIndex) ||
-                    (index == -1 && currentIndex == tempChildCount - 1)
-                ) return
+                val targetIndex = index.coerceIn(0, childCount - 1)
+                if (currentIndex == targetIndex) return
             }
 
             view.removeViewFromParent()

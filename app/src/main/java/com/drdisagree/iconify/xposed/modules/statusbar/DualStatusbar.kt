@@ -558,9 +558,9 @@ class DualStatusbar(context: Context) : ModPack(context) {
                         0,
                         0
                     )
-                    reAddView(mClockView)
                 }
 
+                container.reAddView(mClockView)
                 (statusbarContents?.parent as? ViewGroup)?.reAddView(container)
                 startTopSideContainer?.visibility = View.GONE
                 (mClockView?.layoutParams as? MarginLayoutParams)?.marginStart = mContext.toPx(0)

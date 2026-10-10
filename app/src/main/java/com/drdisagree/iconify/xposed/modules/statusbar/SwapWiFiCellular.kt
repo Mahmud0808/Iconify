@@ -126,7 +126,7 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
             val firstMobileIndex = parent.indexOfChild(firstMobileView)
 
             if (firstMobileIndex < parent.indexOfChild(wifiView)) {
-                parent.reAddView(wifiView, firstMobileIndex - 1)
+                parent.reAddView(wifiView, firstMobileIndex)
             }
         }
     }
