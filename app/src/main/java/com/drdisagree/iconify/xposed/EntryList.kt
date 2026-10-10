@@ -22,6 +22,7 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenClockCompose
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWeather
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWeatherCompose
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenVisualizer
+import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenVisualizerCompose
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgets
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgetsCompose
 import com.drdisagree.iconify.xposed.modules.misc.Miscellaneous
@@ -110,7 +111,8 @@ object EntryList {
         HeaderImage::class.java to HeaderImageCompose::class.java,
         LockscreenClock::class.java to LockscreenClockCompose::class.java,
         LockscreenWeather::class.java to LockscreenWeatherCompose::class.java,
-        LockscreenWidgets::class.java to LockscreenWidgetsCompose::class.java
+        LockscreenWidgets::class.java to LockscreenWidgetsCompose::class.java,
+        LockscreenVisualizer::class.java to LockscreenVisualizerCompose::class.java
     )
 
     private fun Class<out ModPack>.forCurrentShade(): Class<out ModPack> =

@@ -23,9 +23,9 @@ import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @SuppressLint("DiscouragedApi")
-class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowingCallback.KeyguardShowingListener {
+open class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowingCallback.KeyguardShowingListener {
 
-    private var visualizerEnabled = false
+    protected var visualizerEnabled = false
     private var colorMode = 1
     private var staticColor = Color.rgb(224, 184, 99)
     private var gradientStartColor = Color.rgb(224, 184, 99)
@@ -36,9 +36,9 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
     private var barThicknessDp = 19f
     private var smoothness = 50f
     private var renderFps = 120
-    private var keyguardRootView: ViewGroup? = null
+    protected var keyguardRootView: ViewGroup? = null
     private var visualizerView: LockscreenVisualizerView? = null
-    private var isKeyguardVisible = false
+    protected var isKeyguardVisible = false
     private var keyguardCallbackRegistered = false
 
     override fun updatePrefs(vararg key: String) {
@@ -142,7 +142,7 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
         }
     }
 
-    private fun updateVisualizer() {
+    protected fun updateVisualizer() {
         Handler(Looper.getMainLooper()).post {
             if (visualizerEnabled && isKeyguardVisible) {
                 addVisualizer()
@@ -177,7 +177,7 @@ class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowing
         view.showFromBottom(resetLevels = true)
     }
 
-    private fun removeVisualizer(smooth: Boolean = false) {
+    protected fun removeVisualizer(smooth: Boolean = false) {
         val view = visualizerView
 
         if (view != null) {

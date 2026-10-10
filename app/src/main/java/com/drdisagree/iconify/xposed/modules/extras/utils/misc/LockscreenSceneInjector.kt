@@ -39,6 +39,7 @@ object LockscreenSceneInjector {
 
     private val layers = CopyOnWriteArrayList<Layer>()
     private val overlays = CopyOnWriteArrayList<Overlay>()
+    private val behindLayers = CopyOnWriteArrayList<ElementHost>()
     private var hooked = false
     private var replacement: ElementHost? = null
     private val anchors = HashMap<Anchor, ElementHost>()
@@ -199,12 +200,34 @@ object LockscreenSceneInjector {
         hookLockscreenContent()
     }
 
+    fun addBehindContent(key: Int, isEnabled: () -> Boolean, factory: (Context) -> View) {
+        behindLayers.removeAll { it.key == key }
+        behindLayers += ElementHost(key, isEnabled, factory)
+        hookLockscreenContent()
+    }
+
     private fun hookLockscreenContent() {
         if (hooked) return
         hooked = true
         if (!ComposeViewHost.isAvailable) return
 
-        findClass(LOCKSCREEN_CONTENT_CLASS, suppressError = true)
+        val lockscreenContentClass = findClass(LOCKSCREEN_CONTENT_CLASS, suppressError = true)
+
+        lockscreenContentClass
+            .hookMethod("Content")
+            .suppressError()
+            .runBefore { param ->
+                if (behindLayers.isEmpty()) return@runBefore
+
+                val composer = composerOf(param) ?: return@runBefore
+                behindLayers.forEach { layer ->
+                    if (layer.isEnabled()) {
+                        ComposeViewHost.emitInGroup(composer, layer.key, factory = layer.factory)
+                    }
+                }
+            }
+
+        lockscreenContentClass
             .hookMethod("Content")
             .suppressError()
             .runAfter { param ->
