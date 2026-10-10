@@ -751,6 +751,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             batteryView.visibility = if (customBatteryEnabled) {
                 // Handle a bug where statusbar battery is duplicated on lockscreen with dual statusbar enabled
                 if (dualStatusbarEnabled &&
+                    !SceneContainer.isEnabled &&
                     DualStatusbar.isKeyguardShown &&
                     batteryView.tag == ICONIFY_SB_BATTERY_ICON_TAG
                 ) {

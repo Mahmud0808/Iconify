@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.core.view.children
 import androidx.core.view.doOnAttach
+import androidx.core.view.isVisible
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.BATTERY_STYLE_DEFAULT
@@ -26,10 +28,13 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
+import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
@@ -60,6 +65,11 @@ class DualStatusbar(context: Context) : ModPack(context) {
     private var mClockView: View? = null
     private var batteryIconView: View? = null
     private var cutoutSpaceView: View? = null
+    private var stockStartSideContainer: View? = null
+    private var stockEndSideContainer: View? = null
+    private var systemIconsView: ViewGroup? = null
+    private var startSideExceptHeadsUp: ViewGroup? = null
+    private var clockPlacementPending = false
     private var mPhoneStatusBarViewObj: Any? = null
     private var mScrimControllerObj: Any? = null
     private var clockPosition = 0
@@ -224,13 +234,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
                     statusbarContents?.reAddView(cutoutSpaceView, 1)
                     statusbarContents?.reAddView(newEndSideContainer, 2)
 
-                    mClockView = phoneStatusBarView.findViewById<View>(
-                        mContext.resources.getIdentifier(
-                            "clock",
-                            "id",
-                            mContext.packageName
-                        )
-                    )
+                    mClockView = phoneStatusBarView.findClockView()
                     startTopSideContainer = LinearLayout(mContext).apply {
                         orientation = LinearLayout.HORIZONTAL
                         layoutParams = LinearLayout.LayoutParams(
@@ -279,6 +283,9 @@ class DualStatusbar(context: Context) : ModPack(context) {
 
                     endBottomSideContainer?.reAddView(statusbarEndSideContainer, 0)
 
+                    stockStartSideContainer = statusbarStartSideContainer
+                    stockEndSideContainer = statusbarEndSideContainer
+
                     newEndSideContainer?.reAddView(endTopSideContainer, 0)
                     newEndSideContainer?.reAddView(endBottomSideContainer, 1)
                     newEndSideContainer?.id = statusbarEndSideContainer.id
@@ -286,16 +293,18 @@ class DualStatusbar(context: Context) : ModPack(context) {
                 }
 
                 phoneStatusBarView.doOnAttach { view ->
-                    Handler(Looper.getMainLooper()).postDelayed(
-                        {
-                            if (batteryIconView == null || batteryIconView!!.parent != endTopSideContainer) {
-                                batteryIconView = view.findBatteryView()
-                                endTopSideContainer?.reAddView(batteryIconView, 0)
-                            }
-                        },
-                        200
-                    )
+                    Handler(Looper.getMainLooper()).postDelayed({ placeBatteryView(view) }, 200)
                 }
+
+                startSideExceptHeadsUp = phoneStatusBarView.findViewById(
+                    mContext.resources.getIdentifier(
+                        "status_bar_start_side_except_heads_up",
+                        "id",
+                        mContext.packageName
+                    )
+                )
+                observeBatteryChanges(phoneStatusBarView)
+                mirrorStockContainers(phoneStatusBarView)
 
                 updateRowsIfNeeded()
                 handleClockPosition()
@@ -323,7 +332,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
             .apply()
 
         // Handle a bug where statusbar battery is duplicated on lockscreen
-        KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
+        if (!SceneContainer.isEnabled) KeyguardShowingCallback.getInstance().registerKeyguardShowingListener(
             object : KeyguardShowingCallback.KeyguardShowingListener {
                 override fun onKeyguardShown() {
                     isKeyguardShown = true
@@ -569,14 +578,101 @@ class DualStatusbar(context: Context) : ModPack(context) {
         }
     }
 
+    private fun placeBatteryView(statusBarView: View) {
+        if (!dualStatusbarEnabled) return
+
+        val battery = statusBarView.findBatteryView() ?: batteryIconView
+        if (battery != null && battery.parent !== endTopSideContainer) {
+            batteryIconView = battery
+            endTopSideContainer?.reAddView(battery, 0)
+        }
+    }
+
+    private fun observeBatteryChanges(statusBarView: ViewGroup) {
+        val systemIcons = statusBarView.findViewById<ViewGroup?>(
+            mContext.resources.getIdentifier("system_icons", "id", mContext.packageName)
+        ) ?: return
+        if (systemIcons === systemIconsView) return
+        systemIconsView = systemIcons
+
+        systemIcons.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
+            val battery = statusBarView.findBatteryView() ?: return@addOnLayoutChangeListener
+            if (battery.parent !== endTopSideContainer) {
+                systemIcons.post { placeBatteryView(statusBarView) }
+            }
+        }
+    }
+
+    private fun mirrorStockContainers(statusBarView: View) {
+        if (!SceneContainer.isEnabled) return
+        if (statusBarView.getExtraFieldSilently(MIRROR_LISTENER_FIELD) == true) return
+        statusBarView.setExtraField(MIRROR_LISTENER_FIELD, true)
+
+        statusBarView.viewTreeObserver.addOnPreDrawListener {
+            ensureClockPlaced(statusBarView)
+            startTopSideContainer.mirror(startSideExceptHeadsUp, stockStartSideContainer)
+            endTopSideContainer.mirror(systemIconsView, stockEndSideContainer)
+            true
+        }
+    }
+
+    private fun View?.mirror(source: View?, sourceRoot: View?) {
+        if (this == null || source == null || sourceRoot == null) return
+
+        var shown = true
+        var effectiveAlpha = 1f
+        var current: View? = source
+        while (current != null) {
+            if (!current.isVisible) shown = false
+            effectiveAlpha *= current.alpha
+            if (current === sourceRoot) break
+            current = current.parent as? View
+        }
+
+        val targetVisibility = if (shown) View.VISIBLE else View.INVISIBLE
+        if (visibility != View.GONE && visibility != targetVisibility) visibility = targetVisibility
+        if (alpha != effectiveAlpha) alpha = effectiveAlpha
+    }
+
+    private fun ensureClockPlaced(statusBarView: View) {
+        if (!dualStatusbarEnabled || clockPlacementPending) return
+
+        val composeClock = startSideExceptHeadsUp?.children?.firstOrNull {
+            it.javaClass.simpleName == "ComposeView"
+        }
+        val target = composeClock ?: if (mClockView?.isAttachedToWindow == true) {
+            return
+        } else {
+            statusBarView.findClockView() ?: return
+        }
+        if (target === mClockView && target.parent !== startSideExceptHeadsUp) return
+
+        clockPlacementPending = true
+        statusBarView.post {
+            clockPlacementPending = false
+            mClockView = target
+            handleClockPosition()
+        }
+    }
+
+    private fun View.findClockView(): View? {
+        startSideExceptHeadsUp?.children?.firstOrNull {
+            it.javaClass.simpleName == "ComposeView"
+        }?.let { return it }
+
+        return findViewById(
+            mContext.resources.getIdentifier("clock", "id", mContext.packageName)
+        )
+    }
+
     private fun View.findBatteryView(): View? {
-        val systemIconsView = findViewById<ViewGroup>(
+        val systemIconsView = findViewById<ViewGroup?>(
             mContext.resources.getIdentifier(
                 "system_icons",
                 "id",
                 mContext.packageName
             )
-        )
+        ) ?: return null
 
         if (customBatteryEnabled) {
             return systemIconsView.findViewWithTag(ICONIFY_SB_BATTERY_ICON_TAG)
@@ -596,6 +692,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
         get() = dualStatusbarEnabled && (!portraitOnlyEnabled || !mContext.isLandscape)
 
     companion object {
+        private const val MIRROR_LISTENER_FIELD = "iconifyDsbMirrorListener"
         var isKeyguardShown = true
     }
 }
