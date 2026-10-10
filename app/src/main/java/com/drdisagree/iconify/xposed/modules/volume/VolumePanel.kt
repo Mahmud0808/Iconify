@@ -59,11 +59,8 @@ class VolumePanel(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.volume.VolumeDialogImpl",
             suppressError = true
         )
-        val audioStreamStateClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$State")
-        val audioStreamToStateClass = findClass(
-            $$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$toState$1",
-            $$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$toState$2",
+        val audioStreamStateClass = findClass(
+            $$"$$SYSTEMUI_PACKAGE.volume.panel.component.volume.slider.ui.viewmodel.AudioStreamSliderViewModel$State",
             suppressError = true
         )
 
@@ -145,37 +142,32 @@ class VolumePanel(context: Context) : ModPack(context) {
             }
 
         // Compose implementation of extended volume panel
-        fun updateVolumeLabel(thisObject: Any) {
-            val currentValue = thisObject.getField("value") as Float
-            val maxValue = thisObject
-                .getField("valueRange")
-                .getField("_endInclusive") as Float
-            val percentage = 100 * currentValue / maxValue
-            var label = thisObject.getField("label") as String
-            label = String.format("$label - ${percentage.roundToInt()}%%")
-
-            thisObject.setField("label", label)
-        }
-
         audioStreamStateClass
-            .hookConstructor()
+            .hookMethod("getLabel")
+            .suppressError()
             .runAfter { param ->
                 if (!showPercentage) return@runAfter
 
-                updateVolumeLabel(param.thisObject)
-            }
+                val label = param.result as? String ?: return@runAfter
+                val value = param.thisObject.callMethod("getValue") as? Float ?: return@runAfter
+                val (start, end) = param.thisObject.callMethod("getValueRange")
+                    ?.floatBounds() ?: return@runAfter
+                if (end <= start) return@runAfter
 
-        audioStreamToStateClass
-            .hookMethod("invokeSuspend")
-            .runAfter { param ->
-                if (!showPercentage) return@runAfter
-
-                val state = param.result
-                updateVolumeLabel(state)
-                param.result = state
+                val percentage = (100 * (value - start) / (end - start)).roundToInt().coerceIn(0, 100)
+                param.result = "$label - $percentage%"
             }
 
         showVolumeDialogPercentage()
+    }
+
+    private fun Any.floatBounds(): Pair<Float, Float>? {
+        val values = javaClass.declaredFields
+            .filter { it.type == Float::class.javaPrimitiveType && !Modifier.isStatic(it.modifiers) }
+            .map { it.isAccessible = true; it.getFloat(this) }
+        if (values.size < 2) return null
+
+        return values.min() to values.max()
     }
 
     private fun showVolumeDialogPercentage() {
