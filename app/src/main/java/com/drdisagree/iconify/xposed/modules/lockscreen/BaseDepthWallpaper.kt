@@ -43,7 +43,10 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenSceneInjector
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findChildIndexContainsTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainingTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
@@ -55,6 +58,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.shouldShowAlbumArt
+import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.io.ByteArrayOutputStream
@@ -94,6 +98,9 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
     )
 
     private var shouldShowForeground = true
+    private var composeForegroundHost: FrameLayout? = null
+    private var composeBackgroundHost: FrameLayout? = null
+    private var isDozing = false
     private var shouldShowBackground = true
     private val albumArtVisibilityListener = AlbumArtCallback.AlbumArtVisibilityListener {
         updateForegroundVisibility()
@@ -126,6 +133,8 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                 setCustomDepthWallpaper()
             }
         }
+
+        if (SceneContainer.isEnabled && key.isNotEmpty()) setDepthWallpaper()
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -181,76 +190,9 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
             mPluginReceiverRegistered = true
         }
 
-        val qsImplClass = findClass(
-            "$SYSTEMUI_PACKAGE.qs.QSImpl",
-            "$SYSTEMUI_PACKAGE.qs.QSFragment",
-            "$SYSTEMUI_PACKAGE.qs.composefragment.QSFragmentCompose"
-        )
         val canvasEngineClass =
             findClass($$"$$SYSTEMUI_PACKAGE.wallpapers.ImageWallpaper$CanvasEngine")
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
-        val notificationPanelViewControllerClass =
-            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
-        val scrimViewClass = findClass("$SYSTEMUI_PACKAGE.scrim.ScrimView")
-        val statusBarKeyguardViewManagerClass =
-            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.StatusBarKeyguardViewManager")
-        val aodBurnInSectionClass =
-            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
-
-        aodBurnInSectionClass
-            .hookMethod("addViews")
-            .runAfter { param ->
-                if (!showDepthWallpaper) return@runAfter
-
-                val entryV = param.args[0] as View
-
-                entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
-                    override fun onViewAttachedToWindow(v: View) {
-                        viewAttached(entryV)
-                    }
-
-                    override fun onViewDetachedFromWindow(v: View) {}
-                })
-
-                if (entryV.isAttachedToWindow) {
-                    viewAttached(entryV)
-                }
-            }
-
-        scrimViewClass
-            .hookMethod("setViewAlpha")
-            .runBefore { param ->
-                if (!mLayersCreated) return@runBefore
-
-                setDepthWallpaper()
-
-                if (showOnAOD && mScrimController.getField("mState").toString() != "KEYGUARD") {
-                    mWallpaperForeground.post { mWallpaperForeground.alpha = foregroundAlpha }
-                } else if (mScrimController.getField("mNotificationsScrim") == param.thisObject) { // instead of using the mScrimName since older ones don't have that field
-                    val mScrimBehindAlphaKeyguard = mScrimController.getField(
-                        "mScrimBehindAlphaKeyguard"
-                    ) as Float
-
-                    var notificationAlpha = param.args[0] as Float
-
-                    if (notificationAlpha < mScrimBehindAlphaKeyguard) {
-                        notificationAlpha = 0f
-                    }
-
-                    val foregroundAlpha = if (notificationAlpha > mScrimBehindAlphaKeyguard) {
-                        (1f - notificationAlpha) / (1f - mScrimBehindAlphaKeyguard)
-                    } else {
-                        1f
-                    }
-
-                    mWallpaperForeground.post { mWallpaperForeground.alpha = foregroundAlpha }
-                }
-            }
-
-        statusBarKeyguardViewManagerClass
-            .hookMethod("onStartedWakingUp")
-            .suppressError()
-            .runAfter { setDepthWallpaper() }
 
         canvasEngineClass
             .hookMethod("onSurfaceDestroyed")
@@ -334,9 +276,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                                 scaledWallpaperBitmap.toDrawable(mContext.resources)
                             if (mScrimController != null) {
                                 mWallpaperDimmingOverlay.setBackgroundColor(Color.BLACK)
-                                mWallpaperDimmingOverlay.alpha = mScrimController.getField(
-                                    "mScrimBehindAlphaKeyguard"
-                                ) as Float
+                                mWallpaperDimmingOverlay.alpha = backgroundDimAlpha()
                             }
                         }
 
@@ -359,6 +299,242 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         scrimControllerClass
             .hookConstructor()
             .runAfter { param -> mScrimController = param.thisObject }
+
+        if (SceneContainer.isEnabled) {
+            hookComposeLockscreen()
+        } else {
+            hookLegacyLockscreen()
+        }
+
+        setCustomDepthWallpaper()
+    }
+
+    private fun hookComposeLockscreen() {
+        DozeCallback.getInstance().registerDozeChangeListener(object : DozeCallback.DozeListener {
+            override fun onDozingStarted() {
+                isDozing = true
+                setDepthWallpaper()
+            }
+
+            override fun onDozingStopped() {
+                isDozing = false
+                setDepthWallpaper()
+            }
+        })
+
+        LockscreenSceneInjector.addBehindContent(
+            order = -1,
+            key = BACKGROUND_GROUP_KEY,
+            isEnabled = { showDepthWallpaper }
+        ) { context -> createComposeHost(context, isForeground = false) }
+
+        LockscreenSceneInjector.addAboveClockRegion(
+            key = FOREGROUND_GROUP_KEY,
+            isEnabled = { showDepthWallpaper },
+            modifier = { ComposeViewHost.windowFillModifier { composeWindowSize() } }
+        ) { context -> createComposeHost(context, isForeground = true) }
+    }
+
+    private fun createComposeHost(context: Context, isForeground: Boolean): View {
+        val host = FrameLayout(context).apply {
+            layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        }
+
+        host.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(v: View) {
+                if (!mLayersCreated) createLayers()
+
+                if (isForeground) {
+                    composeForegroundHost = host
+                    host.reAddView(mWallpaperForeground)
+                } else {
+                    composeBackgroundHost = host
+                    host.reAddView(mWallpaperBackground)
+                }
+
+                setDepthWallpaper()
+            }
+
+            override fun onViewDetachedFromWindow(v: View) {
+                if (isForeground) {
+                    if (composeForegroundHost === host) composeForegroundHost = null
+                } else if (composeBackgroundHost === host) {
+                    composeBackgroundHost = null
+                }
+            }
+        })
+
+        if (isForeground) {
+            var lastLocation = 0 to 0
+            var lastSize = 0 to 0
+
+            host.viewTreeObserver.addOnPreDrawListener {
+                if (host.isAttachedToWindow) {
+                    val location = IntArray(2).also { host.getLocationInWindow(it) }
+                    val current = location[0] to location[1]
+                    val size = composeWindowSize()
+
+                    if (current != lastLocation || size != lastSize) {
+                        lastLocation = current
+                        lastSize = size
+                        host.requestLayout()
+                    }
+                }
+                true
+            }
+        }
+
+        return host
+    }
+
+    private fun composeWindowSize(): Pair<Int, Int> {
+        composeForegroundHost?.rootView
+            ?.takeIf { it.width > 0 && it.height > 0 }
+            ?.let { return it.width to it.height }
+
+        val bounds = mContext.getSystemService(WindowManager::class.java)
+            .currentWindowMetrics
+            .bounds
+        return bounds.width() to bounds.height()
+    }
+
+    private fun keyguardScrimAlpha(): Float = try {
+        mScrimController?.getField("mScrimBehindAlphaKeyguard") as? Float
+    } catch (_: Throwable) {
+        null
+    } ?: DEFAULT_KEYGUARD_SCRIM_ALPHA
+
+    private fun backgroundDimAlpha(): Float =
+        if (SceneContainer.isEnabled) 0f else keyguardScrimAlpha()
+
+    private fun updateComposeDepthWallpaper() {
+        if (!mLayersCreated) return
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            mWallpaperForeground.post { updateComposeDepthWallpaper() }
+            return
+        }
+
+        val onLockscreen = composeForegroundHost != null || composeBackgroundHost != null
+        if (showDepthWallpaper && onLockscreen) loadForegroundDrawable()
+
+        val hasForeground = mWallpaperForegroundCacheValid && mWallpaperForeground.background != null
+
+        mWallpaperDimmingOverlay.alpha = 0f
+        mWallpaperBackground.visibility =
+            if (showDepthWallpaper && hasForeground && composeBackgroundHost != null && !isDozing) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+
+        if (hasForeground) {
+            mWallpaperForeground.alpha = 1f
+            mWallpaperForeground.background.alpha = (foregroundAlpha * 255).toInt()
+            mForegroundDimmingOverlay?.alpha = when {
+                isDozing -> 192
+                keepLockScreenShade -> (keyguardScrimAlpha() * 240).roundToInt()
+                else -> 0
+            }
+        }
+
+        shouldShowForeground = showDepthWallpaper && hasForeground &&
+                composeForegroundHost != null && (!isDozing || showOnAOD)
+        updateForegroundVisibility()
+    }
+
+    private fun loadForegroundDrawable() {
+        if ((mWallpaperForegroundCacheValid && mWallpaperForeground.background != null) ||
+            !DEPTH_WALL_FG_FILE.exists()
+        ) return
+
+        try {
+            FileInputStream(DEPTH_WALL_FG_FILE).use { inputStream ->
+                val bitmapDrawable = BitmapDrawable.createFromStream(inputStream, "")
+                bitmapDrawable!!.alpha = 255
+
+                mForegroundDimmingOverlay =
+                    bitmapDrawable.constantState!!.newDrawable().mutate()
+                mForegroundDimmingOverlay!!.setTint(Color.BLACK)
+
+                mWallpaperForeground.background = LayerDrawable(
+                    arrayOf(bitmapDrawable, mForegroundDimmingOverlay)
+                )
+                mWallpaperForegroundCacheValid = true
+            }
+        } catch (_: Throwable) {
+        }
+    }
+
+    private fun hookLegacyLockscreen() {
+        val qsImplClass = findClass(
+            "$SYSTEMUI_PACKAGE.qs.QSImpl",
+            "$SYSTEMUI_PACKAGE.qs.QSFragment",
+            "$SYSTEMUI_PACKAGE.qs.composefragment.QSFragmentCompose"
+        )
+        val notificationPanelViewControllerClass =
+            findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
+        val scrimViewClass = findClass("$SYSTEMUI_PACKAGE.scrim.ScrimView")
+        val statusBarKeyguardViewManagerClass =
+            findClass("$SYSTEMUI_PACKAGE.statusbar.phone.StatusBarKeyguardViewManager")
+        val aodBurnInSectionClass =
+            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
+        val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
+
+        aodBurnInSectionClass
+            .hookMethod("addViews")
+            .runAfter { param ->
+                if (!showDepthWallpaper) return@runAfter
+
+                val entryV = param.args[0] as View
+
+                entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(v: View) {
+                        viewAttached(entryV)
+                    }
+
+                    override fun onViewDetachedFromWindow(v: View) {}
+                })
+
+                if (entryV.isAttachedToWindow) {
+                    viewAttached(entryV)
+                }
+            }
+
+        scrimViewClass
+            .hookMethod("setViewAlpha")
+            .runBefore { param ->
+                if (!mLayersCreated) return@runBefore
+
+                setDepthWallpaper()
+
+                if (showOnAOD && mScrimController.getField("mState").toString() != "KEYGUARD") {
+                    mWallpaperForeground.post { mWallpaperForeground.alpha = foregroundAlpha }
+                } else if (mScrimController.getField("mNotificationsScrim") == param.thisObject) { // instead of using the mScrimName since older ones don't have that field
+                    val mScrimBehindAlphaKeyguard = mScrimController.getField(
+                        "mScrimBehindAlphaKeyguard"
+                    ) as Float
+
+                    var notificationAlpha = param.args[0] as Float
+
+                    if (notificationAlpha < mScrimBehindAlphaKeyguard) {
+                        notificationAlpha = 0f
+                    }
+
+                    val foregroundAlpha = if (notificationAlpha > mScrimBehindAlphaKeyguard) {
+                        (1f - notificationAlpha) / (1f - mScrimBehindAlphaKeyguard)
+                    } else {
+                        1f
+                    }
+
+                    mWallpaperForeground.post { mWallpaperForeground.alpha = foregroundAlpha }
+                }
+            }
+
+        statusBarKeyguardViewManagerClass
+            .hookMethod("onStartedWakingUp")
+            .suppressError()
+            .runAfter { setDepthWallpaper() }
 
         notificationPanelViewControllerClass
             .hookConstructor()
@@ -406,8 +582,6 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                 }
             }
         )
-
-        setCustomDepthWallpaper()
     }
 
     fun viewAttached(entryV: View) {
@@ -603,6 +777,11 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
     }
 
     private fun setDepthWallpaper() {
+        if (SceneContainer.isEnabled) {
+            updateComposeDepthWallpaper()
+            return
+        }
+
         if (!mLayersCreated || mScrimController == null) return
 
         val state = mScrimController.getField("mState").toString()
@@ -619,26 +798,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                 width = MATCH_PARENT
             }
 
-            if ((!mWallpaperForegroundCacheValid || mWallpaperForeground.background == null) &&
-                DEPTH_WALL_FG_FILE.exists()
-            ) {
-                try {
-                    FileInputStream(DEPTH_WALL_FG_FILE).use { inputStream ->
-                        val bitmapDrawable = BitmapDrawable.createFromStream(inputStream, "")
-                        bitmapDrawable!!.alpha = 255
-
-                        mForegroundDimmingOverlay =
-                            bitmapDrawable.constantState!!.newDrawable().mutate()
-                        mForegroundDimmingOverlay!!.setTint(Color.BLACK)
-
-                        mWallpaperForeground.background = LayerDrawable(
-                            arrayOf(bitmapDrawable, mForegroundDimmingOverlay)
-                        )
-                        mWallpaperForegroundCacheValid = true
-                    }
-                } catch (_: Throwable) {
-                }
-            }
+            loadForegroundDrawable()
 
             if (mWallpaperForegroundCacheValid && mWallpaperForeground.background != null) {
                 mWallpaperForeground.background.alpha = (foregroundAlpha * 255).toInt()
@@ -654,8 +814,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                     foregroundAlpha to (showOnAOD && (mPreviousState in setOf("AOD", "PULSING")))
                 }
 
-                mWallpaperDimmingOverlay.alpha =
-                    mScrimController.getField("mScrimBehindAlphaKeyguard") as Float
+                mWallpaperDimmingOverlay.alpha = backgroundDimAlpha()
 
                 mWallpaperBackground.visibility =
                     if (shouldShowBackground) View.VISIBLE else View.GONE
@@ -735,10 +894,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
 
                                 if (mScrimController != null) {
                                     mWallpaperDimmingOverlay.setBackgroundColor(Color.BLACK)
-                                    mWallpaperDimmingOverlay.alpha =
-                                        mScrimController.getField(
-                                            "mScrimBehindAlphaKeyguard"
-                                        ) as Float
+                                    mWallpaperDimmingOverlay.alpha = backgroundDimAlpha()
                                 }
                             }
                         }
@@ -750,5 +906,11 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                 setDepthWallpaper()
             }
         }
+    }
+
+    companion object {
+        private const val BACKGROUND_GROUP_KEY = 0x1C0B1C22
+        private const val FOREGROUND_GROUP_KEY = 0x1C0B1C23
+        private const val DEFAULT_KEYGUARD_SCRIM_ALPHA = 0.2f
     }
 }

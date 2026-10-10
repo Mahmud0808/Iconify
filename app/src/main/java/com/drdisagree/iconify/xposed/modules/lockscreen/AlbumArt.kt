@@ -30,18 +30,18 @@ import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-class AlbumArt(context: Context) : ModPack(context) {
+open class AlbumArt(context: Context) : ModPack(context) {
 
-    private var mAlbumArtEnabled: Boolean = false
+    protected var mAlbumArtEnabled: Boolean = false
     private var mAlbumArtFilter: Int = 0
     private var mAlbumArtBlurLevel: Float = 7.5f
     private var mDepthEnabled: Boolean = false
 
-    private var mAlbumArtContainer: FrameLayout? = null
+    protected var mAlbumArtContainer: FrameLayout? = null
     private var mAlbumArtView: ImageView? = null
 
     private var mArtworkDrawable: Drawable? = null
-    private var mPlaybackState: Int = PlaybackState.STATE_NONE
+    protected var mPlaybackState: Int = PlaybackState.STATE_NONE
 
     private var mLayersCreated = false
     private var mScrimControllerObj: Any? = null
@@ -81,18 +81,6 @@ class AlbumArt(context: Context) : ModPack(context) {
         )
         val notificationPanelViewControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
-        val mediaDataManagerClass = findClass(
-            "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDataManager",
-            "$SYSTEMUI_PACKAGE.media.controls.pipeline.MediaDataManager",
-            suppressError = true
-        )
-        val mediaDeviceManagerClass = findClass(
-            "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDeviceManager",
-            "$SYSTEMUI_PACKAGE.media.controls.pipeline.MediaDeviceManager"
-        )
-        val keyguardSliceProviderClass = findClass(
-            "$SYSTEMUI_PACKAGE.keyguard.KeyguardSliceProvider"
-        )
 
         // Get media metadata change
         scrimControllerClass
@@ -153,6 +141,23 @@ class AlbumArt(context: Context) : ModPack(context) {
                 }
             }
 
+        hookMediaUpdates()
+    }
+
+    protected fun hookMediaUpdates() {
+        val mediaDataManagerClass = findClass(
+            "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDataManager",
+            "$SYSTEMUI_PACKAGE.media.controls.pipeline.MediaDataManager",
+            suppressError = true
+        )
+        val mediaDeviceManagerClass = findClass(
+            "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDeviceManager",
+            "$SYSTEMUI_PACKAGE.media.controls.pipeline.MediaDeviceManager"
+        )
+        val keyguardSliceProviderClass = findClass(
+            "$SYSTEMUI_PACKAGE.keyguard.KeyguardSliceProvider"
+        )
+
         fun hookMediaData(param: MethodHookParam) {
             val mediaData = param.args[2]
             val artWork = mediaData.callMethodSilently("getArtwork") as? Icon
@@ -190,11 +195,11 @@ class AlbumArt(context: Context) : ModPack(context) {
             }
     }
 
-    private fun broadcastAlbumArtUpdate() {
+    protected fun broadcastAlbumArtUpdate() {
         AlbumArtCallback.notifyVisibilityChanged()
     }
 
-    private fun updateAlbumArtState() {
+    protected open fun updateAlbumArtState() {
         if (mScrimControllerObj == null || !mAlbumArtEnabled) {
             showAlbumArt = false
             if (mLayersCreated) {
@@ -224,7 +229,7 @@ class AlbumArt(context: Context) : ModPack(context) {
         )
     }
 
-    private fun createLayers() {
+    protected fun createLayers() {
         if (mLayersCreated) return
 
         val lp = FrameLayout.LayoutParams(
@@ -266,7 +271,8 @@ class AlbumArt(context: Context) : ModPack(context) {
     }
 
     companion object {
-        private var showAlbumArt: Boolean = false
+        @JvmStatic
+        protected var showAlbumArt: Boolean = false
         val shouldShowAlbumArt: Boolean get() = showAlbumArt
     }
 }

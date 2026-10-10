@@ -39,7 +39,8 @@ object LockscreenSceneInjector {
 
     private val layers = CopyOnWriteArrayList<Layer>()
     private val overlays = CopyOnWriteArrayList<Overlay>()
-    private val behindLayers = CopyOnWriteArrayList<ElementHost>()
+    private val behindLayers = CopyOnWriteArrayList<Pair<Int, ElementHost>>()
+    private val clockRegionOverlays = CopyOnWriteArrayList<Overlay>()
     private var hooked = false
     private var replacement: ElementHost? = null
     private val anchors = HashMap<Anchor, ElementHost>()
@@ -119,6 +120,17 @@ object LockscreenSceneInjector {
         hookLockscreenContent()
     }
 
+    fun addAboveClockRegion(
+        key: Int,
+        isEnabled: () -> Boolean,
+        modifier: () -> Any?,
+        factory: (Context) -> View
+    ) {
+        clockRegionOverlays.removeAll { it.key == key }
+        clockRegionOverlays += Overlay(key, isEnabled, modifier, factory)
+        hookElementFactory()
+    }
+
     private fun hookElementFactory() {
         if (factoryHooked) return
         factoryHooked = true
@@ -133,13 +145,17 @@ object LockscreenSceneInjector {
                 val key = param.args.getOrNull(1) ?: return@runBefore
                 if (clockRegionKeys.none { it == key }) return@runBefore
                 dispatchClockSize(key)
-                regionStack.addLast(key == largeClockRegionKey)
 
-                val replacement = replacement ?: return@runBefore
-                if (!replacement.isEnabled()) return@runBefore
+                val replacement = replacement?.takeIf { it.isEnabled() }
+                val composer = if (replacement != null) composerOf(param) else null
+                if (replacement == null || composer == null) {
+                    regionStack.addLast(key == largeClockRegionKey)
+                    return@runBefore
+                }
 
-                val composer = composerOf(param) ?: return@runBefore
                 ComposeViewHost.emitInGroup(composer, replacement.key, modifierOf(param), replacement.factory)
+                emitClockRegionOverlays(composer)
+                param.setObjectExtra(REPLACED_EXTRA, true)
                 param.result = null
             }
 
@@ -149,7 +165,11 @@ object LockscreenSceneInjector {
             .runAfter { param ->
                 val key = param.args.getOrNull(1) ?: return@runAfter
                 if (clockRegionKeys.any { it == key }) {
+                    if (param.getObjectExtra(REPLACED_EXTRA) == true) return@runAfter
                     regionStack.removeLastOrNull()
+                    if (param.throwable != null) return@runAfter
+
+                    composerOf(param)?.let { emitClockRegionOverlays(it) }
                     return@runAfter
                 }
                 if (param.throwable != null) return@runAfter
@@ -171,6 +191,13 @@ object LockscreenSceneInjector {
                 val composer = composerOf(param) ?: return@runAfter
                 ComposeViewHost.emitInGroup(composer, target.key, factory = target.factory)
             }
+    }
+
+    private fun emitClockRegionOverlays(composer: Any) {
+        clockRegionOverlays.forEach { overlay ->
+            if (!overlay.isEnabled()) return@forEach
+            ComposeViewHost.emitInGroup(composer, overlay.key, overlay.modifier(), overlay.factory)
+        }
     }
 
     private fun isLargeClockAnchor(key: Any): Boolean {
@@ -200,9 +227,17 @@ object LockscreenSceneInjector {
         hookLockscreenContent()
     }
 
-    fun addBehindContent(key: Int, isEnabled: () -> Boolean, factory: (Context) -> View) {
-        behindLayers.removeAll { it.key == key }
-        behindLayers += ElementHost(key, isEnabled, factory)
+    fun addBehindContent(
+        order: Int,
+        key: Int,
+        isEnabled: () -> Boolean,
+        factory: (Context) -> View
+    ) {
+        behindLayers.removeAll { it.second.key == key }
+        behindLayers += order to ElementHost(key, isEnabled, factory)
+        val sorted = behindLayers.sortedBy { it.first }
+        behindLayers.clear()
+        behindLayers.addAll(sorted)
         hookLockscreenContent()
     }
 
@@ -220,7 +255,7 @@ object LockscreenSceneInjector {
                 if (behindLayers.isEmpty()) return@runBefore
 
                 val composer = composerOf(param) ?: return@runBefore
-                behindLayers.forEach { layer ->
+                behindLayers.forEach { (_, layer) ->
                     if (layer.isEnabled()) {
                         ComposeViewHost.emitInGroup(composer, layer.key, factory = layer.factory)
                     }
@@ -258,6 +293,7 @@ object LockscreenSceneInjector {
             }
     }
 
+    private const val REPLACED_EXTRA = "iconify_clock_region_replaced"
     private const val LOCKSCREEN_CONTENT_CLASS =
         "$SYSTEMUI_PACKAGE.keyguard.ui.composable.LockscreenContent"
     private const val ELEMENT_FACTORY_CLASS =

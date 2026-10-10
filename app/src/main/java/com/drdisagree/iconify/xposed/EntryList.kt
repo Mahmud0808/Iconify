@@ -15,6 +15,7 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCal
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt
+import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArtCompose
 import com.drdisagree.iconify.xposed.modules.lockscreen.DepthWallpaper
 import com.drdisagree.iconify.xposed.modules.lockscreen.Lockscreen
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenClock
@@ -112,7 +113,8 @@ object EntryList {
         LockscreenClock::class.java to LockscreenClockCompose::class.java,
         LockscreenWeather::class.java to LockscreenWeatherCompose::class.java,
         LockscreenWidgets::class.java to LockscreenWidgetsCompose::class.java,
-        LockscreenVisualizer::class.java to LockscreenVisualizerCompose::class.java
+        LockscreenVisualizer::class.java to LockscreenVisualizerCompose::class.java,
+        AlbumArt::class.java to AlbumArtCompose::class.java
     )
 
     private fun Class<out ModPack>.forCurrentShade(): Class<out ModPack> =

@@ -11,6 +11,7 @@ class LockscreenVisualizerCompose(context: Context) : LockscreenVisualizer(conte
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         LockscreenSceneInjector.addBehindContent(
+            order = 1,
             key = GROUP_KEY,
             isEnabled = { visualizerEnabled }
         ) { context -> createHost(context) }
