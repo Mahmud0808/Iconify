@@ -126,8 +126,8 @@ object LockscreenComposeContainer {
             }
             overlayRef = WeakReference(host)
             host.addOnAttachStateChangeListener(reevaluateOnAttach)
-            ComposeViewHost.runEveryFrameWhileAttached(host) {
-                val marker = marker ?: return@runEveryFrameWhileAttached
+            ComposeViewHost.runBeforeEachDraw(host) {
+                val marker = marker ?: return@runBeforeEachDraw
                 val location = IntArray(2).also { marker.getLocationInWindow(it) }
                 val current = location[0] to location[1]
                 if (current != lastMarkerLocation) {

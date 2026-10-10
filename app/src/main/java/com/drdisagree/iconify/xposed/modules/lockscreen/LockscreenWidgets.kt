@@ -87,6 +87,7 @@ open class LockscreenWidgets(context: Context) : ModPack(context) {
     private var dateSmartSpaceViewAvailable = false
     private var bcSmartSpaceViewAvailable = false
     protected var aodBurnInProtection: AodBurnInProtection? = null
+    private var mIsLargeClock = false
 
     private var mBroadcastRegistered = false
     private val mReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -466,6 +467,7 @@ open class LockscreenWidgets(context: Context) : ModPack(context) {
             updateMargins()
             updateLockscreenWidgetsRoundness()
             updateLockscreenWidgetsScale()
+            updateLockscreenWidgetsOnClock(mIsLargeClock)
         }
     }
 
@@ -587,6 +589,7 @@ open class LockscreenWidgets(context: Context) : ModPack(context) {
     }
 
     protected fun updateLockscreenWidgetsOnClock(isLargeClock: Boolean) {
+        mIsLargeClock = isLargeClock
         LockscreenWidgetsView.getInstance()?.setIsLargeClock(
             if (mLockscreenClockEnabled) false else isLargeClock
         )

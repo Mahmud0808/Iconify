@@ -111,7 +111,7 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
         }
         hosts[host] = views
 
-        ComposeViewHost.runEveryFrameWhileAttached(host) {
+        ComposeViewHost.runBeforeEachDraw(host) {
             val shadeExpansion = SceneContainer.panelExpansion
             val qsExpansion = SceneContainer.qsExpansion
             val orientation = mContext.resources.configuration.orientation

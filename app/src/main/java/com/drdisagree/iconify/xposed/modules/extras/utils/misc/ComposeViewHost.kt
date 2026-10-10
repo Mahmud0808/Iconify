@@ -1,8 +1,8 @@
 package com.drdisagree.iconify.xposed.modules.extras.utils.misc
 
 import android.content.Context
-import android.view.Choreographer
 import android.view.View
+import android.view.ViewTreeObserver
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
@@ -264,24 +264,23 @@ object ComposeViewHost {
         ComposeToolkit.clearDefaultBit(method, param.args, index)
     }
 
-    fun runEveryFrameWhileAttached(view: View, onFrame: () -> Unit) {
-        val callback = object : Choreographer.FrameCallback {
-            override fun doFrame(frameTimeNanos: Long) {
-                if (!view.isAttachedToWindow) return
-                onFrame()
-                Choreographer.getInstance().postFrameCallback(this)
-            }
+    fun runBeforeEachDraw(view: View, onDraw: () -> Unit) {
+        val listener = ViewTreeObserver.OnPreDrawListener {
+            if (view.isAttachedToWindow) onDraw()
+            true
         }
 
         view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {
-                Choreographer.getInstance().removeFrameCallback(callback)
-                Choreographer.getInstance().postFrameCallback(callback)
+                v.viewTreeObserver.removeOnPreDrawListener(listener)
+                v.viewTreeObserver.addOnPreDrawListener(listener)
             }
 
             override fun onViewDetachedFromWindow(v: View) {
-                Choreographer.getInstance().removeFrameCallback(callback)
+                v.viewTreeObserver.removeOnPreDrawListener(listener)
             }
         })
+
+        if (view.isAttachedToWindow) view.viewTreeObserver.addOnPreDrawListener(listener)
     }
 }

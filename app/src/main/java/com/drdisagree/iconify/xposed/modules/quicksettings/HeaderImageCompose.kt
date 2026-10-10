@@ -81,7 +81,7 @@ class HeaderImageCompose(context: Context) : HeaderImage(context) {
 
         withHostViews(views) { updateQSHeaderImage() }
 
-        ComposeViewHost.runEveryFrameWhileAttached(host) {
+        ComposeViewHost.runBeforeEachDraw(host) {
             val expansion = SceneContainer.panelExpansion
             val orientation = mContext.resources.configuration.orientation
             if (expansion != views.lastExpansion || orientation != views.lastOrientation) {

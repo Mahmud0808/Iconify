@@ -368,19 +368,16 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
             var lastLocation = 0 to 0
             var lastSize = 0 to 0
 
-            host.viewTreeObserver.addOnPreDrawListener {
-                if (host.isAttachedToWindow) {
-                    val location = IntArray(2).also { host.getLocationInWindow(it) }
-                    val current = location[0] to location[1]
-                    val size = composeWindowSize()
+            ComposeViewHost.runBeforeEachDraw(host) {
+                val location = IntArray(2).also { host.getLocationInWindow(it) }
+                val current = location[0] to location[1]
+                val size = composeWindowSize()
 
-                    if (current != lastLocation || size != lastSize) {
-                        lastLocation = current
-                        lastSize = size
-                        host.requestLayout()
-                    }
+                if (current != lastLocation || size != lastSize) {
+                    lastLocation = current
+                    lastSize = size
+                    host.requestLayout()
                 }
-                true
             }
         }
 
