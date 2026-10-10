@@ -24,6 +24,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isNi
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
@@ -47,6 +48,8 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
     private val notificationViews: MutableSet<View> = Collections.newSetFromMap(WeakHashMap())
     private var isQsExpanded = false
     private var coloredNotificationView = false
+    private val hookedListenerClasses: MutableSet<Class<*>> = Collections.newSetFromMap(WeakHashMap())
+    private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -69,23 +72,21 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         headsUpManagerClass
             .hookMethod("addListener")
             .runAfter { param ->
-                if (!headsUpBlurEnabled) return@runAfter
+                val listenerClass = param.args[0]?.javaClass ?: return@runAfter
+                if (!hookedListenerClasses.add(listenerClass)) return@runAfter
 
-                val listener = param.args[0]
-
-                listener::class.java
+                listenerClass
                     .hookMethod("onHeadsUpStateChanged")
+                    .suppressError()
                     .runAfter runAfter2@{ param ->
                         if (!headsUpBlurEnabled) return@runAfter2
+                        if (param.thisObject?.javaClass != listenerClass) return@runAfter2
 
-                        val row = param.args[0].getFieldSilently("row") as? View ?: return@runAfter2
+                        val row = param.args[0].headsUpRow() ?: return@runAfter2
+                        val isHeadsUp = param.args.getOrNull(1) as? Boolean
+                            ?: row.callMethod("isHeadsUpState") as Boolean
 
-                        val isHeadsUpState = row.callMethod("isHeadsUpState") as Boolean
-                        val mBackgroundNormal = row.getField("mBackgroundNormal") as View
-
-                        mBackgroundNormal.setExtraField("shouldApplyBlur", isHeadsUpState)
-
-                        notificationViews.add(row)
+                        row.onHeadsUpChanged(isHeadsUp)
                     }
             }
 
@@ -116,9 +117,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                 if (shouldApplyBlur && isAppearing && !isQsExpanded) {
                     param.thisObject.updateNotificationBackground(true)
                 } else {
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        param.thisObject.updateNotificationBackground(false)
-                    }, 500)
+                    param.thisObject.scheduleBlurReset()
                 }
             }
 
@@ -127,9 +126,11 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
             this.isQsExpanded = isQsExpanded
 
-            if (isQsExpanded) {
-                notificationViews.forEach { view ->
+            notificationViews.forEach { view ->
+                if (isQsExpanded) {
                     view.updateNotificationBackground(shouldApplyBlur = false)
+                } else if (view.shouldApplyBlur() && view.isAttachedToWindow) {
+                    view.updateNotificationBackground(shouldApplyBlur = true)
                 }
             }
         }
@@ -273,8 +274,9 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         var shouldApplyTint = false
 
         // Colored notification view support
-        getFieldSilently("mEntry")?.let { mEntry ->
-            val mSbn = mEntry.getField("mSbn")
+        val sbn = getFieldSilently("mEntry")?.getFieldSilently("mSbn")
+            ?: getFieldSilently("mEntryAdapter")?.callMethodSilently("getSbn")
+        sbn?.let { mSbn ->
             val notification = mSbn.callMethod("getNotification") as Notification
             val mNotifyBackgroundColor =
                 notification.getExtraFieldSilently("mNotifyBackgroundColor") as? Int
@@ -375,6 +377,42 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         }
     }
 
+    private fun View.onHeadsUpChanged(isHeadsUp: Boolean) {
+        val mBackgroundNormal = getField("mBackgroundNormal") as View
+        mBackgroundNormal.setExtraField("shouldApplyBlur", isHeadsUp)
+        notificationViews.add(this)
+
+        if (isHeadsUp) {
+            mainHandler.post {
+                if (headsUpBlurEnabled && !isQsExpanded && shouldApplyBlur()) {
+                    updateNotificationBackground(true)
+                }
+            }
+        } else {
+            scheduleBlurReset()
+        }
+    }
+
+    private fun Any.shouldApplyBlur(): Boolean {
+        val mBackgroundNormal = getFieldSilently("mBackgroundNormal") as? View ?: return false
+        return mBackgroundNormal.getExtraFieldSilently("shouldApplyBlur") as? Boolean == true
+    }
+
+    private fun Any.scheduleBlurReset() {
+        mainHandler.postDelayed({
+            if (!shouldApplyBlur() || isQsExpanded) updateNotificationBackground(false)
+        }, BLUR_RESET_DELAY)
+    }
+
+    private fun Any?.headsUpRow(): View? {
+        if (this == null) return null
+
+        (getFieldSilently("row") as? View)?.let { return it }
+
+        val entry = getFieldSilently("entry") ?: callMethodSilently("getEntry")
+        return entry?.getFieldSilently("row") as? View
+    }
+
     private fun setNotificationBackground(
         mBackgroundNormal: View,
         layerDrawable: LayerDrawable
@@ -384,5 +422,9 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         } else {
             mBackgroundNormal.callMethod("setCustomBackground$1")
         }
+    }
+
+    companion object {
+        private const val BLUR_RESET_DELAY = 500L
     }
 }
