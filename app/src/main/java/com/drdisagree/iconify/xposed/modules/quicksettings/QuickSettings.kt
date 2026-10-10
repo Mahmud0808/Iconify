@@ -554,7 +554,48 @@ class QuickSettings(context: Context) : ModPack(context) {
             }
     }
 
+    private fun blurComposeMediaArtwork() {
+        val loadedIconClass = findClass(
+            $$"$$SYSTEMUI_PACKAGE.common.shared.model.Icon$Loaded",
+            suppressError = true
+        ) ?: return
+        val loadedIconConstructor = loadedIconClass.declaredConstructors
+            .firstOrNull { it.parameterTypes.size == 4 && it.parameterTypes[3] == String::class.java }
+            ?.apply { isAccessible = true } ?: return
+        val blurredIcons = WeakHashMap<Drawable, Pair<Float, Any>>()
+
+        findClass("$SYSTEMUI_PACKAGE.media.remedia.ui.compose.MediaKt", suppressError = true)
+            .hookMethod("CardBackground")
+            .suppressError()
+            .runBefore { param ->
+                if (!blurMediaPlayerArtwork) return@runBefore
+
+                val icon = param.args.getOrNull(0) ?: return@runBefore
+                if (!loadedIconClass.isInstance(icon)) return@runBefore
+                val drawable = icon.getFieldSilently("drawable") as? Drawable ?: return@runBefore
+
+                val cached = blurredIcons[drawable]
+                param.args[0] = if (cached != null && cached.first == blurMediaPlayerArtworkRadius) {
+                    cached.second
+                } else {
+                    val blurredIcon = runCatching {
+                        loadedIconConstructor.newInstance(
+                            drawable.applyBlur(mContext, blurMediaPlayerArtworkRadius),
+                            icon.getFieldSilently("contentDescription"),
+                            icon.getFieldSilently("resId"),
+                            icon.getFieldSilently("packageName")
+                        )
+                    }.getOrNull() ?: return@runBefore
+
+                    blurredIcons[drawable] = blurMediaPlayerArtworkRadius to blurredIcon
+                    blurredIcon
+                }
+            }
+    }
+
     private fun blurMediaPlayerArtwork() {
+        blurComposeMediaArtwork()
+
         val mediaControlPanelClass = findClass(
             "$SYSTEMUI_PACKAGE.media.controls.ui.controller.MediaControlPanel",
             "$SYSTEMUI_PACKAGE.media.controls.ui.MediaControlPanel",
