@@ -34,6 +34,21 @@ object LockscreenComposeContainer {
         }
     }
 
+    private class SlotHost(context: Context, val holder: SlotHolder) : FrameLayout(context) {
+        override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+            if (childCount > 0) {
+                if (measuredHeight > 0) holder.lastHostHeight = measuredHeight
+            } else if (holder.lastHostHeight > 0) {
+                setMeasuredDimension(
+                    measuredWidth,
+                    resolveSize(holder.lastHostHeight, heightMeasureSpec)
+                )
+            }
+        }
+    }
+
     private class OverlayHost(context: Context, val holder: SlotHolder) : FrameLayout(context) {
         override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
             val markerWidth = holder.marker?.width ?: 0
@@ -52,6 +67,7 @@ object LockscreenComposeContainer {
         var markerRef: WeakReference<View>? = null
         var overlayRef: WeakReference<OverlayHost>? = null
         private var lastOffset = 0 to 0
+        var lastHostHeight = 0
         private var lastMarkerLocation = 0 to 0
 
         val container: LinearLayout?
@@ -85,7 +101,7 @@ object LockscreenComposeContainer {
         }
 
         fun createHost(context: Context): View {
-            val host = FrameLayout(context).apply {
+            val host = SlotHost(context, this).apply {
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT

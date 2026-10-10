@@ -8,6 +8,7 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam
 import java.lang.reflect.Method
@@ -48,6 +49,10 @@ object LockscreenSceneInjector {
     private val clockSizeListeners = CopyOnWriteArrayList<(Boolean) -> Unit>()
     private var lastLargeClock: Boolean? = null
     private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
+
+    @Volatile
+    private var lockscreenAlpha = 1f
+    private var transitionHooked = false
 
     private val largeClockRegionKey: Any? by lazy {
         ComposeViewHost.staticField(REGION_CLOCK_KEYS_CLASS, "INSTANCE")
@@ -247,6 +252,7 @@ object LockscreenSceneInjector {
         if (!ComposeViewHost.isAvailable) return
 
         val lockscreenContentClass = findClass(LOCKSCREEN_CONTENT_CLASS, suppressError = true)
+        hookKeyguardTransitions()
 
         lockscreenContentClass
             .hookMethod("Content")
@@ -257,7 +263,7 @@ object LockscreenSceneInjector {
                 val composer = composerOf(param) ?: return@runBefore
                 behindLayers.forEach { (_, layer) ->
                     if (layer.isEnabled()) {
-                        ComposeViewHost.emitInGroup(composer, layer.key, factory = layer.factory)
+                        ComposeViewHost.emitInGroup(composer, layer.key, factory = fading(layer.factory))
                     }
                 }
             }
@@ -278,7 +284,7 @@ object LockscreenSceneInjector {
 
                 overlays.forEach { overlay ->
                     if (!overlay.isEnabled()) return@forEach
-                    ComposeViewHost.emitInGroup(composer, overlay.key, overlay.modifier(), overlay.factory)
+                    ComposeViewHost.emitInGroup(composer, overlay.key, overlay.modifier(), fading(overlay.factory))
                 }
 
                 layers.forEach { layer ->
@@ -293,7 +299,46 @@ object LockscreenSceneInjector {
             }
     }
 
+    private fun hookKeyguardTransitions() {
+        if (transitionHooked) return
+        transitionHooked = true
+
+        findClass(KEYGUARD_TRANSITION_REPOSITORY_CLASS, suppressError = true)
+            .hookMethod("emitTransition")
+            .suppressError()
+            .runAfter { param ->
+                val step = param.args.getOrNull(0) ?: return@runAfter
+                val from = step.getFieldSilently("from")?.toString() ?: return@runAfter
+                val to = step.getFieldSilently("to")?.toString() ?: return@runAfter
+                val value = (step.getFieldSilently("value") as? Float ?: return@runAfter)
+                    .coerceIn(0f, 1f)
+
+                lockscreenAlpha = when {
+                    from.isLockscreenState() && !to.isLockscreenState() ->
+                        (1f - value / FADE_OUT_END).coerceIn(0f, 1f)
+
+                    to.isLockscreenState() && !from.isLockscreenState() -> value
+                    else -> lockscreenAlpha
+                }
+            }
+    }
+
+    private fun String.isLockscreenState(): Boolean = this in LOCKSCREEN_STATES
+
+    private fun fading(factory: (Context) -> View): (Context) -> View = { context ->
+        factory(context).also { view ->
+            ComposeViewHost.runBeforeEachDraw(view) {
+                val alpha = lockscreenAlpha
+                if (view.alpha != alpha) view.alpha = alpha
+            }
+        }
+    }
+
     private const val REPLACED_EXTRA = "iconify_clock_region_replaced"
+    private const val KEYGUARD_TRANSITION_REPOSITORY_CLASS =
+        "$SYSTEMUI_PACKAGE.keyguard.data.repository.KeyguardTransitionRepositoryImpl"
+    private const val FADE_OUT_END = 0.6f
+    private val LOCKSCREEN_STATES = setOf("LOCKSCREEN", "AOD", "DOZING")
     private const val LOCKSCREEN_CONTENT_CLASS =
         "$SYSTEMUI_PACKAGE.keyguard.ui.composable.LockscreenContent"
     private const val ELEMENT_FACTORY_CLASS =

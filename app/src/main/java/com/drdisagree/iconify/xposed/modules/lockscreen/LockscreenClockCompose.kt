@@ -33,6 +33,7 @@ class LockscreenClockCompose(context: Context) : LockscreenClock(context) {
                         setMovementEnabled(DozeCallback.getInstance().isDozing())
                     }
                     registerClockUpdater()
+                    ensureClockAdded(container)
                 }
 
                 override fun onContainerDetached(
@@ -64,5 +65,23 @@ class LockscreenClockCompose(context: Context) : LockscreenClock(context) {
         }
     }
 
+    private fun ensureClockAdded(container: LinearLayout, attempt: Int = 0) {
+        if (attempt >= CLOCK_RETRY_LIMIT) return
+
+        container.postDelayed({
+            if (!showLockscreenClock || mLsItemsContainer !== container) return@postDelayed
+            if (!container.isAttachedToWindow) return@postDelayed
+            if (container.findViewWithTag<View?>(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null) return@postDelayed
+
+            updateClockView(force = true)
+            ensureClockAdded(container, attempt + 1)
+        }, CLOCK_RETRY_DELAY)
+    }
+
     override fun resetStockClock() {}
+
+    companion object {
+        private const val CLOCK_RETRY_LIMIT = 20
+        private const val CLOCK_RETRY_DELAY = 250L
+    }
 }
