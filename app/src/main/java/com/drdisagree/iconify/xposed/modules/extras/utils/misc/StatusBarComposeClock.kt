@@ -12,6 +12,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import java.lang.ref.WeakReference
@@ -57,13 +58,15 @@ object StatusBarComposeClock {
             }
 
         clockComposableClass
-            .hookMethod(*CLOCK_METHODS)
+            .hookMethodMatchPattern(CLOCK_METHOD_PATTERN)
             .suppressError()
             .runBefore { param ->
                 if (!isNeeded || clockRef?.get() == null) return@runBefore
-                if (!isCalledFromStatusBar()) return@runBefore
 
                 val method = param.method as Method
+                if (!method.isClockComposable()) return@runBefore
+                if (!isCalledFromStatusBar()) return@runBefore
+
                 val composer = param.args.getOrNull(
                     ComposeToolkit.parameterIndex(method, ComposeToolkit.COMPOSER_CLASS)
                 ) ?: return@runBefore
@@ -91,6 +94,10 @@ object StatusBarComposeClock {
             }
         }
     }
+
+    private fun Method.isClockComposable(): Boolean =
+        parameterTypes.any { it.name == ComposeToolkit.COMPOSER_CLASS } &&
+                parameterTypes.any { it.name.endsWith(CLOCK_VIEW_MODEL_SUFFIX) }
 
     private fun isCalledFromStatusBar(): Boolean =
         Thread.currentThread().stackTrace.any { it.className.startsWith(STATUS_BAR_CLOCK_CALLER) }
@@ -126,9 +133,10 @@ object StatusBarComposeClock {
     }
 
     private const val CLOCK_KT_CLASS = "$SYSTEMUI_PACKAGE.clock.ui.composable.ClockKt"
-    private val CLOCK_METHODS = arrayOf("Clock-sW7UJKQ", "Clock")
+    private const val CLOCK_METHOD_PATTERN = "Clock(-.+)?"
+    private const val CLOCK_VIEW_MODEL_SUFFIX = ".ClockViewModel"
     private const val STATUS_BAR_CLOCK_CALLER =
-        "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.StatusBarRootKt\$addStartSideComposable"
+        "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.StatusBarRootKt"
     private const val GROUP_KEY = 0x1C0B1C30
     private const val GUARD_FIELD = "iconifyComposeClockGuard"
 }
