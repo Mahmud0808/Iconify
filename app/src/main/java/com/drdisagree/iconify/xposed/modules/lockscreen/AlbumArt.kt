@@ -14,6 +14,7 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getColored
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getGrayscaleBlurredImage
@@ -36,6 +37,8 @@ open class AlbumArt(context: Context) : ModPack(context) {
     private var mAlbumArtFilter: Int = 0
     private var mAlbumArtBlurLevel: Float = 7.5f
     private var mDepthEnabled: Boolean = false
+    protected var mShowOnAod: Boolean = false
+    protected var mIsDozing: Boolean = false
 
     protected var mAlbumArtContainer: FrameLayout? = null
     private var mAlbumArtView: ImageView? = null
@@ -52,10 +55,12 @@ open class AlbumArt(context: Context) : ModPack(context) {
             mAlbumArtFilter = getString(XposedKey.ALBUM_ART_ON_LOCKSCREEN_FILTER).toInt()
             mAlbumArtBlurLevel = getInt(XposedKey.ALBUM_ART_ON_LOCKSCREEN_BLUR) / 100f * 25f
             mDepthEnabled = getBoolean(XposedKey.LOCKSCREEN_DEPTH_WALLPAPER)
+            mShowOnAod = getBoolean(XposedKey.ALBUM_ART_ON_AOD)
         }
 
         when (key.firstOrNull()) {
-            XposedKey.ALBUM_ART_ON_LOCKSCREEN.name -> {
+            XposedKey.ALBUM_ART_ON_LOCKSCREEN.name,
+            XposedKey.ALBUM_ART_ON_AOD.name -> {
                 updateAlbumArtState()
                 broadcastAlbumArtUpdate()
             }
@@ -145,6 +150,20 @@ open class AlbumArt(context: Context) : ModPack(context) {
     }
 
     protected fun hookMediaUpdates() {
+        DozeCallback.getInstance().registerDozeChangeListener(object : DozeCallback.DozeListener {
+            override fun onDozingStarted() {
+                mIsDozing = true
+                updateAlbumArtState()
+                broadcastAlbumArtUpdate()
+            }
+
+            override fun onDozingStopped() {
+                mIsDozing = false
+                updateAlbumArtState()
+                broadcastAlbumArtUpdate()
+            }
+        })
+
         val mediaDataManagerClass = findClass(
             "$SYSTEMUI_PACKAGE.media.controls.domain.pipeline.MediaDataManager",
             "$SYSTEMUI_PACKAGE.media.controls.pipeline.MediaDataManager",
@@ -208,16 +227,25 @@ open class AlbumArt(context: Context) : ModPack(context) {
             return
         }
 
+        val scrimState = mScrimControllerObj.getField("mState").toString()
+        val isAod = scrimState == "AOD" || scrimState == "PULSING"
+
         showAlbumArt =
             (mPlaybackState == PlaybackState.STATE_PLAYING || mPlaybackState == PlaybackState.STATE_BUFFERING) &&
-            mScrimControllerObj.getField("mState").toString() == "KEYGUARD"
+            (scrimState == "KEYGUARD" || (mShowOnAod && isAod))
 
-        mAlbumArtContainer?.post {
+        applyAlbumArtVisibility(isAod)
+    }
+
+    protected fun applyAlbumArtVisibility(isAod: Boolean) {
+        val container = mAlbumArtContainer ?: return
+
+        container.post {
             val newVisibility = if (showAlbumArt) View.VISIBLE else View.GONE
+            val newAlpha = if (isAod) AOD_ALPHA else 1f
 
-            if (mAlbumArtContainer?.visibility != newVisibility) {
-                mAlbumArtContainer?.visibility = newVisibility
-            }
+            if (container.visibility != newVisibility) container.visibility = newVisibility
+            if (container.alpha != newAlpha) container.alpha = newAlpha
         }
     }
 
@@ -271,6 +299,8 @@ open class AlbumArt(context: Context) : ModPack(context) {
     }
 
     companion object {
+        private const val AOD_ALPHA = 0.3f
+
         @JvmStatic
         protected var showAlbumArt: Boolean = false
         val shouldShowAlbumArt: Boolean get() = showAlbumArt

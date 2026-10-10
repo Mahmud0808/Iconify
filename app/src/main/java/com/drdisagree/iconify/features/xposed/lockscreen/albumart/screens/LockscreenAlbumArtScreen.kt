@@ -44,6 +44,13 @@ val lsAlbumArtPreferences = preferenceScreen {
             },
             isEnabled = { it.getBoolean(XposedKey.ALBUM_ART_ON_LOCKSCREEN) }
         )
+
+        switch(
+            key = XposedKey.ALBUM_ART_ON_AOD,
+            title = stringRes(R.string.media_art_on_aod_title),
+            summary = { stringRes(R.string.media_art_on_aod_desc) },
+            isEnabled = { it.getBoolean(XposedKey.ALBUM_ART_ON_LOCKSCREEN) }
+        )
     }
 }
 

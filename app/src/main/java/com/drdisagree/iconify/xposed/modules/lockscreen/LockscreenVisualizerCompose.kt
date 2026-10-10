@@ -10,6 +10,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 class LockscreenVisualizerCompose(context: Context) : LockscreenVisualizer(context) {
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+        registerDozeListener()
+
         LockscreenSceneInjector.addBehindContent(
             order = 1,
             key = GROUP_KEY,

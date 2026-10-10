@@ -305,6 +305,7 @@ enum class XposedKey(override val default: Any?) : Key {
     ALBUM_ART_ON_LOCKSCREEN(false),
     ALBUM_ART_ON_LOCKSCREEN_FILTER("0"),
     ALBUM_ART_ON_LOCKSCREEN_BLUR(30f),
+    ALBUM_ART_ON_AOD(false),
 
     // Volume Panel
     VOLUME_PANEL_PERCENTAGE(false),

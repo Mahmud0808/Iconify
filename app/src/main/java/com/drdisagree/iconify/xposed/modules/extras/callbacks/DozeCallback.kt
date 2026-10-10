@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -26,6 +27,12 @@ class DozeCallback(context: Context) : ModPack(context) {
     private var mIsPulsing: Boolean = false
 
     private val mDozeListeners = CopyOnWriteArrayList<DozeListener>()
+    private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
+    private val tickWakeLock by lazy {
+        mContext.getSystemService(PowerManager::class.java)
+            ?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Iconify:DozeTimeTick")
+            ?.apply { setReferenceCounted(false) }
+    }
 
     override fun updatePrefs(vararg key: String) {}
 
@@ -154,14 +161,30 @@ class DozeCallback(context: Context) : ModPack(context) {
     }
 
     private fun onDozeTimeTick() {
-        Handler(Looper.getMainLooper()).post {
+        try {
+            tickWakeLock?.acquire(TICK_WAKE_LOCK_TIMEOUT)
+        } catch (_: Throwable) {
+        }
+
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            dispatchDozeTimeTick()
+        } else {
+            mainHandler.post { dispatchDozeTimeTick() }
+        }
+    }
+
+    private fun dispatchDozeTimeTick() {
+        try {
             AodBurnInProtection.dispatchDozeTimeTick()
-            mDozeListeners.forEach {
-                try {
-                    it.onDozeTimeTick()
-                } catch (throwable: Throwable) {
-                    log(this@DozeCallback, "onDozeTimeTick: $throwable")
-                }
+        } catch (throwable: Throwable) {
+            log(this@DozeCallback, "dispatchDozeTimeTick: $throwable")
+        }
+
+        mDozeListeners.forEach {
+            try {
+                it.onDozeTimeTick()
+            } catch (throwable: Throwable) {
+                log(this@DozeCallback, "onDozeTimeTick: $throwable")
             }
         }
     }
@@ -196,6 +219,8 @@ class DozeCallback(context: Context) : ModPack(context) {
     }
 
     companion object {
+        private const val TICK_WAKE_LOCK_TIMEOUT = 500L
+
         @SuppressLint("StaticFieldLeak")
         @Volatile
         private var instance: DozeCallback? = null

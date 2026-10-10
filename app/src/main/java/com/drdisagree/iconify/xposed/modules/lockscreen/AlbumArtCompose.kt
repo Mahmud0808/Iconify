@@ -51,13 +51,10 @@ class AlbumArtCompose(context: Context) : AlbumArt(context) {
     override fun updateAlbumArtState() {
         val isPlaying = mPlaybackState == PlaybackState.STATE_PLAYING ||
                 mPlaybackState == PlaybackState.STATE_BUFFERING
-        showAlbumArt = mAlbumArtEnabled && isPlaying && lockscreenHost != null
+        showAlbumArt = mAlbumArtEnabled && isPlaying && lockscreenHost != null &&
+                (!mIsDozing || mShowOnAod)
 
-        val container = mAlbumArtContainer ?: return
-        container.post {
-            val newVisibility = if (showAlbumArt) View.VISIBLE else View.GONE
-            if (container.visibility != newVisibility) container.visibility = newVisibility
-        }
+        applyAlbumArtVisibility(mIsDozing)
     }
 
     companion object {

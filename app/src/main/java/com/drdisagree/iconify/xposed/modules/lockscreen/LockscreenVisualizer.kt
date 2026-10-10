@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
@@ -40,6 +41,8 @@ open class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardSh
     private var visualizerView: LockscreenVisualizerView? = null
     protected var isKeyguardVisible = false
     private var keyguardCallbackRegistered = false
+    private var isDozing = false
+    private var dozeListenerRegistered = false
 
     override fun updatePrefs(vararg key: String) {
         if (!XprefsIsInitialized) return
@@ -75,6 +78,7 @@ open class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardSh
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         registerKeyguardCallback()
+        registerDozeListener()
 
         val aodBurnInSectionClass =
             findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
@@ -142,9 +146,26 @@ open class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardSh
         }
     }
 
+    protected fun registerDozeListener() {
+        if (dozeListenerRegistered) return
+        dozeListenerRegistered = true
+
+        DozeCallback.getInstance().registerDozeChangeListener(object : DozeCallback.DozeListener {
+            override fun onDozingStarted() {
+                isDozing = true
+                updateVisualizer()
+            }
+
+            override fun onDozingStopped() {
+                isDozing = false
+                updateVisualizer()
+            }
+        })
+    }
+
     protected fun updateVisualizer() {
         Handler(Looper.getMainLooper()).post {
-            if (visualizerEnabled && isKeyguardVisible) {
+            if (visualizerEnabled && isKeyguardVisible && !isDozing) {
                 addVisualizer()
             } else {
                 removeVisualizer(smooth = true)

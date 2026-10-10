@@ -1475,6 +1475,8 @@
     <string name="media_art_title">Show Media Album Art</string>
     <string name="media_art_summary">Display media album art when available</string>
     <string name="media_art_blur_level_title">Blur Level</string>
+    <string name="media_art_on_aod_title">Show on AOD</string>
+    <string name="media_art_on_aod_desc">Show dimmed album art on always on display</string>
 
     <!-- Album art filter -->
     <string name="albumart_filter_title">Media Album Art Filter</string>
