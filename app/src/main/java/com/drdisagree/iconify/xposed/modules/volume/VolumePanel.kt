@@ -2,9 +2,11 @@ package com.drdisagree.iconify.xposed.modules.volume
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
@@ -21,6 +23,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.util.WeakHashMap
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
@@ -29,6 +32,8 @@ class VolumePanel(context: Context) : ModPack(context) {
 
     private var showPercentage = false
     private var showWarning = true
+    private val sliderPercentViews = WeakHashMap<Any, TextView>()
+    private val sliderPercentages = WeakHashMap<Any, Int>()
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -162,6 +167,96 @@ class VolumePanel(context: Context) : ModPack(context) {
                 updateVolumeLabel(state)
                 param.result = state
             }
+
+        showVolumeDialogPercentage()
+    }
+
+    private fun showVolumeDialogPercentage() {
+        findClass(
+            "$SYSTEMUI_PACKAGE.volume.dialog.sliders.ui.VolumeDialogSlidersViewBinder",
+            suppressError = true
+        )
+            .hookMethod("bindSlider")
+            .suppressError()
+            .runAfter { param ->
+                if (!showPercentage) return@runAfter
+
+                val sliderView = param.args.getOrNull(2) as? FrameLayout ?: return@runAfter
+                val viewModel = param.args.getOrNull(1)
+                    ?.getFieldSilently("volumeDialogSliderViewBinderProvider")
+                    ?.callMethod("get")
+                    ?.getFieldSilently("viewModel") ?: return@runAfter
+                val composeView = sliderView.findViewById<View?>(
+                    mContext.resources.getIdentifier(
+                        "volume_dialog_slider",
+                        "id",
+                        mContext.packageName
+                    )
+                ) ?: return@runAfter
+
+                val volumeNumber = sliderView.findViewWithTag<TextView?>(VOLUME_NUMBER_TAG)
+                    ?: createVolumeTextView().apply {
+                        tag = VOLUME_NUMBER_TAG
+                        includeFontPadding = false
+                        layoutParams = FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.WRAP_CONTENT,
+                            Gravity.TOP or Gravity.CENTER_HORIZONTAL
+                        )
+                        sliderView.addView(this)
+
+                        measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+                        val extraHeight = measuredHeight + mContext.toPx(6)
+
+                        (composeView.layoutParams as? FrameLayout.LayoutParams)?.let { params ->
+                            params.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+                            params.topMargin = extraHeight
+                            composeView.layoutParams = params
+                        }
+
+                        sliderView.layoutParams?.let { params ->
+                            val maxHeight = params.getFieldSilently("matchConstraintMaxHeight") as? Int
+                            if (maxHeight != null && maxHeight > 0) {
+                                params.setField("matchConstraintMaxHeight", maxHeight + extraHeight)
+                                sliderView.layoutParams = params
+                            }
+                        }
+                    }
+
+                volumeNumber.setTextColor(dialogTextColor(sliderView.context))
+                sliderPercentViews[viewModel] = volumeNumber
+                sliderPercentages[viewModel]?.let { volumeNumber.text = String.format("%d%%", it) }
+            }
+
+        findClass(
+            $$"$$SYSTEMUI_PACKAGE.volume.dialog.sliders.ui.viewmodel.VolumeDialogSliderViewModel$state$2",
+            suppressError = true
+        )
+            .hookMethod("invokeSuspend")
+            .suppressError()
+            .runAfter { param ->
+                if (!showPercentage) return@runAfter
+
+                val state = param.result ?: return@runAfter
+                if (!state.javaClass.name.endsWith("VolumeDialogSliderStateModel")) return@runAfter
+
+                val viewModel = param.thisObject.getFieldSilently("this$0") ?: return@runAfter
+                val value = state.getFieldSilently("value") as? Float ?: return@runAfter
+                val range = state.getFieldSilently("valueRange") ?: return@runAfter
+                val start = range.getFieldSilently("_start") as? Float ?: return@runAfter
+                val end = range.getFieldSilently("_endInclusive") as? Float ?: return@runAfter
+                if (end <= start) return@runAfter
+
+                val percentage = (100 * (value - start) / (end - start)).roundToInt().coerceIn(0, 100)
+                sliderPercentages[viewModel] = percentage
+
+                sliderPercentViews[viewModel]?.let { view ->
+                    view.post {
+                        view.setTextColor(dialogTextColor(view.context))
+                        view.text = String.format("%d%%", percentage)
+                    }
+                }
+            }
     }
 
     private fun showSafetyWarning() {
@@ -210,6 +305,14 @@ class VolumePanel(context: Context) : ModPack(context) {
         }
     }
 
+    private fun dialogTextColor(context: Context): Int {
+        val isDark = context.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+        return context.getColor(
+            if (isDark) android.R.color.system_accent1_200 else android.R.color.system_accent1_600
+        )
+    }
+
     private fun createVolumeTextView(): TextView {
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -240,5 +343,9 @@ class VolumePanel(context: Context) : ModPack(context) {
         }
 
         return volumeNumber
+    }
+
+    companion object {
+        private const val VOLUME_NUMBER_TAG = "iconify_volume_number"
     }
 }
