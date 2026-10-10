@@ -45,31 +45,17 @@ class QSGrid(context: Context) : ModPack(context) {
             findClass("$SYSTEMUI_PACKAGE.qs.panels.ui.compose.PaginatedGridLayout")
         val qsColumnsRepositoryClass =
             findClass("$SYSTEMUI_PACKAGE.qs.panels.data.repository.QSColumnsRepository")
-        val quickQuickSettingsRowRepositoryClass =
-            findClass("$SYSTEMUI_PACKAGE.qs.panels.data.repository.QuickQuickSettingsRowRepository")
 
         fun getQqsRow() = if (mContext.isLandscape) qqsRowL else qqsRowP
         fun getQsRow() = if (mContext.isLandscape) qsRowL else qsRowP
         fun getQsColumn() = if (mContext.isLandscape) qsColL else qsColP
 
-        quickQuickSettingsRowRepositoryClass
-            .hookConstructor()
-            .runBefore { param ->
-                val resourcesIndex = param.args.indexOfFirst { it is Resources }
-
-                param.args[resourcesIndex] = object : FakeIntegerResource(mContext) {
-                    override fun getInteger(id: Int): Int {
-                        if (customQsGrid && mContext.resources
-                                .getResourceName(id)
-                                .endsWith("quick_qs_paginated_grid_num_rows")
-                        ) {
-                            return getQqsRow()
-                        }
-
-                        return mContext.resources.getInteger(id)
-                    }
-                }
-            }
+        ResourceHookManager
+            .hookInteger()
+            .whenCondition { customQsGrid }
+            .forPackageName(SYSTEMUI_PACKAGE)
+            .addResource("quick_qs_paginated_grid_num_rows") { getQqsRow() }
+            .apply()
 
         paginatedGridLayoutClass
             .hookMethod("TileGrid")
