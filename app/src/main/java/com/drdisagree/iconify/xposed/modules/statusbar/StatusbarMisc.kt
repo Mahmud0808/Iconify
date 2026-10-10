@@ -35,6 +35,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.ge
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getLeftClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getRightClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.setClockGravity
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarComposeClock
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
@@ -107,6 +108,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+        StatusBarComposeClock.install()
         hideLockscreenCarrierOrStatusbar()
         applyClockSize()
         setClockPosition()

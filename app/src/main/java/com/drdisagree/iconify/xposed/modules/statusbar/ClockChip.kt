@@ -14,6 +14,7 @@ import com.drdisagree.iconify.data.common.Const
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarComposeClock
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
@@ -121,6 +122,7 @@ class ClockChip(context: Context) : ModPack(context) {
     }
 
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+        StatusBarComposeClock.install()
         statusBarClockChip()
     }
 
@@ -190,7 +192,8 @@ class ClockChip(context: Context) : ModPack(context) {
             }
 
         phoneStatusBarViewControllerClass
-            .hookMethod("onViewAttached")
+            .hookMethod("onViewDetached")
+            .suppressError()
             .runAfter { param ->
                 val mView = param.thisObject.getField("mView") as View
 
