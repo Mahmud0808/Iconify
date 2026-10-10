@@ -44,6 +44,7 @@ class LockscreenVisualizerView(context: Context) : View(context) {
     private var smoothness = DEFAULT_SMOOTHNESS
     private var renderFps = DEFAULT_FPS
     private var lastFrameTimeMs = 0L
+    private var lastLinkFailureMs = 0L
 
     private val frameHandler = Handler(Looper.getMainLooper())
 
@@ -186,6 +187,9 @@ class LockscreenVisualizerView(context: Context) : View(context) {
 
     private fun linkVisualizer() {
         if (linked) return
+        if (lastLinkFailureMs != 0L &&
+            SystemClock.uptimeMillis() - lastLinkFailureMs < LINK_RETRY_MS
+        ) return
 
         runCatching {
             visualizer = Visualizer(0).apply {
@@ -214,8 +218,10 @@ class LockscreenVisualizerView(context: Context) : View(context) {
             }
 
             linked = true
+            lastLinkFailureMs = 0L
         }.onFailure {
             linked = false
+            lastLinkFailureMs = SystemClock.uptimeMillis()
             runCatching { visualizer?.release() }
             visualizer = null
         }
@@ -503,6 +509,10 @@ class LockscreenVisualizerView(context: Context) : View(context) {
     }
 
     private fun frameDelayMs(): Long {
+        val isIdle = !linked && !hidingToRemove && revealProgress == revealTarget &&
+                levels.all { it == 0f }
+        if (isIdle) return IDLE_FRAME_MS
+
         return if (renderFps >= 120) 8L else 16L
     }
 
@@ -613,6 +623,8 @@ class LockscreenVisualizerView(context: Context) : View(context) {
     }
 
     companion object {
+        private const val LINK_RETRY_MS = 3_000L
+        private const val IDLE_FRAME_MS = 500L
         private const val VALID_FRAME_THRESHOLD = 2
         private const val EMPTY_FRAME_THRESHOLD = 60
         private const val NOISE_GATE = 0.010f
