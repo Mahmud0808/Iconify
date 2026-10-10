@@ -20,7 +20,10 @@ class ThemeChangeCallback(context: Context) : ModPack(context) {
     override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
         instance = this
 
-        val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
+        val scrimControllerClass = findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController",
+            suppressError = true
+        )
         val configurationControllerImplClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ConfigurationControllerImpl")
         val configurationListenerClass = findClass(
@@ -31,6 +34,7 @@ class ThemeChangeCallback(context: Context) : ModPack(context) {
 
         scrimControllerClass
             .hookMethod("updateThemeColors")
+            .suppressError()
             .runAfter { onThemeChanged() }
 
         configurationControllerImplClass

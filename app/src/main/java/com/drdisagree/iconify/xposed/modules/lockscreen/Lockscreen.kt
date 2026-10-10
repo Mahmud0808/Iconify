@@ -123,8 +123,10 @@ class Lockscreen(context: Context) : ModPack(context) {
                 }
             }
 
-        val aodBurnInLayerClass =
-            findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInLayer")
+        val aodBurnInLayerClass = findClass(
+            "$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInLayer",
+            suppressError = true
+        )
         var aodBurnInLayerHooked = false
 
         // Apparently ROMs like CrDroid doesn't even use AodBurnInLayer class
@@ -185,6 +187,7 @@ class Lockscreen(context: Context) : ModPack(context) {
 
         aodBurnInLayerClass
             .hookConstructor()
+            .suppressError()
             .runAfter { param ->
                 if (!hideLockscreenLockIcon) return@runAfter
 

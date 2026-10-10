@@ -84,6 +84,7 @@ class QSTransparency(context: Context) : ModPack(context) {
 
         scrimControllerClass
             .hookMethod("updateScrimColor")
+            .suppressError()
             .runBefore { param ->
                 if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runBefore
 
