@@ -321,6 +321,9 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
         if (shouldApplyBlur && !mBlurApplied) {
             mBackgroundNormal.doOnAttach {
+                if (!headsUpBlurEnabled || isQsExpanded || !shouldApplyBlur()) return@doOnAttach
+                if (mBackgroundNormal.getExtraFieldSilently("mBlurApplied") == true) return@doOnAttach
+
                 val blurDrawable = mBackgroundNormal
                     .callMethod("getViewRootImpl")
                     .callMethod("createBackgroundBlurDrawable") as? Drawable
