@@ -26,6 +26,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -175,13 +176,16 @@ class VolumePanel(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.volume.dialog.sliders.ui.VolumeDialogSlidersViewBinder",
             suppressError = true
         )
-            .hookMethod("bindSlider")
+            .hookMethodMatchPattern(BIND_SLIDER_PATTERN)
             .suppressError()
             .runAfter { param ->
                 if (!showPercentage) return@runAfter
 
-                val sliderView = param.args.getOrNull(2) as? FrameLayout ?: return@runAfter
-                val stream = param.args.getOrNull(1)?.sliderStream() ?: return@runAfter
+                val sliderView = param.args.firstOrNull { it is FrameLayout } as? FrameLayout
+                    ?: return@runAfter
+                val stream = param.args.firstNotNullOfOrNull { arg ->
+                    arg?.takeUnless { it is View || it is Array<*> }?.sliderStream()
+                } ?: return@runAfter
                 val composeView = sliderView.findViewById<View?>(
                     mContext.resources.getIdentifier(
                         "volume_dialog_slider",
@@ -369,6 +373,7 @@ class VolumePanel(context: Context) : ModPack(context) {
 
     companion object {
         private const val VOLUME_NUMBER_TAG = "iconify_volume_number"
+        private const val BIND_SLIDER_PATTERN = "(access\\\$)?bindSlider"
         private const val VOLUME_CHANGED_ACTION = "android.media.VOLUME_CHANGED_ACTION"
         private const val STREAM_MUTE_CHANGED_ACTION = "android.media.STREAM_MUTE_CHANGED_ACTION"
         private const val EXTRA_VOLUME_STREAM_TYPE = "android.media.EXTRA_VOLUME_STREAM_TYPE"
