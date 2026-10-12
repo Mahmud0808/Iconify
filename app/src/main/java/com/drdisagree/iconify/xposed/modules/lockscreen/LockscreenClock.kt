@@ -278,13 +278,10 @@ open class LockscreenClock(context: Context) : ModPack(context) {
                 hideViewsWithoutId(rootView)
 
                 // A15+
-                listOf(
-                    "bc_smartspace_view",
-                    "date_smartspace_view",
+                (STOCK_SMARTSPACE_VIEWS + listOf(
                     "lockscreen_clock_view",
-                    "lockscreen_clock_view_large",
-                    "keyguard_slice_view"
-                ).map { resourceName ->
+                    "lockscreen_clock_view_large"
+                )).map { resourceName ->
                     val resourceId = mContext.resources.getIdentifier(
                         resourceName,
                         "id",
@@ -461,16 +458,9 @@ open class LockscreenClock(context: Context) : ModPack(context) {
             "id",
             mContext.packageName
         )
-        val keyguardSliceViewId = mContext.resources.getIdentifier(
-            "keyguard_slice_view",
-            "id",
-            mContext.packageName
-        )
-        val smartspaceViewIds = listOf(
-            bcSmartSpaceViewId,
-            dateSmartSpaceViewId,
-            keyguardSliceViewId
-        ).filter { it != -1 }
+        val smartspaceViewIds = STOCK_SMARTSPACE_VIEWS.map { resourceName ->
+            mContext.resources.getIdentifier(resourceName, "id", mContext.packageName)
+        }.filter { it != 0 && it != -1 }
 
         smartspaceSectionClass
             .hookMethod("applyConstraints")
@@ -1230,5 +1220,13 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         private var lastUpdated = System.currentTimeMillis()
         private const val THRESHOLD_TIME: Long = 500 // milliseconds
         private const val ATTACH_LISTENER_FIELD = "iconifyLsClockAttachListener"
+        private val STOCK_SMARTSPACE_VIEWS = listOf(
+            "bc_smartspace_view",
+            "date_smartspace_view",
+            "date_smartspace_view_large",
+            "weather_smartspace_view",
+            "weather_smartspace_view_large",
+            "keyguard_slice_view"
+        )
     }
 }
