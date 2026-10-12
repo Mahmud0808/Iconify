@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.graphics.Typeface
 import android.media.AudioManager
 import android.os.Build
@@ -375,7 +374,7 @@ class VolumePanel(context: Context) : ModPack(context) {
     }
 
     private fun systemUiTypeface(): Typeface {
-        val resources = Resources.getSystem()
+        val resources = mContext.resources
         val family = resources.getIdentifier("config_bodyFontFamily", "string", "android")
             .takeIf { it != 0 }
             ?.let { runCatching { resources.getString(it) }.getOrNull() }
