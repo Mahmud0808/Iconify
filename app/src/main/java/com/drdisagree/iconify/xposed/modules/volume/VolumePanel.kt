@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
+import android.content.res.Resources
+import android.graphics.Typeface
 import android.media.AudioManager
 import android.os.Build
 import android.view.Gravity
@@ -81,7 +83,7 @@ class VolumePanel(context: Context) : ModPack(context) {
                     ) != null
                 ) return@runAfter
 
-                val volumeNumber = createVolumeTextView()
+                val volumeNumber = createVolumeTextView().apply { typeface = rowHeader.typeface }
                 (rowHeader.parent as ViewGroup).addView(volumeNumber, 0)
 
                 param.args[0].setField(
@@ -356,6 +358,7 @@ class VolumePanel(context: Context) : ModPack(context) {
             )
             gravity = Gravity.CENTER
             textSize = 12f
+            typeface = systemUiTypeface()
             setTextColor(
                 mContext.resources.getColor(
                     mContext.resources.getIdentifier(
@@ -369,6 +372,17 @@ class VolumePanel(context: Context) : ModPack(context) {
         }
 
         return volumeNumber
+    }
+
+    private fun systemUiTypeface(): Typeface {
+        val resources = Resources.getSystem()
+        val family = resources.getIdentifier("config_bodyFontFamily", "string", "android")
+            .takeIf { it != 0 }
+            ?.let { runCatching { resources.getString(it) }.getOrNull() }
+            ?.takeIf { it.isNotBlank() }
+            ?: "sans-serif"
+
+        return Typeface.create(Typeface.create(family, Typeface.NORMAL), 500, false)
     }
 
     companion object {
