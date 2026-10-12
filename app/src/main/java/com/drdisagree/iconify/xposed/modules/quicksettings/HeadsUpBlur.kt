@@ -86,8 +86,24 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                         val isHeadsUp = param.args.getOrNull(1) as? Boolean
                             ?: row.callMethod("isHeadsUpState") as Boolean
 
-                        row.onHeadsUpChanged(isHeadsUp)
+                        row.onHeadsUpChanged(isHeadsUp && row.isPinnedRow())
                     }
+            }
+
+        findClass(
+            $$"$$SYSTEMUI_PACKAGE.statusbar.notification.headsup.HeadsUpManagerImpl$HeadsUpEntry",
+            suppressError = true
+        )
+            .hookMethod("setRowPinnedStatus")
+            .suppressError()
+            .runAfter { param ->
+                if (!headsUpBlurEnabled) return@runAfter
+
+                val row = param.thisObject.getFieldSilently("mEntry").headsUpRow()
+                    ?: return@runAfter
+                val isPinned = row.callMethodSilently("isPinned") as? Boolean ?: return@runAfter
+
+                row.onHeadsUpChanged(isPinned)
             }
 
         val expandableNotificationRowClass =
@@ -395,6 +411,9 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
             scheduleBlurReset()
         }
     }
+
+    private fun View.isPinnedRow(): Boolean =
+        callMethodSilently("isPinned") as? Boolean ?: true
 
     private fun Any.shouldApplyBlur(): Boolean {
         val mBackgroundNormal = getFieldSilently("mBackgroundNormal") as? View ?: return false

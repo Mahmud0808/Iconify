@@ -454,8 +454,10 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             .runBefore { param ->
                 if (!coloredNotificationView) return@runBefore
 
-                param.result =
-                    (param.thisObject.getField("mBackgroundColor") as Int).withSemiTransparency()
+                val backgroundColor = param.thisObject.getField("mBackgroundColor") as Int
+                if (backgroundColor == 0) return@runBefore
+
+                param.result = backgroundColor.withSemiTransparency()
             }
 
         notificationContentViewClass
