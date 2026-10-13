@@ -177,7 +177,8 @@ fun AppScaffold(
                         ActionItem(
                             action = action,
                             showActionIcon = showActionIcon,
-                            isLastItem = index == allActions.lastIndex
+                            isLastItem = index == allActions.lastIndex,
+                            sharedKey = "topbar_action_${index}_${action.label}"
                         )
                     }
                 },

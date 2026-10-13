@@ -3,6 +3,7 @@ package com.drdisagree.iconify.core.ui.components.topappbar
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
@@ -58,7 +59,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalDarkMode
+import com.drdisagree.iconify.core.common.LocalNavAnimatedVisibilityScope
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.common.LocalSharedTransitionScope
 import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.extensions.secondaryText
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
@@ -102,7 +105,7 @@ fun CollapsingTopAppBar(
         rememberUpdatedState(targetFontSize)
     }
 
-    var backVisible by rememberSaveable { mutableStateOf(false) }
+    var backVisible by rememberSaveable { mutableStateOf(showBackIcon) }
 
     LaunchedEffect(showBackIcon) {
         if (showBackIcon) {
@@ -141,6 +144,7 @@ fun CollapsingTopAppBar(
                     },
                     modifier = Modifier
                         .padding(start = 16.dp, end = 4.dp)
+                        .sharedTopBarElement("topbar_back")
                         .size(40.dp),
                     shapes = IconButtonDefaults.shapes(),
                     colors = IconButtonDefaults.iconButtonColors(
@@ -175,12 +179,17 @@ fun CollapsingTopAppBar(
 }
 
 @Composable
-fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean, isLastItem: Boolean) {
+fun ActionItem(
+    action: TopAppBarAction,
+    showActionIcon: Boolean,
+    isLastItem: Boolean,
+    sharedKey: String,
+) {
     val isDarkTheme = LocalDarkMode.current
     val animationsEnabled = LocalSettings.current.animationsEnabled
     val expanded = rememberSaveable { mutableStateOf(false) }
 
-    var actionVisible by rememberSaveable { mutableStateOf(false) }
+    var actionVisible by rememberSaveable { mutableStateOf(showActionIcon) }
 
     LaunchedEffect(showActionIcon) {
         if (showActionIcon) {
@@ -208,6 +217,7 @@ fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean, isLastItem: Boo
                 ),
                 shapes = IconButtonDefaults.shapes(),
                 modifier = Modifier
+                    .sharedTopBarElement(sharedKey)
                     .width(if (isLastItem) 36.dp else 40.dp)
                     .height(40.dp)
             ) {
@@ -237,6 +247,21 @@ fun ActionItem(action: TopAppBarAction, showActionIcon: Boolean, isLastItem: Boo
                 initialItems = action.subItems
             )
         }
+    }
+}
+
+@OptIn(ExperimentalSharedTransitionApi::class)
+@Composable
+private fun Modifier.sharedTopBarElement(key: String): Modifier {
+    val sharedTransitionScope = LocalSharedTransitionScope.current ?: return this
+    val animatedVisibilityScope = LocalNavAnimatedVisibilityScope.current ?: return this
+    if (!LocalSettings.current.animationsEnabled) return this
+
+    return with(sharedTransitionScope) {
+        this@sharedTopBarElement.sharedElement(
+            sharedContentState = rememberSharedContentState(key),
+            animatedVisibilityScope = animatedVisibilityScope
+        )
     }
 }
 

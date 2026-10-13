@@ -1,5 +1,7 @@
 package com.drdisagree.iconify.core.common
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -45,3 +47,7 @@ val LocalWindowSizeClass = compositionLocalOf<WindowSizeClass> {
 val LocalColorScheme = compositionLocalOf<ColorScheme> {
     error("No ColorScheme provided ")
 }
+
+val LocalSharedTransitionScope = staticCompositionLocalOf<SharedTransitionScope?> { null }
+
+val LocalNavAnimatedVisibilityScope = compositionLocalOf<AnimatedVisibilityScope?> { null }
