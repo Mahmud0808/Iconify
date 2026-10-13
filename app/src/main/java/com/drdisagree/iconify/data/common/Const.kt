@@ -59,7 +59,7 @@ object Const {
 
     // Shell commands
     const val RESET_LOCKSCREEN_CLOCK_COMMAND =
-        "settings put secure lock_screen_custom_clock_face default"
+        "settings delete secure lock_screen_custom_clock_face"
     const val ENABLE_DYNAMIC_CLOCK_COMMAND =
         "settings put secure lockscreen_use_double_line_clock 1"
     const val DISABLE_DYNAMIC_CLOCK_COMMAND =

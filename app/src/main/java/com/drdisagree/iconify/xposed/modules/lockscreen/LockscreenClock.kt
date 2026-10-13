@@ -91,6 +91,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+import org.json.JSONObject
 
 @SuppressLint("DiscouragedApi")
 open class LockscreenClock(context: Context) : ModPack(context) {
@@ -167,6 +168,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
             Handler(Looper.getMainLooper()).post { updateClockView() }
         }
     }
+
     private val stockClockFaceObserver: ContentObserver =
         object : ContentObserver(Handler(Looper.getMainLooper())) {
             override fun onChange(selfChange: Boolean) {
@@ -175,11 +177,8 @@ open class LockscreenClock(context: Context) : ModPack(context) {
                     return
                 }
 
-                val clockFace = Settings.Secure.getString(
-                    mContext.contentResolver,
-                    LOCK_SCREEN_CUSTOM_CLOCK_FACE
-                )
-                if (clockFace.isNullOrEmpty() || clockFace == DEFAULT_LOCK_SCREEN_CLOCK_FACE) {
+                val clockFace = currentStockClockFace()
+                if (clockFace.isDefaultClockFace()) {
                     lastStockClockFace = null
                     return
                 }
@@ -1256,11 +1255,24 @@ open class LockscreenClock(context: Context) : ModPack(context) {
     }
 
     protected open fun resetStockClock() {
-        if (showLockscreenClock) {
-            enqueueProxyCommand { proxy ->
-                proxy.runCommand(RESET_LOCKSCREEN_CLOCK_COMMAND)
-            }
+        if (!showLockscreenClock || currentStockClockFace().isDefaultClockFace()) return
+
+        enqueueProxyCommand { proxy ->
+            proxy.runCommand(RESET_LOCKSCREEN_CLOCK_COMMAND)
         }
+    }
+
+    private fun currentStockClockFace(): String? = Settings.Secure.getString(
+        mContext.contentResolver,
+        LOCK_SCREEN_CUSTOM_CLOCK_FACE
+    )
+
+    private fun String?.isDefaultClockFace(): Boolean {
+        if (isNullOrEmpty()) return true
+
+        return runCatching {
+            JSONObject(this).optString(CLOCK_ID_KEY) == DEFAULT_CLOCK_ID
+        }.getOrDefault(false)
     }
 
     companion object {
@@ -1268,7 +1280,8 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         private const val THRESHOLD_TIME: Long = 500 // milliseconds
         private const val ATTACH_LISTENER_FIELD = "iconifyLsClockAttachListener"
         private const val LOCK_SCREEN_CUSTOM_CLOCK_FACE = "lock_screen_custom_clock_face"
-        private const val DEFAULT_LOCK_SCREEN_CLOCK_FACE = "default"
+        private const val CLOCK_ID_KEY = "clockId"
+        private const val DEFAULT_CLOCK_ID = "DEFAULT"
         private val STOCK_SMARTSPACE_VIEWS = listOf(
             "bc_smartspace_view",
             "date_smartspace_view",
