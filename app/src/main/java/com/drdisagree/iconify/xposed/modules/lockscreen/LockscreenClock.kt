@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.ContentObserver
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -18,6 +19,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.UserHandle
 import android.os.UserManager
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
@@ -89,6 +91,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+import org.json.JSONObject
 
 @SuppressLint("DiscouragedApi")
 open class LockscreenClock(context: Context) : ModPack(context) {
@@ -129,6 +132,8 @@ open class LockscreenClock(context: Context) : ModPack(context) {
     private var customFontEnabled = false
     private var customImageEnabled = false
     private var currentClockView: View? = null
+    private var lastStockClockFace: String? = null
+    private var stockClockFaceObserverRegistered = false
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
     protected var aodBurnInProtection: AodBurnInProtection? = null
@@ -164,6 +169,27 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         }
     }
 
+    private val stockClockFaceObserver: ContentObserver =
+        object : ContentObserver(Handler(Looper.getMainLooper())) {
+            override fun onChange(selfChange: Boolean) {
+                if (!showLockscreenClock) {
+                    lastStockClockFace = null
+                    return
+                }
+
+                val clockFace = currentStockClockFace()
+                if (clockFace.isDefaultClockFace()) {
+                    lastStockClockFace = null
+                    return
+                }
+
+                val queueReset = clockFace != lastStockClockFace
+                lastStockClockFace = clockFace
+                if (queueReset) resetStockClock()
+                hideStockClock(mLockscreenRootView)
+            }
+        }
+
     init {
         ThemeChangeCallback.getInstance().registerThemeChangedCallback(mThemeChangeCallback)
     }
@@ -188,7 +214,9 @@ open class LockscreenClock(context: Context) : ModPack(context) {
                     getString(XposedKey.LSCLOCK_IMAGE2_FILE_URI).isNotEmpty()
         }
 
-        if (key.firstOrNull() == XposedKey.CUSTOM_LOCKSCREEN_CLOCK.name) resetStockClock()
+        if (key.firstOrNull() == null ||
+            key.firstOrNull() == XposedKey.CUSTOM_LOCKSCREEN_CLOCK.name
+        ) resetStockClock()
 
         when (key.firstOrNull()) {
             in setOf(
@@ -230,6 +258,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         initResources(mContext)
+        registerStockClockFaceObserver()
 
         val aodBurnInSectionClass =
             findClass("$SYSTEMUI_PACKAGE.keyguard.ui.view.layout.sections.AodBurnInSection")
@@ -257,44 +286,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
                 applyLayoutConstraints(mLsItemsContainer!!)
 
                 // Hide stock clock
-                fun hideViewsWithoutId(viewGroup: ViewGroup) {
-                    for (i in 0 until viewGroup.childCount) {
-                        val childView = viewGroup.getChildAt(i)
-                        val viewName = childView.javaClass.simpleName
-
-                        if (viewName.contains("clock", ignoreCase = true)
-                            && viewName.contains("view", ignoreCase = true)
-                        ) {
-                            childView.hideView()
-                        }
-
-                        if (childView is ViewGroup) {
-                            hideViewsWithoutId(childView)
-                        }
-                    }
-                }
-
-                // A16 compose clocks
-                hideViewsWithoutId(rootView)
-
-                // A15+
-                (STOCK_SMARTSPACE_VIEWS + listOf(
-                    "lockscreen_clock_view",
-                    "lockscreen_clock_view_large"
-                )).map { resourceName ->
-                    val resourceId = mContext.resources.getIdentifier(
-                        resourceName,
-                        "id",
-                        mContext.packageName
-                    )
-                    if (resourceId != -1) {
-                        rootView.findViewById<View?>(resourceId)
-                    } else {
-                        null
-                    }
-                }.forEach { view ->
-                    view.hideView()
-                }
+                hideStockClock(rootView)
 
                 registerClockUpdater()
             }, 1000)
@@ -1208,18 +1200,88 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         }
     }
 
-    protected open fun resetStockClock() {
-        if (showLockscreenClock) {
-            enqueueProxyCommand { proxy ->
-                proxy.runCommand(RESET_LOCKSCREEN_CLOCK_COMMAND)
+    private fun registerStockClockFaceObserver() {
+        if (stockClockFaceObserverRegistered) return
+
+        mContext.contentResolver.registerContentObserver(
+            Settings.Secure.getUriFor(LOCK_SCREEN_CUSTOM_CLOCK_FACE),
+            false,
+            stockClockFaceObserver
+        )
+        stockClockFaceObserverRegistered = true
+    }
+
+    private fun hideStockClock(rootView: ViewGroup?) {
+        if (rootView == null) return
+
+        fun hideViewsWithoutId(viewGroup: ViewGroup) {
+            for (i in 0 until viewGroup.childCount) {
+                val childView = viewGroup.getChildAt(i)
+                val viewName = childView.javaClass.simpleName
+
+                if (viewName.contains("clock", ignoreCase = true)
+                    && viewName.contains("view", ignoreCase = true)
+                ) {
+                    childView.hideView()
+                }
+
+                if (childView is ViewGroup) {
+                    hideViewsWithoutId(childView)
+                }
             }
         }
+
+        // A16 compose clocks
+        hideViewsWithoutId(rootView)
+
+        // A15+
+        (STOCK_SMARTSPACE_VIEWS + listOf(
+            "lockscreen_clock_view",
+            "lockscreen_clock_view_large"
+        )).map { resourceName ->
+            val resourceId = mContext.resources.getIdentifier(
+                resourceName,
+                "id",
+                mContext.packageName
+            )
+            if (resourceId != -1) {
+                rootView.findViewById<View?>(resourceId)
+            } else {
+                null
+            }
+        }.forEach { view ->
+            view.hideView()
+        }
+    }
+
+    protected open fun resetStockClock() {
+        if (!showLockscreenClock || currentStockClockFace().isDefaultClockFace()) return
+
+        enqueueProxyCommand { proxy ->
+            proxy.runCommand(RESET_LOCKSCREEN_CLOCK_COMMAND)
+        }
+    }
+
+    private fun currentStockClockFace(): String? = Settings.Secure.getString(
+        mContext.contentResolver,
+        LOCK_SCREEN_CUSTOM_CLOCK_FACE
+    )
+
+    private fun String?.isDefaultClockFace(): Boolean {
+        if (isNullOrEmpty()) return true
+
+        return runCatching {
+            JSONObject(this).optString(CLOCK_ID_KEY) == DEFAULT_CLOCK_ID
+        }.getOrDefault(false)
     }
 
     companion object {
         private var lastUpdated = System.currentTimeMillis()
         private const val THRESHOLD_TIME: Long = 500 // milliseconds
         private const val ATTACH_LISTENER_FIELD = "iconifyLsClockAttachListener"
+        private const val LOCK_SCREEN_CUSTOM_CLOCK_FACE = "lock_screen_custom_clock_face"
+        private const val CLOCK_ID_KEY = "clockId"
+        private const val DEFAULT_CLOCK_ID = "DEFAULT"
         private val STOCK_SMARTSPACE_VIEWS = listOf(
             "bc_smartspace_view",
             "date_smartspace_view",
