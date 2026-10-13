@@ -125,12 +125,7 @@ class OnboardingViewModel @Inject constructor(
             }
 
             if (!skipInstallation && requireMetamodule()) {
-                _events.emit(
-                    InstallationEvent.Error(
-                        R.string.metamodule_not_found_title,
-                        R.string.metamodule_not_found_desc
-                    )
-                )
+                _events.emit(InstallationEvent.MetamoduleMissing)
                 return@launch
             }
 

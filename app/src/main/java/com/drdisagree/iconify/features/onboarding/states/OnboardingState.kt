@@ -11,4 +11,10 @@ sealed interface InstallationState {
 sealed class InstallationEvent {
     data class Error(val titleRes: Int, val descRes: Int) : InstallationEvent()
     data class Toast(val messageRes: Int) : InstallationEvent()
+    object MetamoduleMissing : InstallationEvent()
+}
+
+enum class SetupMode {
+    FULL,
+    XPOSED_ONLY
 }

@@ -15,7 +15,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,6 +42,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,18 +57,22 @@ import androidx.navigation.NavController
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.common.LocalNavController
+import com.drdisagree.iconify.core.common.LocalPreferenceController
 import com.drdisagree.iconify.core.common.LocalSettings
 import com.drdisagree.iconify.core.ui.components.dialogs.ErrorDialog
 import com.drdisagree.iconify.core.ui.components.dialogs.InstallationDialog
-import com.drdisagree.iconify.core.ui.components.extensions.customClickable
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.others.withHaptic
 import com.drdisagree.iconify.core.utils.SystemUtils.restartDevice
+import com.drdisagree.iconify.data.keys.SettingsKey
+import com.drdisagree.iconify.features.onboarding.components.MetamoduleDialog
+import com.drdisagree.iconify.features.onboarding.components.PageFour
 import com.drdisagree.iconify.features.onboarding.components.PageOne
 import com.drdisagree.iconify.features.onboarding.components.PageThree
 import com.drdisagree.iconify.features.onboarding.components.PageTwo
 import com.drdisagree.iconify.features.onboarding.states.InstallationEvent
 import com.drdisagree.iconify.features.onboarding.states.InstallationState
+import com.drdisagree.iconify.features.onboarding.states.SetupMode
 import com.drdisagree.iconify.features.onboarding.viewmodels.OnboardingViewModel
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -82,22 +86,29 @@ fun OnboardingScreen(
     val context = LocalContext.current
     val activity = LocalActivity.current
     val settings = LocalSettings.current
+    val prefController = LocalPreferenceController.current
     val configuration = LocalConfiguration.current
     val locale = configuration.locales[0]
     val numberFormat = remember(locale) { NumberFormat.getInstance(locale) }
 
-    val pageCount = 3
+    val pageCount = 4
     val disclaimerPageIndex = 1
     val lastPageIndex = pageCount - 1
-    val pagerState = rememberPagerState(pageCount = { 3 })
+    val pagerState = rememberPagerState(pageCount = { pageCount })
     val lazyListState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val state by onboardingViewModel.state.collectAsState()
     val logs = onboardingViewModel.logs
     val rebootRequired = onboardingViewModel.rebootRequired
-    val interactionSource = remember { MutableInteractionSource() }
     var installationProgressRunning by remember { mutableStateOf(false) }
     var errorDialog by remember { mutableStateOf<InstallationEvent.Error?>(null) }
+    var showMetamoduleDialog by remember { mutableStateOf(false) }
+    var setupMode by rememberSaveable {
+        mutableStateOf(
+            if (prefController.getBoolean(SettingsKey.XPOSED_ONLY_MODE)) SetupMode.XPOSED_ONLY
+            else SetupMode.FULL
+        )
+    }
     val shouldShowRebootOption by remember(pagerState.currentPage, rebootRequired) {
         derivedStateOf { pagerState.currentPage == lastPageIndex && rebootRequired }
     }
@@ -185,6 +196,11 @@ fun OnboardingScreen(
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
+                InstallationEvent.MetamoduleMissing -> {
+                    installationProgressRunning = false
+                    showMetamoduleDialog = true
+                }
             }
         }
     }
@@ -195,6 +211,15 @@ fun OnboardingScreen(
             description = event.descRes,
             onDismiss = {
                 errorDialog = null
+                onboardingViewModel.clearError()
+            }
+        )
+    }
+
+    if (showMetamoduleDialog) {
+        MetamoduleDialog(
+            onDismiss = {
+                showMetamoduleDialog = false
                 onboardingViewModel.clearError()
             }
         )
@@ -233,6 +258,11 @@ fun OnboardingScreen(
                         0 -> PageOne(pagerState = pagerState)
                         1 -> PageTwo(pagerState = pagerState, lazyListState = lazyListState)
                         2 -> PageThree(pagerState = pagerState)
+                        3 -> PageFour(
+                            pagerState = pagerState,
+                            selectedMode = setupMode,
+                            onModeSelected = { setupMode = it }
+                        )
                         else -> {}
                     }
                 }
@@ -279,33 +309,26 @@ fun OnboardingScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                @Composable
-                fun onNextClick(skip: Boolean): () -> Unit = withHaptic {
-                    if (shouldShowRebootOption) {
-                        restartDevice()
-                    } else {
-                        coroutineScope.launch {
-                            if (pagerState.currentPage < lastPageIndex) {
-                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                            } else {
-                                onboardingViewModel.startInstallation(skip)
+                Button(
+                    onClick = withHaptic {
+                        if (shouldShowRebootOption) {
+                            restartDevice()
+                        } else {
+                            coroutineScope.launch {
+                                if (pagerState.currentPage < lastPageIndex) {
+                                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                                } else {
+                                    onboardingViewModel.startInstallation(
+                                        skipInstallation = setupMode == SetupMode.XPOSED_ONLY
+                                    )
+                                }
                             }
                         }
-                    }
-                }
-
-                Button(
-                    onClick = {},
+                    },
                     shapes = ButtonDefaults.shapes(),
-                    interactionSource = interactionSource,
                     modifier = Modifier
                         .animateContentSize()
-                        .padding(end = 24.dp)
-                        .customClickable(
-                            interactionSource = interactionSource,
-                            onClick = onNextClick(false),
-                            onLongClick = onNextClick(true),
-                        ),
+                        .padding(end = 24.dp),
                     enabled = (pagerState.currentPage != disclaimerPageIndex || isDisclaimerAtBottom) && !installationProgressRunning
                 ) {
                     AnimatedContent(

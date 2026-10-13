@@ -1,6 +1,7 @@
 package com.drdisagree.iconify.features.onboarding.components
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -124,6 +125,12 @@ fun PageThree(
         }
     }
 
+    val scrollState = rememberScrollState()
+    val fadeAlpha by animateFloatAsState(
+        targetValue = if (scrollState.canScrollForward) 1f else 0f,
+        label = "bottomFadeAlpha"
+    )
+
     Box(
         modifier = modifier.fillMaxSize()
     ) {
@@ -190,7 +197,7 @@ fun PageThree(
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp, bottom = 80.dp)
                 .background(Color.Transparent)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(25.dp)
         ) {
             Box(
@@ -252,6 +259,7 @@ fun PageThree(
                 .padding(bottom = 80.dp)
                 .height(40.dp)
                 .align(Alignment.BottomCenter)
+                .graphicsLayer { alpha = fadeAlpha }
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
