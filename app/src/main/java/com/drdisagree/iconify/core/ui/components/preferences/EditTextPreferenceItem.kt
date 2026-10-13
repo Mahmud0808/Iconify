@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.common.LocalNavController
 import com.drdisagree.iconify.core.preferences.PrefParam
+import com.drdisagree.iconify.core.preferences.PrefValue
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.preferences.PreferenceDefinition
 import com.drdisagree.iconify.core.preferences.resolve
@@ -42,7 +43,10 @@ fun EditTextPreferenceItem(
     val navController = LocalNavController.current
 
     var showDialog by rememberSaveable { mutableStateOf(false) }
-    val storedValue by prefController.observe(prefDefinition.key, "")
+    val storedValue by prefController.observe(
+        prefDefinition.key,
+        (prefDefinition.defaultValue as? PrefValue.StringValue)?.v ?: ""
+    )
 
     val param = PrefParam(
         prefDefinition.key,

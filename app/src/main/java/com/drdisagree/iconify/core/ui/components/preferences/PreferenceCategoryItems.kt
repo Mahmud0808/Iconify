@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.drdisagree.iconify.core.preferences.CategoryLazyKeys
 import com.drdisagree.iconify.core.preferences.PreferenceCategoryDefinition
 import com.drdisagree.iconify.core.preferences.PreferenceController
 import com.drdisagree.iconify.core.ui.components.others.animatedPreferenceShape
@@ -23,30 +25,32 @@ import com.drdisagree.iconify.core.ui.utils.resolvePosition
 fun LazyListScope.preferenceCategoryItems(
     category: PreferenceCategoryDefinition,
     prefController: PreferenceController,
-    addTopSpacer: Boolean = true,
+    lazyKeys: CategoryLazyKeys,
+    addTopSpacer: () -> Boolean,
     firstLoadMap: Map<String, Boolean>,
-    visibleIndices: List<Int>,
-    highlightKey: String? = null,
+    visibleIndices: State<List<Int>>,
+    highlightKey: () -> String?,
 ) {
     item(
-        key = "header_${System.identityHashCode(category)}",
+        key = lazyKeys.header,
         contentType = "category_header"
     ) {
-        if (visibleIndices.isEmpty()) return@item
-        if (addTopSpacer) Spacer(Modifier.height(24.dp))
+        if (visibleIndices.value.isEmpty()) return@item
+        if (addTopSpacer()) Spacer(Modifier.height(24.dp))
         CategoryTitleRow(title = category.title, icon = category.icon)
     }
 
     itemsIndexed(
         items = category.preferences,
-        key = { _, pref -> pref.key },
+        key = { index, _ -> lazyKeys.prefs[index] },
         contentType = { _, pref -> pref.type::class.simpleName },
     ) { index, prefDefinition ->
-        val isVisible = index in visibleIndices
-        val position = resolvePosition(visibleIndices, index)
+        val indices = visibleIndices.value
+        val isVisible = index in indices
+        val position = resolvePosition(indices, index)
         val shape = animatedPreferenceShape(position)
         val firstLoad = firstLoadMap[prefDefinition.key] ?: false
-        val isHighlighted = highlightKey == prefDefinition.key
+        val isHighlighted = highlightKey() == prefDefinition.key
 
         AnimatedVisibility(
             visible = isVisible,
@@ -54,7 +58,7 @@ fun LazyListScope.preferenceCategoryItems(
             exit = if (firstLoad) ExitTransition.None else fadeOut() + shrinkVertically(),
         ) {
             val isEnabled = prefDefinition.isEnabled(prefController)
-            val topPad = if (index == visibleIndices.firstOrNull()) 0.dp else CARD_ITEM_SPACING
+            val topPad = if (index == indices.firstOrNull()) 0.dp else CARD_ITEM_SPACING
 
             PreferenceItem(
                 prefDefinition = prefDefinition,

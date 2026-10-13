@@ -3,6 +3,7 @@ package com.drdisagree.iconify.features.xposed.main.screens
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -116,8 +117,8 @@ private fun XposedScreenContent() {
     val context = LocalContext.current
     val activity = LocalActivity.current
 
-    PreferenceScreen(
-        items = xposedPreferences(
+    val items = remember(context, activity) {
+        xposedPreferences(
             onLauncherClick = {
                 try {
                     launchAppThrowError(activity!!, PL_ENHANCED_PACKAGE)
@@ -125,7 +126,11 @@ private fun XposedScreenContent() {
                     openUrl(context, PL_ENHANCED_URL)
                 }
             }
-        ),
+        )
+    }
+
+    PreferenceScreen(
+        items = items,
         title = stringResource(R.string.navbar_xposed),
         showActionIcon = true
     )

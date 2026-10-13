@@ -23,6 +23,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -182,8 +184,13 @@ fun PlaygroundScreen(
 
 @Composable
 private fun PlaygroundScreenContent(onSendNotification: () -> Unit = {}) {
+    val currentOnSendNotification by rememberUpdatedState(onSendNotification)
+    val items = remember {
+        playgroundPreferences(onSendNotification = { currentOnSendNotification() })
+    }
+
     PreferenceScreen(
-        items = playgroundPreferences(onSendNotification = onSendNotification),
+        items = items,
         title = "Playground",
         showBackIcon = true,
         showActionIcon = true

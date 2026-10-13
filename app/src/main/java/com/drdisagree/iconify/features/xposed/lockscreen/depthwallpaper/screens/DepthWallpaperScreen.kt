@@ -253,8 +253,12 @@ private fun DepthWallpaperScreenContent(
     mlKitAvailable: Boolean? = null,
     aiPluginInstalled: Boolean = false
 ) {
+    val items = remember(mlKitAvailable, aiPluginInstalled) {
+        depthWallpaperPreferences(mlKitAvailable, aiPluginInstalled)
+    }
+
     PreferenceScreen(
-        items = depthWallpaperPreferences(mlKitAvailable, aiPluginInstalled),
+        items = items,
         title = stringResource(R.string.activity_title_depth_wallpaper),
         showBackIcon = true
     )

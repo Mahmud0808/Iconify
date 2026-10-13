@@ -12,10 +12,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
 
@@ -32,18 +32,23 @@ class PreferenceController(
     private fun slot(key: String): MutableState<PrefValue?> =
         slots.computeIfAbsent(key) { mutableStateOf(null) }
 
-    private val _changesFlow = MutableStateFlow<PreferenceChangeEvent?>(null)
-    val changesFlow: StateFlow<PreferenceChangeEvent?> = _changesFlow.asStateFlow()
+    private val _changesFlow = MutableSharedFlow<PreferenceChangeEvent?>(extraBufferCapacity = Channel.UNLIMITED)
+    val changesFlow: SharedFlow<PreferenceChangeEvent?> = _changesFlow.asSharedFlow()
 
     private val listeners = mutableListOf<PreferenceListenerHandle>()
 
-    private val storedSnapshot: Map<String, PrefValue> by lazy { storage.loadAll() }
+    private var storedSnapshot: MutableMap<String, PrefValue>? = null
+
+    private fun snapshot(): MutableMap<String, PrefValue> =
+        storedSnapshot ?: ConcurrentHashMap(storage.loadAll()).also { storedSnapshot = it }
 
     init {
         scope.launch {
             storage.externalChanges
-                .filter { change -> slots[change.key]?.value != null }
                 .collect { change ->
+                    storedSnapshot?.put(change.key, change.value)
+                    if (slots[change.key]?.value == null) return@collect
+
                     val current = slot(change.key).value
                     if (current != change.value) {
                         setInternal(change.key, change.value, persist = false)
@@ -55,7 +60,7 @@ class PreferenceController(
     fun init(key: String, default: PrefValue) {
         val slot = slot(key)
         if (slot.value != null) return
-        slot.value = storedSnapshot[key]
+        slot.value = snapshot()[key]
             ?: storage.read(key, default)?.toPrefValue()
                     ?: default
     }
@@ -74,10 +79,11 @@ class PreferenceController(
         if (old == value) return
 
         slot(key).value = value
+        storedSnapshot?.let { if (value == PrefValue.None) it.remove(key) else it[key] = value }
         if (persist) storage.write(key, value)
 
         val event = PreferenceChangeEvent(key, old, value)
-        _changesFlow.value = event
+        _changesFlow.tryEmit(event)
         dispatchToListeners(event)
     }
 
@@ -201,8 +207,13 @@ class PreferenceController(
 
     fun reset(defaults: Map<String, PrefValue> = emptyMap()) {
         storage.clearAll()
+        storedSnapshot = ConcurrentHashMap()
+        val cleared = slots.mapNotNull { (k, s) -> s.value?.let { k to it } }
         slots.values.forEach { it.value = null }
         defaults.forEach { (k, v) -> slot(k).value = v }
+        cleared.forEach { (k, old) ->
+            _changesFlow.tryEmit(PreferenceChangeEvent(k, old, slots[k]?.value ?: PrefValue.None))
+        }
     }
 
     @Composable

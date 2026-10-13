@@ -73,9 +73,4 @@ class SettingsViewModel @Inject constructor(
         .filter { it.key == key.name }
         .map { prefController.getString(key.name, key.default as String) }
         .onStart { emit(prefController.getString(key.name, key.default as String)) }
-
-    override fun onCleared() {
-        prefController.dispose()
-        super.onCleared()
-    }
 }

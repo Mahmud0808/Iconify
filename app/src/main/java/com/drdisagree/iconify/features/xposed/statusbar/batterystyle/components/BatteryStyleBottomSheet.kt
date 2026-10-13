@@ -62,7 +62,7 @@ fun BatteryStyleBottomSheet(
         ) {
             itemsIndexed(
                 items = icons,
-                key = { _, pack -> pack.label }
+                key = { index, pack -> "${index}_${pack.label}" }
             ) { index, pack ->
                 val isSelected = index == selectedItemIndex
 

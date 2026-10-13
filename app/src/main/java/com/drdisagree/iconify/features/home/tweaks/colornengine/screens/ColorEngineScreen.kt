@@ -2,6 +2,7 @@ package com.drdisagree.iconify.features.home.tweaks.colornengine.screens
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -149,8 +150,8 @@ private fun ColorEngineScreenContent() {
     val context = LocalContext.current
     val activity = LocalActivity.current
 
-    PreferenceScreen(
-        items = colorEnginePreferences(
+    val items = remember(context, activity) {
+        colorEnginePreferences(
             onAdvancedClick = {
                 try {
                     launchAppThrowError(activity!!, COLORBLENDR_PACKAGE)
@@ -158,7 +159,11 @@ private fun ColorEngineScreenContent() {
                     openUrl(context, COLORBLENDR_URL)
                 }
             }
-        ),
+        )
+    }
+
+    PreferenceScreen(
+        items = items,
         title = stringResource(R.string.activity_title_color_engine),
         showBackIcon = true
     )

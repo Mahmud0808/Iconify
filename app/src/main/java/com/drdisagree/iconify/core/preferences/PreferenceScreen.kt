@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,27 +58,38 @@ fun PreferenceScreen(
         items.filterIsInstance<PreferenceScreenItem.Category>().map { it.definition }
     }
 
-    val firstLoadMapPerCategory = remember(items) {
-        categories.associateWith { cat ->
-            mutableStateMapOf<String, Boolean>().also { map ->
-                cat.preferences.forEach { map[it.key] = true }
-            }
-        }
-    }
-
-    val visibleIndicesPerCategory = categories.associateWith { cat ->
-        rememberCategoryVisibleIndices(cat, prefController)
-    }
-
-    LaunchedEffect(items) {
+    remember(items) {
         categories.forEach { cat ->
             cat.preferences.forEach { pref ->
                 prefController.init(pref.key, pref.defaultValue)
             }
         }
+    }
+
+    val lazyKeys = remember(items) { buildLazyKeys(items) }
+
+    val firstLoadMaps = remember(items) {
+        items.map { screenItem ->
+            (screenItem as? PreferenceScreenItem.Category)?.let { category ->
+                mutableStateMapOf<String, Boolean>().also { map ->
+                    category.definition.preferences.forEach { map[it.key] = true }
+                }
+            }
+        }
+    }
+
+    val visibleIndicesStates = items.mapIndexed { itemIndex, screenItem ->
+        key(itemIndex) {
+            (screenItem as? PreferenceScreenItem.Category)?.let {
+                rememberCategoryVisibleIndices(it.definition, prefController)
+            }
+        }
+    }
+
+    LaunchedEffect(items) {
         delay(100)
-        firstLoadMapPerCategory.forEach { (_, map) ->
-            map.keys.forEach { map[it] = false }
+        firstLoadMaps.forEach { map ->
+            map?.keys?.forEach { map[it] = false }
         }
     }
 
@@ -98,15 +110,19 @@ fun PreferenceScreen(
             // Compute the flat index by iterating through categories
             var flatIndex = 0
             var found = false
-            for (screenItem in items) {
+            var targetLazyKey: Any? = null
+            for ((itemIndex, screenItem) in items.withIndex()) {
                 if (found) break
                 when (screenItem) {
                     is PreferenceScreenItem.Category -> {
                         flatIndex++ // header
                         val cat = screenItem.definition
-                        for (pref in cat.preferences) {
+                        for ((prefIndex, pref) in cat.preferences.withIndex()) {
                             if (pref.key == key) {
                                 found = true
+                                targetLazyKey = (lazyKeys[itemIndex] as? CategoryLazyKeys)
+                                    ?.prefs
+                                    ?.getOrNull(prefIndex)
                                 break
                             }
                             flatIndex++
@@ -128,7 +144,7 @@ fun PreferenceScreen(
                 // Try to find it among visible items first
                 val layoutInfo = listState.layoutInfo
                 val allKeys = layoutInfo.visibleItemsInfo.map { it.key }
-                val visibleIndex = allKeys.indexOfFirst { it == key }
+                val visibleIndex = allKeys.indexOfFirst { it == targetLazyKey }
 
                 if (visibleIndex >= 0) {
                     val itemInfo = layoutInfo.visibleItemsInfo[visibleIndex]
@@ -167,32 +183,30 @@ fun PreferenceScreen(
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
             contentPadding = padding,
         ) {
-            var firstVisibleCategoryAdded = false
+            val previousVisibility = mutableListOf<State<List<Int>>>()
 
-            items.forEach { screenItem ->
+            items.forEachIndexed { itemIndex, screenItem ->
                 when (screenItem) {
                     is PreferenceScreenItem.Category -> {
                         val cat = screenItem.definition
-                        val isFirstVisible = !firstVisibleCategoryAdded
-                        val firstLoadMap = firstLoadMapPerCategory[cat] ?: emptyMap()
-                        val visibleIndices = visibleIndicesPerCategory[cat]?.value ?: emptyList()
+                        val earlierCategories = previousVisibility.toList()
+                        val visibleIndices = visibleIndicesStates[itemIndex] ?: EmptyVisibleIndices
 
                         preferenceCategoryItems(
                             category = cat,
                             prefController = prefController,
-                            addTopSpacer = !isFirstVisible,
-                            firstLoadMap = firstLoadMap,
+                            lazyKeys = lazyKeys[itemIndex] as CategoryLazyKeys,
+                            addTopSpacer = { earlierCategories.any { it.value.isNotEmpty() } },
+                            firstLoadMap = firstLoadMaps[itemIndex] ?: emptyMap(),
                             visibleIndices = visibleIndices,
-                            highlightKey = activeHighlightKey,
+                            highlightKey = { activeHighlightKey },
                         )
 
-                        if (visibleIndices.isNotEmpty()) {
-                            firstVisibleCategoryAdded = true
-                        }
+                        previousVisibility += visibleIndices
                     }
 
                     is PreferenceScreenItem.Custom -> {
-                        item(key = screenItem.key, contentType = "custom") {
+                        item(key = lazyKeys[itemIndex], contentType = "custom") {
                             screenItem.content()
                         }
                     }
@@ -210,6 +224,32 @@ private fun rememberCategoryVisibleIndices(
     derivedStateOf {
         category.preferences.indices.filter { i ->
             category.preferences[i].isVisible(prefController)
+        }
+    }
+}
+
+class CategoryLazyKeys(val header: String, val prefs: List<String>)
+
+private val EmptyVisibleIndices: State<List<Int>> = mutableStateOf(emptyList())
+
+private fun buildLazyKeys(items: List<PreferenceScreenItem>): List<Any> {
+    val used = HashSet<String>()
+
+    fun unique(base: String): String {
+        var candidate = base
+        var suffix = 1
+        while (!used.add(candidate)) candidate = "$base#${suffix++}"
+        return candidate
+    }
+
+    return items.mapIndexed { index, item ->
+        when (item) {
+            is PreferenceScreenItem.Category -> CategoryLazyKeys(
+                header = unique("header:$index"),
+                prefs = item.definition.preferences.map { unique("pref:${it.key}") }
+            )
+
+            is PreferenceScreenItem.Custom -> unique("custom:${item.key}")
         }
     }
 }

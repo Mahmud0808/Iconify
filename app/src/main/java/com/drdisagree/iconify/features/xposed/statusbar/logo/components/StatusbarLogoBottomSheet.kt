@@ -55,7 +55,7 @@ fun StatusbarLogoBottomSheet(
         ) {
             itemsIndexed(
                 items = logoItems,
-                key = { _, pack -> pack.label }
+                key = { index, pack -> "${index}_${pack.label}" }
             ) { index, pack ->
                 val isSelected = index == selectedItemIndex
 

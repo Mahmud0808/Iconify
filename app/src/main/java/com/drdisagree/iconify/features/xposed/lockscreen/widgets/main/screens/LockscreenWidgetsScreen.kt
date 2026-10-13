@@ -2,6 +2,7 @@ package com.drdisagree.iconify.features.xposed.lockscreen.widgets.main.screens
 
 import android.text.TextUtils
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -367,8 +368,12 @@ fun LockscreenWidgetsScreen(
 
 @Composable
 private fun LockscreenWidgetsScreenContent(isWeatherSettingsVisible: Boolean = false) {
+    val items = remember(isWeatherSettingsVisible) {
+        lsWidgetsPreferences(isWeatherSettingsVisible)
+    }
+
     PreferenceScreen(
-        items = lsWidgetsPreferences(isWeatherSettingsVisible),
+        items = items,
         title = stringResource(R.string.activity_title_lockscreen_widget),
         showBackIcon = true
     )

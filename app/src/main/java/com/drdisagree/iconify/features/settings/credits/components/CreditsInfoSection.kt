@@ -25,7 +25,7 @@ fun LazyListScope.creditsInfoSection(
 
     itemsIndexed(
         items = items,
-        key = { _, item -> item.url }
+        key = { index, item -> "credit_${title}_${index}_${item.url}" }
     ) { index, item ->
         val uriHandler = LocalUriHandler.current
         val position = resolvePosition(items.indices.toList(), index)

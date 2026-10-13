@@ -12,6 +12,8 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -240,8 +242,13 @@ fun SettingsScreen(
 
 @Composable
 private fun SettingsScreenContent(onDisableEverything: () -> Unit = {}) {
+    val currentOnDisableEverything by rememberUpdatedState(onDisableEverything)
+    val items = remember {
+        settingsPreferences(onDisableEverything = { currentOnDisableEverything() })
+    }
+
     PreferenceScreen(
-        items = settingsPreferences(onDisableEverything = onDisableEverything),
+        items = items,
         title = stringResource(R.string.activity_title_settings),
         showActionIcon = true
     )
