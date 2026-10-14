@@ -105,7 +105,8 @@ class StatusbarViewModel @Inject constructor(
     )
 
     private val wifiIconSizeResourceEntries = listOf(
-        ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_wifi_signal_height_updated", "15sp")
+        ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_wifi_signal_height_updated", "15sp"),
+        ResourceEntry(SYSTEMUI_PACKAGE, "dimen", "status_bar_composable_wifi_icon_height", "15sp")
     )
 
     private val networkTypeSizeResourceEntries = listOf(
