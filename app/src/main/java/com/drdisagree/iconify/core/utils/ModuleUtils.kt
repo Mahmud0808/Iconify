@@ -121,7 +121,7 @@ object ModuleUtils {
     }
 
     fun moduleExists(): Boolean {
-        return RootUtils.folderExists(Resources.OVERLAY_DIR)
+        return RootUtils.fileExists("${Resources.MODULE_DIR}/module.prop")
     }
 
     @Throws(Exception::class)

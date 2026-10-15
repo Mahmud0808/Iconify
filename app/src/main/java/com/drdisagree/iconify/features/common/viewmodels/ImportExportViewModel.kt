@@ -330,6 +330,8 @@ class ImportExportViewModel @Inject constructor(
                 it.readObject() as Map<String, Any>
             }
 
+            val isXposedOnlyMode = RPrefs.getBoolean(SettingsKey.XPOSED_ONLY_MODE, false)
+
             val editor = RPrefs.getPrefs.edit()
             editor.clear()
             map.forEach { (key, value) ->
@@ -347,6 +349,10 @@ class ImportExportViewModel @Inject constructor(
                     else -> throw IllegalArgumentException("Unknown type: ${value.javaClass.simpleName}")
                 }
             }
+            editor.putBoolean(SettingsKey.ON_HOME_PAGE.name, true)
+            editor.putBoolean(SettingsKey.FIRST_INSTALL.name, false)
+            editor.putBoolean(SettingsKey.XPOSED_ONLY_MODE.name, isXposedOnlyMode)
+            editor.putBoolean(XposedKey.QUICK_SETTINGS_BLUR.name, false)
             val committed = editor.commit()
 
             // Build the full shell command list
@@ -359,10 +365,15 @@ class ImportExportViewModel @Inject constructor(
 
             SystemUtils.disableBlur(false)
 
-            editor.apply {
-                putBoolean(SettingsKey.ON_HOME_PAGE.name, true)
-                putBoolean(SettingsKey.FIRST_INSTALL.name, false)
-                putBoolean(XposedKey.QUICK_SETTINGS_BLUR.name, false)
+            if (isXposedOnlyMode) {
+                commands += listOf(
+                    "rm -rf $BACKUP_DIR",
+                    "sleep 3",
+                    "killall $SYSTEMUI_PACKAGE",
+                )
+                Shell.cmd(commands.joinToString("; ")).submit()
+
+                return@withContext committed
             }
 
             val onDemandOverlaysPrefNames = onDemandOverlays.map { it.prefKey.name }
