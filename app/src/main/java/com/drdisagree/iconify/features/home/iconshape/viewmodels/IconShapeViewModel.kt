@@ -9,6 +9,7 @@ import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.config.RPrefs
 import com.drdisagree.iconify.data.events.ToastUiEvent
 import com.drdisagree.iconify.data.keys.CustomizationKey
+import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -54,6 +55,8 @@ class IconShapeViewModel @Inject constructor() : ViewModel() {
                 delay(500)
                 OverlayUtils.disableOverlay("IconifyComponent$category.overlay")
 
+                resetLauncherIconShape()
+
                 delay(1000)
                 RPrefs.putString(prefKey, prefDefaultValue)
                 _iconShapeStyle.value = prefDefaultValue
@@ -80,6 +83,7 @@ class IconShapeViewModel @Inject constructor() : ViewModel() {
             _isLoading.value = false
 
             if (!hasError) {
+                resetLauncherIconShape()
                 RPrefs.putString(prefKey, packId)
                 _iconShapeStyle.value = packId
                 _uiEvent.emit(ToastUiEvent.Applied)
@@ -87,5 +91,13 @@ class IconShapeViewModel @Inject constructor() : ViewModel() {
                 _uiEvent.emit(ToastUiEvent.Error)
             }
         }
+    }
+
+    private fun resetLauncherIconShape() {
+        Shell.cmd(
+            "for authority in $(dumpsys package providers | grep -oE '[A-Za-z0-9_.]+[.]grid_control' | sort -u); do " +
+                    "content update --uri content://${'$'}authority/shape --bind shape_key:s: >/dev/null 2>&1; " +
+                    "done"
+        ).exec()
     }
 }
