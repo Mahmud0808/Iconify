@@ -37,6 +37,9 @@ object XposedConst {
     val DEPTH_WALL_BG_FILE: File
         get() = File(XPOSED_RESOURCE_DIR, "depth_wallpaper_bg.iconify")
 
+    val DEPTH_WALL_KEY_FILE: File
+        get() = File(XPOSED_RESOURCE_DIR, "depth_wallpaper_key.iconify")
+
     val LOCKSCREEN_WEATHER_FONT_FILE: File
         get() = File(XPOSED_RESOURCE_DIR, "lockscreen_weather_font.iconify")
 

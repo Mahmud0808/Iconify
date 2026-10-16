@@ -20,6 +20,8 @@ class DepthWallpaper(context: Context) : BaseDepthWallpaper(context) {
             }
 
             override fun onResult(success: Boolean, message: String) {
+                if (success) onSubjectExtracted()
+
                 Handler(Looper.getMainLooper()).post {
                     Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                 }

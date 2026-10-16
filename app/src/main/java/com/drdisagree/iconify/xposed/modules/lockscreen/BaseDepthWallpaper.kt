@@ -7,13 +7,20 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Point
+import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Handler
 import android.os.Looper
+import android.view.SurfaceHolder
 import android.view.View
 import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
@@ -21,6 +28,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.scale
 import com.drdisagree.iconify.R
@@ -28,6 +36,7 @@ import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_FAILURE
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_SUBJECT
 import com.drdisagree.iconify.data.common.Const.ACTION_EXTRACT_SUCCESS
 import com.drdisagree.iconify.data.common.Const.AI_PLUGIN_PACKAGE
+import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_BACKGROUND_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG
@@ -37,10 +46,12 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WEATHER
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WIDGET_TAG
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_BG_FILE
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
+import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_KEY_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
@@ -61,10 +72,12 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.shoul
 import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import java.io.ByteArrayOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.ref.WeakReference
+import java.nio.ByteBuffer
+import java.util.zip.CRC32
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -98,6 +111,21 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
     )
 
     private var shouldShowForeground = true
+    private var wallpaperZoom = 0f
+    private var wallpaperDimAmount = 0f
+    private var revealScrimRef: WeakReference<View>? = null
+    private var behindScrimViewModelRef: WeakReference<Any>? = null
+    private var bakedWallpaperPlacement: RectF? = null
+    private var currentWallpaperPlacement: RectF? = null
+    private var wallpaperCrop: Rect? = null
+    private var wallpaperBitmapSize: Point? = null
+    private var wallpaperZoomsOut = true
+    private val wallpaperMaxScale: Float by lazy {
+        val resources = Resources.getSystem()
+        val id = resources.getIdentifier("config_wallpaperMaxScale", "dimen", FRAMEWORK_PACKAGE)
+        if (id == 0) 1f
+        else runCatching { resources.getFloat(id) }.getOrDefault(1f).coerceAtLeast(1f)
+    }
     private var composeForegroundHost: FrameLayout? = null
     private var composeBackgroundHost: FrameLayout? = null
     private var isDozing = false
@@ -107,6 +135,11 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
     }
 
     abstract fun handleSubjectExtraction(scaledWallpaper: Bitmap? = null)
+
+    protected fun onSubjectExtracted() {
+        mWallpaperForegroundCacheValid = false
+        Handler(Looper.getMainLooper()).post { setDepthWallpaper() }
+    }
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -125,6 +158,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
             XposedKey.DEPTH_WALLPAPER_CUSTOM_IMAGE.name -> {
                 if (!showCustomImages) invalidateCache()
                 setCustomDepthWallpaper()
+                applyWallpaperScale()
             }
 
             XposedKey.DEPTH_WALLPAPER_BACKGROUND_IMAGE_FILE_URI.name,
@@ -146,7 +180,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                 if (intent.action != null) {
                     when (intent.action) {
                         ACTION_EXTRACT_SUCCESS -> {
-                            mWallpaperForegroundCacheValid = false
+                            onSubjectExtracted()
                             Handler(Looper.getMainLooper()).post {
                                 Toast.makeText(
                                     mContext,
@@ -217,45 +251,56 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                 }
             }
 
+        findClass($$"android.service.wallpaper.WallpaperService$Engine")
+            .hookMethod("setZoom")
+            .suppressError()
+            .runAfter { param ->
+                val engine = param.thisObject
+                if (canvasEngineClass?.isInstance(engine) != true) return@runAfter
+                if (!isLockScreenWallpaper(engine)) return@runAfter
+
+                updateWallpaperZoom(engine)
+            }
+
+        findClass($$"android.service.wallpaper.WallpaperService$Engine")
+            .hookMethod("doOffsetsChanged")
+            .suppressError()
+            .runAfter { param ->
+                val engine = param.thisObject
+                if (canvasEngineClass?.isInstance(engine) != true) return@runAfter
+                if (!isLockScreenWallpaper(engine)) return@runAfter
+
+                currentWallpaperPlacement = wallpaperPlacement(engine, displayBoundsOf(engine))
+                applyWallpaperScale()
+            }
+
         canvasEngineClass
             .hookMethod("drawFrameOnCanvas")
             .runAfter { param ->
                 wallpaperProcessorThread?.interrupt()
 
+                if (isLockScreenWallpaper(param.thisObject)) {
+                    updateWallpaperZoom(param.thisObject)
+                }
+
                 if (showDepthWallpaper && !showCustomImages && isLockScreenWallpaper(param.thisObject)) {
                     wallpaperProcessorThread = Thread {
                         val wallpaperBitmap = Bitmap.createBitmap((param.args[0] as Bitmap))
-                        val cacheIsValid: Boolean = assertCache(wallpaperBitmap)
+                        val displayBounds = displayBoundsOf(param.thisObject)
+                        wallpaperBitmapSize = Point(wallpaperBitmap.width, wallpaperBitmap.height)
+                        wallpaperCrop = queryWallpaperCrop(param.thisObject, displayBounds)
+                        val placement = wallpaperPlacement(param.thisObject, displayBounds)
+                        val cacheIsValid: Boolean = assertCache(wallpaperBitmap, placement)
 
-                        val displayBounds = (param.thisObject
-                            .callMethod("getDisplayContext") as Context)
-                            .getSystemService(WindowManager::class.java)
-                            .currentWindowMetrics
-                            .bounds
+                        bakedWallpaperPlacement = placement
+                        currentWallpaperPlacement = placement
+                        applyWallpaperScale()
 
-                        val ratioW = 1f * displayBounds.width() / wallpaperBitmap.width
-                        val ratioH = 1f * displayBounds.height() / wallpaperBitmap.height
-
-                        val desiredHeight =
-                            (max(ratioH, ratioW) * wallpaperBitmap.height).roundToInt()
-                        val desiredWidth =
-                            (max(ratioH, ratioW) * wallpaperBitmap.width).roundToInt()
-
-                        val xPixelShift = (desiredWidth - displayBounds.width()) / 2
-                        val yPixelShift = (desiredHeight - displayBounds.height()) / 2
-
-                        val scaledWallpaperBitmap =
-                            wallpaperBitmap.scale(desiredWidth, desiredHeight).let {
-                                Bitmap.createBitmap(
-                                    it,
-                                    xPixelShift,
-                                    yPixelShift,
-                                    displayBounds.width(),
-                                    displayBounds.height()
-                                )
-                            }.let {
-                                Bitmap.createBitmap(it)
-                            }
+                        val scaledWallpaperBitmap = if (placement != null) {
+                            renderAtPlacement(wallpaperBitmap, placement, displayBounds)
+                        } else {
+                            centerCrop(wallpaperBitmap, displayBounds)
+                        }
 
                         try {
                             DEPTH_WALL_BG_FILE.parentFile?.mkdirs()
@@ -322,6 +367,35 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
             }
         })
 
+        findClass("$SYSTEMUI_PACKAGE.keyguard.ui.viewmodel.LockscreenBehindScrimViewModel")
+            .hookConstructor()
+            .suppressError()
+            .runAfter { param -> behindScrimViewModelRef = WeakReference(param.thisObject) }
+
+        findClass("$SYSTEMUI_PACKAGE.keyguard.ui.composable.LockscreenBehindScrimKt")
+            .hookMethod("LockscreenBehindScrim")
+            .suppressError()
+            .runBefore { param ->
+                val viewModel = param.args[0] ?: return@runBefore
+                if (behindScrimViewModelRef?.get() !== viewModel) {
+                    behindScrimViewModelRef = WeakReference(viewModel)
+                }
+            }
+
+        val legacyRevealScrimId =
+            mContext.resources.getIdentifier("light_reveal_scrim", "id", SYSTEMUI_PACKAGE)
+
+        findClass("$SYSTEMUI_PACKAGE.statusbar.LightRevealScrim")
+            .hookMethod("setRevealAmount")
+            .suppressError()
+            .runAfter { param ->
+                val scrim = param.thisObject as View
+                if (legacyRevealScrimId != 0 && scrim.id == legacyRevealScrimId) return@runAfter
+
+                revealScrimRef = WeakReference(scrim)
+                composeForegroundHost?.invalidate()
+            }
+
         LockscreenSceneInjector.addBehindContent(
             order = -1,
             key = BACKGROUND_GROUP_KEY,
@@ -336,7 +410,12 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
     }
 
     private fun createComposeHost(context: Context, isForeground: Boolean): View {
-        val host = FrameLayout(context).apply {
+        val host = object : FrameLayout(context) {
+            override fun dispatchDraw(canvas: Canvas) {
+                super.dispatchDraw(canvas)
+                if (isForeground) drawRevealScrim(this, canvas)
+            }
+        }.apply {
             layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         }
 
@@ -369,6 +448,8 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
             var lastSize = 0 to 0
 
             ComposeViewHost.runBeforeEachDraw(host) {
+                if (mLayersCreated && shouldShowForeground) updateComposeForegroundDim()
+
                 val location = IntArray(2).also { host.getLocationInWindow(it) }
                 val current = location[0] to location[1]
                 val size = composeWindowSize()
@@ -395,6 +476,65 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         return bounds.width() to bounds.height()
     }
 
+    private fun updateComposeForegroundDim() {
+        val overlay = mForegroundDimmingOverlay ?: return
+        val alpha = if (isDozing) 192 else (foregroundDimAlpha(systemWallpaperDim()) * 255).roundToInt()
+        if (overlay.alpha != alpha) overlay.alpha = alpha
+    }
+
+    private fun foregroundDimAlpha(dim: Float): Float {
+        if (dim <= 0f) return 0f
+
+        val layerAlpha = foregroundAlpha.coerceIn(0f, 1f)
+        val dimmed = 1f - dim.coerceIn(0f, 1f)
+        return (1f - dimmed / (layerAlpha + (1f - layerAlpha) * dimmed)).coerceIn(0f, 1f)
+    }
+
+    private fun systemWallpaperDim(): Float {
+        val viewModel = behindScrimViewModelRef?.get()
+        val scrimVisible = (viewModel
+            ?.getFieldSilently("isVisible\$delegate")
+            ?.callMethodSilently("getValue") as? Boolean) ?: true
+        val scrimAlpha = if (scrimVisible) {
+            val dimAmount = (viewModel
+                ?.getFieldSilently("aodDimInteractor")
+                ?.getFieldSilently("repository")
+                ?.getFieldSilently("wallpaperDimAmount\$delegate")
+                ?.callMethodSilently("getFloatValue") as? Float) ?: 0f
+            val dimAlpha = (dimAmount.coerceIn(0f, 1f) * 255).toInt()
+            (255 - (255 - LOCKSCREEN_BEHIND_SCRIM_ALPHA) * (255 - dimAlpha) / 255) / 255f
+        } else {
+            0f
+        }
+
+        return 1f - (1f - scrimAlpha) * (1f - wallpaperDimAmount.coerceIn(0f, 1f))
+    }
+
+    private fun drawRevealScrim(host: View, canvas: Canvas) {
+        if (isDozing) return
+
+        val scrim = revealScrimRef?.get()?.takeIf { it.isAttachedToWindow && it.isShown } ?: return
+        val revealAmount = (scrim.getFieldSilently("revealAmount") as? Float) ?: return
+        if (revealAmount >= 1f || scrim.alpha <= 0f) return
+
+        val hostLocation = IntArray(2).also { host.getLocationInWindow(it) }
+        val scrimLocation = IntArray(2).also { scrim.getLocationInWindow(it) }
+        val saveCount = canvas.saveLayerAlpha(
+            0f,
+            0f,
+            host.width.toFloat(),
+            host.height.toFloat(),
+            (scrim.alpha * 255).roundToInt()
+        )
+        canvas.translate(
+            (scrimLocation[0] - hostLocation[0]).toFloat(),
+            (scrimLocation[1] - hostLocation[1]).toFloat()
+        )
+        canvas.clipRect(0, 0, scrim.width, scrim.height)
+        scrim.draw(canvas)
+        canvas.restoreToCount(saveCount)
+    }
+
     private fun keyguardScrimAlpha(): Float = try {
         mScrimController?.getField("mScrimBehindAlphaKeyguard") as? Float
     } catch (_: Throwable) {
@@ -419,7 +559,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
 
         mWallpaperDimmingOverlay.alpha = 0f
         mWallpaperBackground.visibility =
-            if (showDepthWallpaper && hasForeground && composeBackgroundHost != null && !isDozing) {
+            if (showDepthWallpaper && showCustomImages && hasForeground && composeBackgroundHost != null && !isDozing) {
                 View.VISIBLE
             } else {
                 View.GONE
@@ -428,11 +568,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         if (hasForeground) {
             mWallpaperForeground.alpha = 1f
             mWallpaperForeground.background.alpha = (foregroundAlpha * 255).toInt()
-            mForegroundDimmingOverlay?.alpha = when {
-                isDozing -> 192
-                keepLockScreenShade -> (keyguardScrimAlpha() * 240).roundToInt()
-                else -> 0
-            }
+            updateComposeForegroundDim()
         }
 
         shouldShowForeground = showDepthWallpaper && hasForeground &&
@@ -702,33 +838,51 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         }
     }
 
-    private fun assertCache(wallpaperBitmap: Bitmap): Boolean {
-        var cacheIsValid = false
-
-        try {
-            val compressedBitmap = ByteArrayOutputStream()
-            wallpaperBitmap.compress(Bitmap.CompressFormat.JPEG, 100, compressedBitmap)
-            if (DEPTH_WALL_BG_FILE.exists()) {
-                val cacheStream = FileInputStream(DEPTH_WALL_BG_FILE)
-
-                if (cacheStream.readAllBytes().contentEquals(compressedBitmap.toByteArray())) {
-                    cacheIsValid = true
-                } else {
-                    val newCacheStream = FileOutputStream(DEPTH_WALL_BG_FILE)
-                    compressedBitmap.writeTo(newCacheStream)
-                    newCacheStream.close()
-                }
-                cacheStream.close()
-            }
-            compressedBitmap.close()
+    private fun assertCache(wallpaperBitmap: Bitmap, placement: RectF?): Boolean {
+        val key = try {
+            wallpaperKey(wallpaperBitmap, placement)
         } catch (_: Throwable) {
+            null
+        }
+
+        val cacheIsValid = key != null && try {
+            DEPTH_WALL_FG_FILE.exists() &&
+                    DEPTH_WALL_KEY_FILE.exists() &&
+                    DEPTH_WALL_KEY_FILE.readText() == key
+        } catch (_: Throwable) {
+            false
         }
 
         if (!cacheIsValid) {
             invalidateCache()
+
+            if (key != null) {
+                try {
+                    DEPTH_WALL_KEY_FILE.parentFile?.mkdirs()
+                    DEPTH_WALL_KEY_FILE.writeText(key)
+                } catch (_: Throwable) {
+                }
+            }
         }
 
         return cacheIsValid
+    }
+
+    private fun wallpaperKey(bitmap: Bitmap, placement: RectF?): String {
+        val source = if (bitmap.config == Bitmap.Config.HARDWARE) {
+            bitmap.copy(Bitmap.Config.ARGB_8888, false)
+        } else {
+            bitmap
+        }
+        val buffer = ByteBuffer.allocate(source.byteCount)
+        source.copyPixelsToBuffer(buffer)
+        val checksum = CRC32().apply { update(buffer.array()) }.value
+
+        val placementKey = placement?.let {
+            "${it.left.roundToInt()},${it.top.roundToInt()},${it.width().roundToInt()}x${it.height().roundToInt()}"
+        } ?: "center"
+
+        return "${source.width}x${source.height}:$checksum@$placementKey"
     }
 
     private fun createLayers() {
@@ -767,6 +921,129 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         mWallpaperForeground.id = View.generateViewId()
 
         mLayersCreated = true
+        applyWallpaperScale()
+    }
+
+    private fun displayBoundsOf(engine: Any): Rect =
+        (engine.callMethod("getDisplayContext") as Context)
+            .getSystemService(WindowManager::class.java)
+            .currentWindowMetrics
+            .bounds
+
+    private fun wallpaperPlacement(engine: Any, displayBounds: Rect): RectF? {
+        val frame = (engine.getFieldSilently("mRelayoutResult")
+            ?.getFieldSilently("frames")
+            ?.getFieldSilently("frame") as? Rect)
+            ?.takeIf { !it.isEmpty }
+            ?: (engine.callMethodSilently("getSurfaceHolder") as? SurfaceHolder)
+                ?.surfaceFrame
+                ?.takeIf { !it.isEmpty }
+            ?: return null
+
+        val xOffset = ((engine.getFieldSilently("mPendingXOffset") as? Float) ?: 0.5f).coerceIn(0f, 1f)
+        val yOffset = ((engine.getFieldSilently("mPendingYOffset") as? Float) ?: 0.5f).coerceIn(0f, 1f)
+        val bitmapSize = wallpaperBitmapSize?.takeIf { it.x > 0 && it.y > 0 }
+        val crop = wallpaperCrop?.takeIf { !it.isEmpty && bitmapSize != null }
+
+        val (cropLeft, cropTop, cropWidth, cropHeight) = if (crop != null && bitmapSize != null) {
+            val scaleX = frame.width().toFloat() / bitmapSize.x
+            val scaleY = frame.height().toFloat() / bitmapSize.y
+            listOf(crop.left * scaleX, crop.top * scaleY, crop.width() * scaleX, crop.height() * scaleY)
+        } else {
+            listOf(0f, 0f, frame.width().toFloat(), frame.height().toFloat())
+        }
+
+        val availableWidth = cropWidth - displayBounds.width()
+        val availableHeight = cropHeight - displayBounds.height()
+        val left = frame.left - (cropLeft + (if (availableWidth > 0) availableWidth * xOffset else 0f) + 0.5f).toInt()
+        val top = frame.top - (cropTop + (if (availableHeight > 0) availableHeight * yOffset else 0f) + 0.5f).toInt()
+
+        return RectF(
+            left.toFloat(),
+            top.toFloat(),
+            (left + frame.width()).toFloat(),
+            (top + frame.height()).toFloat()
+        )
+    }
+
+    private fun queryWallpaperCrop(engine: Any, displayBounds: Rect): Rect? {
+        val flags = getWallpaperFlag(engine)
+        val which = if ((flags and WallpaperManager.FLAG_SYSTEM) != 0) {
+            WallpaperManager.FLAG_SYSTEM
+        } else {
+            WallpaperManager.FLAG_LOCK
+        }
+
+        return try {
+            (WallpaperManager.getInstance(mContext).callMethod(
+                "getBitmapCrops",
+                listOf(Point(displayBounds.width(), displayBounds.height())),
+                which,
+                false
+            ) as? List<*>)?.firstOrNull() as? Rect
+        } catch (_: Throwable) {
+            null
+        }
+    }
+
+    private fun renderAtPlacement(bitmap: Bitmap, placement: RectF, displayBounds: Rect): Bitmap {
+        val output = createBitmap(displayBounds.width(), displayBounds.height())
+        Canvas(output).drawBitmap(bitmap, null, placement, Paint(Paint.FILTER_BITMAP_FLAG))
+        return output
+    }
+
+    private fun centerCrop(bitmap: Bitmap, displayBounds: Rect): Bitmap {
+        val ratio = max(
+            1f * displayBounds.width() / bitmap.width,
+            1f * displayBounds.height() / bitmap.height
+        )
+        val desiredWidth = (ratio * bitmap.width).roundToInt()
+        val desiredHeight = (ratio * bitmap.height).roundToInt()
+
+        return Bitmap.createBitmap(
+            bitmap.scale(desiredWidth, desiredHeight),
+            (desiredWidth - displayBounds.width()) / 2,
+            (desiredHeight - displayBounds.height()) / 2,
+            displayBounds.width(),
+            displayBounds.height()
+        ).let { Bitmap.createBitmap(it) }
+    }
+
+    private fun updateWallpaperZoom(engine: Any) {
+        wallpaperZoom = (engine.callMethodSilently("getZoom") as? Float) ?: wallpaperZoom
+        wallpaperZoomsOut = (engine.callMethodSilently("shouldZoomOutWallpaper") as? Boolean) ?: true
+        wallpaperDimAmount = (engine.getFieldSilently("mWallpaperDimAmount") as? Float) ?: wallpaperDimAmount
+        applyWallpaperScale()
+    }
+
+    private fun wallpaperScale(): Float {
+        if (showCustomImages || !wallpaperZoomsOut) return 1f
+        return 1f + (wallpaperMaxScale - 1f) * (1f - wallpaperZoom.coerceIn(0f, 1f))
+    }
+
+    private fun applyWallpaperScale() {
+        if (!mLayersCreated) return
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            mWallpaperForeground.post { applyWallpaperScale() }
+            return
+        }
+
+        val scale = wallpaperScale()
+        val baked = bakedWallpaperPlacement
+        val current = currentWallpaperPlacement
+        val (shiftX, shiftY) = if (showCustomImages || baked == null || current == null) {
+            0f to 0f
+        } else {
+            (current.left - baked.left) * scale to (current.top - baked.top) * scale
+        }
+
+        listOf(mWallpaperForeground, mWallpaperBackground).forEach { layer ->
+            layer.scaleX = scale
+            layer.scaleY = scale
+            layer.translationX = shiftX
+            layer.translationY = shiftY
+        }
     }
 
     private fun isLockScreenWallpaper(canvasEngine: Any): Boolean {
@@ -909,5 +1186,6 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         private const val BACKGROUND_GROUP_KEY = 0x1C0B1C22
         private const val FOREGROUND_GROUP_KEY = 0x1C0B1C23
         private const val DEFAULT_KEYGUARD_SCRIM_ALPHA = 0.2f
+        private const val LOCKSCREEN_BEHIND_SCRIM_ALPHA = 51
     }
 }
