@@ -11,7 +11,6 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallbac
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ShadeSceneInjector
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.TouchAnimator
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
@@ -167,9 +166,7 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
             .hookMethodMatchPattern("VariableDayDate.*")
             .suppressError()
             .runBefore { param ->
-                if (!showHeaderClock) return@runBefore
-                if (!ComposeToolkit.isCalledFrom(SHADE_HEADER_CLASS)) return@runBefore
-                hideModifierArgument(param)
+                if (showHeaderClock) hideModifierArgument(param)
             }
 
         shadeHeaderClass
