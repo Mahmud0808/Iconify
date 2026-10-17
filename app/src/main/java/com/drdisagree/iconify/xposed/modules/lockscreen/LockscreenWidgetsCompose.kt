@@ -7,6 +7,7 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenComposeContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenComposeContainer.Slot
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenSceneInjector
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -63,7 +64,7 @@ class LockscreenWidgetsCompose(context: Context) : LockscreenWidgets(context) {
 
         if (mWidgetsContainer.parent !== container) {
             mWidgetsContainer.removeViewFromParent()
-            container.addView(mWidgetsContainer)
+            container.addLsItemView(mWidgetsContainer)
         }
 
         aodBurnInProtection = AodBurnInProtection.registerForView(container).apply {

@@ -66,6 +66,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyT
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainingTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewWithTagAndChangeColor
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
@@ -695,7 +696,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
                     currentClockView =
                         mLsItemsContainer!!.findViewWithTag(ICONIFY_LOCKSCREEN_CLOCK_TAG)
                 }
-                mLsItemsContainer!!.addView(this, 0)
+                mLsItemsContainer!!.addLsItemView(this)
 
                 modifyClockView(this)
                 updateScaling(this)

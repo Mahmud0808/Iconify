@@ -30,6 +30,7 @@ import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.co
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.constraintSetInstance
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
@@ -226,10 +227,7 @@ open class LockscreenWidgets(context: Context) : ModPack(context) {
                     mLsItemsContainer = rootView.getLsItemsContainer()
 
                     // Add widgets view at the end
-                    mLsItemsContainer!!.addView(
-                        mWidgetsContainer,
-                        mLsItemsContainer!!.childCount - 1
-                    )
+                    mLsItemsContainer!!.addLsItemView(mWidgetsContainer)
                 } else {
                     mLockscreenRootView!!.addView(mWidgetsContainer)
                 }

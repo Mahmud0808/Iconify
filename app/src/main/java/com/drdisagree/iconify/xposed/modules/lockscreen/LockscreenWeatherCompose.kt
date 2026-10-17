@@ -1,12 +1,11 @@
 package com.drdisagree.iconify.xposed.modules.lockscreen
 
 import android.content.Context
-import android.view.View
 import android.widget.LinearLayout
-import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenComposeContainer
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -51,8 +50,7 @@ class LockscreenWeatherCompose(context: Context) : LockscreenWeather(context) {
 
         if (mWeatherContainer.parent !== container) {
             mWeatherContainer.removeViewFromParent()
-            val index = if (container.findViewWithTag<View?>(ICONIFY_LOCKSCREEN_CLOCK_TAG) != null) 1 else 0
-            container.addView(mWeatherContainer, index)
+            container.addLsItemView(mWeatherContainer)
         }
 
         aodBurnInProtection = AodBurnInProtection.registerForView(container).apply {

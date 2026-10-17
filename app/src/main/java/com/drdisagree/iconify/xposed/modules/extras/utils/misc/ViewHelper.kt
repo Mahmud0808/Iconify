@@ -43,7 +43,10 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG
+import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CONTAINER_TAG
+import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WEATHER_TAG
+import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WIDGET_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
@@ -542,6 +545,28 @@ object ViewHelper {
                 id = View.generateViewId()
             }
         }
+    }
+
+    private val LS_ITEMS_ORDER = listOf(
+        ICONIFY_LOCKSCREEN_CLOCK_TAG,
+        ICONIFY_LOCKSCREEN_WEATHER_TAG,
+        ICONIFY_LOCKSCREEN_WIDGET_TAG
+    )
+
+    fun ViewGroup.addLsItemView(view: View) {
+        val rank = LS_ITEMS_ORDER.indexOf(view.tag)
+        if (rank == -1) {
+            addView(view)
+            return
+        }
+
+        var index = 0
+        for (i in 0 until childCount) {
+            val childRank = LS_ITEMS_ORDER.indexOf(getChildAt(i).tag)
+            if (childRank != -1 && childRank < rank) index = i + 1
+        }
+
+        addView(view, index)
     }
 
     fun ViewGroup?.getLsItemsContainer(): LinearLayout? {

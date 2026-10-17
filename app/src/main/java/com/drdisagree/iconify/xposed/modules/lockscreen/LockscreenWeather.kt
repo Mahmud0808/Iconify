@@ -19,7 +19,6 @@ import androidx.core.view.children
 import com.drdisagree.iconify.data.common.Const.ACTION_LS_CLOCK_INFLATED
 import com.drdisagree.iconify.data.common.Const.ACTION_WEATHER_INFLATED
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WEATHER_TAG
 import com.drdisagree.iconify.data.common.XposedConst.LOCKSCREEN_WEATHER_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
@@ -33,6 +32,7 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
@@ -168,13 +168,7 @@ open class LockscreenWeather(context: Context) : ModPack(context) {
                     mLsItemsContainer = rootView.getLsItemsContainer()
 
                     // Add weather view after clock view if exists
-                    mLsItemsContainer!!.addView(
-                        mWeatherContainer,
-                        if (mLsItemsContainer!!.findViewWithTag<View?>(
-                                ICONIFY_LOCKSCREEN_CLOCK_TAG
-                            ) != null
-                        ) 1 else 0
-                    )
+                    mLsItemsContainer!!.addLsItemView(mWeatherContainer)
                 } else {
                     mLockscreenRootView!!.addView(mWeatherContainer)
                 }
