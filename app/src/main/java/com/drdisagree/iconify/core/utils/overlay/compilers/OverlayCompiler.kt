@@ -261,5 +261,7 @@ object OverlayCompiler {
      * only when stdout is entirely blank.
      */
     private fun errorOutputOf(result: Shell.Result): List<String?> =
-        result.out.takeIf { lines -> lines.any { !it.isNullOrBlank() } } ?: result.err
+        result.out.takeIf { lines -> lines.any { !it.isNullOrBlank() } }
+            ?: result.err.takeIf { lines -> lines.any { !it.isNullOrBlank() } }
+            ?: listOf("Process exited with code ${result.code} without any output")
 }

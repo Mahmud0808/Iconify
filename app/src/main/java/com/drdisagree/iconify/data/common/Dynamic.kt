@@ -7,7 +7,7 @@ object Dynamic {
 
     // Overlay compiler tools
     val DATA_DIR: String = appContext.filesDir.absolutePath
-    val BIN_DIR = appContext.dataDir.toString() + "/bin"
-    val AAPT2 = File(BIN_DIR, "libaapt2.so")
-    val ZIPALIGN = File(BIN_DIR, "libzipalign.so")
+    val LEGACY_BIN_DIR = appContext.dataDir.toString() + "/bin"
+    val AAPT2 = File(appContext.applicationInfo.nativeLibraryDir, "libaapt2.so")
+    val ZIPALIGN = File(appContext.applicationInfo.nativeLibraryDir, "libzipalign.so")
 }
