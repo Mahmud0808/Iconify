@@ -48,6 +48,7 @@ import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarLogo
 import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarMisc
 import com.drdisagree.iconify.xposed.modules.statusbar.SwapSignalNetworkType
 import com.drdisagree.iconify.xposed.modules.statusbar.SwapWiFiCellular
+import com.drdisagree.iconify.xposed.modules.statusbar.ComposeSignalIcon
 import com.drdisagree.iconify.xposed.modules.volume.PerAppVolume
 import com.drdisagree.iconify.xposed.modules.volume.VolumePanel
 import com.drdisagree.iconify.xposed.utils.HookCheck
@@ -89,6 +90,7 @@ object EntryList {
         QuickSettings::class.java,
         AppIconsInStatusbar::class.java,
         SwapWiFiCellular::class.java,
+        ComposeSignalIcon::class.java,
         SwapSignalNetworkType::class.java,
         DualStatusbar::class.java,
         StatusbarMisc::class.java,

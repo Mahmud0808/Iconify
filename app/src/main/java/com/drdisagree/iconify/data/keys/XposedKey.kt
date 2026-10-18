@@ -10,6 +10,7 @@ enum class XposedKey(override val default: Any?) : Key {
     STATUSBAR_SWAP_WIFI_CELLULAR(false),
     STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE(false),
     SHOW_4G_INSTEAD_OF_LTE(false),
+    STATUSBAR_DRAWABLE_SIGNAL_ICON(false),
     NOTIFICATION_ICONS_LIMIT(-1f),
     ONGOING_ACTION_CHIP(false),
     ONGOING_ACTION_CHIP_STYLE("0"),

@@ -112,6 +112,12 @@ val xposedStatusbarPreferences = preferenceScreen {
             summary = { stringRes(R.string.sb_show_4g_icon_desc) },
         )
 
+        switch(
+            key = XposedKey.STATUSBAR_DRAWABLE_SIGNAL_ICON,
+            title = stringRes(R.string.sb_drawable_signal_icon_title),
+            summary = { stringRes(R.string.sb_drawable_signal_icon_desc) },
+        )
+
         slider(
             key = XposedKey.NOTIFICATION_ICONS_LIMIT,
             title = stringRes(R.string.sb_max_notification_icons_title),
@@ -183,6 +189,7 @@ fun XposedStatusbarScreen(
             XposedKey.STATUSBAR_SWAP_WIFI_CELLULAR.name,
             XposedKey.STATUSBAR_SWAP_CELLULAR_NETWORK_TYPE.name,
             XposedKey.SHOW_4G_INSTEAD_OF_LTE.name,
+            XposedKey.STATUSBAR_DRAWABLE_SIGNAL_ICON.name,
             XposedKey.NOTIFICATION_ICONS_LIMIT.name,
             XposedKey.DUAL_STATUSBAR.name,
             XposedKey.ONGOING_ACTION_CHIP.name,
