@@ -32,6 +32,17 @@
     <string name="root_not_found_desc">看起來您的裝置似乎沒有被 root 過！</string>
     <string name="metamodule_not_found_title">元模組未安裝</string>
     <string name="metamodule_not_found_desc">KernelSU 3.0.0 以上版本需要元模組才能啟用對 systemless /system 修改</string>
+    <string name="metamodule_what_is">A metamodule is a KernelSU module that mounts other modules\' files into your system. Install one and reboot, or go back and pick Xposed only.</string>
+    <string name="metamodule_examples">範例：%1$s</string>
+    <string name="btn_learn_more">瞭解更多</string>
+    <string name="setup_mode_title">Choose Your Setup</string>
+    <string name="setup_mode_desc">選擇 Iconify 如何套用變更。您稍後可透過清除應用程式資料來切換設定。</string>
+    <string name="setup_mode_recommended">推薦</string>
+    <string name="setup_mode_full_title">完整體驗</string>
+    <string name="setup_mode_full_desc">Overlays and Xposed mods. Every feature, including icon packs and colors.</string>
+    <string name="setup_mode_xposed_title">僅Xposed</string>
+    <string name="setup_mode_lightweight">輕量</string>
+    <string name="setup_mode_xposed_desc">Xposed mods only, without overlays. Lighter and quicker to set up. Requires LSPosed.</string>
     <string name="need_reboot_title">需要重新啟動裝置</string>
     <string name="need_reboot_desc">重新啟動您的裝置讓所有檔案就定位。</string>
     <string name="installation_failed_title">噢不，發生非預期的狀況</string>
@@ -909,7 +920,7 @@
     <string name="ongoing_action_chip_title">進行中動作指示器</string>
     <string name="ongoing_action_chip_desc">針對下載等進行中的動作，在狀態列顯示進度指示器</string>
     <string name="ongoing_action_chip_style_title">Chip style</string>
-    <string name="ongoing_action_chip_style_pill">Progress bar</string>
+    <string name="ongoing_action_chip_style_pill">進度條</string>
     <string name="ongoing_action_chip_style_compact">Compact ring</string>
     <string name="sb_show_4g_icon_title">4G 圖示</string>
     <string name="sb_show_4g_icon_desc">在狀態列中顯示 4G 圖示，而不是 LTE</string>
@@ -1398,7 +1409,7 @@
     <string name="media_art_title">顯示媒體專輯封面</string>
     <string name="media_art_summary">有可用專輯封面時顯示</string>
     <string name="media_art_blur_level_title">模糊程度</string>
-    <string name="media_art_on_aod_title">Show on AOD</string>
+    <string name="media_art_on_aod_title">在 AOD 下顯示</string>
     <string name="media_art_on_aod_desc">Show dimmed album art on always on display</string>
     <!-- Album art filter -->
     <string name="albumart_filter_title">媒體專輯封面濾鏡</string>
@@ -1510,11 +1521,11 @@
     <string name="section_title_active_tile_colors">啟用中圖塊顏色</string>
     <string name="section_title_inactive_tile_colors">未啟用圖塊顏色</string>
     <string name="section_title_disabled_tile_colors">已停用圖塊顏色</string>
-    <string name="section_title_brightness_slider_colors">Brightness Slider Colors</string>
-    <string name="qs_brightness_slider_bottom_title">Brightness Slider Below Tiles</string>
-    <string name="qs_brightness_slider_bottom_desc">Move the brightness slider below the quick settings tiles</string>
-    <string name="qqs_brightness_slider_title">Always Show Brightness Slider</string>
-    <string name="qqs_brightness_slider_desc">Show the brightness slider in collapsed quick settings and share it with expanded quick settings</string>
+    <string name="section_title_brightness_slider_colors">亮度滑桿顏色</string>
+    <string name="qs_brightness_slider_bottom_title">磁磚下方的亮度滑桿</string>
+    <string name="qs_brightness_slider_bottom_desc">將亮度滑桿移至快速設定磁磚下方</string>
+    <string name="qqs_brightness_slider_title">始終顯示亮度滑桿</string>
+    <string name="qqs_brightness_slider_desc">在收起狀態的快速設定中顯示亮度滑桿，並在展開狀態的快速設定中同步顯示該滑桿</string>
     <string name="brightness_slider_active_color">Active Track Color</string>
     <string name="brightness_slider_inactive_color">Inactive Track Color</string>
     <string name="brightness_slider_thumb_color">Thumb Color</string>

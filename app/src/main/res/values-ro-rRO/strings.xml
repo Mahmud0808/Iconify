@@ -32,6 +32,17 @@
     <string name="root_not_found_desc">Se pare că dispozitivul dumneavoastră nu este rooted!</string>
     <string name="metamodule_not_found_title">Metamodule not installed</string>
     <string name="metamodule_not_found_desc">KernelSU 3.0.0 and newer require the Metamodule to enable systemless /system modifications.</string>
+    <string name="metamodule_what_is">A metamodule is a KernelSU module that mounts other modules\' files into your system. Install one and reboot, or go back and pick Xposed only.</string>
+    <string name="metamodule_examples">Examples: %1$s</string>
+    <string name="btn_learn_more">Learn more</string>
+    <string name="setup_mode_title">Choose Your Setup</string>
+    <string name="setup_mode_desc">Pick how Iconify applies its changes. You can switch later by clearing app data.</string>
+    <string name="setup_mode_recommended">Recommended</string>
+    <string name="setup_mode_full_title">Full experience</string>
+    <string name="setup_mode_full_desc">Overlays and Xposed mods. Every feature, including icon packs and colors.</string>
+    <string name="setup_mode_xposed_title">Xposed only</string>
+    <string name="setup_mode_lightweight">Lightweight</string>
+    <string name="setup_mode_xposed_desc">Xposed mods only, without overlays. Lighter and quicker to set up. Requires LSPosed.</string>
     <string name="need_reboot_title">Necesită repornire dispozitiv</string>
     <string name="need_reboot_desc">Reporniți dispozitivul pentru a aranja toate fișierele.</string>
     <string name="installation_failed_title">Oops Nu Ne-am Așteptat La Asta</string>

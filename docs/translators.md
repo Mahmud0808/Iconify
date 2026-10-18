@@ -130,14 +130,28 @@ Thanks to the translators and proofreaders below:
         <sub><b>1091 words</b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Holiu618"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17854885/medium/474584b4f89f88fd583ba2cc7b4377d1.png" />
+          <br />
+          <sub><b>泥鰍 (Holiu618)</b></sub></a>
+        <br />
+        <sub><b>1036 words</b></sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Bellidio"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17660316/medium/ea5e13c6e106ea34ad8eec2cc20718f3.jpeg" />
+          <br />
+          <sub><b>Noturno (Bellidio)</b></sub></a>
+        <br />
+        <sub><b>1029 words</b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/sorocean.igor"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/28009/medium/0c4f0cb33fadd1a85f084fedef3655b0_default.png" />
           <br />
           <sub><b>Igor Sorocean (sorocean.igor)</b></sub></a>
         <br />
         <sub><b>1024 words</b></sub>
       </td>
-    </tr>
-    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/AY_Translator"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15085871/medium/3a254014b133e0fc2d376c776aba8dbd.jpg" />
           <br />
@@ -153,13 +167,6 @@ Thanks to the translators and proofreaders below:
         <sub><b>1422 words</b></sub>
       </td>
       <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Holiu618"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17854885/medium/2916a5c1dfed94a82d0c2cf6f79f047f.png" />
-          <br />
-          <sub><b>泥鰍 (Holiu618)</b></sub></a>
-        <br />
-        <sub><b>972 words</b></sub>
-      </td>
-      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Cccc_"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/14589232/medium/cc59e13f7da4c4db7bde651a92f98805.png" />
           <br />
           <sub><b>Cccc_owo (Cccc_)</b></sub></a>
@@ -172,13 +179,6 @@ Thanks to the translators and proofreaders below:
           <sub><b>VistHJ</b></sub></a>
         <br />
         <sub><b>935 words</b></sub>
-      </td>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Bellidio"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17660316/medium/ea5e13c6e106ea34ad8eec2cc20718f3.jpeg" />
-          <br />
-          <sub><b>Noturno (Bellidio)</b></sub></a>
-        <br />
-        <sub><b>855 words</b></sub>
       </td>
     </tr>
     <tr>

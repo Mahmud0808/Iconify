@@ -32,6 +32,17 @@
     <string name="root_not_found_desc">기기를 루팅하시지 않은 것 같아요!</string>
     <string name="metamodule_not_found_title">Metamodule이 설치되지 않았습니다</string>
     <string name="metamodule_not_found_desc">KernelSU 3.0.0 이상 버전에서 systemless 방식의 /system 수정을 활성화하려면 Metamodule이 필요합니다.</string>
+    <string name="metamodule_what_is">A metamodule is a KernelSU module that mounts other modules\' files into your system. Install one and reboot, or go back and pick Xposed only.</string>
+    <string name="metamodule_examples">Examples: %1$s</string>
+    <string name="btn_learn_more">Learn more</string>
+    <string name="setup_mode_title">Choose Your Setup</string>
+    <string name="setup_mode_desc">Pick how Iconify applies its changes. You can switch later by clearing app data.</string>
+    <string name="setup_mode_recommended">Recommended</string>
+    <string name="setup_mode_full_title">Full experience</string>
+    <string name="setup_mode_full_desc">Overlays and Xposed mods. Every feature, including icon packs and colors.</string>
+    <string name="setup_mode_xposed_title">Xposed only</string>
+    <string name="setup_mode_lightweight">Lightweight</string>
+    <string name="setup_mode_xposed_desc">Xposed mods only, without overlays. Lighter and quicker to set up. Requires LSPosed.</string>
     <string name="need_reboot_title">기기 재시작 필요</string>
     <string name="need_reboot_desc">모든 파일을 제자리에 두려면 기기를 다시 시작하세요.</string>
     <string name="installation_failed_title">이런! 예상치 못한 일이 발생했어요</string>
