@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.util.TypedValue
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
@@ -24,10 +25,13 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
     private class PendingSignal(
         val lambdaPrefix: String,
         val drawables: List<Drawable>,
-        val color: Int
+        val color: Int,
+        val sizeDp: Pair<Float, Float>?
     )
 
     private var useDrawableSignalIcon = false
+    private var sizeMethod: Method? = null
+    private var modifierCompanion: Any? = null
     @Volatile
     private var hookFailed = false
     private var toArgbMethod: Method? = null
@@ -49,11 +53,22 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
             (method.name == "toArgb" || method.name.startsWith("toArgb-")) &&
                     method.parameterTypes.contentEquals(arrayOf(Long::class.javaPrimitiveType))
         }
+        sizeMethod = ComposeToolkit.modifierFunction(
+            SIZE_KT_CLASS,
+            "size",
+            Float::class.javaPrimitiveType,
+            Float::class.javaPrimitiveType
+        )
+        modifierCompanion = try {
+            ComposeToolkit.loadClass(ComposeToolkit.MODIFIER_CLASS)?.getField("Companion")?.get(null)
+        } catch (_: Throwable) {
+            null
+        }
 
         mobileIconClass
             .hookMethodMatchPattern("MobileSignalIcon(-.*)?")
             .suppressError()
-            .run(signalHook(MOBILE_ICON_CLASS) { param, parameterTypes ->
+            .run(signalHook(MOBILE_ICON_CLASS, ::singleSizeSp) { param, parameterTypes ->
                 val modelIndex =
                     parameterTypes.indexOfFirst { it.name.endsWith(CELLULAR_MODEL_SUFFIX) }
                 if (modelIndex == -1) null else listOf(param.args[modelIndex])
@@ -62,7 +77,7 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
         stackedMobileIconClass
             .hookMethodMatchPattern("StackedMobileIcon(-.*)?")
             .suppressError()
-            .run(signalHook(STACKED_MOBILE_ICON_CLASS) { param, parameterTypes ->
+            .run(signalHook(STACKED_MOBILE_ICON_CLASS, ::stackedSizeSp) { param, parameterTypes ->
                 val dualSimIndex = parameterTypes.indexOfFirst { it.name.endsWith(DUAL_SIM_SUFFIX) }
                 if (dualSimIndex == -1) {
                     null
@@ -99,11 +114,33 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
                 } ?: return@runBefore
 
                 param.args[onDrawIndex] = drawer
+
+                val sizeDp = pending.sizeDp ?: return@runBefore
+                val modifierIndex =
+                    parameterTypes.indexOfFirst { it.name == ComposeToolkit.MODIFIER_CLASS }
+                if (modifierIndex == -1) return@runBefore
+                val modifier = param.args[modifierIndex] ?: return@runBefore
+                val companion = modifierCompanion ?: return@runBefore
+
+                try {
+                    val sizeModifier = sizeMethod?.invoke(
+                        null,
+                        companion,
+                        sizeDp.first,
+                        sizeDp.second
+                    ) ?: return@runBefore
+                    ComposeToolkit.then(sizeModifier, modifier)?.let {
+                        param.args[modifierIndex] = it
+                    }
+                } catch (throwable: Throwable) {
+                    log(this@ComposeSignalIcon, throwable)
+                }
             }
     }
 
     private fun signalHook(
         ownerClass: String,
+        naturalSizeSp: (Int) -> Pair<Float, Float>?,
         models: (XC_MethodHook.MethodHookParam, Array<Class<*>>) -> List<Any?>?
     ) = object : XC_MethodHook() {
         override fun beforeHookedMethod(param: MethodHookParam) {
@@ -123,7 +160,15 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
                 }
                 val color = colorToArgb(param.args[colorIndex] as Long) ?: return
 
-                pendingSignal.set(PendingSignal("$ownerClass\$", drawables, color))
+                val bars = signalModels.maxOf {
+                    (it?.callMethodSilently("getNumberOfLevels") as? Int ?: 5) - 1
+                }
+                val sizeDp = naturalSizeSp(bars)?.let { (width, height) ->
+                    val scale = enlargedSignalScale(height)
+                    if (scale > 1f) spToDp(width) * scale to spToDp(height) * scale else null
+                }
+
+                pendingSignal.set(PendingSignal("$ownerClass\$", drawables, color, sizeDp))
             } catch (throwable: Throwable) {
                 hookFailed = true
                 log(this@ComposeSignalIcon, throwable)
@@ -133,6 +178,60 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
         override fun afterHookedMethod(param: MethodHookParam) {
             pendingSignal.remove()
         }
+    }
+
+    private fun singleSizeSp(bars: Int): Pair<Float, Float>? {
+        val dimensions = staticField(
+            MOBILE_ICON_CLASS,
+            if (bars == 5) "mobileSignalFiveBarsDimensions" else "mobileSignalFourBarsDimensions"
+        ) ?: return null
+        val width = dimensions.getFieldSilently("totalWidth") as? Long ?: return null
+        val height = staticField(MOBILE_ICON_DIMENSIONS_CLASS, "IconHeightSp") as? Long
+            ?: return null
+        return textUnitValue(width) to textUnitValue(height)
+    }
+
+    private fun stackedSizeSp(bars: Int): Pair<Float, Float>? {
+        val dimensions = staticField(
+            if (bars == 5) FIVE_BARS_DIMENSIONS_CLASS else FOUR_BARS_DIMENSIONS_CLASS,
+            "INSTANCE"
+        ) ?: return null
+        val width = dimensions.getFieldSilently("totalWidth") as? Long ?: return null
+        val height = staticField(STACKED_MOBILE_ICON_DIMENSIONS_CLASS, "IconHeightSp") as? Long
+            ?: return null
+        return textUnitValue(width) to textUnitValue(height)
+    }
+
+    private fun staticField(className: String, fieldName: String): Any? = try {
+        findClass(className, suppressError = true)
+            ?.getDeclaredField(fieldName)
+            ?.apply { isAccessible = true }
+            ?.get(null)
+    } catch (_: Throwable) {
+        null
+    }
+
+    private fun textUnitValue(packed: Long): Float =
+        Float.fromBits((packed and 0xFFFFFFFFL).toInt())
+
+    private fun enlargedSignalScale(naturalHeightSp: Float): Float {
+        val id = mContext.resources.getIdentifier(
+            SIGNAL_SIZE_DIMEN,
+            "dimen",
+            SYSTEMUI_PACKAGE
+        )
+        if (id == 0 || naturalHeightSp <= 0f) return 1f
+
+        val metrics = mContext.resources.displayMetrics
+        val naturalHeightPx =
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, naturalHeightSp, metrics)
+        val scale = mContext.resources.getDimension(id) / naturalHeightPx
+        return if (scale > 1.01f) scale.coerceAtMost(MAX_SIGNAL_SCALE) else 1f
+    }
+
+    private fun spToDp(sp: Float): Float {
+        val metrics = mContext.resources.displayMetrics
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, metrics) / metrics.density
     }
 
     private fun signalDrawableFor(model: Any): Drawable? {
@@ -213,6 +312,17 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.statusbar.pipeline.mobile.ui.compose.MobileIconKt"
         private const val STACKED_MOBILE_ICON_CLASS =
             "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.StackedMobileIconKt"
+        private const val MOBILE_ICON_DIMENSIONS_CLASS =
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.mobile.ui.compose.MobileIconDimensions"
+        private const val STACKED_MOBILE_ICON_DIMENSIONS_CLASS =
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.StackedMobileIconDimensions"
+        private const val FIVE_BARS_DIMENSIONS_CLASS =
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.FiveBarsDimensions"
+        private const val FOUR_BARS_DIMENSIONS_CLASS =
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.FourBarsDimensions"
+        private const val SIZE_KT_CLASS = "androidx.compose.foundation.layout.SizeKt"
+        private const val SIGNAL_SIZE_DIMEN = "status_bar_mobile_signal_size_updated"
+        private const val MAX_SIGNAL_SCALE = 2f
         private const val CANVAS_KT_CLASS = "androidx.compose.foundation.CanvasKt"
         private const val FUNCTION1_CLASS = "kotlin.jvm.functions.Function1"
         private const val COLOR_KT_CLASS = "androidx.compose.ui.graphics.ColorKt"
