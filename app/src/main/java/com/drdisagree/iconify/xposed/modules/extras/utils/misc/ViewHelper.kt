@@ -35,6 +35,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import android.widget.TextClock
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.graphics.ColorUtils
@@ -42,6 +43,7 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
+import com.drdisagree.iconify.core.utils.TextUtils
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_DEPTH_WALLPAPER_FOREGROUND_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CONTAINER_TAG
@@ -49,12 +51,40 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WEATHER
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WIDGET_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 
 @Suppress("unused")
 object ViewHelper {
+
+    private const val TITLE_CASE_FIELD = "mIconifyTitleCase"
+
+    @Volatile
+    private var titleCaseHookInstalled = false
+
+    fun hookTextClockTitleCase() {
+        if (titleCaseHookInstalled) return
+        titleCaseHookInstalled = true
+
+        TextClock::class.java
+            .hookMethod("onTimeChanged")
+            .suppressError()
+            .runAfter { param ->
+                val textClock = param.thisObject as TextClock
+                if (textClock.getExtraFieldSilently(TITLE_CASE_FIELD) == true) {
+                    TextUtils.convertTextViewsToTitleCase(textClock)
+                }
+            }
+    }
+
+    fun View?.keepTextClocksTitleCase() {
+        when (this) {
+            is TextClock -> setExtraField(TITLE_CASE_FIELD, true)
+            is ViewGroup -> for (i in 0 until childCount) getChildAt(i).keepTextClocksTitleCase()
+        }
+    }
 
     fun Context.toPx(dp: Int): Int = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,

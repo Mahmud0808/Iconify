@@ -68,6 +68,8 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findVi
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewWithTagAndChangeColor
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hookTextClockTitleCase
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.keepTextClocksTitleCase
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
@@ -561,6 +563,8 @@ open class LockscreenClock(context: Context) : ModPack(context) {
     }
 
     protected fun hookClockUpdates() {
+        hookTextClockTitleCase()
+
         val keyguardUpdateMonitor = findClass("com.android.keyguard.KeyguardUpdateMonitor")
 
         keyguardUpdateMonitor
@@ -882,6 +886,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         clockView.apply {
             if (clockStyle != 10) {
                 TextUtils.convertTextViewsToTitleCase(this)
+                keepTextClocksTitleCase()
             }
 
             when (clockStyle) {
