@@ -30,7 +30,7 @@ android {
         versionName = "8.0.0"
         multiDexEnabled = true
         buildConfigField("int", "MIN_SDK_VERSION", "$minSdk")
-        buildConfigField("int", "OVERLAY_VERSION_CODE", "5")
+        buildConfigField("int", "OVERLAY_VERSION_CODE", "6")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
