@@ -45,6 +45,7 @@ import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Method
 import java.util.WeakHashMap
+import java.lang.ref.WeakReference
 
 @SuppressLint("DiscouragedApi")
 class QuickSettings(context: Context) : ModPack(context) {
@@ -69,6 +70,8 @@ class QuickSettings(context: Context) : ModPack(context) {
     private var expandedHeaderHeightWritable = true
     private var expandedHeaderDepth = 0
     private val paddedToOriginalHeaderModifier = WeakHashMap<Any, Any>()
+    private var footerButtonRefs: List<WeakReference<View>> = emptyList()
+    private var silentTextContainerRef: WeakReference<ViewGroup>? = null
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
@@ -93,6 +96,7 @@ class QuickSettings(context: Context) : ModPack(context) {
         }
 
         applyExpandedHeaderHeight()
+        applyQsElementVisibility()
     }
 
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
@@ -395,6 +399,17 @@ class QuickSettings(context: Context) : ModPack(context) {
             }
     }
 
+    private fun applyQsElementVisibility() {
+        val footerButtons = footerButtonRefs.mapNotNull { it.get() }
+        val silentTextContainer = silentTextContainerRef?.get()
+        if (footerButtons.isEmpty() && silentTextContainer == null) return
+
+        Handler(Looper.getMainLooper()).post {
+            if (hideFooterButtons) footerButtons.forEach { it.hideView() }
+            if (hideSilentText) silentTextContainer.hideView()
+        }
+    }
+
     private fun manageQsElementVisibility() {
         val footerViewClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.notification.footer.ui.view.FooterView",
@@ -406,23 +421,19 @@ class QuickSettings(context: Context) : ModPack(context) {
             .runAfter { param ->
                 val view = param.thisObject as View
 
-                val mFooterButtonsContainer = listOf(
+                val footerButtons = listOf(
                     "dismiss_text",
                     "settings_button",
                     "history_button",
                     "manage_text"
-                ).map {
-                    mContext.resources.getIdentifier(
-                        it,
-                        "id",
-                        SYSTEMUI_PACKAGE
-                    )
-                }.firstOrNull { it != 0 }?.let {
-                    view.findViewById<View?>(it)?.parent as? ViewGroup
+                ).mapNotNull {
+                    val id = mContext.resources.getIdentifier(it, "id", SYSTEMUI_PACKAGE)
+                    if (id == 0) null else view.findViewById<View?>(id)
                 }
 
-                if (mFooterButtonsContainer != null) {
-                    if (hideFooterButtons) mFooterButtonsContainer.hideView()
+                if (footerButtons.isNotEmpty()) {
+                    footerButtonRefs = footerButtons.map { WeakReference(it) }
+                    if (hideFooterButtons) footerButtons.forEach { it.hideView() }
                 } else {
                     log(this, "Footer buttons not found")
                 }
@@ -435,6 +446,7 @@ class QuickSettings(context: Context) : ModPack(context) {
             .hookMethod("onFinishInflate")
             .runAfter { param ->
                 val mSilentTextContainer = param.thisObject as ViewGroup
+                silentTextContainerRef = WeakReference(mSilentTextContainer)
 
                 if (hideSilentText) mSilentTextContainer.hideView()
             }
