@@ -63,17 +63,33 @@
 
         </LinearLayout>
 
-        <TextClock
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:format12Hour="hh:mm"
-            android:format24Hour="HH:mm"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:tag="text1|tickIndicator"
-            android:textColor="@android:color/white"
-            android:textSize="40dp" />
+            android:layoutDirection="ltr">
+
+            <TextClock
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:format12Hour="hh:mm"
+                android:format24Hour="HH:mm"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:tag="text1|tickIndicator"
+                android:textColor="@android:color/white"
+                android:textSize="40dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:tag="hours"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="40dp" />
+
+        </FrameLayout>
 
         <TextClock
             android:layout_width="wrap_content"
