@@ -37,6 +37,9 @@ Furthermore, the open-source nature of Iconify encourages community contribution
     - **Android 12 to Android 16 (non-QPR)**: Use [v7.3.0](https://github.com/Mahmud0808/Iconify/releases/tag/v7.3.0)
     - **Android 16 QPR1 and later**: Use [v8.0.0](https://github.com/Mahmud0808/Iconify/releases/latest) and later
 
+> [!WARNING]
+> **Android 16 (non-QPR) and below have reached End of Life (EOL).** They will no longer receive updates, bug fixes or new features. [v7.3.0](https://github.com/Mahmud0808/Iconify/releases/tag/v7.3.0) is the final release for these versions, and issues reported for them will not be addressed.
+
 - [Magisk](https://github.com/topjohnwu/Magisk) / [KernelSU](https://github.com/tiann/KernelSU) / [APatch](https://github.com/bmax121/APatch)
     - **KernelSU v3.0+** users must install [Mountify](https://github.com/backslashxx/mountify/releases/latest) (or another metamodule of choice), otherwise some features will be missing in the app.
 
@@ -140,6 +143,7 @@ You can help translate Iconify [on Crowdin](https://crowdin.com/project/iconify)
 - Iconify officially supports Android 12 and later versions.
     - **Android 12 to Android 16 (non-QPR)**: Use v7.3.0
     - **Android 16 QPR1 and later**: Use v8.0.0 and later
+- Android 16 (non-QPR) and below have reached End of Life (EOL). v7.3.0 is the final release for them, and they will not receive any further updates or fixes.
 - Compatibility with earlier Android versions is not provided, and there are no plans to introduce support for those versions.
 </details>
 
