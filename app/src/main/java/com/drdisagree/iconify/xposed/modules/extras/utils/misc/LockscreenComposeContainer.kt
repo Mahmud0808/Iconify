@@ -1,6 +1,9 @@
 package com.drdisagree.iconify.xposed.modules.extras.utils.misc
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.os.SystemClock
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -63,6 +66,7 @@ object LockscreenComposeContainer {
 
     private class SlotHolder(val slot: Slot, val tag: String) {
         val hosts: MutableSet<FrameLayout> = Collections.newSetFromMap(WeakHashMap())
+        private val attachTimes = WeakHashMap<View, Long>()
         var ref: WeakReference<LinearLayout>? = null
         var markerRef: WeakReference<View>? = null
         var overlayRef: WeakReference<OverlayHost>? = null
@@ -94,7 +98,7 @@ object LockscreenComposeContainer {
 
                 override fun onViewDetachedFromWindow(v: View) {
                     listeners.forEach { it.onContainerDetached(this@apply, slot) }
-                    reevaluate()
+                    reevaluateLater()
                 }
             })
             ref = WeakReference(this)
@@ -168,11 +172,24 @@ object LockscreenComposeContainer {
 
         private val reevaluateOnAttach = object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(v: View) {
+                synchronized(attachTimes) { attachTimes[v] = SystemClock.uptimeNanos() }
                 reevaluate()
             }
 
             override fun onViewDetachedFromWindow(v: View) {
-                reevaluate()
+                synchronized(attachTimes) { attachTimes.remove(v) }
+                reevaluateLater()
+            }
+        }
+
+        private fun reevaluateLater() {
+            mainHandler.post { reevaluate() }
+        }
+
+        private fun latestAttachedHost(): FrameLayout? {
+            val attached = synchronized(hosts) { hosts.toList() }.filter { it.isAttachedToWindow }
+            return synchronized(attachTimes) {
+                attached.maxByOrNull { attachTimes[it] ?: Long.MIN_VALUE }
             }
         }
 
@@ -181,7 +198,7 @@ object LockscreenComposeContainer {
             val target: FrameLayout? = if (marker != null && overlay != null) {
                 overlay
             } else {
-                synchronized(hosts) { hosts.toList() }.lastOrNull { it.isAttachedToWindow }
+                latestAttachedHost()
             }
             target ?: return
             val view = container ?: obtain(target.context)
@@ -195,6 +212,7 @@ object LockscreenComposeContainer {
         }
     }
 
+    private val mainHandler = Handler(Looper.getMainLooper())
     private val providers = CopyOnWriteArrayList<Provider>()
     private val listeners = CopyOnWriteArrayList<Listener>()
     private val mainSlot = SlotHolder(Slot.MAIN, ICONIFY_LOCKSCREEN_CONTAINER_TAG)
