@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.Notification
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.DrawableWrapper
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.os.Bundle
@@ -42,6 +45,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Method
 import java.util.WeakHashMap
@@ -297,6 +301,39 @@ class QuickSettings(context: Context) : ModPack(context) {
 
                 param.thisObject.setField("mTintColor", 0)
             }
+
+        notificationBackgroundViewClass
+            .hookMethod("setTint")
+            .suppressError()
+            .run(object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    if (!fixNotificationColor) return
+
+                    val background = param.thisObject.getFieldSilently("mBackground")
+                            as? LayerDrawable ?: return
+
+                    param.setObjectExtra(
+                        TINTED_LAYER_COLORS,
+                        background.tintedLayers().map { layer ->
+                            Triple(layer, layer.color, layer.colors)
+                        }
+                    )
+                }
+
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    @Suppress("UNCHECKED_CAST")
+                    val savedColors = param.getObjectExtra(TINTED_LAYER_COLORS)
+                            as? List<Triple<GradientDrawable, ColorStateList?, IntArray?>>
+                        ?: return
+
+                    savedColors.forEach { (layer, color, colors) ->
+                        when {
+                            color != null -> layer.color = color
+                            colors != null -> layer.colors = colors
+                        }
+                    }
+                }
+            })
 
         footerViewClass
             .hookMethodMatchPattern("updateColors.*")
@@ -648,8 +685,16 @@ class QuickSettings(context: Context) : ModPack(context) {
         }
     }
 
+    private fun LayerDrawable.tintedLayers(): List<GradientDrawable> =
+        (0 until minOf(numberOfLayers, 2)).mapNotNull { index ->
+            val layer = getDrawable(index)
+            val target = if (layer is DrawableWrapper) layer.drawable else layer
+            target?.mutate() as? GradientDrawable
+        }
+
     companion object {
         private const val COMPOSE_MODIFIER_CLASS = ComposeToolkit.MODIFIER_CLASS
         private const val EXPANDED_HEADER_HEIGHT = "ExpandedHeight"
+        private const val TINTED_LAYER_COLORS = "iconifyTintedLayerColors"
     }
 }
