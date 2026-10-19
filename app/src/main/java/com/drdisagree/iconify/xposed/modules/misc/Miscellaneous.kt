@@ -175,48 +175,50 @@ class Miscellaneous(context: Context) : ModPack(context) {
             suppressError = true
         )
 
-        var alwaysShowDataRatIcon = false
-        var mDataDisabledIcon = false
-
         mobileSignalControllerClass
             .hookMethod("updateTelephony")
-            .runBefore { param ->
-                if (mobileSignalControllerParam == null) {
-                    mobileSignalControllerParam = param.thisObject
+            .runAround(
+                before = before@{ param ->
+                    if (mobileSignalControllerParam == null) {
+                        mobileSignalControllerParam = param.thisObject
+                    }
+
+                    if (!hideDataDisabledIcon) return@before null
+
+                    val alwaysShowDataRatIcon = param.thisObject
+                        .getField("mConfig")
+                        .getField("alwaysShowDataRatIcon") as Boolean
+
+                    param.thisObject
+                        .getField("mConfig")
+                        .setField("alwaysShowDataRatIcon", true)
+
+                    val mDataDisabledIcon = try {
+                        (param.thisObject.getField("mDataDisabledIcon") as Boolean).also {
+                            param.thisObject.setField("mDataDisabledIcon", false)
+                        }
+                    } catch (_: Throwable) {
+                        null
+                    }
+
+                    alwaysShowDataRatIcon to mDataDisabledIcon
+                },
+                after = after@{ param, savedState ->
+                    if (mobileSignalControllerParam == null) {
+                        mobileSignalControllerParam = param.thisObject
+                    }
+
+                    val (alwaysShowDataRatIcon, mDataDisabledIcon) = savedState ?: return@after
+
+                    param.thisObject
+                        .getField("mConfig")
+                        .setField("alwaysShowDataRatIcon", alwaysShowDataRatIcon)
+
+                    mDataDisabledIcon?.let {
+                        param.thisObject.setFieldSilently("mDataDisabledIcon", it)
+                    }
                 }
-
-                if (!hideDataDisabledIcon) return@runBefore
-
-                alwaysShowDataRatIcon = param.thisObject
-                    .getField("mConfig")
-                    .getField("alwaysShowDataRatIcon") as Boolean
-
-                param.thisObject
-                    .getField("mConfig")
-                    .setField("alwaysShowDataRatIcon", true)
-
-                try {
-                    mDataDisabledIcon = param.thisObject.getField(
-                        "mDataDisabledIcon"
-                    ) as Boolean
-
-                    param.thisObject.setField("mDataDisabledIcon", false)
-                } catch (_: Throwable) {
-                }
-            }
-            .runAfter { param ->
-                if (mobileSignalControllerParam == null) {
-                    mobileSignalControllerParam = param.thisObject
-                }
-
-                if (!hideDataDisabledIcon) return@runAfter
-
-                param.thisObject
-                    .getField("mConfig")
-                    .setField("alwaysShowDataRatIcon", alwaysShowDataRatIcon)
-
-                param.thisObject.setFieldSilently("mDataDisabledIcon", mDataDisabledIcon)
-            }
+            )
 
         signalIconModelCellularClass
             .hookConstructor()

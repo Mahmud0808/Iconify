@@ -115,6 +115,23 @@ class MethodHookHelper private constructor(
             override fun afterHookedMethod(param: MethodHookParam) = callback(param)
         })
 
+    fun <T : Any> runAround(
+        before: (XC_MethodHook.MethodHookParam) -> T?,
+        after: (XC_MethodHook.MethodHookParam, T?) -> Unit
+    ): MethodHookHelper =
+        hookWithCallback(object : XC_MethodHook() {
+            private val stateKey = "runAround@${System.identityHashCode(this)}"
+
+            override fun beforeHookedMethod(param: MethodHookParam) {
+                before(param)?.let { param.setObjectExtra(stateKey, it) }
+            }
+
+            override fun afterHookedMethod(param: MethodHookParam) {
+                @Suppress("UNCHECKED_CAST")
+                after(param, param.getObjectExtra(stateKey) as? T)
+            }
+        })
+
     /**
      * Replace the hooked method entirely — the original body is **not** called.
      * Set `param.result` inside [callback] to provide a return value.

@@ -52,7 +52,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddV
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.UnhookHandle
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
@@ -72,7 +71,6 @@ import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.STATE_OPENING
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -257,11 +255,9 @@ open class HeaderClock(context: Context) : ModPack(context) {
 
         notificationPanelViewControllerClass
             .hookMethod("setExpandedHeightInternal")
-            .run(object : XC_MethodHook() {
-                private val hookTracker = ThreadLocal<UnhookHandle>()
-
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    if (!showHeaderClock) return
+            .runAround(
+                before = before@{ param ->
+                    if (!showHeaderClock) return@before null
 
                     val mNotificationShadeWindowController =
                         param.thisObject.getField("mNotificationShadeWindowController")
@@ -299,16 +295,10 @@ open class HeaderClock(context: Context) : ModPack(context) {
                         }
                         .getUnhookHandle()
 
-                    hookTracker.set(handle)
-                }
-
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    hookTracker.get()?.let {
-                        it.unhook()
-                        hookTracker.remove()
-                    }
-                }
-            })
+                    handle
+                },
+                after = { _, handle -> handle?.unhook() }
+            )
 
         configurationListenerClass
             .hookMethod("onConfigChanged")

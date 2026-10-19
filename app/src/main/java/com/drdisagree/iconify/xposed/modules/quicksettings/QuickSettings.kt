@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.Notification
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.DrawableWrapper
 import android.graphics.drawable.GradientDrawable
@@ -45,7 +44,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Method
 import java.util.WeakHashMap
@@ -162,11 +160,14 @@ class QuickSettings(context: Context) : ModPack(context) {
         shadeHeaderClass
             .hookMethod("ExpandedShadeHeader")
             .suppressError()
-            .runBefore {
-                expandedHeaderDepth++
-                applyExpandedHeaderHeight()
-            }
-            .runAfter { expandedHeaderDepth-- }
+            .runAround(
+                before = {
+                    expandedHeaderDepth++
+                    applyExpandedHeaderHeight()
+                    true
+                },
+                after = { _, entered -> if (entered == true) expandedHeaderDepth-- }
+            )
 
         findClass("androidx.compose.foundation.layout.SizeKt", suppressError = true)
             .hookMethodMatchPattern("defaultMinSize-.*\\\$default")
@@ -305,35 +306,26 @@ class QuickSettings(context: Context) : ModPack(context) {
         notificationBackgroundViewClass
             .hookMethod("setTint")
             .suppressError()
-            .run(object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    if (!fixNotificationColor) return
+            .runAround(
+                before = before@{ param ->
+                    if (!fixNotificationColor) return@before null
 
                     val background = param.thisObject.getFieldSilently("mBackground")
-                            as? LayerDrawable ?: return
+                            as? LayerDrawable ?: return@before null
 
-                    param.setObjectExtra(
-                        TINTED_LAYER_COLORS,
-                        background.tintedLayers().map { layer ->
-                            Triple(layer, layer.color, layer.colors)
-                        }
-                    )
-                }
-
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    @Suppress("UNCHECKED_CAST")
-                    val savedColors = param.getObjectExtra(TINTED_LAYER_COLORS)
-                            as? List<Triple<GradientDrawable, ColorStateList?, IntArray?>>
-                        ?: return
-
-                    savedColors.forEach { (layer, color, colors) ->
+                    background.tintedLayers().map { layer ->
+                        Triple(layer, layer.color, layer.colors)
+                    }
+                },
+                after = { _, savedColors ->
+                    savedColors?.forEach { (layer, color, colors) ->
                         when {
                             color != null -> layer.color = color
                             colors != null -> layer.colors = colors
                         }
                     }
                 }
-            })
+            )
 
         footerViewClass
             .hookMethodMatchPattern("updateColors.*")
@@ -695,6 +687,5 @@ class QuickSettings(context: Context) : ModPack(context) {
     companion object {
         private const val COMPOSE_MODIFIER_CLASS = ComposeToolkit.MODIFIER_CLASS
         private const val EXPANDED_HEADER_HEIGHT = "ExpandedHeight"
-        private const val TINTED_LAYER_COLORS = "iconifyTintedLayerColors"
     }
 }

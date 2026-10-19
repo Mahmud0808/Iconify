@@ -146,56 +146,56 @@ object LockscreenSceneInjector {
         factoryClass
             .hookMethod("LockscreenElement")
             .suppressError()
-            .runBefore { param ->
-                val key = param.args.getOrNull(1) ?: return@runBefore
-                if (clockRegionKeys.none { it == key }) return@runBefore
-                dispatchClockSize(key)
+            .runAround(
+                before = before@{ param ->
+                    val key = param.args.getOrNull(1) ?: return@before null
+                    if (clockRegionKeys.none { it == key }) return@before null
+                    dispatchClockSize(key)
 
-                val replacement = replacement?.takeIf { it.isEnabled() }
-                val composer = if (replacement != null) composerOf(param) else null
-                if (replacement == null || composer == null) {
-                    regionStack.addLast(key == largeClockRegionKey)
-                    return@runBefore
-                }
-
-                ComposeViewHost.emitInGroup(composer, replacement.key, modifierOf(param), replacement.factory)
-                emitClockRegionOverlays(composer)
-                param.setObjectExtra(REPLACED_EXTRA, true)
-                param.result = null
-            }
-
-        factoryClass
-            .hookMethod("LockscreenElement")
-            .suppressError()
-            .runAfter { param ->
-                val key = param.args.getOrNull(1) ?: return@runAfter
-                if (clockRegionKeys.any { it == key }) {
-                    if (param.getObjectExtra(REPLACED_EXTRA) == true) return@runAfter
-                    regionStack.removeLastOrNull()
-                    if (param.throwable != null) return@runAfter
-
-                    composerOf(param)?.let { emitClockRegionOverlays(it) }
-                    return@runAfter
-                }
-                if (param.throwable != null) return@runAfter
-
-                val inLargeRegion = regionStack.lastOrNull() == true
-                val anchor = when {
-                    smartspaceKeys.any { it == key } -> if (inLargeRegion) {
-                        Anchor.LARGE_CLOCK_SMARTSPACE
-                    } else {
-                        Anchor.SMALL_CLOCK_SMARTSPACE
+                    val replacement = replacement?.takeIf { it.isEnabled() }
+                    val composer = if (replacement != null) composerOf(param) else null
+                    if (replacement == null || composer == null) {
+                        regionStack.addLast(key == largeClockRegionKey)
+                        return@before null
                     }
 
-                    inLargeRegion && isLargeClockAnchor(key) -> Anchor.LARGE_CLOCK_DATE
-                    else -> null
-                } ?: return@runAfter
-                val target = anchors[anchor] ?: return@runAfter
-                if (!target.isEnabled()) return@runAfter
+                    ComposeViewHost.emitInGroup(composer, replacement.key, modifierOf(param), replacement.factory)
+                    emitClockRegionOverlays(composer)
+                    param.result = null
+                    true
+                },
+                after = { param, replaced -> afterLockscreenElement(param, replaced == true) }
+            )
+    }
 
-                val composer = composerOf(param) ?: return@runAfter
-                ComposeViewHost.emitInGroup(composer, target.key, factory = target.factory)
+    private fun afterLockscreenElement(param: MethodHookParam, replaced: Boolean) {
+        val key = param.args.getOrNull(1) ?: return
+        if (clockRegionKeys.any { it == key }) {
+            if (replaced) return
+            regionStack.removeLastOrNull()
+            if (param.throwable != null) return
+
+            composerOf(param)?.let { emitClockRegionOverlays(it) }
+            return
+        }
+        if (param.throwable != null) return
+
+        val inLargeRegion = regionStack.lastOrNull() == true
+        val anchor = when {
+            smartspaceKeys.any { it == key } -> if (inLargeRegion) {
+                Anchor.LARGE_CLOCK_SMARTSPACE
+            } else {
+                Anchor.SMALL_CLOCK_SMARTSPACE
             }
+
+            inLargeRegion && isLargeClockAnchor(key) -> Anchor.LARGE_CLOCK_DATE
+            else -> null
+        } ?: return
+        val target = anchors[anchor] ?: return
+        if (!target.isEnabled()) return
+
+        val composer = composerOf(param) ?: return
+        ComposeViewHost.emitInGroup(composer, target.key, factory = target.factory)
     }
 
     private fun emitClockRegionOverlays(composer: Any) {
@@ -334,7 +334,6 @@ object LockscreenSceneInjector {
         }
     }
 
-    private const val REPLACED_EXTRA = "iconify_clock_region_replaced"
     private const val KEYGUARD_TRANSITION_REPOSITORY_CLASS =
         "$SYSTEMUI_PACKAGE.keyguard.data.repository.KeyguardTransitionRepositoryImpl"
     private const val FADE_OUT_END = 0.6f
