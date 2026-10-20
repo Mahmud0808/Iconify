@@ -6,7 +6,6 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
@@ -20,9 +19,6 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
     private var isKeyguardState: Boolean = false
     private var keyguardUpdateMonitorInstance: Any? = null
     private val mKeyguardShowingListeners = CopyOnWriteArrayList<KeyguardShowingListener>()
-
-    @Volatile
-    private var stateListenerHooked = false
 
     val isKeyguardShowing: Boolean
         get() = isKeyguardState
@@ -93,37 +89,27 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
             .hookConstructor()
             .runAfter { param ->
                 keyguardUpdateMonitorInstance = param.thisObject
+            }
 
-                if (stateListenerHooked) return@runAfter
+        keyguardUpdateMonitorClass
+            ?.declaredFields
+            ?.firstOrNull { it.name == "mStatusBarStateControllerListener" }
+            ?.type
+            .hookMethod("onStateChanged")
+            .suppressError()
+            .runAfter { param ->
+                val isKeyguardState = param.args[0] in listOf(KEYGUARD, SHADE_LOCKED)
 
-                val mStatusBarStateControllerListener =
-                    param.thisObject.getFieldSilently("mStatusBarStateControllerListener")
-                        ?: return@runAfter
-                val mStatusBarStateControllerListenerClass =
-                    mStatusBarStateControllerListener.javaClass
-
-                mStatusBarStateControllerListenerClass
-                    .hookMethod("onStateChanged")
-                    .runAfter {
-                        val isKeyguardState =
-                            param.thisObject.getField("mStatusBarState") in listOf(
-                                KEYGUARD,
-                                SHADE_LOCKED
-                            )
-
-                        synchronized(this) {
-                            if (this.isKeyguardState != isKeyguardState) {
-                                if (isKeyguardState) {
-                                    notifyKeyguardShown()
-                                } else {
-                                    notifyKeyguardDismissed()
-                                }
-                                this.isKeyguardState = isKeyguardState
-                            }
+                synchronized(this) {
+                    if (this.isKeyguardState != isKeyguardState) {
+                        if (isKeyguardState) {
+                            notifyKeyguardShown()
+                        } else {
+                            notifyKeyguardDismissed()
                         }
+                        this.isKeyguardState = isKeyguardState
                     }
-
-                stateListenerHooked = true
+                }
             }
     }
 
