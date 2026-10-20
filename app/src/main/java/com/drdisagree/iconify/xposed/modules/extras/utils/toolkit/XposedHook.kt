@@ -5,6 +5,7 @@ package com.drdisagree.iconify.xposed.modules.extras.utils.toolkit
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
+import android.content.res.TypedArray
 import android.content.res.XResources
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager.init
@@ -19,7 +20,10 @@ import de.robv.android.xposed.callbacks.XC_LayoutInflated
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.lang.ref.WeakReference
 import java.lang.reflect.Method
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.CopyOnWriteArrayList
 import java.util.regex.Pattern
+import kotlin.math.roundToInt
 
 class XposedHook {
     companion object {
@@ -309,9 +313,15 @@ class LayoutHookHelper(private val xResources: XResources) {
 
 object ResourceHookManager {
 
-    private val hookedResources = mutableListOf<HookData>()
+    private val replacements = HookType.entries
+        .flatMap { it.methods }
+        .associateWith { ConcurrentHashMap<Int, CopyOnWriteArrayList<HookData>>() }
+    private val offsets = ConcurrentHashMap<Int, CopyOnWriteArrayList<OffsetData>>()
     private var contextRef: WeakReference<Context>? = null
     private val handle = UnhookHandle()
+
+    @Volatile
+    private var typedArrayHooked = false
 
     fun init(context: Context) {
         contextRef = WeakReference(context)
@@ -334,7 +344,9 @@ object ResourceHookManager {
      */
     fun unhookAll() {
         handle.unhook()
-        hookedResources.clear()
+        replacements.values.forEach { it.clear() }
+        offsets.clear()
+        typedArrayHooked = false
     }
 
     private fun applyHooks() {
@@ -343,26 +355,71 @@ object ResourceHookManager {
 
         HookType.entries.forEach { hookType ->
             hookType.methods.forEach { methodName ->
+                val methodReplacements = replacements.getValue(methodName)
+                val supportsOffset = hookType == HookType.DIMENSION
+                val toPixels = methodName != "getDimension" && supportsOffset
+
                 val methodHandle = Resources::class.java
                     .hookMethod(methodName)
-                    .runBefore { param ->
-                        val data = hookedResources.find {
-                            it.method == methodName &&
-                                    it.resId == param.args[0] &&
-                                    it.condition()
-                        } ?: return@runBefore
+                    .run(object : XC_MethodHook() {
+                        override fun beforeHookedMethod(param: MethodHookParam) {
+                            if (methodReplacements.isEmpty()) return
+                            val resId = param.args[0] as? Int ?: return
+                            val data = methodReplacements[resId]
+                                ?.firstOrNull { it.condition() }
+                                ?: return
 
-                        param.result = when (methodName) {
-                            "getDimensionPixelSize",
-                            "getDimensionPixelOffset" -> context.toPx(data.value() as Int)
-
-                            else -> data.value()
+                            param.result = if (toPixels) {
+                                context.toPx(data.value() as Int)
+                            } else {
+                                data.value()
+                            }
                         }
-                    }
+
+                        override fun afterHookedMethod(param: MethodHookParam) {
+                            if (!supportsOffset || offsets.isEmpty()) return
+                            val resId = param.args[0] as? Int ?: return
+                            param.applyOffset(context, resId)
+                        }
+                    })
                     .getUnhookHandle()
 
                 handle.merge(methodHandle)
             }
+        }
+    }
+
+    @Synchronized
+    private fun hookTypedArray() {
+        if (typedArrayHooked) return
+        val context = contextRef?.get() ?: return
+        typedArrayHooked = true
+
+        HookType.DIMENSION.methods.forEach { methodName ->
+            val methodHandle = TypedArray::class.java
+                .hookMethod(methodName)
+                .runAfter { param ->
+                    if (offsets.isEmpty()) return@runAfter
+                    val index = param.args[0] as? Int ?: return@runAfter
+                    val resId = (param.thisObject as TypedArray).getResourceId(index, 0)
+                    if (resId != 0) param.applyOffset(context, resId)
+                }
+                .getUnhookHandle()
+
+            handle.merge(methodHandle)
+        }
+    }
+
+    private fun XC_MethodHook.MethodHookParam.applyOffset(context: Context, resId: Int) {
+        val data = offsets[resId]?.firstOrNull { it.condition() } ?: return
+        val offset = data.value()
+        if (offset == 0f) return
+
+        val offsetPx = offset * context.resources.displayMetrics.density
+        result = when (val value = result) {
+            is Float -> (value + offsetPx).coerceAtLeast(0f)
+            is Int -> (value + offsetPx).roundToInt().coerceAtLeast(0)
+            else -> value
         }
     }
 
@@ -371,6 +428,7 @@ object ResourceHookManager {
         private var packageName: String? = null
         private var condition: () -> Boolean = { true }
         private val resourcesToHook = mutableListOf<HookData>()
+        private val offsetsToHook = mutableListOf<OffsetData>()
 
         fun whenCondition(condition: () -> Boolean): HookBuilder {
             this.condition = condition
@@ -382,16 +440,8 @@ object ResourceHookManager {
             return this
         }
 
-        @SuppressLint("DiscouragedApi")
         fun addResource(name: String, value: () -> Any): HookBuilder {
-            val context = contextRef?.get() ?: return this
-            requireNotNull(packageName) { "forPackageName() must be called first" }
-
-            val resId = context.resources.getIdentifier(
-                name,
-                hookType.resourceType,
-                packageName
-            )
+            val resId = resourceId(name)
 
             if (resId != 0) {
                 hookType.methods.forEach { method ->
@@ -402,21 +452,57 @@ object ResourceHookManager {
             return this
         }
 
+        /**
+         * Adds [offset] (in dp) to the original value of the dimension [name], for both
+         * code reads and XML attribute reads. The result never goes below 0.
+         */
+        fun addOffset(name: String, offset: () -> Float): HookBuilder {
+            require(hookType == HookType.DIMENSION) { "addOffset() only supports dimensions" }
+            val resId = resourceId(name)
+
+            if (resId != 0) {
+                offsetsToHook.add(OffsetData(resId, offset, condition, UnhookHandle()))
+            }
+
+            return this
+        }
+
+        @SuppressLint("DiscouragedApi")
+        private fun resourceId(name: String): Int {
+            val context = contextRef?.get() ?: return 0
+            requireNotNull(packageName) { "forPackageName() must be called first" }
+
+            return context.resources.getIdentifier(name, hookType.resourceType, packageName)
+        }
+
         fun apply(): UnhookHandle {
             val localHandle = UnhookHandle()
 
             resourcesToHook.forEach { pending ->
-                val isDuplicate = hookedResources.any { existing ->
-                    existing.resId == pending.resId && existing.method == pending.method
-                }
-
-                if (!isDuplicate) {
-                    hookedResources.add(pending.copy(owner = localHandle))
+                val entries = replacements.getValue(pending.method)
+                    .getOrPut(pending.resId) { CopyOnWriteArrayList() }
+                if (entries.isEmpty()) {
+                    entries.add(pending.copy(owner = localHandle))
                 }
             }
 
+            if (offsetsToHook.isNotEmpty()) {
+                offsetsToHook.forEach { pending ->
+                    offsets.getOrPut(pending.resId) { CopyOnWriteArrayList() }
+                        .add(pending.copy(owner = localHandle))
+                }
+                hookTypedArray()
+            }
+
             localHandle.addCustom {
-                hookedResources.removeAll { it.owner == localHandle }
+                replacements.values.forEach { methodEntries ->
+                    methodEntries.values.forEach { entries ->
+                        entries.removeAll { it.owner == localHandle }
+                    }
+                    methodEntries.values.removeAll { it.isEmpty() }
+                }
+                offsets.values.forEach { entries -> entries.removeAll { it.owner == localHandle } }
+                offsets.values.removeAll { it.isEmpty() }
             }
 
             return localHandle
@@ -427,6 +513,13 @@ object ResourceHookManager {
         val resId: Int,
         val method: String,
         val value: () -> Any,
+        val condition: () -> Boolean,
+        val owner: UnhookHandle
+    )
+
+    data class OffsetData(
+        val resId: Int,
+        val value: () -> Float,
         val condition: () -> Boolean,
         val owner: UnhookHandle
     )

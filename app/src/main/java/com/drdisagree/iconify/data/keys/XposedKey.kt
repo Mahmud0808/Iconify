@@ -109,6 +109,9 @@ enum class XposedKey(override val default: Any?) : Key {
     HIDE_NOTIFICATION_CAUGHT_UP(false),
     QS_PANEL_HIDE_CARRIER(false),
     HIDE_STATUS_ICONS(false),
+    QS_CORNER_RADIUS_OFFSET(0f),
+    NOTIFICATION_CORNER_RADIUS_OFFSET(0f),
+    HIDE_QS_SLIDER_THUMB(false),
     FIX_NOTIFICATION_COLOR(false),
     FIX_NOTIFICATION_FOOTER_BUTTON_COLOR(false),
     FIX_NOTIFICATION_EXPAND_BUTTON_COLOR(false),
@@ -314,4 +317,6 @@ enum class XposedKey(override val default: Any?) : Key {
     VOLUME_PANEL_SAFETY_WARNING(true),
     VOLUME_PANEL_APP_VOLUME(false),
     VOLUME_PANEL_MULTI_AUDIO_FOCUS(false),
+    VOLUME_CORNER_RADIUS_OFFSET(0f),
+    HIDE_VOLUME_SLIDER_THUMB(false),
 }

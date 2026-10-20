@@ -142,17 +142,27 @@ object ComposeToolkit {
         method.parameterTypes.indexOfFirst { it.name == typeName }
 
     fun clearDefaultBit(method: Method, args: Array<Any?>, index: Int) {
+        val maskIndex = defaultMaskIndex(method, index) ?: return
+        val mask = args.getOrNull(maskIndex) as? Int ?: return
+        args[maskIndex] = mask and (1 shl (index % 31)).inv()
+    }
+
+    fun isDefaultArg(method: Method, args: Array<Any?>, index: Int): Boolean {
+        val maskIndex = defaultMaskIndex(method, index) ?: return false
+        val mask = args.getOrNull(maskIndex) as? Int ?: return false
+        return mask and (1 shl (index % 31)) != 0
+    }
+
+    private fun defaultMaskIndex(method: Method, index: Int): Int? {
         val types = method.parameterTypes
         val composerIndex = types.indexOfFirst { it.name == COMPOSER_CLASS }
-        if (composerIndex == -1) return
+        if (composerIndex == -1) return null
 
         val changedCount = maxOf(1, (composerIndex + 9) / 10)
         val trailing = types.size - composerIndex - 1
-        if (trailing <= changedCount) return
+        if (trailing <= changedCount) return null
 
-        val maskIndex = composerIndex + 1 + changedCount + index / 31
-        val mask = args.getOrNull(maskIndex) as? Int ?: return
-        args[maskIndex] = mask and (1 shl (index % 31)).inv()
+        return composerIndex + 1 + changedCount + index / 31
     }
 
     fun isCalledFrom(className: String, vararg methodPrefixes: String): Boolean =

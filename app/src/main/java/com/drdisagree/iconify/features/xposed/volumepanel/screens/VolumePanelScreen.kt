@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.features.xposed.volumepanel.screens
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,6 +15,7 @@ import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.utils.SystemUtils
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import kotlin.math.roundToInt
 
 val volumePanelPreferences = preferenceScreen {
     category {
@@ -41,6 +43,29 @@ val volumePanelPreferences = preferenceScreen {
             summary = { stringRes(R.string.multi_audio_focus_desc) },
         )
     }
+
+    category(title = stringRes(R.string.section_title_volume_shape)) {
+        slider(
+            key = XposedKey.VOLUME_CORNER_RADIUS_OFFSET,
+            title = stringRes(R.string.volume_corner_radius_offset_title),
+            summary = { stringRes(R.string.volume_corner_radius_offset_desc) },
+            min = -50f,
+            max = 50f,
+            valueLabel = { value ->
+                val offset = value.roundToInt()
+                if (offset > 0) "+${offset}dp" else "${offset}dp"
+            },
+            showResetButton = true,
+            isVisible = { Build.VERSION.SDK_INT >= 36 },
+        )
+
+        switch(
+            key = XposedKey.HIDE_VOLUME_SLIDER_THUMB,
+            title = stringRes(R.string.hide_volume_slider_thumb_title),
+            summary = { stringRes(R.string.hide_volume_slider_thumb_desc) },
+            isVisible = { Build.VERSION.SDK_INT >= 36 },
+        )
+    }
 }
 
 @Composable
@@ -51,7 +76,9 @@ fun VolumePanelScreen(
         when (event.key) {
             XposedKey.VOLUME_PANEL_PERCENTAGE.name,
             XposedKey.VOLUME_PANEL_SAFETY_WARNING.name,
-            XposedKey.VOLUME_PANEL_APP_VOLUME.name -> {
+            XposedKey.VOLUME_PANEL_APP_VOLUME.name,
+            XposedKey.VOLUME_CORNER_RADIUS_OFFSET.name,
+            XposedKey.HIDE_VOLUME_SLIDER_THUMB.name -> {
                 systemActionViewModel?.shouldRestartSystemUI()
             }
 

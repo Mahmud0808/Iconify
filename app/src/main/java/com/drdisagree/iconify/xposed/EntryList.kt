@@ -26,6 +26,7 @@ import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenVisualizer
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenVisualizerCompose
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgets
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgetsCompose
+import com.drdisagree.iconify.xposed.modules.misc.ComposeShapes
 import com.drdisagree.iconify.xposed.modules.misc.Miscellaneous
 import com.drdisagree.iconify.xposed.modules.quicksettings.AppIconInNotification
 import com.drdisagree.iconify.xposed.modules.quicksettings.ColorizeNotificationView
@@ -86,6 +87,7 @@ object EntryList {
         AlbumArt::class.java,
         LockscreenVisualizer::class.java,
         Miscellaneous::class.java,
+        ComposeShapes::class.java,
         QSTransparency::class.java,
         QuickSettings::class.java,
         AppIconsInStatusbar::class.java,
