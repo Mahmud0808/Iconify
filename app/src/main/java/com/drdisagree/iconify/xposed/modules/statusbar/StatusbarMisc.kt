@@ -48,14 +48,16 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilent
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.runAfter
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setStaticField
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import kotlin.math.roundToInt
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 @SuppressLint("DiscouragedApi")
 class StatusbarMisc(context: Context) : ModPack(context) {
@@ -75,6 +77,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     private var notifIconsLimit = -1
     private var dualStatusbarEnabled = false
     private var linkToCustomColor = false
+    private var statusbarColors = Color.WHITE to Color.BLACK
     private var darkIconDispatcherImplInstance: Any? = null
 
     override fun updatePrefs(vararg key: String) {
@@ -103,7 +106,10 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             ) -> hideLockscreenCarrierOrStatusbar()
 
             XposedKey.STATUSBAR_LINK_TO_CUSTOM_COLOR.name,
-            XposedKey.STATUSBAR_CUSTOM_COLOR_CHANGED.name -> applyIconTint()
+            XposedKey.STATUSBAR_CUSTOM_COLOR_CHANGED.name -> {
+                statusbarColors = getStatusbarColors(mContext)
+                applyIconTint()
+            }
         }
     }
 
@@ -510,6 +516,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             .runAfter { param ->
                 darkIconDispatcherImplInstance = param.thisObject
                 updateStatusbarColor(param)
+                if (linkToCustomColor) applyIconTint()
             }
 
         darkIconDispatcherImplClass
@@ -524,8 +531,38 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 updateStatusbarColor(param)
             }
 
-        updateBatteryColors()
+        findClass(SYSTEM_STATUS_ICONS_KT_CLASS, suppressError = true)
+            .hookMethodMatchPattern("SystemStatusIcons(-.*)?")
+            .suppressError()
+            .runBefore { param -> param.tintSystemStatusIcons() }
+
+        statusbarColors = getStatusbarColors(mContext)
+        hookBatteryColors()
         applyIconTint()
+    }
+
+    private fun XC_MethodHook.MethodHookParam.tintSystemStatusIcons() {
+        if (!linkToCustomColor) return
+
+        val colorIndex = (method as Method).parameterTypes
+            .indexOfFirst { it == Long::class.javaPrimitiveType }
+        if (colorIndex == -1) return
+
+        val isLightIcon = when (args[colorIndex] as? Long) {
+            ComposeToolkit.colorOf(Color.WHITE) -> true
+            ComposeToolkit.colorOf(Color.BLACK) -> false
+            else -> return
+        }
+
+        val isStatusBar = Thread.currentThread().stackTrace.any {
+            it.className in SYSTEM_STATUS_ICONS_CALLERS
+        }
+        if (!isStatusBar) return
+
+        val (statusbarColorLight, statusbarColorDark) = statusbarColors
+        args[colorIndex] = ComposeToolkit.colorOf(
+            if (isLightIcon) statusbarColorLight else statusbarColorDark
+        )
     }
 
     private fun applyIconTint() {
@@ -556,69 +593,50 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         }
     }
 
-    private fun updateBatteryColors() {
-        if (!linkToCustomColor) return
+    private fun hookBatteryColors() {
+        val getterPattern = Regex(BATTERY_COLOR_GETTER_PATTERN)
 
-        val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
+        BATTERY_THEME_CLASSES
+            .mapNotNull { findClass(it, suppressError = true) }
+            .flatMap { it.declaredMethods.asList() }
+            .filter { getterPattern.matches(it.name) && !Modifier.isAbstract(it.modifiers) }
+            .forEach { getter ->
+                getter.runAfter { param ->
+                    if (!linkToCustomColor) return@runAfter
 
-        val batteryLightThemeClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$LightTheme")
-        val batteryDarkThemeClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$DarkTheme")
+                    val color = param.result as? Long ?: return@runAfter
+                    val (statusbarColorLight, statusbarColorDark) = statusbarColors
+                    val isLightTheme = getter.declaringClass.name.contains(LIGHT_THEME_MARKER)
 
-        batteryLightThemeClass.setStaticField(
-            "lowAlphaBg",
-            ComposeToolkit.colorOf(
-                ColorUtils.setAlphaComponent(
-                    statusbarColorLight,
-                    (255 * 0.20f).roundToInt()
-                )
-            )
-        )
-        batteryLightThemeClass.setStaticField(
-            "highAlphaBg",
-            ComposeToolkit.colorOf(
-                ColorUtils.setAlphaComponent(
-                    statusbarColorLight,
-                    (255 * 0.55f).roundToInt()
-                )
-            )
-        )
-        batteryDarkThemeClass.setStaticField(
-            "lowAlphaBg",
-            ComposeToolkit.colorOf(
-                ColorUtils.setAlphaComponent(
-                    statusbarColorLight,
-                    (255 * 0.45f).roundToInt()
-                )
-            )
-        )
-        batteryDarkThemeClass.setStaticField(
-            "highAlphaBg",
-            ComposeToolkit.colorOf(
-                ColorUtils.setAlphaComponent(
-                    statusbarColorLight,
-                    (255 * 0.55f).roundToInt()
-                )
-            )
-        )
-
-        val batteryLightThemeDefaultClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$LightTheme$Default")
-        val batteryDarkThemeDefaultClass =
-            findClass($$"$$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors$DarkTheme$Default")
-
-        batteryLightThemeDefaultClass.setStaticField(
-            "fill",
-            ComposeToolkit.colorOf(statusbarColorLight)
-        )
-        batteryDarkThemeDefaultClass.setStaticField(
-            "fill",
-            ComposeToolkit.colorOf(statusbarColorDark)
-        )
+                    param.result = ComposeToolkit.colorOf(
+                        ColorUtils.setAlphaComponent(
+                            if (isLightTheme) statusbarColorDark else statusbarColorLight,
+                            (color ushr 56).toInt()
+                        )
+                    )
+                }
+            }
     }
 
     companion object {
+
+        private const val SYSTEM_STATUS_ICONS_KT_CLASS =
+            "$SYSTEMUI_PACKAGE.statusbar.systemstatusicons.ui.compose.SystemStatusIconsKt"
+        private const val BATTERY_COLORS_CLASS =
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.battery.shared.ui.BatteryColors"
+        private val BATTERY_THEME_CLASSES = listOf(
+            $$"$$BATTERY_COLORS_CLASS$LightTheme",
+            $$"$$BATTERY_COLORS_CLASS$LightTheme$Default",
+            $$"$$BATTERY_COLORS_CLASS$DarkTheme",
+            $$"$$BATTERY_COLORS_CLASS$DarkTheme$Default"
+        )
+        private const val BATTERY_COLOR_GETTER_PATTERN =
+            "get(Fill|BackgroundOnly|BackgroundWithGlyph)(-.*)?"
+        private const val LIGHT_THEME_MARKER = $$"$LightTheme"
+        private val SYSTEM_STATUS_ICONS_CALLERS = setOf(
+            "$SYSTEMUI_PACKAGE.statusbar.pipeline.shared.ui.composable.StatusBarRootKt",
+            "$SYSTEMUI_PACKAGE.keyguard.ui.composable.elements.StatusBarElementProviderKt"
+        )
 
         private var mClockClickable = false
 
