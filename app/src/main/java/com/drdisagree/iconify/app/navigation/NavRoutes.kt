@@ -154,6 +154,9 @@ sealed class NavRoutes {
 
                 @Serializable
                 data object Margins : QuickSettings()
+
+                @Serializable
+                data object ShapeSliders : QuickSettings()
             }
 
             @Serializable

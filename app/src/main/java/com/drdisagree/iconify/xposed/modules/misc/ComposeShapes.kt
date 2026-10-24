@@ -27,7 +27,9 @@ import java.util.concurrent.ConcurrentHashMap
 class ComposeShapes(context: Context) : ModPack(context) {
 
     private var activeTileCornerRadiusOffset = 0f
+    private var activeIconCornerRadiusOffset = 0f
     private var inactiveTileCornerRadiusOffset = 0f
+    private var inactiveIconCornerRadiusOffset = 0f
     private var footerButtonsCornerRadiusOffset = 0f
     private var notificationCornerRadiusOffset = 0f
     private var qsSliderStyle = SliderStyle()
@@ -65,8 +67,12 @@ class ComposeShapes(context: Context) : ModPack(context) {
         Xprefs.apply {
             activeTileCornerRadiusOffset =
                 getFloat(XposedKey.QS_ACTIVE_TILE_CORNER_RADIUS_OFFSET)
+            activeIconCornerRadiusOffset =
+                getFloat(XposedKey.QS_ACTIVE_ICON_CORNER_RADIUS_OFFSET)
             inactiveTileCornerRadiusOffset =
                 getFloat(XposedKey.QS_INACTIVE_TILE_CORNER_RADIUS_OFFSET)
+            inactiveIconCornerRadiusOffset =
+                getFloat(XposedKey.QS_INACTIVE_ICON_CORNER_RADIUS_OFFSET)
             footerButtonsCornerRadiusOffset =
                 getFloat(XposedKey.QS_FOOTER_BUTTONS_CORNER_RADIUS_OFFSET)
             notificationCornerRadiusOffset = getFloat(XposedKey.NOTIFICATION_CORNER_RADIUS_OFFSET)
@@ -166,12 +172,10 @@ class ComposeShapes(context: Context) : ModPack(context) {
             .hookDimen()
             .forPackageName(SYSTEMUI_PACKAGE)
 
-        ACTIVE_TILE_RADIUS_DIMENS.forEach {
-            dimenHook.addOffset(it) { activeTileCornerRadiusOffset }
-        }
-        INACTIVE_TILE_RADIUS_DIMENS.forEach {
-            dimenHook.addOffset(it) { inactiveTileCornerRadiusOffset }
-        }
+        dimenHook.addOffset(ACTIVE_TILE_RADIUS_DIMEN) { activeTileCornerRadiusOffset }
+        dimenHook.addOffset(ACTIVE_ICON_RADIUS_DIMEN) { activeIconCornerRadiusOffset }
+        dimenHook.addOffset(INACTIVE_TILE_RADIUS_DIMEN) { inactiveTileCornerRadiusOffset }
+        dimenHook.addOffset(INACTIVE_ICON_RADIUS_DIMEN) { inactiveIconCornerRadiusOffset }
         NOTIFICATION_RADIUS_DIMENS.forEach {
             dimenHook.addOffset(it) { notificationCornerRadiusOffset }
         }
@@ -234,7 +238,9 @@ class ComposeShapes(context: Context) : ModPack(context) {
             .suppressError()
             .runBefore { param ->
                 if (activeTileCornerRadiusOffset == 0f &&
-                    inactiveTileCornerRadiusOffset == 0f
+                    activeIconCornerRadiusOffset == 0f &&
+                    inactiveTileCornerRadiusOffset == 0f &&
+                    inactiveIconCornerRadiusOffset == 0f
                 ) return@runBefore
 
                 val types = (param.method as Method).parameterTypes
@@ -257,11 +263,18 @@ class ComposeShapes(context: Context) : ModPack(context) {
                     MODE_INACTIVE_RADIUS, MODE_INACTIVE_RADIUS_ALT -> false
                     else -> param.args[stateIndex] == STATE_ACTIVE
                 }
+                val isIcon = types.indices
+                    .firstOrNull { types[it] == String::class.java }
+                    ?.let { (param.args[it] as? String)?.contains(ICON_SHAPE_LABEL) } == true
+
                 val newRadius = if (usesRadius) {
-                    radius.withOffset(activeTileCornerRadiusOffset)
+                    radius.withOffset(
+                        if (isIcon) activeIconCornerRadiusOffset else activeTileCornerRadiusOffset
+                    )
                 } else {
-                    inactiveCornerRadius?.withOffset(inactiveTileCornerRadiusOffset)
-                        ?: return@runBefore
+                    inactiveCornerRadius?.withOffset(
+                        if (isIcon) inactiveIconCornerRadiusOffset else inactiveTileCornerRadiusOffset
+                    ) ?: return@runBefore
                 }
 
                 modeIndex?.let { param.args[it] = MODE_ACTIVE_RADIUS }
@@ -432,14 +445,15 @@ class ComposeShapes(context: Context) : ModPack(context) {
             "notification_corner_radius",
             "notification_scrim_corner_radius"
         )
-        private val ACTIVE_TILE_RADIUS_DIMENS = listOf(
-            "common_tile_default_active_tile_corner_radius",
+        private const val ACTIVE_TILE_RADIUS_DIMEN =
+            "common_tile_default_active_tile_corner_radius"
+        private const val ACTIVE_ICON_RADIUS_DIMEN =
             "common_tile_default_active_icon_corner_radius"
-        )
-        private val INACTIVE_TILE_RADIUS_DIMENS = listOf(
-            "common_tile_default_inactive_tile_corner_radius",
+        private const val INACTIVE_TILE_RADIUS_DIMEN =
+            "common_tile_default_inactive_tile_corner_radius"
+        private const val INACTIVE_ICON_RADIUS_DIMEN =
             "common_tile_default_inactive_icon_corner_radius"
-        )
+        private const val ICON_SHAPE_LABEL = "Icon"
         private val VOLUME_RADIUS_DIMENS = listOf(
             "volume_dialog_background_corner_radius",
             "volume_dialog_background_square_corner_radius",

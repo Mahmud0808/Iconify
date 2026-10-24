@@ -79,6 +79,18 @@ val quickSettingsPreferences = preferenceScreen {
                 }
             }
         )
+
+        action(
+            key = "xposedQsShapeSliders",
+            icon = iconRes(Iconsax.Outline.Element),
+            title = stringRes(R.string.activity_title_qs_shape_sliders),
+            summary = { stringRes(R.string.activity_desc_qs_shape_sliders) },
+            onClick = {
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.QuickSettings.ShapeSliders) {
+                    launchSingleTop = true
+                }
+            }
+        )
     }
 
     category(title = stringRes(R.string.section_title_qs_margin)) {
@@ -210,79 +222,6 @@ val quickSettingsPreferences = preferenceScreen {
         )
     }
 
-    category(title = stringRes(R.string.section_title_qs_shape_sliders)) {
-        slider(
-            key = XposedKey.QS_ACTIVE_TILE_CORNER_RADIUS_OFFSET,
-            title = stringRes(R.string.qs_active_tile_radius_title),
-            min = -50f,
-            max = 50f,
-            valueLabel = { value ->
-                val offset = value.roundToInt()
-                if (offset > 0) "+${offset}dp" else "${offset}dp"
-            },
-            showResetButton = true,
-            isVisible = { Build.VERSION.SDK_INT >= 36 },
-        )
-
-        slider(
-            key = XposedKey.QS_INACTIVE_TILE_CORNER_RADIUS_OFFSET,
-            title = stringRes(R.string.qs_inactive_tile_radius_title),
-            min = -50f,
-            max = 50f,
-            valueLabel = { value ->
-                val offset = value.roundToInt()
-                if (offset > 0) "+${offset}dp" else "${offset}dp"
-            },
-            showResetButton = true,
-            isVisible = { Build.VERSION.SDK_INT >= 36 },
-        )
-
-        slider(
-            key = XposedKey.QS_BRIGHTNESS_SLIDER_CORNER_RADIUS_OFFSET,
-            title = stringRes(R.string.qs_brightness_slider_radius_title),
-            min = -50f,
-            max = 50f,
-            valueLabel = { value ->
-                val offset = value.roundToInt()
-                if (offset > 0) "+${offset}dp" else "${offset}dp"
-            },
-            showResetButton = true,
-            isVisible = { Build.VERSION.SDK_INT >= 36 },
-        )
-
-        slider(
-            key = XposedKey.QS_FOOTER_BUTTONS_CORNER_RADIUS_OFFSET,
-            title = stringRes(R.string.qs_footer_buttons_radius_title),
-            min = -50f,
-            max = 50f,
-            valueLabel = { value ->
-                val offset = value.roundToInt()
-                if (offset > 0) "+${offset}dp" else "${offset}dp"
-            },
-            showResetButton = true,
-            isVisible = { Build.VERSION.SDK_INT >= 36 },
-        )
-
-        switch(
-            key = XposedKey.HIDE_QS_SLIDER_THUMB,
-            title = stringRes(R.string.hide_qs_slider_thumb_title),
-            summary = { stringRes(R.string.hide_qs_slider_thumb_desc) },
-            isVisible = { Build.VERSION.SDK_INT >= 36 },
-        )
-
-        switch(
-            key = XposedKey.QS_BRIGHTNESS_SLIDER_BOTTOM,
-            title = stringRes(R.string.qs_brightness_slider_bottom_title),
-            summary = { stringRes(R.string.qs_brightness_slider_bottom_desc) }
-        )
-
-        switch(
-            key = XposedKey.QQS_BRIGHTNESS_SLIDER,
-            title = stringRes(R.string.qqs_brightness_slider_title),
-            summary = { stringRes(R.string.qqs_brightness_slider_desc) }
-        )
-    }
-
     category(title = stringRes(R.string.section_title_others)) {
         switch(
             key = XposedKey.FIX_NOTIFICATION_COLOR,
@@ -317,18 +256,11 @@ fun QuickSettingsScreen(
             XposedKey.COMPACT_MEDIA_PLAYER.name,
             XposedKey.BLUR_MEDIA_PLAYER_ARTWORK.name,
             XposedKey.HIDE_QS_SILENT_TEXT.name,
-            XposedKey.QS_BRIGHTNESS_SLIDER_BOTTOM.name,
-            XposedKey.QQS_BRIGHTNESS_SLIDER.name,
             XposedKey.HIDE_QS_FOOTER_BUTTONS.name,
             XposedKey.HIDE_NOTIFICATION_CAUGHT_UP.name,
             XposedKey.QS_PANEL_HIDE_CARRIER.name,
             XposedKey.HIDE_STATUS_ICONS.name,
-            XposedKey.QS_ACTIVE_TILE_CORNER_RADIUS_OFFSET.name,
-            XposedKey.QS_INACTIVE_TILE_CORNER_RADIUS_OFFSET.name,
-            XposedKey.QS_BRIGHTNESS_SLIDER_CORNER_RADIUS_OFFSET.name,
-            XposedKey.QS_FOOTER_BUTTONS_CORNER_RADIUS_OFFSET.name,
             XposedKey.NOTIFICATION_CORNER_RADIUS_OFFSET.name,
-            XposedKey.HIDE_QS_SLIDER_THUMB.name,
             XposedKey.FIX_NOTIFICATION_COLOR.name,
             XposedKey.FIX_NOTIFICATION_FOOTER_BUTTON_COLOR.name,
             XposedKey.FIX_NOTIFICATION_EXPAND_BUTTON_COLOR.name -> {

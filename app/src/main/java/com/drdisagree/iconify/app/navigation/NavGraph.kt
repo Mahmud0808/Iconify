@@ -73,6 +73,7 @@ import com.drdisagree.iconify.features.xposed.quicksettings.grid.screens.QsGridS
 import com.drdisagree.iconify.features.xposed.quicksettings.headerimage.screens.HeaderImageScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.main.screens.QuickSettingsScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.margins.screens.QsMarginsScreen
+import com.drdisagree.iconify.features.xposed.quicksettings.shape.screens.QsShapeSlidersScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.themes.screens.QsThemesScreen
 import com.drdisagree.iconify.features.xposed.quicksettings.transparency.screens.QsTransparencyScreen
 import com.drdisagree.iconify.features.xposed.statusbar.batterystyle.screens.BatteryStyleScreen
@@ -291,6 +292,7 @@ fun NavGraph(
                                 destination<NavRoutes.MainGraph.Xposed.QuickSettings.Grid> { QsGridScreen() }
                                 destination<NavRoutes.MainGraph.Xposed.QuickSettings.Themes> { QsThemesScreen() }
                                 destination<NavRoutes.MainGraph.Xposed.QuickSettings.Margins> { QsMarginsScreen() }
+                                destination<NavRoutes.MainGraph.Xposed.QuickSettings.ShapeSliders> { QsShapeSlidersScreen() }
                             }
 
                             navigation<NavRoutes.MainGraph.Xposed.Lockscreen.Root>(startDestination = NavRoutes.MainGraph.Xposed.Lockscreen.Main) {

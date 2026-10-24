@@ -28,6 +28,7 @@ import com.drdisagree.iconify.features.xposed.quicksettings.grid.screens.qsGridP
 import com.drdisagree.iconify.features.xposed.quicksettings.headerimage.screens.headerImagePreferences
 import com.drdisagree.iconify.features.xposed.quicksettings.main.screens.quickSettingsPreferences
 import com.drdisagree.iconify.features.xposed.quicksettings.margins.screens.qsMarginsPreferences
+import com.drdisagree.iconify.features.xposed.quicksettings.shape.screens.qsShapeSlidersPreferences
 import com.drdisagree.iconify.features.xposed.quicksettings.themes.screens.qsThemesPreferences
 import com.drdisagree.iconify.features.xposed.quicksettings.transparency.screens.qsTransparencyPreferences
 import com.drdisagree.iconify.features.xposed.statusbar.batterystyle.screens.batteryStylePreferences
@@ -283,6 +284,15 @@ object SearchIndex {
                     stringRes(R.string.activity_title_qs_panel_margin)
                 ),
                 route = NavRoutes.MainGraph.Xposed.QuickSettings.Margins,
+            ),
+            ScreenEntry(
+                items = qsShapeSlidersPreferences,
+                screenTitleResId = R.string.activity_title_qs_shape_sliders,
+                breadcrumbs = listOf(
+                    xposed, quickSettings,
+                    stringRes(R.string.activity_title_qs_shape_sliders)
+                ),
+                route = NavRoutes.MainGraph.Xposed.QuickSettings.ShapeSliders,
             ),
 
             // ── Xposed > Lockscreen ───────────────────────────────────────

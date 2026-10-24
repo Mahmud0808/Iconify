@@ -1053,10 +1053,14 @@
     <string name="hide_status_icons_title">Hide Status Icons</string>
     <string name="hide_status_icons_desc">Remove time, date and battery icons</string>
     <string name="section_title_qs_visibility">Visibility</string>
-    <string name="section_title_qs_shape_sliders">Shape &amp; Sliders</string>
+    <string name="activity_title_qs_shape_sliders">Shape &amp; Sliders</string>
+    <string name="activity_desc_qs_shape_sliders">Corner radius and brightness slider</string>
+    <string name="section_title_qs_brightness_slider">Brightness Slider</string>
     <string name="qs_corner_radius_offset_title">Corner Radius</string>
     <string name="qs_active_tile_radius_title">Active Tile Radius</string>
+    <string name="qs_active_icon_radius_title">Active Icon Radius</string>
     <string name="qs_inactive_tile_radius_title">Inactive Tile Radius</string>
+    <string name="qs_inactive_icon_radius_title">Inactive Icon Radius</string>
     <string name="qs_brightness_slider_radius_title">Brightness Slider Radius</string>
     <string name="qs_footer_buttons_radius_title">Footer Buttons Radius</string>
     <string name="notification_corner_radius_offset_desc">Notifications and footer buttons</string>
