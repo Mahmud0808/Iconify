@@ -1055,7 +1055,10 @@
     <string name="section_title_qs_visibility">Visibility</string>
     <string name="section_title_qs_shape_sliders">Shape &amp; Sliders</string>
     <string name="qs_corner_radius_offset_title">Corner Radius</string>
-    <string name="qs_corner_radius_offset_desc">Tiles, slider and buttons</string>
+    <string name="qs_active_tile_radius_title">Active Tile Radius</string>
+    <string name="qs_inactive_tile_radius_title">Inactive Tile Radius</string>
+    <string name="qs_brightness_slider_radius_title">Brightness Slider Radius</string>
+    <string name="qs_footer_buttons_radius_title">Footer Buttons Radius</string>
     <string name="notification_corner_radius_offset_desc">Notifications and footer buttons</string>
     <string name="hide_qs_slider_thumb_title">Hide Slider Thumb</string>
     <string name="hide_qs_slider_thumb_desc">Brightness slider</string>

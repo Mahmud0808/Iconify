@@ -26,7 +26,9 @@ import java.util.concurrent.ConcurrentHashMap
 
 class ComposeShapes(context: Context) : ModPack(context) {
 
-    private var qsCornerRadiusOffset = 0f
+    private var activeTileCornerRadiusOffset = 0f
+    private var inactiveTileCornerRadiusOffset = 0f
+    private var footerButtonsCornerRadiusOffset = 0f
     private var notificationCornerRadiusOffset = 0f
     private var qsSliderStyle = SliderStyle()
     private var volumeSliderStyle = SliderStyle()
@@ -61,10 +63,15 @@ class ComposeShapes(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
-            qsCornerRadiusOffset = getFloat(XposedKey.QS_CORNER_RADIUS_OFFSET)
+            activeTileCornerRadiusOffset =
+                getFloat(XposedKey.QS_ACTIVE_TILE_CORNER_RADIUS_OFFSET)
+            inactiveTileCornerRadiusOffset =
+                getFloat(XposedKey.QS_INACTIVE_TILE_CORNER_RADIUS_OFFSET)
+            footerButtonsCornerRadiusOffset =
+                getFloat(XposedKey.QS_FOOTER_BUTTONS_CORNER_RADIUS_OFFSET)
             notificationCornerRadiusOffset = getFloat(XposedKey.NOTIFICATION_CORNER_RADIUS_OFFSET)
             qsSliderStyle = SliderStyle(
-                cornerRadiusOffset = qsCornerRadiusOffset,
+                cornerRadiusOffset = getFloat(XposedKey.QS_BRIGHTNESS_SLIDER_CORNER_RADIUS_OFFSET),
                 hideThumb = getBoolean(XposedKey.HIDE_QS_SLIDER_THUMB)
             )
             volumeSliderStyle = SliderStyle(
@@ -97,7 +104,7 @@ class ComposeShapes(context: Context) : ModPack(context) {
     }
 
     private fun MethodHookParam.replaceQsButtonCircleShape() {
-        if (qsCornerRadiusOffset >= 0f) return
+        if (footerButtonsCornerRadiusOffset >= 0f) return
 
         val shapeIndex = shapeParamIndices.getOrPut(method) {
             (method as Method).parameterTypes.indexOfFirst { it.name == SHAPE_CLASS }
@@ -110,7 +117,7 @@ class ComposeShapes(context: Context) : ModPack(context) {
         }
         if (!isQsButton) return
 
-        args[shapeIndex] = pillShape(qsCornerRadiusOffset) ?: return
+        args[shapeIndex] = pillShape(footerButtonsCornerRadiusOffset) ?: return
     }
 
     private fun pillShape(offset: Float): Any? {
@@ -159,7 +166,12 @@ class ComposeShapes(context: Context) : ModPack(context) {
             .hookDimen()
             .forPackageName(SYSTEMUI_PACKAGE)
 
-        QS_RADIUS_DIMENS.forEach { dimenHook.addOffset(it) { qsCornerRadiusOffset } }
+        ACTIVE_TILE_RADIUS_DIMENS.forEach {
+            dimenHook.addOffset(it) { activeTileCornerRadiusOffset }
+        }
+        INACTIVE_TILE_RADIUS_DIMENS.forEach {
+            dimenHook.addOffset(it) { inactiveTileCornerRadiusOffset }
+        }
         NOTIFICATION_RADIUS_DIMENS.forEach {
             dimenHook.addOffset(it) { notificationCornerRadiusOffset }
         }
@@ -221,7 +233,9 @@ class ComposeShapes(context: Context) : ModPack(context) {
             .hookMethodMatchPattern("animateShapeAsState(-.*)?")
             .suppressError()
             .runBefore { param ->
-                if (qsCornerRadiusOffset == 0f) return@runBefore
+                if (activeTileCornerRadiusOffset == 0f &&
+                    inactiveTileCornerRadiusOffset == 0f
+                ) return@runBefore
 
                 val types = (param.method as Method).parameterTypes
                 val radiusIndex = types.indexOfFirst { it == Float::class.javaPrimitiveType }
@@ -243,15 +257,16 @@ class ComposeShapes(context: Context) : ModPack(context) {
                     MODE_INACTIVE_RADIUS, MODE_INACTIVE_RADIUS_ALT -> false
                     else -> param.args[stateIndex] == STATE_ACTIVE
                 }
-                val defaultRadius = if (usesRadius) {
-                    radius
+                val newRadius = if (usesRadius) {
+                    radius.withOffset(activeTileCornerRadiusOffset)
                 } else {
-                    inactiveCornerRadius ?: return@runBefore
+                    inactiveCornerRadius?.withOffset(inactiveTileCornerRadiusOffset)
+                        ?: return@runBefore
                 }
 
                 modeIndex?.let { param.args[it] = MODE_ACTIVE_RADIUS }
                 param.args[stateIndex] = STATE_ACTIVE
-                param.args[radiusIndex] = defaultRadius.withOffset(qsCornerRadiusOffset)
+                param.args[radiusIndex] = newRadius
             }
     }
 
@@ -417,10 +432,12 @@ class ComposeShapes(context: Context) : ModPack(context) {
             "notification_corner_radius",
             "notification_scrim_corner_radius"
         )
-        private val QS_RADIUS_DIMENS = listOf(
+        private val ACTIVE_TILE_RADIUS_DIMENS = listOf(
             "common_tile_default_active_tile_corner_radius",
+            "common_tile_default_active_icon_corner_radius"
+        )
+        private val INACTIVE_TILE_RADIUS_DIMENS = listOf(
             "common_tile_default_inactive_tile_corner_radius",
-            "common_tile_default_active_icon_corner_radius",
             "common_tile_default_inactive_icon_corner_radius"
         )
         private val VOLUME_RADIUS_DIMENS = listOf(

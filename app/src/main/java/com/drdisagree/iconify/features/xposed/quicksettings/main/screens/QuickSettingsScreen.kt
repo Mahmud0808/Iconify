@@ -212,9 +212,47 @@ val quickSettingsPreferences = preferenceScreen {
 
     category(title = stringRes(R.string.section_title_qs_shape_sliders)) {
         slider(
-            key = XposedKey.QS_CORNER_RADIUS_OFFSET,
-            title = stringRes(R.string.qs_corner_radius_offset_title),
-            summary = { stringRes(R.string.qs_corner_radius_offset_desc) },
+            key = XposedKey.QS_ACTIVE_TILE_CORNER_RADIUS_OFFSET,
+            title = stringRes(R.string.qs_active_tile_radius_title),
+            min = -50f,
+            max = 50f,
+            valueLabel = { value ->
+                val offset = value.roundToInt()
+                if (offset > 0) "+${offset}dp" else "${offset}dp"
+            },
+            showResetButton = true,
+            isVisible = { Build.VERSION.SDK_INT >= 36 },
+        )
+
+        slider(
+            key = XposedKey.QS_INACTIVE_TILE_CORNER_RADIUS_OFFSET,
+            title = stringRes(R.string.qs_inactive_tile_radius_title),
+            min = -50f,
+            max = 50f,
+            valueLabel = { value ->
+                val offset = value.roundToInt()
+                if (offset > 0) "+${offset}dp" else "${offset}dp"
+            },
+            showResetButton = true,
+            isVisible = { Build.VERSION.SDK_INT >= 36 },
+        )
+
+        slider(
+            key = XposedKey.QS_BRIGHTNESS_SLIDER_CORNER_RADIUS_OFFSET,
+            title = stringRes(R.string.qs_brightness_slider_radius_title),
+            min = -50f,
+            max = 50f,
+            valueLabel = { value ->
+                val offset = value.roundToInt()
+                if (offset > 0) "+${offset}dp" else "${offset}dp"
+            },
+            showResetButton = true,
+            isVisible = { Build.VERSION.SDK_INT >= 36 },
+        )
+
+        slider(
+            key = XposedKey.QS_FOOTER_BUTTONS_CORNER_RADIUS_OFFSET,
+            title = stringRes(R.string.qs_footer_buttons_radius_title),
             min = -50f,
             max = 50f,
             valueLabel = { value ->
@@ -285,7 +323,10 @@ fun QuickSettingsScreen(
             XposedKey.HIDE_NOTIFICATION_CAUGHT_UP.name,
             XposedKey.QS_PANEL_HIDE_CARRIER.name,
             XposedKey.HIDE_STATUS_ICONS.name,
-            XposedKey.QS_CORNER_RADIUS_OFFSET.name,
+            XposedKey.QS_ACTIVE_TILE_CORNER_RADIUS_OFFSET.name,
+            XposedKey.QS_INACTIVE_TILE_CORNER_RADIUS_OFFSET.name,
+            XposedKey.QS_BRIGHTNESS_SLIDER_CORNER_RADIUS_OFFSET.name,
+            XposedKey.QS_FOOTER_BUTTONS_CORNER_RADIUS_OFFSET.name,
             XposedKey.NOTIFICATION_CORNER_RADIUS_OFFSET.name,
             XposedKey.HIDE_QS_SLIDER_THUMB.name,
             XposedKey.FIX_NOTIFICATION_COLOR.name,
