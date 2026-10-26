@@ -21,6 +21,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -44,6 +45,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Com
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
@@ -51,6 +53,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.runAfter
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
@@ -369,8 +372,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                                         0,
                                         0
                                     )
-                                    reAddView(statusBarClock)
                                 }
+                        container.reAddView(statusBarClock)
                         reAddView(container)
                         statusBarClock?.setPaddingRelative(0, 0, 0, 0)
                         (statusBarClock?.layoutParams as? ViewGroup.MarginLayoutParams)
@@ -391,12 +394,69 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             }
         }
 
+        fun ViewGroup.keepStatusBarClockPosition() {
+            if (getExtraFieldSilently(CLOCK_POSITION_GUARD_FIELD) == true) return
+            setExtraField(CLOCK_POSITION_GUARD_FIELD, true)
+
+            val clockId = mContext.resources.getIdentifier("clock", "id", mContext.packageName)
+            val contentsId = mContext.resources.getIdentifier(
+                "status_bar_contents",
+                "id",
+                mContext.packageName
+            )
+            var movePending = false
+            var clockView: View? = null
+            var expectedParent: View? = null
+            var expectedPosition = -1
+
+            val preDrawListener = ViewTreeObserver.OnPreDrawListener {
+                if (dualStatusbarEnabled || clockPosition == 0 || movePending) {
+                    return@OnPreDrawListener true
+                }
+
+                val clock = clockView ?: findViewById<View?>(clockId)
+                    ?.also { clockView = it }
+                    ?: return@OnPreDrawListener true
+
+                if (expectedParent == null || expectedPosition != clockPosition) {
+                    expectedPosition = clockPosition
+                    expectedParent = if (clockPosition == 1) {
+                        findViewWithTag(ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG)
+                    } else {
+                        findViewById(contentsId)
+                    }
+                }
+
+                if (clock.parent !== expectedParent) {
+                    movePending = true
+                    expectedParent = null
+                    post {
+                        movePending = false
+                        moveStatusBarClock()
+                    }
+                }
+                true
+            }
+
+            addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewAttachedToWindow(v: View) {
+                    v.viewTreeObserver.addOnPreDrawListener(preDrawListener)
+                }
+
+                override fun onViewDetachedFromWindow(v: View) {
+                    v.viewTreeObserver.removeOnPreDrawListener(preDrawListener)
+                }
+            })
+            if (isAttachedToWindow) viewTreeObserver.addOnPreDrawListener(preDrawListener)
+        }
+
         phoneStatusBarViewClass
             .hookMethod("onFinishInflate")
             .runAfter { param ->
                 phoneStatusBarViewParam = param.thisObject as ViewGroup
 
                 phoneStatusBarViewParam.moveStatusBarClock()
+                phoneStatusBarViewParam?.keepStatusBarClockPosition()
             }
 
         shadeHeaderControllerClass
@@ -620,6 +680,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
     companion object {
 
+        private const val CLOCK_POSITION_GUARD_FIELD = "iconifyClockPositionGuard"
         private const val SYSTEM_STATUS_ICONS_KT_CLASS =
             "$SYSTEMUI_PACKAGE.statusbar.systemstatusicons.ui.compose.SystemStatusIconsKt"
         private const val BATTERY_COLORS_CLASS =
