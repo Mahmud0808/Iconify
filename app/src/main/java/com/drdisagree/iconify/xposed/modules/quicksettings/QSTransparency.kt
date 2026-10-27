@@ -2,6 +2,7 @@ package com.drdisagree.iconify.xposed.modules.quicksettings
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.graphics.Color
 import android.widget.LinearLayout
 import androidx.core.graphics.ColorUtils
@@ -15,6 +16,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
@@ -41,7 +43,8 @@ class QSTransparency(context: Context) : ModPack(context) {
     override fun updatePrefs(vararg key: String) {
         Xprefs.apply {
             qsTransparencyActive = getBoolean(XposedKey.QUICK_SETTINGS_TRANSPARENCY)
-            onlyNotifTransparencyActive = getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY)
+            onlyNotifTransparencyActive = Build.VERSION.SDK_INT < 37 &&
+                    getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY)
             keepLockScreenShade = getBoolean(XposedKey.LOCKSCREEN_SHADE)
             qsAlpha = getFloat(XposedKey.QUICK_SETTINGS_ALPHA_LEVEL) / 100f
             blurEnabled = getBoolean(XposedKey.QUICK_SETTINGS_BLUR)
@@ -69,10 +72,6 @@ class QSTransparency(context: Context) : ModPack(context) {
                 if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runAfter
                 if (!qsTransparencyActive && !isCalledFromShadeScene()) return@runAfter
                 if (param.result == null) return@runAfter
-
-                val blurSupported = param.args[1] as Boolean
-
-                if (!blurSupported) return@runAfter
 
                 param.result = ColorUtils.setAlphaComponent(
                     param.result as Int,
@@ -188,6 +187,20 @@ class QSTransparency(context: Context) : ModPack(context) {
         quickSettingsControllerClass
             .hookConstructor()
             .runAfter { param -> quickSettingsController = param.thisObject }
+
+        findClass(
+            "$SYSTEMUI_PACKAGE.statusbar.notification.row.ActivatableNotificationView",
+            suppressError = true
+        )
+            .hookMethod("usesTransparentBackground")
+            .suppressError()
+            .runAfter { param ->
+                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runAfter
+                if (param.result == true) return@runAfter
+                if (param.thisObject.getFieldSilently("mOnKeyguard") != false) return@runAfter
+
+                param.result = true
+            }
 
         hookComposeNotificationScrim()
         hookComposeLockscreenScrim()

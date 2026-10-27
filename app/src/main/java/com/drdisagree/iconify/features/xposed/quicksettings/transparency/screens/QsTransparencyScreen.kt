@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.features.xposed.quicksettings.transparency.screens
 
+import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,6 +33,7 @@ val qsTransparencyPreferences = preferenceScreen {
             key = XposedKey.NOTIFICATION_TRANSPARENCY,
             title = stringRes(R.string.transparent_notif_shade_title),
             summary = { stringRes(R.string.transparent_notif_shade_desc) },
+            isVisible = { Build.VERSION.SDK_INT < 37 },
         )
 
         switch(
@@ -40,7 +42,8 @@ val qsTransparencyPreferences = preferenceScreen {
             summary = { stringRes(R.string.keep_lockscreen_shade_desc) },
             isVisible = { pref ->
                 pref.getBoolean(XposedKey.QUICK_SETTINGS_TRANSPARENCY) ||
-                        pref.getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY)
+                        (Build.VERSION.SDK_INT < 37 &&
+                                pref.getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY))
             }
         )
 
@@ -52,7 +55,8 @@ val qsTransparencyPreferences = preferenceScreen {
             valueLabel = { "${it.roundToInt()}%" },
             isVisible = { pref ->
                 pref.getBoolean(XposedKey.QUICK_SETTINGS_TRANSPARENCY) ||
-                        pref.getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY)
+                        (Build.VERSION.SDK_INT < 37 &&
+                                pref.getBoolean(XposedKey.NOTIFICATION_TRANSPARENCY))
             }
         )
     }
@@ -130,6 +134,8 @@ fun QsTransparencyScreen(
                 }
             }
 
+            XposedKey.QUICK_SETTINGS_TRANSPARENCY.name,
+            XposedKey.NOTIFICATION_TRANSPARENCY.name,
             XposedKey.QUICK_SETTINGS_ALPHA_LEVEL.name,
             XposedKey.QUICK_SETTINGS_BLUR_RADIUS.name -> {
                 systemActionViewModel?.shouldRestartSystemUI()
