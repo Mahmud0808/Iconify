@@ -53,12 +53,14 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
             (method.name == "toArgb" || method.name.startsWith("toArgb-")) &&
                     method.parameterTypes.contentEquals(arrayOf(Long::class.javaPrimitiveType))
         }
-        sizeMethod = ComposeToolkit.modifierFunction(
-            SIZE_KT_CLASS,
-            "size",
-            Float::class.javaPrimitiveType,
-            Float::class.javaPrimitiveType
-        )
+        sizeMethod = listOf("requiredSize", "size").firstNotNullOfOrNull { name ->
+            ComposeToolkit.modifierFunction(
+                SIZE_KT_CLASS,
+                name,
+                Float::class.javaPrimitiveType,
+                Float::class.javaPrimitiveType
+            )
+        }
         modifierCompanion = try {
             ComposeToolkit.loadClass(ComposeToolkit.MODIFIER_CLASS)?.getField("Companion")?.get(null)
         } catch (_: Throwable) {
