@@ -183,6 +183,13 @@ This project exists thanks to the following contributors:
 		</tr>
 		<tr>
             <td align="center">
+                <a href="https://github.com/mvanhorn">
+                    <img src="https://avatars.githubusercontent.com/u/455140?v=4" width="100;" alt="mvanhorn"/>
+                    <br />
+                    <sub><b>Matt Van Horn</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/flumpyflarb">
                     <img src="https://avatars.githubusercontent.com/u/36867039?v=4" width="100;" alt="flumpyflarb"/>
                     <br />
