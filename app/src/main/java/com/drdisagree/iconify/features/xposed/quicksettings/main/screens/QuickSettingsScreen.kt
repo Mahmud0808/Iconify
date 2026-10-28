@@ -191,6 +191,12 @@ val quickSettingsPreferences = preferenceScreen {
 
     category(title = stringRes(R.string.section_title_qs_visibility)) {
         switch(
+            key = XposedKey.DISABLE_QS_EXPRESSIVE_EFFECTS,
+            title = stringRes(R.string.disable_qs_expressive_effects_title),
+            summary = { stringRes(R.string.disable_qs_expressive_effects_desc) },
+        )
+
+        switch(
             key = XposedKey.HIDE_QS_SILENT_TEXT,
             title = stringRes(R.string.hide_qs_silent_text_title),
             summary = { stringRes(R.string.hide_qs_silent_text_desc) },
@@ -255,6 +261,7 @@ fun QuickSettingsScreen(
             XposedKey.NOTIFICATION_HEADS_UP_BLUR.name,
             XposedKey.COMPACT_MEDIA_PLAYER.name,
             XposedKey.BLUR_MEDIA_PLAYER_ARTWORK.name,
+            XposedKey.DISABLE_QS_EXPRESSIVE_EFFECTS.name,
             XposedKey.HIDE_QS_SILENT_TEXT.name,
             XposedKey.HIDE_QS_FOOTER_BUTTONS.name,
             XposedKey.HIDE_NOTIFICATION_CAUGHT_UP.name,
