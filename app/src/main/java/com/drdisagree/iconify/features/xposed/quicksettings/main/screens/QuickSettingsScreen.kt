@@ -168,6 +168,13 @@ val quickSettingsPreferences = preferenceScreen {
 
     category(title = stringRes(R.string.section_title_media_player)) {
         switch(
+            key = XposedKey.QS_MEDIA_PLAYER_TOP,
+            title = stringRes(R.string.qs_media_player_top_title),
+            summary = { stringRes(R.string.qs_media_player_top_desc) },
+            isVisible = { it.getBoolean(XposedKey.QS_COMPOSE_LAYOUT) },
+        )
+
+        switch(
             key = XposedKey.COMPACT_MEDIA_PLAYER,
             title = stringRes(R.string.compact_media_player_title),
             summary = { stringRes(R.string.compact_media_player_desc) },
@@ -255,6 +262,7 @@ fun QuickSettingsScreen(
             XposedKey.NOTIFICATION_HEADS_UP_BLUR.name,
             XposedKey.COMPACT_MEDIA_PLAYER.name,
             XposedKey.BLUR_MEDIA_PLAYER_ARTWORK.name,
+            XposedKey.QS_MEDIA_PLAYER_TOP.name,
             XposedKey.HIDE_QS_SILENT_TEXT.name,
             XposedKey.HIDE_QS_FOOTER_BUTTONS.name,
             XposedKey.HIDE_NOTIFICATION_CAUGHT_UP.name,

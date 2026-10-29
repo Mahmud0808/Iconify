@@ -53,13 +53,15 @@ val qsShapeSlidersPreferences = preferenceScreen {
         switch(
             key = XposedKey.QS_BRIGHTNESS_SLIDER_BOTTOM,
             title = stringRes(R.string.qs_brightness_slider_bottom_title),
-            summary = { stringRes(R.string.qs_brightness_slider_bottom_desc) }
+            summary = { stringRes(R.string.qs_brightness_slider_bottom_desc) },
+            isVisible = { it.getBoolean(XposedKey.QS_COMPOSE_LAYOUT) },
         )
 
         switch(
             key = XposedKey.QQS_BRIGHTNESS_SLIDER,
             title = stringRes(R.string.qqs_brightness_slider_title),
-            summary = { stringRes(R.string.qqs_brightness_slider_desc) }
+            summary = { stringRes(R.string.qqs_brightness_slider_desc) },
+            isVisible = { it.getBoolean(XposedKey.QS_COMPOSE_LAYOUT) },
         )
     }
 }
