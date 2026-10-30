@@ -17,6 +17,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatc
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Constructor
@@ -110,15 +111,24 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     }
 
     private fun mediaFirstOrder(
-        slots: Array<Any?>,
+        param: XC_MethodHook.MethodHookParam,
         brightness: Any,
         tiles: Any,
         media: Any
-    ) {
-        arrangedFirstSlots.add(media)
-        slots[0] = media
-        slots[1] = if (brightnessBelowTiles) tiles else brightness
-        slots[2] = if (brightnessBelowTiles) brightness else tiles
+    ): Boolean = arrangeSlots(
+        param,
+        0 to media,
+        1 to if (brightnessBelowTiles) tiles else brightness,
+        2 to if (brightnessBelowTiles) brightness else tiles
+    )
+
+    private fun arrangeSlots(
+        param: XC_MethodHook.MethodHookParam,
+        vararg slots: Pair<Int, Any?>
+    ): Boolean {
+        if (!ComposeToolkit.setSlots(param, *slots)) return false
+        param.args[slots.first().first]?.let { arrangedFirstSlots.add(it) }
+        return true
     }
 
     private fun List<*>.withMediaFirst(): List<*>? {
@@ -176,19 +186,16 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 val media = param.args[2]
 
                 if (mediaOnTop && mediaInRow == false && media != null) {
-                    mediaFirstOrder(param.args, brightnessSlot, tiles, media)
-                    return@runBefore
+                    if (mediaFirstOrder(param, brightnessSlot, tiles, media)) return@runBefore
                 }
 
                 if (!brightnessBelowTiles) {
-                    param.args[0] = brightnessSlot
+                    ComposeToolkit.setSlots(param, 0 to brightnessSlot)
                     return@runBefore
                 }
                 val emptySlot = emptySlot()
                 if (mediaInRow != true || media == null || emptySlot == null) {
-                    arrangedFirstSlots.add(tiles)
-                    param.args[0] = tiles
-                    param.args[1] = brightnessSlot
+                    arrangeSlots(param, 0 to tiles, 1 to brightnessSlot)
                     return@runBefore
                 }
 
@@ -248,18 +255,17 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 } else {
                     tiles
                 }
-                param.args[0] = tilesSlot
+                if (!ComposeToolkit.setSlots(param, 0 to tilesSlot)) return@runBefore
 
                 if (!mediaOnTop) return@runBefore
 
                 val parameterTypes = (param.method as Method).parameterTypes
                 val slotIndices = parameterTypes.indices
-                    .filter { parameterTypes[it].name == FUNCTION2_CLASS }
+                    .filter { ComposeToolkit.isSlotType(parameterTypes[it]) }
                 if (slotIndices.size != 2) return@runBefore
 
                 val media = param.args[slotIndices[1]] ?: return@runBefore
-                param.args[slotIndices[0]] = media
-                param.args[slotIndices[1]] = tilesSlot
+                ComposeToolkit.setSlots(param, slotIndices[0] to media, slotIndices[1] to tilesSlot)
             }
     }
 
@@ -290,8 +296,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 val media = param.args[2]
 
                 if (mediaOnTop && mediaInRow == false && mediaVisible == true && media != null) {
-                    mediaFirstOrder(param.args, brightness, tiles, media)
-                    return@runBefore
+                    if (mediaFirstOrder(param, brightness, tiles, media)) return@runBefore
                 }
 
                 if (!brightnessBelowTiles) return@runBefore
@@ -301,9 +306,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 )
 
                 if (mediaInRow != true || media == null || emptySlot == null || composer == null) {
-                    arrangedFirstSlots.add(tiles)
-                    param.args[0] = tiles
-                    param.args[1] = brightness
+                    arrangeSlots(param, 0 to tiles, 1 to brightness)
                     return@runBefore
                 }
 
@@ -352,7 +355,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
 
                 val slots = (param.method as Method).parameterTypes
                     .withIndex()
-                    .filter { it.value.name == FUNCTION3_CLASS }
+                    .filter { ComposeToolkit.isSlotType(it.value) }
                     .map { it.index }
                 if (slots.size != 3) return@runBefore
 
@@ -360,9 +363,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 if (brightness in arrangedFirstSlots) return@runBefore
                 val tiles = param.args[slots[2]] ?: return@runBefore
 
-                arrangedFirstSlots.add(tiles)
-                param.args[slots[1]] = tiles
-                param.args[slots[2]] = brightness
+                arrangeSlots(param, slots[1] to tiles, slots[2] to brightness)
             }
 
         hookShadeTransitionBrightnessFade()
@@ -409,7 +410,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                 } else {
                     qqs
                 }
-                param.args[0] = qqsSlot
+                if (!ComposeToolkit.setSlots(param, 0 to qqsSlot)) return@runBefore
 
                 if (!mediaOnTop) return@runBefore
 
@@ -420,8 +421,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
                     order.withMediaFirst()?.let { param.args[orderIndex] = it }
                 } else {
                     val media = param.args[1] ?: return@runBefore
-                    param.args[0] = media
-                    param.args[1] = qqsSlot
+                    ComposeToolkit.setSlots(param, 0 to media, 1 to qqsSlot)
                 }
             }
     }
@@ -713,7 +713,8 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
 
         val args = method.parameterTypes.map { type ->
             when {
-                type.name == FUNCTION2_CLASS -> slots.getOrNull(slotIndex++)
+                ComposeToolkit.isSlotType(type) ->
+                    ComposeToolkit.fitSlot(type, slots.getOrNull(slotIndex++)) ?: return
                 type == Boolean::class.javaPrimitiveType -> mediaInRow
                 type.name == COMPOSER_CLASS -> composer
                 type == Int::class.javaPrimitiveType -> 0
@@ -743,7 +744,10 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         composer: Any
     ) {
         val args = originalArgs.clone()
-        slots.forEachIndexed { index, slot -> args[index] = slot }
+        val types = method.parameterTypes
+        slots.forEachIndexed { index, slot ->
+            args[index] = ComposeToolkit.fitSlot(types[index], slot) ?: return
+        }
         args[mediaInRowIndex] = mediaInRow
         if (modifier != null) {
             val modifierIndex = ComposeToolkit.parameterIndex(method, COMPOSE_MODIFIER_CLASS)
@@ -781,11 +785,9 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         private const val TO_SINGLE_SHADE_TRANSITION_CLASS =
             "$SYSTEMUI_PACKAGE.scene.ui.composable.transitions.ToSingleShadeTransitionKt"
         private const val COMPOSER_CLASS = ComposeToolkit.COMPOSER_CLASS
-        private const val FUNCTION2_CLASS = ComposeToolkit.FUNCTION2_CLASS
         private const val LANDSCAPE_LAYOUT_GROUP_KEY = 0x1C0B5A1D
         private const val SCENE_LANDSCAPE_LAYOUT_GROUP_KEY = 0x1C0B5A1E
         private const val FUNCTION0_CLASS = ComposeToolkit.FUNCTION0_CLASS
-        private const val FUNCTION3_CLASS = ComposeToolkit.FUNCTION3_CLASS
         private const val CONTENT_SCOPE_CLASS = ComposeToolkit.CONTENT_SCOPE_CLASS
         private const val SHADE_SCENE_VIEW_MODEL_CLASS =
             "$SYSTEMUI_PACKAGE.shade.ui.viewmodel.ShadeSceneContentViewModel"

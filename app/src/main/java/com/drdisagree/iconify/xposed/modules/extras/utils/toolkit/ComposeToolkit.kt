@@ -2,9 +2,11 @@ package com.drdisagree.iconify.xposed.modules.extras.utils.toolkit
 
 import androidx.core.graphics.toColorInt
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
+import java.util.WeakHashMap
 import java.util.concurrent.ConcurrentHashMap
 
 object ComposeToolkit {
@@ -16,6 +18,49 @@ object ComposeToolkit {
     const val COMPOSER_CLASS = "androidx.compose.runtime.Composer"
     const val MODIFIER_CLASS = "androidx.compose.ui.Modifier"
     const val CONTENT_SCOPE_CLASS = "com.android.compose.animation.scene.ContentScope"
+    const val COMPOSABLE_LAMBDA_CLASS = "androidx.compose.runtime.internal.ComposableLambda"
+    private const val COMPOSABLE_LAMBDA_KT_CLASS =
+        "androidx.compose.runtime.internal.ComposableLambdaKt"
+    private val SLOT_TYPES = setOf(FUNCTION2_CLASS, FUNCTION3_CLASS, COMPOSABLE_LAMBDA_CLASS)
+
+    private val slotWrappers = WeakHashMap<Any, Any>()
+
+    private val composableLambdaInstance: Method? by lazy {
+        staticMethod(COMPOSABLE_LAMBDA_KT_CLASS, "composableLambdaInstance") { method ->
+            method.name == "composableLambdaInstance" &&
+                    method.parameterTypes.size == 3 &&
+                    method.parameterTypes[0] == Int::class.javaPrimitiveType &&
+                    method.parameterTypes[1] == Boolean::class.javaPrimitiveType
+        }
+    }
+
+    fun isSlotType(type: Class<*>): Boolean = type.name in SLOT_TYPES
+
+    fun fitSlot(type: Class<*>, slot: Any?): Any? {
+        if (slot == null || type.isInstance(slot)) return slot
+        if (type.name != COMPOSABLE_LAMBDA_CLASS) return null
+
+        synchronized(slotWrappers) {
+            slotWrappers[slot]?.let { return it }
+            val wrapper = try {
+                composableLambdaInstance?.invoke(null, System.identityHashCode(slot), true, slot)
+            } catch (_: Throwable) {
+                null
+            } ?: return null
+            slotWrappers[slot] = wrapper
+            return wrapper
+        }
+    }
+
+    fun setSlots(param: XC_MethodHook.MethodHookParam, vararg slots: Pair<Int, Any?>): Boolean {
+        val types = (param.method as Method).parameterTypes
+        val fitted = slots.map { (index, slot) ->
+            val type = types.getOrNull(index) ?: return false
+            index to (fitSlot(type, slot) ?: return false)
+        }
+        fitted.forEach { (index, slot) -> param.args[index] = slot }
+        return true
+    }
 
     @Volatile
     private var classLoader: ClassLoader? = null
