@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.content.res.TypedArray
 import android.content.res.XResources
+import android.util.TypedValue
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager.init
 import de.robv.android.xposed.XC_MethodHook
@@ -278,6 +279,8 @@ class LayoutHookHelper(private val xResources: XResources) {
         requireNotNull(resourceType) { "resourceType must be set" }
         requireNotNull(resourceName) { "resourceName must be set" }
 
+        guardTmpValue(xResources.javaClass)
+
         try {
             val unhook = xResources.hookLayout(
                 packageName, resourceType, resourceName,
@@ -308,6 +311,26 @@ class LayoutHookHelper(private val xResources: XResources) {
     fun throwError(): LayoutHookHelper {
         suppressError(); throwError = true
         return this
+    }
+
+    companion object {
+        private val guardedClasses: MutableSet<Class<*>> = ConcurrentHashMap.newKeySet()
+
+        private fun guardTmpValue(resourcesClass: Class<*>) {
+            if (!guardedClasses.add(resourcesClass)) return
+
+            resourcesClass
+                .hookMethod("getLayout")
+                .suppressError()
+                .runBefore { param ->
+                    val resources = param.thisObject ?: return@runBefore
+                    if (resources.getFieldSilently(TMP_VALUE_FIELD) == null) {
+                        resources.setFieldSilently(TMP_VALUE_FIELD, TypedValue())
+                    }
+                }
+        }
+
+        private const val TMP_VALUE_FIELD = "mTmpValue"
     }
 }
 
