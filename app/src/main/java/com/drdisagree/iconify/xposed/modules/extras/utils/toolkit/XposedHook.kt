@@ -279,7 +279,7 @@ class LayoutHookHelper(private val xResources: XResources) {
         requireNotNull(resourceType) { "resourceType must be set" }
         requireNotNull(resourceName) { "resourceName must be set" }
 
-        guardTmpValue(xResources.javaClass)
+        guardTmpValue()
 
         try {
             val unhook = xResources.hookLayout(
@@ -314,20 +314,27 @@ class LayoutHookHelper(private val xResources: XResources) {
     }
 
     companion object {
-        private val guardedClasses: MutableSet<Class<*>> = ConcurrentHashMap.newKeySet()
+        @Volatile
+        private var tmpValueGuarded = false
 
-        private fun guardTmpValue(resourcesClass: Class<*>) {
-            if (!guardedClasses.add(resourcesClass)) return
+        @Synchronized
+        private fun guardTmpValue() {
+            if (tmpValueGuarded) return
+            tmpValueGuarded = true
 
-            resourcesClass
-                .hookMethod("getLayout")
-                .suppressError()
-                .runBefore { param ->
-                    val resources = param.thisObject ?: return@runBefore
-                    if (resources.getFieldSilently(TMP_VALUE_FIELD) == null) {
-                        resources.setFieldSilently(TMP_VALUE_FIELD, TypedValue())
+            try {
+                Resources::class.java
+                    .hookMethod("getLayout")
+                    .suppressError()
+                    .runAfter { param ->
+                        val resources = param.thisObject as? XResources ?: return@runAfter
+                        if (resources.getFieldSilently(TMP_VALUE_FIELD) == null) {
+                            resources.setFieldSilently(TMP_VALUE_FIELD, TypedValue())
+                        }
                     }
-                }
+            } catch (throwable: Throwable) {
+                log(XposedHook, throwable)
+            }
         }
 
         private const val TMP_VALUE_FIELD = "mTmpValue"
