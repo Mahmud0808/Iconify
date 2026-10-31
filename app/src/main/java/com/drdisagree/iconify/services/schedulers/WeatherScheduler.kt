@@ -4,8 +4,12 @@ import android.content.Context
 import android.util.Log
 import androidx.work.BackoffPolicy
 import androidx.work.Configuration
+import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
+import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.drdisagree.iconify.BuildConfig
@@ -16,7 +20,11 @@ import java.util.concurrent.TimeUnit
 object WeatherScheduler {
 
     private const val UPDATE_WORK_NAME: String = BuildConfig.APPLICATION_ID + ".WeatherSchedule"
+    private const val UPDATE_NOW_WORK_NAME: String = BuildConfig.APPLICATION_ID + ".WeatherUpdateNow"
     private val TAG = "Iconify - ${WeatherScheduler::class.java.simpleName}: "
+    private val networkConstraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.CONNECTED)
+        .build()
 
     fun scheduleUpdates(context: Context) {
         Log.d(TAG, "Updating update schedule...")
@@ -37,6 +45,7 @@ object WeatherScheduler {
                 WeatherWork::class.java,
                 WeatherConfig.getUpdateInterval().toLong(), TimeUnit.HOURS
             )
+                .setConstraints(networkConstraints)
                 .setBackoffCriteria(BackoffPolicy.LINEAR, 1, TimeUnit.HOURS)
 
             workManager.enqueueUniquePeriodicWork(
@@ -68,10 +77,12 @@ object WeatherScheduler {
 
         val workManager = WorkManager.getInstance(context)
 
-        val builder: OneTimeWorkRequest.Builder =
-            OneTimeWorkRequest.Builder(WeatherWork::class.java)
+        val request = OneTimeWorkRequest.Builder(WeatherWork::class.java)
+            .setConstraints(networkConstraints)
+            .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+            .build()
 
-        workManager.enqueue(builder.build())
+        workManager.enqueueUniqueWork(UPDATE_NOW_WORK_NAME, ExistingWorkPolicy.REPLACE, request)
     }
 
 }

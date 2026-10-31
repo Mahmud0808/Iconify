@@ -3,6 +3,7 @@ package com.drdisagree.iconify.core.utils
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.ComponentName
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -18,11 +19,13 @@ import android.util.Log
 import androidx.core.net.toUri
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.core.utils.weather.WeatherConfig
+import com.drdisagree.iconify.core.utils.weather.WeatherContentProvider.Companion.COLUMN_FORCE_REFRESH
 import com.drdisagree.iconify.core.utils.weather.WeatherContentProvider.Companion.WEATHER_AUTHORITY
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 /*
  * Copyright (C) 2021 The OmniROM Project
@@ -121,6 +124,10 @@ class OmniJawsClient(private val mContext: Context) {
     private inner class WeatherUpdateReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
+            if (action == Intent.ACTION_SCREEN_ON) {
+                refreshIfStale()
+                return
+            }
             for (observer in mObserver) {
                 if (action == WEATHER_UPDATE) {
                     observer.weatherUpdated()
@@ -141,6 +148,29 @@ class OmniJawsClient(private val mContext: Context) {
     private var mMetric = false
     private val mObserver: MutableList<OmniJawsObserver> = ArrayList()
     private var mReceiver: WeatherUpdateReceiver? = null
+    private var lastRefreshRequest = 0L
+
+    fun refreshIfStale() {
+        val now = System.currentTimeMillis()
+        if (now - lastRefreshRequest < REFRESH_REQUEST_THROTTLE_MS || !WeatherConfig.isEnabled()) return
+
+        val interval = TimeUnit.HOURS.toMillis(WeatherConfig.getUpdateInterval().toLong())
+        if (now - (mCachedInfo?.timeStamp ?: 0L) < interval) return
+
+        lastRefreshRequest = now
+        Thread {
+            try {
+                mContext.contentResolver.update(
+                    CONTROL_URI,
+                    ContentValues().apply { put(COLUMN_FORCE_REFRESH, true) },
+                    null,
+                    null
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "refreshIfStale", e)
+            }
+        }.start()
+    }
 
     fun queryWeather() {
         try {
@@ -369,6 +399,7 @@ class OmniJawsClient(private val mContext: Context) {
             val filter = IntentFilter()
             filter.addAction(WEATHER_UPDATE)
             filter.addAction(WEATHER_ERROR)
+            filter.addAction(Intent.ACTION_SCREEN_ON)
             if (DEBUG) Log.d(TAG, "registerReceiver")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 mContext.registerReceiver(mReceiver, filter, Context.RECEIVER_EXPORTED)
@@ -439,6 +470,7 @@ class OmniJawsClient(private val mContext: Context) {
 
         private const val WEATHER_UPDATE = "$SERVICE_PACKAGE.WEATHER_UPDATE"
         private const val WEATHER_ERROR = "$SERVICE_PACKAGE.WEATHER_ERROR"
+        private val REFRESH_REQUEST_THROTTLE_MS = TimeUnit.MINUTES.toMillis(15)
 
         private val sNoDigitsFormat = DecimalFormat("0")
 
