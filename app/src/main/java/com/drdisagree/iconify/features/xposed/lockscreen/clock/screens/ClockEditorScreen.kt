@@ -589,26 +589,20 @@ private fun textBounds(frame: ViewGroup, view: TextView, density: Float): Elemen
     val pivotX = rect.left + view.translationX + view.pivotX
     val pivotY = rect.top + view.translationY + view.pivotY
 
-    val contentWidth = (view.width - view.totalPaddingLeft - view.totalPaddingRight).toFloat()
-    var textWidth = 0f
+    var lineLeft = Float.MAX_VALUE
+    var lineRight = -Float.MAX_VALUE
     for (line in 0 until layout.lineCount) {
-        textWidth = max(textWidth, layout.getLineWidth(line))
+        lineLeft = min(lineLeft, layout.getLineLeft(line))
+        lineRight = max(lineRight, layout.getLineRight(line))
     }
-    textWidth = min(textWidth, contentWidth)
+    if (lineRight < lineLeft) return null
 
-    val horizontalGravity = Gravity.getAbsoluteGravity(view.gravity, view.layoutDirection) and
-            Gravity.HORIZONTAL_GRAVITY_MASK
-    val startOffset = when {
-        view.textAlignment == View.TEXT_ALIGNMENT_CENTER ||
-                horizontalGravity == Gravity.CENTER_HORIZONTAL -> (contentWidth - textWidth) / 2f
-
-        horizontalGravity == Gravity.RIGHT -> contentWidth - textWidth
-        else -> 0f
-    }
-
-    val left = rect.left + view.totalPaddingLeft + startOffset + view.translationX
+    val textLeft = rect.left + view.totalPaddingLeft - view.scrollX + view.translationX
+    val viewRight = rect.left + view.width - view.totalPaddingRight + view.translationX
+    val left = max(textLeft + lineLeft, rect.left + view.totalPaddingLeft + view.translationX)
+    val right = min(textLeft + lineRight, viewRight)
     val top = rect.top + view.totalPaddingTop + view.translationY
-    val bounds = RectF(left, top, left + textWidth, top + layout.height)
+    val bounds = RectF(left, top, max(left, right), top + layout.height)
 
     val minSize = MIN_HIT_DP * density
     if (bounds.width() < minSize) bounds.inset(-(minSize - bounds.width()) / 2f, 0f)
