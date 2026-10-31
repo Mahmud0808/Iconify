@@ -15,6 +15,7 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructo
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import de.robv.android.xposed.XC_MethodHook
@@ -59,6 +60,9 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     private val arrangedFirstSlots: MutableSet<Any> = Collections.newSetFromMap(WeakHashMap())
     private var emptyComposableSlot: Any? = null
     private var emptyScopedComposableSlot: Any? = null
+
+    private var punchHoleProvider: Any? = null
+    private var shadePunchHole: Any? = null
 
     private var shadeSceneViewModel: Any? = null
     private var shadeScope: Any? = null
@@ -367,6 +371,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
             }
 
         hookShadeTransitionBrightnessFade()
+        hookNotificationPunchHole()
 
         val shadeSceneClass = findClass(
             "$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeSceneKt",
@@ -465,19 +470,56 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
             }
     }
 
+    private fun hookNotificationPunchHole() {
+        val elementClass = findClass(PUNCH_HOLE_ELEMENT_CLASS, suppressError = true) ?: return
+
+        elementClass
+            .hookMethod("create")
+            .suppressError()
+            .runBefore { param ->
+                if (param.thisObject === shadePunchHole) return@runBefore
+                param.thisObject.getFieldSilently("roundRectProvider")?.let {
+                    punchHoleProvider = it
+                }
+            }
+
+        val provider = function0Proxy { punchHoleProvider?.callMethod("invoke") } ?: return
+        shadePunchHole = try {
+            allocateInstance(elementClass)?.apply { setField("roundRectProvider", provider) }
+        } catch (throwable: Throwable) {
+            log(this@QSBrightnessSlider, throwable)
+            null
+        }
+    }
+
+    private fun allocateInstance(clazz: Class<*>): Any? {
+        val unsafeClass = Class.forName("sun.misc.Unsafe")
+        val unsafe = unsafeClass.getDeclaredField("theUnsafe")
+            .apply { isAccessible = true }
+            .get(null)
+        return unsafeClass.getMethod("allocateInstance", Class::class.java).invoke(unsafe, clazz)
+    }
+
     private fun composeShadeBrightness(composer: Any) {
         val containerViewModel = rememberShadeContainerViewModel(composer) ?: return
         val brightnessViewModel = containerViewModel
             .getFieldSilently("brightnessSliderViewModel") ?: return
         val scope = shadeScope
         val key = sceneBrightnessElementKey ?: sharedElementKey
+        val sliderModifier = sceneSliderModifier()
+        val punchHole = shadePunchHole
+        val modifier = if (sliderModifier != null && punchHole != null) {
+            ComposeToolkit.then(sliderModifier, punchHole) ?: sliderModifier
+        } else {
+            sliderModifier
+        }
 
         if (scope != null && key != null) {
             composeElement(scope, key, composer) {
-                composeBrightnessContainer(composer, brightnessViewModel, sceneSliderModifier())
+                composeBrightnessContainer(composer, brightnessViewModel, modifier)
             }
         } else {
-            composeBrightnessContainer(composer, brightnessViewModel, sceneSliderModifier())
+            composeBrightnessContainer(composer, brightnessViewModel, modifier)
         }
     }
 
@@ -792,6 +834,8 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         private const val SHADE_SCENE_VIEW_MODEL_CLASS =
             "$SYSTEMUI_PACKAGE.shade.ui.viewmodel.ShadeSceneContentViewModel"
         private const val QQS_BRIGHTNESS_TRACE = "iconify_qqs_brightness"
+        private const val PUNCH_HOLE_ELEMENT_CLASS =
+            "$SYSTEMUI_PACKAGE.notifications.ui.modifier.DrawPunchHoleElement"
         private const val COMPOSE_MODIFIER_CLASS = ComposeToolkit.MODIFIER_CLASS
         private const val BRIGHTNESS_VIEW_MODEL_CLASS =
             "$SYSTEMUI_PACKAGE.brightness.ui.viewmodel.BrightnessSliderViewModel"
