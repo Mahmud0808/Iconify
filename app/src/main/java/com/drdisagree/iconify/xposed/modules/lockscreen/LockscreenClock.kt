@@ -126,6 +126,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
     private var clockStyle = 0
     private var topMargin = 100
     private var bottomMargin = 40
+    private var offsetX = 0
     private var textScaleFactor = 1f
     private var reduceFactor = 1f
     private var lineHeight = 0
@@ -206,6 +207,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
                 getInt(XposedKey.LSCLOCK_STYLE.name, XposedKey.LSCLOCK_STYLE.default as Int)
             topMargin = getInt(XposedKey.LSCLOCK_TOP_MARGIN)
             bottomMargin = getInt(XposedKey.LSCLOCK_BOTTOM_MARGIN)
+            offsetX = getInt(XposedKey.LSCLOCK_OFFSET_X)
             textScaleFactor = getFloat(XposedKey.LSCLOCK_TEXT_SCALE)
             reduceFactor = if (textScaleFactor > 1f) 0.91f else 1f
             lineHeight = getInt(XposedKey.LSCLOCK_LINE_HEIGHT)
@@ -240,7 +242,8 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
             in setOf(
                 XposedKey.LSCLOCK_TOP_MARGIN.name,
-                XposedKey.LSCLOCK_BOTTOM_MARGIN.name
+                XposedKey.LSCLOCK_BOTTOM_MARGIN.name,
+                XposedKey.LSCLOCK_OFFSET_X.name
             ) -> {
                 mLsItemsContainer?.let { applyLayoutConstraints(it) }
                 modifyClockView(currentClockView)
@@ -759,6 +762,9 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         clockView.layoutParams.width = LinearLayout.LayoutParams.MATCH_PARENT
 
         setMargins(clockView, mContext, 0, topMargin, 0, bottomMargin)
+
+        // Horizontal position set from the clock editor (dp, negative moves left)
+        clockView.translationX = offsetX * mContext.resources.displayMetrics.density
 
         if (customColorEnabled) {
             findViewWithTagAndChangeColor(clockView, "accent1", mAccentColor1)

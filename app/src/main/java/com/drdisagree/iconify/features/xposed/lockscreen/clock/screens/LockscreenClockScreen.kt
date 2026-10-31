@@ -18,6 +18,7 @@ import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
+import com.drdisagree.iconify.features.xposed.lockscreen.clock.components.LockscreenClockEditor
 import com.drdisagree.iconify.features.xposed.lockscreen.clock.components.LockscreenClockPreview
 import kotlin.math.roundToInt
 
@@ -32,6 +33,10 @@ val lsClockPreferences = preferenceScreen {
 
     composable(key = "clock_previews") {
         LockscreenClockPreview()
+    }
+
+    composable(key = "clock_editor") {
+        LockscreenClockEditor()
     }
 
     category {
@@ -117,6 +122,15 @@ val lsClockPreferences = preferenceScreen {
             title = stringRes(R.string.lockscreen_clock_bottom_margin_title),
             min = 0f,
             max = 600f,
+            valueLabel = { "${it.roundToInt()}dp" },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
+        )
+
+        slider(
+            key = XposedKey.LSCLOCK_OFFSET_X,
+            title = stringRes(R.string.lockscreen_clock_offset_x_title),
+            min = -300f,
+            max = 300f,
             valueLabel = { "${it.roundToInt()}dp" },
             isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) }
         )
