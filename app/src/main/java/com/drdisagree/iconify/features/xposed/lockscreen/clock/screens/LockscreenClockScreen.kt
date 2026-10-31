@@ -6,6 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.drdisagree.iconify.R
+import com.drdisagree.iconify.app.navigation.NavRoutes
 import com.drdisagree.iconify.core.preferences.PreferenceListener
 import com.drdisagree.iconify.core.preferences.PreferenceScreen
 import com.drdisagree.iconify.core.preferences.preferenceScreen
@@ -13,6 +14,7 @@ import com.drdisagree.iconify.core.preferences.stringRes
 import com.drdisagree.iconify.core.ui.components.others.PreviewComposable
 import com.drdisagree.iconify.core.ui.components.preferences.FilePickerType
 import com.drdisagree.iconify.core.utils.FileUtils.copyToXposedSharedPath
+import com.drdisagree.iconify.core.utils.clock.ClockCustomizer
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_FONT_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
@@ -32,6 +34,21 @@ val lsClockPreferences = preferenceScreen {
 
     composable(key = "clock_previews") {
         LockscreenClockPreview()
+    }
+
+    category {
+        action(
+            key = "lsclockCreateCustom",
+            title = stringRes(R.string.lsclock_create_title),
+            summary = { stringRes(R.string.lsclock_create_desc) },
+            isEnabled = { it.getBoolean(XposedKey.CUSTOM_LOCKSCREEN_CLOCK) },
+            onClick = {
+                it.prefController.setInt(XposedKey.LSCLOCK_STYLE, ClockCustomizer.CUSTOM_STYLE)
+                it.navController.navigate(NavRoutes.MainGraph.Xposed.Lockscreen.ClockEditor) {
+                    launchSingleTop = true
+                }
+            }
+        )
     }
 
     category {

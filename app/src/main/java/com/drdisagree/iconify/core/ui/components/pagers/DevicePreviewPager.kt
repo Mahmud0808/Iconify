@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -55,7 +56,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -86,6 +86,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.zIndex
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -125,6 +126,8 @@ fun DevicePreviewPager(
     showPunchHole: Boolean = true,
     onPageChanged: (index: Int) -> Unit = {},
     onSelect: (index: Int) -> Unit = {},
+    bindView: (index: Int, view: View) -> Unit = { _, _ -> },
+    trailingAction: @Composable (currentIndex: Int) -> Unit = {},
     content: @Composable () -> Unit = {},
 ) {
     val context = LocalContext.current
@@ -136,7 +139,8 @@ fun DevicePreviewPager(
     val scope = rememberCoroutineScope()
     val deviceAspectRatio = rememberDeviceAspectRatio()
 
-    val viewCache = remember(layoutResIds) { mutableStateMapOf<Int, View>() }
+    val previewViewCache = hiltViewModel<PreviewViewCache>(key = "device_preview_cache")
+    val viewCache = remember(previewViewCache, context) { previewViewCache.viewsFor(context) }
     val isReady by remember(layoutResIds, viewCache, wallpaperReady) {
         derivedStateOf {
             layoutResIds.isNotEmpty() &&
@@ -169,6 +173,17 @@ fun DevicePreviewPager(
 
         currentIndex = pagerState.settledPage.realIndex(count)
         onPageChanged(currentIndex)
+    }
+
+    var lastStartPageIndex by rememberSaveable { mutableIntStateOf(startPageIndex) }
+
+    LaunchedEffect(startPageIndex, isLoaded) {
+        if (!isLoaded || startPageIndex == lastStartPageIndex) return@LaunchedEffect
+
+        lastStartPageIndex = startPageIndex
+        val current = pagerState.currentPage
+        val offset = (startPageIndex - current.realIndex(count) + count) % count
+        if (offset != 0) pagerState.scrollToPage(current + offset)
     }
 
     LaunchedEffect(layoutResIds) {
@@ -497,7 +512,8 @@ fun DevicePreviewPager(
                                 }
                                 .clip(RoundedCornerShape(16.dp)),
                         ) {
-                            val resId = layoutResIds[virtualPage.realIndex(count)]
+                            val pageIndex = virtualPage.realIndex(count)
+                            val resId = layoutResIds[pageIndex]
 
                             key(resId) {
                                 AndroidView(
@@ -524,13 +540,16 @@ fun DevicePreviewPager(
                                                         androidViewGravity
                                                     )
                                                 )
+                                                bindView(pageIndex, view)
                                             }
                                         }
                                     },
                                     update = { container ->
-                                        val view = viewCache[resId]
+                                        val view = viewCache[resId] ?: return@AndroidView
 
-                                        if (view == null || container.getChildAt(0) === view) return@AndroidView
+                                        bindView(pageIndex, view)
+
+                                        if (container.getChildAt(0) === view) return@AndroidView
 
                                         (view.parent as? ViewGroup)?.removeView(view)
 
@@ -583,50 +602,59 @@ fun DevicePreviewPager(
             )
         }
 
-        SplitButtonLayout(
-            leadingButton = {
-                SplitButtonDefaults.LeadingButton(
-                    enabled = enabled && isReady && !isSelected.value,
-                    onClick = withHaptic {
-                        onSelect(pagerState.currentPage.realIndex(count))
-                    }
-                ) {
-                    Text(text = stringResource(R.string.btn_select))
-                }
-            },
-            trailingButton = {
-                SplitButtonDefaults.TrailingButton(
-                    enabled = isReady && !isSelected.value,
-                    onClick = withHaptic {
-                        scope.launch {
-                            val current = pagerState.currentPage
-                            // Find the nearest virtual page that maps to startPageIndex
-                            val offset = (startPageIndex - current.realIndex(count) + count) % count
-                            val nearestPage = when {
-                                offset == 0 -> current
-                                offset <= count / 2 -> current + offset        // go forward
-                                else -> current - (count - offset)             // go backward
-                            }
-                            pagerState.animateScrollToPage(nearestPage)
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            SplitButtonLayout(
+                leadingButton = {
+                    SplitButtonDefaults.LeadingButton(
+                        enabled = enabled && isReady && !isSelected.value,
+                        onClick = withHaptic {
+                            onSelect(pagerState.currentPage.realIndex(count))
                         }
+                    ) {
+                        Text(text = stringResource(R.string.btn_select))
                     }
-                ) {
-                    Icon(
-                        imageVector = Iconsax.Outline.ArrowForwardSquare,
-                        contentDescription = "Reset",
-                        modifier = Modifier
-                            .size(SplitButtonDefaults.TrailingIconSize)
-                            .rotate(180f),
-                    )
+                },
+                trailingButton = {
+                    SplitButtonDefaults.TrailingButton(
+                        enabled = isReady && !isSelected.value,
+                        onClick = withHaptic {
+                            scope.launch {
+                                val current = pagerState.currentPage
+                                // Find the nearest virtual page that maps to startPageIndex
+                                val offset = (startPageIndex - current.realIndex(count) + count) % count
+                                val nearestPage = when {
+                                    offset == 0 -> current
+                                    offset <= count / 2 -> current + offset        // go forward
+                                    else -> current - (count - offset)             // go backward
+                                }
+                                pagerState.animateScrollToPage(nearestPage)
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Iconsax.Outline.ArrowForwardSquare,
+                            contentDescription = "Reset",
+                            modifier = Modifier
+                                .size(SplitButtonDefaults.TrailingIconSize)
+                                .rotate(180f),
+                        )
+                    }
                 }
+            )
+
+            if (isLoaded && isReady) {
+                trailingAction(pagerState.currentPage.realIndex(count))
             }
-        )
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-private fun PhoneFrame(
+internal fun PhoneFrame(
     isReady: Boolean,
     frameWidth: Dp,
     frameHeight: Dp,

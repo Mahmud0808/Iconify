@@ -77,7 +77,6 @@ fun ColorPickerPreferenceItem(
     val activity = LocalActivity.current
     val navController = LocalNavController.current
 
-    val colorPickerController = rememberColorPickerController()
     var showDialog by rememberSaveable { mutableStateOf(false) }
     val storedValue by prefController.observe(
         prefDefinition.key,
@@ -125,99 +124,111 @@ fun ColorPickerPreferenceItem(
     }
 
     if (showDialog) {
-        var draft by rememberSaveable(dialogSessionKey) { mutableStateOf(storedValue) }
-        var hexInput by rememberSaveable(dialogSessionKey) {
-            mutableStateOf(storedValue.removePrefix("#"))
-        }
+        ColorPickerDialog(
+            currentColor = storedValue,
+            showAlphaSlider = type.showAlphaSlider,
+            sessionKey = dialogSessionKey,
+            onDismiss = { showDialog = false },
+            onSelect = { prefController.setString(prefDefinition.key, it) }
+        )
+    }
+}
 
-        LaunchedEffect(dialogSessionKey, draft) {
-            colorPickerController.selectByColor(
-                color = Color.fromHexSafe(draft) ?: Color.fromHex(storedValue),
-                fromUser = false
-            )
-        }
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@Composable
+fun ColorPickerDialog(
+    currentColor: String,
+    showAlphaSlider: Boolean,
+    sessionKey: Int = 0,
+    onDismiss: () -> Unit,
+    onSelect: (String) -> Unit
+) {
+    val colorPickerController = rememberColorPickerController()
 
-        Dialog(onDismissRequest = { showDialog = false }) {
-            Surface(
-                shape = MaterialTheme.shapes.large,
-                tonalElevation = 6.dp
+    var draft by rememberSaveable(sessionKey) { mutableStateOf(currentColor) }
+    var hexInput by rememberSaveable(sessionKey) {
+        mutableStateOf(currentColor.removePrefix("#"))
+    }
+
+    LaunchedEffect(sessionKey, draft) {
+        colorPickerController.selectByColor(
+            color = Color.fromHexSafe(draft) ?: Color.fromHex(currentColor),
+            fromUser = false
+        )
+    }
+
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            shape = MaterialTheme.shapes.large,
+            tonalElevation = 6.dp
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
+                Text(
+                    text = stringResource(R.string.pick_a_color),
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                Row(
                     modifier = Modifier
-                        .padding(16.dp)
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(bottom = 16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        8.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = stringResource(R.string.pick_a_color),
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(bottom = 16.dp)
-                    )
-
-                    Row(
+                    AlphaTile(
                         modifier = Modifier
-                            .padding(bottom = 16.dp)
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(
-                            8.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        AlphaTile(
-                            modifier = Modifier
-                                .width(48.dp)
-                                .height(32.dp)
-                                .clip(MaterialTheme.shapes.small)
-                                .border(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.outline,
-                                    MaterialTheme.shapes.small
-                                ),
-                            selectedColor = Color.fromHex(storedValue)
-                        )
-                        Icon(
-                            imageVector = Iconsax.Outline.ArrowRight,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        AlphaTile(
-                            modifier = Modifier
-                                .width(48.dp)
-                                .height(32.dp)
-                                .clip(MaterialTheme.shapes.small)
-                                .border(
-                                    1.dp,
-                                    MaterialTheme.colorScheme.outline,
-                                    MaterialTheme.shapes.small
-                                ),
-                            selectedColor = colorPickerController.selectedColor.value
-                        )
-                    }
-
-                    HsvColorPicker(
-                        modifier = Modifier
-                            .padding(bottom = 16.dp)
-                            .size(220.dp),
-                        controller = colorPickerController,
-                        initialColor = Color.fromHexSafe(draft) ?: Color.fromHex(storedValue),
-                        onColorChanged = { colorEnvelope: ColorEnvelope ->
-                            draft = colorEnvelope.color.toHex()
-                            hexInput = draft.removePrefix("#")
-                        }
+                            .width(48.dp)
+                            .height(32.dp)
+                            .clip(MaterialTheme.shapes.small)
+                            .border(
+                                1.dp,
+                                MaterialTheme.colorScheme.outline,
+                                MaterialTheme.shapes.small
+                            ),
+                        selectedColor = Color.fromHex(currentColor)
                     )
-                    if (type.showAlphaSlider) {
-                        AlphaSlider(
-                            modifier = Modifier
-                                .padding(bottom = 16.dp)
-                                .height(28.dp)
-                                .widthIn(max = 280.dp)
-                                .fillMaxWidth(),
-                            controller = colorPickerController,
-                        )
+                    Icon(
+                        imageVector = Iconsax.Outline.ArrowRight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    AlphaTile(
+                        modifier = Modifier
+                            .width(48.dp)
+                            .height(32.dp)
+                            .clip(MaterialTheme.shapes.small)
+                            .border(
+                                1.dp,
+                                MaterialTheme.colorScheme.outline,
+                                MaterialTheme.shapes.small
+                            ),
+                        selectedColor = colorPickerController.selectedColor.value
+                    )
+                }
+
+                HsvColorPicker(
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .size(220.dp),
+                    controller = colorPickerController,
+                    initialColor = Color.fromHexSafe(draft) ?: Color.fromHex(currentColor),
+                    onColorChanged = { colorEnvelope: ColorEnvelope ->
+                        draft = colorEnvelope.color.toHex()
+                        hexInput = draft.removePrefix("#")
                     }
-                    BrightnessSlider(
+                )
+                if (showAlphaSlider) {
+                    AlphaSlider(
                         modifier = Modifier
                             .padding(bottom = 16.dp)
                             .height(28.dp)
@@ -225,71 +236,75 @@ fun ColorPickerPreferenceItem(
                             .fillMaxWidth(),
                         controller = colorPickerController,
                     )
+                }
+                BrightnessSlider(
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .height(28.dp)
+                        .widthIn(max = 280.dp)
+                        .fillMaxWidth(),
+                    controller = colorPickerController,
+                )
 
-                    val isValidHex = hexInput.length == 6 || hexInput.length == 8
+                val isValidHex = hexInput.length == 6 || hexInput.length == 8
 
-                    OutlinedTextField(
-                        value = hexInput,
-                        onValueChange = { raw ->
-                            val sanitized = raw
-                                .removePrefix("#")
-                                .filter { it.isDigit() || it.uppercaseChar() in 'A'..'F' }
-                                .take(8)
-                                .uppercase()
-                            hexInput = sanitized
+                OutlinedTextField(
+                    value = hexInput,
+                    onValueChange = { raw ->
+                        val sanitized = raw
+                            .removePrefix("#")
+                            .filter { it.isDigit() || it.uppercaseChar() in 'A'..'F' }
+                            .take(8)
+                            .uppercase()
+                        hexInput = sanitized
 
-                            if (sanitized.length == 6 || sanitized.length == 8) {
-                                draft = "#$sanitized"
-                                colorPickerController.selectByColor(
-                                    color = Color.fromHex(draft),
-                                    fromUser = true
-                                )
+                        if (sanitized.length == 6 || sanitized.length == 8) {
+                            draft = "#$sanitized"
+                            colorPickerController.selectByColor(
+                                color = Color.fromHex(draft),
+                                fromUser = true
+                            )
+                        }
+                    },
+                    label = { Text(stringResource(R.string.hex_color)) },
+                    prefix = { Text(stringResource(R.string.hex_color_prefix)) },
+                    isError = hexInput.isNotEmpty() && !isValidHex,
+                    supportingText = if (hexInput.isNotEmpty() && !isValidHex) {
+                        { Text(stringResource(R.string.enter_6_or_8_hex_digits)) }
+                    } else null,
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Characters,
+                        keyboardType = KeyboardType.Ascii
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp)
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
+                ) {
+                    OutlinedButton(
+                        shapes = ButtonDefaults.shapes(),
+                        onClick = withHaptic { onDismiss() }
+                    ) { Text(stringResource(android.R.string.cancel)) }
+                    Button(
+                        shapes = ButtonDefaults.shapes(),
+                        onClick = withHaptic {
+                            val toSave = when {
+                                isValidHex -> "#$hexInput"
+                                draft != currentColor -> draft
+                                else -> currentColor
                             }
-                        },
-                        label = { Text(stringResource(R.string.hex_color)) },
-                        prefix = { Text(stringResource(R.string.hex_color_prefix)) },
-                        isError = hexInput.isNotEmpty() && !isValidHex,
-                        supportingText = if (hexInput.isNotEmpty() && !isValidHex) {
-                            { Text(stringResource(R.string.enter_6_or_8_hex_digits)) }
-                        } else null,
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Characters,
-                            keyboardType = KeyboardType.Ascii
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp)
-                    )
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End)
-                    ) {
-                        OutlinedButton(
-                            shapes = ButtonDefaults.shapes(),
-                            onClick = withHaptic { showDialog = false }
-                        ) { Text(stringResource(android.R.string.cancel)) }
-                        Button(
-                            shapes = ButtonDefaults.shapes(),
-                            onClick = withHaptic {
-                                val toSave = when {
-                                    isValidHex -> "#$hexInput"
-                                    draft != storedValue -> draft
-                                    else -> storedValue
-                                }
-                                if (type.showAlphaSlider) {
-                                    prefController.setString(prefDefinition.key, toSave)
-                                } else {
-                                    prefController.setString(
-                                        prefDefinition.key,
-                                        "#" + toSave.removePrefix("#").takeLast(6)
-                                    )
-                                }
-                                showDialog = false
-                            }
-                        ) { Text(stringResource(R.string.btn_select)) }
-                    }
+                            onSelect(
+                                if (showAlphaSlider) toSave
+                                else "#" + toSave.removePrefix("#").takeLast(6)
+                            )
+                            onDismiss()
+                        }
+                    ) { Text(stringResource(R.string.btn_select)) }
                 }
             }
         }

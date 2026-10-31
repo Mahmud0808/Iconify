@@ -36,11 +36,13 @@ import androidx.core.graphics.drawable.toDrawable
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.utils.TextUtils
+import com.drdisagree.iconify.core.utils.clock.ClockCustomizer
+import com.drdisagree.iconify.core.utils.clock.ClockElementEdit
+import com.drdisagree.iconify.core.utils.clock.CustomClockElement
 import com.drdisagree.iconify.data.common.Const.ACTION_LS_CLOCK_INFLATED
 import com.drdisagree.iconify.data.common.Const.RESET_LOCKSCREEN_CLOCK_COMMAND
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
-import com.drdisagree.iconify.data.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_FONT_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
@@ -134,6 +136,8 @@ open class LockscreenClock(context: Context) : ModPack(context) {
     private var customDeviceName = ""
     private var customFontEnabled = false
     private var customImageEnabled = false
+    private var elementEdits: Map<Int, ClockElementEdit> = emptyMap()
+    private var customClockElements: List<CustomClockElement> = emptyList()
     private var currentClockView: View? = null
     private var lastStockClockFace: String? = null
     private var stockClockFaceObserverRegistered = false
@@ -215,6 +219,10 @@ open class LockscreenClock(context: Context) : ModPack(context) {
             customFontEnabled = getString(XposedKey.LSCLOCK_FONT_FILE_URI).isNotEmpty()
             customImageEnabled = getString(XposedKey.LSCLOCK_IMAGE1_FILE_URI).isNotEmpty() ||
                     getString(XposedKey.LSCLOCK_IMAGE2_FILE_URI).isNotEmpty()
+            elementEdits = ClockCustomizer.parseEdits(getString(XposedKey.LSCLOCK_ELEMENT_EDITS))[clockStyle]
+                .orEmpty()
+            customClockElements =
+                ClockCustomizer.parseCustomClock(getString(XposedKey.LSCLOCK_CUSTOM_CLOCK))
         }
 
         if (key.firstOrNull() == null ||
@@ -228,7 +236,9 @@ open class LockscreenClock(context: Context) : ModPack(context) {
                 XposedKey.LSCLOCK_FONT_FILE_URI.name,
                 XposedKey.LSCLOCK_CUSTOM_COLOR.name,
                 XposedKey.LSCLOCK_LINE_HEIGHT.name,
-                XposedKey.LSCLOCK_TEXT_SCALE.name
+                XposedKey.LSCLOCK_TEXT_SCALE.name,
+                XposedKey.LSCLOCK_ELEMENT_EDITS.name,
+                XposedKey.LSCLOCK_CUSTOM_CLOCK.name
             ) -> updateClockView(true)
 
             in setOf(
@@ -702,8 +712,18 @@ open class LockscreenClock(context: Context) : ModPack(context) {
                 }
                 mLsItemsContainer!!.addLsItemView(this)
 
+                if (clockStyle == ClockCustomizer.CUSTOM_STYLE) {
+                    ClockCustomizer.buildCustomClock(
+                        this as ViewGroup,
+                        customClockElements,
+                        appContext,
+                        LSCLOCK_FONT_FILE
+                    )
+                }
+
                 modifyClockView(this)
                 updateScaling(this)
+                applyElementEdits(this)
                 initSoundManager()
                 initBatteryStatus()
 
@@ -730,7 +750,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
             return LayoutInflater.from(appContext).inflate(
                 appContext.resources.getIdentifier(
-                    LOCKSCREEN_CLOCK_LAYOUT + clockStyle,
+                    ClockCustomizer.layoutName(clockStyle),
                     "layout",
                     BuildConfig.APPLICATION_ID
                 ),
@@ -878,6 +898,35 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
         val imageView = clockView.findViewContainingTag("profile_picture") as ImageView?
         userImage?.let { imageView?.setImageDrawable(it) }
+
+        applyElementEdits(clockView)
+    }
+
+    private fun applyElementEdits(clockView: View) {
+        ClockCustomizer.applyEdits(
+            root = clockView,
+            edits = if (clockStyle == ClockCustomizer.CUSTOM_STYLE) {
+                ClockCustomizer.customEdits(customClockElements)
+            } else {
+                elementEdits
+            },
+            fontContext = appContext,
+            customFontFile = LSCLOCK_FONT_FILE,
+            textScale = textScaleFactor,
+            colorOf = ::elementColor
+        )
+    }
+
+    private fun elementColor(color: String): Int {
+        if (!customColorEnabled) return ClockCustomizer.defaultColor(mContext, color)
+
+        return when (color) {
+            ClockCustomizer.COLOR_TEXT2 -> mTextColor2
+            ClockCustomizer.COLOR_ACCENT1 -> mAccentColor1
+            ClockCustomizer.COLOR_ACCENT2 -> mAccentColor2
+            ClockCustomizer.COLOR_ACCENT3 -> mAccentColor3
+            else -> mTextColor1
+        }
     }
 
     private fun updateClockViewElements(clockView: View?) {

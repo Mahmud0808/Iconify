@@ -59,6 +59,7 @@ import com.drdisagree.iconify.features.settings.credits.screens.CreditsScreen
 import com.drdisagree.iconify.features.settings.lookandfeel.screens.LookAndFeelScreen
 import com.drdisagree.iconify.features.settings.main.screens.SettingsScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.albumart.screens.LockscreenAlbumArtScreen
+import com.drdisagree.iconify.features.xposed.lockscreen.clock.screens.ClockEditorScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.clock.screens.LockscreenClockScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.depthwallpaper.screens.DepthWallpaperScreen
 import com.drdisagree.iconify.features.xposed.lockscreen.location.screens.LocationBrowseScreen
@@ -298,6 +299,7 @@ fun NavGraph(
                             navigation<NavRoutes.MainGraph.Xposed.Lockscreen.Root>(startDestination = NavRoutes.MainGraph.Xposed.Lockscreen.Main) {
                                 destination<NavRoutes.MainGraph.Xposed.Lockscreen.Main> { LockscreenScreen() }
                                 destination<NavRoutes.MainGraph.Xposed.Lockscreen.Clock> { LockscreenClockScreen() }
+                                destination<NavRoutes.MainGraph.Xposed.Lockscreen.ClockEditor> { ClockEditorScreen() }
                                 destination<NavRoutes.MainGraph.Xposed.Lockscreen.Weather> { LockscreenWeatherScreen() }
 
                                 navigation<NavRoutes.MainGraph.Xposed.Lockscreen.Widgets.Root>(

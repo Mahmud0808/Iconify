@@ -5,6 +5,7 @@ import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.drdisagree.iconify.BuildConfig
+import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.utils.WallpaperUtils
 import com.drdisagree.iconify.data.common.Resources.LOCKSCREEN_CLOCK_LAYOUT
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,6 +45,7 @@ class LockscreenClockViewModel @Inject constructor() : ViewModel() {
                     add(id)
                     index++
                 }
+                add(R.layout.preview_lockscreen_clock_custom)
             }
             _clockLayoutIds.emit(ids)
         }

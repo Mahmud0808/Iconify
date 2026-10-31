@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="lsclock_fonts">
+        <item>@font/age</item>
+        <item>@font/astthillabeltaden</item>
+        <item>@font/bebasneue</item>
+        <item>@font/bebasneue_bold</item>
+        <item>@font/br_sc</item>
+        <item>@font/cattyabrown</item>
+        <item>@font/colopro</item>
+        <item>@font/concert_one</item>
+        <item>@font/consolas</item>
+        <item>@font/detoks</item>
+        <item>@font/dot57</item>
+        <item>@font/filled</item>
+        <item>@font/filled1</item>
+        <item>@font/fontsfree_net_carthart</item>
+        <item>@font/future</item>
+        <item>@font/futurist_fixed_width_bold</item>
+        <item>@font/general_sans</item>
+        <item>@font/hollow</item>
+        <item>@font/hollow1</item>
+        <item>@font/japanese3017</item>
+        <item>@font/jet_brains_mono</item>
+        <item>@font/jkademo</item>
+        <item>@font/lovelo</item>
+        <item>@font/montserrat</item>
+        <item>@font/montserrat_bold</item>
+        <item>@font/oduda_bold</item>
+        <item>@font/sans_bold</item>
+        <item>@font/sf_pro_stencil</item>
+        <item>@font/slim</item>
+        <item>@font/steelfish_rounded_bd</item>
+        <item>@font/techno_various</item>
+    </array>
+</resources>

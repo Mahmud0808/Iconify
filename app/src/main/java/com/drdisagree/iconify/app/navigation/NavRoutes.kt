@@ -172,6 +172,9 @@ sealed class NavRoutes {
                 data object Clock : Lockscreen()
 
                 @Serializable
+                data object ClockEditor : Lockscreen()
+
+                @Serializable
                 data object Weather : Lockscreen()
 
                 @Serializable
