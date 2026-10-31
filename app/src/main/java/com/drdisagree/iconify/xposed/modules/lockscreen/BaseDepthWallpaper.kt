@@ -277,68 +277,28 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         canvasEngineClass
             .hookMethod("drawFrameOnCanvas")
             .runAfter { param ->
+                val engine = param.thisObject
+                if (!isLockScreenWallpaper(engine)) return@runAfter
+
+                updateWallpaperZoom(engine)
+
+                if (!showDepthWallpaper || showCustomImages) return@runAfter
+
+                val wallpaperBitmap = copyWallpaperBitmap(param.args[0] as? Bitmap) ?: return@runAfter
+
                 wallpaperProcessorThread?.interrupt()
-
-                if (isLockScreenWallpaper(param.thisObject)) {
-                    updateWallpaperZoom(param.thisObject)
-                }
-
-                if (showDepthWallpaper && !showCustomImages && isLockScreenWallpaper(param.thisObject)) {
-                    wallpaperProcessorThread = Thread {
-                        val wallpaperBitmap = Bitmap.createBitmap((param.args[0] as Bitmap))
-                        val displayBounds = displayBoundsOf(param.thisObject)
-                        wallpaperBitmapSize = Point(wallpaperBitmap.width, wallpaperBitmap.height)
-                        wallpaperCrop = queryWallpaperCrop(param.thisObject, displayBounds)
-                        val placement = wallpaperPlacement(param.thisObject, displayBounds)
-                        val cacheIsValid: Boolean = assertCache(wallpaperBitmap, placement)
-
-                        bakedWallpaperPlacement = placement
-                        currentWallpaperPlacement = placement
-                        applyWallpaperScale()
-
-                        val scaledWallpaperBitmap = if (placement != null) {
-                            renderAtPlacement(wallpaperBitmap, placement, displayBounds)
-                        } else {
-                            centerCrop(wallpaperBitmap, displayBounds)
+                wallpaperProcessorThread = Thread {
+                    try {
+                        processWallpaper(engine, wallpaperBitmap)
+                    } catch (_: InterruptedException) {
+                    } catch (throwable: Throwable) {
+                        log(this@BaseDepthWallpaper, throwable)
+                    } finally {
+                        if (wallpaperProcessorThread === Thread.currentThread()) {
+                            wallpaperProcessorThread = null
                         }
-
-                        try {
-                            DEPTH_WALL_BG_FILE.parentFile?.mkdirs()
-                            val out = FileOutputStream(DEPTH_WALL_BG_FILE)
-                            scaledWallpaperBitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
-                            out.flush()
-                            out.close()
-                        } catch (throwable: IOException) {
-                            log(this@BaseDepthWallpaper, throwable)
-                        }
-
-                        if (!mLayersCreated) {
-                            createLayers()
-                        }
-
-                        mWallpaperBackground.post {
-                            mWallpaperBitmapContainer.background =
-                                scaledWallpaperBitmap.toDrawable(mContext.resources)
-                            if (mScrimController != null) {
-                                mWallpaperDimmingOverlay.setBackgroundColor(Color.BLACK)
-                                mWallpaperDimmingOverlay.alpha = backgroundDimAlpha()
-                            }
-                        }
-
-                        if (!cacheIsValid) {
-                            handleSubjectExtraction(scaledWallpaperBitmap)
-
-                            Thread.sleep(500)
-                            if (DEPTH_WALL_FG_FILE.exists()) {
-                                setDepthWallpaper()
-                            }
-                        }
-
-                        wallpaperProcessorThread = null
                     }
-
-                    wallpaperProcessorThread?.start()
-                }
+                }.apply { start() }
             }
 
         scrimControllerClass
@@ -835,6 +795,66 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                 }
             )
         } catch (_: Throwable) {
+        }
+    }
+
+    private fun copyWallpaperBitmap(bitmap: Bitmap?): Bitmap? {
+        if (bitmap == null || bitmap.isRecycled) return null
+
+        return try {
+            bitmap.copy(Bitmap.Config.ARGB_8888, false)
+        } catch (throwable: Throwable) {
+            log(this@BaseDepthWallpaper, throwable)
+            null
+        }
+    }
+
+    private fun processWallpaper(engine: Any, wallpaperBitmap: Bitmap) {
+        val displayBounds = displayBoundsOf(engine)
+        wallpaperBitmapSize = Point(wallpaperBitmap.width, wallpaperBitmap.height)
+        wallpaperCrop = queryWallpaperCrop(engine, displayBounds)
+        val placement = wallpaperPlacement(engine, displayBounds)
+        val cacheIsValid: Boolean = assertCache(wallpaperBitmap, placement)
+
+        bakedWallpaperPlacement = placement
+        currentWallpaperPlacement = placement
+        applyWallpaperScale()
+
+        val scaledWallpaperBitmap = if (placement != null) {
+            renderAtPlacement(wallpaperBitmap, placement, displayBounds)
+        } else {
+            centerCrop(wallpaperBitmap, displayBounds)
+        }
+
+        try {
+            DEPTH_WALL_BG_FILE.parentFile?.mkdirs()
+            FileOutputStream(DEPTH_WALL_BG_FILE).use { out ->
+                scaledWallpaperBitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            }
+        } catch (throwable: IOException) {
+            log(this@BaseDepthWallpaper, throwable)
+        }
+
+        if (!mLayersCreated) {
+            createLayers()
+        }
+
+        mWallpaperBackground.post {
+            mWallpaperBitmapContainer.background =
+                scaledWallpaperBitmap.toDrawable(mContext.resources)
+            if (mScrimController != null) {
+                mWallpaperDimmingOverlay.setBackgroundColor(Color.BLACK)
+                mWallpaperDimmingOverlay.alpha = backgroundDimAlpha()
+            }
+        }
+
+        if (!cacheIsValid) {
+            handleSubjectExtraction(scaledWallpaperBitmap)
+
+            Thread.sleep(500)
+            if (DEPTH_WALL_FG_FILE.exists()) {
+                Handler(Looper.getMainLooper()).post { setDepthWallpaper() }
+            }
         }
     }
 
