@@ -3,12 +3,14 @@ package com.drdisagree.iconify.xposed.modules.extras.utils.misc
 import android.content.Context
 import android.view.View
 import android.view.ViewTreeObserver
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import io.github.libxposed.api.XposedInterface
 import java.lang.reflect.Method
 import java.util.Collections
 import java.util.WeakHashMap
+import kotlin.math.roundToInt
 
 object ComposeViewHost {
 
@@ -97,13 +99,13 @@ object ComposeViewHost {
     }
 
     private val placeMethod: Method? by lazy {
-        ComposeToolkit.loadClass("androidx.compose.ui.layout.Placeable\$PlacementScope")
+        ComposeToolkit.loadClass($$"androidx.compose.ui.layout.Placeable$PlacementScope")
             ?.methods
             ?.firstOrNull { it.name == "place" && it.parameterTypes.size == 4 }
     }
 
     private val placementCoordinatesMethod: Method? by lazy {
-        ComposeToolkit.loadClass("androidx.compose.ui.layout.Placeable\$PlacementScope")
+        ComposeToolkit.loadClass($$"androidx.compose.ui.layout.Placeable$PlacementScope")
             ?.methods
             ?.firstOrNull { it.name == "getCoordinates" && it.parameterTypes.isEmpty() }
     }
@@ -130,7 +132,7 @@ object ComposeViewHost {
         val packed = localPositionOfMethod?.invoke(root, coordinates, 0L) as? Long ?: return 0 to 0
         val x = Float.fromBits((packed ushr 32).toInt())
         val y = Float.fromBits((packed and 0xFFFFFFFFL).toInt())
-        return Math.round(x) to Math.round(y)
+        return x.roundToInt() to y.roundToInt()
     }
 
     fun windowFillModifier(size: () -> Pair<Int, Int>): Any? = try {
@@ -250,18 +252,22 @@ object ComposeViewHost {
 
     fun isHiddenModifier(modifier: Any): Boolean = modifier in hiddenModifiers
 
-    fun hideModifierArgument(param: MethodHookParam) {
-        val method = param.method as Method
+    fun hideModifierArgument(method: Method, args: Array<Any?>) {
         val index = ComposeToolkit.parameterIndex(method, ComposeToolkit.MODIFIER_CLASS)
         if (index == -1) return
 
-        val original = param.args[index]
+        val original = args[index]
         if (original != null && isHiddenModifier(original)) return
 
         val hidden = hiddenModifier(original ?: ComposeToolkit.emptyModifier ?: return)
             ?: return
-        param.args[index] = hidden
-        ComposeToolkit.clearDefaultBit(method, param.args, index)
+        args[index] = hidden
+        ComposeToolkit.clearDefaultBit(method, args, index)
+    }
+
+    fun proceedHidingModifier(chain: XposedInterface.Chain): Any? {
+        val method = chain.executable as? Method ?: return chain.proceed()
+        return chain.proceedWithArgs { args -> hideModifierArgument(method, args) }
     }
 
     fun runBeforeEachDraw(view: View, onDraw: () -> Unit) {

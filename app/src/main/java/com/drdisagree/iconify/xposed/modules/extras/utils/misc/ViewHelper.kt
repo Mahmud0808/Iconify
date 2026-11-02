@@ -28,8 +28,8 @@ import android.renderscript.ScriptIntrinsicBlur
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -50,10 +50,10 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CONTAIN
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WEATHER_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WIDGET_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 
 @Suppress("unused")
@@ -71,8 +71,8 @@ object ViewHelper {
         TextClock::class.java
             .hookMethod("onTimeChanged")
             .suppressError()
-            .runAfter { param ->
-                val textClock = param.thisObject as TextClock
+            .runAfter { chain, _ ->
+                val textClock = chain.thisObject as TextClock
                 if (textClock.getExtraFieldSilently(TITLE_CASE_FIELD) == true) {
                     TextUtils.convertTextViewsToTitleCase(textClock)
                 }

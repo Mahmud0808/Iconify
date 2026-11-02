@@ -9,27 +9,26 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.XC_MethodHook
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.getField
 
 @SuppressLint("DiscouragedApi")
 object StatusBarClock {
 
-    fun getLeftClockView(mContext: Context, param: XC_MethodHook.MethodHookParam) = try {
-        param.thisObject.getField("mClockView") as View
+    fun getLeftClockView(mContext: Context, statusBar: Any?) = try {
+        statusBar.getField("mClockView") as View
     } catch (_: Throwable) {
         try {
-            param.thisObject.getField("mLeftClock") as View
+            statusBar.getField("mLeftClock") as View
         } catch (_: Throwable) {
             try {
-                param.thisObject
+                statusBar
                     .getField("mClockController")
                     .callMethod("getClock") as View
             } catch (_: Throwable) {
                 try {
-                    val mActiveClock = param.thisObject
+                    val mActiveClock = statusBar
                         .getField("mClockController")
                         .getField("mActiveClock") as View
                     val mLeftClockId = mContext.resources.getIdentifier(
@@ -45,7 +44,7 @@ object StatusBarClock {
                     }
                 } catch (_: Throwable) {
                     try {
-                        (param.thisObject.getField(
+                        (statusBar.getField(
                             "mStatusBar"
                         ) as ViewGroup).findViewById(
                             mContext.resources.getIdentifier(
@@ -62,19 +61,19 @@ object StatusBarClock {
         }
     }
 
-    fun getCenterClockView(mContext: Context, param: XC_MethodHook.MethodHookParam) = try {
-        param.thisObject.getField("mCenterClockView") as View
+    fun getCenterClockView(mContext: Context, statusBar: Any?) = try {
+        statusBar.getField("mCenterClockView") as View
     } catch (_: Throwable) {
         try {
-            param.thisObject.getField("mCenterClock") as View
+            statusBar.getField("mCenterClock") as View
         } catch (_: Throwable) {
             try {
-                param.thisObject
+                statusBar
                     .getField("mClockController")
                     .callMethod("mCenterClockView") as View
             } catch (_: Throwable) {
                 try {
-                    val mActiveClock = param.thisObject
+                    val mActiveClock = statusBar
                         .getField("mClockController")
                         .getField("mActiveClock") as View
                     val mCenterClockId = mContext.resources.getIdentifier(
@@ -90,7 +89,7 @@ object StatusBarClock {
                     }
                 } catch (_: Throwable) {
                     try {
-                        (param.thisObject.getField(
+                        (statusBar.getField(
                             "mCenterClockLayout"
                         ) as LinearLayout).getChildAt(0)
                     } catch (_: Throwable) {
@@ -101,19 +100,19 @@ object StatusBarClock {
         }
     }
 
-    fun getRightClockView(mContext: Context, param: XC_MethodHook.MethodHookParam) = try {
-        param.thisObject.getField("mRightClockView") as View
+    fun getRightClockView(mContext: Context, statusBar: Any?) = try {
+        statusBar.getField("mRightClockView") as View
     } catch (_: Throwable) {
         try {
-            param.thisObject.getField("mRightClock") as View
+            statusBar.getField("mRightClock") as View
         } catch (_: Throwable) {
             try {
-                param.thisObject
+                statusBar
                     .getField("mClockController")
                     .callMethod("mRightClockView") as View
             } catch (_: Throwable) {
                 try {
-                    val mActiveClock = param.thisObject
+                    val mActiveClock = statusBar
                         .getField("mClockController")
                         .getField("mActiveClock") as View
                     val mRightClockId = mContext.resources.getIdentifier(

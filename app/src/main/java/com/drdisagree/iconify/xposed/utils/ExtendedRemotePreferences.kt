@@ -6,7 +6,7 @@ import androidx.core.graphics.toColorInt
 import com.crossbowffs.remotepreferences.RemotePreferences
 import com.drdisagree.iconify.data.keys.Key
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.core.log.log
 import com.drdisagree.iconify.xposed.utils.ExtendedRemotePreferences.Companion.WRITE_TIMEOUT_MS
 import java.util.concurrent.Callable
 import java.util.concurrent.ConcurrentHashMap
@@ -102,8 +102,7 @@ class ExtendedRemotePreferences : RemotePreferences {
      * exceptions from an unbounded read.
      */
     fun isProviderReady(timeoutMs: Long = READ_TIMEOUT_MS): Boolean {
-        if (breakerOpen) return false
-        return try {
+        return !breakerOpen && try {
             val future = binderPool.submit(Callable {
                 super.getBoolean(PROBE_KEY, false)
             })
@@ -127,8 +126,7 @@ class ExtendedRemotePreferences : RemotePreferences {
      * blocks the caller past the timeout.
      */
     fun boundedCommit(block: (SharedPreferences.Editor) -> Unit): Boolean {
-        if (breakerOpen) return false
-        return try {
+        return !breakerOpen && try {
             val future = binderPool.submit(Callable {
                 val editor = edit()
                 block(editor)

@@ -5,16 +5,16 @@ import android.provider.Settings
 import android.view.View
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.isMethodAvailable
 import com.drdisagree.iconify.xposed.modules.extras.ExpandableViews.Companion.getExpandableView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.util.concurrent.CopyOnWriteArrayList
 
 @Suppress("Unused")
@@ -40,7 +40,7 @@ class ControllersProvider(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         instance = this
 
         // Network Callbacks
@@ -50,75 +50,75 @@ class ControllersProvider(context: Context) : ModPack(context) {
 
         callbackHandler
             .hookMethod("setMobileDataIndicators")
-            .runAfter { param -> onSetMobileDataIndicators(param.args[0]) }
+            .runAfter { chain, _ -> onSetMobileDataIndicators(chain.args[0]) }
 
         callbackHandler
             .hookMethod("setIsAirplaneMode")
-            .runAfter { param -> onSetIsAirplaneMode(param.args[0]) }
+            .runAfter { chain, _ -> onSetIsAirplaneMode(chain.args[0]) }
 
         callbackHandler
             .hookMethod("setNoSims")
-            .runAfter { param -> onSetNoSims(param.args[0] as Boolean, param.args[1] as Boolean) }
+            .runAfter { chain, _ -> onSetNoSims(chain.args[0] as Boolean, chain.args[1] as Boolean) }
 
         callbackHandler
             .hookMethod("setWifiIndicators")
-            .runAfter { param -> onWifiChanged(param.args[0]) }
+            .runAfter { chain, _ -> onWifiChanged(chain.args[0]) }
 
         // Internet Tile - for opening Internet Dialog
         findClass("$SYSTEMUI_PACKAGE.qs.tiles.InternetTile", suppressError = true)
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mCellularTile == null) {
-                    mCellularTile = param.thisObject
+                    mCellularTile = chain.thisObject
                 }
                 if (mAccessPointController == null) {
-                    mAccessPointController = param.thisObject
+                    mAccessPointController = chain.thisObject
                         .getFieldSilently("mAccessPointController")
                 }
                 if (mInternetDialogManager == null) {
-                    mInternetDialogManager = param.thisObject
+                    mInternetDialogManager = chain.thisObject
                         .getFieldSilently("mInternetDialogManager")
                 }
             }
 
         findClass("$SYSTEMUI_PACKAGE.qs.tiles.InternetTileNewImpl", suppressError = true)
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mCellularTile == null) {
-                    mCellularTile = param.thisObject
+                    mCellularTile = chain.thisObject
                 }
                 if (mAccessPointController == null) {
-                    mAccessPointController = param.thisObject
+                    mAccessPointController = chain.thisObject
                         .getFieldSilently("accessPointController")
                 }
                 if (mInternetDialogManager == null) {
-                    mInternetDialogManager = param.thisObject
+                    mInternetDialogManager = chain.thisObject
                         .getFieldSilently("internetDialogManager")
                 }
             }
 
         findClass("$SYSTEMUI_PACKAGE.qs.tiles.dialog.InternetDialogManager", suppressError = true)
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mInternetDialogManager == null) {
-                    mInternetDialogManager = param.thisObject
+                    mInternetDialogManager = chain.thisObject
                 }
             }
 
         // Stole also Internet Dialog Manager in case no tile is available
         findClass("$SYSTEMUI_PACKAGE.statusbar.connectivity.NetworkControllerImpl")
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mAccessPointController == null) {
-                    mAccessPointController = param.thisObject
+                    mAccessPointController = chain.thisObject
                         .getFieldSilently("mAccessPoints")
                 }
                 if (mInternetDialogManager == null) {
-                    mInternetDialogManager = param.thisObject
+                    mInternetDialogManager = chain.thisObject
                         .getFieldSilently("mInternetDialogManager")
                 }
                 if (mInternetDialogFactory == null) {
-                    mInternetDialogFactory = param.thisObject
+                    mInternetDialogFactory = chain.thisObject
                         .getFieldSilently("mInternetDialogFactory")
                 }
             }
@@ -129,72 +129,72 @@ class ControllersProvider(context: Context) : ModPack(context) {
 
         bluetoothControllerImpl
             .hookConstructor()
-            .runAfter { param -> mBluetoothController = param.thisObject }
+            .runAfter { chain, _ -> mBluetoothController = chain.thisObject }
 
         bluetoothControllerImpl
             .hookMethod("onBluetoothStateChanged")
-            .runAfter { param ->
-                mBluetoothEnabled = (param.args[0] == 12 || param.args[0] == 11)
+            .runAfter { chain, _ ->
+                mBluetoothEnabled = (chain.args[0] == 12 || chain.args[0] == 11)
                 onBluetoothChanged(mBluetoothEnabled)
             }
 
         bluetoothControllerImpl
             .hookMethod("onConnectionStateChanged")
-            .runAfter { onBluetoothChanged(mBluetoothEnabled) }
+            .runAfter { _, _ -> onBluetoothChanged(mBluetoothEnabled) }
 
         bluetoothControllerImpl
             .hookMethod("onAclConnectionStateChanged")
-            .runAfter { onBluetoothChanged(mBluetoothEnabled) }
+            .runAfter { _, _ -> onBluetoothChanged(mBluetoothEnabled) }
 
         // Get Bluetooth Tile for Dialog
         findClass("$SYSTEMUI_PACKAGE.qs.tiles.BluetoothTile")
             .hookConstructor()
-            .runAfter { param ->
-                mBluetoothTile = param.thisObject
+            .runAfter { chain, _ ->
+                mBluetoothTile = chain.thisObject
                 mBluetoothTileDialogViewModel = mBluetoothTile.getFieldSilently("mDialogViewModel")
             }
 
         // Stole FlashLight Callback
         findClass("$SYSTEMUI_PACKAGE.statusbar.policy.FlashlightControllerImpl")
             .hookConstructor()
-            .runAfter { param ->
-                param.thisObject.getField("mTorchCallback").javaClass
+            .runAfter { chain, _ ->
+                chain.thisObject.getField("mTorchCallback").javaClass
                     .hookMethod("onTorchModeChanged")
                     .parameters(String::class.java, Boolean::class.javaPrimitiveType)
-                    .runAfter { param2 -> onTorchModeChanged(param2.args[1] as Boolean) }
+                    .runAfter { chain, _ -> onTorchModeChanged(chain.args[1] as Boolean) }
             }
 
         // Get Hotspot Callback
         findClass("$SYSTEMUI_PACKAGE.statusbar.policy.HotspotControllerImpl")
             .hookMethod("fireHotspotChangedCallback")
-            .runAfter { param ->
-                val enabled = param.thisObject.getField("mHotspotState") as Int == 13
-                val devices = param.thisObject.getField("mNumConnectedDevices") as Int
+            .runAfter { chain, _ ->
+                val enabled = chain.thisObject.getField("mHotspotState") as Int == 13
+                val devices = chain.thisObject.getField("mNumConnectedDevices") as Int
                 onHotspotChanged(enabled, devices)
             }
 
         // Hotspot Tile - for setting Hotspot
         findClass("$SYSTEMUI_PACKAGE.qs.tiles.HotspotTile")
             .hookConstructor()
-            .runAfter { param ->
-                mHotspotTile = param.thisObject
-                mHotspotController = param.thisObject.getField("mHotspotController")
+            .runAfter { chain, _ ->
+                mHotspotTile = chain.thisObject
+                mHotspotController = chain.thisObject.getField("mHotspotController")
             }
 
         // Home Controls Tile - for ControlsActivity
         findClass("$SYSTEMUI_PACKAGE.qs.tiles.DeviceControlsTile")
             .hookConstructor()
-            .runAfter { param -> mDeviceControlsTile = param.thisObject }
+            .runAfter { chain, _ -> mDeviceControlsTile = chain.thisObject }
 
         // Wallet Tile - for opening wallet
         findClass("$SYSTEMUI_PACKAGE.qs.tiles.QuickAccessWalletTile")
             .hookConstructor()
-            .runAfter { param -> mWalletTile = param.thisObject }
+            .runAfter { chain, _ -> mWalletTile = chain.thisObject }
 
         // Doze Callback
         findClass("$SYSTEMUI_PACKAGE.statusbar.phone.DozeScrimController")
             .hookMethod("onDozingChanged")
-            .runAfter { param -> onDozingChanged(param.args[0] as Boolean) }
+            .runAfter { chain, _ -> onDozingChanged(chain.args[0] as Boolean) }
     }
 
     /**

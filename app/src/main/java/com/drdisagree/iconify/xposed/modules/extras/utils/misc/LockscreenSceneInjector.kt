@@ -5,12 +5,12 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import io.github.libxposed.api.XposedInterface
 import java.lang.reflect.Method
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -146,40 +146,35 @@ object LockscreenSceneInjector {
         factoryClass
             .hookMethod("LockscreenElement")
             .suppressError()
-            .runAround(
-                before = before@{ param ->
-                    val key = param.args.getOrNull(1) ?: return@before null
-                    if (clockRegionKeys.none { it == key }) return@before null
-                    dispatchClockSize(key)
+            .intercept { chain ->
+                val key = chain.args.getOrNull(1) ?: return@intercept chain.proceed()
 
-                    val replacement = replacement?.takeIf { it.isEnabled() }
-                    val composer = if (replacement != null) composerOf(param) else null
-                    if (replacement == null || composer == null) {
-                        regionStack.addLast(key == largeClockRegionKey)
-                        return@before null
-                    }
+                if (clockRegionKeys.none { it == key }) {
+                    return@intercept chain.proceed().also { decorateElement(chain, key) }
+                }
 
-                    ComposeViewHost.emitInGroup(composer, replacement.key, modifierOf(param), replacement.factory)
+                dispatchClockSize(key)
+
+                val replacement = replacement?.takeIf { it.isEnabled() }
+                val composer = if (replacement != null) composerOf(chain) else null
+                if (replacement != null && composer != null) {
+                    ComposeViewHost.emitInGroup(composer, replacement.key, modifierOf(chain), replacement.factory)
                     emitClockRegionOverlays(composer)
-                    param.result = null
-                    true
-                },
-                after = { param, replaced -> afterLockscreenElement(param, replaced == true) }
-            )
+                    return@intercept null
+                }
+
+                regionStack.addLast(key == largeClockRegionKey)
+                val result = try {
+                    chain.proceed()
+                } finally {
+                    regionStack.removeLastOrNull()
+                }
+                composerOf(chain)?.let { emitClockRegionOverlays(it) }
+                result
+            }
     }
 
-    private fun afterLockscreenElement(param: MethodHookParam, replaced: Boolean) {
-        val key = param.args.getOrNull(1) ?: return
-        if (clockRegionKeys.any { it == key }) {
-            if (replaced) return
-            regionStack.removeLastOrNull()
-            if (param.throwable != null) return
-
-            composerOf(param)?.let { emitClockRegionOverlays(it) }
-            return
-        }
-        if (param.throwable != null) return
-
+    private fun decorateElement(chain: XposedInterface.Chain, key: Any) {
         val inLargeRegion = regionStack.lastOrNull() == true
         val anchor = when {
             smartspaceKeys.any { it == key } -> if (inLargeRegion) {
@@ -194,7 +189,7 @@ object LockscreenSceneInjector {
         val target = anchors[anchor] ?: return
         if (!target.isEnabled()) return
 
-        val composer = composerOf(param) ?: return
+        val composer = composerOf(chain) ?: return
         ComposeViewHost.emitInGroup(composer, target.key, factory = target.factory)
     }
 
@@ -213,14 +208,14 @@ object LockscreenSceneInjector {
         return !largeClockBelowSeen && key == largeClockKey
     }
 
-    private fun composerOf(param: MethodHookParam): Any? {
-        val method = param.method as Method
-        return param.args.getOrNull(ComposeToolkit.parameterIndex(method, ComposeToolkit.COMPOSER_CLASS))
+    private fun composerOf(chain: XposedInterface.Chain): Any? {
+        val method = chain.executable as Method
+        return chain.args.getOrNull(ComposeToolkit.parameterIndex(method, ComposeToolkit.COMPOSER_CLASS))
     }
 
-    private fun modifierOf(param: MethodHookParam): Any? {
-        val method = param.method as Method
-        return param.args.getOrNull(ComposeToolkit.parameterIndex(method, ComposeToolkit.MODIFIER_CLASS))
+    private fun modifierOf(chain: XposedInterface.Chain): Any? {
+        val method = chain.executable as Method
+        return chain.args.getOrNull(ComposeToolkit.parameterIndex(method, ComposeToolkit.MODIFIER_CLASS))
     }
 
     fun addContent(order: Int, key: Int, elementName: String, factory: (Context) -> View) {
@@ -257,10 +252,10 @@ object LockscreenSceneInjector {
         lockscreenContentClass
             .hookMethod("Content")
             .suppressError()
-            .runBefore { param ->
+            .runBefore { chain ->
                 if (behindLayers.isEmpty()) return@runBefore
 
-                val composer = composerOf(param) ?: return@runBefore
+                val composer = composerOf(chain) ?: return@runBefore
                 behindLayers.forEach { (_, layer) ->
                     if (layer.isEnabled()) {
                         ComposeViewHost.emitInGroup(composer, layer.key, factory = fading(layer.factory))
@@ -271,14 +266,14 @@ object LockscreenSceneInjector {
         lockscreenContentClass
             .hookMethod("Content")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (layers.isEmpty() && overlays.isEmpty()) return@runAfter
 
-                val method = param.method as Method
-                val composer = param.args.getOrNull(
+                val method = chain.executable as Method
+                val composer = chain.args.getOrNull(
                     ComposeToolkit.parameterIndex(method, ComposeToolkit.COMPOSER_CLASS)
                 ) ?: return@runAfter
-                val scope = param.args.getOrNull(
+                val scope = chain.args.getOrNull(
                     ComposeToolkit.parameterIndex(method, ComposeToolkit.CONTENT_SCOPE_CLASS)
                 )
 
@@ -306,8 +301,8 @@ object LockscreenSceneInjector {
         findClass(KEYGUARD_TRANSITION_REPOSITORY_CLASS, suppressError = true)
             .hookMethod("emitTransition")
             .suppressError()
-            .runAfter { param ->
-                val step = param.args.getOrNull(0) ?: return@runAfter
+            .runAfter { chain, _ ->
+                val step = chain.args.getOrNull(0) ?: return@runAfter
                 val from = step.getFieldSilently("from")?.toString() ?: return@runAfter
                 val to = step.getFieldSilently("to")?.toString() ?: return@runAfter
                 val value = (step.getFieldSilently("value") as? Float ?: return@runAfter)

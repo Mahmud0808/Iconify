@@ -35,7 +35,7 @@ import androidx.core.graphics.PathParser
 import androidx.core.graphics.withClip
 import androidx.core.graphics.withSave
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")

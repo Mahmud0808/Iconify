@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
 import java.util.concurrent.CopyOnWriteArrayList
 
 class KeyguardShowingCallback(context: Context) : ModPack(context) {
@@ -25,7 +25,7 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         instance = this
 
         val notificationPanelViewControllerClass =
@@ -34,9 +34,9 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
         notificationPanelViewControllerClass
             .hookMethodMatchPattern("onPanelStateChanged.*")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 val isKeyguardState =
-                    param.thisObject.getField("mBarState") in listOf(KEYGUARD, SHADE_LOCKED)
+                    chain.thisObject.getField("mBarState") in listOf(KEYGUARD, SHADE_LOCKED)
 
                 synchronized(this) {
                     if (this.isKeyguardState != isKeyguardState) {
@@ -55,13 +55,13 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
 
         visualStabilityCoordinatorClass
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 val mStatusBarStateControllerListener =
-                    param.thisObject.getField("mStatusBarStateControllerListener")
+                    chain.thisObject.getField("mStatusBarStateControllerListener")
 
                 mStatusBarStateControllerListener::class.java
                     .hookMethod("onExpandedChanged")
-                    .runAfter runAfter2@{
+                    .runAfter runAfter2@{ _, _ ->
                         if (keyguardUpdateMonitorInstance == null) return@runAfter2
 
                         val isKeyguardState =
@@ -87,8 +87,8 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
 
         keyguardUpdateMonitorClass
             .hookConstructor()
-            .runAfter { param ->
-                keyguardUpdateMonitorInstance = param.thisObject
+            .runAfter { chain, _ ->
+                keyguardUpdateMonitorInstance = chain.thisObject
             }
 
         keyguardUpdateMonitorClass
@@ -97,8 +97,8 @@ class KeyguardShowingCallback(context: Context) : ModPack(context) {
             ?.type
             .hookMethod("onStateChanged")
             .suppressError()
-            .runAfter { param ->
-                val isKeyguardState = param.args[0] in listOf(KEYGUARD, SHADE_LOCKED)
+            .runAfter { chain, _ ->
+                val isKeyguardState = chain.args[0] in listOf(KEYGUARD, SHADE_LOCKED)
 
                 synchronized(this) {
                     if (this.isKeyguardState != isKeyguardState) {

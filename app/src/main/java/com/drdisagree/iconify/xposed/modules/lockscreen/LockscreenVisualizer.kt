@@ -14,14 +14,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.LockscreenVisualizerView
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @SuppressLint("DiscouragedApi")
 open class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardShowingCallback.KeyguardShowingListener {
@@ -76,7 +76,7 @@ open class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardSh
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         registerKeyguardCallback()
         registerDozeListener()
 
@@ -102,8 +102,8 @@ open class LockscreenVisualizer(context: Context) : ModPack(context), KeyguardSh
 
         aodBurnInSectionClass
             .hookMethod("addViews")
-            .runAfter { param ->
-                val entryV = param.args[0] as View
+            .runAfter { chain, _ ->
+                val entryV = chain.args[0] as View
 
                 entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
                     override fun onViewAttachedToWindow(v: View) {

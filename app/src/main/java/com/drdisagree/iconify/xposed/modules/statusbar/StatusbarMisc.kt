@@ -9,7 +9,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.content.res.XResources
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
@@ -29,8 +28,26 @@ import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.hook.intercept
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.hook.runAfter
+import com.drdisagree.iconify.xposed.core.layout.hookLayout
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callStaticMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
+import com.drdisagree.iconify.xposed.core.reflect.setField
+import com.drdisagree.iconify.xposed.core.resources.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getCenterClockView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.getLeftClockView
@@ -39,26 +56,8 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock.se
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarComposeClock
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.runAfter
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -116,7 +115,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         StatusBarComposeClock.install()
         hideLockscreenCarrierOrStatusbar()
         applyClockSize()
@@ -128,10 +127,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
     }
 
     private fun hideLockscreenCarrierOrStatusbar() {
-        val xResources: XResources = resParams[SYSTEMUI_PACKAGE]?.res ?: return
 
-        xResources
-            .hookLayout()
+        hookLayout()
             .packageName(SYSTEMUI_PACKAGE)
             .resource("layout", "keyguard_status_bar")
             .suppressError()
@@ -243,10 +240,10 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 View::class.java,
                 Bundle::class.java
             )
-            .runAfter { param ->
-                mClockView = getLeftClockView(mContext, param) as? TextView
-                mCenterClockView = getCenterClockView(mContext, param) as? TextView
-                mRightClockView = getRightClockView(mContext, param) as? TextView
+            .runAfter { chain, _ ->
+                mClockView = getLeftClockView(mContext, chain.thisObject) as? TextView
+                mCenterClockView = getCenterClockView(mContext, chain.thisObject) as? TextView
+                mRightClockView = getRightClockView(mContext, chain.thisObject) as? TextView
 
                 updateClockTextSize()
             }
@@ -258,17 +255,17 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         phoneStatusBarViewControllerClass
             .hookMethod("onViewAttached")
-            .runAfter { param ->
-                mClockView = param.thisObject.getField("clock") as TextView
-                mCenterClockView = param.thisObject.getFieldSilently("clockCenter") as? TextView
-                mRightClockView = param.thisObject.getFieldSilently("clockRight") as? TextView
+            .runAfter { chain, _ ->
+                mClockView = chain.thisObject.getField("clock") as TextView
+                mCenterClockView = chain.thisObject.getFieldSilently("clockCenter") as? TextView
+                mRightClockView = chain.thisObject.getFieldSilently("clockRight") as? TextView
 
                 updateClockTextSize()
             }
 
         phoneStatusBarViewControllerClass
             .hookMethod("onViewDetached")
-            .runBefore { removeClockTextListener() }
+            .runBefore { _ -> removeClockTextListener() }
     }
 
     @SuppressLint("RtlHardcoded")
@@ -452,8 +449,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         phoneStatusBarViewClass
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
-                phoneStatusBarViewParam = param.thisObject as ViewGroup
+            .runAfter { chain, _ ->
+                phoneStatusBarViewParam = chain.thisObject as ViewGroup
 
                 phoneStatusBarViewParam.moveStatusBarClock()
                 phoneStatusBarViewParam?.keepStatusBarClockPosition()
@@ -462,7 +459,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         shadeHeaderControllerClass
             .hookMethod("updateQQSPaddings")
             .suppressError()
-            .runAfter { phoneStatusBarViewParam.moveStatusBarClock() }
+            .runAfter { _, _ -> phoneStatusBarViewParam.moveStatusBarClock() }
     }
 
     private fun show4GInsteadOfLTE() {
@@ -471,8 +468,8 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         mobileMappingsConfigClass
             .hookMethod("readConfig")
-            .runAfter { param ->
-                param.result.setField("show4gForLte", show4GInsteadOfLTE)
+            .runAfter { _, result ->
+                result.setField("show4gForLte", show4GInsteadOfLTE)
             }
     }
 
@@ -494,10 +491,10 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         phoneStatusBarViewControllerClass
             .hookMethod("onViewAttached")
-            .runAfter { param ->
-                mClockView = param.thisObject.getField("clock") as TextView
-                mCenterClockView = param.thisObject.getFieldSilently("clockCenter") as? TextView
-                mRightClockView = param.thisObject.getFieldSilently("clockRight") as? TextView
+            .runAfter { chain, _ ->
+                mClockView = chain.thisObject.getField("clock") as TextView
+                mCenterClockView = chain.thisObject.getFieldSilently("clockCenter") as? TextView
+                mRightClockView = chain.thisObject.getFieldSilently("clockRight") as? TextView
 
                 listOf(
                     mClockView,
@@ -558,12 +555,12 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         val darkIconDispatcherImplClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.DarkIconDispatcherImpl")
 
-        fun updateStatusbarColor(param: XC_MethodHook.MethodHookParam) {
+        fun updateStatusbarColor(dispatcher: Any?) {
             if (!linkToCustomColor) return
 
             val (statusbarColorLight, statusbarColorDark) = getStatusbarColors(mContext)
 
-            param.thisObject.apply {
+            dispatcher.apply {
                 setField("mLightModeIconColorSingleTone", statusbarColorLight)
                 setField("mDarkModeIconColorSingleTone", statusbarColorDark)
                 setField("mLightModeContrastColor", statusbarColorLight)
@@ -573,9 +570,9 @@ class StatusbarMisc(context: Context) : ModPack(context) {
 
         darkIconDispatcherImplClass
             .hookConstructor()
-            .runAfter { param ->
-                darkIconDispatcherImplInstance = param.thisObject
-                updateStatusbarColor(param)
+            .runAfter { chain, _ ->
+                darkIconDispatcherImplInstance = chain.thisObject
+                updateStatusbarColor(chain.thisObject)
                 if (linkToCustomColor) applyIconTint()
             }
 
@@ -586,29 +583,31 @@ class StatusbarMisc(context: Context) : ModPack(context) {
                 "applyDarkIntensity",
                 "applyIconTint"
             )
-            .runBefore { param ->
-                darkIconDispatcherImplInstance = param.thisObject
-                updateStatusbarColor(param)
+            .runBefore { chain ->
+                darkIconDispatcherImplInstance = chain.thisObject
+                updateStatusbarColor(chain.thisObject)
             }
 
         findClass(SYSTEM_STATUS_ICONS_KT_CLASS, suppressError = true)
             .hookMethodMatchPattern("SystemStatusIcons(-.*)?")
             .suppressError()
-            .runBefore { param -> param.tintSystemStatusIcons() }
+            .intercept { chain ->
+                chain.proceedWithArgs { args -> args.tintSystemStatusIcons(chain.executable as Method) }
+            }
 
         statusbarColors = getStatusbarColors(mContext)
         hookBatteryColors()
         applyIconTint()
     }
 
-    private fun XC_MethodHook.MethodHookParam.tintSystemStatusIcons() {
+    private fun Array<Any?>.tintSystemStatusIcons(method: Method) {
         if (!linkToCustomColor) return
 
-        val colorIndex = (method as Method).parameterTypes
+        val colorIndex = method.parameterTypes
             .indexOfFirst { it == Long::class.javaPrimitiveType }
         if (colorIndex == -1) return
 
-        val isLightIcon = when (args[colorIndex] as? Long) {
+        val isLightIcon = when (this[colorIndex] as? Long) {
             ComposeToolkit.colorOf(Color.WHITE) -> true
             ComposeToolkit.colorOf(Color.BLACK) -> false
             else -> return
@@ -620,7 +619,7 @@ class StatusbarMisc(context: Context) : ModPack(context) {
         if (!isStatusBar) return
 
         val (statusbarColorLight, statusbarColorDark) = statusbarColors
-        args[colorIndex] = ComposeToolkit.colorOf(
+        this[colorIndex] = ComposeToolkit.colorOf(
             if (isLightIcon) statusbarColorLight else statusbarColorDark
         )
     }
@@ -661,19 +660,22 @@ class StatusbarMisc(context: Context) : ModPack(context) {
             .flatMap { it.declaredMethods.asList() }
             .filter { getterPattern.matches(it.name) && !Modifier.isAbstract(it.modifiers) }
             .forEach { getter ->
-                getter.runAfter { param ->
-                    if (!linkToCustomColor) return@runAfter
+                getter.intercept { chain ->
+                    var result = chain.proceed()
+                    if (!linkToCustomColor) return@intercept result
 
-                    val color = param.result as? Long ?: return@runAfter
+                    val color = result as? Long ?: return@intercept result
                     val (statusbarColorLight, statusbarColorDark) = statusbarColors
                     val isLightTheme = getter.declaringClass.name.contains(LIGHT_THEME_MARKER)
 
-                    param.result = ComposeToolkit.colorOf(
+                    result = ComposeToolkit.colorOf(
                         ColorUtils.setAlphaComponent(
                             if (isLightTheme) statusbarColorDark else statusbarColorLight,
                             (color ushr 56).toInt()
                         )
                     )
+
+                    result
                 }
             }
     }

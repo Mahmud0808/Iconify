@@ -6,16 +6,16 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.ref.WeakReference
 
 class LaunchableViews(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         contextRef = WeakReference(mContext)
 
         launchableFabClass =

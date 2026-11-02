@@ -4,20 +4,20 @@ import android.content.Context
 import android.view.View
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callStaticMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.isMethodAvailable
+import com.drdisagree.iconify.xposed.core.reflect.setField
 import org.objenesis.ObjenesisHelper
 
 class ExpandableViews(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         ExpandableClass = findClass("$SYSTEMUI_PACKAGE.animation.Expandable")
         ExpandableCompanionFromViewClass = findClass(
             $$"$$SYSTEMUI_PACKAGE.animation.Expandable$Companion$fromView",

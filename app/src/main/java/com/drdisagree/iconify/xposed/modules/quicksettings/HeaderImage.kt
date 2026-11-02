@@ -22,20 +22,20 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_QS_HEADER_IMAGE_CO
 import com.drdisagree.iconify.data.common.XposedConst.HEADER_IMAGE_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -97,7 +97,7 @@ open class HeaderImage(context: Context) : ModPack(context) {
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         if (!mBroadcastRegistered) {
             mContext.registerReceiver(
                 mReceiver,
@@ -124,10 +124,10 @@ open class HeaderImage(context: Context) : ModPack(context) {
 
         notificationPanelViewControllerClass
             .hookMethod("onFinishInflate", "reInflateViews")
-            .runAfter { param ->
-                notificationPanelViewControllerInstance = param.thisObject
+            .runAfter { chain, _ ->
+                notificationPanelViewControllerInstance = chain.thisObject
 
-                val notificationPanelView = param.thisObject.getField("mView") as FrameLayout
+                val notificationPanelView = chain.thisObject.getField("mView") as FrameLayout
 
                 notificationPanelView.reAddView(createHeaderImageLayout(), 0)
 
@@ -136,54 +136,49 @@ open class HeaderImage(context: Context) : ModPack(context) {
 
         notificationPanelViewControllerClass
             .hookMethod("setExpandedHeightInternal")
-            .runAround(
-                before = before@{ param ->
-                    if (!showHeaderImage && !showHeaderClock) return@before null
+            .intercept { chain ->
+                if (!showHeaderImage && !showHeaderClock) return@intercept chain.proceed()
 
-                    val mNotificationShadeWindowController =
-                        param.thisObject.getField("mNotificationShadeWindowController")
+                val mNotificationShadeWindowController =
+                    chain.thisObject.getField("mNotificationShadeWindowController")
 
-                    val handle = mNotificationShadeWindowController::class.java
-                        .hookMethod("batchApplyWindowLayoutParams")
-                        .runBefore batchApply@{ param2 ->
-                            if (param2.thisObject !== mNotificationShadeWindowController) return@batchApply
-
-                            val scope = param2.args[0] as Runnable
-
-                            val mDeferWindowLayoutParams =
-                                param2.thisObject.getFieldSilently("mDeferWindowLayoutParams") as? Int
-                            mDeferWindowLayoutParams?.let {
-                                param2.thisObject.setFieldSilently(
-                                    "mDeferWindowLayoutParams",
-                                    it + 1
-                                )
-                            }
-                            scope.run()
-                            Runnable {
-                                val notificationPanelView =
-                                    param.thisObject.getField("mView") as FrameLayout
-                                notificationPanelView.post { updateQSHeaderImageState() }
-                            }.run()
-                            mDeferWindowLayoutParams?.let {
-                                param2.thisObject.setFieldSilently(
-                                    "mDeferWindowLayoutParams",
-                                    it
-                                )
-                            }
-                            param2.thisObject.callMethodSilently("applyWindowLayoutParams")
-
-                            param2.result = null
+                val handle = mNotificationShadeWindowController::class.java
+                    .hookMethod("batchApplyWindowLayoutParams")
+                    .intercept batchApply@{ batchChain ->
+                        val windowController = batchChain.thisObject
+                        if (windowController !== mNotificationShadeWindowController) {
+                            return@batchApply batchChain.proceed()
                         }
-                        .getUnhookHandle()
 
-                    handle
-                },
-                after = { _, handle -> handle?.unhook() }
-            )
+                        val scope = batchChain.args[0] as Runnable
+
+                        val mDeferWindowLayoutParams =
+                            windowController.getFieldSilently("mDeferWindowLayoutParams") as? Int
+                        mDeferWindowLayoutParams?.let {
+                            windowController.setFieldSilently("mDeferWindowLayoutParams", it + 1)
+                        }
+                        scope.run()
+                        val notificationPanelView = chain.thisObject.getField("mView") as FrameLayout
+                        notificationPanelView.post { updateQSHeaderImageState() }
+                        mDeferWindowLayoutParams?.let {
+                            windowController.setFieldSilently("mDeferWindowLayoutParams", it)
+                        }
+                        windowController.callMethodSilently("applyWindowLayoutParams")
+
+                        null
+                    }
+                    .getUnhookHandle()
+
+                try {
+                    chain.proceed()
+                } finally {
+                    handle.unhook()
+                }
+            }
 
         configurationListenerClass
             .hookMethod("onConfigChanged")
-            .runAfter {
+            .runAfter { _, _ ->
                 if (!showHeaderImage && !showHeaderClock) return@runAfter
 
                 val notificationPanelView = notificationPanelViewControllerInstance
@@ -194,7 +189,7 @@ open class HeaderImage(context: Context) : ModPack(context) {
 
         shadeLayoutChangeListenerClass
             .hookMethod("onLayoutChange")
-            .runAfter {
+            .runAfter { _, _ ->
                 if (!showHeaderImage && !showHeaderClock) return@runAfter
 
                 val notificationPanelView = notificationPanelViewControllerInstance
@@ -205,10 +200,10 @@ open class HeaderImage(context: Context) : ModPack(context) {
 
         notificationPanelViewControllerClass
             .hookMethodMatchPattern("onPanelStateChanged.*")
-            .runAfter {
+            .runAfter { chain, _ ->
                 if (!showHeaderImage && !showHeaderClock) return@runAfter
 
-                val state = it.args[0] as Int
+                val state = chain.args[0] as Int
 
                 when (state) {
                     STATE_OPENING -> startQsOpeningLoop()
@@ -218,10 +213,10 @@ open class HeaderImage(context: Context) : ModPack(context) {
 
         qsContainerImplClass
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
-                val mHeader = param.thisObject.getField("mHeader") as FrameLayout
+            .runAfter { chain, _ ->
+                val mHeader = chain.thisObject.getField("mHeader") as FrameLayout
 
-                (param.thisObject as FrameLayout).apply {
+                (chain.thisObject as FrameLayout).apply {
                     (mHeader.parent as? ViewGroup)?.removeView(mHeader)
                     addView(mHeader, 0)
                     requestLayout()
@@ -230,8 +225,8 @@ open class HeaderImage(context: Context) : ModPack(context) {
 
         shadeHeaderControllerClass
             .hookMethod("onInit")
-            .runAfter { param ->
-                shadeHeaderControllerInstance = param.thisObject
+            .runAfter { chain, _ ->
+                shadeHeaderControllerInstance = chain.thisObject
             }
     }
 

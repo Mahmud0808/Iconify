@@ -1,4 +1,4 @@
-package com.drdisagree.iconify.xposed.modules.extras.utils.toolkit
+package com.drdisagree.iconify.xposed.core.reflect
 
 import android.util.ArraySet
 import java.lang.reflect.Method

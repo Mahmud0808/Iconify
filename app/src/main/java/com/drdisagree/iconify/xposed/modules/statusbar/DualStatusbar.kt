@@ -20,23 +20,23 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_BATTERY_ICON_TA
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_CENTER_CLOCK_CONTAINER_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
+import com.drdisagree.iconify.xposed.core.resources.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.views.AlphaOptimizedLinearLayout
 import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @SuppressLint("DiscouragedApi")
 class DualStatusbar(context: Context) : ModPack(context) {
@@ -126,7 +126,7 @@ class DualStatusbar(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val phoneStatusBarViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarView")
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
@@ -135,13 +135,13 @@ class DualStatusbar(context: Context) : ModPack(context) {
 
         scrimControllerClass
             .hookConstructor()
-            .runAfter { param -> mScrimControllerObj = param.thisObject }
+            .runAfter { chain, _ -> mScrimControllerObj = chain.thisObject }
 
         notificationPanelViewControllerClass
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mScrimControllerObj == null) {
-                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                    mScrimControllerObj = chain.thisObject.getField("mScrimController")
                 }
             }
 
@@ -150,25 +150,25 @@ class DualStatusbar(context: Context) : ModPack(context) {
                 "onFinishInflate",
                 "reInflateViews"
             )
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mScrimControllerObj == null) {
-                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                    mScrimControllerObj = chain.thisObject.getField("mScrimController")
                 }
             }
 
         phoneStatusBarViewClass
             .hookConstructor()
-            .runAfter { param -> mPhoneStatusBarViewObj = param.thisObject }
+            .runAfter { chain, _ -> mPhoneStatusBarViewObj = chain.thisObject }
 
         phoneStatusBarViewClass
             .hookMethod(
                 "onFinishInflate",
                 "onConfigurationChanged"
             )
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!dualStatusbarEnabled) return@runAfter
 
-                val phoneStatusBarView = param.thisObject as ViewGroup
+                val phoneStatusBarView = chain.thisObject as ViewGroup
 
                 val dsbSetupDone =
                     (phoneStatusBarView.findViewWithTag<View?>("dual_statusbar_start_side") != null

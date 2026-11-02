@@ -8,15 +8,16 @@ import android.util.TypedValue
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedInterface
 import java.lang.reflect.Method
 
 @SuppressLint("DiscouragedApi")
@@ -44,7 +45,7 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val mobileIconClass = findClass(MOBILE_ICON_CLASS, suppressError = true)
         val stackedMobileIconClass = findClass(STACKED_MOBILE_ICON_CLASS, suppressError = true)
         if (mobileIconClass == null && stackedMobileIconClass == null) return
@@ -70,21 +71,21 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
         mobileIconClass
             .hookMethodMatchPattern("MobileSignalIcon(-.*)?")
             .suppressError()
-            .run(signalHook(MOBILE_ICON_CLASS, ::singleSizeSp) { param, parameterTypes ->
+            .intercept(signalHook(MOBILE_ICON_CLASS, ::singleSizeSp) { args, parameterTypes ->
                 val modelIndex =
                     parameterTypes.indexOfFirst { it.name.endsWith(CELLULAR_MODEL_SUFFIX) }
-                if (modelIndex == -1) null else listOf(param.args[modelIndex])
+                if (modelIndex == -1) null else listOf(args[modelIndex])
             })
 
         stackedMobileIconClass
             .hookMethodMatchPattern("StackedMobileIcon(-.*)?")
             .suppressError()
-            .run(signalHook(STACKED_MOBILE_ICON_CLASS, ::stackedSizeSp) { param, parameterTypes ->
+            .intercept(signalHook(STACKED_MOBILE_ICON_CLASS, ::stackedSizeSp) { args, parameterTypes ->
                 val dualSimIndex = parameterTypes.indexOfFirst { it.name.endsWith(DUAL_SIM_SUFFIX) }
                 if (dualSimIndex == -1) {
                     null
                 } else {
-                    val dualSim = param.args[dualSimIndex] ?: return@signalHook null
+                    val dualSim = args[dualSimIndex] ?: return@signalHook null
                     listOf(
                         dualSim.callMethodSilently("getPrimary"),
                         dualSim.callMethodSilently("getSecondary")
@@ -95,47 +96,49 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
         findClass(CANVAS_KT_CLASS, suppressError = true)
             .hookMethodMatchPattern("Canvas(-.*)?")
             .suppressError()
-            .runBefore { param ->
-                val pending = pendingSignal.get() ?: return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    val pending = pendingSignal.get() ?: return@proceedWithArgs
 
-                val parameterTypes = (param.method as Method).parameterTypes
-                val onDrawIndex = parameterTypes.indexOfFirst { it.name == FUNCTION1_CLASS }
-                if (onDrawIndex == -1) return@runBefore
+                    val parameterTypes = (chain.executable as Method).parameterTypes
+                    val onDrawIndex = parameterTypes.indexOfFirst { it.name == FUNCTION1_CLASS }
+                    if (onDrawIndex == -1) return@proceedWithArgs
 
-                val original = param.args[onDrawIndex] ?: return@runBefore
-                if (!original.javaClass.name.startsWith(pending.lambdaPrefix)) return@runBefore
+                    val original = args[onDrawIndex] ?: return@proceedWithArgs
+                    if (!original.javaClass.name.startsWith(pending.lambdaPrefix)) return@proceedWithArgs
 
-                val drawer = ComposeToolkit.function1("IconifySignalIcon") { drawScope ->
+                    val drawer = ComposeToolkit.function1("IconifySignalIcon") { drawScope ->
+                        try {
+                            drawSignal(drawScope!!, pending.drawables, pending.color)
+                        } catch (throwable: Throwable) {
+                            hookFailed = true
+                            log(this@ComposeSignalIcon, throwable)
+                            ComposeToolkit.invokeFunction(original, drawScope)
+                        }
+                    } ?: return@proceedWithArgs
+
+                    args[onDrawIndex] = drawer
+
+                    val sizeDp = pending.sizeDp ?: return@proceedWithArgs
+                    val modifierIndex =
+                        parameterTypes.indexOfFirst { it.name == ComposeToolkit.MODIFIER_CLASS }
+                    if (modifierIndex == -1) return@proceedWithArgs
+                    val modifier = args[modifierIndex] ?: return@proceedWithArgs
+                    val companion = modifierCompanion ?: return@proceedWithArgs
+
                     try {
-                        drawSignal(drawScope!!, pending.drawables, pending.color)
+                        val sizeModifier = sizeMethod?.invoke(
+                            null,
+                            companion,
+                            sizeDp.first,
+                            sizeDp.second
+                        ) ?: return@proceedWithArgs
+                        ComposeToolkit.then(sizeModifier, modifier)?.let {
+                            args[modifierIndex] = it
+                        }
                     } catch (throwable: Throwable) {
-                        hookFailed = true
                         log(this@ComposeSignalIcon, throwable)
-                        ComposeToolkit.invokeFunction(original, drawScope)
                     }
-                } ?: return@runBefore
-
-                param.args[onDrawIndex] = drawer
-
-                val sizeDp = pending.sizeDp ?: return@runBefore
-                val modifierIndex =
-                    parameterTypes.indexOfFirst { it.name == ComposeToolkit.MODIFIER_CLASS }
-                if (modifierIndex == -1) return@runBefore
-                val modifier = param.args[modifierIndex] ?: return@runBefore
-                val companion = modifierCompanion ?: return@runBefore
-
-                try {
-                    val sizeModifier = sizeMethod?.invoke(
-                        null,
-                        companion,
-                        sizeDp.first,
-                        sizeDp.second
-                    ) ?: return@runBefore
-                    ComposeToolkit.then(sizeModifier, modifier)?.let {
-                        param.args[modifierIndex] = it
-                    }
-                } catch (throwable: Throwable) {
-                    log(this@ComposeSignalIcon, throwable)
                 }
             }
     }
@@ -143,42 +146,51 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
     private fun signalHook(
         ownerClass: String,
         naturalSizeSp: (Int) -> Pair<Float, Float>?,
-        models: (XC_MethodHook.MethodHookParam, Array<Class<*>>) -> List<Any?>?
-    ) = object : XC_MethodHook() {
-        override fun beforeHookedMethod(param: MethodHookParam) {
-            pendingSignal.remove()
-            if (!useDrawableSignalIcon || hookFailed) return
-
-            try {
-                val parameterTypes = (param.method as Method).parameterTypes
-                val colorIndex = parameterTypes.indexOfFirst { it == Long::class.javaPrimitiveType }
-                if (colorIndex == -1) return
-
-                val signalModels = models(param, parameterTypes) ?: return
-                if (signalModels.isEmpty()) return
-
-                val drawables = signalModels.map { model ->
-                    model?.let { signalDrawableFor(it) } ?: return
-                }
-                val color = colorToArgb(param.args[colorIndex] as Long) ?: return
-
-                val bars = signalModels.maxOf {
-                    (it?.callMethodSilently("getNumberOfLevels") as? Int ?: 5) - 1
-                }
-                val sizeDp = naturalSizeSp(bars)?.let { (width, height) ->
-                    val scale = enlargedSignalScale(height)
-                    if (scale > 1f) spToDp(width) * scale to spToDp(height) * scale else null
-                }
-
-                pendingSignal.set(PendingSignal("$ownerClass\$", drawables, color, sizeDp))
-            } catch (throwable: Throwable) {
-                hookFailed = true
-                log(this@ComposeSignalIcon, throwable)
-            }
+        models: (List<Any?>, Array<Class<*>>) -> List<Any?>?
+    ): (XposedInterface.Chain) -> Any? = { chain ->
+        pendingSignal.remove()
+        if (useDrawableSignalIcon && !hookFailed) {
+            preparePendingSignal(chain, ownerClass, naturalSizeSp, models)
         }
 
-        override fun afterHookedMethod(param: MethodHookParam) {
+        try {
+            chain.proceed()
+        } finally {
             pendingSignal.remove()
+        }
+    }
+
+    private fun preparePendingSignal(
+        chain: XposedInterface.Chain,
+        ownerClass: String,
+        naturalSizeSp: (Int) -> Pair<Float, Float>?,
+        models: (List<Any?>, Array<Class<*>>) -> List<Any?>?
+    ) {
+        try {
+            val parameterTypes = chain.executable.parameterTypes
+            val colorIndex = parameterTypes.indexOfFirst { it == Long::class.javaPrimitiveType }
+            if (colorIndex == -1) return
+
+            val signalModels = models(chain.args, parameterTypes) ?: return
+            if (signalModels.isEmpty()) return
+
+            val drawables = signalModels.map { model ->
+                model?.let { signalDrawableFor(it) } ?: return
+            }
+            val color = colorToArgb(chain.args[colorIndex] as Long) ?: return
+
+            val bars = signalModels.maxOf {
+                (it?.callMethodSilently("getNumberOfLevels") as? Int ?: 5) - 1
+            }
+            val sizeDp = naturalSizeSp(bars)?.let { (width, height) ->
+                val scale = enlargedSignalScale(height)
+                if (scale > 1f) spToDp(width) * scale to spToDp(height) * scale else null
+            }
+
+            pendingSignal.set(PendingSignal("$ownerClass\$", drawables, color, sizeDp))
+        } catch (throwable: Throwable) {
+            hookFailed = true
+            log(this@ComposeSignalIcon, throwable)
         }
     }
 

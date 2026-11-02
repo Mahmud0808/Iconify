@@ -3,16 +3,16 @@ package com.drdisagree.iconify.xposed.modules.lockscreen
 import android.content.Context
 import android.widget.LinearLayout
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.xposed.core.PackageParam
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenComposeContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class LockscreenWeatherCompose(context: Context) : LockscreenWeather(context) {
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         setupWeatherCommon()
 
         LockscreenComposeContainer.register(

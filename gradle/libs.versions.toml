@@ -31,6 +31,7 @@ iconsaxCompose = "1.0.1"
 kotlin = "2.4.10"
 kotlinxSerializationJson = "1.11.0"
 ksp = "2.3.10"
+libxposedApi = "102.0.0"
 libsuVersion = "6.0.0"
 lifecycleRuntimeKtx = "2.11.0"
 lottie = "6.7.1"
@@ -45,7 +46,6 @@ playServicesBase = "18.10.0"
 remotepreferences = "0.8"
 roomVersion = "2.8.4"
 workRuntimeKtx = "2.11.2"
-xposedbridge = "main-SNAPSHOT"
 zip4j = "2.11.6"
 
 [libraries]
@@ -100,10 +100,10 @@ remotepreferences = { module = "com.crossbowffs.remotepreferences:remotepreferen
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
+libxposed-api = { module = "io.github.libxposed:api", version.ref = "libxposedApi" }
 su-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsuVersion" }
 su-nio = { module = "com.github.topjohnwu.libsu:nio", version.ref = "libsuVersion" }
 su-service = { module = "com.github.topjohnwu.libsu:service", version.ref = "libsuVersion" }
-xposedbridge = { module = "com.github.Mahmud0808:XposedBridge", version.ref = "xposedbridge" }
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
 
 [plugins]

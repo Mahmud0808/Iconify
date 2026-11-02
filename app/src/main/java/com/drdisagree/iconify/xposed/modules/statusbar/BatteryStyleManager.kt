@@ -61,25 +61,27 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LS_BATTERY_ICON_TA
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_QS_BATTERY_ICON_TAG
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_SB_BATTERY_ICON_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.callStaticMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.SettingsLibUtils
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DualToneHandler
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.statusbar.BatteryStyleManager.BatteryView.Companion.getBatteryView
 import com.drdisagree.iconify.xposed.modules.statusbar.StatusbarMisc.Companion.getStatusbarColors
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.BatteryDrawable
@@ -121,8 +123,6 @@ import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.RLandscapeB
 import com.drdisagree.iconify.xposed.modules.statusbar.batterystyles.RLandscapeBatteryStyleB
 import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Method
 import java.util.Collections
 import java.util.WeakHashMap
@@ -288,7 +288,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val batteryControllerImplClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.policy.BatteryControllerImpl")
         val batteryCallbackStateClass =
@@ -319,22 +319,22 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 "fireIsIncompatibleChargingChanged",
                 "updatePowerSave",
             )
-            .runAfter { param ->
-                val mLevel = param.thisObject.getField("mLevel") as Int
-                val isPluggedIn = param.thisObject.getField("mPluggedIn") as Boolean
-                val isCharging = param.thisObject.getFieldSilently("mCharging") as? Boolean
+            .runAfter { chain, _ ->
+                val mLevel = chain.thisObject.getField("mLevel") as Int
+                val isPluggedIn = chain.thisObject.getField("mPluggedIn") as Boolean
+                val isCharging = chain.thisObject.getFieldSilently("mCharging") as? Boolean
                     ?: false
                 val isWirelessCharging =
-                    param.thisObject.getField("mWirelessCharging") as Boolean
+                    chain.thisObject.getField("mWirelessCharging") as Boolean
                 val isBatteryDefenderEnabled =
-                    param.thisObject.getField("mIsBatteryDefender") as Boolean
-                val isStateUnknown = param.thisObject.getField("mStateUnknown") as Boolean
-                val isPowerSaveEnabled = param.thisObject.getField("mPowerSave") as Boolean
+                    chain.thisObject.getField("mIsBatteryDefender") as Boolean
+                val isStateUnknown = chain.thisObject.getField("mStateUnknown") as Boolean
+                val isPowerSaveEnabled = chain.thisObject.getField("mPowerSave") as Boolean
                 val isExtremePowerSaveEnabled =
-                    param.thisObject.getFieldSilently("mAodPowerSave") as? Boolean
+                    chain.thisObject.getFieldSilently("mAodPowerSave") as? Boolean
                         ?: false
                 val isIncompatibleCharging =
-                    param.thisObject.getField("mIsIncompatibleCharging") as Boolean
+                    chain.thisObject.getField("mIsIncompatibleCharging") as Boolean
 
                 batteryCallbackState = batteryCallbackState.copy(
                     level = mLevel,
@@ -351,12 +351,12 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         batteryCallbackStateClass
             .hookConstructor()
-            .runAfter { refreshBatteryData() }
+            .runAfter { _, _ -> refreshBatteryData() }
 
         phoneStatusBarViewControllerClass
             .hookMethod("onViewAttached")
-            .runAfter { param ->
-                val mView = param.thisObject.getField("mView") as View
+            .runAfter { chain, _ ->
+                val mView = chain.thisObject.getField("mView") as View
 
                 var mBatteryMeterView =
                     mView.findViewWithTag<ViewGroup?>(ICONIFY_SB_BATTERY_ICON_TAG)
@@ -386,8 +386,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         phoneStatusBarViewControllerClass
             .hookMethod("onViewDetached")
-            .runAfter { param ->
-                val mView = param.thisObject.getField("mView") as View
+            .runAfter { chain, _ ->
+                val mView = chain.thisObject.getField("mView") as View
 
                 mView.findViewWithTag<ViewGroup?>(ICONIFY_SB_BATTERY_ICON_TAG)?.let {
                     batteryViews.remove(it)
@@ -396,8 +396,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         keyguardStatusBarViewControllerClass
             .hookMethod("onViewAttached")
-            .runAfter { param ->
-                val mView = param.thisObject.getField("mView") as View
+            .runAfter { chain, _ ->
+                val mView = chain.thisObject.getField("mView") as View
 
                 var mBatteryMeterView =
                     mView.findViewWithTag<ViewGroup?>(ICONIFY_LS_BATTERY_ICON_TAG)
@@ -420,7 +420,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
                 mView.hideStockBatteryIcon()
 
-                val tintedIconManager = param.thisObject.getFieldSilently("mTintedIconManager")
+                val tintedIconManager = chain.thisObject.getFieldSilently("mTintedIconManager")
                 val onThemeChanged = tintedIconManager?.let { manager ->
                     mView.javaClass.methods.firstOrNull {
                         it.name == "onThemeChanged" &&
@@ -437,8 +437,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         keyguardStatusBarViewControllerClass
             .hookMethod("onViewDetached")
-            .runAfter { param ->
-                val mView = param.thisObject.getField("mView") as View
+            .runAfter { chain, _ ->
+                val mView = chain.thisObject.getField("mView") as View
 
                 mView.findViewWithTag<ViewGroup?>(ICONIFY_LS_BATTERY_ICON_TAG)?.let {
                     batteryViews.remove(it)
@@ -447,15 +447,15 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         shadeHeaderControllerClass
             .hookMethod("onViewAttached")
-            .runAfter { param ->
-                var mView = param.thisObject.getField("mView") as View
+            .runAfter { chain, _ ->
+                var mView = chain.thisObject.getField("mView") as View
 
-                param.thisObject.getExtraFieldSilently("mQsIconsContainer")?.let {
+                chain.thisObject.getExtraFieldSilently("mQsIconsContainer")?.let {
                     // Enabling custom header clock moves the clock to a different view group
                     mView = it as View
                 }
 
-                val header = param.thisObject.getField("header") as View
+                val header = chain.thisObject.getField("header") as View
                 val context = header.context
 
                 var mBatteryMeterView =
@@ -492,8 +492,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         shadeHeaderControllerClass
             .hookMethod("onViewDetached")
-            .runAfter { param ->
-                val mView = param.thisObject.getField("mView") as View
+            .runAfter { chain, _ ->
+                val mView = chain.thisObject.getField("mView") as View
 
                 mView.findViewWithTag<ViewGroup?>(ICONIFY_QS_BATTERY_ICON_TAG)?.let {
                     batteryViews.remove(it)
@@ -502,12 +502,12 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         modernStatusBarViewClass
             .hookMethod("onDarkChangedWithContrast")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 val newTint = darkIconDispatcherClass.callStaticMethod(
                     "getTint",
-                    param.args[0],
-                    param.thisObject,
-                    param.args[1] as Int
+                    chain.args[0],
+                    chain.thisObject,
+                    chain.args[1] as Int
                 ) as Int
 
                 applyStatusBarTint(newTint)
@@ -515,7 +515,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         findClass("$SYSTEMUI_PACKAGE.statusbar.policy.Clock")
             .hookMethod("onDarkChanged")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!composeHomeStatusIcons) return@runAfter
 
                 val batteryView = batteryViews.firstOrNull {
@@ -524,9 +524,9 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
                 val newTint = darkIconDispatcherClass.callStaticMethod(
                     "getTint",
-                    param.args[0],
+                    chain.args[0],
                     batteryView,
-                    param.args[2] as Int
+                    chain.args[2] as Int
                 ) as Int
 
                 applyStatusBarTint(newTint)
@@ -537,8 +537,8 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         keyguardStatusBarViewClass
             .hookMethod("onThemeChanged", "updateIconsAndTextColors")
-            .runAfter { param ->
-                val tintAreas = param.thisObject.getField("mEmptyTintRect")
+            .runAfter { chain, _ ->
+                val tintAreas = chain.thisObject.getField("mEmptyTintRect")
                 val textColor: Int = SettingsLibUtils.getColorAttrDefaultColor(
                     mContext,
                     mContext.resources.getIdentifier(
@@ -553,7 +553,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 val isInAreas = darkIconDispatcherClass.callStaticMethod(
                     "isInAreas",
                     tintAreas,
-                    param.thisObject
+                    chain.thisObject
                 ) as Boolean
 
                 val darkIntensity = if (isInAreas) lockscreenIntensity else 0f
@@ -588,10 +588,10 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
 
         configurationControllerListenerClass
             .hookMethod("onThemeChanged", "onUiModeChanged")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 var fieldName: String? = null
 
-                for (field in param.thisObject.javaClass.declaredFields) {
+                for (field in chain.thisObject.javaClass.declaredFields) {
                     field.isAccessible = true
 
                     if (field.type.simpleName == "ShadeHeaderController") {
@@ -605,7 +605,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                     return@runAfter
                 }
 
-                val shadeHeaderController = param.thisObject.getField(fieldName)
+                val shadeHeaderController = chain.thisObject.getField(fieldName)
                 val header = shadeHeaderController.getField("header") as View
                 val context = header.context
 
@@ -1085,15 +1085,14 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
             findClass(className, suppressError = true)
                 .hookMethod("SystemStatusIconsContainer")
                 .suppressError()
-                .run(object : XC_MethodHook() {
-                    override fun beforeHookedMethod(param: MethodHookParam) {
-                        composeStatusIconsDepth++
-                    }
-
-                    override fun afterHookedMethod(param: MethodHookParam) {
+                .intercept { chain ->
+                    composeStatusIconsDepth++
+                    try {
+                        chain.proceed()
+                    } finally {
                         composeStatusIconsDepth--
                     }
-                })
+                }
         }
 
         findClass(
@@ -1102,44 +1101,48 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         )
             .hookMethodMatchPattern("BatteryWithEstimate(-.*)?")
             .suppressError()
-            .runBefore { param ->
-                if (!customBatteryEnabled && !hideDefaultBattery) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (!customBatteryEnabled && !hideDefaultBattery) return@proceedWithArgs
 
-                val method = param.method as Method
-                val index = ComposeToolkit.parameterIndex(method, COMPOSE_MODIFIER_CLASS)
-                if (index == -1) return@runBefore
+                    val method = chain.executable as Method
+                    val index = ComposeToolkit.parameterIndex(method, COMPOSE_MODIFIER_CLASS)
+                    if (index == -1) return@proceedWithArgs
 
-                val modifier = param.args[index]
-                if (modifier != null && hiddenToOriginalModifier.containsKey(modifier)) return@runBefore
+                    val modifier = args[index]
+                    if (modifier != null && hiddenToOriginalModifier.containsKey(modifier)) return@proceedWithArgs
 
-                val original = modifier ?: ComposeToolkit.emptyModifier ?: return@runBefore
-                val hidden = hiddenModifierFor(original) ?: return@runBefore
-                param.args[index] = hidden
-                if (modifier == null) ComposeToolkit.clearDefaultBit(method, param.args, index)
+                    val original = modifier ?: ComposeToolkit.emptyModifier ?: return@proceedWithArgs
+                    val hidden = hiddenModifierFor(original) ?: return@proceedWithArgs
+                    args[index] = hidden
+                    if (modifier == null) ComposeToolkit.clearDefaultBit(method, args, index)
+                }
             }
 
         unifiedBatteryClass
             .hookMethod("UnifiedBattery")
             .suppressError()
-            .runBefore { param ->
-                val index = (param.method as Method).parameterTypes.indexOfFirst {
-                    it.name == COMPOSE_MODIFIER_CLASS
-                }
-                if (index == -1) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    val index = (chain.executable as Method).parameterTypes.indexOfFirst {
+                        it.name == COMPOSE_MODIFIER_CLASS
+                    }
+                    if (index == -1) return@proceedWithArgs
 
-                val modifier = param.args[index] ?: return@runBefore
-                val original = hiddenToOriginalModifier[modifier] ?: modifier
-                val isHideable = composeStatusIconsDepth > 0 ||
-                        original in hideableBatteryModifiers ||
-                        hiddenToOriginalModifier.containsKey(modifier)
-                if (!isHideable) return@runBefore
+                    val modifier = args[index] ?: return@proceedWithArgs
+                    val original = hiddenToOriginalModifier[modifier] ?: modifier
+                    val isHideable = composeStatusIconsDepth > 0 ||
+                            original in hideableBatteryModifiers ||
+                            hiddenToOriginalModifier.containsKey(modifier)
+                    if (!isHideable) return@proceedWithArgs
 
-                hideableBatteryModifiers.add(original)
+                    hideableBatteryModifiers.add(original)
 
-                param.args[index] = if (customBatteryEnabled || hideDefaultBattery) {
-                    hiddenModifierFor(original) ?: original
-                } else {
-                    original
+                    args[index] = if (customBatteryEnabled || hideDefaultBattery) {
+                        hiddenModifierFor(original) ?: original
+                    } else {
+                        original
+                    }
                 }
             }
     }
@@ -1150,18 +1153,18 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
         findClass("$SYSTEMUI_PACKAGE.shade.ui.composable.ShadeHeaderKt", suppressError = true)
             .hookMethodMatchPattern("BatteryInfo(-.*)?")
             .suppressError()
-            .runBefore { param ->
-                if (!customBatteryEnabled || headerStatusIconsHidden) return@runBefore
+            .intercept { chain ->
+                if (!customBatteryEnabled || headerStatusIconsHidden) return@intercept chain.proceed()
 
-                val method = param.method as Method
+                val method = chain.executable as Method
                 val modifierIndex = ComposeToolkit.parameterIndex(method, COMPOSE_MODIFIER_CLASS)
-                val composer = param.args.getOrNull(
+                val composer = chain.args.getOrNull(
                     ComposeToolkit.parameterIndex(method, ComposeToolkit.COMPOSER_CLASS)
-                ) ?: return@runBefore
-                val modifier = param.args.getOrNull(modifierIndex)
+                ) ?: return@intercept chain.proceed()
+                val modifier = chain.args.getOrNull(modifierIndex)
 
                 val colorIndex = method.parameterTypes.indexOfFirst { it == Long::class.javaPrimitiveType }
-                (param.args.getOrNull(colorIndex) as? Long)?.let { color ->
+                (chain.args.getOrNull(colorIndex) as? Long)?.let { color ->
                     if (color != composeQsIconColor) {
                         composeQsIconColor = color
                         applyComposeQsBatteryColors()
@@ -1171,7 +1174,7 @@ class BatteryStyleManager(context: Context) : ModPack(context) {
                 ComposeViewHost.emitInGroup(composer, QS_BATTERY_GROUP_KEY, modifier) {
                     createComposeQsBatteryView()
                 }
-                param.result = null
+                null
             }
     }
 

@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import java.lang.ref.WeakReference
 import java.lang.reflect.Method
@@ -48,8 +48,8 @@ object StatusBarComposeClock {
 
         findClass("$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarView")
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
-                val view = param.thisObject as ViewGroup
+            .runAfter { chain, _ ->
+                val view = chain.thisObject as ViewGroup
                 val id = view.resources.getIdentifier("clock", "id", SYSTEMUI_PACKAGE)
                 view.findViewById<View>(id)?.let { clock ->
                     clockRef = WeakReference(clock)
@@ -60,22 +60,22 @@ object StatusBarComposeClock {
         clockComposableClass
             .hookMethodMatchPattern(CLOCK_METHOD_PATTERN)
             .suppressError()
-            .runBefore { param ->
-                if (!isNeeded || clockRef?.get() == null) return@runBefore
+            .intercept { chain ->
+                if (!isNeeded || clockRef?.get() == null) return@intercept chain.proceed()
 
-                val method = param.method as Method
-                if (!method.isClockComposable()) return@runBefore
-                if (!isCalledFromStatusBar()) return@runBefore
+                val method = chain.executable as Method
+                if (!method.isClockComposable()) return@intercept chain.proceed()
+                if (!isCalledFromStatusBar()) return@intercept chain.proceed()
 
-                val composer = param.args.getOrNull(
+                val composer = chain.args.getOrNull(
                     ComposeToolkit.parameterIndex(method, ComposeToolkit.COMPOSER_CLASS)
-                ) ?: return@runBefore
-                val modifier = param.args.getOrNull(
+                ) ?: return@intercept chain.proceed()
+                val modifier = chain.args.getOrNull(
                     ComposeToolkit.parameterIndex(method, ComposeToolkit.MODIFIER_CLASS)
                 )
 
                 ComposeViewHost.emitInGroup(composer, GROUP_KEY, modifier) { createHost(it) }
-                param.result = null
+                null
             }
     }
 

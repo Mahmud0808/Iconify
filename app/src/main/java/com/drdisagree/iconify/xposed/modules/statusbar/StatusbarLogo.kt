@@ -12,21 +12,20 @@ import android.widget.LinearLayout
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.callStaticMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImage
 import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImageView
 import com.drdisagree.iconify.xposed.modules.extras.views.logoview.LogoImageViewRight
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @SuppressLint("DiscouragedApi")
 class StatusbarLogo(context: Context) : ModPack(context) {
@@ -90,7 +89,7 @@ class StatusbarLogo(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         darkIconDispatcherClass = findClass("$SYSTEMUI_PACKAGE.plugins.DarkIconDispatcher")
 
         val phoneStatusBarViewClass =
@@ -98,8 +97,8 @@ class StatusbarLogo(context: Context) : ModPack(context) {
 
         phoneStatusBarViewClass
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
-                val phoneStatusBarView = param.thisObject as ViewGroup
+            .runAfter { chain, _ ->
+                val phoneStatusBarView = chain.thisObject as ViewGroup
 
                 val startSideExceptHeadsUp = phoneStatusBarView.findViewById<ViewGroup?>(
                     mContext.resources.getIdentifier(
@@ -168,12 +167,12 @@ class StatusbarLogo(context: Context) : ModPack(context) {
         )
 
         fun updateLogoColor(
-            param: XC_MethodHook.MethodHookParam,
+            args: List<Any?>,
             logoImageView: LogoImageView,
             logoImageViewRight: LogoImageViewRight
         ) {
-            val areas = param.args[0]
-            val tint = param.args[2]
+            val areas = args[0]
+            val tint = args[2]
 
             val mTintColor = darkIconDispatcherClass.callStaticMethod(
                 "getTint",
@@ -205,10 +204,10 @@ class StatusbarLogo(context: Context) : ModPack(context) {
 
         clockClass
             .hookMethod("onDarkChanged")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (logoImageView == null || logoImageViewRight == null) return@runAfter
 
-                updateLogoColor(param, logoImageView!!, logoImageViewRight!!)
+                updateLogoColor(chain.args, logoImageView!!, logoImageViewRight!!)
             }
 
         val headsUpAppearanceControllerClass =
@@ -217,10 +216,10 @@ class StatusbarLogo(context: Context) : ModPack(context) {
         headsUpAppearanceControllerClass
             .hookMethod("onDarkChanged")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (logoImageView == null || logoImageViewRight == null) return@runAfter
 
-                updateLogoColor(param, logoImageView!!, logoImageViewRight!!)
+                updateLogoColor(chain.args, logoImageView!!, logoImageViewRight!!)
             }
 
         BootCallback.registerBootListener {

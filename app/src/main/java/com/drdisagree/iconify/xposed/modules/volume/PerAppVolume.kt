@@ -32,17 +32,17 @@ import androidx.core.view.isEmpty
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.ExtendedSlider
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.google.android.material.slider.Slider
 import com.google.android.material.slider.TickVisibilityMode
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.WeakHashMap
 import kotlin.math.roundToInt
 
@@ -79,7 +79,7 @@ class PerAppVolume(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         hookPerAppVolumeSettingsLongPress()
 
         if (showAppVolume) {
@@ -296,13 +296,13 @@ class PerAppVolume(context: Context) : ModPack(context) {
         settingsButtonBinderClass
             .hookMethod("bind")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showAppVolume) return@runAfter
 
                 registerPlaybackCallback()
                 refreshPlaybackSources()
 
-                val bindView = param.args.firstOrNull { it is View } as? View ?: return@runAfter
+                val bindView = chain.args.firstOrNull { it is View } as? View ?: return@runAfter
                 installPerAppVolumeLongPress(bindView)
 
                 val root = findDecorRootSilently(bindView)
@@ -321,10 +321,10 @@ class PerAppVolume(context: Context) : ModPack(context) {
         volumeDialogViewBinderClass
             .hookMethod("bind")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showAppVolume) return@runAfter
 
-                val dialog = param.args.firstOrNull { it is Dialog } as? Dialog
+                val dialog = chain.args.firstOrNull { it is Dialog } as? Dialog
                 val root = dialog?.window?.decorView as? ViewGroup ?: return@runAfter
 
                 root.post {

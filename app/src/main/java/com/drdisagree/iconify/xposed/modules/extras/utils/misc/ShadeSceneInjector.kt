@@ -3,9 +3,9 @@ package com.drdisagree.iconify.xposed.modules.extras.utils.misc
 import android.content.Context
 import android.view.View
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 import java.lang.reflect.Method
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -41,7 +41,7 @@ object ShadeSceneInjector {
         findClass("$SYSTEMUI_PACKAGE.shade.ui.composable.ShadePanelScrimKt", suppressError = true)
             .hookMethod("ShadePanelScrim")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (layers.isEmpty()) return@runAfter
 
                 val isShadeScene =
@@ -49,11 +49,11 @@ object ShadeSceneInjector {
                             ComposeToolkit.isCalledFrom(SHADE_SCENE_CLASS, "SingleShade", "SplitShade")
                 if (!isShadeScene) return@runAfter
 
-                val method = param.method as Method
-                val composer = param.args.getOrNull(
+                val method = chain.executable as Method
+                val composer = chain.args.getOrNull(
                     ComposeToolkit.parameterIndex(method, ComposeToolkit.COMPOSER_CLASS)
                 ) ?: return@runAfter
-                val scope = param.args.getOrNull(
+                val scope = chain.args.getOrNull(
                     ComposeToolkit.parameterIndex(method, ComposeToolkit.CONTENT_SCOPE_CLASS)
                 )
 

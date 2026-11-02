@@ -47,9 +47,19 @@ import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_FONT_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE1_FILE
 import com.drdisagree.iconify.data.common.XposedConst.LSCLOCK_IMAGE2_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.RootProxyClient.enqueueProxyCommand
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getExtraField
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.applyTo
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clear
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clone
@@ -62,41 +72,31 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.TimeUtils
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyTextMarginRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyTextScalingRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainingTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewWithTagAndChangeColor
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hookTextClockTitleCase
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.keepTextClocksTitleCase
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.ArcProgressImageView
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.File
 import org.json.JSONObject
+import java.io.File
 
 @SuppressLint("DiscouragedApi")
 open class LockscreenClock(context: Context) : ModPack(context) {
@@ -269,7 +269,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         initResources(mContext)
         registerStockClockFaceObserver()
 
@@ -307,10 +307,10 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
         aodBurnInSectionClass
             .hookMethod("addViews")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showLockscreenClock) return@runAfter
 
-                val entryV = param.args[0] as View
+                val entryV = chain.args[0] as View
 
                 if (entryV.getExtraFieldSilently(ATTACH_LISTENER_FIELD) == true) {
                     if (entryV.isAttachedToWindow) viewAttached(entryV)
@@ -341,10 +341,10 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
         keyguardClockSwitchClass
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showLockscreenClock) return@runAfter
 
-                val parent = param.thisObject as ViewGroup
+                val parent = chain.thisObject as ViewGroup
 
                 parent.findViewById<View?>(
                     mContext.resources.getIdentifier(
@@ -369,10 +369,10 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         )
             .hookMethod("addClockViews")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showLockscreenClock) return@runAfter
 
-                val clockController = param.args.firstOrNull() ?: return@runAfter
+                val clockController = chain.args.firstOrNull() ?: return@runAfter
 
                 listOf("getSmallClock", "getLargeClock").forEach { getter ->
                     (clockController.callMethodSilently(getter)
@@ -392,10 +392,10 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
         defaultNotificationStackScrollLayoutSectionClass
             .hookMethod("applyConstraints")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showLockscreenClock) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = chain.args[0]
 
                 if (mLsItemsContainer != null) {
                     constraintSet.clear(
@@ -430,10 +430,10 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
         aodNotificationIconsSectionClass
             .hookMethod("applyConstraints")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showLockscreenClock) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = chain.args[0]
 
                 if (mLsItemsContainer != null) {
                     constraintSet.clear(
@@ -469,10 +469,10 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
         smartspaceSectionClass
             .hookMethod("applyConstraints")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showLockscreenClock) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = chain.args[0]
 
                 // Connect bc smartspace to bottom of date smartspace
                 constraintSet.clear(
@@ -533,7 +533,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         statusBarKeyguardViewManagerClass
             .hookMethod("onStartedWakingUp")
             .suppressError()
-            .runAfter { updateLayoutParams() }
+            .runAfter { _, _ -> updateLayoutParams() }
 
         val centralSurfacesImplClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.CentralSurfacesImpl",
@@ -543,25 +543,25 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         centralSurfacesImplClass
             .hookMethod("onStartedWakingUp")
             .suppressError()
-            .runAfter { updateLayoutParams() }
+            .runAfter { _, _ -> updateLayoutParams() }
 
         centralSurfacesImplClass
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showLockscreenClock) return@runAfter
 
-                val mWakefulnessObserver = param.thisObject.getFieldSilently("mWakefulnessObserver")
+                val mWakefulnessObserver = chain.thisObject.getFieldSilently("mWakefulnessObserver")
 
                 mWakefulnessObserver?.javaClass
                     .hookMethod("onStartedWakingUp")
-                    .runAfter { updateLayoutParams() }
+                    .runAfter { _, _ -> updateLayoutParams() }
             }
 
         val dozeServiceClass = findClass("$SYSTEMUI_PACKAGE.doze.DozeService")
 
         dozeServiceClass
             .hookMethod("onDreamingStarted")
-            .runAfter {
+            .runAfter { _, _ ->
                 coroutineScope.launch {
                     repeat(5) {
                         updateLayoutParams()
@@ -580,10 +580,10 @@ open class LockscreenClock(context: Context) : ModPack(context) {
         keyguardUpdateMonitor
             .hookMethod("registerCallback")
             .parameters("com.android.keyguard.KeyguardUpdateMonitorCallback")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showLockscreenClock) return@runAfter
 
-                val callbackClass = param.args[0].javaClass
+                val callbackClass = chain.args[0].javaClass
 
                 if (callbackClass.getExtraFieldSilently("hooked") == true) return@runAfter
 
@@ -595,7 +595,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
                         "onTimeFormatChanged",
                         "onTimeZoneChanged"
                     )
-                    .runAfter runAfter2@{
+                    .runAfter runAfter2@{ _, _ ->
                         if (!showLockscreenClock) return@runAfter2
 
                         Handler(Looper.getMainLooper()).post { updateClockView() }
@@ -606,7 +606,7 @@ open class LockscreenClock(context: Context) : ModPack(context) {
 
         dozeTriggersClass
             .hookMethod("gentleWakeUp")
-            .runAfter {
+            .runAfter { _, _ ->
                 if (!showLockscreenClock) return@runAfter
 
                 Handler(Looper.getMainLooper()).post { updateClockView() }

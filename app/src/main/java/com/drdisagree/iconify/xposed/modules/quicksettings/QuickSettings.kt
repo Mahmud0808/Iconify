@@ -17,37 +17,38 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.widget.doAfterTextChanged
 import androidx.core.graphics.ColorUtils
+import androidx.core.widget.doAfterTextChanged
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getAnyField
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
+import com.drdisagree.iconify.xposed.core.reflect.setField
+import com.drdisagree.iconify.xposed.core.reflect.setFieldSilently
+import com.drdisagree.iconify.xposed.core.resources.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.lang.ref.WeakReference
 import java.lang.reflect.Method
 import java.util.WeakHashMap
-import java.lang.ref.WeakReference
 
 @SuppressLint("DiscouragedApi")
 class QuickSettings(context: Context) : ModPack(context) {
@@ -101,7 +102,7 @@ class QuickSettings(context: Context) : ModPack(context) {
         applyQsElementVisibility()
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         setQsMargin()
         fixNotificationColor()
         manageQsElementVisibility()
@@ -160,24 +161,28 @@ class QuickSettings(context: Context) : ModPack(context) {
         shadeHeaderClass
             .hookMethod("ExpandedShadeHeader")
             .suppressError()
-            .runAround(
-                before = {
-                    expandedHeaderDepth++
-                    applyExpandedHeaderHeight()
-                    true
-                },
-                after = { _, entered -> if (entered == true) expandedHeaderDepth-- }
-            )
+            .intercept { chain ->
+                expandedHeaderDepth++
+                applyExpandedHeaderHeight()
+
+                try {
+                    chain.proceed()
+                } finally {
+                    expandedHeaderDepth--
+                }
+            }
 
         findClass("androidx.compose.foundation.layout.SizeKt", suppressError = true)
             .hookMethodMatchPattern("defaultMinSize-.*\\\$default")
             .suppressError()
-            .runBefore { param ->
-                if (expandedHeaderDepth <= 0 || !customQsMarginsEnabled) return@runBefore
-                val defaultHeight = defaultExpandedHeaderHeight ?: return@runBefore
-                if (param.args.getOrNull(2) as? Float != defaultHeight) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (expandedHeaderDepth <= 0 || !customQsMarginsEnabled) return@proceedWithArgs
+                    val defaultHeight = defaultExpandedHeaderHeight ?: return@proceedWithArgs
+                    if (args.getOrNull(2) as? Float != defaultHeight) return@proceedWithArgs
 
-                param.args[2] = getQsMargin().toFloat()
+                    args[2] = getQsMargin().toFloat()
+                }
             }
 
         if (paddingMethod == null) return
@@ -185,34 +190,36 @@ class QuickSettings(context: Context) : ModPack(context) {
         shadeHeaderClass
             .hookMethod("CollapsedShadeHeader")
             .suppressError()
-            .runBefore { param ->
-                val index = (param.method as Method).parameterTypes.indexOfFirst {
-                    it.name == COMPOSE_MODIFIER_CLASS
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    val index = (chain.executable as Method).parameterTypes.indexOfFirst {
+                        it.name == COMPOSE_MODIFIER_CLASS
+                    }
+                    if (index == -1) return@proceedWithArgs
+
+                    val modifier = args[index] ?: return@proceedWithArgs
+                    val original = paddedToOriginalHeaderModifier[modifier] ?: modifier
+                    args[index] = original
+
+                    if (!customQsMarginsEnabled) return@proceedWithArgs
+
+                    val statusBarHeightPx = args
+                        .firstOrNull { it?.javaClass?.simpleName == "ShadeHeaderViewModel" }
+                        .getFieldSilently($$"statusBarHeightPx$delegate")
+                        .callMethodSilently("getValue") as? Number ?: return@proceedWithArgs
+                    val density = mContext.resources.displayMetrics.density
+                    val extraDp = getQqsMargin() - statusBarHeightPx.toFloat() / density
+                    if (extraDp <= 0f) return@proceedWithArgs
+
+                    val padded = try {
+                        paddingMethod.invoke(null, original, 0f, 0f, 0f, extraDp)
+                    } catch (_: Throwable) {
+                        null
+                    } ?: return@proceedWithArgs
+
+                    paddedToOriginalHeaderModifier[padded] = original
+                    args[index] = padded
                 }
-                if (index == -1) return@runBefore
-
-                val modifier = param.args[index] ?: return@runBefore
-                val original = paddedToOriginalHeaderModifier[modifier] ?: modifier
-                param.args[index] = original
-
-                if (!customQsMarginsEnabled) return@runBefore
-
-                val statusBarHeightPx = param.args
-                    .firstOrNull { it?.javaClass?.simpleName == "ShadeHeaderViewModel" }
-                    .getFieldSilently($$"statusBarHeightPx$delegate")
-                    .callMethodSilently("getValue") as? Number ?: return@runBefore
-                val density = mContext.resources.displayMetrics.density
-                val extraDp = getQqsMargin() - statusBarHeightPx.toFloat() / density
-                if (extraDp <= 0f) return@runBefore
-
-                val padded = try {
-                    paddingMethod.invoke(null, original, 0f, 0f, 0f, extraDp)
-                } catch (_: Throwable) {
-                    null
-                } ?: return@runBefore
-
-                paddedToOriginalHeaderModifier[padded] = original
-                param.args[index] = padded
             }
     }
 
@@ -247,23 +254,23 @@ class QuickSettings(context: Context) : ModPack(context) {
 
         activatableNotificationViewClass
             .hookMethod("setBackgroundTintColor", "updateBackgroundTint")
-            .runBefore { param ->
+            .runBefore { chain ->
                 if (!fixNotificationColor) return@runBefore
 
-                val notificationBackgroundView = param.thisObject.getFieldSilently(
+                val notificationBackgroundView = chain.thisObject.getFieldSilently(
                     "mBackgroundNormal"
                 ) as? View
 
-                if (param.args.size > 0 && param.args[0] is Int) {
-                    param.thisObject.setFieldSilently("mCurrentBackgroundTint", param.args[0])
+                if (chain.args.size > 0 && chain.args[0] is Int) {
+                    chain.thisObject.setFieldSilently("mCurrentBackgroundTint", chain.args[0])
                 }
 
                 notificationBackgroundView?.setFieldSilently("mTintColor", 0)
             }
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!fixNotificationColor) return@runAfter
 
-                val notificationBackgroundView = param.thisObject.getFieldSilently(
+                val notificationBackgroundView = chain.thisObject.getFieldSilently(
                     "mBackgroundNormal"
                 ) as? View
 
@@ -284,57 +291,57 @@ class QuickSettings(context: Context) : ModPack(context) {
 
         activatableNotificationViewClass
             .hookMethod("calculateBgColor")
-            .runBefore { param ->
-                if (!fixNotificationColor) return@runBefore
+            .intercept { chain ->
+                if (!fixNotificationColor) return@intercept chain.proceed()
 
                 try {
-                    param.result = param.thisObject.getField(
-                        "mCurrentBackgroundTint"
-                    )
+                    chain.thisObject.getField("mCurrentBackgroundTint")
                 } catch (_: Throwable) {
+                    chain.proceed()
                 }
             }
 
         notificationBackgroundViewClass
             .hookMethodMatchPattern("setCustomBackground.*")
-            .runBefore { param ->
+            .runBefore { chain ->
                 if (!fixNotificationColor) return@runBefore
 
-                param.thisObject.setField("mTintColor", 0)
+                chain.thisObject.setField("mTintColor", 0)
             }
 
         notificationBackgroundViewClass
             .hookMethod("setTint")
             .suppressError()
-            .runAround(
-                before = before@{ param ->
-                    if (!fixNotificationColor) return@before null
+            .intercept { chain ->
+                if (!fixNotificationColor) return@intercept chain.proceed()
 
-                    val background = param.thisObject.getFieldSilently("mBackground")
-                            as? LayerDrawable ?: return@before null
+                val background = chain.thisObject.getFieldSilently("mBackground")
+                        as? LayerDrawable ?: return@intercept chain.proceed()
 
-                    background.tintedLayers().map { layer ->
-                        Triple(layer, layer.color, layer.colors)
-                    }
-                },
-                after = { _, savedColors ->
-                    savedColors?.forEach { (layer, color, colors) ->
+                val savedColors = background.tintedLayers().map { layer ->
+                    Triple(layer, layer.color, layer.colors)
+                }
+
+                try {
+                    chain.proceed()
+                } finally {
+                    savedColors.forEach { (layer, color, colors) ->
                         when {
                             color != null -> layer.color = color
                             colors != null -> layer.colors = colors
                         }
                     }
                 }
-            )
+            }
 
         footerViewClass
             .hookMethodMatchPattern("updateColors.*")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!fixNotificationFooterButtonsColor) return@runAfter
 
-                val mClearAllButton = param.thisObject.getField("mClearAllButton") as Button
-                val mHistoryButton = param.thisObject.getField("mHistoryButton") as Button
-                val mSettingsButton = param.thisObject.getField("mSettingsButton") as Button
+                val mClearAllButton = chain.thisObject.getField("mClearAllButton") as Button
+                val mHistoryButton = chain.thisObject.getField("mHistoryButton") as Button
+                val mSettingsButton = chain.thisObject.getField("mSettingsButton") as Button
 
                 listOf(mClearAllButton, mHistoryButton, mSettingsButton).forEach { button ->
                     button.background?.mutate()?.let {
@@ -360,10 +367,10 @@ class QuickSettings(context: Context) : ModPack(context) {
                 Context::class.java,
                 Notification::class.java
             )
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!fixNotificationExpandButtonColor || coloredNotificationView) return@runAfter
 
-                val builder = param.thisObject as Notification.Builder
+                val builder = chain.thisObject as Notification.Builder
 
                 val mParams = builder.getField("mParams")
                 builder.callMethod("getColors", mParams)
@@ -407,12 +414,12 @@ class QuickSettings(context: Context) : ModPack(context) {
         actionsDialogLiteClass
             .hookMethod("onCreate")
             .parameters(Bundle::class.java)
-            .runAfter { param -> (param.thisObject as Dialog).clearActionListTint() }
+            .runAfter { chain, _ -> (chain.thisObject as Dialog).clearActionListTint() }
 
         actionsDialogLiteDelegateClass
             .hookMethod("onCreate")
             .parameters(Dialog::class.java, Bundle::class.java)
-            .runAfter { param -> (param.args[0] as? Dialog)?.clearActionListTint() }
+            .runAfter { chain, _ -> (chain.args[0] as? Dialog)?.clearActionListTint() }
 
         if (actionsDialogLiteClass == null && actionsDialogLiteDelegateClass == null) {
             log(this@QuickSettings, "Power menu dialog class not found")
@@ -420,10 +427,10 @@ class QuickSettings(context: Context) : ModPack(context) {
 
         singlePressActionClass
             .hookMethod("create")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!fixNotificationColor) return@runAfter
 
-                val mIconView = param.thisObject.getField("mIconView") as View
+                val mIconView = chain.thisObject.getField("mIconView") as View
                 mIconView.backgroundTintList = null
             }
     }
@@ -447,8 +454,8 @@ class QuickSettings(context: Context) : ModPack(context) {
 
         footerViewClass
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
-                val view = param.thisObject as View
+            .runAfter { chain, _ ->
+                val view = chain.thisObject as View
 
                 val footerButtons = listOf(
                     "dismiss_text",
@@ -473,8 +480,8 @@ class QuickSettings(context: Context) : ModPack(context) {
 
         sectionHeaderViewClass
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
-                val mSilentTextContainer = param.thisObject as ViewGroup
+            .runAfter { chain, _ ->
+                val mSilentTextContainer = chain.thisObject as ViewGroup
                 silentTextContainerRef = WeakReference(mSilentTextContainer)
 
                 if (hideSilentText) mSilentTextContainer.hideView()
@@ -503,11 +510,11 @@ class QuickSettings(context: Context) : ModPack(context) {
         )
             .hookMethod("EmptyShadeContent")
             .suppressError()
-            .runBefore { param ->
-                if (!hideCaughtUpMessage) return@runBefore
+            .intercept { chain ->
+                if (!hideCaughtUpMessage) return@intercept chain.proceed()
 
-                val text = param.args.getOrNull(0) as? String ?: return@runBefore
-                if (text == caughtUpText) ComposeViewHost.hideModifierArgument(param)
+                val text = chain.args.getOrNull(0) as? String ?: return@intercept chain.proceed()
+                if (text == caughtUpText) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
 
         findClass(
@@ -516,10 +523,10 @@ class QuickSettings(context: Context) : ModPack(context) {
         )
             .hookMethod("onFinishInflate")
             .suppressError()
-            .runAfter { param ->
-                val textView = param.thisObject.getFieldSilently("textView") as? TextView
+            .runAfter { chain, _ ->
+                val textView = chain.thisObject.getFieldSilently("textView") as? TextView
                     ?: return@runAfter
-                val iconView = param.thisObject.getFieldSilently("iconView") as? View
+                val iconView = chain.thisObject.getFieldSilently("iconView") as? View
 
                 fun updateVisibility() {
                     val hide = hideCaughtUpMessage && textView.text?.toString() == caughtUpText
@@ -543,10 +550,10 @@ class QuickSettings(context: Context) : ModPack(context) {
 
         mediaViewControllerClass
             .hookMethod("obtainViewState")
-            .runBefore { param ->
+            .runBefore { chain ->
                 if (!compactMediaPlayerEnabled) return@runBefore
 
-                val mediaHostState = param.args[0] ?: return@runBefore
+                val mediaHostState = chain.args[0] ?: return@runBefore
 
                 val mediaHostStateClass = mediaHostState.javaClass
 
@@ -558,19 +565,17 @@ class QuickSettings(context: Context) : ModPack(context) {
                 mediaHostStateClass
                     .hookMethod("getExpansion")
                     .suppressError()
-                    .runBefore runBefore2@{ param2 ->
-                        if (!compactMediaPlayerEnabled) return@runBefore2
-
-                        param2.result = 0f
+                    .intercept { mediaChain ->
+                        if (compactMediaPlayerEnabled) 0f else mediaChain.proceed()
                     }
 
                 // For some a13 and below ROMs
                 mediaHostStateClass
                     .hookConstructor()
-                    .runAfter { param2 ->
+                    .runAfter { chain, _ ->
                         if (!compactMediaPlayerEnabled) return@runAfter
 
-                        param2.thisObject.setFieldSilently("expansion", 0f)
+                        chain.thisObject.setFieldSilently("expansion", 0f)
                     }
             }
 
@@ -584,12 +589,14 @@ class QuickSettings(context: Context) : ModPack(context) {
         findClass("$SYSTEMUI_PACKAGE.media.remedia.ui.compose.MediaKt", suppressError = true)
             .hookMethod("Media")
             .suppressError()
-            .runBefore { param ->
-                if (!compactMediaPlayerEnabled) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (!compactMediaPlayerEnabled) return@proceedWithArgs
 
-                param.args.forEachIndexed { index, arg ->
-                    if (arg is Enum<*> && arg.javaClass == mediaPresentationStyleClass && arg.name == "Default") {
-                        param.args[index] = compressedStyle
+                    args.forEachIndexed { index, arg ->
+                        if (arg is Enum<*> && arg.javaClass == mediaPresentationStyleClass && arg.name == "Default") {
+                            args[index] = compressedStyle
+                        }
                     }
                 }
             }
@@ -608,28 +615,30 @@ class QuickSettings(context: Context) : ModPack(context) {
         findClass("$SYSTEMUI_PACKAGE.media.remedia.ui.compose.MediaKt", suppressError = true)
             .hookMethod("CardBackground")
             .suppressError()
-            .runBefore { param ->
-                if (!blurMediaPlayerArtwork) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (!blurMediaPlayerArtwork) return@proceedWithArgs
 
-                val icon = param.args.getOrNull(0) ?: return@runBefore
-                if (!loadedIconClass.isInstance(icon)) return@runBefore
-                val drawable = icon.getFieldSilently("drawable") as? Drawable ?: return@runBefore
+                    val icon = args.getOrNull(0) ?: return@proceedWithArgs
+                    if (!loadedIconClass.isInstance(icon)) return@proceedWithArgs
+                    val drawable = icon.getFieldSilently("drawable") as? Drawable ?: return@proceedWithArgs
 
-                val cached = blurredIcons[drawable]
-                param.args[0] = if (cached != null && cached.first == blurMediaPlayerArtworkRadius) {
-                    cached.second
-                } else {
-                    val blurredIcon = runCatching {
-                        loadedIconConstructor.newInstance(
-                            drawable.applyBlur(mContext, blurMediaPlayerArtworkRadius),
-                            icon.getFieldSilently("contentDescription"),
-                            icon.getFieldSilently("resId"),
-                            icon.getFieldSilently("packageName")
-                        )
-                    }.getOrNull() ?: return@runBefore
+                    val cached = blurredIcons[drawable]
+                    args[0] = if (cached != null && cached.first == blurMediaPlayerArtworkRadius) {
+                        cached.second
+                    } else {
+                        val blurredIcon = runCatching {
+                            loadedIconConstructor.newInstance(
+                                drawable.applyBlur(mContext, blurMediaPlayerArtworkRadius),
+                                icon.getFieldSilently("contentDescription"),
+                                icon.getFieldSilently("resId"),
+                                icon.getFieldSilently("packageName")
+                            )
+                        }.getOrNull() ?: return@proceedWithArgs
 
-                    blurredIcons[drawable] = blurMediaPlayerArtworkRadius to blurredIcon
-                    blurredIcon
+                        blurredIcons[drawable] = blurMediaPlayerArtworkRadius to blurredIcon
+                        blurredIcon
+                    }
                 }
             }
     }
@@ -647,22 +656,26 @@ class QuickSettings(context: Context) : ModPack(context) {
             mediaControlPanelClass
                 .hookMethod("getScaledBackground", "scaleDrawable")
                 .throwError()
-                .runAfter { param ->
-                    if (!blurMediaPlayerArtwork) return@runAfter
+                .intercept { chain ->
+                    var result = chain.proceed()
+                    if (!blurMediaPlayerArtwork) return@intercept result
 
-                    val artwork = param.result as? Drawable
+                    val artwork = result as? Drawable
 
                     if (artwork != null) {
-                        param.result = artwork.applyBlur(mContext, blurMediaPlayerArtworkRadius)
+                        result = artwork.applyBlur(mContext, blurMediaPlayerArtworkRadius)
                     }
+
+                    result
                 }
         } catch (_: Throwable) {
             mediaControlPanelClass
                 .hookMethod("addGradientToPlayerAlbum")
-                .runAfter { param ->
-                    if (!blurMediaPlayerArtwork) return@runAfter
+                .intercept { chain ->
+                    var result = chain.proceed()
+                    if (!blurMediaPlayerArtwork) return@intercept result
 
-                    val playerAlbumDrawable = param.result as? LayerDrawable
+                    val playerAlbumDrawable = result as? LayerDrawable
                     val artwork = playerAlbumDrawable?.getDrawable(0)
 
                     if (artwork != null) {
@@ -671,8 +684,10 @@ class QuickSettings(context: Context) : ModPack(context) {
                             blurMediaPlayerArtworkRadius
                         )
                         playerAlbumDrawable.setDrawable(0, blurredArtwork)
-                        param.result = playerAlbumDrawable
+                        result = playerAlbumDrawable
                     }
+
+                    result
                 }
         }
     }

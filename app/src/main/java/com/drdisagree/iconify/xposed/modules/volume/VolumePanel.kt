@@ -18,19 +18,19 @@ import android.widget.TextView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setField
+import com.drdisagree.iconify.xposed.core.resources.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Modifier
 import java.util.WeakHashMap
 import kotlin.math.ceil
@@ -51,7 +51,7 @@ class VolumePanel(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         showVolumePercentage()
         showSafetyWarning()
     }
@@ -68,10 +68,10 @@ class VolumePanel(context: Context) : ModPack(context) {
 
         volumeDialogImplClass
             .hookMethod("initRow")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showPercentage) return@runAfter
 
-                val rowHeader: TextView = param.args[0].getField("header") as TextView
+                val rowHeader: TextView = chain.args[0].getField("header") as TextView
 
                 if ((rowHeader.parent as ViewGroup).findViewById<TextView>(
                         mContext.resources.getIdentifier(
@@ -85,9 +85,9 @@ class VolumePanel(context: Context) : ModPack(context) {
                 val volumeNumber = createVolumeTextView().apply { typeface = rowHeader.typeface }
                 (rowHeader.parent as ViewGroup).addView(volumeNumber, 0)
 
-                param.args[0].setField(
+                chain.args[0].setField(
                     "number",
-                    (param.args[0].getField("view") as View).findViewById(
+                    (chain.args[0].getField("view") as View).findViewById(
                         mContext.resources.getIdentifier(
                             "volume_number",
                             "id",
@@ -99,11 +99,11 @@ class VolumePanel(context: Context) : ModPack(context) {
 
         volumeDialogImplClass
             .hookMethod("updateVolumeRowH")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showPercentage) return@runAfter
 
                 val volumeNumber: TextView =
-                    (param.args[0].getField("view") as View).findViewById(
+                    (chain.args[0].getField("view") as View).findViewById(
                         mContext.resources.getIdentifier(
                             "volume_number",
                             "id",
@@ -111,13 +111,13 @@ class VolumePanel(context: Context) : ModPack(context) {
                         )
                     ) ?: return@runAfter
 
-                val mState: Any = param.thisObject.getFieldSilently("mState") ?: return@runAfter
+                val mState: Any = chain.thisObject.getFieldSilently("mState") ?: return@runAfter
 
                 val ss = mState
                     .getField("states")
                     .callMethod(
                         "get",
-                        param.args[0].getField("stream")
+                        chain.args[0].getField("stream")
                     ) ?: return@runAfter
 
                 val levelMax: Int = ss.getField("levelMax") as Int
@@ -147,17 +147,20 @@ class VolumePanel(context: Context) : ModPack(context) {
         audioStreamStateClass
             .hookMethod("getLabel")
             .suppressError()
-            .runAfter { param ->
-                if (!showPercentage) return@runAfter
+            .intercept { chain ->
+                var result = chain.proceed()
+                if (!showPercentage) return@intercept result
 
-                val label = param.result as? String ?: return@runAfter
-                val value = param.thisObject.callMethod("getValue") as? Float ?: return@runAfter
-                val (start, end) = param.thisObject.callMethod("getValueRange")
-                    ?.floatBounds() ?: return@runAfter
-                if (end <= start) return@runAfter
+                val label = result as? String ?: return@intercept result
+                val value = chain.thisObject.callMethod("getValue") as? Float ?: return@intercept result
+                val (start, end) = chain.thisObject.callMethod("getValueRange")
+                    ?.floatBounds() ?: return@intercept result
+                if (end <= start) return@intercept result
 
                 val percentage = (100 * (value - start) / (end - start)).roundToInt().coerceIn(0, 100)
-                param.result = "$label - $percentage%"
+                result = "$label - $percentage%"
+
+                result
             }
 
         showVolumeDialogPercentage()
@@ -179,12 +182,12 @@ class VolumePanel(context: Context) : ModPack(context) {
         )
             .hookMethodMatchPattern(BIND_SLIDER_PATTERN)
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showPercentage) return@runAfter
 
-                val sliderView = param.args.firstOrNull { it is FrameLayout } as? FrameLayout
+                val sliderView = chain.args.firstOrNull { it is FrameLayout } as? FrameLayout
                     ?: return@runAfter
-                val stream = param.args.firstNotNullOfOrNull { arg ->
+                val stream = chain.args.firstNotNullOfOrNull { arg ->
                     arg?.takeUnless { it is View || it is Array<*> }?.sliderStream()
                 } ?: return@runAfter
                 val composeView = sliderView.findViewById<View?>(
@@ -307,25 +310,29 @@ class VolumePanel(context: Context) : ModPack(context) {
                         "showSafetyWarningH"
                     )
                     .throwError()
-                    .runBefore { param ->
+                    .intercept { chain ->
                         if (!showWarning) {
-                            param.result = null
+                            return@intercept null
                         }
+
+                        chain.proceed()
                     }
             } catch (_: Throwable) {
                 volumeDialogImplClass
                     .hookConstructor()
-                    .runAfter { param ->
+                    .runAfter { chain, result ->
                         if (showWarning) return@runAfter
 
-                        val mControllerCallbackH = param.thisObject.getField("mControllerCallbackH")
+                        val mControllerCallbackH = chain.thisObject.getField("mControllerCallbackH")
 
                         mControllerCallbackH.javaClass
                             .hookMethod("onShowSafetyWarning")
-                            .runBefore { param ->
+                            .intercept { chain ->
                                 if (!showWarning) {
-                                    param.result = null
+                                    return@intercept null
                                 }
+
+                                chain.proceed()
                             }
                     }
             }

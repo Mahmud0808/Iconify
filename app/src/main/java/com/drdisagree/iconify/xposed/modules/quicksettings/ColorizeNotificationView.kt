@@ -23,26 +23,25 @@ import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.createInstance
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getAnyField
+import com.drdisagree.iconify.xposed.core.reflect.getExtraField
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.isMethodAvailable
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
+import com.drdisagree.iconify.xposed.core.reflect.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.materialkolor.quantize.QuantizerCelebi
 import com.materialkolor.score.Score
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers.newInstance
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlin.math.roundToInt
 
 @SuppressLint("DiscouragedApi")
@@ -63,7 +62,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val colorSchemeClass = findClass("$SYSTEMUI_PACKAGE.monet.ColorScheme")
         val monetStyleClass = findClass(
             "$SYSTEMUI_PACKAGE.monet.Style",
@@ -152,32 +151,28 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
 
             val darkTheme = packageContext.resources.configuration.isNightModeActive
             val colorScheme = runCatching {
-                newInstance(
-                    colorSchemeClass,
+                colorSchemeClass.createInstance(
                     primaryColor,
                     darkTheme,
                     schemeStyle
                 )
             }.getOrElse {
                 runCatching {
-                    newInstance(
-                        colorSchemeClass,
+                    colorSchemeClass.createInstance(
                         wallpaperColors,
                         darkTheme,
                         schemeStyle
                     )
                 }.getOrElse {
                     runCatching {
-                        newInstance(
-                            colorSchemeClass,
+                        colorSchemeClass.createInstance(
                             wallpaperColors,
                             darkTheme,
                             6 // CONTENT style is converted to 6 in A16B1
                         )
                     }.getOrElse {
                         runCatching {
-                            newInstance(
-                                colorSchemeClass,
+                            colorSchemeClass.createInstance(
                                 primaryColor,
                                 darkTheme,
                                 6 // CONTENT style is converted to 6 in A16B1
@@ -185,15 +180,13 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                         }.getOrElse {
                             runCatching {
                                 // Android 13
-                                newInstance(
-                                    colorSchemeClass,
+                                colorSchemeClass.createInstance(
                                     wallpaperColors,
                                     schemeStyle
                                 )
                             }.getOrElse {
                                 // Android 13
-                                newInstance(
-                                    colorSchemeClass,
+                                colorSchemeClass.createInstance(
                                     wallpaperColors,
                                     6
                                 )
@@ -309,12 +302,12 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 Context::class.java,
                 Notification::class.java
             )
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!coloredNotificationView) return@runAfter
 
-                val context = param.args[0] as Context
-                val notification = param.args[1] as? Notification ?: return@runAfter
-                val builder = param.thisObject as Notification.Builder
+                val context = chain.args[0] as Context
+                val notification = chain.args[1] as? Notification ?: return@runAfter
+                val builder = chain.thisObject as Notification.Builder
 
                 notification.initializeColors(builder, context)
 
@@ -357,12 +350,12 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
 
         rowContentBindStageAnonymousClass
             .hookMethodMatchPattern("onAsyncInflationFinished.*")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!coloredNotificationView) return@runAfter
 
                 var entryFieldName: String? = null
 
-                for (field in param.thisObject.javaClass.declaredFields) {
+                for (field in chain.thisObject.javaClass.declaredFields) {
                     if (notificationEntryClass!!.isAssignableFrom(field.type)) {
                         entryFieldName = field.name
                         break
@@ -377,7 +370,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                     return@runAfter
                 }
 
-                val mEntry = param.thisObject.getFieldSilently(entryFieldName)
+                val mEntry = chain.thisObject.getFieldSilently(entryFieldName)
                     ?: return@runAfter
                 val expandableNotificationRow = mEntry.getFieldSilently("row")
                     ?: return@runAfter
@@ -441,35 +434,37 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             .hookMethod("setTint")
             .suppressError()
             .parameters(Int::class.javaPrimitiveType)
-            .runBefore { param ->
-                if (!coloredNotificationView) return@runBefore
+            .intercept { chain ->
+                if (!coloredNotificationView) return@intercept chain.proceed()
 
-                if (param.args[0] as Int == 0) {
-                    param.result = null
+                if (chain.args[0] as Int == 0) {
+                    return@intercept null
                 }
+
+                chain.proceed()
             }
 
         notificationViewWrapperClass
             .hookMethod("getCustomBackgroundColor")
-            .runBefore { param ->
-                if (!coloredNotificationView) return@runBefore
+            .intercept { chain ->
+                if (!coloredNotificationView) return@intercept chain.proceed()
 
-                val backgroundColor = param.thisObject.getField("mBackgroundColor") as Int
-                if (backgroundColor == 0) return@runBefore
+                val backgroundColor = chain.thisObject.getField("mBackgroundColor") as Int
+                if (backgroundColor == 0) return@intercept chain.proceed()
 
-                param.result = backgroundColor.withSemiTransparency()
+                backgroundColor.withSemiTransparency()
             }
 
         notificationContentViewClass
             .hookMethod("setSingleLineView")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!coloredNotificationView) return@runAfter
 
-                if (param.thisObject == null) return@runAfter
+                if (chain.thisObject == null) return@runAfter
 
-                val mEntry = param.thisObject.getFieldSilently("mNotificationEntry")
+                val mEntry = chain.thisObject.getFieldSilently("mNotificationEntry")
                     ?: return@runAfter
-                val singleLineView = param.thisObject.getFieldSilently("mSingleLineView")
+                val singleLineView = chain.thisObject.getFieldSilently("mSingleLineView")
                     ?: return@runAfter
 
                 val mSbn = mEntry.getField("mSbn")
@@ -486,13 +481,13 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
                 }
             }
 
-        fun updateBeforeNotificationContent(param: XC_MethodHook.MethodHookParam) {
+        fun updateBeforeNotificationContent(args: List<Any?>) {
             if (!coloredNotificationView) return
 
             var builder: Notification.Builder? = null
             var mContext: Context? = null
 
-            param.args.forEach { arg ->
+            args.forEach { arg ->
                 when (arg) {
                     is Notification.Builder -> builder = arg
                     is Context -> mContext = arg
@@ -506,13 +501,13 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             notification.initializeColors(builder, mContext)
         }
 
-        fun updateAfterNotificationContent(param: XC_MethodHook.MethodHookParam) {
+        fun updateAfterNotificationContent(args: List<Any?>, result: Any?) {
             if (!coloredNotificationView) return
 
             var builder: Notification.Builder? = null
             var mContext: Context? = null
 
-            param.args.forEach { arg ->
+            args.forEach { arg ->
                 when (arg) {
                     is Notification.Builder -> builder = arg
                     is Context -> mContext = arg
@@ -522,7 +517,7 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
             if (builder == null || mContext == null) return
 
             val notification: Notification = builder.notification
-            val inflationProgress: Any = param.result
+            val inflationProgress: Any = result ?: return
 
             notification.setTextColor(inflationProgress, mContext)
         }
@@ -532,16 +527,20 @@ class ColorizeNotificationView(context: Context) : ModPack(context) {
         ) {
             notificationContentInflaterClass
                 .hookMethodMatchPattern(".*createRemoteViews.*")
-                .runBefore { param -> updateBeforeNotificationContent(param) }
-                .runAfter { param -> updateAfterNotificationContent(param) }
+                .intercept { chain ->
+                    updateBeforeNotificationContent(chain.args)
+                    chain.proceed().also { updateAfterNotificationContent(chain.args, it) }
+                }
         } else {
             val notificationRowContentBinderImplCompanionClass =
                 findClass($$"$$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationRowContentBinderImpl$Companion")
 
             notificationRowContentBinderImplCompanionClass
                 .hookMethodMatchPattern(".*beginInflationAsync.*")
-                .runBefore { param -> updateBeforeNotificationContent(param) }
-                .runAfter { param -> updateAfterNotificationContent(param) }
+                .intercept { chain ->
+                    updateBeforeNotificationContent(chain.args)
+                    chain.proceed().also { updateAfterNotificationContent(chain.args, it) }
+                }
         }
     }
 

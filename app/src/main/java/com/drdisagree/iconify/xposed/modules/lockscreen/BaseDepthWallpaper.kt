@@ -48,10 +48,18 @@ import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_BG_FILE
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_KEY_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
@@ -61,17 +69,9 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenSceneIn
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findChildIndexContainsTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.findViewContainingTag
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.lockscreen.AlbumArt.Companion.shouldShowAlbumArt
 import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
@@ -171,7 +171,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         if (SceneContainer.isEnabled && key.isNotEmpty()) setDepthWallpaper()
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         // Listen for album art visibility changes
         AlbumArtCallback.registerVisibilityListener(albumArtVisibilityListener)
 
@@ -230,17 +230,17 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
 
         canvasEngineClass
             .hookMethod("onSurfaceDestroyed")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 // lockscreen wallpaper changed
-                if (showDepthWallpaper && !showCustomImages && isLockScreenWallpaper(param.thisObject)) {
+                if (showDepthWallpaper && !showCustomImages && isLockScreenWallpaper(chain.thisObject)) {
                     invalidateCache()
                 }
             }
 
         canvasEngineClass
             .hookMethod("onCreate")
-            .runAfter { param ->
-                if (param.thisObject
+            .runAfter { chain, _ ->
+                if (chain.thisObject
                         .getField("mWallpaperManager")
                         .callMethod(
                             "getWallpaperInfo",
@@ -254,8 +254,8 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         findClass($$"android.service.wallpaper.WallpaperService$Engine")
             .hookMethod("setZoom")
             .suppressError()
-            .runAfter { param ->
-                val engine = param.thisObject
+            .runAfter { chain, _ ->
+                val engine = chain.thisObject
                 if (canvasEngineClass?.isInstance(engine) != true) return@runAfter
                 if (!isLockScreenWallpaper(engine)) return@runAfter
 
@@ -265,8 +265,8 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         findClass($$"android.service.wallpaper.WallpaperService$Engine")
             .hookMethod("doOffsetsChanged")
             .suppressError()
-            .runAfter { param ->
-                val engine = param.thisObject
+            .runAfter { chain, _ ->
+                val engine = chain.thisObject
                 if (canvasEngineClass?.isInstance(engine) != true) return@runAfter
                 if (!isLockScreenWallpaper(engine)) return@runAfter
 
@@ -276,15 +276,15 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
 
         canvasEngineClass
             .hookMethod("drawFrameOnCanvas")
-            .runAfter { param ->
-                val engine = param.thisObject
+            .runAfter { chain, _ ->
+                val engine = chain.thisObject
                 if (!isLockScreenWallpaper(engine)) return@runAfter
 
                 updateWallpaperZoom(engine)
 
                 if (!showDepthWallpaper || showCustomImages) return@runAfter
 
-                val wallpaperBitmap = copyWallpaperBitmap(param.args[0] as? Bitmap) ?: return@runAfter
+                val wallpaperBitmap = copyWallpaperBitmap(chain.args[0] as? Bitmap) ?: return@runAfter
 
                 wallpaperProcessorThread?.interrupt()
                 wallpaperProcessorThread = Thread {
@@ -303,7 +303,7 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
 
         scrimControllerClass
             .hookConstructor()
-            .runAfter { param -> mScrimController = param.thisObject }
+            .runAfter { chain, _ -> mScrimController = chain.thisObject }
 
         if (SceneContainer.isEnabled) {
             hookComposeLockscreen()
@@ -330,13 +330,13 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         findClass("$SYSTEMUI_PACKAGE.keyguard.ui.viewmodel.LockscreenBehindScrimViewModel")
             .hookConstructor()
             .suppressError()
-            .runAfter { param -> behindScrimViewModelRef = WeakReference(param.thisObject) }
+            .runAfter { chain, _ -> behindScrimViewModelRef = WeakReference(chain.thisObject) }
 
         findClass("$SYSTEMUI_PACKAGE.keyguard.ui.composable.LockscreenBehindScrimKt")
             .hookMethod("LockscreenBehindScrim")
             .suppressError()
-            .runBefore { param ->
-                val viewModel = param.args[0] ?: return@runBefore
+            .runBefore { chain ->
+                val viewModel = chain.args[0] ?: return@runBefore
                 if (behindScrimViewModelRef?.get() !== viewModel) {
                     behindScrimViewModelRef = WeakReference(viewModel)
                 }
@@ -348,8 +348,8 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         findClass("$SYSTEMUI_PACKAGE.statusbar.LightRevealScrim")
             .hookMethod("setRevealAmount")
             .suppressError()
-            .runAfter { param ->
-                val scrim = param.thisObject as View
+            .runAfter { chain, _ ->
+                val scrim = chain.thisObject as View
                 if (legacyRevealScrimId != 0 && scrim.id == legacyRevealScrimId) return@runAfter
 
                 revealScrimRef = WeakReference(scrim)
@@ -576,10 +576,10 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
 
         aodBurnInSectionClass
             .hookMethod("addViews")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!showDepthWallpaper) return@runAfter
 
-                val entryV = param.args[0] as View
+                val entryV = chain.args[0] as View
 
                 entryV.addOnAttachStateChangeListener(object : OnAttachStateChangeListener {
                     override fun onViewAttachedToWindow(v: View) {
@@ -596,19 +596,19 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
 
         scrimViewClass
             .hookMethod("setViewAlpha")
-            .runBefore { param ->
+            .runBefore { chain ->
                 if (!mLayersCreated) return@runBefore
 
                 setDepthWallpaper()
 
                 if (showOnAOD && mScrimController.getField("mState").toString() != "KEYGUARD") {
                     mWallpaperForeground.post { mWallpaperForeground.alpha = foregroundAlpha }
-                } else if (mScrimController.getField("mNotificationsScrim") == param.thisObject) { // instead of using the mScrimName since older ones don't have that field
+                } else if (mScrimController.getField("mNotificationsScrim") == chain.thisObject) { // instead of using the mScrimName since older ones don't have that field
                     val mScrimBehindAlphaKeyguard = mScrimController.getField(
                         "mScrimBehindAlphaKeyguard"
                     ) as Float
 
-                    var notificationAlpha = param.args[0] as Float
+                    var notificationAlpha = chain.args[0] as Float
 
                     if (notificationAlpha < mScrimBehindAlphaKeyguard) {
                         notificationAlpha = 0f
@@ -627,12 +627,12 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
         statusBarKeyguardViewManagerClass
             .hookMethod("onStartedWakingUp")
             .suppressError()
-            .runAfter { setDepthWallpaper() }
+            .runAfter { _, _ -> setDepthWallpaper() }
 
         notificationPanelViewControllerClass
             .hookConstructor()
-            .runAfter { param ->
-                mScrimController = param.thisObject.getField("mScrimController")
+            .runAfter { chain, _ ->
+                mScrimController = chain.thisObject.getField("mScrimController")
             }
 
         notificationPanelViewControllerClass
@@ -640,19 +640,19 @@ abstract class BaseDepthWallpaper(context: Context) : ModPack(context) {
                 "onFinishInflate",
                 "reInflateViews"
             )
-            .runAfter { param ->
-                mScrimController = param.thisObject.getField("mScrimController")
+            .runAfter { chain, _ ->
+                mScrimController = chain.thisObject.getField("mScrimController")
             }
 
         scrimControllerClass
             .hookMethod("applyAndDispatchState")
-            .runAfter { setDepthWallpaper() }
+            .runAfter { _, _ -> setDepthWallpaper() }
 
         qsImplClass
             .hookMethod("setQsExpansion")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 val isKeyguardState =
-                    param.thisObject.callMethodSilently("isKeyguardState") as? Boolean
+                    chain.thisObject.callMethodSilently("isKeyguardState") as? Boolean
                         ?: KeyguardShowingCallback.getInstance().isKeyguardShowing
 
                 if (isKeyguardState) {

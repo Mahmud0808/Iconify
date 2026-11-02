@@ -9,7 +9,7 @@ import com.drdisagree.iconify.data.common.Const.ACTION_HOOK_CHECK_REQUEST
 import com.drdisagree.iconify.data.common.Const.ACTION_HOOK_CHECK_RESULT
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import com.drdisagree.iconify.xposed.core.PackageParam
 
 class HookCheck(context: Context) : ModPack(context) {
 
@@ -29,8 +29,8 @@ class HookCheck(context: Context) : ModPack(context) {
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        if (!broadcastRegistered && loadPackageParam.packageName == SYSTEMUI_PACKAGE) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
+        if (!broadcastRegistered && packageParam.packageName == SYSTEMUI_PACKAGE) {
             broadcastRegistered = true
 
             intentFilter.addAction(ACTION_HOOK_CHECK_REQUEST)
@@ -38,7 +38,7 @@ class HookCheck(context: Context) : ModPack(context) {
             val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
                 override fun onReceive(context: Context, intent: Intent) {
                     if (intent.action == ACTION_HOOK_CHECK_REQUEST &&
-                        loadPackageParam.packageName == SYSTEMUI_PACKAGE
+                        packageParam.packageName == SYSTEMUI_PACKAGE
                     ) {
                         returnBroadcastResult()
                     }

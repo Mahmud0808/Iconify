@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.bosphere.fadingedgelayout.FadingEdgeLayout
+import com.drdisagree.iconify.xposed.core.PackageParam
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ShadeSceneInjector
 import com.drdisagree.iconify.xposed.utils.SceneContainer
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.Collections
 import java.util.WeakHashMap
 
@@ -44,7 +44,7 @@ class HeaderImageCompose(context: Context) : HeaderImage(context) {
             ViewGroup.LayoutParams.WRAP_CONTENT
         }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         SceneContainer.trackShadeExpansion()
 
         ShadeSceneInjector.addBehindContent(

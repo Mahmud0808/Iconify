@@ -23,6 +23,11 @@ import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WEATHER
 import com.drdisagree.iconify.data.common.XposedConst.LOCKSCREEN_WEATHER_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.applyTo
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clear
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clone
@@ -30,23 +35,18 @@ import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.co
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.constraintSetInstance
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyFontRecursively
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.CurrentWeatherView
 import com.drdisagree.iconify.xposed.modules.lockscreen.LockscreenWidgets.Companion.getAvailableSmartSpaceViews
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 open class LockscreenWeather(context: Context) : ModPack(context) {
 
@@ -136,7 +136,7 @@ open class LockscreenWeather(context: Context) : ModPack(context) {
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag", "DiscouragedApi")
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         setupWeatherCommon()
 
         val aodBurnInSectionClass =
@@ -185,10 +185,10 @@ open class LockscreenWeather(context: Context) : ModPack(context) {
 
         aodBurnInSectionClass
             .hookMethod("addViews")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mWeatherEnabled) return@runAfter
 
-                val entryV = param.args[0] as View
+                val entryV = chain.args[0] as View
 
                 if (entryV.getExtraFieldSilently(ATTACH_LISTENER_FIELD) == true) {
                     if (entryV.isAttachedToWindow) viewAttached(entryV)
@@ -220,10 +220,10 @@ open class LockscreenWeather(context: Context) : ModPack(context) {
 
         defaultNotificationStackScrollLayoutSectionClass
             .hookMethod("applyConstraints")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mWeatherEnabled) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = chain.args[0]
 
                 constraintSet.clear(
                     notificationContainerId,
@@ -258,10 +258,10 @@ open class LockscreenWeather(context: Context) : ModPack(context) {
 
         smartspaceSectionClass
             .hookMethod("applyConstraints")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mWeatherEnabled) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = chain.args[0]
 
                 val smartSpaceViewId = if (dateSmartSpaceViewAvailable) {
                     dateSmartSpaceViewId

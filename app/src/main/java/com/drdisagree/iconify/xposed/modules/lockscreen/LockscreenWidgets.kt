@@ -21,27 +21,27 @@ import com.drdisagree.iconify.data.common.Const.ENABLE_DYNAMIC_CLOCK_COMMAND
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_WIDGET_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.RootProxyClient.enqueueProxyCommand
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.applyTo
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clear
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.clone
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.connect
 import com.drdisagree.iconify.xposed.modules.extras.MyConstraintSet.Companion.constraintSetInstance
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
-import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.addLsItemView
+import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.assignIdsToViews
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getLsItemsContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
 import com.drdisagree.iconify.xposed.modules.extras.views.LockscreenWidgetsView
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 open class LockscreenWidgets(context: Context) : ModPack(context) {
 
@@ -195,7 +195,7 @@ open class LockscreenWidgets(context: Context) : ModPack(context) {
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag", "DiscouragedApi")
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         setupWidgetsCommon()
 
         val aodBurnInSectionClass =
@@ -244,10 +244,10 @@ open class LockscreenWidgets(context: Context) : ModPack(context) {
 
         aodBurnInSectionClass
             .hookMethod("addViews")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mWidgetsEnabled) return@runAfter
 
-                val entryV = param.args[0] as View
+                val entryV = chain.args[0] as View
 
                 if (entryV.getExtraFieldSilently(ATTACH_LISTENER_FIELD) == true) {
                     if (entryV.isAttachedToWindow) viewAttached(entryV)
@@ -279,10 +279,10 @@ open class LockscreenWidgets(context: Context) : ModPack(context) {
 
         defaultNotificationStackScrollLayoutSectionClass
             .hookMethod("applyConstraints")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mWidgetsEnabled) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = chain.args[0]
 
                 constraintSet.clear(
                     notificationContainerId,
@@ -317,10 +317,10 @@ open class LockscreenWidgets(context: Context) : ModPack(context) {
 
         smartspaceSectionClass
             .hookMethod("applyConstraints")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mWidgetsEnabled) return@runAfter
 
-                val constraintSet = param.args[0]
+                val constraintSet = chain.args[0]
 
                 val smartSpaceViewId = if (dateSmartSpaceViewAvailable) {
                     dateSmartSpaceViewId
@@ -374,10 +374,10 @@ open class LockscreenWidgets(context: Context) : ModPack(context) {
 
         keyguardClockSwitchClass
             .hookMethod("updateClockViews")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mWidgetsEnabled) return@runAfter
 
-                updateLockscreenWidgetsOnClock(param.args[0] as Boolean)
+                updateLockscreenWidgetsOnClock(chain.args[0] as Boolean)
             }
     }
 

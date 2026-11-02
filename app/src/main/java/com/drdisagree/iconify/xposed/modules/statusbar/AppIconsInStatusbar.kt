@@ -11,18 +11,18 @@ import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callStaticMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DrawableSize
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedInterface
 
 @SuppressLint("DiscouragedApi")
 class AppIconsInStatusbar(context: Context) : ModPack(context) {
@@ -35,7 +35,7 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val notificationIconContainerClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.NotificationIconContainer")
         val iconStateClass =
@@ -70,11 +70,11 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
             }
         }
 
-        fun removeTintForStatusbarIcon(param: MethodHookParam) {
+        fun removeTintForIconOf(chain: XposedInterface.Chain) {
             if (!mColoredStatusbarIcon) return
 
-            val icon = param.args[0] as View
-            val isNotification = param.thisObject.getFieldSilently("mNotification") != null
+            val icon = chain.args[0] as View
+            val isNotification = chain.thisObject.getFieldSilently("mNotification") != null
 
             removeTintForStatusbarIcon(icon, isNotification)
         }
@@ -82,10 +82,10 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
         @Suppress("UNCHECKED_CAST")
         notificationIconContainerClass
             .hookMethod("applyIconStates")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mColoredStatusbarIcon) return@runAfter
 
-                val mIconStates: HashMap<View, Any> = param.thisObject.getField(
+                val mIconStates: HashMap<View, Any> = chain.thisObject.getField(
                     "mIconStates"
                 ) as HashMap<View, Any>
 
@@ -99,70 +99,65 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
                 "initFrom",
                 "applyToView"
             )
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mColoredStatusbarIcon) return@runAfter
 
-                removeTintForStatusbarIcon(param)
+                removeTintForIconOf(chain)
             }
 
         statusBarIconViewClass
             .hookMethod("updateIconColor")
-            .runBefore { param ->
-                if (!mColoredStatusbarIcon) return@runBefore
-
-                val isNotification = param.thisObject.getFieldSilently("mNotification") != null
-
-                if (isNotification) {
-                    param.result = null
-                }
+            .intercept { chain ->
+                val isNotification = chain.thisObject.getFieldSilently("mNotification") != null
+                if (mColoredStatusbarIcon && isNotification) null else chain.proceed()
             }
 
         legacyNotificationIconAreaControllerImplClass
             .hookMethod("updateTintForIcon")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!mColoredStatusbarIcon) return@runAfter
 
-                removeTintForStatusbarIcon(param)
+                removeTintForIconOf(chain)
 
-                val view = param.args[0] as? View
+                val view = chain.args[0] as? View
                 view.callMethod("setStaticDrawableColor", 0) // StatusBarIconView.NO_COLOR
                 view.callMethod("setDecorColor", Color.WHITE)
             }
 
         statusBarIconViewClass
             .hookMethod("getIcon")
-            .runBefore { param ->
-                if (!mColoredStatusbarIcon) return@runBefore
+            .intercept { chain ->
+                if (!mColoredStatusbarIcon) return@intercept chain.proceed()
 
-                val hasContext = param.args.size > 1
-                val hasSysUiContext = param.args.size > 2
-                val statusBarNotification = param.thisObject.getFieldSilently("mNotification")
+                val hasContext = chain.args.size > 1
+                val hasSysUiContext = chain.args.size > 2
+                val statusBarNotification = chain.thisObject.getFieldSilently("mNotification")
 
-                val sysuiContext = if (hasSysUiContext) param.args[0] as Context else mContext
+                val sysuiContext = if (hasSysUiContext) chain.args[0] as Context else mContext
                 val context = if (hasContext)
                     if (hasSysUiContext)
-                        param.args[1] as Context
+                        chain.args[1] as Context
                     else
-                        param.args[0] as Context
+                        chain.args[0] as Context
                 else
                     statusBarNotification.callMethod(
                         "getPackageContext",
                         mContext
                     ) as? Context ?: mContext
-                val statusBarIcon = param.args[param.args.lastIndex]
+                val statusBarIcon = chain.args[chain.args.lastIndex]
 
                 var icon: Drawable
                 val res = sysuiContext.resources
                 val pkgName = statusBarIcon.getField("pkg") as String
 
                 if (listOf("com.android", "systemui").any { pkgName.contains(it) }) {
-                    return@runBefore
+                    return@intercept chain.proceed()
                 }
 
                 try {
                     icon = context.packageManager.getApplicationIcon(pkgName)
                 } catch (_: Throwable) {
-                    return@runBefore
+                    return@intercept chain.proceed()
                 }
 
                 val isLowRamDevice =
@@ -210,9 +205,9 @@ class AppIconsInStatusbar(context: Context) : ModPack(context) {
                 val scaleFactor = typedValue.float
 
                 if (scaleFactor == 1f) {
-                    param.result = icon
+                    icon
                 } else {
-                    param.result = scalingDrawableWrapperClass.getConstructor(
+                    scalingDrawableWrapperClass.getConstructor(
                         Drawable::class.java,
                         Float::class.javaPrimitiveType
                     ).newInstance(icon, scaleFactor)

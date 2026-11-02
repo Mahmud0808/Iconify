@@ -11,21 +11,21 @@ import androidx.annotation.StringRes
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.R
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
 import java.lang.ref.WeakReference
 
 class ActivityLauncherUtils(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         contextRef = WeakReference(mContext)
         mPackageManager = mContext.packageManager
 
@@ -34,8 +34,8 @@ class ActivityLauncherUtils(context: Context) : ModPack(context) {
 
         keyguardQuickAffordanceInteractorClass
             .hookConstructor()
-            .runAfter { param ->
-                mActivityStarter = param.thisObject.getFieldSilently("activityStarter")
+            .runAfter { chain, _ ->
+                mActivityStarter = chain.thisObject.getFieldSilently("activityStarter")
             }
     }
 

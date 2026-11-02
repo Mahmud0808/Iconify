@@ -18,7 +18,7 @@ import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.getColorResCompat
 import kotlin.math.max

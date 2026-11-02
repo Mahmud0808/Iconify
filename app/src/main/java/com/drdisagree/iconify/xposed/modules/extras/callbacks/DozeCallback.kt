@@ -7,15 +7,15 @@ import android.os.Looper
 import android.os.PowerManager
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.isMethodAvailable
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
-import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.util.concurrent.CopyOnWriteArrayList
 
 class DozeCallback(context: Context) : ModPack(context) {
@@ -36,7 +36,7 @@ class DozeCallback(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         instance = this
 
         fun updateState(isDozing: Boolean, isPulsing: Boolean) {
@@ -65,48 +65,48 @@ class DozeCallback(context: Context) : ModPack(context) {
         statusBarStateControllerImplClass
             .hookMethod("setIsDozing")
             .suppressError()
-            .runAfter { param ->
-                val isDozing = param.args[0] as Boolean
+            .runAfter { chain, _ ->
+                val isDozing = chain.args[0] as Boolean
                 updateState(isDozing, mIsPulsing)
             }
 
         statusBarStateControllerImplClass
             .hookMethod("setPulsing")
             .suppressError()
-            .runAfter { param ->
-                val isPulsing = param.args[0] as Boolean
+            .runAfter { chain, _ ->
+                val isPulsing = chain.args[0] as Boolean
                 updateState(mIsDozing, isPulsing)
             }
 
         dozeScrimControllerClass
             .hookMethod("onDozingChanged")
             .suppressError()
-            .runAfter { param ->
-                val isDozing = param.args[0] as Boolean
+            .runAfter { chain, _ ->
+                val isDozing = chain.args[0] as Boolean
                 updateState(isDozing, mIsPulsing)
             }
 
         collapsedStatusBarFragment
             .hookMethod("onDozingChanged")
             .suppressError()
-            .runAfter { param ->
-                val isDozing = param.args[0] as Boolean
+            .runAfter { chain, _ ->
+                val isDozing = chain.args[0] as Boolean
                 updateState(isDozing, mIsPulsing)
             }
 
         notificationPanelViewControllerClass
             .hookMethod("setDozing")
             .suppressError()
-            .runAfter { param ->
-                val isDozing = param.args[0] as Boolean
+            .runAfter { chain, _ ->
+                val isDozing = chain.args[0] as Boolean
                 updateState(isDozing, mIsPulsing)
             }
 
         notificationPanelViewControllerClass
             .hookMethod("setPulsing")
             .suppressError()
-            .runAfter { param ->
-                val isPulsing = param.args[0] as Boolean
+            .runAfter { chain, _ ->
+                val isPulsing = chain.args[0] as Boolean
                 updateState(mIsDozing, isPulsing)
             }
 
@@ -137,15 +137,15 @@ class DozeCallback(context: Context) : ModPack(context) {
             authControllerClass
                 .hookMethod("dozeTimeTick")
                 .suppressError()
-                .runAfter { onDozeTimeTick() }
+                .runAfter { _, _ -> onDozeTimeTick() }
 
             authControllerClass.setExtraField("dozeTimeTickHooked", true)
         }
 
         dozeUiClass
             .hookMethod("transitionTo")
-            .runAfter { param ->
-                val runtimeAuthControllerClass = param.thisObject
+            .runAfter { chain, _ ->
+                val runtimeAuthControllerClass = chain.thisObject
                     .getFieldSilently("mHost")
                     ?.getFieldSilently("mAuthController")
                     ?.javaClass ?: return@runAfter
@@ -154,7 +154,7 @@ class DozeCallback(context: Context) : ModPack(context) {
 
                 runtimeAuthControllerClass
                     .hookMethod("dozeTimeTick")
-                    .runAfter { onDozeTimeTick() }
+                    .runAfter { _, _ -> onDozeTimeTick() }
 
                 runtimeAuthControllerClass.setExtraField("dozeTimeTickHooked", true)
             }

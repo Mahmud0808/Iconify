@@ -16,22 +16,23 @@ import androidx.core.graphics.toColorInt
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getAnyField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setField
+import com.drdisagree.iconify.xposed.core.reflect.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.callbacks.XC_LoadPackage
 import java.lang.reflect.Constructor
+import java.lang.reflect.Executable
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 import java.util.Collections
@@ -142,7 +143,7 @@ class QSTheme(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val tileDefaultsClass =
             findClass("$SYSTEMUI_PACKAGE.qs.panels.ui.compose.infinitegrid.TileDefaults")
 
@@ -152,15 +153,15 @@ class QSTheme(context: Context) : ModPack(context) {
 
         tileDefaultsClass
             .hookMethod("getColorForState")
-            .runAfter { param ->
-                captureRecomposeScope(param)
+            .runAfter { chain, result ->
+                captureRecomposeScope(chain.executable, chain.args)
 
                 if (!customQsTheme) return@runAfter
 
-                val tileUiState = param.args[0]
+                val tileUiState = chain.args[0]
                 val state = tileUiState.getAnyField("visualState", "state") as? Int
-                val isDualTarget = if (param.args[1] is Boolean) {
-                    val iconOnly = param.args[1] as Boolean
+                val isDualTarget = if (chain.args[1] is Boolean) {
+                    val iconOnly = chain.args[1] as Boolean
                     val handlesSecondaryClick = tileUiState.getAnyField(
                         "handlesSecondaryClick",
                         "handlesToggleClick"
@@ -171,7 +172,7 @@ class QSTheme(context: Context) : ModPack(context) {
                     true
                 }
 
-                param.result.apply {
+                result.apply {
                     when (state) {
                         STATE_ACTIVE -> {
                             val backgroundColor =
@@ -271,36 +272,38 @@ class QSTheme(context: Context) : ModPack(context) {
         findClass("androidx.compose.material3.SliderDefaults", suppressError = true)
             .hookMethodMatchPattern("(Track|Thumb).*")
             .suppressError()
-            .runBefore { param -> themeBrightnessSlider(param) }
+            .intercept { chain ->
+                chain.proceedWithArgs { args -> themeBrightnessSlider(chain.executable as Method, args) }
+            }
     }
 
-    private fun themeBrightnessSlider(param: XC_MethodHook.MethodHookParam) {
+    private fun themeBrightnessSlider(method: Method, args: Array<Any?>) {
         if (!customQsTheme) return
 
-        val parameterTypes = (param.method as Method).parameterTypes
+        val parameterTypes = method.parameterTypes
         val colorsIndex = parameterTypes.indexOfFirst { it.name == SLIDER_COLORS_CLASS }
         if (colorsIndex == -1) return
 
-        val colors = param.args[colorsIndex] ?: return
+        val colors = args[colorsIndex] ?: return
         if (themedSliderColors.containsKey(colors) || !isCalledFromBrightnessSlider()) return
 
         val themedColors = createThemedSliderColors(colors) ?: return
         themedSliderColors[themedColors] = true
-        param.args[colorsIndex] = themedColors
+        args[colorsIndex] = themedColors
 
-        if (!brightnessGradient || !param.method.name.startsWith("Track")) return
+        if (!brightnessGradient || !method.name.startsWith("Track")) return
 
         val modifierIndex = parameterTypes.indexOfFirst { it.name == COMPOSE_MODIFIER_CLASS }
         val stateIndex = parameterTypes.indexOfFirst { it.name == SLIDER_STATE_CLASS }
         if (modifierIndex == -1 || stateIndex == -1) return
 
-        val modifier = param.args[modifierIndex] ?: return
-        val sliderState = param.args[stateIndex] ?: return
+        val modifier = args[modifierIndex] ?: return
+        val sliderState = args[stateIndex] ?: return
         val drawer = gradientDrawerFor(sliderState) ?: return
 
         try {
             drawWithContentMethod?.invoke(null, modifier, drawer)?.let {
-                param.args[modifierIndex] = it
+                args[modifierIndex] = it
             }
         } catch (_: Throwable) {
         }
@@ -393,10 +396,10 @@ class QSTheme(context: Context) : ModPack(context) {
         }
     }
 
-    private fun captureRecomposeScope(param: XC_MethodHook.MethodHookParam) {
-        val composerIndex = (param.method as Method).parameterTypes
+    private fun captureRecomposeScope(method: Executable, args: List<Any?>) {
+        val composerIndex = method.parameterTypes
             .indexOfFirst { it.name == COMPOSER_CLASS }
-        param.args.getOrNull(composerIndex)
+        args.getOrNull(composerIndex)
             ?.callMethodSilently("getRecomposeScope")
             ?.let { tileRecomposeScopes.add(it) }
     }
@@ -410,35 +413,33 @@ class QSTheme(context: Context) : ModPack(context) {
         footerActionsClass
             .hookMethod("IconButton")
             .suppressError()
-            .run(object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    val model = param.args.firstOrNull {
-                        it?.javaClass?.name?.startsWith(FOOTER_VIEW_MODEL_PREFIX) == true
-                    } ?: return
+            .intercept { chain ->
+                val model = chain.args.firstOrNull {
+                    it?.javaClass?.name?.startsWith(FOOTER_VIEW_MODEL_PREFIX) == true
+                } ?: return@intercept chain.proceed()
 
-                    footerButtonTypes.addLast(model.javaClass.simpleName)
-                    param.setObjectExtra(FOOTER_TYPE_PUSHED, true)
+                footerButtonTypes.addLast(model.javaClass.simpleName)
+                try {
+                    chain.proceed()
+                } finally {
+                    footerButtonTypes.removeLastOrNull()
                 }
-
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    if (param.getObjectExtra(FOOTER_TYPE_PUSHED) == true) {
-                        footerButtonTypes.removeLastOrNull()
-                    }
-                }
-            })
+            }
 
         findClass("$SYSTEMUI_PACKAGE.qs.footer.ui.compose.ButtonColors", suppressError = true)
             .hookConstructor()
             .suppressError()
-            .runBefore { param ->
-                if (!customQsTheme || param.args.size != 2) return@runBefore
-                val type = footerButtonTypes.lastOrNull() ?: return@runBefore
-                val isActive = type.contains(ACTIVE_FOOTER_BUTTON)
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (!customQsTheme || args.size != 2) return@proceedWithArgs
+                    val type = footerButtonTypes.lastOrNull() ?: return@proceedWithArgs
+                    val isActive = type.contains(ACTIVE_FOOTER_BUTTON)
 
-                colorValue(if (isActive) footerActiveButtonIconColor else footerInactiveButtonIconColor)
-                    ?.let { param.args[0] = it }
-                colorValue(if (isActive) footerActiveButtonBgColor else footerInactiveButtonBgColor)
-                    ?.let { param.args[1] = it }
+                    colorValue(if (isActive) footerActiveButtonIconColor else footerInactiveButtonIconColor)
+                        ?.let { args[0] = it }
+                    colorValue(if (isActive) footerActiveButtonBgColor else footerInactiveButtonBgColor)
+                        ?.let { args[1] = it }
+                }
             }
 
         footerButtonHeightDp = findClass(
@@ -464,7 +465,9 @@ class QSTheme(context: Context) : ModPack(context) {
         footerActionsClass
             .hookMethodMatchPattern("CircleExpandable.*")
             .suppressError()
-            .runBefore { param -> applyFooterGradient(param) }
+            .intercept { chain ->
+                chain.proceedWithArgs { args -> applyFooterGradient(chain.executable as Method, args) }
+            }
 
         listOf(
             footerActionsClass,
@@ -476,10 +479,10 @@ class QSTheme(context: Context) : ModPack(context) {
             clazz
                 .hookMethod("textButtonColors", "blurTextButtonColors")
                 .suppressError()
-                .runAfter { param ->
+                .runAfter { _, result ->
                     if (!customQsTheme) return@runAfter
 
-                    param.result?.apply {
+                    result?.apply {
                         colorValue(footerChipContentColor)?.let { setFieldSilently("content", it) }
                         colorValue(footerChipBgColor)?.let { setFieldSilently("background", it) }
                     }
@@ -487,20 +490,20 @@ class QSTheme(context: Context) : ModPack(context) {
         }
     }
 
-    private fun applyFooterGradient(param: XC_MethodHook.MethodHookParam) {
-        val parameterTypes = (param.method as Method).parameterTypes
+    private fun applyFooterGradient(method: Method, args: Array<Any?>) {
+        val parameterTypes = method.parameterTypes
         val modifierIndex = parameterTypes.indexOfFirst { it.name == COMPOSE_MODIFIER_CLASS }
         if (modifierIndex == -1 || parameterTypes.firstOrNull() != Long::class.javaPrimitiveType) {
             return
         }
 
-        val modifier = param.args[modifierIndex] ?: return
+        val modifier = args[modifierIndex] ?: return
         footerModifierToOriginal[modifier]?.let { return }
 
         if (!customQsTheme || !footerGradient) return
         if (footerButtonTypes.lastOrNull()?.contains(ACTIVE_FOOTER_BUTTON) != true) return
 
-        val packedColor = param.args[0] as? Long ?: return
+        val packedColor = args[0] as? Long ?: return
         val startColor = toArgbMethod?.invoke(null, packedColor) as? Int ?: return
         val transparent = colorValue("#00000000") ?: return
         val drawer = drawProxy { drawScope -> drawFooterGradient(drawScope, startColor) }
@@ -509,8 +512,8 @@ class QSTheme(context: Context) : ModPack(context) {
         try {
             drawBehindMethod?.invoke(null, modifier, drawer)?.let {
                 footerModifierToOriginal[it] = modifier
-                param.args[modifierIndex] = it
-                param.args[0] = transparent
+                args[modifierIndex] = it
+                args[0] = transparent
             }
         } catch (_: Throwable) {
         }
@@ -570,31 +573,33 @@ class QSTheme(context: Context) : ModPack(context) {
         )
             .hookMethod("TileExpandable")
             .suppressError()
-            .runBefore { param -> applyTileGradient(param) }
+            .intercept { chain ->
+                chain.proceedWithArgs { args -> applyTileGradient(chain.executable as Method, args) }
+            }
     }
 
-    private fun applyTileGradient(param: XC_MethodHook.MethodHookParam) {
-        val parameterTypes = (param.method as Method).parameterTypes
+    private fun applyTileGradient(method: Method, args: Array<Any?>) {
+        val parameterTypes = method.parameterTypes
         val modifierIndex = parameterTypes.indexOfFirst { it.name == COMPOSE_MODIFIER_CLASS }
         val shapeIndex = parameterTypes.indexOfFirst { it.name == COMPOSE_SHAPE_CLASS }
         val colorIndex = parameterTypes.indexOfFirst { it.name == FUNCTION0_CLASS }
         if (modifierIndex == -1 || shapeIndex == -1 || colorIndex == -1) return
 
-        val modifier = param.args[modifierIndex] ?: return
+        val modifier = args[modifierIndex] ?: return
         val original = tileModifierToOriginal[modifier] ?: modifier
-        param.args[modifierIndex] = original
+        args[modifierIndex] = original
 
         if (!customQsTheme || !activeTileGradient) return
 
-        val shape = param.args[shapeIndex] ?: return
-        val colorProvider = param.args[colorIndex] ?: return
+        val shape = args[shapeIndex] ?: return
+        val colorProvider = args[colorIndex] ?: return
         val drawer = drawProxy { drawScope -> drawTileGradient(drawScope, shape, colorProvider) }
             ?: return
 
         try {
             drawBehindMethod?.invoke(null, original, drawer)?.let {
                 tileModifierToOriginal[it] = original
-                param.args[modifierIndex] = it
+                args[modifierIndex] = it
             }
         } catch (_: Throwable) {
         }
@@ -724,7 +729,6 @@ class QSTheme(context: Context) : ModPack(context) {
         ).map { it.name }.toSet()
         private const val FOOTER_VIEW_MODEL_PREFIX =
             "$SYSTEMUI_PACKAGE.qs.footer.ui.viewmodel.FooterActionsButtonViewModel"
-        private const val FOOTER_TYPE_PUSHED = "iconify_footer_type_pushed"
         private const val ACTIVE_FOOTER_BUTTON = "PowerActionViewModel"
         private const val COMPOSE_SHAPE_CLASS = "androidx.compose.ui.graphics.Shape"
         private const val FUNCTION0_CLASS = ComposeToolkit.FUNCTION0_CLASS

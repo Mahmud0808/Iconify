@@ -30,7 +30,7 @@ import android.os.Build
 import android.widget.ImageView
 import androidx.core.content.res.ResourcesCompat
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.drdisagree.iconify.xposed.modules.extras.views.ArcProgressWidget.generateBitmap
 import java.io.File
 import java.util.concurrent.Executors

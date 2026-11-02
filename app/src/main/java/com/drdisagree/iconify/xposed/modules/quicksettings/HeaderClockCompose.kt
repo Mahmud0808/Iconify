@@ -6,17 +6,16 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ShadeSceneInjector
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.TouchAnimator
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.utils.SceneContainer
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.Collections
 import java.util.WeakHashMap
 
@@ -55,7 +54,7 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         initResources(mContext)
         SceneContainer.trackShadeExpansion()
         hookActivityStarter()
@@ -155,8 +154,8 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
         shadeHeaderClass
             .hookMethodMatchPattern("Clock-.*")
             .suppressError()
-            .runBefore { param ->
-                if (showHeaderClock) hideModifierArgument(param)
+            .intercept { chain ->
+                if (showHeaderClock) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
 
         findClass(
@@ -165,34 +164,31 @@ class HeaderClockCompose(context: Context) : HeaderClock(context) {
         )
             .hookMethodMatchPattern("VariableDayDate.*")
             .suppressError()
-            .runBefore { param ->
-                if (showHeaderClock) hideModifierArgument(param)
+            .intercept { chain ->
+                if (showHeaderClock) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
 
         shadeHeaderClass
             .hookMethod("ShadeCarrierGroup")
             .suppressError()
-            .runBefore { param ->
-                if (showHeaderClock && hideQsCarrierGroup) hideModifierArgument(param)
+            .intercept { chain ->
+                if (showHeaderClock && hideQsCarrierGroup) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
 
         shadeHeaderClass
             .hookMethod("StatusIcons")
             .suppressError()
-            .runBefore { param ->
-                if (showHeaderClock && hideStatusIcons) hideModifierArgument(param)
+            .intercept { chain ->
+                if (showHeaderClock && hideStatusIcons) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
 
         shadeHeaderClass
             .hookMethodMatchPattern("BatteryInfo(-.*)?")
             .suppressError()
-            .runBefore { param ->
-                if (showHeaderClock && hideStatusIcons) hideModifierArgument(param)
+            .intercept { chain ->
+                if (showHeaderClock && hideStatusIcons) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
     }
-
-    private fun hideModifierArgument(param: MethodHookParam) =
-        ComposeViewHost.hideModifierArgument(param)
 
     companion object {
         private const val GROUP_KEY = 0x1C0B1C1C

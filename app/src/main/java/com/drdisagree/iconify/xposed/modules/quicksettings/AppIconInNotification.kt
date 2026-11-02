@@ -10,14 +10,14 @@ import androidx.core.graphics.drawable.toDrawable
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getAnyField
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @SuppressLint("DiscouragedApi")
 class AppIconInNotification(context: Context) : ModPack(context) {
@@ -30,16 +30,16 @@ class AppIconInNotification(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val notificationHeaderViewWrapperClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.wrapper.NotificationHeaderViewWrapper")
 
         notificationHeaderViewWrapperClass
             .hookMethod("onContentUpdated")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!coloredNotificationIcon) return@runAfter
 
-                val row = param.args[0]
+                val row = chain.args[0]
                 val notifyEntries = try {
                     row.callMethod("getEntry")
                 } catch (_: Throwable) {
@@ -57,9 +57,9 @@ class AppIconInNotification(context: Context) : ModPack(context) {
                 } catch (_: Throwable) {
                     return@runAfter
                 }
-                val mIcon = param.thisObject.getFieldSilently("mIcon") as ImageView
+                val mIcon = chain.thisObject.getFieldSilently("mIcon") as ImageView
                 val mWorkProfileImage =
-                    param.thisObject.getFieldSilently("mWorkProfileImage") as? ImageView
+                    chain.thisObject.getFieldSilently("mWorkProfileImage") as? ImageView
                 val mImageTransformStateIconTag = mContext.resources.getIdentifier(
                     "image_icon_tag",
                     "id",
@@ -84,10 +84,10 @@ class AppIconInNotification(context: Context) : ModPack(context) {
 
         notificationRowIconViewClass
             .hookMethod("onFinishInflate", "setImageIcon", "setImageIconAsync")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!coloredNotificationIcon) return@runAfter
 
-                val iconView = param.thisObject as ImageView
+                val iconView = chain.thisObject as ImageView
 
                 iconView.post {
                     iconView.setPadding(0, 0, 0, 0)

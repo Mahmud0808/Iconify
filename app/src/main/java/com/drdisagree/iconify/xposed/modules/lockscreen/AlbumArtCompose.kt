@@ -5,15 +5,15 @@ import android.media.session.PlaybackState
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.drdisagree.iconify.xposed.core.PackageParam
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenSceneInjector
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class AlbumArtCompose(context: Context) : AlbumArt(context) {
 
     private var lockscreenHost: FrameLayout? = null
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         createLayers()
         hookMediaUpdates()
 

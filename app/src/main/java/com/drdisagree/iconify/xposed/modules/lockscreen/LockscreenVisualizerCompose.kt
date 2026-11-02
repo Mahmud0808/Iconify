@@ -4,12 +4,12 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.drdisagree.iconify.xposed.core.PackageParam
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenSceneInjector
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class LockscreenVisualizerCompose(context: Context) : LockscreenVisualizer(context) {
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         registerDozeListener()
 
         LockscreenSceneInjector.addBehindContent(

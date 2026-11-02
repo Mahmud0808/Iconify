@@ -3,12 +3,8 @@ package com.drdisagree.iconify.xposed.modules.lockscreen
 import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.Context
-import android.content.res.Resources
-import android.content.res.XResources
-import android.content.res.XResources.DrawableLoader
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Handler
 import android.os.Looper
@@ -18,20 +14,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.resources.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedInterface
 
 class Lockscreen(context: Context) : ModPack(context) {
 
@@ -54,7 +51,7 @@ class Lockscreen(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         blurredWallpaper()
         hideLockscreenLockIcon()
         disableQsOnSecureLockScreen()
@@ -67,17 +64,19 @@ class Lockscreen(context: Context) : ModPack(context) {
         canvasEngineClass
             .hookMethod("drawFrameOnCanvas")
             .parameters(Bitmap::class.java)
-            .runBefore { param ->
-                val canvasEngine = param.thisObject
-                val isLockscreenWallpaper = (canvasEngine.callMethodSilently(
-                    "getWallpaperFlags"
-                ) as? Int ?: WallpaperManager.FLAG_LOCK) == WallpaperManager.FLAG_LOCK
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    val canvasEngine = chain.thisObject
+                    val isLockscreenWallpaper = (canvasEngine.callMethodSilently(
+                        "getWallpaperFlags"
+                    ) as? Int ?: WallpaperManager.FLAG_LOCK) == WallpaperManager.FLAG_LOCK
 
-                if (wallpaperBlurEnabled && wallpaperBlurRadius > 0 && isLockscreenWallpaper) {
-                    val bitmap = param.args[0] as Bitmap
-                    val displayContext = canvasEngine.callMethod("getDisplayContext") as Context
+                    if (wallpaperBlurEnabled && wallpaperBlurRadius > 0 && isLockscreenWallpaper) {
+                        val bitmap = args[0] as Bitmap
+                        val displayContext = canvasEngine.callMethod("getDisplayContext") as Context
 
-                    param.args[0] = bitmap.applyBlur(displayContext, wallpaperBlurRadius)
+                        args[0] = bitmap.applyBlur(displayContext, wallpaperBlurRadius)
+                    }
                 }
             }
     }
@@ -102,8 +101,8 @@ class Lockscreen(context: Context) : ModPack(context) {
 
         deviceEntryIconViewClass
             .hookConstructor()
-            .runAfter { param ->
-                mDeviceEntryIconView = param.thisObject as? View
+            .runAfter { chain, _ ->
+                mDeviceEntryIconView = chain.thisObject as? View
 
                 if (!hideLockscreenLockIcon) return@runAfter
 
@@ -137,8 +136,7 @@ class Lockscreen(context: Context) : ModPack(context) {
         )
         var keyguardStatusViewHooked = false
 
-        fun hideLockIcon(param: XC_MethodHook.MethodHookParam) {
-            val entryV = param.thisObject as View
+        fun hideLockIcon(entryV: View) {
 
             // If both are already hooked, return. We only want to hook one
             if (aodBurnInLayerHooked && keyguardStatusViewHooked) return
@@ -188,61 +186,54 @@ class Lockscreen(context: Context) : ModPack(context) {
         aodBurnInLayerClass
             .hookConstructor()
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!hideLockscreenLockIcon) return@runAfter
 
                 aodBurnInLayerHooked = true
 
-                hideLockIcon(param)
+                hideLockIcon(chain.thisObject as View)
             }
 
         keyguardStatusViewClass
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!hideLockscreenLockIcon) return@runAfter
 
                 keyguardStatusViewHooked = true
 
-                hideLockIcon(param)
+                hideLockIcon(chain.thisObject as View)
             }
 
         if (!hideLockscreenLockIcon) return
 
-        val xResources: XResources = resParams[SYSTEMUI_PACKAGE]?.res ?: return
-
-        listOf(
-            "ic_device_lock_off",
-            "ic_device_lock_on",
-            "ic_kg_fingerprint",
-            "ic_lock",
-            "ic_lock_24dp",
-            "ic_lock_aod",
-            "ic_lock_face",
-            "ic_lock_lock",
-            "ic_lock_locked",
-            "ic_lock_open",
-            "ic_lock_open_24dp",
-            "ic_unlock",
-            "ic_unlocked",
-            "ic_unlocked_aod"
-        ).forEach { drawableResource ->
-            try {
-                xResources.setReplacement(
-                    SYSTEMUI_PACKAGE,
-                    "drawable",
-                    drawableResource,
-                    object : DrawableLoader() {
-                        override fun newDrawable(res: XResources, id: Int): Drawable? {
-                            return GradientDrawable().apply {
-                                shape = GradientDrawable.OVAL
-                                setColor(Color.TRANSPARENT)
-                            }.constantState?.newDrawable()
-                        }
-                    }
+        ResourceHookManager
+            .hookDrawable()
+            .forPackageName(SYSTEMUI_PACKAGE)
+            .whenCondition { hideLockscreenLockIcon }
+            .addResources(
+                listOf(
+                    "ic_device_lock_off",
+                    "ic_device_lock_on",
+                    "ic_kg_fingerprint",
+                    "ic_lock",
+                    "ic_lock_24dp",
+                    "ic_lock_aod",
+                    "ic_lock_face",
+                    "ic_lock_lock",
+                    "ic_lock_locked",
+                    "ic_lock_open",
+                    "ic_lock_open_24dp",
+                    "ic_unlock",
+                    "ic_unlocked",
+                    "ic_unlocked_aod"
                 )
-            } catch (_: Resources.NotFoundException) {
+            ) {
+                GradientDrawable().apply {
+                    shape = GradientDrawable.OVAL
+                    setColor(Color.TRANSPARENT)
+                }
             }
-        }
+            .apply()
     }
 
     private fun disableQsOnSecureLockScreen() {
@@ -254,29 +245,27 @@ class Lockscreen(context: Context) : ModPack(context) {
         )
         val notificationPanelViewControllerClass =
             findClass("$SYSTEMUI_PACKAGE.shade.NotificationPanelViewController")
-        val getKeyguardStateController = object : XC_MethodHook() {
-            override fun afterHookedMethod(param: MethodHookParam) {
-                param.thisObject.getFieldSilently("mKeyguardStateController")?.let {
-                    mKeyguardStateController = it
-                }
+        val getKeyguardStateController: (XposedInterface.Chain, Any?) -> Unit = { chain, _ ->
+            chain.thisObject.getFieldSilently("mKeyguardStateController")?.let {
+                mKeyguardStateController = it
             }
         }
 
         phoneStatusBarPolicyClass
             .hookConstructor()
-            .run(getKeyguardStateController)
+            .runAfter(getKeyguardStateController)
 
         scrimManagerClass
             .hookConstructor()
-            .run(getKeyguardStateController)
+            .runAfter(getKeyguardStateController)
 
         notificationPanelViewControllerClass
             .hookConstructor()
-            .run(getKeyguardStateController)
+            .runAfter(getKeyguardStateController)
 
         notificationPanelViewControllerClass
             .hookMethod("onFinishInflate", "reInflateViews")
-            .run(getKeyguardStateController)
+            .runAfter(getKeyguardStateController)
 
         var mActivityStarter: Any? = null
 
@@ -285,8 +274,8 @@ class Lockscreen(context: Context) : ModPack(context) {
 
         keyguardQuickAffordanceInteractorClass
             .hookConstructor()
-            .runAfter { param ->
-                mActivityStarter = param.thisObject.getFieldSilently("activityStarter")
+            .runAfter { chain, _ ->
+                mActivityStarter = chain.thisObject.getFieldSilently("activityStarter")
             }
 
         val qsTiles = listOf(
@@ -326,9 +315,9 @@ class Lockscreen(context: Context) : ModPack(context) {
 
         fun handleTileClick(
             mActivityStarter: Any?,
-            param: XC_MethodHook.MethodHookParam,
+            chain: XposedInterface.Chain,
             methodName: String
-        ) {
+        ): Any? {
             val isUnlocked = try {
                 !(mKeyguardStateController.getField("mShowing") as Boolean) ||
                         mKeyguardStateController.getField("mCanDismissLockScreen") as Boolean
@@ -341,34 +330,36 @@ class Lockscreen(context: Context) : ModPack(context) {
                     "postQSRunnableDismissingKeyguard",
                     Runnable {
                         Handler(Looper.getMainLooper()).postDelayed({
-                            param.thisObject.callMethod(
+                            chain.thisObject.callMethod(
                                 methodName,
-                                param.args[0]
+                                chain.args[0]
                             )
                         }, 800)
                     }
                 )
-                param.result = null
+                return null
             }
+
+            return chain.proceed()
         }
 
         qsTiles.forEach { tileClassName ->
             val tileClass = findClass(tileClassName, suppressError = true)
 
             tileClass.hookMethod("handleClick")
-                .runBefore { param ->
+                .intercept { chain ->
                     handleTileClick(
                         mActivityStarter,
-                        param,
+                        chain,
                         "handleClick"
                     )
                 }
 
             tileClass.hookMethod("handleSecondaryClick")
-                .runBefore { param ->
+                .intercept { chain ->
                     handleTileClick(
                         mActivityStarter,
-                        param,
+                        chain,
                         "handleSecondaryClick"
                     )
                 }

@@ -5,7 +5,7 @@ import android.content.ContextWrapper
 import android.content.res.Resources
 import android.util.AttributeSet
 import androidx.appcompat.view.ContextThemeWrapper
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.slider.Slider
 

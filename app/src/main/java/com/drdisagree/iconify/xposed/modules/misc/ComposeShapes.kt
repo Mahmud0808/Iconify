@@ -9,16 +9,17 @@ import android.view.View
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getStaticFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getStaticFieldSilently
+import com.drdisagree.iconify.xposed.core.resources.ResourceHookManager
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.lang.reflect.Executable
 import java.lang.reflect.Member
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
@@ -87,7 +88,7 @@ class ComposeShapes(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         hookDimenOffsets()
         hookTileCornerRadius()
         hookSliderTrack()
@@ -105,25 +106,27 @@ class ComposeShapes(context: Context) : ModPack(context) {
             findClass(className, suppressError = true)
                 .hookMethodMatchPattern(methodPattern)
                 .suppressError()
-                .runBefore { param -> param.replaceQsButtonCircleShape() }
+                .intercept { chain ->
+                    chain.proceedWithArgs { args -> args.replaceQsButtonCircleShape(chain.executable) }
+                }
         }
     }
 
-    private fun MethodHookParam.replaceQsButtonCircleShape() {
+    private fun Array<Any?>.replaceQsButtonCircleShape(method: Executable) {
         if (footerButtonsCornerRadiusOffset >= 0f) return
 
         val shapeIndex = shapeParamIndices.getOrPut(method) {
             (method as Method).parameterTypes.indexOfFirst { it.name == SHAPE_CLASS }
         }
         val shape = circleShape ?: return
-        if (shapeIndex == -1 || args[shapeIndex] !== shape) return
+        if (shapeIndex == -1 || this[shapeIndex] !== shape) return
 
         val isQsButton = Thread.currentThread().stackTrace.any { frame ->
             CIRCLE_SHAPE_OWNERS.any { frame.className.startsWith(it) }
         }
         if (!isQsButton) return
 
-        args[shapeIndex] = pillShape(footerButtonsCornerRadiusOffset) ?: return
+        this[shapeIndex] = pillShape(footerButtonsCornerRadiusOffset) ?: return
     }
 
     private fun pillShape(offset: Float): Any? {
@@ -190,13 +193,13 @@ class ComposeShapes(context: Context) : ModPack(context) {
         findClass(*FOOTER_VIEW_CLASSES, suppressError = true)
             .hookMethodMatchPattern("updateColors.*")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (notificationCornerRadiusOffset == 0f) return@runAfter
 
                 val offsetPx =
                     notificationCornerRadiusOffset * mContext.resources.displayMetrics.density
                 FOOTER_BUTTON_FIELDS.forEach { field ->
-                    (param.thisObject.getFieldSilently(field) as? View)
+                    (chain.thisObject.getFieldSilently(field) as? View)
                         ?.background
                         ?.offsetCorners(offsetPx)
                 }
@@ -236,50 +239,52 @@ class ComposeShapes(context: Context) : ModPack(context) {
         findClass(TILE_DEFAULTS_CLASS, suppressError = true)
             .hookMethodMatchPattern("animateShapeAsState(-.*)?")
             .suppressError()
-            .runBefore { param ->
-                if (activeTileCornerRadiusOffset == 0f &&
-                    activeIconCornerRadiusOffset == 0f &&
-                    inactiveTileCornerRadiusOffset == 0f &&
-                    inactiveIconCornerRadiusOffset == 0f
-                ) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (activeTileCornerRadiusOffset == 0f &&
+                        activeIconCornerRadiusOffset == 0f &&
+                        inactiveTileCornerRadiusOffset == 0f &&
+                        inactiveIconCornerRadiusOffset == 0f
+                    ) return@proceedWithArgs
 
-                val types = (param.method as Method).parameterTypes
-                val radiusIndex = types.indexOfFirst { it == Float::class.javaPrimitiveType }
-                if (radiusIndex == -1) return@runBefore
-                val radius = param.args[radiusIndex] as? Float ?: return@runBefore
+                    val types = (chain.executable as Method).parameterTypes
+                    val radiusIndex = types.indexOfFirst { it == Float::class.javaPrimitiveType }
+                    if (radiusIndex == -1) return@proceedWithArgs
+                    val radius = args[radiusIndex] as? Float ?: return@proceedWithArgs
 
-                val stateIndex = (radiusIndex - 1).takeIf {
-                    it >= 0 && types[it] == Int::class.javaPrimitiveType
-                } ?: return@runBefore
+                    val stateIndex = (radiusIndex - 1).takeIf {
+                        it >= 0 && types[it] == Int::class.javaPrimitiveType
+                    } ?: return@proceedWithArgs
 
-                val modeIndex = (radiusIndex + 2).takeIf {
-                    it < types.size &&
-                            types[radiusIndex + 1] == String::class.java &&
-                            types[it] == Int::class.javaPrimitiveType
+                    val modeIndex = (radiusIndex + 2).takeIf {
+                        it < types.size &&
+                                types[radiusIndex + 1] == String::class.java &&
+                                types[it] == Int::class.javaPrimitiveType
+                    }
+
+                    val usesRadius = when (modeIndex?.let { args[it] as? Int }) {
+                        MODE_ACTIVE_RADIUS -> true
+                        MODE_INACTIVE_RADIUS, MODE_INACTIVE_RADIUS_ALT -> false
+                        else -> args[stateIndex] == STATE_ACTIVE
+                    }
+                    val isIcon = types.indices
+                        .firstOrNull { types[it] == String::class.java }
+                        ?.let { (args[it] as? String)?.contains(ICON_SHAPE_LABEL) } == true
+
+                    val newRadius = if (usesRadius) {
+                        radius.withOffset(
+                            if (isIcon) activeIconCornerRadiusOffset else activeTileCornerRadiusOffset
+                        )
+                    } else {
+                        inactiveCornerRadius?.withOffset(
+                            if (isIcon) inactiveIconCornerRadiusOffset else inactiveTileCornerRadiusOffset
+                        ) ?: return@proceedWithArgs
+                    }
+
+                    modeIndex?.let { args[it] = MODE_ACTIVE_RADIUS }
+                    args[stateIndex] = STATE_ACTIVE
+                    args[radiusIndex] = newRadius
                 }
-
-                val usesRadius = when (modeIndex?.let { param.args[it] as? Int }) {
-                    MODE_ACTIVE_RADIUS -> true
-                    MODE_INACTIVE_RADIUS, MODE_INACTIVE_RADIUS_ALT -> false
-                    else -> param.args[stateIndex] == STATE_ACTIVE
-                }
-                val isIcon = types.indices
-                    .firstOrNull { types[it] == String::class.java }
-                    ?.let { (param.args[it] as? String)?.contains(ICON_SHAPE_LABEL) } == true
-
-                val newRadius = if (usesRadius) {
-                    radius.withOffset(
-                        if (isIcon) activeIconCornerRadiusOffset else activeTileCornerRadiusOffset
-                    )
-                } else {
-                    inactiveCornerRadius?.withOffset(
-                        if (isIcon) inactiveIconCornerRadiusOffset else inactiveTileCornerRadiusOffset
-                    ) ?: return@runBefore
-                }
-
-                modeIndex?.let { param.args[it] = MODE_ACTIVE_RADIUS }
-                param.args[stateIndex] = STATE_ACTIVE
-                param.args[radiusIndex] = newRadius
             }
     }
 
@@ -287,37 +292,39 @@ class ComposeShapes(context: Context) : ModPack(context) {
         findClass(SLIDER_DEFAULTS_CLASS, suppressError = true)
             .hookMethodMatchPattern("Track(-.*)?")
             .suppressError()
-            .runBefore { param ->
-                val style = currentSliderStyle() ?: return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    val style = currentSliderStyle() ?: return@proceedWithArgs
 
-                val method = param.method as Method
-                val floatIndices = method.parameterTypes.indices.filter {
-                    method.parameterTypes[it] == Float::class.javaPrimitiveType
-                }
-                if (floatIndices.size < 2) return@runBefore
+                    val method = chain.executable as Method
+                    val floatIndices = method.parameterTypes.indices.filter {
+                        method.parameterTypes[it] == Float::class.javaPrimitiveType
+                    }
+                    if (floatIndices.size < 2) return@proceedWithArgs
 
-                val gapIndex = floatIndices[floatIndices.size - 2]
-                val insideCornerIndex = floatIndices.last()
-                val cornerIndex = floatIndices.firstOrNull { it < gapIndex }
+                    val gapIndex = floatIndices[floatIndices.size - 2]
+                    val insideCornerIndex = floatIndices.last()
+                    val cornerIndex = floatIndices.firstOrNull { it < gapIndex }
 
-                if (style.cornerRadiusOffset != 0f) {
-                    cornerIndex?.let { param.offsetDpArg(method, it, style.cornerRadiusOffset) }
-                }
+                    if (style.cornerRadiusOffset != 0f) {
+                        cornerIndex?.let { args.offsetDpArg(method, it, style.cornerRadiusOffset) }
+                    }
 
-                val trackCornerSize = cornerIndex
-                    ?.takeUnless { ComposeToolkit.isDefaultArg(method, param.args, it) }
-                    ?.let { param.args[it] as? Float }
-                    ?.takeUnless { it.isNaN() }
+                    val trackCornerSize = cornerIndex
+                        ?.takeUnless { ComposeToolkit.isDefaultArg(method, args, it) }
+                        ?.let { args[it] as? Float }
+                        ?.takeUnless { it.isNaN() }
 
-                if (style.hideThumb && trackCornerSize != null &&
-                    param.fillInactiveTrack(method, trackCornerSize)
-                ) {
-                    param.args[gapIndex] = 0f
-                    param.args[insideCornerIndex] = trackCornerSize
-                    ComposeToolkit.clearDefaultBit(method, param.args, gapIndex)
-                    ComposeToolkit.clearDefaultBit(method, param.args, insideCornerIndex)
-                } else if (style.cornerRadiusOffset != 0f) {
-                    param.offsetDpArg(method, insideCornerIndex, style.cornerRadiusOffset)
+                    if (style.hideThumb && trackCornerSize != null &&
+                        args.fillInactiveTrack(method, trackCornerSize)
+                    ) {
+                        args[gapIndex] = 0f
+                        args[insideCornerIndex] = trackCornerSize
+                        ComposeToolkit.clearDefaultBit(method, args, gapIndex)
+                        ComposeToolkit.clearDefaultBit(method, args, insideCornerIndex)
+                    } else if (style.cornerRadiusOffset != 0f) {
+                        args.offsetDpArg(method, insideCornerIndex, style.cornerRadiusOffset)
+                    }
                 }
             }
     }
@@ -326,21 +333,24 @@ class ComposeShapes(context: Context) : ModPack(context) {
         findClass(SLIDER_DEFAULTS_CLASS, suppressError = true)
             .hookMethodMatchPattern("Thumb(-.*)?")
             .suppressError()
-            .runBefore { param ->
-                if (currentSliderStyle()?.hideThumb != true) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (currentSliderStyle()?.hideThumb != true) return@proceedWithArgs
 
-                val method = param.method as Method
-                val sizeIndex = method.parameterTypes.indexOfFirst {
-                    it == Long::class.javaPrimitiveType
+                    val method = chain.executable as Method
+                    val sizeIndex = method.parameterTypes.indexOfFirst {
+                        it == Long::class.javaPrimitiveType
+                    }
+                    if (sizeIndex == -1) return@proceedWithArgs
+
+                    args[sizeIndex] = 0L
+                    ComposeToolkit.clearDefaultBit(method, args, sizeIndex)
                 }
-                if (sizeIndex == -1) return@runBefore
-
-                param.args[sizeIndex] = 0L
-                ComposeToolkit.clearDefaultBit(method, param.args, sizeIndex)
             }
     }
 
-    private fun MethodHookParam.fillInactiveTrack(method: Method, cornerSize: Float): Boolean {
+    private fun Array<Any?>.fillInactiveTrack(method: Method, cornerSize: Float): Boolean {
+        val args = this
         val types = method.parameterTypes
         val colorsIndex = types.indexOfFirst { it.name == SLIDER_COLORS_CLASS }
         val modifierIndex = ComposeToolkit.parameterIndex(method, ComposeToolkit.MODIFIER_CLASS)
@@ -409,7 +419,8 @@ class ComposeShapes(context: Context) : ModPack(context) {
         }?.takeIf { it.isActive }
     }
 
-    private fun MethodHookParam.offsetDpArg(method: Method, index: Int, offset: Float) {
+    private fun Array<Any?>.offsetDpArg(method: Method, index: Int, offset: Float) {
+        val args = this
         if (ComposeToolkit.isDefaultArg(method, args, index)) return
         val value = args[index] as? Float ?: return
         if (value.isNaN()) return

@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
 import java.util.concurrent.CopyOnWriteArrayList
 
 class QsShowingCallback(context: Context) : ModPack(context) {
@@ -18,7 +18,7 @@ class QsShowingCallback(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         instance = this
 
         val visualStabilityCoordinatorClass =
@@ -26,14 +26,14 @@ class QsShowingCallback(context: Context) : ModPack(context) {
 
         visualStabilityCoordinatorClass
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 val mStatusBarStateControllerListener =
-                    param.thisObject.getField("mStatusBarStateControllerListener")
+                    chain.thisObject.getField("mStatusBarStateControllerListener")
 
                 mStatusBarStateControllerListener::class.java
                     .hookMethod("onExpandedChanged")
-                    .runAfter runAfter2@{ param2 ->
-                        val isQsExpanded = param2.args[0] as Boolean
+                    .runAfter runAfter2@{ chain2, _ ->
+                        val isQsExpanded = chain2.args[0] as Boolean
 
                         notifyQuickSettingsExpandedChanged(isQsExpanded)
                     }

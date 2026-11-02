@@ -19,23 +19,24 @@ import androidx.core.view.doOnDetach
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getExtraFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.hasField
+import com.drdisagree.iconify.xposed.core.reflect.isMethodAvailable
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
+import com.drdisagree.iconify.xposed.core.reflect.setField
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isNightMode
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getExtraFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.isMethodAvailable
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XposedHelpers
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.Collections
 import java.util.WeakHashMap
 import kotlin.math.roundToInt
@@ -62,7 +63,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
     }
 
     @SuppressLint("DiscouragedApi")
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val headsUpManagerClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.notification.headsup.HeadsUpManagerImpl",
             "$SYSTEMUI_PACKAGE.statusbar.policy.BaseHeadsUpManager",
@@ -71,19 +72,19 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
         headsUpManagerClass
             .hookMethod("addListener")
-            .runAfter { param ->
-                val listenerClass = param.args[0]?.javaClass ?: return@runAfter
+            .runAfter { chain, _ ->
+                val listenerClass = chain.args[0]?.javaClass ?: return@runAfter
                 if (!hookedListenerClasses.add(listenerClass)) return@runAfter
 
                 listenerClass
                     .hookMethod("onHeadsUpStateChanged")
                     .suppressError()
-                    .runAfter runAfter2@{ param ->
+                    .runAfter runAfter2@{ listenerChain, _ ->
                         if (!headsUpBlurEnabled) return@runAfter2
-                        if (param.thisObject?.javaClass != listenerClass) return@runAfter2
+                        if (listenerChain.thisObject?.javaClass != listenerClass) return@runAfter2
 
-                        val row = param.args[0].headsUpRow() ?: return@runAfter2
-                        val isHeadsUp = param.args.getOrNull(1) as? Boolean
+                        val row = listenerChain.args[0].headsUpRow() ?: return@runAfter2
+                        val isHeadsUp = listenerChain.args.getOrNull(1) as? Boolean
                             ?: row.callMethod("isHeadsUpState") as Boolean
 
                         row.onHeadsUpChanged(isHeadsUp && row.isPinnedRow())
@@ -96,10 +97,10 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         )
             .hookMethod("setRowPinnedStatus")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!headsUpBlurEnabled) return@runAfter
 
-                val row = param.thisObject.getFieldSilently("mEntry").headsUpRow()
+                val row = chain.thisObject.getFieldSilently("mEntry").headsUpRow()
                     ?: return@runAfter
                 val isPinned = row.callMethodSilently("isPinned") as? Boolean ?: return@runAfter
 
@@ -111,10 +112,10 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
         expandableNotificationRowClass
             .hookMethod("onAppearAnimationFinished")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!headsUpBlurEnabled) return@runAfter
 
-                notificationViews.add(param.thisObject as View)
+                notificationViews.add(chain.thisObject as View)
             }
 
         val activatableNotificationViewClass =
@@ -122,18 +123,18 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
         activatableNotificationViewClass
             .hookMethod("startAppearAnimation")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!headsUpBlurEnabled) return@runAfter
 
-                val isAppearing = param.args[0] as Boolean
-                val mBackgroundNormal = param.thisObject.getField("mBackgroundNormal") as View
+                val isAppearing = chain.args[0] as Boolean
+                val mBackgroundNormal = chain.thisObject.getField("mBackgroundNormal") as View
                 val shouldApplyBlur = mBackgroundNormal.getExtraFieldSilently("shouldApplyBlur")
                         as? Boolean == true
 
                 if (shouldApplyBlur && isAppearing && !isQsExpanded) {
-                    param.thisObject.updateNotificationBackground(true)
+                    chain.thisObject.updateNotificationBackground(true)
                 } else {
-                    param.thisObject.scheduleBlurReset()
+                    chain.thisObject.scheduleBlurReset()
                 }
             }
 
@@ -166,34 +167,32 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         val notificationBackgroundViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.row.NotificationBackgroundView")
 
-        val hasFocusOverlayRadii = notificationBackgroundViewClass?.let {
-            XposedHelpers.findFieldIfExists(it, "mFocusOverlayCornerRadii") != null
-        } == true
+        val hasFocusOverlayRadii = notificationBackgroundViewClass.hasField("mFocusOverlayCornerRadii")
 
         // Replace the method with ours otherwise we get ClassCastException
         notificationBackgroundViewClass
             .hookMethod("updateBackgroundRadii")
-            .runBefore { param ->
-                if (!headsUpBlurEnabled || !hasFocusOverlayRadii) return@runBefore
+            .intercept { chain ->
+                if (!headsUpBlurEnabled || !hasFocusOverlayRadii) return@intercept chain.proceed()
 
-                if (param.thisObject.getField("mDontModifyCorners") as Boolean) {
-                    param.result = null
-                    return@runBefore
+                if (chain.thisObject.getField("mDontModifyCorners") as Boolean) {
+                    return@intercept null
+                    return@intercept chain.proceed()
                 }
 
-                val drawable = param.thisObject.getField("mBackground") as Drawable
+                val drawable = chain.thisObject.getField("mBackground") as Drawable
 
                 if (drawable !is LayerDrawable) {
-                    param.result = null
-                    return@runBefore
+                    return@intercept null
+                    return@intercept chain.proceed()
                 }
 
                 val numberOfLayers = drawable.numberOfLayers
-                val mCornerRadii = param.thisObject.getField("mCornerRadii") as FloatArray
+                val mCornerRadii = chain.thisObject.getField("mCornerRadii") as FloatArray
                 val mFocusOverlayCornerRadii =
-                    param.thisObject.getField("mFocusOverlayCornerRadii") as FloatArray
+                    chain.thisObject.getField("mFocusOverlayCornerRadii") as FloatArray
                 val mFocusOverlayStroke =
-                    param.thisObject.getField("mFocusOverlayStroke") as Float
+                    chain.thisObject.getField("mFocusOverlayStroke") as Float
 
                 for (i in 0 until numberOfLayers) {
                     val drawableItem = drawable.getDrawable(i)
@@ -218,48 +217,50 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                     gradientDrawable.cornerRadii = mFocusOverlayCornerRadii
                 }
 
-                param.result = null
+                null
             }
 
         // Replace original notification background drawable with our blur drawable
         notificationBackgroundViewClass
             .hookMethodMatchPattern("setCustomBackground.*")
-            .runBefore { param ->
-                if (!headsUpBlurEnabled) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (!headsUpBlurEnabled) return@proceedWithArgs
 
-                val mBackgroundNormal = param.thisObject as View
+                    val mBackgroundNormal = chain.thisObject as View
 
-                val blurDrawable = mBackgroundNormal.getExtraFieldSilently("mBackgroundDrawable")
-                        as? Drawable ?: return@runBefore
+                    val blurDrawable = mBackgroundNormal.getExtraFieldSilently("mBackgroundDrawable")
+                            as? Drawable ?: return@proceedWithArgs
 
-                if (param.args.isNotEmpty() && param.args[0] is Drawable) {
-                    param.args[0] = blurDrawable
-                    return@runBefore
+                    if (args.isNotEmpty() && args[0] is Drawable) {
+                        args[0] = blurDrawable
+                        return@proceedWithArgs
+                    }
+
+                    var mBackground = mBackgroundNormal.getFieldSilently("mBackground") as? Drawable
+                    if (mBackground != null) {
+                        mBackground.callback = null
+                        mBackgroundNormal.callMethod("unscheduleDrawable", mBackground)
+                    }
+
+                    mBackground = blurDrawable
+                    mBackgroundNormal.setField("mBackground", blurDrawable)
+                    mBackgroundNormal.setField("mRippleColor", null)
+                    blurDrawable.mutate()
+
+                    mBackground.callback = mBackgroundNormal
+                    val mTintColor = mBackgroundNormal.getField("mTintColor")
+                    mBackgroundNormal.callMethod("setTint", mTintColor)
+
+                    if (mBackground is RippleDrawable) {
+                        mBackground.callMethod("setForceSoftware", true)
+                    }
+
+                    mBackgroundNormal.callMethod("updateBackgroundRadii")
+                    mBackgroundNormal.callMethod("invalidate")
+
+                    return@intercept null
                 }
-
-                var mBackground = mBackgroundNormal.getFieldSilently("mBackground") as? Drawable
-                if (mBackground != null) {
-                    mBackground.callback = null
-                    mBackgroundNormal.callMethod("unscheduleDrawable", mBackground)
-                }
-
-                mBackground = blurDrawable
-                mBackgroundNormal.setField("mBackground", blurDrawable)
-                mBackgroundNormal.setField("mRippleColor", null)
-                blurDrawable.mutate()
-
-                mBackground.callback = mBackgroundNormal
-                val mTintColor = mBackgroundNormal.getField("mTintColor")
-                mBackgroundNormal.callMethod("setTint", mTintColor)
-
-                if (mBackground is RippleDrawable) {
-                    mBackground.callMethod("setForceSoftware", true)
-                }
-
-                mBackgroundNormal.callMethod("updateBackgroundRadii")
-                mBackgroundNormal.callMethod("invalidate")
-
-                param.result = null
             }
     }
 

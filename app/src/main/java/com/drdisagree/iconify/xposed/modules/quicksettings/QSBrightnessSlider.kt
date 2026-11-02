@@ -5,22 +5,23 @@ import android.content.Context
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.argsCopy
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.hook.invokeOriginal
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getStaticFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setField
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getStaticFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.SceneContainer
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -76,7 +77,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         resolveComposeApis()
         hookQsLayoutDetection()
         hookQsFragmentCompose()
@@ -92,7 +93,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         findClass("$SYSTEMUI_PACKAGE.qs.composefragment.QSFragmentCompose", suppressError = true)
             .hookConstructor()
             .suppressError()
-            .runAfter { reportComposeLayout(true) }
+            .runAfter { _, _ -> reportComposeLayout(true) }
 
         findClass(
             "$SYSTEMUI_PACKAGE.qs.QSFragmentLegacy",
@@ -101,7 +102,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         )
             .hookConstructor()
             .suppressError()
-            .runAfter { reportComposeLayout(false) }
+            .runAfter { _, _ -> reportComposeLayout(false) }
     }
 
     private fun reportComposeLayout(active: Boolean) {
@@ -115,23 +116,26 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
     }
 
     private fun mediaFirstOrder(
-        param: XC_MethodHook.MethodHookParam,
+        method: Method,
+        args: Array<Any?>,
         brightness: Any,
         tiles: Any,
         media: Any
     ): Boolean = arrangeSlots(
-        param,
+        method,
+        args,
         0 to media,
         1 to if (brightnessBelowTiles) tiles else brightness,
         2 to if (brightnessBelowTiles) brightness else tiles
     )
 
     private fun arrangeSlots(
-        param: XC_MethodHook.MethodHookParam,
+        method: Method,
+        args: Array<Any?>,
         vararg slots: Pair<Int, Any?>
     ): Boolean {
-        if (!ComposeToolkit.setSlots(param, *slots)) return false
-        param.args[slots.first().first]?.let { arrangedFirstSlots.add(it) }
+        if (!ComposeToolkit.setSlots(method, args, *slots)) return false
+        args[slots.first().first]?.let { arrangedFirstSlots.add(it) }
         return true
     }
 
@@ -155,121 +159,32 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         qsFragmentClass
             .hookMethod("QuickQuickSettingsElement")
             .suppressError()
-            .runBefore { param ->
-                qsFragment = param.thisObject
-                qqsScope = param.args.firstOrNull()
+            .runBefore { chain ->
+                qsFragment = chain.thisObject
+                qqsScope = chain.args.firstOrNull()
             }
 
         qsFragmentClass
             .hookMethod("QuickSettingsElement")
             .suppressError()
-            .runBefore { param ->
-                qsFragment = param.thisObject
-                qsScope = param.args.firstOrNull()
+            .runBefore { chain ->
+                qsFragment = chain.thisObject
+                qsScope = chain.args.firstOrNull()
             }
 
         qsLayoutClass
             .hookMethod("QuickSettingsLayout")
             .suppressError()
-            .runBefore { param ->
-                if (!brightnessBelowTiles && !brightnessInQqs && !mediaOnTop) return@runBefore
-                if (param.args.size < 3) return@runBefore
-
-                val brightness = param.args[0] ?: return@runBefore
-                if (brightness in arrangedFirstSlots) return@runBefore
-
-                val tiles = param.args[1] ?: return@runBefore
-                val brightnessSlot = if (brightnessInQqs) {
-                    sharedQsBrightnessSlot(brightness) ?: brightness
-                } else {
-                    brightness
-                }
-
-                val mediaInRowIndex = param.args.indexOfFirst { it is Boolean }
-                val mediaInRow = param.args.getOrNull(mediaInRowIndex) as? Boolean
-                val media = param.args[2]
-
-                if (mediaOnTop && mediaInRow == false && media != null) {
-                    if (mediaFirstOrder(param, brightnessSlot, tiles, media)) return@runBefore
-                }
-
-                if (!brightnessBelowTiles) {
-                    ComposeToolkit.setSlots(param, 0 to brightnessSlot)
-                    return@runBefore
-                }
-                val emptySlot = emptySlot()
-                if (mediaInRow != true || media == null || emptySlot == null) {
-                    arrangeSlots(param, 0 to tiles, 1 to brightnessSlot)
-                    return@runBefore
-                }
-
-                val method = param.method as Method
-                val composer = param.args.getOrNull(
-                    method.parameterTypes.indexOfFirst { it.name == COMPOSER_CLASS }
-                ) ?: return@runBefore
-                val tilesAndMediaRow = mediaRowSlots[tiles]
-                    ?.takeIf { it.first === media }
-                    ?.second
-                    ?: composableSlot { rowComposer, _ ->
-                        composeOriginalLayout(method, emptySlot, tiles, media, true, rowComposer)
-                    }?.also {
-                        mediaRowSlots[tiles] = media to it
-                        arrangedFirstSlots.add(it)
-                    }
-                    ?: return@runBefore
-
-                ComposeToolkit.startGroup(composer, LANDSCAPE_LAYOUT_GROUP_KEY)
-                try {
-                    composeOriginalLayout(
-                        method,
-                        tilesAndMediaRow,
-                        brightnessSlot,
-                        emptySlot,
-                        false,
-                        composer
-                    )
-                } finally {
-                    ComposeToolkit.endGroup(composer)
-                }
-                param.result = null
+            .intercept { chain ->
+                val args = chain.argsCopy()
+                if (arrangeQuickSettingsLayout(chain.executable as Method, args)) null else chain.proceed(args)
             }
 
         qsLayoutClass
             .hookMethod("QuickQuickSettingsLayout")
             .suppressError()
-            .runBefore { param ->
-                if (!brightnessInQqs && !mediaOnTop) return@runBefore
-
-                val mediaInRow = param.args.firstOrNull { it is Boolean } as? Boolean
-                if (mediaInRow != false) return@runBefore
-
-                val tiles = param.args.firstOrNull() ?: return@runBefore
-                if (tiles in qqsTilesSlots.values) return@runBefore
-
-                val tilesSlot = if (brightnessInQqs) {
-                    qqsTilesSlots[tiles] ?: composableSlot { composer, changed ->
-                        if (brightnessBelowTiles) {
-                            tiles.callMethod("invoke", composer, changed)
-                            composeQqsBrightness(composer)
-                        } else {
-                            composeQqsBrightness(composer)
-                            tiles.callMethod("invoke", composer, changed)
-                        }
-                    }?.also { qqsTilesSlots[tiles] = it } ?: return@runBefore
-                } else {
-                    tiles
-                }
-                if (!ComposeToolkit.setSlots(param, 0 to tilesSlot)) return@runBefore
-
-                if (!mediaOnTop) return@runBefore
-
-                val parameterTypes = (param.method as Method).parameterTypes
-                val slotIndices = parameterTypes.indices
-                    .filter { ComposeToolkit.isSlotType(parameterTypes[it]) }
-                if (slotIndices.size != 2) return@runBefore
-
-                val media = param.args[slotIndices[1]] ?: return@runBefore
-                ComposeToolkit.setSlots(param, slotIndices[0] to media, slotIndices[1] to tilesSlot)
+            .intercept { chain ->
+                chain.proceedWithArgs { args -> arrangeQuickQuickSettingsLayout(chain.executable as Method, args) }
             }
     }
 
@@ -280,72 +195,9 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         )
             .hookMethodMatchPattern("QuickSettingsPanelLayout.*")
             .suppressError()
-            .runBefore { param ->
-                if (!brightnessBelowTiles && !mediaOnTop) return@runBefore
-                if (param.args.size < 3) return@runBefore
-
-                val brightness = param.args[0] ?: return@runBefore
-                if (brightness in arrangedFirstSlots) return@runBefore
-                val tiles = param.args[1] ?: return@runBefore
-
-                val method = param.method as Method
-                val mediaInRowIndex = method.parameterTypes.indexOfFirst {
-                    it == Boolean::class.javaPrimitiveType
-                }
-                val mediaInRow = param.args.getOrNull(mediaInRowIndex) as? Boolean
-                val mediaVisible = method.parameterTypes.indices
-                    .filter { method.parameterTypes[it] == Boolean::class.javaPrimitiveType }
-                    .getOrNull(1)
-                    ?.let { param.args[it] as? Boolean }
-                val media = param.args[2]
-
-                if (mediaOnTop && mediaInRow == false && mediaVisible == true && media != null) {
-                    if (mediaFirstOrder(param, brightness, tiles, media)) return@runBefore
-                }
-
-                if (!brightnessBelowTiles) return@runBefore
-                val emptySlot = emptyScopedSlot()
-                val composer = param.args.getOrNull(
-                    ComposeToolkit.parameterIndex(method, COMPOSER_CLASS)
-                )
-
-                if (mediaInRow != true || media == null || emptySlot == null || composer == null) {
-                    arrangeSlots(param, 0 to tiles, 1 to brightness)
-                    return@runBefore
-                }
-
-                val originalArgs = param.args.clone()
-                val tilesAndMediaRow = sceneMediaRowSlots[tiles]
-                    ?.takeIf { it.first === media }
-                    ?.second
-                    ?: ComposeToolkit.function3("IconifyQsTilesMediaRow") { _, rowComposer, _ ->
-                        invokeScenePanelLayout(
-                            method,
-                            originalArgs,
-                            arrayOf(emptySlot, tiles, media),
-                            mediaInRowIndex,
-                            true,
-                            ComposeToolkit.emptyModifier,
-                            rowComposer!!
-                        )
-                    }?.also {
-                        sceneMediaRowSlots[tiles] = media to it
-                        arrangedFirstSlots.add(it)
-                    }
-                    ?: return@runBefore
-
-                ComposeToolkit.inGroup(composer, SCENE_LANDSCAPE_LAYOUT_GROUP_KEY) {
-                    invokeScenePanelLayout(
-                        method,
-                        originalArgs,
-                        arrayOf(tilesAndMediaRow, brightness, emptySlot),
-                        mediaInRowIndex,
-                        false,
-                        null,
-                        composer
-                    )
-                }
-                param.result = null
+            .intercept { chain ->
+                val args = chain.argsCopy()
+                if (arrangeScenePanelLayout(chain.executable as Method, args)) null else chain.proceed(args)
             }
 
         findClass(
@@ -354,20 +206,8 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         )
             .hookMethod("QuickSettingsLayoutContent")
             .suppressError()
-            .runBefore { param ->
-                if (!brightnessBelowTiles) return@runBefore
-
-                val slots = (param.method as Method).parameterTypes
-                    .withIndex()
-                    .filter { ComposeToolkit.isSlotType(it.value) }
-                    .map { it.index }
-                if (slots.size != 3) return@runBefore
-
-                val brightness = param.args[slots[1]] ?: return@runBefore
-                if (brightness in arrangedFirstSlots) return@runBefore
-                val tiles = param.args[slots[2]] ?: return@runBefore
-
-                arrangeSlots(param, slots[1] to tiles, slots[2] to brightness)
+            .intercept { chain ->
+                chain.proceedWithArgs { args -> arrangeShadeOverlayLayout(chain.executable as Method, args) }
             }
 
         hookShadeTransitionBrightnessFade()
@@ -381,8 +221,8 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         shadeSceneClass
             .hookMethod("SingleShade")
             .suppressError()
-            .runBefore { param ->
-                param.args.forEach { arg ->
+            .runBefore { chain ->
+                chain.args.forEach { arg ->
                     when (arg?.javaClass?.name) {
                         SHADE_SCENE_VIEW_MODEL_CLASS -> shadeSceneViewModel = arg
                     }
@@ -393,42 +233,224 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         shadeSceneClass
             .hookMethodMatchPattern("MediaAndQqsLayout.*")
             .suppressError()
-            .runBefore { param ->
-                if ((!brightnessInQqs && !mediaOnTop) || isSplitShade()) return@runBefore
-
-                val mediaInRow = param.args.firstOrNull { it is Boolean } as? Boolean
-                if (mediaInRow != false) return@runBefore
-
-                val qqs = param.args.firstOrNull() ?: return@runBefore
-                if (qqs in shadeQqsSlots.values) return@runBefore
-
-                val qqsSlot = if (brightnessInQqs) {
-                    shadeQqsSlots[qqs] ?: composableSlot { composer, changed ->
-                        if (brightnessBelowTiles) {
-                            qqs.callMethod("invoke", composer, changed)
-                            composeShadeBrightness(composer)
-                        } else {
-                            composeShadeBrightness(composer)
-                            qqs.callMethod("invoke", composer, changed)
-                        }
-                    }?.also { shadeQqsSlots[qqs] = it } ?: return@runBefore
-                } else {
-                    qqs
-                }
-                if (!ComposeToolkit.setSlots(param, 0 to qqsSlot)) return@runBefore
-
-                if (!mediaOnTop) return@runBefore
-
-                val orderIndex = (param.method as Method).parameterTypes
-                    .indexOfFirst { it == List::class.java }
-                val order = param.args.getOrNull(orderIndex) as? List<*>
-                if (order != null) {
-                    order.withMediaFirst()?.let { param.args[orderIndex] = it }
-                } else {
-                    val media = param.args[1] ?: return@runBefore
-                    ComposeToolkit.setSlots(param, 0 to media, 1 to qqsSlot)
-                }
+            .intercept { chain ->
+                chain.proceedWithArgs { args -> arrangeMediaAndQqsLayout(chain.executable as Method, args) }
             }
+    }
+
+    private fun arrangeQuickSettingsLayout(method: Method, args: Array<Any?>): Boolean {
+        if (!brightnessBelowTiles && !brightnessInQqs && !mediaOnTop) return false
+        if (args.size < 3) return false
+
+        val brightness = args[0] ?: return false
+        if (brightness in arrangedFirstSlots) return false
+
+        val tiles = args[1] ?: return false
+        val brightnessSlot = if (brightnessInQqs) {
+            sharedQsBrightnessSlot(brightness) ?: brightness
+        } else {
+            brightness
+        }
+
+        val mediaInRowIndex = args.indexOfFirst { it is Boolean }
+        val mediaInRow = args.getOrNull(mediaInRowIndex) as? Boolean
+        val media = args[2]
+
+        if (mediaOnTop && mediaInRow == false && media != null) {
+            if (mediaFirstOrder(method, args, brightnessSlot, tiles, media)) return false
+        }
+
+        if (!brightnessBelowTiles) {
+            ComposeToolkit.setSlots(method, args, 0 to brightnessSlot)
+            return false
+        }
+        val emptySlot = emptySlot()
+        if (mediaInRow != true || media == null || emptySlot == null) {
+            arrangeSlots(method, args, 0 to tiles, 1 to brightnessSlot)
+            return false
+        }
+        val composer = args.getOrNull(
+            method.parameterTypes.indexOfFirst { it.name == COMPOSER_CLASS }
+        ) ?: return false
+        val tilesAndMediaRow = mediaRowSlots[tiles]
+            ?.takeIf { it.first === media }
+            ?.second
+            ?: composableSlot { rowComposer, _ ->
+                composeOriginalLayout(method, emptySlot, tiles, media, true, rowComposer)
+            }?.also {
+                mediaRowSlots[tiles] = media to it
+                arrangedFirstSlots.add(it)
+            }
+            ?: return false
+
+        ComposeToolkit.startGroup(composer, LANDSCAPE_LAYOUT_GROUP_KEY)
+        try {
+            composeOriginalLayout(
+                method,
+                tilesAndMediaRow,
+                brightnessSlot,
+                emptySlot,
+                false,
+                composer
+            )
+        } finally {
+            ComposeToolkit.endGroup(composer)
+        }
+        return true
+    }
+
+    private fun arrangeQuickQuickSettingsLayout(method: Method, args: Array<Any?>) {
+        if (!brightnessInQqs && !mediaOnTop) return
+
+        val mediaInRow = args.firstOrNull { it is Boolean } as? Boolean
+        if (mediaInRow != false) return
+
+        val tiles = args.firstOrNull() ?: return
+        if (tiles in qqsTilesSlots.values) return
+
+        val tilesSlot = if (brightnessInQqs) {
+            qqsTilesSlots[tiles] ?: composableSlot { composer, changed ->
+                if (brightnessBelowTiles) {
+                    tiles.callMethod("invoke", composer, changed)
+                    composeQqsBrightness(composer)
+                } else {
+                    composeQqsBrightness(composer)
+                    tiles.callMethod("invoke", composer, changed)
+                }
+            }?.also { qqsTilesSlots[tiles] = it } ?: return
+        } else {
+            tiles
+        }
+        if (!ComposeToolkit.setSlots(method, args, 0 to tilesSlot)) return
+
+        if (!mediaOnTop) return
+
+        val parameterTypes = method.parameterTypes
+        val slotIndices = parameterTypes.indices
+            .filter { ComposeToolkit.isSlotType(parameterTypes[it]) }
+        if (slotIndices.size != 2) return
+
+        val media = args[slotIndices[1]] ?: return
+        ComposeToolkit.setSlots(method, args, slotIndices[0] to media, slotIndices[1] to tilesSlot)
+    }
+
+    private fun arrangeScenePanelLayout(method: Method, args: Array<Any?>): Boolean {
+        if (!brightnessBelowTiles && !mediaOnTop) return false
+        if (args.size < 3) return false
+
+        val brightness = args[0] ?: return false
+        if (brightness in arrangedFirstSlots) return false
+        val tiles = args[1] ?: return false
+        val mediaInRowIndex = method.parameterTypes.indexOfFirst {
+            it == Boolean::class.javaPrimitiveType
+        }
+        val mediaInRow = args.getOrNull(mediaInRowIndex) as? Boolean
+        val mediaVisible = method.parameterTypes.indices
+            .filter { method.parameterTypes[it] == Boolean::class.javaPrimitiveType }
+            .getOrNull(1)
+            ?.let { args[it] as? Boolean }
+        val media = args[2]
+
+        if (mediaOnTop && mediaInRow == false && mediaVisible == true && media != null) {
+            if (mediaFirstOrder(method, args, brightness, tiles, media)) return false
+        }
+
+        if (!brightnessBelowTiles) return false
+        val emptySlot = emptyScopedSlot()
+        val composer = args.getOrNull(
+            ComposeToolkit.parameterIndex(method, COMPOSER_CLASS)
+        )
+
+        if (mediaInRow != true || media == null || emptySlot == null || composer == null) {
+            arrangeSlots(method, args, 0 to tiles, 1 to brightness)
+            return false
+        }
+
+        val originalArgs = args.clone()
+        val tilesAndMediaRow = sceneMediaRowSlots[tiles]
+            ?.takeIf { it.first === media }
+            ?.second
+            ?: ComposeToolkit.function3("IconifyQsTilesMediaRow") { _, rowComposer, _ ->
+                invokeScenePanelLayout(
+                    method,
+                    originalArgs,
+                    arrayOf(emptySlot, tiles, media),
+                    mediaInRowIndex,
+                    true,
+                    ComposeToolkit.emptyModifier,
+                    rowComposer!!
+                )
+            }?.also {
+                sceneMediaRowSlots[tiles] = media to it
+                arrangedFirstSlots.add(it)
+            }
+            ?: return false
+
+        ComposeToolkit.inGroup(composer, SCENE_LANDSCAPE_LAYOUT_GROUP_KEY) {
+            invokeScenePanelLayout(
+                method,
+                originalArgs,
+                arrayOf(tilesAndMediaRow, brightness, emptySlot),
+                mediaInRowIndex,
+                false,
+                null,
+                composer
+            )
+        }
+        return true
+    }
+
+    private fun arrangeShadeOverlayLayout(method: Method, args: Array<Any?>) {
+        if (!brightnessBelowTiles) return
+
+        val slots = method.parameterTypes
+            .withIndex()
+            .filter { ComposeToolkit.isSlotType(it.value) }
+            .map { it.index }
+        if (slots.size != 3) return
+
+        val brightness = args[slots[1]] ?: return
+        if (brightness in arrangedFirstSlots) return
+        val tiles = args[slots[2]] ?: return
+
+        arrangeSlots(method, args, slots[1] to tiles, slots[2] to brightness)
+    }
+
+    private fun arrangeMediaAndQqsLayout(method: Method, args: Array<Any?>) {
+        if ((!brightnessInQqs && !mediaOnTop) || isSplitShade()) return
+
+        val mediaInRow = args.firstOrNull { it is Boolean } as? Boolean
+        if (mediaInRow != false) return
+
+        val qqs = args.firstOrNull() ?: return
+        if (qqs in shadeQqsSlots.values) return
+
+        val qqsSlot = if (brightnessInQqs) {
+            shadeQqsSlots[qqs] ?: composableSlot { composer, changed ->
+                if (brightnessBelowTiles) {
+                    qqs.callMethod("invoke", composer, changed)
+                    composeShadeBrightness(composer)
+                } else {
+                    composeShadeBrightness(composer)
+                    qqs.callMethod("invoke", composer, changed)
+                }
+            }?.also { shadeQqsSlots[qqs] = it } ?: return
+        } else {
+            qqs
+        }
+        if (!ComposeToolkit.setSlots(method, args, 0 to qqsSlot)) return
+
+        if (!mediaOnTop) return
+
+        val orderIndex = method.parameterTypes
+            .indexOfFirst { it == List::class.java }
+        val order = args.getOrNull(orderIndex) as? List<*>
+        if (order != null) {
+            order.withMediaFirst()?.let { args[orderIndex] = it }
+        } else {
+            val media = args[1] ?: return
+            ComposeToolkit.setSlots(method, args, 0 to media, 1 to qqsSlot)
+        }
     }
 
     private fun hookShadeTransitionBrightnessFade() {
@@ -449,22 +471,22 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
             builderClass
                 .hookMethod("anchoredTranslate")
                 .suppressError()
-                .runBefore { param ->
-                    if (!brightnessBelowTiles) return@runBefore
-                    if (param.args.getOrNull(0) !== qsContentKey) return@runBefore
-                    if (param.args.getOrNull(1) !== gridAnchorKey) return@runBefore
+                .intercept { chain ->
+                    if (!brightnessBelowTiles) return@intercept chain.proceed()
+                    if (chain.args.getOrNull(0) !== qsContentKey) return@intercept chain.proceed()
+                    if (chain.args.getOrNull(1) !== gridAnchorKey) return@intercept chain.proceed()
 
-                    param.result = null
+                    null
                 }
         }
 
         findClass(TO_SINGLE_SHADE_TRANSITION_CLASS, suppressError = true)
             .hookMethod("toSingleShadeTransition")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!brightnessInQqs) return@runAfter
 
-                val builder = param.args.firstOrNull() ?: return@runAfter
+                val builder = chain.args.firstOrNull() ?: return@runAfter
                 val key = sceneBrightnessElementKey ?: sharedElementKey ?: return@runAfter
                 fadeMethod.invoke(null, builder, key)
             }
@@ -476,9 +498,9 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         elementClass
             .hookMethod("create")
             .suppressError()
-            .runBefore { param ->
-                if (param.thisObject === shadePunchHole) return@runBefore
-                param.thisObject.getFieldSilently("roundRectProvider")?.let {
+            .runBefore { chain ->
+                if (chain.thisObject === shadePunchHole) return@runBefore
+                chain.thisObject.getFieldSilently("roundRectProvider")?.let {
                     punchHoleProvider = it
                 }
             }
@@ -764,7 +786,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
             }
         }.toTypedArray()
 
-        XposedBridge.invokeOriginalMethod(method, null, args)
+        method.invokeOriginal(null, *args)
     }
 
     private fun emptyScopedSlot(): Any? {
@@ -799,7 +821,7 @@ class QSBrightnessSlider(context: Context) : ModPack(context) {
         args[composerIndex] = composer
         for (index in composerIndex + 1 until args.size) args[index] = 0
 
-        XposedBridge.invokeOriginalMethod(method, null, args)
+        method.invokeOriginal(null, *args)
     }
 
     private fun composableSlot(block: (composer: Any, changed: Any?) -> Unit): Any? =

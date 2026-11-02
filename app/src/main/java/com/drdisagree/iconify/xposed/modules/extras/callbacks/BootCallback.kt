@@ -3,7 +3,7 @@ package com.drdisagree.iconify.xposed.modules.extras.callbacks
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.core.log.log
 import java.io.File
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService

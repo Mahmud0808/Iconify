@@ -1,9 +1,10 @@
-package com.drdisagree.iconify.xposed.modules.extras.utils.toolkit
+package com.drdisagree.iconify.xposed.core.compose
 
 import androidx.core.graphics.toColorInt
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.findClassIfExists
+import java.lang.reflect.Executable
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
 import java.util.WeakHashMap
@@ -52,13 +53,13 @@ object ComposeToolkit {
         }
     }
 
-    fun setSlots(param: XC_MethodHook.MethodHookParam, vararg slots: Pair<Int, Any?>): Boolean {
-        val types = (param.method as Method).parameterTypes
+    fun setSlots(method: Executable, args: Array<Any?>, vararg slots: Pair<Int, Any?>): Boolean {
+        val types = method.parameterTypes
         val fitted = slots.map { (index, slot) ->
             val type = types.getOrNull(index) ?: return false
             index to (fitSlot(type, slot) ?: return false)
         }
-        fitted.forEach { (index, slot) -> param.args[index] = slot }
+        fitted.forEach { (index, slot) -> args[index] = slot }
         return true
     }
 
@@ -155,7 +156,7 @@ object ComposeToolkit {
     }
 
     fun loadClass(className: String): Class<*>? =
-        classLoader?.let { XposedHelpers.findClassIfExists(className, it) }
+        classLoader?.let { findClassIfExists(className, it) }
             ?: findClass(className, suppressError = true)
 
     fun startGroup(composer: Any, key: Int) {

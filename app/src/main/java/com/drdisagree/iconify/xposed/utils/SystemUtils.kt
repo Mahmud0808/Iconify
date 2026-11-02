@@ -6,12 +6,13 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Process
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
+import com.drdisagree.iconify.xposed.RootProxyClient.enqueueProxyCommand
 import com.drdisagree.iconify.xposed.utils.BootLoopProtector.resetCounter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class SystemUtils(var mContext: Context) {
 
@@ -44,7 +45,7 @@ class SystemUtils(var mContext: Context) {
             CoroutineScope(Dispatchers.Default).launch {
                 try {
                     while (darkSwitching) {
-                        delay(100)
+                        delay(100.milliseconds)
                     }
 
                     darkSwitching = true
@@ -52,11 +53,11 @@ class SystemUtils(var mContext: Context) {
                     enqueueProxyCommand { proxy ->
                         proxy.runCommand("cmd uimode night ${if (isDark) "no" else "yes"}")
                     }
-                    delay(1000)
+                    delay(1000.milliseconds)
                     enqueueProxyCommand { proxy ->
                         proxy.runCommand("cmd uimode night ${if (isDark) "yes" else "no"}")
                     }
-                    delay(500)
+                    delay(500.milliseconds)
 
                     darkSwitching = false
                 } catch (_: Exception) {
@@ -71,11 +72,7 @@ class SystemUtils(var mContext: Context) {
         }
 
         fun <Method> killSelf() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                resetCounter(Process.myProcessName())
-            } else {
-                resetCounter(Application.getProcessName())
-            }
+            resetCounter(Process.myProcessName())
             Process.killProcess(Process.myPid())
         }
     }

@@ -8,19 +8,19 @@ import android.view.ViewGroup
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.callStaticMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setField
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.HeadsUpCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.OnGoingActionChipView
 import com.drdisagree.iconify.xposed.modules.extras.views.ongoingactionchip.OnGoingActionProgressController
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XposedHelpers
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.WeakHashMap
 
 @SuppressLint("DiscouragedApi")
@@ -49,14 +49,14 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val phoneStatusBarViewClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.PhoneStatusBarView")
 
         phoneStatusBarViewClass
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
-                val phoneStatusBarView = param.thisObject as ViewGroup
+            .runAfter { chain, _ ->
+                val phoneStatusBarView = chain.thisObject as ViewGroup
                 val notificationIconArea =
                     phoneStatusBarView.findViewById<View>(mNotificationIconAreaId)
                         ?: return@runAfter
@@ -91,13 +91,13 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
 
         findClass("$SYSTEMUI_PACKAGE.statusbar.policy.Clock")
             .hookMethod("onDarkChanged")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 val chipView = mOnGoingActionChipView ?: return@runAfter
                 val tint = darkIconDispatcherClass.callStaticMethod(
                     "getTint",
-                    param.args[0],
+                    chain.args[0],
                     chipView,
-                    param.args[2]
+                    chain.args[2]
                 ) as? Int ?: return@runAfter
                 chipView.setDarkTint(tint)
             }
@@ -107,8 +107,8 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
 
         notificationIconContainerClass
             .hookMethod("onLayout")
-            .runBefore { param ->
-                val iconContainer = param.thisObject as ViewGroup
+            .runBefore { chain ->
+                val iconContainer = chain.thisObject as ViewGroup
                 if (iconContainer.isStatusBarIconContainer()) {
                     mStatusBarIconContainers[iconContainer] = Unit
                 }
@@ -116,67 +116,39 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
 
         notificationIconContainerClass
             .hookMethod("calculateIconXTranslations")
-            .run(object : XC_MethodHook() {
-                override fun beforeHookedMethod(param: MethodHookParam) {
-                    val chipKey = mOnGoingActionProgressController?.chipNotificationKey ?: return
-                    val iconContainer = param.thisObject as ViewGroup
-                    if (!iconContainer.isStatusBarIconContainer()) return
+            .intercept { chain ->
+                val hiddenStates = hideChipIconStates(chain.thisObject as ViewGroup)
 
-                    @Suppress("UNCHECKED_CAST")
-                    val iconStates =
-                        iconContainer.getFieldSilently("mIconStates") as? Map<View, Any> ?: return
-                    val hiddenStates = mutableListOf<Pair<Any, Float>>()
-
-                    for (i in 0 until iconContainer.childCount) {
-                        val icon = iconContainer.getChildAt(i)
-                        val sbn = icon.getFieldSilently("mNotification") as? StatusBarNotification
-                        if (sbn?.key != chipKey) continue
-
-                        val iconState = iconStates[icon] ?: continue
-                        hiddenStates += iconState to
-                                XposedHelpers.getFloatField(iconState, "iconAppearAmount")
-                        XposedHelpers.setFloatField(iconState, "iconAppearAmount", 0f)
-                        XposedHelpers.setBooleanField(iconState, "hidden", true)
-                    }
-
-                    if (hiddenStates.isNotEmpty()) {
-                        param.setObjectExtra(HIDDEN_ICON_STATES, hiddenStates)
-                    }
-                }
-
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    @Suppress("UNCHECKED_CAST")
-                    val hiddenStates =
-                        param.getObjectExtra(HIDDEN_ICON_STATES) as? List<Pair<Any, Float>>
-                            ?: return
-
+                try {
+                    chain.proceed()
+                } finally {
                     hiddenStates.forEach { (iconState, appearAmount) ->
-                        XposedHelpers.setFloatField(iconState, "iconAppearAmount", appearAmount)
+                        iconState.setField("iconAppearAmount", appearAmount)
                     }
                 }
-            })
+            }
 
         val notificationListenerClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.NotificationListener")
 
         notificationListenerClass
             .hookMethod("onListenerConnected")
-            .runAfter { param ->
-                mNotificationListener = param.thisObject
+            .runAfter { chain, _ ->
+                mNotificationListener = chain.thisObject
                 replayActiveNotifications()
             }
 
         notificationListenerClass
             .hookMethod("onNotificationPosted")
-            .runAfter { param ->
-                val sbn = param.args[0] as StatusBarNotification
+            .runAfter { chain, _ ->
+                val sbn = chain.args[0] as StatusBarNotification
                 mOnGoingActionProgressController?.onNotificationPosted(sbn)
             }
 
         notificationListenerClass
             .hookMethod("onNotificationRemoved")
-            .runAfter { param ->
-                val sbn = param.args[0] as StatusBarNotification
+            .runAfter { chain, _ ->
+                val sbn = chain.args[0] as StatusBarNotification
                 mOnGoingActionProgressController?.onNotificationRemoved(sbn)
             }
 
@@ -185,8 +157,8 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
 
         keyguardStateControllerImplClass
             .hookMethod("notifyKeyguardState")
-            .runAfter { param ->
-                val showing = param.args[0] as Boolean
+            .runAfter { chain, _ ->
+                val showing = chain.args[0] as Boolean
                 mOnGoingActionProgressController?.setForceHidden(showing || !onGoingActionChipEnabled)
             }
 
@@ -237,7 +209,26 @@ class OnGoingActionChip(context: Context) : ModPack(context) {
         }
     }
 
-    companion object {
-        private const val HIDDEN_ICON_STATES = "iconify_hidden_icon_states"
+    private fun hideChipIconStates(iconContainer: ViewGroup): List<Pair<Any, Float>> {
+        val chipKey = mOnGoingActionProgressController?.chipNotificationKey ?: return emptyList()
+        if (!iconContainer.isStatusBarIconContainer()) return emptyList()
+
+        @Suppress("UNCHECKED_CAST")
+        val iconStates = iconContainer.getFieldSilently("mIconStates") as? Map<View, Any>
+            ?: return emptyList()
+        val hiddenStates = mutableListOf<Pair<Any, Float>>()
+
+        for (i in 0 until iconContainer.childCount) {
+            val icon = iconContainer.getChildAt(i)
+            val sbn = icon.getFieldSilently("mNotification") as? StatusBarNotification
+            if (sbn?.key != chipKey) continue
+
+            val iconState = iconStates[icon] ?: continue
+            hiddenStates += iconState to iconState.getField("iconAppearAmount") as Float
+            iconState.setField("iconAppearAmount", 0f)
+            iconState.setField("hidden", true)
+        }
+
+        return hiddenStates
     }
 }

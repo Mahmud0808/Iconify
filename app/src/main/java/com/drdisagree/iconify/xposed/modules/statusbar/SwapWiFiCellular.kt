@@ -10,17 +10,17 @@ import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.ref.WeakReference
 
 @SuppressLint("DiscouragedApi")
@@ -37,7 +37,7 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
         applyToOrderedSlotNames()
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val iconManagerClass = findClass(
             "$SYSTEMUI_PACKAGE.statusbar.phone.ui.IconManager",
             suppressError = true
@@ -46,11 +46,11 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
         if (iconManagerClass != null) {
             iconManagerClass
                 .hookMethod("addNewWifiIcon", "addNewMobileIcon", "addHolder")
-                .runAfter { param -> reorderIconGroup(param.thisObject) }
+                .runAfter { chain, _ -> reorderIconGroup(chain.thisObject) }
         } else {
             findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ui.TintedIconManager")
                 .hookMethod("onIconAdded")
-                .runAfter { param -> reorderIconGroup(param.thisObject) }
+                .runAfter { chain, _ -> reorderIconGroup(chain.thisObject) }
         }
 
         findClass(
@@ -59,8 +59,8 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
         )
             .hookMethod("onTuningChanged")
             .suppressError()
-            .runAfter { param ->
-                (param.thisObject.getFieldSilently("mIconGroups") as? Collection<*>)
+            .runAfter { chain, _ ->
+                (chain.thisObject.getFieldSilently("mIconGroups") as? Collection<*>)
                     ?.filterNotNull()
                     ?.forEach { reorderIconGroup(it) }
                 applyToOrderedSlotNames()
@@ -75,12 +75,15 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
         @Suppress("UNCHECKED_CAST")
         Resources::class.java
             .hookMethod("getStringArray")
-            .runAfter { param ->
-                if (swapWifiAndCellularIcon && param.args[0] == configStatusBarIconsId) {
-                    param.result = (param.result as Array<String>).toList()
+            .intercept { chain ->
+                var result = chain.proceed()
+                if (swapWifiAndCellularIcon && chain.args[0] == configStatusBarIconsId) {
+                    result = (result as Array<String>).toList()
                         .withWifiBeforeMobile()
                         .toTypedArray()
                 }
+
+                result
             }
 
         findClass(
@@ -88,8 +91,8 @@ class SwapWiFiCellular(context: Context) : ModPack(context) {
             suppressError = true
         )
             .hookConstructor()
-            .runAfter { param ->
-                orderedSlotNamesRepository = WeakReference(param.thisObject)
+            .runAfter { chain, _ ->
+                orderedSlotNamesRepository = WeakReference(chain.thisObject)
                 applyToOrderedSlotNames()
             }
 

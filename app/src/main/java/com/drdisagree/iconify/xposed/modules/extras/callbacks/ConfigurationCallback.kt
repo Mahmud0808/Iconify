@@ -7,9 +7,9 @@ import android.os.LocaleList
 import android.view.View
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 import java.util.concurrent.CopyOnWriteArrayList
 
 class ConfigurationCallback(context: Context) : ModPack(context) {
@@ -41,7 +41,7 @@ class ConfigurationCallback(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         instance = this
 
         val configurationControllerImplClass =
@@ -49,8 +49,8 @@ class ConfigurationCallback(context: Context) : ModPack(context) {
 
         configurationControllerImplClass
             .hookMethod("onConfigurationChanged")
-            .runAfter { param ->
-                val newConfig = param.args[0] as Configuration
+            .runAfter { chain, _ ->
+                val newConfig = chain.args[0] as Configuration
 
                 val fontScale = newConfig.fontScale
                 val density = newConfig.densityDpi

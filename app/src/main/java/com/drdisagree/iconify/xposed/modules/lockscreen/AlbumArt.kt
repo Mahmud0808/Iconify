@@ -12,24 +12,24 @@ import android.widget.ImageView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.AlbumArtCallback
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
+import com.drdisagree.iconify.xposed.modules.extras.callbacks.KeyguardShowingCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.applyBlur
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getColored
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.getGrayscaleBlurredImage
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toGrayscale
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.libxposed.api.XposedInterface
 
 open class AlbumArt(context: Context) : ModPack(context) {
 
@@ -72,7 +72,7 @@ open class AlbumArt(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val qsImplClass = findClass(
             "$SYSTEMUI_PACKAGE.qs.QSImpl",
             "$SYSTEMUI_PACKAGE.qs.QSFragment",
@@ -90,13 +90,13 @@ open class AlbumArt(context: Context) : ModPack(context) {
         // Get media metadata change
         scrimControllerClass
             .hookConstructor()
-            .runAfter { param -> mScrimControllerObj = param.thisObject }
+            .runAfter { chain, _ -> mScrimControllerObj = chain.thisObject }
 
         notificationPanelViewControllerClass
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mScrimControllerObj == null) {
-                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                    mScrimControllerObj = chain.thisObject.getField("mScrimController")
                 }
             }
 
@@ -105,15 +105,15 @@ open class AlbumArt(context: Context) : ModPack(context) {
                 "onFinishInflate",
                 "reInflateViews"
             )
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mScrimControllerObj == null) {
-                    mScrimControllerObj = param.thisObject.getField("mScrimController")
+                    mScrimControllerObj = chain.thisObject.getField("mScrimController")
                 }
             }
 
         centralSurfacesImplClass
             .hookMethod("start")
-            .runAfter {
+            .runAfter { _, _ ->
                 if (mScrimControllerObj == null) return@runAfter
 
                 val scrimBehind = mScrimControllerObj.getField("mScrimBehind") as View
@@ -128,16 +128,16 @@ open class AlbumArt(context: Context) : ModPack(context) {
 
         scrimControllerClass
             .hookMethod("applyAndDispatchState")
-            .runAfter { _ ->
+            .runAfter { _, _ ->
                 updateAlbumArtState()
                 broadcastAlbumArtUpdate()
             }
 
         qsImplClass
             .hookMethod("setQsExpansion")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 val isKeyguardState =
-                    param.thisObject.callMethodSilently("isKeyguardState") as? Boolean
+                    chain.thisObject.callMethodSilently("isKeyguardState") as? Boolean
                         ?: KeyguardShowingCallback.getInstance().isKeyguardShowing
 
                 if (isKeyguardState) {
@@ -177,8 +177,8 @@ open class AlbumArt(context: Context) : ModPack(context) {
             "$SYSTEMUI_PACKAGE.keyguard.KeyguardSliceProvider"
         )
 
-        fun hookMediaData(param: MethodHookParam) {
-            val mediaData = param.args[2]
+        fun hookMediaData(chain: XposedInterface.Chain) {
+            val mediaData = chain.args[2]
             val artWork = mediaData.callMethodSilently("getArtwork") as? Icon
                 ?: mediaData.getFieldSilently("artwork") as? Icon
             val drawable = artWork?.loadDrawable(mContext)
@@ -197,17 +197,17 @@ open class AlbumArt(context: Context) : ModPack(context) {
             mediaDataManagerClass
                 .hookMethod("onMediaDataLoaded")
                 .throwError()
-                .runAfter { param -> hookMediaData(param) }
+                .runAfter { chain, _ -> hookMediaData(chain) }
         } catch (_: Throwable) {
             mediaDeviceManagerClass
                 .hookMethod("onMediaDataLoaded")
-                .runAfter { param -> hookMediaData(param) }
+                .runAfter { chain, _ -> hookMediaData(chain) }
         }
 
         keyguardSliceProviderClass
             .hookMethod("onPrimaryMetadataOrStateChanged")
-            .runAfter { param ->
-                mPlaybackState = param.args[1] as Int
+            .runAfter { chain, _ ->
+                mPlaybackState = chain.args[1] as Int
 
                 updateAlbumArtState()
                 broadcastAlbumArtUpdate()

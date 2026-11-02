@@ -5,15 +5,15 @@ import android.view.View
 import android.widget.LinearLayout
 import com.drdisagree.iconify.data.common.Preferences.ICONIFY_LOCKSCREEN_CLOCK_TAG
 import com.drdisagree.iconify.data.keys.XposedKey
+import com.drdisagree.iconify.xposed.core.PackageParam
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.LockscreenComposeContainer
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.removeViewFromParent
 import com.drdisagree.iconify.xposed.modules.extras.views.AodBurnInProtection
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class LockscreenClockCompose(context: Context) : LockscreenClock(context) {
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         initResources(mContext)
         hookClockUpdates()
 

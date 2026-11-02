@@ -39,6 +39,20 @@ import com.drdisagree.iconify.data.common.Resources.HEADER_CLOCK_LAYOUT
 import com.drdisagree.iconify.data.common.XposedConst.HEADER_CLOCK_FONT_FILE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getAnyField
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setExtraField
+import com.drdisagree.iconify.xposed.core.reflect.setFieldSilently
+import com.drdisagree.iconify.xposed.core.resources.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.BootCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.TouchAnimator
@@ -51,19 +65,6 @@ import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.hideVi
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.setMargins
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getAnyField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setExtraField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.ANIM_END_FRACTION
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.ANIM_START_FRACTION
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.STATE_CLOSED
@@ -71,7 +72,6 @@ import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion
 import com.drdisagree.iconify.xposed.modules.quicksettings.HeaderImage.Companion.STATE_OPENING
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
 import com.drdisagree.iconify.xposed.utils.XPrefs.XprefsIsInitialized
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -200,7 +200,7 @@ open class HeaderClock(context: Context) : ModPack(context) {
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         if (!mBroadcastRegistered) {
             mContext.registerReceiver(
                 mReceiver,
@@ -234,10 +234,10 @@ open class HeaderClock(context: Context) : ModPack(context) {
 
         notificationPanelViewControllerClass
             .hookMethod("onFinishInflate", "reInflateViews")
-            .runAfter { param ->
-                notificationPanelViewControllerInstance = param.thisObject
+            .runAfter { chain, _ ->
+                notificationPanelViewControllerInstance = chain.thisObject
 
-                val notificationPanelView = param.thisObject.getField("mView") as FrameLayout
+                val notificationPanelView = chain.thisObject.getField("mView") as FrameLayout
 
                 setupHeaderClockContainer()
 
@@ -255,54 +255,49 @@ open class HeaderClock(context: Context) : ModPack(context) {
 
         notificationPanelViewControllerClass
             .hookMethod("setExpandedHeightInternal")
-            .runAround(
-                before = before@{ param ->
-                    if (!showHeaderClock) return@before null
+            .intercept { chain ->
+                if (!showHeaderClock) return@intercept chain.proceed()
 
-                    val mNotificationShadeWindowController =
-                        param.thisObject.getField("mNotificationShadeWindowController")
+                val mNotificationShadeWindowController =
+                    chain.thisObject.getField("mNotificationShadeWindowController")
 
-                    val handle = mNotificationShadeWindowController::class.java
-                        .hookMethod("batchApplyWindowLayoutParams")
-                        .runBefore batchApply@{ param2 ->
-                            if (param2.thisObject !== mNotificationShadeWindowController) return@batchApply
-
-                            val scope = param2.args[0] as Runnable
-
-                            val mDeferWindowLayoutParams =
-                                param2.thisObject.getFieldSilently("mDeferWindowLayoutParams") as? Int
-                            mDeferWindowLayoutParams?.let {
-                                param2.thisObject.setFieldSilently(
-                                    "mDeferWindowLayoutParams",
-                                    it + 1
-                                )
-                            }
-                            scope.run()
-                            Runnable {
-                                val notificationPanelView =
-                                    param.thisObject.getField("mView") as FrameLayout
-                                notificationPanelView.post { updateQSHeaderClockState() }
-                            }.run()
-                            mDeferWindowLayoutParams?.let {
-                                param2.thisObject.setFieldSilently(
-                                    "mDeferWindowLayoutParams",
-                                    it
-                                )
-                            }
-                            param2.thisObject.callMethodSilently("applyWindowLayoutParams")
-
-                            param2.result = null
+                val handle = mNotificationShadeWindowController::class.java
+                    .hookMethod("batchApplyWindowLayoutParams")
+                    .intercept batchApply@{ batchChain ->
+                        val windowController = batchChain.thisObject
+                        if (windowController !== mNotificationShadeWindowController) {
+                            return@batchApply batchChain.proceed()
                         }
-                        .getUnhookHandle()
 
-                    handle
-                },
-                after = { _, handle -> handle?.unhook() }
-            )
+                        val scope = batchChain.args[0] as Runnable
+
+                        val mDeferWindowLayoutParams =
+                            windowController.getFieldSilently("mDeferWindowLayoutParams") as? Int
+                        mDeferWindowLayoutParams?.let {
+                            windowController.setFieldSilently("mDeferWindowLayoutParams", it + 1)
+                        }
+                        scope.run()
+                        val notificationPanelView = chain.thisObject.getField("mView") as FrameLayout
+                        notificationPanelView.post { updateQSHeaderClockState() }
+                        mDeferWindowLayoutParams?.let {
+                            windowController.setFieldSilently("mDeferWindowLayoutParams", it)
+                        }
+                        windowController.callMethodSilently("applyWindowLayoutParams")
+
+                        null
+                    }
+                    .getUnhookHandle()
+
+                try {
+                    chain.proceed()
+                } finally {
+                    handle.unhook()
+                }
+            }
 
         configurationListenerClass
             .hookMethod("onConfigChanged")
-            .runAfter {
+            .runAfter { _, _ ->
                 if (!showHeaderClock) return@runAfter
 
                 val notificationPanelView = notificationPanelViewControllerInstance
@@ -314,7 +309,7 @@ open class HeaderClock(context: Context) : ModPack(context) {
 
         shadeLayoutChangeListenerClass
             .hookMethod("onLayoutChange")
-            .runAfter {
+            .runAfter { _, _ ->
                 if (!showHeaderClock) return@runAfter
 
                 val notificationPanelView = notificationPanelViewControllerInstance
@@ -325,10 +320,10 @@ open class HeaderClock(context: Context) : ModPack(context) {
 
         notificationPanelViewControllerClass
             .hookMethodMatchPattern("onPanelStateChanged.*")
-            .runAfter {
+            .runAfter { chain, _ ->
                 if (!showHeaderClock) return@runAfter
 
-                val state = it.args[0] as Int
+                val state = chain.args[0] as Int
 
                 when (state) {
                     STATE_OPENING -> startQsOpeningLoop()
@@ -338,10 +333,10 @@ open class HeaderClock(context: Context) : ModPack(context) {
 
         qsContainerImplClass
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
-                val mHeader = param.thisObject.getField("mHeader") as FrameLayout
+            .runAfter { chain, _ ->
+                val mHeader = chain.thisObject.getField("mHeader") as FrameLayout
 
-                (param.thisObject as FrameLayout).apply {
+                (chain.thisObject as FrameLayout).apply {
                     (mHeader.parent as? ViewGroup)?.removeView(mHeader)
                     addView(mHeader, 0)
                     requestLayout()
@@ -350,41 +345,41 @@ open class HeaderClock(context: Context) : ModPack(context) {
 
         shadeHeaderControllerClass
             .hookMethod("onInit")
-            .runAfter { param ->
-                shadeHeaderControllerInstance = param.thisObject
+            .runAfter { chain, _ ->
+                shadeHeaderControllerInstance = chain.thisObject
 
                 if (!showHeaderClock) {
-                    param.thisObject.setExtraField("mQsIconsContainer", null)
+                    chain.thisObject.setExtraField("mQsIconsContainer", null)
                     return@runAfter
                 }
 
-                val clock = param.thisObject.getField("clock") as TextView
+                val clock = chain.thisObject.getField("clock") as TextView
                 clock.hideView()
 
-                val date = param.thisObject.getField("date") as TextView
+                val date = chain.thisObject.getField("date") as TextView
                 date.hideView()
 
                 mQsIconsContainer.removeAllViews()
 
-                val qsCarrierGroup = param.thisObject.getAnyField(
+                val qsCarrierGroup = chain.thisObject.getAnyField(
                     "qsCarrierGroup",
                     "mShadeCarrierGroup"
                 ) as LinearLayout
                 mQsIconsContainer.addWrapped(qsCarrierGroupWrapper, qsCarrierGroup)
 
-                val systemIconsHoverContainer = param.thisObject.getField(
+                val systemIconsHoverContainer = chain.thisObject.getField(
                     "systemIconsHoverContainer"
                 ) as LinearLayout
                 mQsIconsContainer.addWrapped(systemIconsWrapper, systemIconsHoverContainer)
 
                 updateHeaderIconsVisibility()
 
-                param.thisObject.setExtraField("mQsIconsContainer", mQsIconsContainer)
+                chain.thisObject.setExtraField("mQsIconsContainer", mQsIconsContainer)
             }
 
         configurationControllerListenerClass
             .hookMethod("onThemeChanged", "onUiModeChanged")
-            .runAfter { updateClockView() }
+            .runAfter { _, _ -> updateClockView() }
 
         BootCallback.registerBootListener { updateClockView() }
     }
@@ -438,18 +433,18 @@ open class HeaderClock(context: Context) : ModPack(context) {
         qsSecurityFooterUtilsClass
             .hookConstructor()
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mActivityStarter == null) {
-                    mActivityStarter = param.thisObject.getField("mActivityStarter")
+                    mActivityStarter = chain.thisObject.getField("mActivityStarter")
                 }
             }
 
         qsSecurityFooterUtilsClass
             .hookMethod("createDialogView")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (mActivityStarter == null) {
-                    mActivityStarter = param.thisObject.getField("mActivityStarter")
+                    mActivityStarter = chain.thisObject.getField("mActivityStarter")
                 }
             }
     }

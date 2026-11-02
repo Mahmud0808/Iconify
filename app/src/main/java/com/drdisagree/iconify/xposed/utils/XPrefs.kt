@@ -10,7 +10,7 @@ import com.crossbowffs.remotepreferences.RemotePreferences
 import com.drdisagree.iconify.BuildConfig
 import com.drdisagree.iconify.data.common.Const.PREF_UPDATE_EXCLUSIONS
 import com.drdisagree.iconify.xposed.HookEntry
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
+import com.drdisagree.iconify.xposed.core.log.log
 
 object XPrefs {
 

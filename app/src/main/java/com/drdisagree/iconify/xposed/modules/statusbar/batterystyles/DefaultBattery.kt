@@ -31,7 +31,7 @@ import android.util.TypedValue
 import androidx.core.graphics.PathParser
 import androidx.core.graphics.withClip
 import com.drdisagree.iconify.R
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
 import kotlin.math.floor
 
 @SuppressLint("DiscouragedApi")
@@ -360,7 +360,7 @@ open class DefaultBattery(private val context: Context, frameColor: Int) : Batte
      */
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun setBatteryLevel(l: Int) {
-        invertFillIcon = if (l >= 67) true else if (l <= 33) false else invertFillIcon
+        invertFillIcon = l >= 67 || l > 33 && invertFillIcon
         batteryLevel = l
         levelColor = batteryColorForLevel(batteryLevel)
         invalidateSelf()

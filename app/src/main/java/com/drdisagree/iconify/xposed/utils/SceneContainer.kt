@@ -2,9 +2,9 @@ package com.drdisagree.iconify.xposed.utils
 
 import android.os.Build
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 
 object SceneContainer {
 
@@ -32,7 +32,7 @@ object SceneContainer {
         )
             .hookConstructor()
             .suppressError()
-            .runAfter { param -> shadeInteractor = param.thisObject }
+            .runAfter { chain, _ -> shadeInteractor = chain.thisObject }
     }
 
     private fun flowValue(vararg getters: String): Float {

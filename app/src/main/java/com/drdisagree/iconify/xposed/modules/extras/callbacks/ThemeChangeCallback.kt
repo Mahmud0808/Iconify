@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 import java.util.concurrent.CopyOnWriteArrayList
 
 class ThemeChangeCallback(context: Context) : ModPack(context) {
@@ -17,7 +17,7 @@ class ThemeChangeCallback(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         instance = this
 
         val scrimControllerClass = findClass(
@@ -35,16 +35,16 @@ class ThemeChangeCallback(context: Context) : ModPack(context) {
         scrimControllerClass
             .hookMethod("updateThemeColors")
             .suppressError()
-            .runAfter { onThemeChanged() }
+            .runAfter { _, _ -> onThemeChanged() }
 
         configurationControllerImplClass
             .hookMethod("notifyThemeChanged")
-            .runAfter { onThemeChanged() }
+            .runAfter { _, _ -> onThemeChanged() }
 
         configurationListenerClass
             .hookMethod("onThemeChanged")
             .suppressError()
-            .runAfter { onThemeChanged() }
+            .runAfter { _, _ -> onThemeChanged() }
     }
 
     interface OnThemeChangedListener {

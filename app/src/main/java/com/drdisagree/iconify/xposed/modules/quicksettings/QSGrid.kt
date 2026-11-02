@@ -6,14 +6,15 @@ import android.content.res.Resources
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.resources.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isLandscape
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.FakeIntegerResource
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @SuppressLint("DiscouragedApi")
 class QSGrid(context: Context) : ModPack(context) {
@@ -38,7 +39,7 @@ class QSGrid(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         val paginatedGridLayoutClass =
             findClass("$SYSTEMUI_PACKAGE.qs.panels.ui.compose.PaginatedGridLayout")
         val qsColumnsRepositoryClass =
@@ -57,33 +58,38 @@ class QSGrid(context: Context) : ModPack(context) {
 
         paginatedGridLayoutClass
             .hookMethod("TileGrid")
-            .runAround(
-                before = {
-                    ResourceHookManager
-                        .hookInteger()
-                        .whenCondition { customQsGrid }
-                        .forPackageName(SYSTEMUI_PACKAGE)
-                        .addResource("quick_settings_paginated_grid_num_rows") { getQsRow() }
-                        .apply()
-                },
-                after = { _, handle -> handle?.unhook() }
-            )
+            .intercept { chain ->
+                val handle = ResourceHookManager
+                    .hookInteger()
+                    .whenCondition { customQsGrid }
+                    .forPackageName(SYSTEMUI_PACKAGE)
+                    .addResource("quick_settings_paginated_grid_num_rows") { getQsRow() }
+                    .apply()
+
+                try {
+                    chain.proceed()
+                } finally {
+                    handle.unhook()
+                }
+            }
 
         qsColumnsRepositoryClass
             .hookConstructor()
-            .runBefore { param ->
-                val resourcesIndex = param.args.indexOfFirst { it is Resources }
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    val resourcesIndex = args.indexOfFirst { it is Resources }
 
-                param.args[resourcesIndex] = object : FakeIntegerResource(mContext) {
-                    override fun getInteger(id: Int): Int {
-                        if (customQsGrid && mContext.resources
-                                .getResourceName(id)
-                                .endsWith("quick_settings_infinite_grid_num_columns")
-                        ) {
-                            return getQsColumn()
+                    args[resourcesIndex] = object : FakeIntegerResource(mContext) {
+                        override fun getInteger(id: Int): Int {
+                            if (customQsGrid && mContext.resources
+                                    .getResourceName(id)
+                                    .endsWith("quick_settings_infinite_grid_num_columns")
+                            ) {
+                                return getQsColumn()
+                            }
+
+                            return mContext.resources.getInteger(id)
                         }
-
-                        return mContext.resources.getInteger(id)
                     }
                 }
             }

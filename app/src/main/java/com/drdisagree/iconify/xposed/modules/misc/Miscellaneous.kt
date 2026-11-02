@@ -2,7 +2,6 @@ package com.drdisagree.iconify.xposed.modules.misc
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.XResources
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
@@ -10,20 +9,20 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
-import com.drdisagree.iconify.xposed.HookRes.Companion.resParams
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.layout.hookLayout
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setField
+import com.drdisagree.iconify.xposed.core.reflect.setFieldSilently
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookLayout
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethodMatchPattern
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setFieldSilently
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 @SuppressLint("DiscouragedApi")
 class Miscellaneous(context: Context) : ModPack(context) {
@@ -49,7 +48,7 @@ class Miscellaneous(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         hideElements()
         hideQSCarrierGroup()
         hideDataDisabledIcon()
@@ -61,21 +60,21 @@ class Miscellaneous(context: Context) : ModPack(context) {
 
         quickStatusBarHeader
             .hookMethod("onFinishInflate")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (hideStatusIcons) {
-                    (param.thisObject.getFieldSilently("mDateView") as? View)?.apply {
+                    (chain.thisObject.getFieldSilently("mDateView") as? View)?.apply {
                         layoutParams.height = 0
                         layoutParams.width = 0
                         visibility = View.INVISIBLE
                     }
 
-                    (param.thisObject.getFieldSilently("mClockDateView") as? TextView)?.apply {
+                    (chain.thisObject.getFieldSilently("mClockDateView") as? TextView)?.apply {
                         visibility = View.INVISIBLE
                         setTextAppearance(0)
                         setTextColor(0)
                     }
 
-                    (param.thisObject.getFieldSilently("mClockView") as? TextView)?.apply {
+                    (chain.thisObject.getFieldSilently("mClockView") as? TextView)?.apply {
                         visibility = View.INVISIBLE
                         setTextAppearance(0)
                         setTextColor(0)
@@ -83,7 +82,7 @@ class Miscellaneous(context: Context) : ModPack(context) {
                 }
 
                 if (hideStatusIcons || hideQsCarrierGroup) {
-                    val mQSCarriers = param.thisObject.getFieldSilently("mQSCarriers") as? View
+                    val mQSCarriers = chain.thisObject.getFieldSilently("mQSCarriers") as? View
                     mQSCarriers?.visibility = View.INVISIBLE
                 }
             }
@@ -95,26 +94,26 @@ class Miscellaneous(context: Context) : ModPack(context) {
 
         shadeHeaderControllerClass
             .hookMethod("onInit")
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (hideStatusIcons) {
-                    val iconContainer = param.thisObject.getFieldSilently(
+                    val iconContainer = chain.thisObject.getFieldSilently(
                         "iconContainer"
                     ) as? LinearLayout
                     (iconContainer?.parent as? ViewGroup)?.removeView(iconContainer)
 
-                    val batteryIcon = param.thisObject.getFieldSilently(
+                    val batteryIcon = chain.thisObject.getFieldSilently(
                         "batteryIcon"
                     ) as? LinearLayout
                     (batteryIcon?.parent as? ViewGroup)?.removeView(batteryIcon)
                 }
 
                 if (hideStatusIcons || hideQsCarrierGroup) {
-                    val qsCarrierGroup = param.thisObject.getFieldSilently(
+                    val qsCarrierGroup = chain.thisObject.getFieldSilently(
                         "qsCarrierGroup"
                     ) as? LinearLayout
                     (qsCarrierGroup?.parent as? ViewGroup)?.removeView(qsCarrierGroup)
 
-                    val mShadeCarrierGroup = param.thisObject.getFieldSilently(
+                    val mShadeCarrierGroup = chain.thisObject.getFieldSilently(
                         "mShadeCarrierGroup"
                     ) as? LinearLayout
                     (mShadeCarrierGroup?.parent as? ViewGroup)?.removeView(mShadeCarrierGroup)
@@ -129,22 +128,22 @@ class Miscellaneous(context: Context) : ModPack(context) {
         shadeHeaderClass
             .hookMethod("ShadeCarrierGroup")
             .suppressError()
-            .runBefore { param ->
-                if (hideStatusIcons || hideQsCarrierGroup) ComposeViewHost.hideModifierArgument(param)
+            .intercept { chain ->
+                if (hideStatusIcons || hideQsCarrierGroup) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
 
         shadeHeaderClass
             .hookMethod("StatusIcons")
             .suppressError()
-            .runBefore { param ->
-                if (hideStatusIcons) ComposeViewHost.hideModifierArgument(param)
+            .intercept { chain ->
+                if (hideStatusIcons) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
 
         shadeHeaderClass
             .hookMethodMatchPattern("BatteryInfo(-.*)?")
             .suppressError()
-            .runBefore { param ->
-                if (hideStatusIcons) ComposeViewHost.hideModifierArgument(param)
+            .intercept { chain ->
+                if (hideStatusIcons) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
 
         val axQuickSettingsHeaderClass = findClass(
@@ -155,15 +154,15 @@ class Miscellaneous(context: Context) : ModPack(context) {
         axQuickSettingsHeaderClass
             .hookMethod("AxStatusIcons")
             .suppressError()
-            .runBefore { param ->
-                if (hideStatusIcons) ComposeViewHost.hideModifierArgument(param)
+            .intercept { chain ->
+                if (hideStatusIcons) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
 
         axQuickSettingsHeaderClass
             .hookMethodMatchPattern("AxBatteryInfo(-.*)?")
             .suppressError()
-            .runBefore { param ->
-                if (hideStatusIcons) ComposeViewHost.hideModifierArgument(param)
+            .intercept { chain ->
+                if (hideStatusIcons) ComposeViewHost.proceedHidingModifier(chain) else chain.proceed()
             }
     }
 
@@ -177,63 +176,48 @@ class Miscellaneous(context: Context) : ModPack(context) {
 
         mobileSignalControllerClass
             .hookMethod("updateTelephony")
-            .runAround(
-                before = before@{ param ->
-                    if (mobileSignalControllerParam == null) {
-                        mobileSignalControllerParam = param.thisObject
+            .intercept { chain ->
+                val controller = chain.thisObject
+                if (mobileSignalControllerParam == null) {
+                    mobileSignalControllerParam = controller
+                }
+
+                if (!hideDataDisabledIcon) return@intercept chain.proceed()
+
+                val config = controller.getField("mConfig")
+                val alwaysShowDataRatIcon = config.getField("alwaysShowDataRatIcon") as Boolean
+                config.setField("alwaysShowDataRatIcon", true)
+
+                val mDataDisabledIcon = try {
+                    (controller.getField("mDataDisabledIcon") as Boolean).also {
+                        controller.setField("mDataDisabledIcon", false)
                     }
+                } catch (_: Throwable) {
+                    null
+                }
 
-                    if (!hideDataDisabledIcon) return@before null
-
-                    val alwaysShowDataRatIcon = param.thisObject
-                        .getField("mConfig")
-                        .getField("alwaysShowDataRatIcon") as Boolean
-
-                    param.thisObject
-                        .getField("mConfig")
-                        .setField("alwaysShowDataRatIcon", true)
-
-                    val mDataDisabledIcon = try {
-                        (param.thisObject.getField("mDataDisabledIcon") as Boolean).also {
-                            param.thisObject.setField("mDataDisabledIcon", false)
-                        }
-                    } catch (_: Throwable) {
-                        null
-                    }
-
-                    alwaysShowDataRatIcon to mDataDisabledIcon
-                },
-                after = after@{ param, savedState ->
-                    if (mobileSignalControllerParam == null) {
-                        mobileSignalControllerParam = param.thisObject
-                    }
-
-                    val (alwaysShowDataRatIcon, mDataDisabledIcon) = savedState ?: return@after
-
-                    param.thisObject
-                        .getField("mConfig")
-                        .setField("alwaysShowDataRatIcon", alwaysShowDataRatIcon)
-
+                try {
+                    chain.proceed()
+                } finally {
+                    config.setField("alwaysShowDataRatIcon", alwaysShowDataRatIcon)
                     mDataDisabledIcon?.let {
-                        param.thisObject.setFieldSilently("mDataDisabledIcon", it)
+                        controller.setFieldSilently("mDataDisabledIcon", it)
                     }
                 }
-            )
+            }
 
         signalIconModelCellularClass
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!hideDataDisabledIcon) return@runAfter
 
-                param.thisObject.setField("showExclamationMark", false)
+                chain.thisObject.setField("showExclamationMark", false)
             }
     }
 
     private fun hideQSCarrierGroup() {
-        val xResources: XResources = resParams[SYSTEMUI_PACKAGE]?.res ?: return
 
-        xResources
-            .hookLayout()
+        hookLayout()
             .packageName(SYSTEMUI_PACKAGE)
             .resource("layout", "quick_qs_status_icons")
             .suppressError()
@@ -261,9 +245,11 @@ class Miscellaneous(context: Context) : ModPack(context) {
 
         floatingRotationButtonClass
             .hookMethod("updateIcon")
-            .runBefore { param ->
-                if (coloredStatusbarOverlayEnabled) {
-                    param.args[1] = Color.BLACK
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (coloredStatusbarOverlayEnabled) {
+                        args[1] = Color.BLACK
+                    }
                 }
             }
     }

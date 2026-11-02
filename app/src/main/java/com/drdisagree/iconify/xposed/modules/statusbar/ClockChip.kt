@@ -13,20 +13,20 @@ import android.widget.TextView
 import com.drdisagree.iconify.data.common.Const
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.callStaticMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.getStaticField
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarClock
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.StatusBarComposeClock
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callStaticMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getStaticField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import com.drdisagree.iconify.xposed.modules.extras.views.ChipDrawable
 import com.drdisagree.iconify.xposed.utils.XPrefs
-import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 @SuppressLint("DiscouragedApi")
 class ClockChip(context: Context) : ModPack(context) {
@@ -121,7 +121,7 @@ class ClockChip(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         StatusBarComposeClock.install()
         statusBarClockChip()
     }
@@ -141,11 +141,11 @@ class ClockChip(context: Context) : ModPack(context) {
 
         phoneStatusBarViewControllerClass
             .hookMethod("onViewAttached")
-            .runAfter { param ->
-                val mView = param.thisObject.getField("mView") as View
-                mClockView = param.thisObject.getField("clock") as TextView
-                mCenterClockView = param.thisObject.getFieldSilently("clockCenter") as? TextView
-                mRightClockView = param.thisObject.getFieldSilently("clockRight") as? TextView
+            .runAfter { chain, _ ->
+                val mView = chain.thisObject.getField("mView") as View
+                mClockView = chain.thisObject.getField("clock") as TextView
+                mCenterClockView = chain.thisObject.getFieldSilently("clockCenter") as? TextView
+                mRightClockView = chain.thisObject.getFieldSilently("clockRight") as? TextView
 
                 mView.addOnLayoutChangeListener(layoutChangeListener)
 
@@ -194,8 +194,8 @@ class ClockChip(context: Context) : ModPack(context) {
         phoneStatusBarViewControllerClass
             .hookMethod("onViewDetached")
             .suppressError()
-            .runAfter { param ->
-                val mView = param.thisObject.getField("mView") as View
+            .runAfter { chain, _ ->
+                val mView = chain.thisObject.getField("mView") as View
 
                 mView.removeOnLayoutChangeListener(layoutChangeListener)
             }
@@ -203,7 +203,7 @@ class ClockChip(context: Context) : ModPack(context) {
         shadeHeaderControllerClass
             .hookMethod("updateQQSPaddings")
             .suppressError()
-            .runAfter { updateStatusBarClock(true) }
+            .runAfter { _, _ -> updateStatusBarClock(true) }
     }
 
     @SuppressLint("RtlHardcoded")

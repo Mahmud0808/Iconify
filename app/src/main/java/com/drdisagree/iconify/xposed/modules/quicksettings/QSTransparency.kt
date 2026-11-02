@@ -2,28 +2,29 @@ package com.drdisagree.iconify.xposed.modules.quicksettings
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.graphics.Color
+import android.os.Build
 import android.widget.LinearLayout
 import androidx.core.graphics.ColorUtils
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
+import com.drdisagree.iconify.xposed.core.hook.hookConstructor
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.MemberResolver
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.findClass
+import com.drdisagree.iconify.xposed.core.reflect.getField
+import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
+import com.drdisagree.iconify.xposed.core.reflect.setField
+import com.drdisagree.iconify.xposed.core.resources.ResourceHookManager
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.DozeCallback
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ComposeViewHost
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ResourceHookManager
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.ComposeToolkit
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getFieldSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookConstructor
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.setField
 import com.drdisagree.iconify.xposed.utils.XPrefs.Xprefs
-import de.robv.android.xposed.XposedHelpers.findField
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.WeakHashMap
 import kotlin.math.roundToInt
 
@@ -58,7 +59,7 @@ class QSTransparency(context: Context) : ModPack(context) {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         setQsTransparency()
         setBlurRadius()
     }
@@ -68,15 +69,18 @@ class QSTransparency(context: Context) : ModPack(context) {
 
         shadeColorsClass
             .hookMethod("shadePanel")
-            .runAfter { param ->
-                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runAfter
-                if (!qsTransparencyActive && !isCalledFromShadeScene()) return@runAfter
-                if (param.result == null) return@runAfter
+            .intercept { chain ->
+                var result = chain.proceed()
+                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@intercept result
+                if (!qsTransparencyActive && !isCalledFromShadeScene()) return@intercept result
+                if (result == null) return@intercept result
 
-                param.result = ColorUtils.setAlphaComponent(
-                    param.result as Int,
+                result = ColorUtils.setAlphaComponent(
+                    result as Int,
                     (255 * qsAlpha).roundToInt()
                 )
+
+                result
             }
 
         val scrimControllerClass = findClass("$SYSTEMUI_PACKAGE.statusbar.phone.ScrimController")
@@ -84,48 +88,50 @@ class QSTransparency(context: Context) : ModPack(context) {
         scrimControllerClass
             .hookMethod("updateScrimColor")
             .suppressError()
-            .runBefore { param ->
-                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@proceedWithArgs
 
-                val alphaIndex = if (param.args[2] is Float) 2 else 1
-                val scrimState = param.thisObject.getField("mState").toString()
+                    val alphaIndex = if (args[2] is Float) 2 else 1
+                    val scrimState = chain.thisObject.getField("mState").toString()
 
-                if (scrimState == "KEYGUARD") {
-                    if (!keepLockScreenShade) param.args[alphaIndex] = 0.0f
-                } else if (scrimState.contains("BOUNCER")) {
-                    param.args[alphaIndex] = param.args[alphaIndex] as Float * keyguardAlpha
-                } else {
-                    val scrimName = when (param.args[0]) {
-                        findField(
-                            scrimControllerClass,
-                            "mScrimInFront"
-                        )[param.thisObject] -> "front_scrim"
+                    if (scrimState == "KEYGUARD") {
+                        if (!keepLockScreenShade) args[alphaIndex] = 0.0f
+                    } else if (scrimState.contains("BOUNCER")) {
+                        args[alphaIndex] = args[alphaIndex] as Float * keyguardAlpha
+                    } else {
+                        val scrimName = when (args[0]) {
+                            MemberResolver.findField(
+                                chain.thisObject.javaClass,
+                                "mScrimInFront"
+                            )[chain.thisObject] -> "front_scrim"
 
-                        findField(
-                            scrimControllerClass,
-                            "mScrimBehind"
-                        )[param.thisObject] -> "behind_scrim"
+                            MemberResolver.findField(
+                                chain.thisObject.javaClass,
+                                "mScrimBehind"
+                            )[chain.thisObject] -> "behind_scrim"
 
-                        findField(
-                            scrimControllerClass,
-                            "mNotificationsScrim"
-                        )[param.thisObject] -> "notifications_scrim"
+                            MemberResolver.findField(
+                                chain.thisObject.javaClass,
+                                "mNotificationsScrim"
+                            )[chain.thisObject] -> "notifications_scrim"
 
-                        else -> "unknown_scrim"
-                    }
+                            else -> "unknown_scrim"
+                        }
 
-                    when (scrimName) {
-                        "behind_scrim" -> {
-                            if (!onlyNotifTransparencyActive) {
-                                param.args[alphaIndex] = param.args[alphaIndex] as Float * qsAlpha
+                        when (scrimName) {
+                            "behind_scrim" -> {
+                                if (!onlyNotifTransparencyActive) {
+                                    args[alphaIndex] = args[alphaIndex] as Float * qsAlpha
+                                }
                             }
-                        }
 
-                        "notifications_scrim" -> {
-                            param.args[alphaIndex] = param.args[alphaIndex] as Float * qsAlpha
-                        }
+                            "notifications_scrim" -> {
+                                args[alphaIndex] = args[alphaIndex] as Float * qsAlpha
+                            }
 
-                        else -> {}
+                            else -> {}
+                        }
                     }
                 }
             }
@@ -139,10 +145,10 @@ class QSTransparency(context: Context) : ModPack(context) {
         footerActionsViewBinderClass
             .hookMethod("bind")
             .suppressError()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runAfter
 
-                val view = param.args[0] as LinearLayout
+                val view = chain.args[0] as LinearLayout
                 view.setBackgroundColor(Color.TRANSPARENT)
                 view.elevation = 0f
             }
@@ -152,7 +158,7 @@ class QSTransparency(context: Context) : ModPack(context) {
 
         footerActionsViewModelClass
             .hookConstructor()
-            .runAfter { param ->
+            .runAfter { chain, _ ->
                 if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runAfter
 
                 val stateFlowImplClass = findClass("kotlinx.coroutines.flow.StateFlowImpl")!!
@@ -170,7 +176,7 @@ class QSTransparency(context: Context) : ModPack(context) {
                         readonlyStateFlowClass.constructors[0].newInstance(zeroAlphaFlow, null)
                     }
 
-                    param.thisObject.setField(
+                    chain.thisObject.setField(
                         "backgroundAlpha",
                         readonlyStateFlowInstance
                     )
@@ -186,7 +192,7 @@ class QSTransparency(context: Context) : ModPack(context) {
 
         quickSettingsControllerClass
             .hookConstructor()
-            .runAfter { param -> quickSettingsController = param.thisObject }
+            .runAfter { chain, _ -> quickSettingsController = chain.thisObject }
 
         findClass(
             "$SYSTEMUI_PACKAGE.statusbar.notification.row.ActivatableNotificationView",
@@ -194,12 +200,15 @@ class QSTransparency(context: Context) : ModPack(context) {
         )
             .hookMethod("usesTransparentBackground")
             .suppressError()
-            .runAfter { param ->
-                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runAfter
-                if (param.result == true) return@runAfter
-                if (param.thisObject.getFieldSilently("mOnKeyguard") != false) return@runAfter
+            .intercept { chain ->
+                var result = chain.proceed()
+                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@intercept result
+                if (result == true) return@intercept result
+                if (chain.thisObject.getFieldSilently("mOnKeyguard") != false) return@intercept result
 
-                param.result = true
+                result = true
+
+                result
             }
 
         hookComposeNotificationScrim()
@@ -213,12 +222,12 @@ class QSTransparency(context: Context) : ModPack(context) {
         )
             .hookMethod("LockscreenBehindScrim")
             .suppressError()
-            .runBefore { param ->
-                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@runBefore
-                if (keepLockScreenShade) return@runBefore
-                if (DozeCallback.getInstance().isDozing()) return@runBefore
+            .intercept { chain ->
+                if (!qsTransparencyActive && !onlyNotifTransparencyActive) return@intercept chain.proceed()
+                if (keepLockScreenShade) return@intercept chain.proceed()
+                if (DozeCallback.getInstance().isDozing()) return@intercept chain.proceed()
 
-                ComposeViewHost.hideModifierArgument(param)
+                ComposeViewHost.proceedHidingModifier(chain)
             }
     }
 
@@ -229,22 +238,24 @@ class QSTransparency(context: Context) : ModPack(context) {
         )
             .hookMethod("animatedBackground")
             .suppressError()
-            .runBefore { param ->
-                if (param.args.size < 3) return@runBefore
+            .intercept { chain ->
+                chain.proceedWithArgs { args ->
+                    if (args.size < 3) return@proceedWithArgs
 
-                val alpha = param.args[2] ?: return@runBefore
-                if (alpha in notificationScrimAlphas.values) return@runBefore
-                if (!isCalledFromNotificationPanel()) return@runBefore
+                    val alpha = args[2] ?: return@proceedWithArgs
+                    if (alpha in notificationScrimAlphas.values) return@proceedWithArgs
+                    if (!isCalledFromNotificationPanel()) return@proceedWithArgs
 
-                param.args[2] = notificationScrimAlphas.getOrPut(alpha) {
-                    ComposeToolkit.function0("IconifyNotificationScrimAlpha") {
-                        val value = ComposeToolkit.invokeFunction(alpha) as? Float ?: 1f
-                        if (qsTransparencyActive || onlyNotifTransparencyActive) {
-                            value * qsAlpha
-                        } else {
-                            value
-                        }
-                    } ?: return@runBefore
+                    args[2] = notificationScrimAlphas.getOrPut(alpha) {
+                        ComposeToolkit.function0("IconifyNotificationScrimAlpha") {
+                            val value = ComposeToolkit.invokeFunction(alpha) as? Float ?: 1f
+                            if (qsTransparencyActive || onlyNotifTransparencyActive) {
+                                value * qsAlpha
+                            } else {
+                                value
+                            }
+                        } ?: return@proceedWithArgs
+                    }
                 }
             }
     }

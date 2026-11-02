@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.xposed.ModPack
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.XposedHook.Companion.findClass
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethodSilently
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.hookMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
-import de.robv.android.xposed.callbacks.XC_LoadPackage
+import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.hook.hookMethod
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
+import com.drdisagree.iconify.xposed.core.reflect.findClass
 import java.util.concurrent.CopyOnWriteArrayList
 
 class HeadsUpCallback(context: Context) : ModPack(context) {
@@ -19,7 +19,7 @@ class HeadsUpCallback(context: Context) : ModPack(context) {
 
     override fun updatePrefs(vararg key: String) {}
 
-    override fun handleLoadPackage(loadPackageParam: XC_LoadPackage.LoadPackageParam) {
+    override fun handleLoadPackage(packageParam: PackageParam) {
         instance = this
 
         val headsUpManagerImplClass =
@@ -27,11 +27,11 @@ class HeadsUpCallback(context: Context) : ModPack(context) {
 
         headsUpManagerImplClass
             .hookMethod("onEntryAdded")
-            .runAfter { param -> updateHeadsUpState(param.thisObject.hasHeadsUp() ?: true) }
+            .runAfter { chain, _ -> updateHeadsUpState(chain.thisObject.hasHeadsUp() ?: true) }
 
         headsUpManagerImplClass
             .hookMethod("onEntryRemoved")
-            .runAfter { param -> param.thisObject.hasHeadsUp()?.let { updateHeadsUpState(it) } }
+            .runAfter { chain, _ -> chain.thisObject.hasHeadsUp()?.let { updateHeadsUpState(it) } }
 
         val notificationEntryAdapterClass =
             findClass("$SYSTEMUI_PACKAGE.statusbar.notification.collection.NotificationEntryAdapter")
@@ -39,7 +39,7 @@ class HeadsUpCallback(context: Context) : ModPack(context) {
         notificationEntryAdapterClass
             .hookMethod("onEntryAnimatingAwayEnded")
             .suppressError()
-            .runAfter {
+            .runAfter { _, _ ->
                 if (!mHasHeadsUpState) updateHeadsUpState(false)
             }
     }

@@ -47,8 +47,11 @@ import com.drdisagree.iconify.R
 import com.drdisagree.iconify.core.utils.OmniJawsClient
 import com.drdisagree.iconify.data.common.Const.FRAMEWORK_PACKAGE
 import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
-import com.drdisagree.iconify.xposed.HookRes.Companion.modRes
+import com.drdisagree.iconify.xposed.HookRes.modRes
+import com.drdisagree.iconify.xposed.RootProxyClient.enqueueProxyCommand
+import com.drdisagree.iconify.xposed.core.log.log
+import com.drdisagree.iconify.xposed.core.reflect.callMethod
+import com.drdisagree.iconify.xposed.core.reflect.getField
 import com.drdisagree.iconify.xposed.modules.extras.ActivityLauncherUtils
 import com.drdisagree.iconify.xposed.modules.extras.ExpandableViews.Companion.getExpandableView
 import com.drdisagree.iconify.xposed.modules.extras.LaunchableViews.Companion.createLaunchableImageView
@@ -58,9 +61,6 @@ import com.drdisagree.iconify.xposed.modules.extras.callbacks.ThemeChangeCallbac
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.DisplayUtils.isNightMode
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.reAddView
 import com.drdisagree.iconify.xposed.modules.extras.utils.misc.ViewHelper.toPx
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.callMethod
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.getField
-import com.drdisagree.iconify.xposed.modules.extras.utils.toolkit.log
 import java.lang.reflect.Method
 import java.util.Locale
 import kotlin.math.abs

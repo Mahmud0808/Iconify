@@ -7,7 +7,7 @@ import android.os.Looper
 import android.widget.Toast
 import com.drdisagree.iconify.data.common.XposedConst.DEPTH_WALL_FG_FILE
 import com.drdisagree.iconify.services.providers.IExtractSubjectCallback
-import com.drdisagree.iconify.xposed.HookEntry.Companion.enqueueProxyCommand
+import com.drdisagree.iconify.xposed.RootProxyClient.enqueueProxyCommand
 
 class DepthWallpaper(context: Context) : BaseDepthWallpaper(context) {
 
