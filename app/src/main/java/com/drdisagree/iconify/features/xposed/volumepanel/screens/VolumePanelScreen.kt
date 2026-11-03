@@ -17,6 +17,12 @@ import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.features.common.viewmodels.SystemActionViewModel
 import kotlin.math.roundToInt
 
+private val radiusSliders = listOf(
+    XposedKey.VOLUME_CORNER_RADIUS_OFFSET to R.string.volume_dialog_radius_title,
+    XposedKey.VOLUME_TRACK_CORNER_RADIUS_OFFSET to R.string.volume_track_radius_title,
+    XposedKey.VOLUME_RINGER_BUTTON_CORNER_RADIUS_OFFSET to R.string.volume_ringer_button_radius_title,
+)
+
 val volumePanelPreferences = preferenceScreen {
     category {
         switch(
@@ -45,19 +51,20 @@ val volumePanelPreferences = preferenceScreen {
     }
 
     category(title = stringRes(R.string.section_title_volume_shape)) {
-        slider(
-            key = XposedKey.VOLUME_CORNER_RADIUS_OFFSET,
-            title = stringRes(R.string.volume_corner_radius_offset_title),
-            summary = { stringRes(R.string.volume_corner_radius_offset_desc) },
-            min = -50f,
-            max = 50f,
-            valueLabel = { value ->
-                val offset = value.roundToInt()
-                if (offset > 0) "+${offset}dp" else "${offset}dp"
-            },
-            showResetButton = true,
-            isVisible = { Build.VERSION.SDK_INT >= 36 },
-        )
+        radiusSliders.forEach { (key, title) ->
+            slider(
+                key = key,
+                title = stringRes(title),
+                min = -50f,
+                max = 50f,
+                valueLabel = { value ->
+                    val offset = value.roundToInt()
+                    if (offset > 0) "+${offset}dp" else "${offset}dp"
+                },
+                showResetButton = true,
+                isVisible = { Build.VERSION.SDK_INT >= 36 },
+            )
+        }
 
         switch(
             key = XposedKey.HIDE_VOLUME_SLIDER_THUMB,
@@ -78,6 +85,8 @@ fun VolumePanelScreen(
             XposedKey.VOLUME_PANEL_SAFETY_WARNING.name,
             XposedKey.VOLUME_PANEL_APP_VOLUME.name,
             XposedKey.VOLUME_CORNER_RADIUS_OFFSET.name,
+            XposedKey.VOLUME_TRACK_CORNER_RADIUS_OFFSET.name,
+            XposedKey.VOLUME_RINGER_BUTTON_CORNER_RADIUS_OFFSET.name,
             XposedKey.HIDE_VOLUME_SLIDER_THUMB.name -> {
                 systemActionViewModel?.shouldRestartSystemUI()
             }

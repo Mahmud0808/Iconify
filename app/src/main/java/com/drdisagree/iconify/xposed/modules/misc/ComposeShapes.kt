@@ -1,5 +1,6 @@
 package com.drdisagree.iconify.xposed.modules.misc
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.DrawableWrapper
@@ -12,6 +13,7 @@ import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.core.PackageParam
 import com.drdisagree.iconify.xposed.core.compose.ComposeToolkit
 import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
+import com.drdisagree.iconify.xposed.core.layout.hookLayout
 import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
 import com.drdisagree.iconify.xposed.core.reflect.callMethodSilently
 import com.drdisagree.iconify.xposed.core.reflect.findClass
@@ -33,6 +35,8 @@ class ComposeShapes(context: Context) : ModPack(context) {
     private var inactiveIconCornerRadiusOffset = 0f
     private var footerButtonsCornerRadiusOffset = 0f
     private var notificationCornerRadiusOffset = 0f
+    private var volumeDialogCornerRadiusOffset = 0f
+    private var volumeRingerButtonCornerRadiusOffset = 0f
     private var qsSliderStyle = SliderStyle()
     private var volumeSliderStyle = SliderStyle()
     private var pillShapeCache: Pair<Float, Any>? = null
@@ -77,12 +81,15 @@ class ComposeShapes(context: Context) : ModPack(context) {
             footerButtonsCornerRadiusOffset =
                 getFloat(XposedKey.QS_FOOTER_BUTTONS_CORNER_RADIUS_OFFSET)
             notificationCornerRadiusOffset = getFloat(XposedKey.NOTIFICATION_CORNER_RADIUS_OFFSET)
+            volumeDialogCornerRadiusOffset = getFloat(XposedKey.VOLUME_CORNER_RADIUS_OFFSET)
+            volumeRingerButtonCornerRadiusOffset =
+                getFloat(XposedKey.VOLUME_RINGER_BUTTON_CORNER_RADIUS_OFFSET)
             qsSliderStyle = SliderStyle(
                 cornerRadiusOffset = getFloat(XposedKey.QS_BRIGHTNESS_SLIDER_CORNER_RADIUS_OFFSET),
                 hideThumb = getBoolean(XposedKey.HIDE_QS_SLIDER_THUMB)
             )
             volumeSliderStyle = SliderStyle(
-                cornerRadiusOffset = getFloat(XposedKey.VOLUME_CORNER_RADIUS_OFFSET),
+                cornerRadiusOffset = getFloat(XposedKey.VOLUME_TRACK_CORNER_RADIUS_OFFSET),
                 hideThumb = getBoolean(XposedKey.HIDE_VOLUME_SLIDER_THUMB)
             )
         }
@@ -90,6 +97,7 @@ class ComposeShapes(context: Context) : ModPack(context) {
 
     override fun handleLoadPackage(packageParam: PackageParam) {
         hookDimenOffsets()
+        hookFloatingVolumeSliderBackground()
         hookTileCornerRadius()
         hookSliderTrack()
         hookSliderThumb()
@@ -170,6 +178,26 @@ class ComposeShapes(context: Context) : ModPack(context) {
         return shape
     }
 
+    @SuppressLint("DiscouragedApi")
+    private fun hookFloatingVolumeSliderBackground() {
+        val resources = mContext.resources
+        if (resources.getIdentifier(VOLUME_FLOATING_SLIDER_RADIUS_DIMEN, "dimen", SYSTEMUI_PACKAGE) != 0) return
+        if (resources.getIdentifier(VOLUME_FLOATING_SLIDER_LAYOUT, "layout", SYSTEMUI_PACKAGE) == 0) return
+
+        hookLayout()
+            .packageName(SYSTEMUI_PACKAGE)
+            .resource("layout", VOLUME_FLOATING_SLIDER_LAYOUT)
+            .suppressError()
+            .run { param ->
+                val offset = volumeDialogCornerRadiusOffset
+                if (offset == 0f) return@run
+
+                val background = param.view.background?.mutate() as? GradientDrawable ?: return@run
+                val offsetPx = offset * param.res.displayMetrics.density
+                background.cornerRadius = (background.cornerRadius + offsetPx).coerceAtLeast(0f)
+            }
+    }
+
     private fun hookDimenOffsets() {
         val dimenHook = ResourceHookManager
             .hookDimen()
@@ -182,9 +210,10 @@ class ComposeShapes(context: Context) : ModPack(context) {
         NOTIFICATION_RADIUS_DIMENS.forEach {
             dimenHook.addOffset(it) { notificationCornerRadiusOffset }
         }
-        VOLUME_RADIUS_DIMENS.forEach {
-            dimenHook.addOffset(it) { volumeSliderStyle.cornerRadiusOffset }
+        VOLUME_DIALOG_RADIUS_DIMENS.forEach {
+            dimenHook.addOffset(it) { volumeDialogCornerRadiusOffset }
         }
+        dimenHook.addOffset(VOLUME_RINGER_BUTTON_RADIUS_DIMEN) { volumeRingerButtonCornerRadiusOffset }
 
         dimenHook.apply()
     }
@@ -465,13 +494,17 @@ class ComposeShapes(context: Context) : ModPack(context) {
         private const val INACTIVE_ICON_RADIUS_DIMEN =
             "common_tile_default_inactive_icon_corner_radius"
         private const val ICON_SHAPE_LABEL = "Icon"
-        private val VOLUME_RADIUS_DIMENS = listOf(
+        private val VOLUME_DIALOG_RADIUS_DIMENS = listOf(
             "volume_dialog_background_corner_radius",
             "volume_dialog_background_square_corner_radius",
             "volume_dialog_floating_slider_background_corner_radius",
-            "volume_dialog_horizontal_background_corner_radius",
-            "volume_dialog_ringer_selected_button_background_radius"
+            "volume_dialog_horizontal_background_corner_radius"
         )
+        private const val VOLUME_FLOATING_SLIDER_RADIUS_DIMEN =
+            "volume_dialog_floating_slider_background_corner_radius"
+        private const val VOLUME_FLOATING_SLIDER_LAYOUT = "volume_dialog_slider_floating"
+        private const val VOLUME_RINGER_BUTTON_RADIUS_DIMEN =
+            "volume_dialog_ringer_selected_button_background_radius"
         private const val ROUNDED_CORNER_SHAPE_CLASS =
             "androidx.compose.foundation.shape.RoundedCornerShape"
         private const val CORNER_SIZE_CLASS = "androidx.compose.foundation.shape.CornerSize"
