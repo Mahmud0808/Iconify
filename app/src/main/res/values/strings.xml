@@ -1095,6 +1095,9 @@
     <string name="section_title_volume_shape">Shape &amp; Slider</string>
     <string name="volume_corner_radius_offset_title">Corner Radius</string>
     <string name="volume_corner_radius_offset_desc">Dialog, buttons and sliders</string>
+    <string name="volume_dialog_radius_title">Dialog Corner Radius</string>
+    <string name="volume_track_radius_title">Slider Track Corner Radius</string>
+    <string name="volume_ringer_button_radius_title">Selected Ringer Button Corner Radius</string>
     <string name="hide_volume_slider_thumb_title">Hide Slider Thumb</string>
     <string name="hide_volume_slider_thumb_desc">Volume sliders</string>
     <string name="lock_screen">Lock Screen</string>
