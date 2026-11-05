@@ -307,7 +307,11 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         fun updateColorAndOutline() {
             callMethod("updateBackgroundColors")
 
-            callMethod("updateBackgroundTint", true)
+            try {
+                callMethod("updateBackgroundTint", true)
+            } catch (_: NoSuchMethodError) {
+                callMethodSilently("updateBackgroundTint")
+            }
 
             val outlineAlphaValue = 0.0f
             val mOutlineAlpha = getField("mOutlineAlpha") as Float
