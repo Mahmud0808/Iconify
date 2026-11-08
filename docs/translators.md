@@ -123,7 +123,7 @@ Thanks to the translators and proofreaders below:
         <sub><b>1213 words</b></sub>
       </td>
       <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Holiu618"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17854885/medium/ff7b665bd9f4740427cf9e82e965bbdc.png" />
+        <a href="https://crowdin.com/profile/Holiu618"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/17854885/medium/72a49b166ff0c654a8efe0756d1ff449.png" />
           <br />
           <sub><b>泥鰍 (Holiu618)</b></sub></a>
         <br />
