@@ -1041,8 +1041,9 @@
     <string name="hide_qs_slider_thumb_title">Hide Slider Thumb</string>
     <string name="hide_qs_slider_thumb_desc">亮度滑桿</string>
     <string name="section_title_volume_shape">Shape &amp; Slider</string>
-    <string name="volume_corner_radius_offset_title">圓角半徑</string>
-    <string name="volume_corner_radius_offset_desc">對話方塊、按鈕與滑桿</string>
+    <string name="volume_dialog_radius_title">Dialog Radius</string>
+    <string name="volume_track_radius_title">Track Radius</string>
+    <string name="volume_ringer_button_radius_title">Ringer Button Radius</string>
     <string name="hide_volume_slider_thumb_title">Hide Slider Thumb</string>
     <string name="hide_volume_slider_thumb_desc">音量控制條</string>
     <string name="lock_screen">鎖定熒幕</string>

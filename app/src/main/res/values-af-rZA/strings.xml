@@ -1043,8 +1043,9 @@ ARDiANSA
     <string name="hide_qs_slider_thumb_title">Hide Slider Thumb</string>
     <string name="hide_qs_slider_thumb_desc">Brightness slider</string>
     <string name="section_title_volume_shape">Shape &amp; Slider</string>
-    <string name="volume_corner_radius_offset_title">Corner Radius</string>
-    <string name="volume_corner_radius_offset_desc">Dialog, buttons and sliders</string>
+    <string name="volume_dialog_radius_title">Dialog Radius</string>
+    <string name="volume_track_radius_title">Track Radius</string>
+    <string name="volume_ringer_button_radius_title">Ringer Button Radius</string>
     <string name="hide_volume_slider_thumb_title">Hide Slider Thumb</string>
     <string name="hide_volume_slider_thumb_desc">Volume sliders</string>
     <string name="lock_screen">Lock Screen</string>
