@@ -58,17 +58,17 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/Azure-Helper">
-                    <img src="https://avatars.githubusercontent.com/u/103818282?v=4" width="100;" alt="Azure-Helper"/>
-                    <br />
-                    <sub><b>Azure-Helper</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/Jvr2022">
                     <img src="https://avatars.githubusercontent.com/u/109031036?v=4" width="100;" alt="Jvr2022"/>
                     <br />
                     <sub><b>Jvr</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/Azure-Helper">
+                    <img src="https://avatars.githubusercontent.com/u/103818282?v=4" width="100;" alt="Azure-Helper"/>
+                    <br />
+                    <sub><b>Azure-Helper</b></sub>
                 </a>
             </td>
             <td align="center">
@@ -123,12 +123,21 @@ This project exists thanks to the following contributors:
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/mvanhorn">
+                    <img src="https://avatars.githubusercontent.com/u/455140?v=4" width="100;" alt="mvanhorn"/>
+                    <br />
+                    <sub><b>Matt Van Horn</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/MXC48">
                     <img src="https://avatars.githubusercontent.com/u/123580315?v=4" width="100;" alt="MXC48"/>
                     <br />
                     <sub><b>MXC48</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/GAME-OVER-op">
                     <img src="https://avatars.githubusercontent.com/u/152814129?v=4" width="100;" alt="GAME-OVER-op"/>
@@ -136,8 +145,6 @@ This project exists thanks to the following contributors:
                     <sub><b>GAME-OVER-op</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/AAGaming00">
                     <img src="https://avatars.githubusercontent.com/u/42613600?v=4" width="100;" alt="AAGaming00"/>
@@ -173,20 +180,13 @@ This project exists thanks to the following contributors:
                     <sub><b>Izzy</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/lixkote">
                     <img src="https://avatars.githubusercontent.com/u/95425619?v=4" width="100;" alt="lixkote"/>
                     <br />
                     <sub><b>lixkote</b></sub>
-                </a>
-            </td>
-		</tr>
-		<tr>
-            <td align="center">
-                <a href="https://github.com/mvanhorn">
-                    <img src="https://avatars.githubusercontent.com/u/455140?v=4" width="100;" alt="mvanhorn"/>
-                    <br />
-                    <sub><b>Matt Van Horn</b></sub>
                 </a>
             </td>
             <td align="center">
