@@ -658,6 +658,12 @@
     <string name="notification_headsup_blur_intensity_title">Heads Up Blur Intensity</string>
     <string name="notification_headsup_blur_transparency_title">Heads Up Transparency</string>
     <string name="notification_headsup_blur_desc">Show blur on heads up notification</string>
+    <string name="notification_headsup_liquid_glass_title">Liquid Glass</string>
+    <string name="notification_headsup_liquid_glass_desc">Refract content behind</string>
+    <string name="notification_headsup_glass_refraction_title">Refraction</string>
+    <string name="notification_headsup_glass_reflection_title">Reflection</string>
+    <string name="notification_headsup_glass_rim_title">Rim</string>
+    <string name="notification_headsup_glass_shadow_title">Shadow</string>
     <string name="section_title_qs_margin">QS Margin</string>
     <string name="section_title_media_player">Media Player</string>
     <string name="compact_media_player_title">Compact Media Player</string>

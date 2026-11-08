@@ -147,6 +147,13 @@ val quickSettingsPreferences = preferenceScreen {
             summary = { stringRes(R.string.notification_headsup_blur_desc) },
         )
 
+        switch(
+            key = XposedKey.NOTIFICATION_HEADS_UP_LIQUID_GLASS,
+            title = stringRes(R.string.notification_headsup_liquid_glass_title),
+            summary = { stringRes(R.string.notification_headsup_liquid_glass_desc) },
+            isVisible = { pref -> pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR) }
+        )
+
         slider(
             key = XposedKey.NOTIFICATION_HEADS_UP_BLUR_RADIUS,
             title = stringRes(R.string.notification_headsup_blur_intensity_title),
@@ -163,6 +170,58 @@ val quickSettingsPreferences = preferenceScreen {
             max = 100f,
             valueLabel = { "${it.roundToInt()}%" },
             isVisible = { pref -> pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR) }
+        )
+
+        slider(
+            key = XposedKey.NOTIFICATION_HEADS_UP_GLASS_REFRACTION,
+            title = stringRes(R.string.notification_headsup_glass_refraction_title),
+            min = 0f,
+            max = 200f,
+            valueLabel = { "${it.roundToInt()}%" },
+            showResetButton = true,
+            isVisible = { pref ->
+                pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR) &&
+                        pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_LIQUID_GLASS)
+            }
+        )
+
+        slider(
+            key = XposedKey.NOTIFICATION_HEADS_UP_GLASS_REFLECTION,
+            title = stringRes(R.string.notification_headsup_glass_reflection_title),
+            min = 0f,
+            max = 200f,
+            valueLabel = { "${it.roundToInt()}%" },
+            showResetButton = true,
+            isVisible = { pref ->
+                pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR) &&
+                        pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_LIQUID_GLASS)
+            }
+        )
+
+        slider(
+            key = XposedKey.NOTIFICATION_HEADS_UP_GLASS_RIM,
+            title = stringRes(R.string.notification_headsup_glass_rim_title),
+            min = 0f,
+            max = 200f,
+            valueLabel = { "${it.roundToInt()}%" },
+            showResetButton = true,
+            isVisible = { pref ->
+                pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR) &&
+                        pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_LIQUID_GLASS)
+            }
+        )
+
+        slider(
+            key = XposedKey.NOTIFICATION_HEADS_UP_GLASS_SHADOW,
+            title = stringRes(R.string.notification_headsup_glass_shadow_title),
+            min = 0f,
+            max = 200f,
+            valueLabel = { "${it.roundToInt()}%" },
+            showResetButton = true,
+            isVisible = { pref ->
+                pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_BLUR) &&
+                        pref.getBoolean(XposedKey.NOTIFICATION_HEADS_UP_LIQUID_GLASS)
+            }
         )
     }
 
@@ -260,6 +319,7 @@ fun QuickSettingsScreen(
             XposedKey.COLORED_NOTIFICATION_ICON.name,
             XposedKey.COLORED_NOTIFICATION_VIEW.name,
             XposedKey.NOTIFICATION_HEADS_UP_BLUR.name,
+            XposedKey.NOTIFICATION_HEADS_UP_LIQUID_GLASS.name,
             XposedKey.COMPACT_MEDIA_PLAYER.name,
             XposedKey.BLUR_MEDIA_PLAYER_ARTWORK.name,
             XposedKey.QS_MEDIA_PLAYER_TOP.name,

@@ -20,6 +20,9 @@ import com.drdisagree.iconify.data.common.Const.SYSTEMUI_PACKAGE
 import com.drdisagree.iconify.data.keys.XposedKey
 import com.drdisagree.iconify.xposed.ModPack
 import com.drdisagree.iconify.xposed.core.PackageParam
+import com.drdisagree.iconify.xposed.core.glass.BackdropCapture
+import com.drdisagree.iconify.xposed.core.glass.LiquidGlassDrawable
+import com.drdisagree.iconify.xposed.core.glass.LiquidGlassStyle
 import com.drdisagree.iconify.xposed.core.hook.hookMethod
 import com.drdisagree.iconify.xposed.core.hook.hookMethodMatchPattern
 import com.drdisagree.iconify.xposed.core.hook.proceedWithArgs
@@ -31,6 +34,7 @@ import com.drdisagree.iconify.xposed.core.reflect.getField
 import com.drdisagree.iconify.xposed.core.reflect.getFieldSilently
 import com.drdisagree.iconify.xposed.core.reflect.hasField
 import com.drdisagree.iconify.xposed.core.reflect.isMethodAvailable
+import com.drdisagree.iconify.xposed.core.reflect.removeExtraField
 import com.drdisagree.iconify.xposed.core.reflect.setExtraField
 import com.drdisagree.iconify.xposed.core.reflect.setField
 import com.drdisagree.iconify.xposed.modules.extras.callbacks.QsShowingCallback
@@ -49,6 +53,8 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
     private val notificationViews: MutableSet<View> = Collections.newSetFromMap(WeakHashMap())
     private var isQsExpanded = false
     private var coloredNotificationView = false
+    private var liquidGlassEnabled = false
+    private var glassStyle = LiquidGlassStyle()
     private val hookedListenerClasses: MutableSet<Class<*>> = Collections.newSetFromMap(WeakHashMap())
     private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
 
@@ -59,6 +65,13 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
             headsUpTransparency =
                 getFloat(XposedKey.NOTIFICATION_HEADS_UP_TRANSPARENCY) / 100f * 255f
             coloredNotificationView = getBoolean(XposedKey.COLORED_NOTIFICATION_VIEW)
+            liquidGlassEnabled = getBoolean(XposedKey.NOTIFICATION_HEADS_UP_LIQUID_GLASS)
+            glassStyle = LiquidGlassStyle(
+                refraction = getFloat(XposedKey.NOTIFICATION_HEADS_UP_GLASS_REFRACTION) / 100f,
+                reflection = getFloat(XposedKey.NOTIFICATION_HEADS_UP_GLASS_REFLECTION) / 100f,
+                rim = getFloat(XposedKey.NOTIFICATION_HEADS_UP_GLASS_RIM) / 100f,
+                shadow = getFloat(XposedKey.NOTIFICATION_HEADS_UP_GLASS_SHADOW) / 100f
+            )
         }
     }
 
@@ -177,14 +190,12 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
                 if (chain.thisObject.getField("mDontModifyCorners") as Boolean) {
                     return@intercept null
-                    return@intercept chain.proceed()
                 }
 
                 val drawable = chain.thisObject.getField("mBackground") as Drawable
 
                 if (drawable !is LayerDrawable) {
                     return@intercept null
-                    return@intercept chain.proceed()
                 }
 
                 val numberOfLayers = drawable.numberOfLayers
@@ -323,6 +334,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         }
 
         fun setDefaultNotificationBackground() {
+            releaseGlass(mBackgroundNormal)
             val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable
 
             if (shouldApplyTint) {
@@ -345,29 +357,35 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                 if (!headsUpBlurEnabled || isQsExpanded || !shouldApplyBlur()) return@doOnAttach
                 if (mBackgroundNormal.getExtraFieldSilently("mBlurApplied") == true) return@doOnAttach
 
-                val blurDrawable = mBackgroundNormal
-                    .callMethod("getViewRootImpl")
-                    .callMethod("createBackgroundBlurDrawable") as? Drawable
-                    ?: return@doOnAttach
+                val cornerRadius = (context.resources.getDimensionPixelSize(
+                    context.resources.getIdentifier(
+                        "notification_corner_radius",
+                        "dimen",
+                        SYSTEMUI_PACKAGE
+                    )
+                ) - mContext.toPx(4)).coerceAtLeast(0).toFloat()
+                val blurRadiusPx = context.toPx(headsUpBlurRadius.roundToInt())
+                val tintColor = ColorUtils.setAlphaComponent(notificationColor, headsUpTransparency.toInt())
 
-                blurDrawable.callMethod(
-                    "setCornerRadius",
-                    (context.resources.getDimensionPixelSize(
-                        context.resources.getIdentifier(
-                            "notification_corner_radius",
-                            "dimen",
-                            SYSTEMUI_PACKAGE
-                        )
-                    ) - mContext.toPx(4)).coerceAtLeast(0).toFloat()
-                )
-                blurDrawable.callMethod(
-                    "setBlurRadius",
-                    context.toPx(headsUpBlurRadius.roundToInt())
-                )
-                blurDrawable.callMethod(
-                    "setColor",
-                    ColorUtils.setAlphaComponent(notificationColor, headsUpTransparency.toInt())
-                )
+                releaseGlass(mBackgroundNormal)
+
+                val backgroundLayer = if (liquidGlassEnabled && BackdropCapture.isAvailable) {
+                    LiquidGlassDrawable(
+                        mBackgroundNormal,
+                        cornerRadius,
+                        blurRadiusPx.toFloat(),
+                        tintColor
+                    ) { glassStyle }.also { mBackgroundNormal.setExtraField(GLASS_FIELD, it) }
+                } else {
+                    (mBackgroundNormal
+                        .callMethod("getViewRootImpl")
+                        .callMethod("createBackgroundBlurDrawable") as? Drawable
+                        ?: return@doOnAttach).apply {
+                        callMethod("setCornerRadius", cornerRadius)
+                        callMethod("setBlurRadius", blurRadiusPx)
+                        callMethod("setColor", tintColor)
+                    }
+                }
 
                 val mutatedDrawable = notificationBgDrawable.mutate() as LayerDrawable
                 val baseLayer = mutatedDrawable.getDrawable(0).mutate().apply {
@@ -381,7 +399,7 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
                     arrayOf(
                         baseLayer,
                         statefulLayer,
-                        blurDrawable
+                        backgroundLayer
                     )
                 )
 
@@ -415,6 +433,11 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
         } else {
             scheduleBlurReset()
         }
+    }
+
+    private fun releaseGlass(mBackgroundNormal: View) {
+        (mBackgroundNormal.getExtraFieldSilently(GLASS_FIELD) as? LiquidGlassDrawable)?.release()
+        mBackgroundNormal.removeExtraField(GLASS_FIELD)
     }
 
     private fun View.isPinnedRow(): Boolean =
@@ -453,5 +476,6 @@ class HeadsUpBlur(context: Context) : ModPack(context) {
 
     companion object {
         private const val BLUR_RESET_DELAY = 500L
+        private const val GLASS_FIELD = "mLiquidGlassDrawable"
     }
 }
