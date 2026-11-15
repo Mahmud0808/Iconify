@@ -87,8 +87,10 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
                 } else {
                     val dualSim = args[dualSimIndex] ?: return@signalHook null
                     listOf(
-                        dualSim.callMethodSilently("getPrimary"),
-                        dualSim.callMethodSilently("getSecondary")
+                        dualSim.getFieldSilently("primary")
+                            ?: dualSim.callMethodSilently("getPrimary"),
+                        dualSim.getFieldSilently("secondary")
+                            ?: dualSim.callMethodSilently("getSecondary")
                     )
                 }
             })
@@ -206,11 +208,15 @@ class ComposeSignalIcon(context: Context) : ModPack(context) {
     }
 
     private fun stackedSizeSp(bars: Int): Pair<Float, Float>? {
-        val dimensions = staticField(
+        val width = staticField(
             if (bars == 5) FIVE_BARS_DIMENSIONS_CLASS else FOUR_BARS_DIMENSIONS_CLASS,
             "INSTANCE"
-        ) ?: return null
-        val width = dimensions.getFieldSilently("totalWidth") as? Long ?: return null
+        )?.getFieldSilently("totalWidth") as? Long
+            ?: staticField(
+                STACKED_MOBILE_ICON_DIMENSIONS_CLASS,
+                if (bars == 5) "IconWidthFiveBarsSp" else "IconWidthFourBarsSp"
+            ) as? Long
+            ?: return null
         val height = staticField(STACKED_MOBILE_ICON_DIMENSIONS_CLASS, "IconHeightSp") as? Long
             ?: return null
         return textUnitValue(width) to textUnitValue(height)
