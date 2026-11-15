@@ -58,18 +58,18 @@ Thanks to the translators and proofreaders below:
         <sub><b>3936 words</b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Capricornus007"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15386724/medium/7980b6d6b2b9171eca735282224cf872.jpeg" />
+          <br />
+          <sub><b>- (Capricornus007)</b></sub></a>
+        <br />
+        <sub><b>2901 words</b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/AioiLight"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/13172949/medium/1e966b1bc958a68e70686bf4b844b39d.jpg" />
           <br />
           <sub><b>AioiLight</b></sub></a>
         <br />
         <sub><b>2705 words</b></sub>
-      </td>
-      <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/Capricornus007"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15386724/medium/7980b6d6b2b9171eca735282224cf872.jpeg" />
-          <br />
-          <sub><b>- (Capricornus007)</b></sub></a>
-        <br />
-        <sub><b>2656 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/AlejandroMoc"><img alt="logo" style="width: 32px" src="https://crowdin-static.cf-downloads.crowdin.com/avatar/15175038/medium/d8ddd9948d0a952bff7713e558dcc152.png" />
