@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.Notification
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.DrawableWrapper
 import android.graphics.drawable.GradientDrawable
@@ -307,6 +308,22 @@ class QuickSettings(context: Context) : ModPack(context) {
                 if (!fixNotificationColor) return@runBefore
 
                 chain.thisObject.setField("mTintColor", 0)
+            }
+
+        notificationBackgroundViewClass
+            .hookMethod("onDraw")
+            .runBefore { chain ->
+                if (!fixNotificationColor) return@runBefore
+
+                val background = chain.thisObject.getFieldSilently("mBackground")
+                        as? LayerDrawable ?: return@runBefore
+                if (background.numberOfLayers <= STOCK_NOTIFICATION_BACKGROUND_LAYERS) return@runBefore
+
+                background.tintedLayers().forEach { layer ->
+                    if (layer.color?.defaultColor != Color.TRANSPARENT) {
+                        layer.setColor(Color.TRANSPARENT)
+                    }
+                }
             }
 
         notificationBackgroundViewClass
@@ -702,5 +719,6 @@ class QuickSettings(context: Context) : ModPack(context) {
     companion object {
         private const val COMPOSE_MODIFIER_CLASS = ComposeToolkit.MODIFIER_CLASS
         private const val EXPANDED_HEADER_HEIGHT = "ExpandedHeight"
+        private const val STOCK_NOTIFICATION_BACKGROUND_LAYERS = 2
     }
 }
